@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Rugby Results</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900">
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans:800'>
+    <link rel='stylesheet' href="https://fonts.googleapis.com/css2?family=PT+Sans+Narrow">
+    <link rel='stylesheet' href="https://fonts.googleapis.com/css2?family=PT+Sans">
+    <link rel='stylesheet' href="https://fonts.googleapis.com/css2?family=Oswald:200,400,600">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <img src="https://img-res.pitchero.com/?url=images.pitchero.com%2Fclub_logos%2F4860%2Fq8XL0Ot4QSqgy8nOKnCb_Logo.png&bg=null&h=250&w=250&t=square&q=null"
+            alt="Team Logo" />
+        <div class="row">
+
+            <div class="col-md-6 d-flex flex-column gap-2 mx-auto">
+                <h1>Team Stats</h1>
+                <!-- <p>Specific stats compared across each season</p> -->
+                <button class="btn btn-primary" onclick="showIframe(event, 'Charts/results.html')">Results</button>
+                <button class="btn btn-primary" onclick="showIframe(event, 'Charts/2024-25/game-stats.html')">1st XV
+                    Game
+                    Stats</button>
+                <button class="btn btn-primary" onclick="showIframe(event, 'Charts/set-piece.html')">Set Piece
+                    Results</button>
+                <button class="btn btn-primary" onclick="showIframe(event, 'Charts/by-season/1s-lineouts.html')">1st XV
+                    Lineout</button>
+                <button class="btn btn-primary" onclick="showIframe(event, 'Charts/by-season/2s-lineouts.html')">2nd XV
+                    Lineout</button>
+            </div>
+            <div class="col-md-6 d-flex flex-column gap-2">
+                <h1>Player Stats</h1>
+                <button class="btn btn-primary"
+                    onclick="showIframe(event, 'Charts/appearances.html')">Appearances</button>
+                <button class="btn btn-primary" onclick="showIframe(event, 'Charts/positions.html')">
+                    Starts by Position</button>
+                <button class="btn btn-primary" onclick="showIframe(event, 'Charts/captains.html')">Captains</button>
+                <button class="btn btn-primary" onclick="showIframe(event, 'Charts/points.html')">Scorers</button>
+                <button class="btn btn-primary" onclick="showIframe(event, 'Charts/cards.html')">Cards</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="sidebar">
+        <a href="index.html" onclick="showHome(event)">
+            <i class="fas fa-home"></i>
+            <p>Back</p>
+            <i class="fas fa-left-long"></i>
+
+            <span id="sidebar-text">East Grinstead RFC</span>
+        </a>
+    </div>
+    <div class="iframe-container">
+        <iframe class="content-frame"></iframe>
+    </div>
+
+    
+
+    <script>
+        function showIframe(event, url) {
+            event.preventDefault();
+            document.querySelector('.container').style.display = 'none';
+            document.querySelector('.sidebar').style.display = 'block';
+            document.querySelector('.iframe-container').style.display = 'block';
+            document.querySelector('iframe').src = url;
+        }
+
+        function showHome(event) {
+            event.preventDefault();
+            document.querySelector('.container').style.display = 'block';
+            document.querySelector('.sidebar').style.display = 'none';
+            document.querySelector('.iframe-container').style.display = 'none';
+        }
+    </script>
+</body>
+
+</html>
