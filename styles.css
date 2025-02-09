@@ -34,11 +34,6 @@ body {
     align-items: center;
 }
 
-.container {
-    text-align: center;
-    width: 50%;
-}
-
 .btn-primary {
     color: var(--dark-color);
     background-color: var(--light-color);
@@ -50,45 +45,6 @@ body {
     background-color: var(--dark-color);
 }
 
-.group {
-    display: flex;
-    flex-direction: row;
-    padding: 0;
-    justify-content: space-between;
-    gap: 3px;
-}
-
-.sidebar {
-    width: 65px;
-    background-color: var(--primary-color);
-    color: white;
-    padding: 15px;
-    box-sizing: border-box;
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    display: none;
-}
-
-.sidebar span {
-    writing-mode: vertical-rl;
-    transform: rotate(180deg);
-    margin-top: 30px;
-    font-weight: bold;
-    color: var(--light-color);
-}
-
-.sidebar a {
-    color: white;
-    text-decoration: none;
-    display: block;
-    padding: 10px 0;
-}
-
-.sidebar a:hover {
-    background-color: #575757;
-}
 
 .main-content {
     margin-left: 0;

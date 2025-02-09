@@ -25,7 +25,7 @@
             alt="Team Logo" />
         <div class="row">
 
-            <div class="col-md-6 d-flex flex-column gap-2 mx-auto">
+            <div class="col-md-2">
                 <h1>Team Stats</h1>
                 <!-- <p>Specific stats compared across each season</p> -->
                 <button class="btn btn-primary" onclick="showIframe(event, 'Charts/results.html')">Results</button>
@@ -39,7 +39,7 @@
                 <button class="btn btn-primary" onclick="showIframe(event, 'Charts/by-season/2s-lineouts.html')">2nd XV
                     Lineout</button>
             </div>
-            <div class="col-md-6 d-flex flex-column gap-2">
+            <div class="col-md-2">
                 <h1>Player Stats</h1>
                 <button class="btn btn-primary"
                     onclick="showIframe(event, 'Charts/appearances.html')">Appearances</button>
@@ -52,37 +52,18 @@
         </div>
     </div>
 
-    <div class="sidebar">
-        <a href="index.html" onclick="showHome(event)">
-            <i class="fas fa-home"></i>
-            <p>Back</p>
-            <i class="fas fa-left-long"></i>
+    <iframe id="iframe" style="display: none;"></iframe>
 
-            <span id="sidebar-text">East Grinstead RFC</span>
-        </a>
-    </div>
-    <div class="iframe-container">
-        <iframe class="content-frame"></iframe>
-    </div>
-
-    
-
-    <script>
-        function showIframe(event, url) {
-            event.preventDefault();
-            document.querySelector('.container').style.display = 'none';
-            document.querySelector('.sidebar').style.display = 'block';
-            document.querySelector('.iframe-container').style.display = 'block';
-            document.querySelector('iframe').src = url;
-        }
-
-        function showHome(event) {
-            event.preventDefault();
-            document.querySelector('.container').style.display = 'block';
-            document.querySelector('.sidebar').style.display = 'none';
-            document.querySelector('.iframe-container').style.display = 'none';
-        }
-    </script>
 </body>
+
+<script>
+    function showIframe(event, url) {
+        event.preventDefault();
+        var iframe = document.getElementById('iframe');
+        iframe.src = url;
+        iframe.style.display = 'block';
+    }
+
+</script>
 
 </html>
