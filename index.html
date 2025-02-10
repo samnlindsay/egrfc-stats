@@ -85,7 +85,7 @@
         </div>
 
         <!-- Placeholder for dynamic content -->
-        <div id="dynamic-content" class="container mt-5">
+        <div id="dynamic-content" class="container">
             <iframe id="chart-frame" style="width: 100%; height: 100%; border: none; background-color: whitesmoke;"></iframe>
         </div>
 
@@ -96,20 +96,21 @@
             function loadPage(url) {
                 console.log("Loading page:", url);
 
-                // Ensure the navbar is visible
                 document.querySelector('nav.navbar').style.display = 'block';
 
-                // Hide home-content
                 let homeContent = document.getElementById('home-content');
-                homeContent.style.display = 'none !important';
+                homeContent.classList.add("hidden");
 
-
-                // Show dynamic content
                 let dynamicContent = document.getElementById('dynamic-content');
-                dynamicContent.style.display = 'block';
-                // Load the content in the iframe
+                dynamicContent.classList.remove("hidden");
+
+                let navbarHeight = document.getElementsByClassName('navbar')[0].offsetHeight;
+                
+                dynamicContent.style.marginTop = navbarHeight + "px";  // Adjust margin dynamically
                 document.getElementById('chart-frame').src = url;
             }
+
+
 
             function showHomePage(event) {
                 event.preventDefault();
@@ -120,7 +121,7 @@
 
                 // Show home-content
                 let homeContent = document.getElementById('home-content');
-                homeContent.style.display = 'flex'; // Ensure flex is used to maintain layout
+                homeContent.classList.remove("hidden");
 
                 // Hide dynamic content
                 let dynamicContent = document.getElementById('dynamic-content');
