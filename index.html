@@ -11,14 +11,14 @@
 </head>
 
 <body>
-    <div class="container text-center">
+    <div class="container text-center" style="width:100%; max-width: 100%; height:100%">
 
         <!-- Navbar -->
         <nav class="navbar navbar-expand-lg navbar-dark w-100 position-fixed top-0" style="display: none;">
             <div class="container-fluid">
                 <a class="navbar-brand" href="index.html">
                     <img src="https://img-res.pitchero.com/?url=images.pitchero.com%2Fclub_logos%2F4860%2Fq8XL0Ot4QSqgy8nOKnCb_Logo.png&bg=null&h=250&w=250&t=square&q=null"
-                        alt="Team Logo" style="max-width: 50px;">
+                        alt="Team Logo" style="max-width: 100px;">
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,36 +33,22 @@
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownTeam" role="button"
                                 data-bs-toggle="dropdown" aria-expanded="false">Team Stats</a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdownTeam">
-                                <li><a class="dropdown-item" href="#"
-                                        onclick="loadPage('Charts/results.html')">Results</a>
-                                </li>
-                                <li><a class="dropdown-item" href="#"
-                                        onclick="loadPage('Charts/2024-25/game-stats.html')">1st XV Game Stats</a></li>
-                                <li><a class="dropdown-item" href="#" onclick="loadPage('Charts/set-piece.html')">Set
-                                        Piece
-                                        Results</a></li>
-                                <li><a class="dropdown-item" href="#"
-                                        onclick="loadPage('Charts/by-season/1s-lineouts.html')">1st XV Lineout</a></li>
-                                <li><a class="dropdown-item" href="#"
-                                        onclick="loadPage('Charts/by-season/2s-lineouts.html')">2nd XV Lineout</a></li>
+                                <li><a class="dropdown-item" href="#" onclick="loadPage('Charts/results.html')">Results</a></li>
+                                <li><a class="dropdown-item" href="#" onclick="loadPage('Charts/game-stats.html')">1st XV Game Stats</a></li>
+                                <li><a class="dropdown-item" href="#" onclick="loadPage('Charts/set-piece.html')">Set Piece Results</a></li>
+                                <li><a class="dropdown-item" href="#" onclick="loadPage('Charts/1s-lineouts.html')">1st XV Lineout</a></li>
+                                <li><a class="dropdown-item" href="#" onclick="loadPage('Charts/2s-lineouts.html')">2nd XV Lineout</a></li>
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPlayer" role="button"
                                 data-bs-toggle="dropdown" aria-expanded="false">Player Stats</a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdownPlayer">
-                                <li><a class="dropdown-item" href="#"
-                                        onclick="loadPage('Charts/appearances.html')">Appearances</a></li>
-                                <li><a class="dropdown-item" href="#" onclick="loadPage('Charts/positions.html')">Starts
-                                        by
-                                        Position</a></li>
-                                <li><a class="dropdown-item" href="#"
-                                        onclick="loadPage('Charts/captains.html')">Captains</a></li>
-                                <li><a class="dropdown-item" href="#"
-                                        onclick="loadPage('Charts/points.html')">Scorers</a>
-                                </li>
-                                <li><a class="dropdown-item" href="#" onclick="loadPage('Charts/cards.html')">Cards</a>
-                                </li>
+                                <li><a class="dropdown-item" href="#" onclick="loadPage('Charts/appearances.html')">Appearances</a></li>
+                                <li><a class="dropdown-item" href="#" onclick="loadPage('Charts/positions.html')">Starts by Position</a></li>
+                                <li><a class="dropdown-item" href="#" onclick="loadPage('Charts/captains.html')">Captains</a></li>
+                                <li><a class="dropdown-item" href="#" onclick="loadPage('Charts/points.html')">Scorers</a></li>
+                                <li><a class="dropdown-item" href="#" onclick="loadPage('Charts/cards.html')">Cards</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -71,7 +57,7 @@
         </nav>
 
         <!-- Content Section -->
-        <div id="home-content" class="container d-flex align-items-center justify-content-center">
+        <div id="home-content" class="container d-flex align-items-center justify-content-center" style="width:100%; max-width: 100%; height:100%">
             <!-- Initially visible content (buttons, etc.) -->
             <img src="https://img-res.pitchero.com/?url=images.pitchero.com%2Fclub_logos%2F4860%2Fq8XL0Ot4QSqgy8nOKnCb_Logo.png&bg=null&h=250&w=250&t=square&q=null"
                 - alt="Team Logo" style="width: 50%; max-width:500px; margin-bottom:20px" />
@@ -80,22 +66,17 @@
                 <div class="col-6 col-md-4 d-flex flex-column">
                     <h1 class="mb-3">Team Stats</h1>
                     <button class="btn custom-btn w-100" onclick="loadPage('Charts/results.html')">Results</button>
-                    <button class="btn custom-btn w-100" onclick="loadPage('Charts/2024-25/game-stats.html')">1st XV
-                        Game Stats</button>
-                    <button class="btn custom-btn w-100" onclick="loadPage('Charts/set-piece.html')">Set Piece
-                        Results</button>
-                    <button class="btn custom-btn w-100" onclick="loadPage('Charts/by-season/1s-lineouts.html')">1st XV
-                        Lineout</button>
-                    <button class="btn custom-btn w-100" onclick="loadPage('Charts/by-season/2s-lineouts.html')">2nd XV
-                        Lineout</button>
+                    <button class="btn custom-btn w-100" onclick="loadPage('Charts/game-stats.html')">1st XV Game Stats</button>
+                    <button class="btn custom-btn w-100" onclick="loadPage('Charts/set-piece.html')">Set Piece Results</button>
+                    <button class="btn custom-btn w-100" onclick="loadPage('Charts/1s-lineouts.html')">1st XV Lineout</button>
+                    <button class="btn custom-btn w-100" onclick="loadPage('Charts/2s-lineouts.html')">2nd XV Lineout</button>
                 </div>
 
                 <!-- Second Column -->
                 <div class="col-6 col-md-4 d-flex flex-column">
                     <h1 class="mb-3">Player Stats</h1>
                     <button class="btn custom-btn" onclick="loadPage('Charts/appearances.html')">Appearances</button>
-                    <button class="btn custom-btn" onclick="loadPage('Charts/positions.html')">Starts by
-                        Position</button>
+                    <button class="btn custom-btn" onclick="loadPage('Charts/positions.html')">Starts by Position</button>
                     <button class="btn custom-btn" onclick="loadPage('Charts/captains.html')">Captains</button>
                     <button class="btn custom-btn" onclick="loadPage('Charts/points.html')">Scorers</button>
                     <button class="btn custom-btn" onclick="loadPage('Charts/cards.html')">Cards</button>
@@ -105,7 +86,7 @@
 
         <!-- Placeholder for dynamic content -->
         <div id="dynamic-content" class="container mt-5">
-            <iframe id="content-frame" name="content-frame" style="width: 100%; height: 100%; border: none; background-color: whitesmoke;"></iframe>
+            <iframe id="chart-frame" style="width: 100%; height: 100%; border: none; background-color: whitesmoke;"></iframe>
         </div>
 
         <!-- Bootstrap JS -->
@@ -127,7 +108,7 @@
                 let dynamicContent = document.getElementById('dynamic-content');
                 dynamicContent.style.display = 'block';
                 // Load the content in the iframe
-                document.getElementById('content-frame').src = url;
+                document.getElementById('chart-frame').src = url;
             }
 
             function showHomePage(event) {
