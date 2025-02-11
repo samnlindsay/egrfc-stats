@@ -22,6 +22,10 @@ h1, h2, h3, h4 {
     color: var(--light-color);
 }
 
+h1 {
+    font-size: 3rem;
+}
+
 body {
     font-family: 'Lato', 'Tahoma', sans-serif;
     display: flex;
@@ -32,16 +36,6 @@ body {
     background-color: var(--light-color);
     font-size: 2rem;
     align-items: center;
-}
-@media (max-width: 768px) {
-    body {
-        font-size: 1.5rem;
-        /* Smaller font on smaller screens */
-    }
-
-    h2 {
-        font-size: 1.75rem;
-    }
 }
 
 .container {
@@ -63,7 +57,7 @@ body {
     border-color: black;
     padding: 10px;
     font-family: 'Lato', 'Tahoma', sans-serif;
-    font-size: large;
+    font-size: 1.25rem;
 }
 
 .custom-btn:hover {
@@ -146,4 +140,21 @@ nav.navbar {
     top: 0;
     left: 100%;
     margin-top: -1px;
+}
+
+@media (max-width: 768px) {
+    body {
+        font-size: 1.25rem;
+        /* Smaller font on smaller screens */
+    }
+
+    .custom-btn {
+        font-size: 1.75rem;
+    }
+}
+@media (max-width: 480px) {
+
+    .custom-btn {
+        font-size: 1.25rem;
+    }
 }
