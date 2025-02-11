@@ -1,0 +1,218 @@
+{
+    "facet": {
+        "field": "Season",
+        "header": null
+    },
+    "title": {"text": ""},
+    "spec": {
+        "layer": [
+            {
+                "layer": [
+                    {
+                        "params": [
+                            {
+                                "name": "selectXXX",
+                                "select": {
+                                    "type": "point",
+                                    "on": "click",
+                                    "fields": [
+                                        "XXX"
+                                    ]
+                                }
+                            }
+                        ],
+                        "mark": {
+                            "type": "bar",
+                            "opacity": 0.8
+                        }
+                    },
+                    {
+                        "mark": {
+                            "type": "text",
+                            "align": "center",
+                            "baseline": "bottom",
+                            "dy": -5
+                        },
+                        "encoding": {
+                            "text": {
+                                "field": "SuccessText",
+                                "type": "nominal"
+                            }
+                        }
+                    }
+                ],
+                "encoding": {
+                    "y": {
+                        "axis": {
+                            "format": ".0%",
+                            "orient": "left",
+                            "tickCount": 10
+                        },
+                        "scale": {
+                            "domain": [
+                                0,
+                                1
+                            ]
+                        },
+                        "field": "Proportion",
+                        "type": "quantitative"
+                    }
+                }
+            },
+            {
+                "layer": [
+                    {
+                        "mark": {
+                            "type": "line",
+                            "point": {
+                                "filled": false,
+                                "fill": "white",
+                                "size": 50,
+                                "strokeOpacity": 0.5
+                            },
+                            "opacity": 0.5
+                        },
+                        "encoding": {
+                            "color": {
+                                "value": "black"
+                            }
+                        }
+                    },
+                    {
+                        "mark": {
+                            "type": "text",
+                            "yOffset": -15,
+                            "fontSize": 14
+                        },
+                        "encoding": {
+                            "text": {
+                                "field": "Success",
+                                "format": ".0%"
+                            }
+                        }
+                    }
+                ],
+                "encoding": {
+                    "y": {
+                        "axis": {
+                            "format": ".0%",
+                            "orient": "right",
+                            "tickCount": 10
+                        },
+                        "scale": {
+                            "domain": [
+                                0,
+                                1
+                            ]
+                        },
+                        "field": "Success",
+                        "type": "quantitative"
+                    }
+                }
+            }
+        ],
+        "view": {
+            "fill": "white"
+        },
+        "height": 300,
+        "width": {
+            "step": 50
+        },
+        "encoding": {
+            "opacity": {
+                "condition": {
+                    "param": "selectXXX",
+                    "value": 0.95
+                },
+                "value": 0.1
+            },
+            "x": {
+                "field": "XXX",
+                "type": "nominal"
+            },
+            "color": {
+                "field": "XXX",
+                "legend": null,
+                "type": "nominal"
+            },
+            "tooltip": [
+                {
+                    "field": "XXX",
+                    "type": "nominal"
+                },
+                {
+                    "field": "Success",
+                    "format": ".0%",
+                    "type": "quantitative"
+                },
+                {
+                    "field": "Total",
+                    "type": "quantitative"
+                },
+                {
+                    "field": "Proportion",
+                    "format": ".0%",
+                    "type": "quantitative"
+                }
+            ]
+        }
+    },
+    "transform": [
+        {
+            "joinaggregate": [
+                {
+                    "op": "count",
+                    "field": "Won",
+                    "as": "Total"
+                }
+            ],
+            "groupby": [
+                "Season"
+            ]
+        },
+        {
+            "joinaggregate": [
+                {
+                    "op": "count",
+                    "field": "Won",
+                    "as": "SeasonTotal"
+                }
+            ],
+            "groupby": [
+                "Season"
+            ]
+        },
+        {
+            "aggregate": [
+                {
+                    "op": "mean",
+                    "field": "Won",
+                    "as": "Success"
+                }
+            ],
+            "groupby": [
+                "Season",
+                "Total",
+                "SeasonTotal"
+            ]
+        },
+        {
+            "calculate": "datum.Total/datum.SeasonTotal",
+            "as": "Proportion"
+        },
+        {
+            "calculate": "round(datum.Success*datum.Total) + ' / ' + datum.Total",
+            "as": "SuccessText"
+        }
+    ],
+    "resolve": {
+        "scale": {
+            "color": "shared",
+            "y": "shared",
+            "x": "independent"
+        }
+    },
+    "data": {
+        "values": []
+    }
+}
