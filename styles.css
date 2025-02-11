@@ -97,6 +97,8 @@ body {
     /* position: absolute; */
     /* top: 126px; */
     background-color: var(--light-color);
+    display: flex;
+    /* justify-content: center; */
 }
 
 #chart-frame {

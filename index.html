@@ -155,7 +155,7 @@
         </div>
 
         <!-- Placeholder for dynamic content -->
-        <div id="dynamic-content" class="container hidden">
+        <div id="dynamic-content" class="iframe-container hidden">
             <iframe id="chart-frame"
                 style="width: 100%; height: 100%; border: none; background-color: whitesmoke;"></iframe>
         </div>
@@ -185,9 +185,6 @@
                 }
             }
 
-
-
-
             function showHomePage(event) {
                 event.preventDefault();
                 console.log("Returning to home page");
@@ -201,8 +198,47 @@
 
                 // Hide dynamic content
                 let dynamicContent = document.getElementById('dynamic-content');
-                dynamicContent.style.display = 'none';
+                dynamicContent
             }
+
+            document.addEventListener("DOMContentLoaded", function () {
+                    const iframe = document.getElementById("chart-frame");
+
+                    function getScaleFactor() {
+                        if (window.innerWidth <= 480) {
+                            return 0.7; // Mobile
+                        } else if (window.innerWidth <= 768) {
+                            return 0.8; // Tablet
+                        } else {
+                            return 1; // Desktop (no scaling)
+                        }
+                    }
+
+                    function applyScaling() {
+                        const scaleFactor = getScaleFactor();
+
+                        // Ensure iframe takes full width
+                        iframe.style.width = "100%";
+                        iframe.style.height = "100%";
+
+                        // Wait for the iframe to load
+                        iframe.onload = function () {
+                            const iframeDoc = iframe.contentWindow.document;
+                            const vegaEmbed = iframeDoc.querySelector('.vega-embed');
+
+                            if (vegaEmbed) {
+                                // Apply scale factor to the vega-embed element
+                                vegaEmbed.style.width = `${100 * scaleFactor}%`;
+                            }
+                        };
+                    }
+
+                    // Apply scaling on initial load
+                    applyScaling();
+
+                    // Apply scaling when the window is resized
+                    window.addEventListener("resize", applyScaling);
+                });
 
 
         </script>

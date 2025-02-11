@@ -121,11 +121,11 @@ def plot_starts_by_position(df=None, min=0):
 
     season_selection = alt.param(
         bind=alt.binding_radio(options=[*seasons, "All"], name="Season"), 
-        value="2024/25" 
+        value="All" 
     )
     squad_selection = alt.param(
         bind=alt.binding_radio(options=["1st", "2nd", "Total"], name="Squad"),
-        value="1st"
+        value="Total"
     )
 
     min_selection = alt.param(
@@ -582,7 +582,7 @@ def points_scorers_chart(df=None):
 
     season_selection = alt.param(
         bind=alt.binding_radio(options=[*seasons, "All"], name="Season"), 
-        value="2024/25" 
+        value="All" 
     )
 
     chart = (
@@ -724,7 +724,7 @@ def captains_chart(df=None):
 
     season_selection = alt.param(
         bind=alt.binding_radio(options=[*seasons, "Total"], name="Season"), 
-        value="2024/25" 
+        value="Total" 
     )
 
     captains = df[["Squad", "Season", "Captain", "VC", "VC2", "GameType"]].melt(
