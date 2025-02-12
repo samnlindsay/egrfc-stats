@@ -1,0 +1,239 @@
+{
+    "config": {
+        "style": {
+            "cell": {
+                "stroke": "transparent"
+            }
+        }
+    },
+    "padding": 0,
+    "height": 800,
+    "width": 800,
+    "background": "#6c6",
+    "title": {
+        "align": "left",
+        "anchor": "start",
+        "orient": "top",
+        "offset": -60,
+        "dx": 20,
+        "dy": 20,
+        "font": "Helvetica Neue, Helvetica, Arial, sans-serif",
+        "text": "",
+        "fontSize": 40,
+        "color": "white",
+        "fontWeight": "bold",
+        "subtitle": "",
+        "subtitleFontSize": 20,
+        "subtitleColor": "lightblue"
+    },
+    "layer": [
+        {
+            "mark": {
+                "type": "rect",
+                "align": "center",
+                "color": "mediumseagreen",
+                "fontSize": 32,
+                "fontWeight": "bolder",
+                "opacity": 0.1,
+                "x": 600,
+                "x2": "width",
+                "y": 100,
+                "y2": 355
+            }
+        },
+        {
+            "mark": {
+                "type": "rect",
+                "x": 0,
+                "x2": "width",
+                "y": 0,
+                "y2": 100,
+                "color": "darkblue"
+            }
+        },
+        {
+            "layer": [
+                {
+                    "mark": {
+                        "type": "point",
+                        "filled": true,
+                        "opacity": 1,
+                        "size": 3000,
+                        "color": "#139"
+                    },
+                    "encoding": {
+                        "color": {
+                            "condition": {
+                                "test": "datum['Number'] > 15",
+                                "value": "grey"
+                            },
+                            "value": "blue"
+                        }
+                    }
+                },
+                {
+                    "mark": {
+                        "type": "point",
+                        "filled": false,
+                        "opacity": 1,
+                        "size": 3000,
+                        "strokeWidth": 4
+                    }
+                }
+            ],
+            "encoding": {
+                "x": {
+                    "axis": null,
+                    "field": "x",
+                    "scale": {
+                        "domain": [
+                            0,
+                            100
+                        ]
+                    },
+                    "type": "quantitative"
+                },
+                "y": {
+                    "axis": null,
+                    "field": "y",
+                    "scale": {
+                        "domain": [
+                            0,
+                            100
+                        ]
+                    },
+                    "type": "quantitative"
+                }
+            }
+        },
+        {
+            "mark": {
+                "type": "text",
+                "align": "center",
+                "color": "whitesmoke",
+                "dy": 1,
+                "fontSize": 32,
+                "fontWeight": "bolder"
+            },
+            "encoding": {
+                "text": {
+                    "field": "Number",
+                    "type": "nominal"
+                },
+                "x": {
+                    "axis": null,
+                    "field": "x",
+                    "type": "quantitative"
+                },
+                "y": {
+                    "axis": null,
+                    "field": "y",
+                    "type": "quantitative"
+                }
+            }
+        },
+        {
+            "mark": {
+                "type": "text",
+                "align": "center",
+                "color": "#000",
+                "fontSize": 15,
+                "fontWeight": "bold",
+                "yOffset": 40
+            },
+            "encoding": {
+                "text": {
+                    "field": "Player",
+                    "type": "nominal"
+                },
+                "x": {
+                    "axis": null,
+                    "field": "x",
+                    "type": "quantitative"
+                },
+                "y": {
+                    "axis": null,
+                    "field": "y",
+                    "type": "quantitative"
+                }
+            },
+            "transform": [
+                {
+                    "filter": {
+                        "field": "Number",
+                        "lt": 16
+                    }
+                }
+            ]
+        },
+        {
+            "mark": {
+                "type": "text",
+                "align": "left",
+                "color": "#139",
+                "fontSize": 16,
+                "fontWeight": "bold",
+                "xOffset": 40,
+                "yOffset": -6
+            },
+            "encoding": {
+                "text": {
+                    "field": "Player",
+                    "type": "nominal"
+                },
+                "x": {
+                    "axis": null,
+                    "field": "x",
+                    "type": "quantitative"
+                },
+                "y": {
+                    "axis": null,
+                    "field": "y",
+                    "type": "quantitative"
+                }
+            },
+            "transform": [
+                {
+                    "filter": {
+                        "field": "Number",
+                        "gte": 16
+                    }
+                }
+            ]
+        },
+        {
+            "mark": {
+                "type": "text",
+                "align": "left",
+                "color": "white",
+                "fontSize": 11,
+                "opacity": 0.7,
+                "xOffset": 40,
+                "yOffset": 11
+            },
+            "encoding": {
+                "x": {
+                    "axis": null,
+                    "field": "x",
+                    "type": "quantitative"
+                },
+                "y": {
+                    "axis": null,
+                    "field": "y",
+                    "type": "quantitative"
+                }
+            },
+            "transform": [
+                {
+                    "filter": {
+                        "field": "Number",
+                        "gte": 16
+                    }
+                }
+            ]
+        }
+    ],
+    "data": {
+        "values": []
+    }
+}

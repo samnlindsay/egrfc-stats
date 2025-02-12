@@ -14,83 +14,82 @@
     }
   
 
-    /* Default size for larger screens */
-    .vega-embed {
-        width: 100%;
-        height: 100%;
-        transform-origin: top left;
+      /* Default size for larger screens */
+      .vega-embed {
+          width: 100%;
+          height: 100%;
+          transform-origin: top left;
+      }
+
+      /* Scale for tablet devices */
+      @media (max-width: 768px) {
+          .vega-embed {
+              transform: scale(0.75);
+              width: 100%;
+              height: 100%;
+          }
+      }
+
+      /* Scale for mobile devices */
+      @media (max-width: 480px) {
+          .vega-embed {
+              transform: scale(0.5);
+              width: 100%;
+              height: 100%;
+          }
+      }
+
+      .vega-bindings {
+        border: 2px solid black;
+        background-color: #e5e4e7;
+        color: #202946;
+        width: fit-content;
+        height: fit-content;
+        position: static;
+        display: block;
+        justify-content: center;
+        gap: 20px;
+        padding: 10px;
+        font-size: large;
+      }
+      .chart-wrapper {
+          display: grid;
+          grid-template-columns: 1fr 1fr; /* Chart takes 3x space, form takes 1x */
+      }
+
+      .vega-bind {
+        font-family: 'Lato', sans-serif;
+        padding: 10px;
+        padding-top: 5px;
+        width: min-content;
+      }
+            
+      .vega-bind-name {
+        font-family: 'Lato', sans-serif;
+        font-weight: bold;
+        font-size: larger;
+        color: #202946; 
+      }
+
+      .vega-bind-radio input {
+        width: 1rem;
+        height: 1rem;
+      }
+
+      .vega-bind-radio label {
+        font-family: 'Lato', sans-serif;
+        display: flex;
+        padding: 0.1rem;
+        cursor: pointer;
+        transition: all 0.3s;
+        font-size: medium;
+      }
+
+      .vega-bind-radio input:checked+label {
+        background-color: #202946;
+        color: #e5e4e7;
     }
-
-    /* Scale for tablet devices */
-    @media (max-width: 768px) {
-        .vega-embed {
-            transform: scale(0.75);
-            width: 100%;
-            height: 100%;
-        }
-    }
-
-    /* Scale for mobile devices */
-    @media (max-width: 480px) {
-        .vega-embed {
-            transform: scale(0.5);
-            width: 100%;
-            height: 100%;
-        }
-    }
-
-
-
-    .vega-bindings {
-      border: 2px solid black;
-      background-color: #e5e4e7;
-      color: #202946;
-      width: fit-content;
-      height: fit-content;
-      position: static;
-      display: block;
-      justify-content: center;
-      gap: 20px;
-      padding: 10px;
-      font-size: large;
-    }
-
-    .chart-wrapper {
-        display: grid;
-        grid-template-columns: 1fr 1fr; /* Chart takes 3x space, form takes 1x */
-    }
-
-    .vega-bind {
-      padding: 10px;
-      padding-top: 5px;
-    }
-
-    .vega-bind-name {
-      font-family: 'Lato', sans-serif;
-      font-weight: bold;
-      font-size: larger;
-      color: #202946; 
-    }
-
-    .vega-bind-radio input {
-      width: 1rem;
-      height: 1rem;
-    }
-
-    .vega-bind-radio label {
-      font-family: 'Lato', sans-serif;
-      display: flex;
-      padding: 0.1rem;
-      cursor: pointer;
-      transition: all 0.3s;
-      font-size: medium;
-    }
-
-    .vega-bind-radio input:checked+label {
-      background-color: #202946;
-      color: #e5e4e7;
-    }
-</style>
+  </style>
 <script src="https://cdn.jsdelivr.net/npm/vega@5" type="text/javascript"></script>
 <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.17.0" type="text/javascript"></script>
 <script src="https://cdn.jsdelivr.net/npm/vega-embed@6" type="text/javascript"></script>
@@ -99,7 +98,7 @@
 <div id="vis"></div>
 <script>
     (function(vegaEmbed) {
-      var spec = {"config": {"axis": {"labelFont": "Lato, sans-serif", "titleFont": "PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif", "labelFontSize": 13, "titleFontSize": 24, "gridColor": "#202947", "gridOpacity": 0.2}, "header": {"labelFont": "PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif", "titleFont": "PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif", "labelFontSize": 24, "titleFontSize": 28, "labelFontWeight": "bold", "orient": "left"}, "legend": {"labelFont": "Lato, sans-serif", "titleFont": "PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif", "labelFontSize": 14, "titleFontSize": 16, "titlePadding": 5, "fillColor": "white", "strokeColor": "black", "padding": 10, "titleFontWeight": "lighter", "titleFontStyle": "italic", "titleColor": "gray", "offset": 10}, "title": {"font": "PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif", "fontSize": 48, "fontWeight": "bold", "anchor": "start", "align": "center", "titlePadding": 20, "subtitlePadding": 10, "subtitleFontWeight": "lighter", "subtitleFontSize": 12, "subtitleColor": "", "subtitleFontStyle": "italic", "offset": 15, "color": "black"}, "axisX": {"labelAngle": 0}, "facet": {"title": null, "header": null, "align": {"row": "each", "column": "each"}}, "resolve": {"scale": {"y": "independent", "facet": "independent"}}, "background": "#20294710"}, "data": {"name": "data-54f6b8f07146f43a79c82ca76160fff2"}, "mark": {"type": "bar", "stroke": "black", "strokeOpacity": 0.2}, "encoding": {"color": {"field": "key", "legend": {"orient": "bottom"}, "scale": {"domain": ["YC", "RC"], "range": ["#e6c719", "#981515"]}, "title": null, "type": "nominal"}, "column": {"field": "Season", "header": {"labelFontSize": 36}, "title": null, "type": "nominal"}, "tooltip": [{"field": "Player", "type": "nominal"}, {"field": "A", "title": "Appearances", "type": "quantitative"}, {"field": "YC", "type": "quantitative"}, {"field": "RC", "type": "quantitative"}, {"field": "Squad", "type": "nominal"}], "x": {"axis": {"format": "d", "orient": "top", "values": [0, 1, 2, 3, 4, 5]}, "field": "value", "title": null, "type": "quantitative"}, "y": {"field": "Player", "sort": {"field": "Cards", "order": "descending"}, "title": null, "type": "nominal"}}, "params": [{"name": "param_90", "bind": {"input": "radio", "options": ["2021/22", "2022/23", "2023/24", "2024/25", "All"], "name": "Season"}, "value": "All"}], "resolve": {"scale": {"y": "independent"}}, "title": {"text": "Cards", "fontSize": 48, "subtitle": ["According to Pitchero data (both 1st and 2nd XV)", "2 YC leading to a RC in a game is shown as 1 YC + 1 RC (2 cards total)"]}, "transform": [{"filter": "datum.Season == param_90 | param_90 == 'All'"}, {"fold": ["YC", "RC"]}], "width": 120, "$schema": "https://vega.github.io/schema/vega-lite/v5.17.0.json", "datasets": {"data-54f6b8f07146f43a79c82ca76160fff2": [{"Player": "Sam Lindsay-McCall", "A": 13.0, "YC": 2.0, "RC": 0.0, "Cards": 2.0, "Season": "2021/22", "Squad": "1st"}, {"Player": "Josh Brimecombe", "A": 6.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2021/22", "Squad": "2nd"}, {"Player": "Nick Carter", "A": 4.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2021/22", "Squad": "1st"}, {"Player": "Sean Morgan", "A": 10.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2021/22", "Squad": "1st"}, {"Player": "Rory Evans", "A": 15.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2021/22", "Squad": "2nd"}, {"Player": "James Funnell", "A": 12.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2021/22", "Squad": "1st"}, {"Player": "Ben Tottman", "A": 19.0, "YC": 2.0, "RC": 0.0, "Cards": 2.0, "Season": "2022/23", "Squad": "1st"}, {"Player": "Ryland Thomas", "A": 8.0, "YC": 2.0, "RC": 0.0, "Cards": 2.0, "Season": "2022/23", "Squad": "1st"}, {"Player": "Connor Leggat", "A": 9.0, "YC": 1.0, "RC": 1.0, "Cards": 2.0, "Season": "2022/23", "Squad": "1st"}, {"Player": "Ky Oliveira", "A": 2.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2022/23", "Squad": "2nd"}, {"Player": "Titch Mitchell", "A": 2.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2022/23", "Squad": "1st"}, {"Player": "Dan Poulton", "A": 17.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2022/23", "Squad": "1st"}, {"Player": "Dave Bridges", "A": 15.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2022/23", "Squad": "1st"}, {"Player": "Ben Saunders", "A": 7.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2022/23", "Squad": "1st"}, {"Player": "Ryland Thomas", "A": 4.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2022/23", "Squad": "2nd"}, {"Player": "Sean Morgan", "A": 8.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2022/23", "Squad": "1st"}, {"Player": "Guy Collins", "A": 17.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2022/23", "Squad": "1st"}, {"Player": "George Johnson", "A": 17.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2022/23", "Squad": "1st"}, {"Player": "Ryland Thomas", "A": 25.0, "YC": 3.0, "RC": 0.0, "Cards": 3.0, "Season": "2023/24", "Squad": "1st"}, {"Player": "Dan Billin", "A": 20.0, "YC": 2.0, "RC": 0.0, "Cards": 2.0, "Season": "2023/24", "Squad": "1st"}, {"Player": "Ben Tottman", "A": 25.0, "YC": 2.0, "RC": 0.0, "Cards": 2.0, "Season": "2023/24", "Squad": "1st"}, {"Player": "Aaron Boczek", "A": 21.0, "YC": 2.0, "RC": 0.0, "Cards": 2.0, "Season": "2023/24", "Squad": "1st"}, {"Player": "Dave Bridges", "A": 17.0, "YC": 1.0, "RC": 1.0, "Cards": 2.0, "Season": "2023/24", "Squad": "1st"}, {"Player": "Sean Morgan", "A": 2.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2023/24", "Squad": "1st"}, {"Player": "Mark Oliver", "A": 5.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2023/24", "Squad": "1st"}, {"Player": "Daan Hulst", "A": 7.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2023/24", "Squad": "2nd"}, {"Player": "Sam Lindsay-McCall", "A": 22.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2023/24", "Squad": "1st"}, {"Player": "Luke Maker", "A": 13.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2023/24", "Squad": "1st"}, {"Player": "Max Crawley-Moore", "A": 16.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2023/24", "Squad": "1st"}, {"Player": "Jake Radcliffe", "A": 18.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2023/24", "Squad": "1st"}, {"Player": "Colm Geraghty", "A": 7.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2023/24", "Squad": "1st"}, {"Player": "Rory Evans", "A": 10.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2023/24", "Squad": "2nd"}, {"Player": "Sam Spriddell", "A": 11.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2023/24", "Squad": "1st"}, {"Player": "Ben Watkinson", "A": 11.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2023/24", "Squad": "2nd"}, {"Player": "John Peaty", "A": 13.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2023/24", "Squad": "1st"}, {"Player": "Harry White", "A": 7.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2023/24", "Squad": "1st"}, {"Player": "Jack Andrews", "A": 8.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2023/24", "Squad": "2nd"}, {"Player": "Connor Leggat", "A": 10.0, "YC": 3.0, "RC": 0.0, "Cards": 3.0, "Season": "2024/25", "Squad": "1st"}, {"Player": "Guy Collins", "A": 15.0, "YC": 2.0, "RC": 1.0, "Cards": 3.0, "Season": "2024/25", "Squad": "1st"}, {"Player": "Aaron Boczek", "A": 2.0, "YC": 2.0, "RC": 0.0, "Cards": 2.0, "Season": "2024/25", "Squad": "2nd"}, {"Player": "Ben Tottman", "A": 14.0, "YC": 2.0, "RC": 0.0, "Cards": 2.0, "Season": "2024/25", "Squad": "1st"}, {"Player": "Ryland Thomas", "A": 13.0, "YC": 1.0, "RC": 1.0, "Cards": 2.0, "Season": "2024/25", "Squad": "1st"}, {"Player": "Aaron Boczek", "A": 1.0, "YC": 1.0, "RC": 1.0, "Cards": 2.0, "Season": "2024/25", "Squad": "1st"}, {"Player": "Daan Hulst", "A": 4.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2024/25", "Squad": "2nd"}, {"Player": "George Naylor", "A": 8.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2024/25", "Squad": "2nd"}, {"Player": "Rhys Skinner", "A": 3.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2024/25", "Squad": "1st"}, {"Player": "Ryan Morlen", "A": 4.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2024/25", "Squad": "2nd"}, {"Player": "Luke Maker", "A": 13.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2024/25", "Squad": "1st"}, {"Player": "Ben Green", "A": 9.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2024/25", "Squad": "2nd"}, {"Player": "Dante Maynard", "A": 1.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2024/25", "Squad": "1st"}, {"Player": "Josh Brimecombe", "A": 15.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2024/25", "Squad": "1st"}]}};
+      var spec = {"config": {"axis": {"labelFont": "Lato, sans-serif", "titleFont": "PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif", "labelFontSize": 13, "titleFontSize": 24, "gridColor": "#202947", "gridOpacity": 0.2}, "header": {"labelFont": "PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif", "titleFont": "PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif", "labelFontSize": 24, "titleFontSize": 28, "labelFontWeight": "bold", "orient": "left"}, "legend": {"labelFont": "Lato, sans-serif", "titleFont": "PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif", "labelFontSize": 14, "titleFontSize": 16, "titlePadding": 5, "fillColor": "white", "strokeColor": "black", "padding": 10, "titleFontWeight": "lighter", "titleFontStyle": "italic", "titleColor": "gray", "offset": 10}, "title": {"font": "PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif", "fontSize": 48, "fontWeight": "bold", "anchor": "start", "align": "center", "titlePadding": 20, "subtitlePadding": 10, "subtitleFontWeight": "lighter", "subtitleFontSize": 12, "subtitleColor": "", "subtitleFontStyle": "italic", "offset": 15, "color": "black"}, "axisX": {"labelAngle": 0}, "facet": {"title": null, "header": null, "align": {"row": "each", "column": "each"}}, "resolve": {"scale": {"y": "independent", "facet": "independent"}}, "background": "#20294710"}, "data": {"name": "data-8363e7c834ea38fbf7924043c2799db5"}, "mark": {"type": "bar", "stroke": "black", "strokeOpacity": 0.2}, "encoding": {"color": {"field": "key", "legend": {"orient": "bottom"}, "scale": {"domain": ["YC", "RC"], "range": ["#e6c719", "#981515"]}, "title": null, "type": "nominal"}, "column": {"field": "Season", "header": {"labelFontSize": 36}, "title": null, "type": "nominal"}, "tooltip": [{"field": "Player", "type": "nominal"}, {"field": "A", "title": "Appearances", "type": "quantitative"}, {"field": "YC", "type": "quantitative"}, {"field": "RC", "type": "quantitative"}, {"field": "Squad", "type": "nominal"}], "x": {"axis": {"format": "d", "orient": "top", "values": [0, 1, 2, 3, 4, 5]}, "field": "value", "title": null, "type": "quantitative"}, "y": {"field": "Player", "sort": {"field": "Cards", "order": "descending"}, "title": null, "type": "nominal"}}, "params": [{"name": "param_37", "bind": {"input": "radio", "options": ["2021/22", "2022/23", "2023/24", "2024/25", "All"], "name": "Season"}, "value": "All"}], "resolve": {"scale": {"y": "independent"}}, "title": {"text": "Cards", "fontSize": 48, "subtitle": ["According to Pitchero data (both 1st and 2nd XV)", "2 YC leading to a RC in a game is shown as 1 YC + 1 RC (2 cards total)"]}, "transform": [{"filter": "datum.Season == param_37 | param_37 == 'All'"}, {"fold": ["YC", "RC"]}], "width": 120, "$schema": "https://vega.github.io/schema/vega-lite/v5.17.0.json", "datasets": {"data-8363e7c834ea38fbf7924043c2799db5": [{"Player": "Sam Lindsay-McCall", "A": 13.0, "YC": 2.0, "RC": 0.0, "Cards": 2.0, "Season": "2021/22", "Squad": "1st"}, {"Player": "Sean Morgan", "A": 10.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2021/22", "Squad": "1st"}, {"Player": "Rory Evans", "A": 15.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2021/22", "Squad": "2nd"}, {"Player": "James Funnell", "A": 12.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2021/22", "Squad": "1st"}, {"Player": "Josh Brimecombe", "A": 6.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2021/22", "Squad": "2nd"}, {"Player": "Nick Carter", "A": 4.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2021/22", "Squad": "1st"}, {"Player": "Ben Tottman", "A": 19.0, "YC": 2.0, "RC": 0.0, "Cards": 2.0, "Season": "2022/23", "Squad": "1st"}, {"Player": "Ryland Thomas", "A": 8.0, "YC": 2.0, "RC": 0.0, "Cards": 2.0, "Season": "2022/23", "Squad": "1st"}, {"Player": "Connor Leggat", "A": 9.0, "YC": 1.0, "RC": 1.0, "Cards": 2.0, "Season": "2022/23", "Squad": "1st"}, {"Player": "Dave Bridges", "A": 15.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2022/23", "Squad": "1st"}, {"Player": "Ben Saunders", "A": 7.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2022/23", "Squad": "1st"}, {"Player": "Ryland Thomas", "A": 4.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2022/23", "Squad": "2nd"}, {"Player": "Ky Oliveira", "A": 2.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2022/23", "Squad": "2nd"}, {"Player": "Titch Mitchell", "A": 2.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2022/23", "Squad": "1st"}, {"Player": "Dan Poulton", "A": 17.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2022/23", "Squad": "1st"}, {"Player": "Sean Morgan", "A": 8.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2022/23", "Squad": "1st"}, {"Player": "Guy Collins", "A": 17.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2022/23", "Squad": "1st"}, {"Player": "George Johnson", "A": 17.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2022/23", "Squad": "1st"}, {"Player": "Ryland Thomas", "A": 25.0, "YC": 3.0, "RC": 0.0, "Cards": 3.0, "Season": "2023/24", "Squad": "1st"}, {"Player": "Ben Tottman", "A": 25.0, "YC": 2.0, "RC": 0.0, "Cards": 2.0, "Season": "2023/24", "Squad": "1st"}, {"Player": "Dan Billin", "A": 20.0, "YC": 2.0, "RC": 0.0, "Cards": 2.0, "Season": "2023/24", "Squad": "1st"}, {"Player": "Aaron Boczek", "A": 21.0, "YC": 2.0, "RC": 0.0, "Cards": 2.0, "Season": "2023/24", "Squad": "1st"}, {"Player": "Dave Bridges", "A": 17.0, "YC": 1.0, "RC": 1.0, "Cards": 2.0, "Season": "2023/24", "Squad": "1st"}, {"Player": "Rory Evans", "A": 10.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2023/24", "Squad": "2nd"}, {"Player": "Sam Spriddell", "A": 11.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2023/24", "Squad": "1st"}, {"Player": "Sam Lindsay-McCall", "A": 22.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2023/24", "Squad": "1st"}, {"Player": "Luke Maker", "A": 13.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2023/24", "Squad": "1st"}, {"Player": "Max Crawley-Moore", "A": 16.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2023/24", "Squad": "1st"}, {"Player": "Jake Radcliffe", "A": 18.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2023/24", "Squad": "1st"}, {"Player": "Colm Geraghty", "A": 7.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2023/24", "Squad": "1st"}, {"Player": "Sean Morgan", "A": 2.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2023/24", "Squad": "1st"}, {"Player": "Mark Oliver", "A": 5.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2023/24", "Squad": "1st"}, {"Player": "Daan Hulst", "A": 7.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2023/24", "Squad": "2nd"}, {"Player": "Ben Watkinson", "A": 11.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2023/24", "Squad": "2nd"}, {"Player": "John Peaty", "A": 13.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2023/24", "Squad": "1st"}, {"Player": "Harry White", "A": 7.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2023/24", "Squad": "1st"}, {"Player": "Jack Andrews", "A": 8.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2023/24", "Squad": "2nd"}, {"Player": "Connor Leggat", "A": 10.0, "YC": 3.0, "RC": 0.0, "Cards": 3.0, "Season": "2024/25", "Squad": "1st"}, {"Player": "Guy Collins", "A": 15.0, "YC": 2.0, "RC": 1.0, "Cards": 3.0, "Season": "2024/25", "Squad": "1st"}, {"Player": "Ben Tottman", "A": 14.0, "YC": 2.0, "RC": 0.0, "Cards": 2.0, "Season": "2024/25", "Squad": "1st"}, {"Player": "Aaron Boczek", "A": 2.0, "YC": 2.0, "RC": 0.0, "Cards": 2.0, "Season": "2024/25", "Squad": "2nd"}, {"Player": "Ryland Thomas", "A": 13.0, "YC": 1.0, "RC": 1.0, "Cards": 2.0, "Season": "2024/25", "Squad": "1st"}, {"Player": "Aaron Boczek", "A": 1.0, "YC": 1.0, "RC": 1.0, "Cards": 2.0, "Season": "2024/25", "Squad": "1st"}, {"Player": "Ben Green", "A": 9.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2024/25", "Squad": "2nd"}, {"Player": "Dante Maynard", "A": 1.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2024/25", "Squad": "1st"}, {"Player": "George Naylor", "A": 8.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2024/25", "Squad": "2nd"}, {"Player": "Rhys Skinner", "A": 3.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2024/25", "Squad": "1st"}, {"Player": "Ryan Morlen", "A": 4.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2024/25", "Squad": "2nd"}, {"Player": "Luke Maker", "A": 13.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2024/25", "Squad": "1st"}, {"Player": "Daan Hulst", "A": 4.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2024/25", "Squad": "2nd"}, {"Player": "Josh Brimecombe", "A": 15.0, "YC": 1.0, "RC": 0.0, "Cards": 1.0, "Season": "2024/25", "Squad": "1st"}]}};
       var embedOpt = {"mode": "vega-lite"};
 
       function showError(el, error){

@@ -89,7 +89,7 @@ def players(df=None):
         df = team_sheets()
 
     players = df.melt(
-        id_vars=["Squad", "Season", "Competition", "GameType", "Opposition", "Home/Away", "PF", "PA", "Result", "Captain", "VC1", "VC2"], 
+        id_vars=["GameID", "Squad", "Season", "Competition", "GameType", "Opposition", "Home/Away", "PF", "PA", "Result", "Captain", "VC1", "VC2"], 
         value_vars=list(map(str,range(1, 26))), 
         value_name="Player",
         var_name="Number"

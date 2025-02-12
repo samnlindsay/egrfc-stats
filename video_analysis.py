@@ -563,7 +563,7 @@ def gainline_chart(df, axis=True):
         )
     )
 
-def game_stats_charts(df):
+def game_stats_charts(df, file=None):
     score=score_chart(df)
     territory=territory_chart(df)
     tackle=tackle_chart(df, axis=False)
@@ -585,4 +585,7 @@ def game_stats_charts(df):
             color="#202946"
         )
     )
+    if file:
+        chart.save(file)
+
     return chart
