@@ -14,7 +14,7 @@ alt.themes.enable("my_custom_theme")
 game_selection = alt.selection_point(fields=["Game"], on="click")
 
 def territory_chart(df):
-    game_order = df.sort_values(by="Date")["Game"].unique().tolist()
+    game_order = df.sort_values(by="Date", ascending=False)["Game"].unique().tolist()
     territory_cols = ["Own 22m (%)", "22m - Half (%)", "Half - 22m (%)", "Opp 22m (%)"]
     df = df[df["Metric"].isin(territory_cols)]
     
@@ -98,7 +98,7 @@ def territory_chart(df):
     return (chart + text + rule).resolve_scale(color="independent")
 
 def tackle_chart(df, axis=True):
-    game_order = df.sort_values(by="Date")["Game"].unique().tolist()
+    game_order = df.sort_values(by="Date", ascending=False)["Game"].unique().tolist()
     df = df[df["Metric"].isin(["Tackles Made", "Tackles Missed"])]
     
     chart = (
@@ -166,7 +166,7 @@ def tackle_chart(df, axis=True):
     return (chart + text).resolve_scale(color="independent")
 
 def playmaker_chart(df, axis=True):
-    game_order = df.sort_values(by="Date")["Game"].unique().tolist()
+    game_order = df.sort_values(by="Date", ascending=False)["Game"].unique().tolist()
     df = df[df["Metric"].isin(["Off 9 (%)", "Off 10 (%)", "Off 12 (%)"])]
 
     chart = (
@@ -238,7 +238,7 @@ def playmaker_chart(df, axis=True):
     return (chart + text).resolve_scale(color="independent", x="shared")
 
 def penalties_chart(df, axis=True):
-    game_order = df.sort_values(by="Date")["Game"].unique().tolist()
+    game_order = df.sort_values(by="Date", ascending=False)["Game"].unique().tolist()
     penalty_cols = [
         "Penalties For", 
         "Ruck Attack",
@@ -365,7 +365,7 @@ def penalties_chart(df, axis=True):
 
 
 def efficiency_chart(df, axis=True):
-    game_order = df.sort_values(by="Date")["Game"].unique().tolist()
+    game_order = df.sort_values(by="Date", ascending=False)["Game"].unique().tolist()
     efficiency_cols = [
         "Opposition Entries", 
         "Opposition Tries", 
@@ -444,7 +444,7 @@ def score_chart(df):
     df = df[df["Metric"].isin(["PF", "PA"])]
 
     max_score = df["Value"].astype(int).max() + 10
-    game_order = df.sort_values(by="Date")["Game"].unique().tolist()
+    game_order = df.sort_values(by="Date", ascending=False)["Game"].unique().tolist()
 
     df = df.pivot(index="Game", columns="Metric", values="Value").reset_index()
     df.loc[:,"Result"] = df.apply(lambda x: "W" if x["PF"] > x["PA"] else ("D" if x["PF"] == x["PA"] else "L"), axis=1)
@@ -499,7 +499,7 @@ def score_chart(df):
 
 def gainline_chart(df, axis=True):
     
-    game_order = df.sort_values(by="Date")["Game"].unique().tolist()
+    game_order = df.sort_values(by="Date", ascending=False)["Game"].unique().tolist()
 
     chart = (
         alt.Chart(df[df["Metric"].isin(["Gain line +", "Gain line -"])])
