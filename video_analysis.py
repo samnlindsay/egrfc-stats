@@ -579,9 +579,8 @@ def game_stats_charts(df, file=None):
         spacing=40,
         title=alt.Title(
             text="1st XV Video Analysis", 
-            fontSize=64,
+            fontSize=48,
             subtitle=["Performance metrics from video analysis on Veo / live streams.", "Click on any chart to highlight a single game throughout all other charts."],
-            subtitleFontSize=14,
             color="#202946"
         )
     )

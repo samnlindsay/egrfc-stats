@@ -1,6 +1,6 @@
 /* Define variables at the root level */
 :root {
-    --primary-color: #202946;
+    --primary-color: hsl(226, 37%, 20%);
     --accent-color:#7d96e8;
     --light-color: #e5e4e7;
     --dark-color: #333333;
@@ -22,9 +22,6 @@ h1, h2, h3, h4 {
     color: var(--light-color);
 }
 
-h1 {
-    font-size: 3rem;
-}
 
 body {
     font-family: 'Lato', 'Tahoma', sans-serif;
@@ -55,9 +52,11 @@ body {
     color: var(--dark-color);
     background-color: var(--light-color);
     border-color: black;
-    padding: 10px;
     font-family: 'Lato', 'Tahoma', sans-serif;
-    font-size: 1.25rem;
+}
+
+.dropdown-item {
+    font-size: 1.2rem;
 }
 
 .custom-btn:hover {
@@ -142,19 +141,63 @@ nav.navbar {
     margin-top: -1px;
 }
 
+/* bootstrap table cell format */
+.table #row1 td {
+    background-color: hsl(226, 37%, 30%);
+    color: var(--light-color);
+}
+.table #row2 td {
+    background-color: var(--light-color);
+}
+
+.table #row1 #squad1 {
+    background-color: var(--primary-color);
+    color: var(--light-color);
+}
+.table #row2 #squad2 {
+    background-color: white;
+}
+
+.table {
+    border: 1px solid black;
+    font-family: 'Lato', 'Tahoma', sans-serif;
+    font-size: 1rem;
+}
+
+.table th {
+    color: var(--light-color);
+}
+
+.table thead {
+    font-family: 'PT Sans Narrow', sans-serif;
+}
+
+.table #squad1, #squad2 {
+    font-family: 'PT Sans Narrow', sans-serif;
+}
+
+.table select {
+    font-family: 'Lato', 'Tahoma', sans-serif;
+    background-color: var(--primary-color);
+    color: var(--light-color);
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='white' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+}
+
+
 @media (max-width: 768px) {
     body {
         font-size: 1.25rem;
         /* Smaller font on smaller screens */
     }
 
-    .custom-btn {
-        font-size: 1.75rem;
+    .table {
+        font-size: 1.25rem;
     }
 }
+
 @media (max-width: 480px) {
 
-    .custom-btn {
+    .table {
         font-size: 1.25rem;
     }
 }
