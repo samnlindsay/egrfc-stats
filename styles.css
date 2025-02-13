@@ -54,14 +54,28 @@ body {
     border-color: black;
     font-family: 'Lato', 'Tahoma', sans-serif;
 }
-
-.dropdown-item {
-    font-size: 1.2rem;
-}
-
 .custom-btn:hover {
     color: var(--light-color);
     background-color: var(--dark-color);
+}
+
+.btn-1 {
+    font-weight: bold;
+    color: var(--light-color);
+    background-color: var(--primary-color);
+    border-color: black;
+    border-width: 2px;
+}
+
+.btn-2 {
+    font-weight: bold;
+    color: var(--primary-color);
+    background-color: white;
+    border-color: black;
+    border-width: 2px;
+}
+.dropdown-item {
+    font-size: 1.2rem;
 }
 
 #home-content {
