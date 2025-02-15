@@ -564,6 +564,10 @@ def gainline_chart(df, axis=True):
     )
 
 def game_stats_charts(df, file=None):
+
+    if df is None:
+        df = game_stats()
+
     score=score_chart(df)
     territory=territory_chart(df)
     tackle=tackle_chart(df, axis=False)

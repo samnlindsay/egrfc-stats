@@ -3,6 +3,112 @@ import altair as alt
 import pandas as pd
 from data_prep import *
 from copy import deepcopy
+import os
+from bs4 import BeautifulSoup
+
+
+def hack_params_css(file, overlay=False):
+
+  # Define the CSS to be added
+  css_to_add = f'''
+
+      /* Default size for larger screens */
+      .vega-embed {{
+          width: 100%;
+          height: 100%;
+          transform-origin: top left;
+      }}
+
+      /* Scale for tablet devices */
+      @media (max-width: 768px) {{
+          .vega-embed {{
+              transform: scale(0.75);
+              width: 100%;
+              height: 100%;
+          }}
+      }}
+
+      /* Scale for mobile devices */
+      @media (max-width: 480px) {{
+          .vega-embed {{
+              transform: scale(0.5);
+              width: 100%;
+              height: 100%;
+          }}
+      }}
+
+      .vega-bindings {{
+        border: 2px solid black;
+        background-color: #e5e4e7;
+        color: #202946;
+        width: fit-content;
+        height: fit-content;
+        position: {"static" if not overlay else "fixed; top: 1rem; right: 1rem"};
+        display: block;
+        justify-content: center;
+        gap: 20px;
+        padding: 10px;
+        font-size: large;
+      }}
+      .chart-wrapper {{
+          display: grid;
+          grid-template-columns: 1fr 1fr; /* Chart takes 3x space, form takes 1x */
+      }}
+
+      .vega-bind {{
+        font-family: 'Lato', sans-serif;
+        padding: 10px;
+        padding-top: 5px;
+        width: min-content;
+      }}
+            
+      .vega-bind-name {{
+        font-family: 'Lato', sans-serif;
+        font-weight: bold;
+        font-size: larger;
+        color: #202946; 
+      }}
+
+      .vega-bind-radio input {{
+        width: 1rem;
+        height: 1rem;
+      }}
+
+      .vega-bind-radio label {{
+        font-family: 'Lato', sans-serif;
+        display: flex;
+        padding: 0.1rem;
+        cursor: pointer;
+        transition: all 0.3s;
+        font-size: medium;
+      }}
+
+      .vega-bind-radio input:checked+label {{
+        background-color: #202946;
+        color: #e5e4e7;
+    }}
+  '''
+
+  # Read the file content using BeautifulSoup
+  with open(file, 'r', encoding='utf-8') as f:
+    soup = BeautifulSoup(f, 'html.parser')
+
+  # Find the <style> tag or create it if it doesn't exist
+  style_tag = soup.find('style')
+  if not style_tag:
+      style_tag = soup.new_tag('style')
+      soup.head.append(style_tag)
+
+  # Append the new CSS to the <style> tag
+  style_tag.append(css_to_add)
+
+  soup.head.append(soup.new_tag("link", rel="stylesheet", href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900"))          
+  
+  # Write the modified HTML back to the file
+  with open(file, 'w', encoding='utf-8') as f:
+      f.write(str(soup))
+  print(f"Updated {file}")
+
 
 # Set the default configuration for altair
 def alt_theme():
@@ -51,7 +157,7 @@ def alt_theme():
                 "titlePadding": 20,
                 "subtitlePadding": 10,
                 "subtitleFontWeight": "lighter",
-                "subtitleFontSize": 12,
+                "subtitleFontSize": 13,
                 "subtitleColor": "",
                 "subtitleFontStyle": "italic",
                 "offset": 15,
@@ -108,13 +214,7 @@ def season_column(season, **kwargs):
 
 position_order = ["Prop", "Hooker", "Second Row", "Back Row", "Scrum Half", "Fly Half", "Centre", "Back Three"]
 
-def plot_starts_by_position(df=None, min=0):
-
-    # Filter by squad/season/starts only
-    if df is None:
-        df = players()
-    
-    df = df[df["Number"] <= 15]
+def plot_starts_by_position(df=None, min=0, file=None):
 
     # legend selection filter
     legend = alt.selection_point(fields=["GameType"], bind="legend", on="click")
@@ -135,7 +235,7 @@ def plot_starts_by_position(df=None, min=0):
 
     # altair bar chart of starts by position
     chart = (
-        alt.Chart(df)
+        alt.Chart(df if df is not None else {"name": "df", "url":'https://raw.githubusercontent.com/samnlindsay/egrfc-stats/main/data/players.csv',"format":{'type':"csv"}})
         .mark_bar()
         .encode(
             x=alt.X('count()', axis=alt.Axis(title=None, orient="top")),
@@ -149,8 +249,8 @@ def plot_starts_by_position(df=None, min=0):
                 align="each"
             ),
             tooltip=[
-                "Player", 
-                "Position", 
+                "Player:N", 
+                "Position:N", 
                 alt.Tooltip("count()", title="Starts"), 
                 'GameType:N'
             ],      
@@ -162,6 +262,7 @@ def plot_starts_by_position(df=None, min=0):
             order=alt.Order('GameType:N', sort='descending')
         )
         .resolve_scale(y="independent", x="independent")
+        .transform_filter("datum.Number <= 15")
         .properties(width=150, height=alt.Step(14), title=alt.Title(text="Starts (by position)", subtitle="Not including bench appearances."))
         .add_params(legend, season_selection, squad_selection, min_selection)
         .transform_joinaggregate(TotalGames="count()", groupby=["Player", "Position"])
@@ -170,14 +271,14 @@ def plot_starts_by_position(df=None, min=0):
         .transform_filter(f"datum.Squad == {squad_selection.name} | {squad_selection.name} == 'Total'")
         .transform_filter(legend)
     )
+    if file:
+        chart.save(file)
+        hack_params_css(file)
 
     return chart  
 
 
-def plot_games_by_player(min=5, df=None):
-
-    if df is None:
-        df = players()
+def plot_games_by_player(min=5, df=None, file=None):
 
     c = alt.Color(
         f"GameType:N",
@@ -186,7 +287,7 @@ def plot_games_by_player(min=5, df=None):
             title=None, orient="bottom", direction="horizontal", titleOrient="left"
         )
     )
-    o = alt.Order("GameType", sort="descending")
+    o = alt.Order("GameType:N", sort="descending")
 
     # legend selection filter
     legend = alt.selection_point(fields=["GameType"], bind="legend", on="click")
@@ -201,11 +302,11 @@ def plot_games_by_player(min=5, df=None):
     )
 
     chart = (
-        alt.Chart(df)
+        alt.Chart(df if df is not None else {"name": "df", "url":'https://raw.githubusercontent.com/samnlindsay/egrfc-stats/main/data/players.csv',"format":{'type':"csv"}})
         .mark_bar(strokeWidth=2)
         .encode(
             x=alt.X("count()", axis=alt.Axis(title=None, orient="top")),
-            y=alt.Y("Player", sort="-x", title=None),
+            y=alt.Y("Player:N", sort="-x", title=None),
             color=c,
             order=o,
             opacity=alt.Opacity(
@@ -239,7 +340,10 @@ def plot_games_by_player(min=5, df=None):
             height=alt.Step(15)
         )
     )
-    
+    if file:
+        chart.save(file)
+        hack_params_css(file)
+
     return chart
 
 def team_sheet_chart(
@@ -504,7 +608,7 @@ def count_success_chart(type, squad=1, season=None, as_dict=False, min=1, df=Non
     else:
         return alt.Chart.from_dict(chart)
 
-def lineout_chart(squad=1, season=None, df=None):
+def lineout_chart(squad=1, season=None, df=None, file=None):
 
     if df is None:
         df = lineouts()
@@ -555,11 +659,13 @@ def lineout_chart(squad=1, season=None, df=None):
             "Success is defined as retaining possession when the lineout ends, and does not distinguish between an unsuccessful throw, a knock-on, or a penalty."
         ]  
     }
-    
+    if file:
+        chart.save(file)
+
     return chart
 
 
-def points_scorers_chart(df=None):
+def points_scorers_chart(df=None, file=None):
 
     if df is None:
         df = pitchero_stats()
@@ -586,8 +692,10 @@ def points_scorers_chart(df=None):
     )
 
     chart = (
-        alt.Chart(scorers)
+        alt.Chart(df if df is not None else {"name": "df", "url":'https://raw.githubusercontent.com/samnlindsay/egrfc-stats/main/data/pitchero.csv',"format":{'type':"csv"}})
         .mark_bar()
+        .transform_filter("datum.Points > 0")
+        .transform_fold(["Tries", "Pens", "Cons"], as_=["Type", "Points"])
         .transform_joinaggregate(
             sortfield="sum(Points)",    
             T="sum(T)",
@@ -662,17 +770,13 @@ def points_scorers_chart(df=None):
         .resolve_scale(y="independent", x="independent")
     )
 
+    if file:
+        chart.save(file)
+        hack_params_css(file, overlay=True)
+
     return chart
 
-def card_chart(df=None):
-
-    if df is None:
-        df = pitchero_stats()
-    
-    df.loc[:, "Cards"] = df.loc[:,"YC"] + df.loc[:,"RC"]
-    df = (df[df["Cards"] > 0])[["Player","A","YC","RC", "Cards", "Season", "Squad"]]
-        
-    df = df.sort_values(["Season", "Cards", "RC"], ascending=[True, False, True])
+def card_chart(df=None, file=None):
 
     season_selection = alt.param(
         bind=alt.binding_radio(options=[*seasons, "All"], name="Season"), 
@@ -680,20 +784,34 @@ def card_chart(df=None):
     )
 
     chart = (
-        alt.Chart(df).mark_bar(stroke="black", strokeOpacity=0.2).encode(
-            y=alt.Y("Player:N", title=None, sort=alt.EncodingSortField(field="Cards", order="descending")),
+        alt.Chart(df if df is not None else {"name": "df", "url":'https://raw.githubusercontent.com/samnlindsay/egrfc-stats/main/data/pitchero.csv',"format":{'type':"csv"}})
+        .transform_calculate(Cards="datum.YC + datum.RC")
+        .transform_filter("datum.YC > 0 || datum.RC > 0")
+        .add_params(season_selection)
+        .transform_filter(f"datum.Season == {season_selection.name} | {season_selection.name} == 'All'")
+        .transform_fold(["YC", "RC"], as_=["key", "value"])
+        .transform_aggregate(
+            A="sum(A)", 
+            # YC="sum(YC)",
+            # RC="sum(RC)",
+            value="sum(value)",
+            groupby=["Player", "Season", "key"])
+        .mark_bar(stroke="black", strokeOpacity=0.2).encode(
+            y=alt.Y("Player:N", title=None, sort="-x"),
             x=alt.X("value:Q", title=None, axis=alt.Axis(values=[0,1,2,3,4,5], format="d", orient="top")),        
             color=alt.Color(
                 "key:N", 
                 title=None, 
                 legend=alt.Legend(orient="bottom")
             ).scale(domain=["YC", "RC"], range=["#e6c719", "#981515"]),
-            column=alt.Column("Season:N", title=None, header=alt.Header(labelFontSize=36)),
-            tooltip=["Player:N", alt.Tooltip("A:Q", title="Appearances"), "YC:Q", "RC:Q", "Squad:N"],
+            column=alt.Column("Season:N", title=None, header=alt.Header(labelFontSize=36), spacing=10),
+            tooltip=[
+                "Player:N", 
+                alt.Tooltip("A:Q", title="Appearances"),
+                alt.Tooltip("key:N", title="Card Type"),
+                alt.Tooltip("value:Q", title="Cards")
+            ],
         )
-        .add_params(season_selection)
-        .transform_filter(f"datum.Season == {season_selection.name} | {season_selection.name} == 'All'")
-        .transform_fold(["YC", "RC"])
         .resolve_scale(y="independent")
         .properties(
             title=alt.Title(
@@ -707,15 +825,13 @@ def card_chart(df=None):
             width=120,
         )
     )
+    if file:
+        chart.save(file)
+        hack_params_css(file)
 
     return chart
 
-def captains_chart(df=None):
-
-    if df is None:
-        df = team_sheets()
-    
-    df = df.rename(columns={"VC1":"VC"})
+def captains_chart(df=None, file=None):
 
     squad_selection = alt.param(
         bind=alt.binding_radio(options=["1st", "2nd", "Both"], name="Squad"),
@@ -727,18 +843,11 @@ def captains_chart(df=None):
         value="Total" 
     )
 
-    captains = df[["Squad", "Season", "Captain", "VC", "VC2", "GameType"]].melt(
-        id_vars=["Squad", "Season", "GameType"], 
-        value_vars=["Captain", "VC", "VC2"],
-        var_name="Role",
-        value_name="Player"
-    ).dropna()
-    
-    # Replace VC2 with VC
-    captains["Role"] = captains["Role"].replace("VC2", "VC")
-
     chart = (
-        alt.Chart(captains, width="container")
+       alt.Chart(df if df is not None else {"name": "df", "url":'https://raw.githubusercontent.com/samnlindsay/egrfc-stats/main/data/game.csv',"format":{'type':"csv"}})
+        .transform_fold(["Captain", "VC1", "VC2"], as_=["Role", "Player"])
+        .transform_calculate(Role="datum.Role == 'Captain' ? 'Captain' : 'VC'")
+        .transform_filter("datum.Player != null && datum.Player != ''")
         .mark_bar()
         .encode(
             y=alt.X("Player:N", title=None, sort="-x"),
@@ -768,16 +877,13 @@ def captains_chart(df=None):
         )
         .resolve_scale(x="shared", y="independent", opacity="shared")
     )
+    if file:
+        chart.save(file)
+        hack_params_css(file)
 
     return chart
 
-def results_chart(df=None):
-
-    if df is None:
-        df = team_sheets()
-
-    df.loc[:,"loser"] = df.apply(lambda x: x["PF"] if x["Result"] == "L" else x["PA"], axis=1)
-    df.loc[:,"winner"] = df.apply(lambda x: x["PF"] if x["Result"] == "W" else x["PA"], axis=1)
+def results_chart(df=None, file=None):
 
     selection = alt.selection_point(fields=['Result'], bind='legend')
 
@@ -790,25 +896,33 @@ def results_chart(df=None):
         value="All"
     )
 
-    base = alt.Chart(df).encode(
-        y=alt.Y(
-            'GameID:N', 
-            sort=None, 
-            axis=alt.Axis(
-                title=None, 
-                offset=15, 
-                grid=False, 
-                ticks=False, 
-                domain=False, 
-                # labelExpr="split(datum.value,'-__-')[1]"
-            )
-        ),
-        color=alt.Color(
-            'Result:N', 
-            scale=alt.Scale(domain=['W', 'L'], range=['#146f14', '#981515']), 
-            legend=alt.Legend(offset=20, orient="bottom", title="Click to highlight", titleOrient="left")
-        ),
-        opacity=alt.condition(selection, alt.value(1), alt.value(0.2))
+    base = (
+        alt.Chart(df if df is not None else {"name": "df", "url":'https://raw.githubusercontent.com/samnlindsay/egrfc-stats/main/data/game.csv',"format":{'type':"csv"}})
+        .transform_calculate(
+            loser="datum.Result == 'L' ? datum.PF : datum.PA",
+            winner="datum.Result == 'W' ? datum.PF : datum.PA",
+            index="datum.index"
+        )
+        .encode(
+            y=alt.Y(
+                'GameID:N', 
+                sort=alt.EncodingSortField(field="index", order="ascending"),
+                axis=alt.Axis(
+                    title=None, 
+                    offset=15, 
+                    grid=False,
+                    ticks=False, 
+                    domain=False, 
+                    # labelExpr="split(datum.value,'-__-')[1]"
+                )
+            ),
+            color=alt.Color(
+                'Result:N', 
+                scale=alt.Scale(domain=['W', 'L'], range=['#146f14', '#981515']), 
+                legend=alt.Legend(offset=20, orient="bottom", title="Click to highlight", titleOrient="left")
+            ),
+            opacity=alt.condition(team_filter, alt.value(1), alt.value(0.2))
+        )
     )
 
     bar = base.mark_bar(point=True).encode(
@@ -830,6 +944,7 @@ def results_chart(df=None):
 
     chart = (
         (bar + loser + winner)
+        .resolve_scale(y='shared')
         .add_params(selection, team_filter, season_selection, squad_selection)
         .transform_filter(selection)
         .transform_filter(f"datum.Season == {season_selection.name} | {season_selection.name} == 'All'")
@@ -852,6 +967,10 @@ def results_chart(df=None):
             )
         )
     )
+
+    if file:
+        chart.save(file)
+        hack_params_css(file)
     
     return chart
 
@@ -864,10 +983,7 @@ team_filter = alt.selection_point(fields=["Opposition"])
 color_scale = alt.Scale(domain=["EG", "Opposition"], range=["#202946", "#981515"])
 opacity_scale = alt.Scale(domain=["Turnover", "Retained"], range=[1, 0.5])
 
-def set_piece_h2h_chart(df=None):
-    
-    if df is None:
-        df = set_piece_results()
+def set_piece_h2h_chart(df=None, file=None):
 
     season_selection = alt.param(
         bind=alt.binding_radio(options=[*seasons], name="Season"),
@@ -880,7 +996,15 @@ def set_piece_h2h_chart(df=None):
     )
     
     base = (
-        alt.Chart(df).encode(
+        alt.Chart(df if df is not None else {"name":"df", "url":'https://raw.githubusercontent.com/samnlindsay/egrfc-stats/main/data/set_piece.csv',"format":{'type':"csv"}})
+        .add_params(
+            alt.param(
+                name="x_max",
+                # Max value of "Count"
+                expr="parseInt(data('df')[0].Count)",
+            )
+        )
+        .encode(
             y=alt.Y(
                 "GameID:N", 
                 axis=None,
@@ -926,7 +1050,7 @@ def set_piece_h2h_chart(df=None):
             x=alt.X(
                 "Count:Q",
                 axis=alt.Axis(title="EG wins", orient="top", titleColor="#202946"),
-                scale=alt.Scale(domain=[0, max(df["Count"])]),
+                scale=alt.Scale(domain={"expr": "[0, 15]"}),
             )
         )
         .transform_filter("datum.Winner == 'EG'")
@@ -936,7 +1060,7 @@ def set_piece_h2h_chart(df=None):
         .encode(
             x=alt.X(
                 "Count:Q",
-                scale=alt.Scale(reverse=True, domain=[0, max(df["Count"])]),
+                scale=alt.Scale(reverse=True, domain={"expr": "[0, 15]"}),
                 axis=alt.Axis(title="Opposition wins", orient="top", titleColor="#981515")
             ),
             y=alt.Y(
@@ -984,5 +1108,9 @@ def set_piece_h2h_chart(df=None):
             )
         )
     )
+
+    if file:
+        chart.save(file)
+        hack_params_css(file)
 
     return chart

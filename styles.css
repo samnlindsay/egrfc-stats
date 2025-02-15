@@ -1,7 +1,7 @@
 /* Define variables at the root level */
 :root {
-    --primary-color: hsl(226, 37%, 20%);
-    --accent-color:#7d96e8;
+    --primary-color: #202946;
+    --accent-color: #7d96e8;
     --light-color: #e5e4e7;
     --dark-color: #333333;
     --green-color: #146f14;
@@ -17,7 +17,10 @@ hr {
     margin: 30px;
 }
 
-h1, h2, h3, h4 {
+h1,
+h2,
+h3,
+h4 {
     font-family: 'PT Sans Narrow', sans-serif;
     color: var(--light-color);
 }
@@ -54,6 +57,7 @@ body {
     border-color: black;
     font-family: 'Lato', 'Tahoma', sans-serif;
 }
+
 .custom-btn:hover {
     color: var(--light-color);
     background-color: var(--dark-color);
@@ -74,6 +78,7 @@ body {
     border-color: black;
     border-width: 2px;
 }
+
 .dropdown-item {
     font-size: 1.2rem;
 }
@@ -160,6 +165,7 @@ nav.navbar {
     background-color: hsl(226, 37%, 30%);
     color: var(--light-color);
 }
+
 .table #row2 td {
     background-color: var(--light-color);
 }
@@ -168,6 +174,7 @@ nav.navbar {
     background-color: var(--primary-color);
     color: var(--light-color);
 }
+
 .table #row2 #squad2 {
     background-color: white;
 }
@@ -186,7 +193,8 @@ nav.navbar {
     font-family: 'PT Sans Narrow', sans-serif;
 }
 
-.table #squad1, #squad2 {
+.table #squad1,
+#squad2 {
     font-family: 'PT Sans Narrow', sans-serif;
 }
 

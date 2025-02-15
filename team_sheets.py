@@ -1,6 +1,7 @@
 import pandas as pd
 import altair as alt
 import json
+from charts import *
 
 def most_common_players(df, by="Position"):
     mcp = df.groupby(["Player", by]).size().reset_index(name=f"Count{by}")\
@@ -133,3 +134,96 @@ def team_of_the_season_chart(squad=1, season="2024/25", **kwargs):
     chart["data"]["values"] = top.to_dict(orient="records")
     
     return alt.Chart.from_dict(chart)
+
+def team_sheets_chart(df=None, file=None):
+
+    squad_selection = alt.param(
+        bind=alt.binding_radio(options=["1st", "2nd"], name="Squad"),
+        value="1st"
+    )
+
+    season_selection = alt.param(
+        bind=alt.binding_radio(options=[*seasons, "All"], name="Season"), 
+        value="All" 
+    )
+
+    players_selection = alt.selection_single(fields=["Player"], name="Player", on="mouseover", clear="mouseout")
+
+    team_selection = alt.selection_single(fields=["Opposition"], name="Opposition", on="click")
+
+    def team_sheet_part(df, position_type):
+
+        base = (
+            alt.Chart(df if df is not None else {"url":'https://raw.githubusercontent.com/samnlindsay/egrfc-stats/main/data/players.csv',"format":{'type':"csv"}})
+            .transform_calculate(
+                P="split(datum.Player, ' ')[0][0] + ' ' + split(datum.Player, ' ')[1]",
+            )
+            .transform_joinaggregate(
+                game_sort="min(index)",
+                groupby=["GameID", "Season", "Squad"]
+            )
+            .encode(
+                x=alt.X(
+                    "Number:N", 
+                    axis=alt.Axis(
+                        ticks=False, 
+                        labelFontStyle="bold", 
+                        labelFontSize=24, 
+                        orient="top", 
+                        title=position_type,
+                        titleFontSize=36,
+                    )
+                ),
+                y=alt.Y(
+                    "GameID:O", 
+                    axis=alt.Axis(title=None, orient="left", labelLimit=130, labelFontSize=12) if position_type=="Forwards" else None, 
+                    sort=alt.EncodingSortField(field="game_sort", order="descending"),
+                ),
+                opacity=alt.condition(players_selection, alt.value(1), alt.value(0.5)),
+            ).properties(
+                width=alt.Step(75),
+                height=alt.Step(15)
+            ).transform_filter(f"datum.PositionType == '{position_type}'")
+        )
+
+        rect = base.mark_rect().encode(
+            color=alt.Color("Player:N", legend=None, scale=alt.Scale(scheme="category20b")),
+            stroke=alt.condition(players_selection, alt.value("black", empty=False), alt.value(None)),
+        )
+
+        text=base.mark_text(baseline='middle', fontSize=9).encode(
+            text=alt.Text("P:N"),
+            color=alt.Color("Player:N", legend=None, scale=alt.Scale(range=["white", "white", "black", "black"])),
+        )
+
+        chart = (
+            (rect + text).resolve_scale(color="independent", y="shared")
+            .add_selection(squad_selection, season_selection, players_selection, team_selection)
+            .transform_filter(f"datum.Season == {season_selection.name} | {season_selection.name} == 'All'")
+            .transform_filter(f"datum.Squad == {squad_selection.name}")
+            .transform_filter(team_selection)
+            .facet(
+                row=alt.Row("Season:N", header=alt.Header(title=None) if position_type=="Forwards" else None, sort="descending"),
+                spacing=20,
+                align="each"
+            )
+            .resolve_scale(x="shared", y="independent", color="shared")
+        )
+    
+        return chart
+
+
+    chart = (
+        alt.hconcat(
+            team_sheet_part(df, "Forwards"),
+            team_sheet_part(df, "Backs"),
+            team_sheet_part(df, "Bench")
+        )
+        .properties(title=alt.Title(text="Team Sheets", subtitle=["Hover over a player to highlight their appearances", "Click anywhere to filter by the selected opposition."]))
+    )
+
+    if file:
+        chart.save(file)
+        hack_params_css(file, overlay=True)
+    
+    return chart
