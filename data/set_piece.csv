@@ -59,6 +59,7 @@ Squad,Season,GameID,Opposition,Home/Away,Date,Metric,Count,SetPiece,Turnover,Tea
 1st,2024/25,Weybridge Vandals (H),Weybridge Vandals,H,2025-01-04,EG_l_won,10,Lineout,Retained,EG,EG
 1st,2024/25,Twickenham (H),Twickenham,H,2025-01-18,EG_l_won,7,Lineout,Retained,EG,EG
 1st,2024/25,Hove (A),Hove,A,2025-02-08,EG_l_won,5,Lineout,Retained,EG,EG
+1st,2024/25,Eastbourne (H),Eastbourne,H,2025-02-15,EG_l_won,12,Lineout,Retained,EG,EG
 2nd,2021/22,Worthing (H),Worthing,H,2021-09-25,EG_l_won,11,Lineout,Retained,EG,EG
 2nd,2021/22,Royals (H),Royals,H,2021-10-09,EG_l_won,8,Lineout,Retained,EG,EG
 2nd,2021/22,Crowborough (A),Crowborough,A,2021-12-11,EG_l_won,8,Lineout,Retained,EG,EG
@@ -85,6 +86,7 @@ Squad,Season,GameID,Opposition,Home/Away,Date,Metric,Count,SetPiece,Turnover,Tea
 2nd,2024/25,Barns Green (A),Barns Green,A,2024-12-14,EG_l_won,8,Lineout,Retained,EG,EG
 2nd,2024/25,Burgess Hill (H),Burgess Hill,H,2025-01-18,EG_l_won,13,Lineout,Retained,EG,EG
 2nd,2024/25,Royals (H),Royals,H,2025-02-08,EG_l_won,5,Lineout,Retained,EG,EG
+2nd,2024/25,Old Caterhamians (H),Old Caterhamians,H,2025-02-15,EG_l_won,3,Lineout,Retained,EG,EG
 1st,2021/22,Horsham 2nd (A),Horsham 2nd,A,2021-09-04,EG_l_lost,1,Lineout,Turnover,EG,Opposition
 1st,2021/22,Eastbourne (H),Eastbourne,H,2021-09-25,EG_l_lost,2,Lineout,Turnover,EG,Opposition
 1st,2021/22,Burgess Hill (H),Burgess Hill,H,2021-10-16,EG_l_lost,1,Lineout,Turnover,EG,Opposition
@@ -145,6 +147,7 @@ Squad,Season,GameID,Opposition,Home/Away,Date,Metric,Count,SetPiece,Turnover,Tea
 1st,2024/25,Weybridge Vandals (H),Weybridge Vandals,H,2025-01-04,EG_l_lost,7,Lineout,Turnover,EG,Opposition
 1st,2024/25,Twickenham (H),Twickenham,H,2025-01-18,EG_l_lost,3,Lineout,Turnover,EG,Opposition
 1st,2024/25,Hove (A),Hove,A,2025-02-08,EG_l_lost,3,Lineout,Turnover,EG,Opposition
+1st,2024/25,Eastbourne (H),Eastbourne,H,2025-02-15,EG_l_lost,2,Lineout,Turnover,EG,Opposition
 2nd,2021/22,Worthing (H),Worthing,H,2021-09-25,EG_l_lost,3,Lineout,Turnover,EG,Opposition
 2nd,2021/22,Royals (H),Royals,H,2021-10-09,EG_l_lost,3,Lineout,Turnover,EG,Opposition
 2nd,2021/22,Crowborough (A),Crowborough,A,2021-12-11,EG_l_lost,3,Lineout,Turnover,EG,Opposition
@@ -171,6 +174,7 @@ Squad,Season,GameID,Opposition,Home/Away,Date,Metric,Count,SetPiece,Turnover,Tea
 2nd,2024/25,Barns Green (A),Barns Green,A,2024-12-14,EG_l_lost,6,Lineout,Turnover,EG,Opposition
 2nd,2024/25,Burgess Hill (H),Burgess Hill,H,2025-01-18,EG_l_lost,6,Lineout,Turnover,EG,Opposition
 2nd,2024/25,Royals (H),Royals,H,2025-02-08,EG_l_lost,2,Lineout,Turnover,EG,Opposition
+2nd,2024/25,Old Caterhamians (H),Old Caterhamians,H,2025-02-15,EG_l_lost,1,Lineout,Turnover,EG,Opposition
 1st,2021/22,Horsham 2nd (A),Horsham 2nd,A,2021-09-04,EG_s_won,8,Scrum,Retained,EG,EG
 1st,2021/22,Eastbourne (H),Eastbourne,H,2021-09-25,EG_s_won,4,Scrum,Retained,EG,EG
 1st,2021/22,Burgess Hill (H),Burgess Hill,H,2021-10-16,EG_s_won,5,Scrum,Retained,EG,EG
@@ -231,6 +235,7 @@ Squad,Season,GameID,Opposition,Home/Away,Date,Metric,Count,SetPiece,Turnover,Tea
 1st,2024/25,Weybridge Vandals (H),Weybridge Vandals,H,2025-01-04,EG_s_won,9,Scrum,Retained,EG,EG
 1st,2024/25,Twickenham (H),Twickenham,H,2025-01-18,EG_s_won,11,Scrum,Retained,EG,EG
 1st,2024/25,Hove (A),Hove,A,2025-02-08,EG_s_won,12,Scrum,Retained,EG,EG
+1st,2024/25,Eastbourne (H),Eastbourne,H,2025-02-15,EG_s_won,7,Scrum,Retained,EG,EG
 2nd,2021/22,Worthing (H),Worthing,H,2021-09-25,EG_s_won,10,Scrum,Retained,EG,EG
 2nd,2021/22,Royals (H),Royals,H,2021-10-09,EG_s_won,11,Scrum,Retained,EG,EG
 2nd,2021/22,Crowborough (A),Crowborough,A,2021-12-11,EG_s_won,6,Scrum,Retained,EG,EG
@@ -257,6 +262,7 @@ Squad,Season,GameID,Opposition,Home/Away,Date,Metric,Count,SetPiece,Turnover,Tea
 2nd,2024/25,Barns Green (A),Barns Green,A,2024-12-14,EG_s_won,6,Scrum,Retained,EG,EG
 2nd,2024/25,Burgess Hill (H),Burgess Hill,H,2025-01-18,EG_s_won,7,Scrum,Retained,EG,EG
 2nd,2024/25,Royals (H),Royals,H,2025-02-08,EG_s_won,1,Scrum,Retained,EG,EG
+2nd,2024/25,Old Caterhamians (H),Old Caterhamians,H,2025-02-15,EG_s_won,8,Scrum,Retained,EG,EG
 1st,2021/22,Horsham 2nd (A),Horsham 2nd,A,2021-09-04,EG_s_lost,0,Scrum,Turnover,EG,Opposition
 1st,2021/22,Eastbourne (H),Eastbourne,H,2021-09-25,EG_s_lost,0,Scrum,Turnover,EG,Opposition
 1st,2021/22,Burgess Hill (H),Burgess Hill,H,2021-10-16,EG_s_lost,1,Scrum,Turnover,EG,Opposition
@@ -317,6 +323,7 @@ Squad,Season,GameID,Opposition,Home/Away,Date,Metric,Count,SetPiece,Turnover,Tea
 1st,2024/25,Weybridge Vandals (H),Weybridge Vandals,H,2025-01-04,EG_s_lost,0,Scrum,Turnover,EG,Opposition
 1st,2024/25,Twickenham (H),Twickenham,H,2025-01-18,EG_s_lost,0,Scrum,Turnover,EG,Opposition
 1st,2024/25,Hove (A),Hove,A,2025-02-08,EG_s_lost,0,Scrum,Turnover,EG,Opposition
+1st,2024/25,Eastbourne (H),Eastbourne,H,2025-02-15,EG_s_lost,0,Scrum,Turnover,EG,Opposition
 2nd,2021/22,Worthing (H),Worthing,H,2021-09-25,EG_s_lost,3,Scrum,Turnover,EG,Opposition
 2nd,2021/22,Royals (H),Royals,H,2021-10-09,EG_s_lost,0,Scrum,Turnover,EG,Opposition
 2nd,2021/22,Crowborough (A),Crowborough,A,2021-12-11,EG_s_lost,0,Scrum,Turnover,EG,Opposition
@@ -343,6 +350,7 @@ Squad,Season,GameID,Opposition,Home/Away,Date,Metric,Count,SetPiece,Turnover,Tea
 2nd,2024/25,Barns Green (A),Barns Green,A,2024-12-14,EG_s_lost,2,Scrum,Turnover,EG,Opposition
 2nd,2024/25,Burgess Hill (H),Burgess Hill,H,2025-01-18,EG_s_lost,1,Scrum,Turnover,EG,Opposition
 2nd,2024/25,Royals (H),Royals,H,2025-02-08,EG_s_lost,3,Scrum,Turnover,EG,Opposition
+2nd,2024/25,Old Caterhamians (H),Old Caterhamians,H,2025-02-15,EG_s_lost,0,Scrum,Turnover,EG,Opposition
 1st,2021/22,Horsham 2nd (A),Horsham 2nd,A,2021-09-04,Opp_l_won,11,Lineout,Retained,Opposition,Opposition
 1st,2021/22,Eastbourne (H),Eastbourne,H,2021-09-25,Opp_l_won,10,Lineout,Retained,Opposition,Opposition
 1st,2021/22,Burgess Hill (H),Burgess Hill,H,2021-10-16,Opp_l_won,7,Lineout,Retained,Opposition,Opposition
@@ -403,6 +411,7 @@ Squad,Season,GameID,Opposition,Home/Away,Date,Metric,Count,SetPiece,Turnover,Tea
 1st,2024/25,Weybridge Vandals (H),Weybridge Vandals,H,2025-01-04,Opp_l_won,7,Lineout,Retained,Opposition,Opposition
 1st,2024/25,Twickenham (H),Twickenham,H,2025-01-18,Opp_l_won,12,Lineout,Retained,Opposition,Opposition
 1st,2024/25,Hove (A),Hove,A,2025-02-08,Opp_l_won,8,Lineout,Retained,Opposition,Opposition
+1st,2024/25,Eastbourne (H),Eastbourne,H,2025-02-15,Opp_l_won,12,Lineout,Retained,Opposition,Opposition
 2nd,2021/22,Worthing (H),Worthing,H,2021-09-25,Opp_l_won,5,Lineout,Retained,Opposition,Opposition
 2nd,2021/22,Royals (H),Royals,H,2021-10-09,Opp_l_won,8,Lineout,Retained,Opposition,Opposition
 2nd,2021/22,Crowborough (A),Crowborough,A,2021-12-11,Opp_l_won,4,Lineout,Retained,Opposition,Opposition
@@ -429,6 +438,7 @@ Squad,Season,GameID,Opposition,Home/Away,Date,Metric,Count,SetPiece,Turnover,Tea
 2nd,2024/25,Barns Green (A),Barns Green,A,2024-12-14,Opp_l_won,5,Lineout,Retained,Opposition,Opposition
 2nd,2024/25,Burgess Hill (H),Burgess Hill,H,2025-01-18,Opp_l_won,5,Lineout,Retained,Opposition,Opposition
 2nd,2024/25,Royals (H),Royals,H,2025-02-08,Opp_l_won,14,Lineout,Retained,Opposition,Opposition
+2nd,2024/25,Old Caterhamians (H),Old Caterhamians,H,2025-02-15,Opp_l_won,9,Lineout,Retained,Opposition,Opposition
 1st,2021/22,Horsham 2nd (A),Horsham 2nd,A,2021-09-04,Opp_l_lost,2,Lineout,Turnover,Opposition,EG
 1st,2021/22,Eastbourne (H),Eastbourne,H,2021-09-25,Opp_l_lost,6,Lineout,Turnover,Opposition,EG
 1st,2021/22,Burgess Hill (H),Burgess Hill,H,2021-10-16,Opp_l_lost,2,Lineout,Turnover,Opposition,EG
@@ -489,6 +499,7 @@ Squad,Season,GameID,Opposition,Home/Away,Date,Metric,Count,SetPiece,Turnover,Tea
 1st,2024/25,Weybridge Vandals (H),Weybridge Vandals,H,2025-01-04,Opp_l_lost,1,Lineout,Turnover,Opposition,EG
 1st,2024/25,Twickenham (H),Twickenham,H,2025-01-18,Opp_l_lost,1,Lineout,Turnover,Opposition,EG
 1st,2024/25,Hove (A),Hove,A,2025-02-08,Opp_l_lost,2,Lineout,Turnover,Opposition,EG
+1st,2024/25,Eastbourne (H),Eastbourne,H,2025-02-15,Opp_l_lost,1,Lineout,Turnover,Opposition,EG
 2nd,2021/22,Worthing (H),Worthing,H,2021-09-25,Opp_l_lost,3,Lineout,Turnover,Opposition,EG
 2nd,2021/22,Royals (H),Royals,H,2021-10-09,Opp_l_lost,6,Lineout,Turnover,Opposition,EG
 2nd,2021/22,Crowborough (A),Crowborough,A,2021-12-11,Opp_l_lost,3,Lineout,Turnover,Opposition,EG
@@ -515,6 +526,7 @@ Squad,Season,GameID,Opposition,Home/Away,Date,Metric,Count,SetPiece,Turnover,Tea
 2nd,2024/25,Barns Green (A),Barns Green,A,2024-12-14,Opp_l_lost,7,Lineout,Turnover,Opposition,EG
 2nd,2024/25,Burgess Hill (H),Burgess Hill,H,2025-01-18,Opp_l_lost,1,Lineout,Turnover,Opposition,EG
 2nd,2024/25,Royals (H),Royals,H,2025-02-08,Opp_l_lost,2,Lineout,Turnover,Opposition,EG
+2nd,2024/25,Old Caterhamians (H),Old Caterhamians,H,2025-02-15,Opp_l_lost,2,Lineout,Turnover,Opposition,EG
 1st,2021/22,Horsham 2nd (A),Horsham 2nd,A,2021-09-04,Opp_s_won,3,Scrum,Retained,Opposition,Opposition
 1st,2021/22,Eastbourne (H),Eastbourne,H,2021-09-25,Opp_s_won,5,Scrum,Retained,Opposition,Opposition
 1st,2021/22,Burgess Hill (H),Burgess Hill,H,2021-10-16,Opp_s_won,4,Scrum,Retained,Opposition,Opposition
@@ -575,6 +587,7 @@ Squad,Season,GameID,Opposition,Home/Away,Date,Metric,Count,SetPiece,Turnover,Tea
 1st,2024/25,Weybridge Vandals (H),Weybridge Vandals,H,2025-01-04,Opp_s_won,4,Scrum,Retained,Opposition,Opposition
 1st,2024/25,Twickenham (H),Twickenham,H,2025-01-18,Opp_s_won,5,Scrum,Retained,Opposition,Opposition
 1st,2024/25,Hove (A),Hove,A,2025-02-08,Opp_s_won,7,Scrum,Retained,Opposition,Opposition
+1st,2024/25,Eastbourne (H),Eastbourne,H,2025-02-15,Opp_s_won,7,Scrum,Retained,Opposition,Opposition
 2nd,2021/22,Worthing (H),Worthing,H,2021-09-25,Opp_s_won,7,Scrum,Retained,Opposition,Opposition
 2nd,2021/22,Royals (H),Royals,H,2021-10-09,Opp_s_won,2,Scrum,Retained,Opposition,Opposition
 2nd,2021/22,Crowborough (A),Crowborough,A,2021-12-11,Opp_s_won,13,Scrum,Retained,Opposition,Opposition
@@ -601,6 +614,7 @@ Squad,Season,GameID,Opposition,Home/Away,Date,Metric,Count,SetPiece,Turnover,Tea
 2nd,2024/25,Barns Green (A),Barns Green,A,2024-12-14,Opp_s_won,10,Scrum,Retained,Opposition,Opposition
 2nd,2024/25,Burgess Hill (H),Burgess Hill,H,2025-01-18,Opp_s_won,7,Scrum,Retained,Opposition,Opposition
 2nd,2024/25,Royals (H),Royals,H,2025-02-08,Opp_s_won,11,Scrum,Retained,Opposition,Opposition
+2nd,2024/25,Old Caterhamians (H),Old Caterhamians,H,2025-02-15,Opp_s_won,7,Scrum,Retained,Opposition,Opposition
 1st,2021/22,Horsham 2nd (A),Horsham 2nd,A,2021-09-04,Opp_s_lost,1,Scrum,Turnover,Opposition,EG
 1st,2021/22,Eastbourne (H),Eastbourne,H,2021-09-25,Opp_s_lost,1,Scrum,Turnover,Opposition,EG
 1st,2021/22,Burgess Hill (H),Burgess Hill,H,2021-10-16,Opp_s_lost,0,Scrum,Turnover,Opposition,EG
@@ -661,6 +675,7 @@ Squad,Season,GameID,Opposition,Home/Away,Date,Metric,Count,SetPiece,Turnover,Tea
 1st,2024/25,Weybridge Vandals (H),Weybridge Vandals,H,2025-01-04,Opp_s_lost,4,Scrum,Turnover,Opposition,EG
 1st,2024/25,Twickenham (H),Twickenham,H,2025-01-18,Opp_s_lost,2,Scrum,Turnover,Opposition,EG
 1st,2024/25,Hove (A),Hove,A,2025-02-08,Opp_s_lost,0,Scrum,Turnover,Opposition,EG
+1st,2024/25,Eastbourne (H),Eastbourne,H,2025-02-15,Opp_s_lost,0,Scrum,Turnover,Opposition,EG
 2nd,2021/22,Worthing (H),Worthing,H,2021-09-25,Opp_s_lost,2,Scrum,Turnover,Opposition,EG
 2nd,2021/22,Royals (H),Royals,H,2021-10-09,Opp_s_lost,4,Scrum,Turnover,Opposition,EG
 2nd,2021/22,Crowborough (A),Crowborough,A,2021-12-11,Opp_s_lost,0,Scrum,Turnover,Opposition,EG
@@ -687,3 +702,4 @@ Squad,Season,GameID,Opposition,Home/Away,Date,Metric,Count,SetPiece,Turnover,Tea
 2nd,2024/25,Barns Green (A),Barns Green,A,2024-12-14,Opp_s_lost,0,Scrum,Turnover,Opposition,EG
 2nd,2024/25,Burgess Hill (H),Burgess Hill,H,2025-01-18,Opp_s_lost,3,Scrum,Turnover,Opposition,EG
 2nd,2024/25,Royals (H),Royals,H,2025-02-08,Opp_s_lost,0,Scrum,Turnover,Opposition,EG
+2nd,2024/25,Old Caterhamians (H),Old Caterhamians,H,2025-02-15,Opp_s_lost,3,Scrum,Turnover,Opposition,EG

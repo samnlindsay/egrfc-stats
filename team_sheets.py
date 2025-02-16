@@ -177,7 +177,7 @@ def team_sheets_chart(df=None, file=None):
                 y=alt.Y(
                     "GameID:O", 
                     axis=alt.Axis(title=None, orient="left", labelLimit=130, labelFontSize=12) if position_type=="Forwards" else None, 
-                    sort=alt.EncodingSortField(field="game_sort", order="descending"),
+                    sort=alt.EncodingSortField(field="game_sort", order="ascending"),
                 ),
                 opacity=alt.condition(players_selection, alt.value(1), alt.value(0.5)),
             ).properties(

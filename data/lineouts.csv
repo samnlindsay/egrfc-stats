@@ -723,6 +723,20 @@ Squad,Season,Opposition,Numbers,Call,CallType,Setup,Movement,Area,Drive,Crusader
 1st,2024/25,Hove,7,C3,New,C,D,Middle,False,False,False,,Reggie,Ryland,False
 1st,2024/25,Hove,7,C1,New,C,M,Back,False,False,False,,Reggie,Sam,False
 1st,2024/25,Hove,7,H3,New,H,X,Middle,True,False,False,,Reggie,John,True
+1st,2024/25,Eastbourne,7,H3,New,H,X,Middle,False,False,False,,Ben,Tom M,True
+1st,2024/25,Eastbourne,7,A2,New,A,D,Front,False,False,False,,Ben,Ryland,False
+1st,2024/25,Eastbourne,7,C1,New,C,M,Back,False,False,False,,Ben,Sam,True
+1st,2024/25,Eastbourne,7,C3,New,C,D,Middle,False,False,False,,Ben,Tom M,False
+1st,2024/25,Eastbourne,5,C2,New,C,M,Front,False,False,False,,Ben,Ryland,True
+1st,2024/25,Eastbourne,7,H1,New,H,X,Back,False,False,False,,Ben,Sam,True
+1st,2024/25,Eastbourne,5,C2,New,C,M,Front,False,False,False,,Ben,Ryland,True
+1st,2024/25,Eastbourne,7,A3,New,A,D,Middle,False,False,False,,Ben,Oscar,True
+1st,2024/25,Eastbourne,7,C*,New,C,X,Middle,False,False,False,,Ben,Oscar,True
+1st,2024/25,Eastbourne,7,C3,New,C,D,Middle,True,False,False,,Ben,Tom M,True
+1st,2024/25,Eastbourne,7,A3,New,A,D,Middle,False,False,False,,Ben,Sam,True
+1st,2024/25,Eastbourne,7,C1,New,C,M,Back,False,False,False,,Ben,Sam,True
+1st,2024/25,Eastbourne,7,C1,New,C,M,Back,False,False,False,,Ben,Sam,True
+1st,2024/25,Eastbourne,7,H3,New,H,X,Middle,True,False,False,,Ben,Tom M,True
 2nd,2022/23,Eastbourne,6,,Old,,X,Back,False,False,False,,George,Jules,True
 2nd,2022/23,Eastbourne,6,Matlow,Old,,X,Front,False,False,False,,George,Josh B,True
 2nd,2022/23,Eastbourne,5,,Old,,X,Middle,False,False,False,,George,Jules,True
@@ -946,3 +960,7 @@ Squad,Season,Opposition,Numbers,Call,CallType,Setup,Movement,Area,Drive,Crusader
 2nd,2024/25,Jersey Royals,5,,Old,,X,Middle,False,False,False,,Harrison,Rory,False
 2nd,2024/25,Jersey Royals,5,Red,Old,,X,Front,True,False,False,,Harrison,Ed,True
 2nd,2024/25,Jersey Royals,5,,Old,,X,Middle,False,False,False,,Harrison,Rory,True
+2nd,2024/25,Old Caterhamians,5,,Old,,X,Middle,False,False,False,,Harrison,Tim,True
+2nd,,,5,,Old,,X,Middle,False,False,False,,Harrison,Tim,True
+2nd,,,4,,Old,,X,Back,False,False,False,,Harrison,Tim,False
+2nd,,,5,,Old,,X,Middle,False,False,False,,Mark,Tim,True

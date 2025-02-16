@@ -1008,7 +1008,7 @@ def set_piece_h2h_chart(df=None, file=None):
             y=alt.Y(
                 "GameID:N", 
                 axis=None,
-                sort=alt.EncodingSortField(field="Date", order="ascending"), 
+                sort=alt.EncodingSortField(field="Date", order="descending"), 
                 scale=alt.Scale(padding=0),
             ),
             yOffset=alt.YOffset(
