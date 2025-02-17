@@ -621,8 +621,8 @@ def lineout_chart(squad=1, season=None, df=None, file=None):
 
     movement_chart = count_success_chart("Movement", squad, season, df=df)
     movement_chart["transform"][2:2] = [{"filter": {"param": f"select{f}"}} for f in types]
-    movement_chart["layer"][1]["encoding"]["y"]["axis"]["labels"] = False
-    movement_chart["layer"][1]["encoding"]["y"]["title"] = None
+    movement_chart["spec"]["layer"][1]["encoding"]["y"]["axis"]["labels"] = False
+    movement_chart["spec"]["layer"][1]["encoding"]["y"]["title"] = None
 
     call_chart = count_success_chart("Call", squad, season, df=df)
     call_chart["transform"][2:2] = [{"filter": {"param": f"select{f}"}} for f in types + ["Movement"]]
@@ -638,12 +638,12 @@ def lineout_chart(squad=1, season=None, df=None, file=None):
         chart["transform"][2:2] = filters
 
         if i < len(types) - 1:
-            chart["layer"][1]["encoding"]["y"]["axis"]["labels"] = False
-            chart["layer"][1]["encoding"]["y"]["title"] = None
+            chart["spec"]["layer"][1]["encoding"]["y"]["axis"]["labels"] = False
+            chart["spec"]["layer"][1]["encoding"]["y"]["title"] = None
         
         if i > 0:
-            chart["layer"][0]["encoding"]["y"]["axis"]["labels"] = False
-            chart["layer"][0]["encoding"]["y"]["title"] = None
+            chart["spec"]["layer"][0]["encoding"]["y"]["axis"]["labels"] = False
+            chart["spec"]["layer"][0]["encoding"]["y"]["title"] = None
         
         charts.append(alt.Chart.from_dict(chart))
 
