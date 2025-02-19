@@ -432,12 +432,6 @@ def team_sheet_chart(
 
 # LINEOUTS
 
-# Color scales
-n_scale = {
-    "domain": ["4", "5", "6", "7"], 
-    "range": ["#ca0020", "#f4a582", "#92c5de", "#0571b0"]
-}
-
 calls4 = ["Yes", "No", "Snap"]
 cols4 = ["#146f14", "#981515", "#981515"]
 calls7 = ["A*", "C*", "A1", "H1", "C1", "W1", "A2", "H2", "C2", "W2", "A3", "H3", "C3", "W3"]
@@ -445,224 +439,171 @@ cols7 = 2*["orange"] + 4*["#146f14"] + 4*["#981515"] + 4*["orange"]
 calls = ["Matlow", "Red", "Orange", "Plus", "Even +", "RD", "Even", "Odd", "Odd +", "Green +", "", "Green"]
 cols = 5*["#981515"] + 6*["orange"] + ["#146f14"]
 
-call_scale = {
-    "domain": calls4 + calls7 + calls,
-    "range": cols4 + cols7 + cols
-}
-setup_scale = {
-    "domain": ["A", "C", "H", "W"],
-    "range": ["dodgerblue", "crimson", "midnightblue", "black"]
-}
-setups = {"A": "Auckland", "C": "Canterbury", "H": "Highlanders", "W": "Waikato"}
-
-# Sort orders
-area_order = ["Front", "Middle", "Back"]
-area_scale = {
-    "domain": area_order, 
-    "range": ['#981515', 'orange', '#146f14']
+sort_orders = {
+    "Area": ["Front", "Middle", "Back"],
+    "Numbers": ["4", "5", "6", "7"],
+    "Setup": ["A", "C", "H", "W"],
+    "Movement": ["Jump", "Move", "Dummy"],
 }
 
+color_scales = {
+    "Area": alt.Scale(domain=sort_orders["Area"], range=['#981515', 'orange', '#146f14']),
+    "Numbers": alt.Scale(domain=sort_orders["Numbers"], range=["#ca0020", "#f4a582", "#92c5de", "#0571b0"]),
+    "Call": alt.Scale(domain=calls4+calls7+calls,range=cols4+cols7+cols),
+    "Setup": alt.Scale(domain=["A","C","H","W"], range=["dodgerblue", "crimson", "midnightblue", "black"]),
+    "Movement": alt.Scale(range=["#981515", "#146f14", "black"], domain=sort_orders["Movement"][::-1]),
+}
 
+types = ["Numbers", "Area", "Hooker", "Jumper", "Setup", "Movement", "Call"]
+type_selections = {type: alt.selection_point(fields=[type], empty="all") for type in types}
 
-def counts(type, squad=1, season=None, df=None):
+squad_selection = alt.param(
+        bind=alt.binding_radio(options=["1st", "2nd"], name="Squad"),
+        value="1st"
+    )
+
+def lineout_success_by_type(type, df=None, top=True, standalone=False):
+
+    color_scale = color_scales.get(type, alt.Scale(scheme="tableau20"))
+
+    min_count = 5 if type in ["Hooker", "Jumper", "Call"] else 0      
+
+    prop_y = alt.Y(
+        "Proportion:Q", 
+        title="Proportion", 
+        axis=alt.Axis(orient="left", format=".0%",), 
+        scale=alt.Scale(domain=[0, 1])
+    )
+    success_y = alt.Y(
+        "Success:Q", 
+        title="Success Rate", 
+        axis=alt.Axis(orient="right", format=".0%"),
+        scale=alt.Scale(domain=[0, 1])
+    )
     
-    if df is None:
-        df = lineouts()
+    # Base chart
+    base = (
+        alt.Chart(df if df is not None else {"name": "df", "url":'https://raw.githubusercontent.com/samnlindsay/egrfc-stats/main/data/lineouts.csv',"format":{'type':"csv"}})
+        .add_selection(type_selections[type])
+    )
+    if standalone:
+        base = base.add_selection(squad_selection)
 
-    df = df[df["Squad"] == ("1st" if squad == 1 else "2nd")]
-    if season:
-        df = df[df["Season"] == season]
+    for t,f in type_selections.items():
+        if t != type:
+            base = base.transform_filter(f)
 
-    df = df.groupby([type, "Season"]).agg(
-        Won = pd.NamedAgg(column="Won", aggfunc="sum"),
-        Lost = pd.NamedAgg(column="Won", aggfunc="sum"),
-        Total = pd.NamedAgg(column="Won", aggfunc="count")
-    ).reset_index()
-    df["Success"] = df.loc[:,"Won"] / df["Total"]
-    # Add column of sum(total) for each season
-    df["SeasonTotal"] = df.groupby("Season")["Total"].transform("sum")
-    df['Proportion'] = df['Total'] / df['SeasonTotal']
-    # "Won" / "Total" as a string
-    df["SuccessText"] = df.apply(lambda x: str(x["Won"]) + " / " + str(x["Total"]), axis=1)
+    base = (
+     base
+        .transform_aggregate(
+            Total="count()",
+            Success="mean(Won)",
+            groupby=[type, "Season", "Squad"]
+        )
+        .transform_joinaggregate(
+            SeasonTotal="sum(Total)",
+            groupby=["Season", "Squad"],
+        )
+        .transform_calculate(
+            Proportion="datum.Total / datum.SeasonTotal",
+            Won="round(datum.Success * datum.Total)",
+            SuccessText="format(datum.Success * datum.Total, '.0f') + ' / ' + format(datum.Total, '.0f')",
+            SuccessTooltip="'Won ' + format(datum.Won, '.0f') + ' of ' + format(datum.Total, '.0f') + ' lineouts (' + format(datum.Success, '.0%') + ')'",
+            ProportionTooltip="datum.Total + ' of ' + datum.SeasonTotal + ' lineouts total (' + format(datum.Proportion, '.0%') + ')'",
+        )
+        .transform_window(
+            ID="row_number()",
+            groupby=["Season", "Squad"],
+            sort=[alt.SortField("Total", order="descending"), alt.SortField("Success", order="descending")],
+        )
+        .transform_filter(f"datum.Total >= {min_count} & isValid(datum.{type})")
+        .encode(
+            x=alt.X(
+                f"{type}:N", 
+                title=None, 
+                sort=sort_orders.get(type, alt.SortField(field="ID")),
+            ),
+            color=alt.Color(f"{type}:N", legend=None, scale=color_scale),
+            opacity=alt.condition(type_selections[type], alt.value(0.8), alt.value(0.2)),
+            tooltip=[
+                f"{type}:N", 
+                alt.Tooltip("SuccessTooltip:N", title="Success"),
+                alt.Tooltip("ProportionTooltip:N", title="Proportion")
+            ] 
+        )
+    )
 
-    return df
+    # Proportion of total
+    bars = (
+        base.mark_bar(opacity=0.8, stroke="black")
+        .encode(
+            y=prop_y,            
+            strokeWidth=alt.condition(
+                type_selections[type],
+                alt.value(1.5),
+                alt.value(0)
+            )
+        )
+    )
+    bar_text = (
+        base.mark_text(align="center", baseline="bottom", dy=-5, strokeWidth=1)
+        .encode(y=prop_y, text=alt.Text("SuccessText:N"))
+    )
+    proportion = alt.layer(bars, bar_text)
 
-def count_success_chart(type, squad=1, season=None, as_dict=False, min=1, df=None):
-    
-    if df is None:
-        df = lineouts()
-    
-    df = df[df["Squad"] == ("1st" if squad == 1 else "2nd")]
-    if season:
-        df = df[df["Season"] == season]
-    
-    with open("lineout-template.json") as f:
-        chart = json.load(f)
+    # Success rate
+    line = (
+        base.mark_line(strokeWidth=1)
+        .encode(
+            y=success_y, 
+            color=alt.value("black"), 
+            opacity=alt.condition(type_selections[type], alt.value(0.5), alt.value(0))
+        )
+    )
+    points = (
+        base.mark_point(stroke="black", filled=True, size=50, fillOpacity=1.0)
+        .encode(y=success_y, color=alt.Color(f"{type}:N", legend=None))
+    )
+    line_text = (
+        base.mark_text(yOffset=-15, fontSize=14)
+        .encode(y=success_y, text=alt.Text("Success:Q", format=".0%"), color=alt.value("black"))
+    )
+    success = alt.layer(line, points, line_text)
 
-    if season is None:
-        chart["title"]["text"] = f"Lineout Stats by {type}"
+    # Facet by Season
+    facet_chart = (
+        alt.layer(proportion, success)
+        .properties(width=250, height=300)
+        .facet(column=alt.Column("Season:N", header=alt.Header(title=None, labels=top, labelFontSize=40, labelColor="#20294688")))
+        .resolve_scale(x="independent" if type in ["Call", "Jumper", "Hooker"] else "shared")
+        .transform_filter(f"datum.Squad == {squad_selection.name}")
+        .properties(title=alt.Title(text=f"{type}", orient="left",anchor="middle", color="#20294688", offset=30, fontSize=72))
+    )
 
-        subtitle = {
-            "Area": "Area of the lineout targeted",
-            "Numbers": "Number of players in the lineout (not including the hooker and receiver)",
-            "Jumper": [f"Minimum {min} lineouts", "NOTE: Jumper success is dependent on other factors, such as the throw and lift."],
-            "Hooker": [f"Minimum {min} lineouts", "NOTE: Hooker success is dependent on other factors, such as the jumper and lifting pod winning the ball."],
-            "Call": [f"Minimum {min} lineouts", "Colour denotes calls to the front (red), middle (orange), or back (green)."],
-            "Setup": "Lineout setups introduced in the 2023/24 season - Auckland, Canterbury, Highlanders, Waikato.",
-            "Movement": [
-                "Type of movements:", 
-                "    - 'Jump' - the jumper is lifted where he stands",
-                "    - 'Move' - moves to the jumping position after entering the lineout",
-                "    - 'Dummy' - there is a dummy jump first"
-            ]
-        }
-        chart["title"]["subtitle"] = subtitle[type]
+    return facet_chart  
 
-    chart["spec"]["layer"][0]["layer"][0]["params"][0]["name"] = f"select{type}"
-    chart["spec"]["layer"][0]["layer"][0]["params"][0]["select"]["fields"] = [type]
-    chart["spec"]["encoding"]["opacity"]["condition"]["param"] = f"select{type}"
-    chart["spec"]["encoding"]["x"]["field"] = type
-    chart["spec"]["encoding"]["color"]["field"] = type
-    chart["spec"]["encoding"]["tooltip"][0]["field"] = type
-    chart["resolve"]["scale"]["x"] = "independent"
-    chart["resolve"]["scale"]["color"] = "shared"
-    chart["transform"][0]["groupby"].append(type)
-    chart["transform"][2]["groupby"].append(type)
+def lineout_success(types=types, df=None, file=None):
+    charts = [lineout_success_by_type(t, df=df, top=(i==0)) for i,t in enumerate(types)]
 
-    # Unique IDs for Jumper/Hooker/Setup/Movement/Call
-    df["JumperID"] = df.loc[:,"Jumper"].astype("category").cat.codes
-    df["HookerID"] = df.loc[:,"Hooker"].astype("category").cat.codes
-    df["SetupID"] = df.loc[:,"Setup"].astype("category").cat.codes
-    df["MovementID"] = df.loc[:,"Movement"].astype("category").cat.codes
-    df["CallID"] = df.loc[:,"Call"].astype("category").cat.codes
-    if type in ["Jumper", "Hooker", "Setup", "Movement", "Call"]:
-        chart["transform"].append({"calculate": f"datum.Total + datum.Success + 0.01*datum.{type}ID", "as": "sortcol"})
-        chart["transform"][0]["groupby"].append(f"{type}ID")
-        chart["transform"][2]["groupby"].append(f"{type}ID")
-        
-
-    if type == "Area":
-        chart["spec"]["encoding"]["color"]["scale"] = area_scale
-        chart["spec"]["encoding"]["color"]["sort"] = "descending"
-        chart["spec"]["encoding"]["x"]["sort"] = area_order
-        chart["spec"]["encoding"]["x"]["title"] = f"Target {type}"
-
-
-    if type == "Numbers":
-        chart["spec"]["encoding"]["color"]["scale"] = n_scale
-
-    if type in ["Jumper", "Hooker"]:
-        if type=="Jumper":
-            chart["spec"]["width"]["step"] = 40
-        chart["spec"]["encoding"]["color"]["scale"] = {"scheme": "tableau20"}
-        chart["spec"]["encoding"]["color"]["sort"] = {"field": "Total", "order": "descending"}
-        chart["spec"]["encoding"]["x"]["sort"] = {"field": "sortcol", "order": "descending"}
-
-    if type == "Call":
-        chart["spec"]["width"]["step"] = 30 if season is None else 40
-        chart["spec"]["encoding"]["x"]["sort"] = {"field": "sortcol", "order": "descending"}
-        chart["spec"]["encoding"]["x"]["title"] = None
-        chart["spec"]["encoding"]["color"]["scale"] = call_scale
-        chart["transform"][0]["groupby"].append("CallType")
-        chart["transform"][2]["groupby"].append("CallType")
-
-    if type == "Setup":
-        chart["spec"]["encoding"]["x"]["sort"] = {"field": "sortcol", "order": "descending"}
-        chart["spec"]["encoding"]["color"]["scale"] = setup_scale
-        chart["spec"]["encoding"]["color"]["legend"] = None if season else {"title": "Setup", "orient": "right", "labelExpr": "datum.label == 'A' ? 'Auckland' : (datum.label == 'C' ? 'Canterbury' : (datum.label == 'H' ? 'Highlanders' : 'Waikato'))"}
-        chart["transform"].append({"filter": "datum.Setup != null"})
-    
-    if type == "Movement":
-        chart["spec"]["encoding"]["x"]["sort"] = {"field": "sortcol", "order": "descending"}
-        chart["spec"]["encoding"]["color"]["scale"] = {"range": ["#981515", "#146f14", "black"]}            
-        chart["spec"]["encoding"]["x"]["axis"] = {
-            "ticks": False,
-            "labelExpr": "datum.label == 'D' ? 'Dummy' : (datum.label == 'M' ? 'Move' : 'Jump')",
-            "labelFontSize": 12,
-            "labelPadding": 10
-        }
-
-
-    chart["transform"].insert(0, deepcopy(chart["transform"][0]))
-    chart["transform"][0]["joinaggregate"][0]["as"] = "TotalOverall"
-    chart["transform"][1]["joinaggregate"][0]["as"] = "Total"
-    chart["transform"].insert(1, {"filter": f"datum.TotalOverall >= {min}"})
-
-    if season:
-        if type == "Call":
-            chart["facet"] = {
-                "field": "CallType", 
-                "header": {"title": "Call", "orient": "bottom"},
-                "sort": ["Standard", "4-man only", "6/7-man only"]
-            }
-        else:
-            chart.update(chart["spec"])
-            chart["resolve"]["scale"]["x"] = "shared"
-            del chart["facet"]
-            del chart["spec"]
-    
-    chart["data"]["values"] = df.to_dict(orient="records")
-    
-    if as_dict:
-        return chart
-    else:
-        return alt.Chart.from_dict(chart)
-
-def lineout_chart(squad=1, season=None, df=None, file=None):
-
-    if df is None:
-        df = lineouts()
-
-    df = df[df["Squad"] == ("1st" if squad == 1 else "2nd")]
-    if season:
-        df = df[df["Season"] == season]
-
-    types = ["Numbers", "Area", "Hooker", "Jumper", "Setup"]
-
-    movement_chart = count_success_chart("Movement", squad, season, df=df)
-    movement_chart["transform"][2:2] = [{"filter": {"param": f"select{f}"}} for f in types]
-    movement_chart["spec"]["layer"][1]["encoding"]["y"]["axis"]["labels"] = False
-    movement_chart["spec"]["layer"][1]["encoding"]["y"]["title"] = None
-
-    call_chart = count_success_chart("Call", squad, season, df=df)
-    call_chart["transform"][2:2] = [{"filter": {"param": f"select{f}"}} for f in types + ["Movement"]]
-    call_chart["spec"]["layer"][0]["encoding"]["y"]["axis"]["labels"] = False
-    call_chart["spec"]["layer"][0]["encoding"]["y"]["title"] = None
-    
-    charts = []
-    for i,t in enumerate(types):
-        min = 3 if t in ["Hooker", "Jumper"] else 1
-        chart = count_success_chart(t, squad, season, as_dict=True, min=min, df=df)
-
-        filters = [{"filter": {"param": f"select{f}"}} for f in types + ["Movement"] if f != t]
-        chart["transform"][2:2] = filters
-
-        if i < len(types) - 1:
-            chart["spec"]["layer"][1]["encoding"]["y"]["axis"]["labels"] = False
-            chart["spec"]["layer"][1]["encoding"]["y"]["title"] = None
-        
-        if i > 0:
-            chart["spec"]["layer"][0]["encoding"]["y"]["axis"]["labels"] = False
-            chart["spec"]["layer"][0]["encoding"]["y"]["title"] = None
-        
-        charts.append(alt.Chart.from_dict(chart))
-
-    bottom = alt.hconcat(movement_chart, call_chart).resolve_scale(color='independent', y="shared")
-    top = alt.hconcat(*charts).resolve_scale(color='independent', y="shared")
-
-    chart = alt.vconcat(top, bottom).resolve_scale(color='independent')
-
-    chart["title"] = {
-        "text": f"{'1st' if squad==1 else '2nd'} XV Lineouts",
-        "subtitle": [
-            "Distribution of lineouts (bar), and success rate (line). Click to highlight and filter.",
-            "Success is defined as retaining possession when the lineout ends, and does not distinguish between an unsuccessful throw, a knock-on, or a penalty."
-        ]  
-    }
+    chart = (
+        alt.vconcat(*charts)
+        .resolve_scale(color="independent")
+        .add_params(squad_selection)
+        .properties(
+            title=alt.Title(
+                text="Lineout Success", 
+                subtitle = [
+                    "Distribution of lineouts (bar), and success rate (line). Click to highlight and filter.",
+                    "Success is defined as being in possession when the lineout ends, and does not necessarily mean clean ball or perfect execution."
+                ]
+            )
+        )
+    )
     if file:
         chart.save(file)
-
+        hack_params_css(file)
     return chart
+
 
 
 def points_scorers_chart(df=None, file=None):

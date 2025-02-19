@@ -169,7 +169,7 @@ def lineouts():
     df = pd.concat([l1, l2]).replace("", pd.NA).fillna("")
 
     df["Area"] = df.apply(lambda x: "Front" if x["Front"] == "x" else ("Middle" if x["Middle"]=="x" else "Back"), axis=1)
-    df["Won"] = df.apply(lambda x: True if x["Won"] == "Y" else False, axis=1)
+    df["Won"] = df.apply(lambda x: 1 if x["Won"] == "Y" else 0, axis=1)
     df["Drive"] = df.apply(lambda x: True if x["Drive"] == "x" else False, axis=1)
     df["Crusaders"] = df.apply(lambda x: True if x["Crusaders"] == "x" else False, axis=1)
     df["Transfer"] = df.apply(lambda x: True if x["Transfer"] == "x" else False, axis=1)
