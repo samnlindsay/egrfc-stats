@@ -516,7 +516,7 @@ def lineout_success_by_type(type, df=None, top=True, standalone=False):
             groupby=["Season", "Squad"],
             sort=[alt.SortField("Total", order="descending"), alt.SortField("Success", order="descending")],
         )
-        .transform_filter(f"datum.Total >= {min_count} & isValid(datum.{type})")
+        .transform_filter(f"datum.Total >= {min_count} & datum.{type}!=''")
         .encode(
             x=alt.X(
                 f"{type}:N", 
