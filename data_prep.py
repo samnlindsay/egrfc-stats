@@ -145,20 +145,20 @@ def call_type(call):
 
     if call in ["Snap", "Yes", "No"]:
         return "4-man only"
-    elif call in ["", "Red", "Orange", "RD", "Even", "Odd", "Green", "Plus", "Even +", "Odd +", "Green +", "Matlow"]:
+    elif call in ["Red", "Orange", "RD", "Even", "Odd", "Green", "Plus", "Even +", "Odd +", "Green +", "Matlow"]:
         return "Old"
     elif call in ["C*", "A*", "C1", "C2", "C3", "H1", "H2", "H3", "A1", "A2", "A3", "W1", "W2", "W3"]:
-        return "New"
+        return "New"    
     else:
         return "Other"
     
 def dummy_movement(call):
     if call in ["RD", "Plus", "Even +", "Odd +", "Green +", "C3", "A1", "A2", "A3", "No"]:
-        return "D"
+        return "Dummy"
     elif call in ["Yes", "C1", "C2"]:
-        return "M"
+        return "Move"
     else:
-        return "X"
+        return "Jump"
 
 def lineouts():
     l1, l2 = [sheet[s].batch_get(['B3:R'])[0] for s in [6, 9]]

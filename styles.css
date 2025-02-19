@@ -1,6 +1,6 @@
 /* Define variables at the root level */
 :root {
-    --primary-color: rgb(32, 41, 70);
+    --primary-color: #202946;
     --accent-color: #7d96e8;
     --light-color: #e5e4e7;
     --dark-color: #333333;

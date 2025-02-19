@@ -1,966 +1,966 @@
 Squad,Season,Opposition,Numbers,Call,CallType,Setup,Movement,Area,Drive,Crusaders,Transfer,Flyby,Hooker,Jumper,Won
-1st,2021/22,London Irish,5,,Old,,X,Middle,False,False,False,,Ben,Sam,True
-1st,2021/22,London Irish,4,Snap,4-man only,,X,Front,False,False,False,,Ben,Gus,True
-1st,2021/22,London Irish,6,Even,Old,,X,Middle,True,False,False,,Ben,Sam,True
-1st,2021/22,London Irish,6,,Old,,X,Middle,True,False,False,,Ben,Sam,True
-1st,2021/22,London Irish,6,Green,Old,,X,Back,False,False,False,,Ben,Rory,True
-1st,2021/22,London Irish,5,,Old,,X,Middle,False,False,False,,Ben,Sam,False
-1st,2021/22,London Irish,4,Yes,4-man only,,M,Back,False,False,False,,Ben,Sam,False
-1st,2021/22,London Irish,4,Snap,4-man only,,X,Front,False,False,False,,Ben,Gus,True
-1st,2021/22,London Irish,4,Snap,4-man only,,X,Front,False,False,False,,Ben,Gus,False
-1st,2021/22,London Irish,5,RD,Old,,D,Middle,False,False,False,,Ben,Sam,True
-1st,2021/22,London Irish,6,Red,Old,,X,Front,False,False,False,,Ben,Gus,True
-1st,2021/22,Horsham 2nd,5,RD,Old,,D,Middle,False,False,False,,Ben,Sam,True
-1st,2021/22,Horsham 2nd,6,,Old,,X,Middle,False,False,False,,Ben,Sam,True
-1st,2021/22,Horsham 2nd,5,,Old,,X,Middle,False,False,False,,Ben,Sam,True
-1st,2021/22,Horsham 2nd,7,,Old,,X,Middle,False,False,False,,Ben,Sam,True
-1st,2021/22,Horsham 2nd,4,Yes,4-man only,,M,Back,False,False,False,,Ben,Sam,True
-1st,2021/22,Horsham 2nd,4,No,4-man only,,D,Front,False,False,False,,Ben,Sam,True
-1st,2021/22,Horsham 2nd,6,Odd,Old,,X,Middle,True,False,False,,Ben,Tim,False
-1st,2021/22,Horsham 2nd,6,,Old,,X,Middle,True,False,False,,Ben,Sam,True
-1st,2021/22,Horsham 2nd,6,,Old,,X,Middle,True,False,False,,Ben,Sam,True
-1st,2021/22,Horsham 2nd,6,Odd,Old,,X,Middle,True,False,False,,Ben,Tim,True
-1st,2021/22,Horsham 2nd,5,Red,Old,,X,Front,False,False,False,,Ben,Pete,True
-1st,2021/22,Horsham 2nd,6,,Old,,X,Middle,True,False,False,,Ben,Sam,True
-1st,2021/22,Horsham 2nd,6,RD,Old,,D,Middle,True,False,False,,Ben,Sam,True
-1st,2021/22,Horsham 2nd,4,Snap,4-man only,,X,Front,False,False,False,,Ben,Pete,True
-1st,2021/22,Horsham 2nd,6,,Old,,X,Middle,True,False,False,,Ben,Sam,True
-1st,2021/22,Horsham 2nd,6,RD,Old,,D,Middle,True,False,False,,Ben,Sam,True
-1st,2021/22,Eastbourne,4,Snap,4-man only,,X,Front,False,False,False,,Ben,John,True
-1st,2021/22,Eastbourne,4,Yes,4-man only,,M,Back,False,False,False,,Ben,Sam,True
-1st,2021/22,Eastbourne,6,,Old,,X,Middle,True,False,False,,Ben,Sam,True
-1st,2021/22,Eastbourne,4,Snap,4-man only,,X,Front,False,False,False,,Ben,John,True
-1st,2021/22,Eastbourne,6,,Old,,X,Middle,True,False,False,,Ben,Sam,True
-1st,2021/22,Eastbourne,4,No,4-man only,,D,Front,False,False,False,,Ben,Sam,True
-1st,2021/22,Eastbourne,5,,Old,,X,Middle,False,False,False,,Ben,Sam,False
-1st,2021/22,Eastbourne,4,No,4-man only,,D,Front,False,False,False,,Ben,Sam,True
-1st,2021/22,Eastbourne,6,,Old,,X,Middle,True,False,False,,Ben,Sam,True
-1st,2021/22,Eastbourne,6,Red,Old,,X,Front,True,False,False,,Ben,John,True
-1st,2021/22,Eastbourne,4,Snap,4-man only,,X,Front,False,False,False,,Ben,John,True
-1st,2021/22,Eastbourne,6,Odd,Old,,X,Middle,False,False,False,,Ben,Dan B,False
-1st,2021/22,Eastbourne,4,Yes,4-man only,,M,Back,False,False,False,,Ben,Sam,True
-1st,2021/22,Eastbourne,5,,Old,,X,Middle,False,False,False,,Ben,Sam,True
-1st,2021/22,Eastbourne,5,,Old,,X,Middle,False,False,False,,Ben,Sam,True
-1st,2021/22,Eastbourne,6,,Old,,X,Middle,True,False,False,,Ben,Sam,True
-1st,2021/22,Eastbourne,6,RD,Old,,D,Middle,True,False,False,,Ben,Sam,True
-1st,2021/22,Burgess Hill,4,Yes,4-man only,,M,Back,False,False,False,,Ben,Sam,True
-1st,2021/22,Burgess Hill,4,Yes,4-man only,,M,Back,False,False,False,,Ben,Sam,True
-1st,2021/22,Burgess Hill,6,RD,Old,,D,Middle,False,False,False,,Ben,Sam,False
-1st,2021/22,Burgess Hill,6,,Old,,X,Middle,False,False,False,1.0,Ben,Sam,True
-1st,2021/22,Burgess Hill,6,RD,Old,,D,Middle,False,False,False,2.0,Ben,Sam,True
-1st,2021/22,Burgess Hill,4,No,4-man only,,D,Front,True,False,False,,Ben,Sam,True
-1st,2021/22,Lewes,5,,Old,,X,Middle,True,False,False,,Ben,John,True
-1st,2021/22,Lewes,5,,Old,,X,Middle,False,False,False,,Ben,John,False
-1st,2021/22,Lewes,4,Yes,4-man only,,M,Back,False,False,False,,Ben,John,True
-1st,2021/22,Lewes,5,Red,Old,,X,Front,False,False,False,,Ben,Ryan,True
-1st,2021/22,Lewes,4,Snap,4-man only,,X,Front,False,False,False,,Ben,Ryan,True
-1st,2021/22,Uckfield,6,Even,Old,,X,Middle,False,False,False,,Ben,John,True
-1st,2021/22,Uckfield,6,Red,Old,,X,Front,True,False,True,,Ben,Dan A,True
-1st,2021/22,Uckfield,5,,Old,,X,Middle,False,False,False,,Ben,John,True
-1st,2021/22,Uckfield,4,Snap,4-man only,,X,Front,False,False,False,,Ben,Dan A,False
-1st,2021/22,Uckfield,6,,Old,,X,Middle,True,False,False,,Ben,John,True
-1st,2021/22,Uckfield,5,RD,Old,,D,Middle,False,False,False,,Ben,John,True
-1st,2021/22,Uckfield,6,Red,Old,,X,Front,True,False,False,,Ben,Dan A,True
-1st,2021/22,Uckfield,4,No,4-man only,,D,Back,False,False,False,,Ben,John,True
-1st,2021/22,Uckfield,5,,Old,,X,Middle,False,False,False,,Ben,John,False
-1st,2021/22,Uckfield,5,,Old,,X,Middle,False,False,False,,Ben,John,True
-1st,2021/22,Uckfield,6,,Old,,X,Middle,True,False,False,,Ben,John,True
-1st,2021/22,Seaford,4,No,4-man only,,D,Front,False,False,False,,Ben,Sam,True
-1st,2021/22,Seaford,4,Yes,4-man only,,M,Back,False,False,False,,Ben,Sam,True
-1st,2021/22,Seaford,5,,Old,,X,Middle,False,False,False,,Ben,Sam,False
-1st,2021/22,Seaford,4,No,4-man only,,D,Front,True,False,False,,Ben,Sam,True
-1st,2021/22,Seaford,4,Snap,4-man only,,X,Front,False,False,False,,Ben,John,True
-1st,2021/22,Seaford,4,Yes,4-man only,,M,Back,False,False,False,,Ben,Sam,True
-1st,2021/22,Seaford,5,,Old,,X,Middle,False,False,False,,Ben,Sam,True
-1st,2021/22,Seaford,4,Yes,4-man only,,M,Back,False,False,False,,Ben,Sam,True
-1st,2021/22,Seaford,4,Snap,4-man only,,X,Front,False,False,False,,Ben,John,True
-1st,2021/22,Seaford,6,,Old,,X,Middle,True,False,False,,Ben,Sam,True
-1st,2021/22,Seaford,4,Snap,4-man only,,X,Front,True,False,False,,Ben,John,True
-1st,2021/22,Seaford,4,Yes,4-man only,,M,Back,False,False,False,,Ben,Sam,True
-1st,2021/22,Burgess Hill,4,Yes,4-man only,,M,Back,False,False,False,,Ben,Sam,True
-1st,2021/22,Burgess Hill,6,,Old,,X,Middle,True,False,False,,Ben,Sam,True
-1st,2021/22,Burgess Hill,4,No,4-man only,,D,Front,False,False,False,,Ben,Sam,True
-1st,2021/22,Burgess Hill,4,Yes,4-man only,,M,Back,False,False,False,,Ben,Sam,True
-1st,2021/22,Burgess Hill,5,RD,Old,,D,Middle,False,False,False,,Ben,Sam,True
-1st,2021/22,Burgess Hill,5,,Old,,X,Middle,False,False,False,,Ben,Sam,True
-1st,2021/22,Burgess Hill,5,RD,Old,,D,Middle,True,False,False,,Ben,Sam,True
-1st,2021/22,Burgess Hill,4,Yes,4-man only,,M,Back,False,False,False,,Ben,Sam,True
-1st,2021/22,Burgess Hill,4,No,4-man only,,D,Front,False,False,False,,Ben,Sam,False
-1st,2021/22,Burgess Hill,6,Odd,Old,,X,Middle,True,False,False,,Ben,John,True
-1st,2021/22,Burgess Hill,4,Yes,4-man only,,M,Back,False,False,False,,Ben,Sam,True
-1st,2021/22,Burgess Hill,6,RD,Old,,D,Middle,True,False,False,,Ben,Sam,True
-1st,2021/22,Burgess Hill,6,,Old,,X,Middle,False,False,False,2.0,Ben,Sam,True
-1st,2021/22,Burgess Hill,4,Yes,4-man only,,M,Back,False,False,False,,Ben,Sam,True
-1st,2021/22,Eastbourne,4,Snap,4-man only,,X,Front,False,False,False,,Ben,Sam,True
-1st,2021/22,Eastbourne,6,,Old,,X,Middle,True,False,False,,Ben,Sam,True
-1st,2021/22,Eastbourne,4,Yes,4-man only,,M,Back,True,False,False,,Ben,Sam,True
-1st,2021/22,Eastbourne,7,,Old,,X,Middle,False,False,False,2.0,Ben,Sam,True
-1st,2021/22,Eastbourne,5,RD,Old,,D,Middle,False,False,False,,Ben,Sam,True
-1st,2021/22,Eastbourne,4,Yes,4-man only,,M,Back,False,False,False,,Ben,Sam,True
-1st,2021/22,Eastbourne,7,,Old,,X,Middle,True,False,False,,Ben,Sam,True
-1st,2021/22,Eastbourne,4,Snap,4-man only,,X,Front,False,False,False,,Ben,Sam,True
-1st,2021/22,Eastbourne,7,,Old,,X,Middle,True,False,False,,Ben,Sam,True
-1st,2021/22,Eastbourne,5,,Old,,X,Middle,False,False,False,,Ben,Sam,True
-1st,2021/22,Eastbourne,6,,Old,,X,Middle,False,False,False,,Ben,Sam,True
-1st,2021/22,Uckfield,4,Yes,4-man only,,M,Back,False,False,False,,Ben,Sam,True
-1st,2021/22,Uckfield,7,RD,Old,,D,Middle,False,False,False,,Ben,Sam,True
-1st,2021/22,Uckfield,4,Snap,4-man only,,X,Front,True,False,False,,Ben,John,True
-1st,2021/22,Uckfield,5,,Old,,X,Middle,False,False,False,,Ben,Sam,True
-1st,2021/22,Uckfield,4,No,4-man only,,D,Middle,True,False,False,,Ben,Sam,True
-1st,2021/22,Uckfield,4,Snap,4-man only,,X,Front,False,False,False,,Ben,John,False
-1st,2022/23,Lewes,4,Yes,4-man only,,M,Back,False,False,False,,Josh,Sam,False
-1st,2022/23,Lewes,6,RD,Old,,D,Middle,True,False,False,,Josh,Sam,True
-1st,2022/23,Lewes,7,,Old,,X,Middle,False,False,False,,Josh,Sam,False
-1st,2022/23,Lewes,4,Snap,4-man only,,X,Front,False,False,False,,Josh,John,True
-1st,2022/23,Lewes,4,Snap,4-man only,,X,Front,True,False,False,,Josh,John,True
-1st,2022/23,Lewes,7,,Old,,X,Middle,False,False,False,2.0,Josh,Sam,True
-1st,2022/23,Lewes,5,Red,Old,,X,Front,False,False,False,,Josh,John,True
-1st,2022/23,Lewes,5,,Old,,X,Middle,False,False,False,,Josh,Sam,True
-1st,2022/23,Lewes,7,,Old,,X,Middle,False,False,False,,Josh,Sam,True
-1st,2022/23,Lewes,4,Yes,4-man only,,M,Back,False,False,False,,Josh,Sam,True
-1st,2022/23,Lewes,4,Snap,4-man only,,X,Front,False,False,False,,Josh,John,False
-1st,2022/23,Lewes,5,,Old,,X,Middle,False,False,False,,Josh,Sam,True
-1st,2022/23,Lewes,4,Snap,4-man only,,X,Front,False,False,False,,Josh,John,True
-1st,2022/23,Uckfield,6,RD,Old,,D,Middle,True,False,False,,Ben,Sam,True
-1st,2022/23,Uckfield,4,Snap,4-man only,,X,Front,False,False,False,,Ben,John,True
-1st,2022/23,Uckfield,6,,Old,,X,Middle,True,False,False,,Ben,Sam,True
-1st,2022/23,Crawley,4,Yes,4-man only,,M,Back,False,False,False,,Ben,Sam,True
-1st,2022/23,Crawley,4,Snap,4-man only,,X,Front,False,False,False,,Ben,John,True
-1st,2022/23,Crawley,6,,Old,,X,Middle,True,False,False,,Ben,Sam,True
-1st,2022/23,Crawley,4,Snap,4-man only,,X,Front,True,False,False,,Ben,John,True
-1st,2022/23,Crawley,5,RD,Old,,D,Middle,False,False,False,,Ben,Sam,True
-1st,2022/23,Crawley,6,,Old,,X,Middle,True,False,True,,Ben,Sam,True
-1st,2022/23,Crawley,4,No,4-man only,,D,Front,False,False,False,,Ben,Sam,True
-1st,2022/23,Crawley,5,,Old,,X,Middle,True,False,False,,Ben,Sam,True
-1st,2022/23,Crawley,5,Red,Old,,X,Front,False,False,False,,Ben,John,True
-1st,2022/23,Crawley,5,,Old,,X,Middle,False,False,False,,Ben,Sam,True
-1st,2022/23,Crawley,4,Snap,4-man only,,X,Front,True,False,False,,Ben,John,True
-1st,2022/23,Shoreham,4,Snap,4-man only,,X,Front,False,False,False,,Ben,John,True
-1st,2022/23,Shoreham,4,Snap,4-man only,,X,Front,False,False,False,,Ben,John,True
-1st,2022/23,Shoreham,5,,Old,,X,Middle,False,False,False,,Ben,Sam,True
-1st,2022/23,Shoreham,4,Yes,4-man only,,M,Back,True,False,False,,Ben,Sam,True
-1st,2022/23,Shoreham,4,Yes,4-man only,,M,Back,False,False,False,,Ben,Sam,True
-1st,2022/23,Shoreham,5,RD,Old,,D,Middle,False,False,False,,Ben,Sam,True
-1st,2022/23,Shoreham,4,Snap,4-man only,,X,Front,False,False,False,,Ben,John,True
-1st,2022/23,Shoreham,5,Even,Old,,X,Middle,False,False,False,,Ben,Sam,True
-1st,2022/23,Shoreham,4,Snap,4-man only,,X,Front,False,False,False,,Ben,John,True
-1st,2022/23,Shoreham,6,RD,Old,,D,Middle,True,False,False,,Ben,Sam,True
-1st,2022/23,Seaford,6,RD,Old,,D,Middle,True,False,False,,Ben,Sam,True
-1st,2022/23,Seaford,6,,Old,,X,Middle,True,False,False,,Ben,Sam,True
-1st,2022/23,Seaford,4,No,4-man only,,D,Middle,False,False,False,,Ben,Sam,False
-1st,2022/23,Seaford,5,,Old,,X,Middle,False,False,False,,Ben,Sam,True
-1st,2022/23,Seaford,5,,Old,,X,Middle,False,False,False,,Ben,Sam,True
-1st,2022/23,Seaford,4,Snap,4-man only,,X,Front,True,False,False,,Ben,John,True
-1st,2022/23,Seaford,4,Yes,4-man only,,M,Back,False,False,False,,Ben,Sam,True
-1st,2022/23,Burgess Hill,4,Snap,4-man only,,X,Front,False,False,False,,Ben,John,True
-1st,2022/23,Burgess Hill,6,RD,Old,,D,Middle,True,False,False,,Ben,Sam,True
-1st,2022/23,Burgess Hill,4,No,4-man only,,D,Front,True,False,False,,Ben,Sam,True
-1st,2022/23,Burgess Hill,6,RD,Old,,D,Middle,True,False,True,,Ben,Sam,False
-1st,2022/23,Burgess Hill,4,Snap,4-man only,,X,Front,False,False,False,,Ben,John,True
-1st,2022/23,Burgess Hill,5,,Old,,X,Middle,False,False,False,,Ben,Sam,True
-1st,2022/23,Burgess Hill,5,,Old,,X,Middle,False,False,False,,Ben,Sam,True
-1st,2022/23,Burgess Hill,6,Plus,Old,,D,Front,True,False,False,,Ben,Sam,True
-1st,2022/23,Burgess Hill,4,Snap,4-man only,,X,Front,True,False,False,,Ben,John,True
-1st,2022/23,Burgess Hill,6,,Old,,X,Middle,False,False,False,2.0,Ben,Sam,True
-1st,2022/23,Burgess Hill,6,,Old,,X,Middle,True,False,False,,Ben,Sam,True
-1st,2022/23,Burgess Hill,4,Snap,4-man only,,X,Front,False,False,False,,Ben,Sam,True
-1st,2022/23,Burgess Hill,5,,Old,,X,Middle,False,False,False,,Ben,John,True
-1st,2022/23,Burgess Hill,4,Yes,4-man only,,M,Back,False,False,False,,Ben,John,True
-1st,2022/23,Eastbourne,4,No,4-man only,,D,Front,False,False,False,,Ben,John,True
-1st,2022/23,Eastbourne,5,,Old,,X,Middle,False,False,False,,Ben,John,True
-1st,2022/23,Eastbourne,4,Snap,4-man only,,X,Front,False,False,False,,Ben,John,True
-1st,2022/23,Eastbourne,5,Red,Old,,X,Front,False,False,False,,Ben,Dan B,False
-1st,2022/23,Eastbourne,5,,Old,,X,Front,False,False,False,,Ben,John,True
-1st,2022/23,Eastbourne,5,RD,Old,,D,Middle,False,False,False,,Ben,John,False
-1st,2022/23,Eastbourne,6,,Old,,X,Middle,True,False,False,,Ben,John,True
-1st,2022/23,Eastbourne,4,Snap,4-man only,,X,Front,False,False,False,,Ben,John,True
-1st,2022/23,Eastbourne,4,Snap,4-man only,,X,Front,False,False,False,,Ben,John,True
-1st,2022/23,Eastbourne,6,,Old,,X,Middle,True,False,False,,Ben,John,False
-1st,2022/23,Eastbourne,5,,Old,,X,Middle,False,False,False,,Ben,Dan B,True
-1st,2022/23,Eastbourne,5,,Old,,X,Middle,False,False,False,,Ben,Dan B,True
-1st,2022/23,Eastbourne,5,,Old,,X,Middle,False,False,False,,Ben,Dan B,False
-1st,2022/23,Eastbourne,5,Even,Old,,X,Middle,False,False,False,,Ben,Dan B,True
-1st,2022/23,Haywards Heath,5,,Old,,X,Middle,False,False,False,,Ben,John,True
-1st,2022/23,Haywards Heath,4,Snap,4-man only,,X,Front,False,False,False,,Ben,John,True
-1st,2022/23,Haywards Heath,6,Even,Old,,X,Middle,True,False,False,,Ben,John,False
-1st,2022/23,Haywards Heath,6,Red,Old,,X,Front,False,False,False,,Ben,Pete,False
-1st,2022/23,Haywards Heath,5,,Old,,X,Middle,False,False,False,,Ben,John,True
-1st,2022/23,Haywards Heath,5,RD,Old,,D,Middle,False,False,False,,Ben,John,False
-1st,2022/23,Haywards Heath,4,Yes,4-man only,,M,Back,False,False,False,,Ben,John,False
-1st,2022/23,Haywards Heath,4,No,4-man only,,D,Front,True,False,False,,Ben,John,True
-1st,2022/23,Haywards Heath,6,,Old,,X,Middle,True,False,False,,Ben,John,True
-1st,2022/23,Haywards Heath,6,,Old,,X,Middle,True,False,False,,Ben,John,True
-1st,2022/23,Haywards Heath,5,RD,Old,,D,Middle,False,False,False,,Josh,John,True
-1st,2022/23,Haywards Heath,4,Snap,4-man only,,X,Front,True,False,False,,Ben,John,True
-1st,2022/23,Haywards Heath,4,Yes,4-man only,,M,Back,True,False,False,,Ben,John,True
-1st,2022/23,Crawley,5,,Old,,X,Middle,False,False,False,,Ben,Pete,True
-1st,2022/23,Crawley,6,,Old,,X,Middle,True,False,False,,Ben,Pete,True
-1st,2022/23,Crawley,5,,Old,,X,Middle,False,False,False,,Ben,Pete,True
-1st,2022/23,Crawley,5,,Old,,X,Middle,False,False,False,,Ben,Pete,False
-1st,2022/23,Crawley,5,,Old,,X,Middle,False,False,False,,Ben,Pete,True
-1st,2022/23,Shoreham,4,No,4-man only,,D,Front,False,False,False,,Ben,Sam,True
-1st,2022/23,Shoreham,6,Orange,Old,,X,Front,False,False,False,,Ben,John,True
-1st,2022/23,Shoreham,4,Yes,4-man only,,M,Back,True,False,False,,Ben,Sam,True
-1st,2022/23,Shoreham,6,,Old,,X,Middle,True,False,False,,Ben,Sam,True
-1st,2022/23,Shoreham,6,RD,Old,,D,Middle,True,False,False,,Ben,Sam,True
-1st,2022/23,Shoreham,6,,Old,,X,Middle,True,False,False,,Ben,Sam,True
-1st,2022/23,Shoreham,6,RD,Old,,D,Middle,True,False,False,,Ben,Sam,False
-1st,2022/23,Shoreham,4,Snap,4-man only,,X,Front,False,False,False,,Ben,John,True
-1st,2022/23,Shoreham,4,Orange,Old,,X,Front,False,False,False,,Ben,John,True
-1st,2022/23,Seaford,4,Snap,4-man only,,X,Front,True,False,False,,Ben,John,True
-1st,2022/23,Seaford,6,,Old,,X,Middle,True,False,False,,Ben,Sam,True
-1st,2022/23,Seaford,6,,Old,,X,Middle,True,False,False,,Ben,Sam,True
-1st,2022/23,Seaford,4,Yes,4-man only,,M,Back,False,False,False,,Ben,Sam,True
-1st,2022/23,Seaford,6,,Old,,X,Middle,True,False,False,,Ben,Sam,True
-1st,2022/23,Seaford,4,Yes,4-man only,,M,Back,False,False,False,,Ben,Sam,False
-1st,2022/23,Seaford,4,Yes,4-man only,,M,Back,False,False,False,,Ben,Sam,True
-1st,2022/23,Seaford,6,RD,Old,,D,Middle,True,False,False,,Ben,Sam,True
-1st,2022/23,Seaford,5,,Old,,X,Middle,True,False,False,,Ben,Sam,True
-1st,2022/23,Seaford,4,Yes,4-man only,,M,Back,False,False,False,,Ben,Sam,True
-1st,2022/23,Seaford,4,Yes,4-man only,,M,Back,True,False,False,,Ben,Sam,False
-1st,2022/23,Seaford,5,,Old,,X,Middle,False,False,False,,Ben,Sam,True
-1st,2022/23,Seaford,6,,Old,,X,Middle,False,False,False,2.0,Ben,Sam,True
-1st,2022/23,Burgess Hill,5,,Old,,X,Middle,False,False,False,,Ben,John,True
-1st,2022/23,Burgess Hill,4,Snap,4-man only,,X,Front,True,False,False,,Ben,Ryland,False
-1st,2022/23,Burgess Hill,4,Snap,4-man only,,X,Front,False,False,False,,Ben,Ryland,True
-1st,2022/23,Burgess Hill,5,,Old,,X,Middle,True,False,False,,Ben,John,True
-1st,2022/23,Burgess Hill,5,,Old,,X,Middle,False,False,False,,Ben,John,True
-1st,2022/23,Burgess Hill,4,Snap,4-man only,,X,Front,False,False,False,,Ben,Ryland,False
-1st,2022/23,Burgess Hill,4,Yes,4-man only,,M,Back,False,False,False,,Ben,John,True
-1st,2022/23,Burgess Hill,5,,Old,,X,Middle,True,False,False,,Ben,John,True
-1st,2022/23,Burgess Hill,5,Orange,Old,,X,Front,False,False,False,,Ben,Ryland,True
-1st,2022/23,Burgess Hill,5,,Old,,X,Middle,True,False,False,,Ben,John,True
-1st,2022/23,Burgess Hill,4,Snap,4-man only,,X,Front,False,False,False,,Ben,Ryland,True
-1st,2022/23,Burgess Hill,5,Red,Old,,X,Front,True,False,False,,Ben,Ryland,True
-1st,2022/23,Burgess Hill,5,,Old,,X,Middle,False,False,False,,Ben,John,True
-1st,2022/23,Burgess Hill,5,,Old,,X,Middle,False,False,False,,Ben,John,True
-1st,2022/23,Eastbourne,6,,Old,,X,Middle,True,False,False,,Ben,Sam,True
-1st,2022/23,Eastbourne,4,Yes,4-man only,,M,Back,True,False,False,,Ben,Sam,True
-1st,2022/23,Eastbourne,4,Snap,4-man only,,X,Front,False,False,False,,Ben,John,True
-1st,2022/23,Eastbourne,6,RD,Old,,D,Middle,False,False,False,,Ben,Sam,True
-1st,2022/23,Eastbourne,6,Red,Old,,X,Front,False,False,False,,Ben,John,True
-1st,2022/23,Eastbourne,4,Yes,4-man only,,M,Back,True,False,False,,Ben,Sam,True
-1st,2022/23,Eastbourne,5,,Old,,X,Middle,True,False,False,,Ben,Sam,True
-1st,2022/23,Eastbourne,5,Plus,Old,,D,Front,True,False,False,,Ben,Sam,True
-1st,2022/23,Eastbourne,4,Snap,4-man only,,X,Front,True,False,False,,Ben,John,True
-1st,2022/23,Pulborough,4,Snap,4-man only,,X,Front,True,False,False,,Ben,Pete,True
-1st,2022/23,Pulborough,4,Yes,4-man only,,M,Back,True,False,False,,Ben,Sam,True
-1st,2022/23,Pulborough,6,,Old,,X,Middle,False,True,False,,Ben,Sam,True
-1st,2022/23,Pulborough,5,RD,Old,,D,Middle,True,False,False,,Ben,Sam,True
-1st,2022/23,Pulborough,4,Yes,4-man only,,M,Back,True,False,False,,Ben,Sam,True
-1st,2022/23,Pulborough,5,RD,Old,,D,Middle,True,False,False,,Ben,Sam,True
-1st,2022/23,Pulborough,5,,Old,,X,Middle,False,False,False,,Ben,Sam,True
-1st,2022/23,Pulborough,4,Yes,4-man only,,M,Back,False,False,False,,Ben,Sam,True
-1st,2022/23,Pulborough,4,Snap,4-man only,,X,Front,False,False,False,,Ben,Pete,True
-1st,2022/23,Pulborough,5,,Old,,X,Middle,False,False,False,,Ben,Sam,True
-1st,2022/23,Pulborough,4,Snap,4-man only,,X,Front,True,False,False,,Ben,Pete,True
-1st,2022/23,Haywards Heath,6,,Old,,X,Middle,False,True,False,,Ben,Sam,True
-1st,2022/23,Haywards Heath,6,Plus,Old,,D,Front,True,False,False,,Ben,Sam,False
-1st,2022/23,Haywards Heath,4,Snap,4-man only,,X,Front,False,False,False,,Ben,John,True
-1st,2022/23,Haywards Heath,4,Yes,4-man only,,M,Back,True,False,False,,Ben,Sam,True
-1st,2022/23,Haywards Heath,4,Yes,4-man only,,M,Back,False,False,False,,Ben,Sam,True
-1st,2022/23,Haywards Heath,5,,Old,,X,Middle,False,False,False,,Ben,Sam,True
-1st,2022/23,Haywards Heath,6,RD,Old,,D,Middle,True,False,False,,Ben,Sam,True
-1st,2022/23,Haywards Heath,4,Snap,4-man only,,X,Front,True,False,False,,Ben,John,True
-1st,2022/23,Haywards Heath,5,Plus,Old,,D,Front,False,False,False,,Ben,Sam,True
-1st,2022/23,Haywards Heath,5,,Old,,X,Middle,True,False,False,,Ben,Sam,False
-1st,2022/23,Haywards Heath,4,Yes,4-man only,,M,Back,False,False,False,,Ben,Sam,False
-1st,2022/23,Haywards Heath,5,,Old,,X,Middle,False,False,False,,Ben,Sam,False
-1st,2022/23,Cheshunt,4,Snap,4-man only,,X,Front,False,False,False,,Ben,John,True
-1st,2022/23,Cheshunt,4,Snap,4-man only,,X,Front,False,False,False,,Ben,John,True
-1st,2022/23,Cheshunt,6,,Old,,X,Middle,True,False,False,,Ben,Sam,False
-1st,2022/23,Cheshunt,6,Plus,Old,,D,Front,True,False,False,,Ben,Sam,True
-1st,2022/23,Cheshunt,4,No,4-man only,,D,Front,True,False,False,,Ben,Sam,True
-1st,2022/23,Cheshunt,4,Yes,4-man only,,M,Back,True,False,False,,Ben,Sam,True
-1st,2022/23,Wensleydale,4,Snap,4-man only,,X,Front,False,False,False,,Ben,John,True
-1st,2022/23,Wensleydale,5,,Old,,X,Middle,False,False,False,,Ben,Sam,True
-1st,2022/23,Wensleydale,5,RD,Old,,D,Middle,False,False,False,,Ben,Sam,True
-1st,2022/23,Wensleydale,4,Yes,4-man only,,M,Middle,True,False,False,,Ben,Sam,False
-1st,2022/23,Wensleydale,5,Odd +,Old,,D,Middle,False,False,False,,Ben,John,False
-1st,2022/23,Wensleydale,5,RD,Old,,D,Middle,False,False,False,,Ben,Sam,True
-1st,2022/23,Wensleydale,5,,Old,,X,Middle,False,False,False,,Ben,Sam,True
-1st,2022/23,Wensleydale,4,Snap,4-man only,,X,Front,False,False,False,,Ben,John,True
-1st,2022/23,Wensleydale,6,,Old,,X,Middle,False,False,False,2.0,Ben,Sam,True
-1st,2022/23,Wensleydale,4,Yes,4-man only,,M,Back,False,False,False,,Ben,Sam,True
-1st,2022/23,Wensleydale,5,,Old,,X,Middle,False,False,False,,Ben,Sam,True
-1st,2022/23,Wensleydale,6,RD,Old,,D,Middle,False,True,False,,Ben,Sam,True
-1st,2022/23,Wensleydale,6,,Old,,X,Middle,True,False,False,,Ben,Sam,False
-1st,2023/24,Old Colfeians,4,No,4-man only,,D,Front,False,False,False,,Ben,Sam,False
-1st,2023/24,Old Colfeians,4,Yes,4-man only,,M,Back,False,False,False,,Mark,Sam,False
-1st,2023/24,Old Colfeians,5,RD,Old,,D,Front,False,False,False,,Mark,Sam,True
-1st,2023/24,Old Colfeians,4,Snap,4-man only,,X,Front,False,False,False,,Mark,Jules,True
-1st,2023/24,Old Colfeians,4,Matlow,Old,,X,Front,False,False,False,,Mark,Guy,True
-1st,2023/24,Old Colfeians,5,,Old,,X,Middle,False,False,False,,George,Sam,False
-1st,2023/24,Old Colfeians,4,Snap,4-man only,,X,Front,False,False,False,,George,Jules,False
-1st,2023/24,Heathfield & Waldron,5,Plus,Old,,D,Front,False,False,False,,Ben,Sam,False
-1st,2023/24,Heathfield & Waldron,4,Yes,4-man only,,M,Back,False,False,False,,Ben,Sam,False
-1st,2023/24,Heathfield & Waldron,6,,Old,,X,Middle,True,False,False,,Ben,Sam,True
-1st,2023/24,Heathfield & Waldron,4,No,4-man only,,D,Front,False,False,False,,Ben,Sam,True
-1st,2023/24,Heathfield & Waldron,6,,Old,,X,Middle,False,True,False,,Ben,Sam,True
-1st,2023/24,Heathfield & Waldron,5,RD,Old,,D,Middle,False,False,False,,Ben,Sam,True
-1st,2023/24,Heathfield & Waldron,5,RD,Old,,D,Middle,False,False,False,,Ben,John,False
-1st,2023/24,Heathfield & Waldron,4,Snap,4-man only,,X,Front,True,False,False,,Ben,John,False
-1st,2023/24,Heathfield & Waldron,5,Even +,Old,,D,Front,False,False,False,,Ben,John,False
-1st,2023/24,Heathfield & Waldron,6,Odd +,Old,,D,Middle,True,False,False,,Ben,Tom M,True
-1st,2023/24,Heathfield & Waldron,5,,Old,,X,Middle,False,False,False,,Ben,John,False
-1st,2023/24,Heathfield & Waldron,5,,Old,,X,Middle,False,False,False,,Ben,John,False
-1st,2023/24,Heathfield & Waldron,6,,Old,,X,Middle,True,False,False,,Ben,John,True
-1st,2023/24,Heathfield & Waldron,5,Red,Old,,X,Front,False,False,False,,Ben,Ryland,True
-1st,2023/24,Heathfield & Waldron,5,,Old,,X,Middle,False,False,False,,Ben,John,True
-1st,2023/24,Heathfield & Waldron,5,RD,Old,,D,Middle,False,False,False,,Ben,John,True
-1st,2023/24,Heathfield & Waldron,6,,Old,,X,Middle,False,False,False,,Ben,John,False
-1st,2023/24,Heathfield & Waldron,5,Even,Old,,X,Middle,False,False,False,,Ben,John,True
-1st,2023/24,Heathfield & Waldron,5,,Old,,X,Middle,False,False,False,,Ben,Sam,True
-1st,2023/24,Heathfield & Waldron,4,Yes,4-man only,,M,Back,False,False,False,,Ben,Sam,False
-1st,2023/24,Twickenham,5,RD,Old,,D,Middle,False,False,False,,Ben,Sam,False
-1st,2023/24,Twickenham,5,,Old,,X,Middle,False,False,False,,Ben,Sam,False
-1st,2023/24,Twickenham,4,Yes,4-man only,,M,Back,False,False,False,,Ben,Sam,True
-1st,2023/24,Twickenham,6,,Old,,X,Middle,True,False,False,,Ben,Sam,False
-1st,2023/24,Twickenham,4,Snap,4-man only,,X,Front,False,False,False,,Ben,John,True
-1st,2023/24,Twickenham,6,Matlow,Old,,X,Front,False,False,False,,Ben,John,False
-1st,2023/24,Twickenham,4,Yes,4-man only,,M,Back,True,False,False,,Ben,Sam,True
-1st,2023/24,Twickenham,5,Odd,Old,,X,Back,False,False,False,,Ben,Dan B,False
-1st,2023/24,Twickenham,4,Yes,4-man only,,M,Back,False,False,False,,Ben,Sam,False
-1st,2023/24,Twickenham,4,Snap,4-man only,,X,Front,False,False,False,,Ben,Tom M,False
-1st,2023/24,Twickenham,4,No,4-man only,,D,Middle,False,False,False,,Ben,Sam,True
-1st,2023/24,Twickenham,6,RD,Old,,D,Middle,False,False,False,,Ben,Sam,False
-1st,2023/24,Trinity,4,Snap,4-man only,,X,Front,False,False,False,,Ben,Ryland,True
-1st,2023/24,Trinity,4,Yes,4-man only,,M,Back,True,False,False,,Ben,Sam,True
-1st,2023/24,Trinity,6,C1,New,C,M,Back,False,False,False,,Ben,Aaron,False
-1st,2023/24,Trinity,4,Snap,4-man only,,X,Front,True,False,False,,Ben,Ryland,True
-1st,2023/24,Trinity,5,,Old,,X,Middle,False,False,False,,Ben,Sam,True
-1st,2023/24,Trinity,6,,Old,,X,Middle,False,True,False,,Ben,Sam,True
-1st,2023/24,Trinity,4,Snap,4-man only,,X,Front,False,False,False,,Ben,Ryland,True
-1st,2023/24,Trinity,6,,Old,,X,Middle,False,False,False,,Ben,Sam,True
-1st,2023/24,Trinity,4,Yes,4-man only,,M,Back,False,False,False,,Ben,Sam,True
-1st,2023/24,Trinity,4,Yes,4-man only,,M,Middle,False,False,False,,Ben,Sam,True
-1st,2023/24,KCS Old Boys,4,Yes,4-man only,,M,Back,False,False,False,,Ben,Sam,True
-1st,2023/24,KCS Old Boys,6,,Old,,X,Middle,False,False,False,,Ben,Sam,True
-1st,2023/24,KCS Old Boys,6,RD,Old,,D,Middle,False,False,False,,Ben,Sam,True
-1st,2023/24,KCS Old Boys,4,No,4-man only,,D,Middle,True,False,False,,Ben,Sam,True
-1st,2023/24,KCS Old Boys,6,C1,New,C,M,Back,False,False,False,,Ben,Tom B,True
-1st,2023/24,KCS Old Boys,5,,Old,,X,Middle,False,False,False,,Ben,Sam,False
-1st,2023/24,KCS Old Boys,6,C1,New,C,M,Back,False,False,False,,Ben,Tom B,True
-1st,2023/24,KCS Old Boys,4,Snap,4-man only,,X,Front,False,False,False,,Ben,Ryland,True
-1st,2023/24,KCS Old Boys,4,Snap,4-man only,,X,Front,True,False,False,,Ben,Ryland,True
-1st,2023/24,KCS Old Boys,6,,Old,,X,Middle,False,False,False,,Ben,Sam,True
-1st,2023/24,KCS Old Boys,4,Yes,4-man only,,M,Back,True,False,False,,Ben,Sam,True
-1st,2023/24,KCS Old Boys,6,C1,New,C,M,Back,False,False,False,,Ben,Tom B,False
-1st,2023/24,KCS Old Boys,4,Yes,4-man only,,M,Back,False,False,False,,Ben,Sam,True
-1st,2023/24,KCS Old Boys,4,Snap,4-man only,,X,Front,False,False,False,,Ben,Ryland,False
-1st,2023/24,Kingston,4,,Old,,X,Back,False,False,False,,Ben,Sam,True
-1st,2023/24,Kingston,5,,Old,,X,Middle,False,False,False,,Ben,Sam,False
-1st,2023/24,Kingston,4,Yes,4-man only,,M,Back,False,False,False,,Ben,Sam,False
-1st,2023/24,Kingston,6,C1,New,C,M,Back,False,False,False,,Ben,Tom B,False
-1st,2023/24,Kingston,6,,Old,,X,Middle,False,True,False,,Ben,Sam,True
-1st,2023/24,Kingston,6,RD,Old,,D,Middle,True,False,False,,Ben,Sam,True
-1st,2023/24,Kingston,4,Yes,4-man only,,M,Back,True,False,False,,Ben,Sam,True
-1st,2023/24,Kingston,4,,Old,,X,Back,True,False,False,,Ben,Sam,True
-1st,2023/24,Kingston,6,Even,Old,,X,Middle,False,False,False,,Ben,Sam,True
-1st,2023/24,Kingston,6,,Old,,X,Middle,False,True,False,,Ben,Sam,True
-1st,2023/24,Kingston,4,,Old,,X,Back,False,False,False,,Ben,Sam,False
-1st,2023/24,Kingston,4,,Old,,X,Back,True,False,False,,Ben,Sam,True
-1st,2023/24,Old Walcountians,4,Snap,4-man only,,X,Front,False,False,False,,Ben,Ryland,True
-1st,2023/24,Old Walcountians,4,,Old,,X,Back,False,False,False,,Ben,Sam,False
-1st,2023/24,Old Walcountians,6,,Old,,X,Middle,False,False,False,,Ben,Sam,True
-1st,2023/24,Old Walcountians,6,RD,Old,,D,Middle,False,True,False,,Ben,Sam,True
-1st,2023/24,Old Walcountians,5,,Old,,X,Middle,False,False,False,,Ben,Sam,False
-1st,2023/24,Old Walcountians,4,Snap,4-man only,,X,Front,False,False,False,,Ben,Ryland,True
-1st,2023/24,Old Walcountians,6,,Old,,X,Middle,True,False,False,,Ben,Sam,True
-1st,2023/24,Old Walcountians,6,RD,Old,,D,Middle,False,False,False,,Ben,Sam,True
-1st,2023/24,Old Walcountians,6,C1,New,C,M,Back,False,False,False,,Ben,Tom B,True
-1st,2023/24,Old Walcountians,6,,Old,,X,Middle,True,False,False,,Ben,Sam,True
-1st,2023/24,Old Walcountians,6,C2,New,C,M,Front,False,False,False,,Ben,Ryland,True
-1st,2023/24,Old Walcountians,4,Matlow,Old,,X,Front,False,False,False,,Ben,Ryland,False
-1st,2023/24,Old Walcountians,6,,Old,,X,Middle,False,False,False,,Ben,Sam,False
-1st,2023/24,Old Walcountians,4,Snap,4-man only,,X,Front,False,False,False,,Ben,Ryland,True
-1st,2023/24,Old Walcountians,6,C1,New,C,M,Back,False,False,False,,Ben,Pete,True
-1st,2023/24,Teddington,4,Yes,4-man only,,M,Back,True,False,False,,Ben,Sam,True
-1st,2023/24,Teddington,6,,Old,,X,Middle,False,False,False,,Ben,Sam,False
-1st,2023/24,Teddington,4,Snap,4-man only,,X,Front,False,False,False,,Ben,John,True
-1st,2023/24,Teddington,7,,Old,,X,Middle,False,False,False,,Ben,Sam,True
-1st,2023/24,Teddington,4,Snap,4-man only,,X,Front,False,False,False,,Ben,John,True
-1st,2023/24,Teddington,7,C3,New,C,D,Middle,False,False,False,,Ben,Ryland,True
-1st,2023/24,Teddington,6,RD,Old,,D,Middle,False,False,False,,Ben,Sam,False
-1st,2023/24,Teddington,5,Green,Old,,X,Back,False,False,False,,Ben,Ryland,False
-1st,2023/24,Teddington,5,Red,Old,,X,Front,False,False,False,,Ben,John,True
-1st,2023/24,Teddington,6,C1,New,C,M,Back,False,False,False,,Ben,Ryland,True
-1st,2023/24,Teddington,6,,Old,,X,Middle,False,False,False,,Ben,Sam,False
-1st,2023/24,Teddington,4,Snap,4-man only,,X,Front,False,False,False,,Ben,John,True
-1st,2023/24,Teddington,4,RD,Old,,D,Front,False,False,False,,Ben,Sam,True
-1st,2023/24,Teddington,7,,Old,,X,Middle,False,False,False,,Ben,Sam,False
-1st,2023/24,Teddington,4,Snap,4-man only,,X,Front,True,False,False,,Ben,John,True
-1st,2023/24,Teddington,4,Yes,4-man only,,M,Middle,False,False,False,,Ben,Sam,False
-1st,2023/24,Teddington,7,C1,New,C,M,Back,False,False,False,,Ben,Ryland,True
-1st,2023/24,Teddington,4,No,4-man only,,D,Front,False,False,False,,Ben,Sam,True
-1st,2023/24,Teddington,7,C1,New,C,M,Back,False,False,False,,Ben,Ryland,True
-1st,2023/24,Teddington,4,Matlow,Old,,X,Front,False,False,False,,Ben,John,True
-1st,2023/24,Teddington,6,C1,New,C,M,Back,True,False,False,,Ben,Ryland,False
-1st,2023/24,Eastbourne,6,C2,New,C,M,Front,False,False,False,,Ben,Ryland,False
-1st,2023/24,Eastbourne,6,,Old,,X,Middle,True,False,False,,Ben,John,True
-1st,2023/24,Eastbourne,6,RD,Old,,D,Middle,False,False,False,,Ben,John,False
-1st,2023/24,Eastbourne,4,,Old,,X,Back,False,False,False,,Ben,John,False
-1st,2023/24,Eastbourne,5,Red,Old,,X,Front,False,False,False,,Ben,Ryland,True
-1st,2023/24,Eastbourne,6,,Old,,X,Middle,True,False,False,,Ben,John,True
-1st,2023/24,Eastbourne,6,RD,Old,,D,Middle,False,False,False,,Ben,John,False
-1st,2023/24,Eastbourne,4,Matlow,Old,,X,Front,False,False,False,,Ben,Ryland,True
-1st,2023/24,Eastbourne,6,,Old,,X,Middle,True,False,False,,Ben,John,True
-1st,2023/24,Eastbourne,4,,Old,,X,Back,False,False,False,,Ben,Sam,True
-1st,2023/24,Eastbourne,6,RD,Old,,D,Middle,True,False,False,,Ben,Sam,True
-1st,2023/24,Horsham,4,,Old,,X,Back,True,False,False,,Ben,Sam,True
-1st,2023/24,Horsham,6,C1,New,C,M,Back,False,False,False,,Ben,Dan B,False
-1st,2023/24,Horsham,6,RD,Old,,D,Middle,False,False,False,,Ben,Sam,True
-1st,2023/24,Horsham,6,C2,New,C,M,Front,True,False,False,,Ben,Ryland,True
-1st,2023/24,Horsham,6,,Old,,X,Middle,False,True,False,,Ben,Sam,True
-1st,2023/24,Horsham,5,RD,Old,,D,Middle,False,False,False,,Ben,Sam,False
-1st,2023/24,Horsham,6,C2,New,C,M,Front,True,False,False,,Ben,Ryland,True
-1st,2023/24,Horsham,4,Snap,4-man only,,X,Front,False,False,False,,Ben,Ryland,True
-1st,2023/24,Horsham,6,C2,New,C,M,Front,False,False,False,,Ben,Ryland,True
-1st,2023/24,Horsham,6,,Old,,X,Middle,True,False,False,,Ben,Sam,True
-1st,2023/24,Horsham,5,Red,Old,,X,Front,False,False,False,,Ben,Ryland,True
-1st,2023/24,Horsham,5,,Old,,X,Middle,True,False,False,,Ben,Ryland,True
-1st,2023/24,Weybridge Vandals,5,,Old,,X,Middle,False,False,False,,Ben,Sam,True
-1st,2023/24,Weybridge Vandals,6,C3,New,C,D,Middle,False,False,False,,Ben,Ryland,True
-1st,2023/24,Weybridge Vandals,4,Snap,4-man only,,X,Front,True,False,False,,Ben,John,True
-1st,2023/24,Weybridge Vandals,4,Yes,4-man only,,M,Back,False,False,False,,Ben,Sam,False
-1st,2023/24,Weybridge Vandals,6,,Old,,X,Middle,True,False,False,,Ben,Sam,True
-1st,2023/24,Weybridge Vandals,6,C1,New,C,M,Back,True,False,False,,Ben,Ryland,True
-1st,2023/24,Weybridge Vandals,4,No,4-man only,,D,Front,False,False,False,,Ben,Sam,True
-1st,2023/24,Weybridge Vandals,4,Snap,4-man only,,X,Front,True,False,False,,Ben,John,True
-1st,2023/24,Weybridge Vandals,4,Snap,4-man only,,X,Front,False,False,False,,Ben,John,True
-1st,2023/24,Weybridge Vandals,6,C1,New,C,M,Back,True,False,False,,Ben,Ryland,True
-1st,2023/24,Weybridge Vandals,6,A2,New,A,D,Front,False,False,False,,Ben,Sam,True
-1st,2023/24,Weybridge Vandals,6,,Old,,X,Middle,True,False,False,,Ben,Sam,True
-1st,2023/24,Weybridge Vandals,4,A2,New,A,D,Front,False,False,False,,Ben,Sam,False
-1st,2023/24,Weybridge Vandals,5,Red,Old,,X,Front,False,False,False,,Ben,Ryland,True
-1st,2023/24,Weybridge Vandals,4,,Old,,X,Back,False,False,False,,Ben,Sam,False
-1st,2023/24,Weybridge Vandals,6,C1,New,C,M,Back,True,False,False,,Ben,Ryland,True
-1st,2023/24,Weybridge Vandals,6,,Old,,X,Middle,True,False,False,,Ben,Sam,True
-1st,2023/24,Hove,7,C3,New,C,D,Middle,False,False,False,,Ben,Sam,False
-1st,2023/24,Hove,7,A2,New,A,D,Front,True,False,False,,Ben,Ryland,True
-1st,2023/24,Hove,5,Red,Old,,X,Front,False,False,False,,Ben,John,True
-1st,2023/24,Hove,7,A2,New,A,D,Front,True,False,False,,Ben,Ryland,True
-1st,2023/24,Hove,7,C2,New,C,M,Front,False,False,False,,Ben,John,False
-1st,2023/24,Hove,4,Snap,4-man only,,X,Front,True,False,False,,Ben,John,True
-1st,2023/24,Hove,4,No,4-man only,,D,Front,False,False,False,,Ben,Sam,True
-1st,2023/24,Hove,7,A2,New,A,D,Front,False,False,False,,Ben,Ryland,True
-1st,2023/24,Hove,4,Snap,4-man only,,X,Front,True,False,False,,Ben,John,True
-1st,2023/24,Hove,4,,Old,,X,Middle,False,False,False,,Ben,Sam,True
-1st,2023/24,Hove,4,,Old,,X,Middle,False,False,False,,Ben,Sam,False
-1st,2023/24,Hove,6,C2,New,C,M,Front,True,False,False,,Ben,John,True
-1st,2023/24,Hove,4,Snap,4-man only,,X,Front,True,False,False,,Ben,John,False
-1st,2023/24,Trinity,7,C3,New,C,D,Middle,False,False,False,,Ben,Rory,True
-1st,2023/24,Trinity,4,,Old,,X,Back,False,False,False,,Ben,Sam,True
-1st,2023/24,Trinity,7,C3,New,C,D,Middle,False,False,False,,Ben,Rory,True
-1st,2023/24,Trinity,4,,Old,,X,Back,False,False,False,,Ben,Sam,True
-1st,2023/24,Trinity,7,C1,New,C,M,Back,False,False,False,,Ben,Aaron,True
-1st,2023/24,Trinity,4,Snap,4-man only,,X,Front,True,False,False,,Ben,Rory,True
-1st,2023/24,Trinity,5,Red,Old,,X,Front,True,False,False,,Ben,Ryland,True
-1st,2023/24,Trinity,7,A3,New,A,D,Middle,True,False,False,,Ben,Rory,False
-1st,2023/24,Trinity,7,C1,New,C,M,Back,False,False,False,,Ben,Aaron,False
-1st,2023/24,Trinity,4,,Old,,X,Back,False,False,False,,Ben,Ryland,True
-1st,2023/24,Trinity,4,Snap,4-man only,,X,Front,True,False,False,,Ben,Ryland,True
-1st,2023/24,Trinity,4,Yes,4-man only,,M,Back,False,False,False,,Ben,Sam,True
-1st,2023/24,Trinity,4,Snap,4-man only,,X,Front,True,False,False,,Ben,Ryland,True
-1st,2023/24,Trinity,7,A3,New,A,D,Middle,False,False,False,,Ben,Tom B,True
-1st,2023/24,Trinity,5,RD,Old,,D,Middle,False,False,False,,Ben,Sam,False
-1st,2023/24,Old Tiffinians,5,,Old,,X,Middle,False,False,False,,Ben,Sam,True
-1st,2023/24,Old Tiffinians,4,Snap,4-man only,,X,Front,False,False,False,,Ben,John,True
-1st,2023/24,Old Tiffinians,5,RD,Old,,D,Middle,False,False,False,,Ben,Sam,True
-1st,2023/24,Old Tiffinians,7,C3,New,C,D,Middle,True,False,False,,Ben,Sam,True
-1st,2023/24,Old Tiffinians,7,A2,New,A,D,Front,True,False,False,,Ben,John,True
-1st,2023/24,Old Tiffinians,4,Snap,4-man only,,X,Front,True,False,False,,Ben,John,True
-1st,2023/24,Old Tiffinians,5,,Old,,X,Middle,False,False,False,,Ben,Sam,False
-1st,2023/24,Old Tiffinians,7,A2,New,A,D,Front,True,False,False,,Ben,John,True
-1st,2023/24,Old Tiffinians,4,,Old,,X,Middle,True,False,False,,Ben,Sam,True
-1st,2023/24,Old Tiffinians,7,C3,New,C,D,Middle,True,False,False,,Ben,Sam,True
-1st,2023/24,Old Tiffinians,7,A3,New,A,D,Middle,True,False,False,,Ben,Ryland,True
-1st,2023/24,Old Tiffinians,7,C1,New,C,M,Back,False,False,False,,Ben,John,True
-1st,2023/24,Old Tiffinians,4,Snap,4-man only,,X,Front,False,False,False,,Ben,John,False
-1st,2023/24,Old Tiffinians,4,No,4-man only,,D,Front,False,False,False,,Ben,Sam,True
-1st,2023/24,Old Walcountians,5,Red,Old,,X,Front,False,False,False,,Ben,John,True
-1st,2023/24,Old Walcountians,7,C2,New,C,M,Front,True,False,False,,Ben,John,True
-1st,2023/24,Old Walcountians,7,A3,New,A,D,Middle,False,False,False,,Ben,Ryland,False
-1st,2023/24,Old Walcountians,4,,Old,,X,Middle,False,False,False,,Ben,Sam,True
-1st,2023/24,Old Walcountians,7,C3,New,C,D,Middle,False,False,False,,Ben,Ryland,True
-1st,2023/24,Old Walcountians,7,A2,New,A,D,Front,True,False,False,,Ben,John,True
-1st,2023/24,Old Walcountians,5,,Old,,X,Back,False,False,False,,Ben,Sam,True
-1st,2023/24,Old Walcountians,7,C1,New,C,M,Back,True,False,False,,Ben,Sam,True
-1st,2023/24,Old Walcountians,7,C3,New,C,D,Middle,True,False,False,,Ben,Ryland,True
-1st,2023/24,Old Walcountians,7,C1,New,C,M,Back,True,False,False,,Ben,Sam,True
-1st,2023/24,Old Walcountians,7,C1,New,C,M,Back,False,False,False,,Ben,Sam,True
-1st,2023/24,Teddington,7,C3,New,C,D,Middle,True,False,False,,Ben,Sam,False
-1st,2023/24,Teddington,4,Snap,4-man only,,X,Front,False,False,False,,Ben,Ryland,True
-1st,2023/24,Teddington,7,A3,New,A,D,Middle,True,False,False,,Ben,Sam,False
-1st,2023/24,Teddington,7,C1,New,C,M,Back,False,False,False,,Ben,Sam,True
-1st,2023/24,Teddington,4,,Old,,X,Middle,False,False,False,,Ben,Sam,False
-1st,2023/24,Teddington,5,,Old,,X,Middle,False,False,False,,Ben,Sam,True
-1st,2023/24,Teddington,4,Snap,4-man only,,X,Front,False,False,False,,Ben,John,True
-1st,2023/24,Teddington,4,No,4-man only,,D,Front,True,False,False,,Ben,Sam,True
-1st,2023/24,Teddington,7,A3,New,A,D,Middle,True,False,False,,Ben,Ryland,False
-1st,2023/24,Teddington,4,Snap,4-man only,,X,Front,False,False,False,,Josh,Ryland,False
-1st,2023/24,Teddington,5,,Old,,X,Middle,True,False,False,,Josh,John,True
-1st,2023/24,Teddington,5,Red,Old,,X,Front,False,False,False,,Josh,Ryland,False
-1st,2023/24,Teddington,7,A3,New,A,D,Middle,False,False,False,,Ben,Ryland,True
-1st,2023/24,Teddington,7,A2,New,A,D,Front,True,False,False,,Ben,John,True
-1st,2023/24,Teddington,4,Snap,4-man only,,X,Front,False,False,False,,Ben,Ryland,True
-1st,2023/24,Teddington,5,Red,Old,,X,Front,False,False,False,,Ben,Ryland,True
-1st,2023/24,Teddington,6,C3,New,C,D,Middle,False,False,False,,Ben,Sam,True
-1st,2023/24,Teddington,4,Snap,4-man only,,X,Front,False,False,False,,Ben,John,False
-1st,2023/24,Teddington,5,RD,Old,,D,Middle,False,False,False,,Ben,John,True
-1st,2023/24,Teddington,7,A2,New,A,D,Front,True,False,False,,Ben,John,True
-1st,2023/24,Teddington,7,A2,New,A,D,Front,False,False,False,,Ben,John,False
-1st,2023/24,Eastbourne,7,A3,New,A,D,Middle,True,False,False,,Ben,Sam,True
-1st,2023/24,Eastbourne,4,Snap,4-man only,,X,Front,True,False,False,,Ben,Ryland,True
-1st,2023/24,Eastbourne,4,,Old,,X,Middle,False,False,False,,Ben,Sam,True
-1st,2023/24,Eastbourne,7,C3,New,C,D,Middle,True,False,False,,Ben,Sam,True
-1st,2023/24,Eastbourne,7,A2,New,A,D,Front,True,False,False,,Ben,Ryland,True
-1st,2023/24,Eastbourne,7,H3,New,H,X,Middle,False,False,False,,Ben,Sam,False
-1st,2023/24,Eastbourne,5,,Old,,X,Middle,False,False,False,,Ben,Sam,True
-1st,2023/24,Eastbourne,7,A3,New,A,D,Middle,False,False,False,,Ben,Sam,True
-1st,2023/24,Eastbourne,7,C1,New,C,M,Back,False,False,False,,Ben,Dan B,False
-1st,2023/24,Eastbourne,4,Yes,4-man only,,M,Back,False,False,False,,Mark,Sam,False
-1st,2023/24,Eastbourne,7,C3,New,C,D,Middle,True,False,False,,Mark,Sam,True
-1st,2023/24,Weybridge Vandals,7,H3,New,H,X,Middle,False,False,False,,Ben,Ryland,False
-1st,2023/24,Weybridge Vandals,7,A2,New,A,D,Front,True,False,False,,Ben,Dan B,True
-1st,2023/24,Weybridge Vandals,7,H2,New,H,X,Front,True,False,False,,Ben,Aaron,True
-1st,2023/24,Weybridge Vandals,7,H3,New,H,X,Middle,False,False,False,,Ben,Ryland,False
-1st,2023/24,Weybridge Vandals,4,,Old,,X,Middle,False,False,False,,Ben,Ryland,False
-1st,2023/24,Weybridge Vandals,7,A3,New,A,D,Middle,False,False,False,,Ben,Ryland,False
-1st,2023/24,Weybridge Vandals,7,C1,New,C,M,Back,False,False,False,,Ben,Dan B,False
-1st,2023/24,Weybridge Vandals,7,A2,New,A,D,Front,True,False,False,,Ben,Dan B,True
-1st,2023/24,Weybridge Vandals,7,C1,New,C,M,Back,False,False,False,,Ben,Ryland,True
-1st,2023/24,Weybridge Vandals,7,A3,New,A,D,Middle,False,False,False,,Ben,Ryland,True
-1st,2023/24,Weybridge Vandals,7,A3,New,A,D,Middle,False,False,False,,Ben,Ryland,True
-1st,2023/24,Weybridge Vandals,7,H3,New,H,X,Middle,False,False,False,,Ben,Ryland,True
-1st,2023/24,Weybridge Vandals,7,H3,New,H,X,Middle,False,False,False,,Ben,Ryland,False
-1st,2023/24,Hove,7,H3,New,H,X,Middle,False,False,False,,Ben,Sam,True
-1st,2023/24,Hove,4,,Old,,X,Back,False,False,False,,Ben,Sam,True
-1st,2023/24,Hove,7,C3,New,C,D,Middle,False,False,False,,Ben,Sam,True
-1st,2023/24,Hove,7,A3,New,A,D,Middle,False,False,False,,Ben,Sam,True
-1st,2023/24,Hove,4,,Old,,X,Middle,False,False,False,,Ben,Sam,True
-1st,2023/24,Hove,7,A3,New,A,D,Front,False,False,False,2.0,Ben,Aaron,True
-1st,2023/24,Hove,7,H3,New,H,X,Middle,False,True,False,,Ben,Sam,True
-1st,2023/24,Hove,7,C3,New,C,D,Middle,False,False,False,,Ben,Sam,False
-1st,2023/24,Hove,4,,Old,,X,Back,False,False,False,,Ben,Sam,True
-1st,2023/24,Hove,7,C1,New,C,M,Back,False,False,False,,Ben,Sam,True
-1st,2023/24,Hove,7,A2,New,A,D,Front,False,False,False,,Ben,Aaron,True
-1st,2023/24,Hove,7,C3,New,C,D,Middle,False,False,False,,Ben,Sam,True
-1st,2023/24,Hove,7,A2,New,A,D,Front,False,False,False,2.0,Ben,Dan B,True
-1st,2023/24,Hove,4,,Old,,X,Middle,True,False,False,,Ben,Sam,True
-1st,2023/24,Twickenham,7,A3,New,A,D,Middle,False,False,False,,Ben,Sam,True
-1st,2023/24,Twickenham,7,C3,New,C,D,Middle,False,False,False,,Ben,Sam,False
-1st,2023/24,Twickenham,4,Snap,4-man only,,X,Front,True,False,False,,Ben,Ryland,True
-1st,2023/24,Twickenham,7,A2,New,A,D,Front,False,False,False,,Ben,Ryland,False
-1st,2023/24,Twickenham,7,H3,New,H,X,Middle,False,False,False,,Ben,Sam,False
-1st,2023/24,Twickenham,4,,Old,,X,Back,False,False,False,,Ben,Sam,False
-1st,2023/24,Twickenham,7,A3,New,A,D,Middle,False,False,False,,Ben,Sam,True
-1st,2023/24,Twickenham,7,C3,New,C,D,Middle,False,False,False,,Ben,Sam,True
-1st,2023/24,Twickenham,7,A2,New,A,D,Front,False,False,False,2.0,Ben,Ryland,True
-1st,2023/24,Twickenham,7,A3,New,A,D,Middle,True,False,False,,Mark,Sam,True
-1st,2023/24,Twickenham,4,,Old,,X,Back,True,False,False,,Mark,Sam,True
-1st,2023/24,Twickenham,7,C3,New,C,D,Middle,True,False,False,,Mark,Sam,True
-1st,2023/24,Twickenham,4,Snap,4-man only,,X,Front,False,False,False,,Mark,Ryland,False
-1st,2023/24,Twickenham,5,Red,Old,,X,Front,False,False,False,,Mark,Ryland,False
-1st,2023/24,Twickenham,7,A3,New,A,D,Middle,False,True,False,,Mark,Sam,True
-1st,2023/24,Twickenham,7,A3,New,A,D,Middle,False,False,False,,Mark,Sam,True
-1st,2023/24,Twickenham,4,,Old,,X,Back,False,False,False,,Mark,Sam,False
-1st,2023/24,Twickenham,7,H2,New,H,X,Front,False,False,False,,Mark,Tom M,False
-1st,2023/24,Twickenham,7,A3,New,A,D,Middle,True,False,False,,Mark,Sam,True
-1st,2023/24,Dover,7,H3,New,H,X,Middle,True,False,False,,Ben,Dan B,True
-1st,2023/24,Dover,7,A3,New,A,D,Middle,True,False,False,,Ben,Dan B,True
-1st,2023/24,Dover,7,C3,New,C,D,Middle,False,False,False,,Ben,Dan B,True
-1st,2023/24,Dover,7,A3,New,A,D,Middle,False,False,False,,Ben,Dan B,False
-1st,2023/24,Dover,7,C2,New,C,M,Front,False,False,False,,Ben,Ryland,False
-1st,2023/24,Dover,7,A1,New,A,D,Middle,False,False,False,,Ben,Sam,True
-1st,2023/24,Dover,7,A3,New,A,D,Middle,False,False,False,,Ben,Dan B,False
-1st,2023/24,Dover,4,Snap,4-man only,,X,Front,True,False,False,,Ben,Ryland,True
-1st,2023/24,Dover,7,C3,New,C,D,Middle,True,False,False,,Ben,Dan B,True
-1st,2024/25,London Cornish,7,A2,New,A,D,Front,True,False,False,,Ben,Ryland,True
-1st,2024/25,London Cornish,7,A3,New,A,D,Middle,True,False,False,,Ben,Dan B,True
-1st,2024/25,London Cornish,7,A1,New,A,D,Back,False,False,False,,Ben,Sam,True
-1st,2024/25,London Cornish,7,C3,New,C,D,Middle,False,False,False,,Ben,Dan B,False
-1st,2024/25,London Cornish,7,C1,New,C,M,Back,False,False,False,,Ben,Sam,True
-1st,2024/25,London Cornish,7,C2,New,C,M,Front,True,False,False,,Ben,Ryland,True
-1st,2024/25,London Cornish,7,H1,New,H,X,Back,False,False,False,,Ben,Sam,True
-1st,2024/25,London Cornish,7,A3,New,A,D,Middle,True,False,False,,Ben,Dan B,True
-1st,2024/25,London Cornish,7,A3,New,A,D,Middle,True,False,False,,Ben,Tom M,True
-1st,2024/25,London Cornish,7,C3,New,C,D,Middle,True,False,False,,Ben,Dan B,False
-1st,2024/25,London Cornish,7,A3,New,A,D,Middle,False,False,False,,Ben,Dan B,True
-1st,2024/25,London Cornish,7,A1,New,A,D,Back,False,False,False,,Ben,Sam,True
-1st,2024/25,London Cornish,7,C2,New,C,M,Front,True,False,False,,Ben,Ryland,True
-1st,2024/25,Haywards Heath,7,C3,New,C,D,Middle,False,False,False,,Ben,Tom M,True
-1st,2024/25,Haywards Heath,7,A3,New,A,D,Middle,True,False,False,,Ben,Tom M,True
-1st,2024/25,Haywards Heath,7,C1,New,C,M,Back,False,False,False,,Ben,Sam,True
-1st,2024/25,Haywards Heath,7,A1,New,A,D,Back,False,False,False,,Ben,Sam,True
-1st,2024/25,Haywards Heath,7,C3,New,C,D,Middle,False,True,False,,Ben,Tom M,True
-1st,2024/25,Haywards Heath,7,H3,New,H,X,Middle,False,True,False,,Ben,Tom M,False
-1st,2024/25,Haywards Heath,7,H1,New,H,X,Back,False,False,False,,Ben,Sam,True
-1st,2024/25,Haywards Heath,7,C1,New,C,M,Back,False,False,False,,Ben,Sam,False
-1st,2024/25,Haywards Heath,7,A2,New,A,D,Front,False,True,False,,Ben,Ryland,True
-1st,2024/25,Hove,7,H3,New,H,X,Middle,True,False,False,,George,Tom M,True
-1st,2024/25,Hove,7,A2,New,A,D,Front,True,False,False,,George,John,True
-1st,2024/25,Hove,7,C3,New,C,D,Middle,True,False,False,,George,Tom M,True
-1st,2024/25,Hove,7,A3,New,A,D,Middle,True,False,False,,George,Tom M,True
-1st,2024/25,Hove,6,C1,New,C,M,Back,False,False,False,,George,Sam,False
-1st,2024/25,Hove,7,C2,New,C,M,Front,True,False,False,,George,John,True
-1st,2024/25,Hove,7,H3,New,H,X,Middle,False,False,False,,George,Tom M,False
-1st,2024/25,Hove,7,A3,New,A,D,Middle,False,False,False,,George,Tom M,False
-1st,2024/25,Hove,7,A1,New,A,D,Back,False,False,False,,George,Sam,True
-1st,2024/25,Hove,7,H3,New,H,X,Middle,False,False,False,,George,Tom M,True
-1st,2024/25,Hove,7,C1,New,C,M,Back,False,False,False,,George,Sam,False
-1st,2024/25,Twickenham,7,C3,New,C,D,Middle,False,False,False,,George,Tom M,True
-1st,2024/25,Twickenham,7,A3,New,A,D,Middle,True,False,False,,George,Tom M,True
-1st,2024/25,Twickenham,7,H3,New,H,X,Middle,True,False,False,,George,Tom M,True
-1st,2024/25,Twickenham,7,H3,New,H,X,Middle,False,False,False,,George,Tom M,False
-1st,2024/25,Twickenham,7,A2,New,A,D,Front,True,False,False,,George,Ryland,True
-1st,2024/25,Twickenham,7,A3,New,A,D,Middle,True,False,False,,George,Tom M,False
-1st,2024/25,Twickenham,7,H3,New,H,X,Middle,False,True,False,,George,Tom M,True
-1st,2024/25,Twickenham,7,C1,New,C,M,Back,False,False,False,,George,Sam,False
-1st,2024/25,Twickenham,7,H3,New,H,X,Middle,False,True,False,,George,Tom M,True
-1st,2024/25,Twickenham,7,H3,New,H,X,Middle,False,False,False,,George,Tom M,False
-1st,2024/25,Twickenham,7,A3,New,A,D,Middle,True,False,False,,George,Tom M,True
-1st,2024/25,Twickenham,7,A3,New,A,D,Middle,True,False,False,,George,Tom M,True
-1st,2024/25,Twickenham,7,C2,New,C,M,Front,True,False,False,,George,Ryland,True
-1st,2024/25,Twickenham,7,A2,New,A,D,Front,True,False,False,,George,Ryland,True
-1st,2024/25,KCS Old Boys,7,A3,New,A,D,Middle,True,False,False,,George,Tom M,True
-1st,2024/25,KCS Old Boys,7,H3,New,H,X,Middle,False,False,False,,George,Tom M,False
-1st,2024/25,KCS Old Boys,7,C3,New,C,D,Middle,True,False,False,,George,Tom M,True
-1st,2024/25,KCS Old Boys,7,C1,New,C,M,Back,False,False,False,,George,Sam,False
-1st,2024/25,KCS Old Boys,7,A3,New,A,D,Middle,True,False,False,,George,Tom M,True
-1st,2024/25,KCS Old Boys,7,A3,New,A,D,Middle,False,False,False,,George,Tom M,True
-1st,2024/25,KCS Old Boys,7,H1,New,H,X,Back,False,False,False,,George,Sam,True
-1st,2024/25,KCS Old Boys,7,C3,New,C,D,Middle,False,False,False,,George,Tom M,False
-1st,2024/25,KCS Old Boys,7,A2,New,A,D,Front,False,False,False,,George,Ryland,False
-1st,2024/25,Eastbourne,7,H3,New,H,X,Middle,False,False,False,,Ben,Tom M,False
-1st,2024/25,Eastbourne,7,H3,New,H,X,Middle,False,False,False,,Ben,Tom M,False
-1st,2024/25,Eastbourne,7,C3,New,C,D,Middle,False,False,False,,Ben,Tom M,False
-1st,2024/25,Eastbourne,7,A2,New,A,D,Front,True,False,False,,Ben,John,True
-1st,2024/25,Eastbourne,7,A2,New,A,D,Front,True,False,False,,Ben,John,True
-1st,2024/25,Eastbourne,7,A2,New,A,D,Front,False,False,False,,George,John,True
-1st,2024/25,Eastbourne,7,A2,New,A,D,Front,False,False,False,,George,John,False
-1st,2024/25,Eastbourne,7,A3,New,A,D,Middle,False,False,False,,George,Tom M,False
-1st,2024/25,Trinity,7,A*,New,A,X,Middle,False,False,False,,Ben,John,True
-1st,2024/25,Trinity,7,A3,New,A,D,Middle,False,False,False,,Ben,Ryland,False
-1st,2024/25,Trinity,7,A3,New,A,D,Middle,False,False,False,,Ben,Ryland,True
-1st,2024/25,Trinity,7,A2,New,A,D,Front,False,False,False,,Ben,John,True
-1st,2024/25,Trinity,7,C3,New,C,D,Middle,False,False,False,,Ben,Tom M,True
-1st,2024/25,Trinity,7,C3,New,C,D,Middle,True,False,False,,Ben,Tom M,True
-1st,2024/25,Trinity,7,A3,New,A,D,Middle,False,False,False,,George,Tom M,True
-1st,2024/25,Old Rutlishians,7,A2,New,A,D,Front,True,False,False,,Ben,John,True
-1st,2024/25,Old Rutlishians,7,A2,New,A,D,Front,False,False,False,,Ben,Ryland,False
-1st,2024/25,Old Rutlishians,7,A2,New,A,D,Middle,True,False,False,,Ben,John,True
-1st,2024/25,Old Rutlishians,7,H2,New,H,X,Front,True,False,False,,Ben,Ryland,True
-1st,2024/25,Old Rutlishians,7,A3,New,A,D,Middle,True,False,False,,Ben,Tom M,True
-1st,2024/25,Old Rutlishians,7,C3,New,C,D,Middle,True,False,False,,Ben,Tom M,True
-1st,2024/25,Old Rutlishians,7,C3,New,C,D,Middle,False,True,False,,Ben,Tom M,True
-1st,2024/25,Old Rutlishians,7,C2,New,C,M,Front,True,False,False,,Ben,John,True
-1st,2024/25,Old Rutlishians,7,H2,New,H,X,Front,True,False,False,,Ben,Ryland,True
-1st,2024/25,Old Rutlishians,7,H3,New,H,X,Middle,True,False,False,,Ben,John,True
-1st,2024/25,Old Rutlishians,7,H3,New,H,X,Middle,False,False,False,,Ben,Tom M,False
-1st,2024/25,Old Rutlishians,7,A3,New,A,D,Middle,True,False,False,,Ben,John,True
-1st,2024/25,Old Rutlishians,7,A3,New,A,D,Middle,False,False,False,,Ben,John,False
-1st,2024/25,Old Rutlishians,7,H2,New,H,X,Front,True,False,False,,Ben,John,True
-1st,2024/25,Old Rutlishians,7,H2,New,H,X,Front,True,False,False,,Ben,John,True
-1st,2024/25,Old Rutlishians,7,A*,New,A,X,Middle,True,False,False,,Ben,John,True
-1st,2024/25,Old Rutlishians,7,H2,New,H,X,Front,True,False,False,,Ben,John,True
-1st,2024/25,Old Rutlishians,7,H3,New,H,X,Middle,False,False,False,,Ben,Tom M,False
-1st,2024/25,Cobham,7,H2,New,H,X,Front,False,False,False,,Ben,Ryland,False
-1st,2024/25,Cobham,7,A3,New,A,D,Middle,True,False,False,,Ben,Sam,True
-1st,2024/25,Cobham,7,A2,New,A,D,Front,False,False,False,,Ben,Ryland,True
-1st,2024/25,Cobham,7,C3,New,C,D,Middle,False,False,False,,Ben,Sam,True
-1st,2024/25,Cobham,7,A3,New,A,D,Middle,False,False,False,,Ben,Sam,False
-1st,2024/25,Cobham,7,H3,New,H,X,Middle,True,False,False,,Ben,Sam,True
-1st,2024/25,Cobham,7,H3,New,H,X,Middle,False,False,False,,Ben,Sam,True
-1st,2024/25,Cobham,7,A2,New,A,D,Front,True,False,False,,Ben,Ryland,False
-1st,2024/25,Cobham,7,A3,New,A,D,Middle,False,False,False,,Ben,Sam,True
-1st,2024/25,Cobham,7,A3,New,A,D,Middle,False,False,False,,Ben,Sam,True
-1st,2024/25,Cobham,6,H3,New,H,X,Middle,False,False,False,,George,Sam,False
-1st,2024/25,Cobham,7,A2,New,A,D,Front,False,False,False,,George,Rory,True
-1st,2024/25,Cobham,7,C3,New,C,D,Middle,False,False,False,,George,Sam,True
-1st,2024/25,Old Haileyburians,7,A3,New,A,D,Middle,True,False,False,,George,Tom M,True
-1st,2024/25,Old Haileyburians,7,C1,New,C,M,Back,False,False,False,,George,Sam,False
-1st,2024/25,Old Haileyburians,7,H3,New,H,X,Middle,False,False,False,,George,Tom M,False
-1st,2024/25,Old Haileyburians,7,A3,New,A,D,Middle,False,False,False,,George,Tom M,True
-1st,2024/25,Old Haileyburians,7,C1,New,C,M,Back,False,False,False,,George,Sam,False
-1st,2024/25,Old Haileyburians,7,H3,New,H,X,Middle,False,False,False,,George,Tom M,True
-1st,2024/25,Old Haileyburians,7,C3,New,C,D,Middle,False,False,False,,George,Tom M,False
-1st,2024/25,Old Haileyburians,4,Snap,4-man only,,X,Front,False,False,False,,George,Oscar,True
-1st,2024/25,Old Haileyburians,7,H3,New,H,X,Middle,False,False,False,,George,Tom M,True
-1st,2024/25,Old Haileyburians,7,H3,New,H,X,Middle,False,False,False,,George,Tom M,True
-1st,2024/25,Weybridge Vandals,7,H3,New,H,X,Middle,False,False,False,,Ben,Tim,True
-1st,2024/25,Weybridge Vandals,7,A3,New,A,D,Middle,False,False,False,,Ben,Tim,True
-1st,2024/25,Weybridge Vandals,7,A2,New,A,D,Front,True,False,False,,Ben,Rory,True
-1st,2024/25,Weybridge Vandals,7,C3,New,C,D,Middle,False,False,False,,Ben,Tim,False
-1st,2024/25,Weybridge Vandals,4,Snap,4-man only,,X,Front,False,False,False,,Ben,Rory,True
-1st,2024/25,Weybridge Vandals,7,C1,New,C,M,Back,False,False,False,,Ben,Sam,True
-1st,2024/25,Weybridge Vandals,7,A3,New,A,D,Middle,False,False,False,,Ben,Tim,False
-1st,2024/25,Weybridge Vandals,7,C3,New,C,D,Middle,True,False,False,,Ben,Tim,True
-1st,2024/25,Weybridge Vandals,7,C2,New,C,M,Front,False,False,False,,Ben,Rory,False
-1st,2024/25,Weybridge Vandals,4,,Old,,X,Back,False,False,False,,Ben,Sam,False
-1st,2024/25,Weybridge Vandals,4,Yes,4-man only,,M,Middle,False,False,False,,Ben,Sam,False
-1st,2024/25,Weybridge Vandals,7,A2,New,A,D,Front,False,False,False,,Ben,Rory,True
-1st,2024/25,Weybridge Vandals,7,H3,New,H,X,Middle,False,True,False,,Ben,Tim,True
-1st,2024/25,Weybridge Vandals,6,C3,New,C,D,Middle,False,False,False,,Ben,Tim,False
-1st,2024/25,Weybridge Vandals,6,H3,New,H,X,Middle,False,False,False,,Ben,Tim,True
-1st,2024/25,Weybridge Vandals,6,H3,New,H,X,Middle,False,False,False,,Ben,Tim,False
-1st,2024/25,Weybridge Vandals,6,H2,New,H,X,Front,True,False,False,,Ben,Oscar,True
-1st,2024/25,Twickenham,7,A*,New,A,X,Middle,False,False,False,,George,John,False
-1st,2024/25,Twickenham,7,A3,New,A,D,Middle,False,False,False,,George,Sam,True
-1st,2024/25,Twickenham,7,C*,New,C,X,Middle,False,False,False,,George,Tim,False
-1st,2024/25,Twickenham,7,A3,New,A,D,Middle,False,False,False,,George,Sam,True
-1st,2024/25,Twickenham,7,C1,New,C,M,Back,False,False,False,,George,Sam,True
-1st,2024/25,Twickenham,7,A*,New,A,X,Middle,True,False,False,,George,John,True
-1st,2024/25,Twickenham,7,A3,New,A,D,Middle,False,False,False,,Ben,Sam,False
-1st,2024/25,Twickenham,7,A*,New,A,X,Middle,False,False,False,,Ben,John,True
-1st,2024/25,Twickenham,7,C1,New,C,M,Back,False,False,False,,Ben,Sam,True
-1st,2024/25,Twickenham,4,Snap,4-man only,,X,Front,True,False,False,,Ben,John,True
-1st,2024/25,Hove,7,A3,New,A,D,Middle,True,False,False,,Reggie,Sam,True
-1st,2024/25,Hove,4,,Old,,X,Back,True,False,False,,Reggie,Sam,True
-1st,2024/25,Hove,7,A*,New,A,X,Middle,False,False,False,,Reggie,John,False
-1st,2024/25,Hove,7,H1,New,H,X,Back,False,False,False,,Reggie,Sam,True
-1st,2024/25,Hove,7,C1,New,C,M,Back,False,False,False,,Reggie,Sam,True
-1st,2024/25,Hove,7,C3,New,C,D,Middle,False,False,False,,Reggie,Ryland,False
-1st,2024/25,Hove,7,C1,New,C,M,Back,False,False,False,,Reggie,Sam,False
-1st,2024/25,Hove,7,H3,New,H,X,Middle,True,False,False,,Reggie,John,True
-1st,2024/25,Eastbourne,7,H3,New,H,X,Middle,False,False,False,,Ben,Tom M,True
-1st,2024/25,Eastbourne,7,A2,New,A,D,Front,False,False,False,,Ben,Ryland,False
-1st,2024/25,Eastbourne,7,C1,New,C,M,Back,False,False,False,,Ben,Sam,True
-1st,2024/25,Eastbourne,7,C3,New,C,D,Middle,False,False,False,,Ben,Tom M,False
-1st,2024/25,Eastbourne,5,C2,New,C,M,Front,False,False,False,,Ben,Ryland,True
-1st,2024/25,Eastbourne,7,H1,New,H,X,Back,False,False,False,,Ben,Sam,True
-1st,2024/25,Eastbourne,5,C2,New,C,M,Front,False,False,False,,Ben,Ryland,True
-1st,2024/25,Eastbourne,7,A3,New,A,D,Middle,False,False,False,,Ben,Oscar,True
-1st,2024/25,Eastbourne,7,C*,New,C,X,Middle,False,False,False,,Ben,Oscar,True
-1st,2024/25,Eastbourne,7,C3,New,C,D,Middle,True,False,False,,Ben,Tom M,True
-1st,2024/25,Eastbourne,7,A3,New,A,D,Middle,False,False,False,,Ben,Sam,True
-1st,2024/25,Eastbourne,7,C1,New,C,M,Back,False,False,False,,Ben,Sam,True
-1st,2024/25,Eastbourne,7,C1,New,C,M,Back,False,False,False,,Ben,Sam,True
-1st,2024/25,Eastbourne,7,H3,New,H,X,Middle,True,False,False,,Ben,Tom M,True
-2nd,2022/23,Eastbourne,6,,Old,,X,Back,False,False,False,,George,Jules,True
-2nd,2022/23,Eastbourne,6,Matlow,Old,,X,Front,False,False,False,,George,Josh B,True
-2nd,2022/23,Eastbourne,5,,Old,,X,Middle,False,False,False,,George,Jules,True
-2nd,2022/23,Eastbourne,4,Yes,4-man only,,M,Back,False,False,False,,George,Rory E,True
-2nd,2022/23,Eastbourne,6,,Old,,X,Middle,False,False,False,,George,Jules,False
-2nd,2022/23,Eastbourne,4,Yes,4-man only,,M,Back,False,False,False,,George,Rory E,True
-2nd,2022/23,Eastbourne,6,,Old,,X,Middle,False,False,False,,George,Jules,True
-2nd,2022/23,Eastbourne,4,Snap,4-man only,,X,Front,False,False,False,,George,Jules,True
-2nd,2022/23,Eastbourne,6,,Old,,X,Middle,True,False,False,,Rory D,Jules,True
-2nd,2022/23,Eastbourne,4,Snap,4-man only,,X,Front,False,False,False,,Rory D,Jules,True
-2nd,2022/23,Eastbourne,4,Yes,4-man only,,M,Back,False,False,False,,Rory D,Rory E,True
-2nd,2022/23,Eastbourne,4,No,4-man only,,D,Front,False,False,False,,Rory D,Rory E,False
-2nd,2022/23,Eastbourne,6,Even,Old,,X,Middle,False,False,False,,Rory D,Jules,False
-2nd,2022/23,Eastbourne,5,Red,Old,,X,Front,False,False,False,,Ben W,Max,True
-2nd,2022/23,St. Francis,4,Yes,4-man only,,M,Back,False,False,False,,George,Jules,True
-2nd,2022/23,St. Francis,4,Yes,4-man only,,M,Back,False,False,False,,George,Jules,True
-2nd,2022/23,St. Francis,4,Yes,4-man only,,M,Back,False,False,False,,George,Jules,False
-2nd,2022/23,St. Francis,4,Snap,4-man only,,X,Front,False,False,False,,George,Harrison,True
-2nd,2022/23,St. Francis,4,Snap,4-man only,,X,Front,False,False,False,,George,Harrison,True
-2nd,2022/23,St. Francis,4,Snap,4-man only,,X,Front,False,False,False,,George,Harrison,False
-2nd,2022/23,St. Francis,4,Matlow,Old,,X,Front,False,False,False,,George,Ben P,True
-2nd,2022/23,St. Francis,4,Yes,4-man only,,M,Back,False,False,False,,George,Harrison,False
-2nd,2022/23,St. Francis,4,Snap,4-man only,,X,Front,False,False,False,,George,Rory D,True
-2nd,2022/23,St. Francis,6,,Old,,X,Middle,False,False,False,,George,Rory D,False
-2nd,2022/23,St. Francis,6,,Old,,X,Middle,True,False,False,,George,Rory D,True
-2nd,2022/23,St. Francis,6,,Old,,X,Middle,False,False,False,,George,Rory D,True
-2nd,2022/23,St. Francis,6,Matlow,Old,,X,Front,False,False,False,,George,Darren,True
-2nd,2022/23,St. Francis,4,Yes,4-man only,,M,Middle,False,False,False,,George,Rory D,False
-2nd,2022/23,St. Francis,4,Snap,4-man only,,X,Front,False,False,False,,George,Rory D,True
-2nd,2022/23,St. Francis,6,,Old,,X,Middle,True,False,False,,George,Ryland,True
-2nd,2022/23,St. Francis,4,Yes,4-man only,,M,Back,False,False,False,,George,Ryland,False
-2nd,2022/23,Heathfield & Waldron,6,,Old,,X,Middle,True,False,False,,Ben W,Tao,True
-2nd,2022/23,Heathfield & Waldron,6,,Old,,X,Middle,True,False,False,,Ben W,Tao,True
-2nd,2022/23,Heathfield & Waldron,5,Red,Old,,X,Front,False,False,False,,Ben W,Harrison,True
-2nd,2022/23,Heathfield & Waldron,4,Yes,4-man only,,M,Middle,False,False,False,,Charlie,Tao,True
-2nd,2022/23,Heathfield & Waldron,4,Yes,4-man only,,M,Middle,False,False,False,,Charlie,Tao,True
-2nd,2022/23,Heathfield & Waldron,5,,Old,,X,Middle,False,False,False,,Charlie,Tao,True
-2nd,2022/23,Heathfield & Waldron,6,,Old,,X,Middle,True,False,False,,Charlie,Tao,False
-2nd,2022/23,Heathfield & Waldron,5,,Old,,X,Middle,False,False,False,,Charlie,Tao,True
-2nd,2022/23,Heathfield & Waldron,4,Yes,4-man only,,M,Middle,False,False,False,,Charlie,Tao,True
-2nd,2022/23,Heathfield & Waldron,6,,Old,,X,Middle,True,False,False,,Charlie,Tao,False
-2nd,2022/23,Heathfield & Waldron,6,,Old,,X,Middle,True,False,False,,Charlie,Tao,False
-2nd,2022/23,St. Francis,4,Yes,4-man only,,M,Middle,False,False,False,,Ben W,Dan A,True
-2nd,2022/23,St. Francis,4,Yes,4-man only,,M,Back,False,False,False,,Ben W,Dan A,False
-2nd,2022/23,St. Francis,6,,Old,,X,Middle,True,False,False,,Ben W,Dan A,False
-2nd,2022/23,St. Francis,4,Snap,4-man only,,X,Front,False,False,False,,Ben W,Max,True
-2nd,2022/23,St. Francis,4,Yes,4-man only,,M,Middle,False,False,False,,Ben W,Dan A,True
-2nd,2022/23,St. Francis,4,Snap,4-man only,,X,Front,False,False,False,,Ben W,Max,True
-2nd,2022/23,St. Francis,6,,Old,,X,Middle,False,False,False,,Ben W,Dan A,False
-2nd,2022/23,St. Francis,4,Snap,4-man only,,X,Front,False,False,False,,Dan B,Max,True
-2nd,2022/23,St. Francis,4,No,4-man only,,D,Front,False,False,False,,Dan B,Dan A,False
-2nd,2022/23,St. Francis,6,,Old,,X,Middle,True,False,False,,Morgan,Dan A,True
-2nd,2023/24,Uckfield,6,,Old,,X,Middle,True,False,False,,Mark,Tom M,True
-2nd,2023/24,Uckfield,5,RD,Old,,D,Middle,False,False,False,,Mark,Tom M,True
-2nd,2023/24,Uckfield,6,,Old,,X,Middle,True,False,False,,Mark,Tom M,True
-2nd,2023/24,Uckfield,5,RD,Old,,D,Middle,False,False,False,,Mark,Tom M,True
-2nd,2023/24,Uckfield,5,Red,Old,,X,Front,False,False,False,,George,Rory,True
-2nd,2023/24,Uckfield,5,,Old,,X,Middle,False,False,False,,George,Tom M,True
-2nd,2023/24,Uckfield,4,Snap,4-man only,,X,Front,False,False,False,,George,Tom M,True
-2nd,2023/24,Uckfield,7,,Old,,X,Middle,False,False,False,,George,Tom M,True
-2nd,2023/24,Uckfield,5,,Old,,X,Middle,False,False,False,,Mark,Tom M,True
-2nd,2023/24,Uckfield,5,RD,Old,,D,Middle,True,False,False,,Mark,Tom M,True
-2nd,2023/24,Uckfield,5,,Old,,X,Middle,False,False,False,,George,Tom M,True
-2nd,2023/24,Uckfield,6,,Old,,X,Middle,False,False,False,,George,Tom M,True
-2nd,2023/24,Shoreham,5,,Old,,X,Middle,False,False,False,,George,Tim,True
-2nd,2023/24,Shoreham,5,RD,Old,,D,Middle,False,False,False,,George,Tim,False
-2nd,2023/24,Shoreham,6,Even,Old,,X,Middle,False,False,False,,George,Tim,True
-2nd,2023/24,Shoreham,5,,Old,,X,Middle,False,False,False,,George,Tim,True
-2nd,2023/24,Shoreham,5,,Old,,X,Middle,False,False,False,,George,Tim,True
-2nd,2023/24,Shoreham,5,,Old,,X,Middle,False,False,False,,George,Tim,True
-2nd,2023/24,Holbrook,5,Even,Old,,X,Middle,False,False,False,,George,Tim,True
-2nd,2023/24,Holbrook,5,,Old,,X,Middle,False,False,False,,George,Tim,True
-2nd,2023/24,Holbrook,4,Yes,4-man only,,M,Back,False,False,False,,George,Tim,True
-2nd,2023/24,Holbrook,5,,Old,,X,Middle,False,False,False,,George,Tim,True
-2nd,2023/24,Holbrook,5,Red,Old,,X,Front,False,False,False,,George,Dan A,True
-2nd,2023/24,Holbrook,5,,Old,,X,Middle,False,False,False,,George,Tim,True
-2nd,2023/24,Holbrook,4,Yes,4-man only,,M,Back,False,False,False,,George,Tim,True
-2nd,2023/24,Holbrook,4,Yes,4-man only,,M,Back,False,False,False,,George,Tim,True
-2nd,2023/24,Holbrook,5,,Old,,X,Middle,False,False,False,,George,Tim,True
-2nd,2023/24,Holbrook,6,,Old,,X,Middle,True,False,False,,George,Tim,True
-2nd,2023/24,Holbrook,5,,Old,,X,Middle,False,False,False,,George,Tim,False
-2nd,2023/24,Holbrook,4,Yes,4-man only,,M,Back,False,False,False,,George,Tim,True
-2nd,2023/24,Shoreham,5,,Old,,X,Middle,False,False,False,,George,Pete,True
-2nd,2023/24,Shoreham,5,,Old,,X,Back,False,False,False,,George,Pete,True
-2nd,2023/24,Shoreham,4,Yes,4-man only,,M,Back,False,False,False,,George,Tom B,False
-2nd,2023/24,Shoreham,6,,Old,,X,Middle,True,False,False,,George,Pete,True
-2nd,2023/24,Shoreham,5,,Old,,X,Middle,False,False,False,,George,Pete,False
-2nd,2023/24,Shoreham,6,,Old,,X,Middle,True,False,False,,George,Pete,True
-2nd,2023/24,Shoreham,6,,Old,,X,Middle,True,False,False,,George,Pete,True
-2nd,2023/24,Shoreham,5,,Old,,X,Middle,True,False,False,,George,Pete,True
-2nd,2023/24,Shoreham,6,,Old,,X,Middle,False,False,False,,George,Pete,False
-2nd,2023/24,Shoreham,5,,Old,,X,Middle,False,False,False,,George,Pete,True
-2nd,2023/24,Shoreham,5,,Old,,X,Middle,False,False,False,,George,Pete,True
-2nd,2023/24,Shoreham,5,,Old,,X,Middle,False,False,False,,George,Tom B,False
-2nd,2023/24,Shoreham,6,,Old,,X,Middle,True,False,False,,George,Tom B,True
-2nd,2023/24,Heathfield & Waldron,5,,Old,,X,Middle,False,False,False,,George,Pete,True
-2nd,2023/24,Heathfield & Waldron,5,,Old,,X,Middle,False,False,False,,George,Pete,True
-2nd,2023/24,Heathfield & Waldron,4,Snap,4-man only,,X,Front,False,False,False,,George,Rory,True
-2nd,2023/24,Heathfield & Waldron,6,,Old,,X,Middle,True,False,False,,George,Pete,True
-2nd,2023/24,Heathfield & Waldron,5,,Old,,X,Middle,False,False,False,,George,Pete,True
-2nd,2023/24,Heathfield & Waldron,4,,Old,,X,Back,False,False,False,,George,Rory,True
-2nd,2023/24,Heathfield & Waldron,5,,Old,,X,Middle,False,False,False,,George,Pete,True
-2nd,2023/24,Hellingly,5,,Old,,X,Middle,False,False,False,,George,Pete,True
-2nd,2023/24,Hellingly,7,C1,New,C,M,Back,False,False,False,,George,Tom B,True
-2nd,2023/24,Hellingly,5,,Old,,X,Middle,False,False,False,,George,Pete,True
-2nd,2023/24,Hellingly,5,,Old,,X,Middle,False,False,False,,George,Pete,True
-2nd,2023/24,Hellingly,5,,Old,,X,Middle,False,False,False,,George,Pete,True
-2nd,2023/24,Hellingly,5,,Old,,X,Middle,False,False,False,,George,Pete,False
-2nd,2023/24,Hellingly,5,,Old,,X,Middle,False,False,False,,George,Pete,False
-2nd,2023/24,Hellingly,5,,Old,,X,Middle,False,False,False,,George,Tim,False
-2nd,2023/24,Midhurst,4,Yes,4-man only,,M,Back,False,False,False,,George,Pete,True
-2nd,2023/24,Midhurst,7,C1,New,C,M,Back,False,False,False,,George,Harrison,False
-2nd,2023/24,Midhurst,5,,Old,,X,Middle,False,False,False,,George,Pete,True
-2nd,2023/24,Midhurst,5,,Old,,X,Middle,False,False,False,,George,Pete,True
-2nd,2023/24,Midhurst,7,H3,New,H,X,Middle,False,False,False,,George,Pete,False
-2nd,2023/24,Midhurst,5,,Old,,X,Middle,False,False,False,,George,Pete,True
-2nd,2023/24,Midhurst,5,,Old,,X,Middle,False,False,False,,George,Will,True
-2nd,2023/24,Midhurst,5,,Old,,X,Middle,False,False,False,,George,Will,False
-2nd,2023/24,Midhurst,5,Red,Old,,X,Front,False,False,False,,George,Will,True
-2nd,2023/24,Midhurst,5,Red,Old,,X,Front,False,False,False,,George,Will,True
-2nd,2023/24,Midhurst,5,,Old,,X,Middle,False,False,False,,George,Will,True
-2nd,2023/24,Midhurst,5,Red,Old,,X,Front,False,False,False,,George,Will,True
-2nd,2023/24,Midhurst,7,H3,New,H,X,Middle,False,False,False,,George,Pete,True
-2nd,2023/24,Midhurst,7,,Old,,X,Middle,True,False,False,,George,Pete,True
-2nd,2023/24,Midhurst,7,,Old,,X,Middle,True,False,False,,George,Pete,True
-2nd,2023/24,Midhurst,7,,Old,,X,Middle,False,False,False,,George,Will,True
-2nd,2023/24,Midhurst,5,,Old,,X,Middle,False,False,False,,George,Will,True
-2nd,2023/24,Midhurst,7,,Old,,X,Middle,True,False,False,,George,Will,True
-2nd,2024/25,Warlingham,7,C2,New,C,M,Front,False,False,False,,George,Oscar,True
-2nd,2024/25,Warlingham,7,C1,New,C,M,Back,False,False,False,,George,Pete,True
-2nd,2024/25,Warlingham,7,C*,New,C,X,Middle,False,False,False,,George,Will,False
-2nd,2024/25,Warlingham,7,C*,New,C,X,Middle,False,False,False,,George,Will,False
-2nd,2024/25,Warlingham,5,C3,New,C,D,Middle,False,False,False,,George,Will,True
-2nd,2024/25,Warlingham,7,A2,New,A,D,Front,False,False,False,,George,Tom B,True
-2nd,2024/25,Warlingham,7,A2,New,A,D,Front,True,False,False,,George,Tom B,True
-2nd,2024/25,Warlingham,5,C*,New,C,X,Middle,False,False,False,,George,Sam,True
-2nd,2024/25,Warlingham,5,C*,New,C,X,Middle,False,False,False,,George,Sam,True
-2nd,2024/25,Warlingham,7,C3,New,C,D,Middle,False,False,False,,George,Sam,True
-2nd,2024/25,Warlingham,7,A3,New,A,D,Middle,True,False,False,,George,Sam,True
-2nd,2024/25,Warlingham,5,C3,New,C,D,Middle,False,False,False,,Ben T,Will,True
-2nd,2024/25,Warlingham,7,A3,New,A,D,Middle,False,False,False,,Ben T,Will,True
-2nd,2024/25,Eastbourne,7,C2,New,C,M,Front,True,False,False,,Harrison,John,True
-2nd,2024/25,Eastbourne,7,C2,New,C,M,Front,False,False,False,,Harrison,John,True
-2nd,2024/25,Eastbourne,7,H3,New,H,X,Middle,False,False,False,,Harrison,John,True
-2nd,2024/25,Eastbourne,7,H3,New,H,X,Middle,False,False,False,,Ben P,John,True
-2nd,2024/25,Eastbourne,7,H3,New,H,X,Middle,False,False,False,,Ben P,John,False
-2nd,2024/25,Eastbourne,7,H3,New,H,X,Middle,False,False,False,,Ben P,John,False
-2nd,2024/25,Eastbourne,7,H3,New,H,X,Middle,True,False,False,,Harrison,Pete,True
-2nd,2024/25,Eastbourne,7,C1,New,C,M,Back,False,False,False,,Harrison,Oscar,True
-2nd,2024/25,Eastbourne,7,H3,New,H,X,Middle,False,False,False,,Harrison,Pete,True
-2nd,2024/25,Eastbourne,7,A2,New,A,D,Front,False,False,False,,Harrison,Rory,True
-2nd,2024/25,Eastbourne,7,C3,New,C,D,Middle,False,False,False,,Harrison,Pete,False
-2nd,2024/25,Eastbourne,7,C3,New,C,D,Middle,False,False,False,,Harrison,Daan,False
-2nd,2024/25,Eastbourne,7,H2,New,H,X,Front,False,False,False,,Harrison,Rory,False
-2nd,2024/25,Eastbourne,7,H2,New,H,X,Front,False,False,False,,Harrison,Michael,False
-2nd,2024/25,Eastbourne,7,H3,New,H,X,Middle,False,False,False,,,Oscar,False
-2nd,2024/25,Eastbourne,7,H3,New,H,X,Middle,False,False,False,,,Pete,False
-2nd,2024/25,Eastbourne,7,H2,New,H,X,Front,True,False,False,,,Rory,True
-2nd,2024/25,Old Rutlishians,4,No,4-man only,,D,Front,False,False,False,,Harrison,Pete,True
-2nd,2024/25,Old Rutlishians,7,H3,New,H,X,Middle,False,False,False,,Harrison,Pete,False
-2nd,2024/25,Old Rutlishians,5,Red,Old,,X,Front,False,False,False,,Harrison,Rory,False
-2nd,2024/25,Old Rutlishians,5,RD,Old,,D,Middle,False,False,False,,Harrison,Pete,True
-2nd,2024/25,Old Rutlishians,4,Snap,4-man only,,X,Front,False,False,False,,Harrison,Pete,False
-2nd,2024/25,Old Rutlishians,5,,Old,,X,Middle,False,False,False,,Harrison,Pete,False
-2nd,2024/25,Newick,7,H3,New,H,X,Middle,True,False,False,,Harrison,Pete,True
-2nd,2024/25,Newick,7,C*,New,C,X,Middle,True,False,False,,Harrison,Pete,True
-2nd,2024/25,Newick,7,C3,New,C,D,Middle,False,False,False,,Harrison,Pete,False
-2nd,2024/25,Newick,7,C2,New,C,M,Front,False,False,False,,Harrison,Nathan,True
-2nd,2024/25,Newick,7,A3,New,A,D,Middle,True,False,False,,Harrison,Oscar,True
-2nd,2024/25,Newick,7,A2,New,A,D,Front,True,False,False,,Harrison,Nathan,True
-2nd,2024/25,Newick,7,A3,New,A,D,Middle,False,False,False,,Harrison,Oscar,True
-2nd,2024/25,Newick,7,A3,New,A,D,Middle,False,False,False,,Harrison,Oscar,True
-2nd,2024/25,Newick,7,A3,New,A,D,Middle,False,False,False,,Harrison,Oscar,True
-2nd,2024/25,Newick,7,A3,New,A,D,Middle,False,False,False,,Harrison,Oscar,True
-2nd,2024/25,Newick,7,C3,New,C,D,Middle,False,False,False,,Harrison,Pete,True
-2nd,2024/25,Newick,7,C3,New,C,D,Middle,False,False,False,,Reggie,Pete,True
-2nd,2024/25,Newick,7,C3,New,C,D,Middle,False,False,False,,Reggie,Pete,True
-2nd,2024/25,Newick,7,,Old,,X,Back,False,False,False,,,,False
-2nd,2024/25,Newick,7,A2,New,A,D,Front,True,False,False,,Reggie,Nathan,True
-2nd,2024/25,Newick,7,A3,New,A,D,Middle,False,False,False,,Reggie,Oscar,True
-2nd,2024/25,Newick,7,C3,New,C,D,Middle,False,False,False,,Reggie,Oscar,False
-2nd,2024/25,Newick,7,H3,New,H,X,Middle,False,False,False,,Reggie,Oscar,True
-2nd,2024/25,Newick,7,H3,New,H,X,Middle,False,False,False,,Reggie,Oscar,False
-2nd,2024/25,Barns Green,5,,Old,,X,Back,False,False,False,,Reggie,Will,False
-2nd,2024/25,Barns Green,7,H2,New,H,X,Front,False,False,False,,Reggie,Tom B,False
-2nd,2024/25,Barns Green,5,C2 / Red,Other,C,X,Front,False,False,False,,Reggie,Tom B,False
-2nd,2024/25,Barns Green,5,C2 / Red,Other,C,X,Front,False,False,False,,Reggie,Tom B,True
-2nd,2024/25,Barns Green,5,C2 / Red,Other,C,X,Front,False,False,False,,Reggie,Tom B,True
-2nd,2024/25,Barns Green,5,C2 / Red,Other,C,X,Front,False,False,False,,Reggie,Tom B,True
-2nd,2024/25,Barns Green,5,C2 / Red,Other,C,X,Front,False,False,False,,Reggie,Will,True
-2nd,2024/25,Barns Green,5,,Old,,X,Middle,False,False,False,,Reggie,Will,False
-2nd,2024/25,Barns Green,5,,Old,,X,Middle,False,False,False,,Reggie,Will,False
-2nd,2024/25,Barns Green,5,Red,Old,,X,Front,False,False,False,,Reggie,Jules,True
-2nd,2024/25,Barns Green,5,,Old,,X,Middle,False,False,False,,Reggie,Will,True
-2nd,2024/25,Barns Green,5,Red,Old,,X,Front,False,False,False,,Reggie,Jules,True
-2nd,2024/25,Barns Green,5,Red,Old,,X,Front,False,False,False,,,Jules,False
-2nd,2024/25,Barns Green,5,Red,Old,,X,Front,True,False,False,,,Will,True
-2nd,2024/25,Burgess Hill,7,H3,New,H,X,Middle,False,False,False,,Reggie,Paddy,False
-2nd,2024/25,Burgess Hill,7,H3,New,H,X,Middle,False,False,False,,Reggie,Paddy,True
-2nd,2024/25,Burgess Hill,7,H3,New,H,X,Middle,False,False,False,,Reggie,Paddy,True
-2nd,2024/25,Burgess Hill,7,H1,New,H,X,Back,False,False,False,,Reggie,Josh W,True
-2nd,2024/25,Burgess Hill,7,H2,New,H,X,Front,False,False,False,,Reggie,Rory,False
-2nd,2024/25,Burgess Hill,7,H2,New,H,X,Front,False,False,False,,Reggie,Rory,True
-2nd,2024/25,Burgess Hill,7,H1,New,H,X,Back,False,False,False,,Reggie,Josh W,False
-2nd,2024/25,Burgess Hill,7,H3,New,H,X,Middle,True,False,False,,Reggie,Paddy,True
-2nd,2024/25,Burgess Hill,7,H3,New,H,X,Middle,False,False,False,,Reggie,Paddy,True
-2nd,2024/25,Burgess Hill,7,H3,New,H,X,Middle,True,False,False,,Reggie,Paddy,True
-2nd,2024/25,Burgess Hill,7,H1,New,H,X,Back,False,False,False,,Reggie,Josh W,True
-2nd,2024/25,Burgess Hill,7,H3,New,H,X,Middle,False,False,False,,Reggie,Paddy,False
-2nd,2024/25,Burgess Hill,7,H3,New,H,X,Middle,False,False,False,,Harrison,Paddy,True
-2nd,2024/25,Burgess Hill,7,H3,New,H,X,Middle,False,False,False,,Harrison,Paddy,True
-2nd,2024/25,Burgess Hill,7,H3,New,H,X,Middle,False,False,False,,Harrison,Paddy,True
-2nd,2024/25,Burgess Hill,7,H3,New,H,X,Middle,False,False,False,,Harrison,Paddy,False
-2nd,2024/25,Burgess Hill,7,H3,New,H,X,Middle,False,False,False,,Harrison,Paddy,True
-2nd,2024/25,Burgess Hill,7,H3,New,H,X,Middle,False,False,False,,Harrison,Paddy,False
-2nd,2024/25,Burgess Hill,7,H3,New,H,X,Middle,True,False,False,,Harrison,Paddy,True
-2nd,2024/25,Jersey Royals,5,,Old,,X,Middle,False,False,False,,Harrison,Rory,True
-2nd,2024/25,Jersey Royals,4,Snap,4-man only,,X,Front,False,False,False,,Harrison,Brack,True
-2nd,2024/25,Jersey Royals,4,,Old,,X,Back,False,False,False,,George,Rory,True
-2nd,2024/25,Jersey Royals,4,,Old,,X,Back,False,False,False,,George,Rory,True
-2nd,2024/25,Jersey Royals,5,,Old,,X,Middle,False,False,False,,Harrison,Rory,False
-2nd,2024/25,Jersey Royals,5,Red,Old,,X,Front,True,False,False,,Harrison,Ed,True
-2nd,2024/25,Jersey Royals,5,,Old,,X,Middle,False,False,False,,Harrison,Rory,True
-2nd,2024/25,Old Caterhamians,5,,Old,,X,Middle,False,False,False,,Harrison,Tim,True
-2nd,,,5,,Old,,X,Middle,False,False,False,,Harrison,Tim,True
-2nd,,,4,,Old,,X,Back,False,False,False,,Harrison,Tim,False
-2nd,,,5,,Old,,X,Middle,False,False,False,,Mark,Tim,True
+1st,2021/22,London Irish,5,,Other,,Jump,Middle,False,False,False,,Ben,Sam,True
+1st,2021/22,London Irish,4,Snap,4-man only,,Jump,Front,False,False,False,,Ben,Gus,True
+1st,2021/22,London Irish,6,Even,Old,,Jump,Middle,True,False,False,,Ben,Sam,True
+1st,2021/22,London Irish,6,,Other,,Jump,Middle,True,False,False,,Ben,Sam,True
+1st,2021/22,London Irish,6,Green,Old,,Jump,Back,False,False,False,,Ben,Rory,True
+1st,2021/22,London Irish,5,,Other,,Jump,Middle,False,False,False,,Ben,Sam,False
+1st,2021/22,London Irish,4,Yes,4-man only,,Move,Back,False,False,False,,Ben,Sam,False
+1st,2021/22,London Irish,4,Snap,4-man only,,Jump,Front,False,False,False,,Ben,Gus,True
+1st,2021/22,London Irish,4,Snap,4-man only,,Jump,Front,False,False,False,,Ben,Gus,False
+1st,2021/22,London Irish,5,RD,Old,,Dummy,Middle,False,False,False,,Ben,Sam,True
+1st,2021/22,London Irish,6,Red,Old,,Jump,Front,False,False,False,,Ben,Gus,True
+1st,2021/22,Horsham 2nd,5,RD,Old,,Dummy,Middle,False,False,False,,Ben,Sam,True
+1st,2021/22,Horsham 2nd,6,,Other,,Jump,Middle,False,False,False,,Ben,Sam,True
+1st,2021/22,Horsham 2nd,5,,Other,,Jump,Middle,False,False,False,,Ben,Sam,True
+1st,2021/22,Horsham 2nd,7,,Other,,Jump,Middle,False,False,False,,Ben,Sam,True
+1st,2021/22,Horsham 2nd,4,Yes,4-man only,,Move,Back,False,False,False,,Ben,Sam,True
+1st,2021/22,Horsham 2nd,4,No,4-man only,,Dummy,Front,False,False,False,,Ben,Sam,True
+1st,2021/22,Horsham 2nd,6,Odd,Old,,Jump,Middle,True,False,False,,Ben,Tim,False
+1st,2021/22,Horsham 2nd,6,,Other,,Jump,Middle,True,False,False,,Ben,Sam,True
+1st,2021/22,Horsham 2nd,6,,Other,,Jump,Middle,True,False,False,,Ben,Sam,True
+1st,2021/22,Horsham 2nd,6,Odd,Old,,Jump,Middle,True,False,False,,Ben,Tim,True
+1st,2021/22,Horsham 2nd,5,Red,Old,,Jump,Front,False,False,False,,Ben,Pete,True
+1st,2021/22,Horsham 2nd,6,,Other,,Jump,Middle,True,False,False,,Ben,Sam,True
+1st,2021/22,Horsham 2nd,6,RD,Old,,Dummy,Middle,True,False,False,,Ben,Sam,True
+1st,2021/22,Horsham 2nd,4,Snap,4-man only,,Jump,Front,False,False,False,,Ben,Pete,True
+1st,2021/22,Horsham 2nd,6,,Other,,Jump,Middle,True,False,False,,Ben,Sam,True
+1st,2021/22,Horsham 2nd,6,RD,Old,,Dummy,Middle,True,False,False,,Ben,Sam,True
+1st,2021/22,Eastbourne,4,Snap,4-man only,,Jump,Front,False,False,False,,Ben,John,True
+1st,2021/22,Eastbourne,4,Yes,4-man only,,Move,Back,False,False,False,,Ben,Sam,True
+1st,2021/22,Eastbourne,6,,Other,,Jump,Middle,True,False,False,,Ben,Sam,True
+1st,2021/22,Eastbourne,4,Snap,4-man only,,Jump,Front,False,False,False,,Ben,John,True
+1st,2021/22,Eastbourne,6,,Other,,Jump,Middle,True,False,False,,Ben,Sam,True
+1st,2021/22,Eastbourne,4,No,4-man only,,Dummy,Front,False,False,False,,Ben,Sam,True
+1st,2021/22,Eastbourne,5,,Other,,Jump,Middle,False,False,False,,Ben,Sam,False
+1st,2021/22,Eastbourne,4,No,4-man only,,Dummy,Front,False,False,False,,Ben,Sam,True
+1st,2021/22,Eastbourne,6,,Other,,Jump,Middle,True,False,False,,Ben,Sam,True
+1st,2021/22,Eastbourne,6,Red,Old,,Jump,Front,True,False,False,,Ben,John,True
+1st,2021/22,Eastbourne,4,Snap,4-man only,,Jump,Front,False,False,False,,Ben,John,True
+1st,2021/22,Eastbourne,6,Odd,Old,,Jump,Middle,False,False,False,,Ben,Dan B,False
+1st,2021/22,Eastbourne,4,Yes,4-man only,,Move,Back,False,False,False,,Ben,Sam,True
+1st,2021/22,Eastbourne,5,,Other,,Jump,Middle,False,False,False,,Ben,Sam,True
+1st,2021/22,Eastbourne,5,,Other,,Jump,Middle,False,False,False,,Ben,Sam,True
+1st,2021/22,Eastbourne,6,,Other,,Jump,Middle,True,False,False,,Ben,Sam,True
+1st,2021/22,Eastbourne,6,RD,Old,,Dummy,Middle,True,False,False,,Ben,Sam,True
+1st,2021/22,Burgess Hill,4,Yes,4-man only,,Move,Back,False,False,False,,Ben,Sam,True
+1st,2021/22,Burgess Hill,4,Yes,4-man only,,Move,Back,False,False,False,,Ben,Sam,True
+1st,2021/22,Burgess Hill,6,RD,Old,,Dummy,Middle,False,False,False,,Ben,Sam,False
+1st,2021/22,Burgess Hill,6,,Other,,Jump,Middle,False,False,False,1.0,Ben,Sam,True
+1st,2021/22,Burgess Hill,6,RD,Old,,Dummy,Middle,False,False,False,2.0,Ben,Sam,True
+1st,2021/22,Burgess Hill,4,No,4-man only,,Dummy,Front,True,False,False,,Ben,Sam,True
+1st,2021/22,Lewes,5,,Other,,Jump,Middle,True,False,False,,Ben,John,True
+1st,2021/22,Lewes,5,,Other,,Jump,Middle,False,False,False,,Ben,John,False
+1st,2021/22,Lewes,4,Yes,4-man only,,Move,Back,False,False,False,,Ben,John,True
+1st,2021/22,Lewes,5,Red,Old,,Jump,Front,False,False,False,,Ben,Ryan,True
+1st,2021/22,Lewes,4,Snap,4-man only,,Jump,Front,False,False,False,,Ben,Ryan,True
+1st,2021/22,Uckfield,6,Even,Old,,Jump,Middle,False,False,False,,Ben,John,True
+1st,2021/22,Uckfield,6,Red,Old,,Jump,Front,True,False,True,,Ben,Dan A,True
+1st,2021/22,Uckfield,5,,Other,,Jump,Middle,False,False,False,,Ben,John,True
+1st,2021/22,Uckfield,4,Snap,4-man only,,Jump,Front,False,False,False,,Ben,Dan A,False
+1st,2021/22,Uckfield,6,,Other,,Jump,Middle,True,False,False,,Ben,John,True
+1st,2021/22,Uckfield,5,RD,Old,,Dummy,Middle,False,False,False,,Ben,John,True
+1st,2021/22,Uckfield,6,Red,Old,,Jump,Front,True,False,False,,Ben,Dan A,True
+1st,2021/22,Uckfield,4,No,4-man only,,Dummy,Back,False,False,False,,Ben,John,True
+1st,2021/22,Uckfield,5,,Other,,Jump,Middle,False,False,False,,Ben,John,False
+1st,2021/22,Uckfield,5,,Other,,Jump,Middle,False,False,False,,Ben,John,True
+1st,2021/22,Uckfield,6,,Other,,Jump,Middle,True,False,False,,Ben,John,True
+1st,2021/22,Seaford,4,No,4-man only,,Dummy,Front,False,False,False,,Ben,Sam,True
+1st,2021/22,Seaford,4,Yes,4-man only,,Move,Back,False,False,False,,Ben,Sam,True
+1st,2021/22,Seaford,5,,Other,,Jump,Middle,False,False,False,,Ben,Sam,False
+1st,2021/22,Seaford,4,No,4-man only,,Dummy,Front,True,False,False,,Ben,Sam,True
+1st,2021/22,Seaford,4,Snap,4-man only,,Jump,Front,False,False,False,,Ben,John,True
+1st,2021/22,Seaford,4,Yes,4-man only,,Move,Back,False,False,False,,Ben,Sam,True
+1st,2021/22,Seaford,5,,Other,,Jump,Middle,False,False,False,,Ben,Sam,True
+1st,2021/22,Seaford,4,Yes,4-man only,,Move,Back,False,False,False,,Ben,Sam,True
+1st,2021/22,Seaford,4,Snap,4-man only,,Jump,Front,False,False,False,,Ben,John,True
+1st,2021/22,Seaford,6,,Other,,Jump,Middle,True,False,False,,Ben,Sam,True
+1st,2021/22,Seaford,4,Snap,4-man only,,Jump,Front,True,False,False,,Ben,John,True
+1st,2021/22,Seaford,4,Yes,4-man only,,Move,Back,False,False,False,,Ben,Sam,True
+1st,2021/22,Burgess Hill,4,Yes,4-man only,,Move,Back,False,False,False,,Ben,Sam,True
+1st,2021/22,Burgess Hill,6,,Other,,Jump,Middle,True,False,False,,Ben,Sam,True
+1st,2021/22,Burgess Hill,4,No,4-man only,,Dummy,Front,False,False,False,,Ben,Sam,True
+1st,2021/22,Burgess Hill,4,Yes,4-man only,,Move,Back,False,False,False,,Ben,Sam,True
+1st,2021/22,Burgess Hill,5,RD,Old,,Dummy,Middle,False,False,False,,Ben,Sam,True
+1st,2021/22,Burgess Hill,5,,Other,,Jump,Middle,False,False,False,,Ben,Sam,True
+1st,2021/22,Burgess Hill,5,RD,Old,,Dummy,Middle,True,False,False,,Ben,Sam,True
+1st,2021/22,Burgess Hill,4,Yes,4-man only,,Move,Back,False,False,False,,Ben,Sam,True
+1st,2021/22,Burgess Hill,4,No,4-man only,,Dummy,Front,False,False,False,,Ben,Sam,False
+1st,2021/22,Burgess Hill,6,Odd,Old,,Jump,Middle,True,False,False,,Ben,John,True
+1st,2021/22,Burgess Hill,4,Yes,4-man only,,Move,Back,False,False,False,,Ben,Sam,True
+1st,2021/22,Burgess Hill,6,RD,Old,,Dummy,Middle,True,False,False,,Ben,Sam,True
+1st,2021/22,Burgess Hill,6,,Other,,Jump,Middle,False,False,False,2.0,Ben,Sam,True
+1st,2021/22,Burgess Hill,4,Yes,4-man only,,Move,Back,False,False,False,,Ben,Sam,True
+1st,2021/22,Eastbourne,4,Snap,4-man only,,Jump,Front,False,False,False,,Ben,Sam,True
+1st,2021/22,Eastbourne,6,,Other,,Jump,Middle,True,False,False,,Ben,Sam,True
+1st,2021/22,Eastbourne,4,Yes,4-man only,,Move,Back,True,False,False,,Ben,Sam,True
+1st,2021/22,Eastbourne,7,,Other,,Jump,Middle,False,False,False,2.0,Ben,Sam,True
+1st,2021/22,Eastbourne,5,RD,Old,,Dummy,Middle,False,False,False,,Ben,Sam,True
+1st,2021/22,Eastbourne,4,Yes,4-man only,,Move,Back,False,False,False,,Ben,Sam,True
+1st,2021/22,Eastbourne,7,,Other,,Jump,Middle,True,False,False,,Ben,Sam,True
+1st,2021/22,Eastbourne,4,Snap,4-man only,,Jump,Front,False,False,False,,Ben,Sam,True
+1st,2021/22,Eastbourne,7,,Other,,Jump,Middle,True,False,False,,Ben,Sam,True
+1st,2021/22,Eastbourne,5,,Other,,Jump,Middle,False,False,False,,Ben,Sam,True
+1st,2021/22,Eastbourne,6,,Other,,Jump,Middle,False,False,False,,Ben,Sam,True
+1st,2021/22,Uckfield,4,Yes,4-man only,,Move,Back,False,False,False,,Ben,Sam,True
+1st,2021/22,Uckfield,7,RD,Old,,Dummy,Middle,False,False,False,,Ben,Sam,True
+1st,2021/22,Uckfield,4,Snap,4-man only,,Jump,Front,True,False,False,,Ben,John,True
+1st,2021/22,Uckfield,5,,Other,,Jump,Middle,False,False,False,,Ben,Sam,True
+1st,2021/22,Uckfield,4,No,4-man only,,Dummy,Middle,True,False,False,,Ben,Sam,True
+1st,2021/22,Uckfield,4,Snap,4-man only,,Jump,Front,False,False,False,,Ben,John,False
+1st,2022/23,Lewes,4,Yes,4-man only,,Move,Back,False,False,False,,Josh,Sam,False
+1st,2022/23,Lewes,6,RD,Old,,Dummy,Middle,True,False,False,,Josh,Sam,True
+1st,2022/23,Lewes,7,,Other,,Jump,Middle,False,False,False,,Josh,Sam,False
+1st,2022/23,Lewes,4,Snap,4-man only,,Jump,Front,False,False,False,,Josh,John,True
+1st,2022/23,Lewes,4,Snap,4-man only,,Jump,Front,True,False,False,,Josh,John,True
+1st,2022/23,Lewes,7,,Other,,Jump,Middle,False,False,False,2.0,Josh,Sam,True
+1st,2022/23,Lewes,5,Red,Old,,Jump,Front,False,False,False,,Josh,John,True
+1st,2022/23,Lewes,5,,Other,,Jump,Middle,False,False,False,,Josh,Sam,True
+1st,2022/23,Lewes,7,,Other,,Jump,Middle,False,False,False,,Josh,Sam,True
+1st,2022/23,Lewes,4,Yes,4-man only,,Move,Back,False,False,False,,Josh,Sam,True
+1st,2022/23,Lewes,4,Snap,4-man only,,Jump,Front,False,False,False,,Josh,John,False
+1st,2022/23,Lewes,5,,Other,,Jump,Middle,False,False,False,,Josh,Sam,True
+1st,2022/23,Lewes,4,Snap,4-man only,,Jump,Front,False,False,False,,Josh,John,True
+1st,2022/23,Uckfield,6,RD,Old,,Dummy,Middle,True,False,False,,Ben,Sam,True
+1st,2022/23,Uckfield,4,Snap,4-man only,,Jump,Front,False,False,False,,Ben,John,True
+1st,2022/23,Uckfield,6,,Other,,Jump,Middle,True,False,False,,Ben,Sam,True
+1st,2022/23,Crawley,4,Yes,4-man only,,Move,Back,False,False,False,,Ben,Sam,True
+1st,2022/23,Crawley,4,Snap,4-man only,,Jump,Front,False,False,False,,Ben,John,True
+1st,2022/23,Crawley,6,,Other,,Jump,Middle,True,False,False,,Ben,Sam,True
+1st,2022/23,Crawley,4,Snap,4-man only,,Jump,Front,True,False,False,,Ben,John,True
+1st,2022/23,Crawley,5,RD,Old,,Dummy,Middle,False,False,False,,Ben,Sam,True
+1st,2022/23,Crawley,6,,Other,,Jump,Middle,True,False,True,,Ben,Sam,True
+1st,2022/23,Crawley,4,No,4-man only,,Dummy,Front,False,False,False,,Ben,Sam,True
+1st,2022/23,Crawley,5,,Other,,Jump,Middle,True,False,False,,Ben,Sam,True
+1st,2022/23,Crawley,5,Red,Old,,Jump,Front,False,False,False,,Ben,John,True
+1st,2022/23,Crawley,5,,Other,,Jump,Middle,False,False,False,,Ben,Sam,True
+1st,2022/23,Crawley,4,Snap,4-man only,,Jump,Front,True,False,False,,Ben,John,True
+1st,2022/23,Shoreham,4,Snap,4-man only,,Jump,Front,False,False,False,,Ben,John,True
+1st,2022/23,Shoreham,4,Snap,4-man only,,Jump,Front,False,False,False,,Ben,John,True
+1st,2022/23,Shoreham,5,,Other,,Jump,Middle,False,False,False,,Ben,Sam,True
+1st,2022/23,Shoreham,4,Yes,4-man only,,Move,Back,True,False,False,,Ben,Sam,True
+1st,2022/23,Shoreham,4,Yes,4-man only,,Move,Back,False,False,False,,Ben,Sam,True
+1st,2022/23,Shoreham,5,RD,Old,,Dummy,Middle,False,False,False,,Ben,Sam,True
+1st,2022/23,Shoreham,4,Snap,4-man only,,Jump,Front,False,False,False,,Ben,John,True
+1st,2022/23,Shoreham,5,Even,Old,,Jump,Middle,False,False,False,,Ben,Sam,True
+1st,2022/23,Shoreham,4,Snap,4-man only,,Jump,Front,False,False,False,,Ben,John,True
+1st,2022/23,Shoreham,6,RD,Old,,Dummy,Middle,True,False,False,,Ben,Sam,True
+1st,2022/23,Seaford,6,RD,Old,,Dummy,Middle,True,False,False,,Ben,Sam,True
+1st,2022/23,Seaford,6,,Other,,Jump,Middle,True,False,False,,Ben,Sam,True
+1st,2022/23,Seaford,4,No,4-man only,,Dummy,Middle,False,False,False,,Ben,Sam,False
+1st,2022/23,Seaford,5,,Other,,Jump,Middle,False,False,False,,Ben,Sam,True
+1st,2022/23,Seaford,5,,Other,,Jump,Middle,False,False,False,,Ben,Sam,True
+1st,2022/23,Seaford,4,Snap,4-man only,,Jump,Front,True,False,False,,Ben,John,True
+1st,2022/23,Seaford,4,Yes,4-man only,,Move,Back,False,False,False,,Ben,Sam,True
+1st,2022/23,Burgess Hill,4,Snap,4-man only,,Jump,Front,False,False,False,,Ben,John,True
+1st,2022/23,Burgess Hill,6,RD,Old,,Dummy,Middle,True,False,False,,Ben,Sam,True
+1st,2022/23,Burgess Hill,4,No,4-man only,,Dummy,Front,True,False,False,,Ben,Sam,True
+1st,2022/23,Burgess Hill,6,RD,Old,,Dummy,Middle,True,False,True,,Ben,Sam,False
+1st,2022/23,Burgess Hill,4,Snap,4-man only,,Jump,Front,False,False,False,,Ben,John,True
+1st,2022/23,Burgess Hill,5,,Other,,Jump,Middle,False,False,False,,Ben,Sam,True
+1st,2022/23,Burgess Hill,5,,Other,,Jump,Middle,False,False,False,,Ben,Sam,True
+1st,2022/23,Burgess Hill,6,Plus,Old,,Dummy,Front,True,False,False,,Ben,Sam,True
+1st,2022/23,Burgess Hill,4,Snap,4-man only,,Jump,Front,True,False,False,,Ben,John,True
+1st,2022/23,Burgess Hill,6,,Other,,Jump,Middle,False,False,False,2.0,Ben,Sam,True
+1st,2022/23,Burgess Hill,6,,Other,,Jump,Middle,True,False,False,,Ben,Sam,True
+1st,2022/23,Burgess Hill,4,Snap,4-man only,,Jump,Front,False,False,False,,Ben,Sam,True
+1st,2022/23,Burgess Hill,5,,Other,,Jump,Middle,False,False,False,,Ben,John,True
+1st,2022/23,Burgess Hill,4,Yes,4-man only,,Move,Back,False,False,False,,Ben,John,True
+1st,2022/23,Eastbourne,4,No,4-man only,,Dummy,Front,False,False,False,,Ben,John,True
+1st,2022/23,Eastbourne,5,,Other,,Jump,Middle,False,False,False,,Ben,John,True
+1st,2022/23,Eastbourne,4,Snap,4-man only,,Jump,Front,False,False,False,,Ben,John,True
+1st,2022/23,Eastbourne,5,Red,Old,,Jump,Front,False,False,False,,Ben,Dan B,False
+1st,2022/23,Eastbourne,5,,Other,,Jump,Front,False,False,False,,Ben,John,True
+1st,2022/23,Eastbourne,5,RD,Old,,Dummy,Middle,False,False,False,,Ben,John,False
+1st,2022/23,Eastbourne,6,,Other,,Jump,Middle,True,False,False,,Ben,John,True
+1st,2022/23,Eastbourne,4,Snap,4-man only,,Jump,Front,False,False,False,,Ben,John,True
+1st,2022/23,Eastbourne,4,Snap,4-man only,,Jump,Front,False,False,False,,Ben,John,True
+1st,2022/23,Eastbourne,6,,Other,,Jump,Middle,True,False,False,,Ben,John,False
+1st,2022/23,Eastbourne,5,,Other,,Jump,Middle,False,False,False,,Ben,Dan B,True
+1st,2022/23,Eastbourne,5,,Other,,Jump,Middle,False,False,False,,Ben,Dan B,True
+1st,2022/23,Eastbourne,5,,Other,,Jump,Middle,False,False,False,,Ben,Dan B,False
+1st,2022/23,Eastbourne,5,Even,Old,,Jump,Middle,False,False,False,,Ben,Dan B,True
+1st,2022/23,Haywards Heath,5,,Other,,Jump,Middle,False,False,False,,Ben,John,True
+1st,2022/23,Haywards Heath,4,Snap,4-man only,,Jump,Front,False,False,False,,Ben,John,True
+1st,2022/23,Haywards Heath,6,Even,Old,,Jump,Middle,True,False,False,,Ben,John,False
+1st,2022/23,Haywards Heath,6,Red,Old,,Jump,Front,False,False,False,,Ben,Pete,False
+1st,2022/23,Haywards Heath,5,,Other,,Jump,Middle,False,False,False,,Ben,John,True
+1st,2022/23,Haywards Heath,5,RD,Old,,Dummy,Middle,False,False,False,,Ben,John,False
+1st,2022/23,Haywards Heath,4,Yes,4-man only,,Move,Back,False,False,False,,Ben,John,False
+1st,2022/23,Haywards Heath,4,No,4-man only,,Dummy,Front,True,False,False,,Ben,John,True
+1st,2022/23,Haywards Heath,6,,Other,,Jump,Middle,True,False,False,,Ben,John,True
+1st,2022/23,Haywards Heath,6,,Other,,Jump,Middle,True,False,False,,Ben,John,True
+1st,2022/23,Haywards Heath,5,RD,Old,,Dummy,Middle,False,False,False,,Josh,John,True
+1st,2022/23,Haywards Heath,4,Snap,4-man only,,Jump,Front,True,False,False,,Ben,John,True
+1st,2022/23,Haywards Heath,4,Yes,4-man only,,Move,Back,True,False,False,,Ben,John,True
+1st,2022/23,Crawley,5,,Other,,Jump,Middle,False,False,False,,Ben,Pete,True
+1st,2022/23,Crawley,6,,Other,,Jump,Middle,True,False,False,,Ben,Pete,True
+1st,2022/23,Crawley,5,,Other,,Jump,Middle,False,False,False,,Ben,Pete,True
+1st,2022/23,Crawley,5,,Other,,Jump,Middle,False,False,False,,Ben,Pete,False
+1st,2022/23,Crawley,5,,Other,,Jump,Middle,False,False,False,,Ben,Pete,True
+1st,2022/23,Shoreham,4,No,4-man only,,Dummy,Front,False,False,False,,Ben,Sam,True
+1st,2022/23,Shoreham,6,Orange,Old,,Jump,Front,False,False,False,,Ben,John,True
+1st,2022/23,Shoreham,4,Yes,4-man only,,Move,Back,True,False,False,,Ben,Sam,True
+1st,2022/23,Shoreham,6,,Other,,Jump,Middle,True,False,False,,Ben,Sam,True
+1st,2022/23,Shoreham,6,RD,Old,,Dummy,Middle,True,False,False,,Ben,Sam,True
+1st,2022/23,Shoreham,6,,Other,,Jump,Middle,True,False,False,,Ben,Sam,True
+1st,2022/23,Shoreham,6,RD,Old,,Dummy,Middle,True,False,False,,Ben,Sam,False
+1st,2022/23,Shoreham,4,Snap,4-man only,,Jump,Front,False,False,False,,Ben,John,True
+1st,2022/23,Shoreham,4,Orange,Old,,Jump,Front,False,False,False,,Ben,John,True
+1st,2022/23,Seaford,4,Snap,4-man only,,Jump,Front,True,False,False,,Ben,John,True
+1st,2022/23,Seaford,6,,Other,,Jump,Middle,True,False,False,,Ben,Sam,True
+1st,2022/23,Seaford,6,,Other,,Jump,Middle,True,False,False,,Ben,Sam,True
+1st,2022/23,Seaford,4,Yes,4-man only,,Move,Back,False,False,False,,Ben,Sam,True
+1st,2022/23,Seaford,6,,Other,,Jump,Middle,True,False,False,,Ben,Sam,True
+1st,2022/23,Seaford,4,Yes,4-man only,,Move,Back,False,False,False,,Ben,Sam,False
+1st,2022/23,Seaford,4,Yes,4-man only,,Move,Back,False,False,False,,Ben,Sam,True
+1st,2022/23,Seaford,6,RD,Old,,Dummy,Middle,True,False,False,,Ben,Sam,True
+1st,2022/23,Seaford,5,,Other,,Jump,Middle,True,False,False,,Ben,Sam,True
+1st,2022/23,Seaford,4,Yes,4-man only,,Move,Back,False,False,False,,Ben,Sam,True
+1st,2022/23,Seaford,4,Yes,4-man only,,Move,Back,True,False,False,,Ben,Sam,False
+1st,2022/23,Seaford,5,,Other,,Jump,Middle,False,False,False,,Ben,Sam,True
+1st,2022/23,Seaford,6,,Other,,Jump,Middle,False,False,False,2.0,Ben,Sam,True
+1st,2022/23,Burgess Hill,5,,Other,,Jump,Middle,False,False,False,,Ben,John,True
+1st,2022/23,Burgess Hill,4,Snap,4-man only,,Jump,Front,True,False,False,,Ben,Ryland,False
+1st,2022/23,Burgess Hill,4,Snap,4-man only,,Jump,Front,False,False,False,,Ben,Ryland,True
+1st,2022/23,Burgess Hill,5,,Other,,Jump,Middle,True,False,False,,Ben,John,True
+1st,2022/23,Burgess Hill,5,,Other,,Jump,Middle,False,False,False,,Ben,John,True
+1st,2022/23,Burgess Hill,4,Snap,4-man only,,Jump,Front,False,False,False,,Ben,Ryland,False
+1st,2022/23,Burgess Hill,4,Yes,4-man only,,Move,Back,False,False,False,,Ben,John,True
+1st,2022/23,Burgess Hill,5,,Other,,Jump,Middle,True,False,False,,Ben,John,True
+1st,2022/23,Burgess Hill,5,Orange,Old,,Jump,Front,False,False,False,,Ben,Ryland,True
+1st,2022/23,Burgess Hill,5,,Other,,Jump,Middle,True,False,False,,Ben,John,True
+1st,2022/23,Burgess Hill,4,Snap,4-man only,,Jump,Front,False,False,False,,Ben,Ryland,True
+1st,2022/23,Burgess Hill,5,Red,Old,,Jump,Front,True,False,False,,Ben,Ryland,True
+1st,2022/23,Burgess Hill,5,,Other,,Jump,Middle,False,False,False,,Ben,John,True
+1st,2022/23,Burgess Hill,5,,Other,,Jump,Middle,False,False,False,,Ben,John,True
+1st,2022/23,Eastbourne,6,,Other,,Jump,Middle,True,False,False,,Ben,Sam,True
+1st,2022/23,Eastbourne,4,Yes,4-man only,,Move,Back,True,False,False,,Ben,Sam,True
+1st,2022/23,Eastbourne,4,Snap,4-man only,,Jump,Front,False,False,False,,Ben,John,True
+1st,2022/23,Eastbourne,6,RD,Old,,Dummy,Middle,False,False,False,,Ben,Sam,True
+1st,2022/23,Eastbourne,6,Red,Old,,Jump,Front,False,False,False,,Ben,John,True
+1st,2022/23,Eastbourne,4,Yes,4-man only,,Move,Back,True,False,False,,Ben,Sam,True
+1st,2022/23,Eastbourne,5,,Other,,Jump,Middle,True,False,False,,Ben,Sam,True
+1st,2022/23,Eastbourne,5,Plus,Old,,Dummy,Front,True,False,False,,Ben,Sam,True
+1st,2022/23,Eastbourne,4,Snap,4-man only,,Jump,Front,True,False,False,,Ben,John,True
+1st,2022/23,Pulborough,4,Snap,4-man only,,Jump,Front,True,False,False,,Ben,Pete,True
+1st,2022/23,Pulborough,4,Yes,4-man only,,Move,Back,True,False,False,,Ben,Sam,True
+1st,2022/23,Pulborough,6,,Other,,Jump,Middle,False,True,False,,Ben,Sam,True
+1st,2022/23,Pulborough,5,RD,Old,,Dummy,Middle,True,False,False,,Ben,Sam,True
+1st,2022/23,Pulborough,4,Yes,4-man only,,Move,Back,True,False,False,,Ben,Sam,True
+1st,2022/23,Pulborough,5,RD,Old,,Dummy,Middle,True,False,False,,Ben,Sam,True
+1st,2022/23,Pulborough,5,,Other,,Jump,Middle,False,False,False,,Ben,Sam,True
+1st,2022/23,Pulborough,4,Yes,4-man only,,Move,Back,False,False,False,,Ben,Sam,True
+1st,2022/23,Pulborough,4,Snap,4-man only,,Jump,Front,False,False,False,,Ben,Pete,True
+1st,2022/23,Pulborough,5,,Other,,Jump,Middle,False,False,False,,Ben,Sam,True
+1st,2022/23,Pulborough,4,Snap,4-man only,,Jump,Front,True,False,False,,Ben,Pete,True
+1st,2022/23,Haywards Heath,6,,Other,,Jump,Middle,False,True,False,,Ben,Sam,True
+1st,2022/23,Haywards Heath,6,Plus,Old,,Dummy,Front,True,False,False,,Ben,Sam,False
+1st,2022/23,Haywards Heath,4,Snap,4-man only,,Jump,Front,False,False,False,,Ben,John,True
+1st,2022/23,Haywards Heath,4,Yes,4-man only,,Move,Back,True,False,False,,Ben,Sam,True
+1st,2022/23,Haywards Heath,4,Yes,4-man only,,Move,Back,False,False,False,,Ben,Sam,True
+1st,2022/23,Haywards Heath,5,,Other,,Jump,Middle,False,False,False,,Ben,Sam,True
+1st,2022/23,Haywards Heath,6,RD,Old,,Dummy,Middle,True,False,False,,Ben,Sam,True
+1st,2022/23,Haywards Heath,4,Snap,4-man only,,Jump,Front,True,False,False,,Ben,John,True
+1st,2022/23,Haywards Heath,5,Plus,Old,,Dummy,Front,False,False,False,,Ben,Sam,True
+1st,2022/23,Haywards Heath,5,,Other,,Jump,Middle,True,False,False,,Ben,Sam,False
+1st,2022/23,Haywards Heath,4,Yes,4-man only,,Move,Back,False,False,False,,Ben,Sam,False
+1st,2022/23,Haywards Heath,5,,Other,,Jump,Middle,False,False,False,,Ben,Sam,False
+1st,2022/23,Cheshunt,4,Snap,4-man only,,Jump,Front,False,False,False,,Ben,John,True
+1st,2022/23,Cheshunt,4,Snap,4-man only,,Jump,Front,False,False,False,,Ben,John,True
+1st,2022/23,Cheshunt,6,,Other,,Jump,Middle,True,False,False,,Ben,Sam,False
+1st,2022/23,Cheshunt,6,Plus,Old,,Dummy,Front,True,False,False,,Ben,Sam,True
+1st,2022/23,Cheshunt,4,No,4-man only,,Dummy,Front,True,False,False,,Ben,Sam,True
+1st,2022/23,Cheshunt,4,Yes,4-man only,,Move,Back,True,False,False,,Ben,Sam,True
+1st,2022/23,Wensleydale,4,Snap,4-man only,,Jump,Front,False,False,False,,Ben,John,True
+1st,2022/23,Wensleydale,5,,Other,,Jump,Middle,False,False,False,,Ben,Sam,True
+1st,2022/23,Wensleydale,5,RD,Old,,Dummy,Middle,False,False,False,,Ben,Sam,True
+1st,2022/23,Wensleydale,4,Yes,4-man only,,Move,Middle,True,False,False,,Ben,Sam,False
+1st,2022/23,Wensleydale,5,Odd +,Old,,Dummy,Middle,False,False,False,,Ben,John,False
+1st,2022/23,Wensleydale,5,RD,Old,,Dummy,Middle,False,False,False,,Ben,Sam,True
+1st,2022/23,Wensleydale,5,,Other,,Jump,Middle,False,False,False,,Ben,Sam,True
+1st,2022/23,Wensleydale,4,Snap,4-man only,,Jump,Front,False,False,False,,Ben,John,True
+1st,2022/23,Wensleydale,6,,Other,,Jump,Middle,False,False,False,2.0,Ben,Sam,True
+1st,2022/23,Wensleydale,4,Yes,4-man only,,Move,Back,False,False,False,,Ben,Sam,True
+1st,2022/23,Wensleydale,5,,Other,,Jump,Middle,False,False,False,,Ben,Sam,True
+1st,2022/23,Wensleydale,6,RD,Old,,Dummy,Middle,False,True,False,,Ben,Sam,True
+1st,2022/23,Wensleydale,6,,Other,,Jump,Middle,True,False,False,,Ben,Sam,False
+1st,2023/24,Old Colfeians,4,No,4-man only,,Dummy,Front,False,False,False,,Ben,Sam,False
+1st,2023/24,Old Colfeians,4,Yes,4-man only,,Move,Back,False,False,False,,Mark,Sam,False
+1st,2023/24,Old Colfeians,5,RD,Old,,Dummy,Front,False,False,False,,Mark,Sam,True
+1st,2023/24,Old Colfeians,4,Snap,4-man only,,Jump,Front,False,False,False,,Mark,Jules,True
+1st,2023/24,Old Colfeians,4,Matlow,Old,,Jump,Front,False,False,False,,Mark,Guy,True
+1st,2023/24,Old Colfeians,5,,Other,,Jump,Middle,False,False,False,,George,Sam,False
+1st,2023/24,Old Colfeians,4,Snap,4-man only,,Jump,Front,False,False,False,,George,Jules,False
+1st,2023/24,Heathfield & Waldron,5,Plus,Old,,Dummy,Front,False,False,False,,Ben,Sam,False
+1st,2023/24,Heathfield & Waldron,4,Yes,4-man only,,Move,Back,False,False,False,,Ben,Sam,False
+1st,2023/24,Heathfield & Waldron,6,,Other,,Jump,Middle,True,False,False,,Ben,Sam,True
+1st,2023/24,Heathfield & Waldron,4,No,4-man only,,Dummy,Front,False,False,False,,Ben,Sam,True
+1st,2023/24,Heathfield & Waldron,6,,Other,,Jump,Middle,False,True,False,,Ben,Sam,True
+1st,2023/24,Heathfield & Waldron,5,RD,Old,,Dummy,Middle,False,False,False,,Ben,Sam,True
+1st,2023/24,Heathfield & Waldron,5,RD,Old,,Dummy,Middle,False,False,False,,Ben,John,False
+1st,2023/24,Heathfield & Waldron,4,Snap,4-man only,,Jump,Front,True,False,False,,Ben,John,False
+1st,2023/24,Heathfield & Waldron,5,Even +,Old,,Dummy,Front,False,False,False,,Ben,John,False
+1st,2023/24,Heathfield & Waldron,6,Odd +,Old,,Dummy,Middle,True,False,False,,Ben,Tom M,True
+1st,2023/24,Heathfield & Waldron,5,,Other,,Jump,Middle,False,False,False,,Ben,John,False
+1st,2023/24,Heathfield & Waldron,5,,Other,,Jump,Middle,False,False,False,,Ben,John,False
+1st,2023/24,Heathfield & Waldron,6,,Other,,Jump,Middle,True,False,False,,Ben,John,True
+1st,2023/24,Heathfield & Waldron,5,Red,Old,,Jump,Front,False,False,False,,Ben,Ryland,True
+1st,2023/24,Heathfield & Waldron,5,,Other,,Jump,Middle,False,False,False,,Ben,John,True
+1st,2023/24,Heathfield & Waldron,5,RD,Old,,Dummy,Middle,False,False,False,,Ben,John,True
+1st,2023/24,Heathfield & Waldron,6,,Other,,Jump,Middle,False,False,False,,Ben,John,False
+1st,2023/24,Heathfield & Waldron,5,Even,Old,,Jump,Middle,False,False,False,,Ben,John,True
+1st,2023/24,Heathfield & Waldron,5,,Other,,Jump,Middle,False,False,False,,Ben,Sam,True
+1st,2023/24,Heathfield & Waldron,4,Yes,4-man only,,Move,Back,False,False,False,,Ben,Sam,False
+1st,2023/24,Twickenham,5,RD,Old,,Dummy,Middle,False,False,False,,Ben,Sam,False
+1st,2023/24,Twickenham,5,,Other,,Jump,Middle,False,False,False,,Ben,Sam,False
+1st,2023/24,Twickenham,4,Yes,4-man only,,Move,Back,False,False,False,,Ben,Sam,True
+1st,2023/24,Twickenham,6,,Other,,Jump,Middle,True,False,False,,Ben,Sam,False
+1st,2023/24,Twickenham,4,Snap,4-man only,,Jump,Front,False,False,False,,Ben,John,True
+1st,2023/24,Twickenham,6,Matlow,Old,,Jump,Front,False,False,False,,Ben,John,False
+1st,2023/24,Twickenham,4,Yes,4-man only,,Move,Back,True,False,False,,Ben,Sam,True
+1st,2023/24,Twickenham,5,Odd,Old,,Jump,Back,False,False,False,,Ben,Dan B,False
+1st,2023/24,Twickenham,4,Yes,4-man only,,Move,Back,False,False,False,,Ben,Sam,False
+1st,2023/24,Twickenham,4,Snap,4-man only,,Jump,Front,False,False,False,,Ben,Tom M,False
+1st,2023/24,Twickenham,4,No,4-man only,,Dummy,Middle,False,False,False,,Ben,Sam,True
+1st,2023/24,Twickenham,6,RD,Old,,Dummy,Middle,False,False,False,,Ben,Sam,False
+1st,2023/24,Trinity,4,Snap,4-man only,,Jump,Front,False,False,False,,Ben,Ryland,True
+1st,2023/24,Trinity,4,Yes,4-man only,,Move,Back,True,False,False,,Ben,Sam,True
+1st,2023/24,Trinity,6,C1,New,C,Move,Back,False,False,False,,Ben,Aaron,False
+1st,2023/24,Trinity,4,Snap,4-man only,,Jump,Front,True,False,False,,Ben,Ryland,True
+1st,2023/24,Trinity,5,,Other,,Jump,Middle,False,False,False,,Ben,Sam,True
+1st,2023/24,Trinity,6,,Other,,Jump,Middle,False,True,False,,Ben,Sam,True
+1st,2023/24,Trinity,4,Snap,4-man only,,Jump,Front,False,False,False,,Ben,Ryland,True
+1st,2023/24,Trinity,6,,Other,,Jump,Middle,False,False,False,,Ben,Sam,True
+1st,2023/24,Trinity,4,Yes,4-man only,,Move,Back,False,False,False,,Ben,Sam,True
+1st,2023/24,Trinity,4,Yes,4-man only,,Move,Middle,False,False,False,,Ben,Sam,True
+1st,2023/24,KCS Old Boys,4,Yes,4-man only,,Move,Back,False,False,False,,Ben,Sam,True
+1st,2023/24,KCS Old Boys,6,,Other,,Jump,Middle,False,False,False,,Ben,Sam,True
+1st,2023/24,KCS Old Boys,6,RD,Old,,Dummy,Middle,False,False,False,,Ben,Sam,True
+1st,2023/24,KCS Old Boys,4,No,4-man only,,Dummy,Middle,True,False,False,,Ben,Sam,True
+1st,2023/24,KCS Old Boys,6,C1,New,C,Move,Back,False,False,False,,Ben,Tom B,True
+1st,2023/24,KCS Old Boys,5,,Other,,Jump,Middle,False,False,False,,Ben,Sam,False
+1st,2023/24,KCS Old Boys,6,C1,New,C,Move,Back,False,False,False,,Ben,Tom B,True
+1st,2023/24,KCS Old Boys,4,Snap,4-man only,,Jump,Front,False,False,False,,Ben,Ryland,True
+1st,2023/24,KCS Old Boys,4,Snap,4-man only,,Jump,Front,True,False,False,,Ben,Ryland,True
+1st,2023/24,KCS Old Boys,6,,Other,,Jump,Middle,False,False,False,,Ben,Sam,True
+1st,2023/24,KCS Old Boys,4,Yes,4-man only,,Move,Back,True,False,False,,Ben,Sam,True
+1st,2023/24,KCS Old Boys,6,C1,New,C,Move,Back,False,False,False,,Ben,Tom B,False
+1st,2023/24,KCS Old Boys,4,Yes,4-man only,,Move,Back,False,False,False,,Ben,Sam,True
+1st,2023/24,KCS Old Boys,4,Snap,4-man only,,Jump,Front,False,False,False,,Ben,Ryland,False
+1st,2023/24,Kingston,4,,Other,,Jump,Back,False,False,False,,Ben,Sam,True
+1st,2023/24,Kingston,5,,Other,,Jump,Middle,False,False,False,,Ben,Sam,False
+1st,2023/24,Kingston,4,Yes,4-man only,,Move,Back,False,False,False,,Ben,Sam,False
+1st,2023/24,Kingston,6,C1,New,C,Move,Back,False,False,False,,Ben,Tom B,False
+1st,2023/24,Kingston,6,,Other,,Jump,Middle,False,True,False,,Ben,Sam,True
+1st,2023/24,Kingston,6,RD,Old,,Dummy,Middle,True,False,False,,Ben,Sam,True
+1st,2023/24,Kingston,4,Yes,4-man only,,Move,Back,True,False,False,,Ben,Sam,True
+1st,2023/24,Kingston,4,,Other,,Jump,Back,True,False,False,,Ben,Sam,True
+1st,2023/24,Kingston,6,Even,Old,,Jump,Middle,False,False,False,,Ben,Sam,True
+1st,2023/24,Kingston,6,,Other,,Jump,Middle,False,True,False,,Ben,Sam,True
+1st,2023/24,Kingston,4,,Other,,Jump,Back,False,False,False,,Ben,Sam,False
+1st,2023/24,Kingston,4,,Other,,Jump,Back,True,False,False,,Ben,Sam,True
+1st,2023/24,Old Walcountians,4,Snap,4-man only,,Jump,Front,False,False,False,,Ben,Ryland,True
+1st,2023/24,Old Walcountians,4,,Other,,Jump,Back,False,False,False,,Ben,Sam,False
+1st,2023/24,Old Walcountians,6,,Other,,Jump,Middle,False,False,False,,Ben,Sam,True
+1st,2023/24,Old Walcountians,6,RD,Old,,Dummy,Middle,False,True,False,,Ben,Sam,True
+1st,2023/24,Old Walcountians,5,,Other,,Jump,Middle,False,False,False,,Ben,Sam,False
+1st,2023/24,Old Walcountians,4,Snap,4-man only,,Jump,Front,False,False,False,,Ben,Ryland,True
+1st,2023/24,Old Walcountians,6,,Other,,Jump,Middle,True,False,False,,Ben,Sam,True
+1st,2023/24,Old Walcountians,6,RD,Old,,Dummy,Middle,False,False,False,,Ben,Sam,True
+1st,2023/24,Old Walcountians,6,C1,New,C,Move,Back,False,False,False,,Ben,Tom B,True
+1st,2023/24,Old Walcountians,6,,Other,,Jump,Middle,True,False,False,,Ben,Sam,True
+1st,2023/24,Old Walcountians,6,C2,New,C,Move,Front,False,False,False,,Ben,Ryland,True
+1st,2023/24,Old Walcountians,4,Matlow,Old,,Jump,Front,False,False,False,,Ben,Ryland,False
+1st,2023/24,Old Walcountians,6,,Other,,Jump,Middle,False,False,False,,Ben,Sam,False
+1st,2023/24,Old Walcountians,4,Snap,4-man only,,Jump,Front,False,False,False,,Ben,Ryland,True
+1st,2023/24,Old Walcountians,6,C1,New,C,Move,Back,False,False,False,,Ben,Pete,True
+1st,2023/24,Teddington,4,Yes,4-man only,,Move,Back,True,False,False,,Ben,Sam,True
+1st,2023/24,Teddington,6,,Other,,Jump,Middle,False,False,False,,Ben,Sam,False
+1st,2023/24,Teddington,4,Snap,4-man only,,Jump,Front,False,False,False,,Ben,John,True
+1st,2023/24,Teddington,7,,Other,,Jump,Middle,False,False,False,,Ben,Sam,True
+1st,2023/24,Teddington,4,Snap,4-man only,,Jump,Front,False,False,False,,Ben,John,True
+1st,2023/24,Teddington,7,C3,New,C,Dummy,Middle,False,False,False,,Ben,Ryland,True
+1st,2023/24,Teddington,6,RD,Old,,Dummy,Middle,False,False,False,,Ben,Sam,False
+1st,2023/24,Teddington,5,Green,Old,,Jump,Back,False,False,False,,Ben,Ryland,False
+1st,2023/24,Teddington,5,Red,Old,,Jump,Front,False,False,False,,Ben,John,True
+1st,2023/24,Teddington,6,C1,New,C,Move,Back,False,False,False,,Ben,Ryland,True
+1st,2023/24,Teddington,6,,Other,,Jump,Middle,False,False,False,,Ben,Sam,False
+1st,2023/24,Teddington,4,Snap,4-man only,,Jump,Front,False,False,False,,Ben,John,True
+1st,2023/24,Teddington,4,RD,Old,,Dummy,Front,False,False,False,,Ben,Sam,True
+1st,2023/24,Teddington,7,,Other,,Jump,Middle,False,False,False,,Ben,Sam,False
+1st,2023/24,Teddington,4,Snap,4-man only,,Jump,Front,True,False,False,,Ben,John,True
+1st,2023/24,Teddington,4,Yes,4-man only,,Move,Middle,False,False,False,,Ben,Sam,False
+1st,2023/24,Teddington,7,C1,New,C,Move,Back,False,False,False,,Ben,Ryland,True
+1st,2023/24,Teddington,4,No,4-man only,,Dummy,Front,False,False,False,,Ben,Sam,True
+1st,2023/24,Teddington,7,C1,New,C,Move,Back,False,False,False,,Ben,Ryland,True
+1st,2023/24,Teddington,4,Matlow,Old,,Jump,Front,False,False,False,,Ben,John,True
+1st,2023/24,Teddington,6,C1,New,C,Move,Back,True,False,False,,Ben,Ryland,False
+1st,2023/24,Eastbourne,6,C2,New,C,Move,Front,False,False,False,,Ben,Ryland,False
+1st,2023/24,Eastbourne,6,,Other,,Jump,Middle,True,False,False,,Ben,John,True
+1st,2023/24,Eastbourne,6,RD,Old,,Dummy,Middle,False,False,False,,Ben,John,False
+1st,2023/24,Eastbourne,4,,Other,,Jump,Back,False,False,False,,Ben,John,False
+1st,2023/24,Eastbourne,5,Red,Old,,Jump,Front,False,False,False,,Ben,Ryland,True
+1st,2023/24,Eastbourne,6,,Other,,Jump,Middle,True,False,False,,Ben,John,True
+1st,2023/24,Eastbourne,6,RD,Old,,Dummy,Middle,False,False,False,,Ben,John,False
+1st,2023/24,Eastbourne,4,Matlow,Old,,Jump,Front,False,False,False,,Ben,Ryland,True
+1st,2023/24,Eastbourne,6,,Other,,Jump,Middle,True,False,False,,Ben,John,True
+1st,2023/24,Eastbourne,4,,Other,,Jump,Back,False,False,False,,Ben,Sam,True
+1st,2023/24,Eastbourne,6,RD,Old,,Dummy,Middle,True,False,False,,Ben,Sam,True
+1st,2023/24,Horsham,4,,Other,,Jump,Back,True,False,False,,Ben,Sam,True
+1st,2023/24,Horsham,6,C1,New,C,Move,Back,False,False,False,,Ben,Dan B,False
+1st,2023/24,Horsham,6,RD,Old,,Dummy,Middle,False,False,False,,Ben,Sam,True
+1st,2023/24,Horsham,6,C2,New,C,Move,Front,True,False,False,,Ben,Ryland,True
+1st,2023/24,Horsham,6,,Other,,Jump,Middle,False,True,False,,Ben,Sam,True
+1st,2023/24,Horsham,5,RD,Old,,Dummy,Middle,False,False,False,,Ben,Sam,False
+1st,2023/24,Horsham,6,C2,New,C,Move,Front,True,False,False,,Ben,Ryland,True
+1st,2023/24,Horsham,4,Snap,4-man only,,Jump,Front,False,False,False,,Ben,Ryland,True
+1st,2023/24,Horsham,6,C2,New,C,Move,Front,False,False,False,,Ben,Ryland,True
+1st,2023/24,Horsham,6,,Other,,Jump,Middle,True,False,False,,Ben,Sam,True
+1st,2023/24,Horsham,5,Red,Old,,Jump,Front,False,False,False,,Ben,Ryland,True
+1st,2023/24,Horsham,5,,Other,,Jump,Middle,True,False,False,,Ben,Ryland,True
+1st,2023/24,Weybridge Vandals,5,,Other,,Jump,Middle,False,False,False,,Ben,Sam,True
+1st,2023/24,Weybridge Vandals,6,C3,New,C,Dummy,Middle,False,False,False,,Ben,Ryland,True
+1st,2023/24,Weybridge Vandals,4,Snap,4-man only,,Jump,Front,True,False,False,,Ben,John,True
+1st,2023/24,Weybridge Vandals,4,Yes,4-man only,,Move,Back,False,False,False,,Ben,Sam,False
+1st,2023/24,Weybridge Vandals,6,,Other,,Jump,Middle,True,False,False,,Ben,Sam,True
+1st,2023/24,Weybridge Vandals,6,C1,New,C,Move,Back,True,False,False,,Ben,Ryland,True
+1st,2023/24,Weybridge Vandals,4,No,4-man only,,Dummy,Front,False,False,False,,Ben,Sam,True
+1st,2023/24,Weybridge Vandals,4,Snap,4-man only,,Jump,Front,True,False,False,,Ben,John,True
+1st,2023/24,Weybridge Vandals,4,Snap,4-man only,,Jump,Front,False,False,False,,Ben,John,True
+1st,2023/24,Weybridge Vandals,6,C1,New,C,Move,Back,True,False,False,,Ben,Ryland,True
+1st,2023/24,Weybridge Vandals,6,A2,New,A,Dummy,Front,False,False,False,,Ben,Sam,True
+1st,2023/24,Weybridge Vandals,6,,Other,,Jump,Middle,True,False,False,,Ben,Sam,True
+1st,2023/24,Weybridge Vandals,4,A2,New,A,Dummy,Front,False,False,False,,Ben,Sam,False
+1st,2023/24,Weybridge Vandals,5,Red,Old,,Jump,Front,False,False,False,,Ben,Ryland,True
+1st,2023/24,Weybridge Vandals,4,,Other,,Jump,Back,False,False,False,,Ben,Sam,False
+1st,2023/24,Weybridge Vandals,6,C1,New,C,Move,Back,True,False,False,,Ben,Ryland,True
+1st,2023/24,Weybridge Vandals,6,,Other,,Jump,Middle,True,False,False,,Ben,Sam,True
+1st,2023/24,Hove,7,C3,New,C,Dummy,Middle,False,False,False,,Ben,Sam,False
+1st,2023/24,Hove,7,A2,New,A,Dummy,Front,True,False,False,,Ben,Ryland,True
+1st,2023/24,Hove,5,Red,Old,,Jump,Front,False,False,False,,Ben,John,True
+1st,2023/24,Hove,7,A2,New,A,Dummy,Front,True,False,False,,Ben,Ryland,True
+1st,2023/24,Hove,7,C2,New,C,Move,Front,False,False,False,,Ben,John,False
+1st,2023/24,Hove,4,Snap,4-man only,,Jump,Front,True,False,False,,Ben,John,True
+1st,2023/24,Hove,4,No,4-man only,,Dummy,Front,False,False,False,,Ben,Sam,True
+1st,2023/24,Hove,7,A2,New,A,Dummy,Front,False,False,False,,Ben,Ryland,True
+1st,2023/24,Hove,4,Snap,4-man only,,Jump,Front,True,False,False,,Ben,John,True
+1st,2023/24,Hove,4,,Other,,Jump,Middle,False,False,False,,Ben,Sam,True
+1st,2023/24,Hove,4,,Other,,Jump,Middle,False,False,False,,Ben,Sam,False
+1st,2023/24,Hove,6,C2,New,C,Move,Front,True,False,False,,Ben,John,True
+1st,2023/24,Hove,4,Snap,4-man only,,Jump,Front,True,False,False,,Ben,John,False
+1st,2023/24,Trinity,7,C3,New,C,Dummy,Middle,False,False,False,,Ben,Rory,True
+1st,2023/24,Trinity,4,,Other,,Jump,Back,False,False,False,,Ben,Sam,True
+1st,2023/24,Trinity,7,C3,New,C,Dummy,Middle,False,False,False,,Ben,Rory,True
+1st,2023/24,Trinity,4,,Other,,Jump,Back,False,False,False,,Ben,Sam,True
+1st,2023/24,Trinity,7,C1,New,C,Move,Back,False,False,False,,Ben,Aaron,True
+1st,2023/24,Trinity,4,Snap,4-man only,,Jump,Front,True,False,False,,Ben,Rory,True
+1st,2023/24,Trinity,5,Red,Old,,Jump,Front,True,False,False,,Ben,Ryland,True
+1st,2023/24,Trinity,7,A3,New,A,Dummy,Middle,True,False,False,,Ben,Rory,False
+1st,2023/24,Trinity,7,C1,New,C,Move,Back,False,False,False,,Ben,Aaron,False
+1st,2023/24,Trinity,4,,Other,,Jump,Back,False,False,False,,Ben,Ryland,True
+1st,2023/24,Trinity,4,Snap,4-man only,,Jump,Front,True,False,False,,Ben,Ryland,True
+1st,2023/24,Trinity,4,Yes,4-man only,,Move,Back,False,False,False,,Ben,Sam,True
+1st,2023/24,Trinity,4,Snap,4-man only,,Jump,Front,True,False,False,,Ben,Ryland,True
+1st,2023/24,Trinity,7,A3,New,A,Dummy,Middle,False,False,False,,Ben,Tom B,True
+1st,2023/24,Trinity,5,RD,Old,,Dummy,Middle,False,False,False,,Ben,Sam,False
+1st,2023/24,Old Tiffinians,5,,Other,,Jump,Middle,False,False,False,,Ben,Sam,True
+1st,2023/24,Old Tiffinians,4,Snap,4-man only,,Jump,Front,False,False,False,,Ben,John,True
+1st,2023/24,Old Tiffinians,5,RD,Old,,Dummy,Middle,False,False,False,,Ben,Sam,True
+1st,2023/24,Old Tiffinians,7,C3,New,C,Dummy,Middle,True,False,False,,Ben,Sam,True
+1st,2023/24,Old Tiffinians,7,A2,New,A,Dummy,Front,True,False,False,,Ben,John,True
+1st,2023/24,Old Tiffinians,4,Snap,4-man only,,Jump,Front,True,False,False,,Ben,John,True
+1st,2023/24,Old Tiffinians,5,,Other,,Jump,Middle,False,False,False,,Ben,Sam,False
+1st,2023/24,Old Tiffinians,7,A2,New,A,Dummy,Front,True,False,False,,Ben,John,True
+1st,2023/24,Old Tiffinians,4,,Other,,Jump,Middle,True,False,False,,Ben,Sam,True
+1st,2023/24,Old Tiffinians,7,C3,New,C,Dummy,Middle,True,False,False,,Ben,Sam,True
+1st,2023/24,Old Tiffinians,7,A3,New,A,Dummy,Middle,True,False,False,,Ben,Ryland,True
+1st,2023/24,Old Tiffinians,7,C1,New,C,Move,Back,False,False,False,,Ben,John,True
+1st,2023/24,Old Tiffinians,4,Snap,4-man only,,Jump,Front,False,False,False,,Ben,John,False
+1st,2023/24,Old Tiffinians,4,No,4-man only,,Dummy,Front,False,False,False,,Ben,Sam,True
+1st,2023/24,Old Walcountians,5,Red,Old,,Jump,Front,False,False,False,,Ben,John,True
+1st,2023/24,Old Walcountians,7,C2,New,C,Move,Front,True,False,False,,Ben,John,True
+1st,2023/24,Old Walcountians,7,A3,New,A,Dummy,Middle,False,False,False,,Ben,Ryland,False
+1st,2023/24,Old Walcountians,4,,Other,,Jump,Middle,False,False,False,,Ben,Sam,True
+1st,2023/24,Old Walcountians,7,C3,New,C,Dummy,Middle,False,False,False,,Ben,Ryland,True
+1st,2023/24,Old Walcountians,7,A2,New,A,Dummy,Front,True,False,False,,Ben,John,True
+1st,2023/24,Old Walcountians,5,,Other,,Jump,Back,False,False,False,,Ben,Sam,True
+1st,2023/24,Old Walcountians,7,C1,New,C,Move,Back,True,False,False,,Ben,Sam,True
+1st,2023/24,Old Walcountians,7,C3,New,C,Dummy,Middle,True,False,False,,Ben,Ryland,True
+1st,2023/24,Old Walcountians,7,C1,New,C,Move,Back,True,False,False,,Ben,Sam,True
+1st,2023/24,Old Walcountians,7,C1,New,C,Move,Back,False,False,False,,Ben,Sam,True
+1st,2023/24,Teddington,7,C3,New,C,Dummy,Middle,True,False,False,,Ben,Sam,False
+1st,2023/24,Teddington,4,Snap,4-man only,,Jump,Front,False,False,False,,Ben,Ryland,True
+1st,2023/24,Teddington,7,A3,New,A,Dummy,Middle,True,False,False,,Ben,Sam,False
+1st,2023/24,Teddington,7,C1,New,C,Move,Back,False,False,False,,Ben,Sam,True
+1st,2023/24,Teddington,4,,Other,,Jump,Middle,False,False,False,,Ben,Sam,False
+1st,2023/24,Teddington,5,,Other,,Jump,Middle,False,False,False,,Ben,Sam,True
+1st,2023/24,Teddington,4,Snap,4-man only,,Jump,Front,False,False,False,,Ben,John,True
+1st,2023/24,Teddington,4,No,4-man only,,Dummy,Front,True,False,False,,Ben,Sam,True
+1st,2023/24,Teddington,7,A3,New,A,Dummy,Middle,True,False,False,,Ben,Ryland,False
+1st,2023/24,Teddington,4,Snap,4-man only,,Jump,Front,False,False,False,,Josh,Ryland,False
+1st,2023/24,Teddington,5,,Other,,Jump,Middle,True,False,False,,Josh,John,True
+1st,2023/24,Teddington,5,Red,Old,,Jump,Front,False,False,False,,Josh,Ryland,False
+1st,2023/24,Teddington,7,A3,New,A,Dummy,Middle,False,False,False,,Ben,Ryland,True
+1st,2023/24,Teddington,7,A2,New,A,Dummy,Front,True,False,False,,Ben,John,True
+1st,2023/24,Teddington,4,Snap,4-man only,,Jump,Front,False,False,False,,Ben,Ryland,True
+1st,2023/24,Teddington,5,Red,Old,,Jump,Front,False,False,False,,Ben,Ryland,True
+1st,2023/24,Teddington,6,C3,New,C,Dummy,Middle,False,False,False,,Ben,Sam,True
+1st,2023/24,Teddington,4,Snap,4-man only,,Jump,Front,False,False,False,,Ben,John,False
+1st,2023/24,Teddington,5,RD,Old,,Dummy,Middle,False,False,False,,Ben,John,True
+1st,2023/24,Teddington,7,A2,New,A,Dummy,Front,True,False,False,,Ben,John,True
+1st,2023/24,Teddington,7,A2,New,A,Dummy,Front,False,False,False,,Ben,John,False
+1st,2023/24,Eastbourne,7,A3,New,A,Dummy,Middle,True,False,False,,Ben,Sam,True
+1st,2023/24,Eastbourne,4,Snap,4-man only,,Jump,Front,True,False,False,,Ben,Ryland,True
+1st,2023/24,Eastbourne,4,,Other,,Jump,Middle,False,False,False,,Ben,Sam,True
+1st,2023/24,Eastbourne,7,C3,New,C,Dummy,Middle,True,False,False,,Ben,Sam,True
+1st,2023/24,Eastbourne,7,A2,New,A,Dummy,Front,True,False,False,,Ben,Ryland,True
+1st,2023/24,Eastbourne,7,H3,New,H,Jump,Middle,False,False,False,,Ben,Sam,False
+1st,2023/24,Eastbourne,5,,Other,,Jump,Middle,False,False,False,,Ben,Sam,True
+1st,2023/24,Eastbourne,7,A3,New,A,Dummy,Middle,False,False,False,,Ben,Sam,True
+1st,2023/24,Eastbourne,7,C1,New,C,Move,Back,False,False,False,,Ben,Dan B,False
+1st,2023/24,Eastbourne,4,Yes,4-man only,,Move,Back,False,False,False,,Mark,Sam,False
+1st,2023/24,Eastbourne,7,C3,New,C,Dummy,Middle,True,False,False,,Mark,Sam,True
+1st,2023/24,Weybridge Vandals,7,H3,New,H,Jump,Middle,False,False,False,,Ben,Ryland,False
+1st,2023/24,Weybridge Vandals,7,A2,New,A,Dummy,Front,True,False,False,,Ben,Dan B,True
+1st,2023/24,Weybridge Vandals,7,H2,New,H,Jump,Front,True,False,False,,Ben,Aaron,True
+1st,2023/24,Weybridge Vandals,7,H3,New,H,Jump,Middle,False,False,False,,Ben,Ryland,False
+1st,2023/24,Weybridge Vandals,4,,Other,,Jump,Middle,False,False,False,,Ben,Ryland,False
+1st,2023/24,Weybridge Vandals,7,A3,New,A,Dummy,Middle,False,False,False,,Ben,Ryland,False
+1st,2023/24,Weybridge Vandals,7,C1,New,C,Move,Back,False,False,False,,Ben,Dan B,False
+1st,2023/24,Weybridge Vandals,7,A2,New,A,Dummy,Front,True,False,False,,Ben,Dan B,True
+1st,2023/24,Weybridge Vandals,7,C1,New,C,Move,Back,False,False,False,,Ben,Ryland,True
+1st,2023/24,Weybridge Vandals,7,A3,New,A,Dummy,Middle,False,False,False,,Ben,Ryland,True
+1st,2023/24,Weybridge Vandals,7,A3,New,A,Dummy,Middle,False,False,False,,Ben,Ryland,True
+1st,2023/24,Weybridge Vandals,7,H3,New,H,Jump,Middle,False,False,False,,Ben,Ryland,True
+1st,2023/24,Weybridge Vandals,7,H3,New,H,Jump,Middle,False,False,False,,Ben,Ryland,False
+1st,2023/24,Hove,7,H3,New,H,Jump,Middle,False,False,False,,Ben,Sam,True
+1st,2023/24,Hove,4,,Other,,Jump,Back,False,False,False,,Ben,Sam,True
+1st,2023/24,Hove,7,C3,New,C,Dummy,Middle,False,False,False,,Ben,Sam,True
+1st,2023/24,Hove,7,A3,New,A,Dummy,Middle,False,False,False,,Ben,Sam,True
+1st,2023/24,Hove,4,,Other,,Jump,Middle,False,False,False,,Ben,Sam,True
+1st,2023/24,Hove,7,A3,New,A,Dummy,Front,False,False,False,2.0,Ben,Aaron,True
+1st,2023/24,Hove,7,H3,New,H,Jump,Middle,False,True,False,,Ben,Sam,True
+1st,2023/24,Hove,7,C3,New,C,Dummy,Middle,False,False,False,,Ben,Sam,False
+1st,2023/24,Hove,4,,Other,,Jump,Back,False,False,False,,Ben,Sam,True
+1st,2023/24,Hove,7,C1,New,C,Move,Back,False,False,False,,Ben,Sam,True
+1st,2023/24,Hove,7,A2,New,A,Dummy,Front,False,False,False,,Ben,Aaron,True
+1st,2023/24,Hove,7,C3,New,C,Dummy,Middle,False,False,False,,Ben,Sam,True
+1st,2023/24,Hove,7,A2,New,A,Dummy,Front,False,False,False,2.0,Ben,Dan B,True
+1st,2023/24,Hove,4,,Other,,Jump,Middle,True,False,False,,Ben,Sam,True
+1st,2023/24,Twickenham,7,A3,New,A,Dummy,Middle,False,False,False,,Ben,Sam,True
+1st,2023/24,Twickenham,7,C3,New,C,Dummy,Middle,False,False,False,,Ben,Sam,False
+1st,2023/24,Twickenham,4,Snap,4-man only,,Jump,Front,True,False,False,,Ben,Ryland,True
+1st,2023/24,Twickenham,7,A2,New,A,Dummy,Front,False,False,False,,Ben,Ryland,False
+1st,2023/24,Twickenham,7,H3,New,H,Jump,Middle,False,False,False,,Ben,Sam,False
+1st,2023/24,Twickenham,4,,Other,,Jump,Back,False,False,False,,Ben,Sam,False
+1st,2023/24,Twickenham,7,A3,New,A,Dummy,Middle,False,False,False,,Ben,Sam,True
+1st,2023/24,Twickenham,7,C3,New,C,Dummy,Middle,False,False,False,,Ben,Sam,True
+1st,2023/24,Twickenham,7,A2,New,A,Dummy,Front,False,False,False,2.0,Ben,Ryland,True
+1st,2023/24,Twickenham,7,A3,New,A,Dummy,Middle,True,False,False,,Mark,Sam,True
+1st,2023/24,Twickenham,4,,Other,,Jump,Back,True,False,False,,Mark,Sam,True
+1st,2023/24,Twickenham,7,C3,New,C,Dummy,Middle,True,False,False,,Mark,Sam,True
+1st,2023/24,Twickenham,4,Snap,4-man only,,Jump,Front,False,False,False,,Mark,Ryland,False
+1st,2023/24,Twickenham,5,Red,Old,,Jump,Front,False,False,False,,Mark,Ryland,False
+1st,2023/24,Twickenham,7,A3,New,A,Dummy,Middle,False,True,False,,Mark,Sam,True
+1st,2023/24,Twickenham,7,A3,New,A,Dummy,Middle,False,False,False,,Mark,Sam,True
+1st,2023/24,Twickenham,4,,Other,,Jump,Back,False,False,False,,Mark,Sam,False
+1st,2023/24,Twickenham,7,H2,New,H,Jump,Front,False,False,False,,Mark,Tom M,False
+1st,2023/24,Twickenham,7,A3,New,A,Dummy,Middle,True,False,False,,Mark,Sam,True
+1st,2023/24,Dover,7,H3,New,H,Jump,Middle,True,False,False,,Ben,Dan B,True
+1st,2023/24,Dover,7,A3,New,A,Dummy,Middle,True,False,False,,Ben,Dan B,True
+1st,2023/24,Dover,7,C3,New,C,Dummy,Middle,False,False,False,,Ben,Dan B,True
+1st,2023/24,Dover,7,A3,New,A,Dummy,Middle,False,False,False,,Ben,Dan B,False
+1st,2023/24,Dover,7,C2,New,C,Move,Front,False,False,False,,Ben,Ryland,False
+1st,2023/24,Dover,7,A1,New,A,Dummy,Middle,False,False,False,,Ben,Sam,True
+1st,2023/24,Dover,7,A3,New,A,Dummy,Middle,False,False,False,,Ben,Dan B,False
+1st,2023/24,Dover,4,Snap,4-man only,,Jump,Front,True,False,False,,Ben,Ryland,True
+1st,2023/24,Dover,7,C3,New,C,Dummy,Middle,True,False,False,,Ben,Dan B,True
+1st,2024/25,London Cornish,7,A2,New,A,Dummy,Front,True,False,False,,Ben,Ryland,True
+1st,2024/25,London Cornish,7,A3,New,A,Dummy,Middle,True,False,False,,Ben,Dan B,True
+1st,2024/25,London Cornish,7,A1,New,A,Dummy,Back,False,False,False,,Ben,Sam,True
+1st,2024/25,London Cornish,7,C3,New,C,Dummy,Middle,False,False,False,,Ben,Dan B,False
+1st,2024/25,London Cornish,7,C1,New,C,Move,Back,False,False,False,,Ben,Sam,True
+1st,2024/25,London Cornish,7,C2,New,C,Move,Front,True,False,False,,Ben,Ryland,True
+1st,2024/25,London Cornish,7,H1,New,H,Jump,Back,False,False,False,,Ben,Sam,True
+1st,2024/25,London Cornish,7,A3,New,A,Dummy,Middle,True,False,False,,Ben,Dan B,True
+1st,2024/25,London Cornish,7,A3,New,A,Dummy,Middle,True,False,False,,Ben,Tom M,True
+1st,2024/25,London Cornish,7,C3,New,C,Dummy,Middle,True,False,False,,Ben,Dan B,False
+1st,2024/25,London Cornish,7,A3,New,A,Dummy,Middle,False,False,False,,Ben,Dan B,True
+1st,2024/25,London Cornish,7,A1,New,A,Dummy,Back,False,False,False,,Ben,Sam,True
+1st,2024/25,London Cornish,7,C2,New,C,Move,Front,True,False,False,,Ben,Ryland,True
+1st,2024/25,Haywards Heath,7,C3,New,C,Dummy,Middle,False,False,False,,Ben,Tom M,True
+1st,2024/25,Haywards Heath,7,A3,New,A,Dummy,Middle,True,False,False,,Ben,Tom M,True
+1st,2024/25,Haywards Heath,7,C1,New,C,Move,Back,False,False,False,,Ben,Sam,True
+1st,2024/25,Haywards Heath,7,A1,New,A,Dummy,Back,False,False,False,,Ben,Sam,True
+1st,2024/25,Haywards Heath,7,C3,New,C,Dummy,Middle,False,True,False,,Ben,Tom M,True
+1st,2024/25,Haywards Heath,7,H3,New,H,Jump,Middle,False,True,False,,Ben,Tom M,False
+1st,2024/25,Haywards Heath,7,H1,New,H,Jump,Back,False,False,False,,Ben,Sam,True
+1st,2024/25,Haywards Heath,7,C1,New,C,Move,Back,False,False,False,,Ben,Sam,False
+1st,2024/25,Haywards Heath,7,A2,New,A,Dummy,Front,False,True,False,,Ben,Ryland,True
+1st,2024/25,Hove,7,H3,New,H,Jump,Middle,True,False,False,,George,Tom M,True
+1st,2024/25,Hove,7,A2,New,A,Dummy,Front,True,False,False,,George,John,True
+1st,2024/25,Hove,7,C3,New,C,Dummy,Middle,True,False,False,,George,Tom M,True
+1st,2024/25,Hove,7,A3,New,A,Dummy,Middle,True,False,False,,George,Tom M,True
+1st,2024/25,Hove,6,C1,New,C,Move,Back,False,False,False,,George,Sam,False
+1st,2024/25,Hove,7,C2,New,C,Move,Front,True,False,False,,George,John,True
+1st,2024/25,Hove,7,H3,New,H,Jump,Middle,False,False,False,,George,Tom M,False
+1st,2024/25,Hove,7,A3,New,A,Dummy,Middle,False,False,False,,George,Tom M,False
+1st,2024/25,Hove,7,A1,New,A,Dummy,Back,False,False,False,,George,Sam,True
+1st,2024/25,Hove,7,H3,New,H,Jump,Middle,False,False,False,,George,Tom M,True
+1st,2024/25,Hove,7,C1,New,C,Move,Back,False,False,False,,George,Sam,False
+1st,2024/25,Twickenham,7,C3,New,C,Dummy,Middle,False,False,False,,George,Tom M,True
+1st,2024/25,Twickenham,7,A3,New,A,Dummy,Middle,True,False,False,,George,Tom M,True
+1st,2024/25,Twickenham,7,H3,New,H,Jump,Middle,True,False,False,,George,Tom M,True
+1st,2024/25,Twickenham,7,H3,New,H,Jump,Middle,False,False,False,,George,Tom M,False
+1st,2024/25,Twickenham,7,A2,New,A,Dummy,Front,True,False,False,,George,Ryland,True
+1st,2024/25,Twickenham,7,A3,New,A,Dummy,Middle,True,False,False,,George,Tom M,False
+1st,2024/25,Twickenham,7,H3,New,H,Jump,Middle,False,True,False,,George,Tom M,True
+1st,2024/25,Twickenham,7,C1,New,C,Move,Back,False,False,False,,George,Sam,False
+1st,2024/25,Twickenham,7,H3,New,H,Jump,Middle,False,True,False,,George,Tom M,True
+1st,2024/25,Twickenham,7,H3,New,H,Jump,Middle,False,False,False,,George,Tom M,False
+1st,2024/25,Twickenham,7,A3,New,A,Dummy,Middle,True,False,False,,George,Tom M,True
+1st,2024/25,Twickenham,7,A3,New,A,Dummy,Middle,True,False,False,,George,Tom M,True
+1st,2024/25,Twickenham,7,C2,New,C,Move,Front,True,False,False,,George,Ryland,True
+1st,2024/25,Twickenham,7,A2,New,A,Dummy,Front,True,False,False,,George,Ryland,True
+1st,2024/25,KCS Old Boys,7,A3,New,A,Dummy,Middle,True,False,False,,George,Tom M,True
+1st,2024/25,KCS Old Boys,7,H3,New,H,Jump,Middle,False,False,False,,George,Tom M,False
+1st,2024/25,KCS Old Boys,7,C3,New,C,Dummy,Middle,True,False,False,,George,Tom M,True
+1st,2024/25,KCS Old Boys,7,C1,New,C,Move,Back,False,False,False,,George,Sam,False
+1st,2024/25,KCS Old Boys,7,A3,New,A,Dummy,Middle,True,False,False,,George,Tom M,True
+1st,2024/25,KCS Old Boys,7,A3,New,A,Dummy,Middle,False,False,False,,George,Tom M,True
+1st,2024/25,KCS Old Boys,7,H1,New,H,Jump,Back,False,False,False,,George,Sam,True
+1st,2024/25,KCS Old Boys,7,C3,New,C,Dummy,Middle,False,False,False,,George,Tom M,False
+1st,2024/25,KCS Old Boys,7,A2,New,A,Dummy,Front,False,False,False,,George,Ryland,False
+1st,2024/25,Eastbourne,7,H3,New,H,Jump,Middle,False,False,False,,Ben,Tom M,False
+1st,2024/25,Eastbourne,7,H3,New,H,Jump,Middle,False,False,False,,Ben,Tom M,False
+1st,2024/25,Eastbourne,7,C3,New,C,Dummy,Middle,False,False,False,,Ben,Tom M,False
+1st,2024/25,Eastbourne,7,A2,New,A,Dummy,Front,True,False,False,,Ben,John,True
+1st,2024/25,Eastbourne,7,A2,New,A,Dummy,Front,True,False,False,,Ben,John,True
+1st,2024/25,Eastbourne,7,A2,New,A,Dummy,Front,False,False,False,,George,John,True
+1st,2024/25,Eastbourne,7,A2,New,A,Dummy,Front,False,False,False,,George,John,False
+1st,2024/25,Eastbourne,7,A3,New,A,Dummy,Middle,False,False,False,,George,Tom M,False
+1st,2024/25,Trinity,7,A*,New,A,Jump,Middle,False,False,False,,Ben,John,True
+1st,2024/25,Trinity,7,A3,New,A,Dummy,Middle,False,False,False,,Ben,Ryland,False
+1st,2024/25,Trinity,7,A3,New,A,Dummy,Middle,False,False,False,,Ben,Ryland,True
+1st,2024/25,Trinity,7,A2,New,A,Dummy,Front,False,False,False,,Ben,John,True
+1st,2024/25,Trinity,7,C3,New,C,Dummy,Middle,False,False,False,,Ben,Tom M,True
+1st,2024/25,Trinity,7,C3,New,C,Dummy,Middle,True,False,False,,Ben,Tom M,True
+1st,2024/25,Trinity,7,A3,New,A,Dummy,Middle,False,False,False,,George,Tom M,True
+1st,2024/25,Old Rutlishians,7,A2,New,A,Dummy,Front,True,False,False,,Ben,John,True
+1st,2024/25,Old Rutlishians,7,A2,New,A,Dummy,Front,False,False,False,,Ben,Ryland,False
+1st,2024/25,Old Rutlishians,7,A2,New,A,Dummy,Middle,True,False,False,,Ben,John,True
+1st,2024/25,Old Rutlishians,7,H2,New,H,Jump,Front,True,False,False,,Ben,Ryland,True
+1st,2024/25,Old Rutlishians,7,A3,New,A,Dummy,Middle,True,False,False,,Ben,Tom M,True
+1st,2024/25,Old Rutlishians,7,C3,New,C,Dummy,Middle,True,False,False,,Ben,Tom M,True
+1st,2024/25,Old Rutlishians,7,C3,New,C,Dummy,Middle,False,True,False,,Ben,Tom M,True
+1st,2024/25,Old Rutlishians,7,C2,New,C,Move,Front,True,False,False,,Ben,John,True
+1st,2024/25,Old Rutlishians,7,H2,New,H,Jump,Front,True,False,False,,Ben,Ryland,True
+1st,2024/25,Old Rutlishians,7,H3,New,H,Jump,Middle,True,False,False,,Ben,John,True
+1st,2024/25,Old Rutlishians,7,H3,New,H,Jump,Middle,False,False,False,,Ben,Tom M,False
+1st,2024/25,Old Rutlishians,7,A3,New,A,Dummy,Middle,True,False,False,,Ben,John,True
+1st,2024/25,Old Rutlishians,7,A3,New,A,Dummy,Middle,False,False,False,,Ben,John,False
+1st,2024/25,Old Rutlishians,7,H2,New,H,Jump,Front,True,False,False,,Ben,John,True
+1st,2024/25,Old Rutlishians,7,H2,New,H,Jump,Front,True,False,False,,Ben,John,True
+1st,2024/25,Old Rutlishians,7,A*,New,A,Jump,Middle,True,False,False,,Ben,John,True
+1st,2024/25,Old Rutlishians,7,H2,New,H,Jump,Front,True,False,False,,Ben,John,True
+1st,2024/25,Old Rutlishians,7,H3,New,H,Jump,Middle,False,False,False,,Ben,Tom M,False
+1st,2024/25,Cobham,7,H2,New,H,Jump,Front,False,False,False,,Ben,Ryland,False
+1st,2024/25,Cobham,7,A3,New,A,Dummy,Middle,True,False,False,,Ben,Sam,True
+1st,2024/25,Cobham,7,A2,New,A,Dummy,Front,False,False,False,,Ben,Ryland,True
+1st,2024/25,Cobham,7,C3,New,C,Dummy,Middle,False,False,False,,Ben,Sam,True
+1st,2024/25,Cobham,7,A3,New,A,Dummy,Middle,False,False,False,,Ben,Sam,False
+1st,2024/25,Cobham,7,H3,New,H,Jump,Middle,True,False,False,,Ben,Sam,True
+1st,2024/25,Cobham,7,H3,New,H,Jump,Middle,False,False,False,,Ben,Sam,True
+1st,2024/25,Cobham,7,A2,New,A,Dummy,Front,True,False,False,,Ben,Ryland,False
+1st,2024/25,Cobham,7,A3,New,A,Dummy,Middle,False,False,False,,Ben,Sam,True
+1st,2024/25,Cobham,7,A3,New,A,Dummy,Middle,False,False,False,,Ben,Sam,True
+1st,2024/25,Cobham,6,H3,New,H,Jump,Middle,False,False,False,,George,Sam,False
+1st,2024/25,Cobham,7,A2,New,A,Dummy,Front,False,False,False,,George,Rory,True
+1st,2024/25,Cobham,7,C3,New,C,Dummy,Middle,False,False,False,,George,Sam,True
+1st,2024/25,Old Haileyburians,7,A3,New,A,Dummy,Middle,True,False,False,,George,Tom M,True
+1st,2024/25,Old Haileyburians,7,C1,New,C,Move,Back,False,False,False,,George,Sam,False
+1st,2024/25,Old Haileyburians,7,H3,New,H,Jump,Middle,False,False,False,,George,Tom M,False
+1st,2024/25,Old Haileyburians,7,A3,New,A,Dummy,Middle,False,False,False,,George,Tom M,True
+1st,2024/25,Old Haileyburians,7,C1,New,C,Move,Back,False,False,False,,George,Sam,False
+1st,2024/25,Old Haileyburians,7,H3,New,H,Jump,Middle,False,False,False,,George,Tom M,True
+1st,2024/25,Old Haileyburians,7,C3,New,C,Dummy,Middle,False,False,False,,George,Tom M,False
+1st,2024/25,Old Haileyburians,4,Snap,4-man only,,Jump,Front,False,False,False,,George,Oscar,True
+1st,2024/25,Old Haileyburians,7,H3,New,H,Jump,Middle,False,False,False,,George,Tom M,True
+1st,2024/25,Old Haileyburians,7,H3,New,H,Jump,Middle,False,False,False,,George,Tom M,True
+1st,2024/25,Weybridge Vandals,7,H3,New,H,Jump,Middle,False,False,False,,Ben,Tim,True
+1st,2024/25,Weybridge Vandals,7,A3,New,A,Dummy,Middle,False,False,False,,Ben,Tim,True
+1st,2024/25,Weybridge Vandals,7,A2,New,A,Dummy,Front,True,False,False,,Ben,Rory,True
+1st,2024/25,Weybridge Vandals,7,C3,New,C,Dummy,Middle,False,False,False,,Ben,Tim,False
+1st,2024/25,Weybridge Vandals,4,Snap,4-man only,,Jump,Front,False,False,False,,Ben,Rory,True
+1st,2024/25,Weybridge Vandals,7,C1,New,C,Move,Back,False,False,False,,Ben,Sam,True
+1st,2024/25,Weybridge Vandals,7,A3,New,A,Dummy,Middle,False,False,False,,Ben,Tim,False
+1st,2024/25,Weybridge Vandals,7,C3,New,C,Dummy,Middle,True,False,False,,Ben,Tim,True
+1st,2024/25,Weybridge Vandals,7,C2,New,C,Move,Front,False,False,False,,Ben,Rory,False
+1st,2024/25,Weybridge Vandals,4,,Other,,Jump,Back,False,False,False,,Ben,Sam,False
+1st,2024/25,Weybridge Vandals,4,Yes,4-man only,,Move,Middle,False,False,False,,Ben,Sam,False
+1st,2024/25,Weybridge Vandals,7,A2,New,A,Dummy,Front,False,False,False,,Ben,Rory,True
+1st,2024/25,Weybridge Vandals,7,H3,New,H,Jump,Middle,False,True,False,,Ben,Tim,True
+1st,2024/25,Weybridge Vandals,6,C3,New,C,Dummy,Middle,False,False,False,,Ben,Tim,False
+1st,2024/25,Weybridge Vandals,6,H3,New,H,Jump,Middle,False,False,False,,Ben,Tim,True
+1st,2024/25,Weybridge Vandals,6,H3,New,H,Jump,Middle,False,False,False,,Ben,Tim,False
+1st,2024/25,Weybridge Vandals,6,H2,New,H,Jump,Front,True,False,False,,Ben,Oscar,True
+1st,2024/25,Twickenham,7,A*,New,A,Jump,Middle,False,False,False,,George,John,False
+1st,2024/25,Twickenham,7,A3,New,A,Dummy,Middle,False,False,False,,George,Sam,True
+1st,2024/25,Twickenham,7,C*,New,C,Jump,Middle,False,False,False,,George,Tim,False
+1st,2024/25,Twickenham,7,A3,New,A,Dummy,Middle,False,False,False,,George,Sam,True
+1st,2024/25,Twickenham,7,C1,New,C,Move,Back,False,False,False,,George,Sam,True
+1st,2024/25,Twickenham,7,A*,New,A,Jump,Middle,True,False,False,,George,John,True
+1st,2024/25,Twickenham,7,A3,New,A,Dummy,Middle,False,False,False,,Ben,Sam,False
+1st,2024/25,Twickenham,7,A*,New,A,Jump,Middle,False,False,False,,Ben,John,True
+1st,2024/25,Twickenham,7,C1,New,C,Move,Back,False,False,False,,Ben,Sam,True
+1st,2024/25,Twickenham,4,Snap,4-man only,,Jump,Front,True,False,False,,Ben,John,True
+1st,2024/25,Hove,7,A3,New,A,Dummy,Middle,True,False,False,,Reggie,Sam,True
+1st,2024/25,Hove,4,,Other,,Jump,Back,True,False,False,,Reggie,Sam,True
+1st,2024/25,Hove,7,A*,New,A,Jump,Middle,False,False,False,,Reggie,John,False
+1st,2024/25,Hove,7,H1,New,H,Jump,Back,False,False,False,,Reggie,Sam,True
+1st,2024/25,Hove,7,C1,New,C,Move,Back,False,False,False,,Reggie,Sam,True
+1st,2024/25,Hove,7,C3,New,C,Dummy,Middle,False,False,False,,Reggie,Ryland,False
+1st,2024/25,Hove,7,C1,New,C,Move,Back,False,False,False,,Reggie,Sam,False
+1st,2024/25,Hove,7,H3,New,H,Jump,Middle,True,False,False,,Reggie,John,True
+1st,2024/25,Eastbourne,7,H3,New,H,Jump,Middle,False,False,False,,Ben,Tom M,True
+1st,2024/25,Eastbourne,7,A2,New,A,Dummy,Front,False,False,False,,Ben,Ryland,False
+1st,2024/25,Eastbourne,7,C1,New,C,Move,Back,False,False,False,,Ben,Sam,True
+1st,2024/25,Eastbourne,7,C3,New,C,Dummy,Middle,False,False,False,,Ben,Tom M,False
+1st,2024/25,Eastbourne,5,C2,New,C,Move,Front,False,False,False,,Ben,Ryland,True
+1st,2024/25,Eastbourne,7,H1,New,H,Jump,Back,False,False,False,,Ben,Sam,True
+1st,2024/25,Eastbourne,5,C2,New,C,Move,Front,False,False,False,,Ben,Ryland,True
+1st,2024/25,Eastbourne,7,A3,New,A,Dummy,Middle,False,False,False,,Ben,Oscar,True
+1st,2024/25,Eastbourne,7,C*,New,C,Jump,Middle,False,False,False,,Ben,Oscar,True
+1st,2024/25,Eastbourne,7,C3,New,C,Dummy,Middle,True,False,False,,Ben,Tom M,True
+1st,2024/25,Eastbourne,7,A3,New,A,Dummy,Middle,False,False,False,,Ben,Sam,True
+1st,2024/25,Eastbourne,7,C1,New,C,Move,Back,False,False,False,,Ben,Sam,True
+1st,2024/25,Eastbourne,7,C1,New,C,Move,Back,False,False,False,,Ben,Sam,True
+1st,2024/25,Eastbourne,7,H3,New,H,Jump,Middle,True,False,False,,Ben,Tom M,True
+2nd,2022/23,Eastbourne,6,,Other,,Jump,Back,False,False,False,,George,Jules,True
+2nd,2022/23,Eastbourne,6,Matlow,Old,,Jump,Front,False,False,False,,George,Josh B,True
+2nd,2022/23,Eastbourne,5,,Other,,Jump,Middle,False,False,False,,George,Jules,True
+2nd,2022/23,Eastbourne,4,Yes,4-man only,,Move,Back,False,False,False,,George,Rory E,True
+2nd,2022/23,Eastbourne,6,,Other,,Jump,Middle,False,False,False,,George,Jules,False
+2nd,2022/23,Eastbourne,4,Yes,4-man only,,Move,Back,False,False,False,,George,Rory E,True
+2nd,2022/23,Eastbourne,6,,Other,,Jump,Middle,False,False,False,,George,Jules,True
+2nd,2022/23,Eastbourne,4,Snap,4-man only,,Jump,Front,False,False,False,,George,Jules,True
+2nd,2022/23,Eastbourne,6,,Other,,Jump,Middle,True,False,False,,Rory D,Jules,True
+2nd,2022/23,Eastbourne,4,Snap,4-man only,,Jump,Front,False,False,False,,Rory D,Jules,True
+2nd,2022/23,Eastbourne,4,Yes,4-man only,,Move,Back,False,False,False,,Rory D,Rory E,True
+2nd,2022/23,Eastbourne,4,No,4-man only,,Dummy,Front,False,False,False,,Rory D,Rory E,False
+2nd,2022/23,Eastbourne,6,Even,Old,,Jump,Middle,False,False,False,,Rory D,Jules,False
+2nd,2022/23,Eastbourne,5,Red,Old,,Jump,Front,False,False,False,,Ben W,Max,True
+2nd,2022/23,St. Francis,4,Yes,4-man only,,Move,Back,False,False,False,,George,Jules,True
+2nd,2022/23,St. Francis,4,Yes,4-man only,,Move,Back,False,False,False,,George,Jules,True
+2nd,2022/23,St. Francis,4,Yes,4-man only,,Move,Back,False,False,False,,George,Jules,False
+2nd,2022/23,St. Francis,4,Snap,4-man only,,Jump,Front,False,False,False,,George,Harrison,True
+2nd,2022/23,St. Francis,4,Snap,4-man only,,Jump,Front,False,False,False,,George,Harrison,True
+2nd,2022/23,St. Francis,4,Snap,4-man only,,Jump,Front,False,False,False,,George,Harrison,False
+2nd,2022/23,St. Francis,4,Matlow,Old,,Jump,Front,False,False,False,,George,Ben P,True
+2nd,2022/23,St. Francis,4,Yes,4-man only,,Move,Back,False,False,False,,George,Harrison,False
+2nd,2022/23,St. Francis,4,Snap,4-man only,,Jump,Front,False,False,False,,George,Rory D,True
+2nd,2022/23,St. Francis,6,,Other,,Jump,Middle,False,False,False,,George,Rory D,False
+2nd,2022/23,St. Francis,6,,Other,,Jump,Middle,True,False,False,,George,Rory D,True
+2nd,2022/23,St. Francis,6,,Other,,Jump,Middle,False,False,False,,George,Rory D,True
+2nd,2022/23,St. Francis,6,Matlow,Old,,Jump,Front,False,False,False,,George,Darren,True
+2nd,2022/23,St. Francis,4,Yes,4-man only,,Move,Middle,False,False,False,,George,Rory D,False
+2nd,2022/23,St. Francis,4,Snap,4-man only,,Jump,Front,False,False,False,,George,Rory D,True
+2nd,2022/23,St. Francis,6,,Other,,Jump,Middle,True,False,False,,George,Ryland,True
+2nd,2022/23,St. Francis,4,Yes,4-man only,,Move,Back,False,False,False,,George,Ryland,False
+2nd,2022/23,Heathfield & Waldron,6,,Other,,Jump,Middle,True,False,False,,Ben W,Tao,True
+2nd,2022/23,Heathfield & Waldron,6,,Other,,Jump,Middle,True,False,False,,Ben W,Tao,True
+2nd,2022/23,Heathfield & Waldron,5,Red,Old,,Jump,Front,False,False,False,,Ben W,Harrison,True
+2nd,2022/23,Heathfield & Waldron,4,Yes,4-man only,,Move,Middle,False,False,False,,Charlie,Tao,True
+2nd,2022/23,Heathfield & Waldron,4,Yes,4-man only,,Move,Middle,False,False,False,,Charlie,Tao,True
+2nd,2022/23,Heathfield & Waldron,5,,Other,,Jump,Middle,False,False,False,,Charlie,Tao,True
+2nd,2022/23,Heathfield & Waldron,6,,Other,,Jump,Middle,True,False,False,,Charlie,Tao,False
+2nd,2022/23,Heathfield & Waldron,5,,Other,,Jump,Middle,False,False,False,,Charlie,Tao,True
+2nd,2022/23,Heathfield & Waldron,4,Yes,4-man only,,Move,Middle,False,False,False,,Charlie,Tao,True
+2nd,2022/23,Heathfield & Waldron,6,,Other,,Jump,Middle,True,False,False,,Charlie,Tao,False
+2nd,2022/23,Heathfield & Waldron,6,,Other,,Jump,Middle,True,False,False,,Charlie,Tao,False
+2nd,2022/23,St. Francis,4,Yes,4-man only,,Move,Middle,False,False,False,,Ben W,Dan A,True
+2nd,2022/23,St. Francis,4,Yes,4-man only,,Move,Back,False,False,False,,Ben W,Dan A,False
+2nd,2022/23,St. Francis,6,,Other,,Jump,Middle,True,False,False,,Ben W,Dan A,False
+2nd,2022/23,St. Francis,4,Snap,4-man only,,Jump,Front,False,False,False,,Ben W,Max,True
+2nd,2022/23,St. Francis,4,Yes,4-man only,,Move,Middle,False,False,False,,Ben W,Dan A,True
+2nd,2022/23,St. Francis,4,Snap,4-man only,,Jump,Front,False,False,False,,Ben W,Max,True
+2nd,2022/23,St. Francis,6,,Other,,Jump,Middle,False,False,False,,Ben W,Dan A,False
+2nd,2022/23,St. Francis,4,Snap,4-man only,,Jump,Front,False,False,False,,Dan B,Max,True
+2nd,2022/23,St. Francis,4,No,4-man only,,Dummy,Front,False,False,False,,Dan B,Dan A,False
+2nd,2022/23,St. Francis,6,,Other,,Jump,Middle,True,False,False,,Morgan,Dan A,True
+2nd,2023/24,Uckfield,6,,Other,,Jump,Middle,True,False,False,,Mark,Tom M,True
+2nd,2023/24,Uckfield,5,RD,Old,,Dummy,Middle,False,False,False,,Mark,Tom M,True
+2nd,2023/24,Uckfield,6,,Other,,Jump,Middle,True,False,False,,Mark,Tom M,True
+2nd,2023/24,Uckfield,5,RD,Old,,Dummy,Middle,False,False,False,,Mark,Tom M,True
+2nd,2023/24,Uckfield,5,Red,Old,,Jump,Front,False,False,False,,George,Rory,True
+2nd,2023/24,Uckfield,5,,Other,,Jump,Middle,False,False,False,,George,Tom M,True
+2nd,2023/24,Uckfield,4,Snap,4-man only,,Jump,Front,False,False,False,,George,Tom M,True
+2nd,2023/24,Uckfield,7,,Other,,Jump,Middle,False,False,False,,George,Tom M,True
+2nd,2023/24,Uckfield,5,,Other,,Jump,Middle,False,False,False,,Mark,Tom M,True
+2nd,2023/24,Uckfield,5,RD,Old,,Dummy,Middle,True,False,False,,Mark,Tom M,True
+2nd,2023/24,Uckfield,5,,Other,,Jump,Middle,False,False,False,,George,Tom M,True
+2nd,2023/24,Uckfield,6,,Other,,Jump,Middle,False,False,False,,George,Tom M,True
+2nd,2023/24,Shoreham,5,,Other,,Jump,Middle,False,False,False,,George,Tim,True
+2nd,2023/24,Shoreham,5,RD,Old,,Dummy,Middle,False,False,False,,George,Tim,False
+2nd,2023/24,Shoreham,6,Even,Old,,Jump,Middle,False,False,False,,George,Tim,True
+2nd,2023/24,Shoreham,5,,Other,,Jump,Middle,False,False,False,,George,Tim,True
+2nd,2023/24,Shoreham,5,,Other,,Jump,Middle,False,False,False,,George,Tim,True
+2nd,2023/24,Shoreham,5,,Other,,Jump,Middle,False,False,False,,George,Tim,True
+2nd,2023/24,Holbrook,5,Even,Old,,Jump,Middle,False,False,False,,George,Tim,True
+2nd,2023/24,Holbrook,5,,Other,,Jump,Middle,False,False,False,,George,Tim,True
+2nd,2023/24,Holbrook,4,Yes,4-man only,,Move,Back,False,False,False,,George,Tim,True
+2nd,2023/24,Holbrook,5,,Other,,Jump,Middle,False,False,False,,George,Tim,True
+2nd,2023/24,Holbrook,5,Red,Old,,Jump,Front,False,False,False,,George,Dan A,True
+2nd,2023/24,Holbrook,5,,Other,,Jump,Middle,False,False,False,,George,Tim,True
+2nd,2023/24,Holbrook,4,Yes,4-man only,,Move,Back,False,False,False,,George,Tim,True
+2nd,2023/24,Holbrook,4,Yes,4-man only,,Move,Back,False,False,False,,George,Tim,True
+2nd,2023/24,Holbrook,5,,Other,,Jump,Middle,False,False,False,,George,Tim,True
+2nd,2023/24,Holbrook,6,,Other,,Jump,Middle,True,False,False,,George,Tim,True
+2nd,2023/24,Holbrook,5,,Other,,Jump,Middle,False,False,False,,George,Tim,False
+2nd,2023/24,Holbrook,4,Yes,4-man only,,Move,Back,False,False,False,,George,Tim,True
+2nd,2023/24,Shoreham,5,,Other,,Jump,Middle,False,False,False,,George,Pete,True
+2nd,2023/24,Shoreham,5,,Other,,Jump,Back,False,False,False,,George,Pete,True
+2nd,2023/24,Shoreham,4,Yes,4-man only,,Move,Back,False,False,False,,George,Tom B,False
+2nd,2023/24,Shoreham,6,,Other,,Jump,Middle,True,False,False,,George,Pete,True
+2nd,2023/24,Shoreham,5,,Other,,Jump,Middle,False,False,False,,George,Pete,False
+2nd,2023/24,Shoreham,6,,Other,,Jump,Middle,True,False,False,,George,Pete,True
+2nd,2023/24,Shoreham,6,,Other,,Jump,Middle,True,False,False,,George,Pete,True
+2nd,2023/24,Shoreham,5,,Other,,Jump,Middle,True,False,False,,George,Pete,True
+2nd,2023/24,Shoreham,6,,Other,,Jump,Middle,False,False,False,,George,Pete,False
+2nd,2023/24,Shoreham,5,,Other,,Jump,Middle,False,False,False,,George,Pete,True
+2nd,2023/24,Shoreham,5,,Other,,Jump,Middle,False,False,False,,George,Pete,True
+2nd,2023/24,Shoreham,5,,Other,,Jump,Middle,False,False,False,,George,Tom B,False
+2nd,2023/24,Shoreham,6,,Other,,Jump,Middle,True,False,False,,George,Tom B,True
+2nd,2023/24,Heathfield & Waldron,5,,Other,,Jump,Middle,False,False,False,,George,Pete,True
+2nd,2023/24,Heathfield & Waldron,5,,Other,,Jump,Middle,False,False,False,,George,Pete,True
+2nd,2023/24,Heathfield & Waldron,4,Snap,4-man only,,Jump,Front,False,False,False,,George,Rory,True
+2nd,2023/24,Heathfield & Waldron,6,,Other,,Jump,Middle,True,False,False,,George,Pete,True
+2nd,2023/24,Heathfield & Waldron,5,,Other,,Jump,Middle,False,False,False,,George,Pete,True
+2nd,2023/24,Heathfield & Waldron,4,,Other,,Jump,Back,False,False,False,,George,Rory,True
+2nd,2023/24,Heathfield & Waldron,5,,Other,,Jump,Middle,False,False,False,,George,Pete,True
+2nd,2023/24,Hellingly,5,,Other,,Jump,Middle,False,False,False,,George,Pete,True
+2nd,2023/24,Hellingly,7,C1,New,C,Move,Back,False,False,False,,George,Tom B,True
+2nd,2023/24,Hellingly,5,,Other,,Jump,Middle,False,False,False,,George,Pete,True
+2nd,2023/24,Hellingly,5,,Other,,Jump,Middle,False,False,False,,George,Pete,True
+2nd,2023/24,Hellingly,5,,Other,,Jump,Middle,False,False,False,,George,Pete,True
+2nd,2023/24,Hellingly,5,,Other,,Jump,Middle,False,False,False,,George,Pete,False
+2nd,2023/24,Hellingly,5,,Other,,Jump,Middle,False,False,False,,George,Pete,False
+2nd,2023/24,Hellingly,5,,Other,,Jump,Middle,False,False,False,,George,Tim,False
+2nd,2023/24,Midhurst,4,Yes,4-man only,,Move,Back,False,False,False,,George,Pete,True
+2nd,2023/24,Midhurst,7,C1,New,C,Move,Back,False,False,False,,George,Harrison,False
+2nd,2023/24,Midhurst,5,,Other,,Jump,Middle,False,False,False,,George,Pete,True
+2nd,2023/24,Midhurst,5,,Other,,Jump,Middle,False,False,False,,George,Pete,True
+2nd,2023/24,Midhurst,7,H3,New,H,Jump,Middle,False,False,False,,George,Pete,False
+2nd,2023/24,Midhurst,5,,Other,,Jump,Middle,False,False,False,,George,Pete,True
+2nd,2023/24,Midhurst,5,,Other,,Jump,Middle,False,False,False,,George,Will,True
+2nd,2023/24,Midhurst,5,,Other,,Jump,Middle,False,False,False,,George,Will,False
+2nd,2023/24,Midhurst,5,Red,Old,,Jump,Front,False,False,False,,George,Will,True
+2nd,2023/24,Midhurst,5,Red,Old,,Jump,Front,False,False,False,,George,Will,True
+2nd,2023/24,Midhurst,5,,Other,,Jump,Middle,False,False,False,,George,Will,True
+2nd,2023/24,Midhurst,5,Red,Old,,Jump,Front,False,False,False,,George,Will,True
+2nd,2023/24,Midhurst,7,H3,New,H,Jump,Middle,False,False,False,,George,Pete,True
+2nd,2023/24,Midhurst,7,,Other,,Jump,Middle,True,False,False,,George,Pete,True
+2nd,2023/24,Midhurst,7,,Other,,Jump,Middle,True,False,False,,George,Pete,True
+2nd,2023/24,Midhurst,7,,Other,,Jump,Middle,False,False,False,,George,Will,True
+2nd,2023/24,Midhurst,5,,Other,,Jump,Middle,False,False,False,,George,Will,True
+2nd,2023/24,Midhurst,7,,Other,,Jump,Middle,True,False,False,,George,Will,True
+2nd,2024/25,Warlingham,7,C2,New,C,Move,Front,False,False,False,,George,Oscar,True
+2nd,2024/25,Warlingham,7,C1,New,C,Move,Back,False,False,False,,George,Pete,True
+2nd,2024/25,Warlingham,7,C*,New,C,Jump,Middle,False,False,False,,George,Will,False
+2nd,2024/25,Warlingham,7,C*,New,C,Jump,Middle,False,False,False,,George,Will,False
+2nd,2024/25,Warlingham,5,C3,New,C,Dummy,Middle,False,False,False,,George,Will,True
+2nd,2024/25,Warlingham,7,A2,New,A,Dummy,Front,False,False,False,,George,Tom B,True
+2nd,2024/25,Warlingham,7,A2,New,A,Dummy,Front,True,False,False,,George,Tom B,True
+2nd,2024/25,Warlingham,5,C*,New,C,Jump,Middle,False,False,False,,George,Sam,True
+2nd,2024/25,Warlingham,5,C*,New,C,Jump,Middle,False,False,False,,George,Sam,True
+2nd,2024/25,Warlingham,7,C3,New,C,Dummy,Middle,False,False,False,,George,Sam,True
+2nd,2024/25,Warlingham,7,A3,New,A,Dummy,Middle,True,False,False,,George,Sam,True
+2nd,2024/25,Warlingham,5,C3,New,C,Dummy,Middle,False,False,False,,Ben T,Will,True
+2nd,2024/25,Warlingham,7,A3,New,A,Dummy,Middle,False,False,False,,Ben T,Will,True
+2nd,2024/25,Eastbourne,7,C2,New,C,Move,Front,True,False,False,,Harrison,John,True
+2nd,2024/25,Eastbourne,7,C2,New,C,Move,Front,False,False,False,,Harrison,John,True
+2nd,2024/25,Eastbourne,7,H3,New,H,Jump,Middle,False,False,False,,Harrison,John,True
+2nd,2024/25,Eastbourne,7,H3,New,H,Jump,Middle,False,False,False,,Ben P,John,True
+2nd,2024/25,Eastbourne,7,H3,New,H,Jump,Middle,False,False,False,,Ben P,John,False
+2nd,2024/25,Eastbourne,7,H3,New,H,Jump,Middle,False,False,False,,Ben P,John,False
+2nd,2024/25,Eastbourne,7,H3,New,H,Jump,Middle,True,False,False,,Harrison,Pete,True
+2nd,2024/25,Eastbourne,7,C1,New,C,Move,Back,False,False,False,,Harrison,Oscar,True
+2nd,2024/25,Eastbourne,7,H3,New,H,Jump,Middle,False,False,False,,Harrison,Pete,True
+2nd,2024/25,Eastbourne,7,A2,New,A,Dummy,Front,False,False,False,,Harrison,Rory,True
+2nd,2024/25,Eastbourne,7,C3,New,C,Dummy,Middle,False,False,False,,Harrison,Pete,False
+2nd,2024/25,Eastbourne,7,C3,New,C,Dummy,Middle,False,False,False,,Harrison,Daan,False
+2nd,2024/25,Eastbourne,7,H2,New,H,Jump,Front,False,False,False,,Harrison,Rory,False
+2nd,2024/25,Eastbourne,7,H2,New,H,Jump,Front,False,False,False,,Harrison,Michael,False
+2nd,2024/25,Eastbourne,7,H3,New,H,Jump,Middle,False,False,False,,,Oscar,False
+2nd,2024/25,Eastbourne,7,H3,New,H,Jump,Middle,False,False,False,,,Pete,False
+2nd,2024/25,Eastbourne,7,H2,New,H,Jump,Front,True,False,False,,,Rory,True
+2nd,2024/25,Old Rutlishians,4,No,4-man only,,Dummy,Front,False,False,False,,Harrison,Pete,True
+2nd,2024/25,Old Rutlishians,7,H3,New,H,Jump,Middle,False,False,False,,Harrison,Pete,False
+2nd,2024/25,Old Rutlishians,5,Red,Old,,Jump,Front,False,False,False,,Harrison,Rory,False
+2nd,2024/25,Old Rutlishians,5,RD,Old,,Dummy,Middle,False,False,False,,Harrison,Pete,True
+2nd,2024/25,Old Rutlishians,4,Snap,4-man only,,Jump,Front,False,False,False,,Harrison,Pete,False
+2nd,2024/25,Old Rutlishians,5,,Other,,Jump,Middle,False,False,False,,Harrison,Pete,False
+2nd,2024/25,Newick,7,H3,New,H,Jump,Middle,True,False,False,,Harrison,Pete,True
+2nd,2024/25,Newick,7,C*,New,C,Jump,Middle,True,False,False,,Harrison,Pete,True
+2nd,2024/25,Newick,7,C3,New,C,Dummy,Middle,False,False,False,,Harrison,Pete,False
+2nd,2024/25,Newick,7,C2,New,C,Move,Front,False,False,False,,Harrison,Nathan,True
+2nd,2024/25,Newick,7,A3,New,A,Dummy,Middle,True,False,False,,Harrison,Oscar,True
+2nd,2024/25,Newick,7,A2,New,A,Dummy,Front,True,False,False,,Harrison,Nathan,True
+2nd,2024/25,Newick,7,A3,New,A,Dummy,Middle,False,False,False,,Harrison,Oscar,True
+2nd,2024/25,Newick,7,A3,New,A,Dummy,Middle,False,False,False,,Harrison,Oscar,True
+2nd,2024/25,Newick,7,A3,New,A,Dummy,Middle,False,False,False,,Harrison,Oscar,True
+2nd,2024/25,Newick,7,A3,New,A,Dummy,Middle,False,False,False,,Harrison,Oscar,True
+2nd,2024/25,Newick,7,C3,New,C,Dummy,Middle,False,False,False,,Harrison,Pete,True
+2nd,2024/25,Newick,7,C3,New,C,Dummy,Middle,False,False,False,,Reggie,Pete,True
+2nd,2024/25,Newick,7,C3,New,C,Dummy,Middle,False,False,False,,Reggie,Pete,True
+2nd,2024/25,Newick,7,,Other,,Jump,Back,False,False,False,,,,False
+2nd,2024/25,Newick,7,A2,New,A,Dummy,Front,True,False,False,,Reggie,Nathan,True
+2nd,2024/25,Newick,7,A3,New,A,Dummy,Middle,False,False,False,,Reggie,Oscar,True
+2nd,2024/25,Newick,7,C3,New,C,Dummy,Middle,False,False,False,,Reggie,Oscar,False
+2nd,2024/25,Newick,7,H3,New,H,Jump,Middle,False,False,False,,Reggie,Oscar,True
+2nd,2024/25,Newick,7,H3,New,H,Jump,Middle,False,False,False,,Reggie,Oscar,False
+2nd,2024/25,Barns Green,5,,Other,,Jump,Back,False,False,False,,Reggie,Will,False
+2nd,2024/25,Barns Green,7,H2,New,H,Jump,Front,False,False,False,,Reggie,Tom B,False
+2nd,2024/25,Barns Green,5,C2 / Red,Other,C,Jump,Front,False,False,False,,Reggie,Tom B,False
+2nd,2024/25,Barns Green,5,C2 / Red,Other,C,Jump,Front,False,False,False,,Reggie,Tom B,True
+2nd,2024/25,Barns Green,5,C2 / Red,Other,C,Jump,Front,False,False,False,,Reggie,Tom B,True
+2nd,2024/25,Barns Green,5,C2 / Red,Other,C,Jump,Front,False,False,False,,Reggie,Tom B,True
+2nd,2024/25,Barns Green,5,C2 / Red,Other,C,Jump,Front,False,False,False,,Reggie,Will,True
+2nd,2024/25,Barns Green,5,,Other,,Jump,Middle,False,False,False,,Reggie,Will,False
+2nd,2024/25,Barns Green,5,,Other,,Jump,Middle,False,False,False,,Reggie,Will,False
+2nd,2024/25,Barns Green,5,Red,Old,,Jump,Front,False,False,False,,Reggie,Jules,True
+2nd,2024/25,Barns Green,5,,Other,,Jump,Middle,False,False,False,,Reggie,Will,True
+2nd,2024/25,Barns Green,5,Red,Old,,Jump,Front,False,False,False,,Reggie,Jules,True
+2nd,2024/25,Barns Green,5,Red,Old,,Jump,Front,False,False,False,,,Jules,False
+2nd,2024/25,Barns Green,5,Red,Old,,Jump,Front,True,False,False,,,Will,True
+2nd,2024/25,Burgess Hill,7,H3,New,H,Jump,Middle,False,False,False,,Reggie,Paddy,False
+2nd,2024/25,Burgess Hill,7,H3,New,H,Jump,Middle,False,False,False,,Reggie,Paddy,True
+2nd,2024/25,Burgess Hill,7,H3,New,H,Jump,Middle,False,False,False,,Reggie,Paddy,True
+2nd,2024/25,Burgess Hill,7,H1,New,H,Jump,Back,False,False,False,,Reggie,Josh W,True
+2nd,2024/25,Burgess Hill,7,H2,New,H,Jump,Front,False,False,False,,Reggie,Rory,False
+2nd,2024/25,Burgess Hill,7,H2,New,H,Jump,Front,False,False,False,,Reggie,Rory,True
+2nd,2024/25,Burgess Hill,7,H1,New,H,Jump,Back,False,False,False,,Reggie,Josh W,False
+2nd,2024/25,Burgess Hill,7,H3,New,H,Jump,Middle,True,False,False,,Reggie,Paddy,True
+2nd,2024/25,Burgess Hill,7,H3,New,H,Jump,Middle,False,False,False,,Reggie,Paddy,True
+2nd,2024/25,Burgess Hill,7,H3,New,H,Jump,Middle,True,False,False,,Reggie,Paddy,True
+2nd,2024/25,Burgess Hill,7,H1,New,H,Jump,Back,False,False,False,,Reggie,Josh W,True
+2nd,2024/25,Burgess Hill,7,H3,New,H,Jump,Middle,False,False,False,,Reggie,Paddy,False
+2nd,2024/25,Burgess Hill,7,H3,New,H,Jump,Middle,False,False,False,,Harrison,Paddy,True
+2nd,2024/25,Burgess Hill,7,H3,New,H,Jump,Middle,False,False,False,,Harrison,Paddy,True
+2nd,2024/25,Burgess Hill,7,H3,New,H,Jump,Middle,False,False,False,,Harrison,Paddy,True
+2nd,2024/25,Burgess Hill,7,H3,New,H,Jump,Middle,False,False,False,,Harrison,Paddy,False
+2nd,2024/25,Burgess Hill,7,H3,New,H,Jump,Middle,False,False,False,,Harrison,Paddy,True
+2nd,2024/25,Burgess Hill,7,H3,New,H,Jump,Middle,False,False,False,,Harrison,Paddy,False
+2nd,2024/25,Burgess Hill,7,H3,New,H,Jump,Middle,True,False,False,,Harrison,Paddy,True
+2nd,2024/25,Jersey Royals,5,,Other,,Jump,Middle,False,False,False,,Harrison,Rory,True
+2nd,2024/25,Jersey Royals,4,Snap,4-man only,,Jump,Front,False,False,False,,Harrison,Brack,True
+2nd,2024/25,Jersey Royals,4,,Other,,Jump,Back,False,False,False,,George,Rory,True
+2nd,2024/25,Jersey Royals,4,,Other,,Jump,Back,False,False,False,,George,Rory,True
+2nd,2024/25,Jersey Royals,5,,Other,,Jump,Middle,False,False,False,,Harrison,Rory,False
+2nd,2024/25,Jersey Royals,5,Red,Old,,Jump,Front,True,False,False,,Harrison,Ed,True
+2nd,2024/25,Jersey Royals,5,,Other,,Jump,Middle,False,False,False,,Harrison,Rory,True
+2nd,2024/25,Old Caterhamians,5,,Other,,Jump,Middle,False,False,False,,Harrison,Tim,True
+2nd,2024/25,Old Caterhamians,5,,Other,,Jump,Middle,False,False,False,,Harrison,Tim,True
+2nd,2024/25,Old Caterhamians,4,,Other,,Jump,Back,False,False,False,,Harrison,Tim,False
+2nd,2024/25,Old Caterhamians,5,,Other,,Jump,Middle,False,False,False,,Mark,Tim,True
