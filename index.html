@@ -39,38 +39,11 @@
                             <a aria-expanded="false" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#"
                                 id="navbarDropdownTeam" role="button">Team Stats</a>
                             <ul aria-labelledby="navbarDropdownTeam" class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#"
-                                        onclick="loadPage('Charts/results.html')">Results</a></li>
                                 <li><a class="dropdown-item" href="#" onclick="loadPage('Charts/game-stats.html')">Video
                                         Analysis</a></li>
                                 <li><a class="dropdown-item" href="#" onclick="loadPage('Charts/set-piece.html')">Set
                                         Piece Results</a></li>
-                                <li>
-                                    <hr class="dropdown-divider" />
-                                </li>
-                                <li class="dropdown-header">1st XV Lineout Stats</li>
-                                <li><a class="dropdown-item" href="#" onclick="loadPage('Charts/1s-lineouts.html')">All
-                                        Seasons</a></li>
-                                <li><a class="dropdown-item" href="#"
-                                        onclick="loadPage('Charts/2021-22/1s-lineouts.html')">2021/22</a></li>
-                                <li><a class="dropdown-item" href="#"
-                                        onclick="loadPage('Charts/2022-23/1s-lineouts.html')">2022/23</a></li>
-                                <li><a class="dropdown-item" href="#"
-                                        onclick="loadPage('Charts/2023-24/1s-lineouts.html')">2023/24</a></li>
-                                <li><a class="dropdown-item" href="#"
-                                        onclick="loadPage('Charts/2024-25/1s-lineouts.html')">2024/25</a></li>
-                                <li>
-                                    <hr class="dropdown-divider" />
-                                </li>
-                                <li class="dropdown-header">2nd XV Lineout Stats</li>
-                                <li><a class="dropdown-item" href="#" onclick="loadPage('Charts/2s-lineouts.html')">All
-                                        Seasons</a></li>
-                                <li><a class="dropdown-item" href="#"
-                                        onclick="loadPage('Charts/2022-23/2s-lineouts.html')">2022/23</a></li>
-                                <li><a class="dropdown-item" href="#"
-                                        onclick="loadPage('Charts/2023-24/2s-lineouts.html')">2023/24</a></li>
-                                <li><a class="dropdown-item" href="#"
-                                        onclick="loadPage('Charts/2024-25/2s-lineouts.html')">2024/25</a></li>
+                                <li><a class="dropdown-item" href="#" onclick="loadPage('Charts/lineouts.html')">Lineout Analysis</a></li>
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
@@ -93,8 +66,8 @@
                             <a aria-expanded="false" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#"
                                 id="navbarDropdownOther" role="button">Other Visualisations</a>
                             <ul aria-labelledby="navbarDropdownOther" class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#"
-                                        onclick="loadPage('Charts/team-sheets.html')">Team Sheets</a></li>
+                                <li><a class="dropdown-item" href="#" onclick="loadPage('Charts/team-sheets.html')">Team
+                                        Sheets</a></li>
                                 <li><a class="dropdown-item" href="#"
                                         onclick="loadPage('Charts/results.html')">Results</a></li>
                             </ul>
@@ -107,16 +80,16 @@
         <div class="container d-flex align-items-center justify-content-center" id="home-content"
             style="width:100%; max-width: 100%; height:100%">
             <div class="row align-items-center col-12 my-3">
-                <div class="col-4 d-flex justify-content-end"> 
-                    <a class="btn custom-btn btn-1" 
-                        href="https://www.englandrugby.com/fixtures-and-results/search-results?competition=261&season=2024-2025&division=56612#tables" 
-                        target="_blank">1st XV<br>League Table</a>
+                <div class="col-4 d-flex justify-content-end">
+                    <a class="btn custom-btn btn-1"
+                        href="https://www.englandrugby.com/fixtures-and-results/search-results?competition=261&amp;season=2024-2025&amp;division=56612#tables"
+                        target="_blank">1st XV<br />League Table</a>
                 </div>
-                <div class="col-4"><img class="img-fluid" alt="Team Logo" src="img/logo.png"/></div>
+                <div class="col-4"><img alt="Team Logo" class="img-fluid" src="img/logo.png" /></div>
                 <div class="col-4 d-flex justify-content-start">
                     <a class="btn custom-btn btn-2"
-                        href="https://www.englandrugby.com/fixtures-and-results/search-results?division=57767&competition=206&season=2024-2025#tables"
-                        target="_blank">2nd XV<br>League Table</a>
+                        href="https://www.englandrugby.com/fixtures-and-results/search-results?division=57767&amp;competition=206&amp;season=2024-2025#tables"
+                        target="_blank">2nd XV<br />League Table</a>
                 </div>
             </div>
             <hr class="col-11 m-2" />
@@ -147,19 +120,19 @@
                         <tbody>
                             <tr id="row1">
                                 <td class="align-middle py-1 h1" id="squad1">1st XV</td>
-                                <td class="align-middle py-1 h3" id="played1">17</td>
+                                <td class="align-middle py-1 h3" id="played1">18</td>
                                 <td class="align-middle py-1 h3" id="won1">3</td>
-                                <td class="align-middle py-1 h3" id="lost1">14</td>
-                                <td class="align-middle py-1" id="pf1">17.2</td>
-                                <td class="align-middle py-1" id="pa1">31.4</td>
+                                <td class="align-middle py-1 h3" id="lost1">15</td>
+                                <td class="align-middle py-1" id="pf1">17.0</td>
+                                <td class="align-middle py-1" id="pa1">30.4</td>
                             </tr>
                             <tr id="row2">
                                 <td class="align-middle py-1 h1" id="squad2">2nd XV</td>
-                                <td class="align-middle py-1 h3" id="played2">14</td>
-                                <td class="align-middle py-1 h3" id="won2">7</td>
+                                <td class="align-middle py-1 h3" id="played2">15</td>
+                                <td class="align-middle py-1 h3" id="won2">8</td>
                                 <td class="align-middle py-1 h3" id="lost2">7</td>
-                                <td class="align-middle py-1" id="pf2">19.4</td>
-                                <td class="align-middle py-1" id="pa2">22.6</td>
+                                <td class="align-middle py-1" id="pf2">20.9</td>
+                                <td class="align-middle py-1" id="pa2">21.6</td>
                             </tr>
                         </tbody>
                     </table>
@@ -168,60 +141,28 @@
             <hr class="col-11 m-2" />
             <div class="row justify-content-center col-12">
                 <div class="col-6 col-md-4 col-lg-3 my-3">
-                    <h1>Team Stats</h1>
                     <div class="btn-group-vertical d-flex flex-column">
-                        <button class="btn custom-btn col-12" onclick="loadPage('Charts/game-stats.html')">Video
-                            Analysis</button>
-                        <button class="btn custom-btn col-12" onclick="loadPage('Charts/set-piece.html')">Set Piece
-                            Results</button>
-                        <button aria-expanded="false" class="btn custom-btn col-12 dropdown-toggle"
-                            data-bs-toggle="dropdown" id="lineoutDropdown" type="button">Lineout Analysis</button>
+                        <button aria-expanded="false" class="btn custom-btn title-button col-12 dropdown-toggle" data-bs-toggle="dropdown"
+                            id="lineoutDropdown" type="button">Team Stats</button>
+                        <ul class="dropdown-menu col-12 text-center">
+                            <li><a class="dropdown-item" href="#" onclick="loadPage('Charts/results.html')">Results</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="loadPage('Charts/game-stats.html')">Video Analysis</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="loadPage('Charts/set-piece.html')">Set Piece Results</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="loadPage('Charts/lineouts.html')">Lineout Analysis</a></li>
+                        </ul>
+                        <button aria-expanded="false" class="btn custom-btn title-button col-12 dropdown-toggle" data-bs-toggle="dropdown"
+                            id="lineoutDropdown" type="button">Player Stats</button>
                         <div class="dropdown-menu col-12 text-center">
-                            <a class="dropdown-item" href="#" onclick="loadPage('Charts/1s-lineouts.html')">1st XV - All
-                                Seasons</a>
-                            <a class="dropdown-item" href="#" onclick="loadPage('Charts/2024-25/1s-lineouts.html')">1st
-                                XV - 2024/25</a>
-                            <a class="dropdown-item" href="#" onclick="loadPage('Charts/2023-24/1s-lineouts.html')">1st
-                                XV - 2023/24</a>
-                            <a class="dropdown-item" href="#" onclick="loadPage('Charts/2022-23/1s-lineouts.html')">1st
-                                XV - 2022/23</a>
-                            <a class="dropdown-item" href="#" onclick="loadPage('Charts/2021-22/1s-lineouts.html')">1st
-                                XV - 2021/22</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#" onclick="loadPage('Charts/1s-lineouts.html')">2nd XV - All
-                                Seasons</a>
-                            <a class="dropdown-item" href="#" onclick="loadPage('Charts/2024-25/1s-lineouts.html')">2nd
-                                XV - 2024/25</a>
-                            <a class="dropdown-item" href="#" onclick="loadPage('Charts/2023-24/1s-lineouts.html')">2nd
-                                XV - 2023/24</a>
-                            <a class="dropdown-item" href="#" onclick="loadPage('Charts/2022-23/1s-lineouts.html')">2nd
-                                XV - 2022/23</a>
+                            <a class="dropdown-item" href="#" onclick="loadPage('Charts/appearances.html')">Total Appearances</a>
+                            <a class="dropdown-item" href="#" onclick="loadPage('Charts/positions.html')">Starts by Position</a>
+                            <a class="dropdown-item" href="#" onclick="loadPage('Charts/captains.html')">Captains</a>
+                            <a class="dropdown-item" href="#" onclick="loadPage('Charts/points.html')">Scorers</a>
+                            <a class="dropdown-item" href="#" onclick="loadPage('Charts/cards.html')">Cards</a>
+                            <a class="dropdown-item" href="#" onclick="loadPage('Charts/team-sheets.html')">Team Sheets</a>
                         </div>
-                    </div>
-                </div>
-                <div class="col-6 col-md-4 col-lg-3 my-3">
-                    <h1>Player Stats</h1>
-                    <div class="btn-group-vertical d-flex flex-column">
-                        <button aria-expanded="false" class="btn custom-btn col-12 dropdown-toggle"
-                            data-bs-toggle="dropdown" id="lineoutDropdown" type="button">Appearances</button>
-                        <div class="dropdown-menu col-12 text-center">
-                            <a class="dropdown-item" href="#" onclick="loadPage('Charts/appearances.html')">Total</a>
-                            <a class="dropdown-item" href="#" onclick="loadPage('Charts/positions.html')">Starts by
-                                Position</a>
-                        </div>
-                        <button class="btn custom-btn" onclick="loadPage('Charts/captains.html')">Captains</button>
-                        <button class="btn custom-btn" onclick="loadPage('Charts/points.html')">Scorers</button>
-                        <button class="btn custom-btn" onclick="loadPage('Charts/cards.html')">Cards</button>
                     </div>
                 </div>
             </div>
-                        <div class="row justify-content-around col-12">
-                            <h1>Other visualisations</h1>
-                            <div class="btn-group col-12 col-md-8 col-lg-6" role="group">
-                                <button class="btn custom-btn" onclick="loadPage('Charts/team-sheets.html')">Team Sheets</button>
-                                <button class="btn custom-btn" onclick="loadPage('Charts/results.html')">Results</button>
-                            </div>
-                        </div>
         </div>
         <!-- Placeholder for dynamic content -->
         <div class="iframe-container hidden" id="dynamic-content">

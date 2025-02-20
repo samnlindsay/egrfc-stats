@@ -2,6 +2,7 @@ import gspread
 from google.oauth2.service_account import Credentials
 import pandas as pd
 import duckdb
+import json
 import re
 import requests
 from bs4 import BeautifulSoup
@@ -367,3 +368,33 @@ def game_stats():
     df = df.melt(id_vars=id_cols, var_name="Metric", value_name="Value")
 
     return df
+
+
+#################################
+### SEASON SUMMARY TABLE
+#################################
+
+from IPython.core.display import display, HTML
+import pandas as pd
+
+# Calculate summary statistics
+def generate_season_summary(df, season):
+    season_data = df[df["Season"] == season]
+    summary = season_data.groupby("Squad").agg(
+        Played=("GameID", "count"),
+        Won=("Result", lambda x: (x == "W").sum()),
+        Lost=("Result", lambda x: (x == "L").sum()),
+        Avg_PF=("PF", "mean"),
+        Avg_PA=("PA", "mean"),
+    ).reset_index()
+    
+    # Convert to dictionary for easy JS manipulation
+    summary_dict = summary.set_index("Squad").T.to_dict()
+    
+    return summary_dict
+
+def update_season_summaries(df, seasons=["2024/25"]):
+    for s in seasons:
+        summary = generate_season_summary(df, s)
+        with open(f"data/{s.replace('/','-')}.json", "w") as f:
+            json.dump(summary, f, indent=4)

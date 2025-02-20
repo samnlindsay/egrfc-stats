@@ -522,6 +522,7 @@ def lineout_success_by_type(type, df=None, top=True, standalone=False):
                 f"{type}:N", 
                 title=None, 
                 sort=sort_orders.get(type, alt.SortField(field="ID")),
+                axis=alt.Axis(labelFontSize=18 if type=="Numbers" else 13)
             ),
             color=alt.Color(f"{type}:N", legend=None, scale=color_scale),
             opacity=alt.condition(type_selections[type], alt.value(0.8), alt.value(0.2)),
@@ -546,7 +547,7 @@ def lineout_success_by_type(type, df=None, top=True, standalone=False):
         )
     )
     bar_text = (
-        base.mark_text(align="center", baseline="bottom", dy=-5, strokeWidth=1)
+        base.mark_text(align="center", baseline="bottom", dy=-5, strokeWidth=1, clip=True)
         .encode(y=prop_y, text=alt.Text("SuccessText:N"))
     )
     proportion = alt.layer(bars, bar_text)
@@ -565,7 +566,7 @@ def lineout_success_by_type(type, df=None, top=True, standalone=False):
         .encode(y=success_y, color=alt.Color(f"{type}:N", legend=None))
     )
     line_text = (
-        base.mark_text(yOffset=-15, fontSize=14)
+        base.mark_text(yOffset=-15, fontSize=13, clip=True)
         .encode(y=success_y, text=alt.Text("Success:Q", format=".0%"), color=alt.value("black"))
     )
     success = alt.layer(line, points, line_text)
@@ -573,11 +574,26 @@ def lineout_success_by_type(type, df=None, top=True, standalone=False):
     # Facet by Season
     facet_chart = (
         alt.layer(proportion, success)
-        .properties(width=250, height=300)
-        .facet(column=alt.Column("Season:N", header=alt.Header(title=None, labels=top, labelFontSize=40, labelColor="#20294688")))
+        .properties(width=225, height=275)
+        .facet(
+            column=alt.Column(
+                "Season:N", 
+                header=alt.Header(title=None, labels=top, labelFontSize=40, labelColor="#20294688")
+            ),
+            spacing=10
+        )
         .resolve_scale(x="independent" if type in ["Call", "Jumper", "Hooker"] else "shared")
         .transform_filter(f"datum.Squad == {squad_selection.name}")
-        .properties(title=alt.Title(text=f"{type}", orient="left",anchor="middle", color="#20294688", offset=30, fontSize=72))
+        .properties(
+            title=alt.Title(
+                text=f"{type}", 
+                orient="left",
+                anchor="middle", 
+                color="#20294688", 
+                offset=30, 
+                fontSize=64
+            )
+        )
     )
 
     return facet_chart  
@@ -586,7 +602,7 @@ def lineout_success(types=types, df=None, file=None):
     charts = [lineout_success_by_type(t, df=df, top=(i==0)) for i,t in enumerate(types)]
 
     chart = (
-        alt.vconcat(*charts)
+        alt.vconcat(*charts, spacing=10)
         .resolve_scale(color="independent")
         .add_params(squad_selection)
         .properties(
@@ -844,10 +860,14 @@ def results_chart(df=None, file=None):
             winner="datum.Result == 'W' ? datum.PF : datum.PA",
             index="datum.index"
         )
+        .transform_window(
+            ID="row_number()",
+            groupby=["Season", "Squad"],
+        )
         .encode(
             y=alt.Y(
                 'GameID:N', 
-                sort=alt.EncodingSortField(field="index", order="ascending"),
+                sort=alt.EncodingSortField(field="ID", order="descending"),
                 axis=alt.Axis(
                     title=None, 
                     offset=15, 
@@ -1008,7 +1028,7 @@ def set_piece_h2h_chart(df=None, file=None):
                 "GameID:N", 
                 title=None, 
                 axis=alt.Axis(orient="left"), 
-                sort=alt.EncodingSortField(field="Date", order="ascending"),
+                sort=alt.EncodingSortField(field="Date", order="descending"),
                 scale=alt.Scale(padding=0)
             ),
         )
@@ -1017,26 +1037,26 @@ def set_piece_h2h_chart(df=None, file=None):
 
     scrum_chart = (
         alt.hconcat(opp, eg, spacing=0)
-        .add_params(season_selection, squad_selection)
         .transform_filter(f"datum.SetPiece == 'Scrum'")
-        .transform_filter(f"datum.Season == {season_selection.name} | {season_selection.name} == 'All'")
-        .transform_filter(f"datum.Squad == {squad_selection.name} | {squad_selection.name} == 'Both'")
         .resolve_scale(yOffset="independent")
         .properties(title=alt.Title("Scrum", fontSize=36, anchor="middle", align="left"))
     )
 
     lineout_chart = (
         alt.hconcat(opp, eg, spacing=0)
-        .add_params(season_selection, squad_selection)
-        .transform_filter(f"datum.SetPiece == 'Scrum'")
-        .transform_filter(f"datum.Season == {season_selection.name} | {season_selection.name} == 'All'")
-        .transform_filter(f"datum.Squad == {squad_selection.name} | {squad_selection.name} == 'Both'")
+        .transform_filter(f"datum.SetPiece == 'Lineout'")
         .resolve_scale(yOffset="independent")
         .properties(title=alt.Title("Lineout", fontSize=36, anchor="middle", align="left"))
     )
 
     chart = (
         alt.hconcat(scrum_chart, lineout_chart, spacing=20)
+        .add_params(season_selection, squad_selection, turnover_filter, team_filter, put_in_filter)
+        .transform_filter(f"datum.Season == {season_selection.name} | {season_selection.name} == 'All'")
+        .transform_filter(f"datum.Squad == {squad_selection.name} | {squad_selection.name} == 'Both'")
+        .transform_filter(turnover_filter)
+        .transform_filter(put_in_filter)
+        .transform_filter(team_filter)
         .resolve_scale(y="shared")
         .properties(
             title=alt.Title(

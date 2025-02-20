@@ -79,6 +79,12 @@ body {
     border-width: 2px;
 }
 
+.title-button {
+    font-family: 'PT Sans Narrow', sans-serif;
+    font-size: 1.5rem;
+    color: var(--dark-color);
+}
+
 .dropdown-item {
     font-size: 1.2rem;
 }
