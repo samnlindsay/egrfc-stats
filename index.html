@@ -214,17 +214,17 @@
                 fetch("data/" + selectedSeason.replace("/", "-") + ".json")
                     .then(response => response.json())
                     .then(data => {
-                        document.getElementById("played1").innerText = data["1st XV"].Played;
-                        document.getElementById("won1").innerText = data["1st XV"].Won.toFixed(0)
-                        document.getElementById("lost1").innerText = data["1st XV"].Lost;
-                        document.getElementById("pf1").innerText = data["1st XV"].Avg_PF.toFixed(1);
-                        document.getElementById("pa1").innerText = data["1st XV"].Avg_PA.toFixed(1);
+                        document.getElementById("played1").innerText = data["1st"].Played;
+                        document.getElementById("won1").innerText = data["1st"].Won.toFixed(0)
+                        document.getElementById("lost1").innerText = data["1st"].Lost;
+                        document.getElementById("pf1").innerText = data["1st"].Avg_PF.toFixed(1);
+                        document.getElementById("pa1").innerText = data["1st"].Avg_PA.toFixed(1);
 
-                        document.getElementById("played2").innerText = data["2nd XV"].Played;
-                        document.getElementById("won2").innerText = data["2nd XV"].Won;
-                        document.getElementById("lost2").innerText = data["2nd XV"].Lost;
-                        document.getElementById("pf2").innerText = data["2nd XV"].Avg_PF.toFixed(1);
-                        document.getElementById("pa2").innerText = data["2nd XV"].Avg_PA.toFixed(1);
+                        document.getElementById("played2").innerText = data["2nd"].Played;
+                        document.getElementById("won2").innerText = data["2nd"].Won;
+                        document.getElementById("lost2").innerText = data["2nd"].Lost;
+                        document.getElementById("pf2").innerText = data["2nd"].Avg_PF.toFixed(1);
+                        document.getElementById("pa2").innerText = data["2nd"].Avg_PA.toFixed(1);
                     }
                     );
             }
