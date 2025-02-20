@@ -393,8 +393,9 @@ def generate_season_summary(df, season):
     
     return summary_dict
 
-def update_season_summaries(df, seasons=["2024/25"]):
+def update_season_summaries(df, seasons):
+    summaries = {}
     for s in seasons:
-        summary = generate_season_summary(df, s)
-        with open(f"data/{s.replace('/','-')}.json", "w") as f:
-            json.dump(summary, f, indent=4)
+        summaries[s] = generate_season_summary(df, s)
+    with open("data/season_summaries.json", "w") as f:
+        json.dump(summaries, f, indent=4)

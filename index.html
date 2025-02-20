@@ -211,8 +211,10 @@
 
             function updateTable() {
                 const selectedSeason = document.getElementById("seasonSelect").value;
-                fetch("data/" + selectedSeason.replace("/", "-") + ".json")
+                fetch("data/season_summaries.json")
                     .then(response => response.json())
+                    // Filter data for selected season
+                    .then(data => data.filter(row => row.Season === selectedSeason)[0])
                     .then(data => {
                         document.getElementById("played1").innerText = data["1st"].Played;
                         document.getElementById("won1").innerText = data["1st"].Won.toFixed(0)
