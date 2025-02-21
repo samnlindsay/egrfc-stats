@@ -127,10 +127,6 @@ body {
     align-items: start;
 }
 
-.hidden {
-    display: none !important;
-}
-
 nav {
     display: none;
     background-color: var(--primary-color);
@@ -246,4 +242,8 @@ nav.navbar {
     .table {
         font-size: 1.25rem;
     }
+}
+
+.hidden {
+    display: none !important;
 }
