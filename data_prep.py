@@ -371,7 +371,7 @@ def game_stats():
 
 
 #################################
-### SEASON SUMMARY TABLE
+### SEASON SUMMARY TABLES
 #################################
 
 from IPython.core.display import display, HTML
@@ -399,3 +399,44 @@ def update_season_summaries(df, seasons):
         summaries[s] = generate_season_summary(df, s)
     with open("data/season_summaries.json", "w") as f:
         json.dump(summaries, f, indent=4)
+
+    return summaries
+
+def set_piece_summaries(df):
+    df_agg = df.groupby(["Season", "Squad", "SetPiece", "Metric"])["Count"].agg(["sum", "count"]).reset_index()
+
+    # Replace "_l_" and "_s_" with "_"
+    df_agg["Metric"] = df_agg["Metric"].str.replace("_l_", "_").str.replace("_s_", "_")
+
+    df_agg = df_agg.pivot_table(
+        index=["Season", "Squad", "SetPiece", "count"], 
+        columns="Metric", values="sum", fill_value=0
+    ).reset_index()
+
+    df_agg["T_won"] = df_agg["Opp_lost"] / df_agg["count"]
+    df_agg["T_lost"] = df_agg["EG_lost"] / df_agg["count"]
+    df_agg["EG_total"] = (df_agg["EG_won"] + df_agg["EG_lost"]) / df_agg["count"]
+    df_agg["Opp_total"] = (df_agg["Opp_won"] + df_agg["Opp_lost"]) / df_agg["count"]
+    df_agg["EG_success"] = df_agg["EG_won"] / df_agg["EG_total"] / df_agg["count"]
+    df_agg["Opp_success"] = df_agg["Opp_won"] / df_agg["Opp_total"] / df_agg["count"]
+
+    df_agg = df_agg[[
+        "Season", 
+        "Squad", 
+        "SetPiece", 
+        "count", 
+        "EG_total", 
+        "EG_success", 
+        "Opp_total", 
+        "Opp_success",
+        "T_won",
+        "T_lost"
+    ]]
+
+    # Convert to dictionary for easy JS manipulation
+    set_piece_dict = df_agg.set_index(["Season", "Squad", "SetPiece"]).T.to_dict()
+
+    with open("data/set_piece_summaries.json", "w") as f:
+        json.dump(set_piece_dict, f, indent=4)
+
+    return df_agg

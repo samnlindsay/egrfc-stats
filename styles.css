@@ -5,7 +5,7 @@
     --light-color: #e5e4e7;
     --dark-color: #333333;
     --green-color: #146f14;
-    --red-color: #981515;
+    --red-color: #991515;
     --sidebar-width: 20rem;
     --sidebar-collapsed-width: 4rem;
     --header-height: 7rem;
@@ -111,7 +111,7 @@ body {
     max-width: 100%;
     height: 100%;
     padding: 0;
-    margin-top: 126px !important;
+    margin-top: 74px !important;
     /* position: absolute; */
     /* top: 126px; */
     background-color: var(--light-color);
@@ -195,8 +195,26 @@ nav.navbar {
     color: var(--light-color);
 }
 
+.br {
+    border-right: 1px solid black;
+}
+
 .table thead {
     font-family: 'PT Sans Narrow', sans-serif;
+}
+
+.table .eg-header {
+    background-color: var(--primary-color);
+}
+
+.table .opp-header {
+    background-color: var(--red-color);
+}
+.table #row1 .opp {
+    background-color: hsl(0, 40%, 50%)
+}
+.table #row2 .opp {
+    background-color: hsl(0, 40%, 70%)
 }
 
 .table #squad1,
