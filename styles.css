@@ -212,6 +212,9 @@ nav.navbar {
 .table #row2 .opp {
     background-color: hsl(0, 40%, 70%)
 }
+.small {
+    font-size: small;
+}
 
 .table #squad1,
 #squad2 {
@@ -220,6 +223,7 @@ nav.navbar {
 
 .table select {
     font-family: 'Lato', 'Tahoma', sans-serif;
+    font-size: small;
     background-color: var(--primary-color);
     color: var(--light-color);
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='white' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
@@ -233,14 +237,14 @@ nav.navbar {
     }
 
     .table {
-        font-size: 1.25rem;
+        font-size: 1rem;
     }
 }
 
 @media (max-width: 480px) {
 
     .table {
-        font-size: 1.25rem;
+        font-size: 1rem;
     }
 }
 

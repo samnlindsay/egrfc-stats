@@ -12,6 +12,10 @@ def hack_params_css(file, overlay=False):
   # Define the CSS to be added
   css_to_add = f'''
 
+      body {{
+          margin: 0;
+      }}
+  
       /* Default size for larger screens */
       .vega-embed {{
           width: 100%;
@@ -156,7 +160,6 @@ def alt_theme():
                 "align": "center",
                 "titlePadding": 20,
                 "subtitlePadding": 10,
-                "subtitleFontWeight": "lighter",
                 "subtitleFontSize": 13,
                 "subtitleColor": "",
                 "subtitleFontStyle": "italic",

@@ -2,7 +2,7 @@ import altair as alt
 import pandas as pd
 from math import sqrt
 
-from charts import alt_theme
+from charts import alt_theme, hack_params_css
 
 alt.themes.register("my_custom_theme", alt_theme)
 alt.themes.enable("my_custom_theme")
@@ -590,5 +590,6 @@ def game_stats_charts(df, file=None):
     )
     if file:
         chart.save(file)
+        hack_params_css(file)
 
     return chart

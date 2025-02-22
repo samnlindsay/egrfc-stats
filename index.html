@@ -78,7 +78,7 @@
             <div class="text-center mb-4">
                 <img src="img/logo.png" alt="EGRFC Logo" class="mb-2" style="max-width: 200px; height: auto;">
                 <h1>East Grinstead RFC Stats</h1>
-                <p class="text-muted">Select a section below to view team statistics.</p>
+                <p class="text-center">Select a section below to view team statistics.</p>
             </div>
 
             <div class="container-fluid">
@@ -92,7 +92,7 @@
                             <thead class="table-dark">
                                 <tr>
                                     <th rowspan="2">
-                                        <select class="form-select" id="seasonSelect1" onchange="updateTable()"
+                                        <select class="form-select m-0" id="seasonSelect1" onchange="updateTable()"
                                             style="width: min-content;">
                                             <option value="2024/25">2024/25</option>
                                             <option value="2023/24">2023/24</option>
@@ -100,39 +100,43 @@
                                             <option value="2021/22">2021/22</option>
                                         </select>
                                     </th>
-                                    <th class="align-middle py-1 h4" rowspan="2">Games</th>
-                                    <th class="align-middle py-1 h4" rowspan="2">Won</th>
-                                    <th class="align-middle py-1 h4" rowspan="2">Lost</th>
+                                    <th class="align-middle py-1" rowspan="2">Games</th>
+                                    <th class="align-middle py-1" rowspan="2">Won</th>
+                                    <th class="align-middle py-1" rowspan="2">Lost</th>
                                     <th class="align-middle py-0 my-0" colspan="2">Average</th>
                                 </tr>
                                 <tr>
-                                    <th class="align-middle py-0">PF</th>
-                                    <th class="align-middle py-0 m-0">PA</th>
+                                    <th class="align-middle py-0 mx-0 small">PF</th>
+                                    <th class="align-middle py-0 mx-0 small">PA</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr id="row1">
-                                    <td class="align-middle py-1 h2" id="squad1">1st XV</td>
-                                    <td class="align-middle py-1 h4" id="played1">18</td>
-                                    <td class="align-middle py-1 h4" id="won1">3</td>
-                                    <td class="align-middle py-1 h4" id="lost1">15</td>
-                                    <td class="align-middle py-1" id="pf1">17.0</td>
-                                    <td class="align-middle py-1" id="pa1">30.4</td>
+                                    <td class="align-middle py-1" id="squad1">1st XV</td>
+                                    <td class="align-middle py-1" id="played1">18</td>
+                                    <td class="align-middle py-1" id="won1">3</td>
+                                    <td class="align-middle py-1" id="lost1">15</td>
+                                    <td class="align-middle py-1 small" id="pf1">17.0</td>
+                                    <td class="align-middle py-1 small" id="pa1">30.4</td>
                                 </tr>
                                 <tr id="row2">
-                                    <td class="align-middle py-1 h2" id="squad2">2nd XV</td>
-                                    <td class="align-middle py-1 h4" id="played2">15</td>
-                                    <td class="align-middle py-1 h4" id="won2">8</td>
-                                    <td class="align-middle py-1 h4" id="lost2">7</td>
-                                    <td class="align-middle py-1" id="pf2">20.9</td>
-                                    <td class="align-middle py-1" id="pa2">21.6</td>
+                                    <td class="align-middle py-1" id="squad2">2nd XV</td>
+                                    <td class="align-middle py-1" id="played2">15</td>
+                                    <td class="align-middle py-1" id="won2">8</td>
+                                    <td class="align-middle py-1" id="lost2">7</td>
+                                    <td class="align-middle py-1 small" id="pf2">20.9</td>
+                                    <td class="align-middle py-1 small" id="pa2">21.6</td>
                                 </tr>
                             </tbody>
                         </table>
                         <div class="d-flex justify-content-end align-items-center">
                             <h4 class="me-3">Charts:</h4>
-                            <button class="btn custom-btn py-2" onclick="loadPage('Charts/results.html')">Results by Game</button>
-                            <button class="btn custom-btn py-2" onclick="loadPage('Charts/game-stats.html')">Video Analysis by Game</button>
+                            <div class="btn-group">
+                                <button class="btn custom-btn py-2" onclick="loadPage('Charts/results.html')">Results by
+                                    Game</button>
+                                <button class="btn custom-btn py-2" onclick="loadPage('Charts/game-stats.html')">Video
+                                    Analysis by Game</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -146,7 +150,7 @@
                         <table class="table table-borderless text-center align-middle">
                             <thead class="table-dark">
                                 <tr>
-                                    <th rowspan="2" class="align-middle py-0 my-0">
+                                    <th rowspan="2" colspan="2" class="align-middle py-0 my-0">
                                         <select class="form-select" id="seasonSelect2" onchange="updateTable()"
                                             style="width: min-content;">
                                             <option value="2024/25">2024/25</option>
@@ -155,61 +159,64 @@
                                             <option value="2021/22">2021/22</option>
                                         </select>
                                     </th>
-                                    <th class="align-middle py-0 my-0"></th>
-                                    <th class="align-middle py-0 my-0 br" rowspan="2" style="line-height: 1.0;">Games on
+                                    <th class="align-middle py-0 m-0 small br" rowspan="2" style="line-height: 1.0;">
+                                        Games on
                                         video</th>
-                                    <th class="align-middle h4 eg-header br" colspan="2">EG</th>
-                                    <th class="align-middle h4 opp-header br" colspan="2">Opposition</th>
-                                    <th class="align-middle h4" colspan="2">Turnovers</th>
+                                    <th class="align-middle eg-header br" colspan="2">EG</th>
+                                    <th class="align-middle opp-header br" colspan="2">Opposition</th>
+                                    <th class="align-middle" colspan="2">Turnovers</th>
                                 </tr>
                                 <tr>
-                                    <th class="align-middle py-0 my-0" style="line-height:0.8;"></th>
-                                    <th class="align-middle py-2 eg-header" style="line-height:0.8;">N per game</th>
-                                    <th class="align-middle py-2 eg-header br" style="line-height:0.8;">Avg Success</th>
-                                    <th class="align-middle py-2 opp-header" style="line-height:0.8;">N per game</th>
-                                    <th class="align-middle py-2 opp-header br" style="line-height:0.8;">Avg Success
-                                    </th>
-                                    <th class="align-middle py-2 eg-header">Won</th>
-                                    <th class="align-middle py-2 opp-header">Lost</th>
+                                    <th class="align-middle py-2 small m-0 eg-header" style="line-height:0.8;">N per
+                                        game</th>
+                                    <th class="align-middle py-2 small m-0 eg-header br" style="line-height:0.8;">Avg
+                                        Success</th>
+                                    <th class="align-middle py-2 small m-0 opp-header" style="line-height:0.8;">N per
+                                        game</th>
+                                    <th class="align-middle py-2 small m-0 opp-header br" style="line-height:0.8;">Avg
+                                        Success</th>
+                                    <th class="align-middle py-2 small m-0 eg-header">Won</th>
+                                    <th class="align-middle py-2 small m-0 opp-header">Lost</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr id="row1" style="border-top: 2px solid black">
-                                    <td class="align-middle py-1 h2" rowspan="2" id="squad1">1st XV</td>
-                                    <td class="align-middle py-1">Scrum</td>
+                                    <td class="align-middle py-1" rowspan="2" id="squad1">1st XV</td>
+                                    <td class="align-middle py-1" style="font-family: 'PT Sans Narrow', sans-serif;">
+                                        Scrum</td>
                                     <td class="br" rowspan="2" id="games1"></td>
-                                    <td class="align-middle py-1" id="eg_n1s"></td>
+                                    <td class="align-middle small py-1" id="eg_n1s"></td>
                                     <td class="align-middle py-1 br" id="eg_success1s"></td>
-                                    <td class="align-middle py-1 opp" id="opp_n1s"></td>
+                                    <td class="align-middle small py-1 opp" id="opp_n1s"></td>
                                     <td class="align-middle py-1 opp br" id="opp_success1s"></td>
                                     <td class="align-middle py-1" id="t_won1s"></td>
                                     <td class="align-middle py-1 opp" id="t_lost1s"></td>
                                 </tr>
                                 <tr id="row1">
-                                    <td class="align-middle py-1">Lineout</td>
-                                    <td class="align-middle py-1" id="eg_n1l"></td>
+                                    <td class="align-middle py-1" style="font-family: 'PT Sans Narrow', sans-serif;">Lineout</td>
+                                    <td class="align-middle small py-1" id="eg_n1l"></td>
                                     <td class="align-middle py-1 br" id="eg_success1l"></td>
-                                    <td class="align-middle py-1 opp" id="opp_n1l"></td>
+                                    <td class="align-middle small py-1 opp" id="opp_n1l"></td>
                                     <td class="align-middle py-1 opp br" id="opp_success1l"></td>
                                     <td class="align-middle py-1" id="t_won1l"></td>
                                     <td class="align-middle py-1 opp" id="t_lost1l"></td>
                                 </tr>
                                 <tr id="row2">
-                                    <td class="align-middle py-1 h2" rowspan="2" id="squad2">2nd XV</td>
-                                    <td class="align-middle py-1">Scrum</td>
+                                    <td class="align-middle py-1" rowspan="2" id="squad2">2nd XV</td>
+                                    <td class="align-middle py-1" style="font-family: 'PT Sans Narrow', sans-serif;">Scrum</td>
                                     <td class="br" rowspan="2" id="games2"></td>
-                                    <td class="align-middle py-1" id="eg_n2s"></td>
+                                    <td class="align-middle small py-1" id="eg_n2s"></td>
                                     <td class="align-middle py-1 br" id="eg_success2s"></td>
-                                    <td class="align-middle py-1 opp" id="opp_n2s"></td>
+                                    <td class="align-middle small py-1 opp" id="opp_n2s"></td>
                                     <td class="align-middle py-1 opp br" id="opp_success2s"></td>
                                     <td class="align-middle py-1" id="t_won2s"></td>
                                     <td class="align-middle py-1 opp" id="t_lost2s"></td>
                                 </tr>
                                 <tr id="row2">
-                                    <td class="align-middle py-1">Lineout</td>
-                                    <td class="align-middle py-1" id="eg_n2l"></td>
+                                    <td class="align-middle py-1" style="font-family: 'PT Sans Narrow', sans-serif;">Lineout</td>
+                                    <td class="align-middle small py-1" id="eg_n2l"></td>
                                     <td class="align-middle py-1 br" id="eg_success2l"></td>
-                                    <td class="align-middle py-1 opp" id="opp_n2l"></td>
+                                    <td class="align-middle small py-1 opp" id="opp_n2l"></td>
                                     <td class="align-middle py-1 opp br" id="opp_success2l"></td>
                                     <td class="align-middle py-1" id="t_won2l"></td>
                                     <td class="align-middle py-1 opp" id="t_lost2l"></td>
@@ -218,10 +225,13 @@
                         </table>
                         <div class="d-flex justify-content-end align-items-center">
                             <h4 class="me-3">Charts:</h4>
-                            <button class="btn custom-btn py-2" onclick="loadPage('Charts/set-piece.html')">Results by
-                                Game</button>
-                            <button class="btn custom-btn py-2" onclick="loadPage('Charts/lineouts.html')">Lineout
-                                Analysis</button>
+                            <div class="btn-group">
+                                <button class="btn custom-btn py-2" onclick="loadPage('Charts/set-piece.html')">Results
+                                    by
+                                    Game</button>
+                                <button class="btn custom-btn py-2" onclick="loadPage('Charts/lineouts.html')">Lineout
+                                    Analysis</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -234,15 +244,18 @@
                     <div class="collapse mt-2 justify-content-center align-items-center" id="playerStats">
                         <div class="d-flex justify-content-end align-items-center">
                             <h4 class="me-3">Charts:</h4>
-                            <button class="btn custom-btn" onclick="loadPage('Charts/results.html')">Total
-                                Appearances</button>
-                            <button class="btn custom-btn" onclick="loadPage('Charts/positions.html')">Starts by
-                                Position</button>
-                            <button class="btn custom-btn" onclick="loadPage('Charts/team-sheets.html')">Team
-                                Sheets</button>
-                            <button class="btn custom-btn" onclick="loadPage('Charts/captains.html')">Captains</button>
-                            <button class="btn custom-btn" onclick="loadPage('Charts/points.html')">Scorers</button>
-                            <button class="btn custom-btn" onclick="loadPage('Charts/cards.html')">Cards</button>
+                            <div class="btn-group">
+                                <button class="btn custom-btn" onclick="loadPage('Charts/appearances.html')">Total
+                                    Appearances</button>
+                                <button class="btn custom-btn" onclick="loadPage('Charts/positions.html')">Starts by
+                                    Position</button>
+                                <button class="btn custom-btn" onclick="loadPage('Charts/team-sheets.html')">Team
+                                    Sheets</button>
+                                <button class="btn custom-btn"
+                                    onclick="loadPage('Charts/captains.html')">Captains</button>
+                                <button class="btn custom-btn" onclick="loadPage('Charts/points.html')">Scorers</button>
+                                <button class="btn custom-btn" onclick="loadPage('Charts/cards.html')">Cards</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -252,11 +265,11 @@
         </div>
 
 
-    <!-- Placeholder for dynamic content -->
-    <div class="iframe-container hidden" id="dynamic-content"> 
-        <iframe id="chart-frame"
-            style="width: 100%; height: 100%; border: none; background-color: whitesmoke;"></iframe>
-    </div>
+        <!-- Placeholder for dynamic content -->
+        <div class="iframe-container hidden" id="dynamic-content">
+            <iframe id="chart-frame"
+                style="width: 100%; height: 100%; border: none; background-color: whitesmoke;"></iframe>
+        </div>
     </div>
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
