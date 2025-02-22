@@ -63,15 +63,15 @@ def territory_chart(df):
                 anchor="middle",
                 fontSize=36
             ),
-            width=450,
-            height=alt.Step(35)
+            width=400,
+            height=alt.Step(30)
         )
     )
 
     # Add text overlay to bars showing the percentage 
     text = (
         chart
-        .mark_text(align="center", baseline="middle", fontSize=20, fontWeight="bold")
+        .mark_text(align="center", baseline="middle", fontSize=16, fontWeight="bold")
         .encode(
             x=alt.X("text_pos:Q", axis=None),
             text=alt.Text("sum(Value):Q", format=".0%"),
@@ -146,8 +146,8 @@ def tackle_chart(df, axis=True):
                 anchor="middle",
                 fontSize=36
             ),
-            width=300,
-            height=alt.Step(35)
+            width=275,
+            height=alt.Step(30)
         )
     )
 
@@ -156,7 +156,7 @@ def tackle_chart(df, axis=True):
 
     text = (
         chart
-        .mark_text(align="center", baseline="middle", fontSize=20, fontWeight="bold", color="white")
+        .mark_text(align="center", baseline="middle", fontSize=18, fontWeight="bold", color="white")
         .encode(
             x=alt.X("text_pos:Q", axis=None),
             text=alt.Text("percentage:Q", format=".0%"),
@@ -208,8 +208,8 @@ def playmaker_chart(df, axis=True):
                 anchor="middle",
                 fontSize=36,
             ),
-            width=350,
-            height=alt.Step(35)
+            width=325,
+            height=alt.Step(30)
         )
     )
 
@@ -219,7 +219,7 @@ def playmaker_chart(df, axis=True):
     # Add text overlay to bars showing the percentage
     text = (
         chart
-        .mark_text(align="center", baseline="middle", fontSize=20, fontWeight="bold")
+        .mark_text(align="center", baseline="middle", fontSize=18, fontWeight="bold")
         .encode(
             x=alt.X("text_pos:Q", axis=None),
             text=alt.Text("sum(Value):Q", format=".0%"),
@@ -315,8 +315,8 @@ def penalties_chart(df, axis=True):
             ]
         )
         .properties(
-            width=250,
-            height=alt.Step(35)
+            width=225,
+            height=alt.Step(30)
         )
     )
 
@@ -333,7 +333,7 @@ def penalties_chart(df, axis=True):
                 groupby=["Date", "offset"]
         )
         .transform_calculate(text_pos="datum.cumulative_value - datum.Value/2")
-        .mark_text(align="center", baseline="middle", fontSize=18)
+        .mark_text(align="center", baseline="middle", fontSize=16)
         .encode(
             y=alt.Y("Game:O", sort=game_order, title=None),
             text=alt.condition(
@@ -409,8 +409,8 @@ def efficiency_chart(df, axis=True):
             ]
         )
         .properties(
-            width=250,
-            height=alt.Step(35)
+            width=240,
+            height=alt.Step(30)
         )
     )
 
@@ -463,7 +463,7 @@ def score_chart(df):
         )
         .properties(
             width=200,
-            height=alt.Step(35)
+            height=alt.Step(30)
         )
     )
     pa = (
@@ -477,10 +477,10 @@ def score_chart(df):
             fill=alt.condition(alt.datum.Result == "L", alt.value("#981515"), alt.value("#98151580")),
             stroke=alt.value("#981515")
         )
-        .properties(width=200, height=alt.Step(35))
+        .properties(width=175, height=alt.Step(30))
     )
-    pa_text = pa.mark_text(dx=-20, dy=3, fontSize=18).encode(text="PA:Q", fill=alt.value("#981515"))
-    pf_text = pf.mark_text(dx=20, dy=3, fontSize=18).encode(text="PF:Q", fill=alt.value("#202947"))
+    pa_text = pa.mark_text(dx=-20, dy=3, fontSize=16).encode(text="PA:Q", fill=alt.value("#981515"))
+    pf_text = pf.mark_text(dx=20, dy=3, fontSize=16).encode(text="PF:Q", fill=alt.value("#202947"))
 
     return (
         ((pa + pa_text) | (pf + pf_text))
@@ -536,8 +536,8 @@ def gainline_chart(df, axis=True):
                 alt.Tooltip("percentage:Q", title="Gain line success", format=".0%")
             ]
         ).properties(
-            width=300,
-            height=alt.Step(35)
+            width=275,
+            height=alt.Step(30)
         )
     )
 
@@ -546,7 +546,7 @@ def gainline_chart(df, axis=True):
 
     text = (
         chart
-        .mark_text(align="left", baseline="middle", fontSize=18)
+        .mark_text(align="left", baseline="middle", fontSize=16)
         .encode(
             x=alt.X("text_pos:Q"),
             text=alt.Text("Value:Q"),
@@ -557,7 +557,7 @@ def gainline_chart(df, axis=True):
     return (chart + text).resolve_scale(color="independent").properties(
         title=alt.Title(
             text="Gain Line Success",
-            subtitle="Starter plays that broke the gain line or otherwise.",
+            subtitle="Starter plays that broke the gain line",
             anchor="middle",
             fontSize=36
         )

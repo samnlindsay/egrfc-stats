@@ -111,7 +111,7 @@ body {
     max-width: 100%;
     height: 100%;
     padding: 0;
-    margin-top: 74px !important;
+    margin-top: 56px !important;
     /* position: absolute; */
     /* top: 126px; */
     background-color: var(--light-color);
@@ -216,8 +216,7 @@ nav.navbar {
     font-size: small;
 }
 
-.table #squad1,
-#squad2 {
+.table #squad1, #squad2 {
     font-family: 'PT Sans Narrow', sans-serif;
 }
 

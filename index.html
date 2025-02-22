@@ -20,17 +20,13 @@
     <div class="container text-center overflow-visible" style="width:100%; max-width: 100%">
         <!-- Navbar -->
         <nav class="navbar navbar-expand-lg navbar-dark col-12 position-fixed top-0 p-0" style="display: none;">
-            <div class="container-fluid p-0">
-                <a class="navbar-brand" href="index.html">
-                    <img alt="Team Logo" class="img-fluid p-0"
-                        src="https://img-res.pitchero.com/?url=images.pitchero.com%2Fclub_logos%2F4860%2Fq8XL0Ot4QSqgy8nOKnCb_Logo.png&amp;bg=null&amp;h=250&amp;w=250&amp;t=square&amp;q=null"
-                        style="max-width: 64px;">
-                </a>
+            <div class="container-fluid p-2">
                 <button aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"
                     class="navbar-toggler" data-bs-target="#navbarNav" data-bs-toggle="collapse" type="button">
                     <span class="navbar-toggler-icon"></span>
+                    EGRFC Stats
                 </button>
-                <div class="collapse navbar-collapse p-0" id="navbarNav">
+                <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
                             <a class="nav-link active" href="index.html" onclick="showHomePage(event)">Home</a>
@@ -75,10 +71,10 @@
 
         <div class="container d-flex align-items-center justify-content-center" id="home-content"
             style="width:100%; max-width: 100%; height:100%">
-            <div class="text-center mb-4">
+            <div class="text-center">
                 <img src="img/logo.png" alt="EGRFC Logo" class="mb-2" style="max-width: 200px; height: auto;">
                 <h1>East Grinstead RFC Stats</h1>
-                <p class="text-center">Select a section below to view team statistics.</p>
+                <span style="font-family: 'Lato', sans-serif; font-weight: 300; font-size: 1rem;">Select a section below to view summary statistics and various charts.</span>
             </div>
 
             <div class="container-fluid">
@@ -244,13 +240,15 @@
                     <div class="collapse mt-2 justify-content-center align-items-center" id="playerStats">
                         <div class="d-flex justify-content-end align-items-center">
                             <h4 class="me-3">Charts:</h4>
-                            <div class="btn-group">
+                            <div class="btn-group-vertical">
                                 <button class="btn custom-btn" onclick="loadPage('Charts/appearances.html')">Total
                                     Appearances</button>
                                 <button class="btn custom-btn" onclick="loadPage('Charts/positions.html')">Starts by
                                     Position</button>
                                 <button class="btn custom-btn" onclick="loadPage('Charts/team-sheets.html')">Team
                                     Sheets</button>
+                                    </div>  
+                            <div class="btn-group-vertical">
                                 <button class="btn custom-btn"
                                     onclick="loadPage('Charts/captains.html')">Captains</button>
                                 <button class="btn custom-btn" onclick="loadPage('Charts/points.html')">Scorers</button>
