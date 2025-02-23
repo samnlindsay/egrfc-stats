@@ -136,7 +136,17 @@ def players_agg(df=None):
     GROUP BY Squad, Season, Player
     """).to_df()
 
-    return players_agg
+    pitchero_df = pitchero_stats()
+
+    players_agg["Player_join"] = players_agg["Player"].apply(clean_name)
+
+    df = players_agg.merge(
+        pitchero_df, 
+        on=["Squad", "Season", "Player_join"], 
+        how="left"
+    )
+
+    return df
 
 ##################################################
 ### LINEOUTS - 6th and 9th sheets in the workbook
@@ -264,15 +274,8 @@ def pitchero_stats():
             dfs.append(df)
 
     pitchero_df = pd.concat(dfs)
-    players_agg_df = players_agg()[["Player", "Season", "Squad", "TotalGames"]]
-    players_agg_df["Player_join"] = players_agg_df["Player"].apply(clean_name)
-
     
-    return players_agg_df.merge(
-        pitchero_df, 
-        on=["Squad", "Season", "Player_join"], 
-        how="left"
-    )
+    return pitchero_df
 
 ########################
 ### SET PIECE SUMMARY
@@ -411,7 +414,7 @@ def set_piece_summaries(df):
     df_agg = df_agg.pivot_table(
         index=["Season", "Squad", "SetPiece", "count"], 
         columns="Metric", values="sum", fill_value=0
-    ).reset_index()
+    ).reset_index().rename_axis(None, axis=1)
 
     df_agg["T_won"] = df_agg["Opp_lost"] / df_agg["count"]
     df_agg["T_lost"] = df_agg["EG_lost"] / df_agg["count"]
@@ -434,9 +437,71 @@ def set_piece_summaries(df):
     ]]
 
     # Convert to dictionary for easy JS manipulation
-    set_piece_dict = df_agg.set_index(["Season", "Squad", "SetPiece"]).T.to_dict()
+    d = {}
+    for (x, y, z), group in df_agg.groupby(["Season", "Squad", "SetPiece"]):
+        d.setdefault(x, {}).setdefault(y, {})[z] = group.drop(columns=["Season", "Squad", "SetPiece"]).to_dict(orient="records")[0]
 
+    # Save to JSON
     with open("data/set_piece_summaries.json", "w") as f:
-        json.dump(set_piece_dict, f, indent=4)
+        json.dump(d, f, indent=4)
 
     return df_agg
+
+
+def top_players_summary(df):
+
+    # Squads
+    df_squad = (
+        df.groupby(["Season", "Squad"])
+        .agg(PlayersUsed=("Player", "nunique"), TotalGames=("TotalGames", "max"), T=("T", "max"))
+        .reset_index()
+    )
+
+    top_players = df.groupby(["Season", "Squad", "TotalGames"]).agg(
+        Players_A=("Player", lambda x: " / ".join(x))
+    ).reset_index()
+
+    top_tries = df.groupby(["Season", "Squad", "T"]).agg(
+        Players_T=("Player", lambda x: " / ".join(x))
+    ).reset_index()
+
+
+    df_squad = df_squad.merge(top_players, on=["Season", "Squad", "TotalGames"], how="left")
+    df_squad = df_squad.merge(top_tries, on=["Season", "Squad", "T"], how="left")
+
+    # Total
+    df_total = (
+        df.groupby(["Season"])
+        .agg(PlayersUsed=("Player", "nunique"), TotalGames=("TotalGames", "max"), T=("T", "max"))
+        .reset_index()
+    )
+
+    top_players = df.groupby(["Season", "TotalGames"]).agg(
+        Players_A=("Player", lambda x: " / ".join(x))
+    ).reset_index()
+
+    top_tries = df.groupby(["Season", "T"]).agg(
+        Players_T=("Player", lambda x: " / ".join(x))
+    ).reset_index()
+
+
+    df_total = df_total.merge(top_players, on=["Season", "TotalGames"], how="left")
+    df_total = df_total.merge(top_tries, on=["Season", "T"], how="left")
+    df_total["Squad"] = "Total"
+
+    df_final = pd.concat([df_squad, df_total])
+
+    df_final["Players_A"] = df_final["Players_A"] + "  (" + df_final["TotalGames"].astype(str) + ")"
+    df_final["Players_T"] = df_final["Players_T"] + "  (" + df_final["T"].astype(int).astype(str) + ")"
+    df_final = df_final[["Season", "Squad", "PlayersUsed", "Players_A", "Players_T"]].sort_values(["Season", "Squad"])
+
+    # Convert to dictionary for easy JS manipulation
+    d = {}
+    for (x, y), group in df_final.groupby(["Season", "Squad"]):
+        d.setdefault(x, {})[y] = group.drop(columns=["Season", "Squad"]).to_dict(orient="records")[0]
+
+
+    with open("data/top_players.json", "w") as f:
+        json.dump(d, f, indent=4)
+
+    return df_final

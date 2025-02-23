@@ -20,10 +20,14 @@ game_df.to_csv('data/game.csv', index=False)
 players_df.to_csv('data/players.csv', index=False)
 players_agg_df.to_csv('data/players_agg.csv', index=False)
 lineouts_df.to_csv('data/lineouts.csv', index=False)
-pitchero_df.to_csv('data/pitchero.csv', index=False)
+pitchero_df.to_csv('data/players_agg.csv', index=False)
 set_piece_df.to_csv('data/set_piece.csv', index=False)
 analysis.to_csv('data/analysis.csv', index=False)
+
+# Update tables
 update_season_summaries(game_df, seasons)
+set_piece_summaries(set_piece_df)
+top_players_summary(players_agg_df)
 
 # One-off charts (only source data needs updating)
 captains_chart(file='Charts/captains.html')

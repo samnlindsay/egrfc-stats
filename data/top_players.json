@@ -1,0 +1,70 @@
+{
+    "2021/22": {
+        "1st": {
+            "PlayersUsed": 61,
+            "Players_A": "Ryan Morlen / Max Crawley-Moore  (19)",
+            "Players_T": "Fergus Wood  (22)"
+        },
+        "2nd": {
+            "PlayersUsed": 84,
+            "Players_A": "Harrison Berry  (18)",
+            "Players_T": "Ethan Carrick  (9)"
+        },
+        "Total": {
+            "PlayersUsed": 102,
+            "Players_A": "Ryan Morlen / Max Crawley-Moore  (19)",
+            "Players_T": "Fergus Wood  (22)"
+        }
+    },
+    "2022/23": {
+        "1st": {
+            "PlayersUsed": 41,
+            "Players_A": "Ben Tottman / Max Crawley-Moore / John Peaty  (18)",
+            "Players_T": "Ryan Morlen  (20)"
+        },
+        "2nd": {
+            "PlayersUsed": 73,
+            "Players_A": "Harrison Berry  (12)",
+            "Players_T": "Will Roberts  (7)"
+        },
+        "Total": {
+            "PlayersUsed": 90,
+            "Players_A": "Ben Tottman / Max Crawley-Moore / John Peaty  (18)",
+            "Players_T": "Ryan Morlen  (20)"
+        }
+    },
+    "2023/24": {
+        "1st": {
+            "PlayersUsed": 55,
+            "Players_A": "Ryland Thomas / Guy Collins / Ben Tottman  (25)",
+            "Players_T": "Jake Radcliffe  (11)"
+        },
+        "2nd": {
+            "PlayersUsed": 81,
+            "Players_A": "Harrison Berry  (14)",
+            "Players_T": "Will Roberts  (15)"
+        },
+        "Total": {
+            "PlayersUsed": 96,
+            "Players_A": "Ryland Thomas / Guy Collins / Ben Tottman  (25)",
+            "Players_T": "Will Roberts  (15)"
+        }
+    },
+    "2024/25": {
+        "1st": {
+            "PlayersUsed": 50,
+            "Players_A": "Sam Lindsay-McCall  (18)",
+            "Players_T": "Jake Radcliffe  (6)"
+        },
+        "2nd": {
+            "PlayersUsed": 86,
+            "Players_A": "Harrison Berry  (15)",
+            "Players_T": "Jack Billin  (6)"
+        },
+        "Total": {
+            "PlayersUsed": 96,
+            "Players_A": "Sam Lindsay-McCall  (18)",
+            "Players_T": "Jack Billin / Jake Radcliffe  (6)"
+        }
+    }
+}

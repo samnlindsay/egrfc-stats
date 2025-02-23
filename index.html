@@ -9,7 +9,7 @@
     <meta content="IE=edge" http-equiv="X-UA-Compatible" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="styles.css" rel="stylesheet" />
-<link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:800" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=PT+Sans+Narrow" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=PT+Sans" rel="stylesheet" />
@@ -238,6 +238,43 @@
                         Player Stats
                     </button>
                     <div class="collapse mt-2 justify-content-center align-items-center" id="playerStats">
+                        <table class="table table-borderless text-center align-middle">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>
+                                        <select class="form-select m-0" id="seasonSelect3" onchange="updateTable()" style="width: min-content;">
+                                            <option value="2024/25">2024/25</option>
+                                            <option value="2023/24">2023/24</option>
+                                            <option value="2022/23">2022/23</option>
+                                            <option value="2021/22">2021/22</option>
+                                        </select>
+                                    </th>
+                                    <th class="align-middle py-1">Total Players Selected</th>
+                                    <th class="align-middle py-1">Most Appearances</th>
+                                    <th class="align-middle py-1">Top Try Scorer</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr id="row1">
+                                    <td class="align-middle py-1" id="squad1">1st XV</td>
+                                    <td class="align-middle py-1" id="players1"></td>
+                                    <td class="align-middle py-1" id="apps1"></td>
+                                    <td class="align-middle py-1" id="tries1"></td>
+                                </tr>
+                                <tr id="row2">
+                                    <td class="align-middle py-1" id="squad2">2nd XV</td>
+                                    <td class="align-middle py-1" id="players2"></td>
+                                    <td class="align-middle py-1" id="apps2"></td>
+                                    <td class="align-middle py-1" id="tries2"></td>
+                                </tr>
+                                <tr id="rowT" class="table-dark" style="border-top: 2px solid black">
+                                    <td class="align-middle py-1" id="squadT">Overall</td>
+                                    <td class="align-middle py-1" id="playersT"></td>
+                                    <td class="align-middle py-1" id="appsT"></td>
+                                    <td class="align-middle py-1" id="triesT"></td>
+                                </tr>
+                            </tbody>
+                        </table>
                         <div class="d-flex justify-content-end align-items-center">
                             <h4 class="me-3">Charts:</h4>
                             <div class="btn-group-vertical">
@@ -319,6 +356,7 @@
                 // Filter data for selected season (key = "2024-25", value = { "1st": {...}, "2nd": {...} })
                 .then(data => data[selectedSeason1])
                 .then(data => {
+                    console.log(data);
                     document.getElementById("played1").innerText = data["1st"].Played;
                     document.getElementById("won1").innerText = data["1st"].Won.toFixed(0)
                     document.getElementById("lost1").innerText = data["1st"].Lost;
@@ -338,6 +376,7 @@
                 .then(response => response.json())
                 .then(data => data[selectedSeason2])
                 .then(data => {
+                    console.log(data);
                     // 1st XV Lineout
                     document.getElementById("games1").innerText = data["1st"]["Lineout"].count;
                     document.getElementById("eg_n1l").innerText = data["1st"]["Lineout"].EG_total.toFixed(1);
@@ -372,6 +411,24 @@
                     document.getElementById("t_won2s").innerText = data["2nd"]["Scrum"].T_won.toFixed(1);
                     document.getElementById("t_lost2s").innerText = data["2nd"]["Scrum"].T_lost.toFixed(1);
 
+                }
+                );
+
+            // Top players table
+            fetch("data/top_players.json")
+                .then(response => response.json())
+                .then(data => data[selectedSeason2])
+                .then(data => {
+                    console.log(data);
+                    document.getElementById("players1").innerText = data["1st"].PlayersUsed;
+                    document.getElementById("apps1").innerText = data["1st"].Players_A;
+                    document.getElementById("tries1").innerText = data["1st"].Players_T;
+                    document.getElementById("players2").innerText = data["2nd"].PlayersUsed;
+                    document.getElementById("apps2").innerText = data["2nd"].Players_A;
+                    document.getElementById("tries2").innerText = data["2nd"].Players_T;
+                    document.getElementById("playersT").innerText = data["Total"].PlayersUsed;
+                    document.getElementById("appsT").innerText = data["Total"].Players_A;
+                    document.getElementById("triesT").innerText = data["Total"].Players_T;
                 }
                 );
         }

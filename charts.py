@@ -654,7 +654,7 @@ def points_scorers_chart(df=None, file=None):
     )
 
     chart = (
-        alt.Chart(df if df is not None else {"name": "df", "url":'https://raw.githubusercontent.com/samnlindsay/egrfc-stats/main/data/pitchero.csv',"format":{'type':"csv"}})
+        alt.Chart(df if df is not None else {"name": "df", "url":'https://raw.githubusercontent.com/samnlindsay/egrfc-stats/main/data/players_agg.csv',"format":{'type':"csv"}})
         .mark_bar()
         .transform_filter("datum.Points > 0")
         .transform_fold(["Tries", "Pens", "Cons"], as_=["Type", "Points"])
@@ -746,7 +746,7 @@ def card_chart(df=None, file=None):
     )
 
     chart = (
-        alt.Chart(df if df is not None else {"name": "df", "url":'https://raw.githubusercontent.com/samnlindsay/egrfc-stats/main/data/pitchero.csv',"format":{'type':"csv"}})
+        alt.Chart(df if df is not None else {"name": "df", "url":'https://raw.githubusercontent.com/samnlindsay/egrfc-stats/main/data/players_agg.csv',"format":{'type':"csv"}})
         .transform_calculate(Cards="datum.YC + datum.RC")
         .transform_filter("datum.YC > 0 || datum.RC > 0")
         .add_params(season_selection)
