@@ -417,7 +417,7 @@
             // Top players table
             fetch("data/top_players.json")
                 .then(response => response.json())
-                .then(data => data[selectedSeason2])
+                .then(data => data[selectedSeason3])
                 .then(data => {
                     console.log(data);
                     document.getElementById("players1").innerText = data["1st"].PlayersUsed;
