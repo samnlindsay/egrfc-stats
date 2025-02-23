@@ -1,310 +1,4 @@
 Squad,Season,Player,CupStarts,CupBench,LeagueStarts,LeagueBench,FriendlyStarts,FriendlyBench,CompetitiveStarts,CompetitiveBench,TotalStarts,TotalBench,TotalGames,MostCommonPosition,MostCommonPositionType
-1st,2022/23,Sean Morgan,0.0,0.0,6.0,2.0,0.0,0.0,6.0,2.0,6.0,2.0,8,Prop,Forwards
-1st,2023/24,Connor Leggat,2.0,0.0,12.0,4.0,2.0,0.0,14.0,4.0,16.0,4.0,20,Prop,Forwards
-2nd,2021/22,Darren Gwynn,0.0,1.0,5.0,5.0,3.0,0.0,5.0,6.0,8.0,6.0,14,Second Row,Forwards
-2nd,2024/25,Ben Pellett,0.0,0.0,3.0,1.0,1.0,0.0,3.0,1.0,4.0,1.0,5,Prop,Forwards
-1st,2023/24,Josh Brimecombe,2.0,0.0,18.0,0.0,1.0,0.0,20.0,0.0,21.0,0.0,21,Prop,Forwards
-2nd,2022/23,Jules Jardim,1.0,0.0,5.0,1.0,1.0,0.0,6.0,1.0,7.0,1.0,8,Second Row,Forwards
-2nd,2024/25,Daan Hulst,0.0,0.0,2.0,0.0,2.0,0.0,2.0,0.0,4.0,0.0,4,Second Row,Forwards
-1st,2021/22,Tao Benn,0.0,0.0,1.0,0.0,1.0,3.0,1.0,0.0,2.0,3.0,5,Second Row,Forwards
-2nd,2022/23,Ky Oliveira,0.0,0.0,2.0,0.0,0.0,0.0,2.0,0.0,2.0,0.0,2,Second Row,Forwards
-1st,2021/22,Ben Saunders,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1,Back Row,Forwards
-1st,2022/23,Dan Billin,0.0,0.0,3.0,4.0,0.0,0.0,3.0,4.0,3.0,4.0,7,Back Row,Forwards
-1st,2023/24,Charlie Pullen,1.0,1.0,1.0,2.0,0.0,1.0,2.0,3.0,2.0,4.0,6,Back Row,Forwards
-1st,2021/22,Rory Evans,0.0,0.0,0.0,0.0,1.0,3.0,0.0,0.0,1.0,3.0,4,Back Row,Forwards
-1st,2021/22,Sam Spriddell,0.0,0.0,5.0,1.0,6.0,1.0,5.0,1.0,11.0,2.0,13,Back Three,Backs
-2nd,2024/25,Mark Lewis,0.0,0.0,3.0,0.0,2.0,0.0,3.0,0.0,5.0,0.0,5,Fly Half,Backs
-2nd,2024/25,Kit Clarke,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1,Scrum Half,Backs
-1st,2024/25,Jake Radcliffe,0.0,0.0,13.0,1.0,0.0,0.0,13.0,1.0,13.0,1.0,14,Back Three,Backs
-2nd,2021/22,Scott Devlin,2.0,0.0,6.0,4.0,3.0,0.0,8.0,4.0,11.0,4.0,15,Back Three,Backs
-2nd,2022/23,James Jenkins,0.0,0.0,7.0,0.0,2.0,0.0,7.0,0.0,9.0,0.0,9,Back Three,Backs
-1st,2023/24,Sam Musgrave,3.0,0.0,6.0,0.0,0.0,0.0,9.0,0.0,9.0,0.0,9,Centre,Backs
-1st,2024/25,Rhys Skinner,0.0,0.0,3.0,0.0,0.0,0.0,3.0,0.0,3.0,0.0,3,Centre,Backs
-2nd,2021/22,Alex Leadbeater,0.0,0.0,3.0,2.0,3.0,0.0,3.0,2.0,6.0,2.0,8,Centre,Backs
-2nd,2023/24,Chris May-Miller,0.0,0.0,2.0,0.0,1.0,0.0,2.0,0.0,3.0,0.0,3,Centre,Backs
-1st,2022/23,Ollie Adams,0.0,0.0,2.0,0.0,0.0,0.0,2.0,0.0,2.0,0.0,2,Back Three,Backs
-2nd,2023/24,Luke Maker,0.0,0.0,7.0,0.0,1.0,0.0,7.0,0.0,8.0,0.0,8,Back Three,Backs
-2nd,2021/22,David Wilkinson,0.0,0.0,2.0,3.0,0.0,1.0,2.0,3.0,2.0,4.0,6,Back Three,Backs
-1st,2023/24,George Beet,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,1,,
-2nd,2022/23,Drew King,0.0,1.0,0.0,1.0,0.0,0.0,0.0,2.0,0.0,2.0,2,,
-1st,2024/25,Harrison Berry,0.0,0.0,0.0,2.0,0.0,0.0,0.0,2.0,0.0,2.0,2,,
-2nd,2021/22,Mikey Redmond,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1.0,0.0,2.0,2,,
-2nd,2024/25,Sean Morgan,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
-2nd,2024/25,Dante Maynard,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
-2nd,2023/24,Guy Collins,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1,Prop,Forwards
-1st,2021/22,Peter Morley,0.0,0.0,0.0,0.0,2.0,0.0,0.0,0.0,2.0,0.0,2,Second Row,Forwards
-2nd,2021/22,James Busby,0.0,0.0,3.0,1.0,0.0,1.0,3.0,1.0,3.0,2.0,5,Second Row,Forwards
-2nd,2021/22,Sam Lindsay-McCall,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,2.0,0.0,2,Second Row,Forwards
-2nd,2024/25,Oli Hodge,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1,Second Row,Forwards
-1st,2022/23,Tom Byron,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1,Back Row,Forwards
-1st,2023/24,Tom Mooney,1.0,0.0,1.0,1.0,1.0,0.0,2.0,1.0,3.0,1.0,4,Back Row,Forwards
-2nd,2023/24,Josh Weaver,0.0,0.0,1.0,1.0,1.0,0.0,1.0,1.0,2.0,1.0,3,Back Row,Forwards
-2nd,2024/25,Tom Byron,0.0,0.0,4.0,1.0,3.0,0.0,4.0,1.0,7.0,1.0,8,Back Row,Forwards
-1st,2021/22,Gus Nye,0.0,0.0,1.0,0.0,5.0,0.0,1.0,0.0,6.0,0.0,6,Back Row,Forwards
-2nd,2022/23,Artemis Maynard,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1,Back Row,Forwards
-1st,2023/24,Jack Billin,2.0,0.0,3.0,1.0,1.0,1.0,5.0,1.0,6.0,2.0,8,Scrum Half,Backs
-2nd,2024/25,Ben Green,0.0,0.0,5.0,2.0,3.0,0.0,5.0,2.0,8.0,2.0,10,Back Three,Backs
-2nd,2024/25,Noah Roberts,0.0,0.0,2.0,0.0,1.0,0.0,2.0,0.0,3.0,0.0,3,Back Three,Backs
-2nd,2021/22,Archie Neill,2.0,0.0,8.0,0.0,3.0,0.0,10.0,0.0,13.0,0.0,13,Back Three,Backs
-1st,2021/22,Richard Dodgson,0.0,0.0,1.0,0.0,1.0,0.0,1.0,0.0,2.0,0.0,2,Centre,Backs
-1st,2024/25,Max Crawley-Moore,0.0,0.0,9.0,1.0,0.0,0.0,9.0,1.0,9.0,1.0,10,Centre,Backs
-2nd,2022/23,Dougie Anson-Gates,0.0,0.0,0.0,1.0,1.0,1.0,0.0,1.0,1.0,2.0,3,Centre,Backs
-2nd,2024/25,Ryan Foster,0.0,0.0,3.0,0.0,0.0,0.0,3.0,0.0,3.0,0.0,3,Centre,Backs
-2nd,2023/24,Scott Devlin,0.0,0.0,3.0,5.0,1.0,1.0,3.0,5.0,4.0,6.0,10,Back Three,Backs
-2nd,2023/24,Oscar Read,0.0,0.0,0.0,1.0,1.0,0.0,0.0,1.0,1.0,1.0,2,Back Three,Backs
-1st,2024/25,George Naylor,0.0,0.0,0.0,2.0,0.0,0.0,0.0,2.0,0.0,2.0,2,,
-2nd,2022/23,Oliver Roberts,0.0,0.0,0.0,4.0,0.0,1.0,0.0,4.0,0.0,5.0,5,,
-2nd,2023/24,Oscar Staples,0.0,0.0,0.0,6.0,0.0,0.0,0.0,6.0,0.0,6.0,6,,
-2nd,2022/23,Lukis Waite,0.0,0.0,0.0,2.0,0.0,0.0,0.0,2.0,0.0,2.0,2,,
-2nd,2022/23,Robert Poole,0.0,0.0,0.0,2.0,0.0,0.0,0.0,2.0,0.0,2.0,2,,
-2nd,2022/23,Henry Aronson,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
-2nd,2023/24,Darren Gwynn,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,1,,
-2nd,2023/24,Patrick Bowe,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,1,,
-1st,2021/22,Devon Frost,1.0,1.0,9.0,1.0,1.0,1.0,10.0,2.0,11.0,3.0,14,Prop,Forwards
-1st,2022/23,Josh Brimecombe,0.0,0.0,14.0,1.0,0.0,0.0,14.0,1.0,14.0,1.0,15,Prop,Forwards
-1st,2023/24,Sean Morgan,0.0,0.0,2.0,0.0,0.0,0.0,2.0,0.0,2.0,0.0,2,Prop,Forwards
-2nd,2022/23,Mark Oliver,0.0,0.0,2.0,0.0,0.0,1.0,2.0,0.0,2.0,1.0,3,Prop,Forwards
-1st,2024/25,Ben Tottman,0.0,0.0,14.0,1.0,0.0,0.0,14.0,1.0,14.0,1.0,15,Hooker,Forwards
-2nd,2024/25,George Beet,0.0,0.0,2.0,1.0,1.0,0.0,2.0,1.0,3.0,1.0,4,Hooker,Forwards
-2nd,2024/25,Jack Jacobs,0.0,0.0,3.0,1.0,0.0,1.0,3.0,1.0,3.0,2.0,5,Hooker,Forwards
-1st,2023/24,Ben Pellett,0.0,1.0,1.0,0.0,0.0,0.0,1.0,1.0,1.0,1.0,2,Prop,Forwards
-1st,2021/22,John Peaty,2.0,0.0,9.0,0.0,1.0,0.0,11.0,0.0,12.0,0.0,12,Second Row,Forwards
-1st,2021/22,Nick Carter,0.0,0.0,4.0,0.0,0.0,0.0,4.0,0.0,4.0,0.0,4,Back Row,Forwards
-1st,2023/24,Dan Billin,3.0,1.0,14.0,1.0,2.0,0.0,17.0,2.0,19.0,2.0,21,Second Row,Forwards
-1st,2023/24,Daan Hulst,2.0,0.0,0.0,1.0,0.0,0.0,2.0,1.0,2.0,1.0,3,Second Row,Forwards
-2nd,2022/23,Blake English,0.0,0.0,1.0,1.0,0.0,2.0,1.0,1.0,1.0,3.0,4,Second Row,Forwards
-2nd,2021/22,Pete Morley,1.0,0.0,6.0,0.0,1.0,0.0,7.0,0.0,8.0,0.0,8,Second Row,Forwards
-2nd,2022/23,Max Morgan,0.0,0.0,4.0,0.0,1.0,0.0,4.0,0.0,5.0,0.0,5,Back Row,Forwards
-2nd,2023/24,Dan Arnold,0.0,0.0,1.0,2.0,1.0,0.0,1.0,2.0,2.0,2.0,4,Back Row,Forwards
-1st,2022/23,Connor Leggat,0.0,0.0,7.0,2.0,0.0,0.0,7.0,2.0,7.0,2.0,9,Back Row,Forwards
-2nd,2021/22,Chris Taylor,0.0,0.0,2.0,1.0,4.0,0.0,2.0,1.0,6.0,1.0,7,Scrum Half,Backs
-1st,2024/25,Oli Billin,0.0,0.0,10.0,2.0,0.0,0.0,10.0,2.0,10.0,2.0,12,Fly Half,Backs
-2nd,2021/22,Ben Gray,0.0,0.0,1.0,2.0,0.0,0.0,1.0,2.0,1.0,2.0,3,Fly Half,Backs
-2nd,2021/22,Ryan Morlen,0.0,0.0,0.0,1.0,1.0,0.0,0.0,1.0,1.0,1.0,2,Fly Half,Backs
-1st,2024/25,Ali Moffatt,0.0,0.0,9.0,0.0,0.0,0.0,9.0,0.0,9.0,0.0,9,Back Three,Backs
-2nd,2022/23,Will Roberts,1.0,0.0,6.0,1.0,0.0,0.0,7.0,1.0,7.0,1.0,8,Back Three,Backs
-1st,2021/22,Jack Andrews,0.0,0.0,3.0,0.0,6.0,0.0,3.0,0.0,9.0,0.0,9,Centre,Backs
-2nd,2022/23,Richard Dodgson,1.0,0.0,5.0,0.0,1.0,0.0,6.0,0.0,7.0,0.0,7,Centre,Backs
-1st,2024/25,Alister Yaffa,0.0,0.0,3.0,0.0,0.0,0.0,3.0,0.0,3.0,0.0,3,Back Three,Backs
-1st,2024/25,Duncan Fraser,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1,Back Three,Backs
-1st,2021/22,Sam Lindsay,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,1,,
-1st,2022/23,George Beet,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
-2nd,2022/23,Gus Nye,0.0,1.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
-2nd,2023/24,Sachio Shimizu,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,1,,
-2nd,2021/22,Michael Simmonds,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
-2nd,2024/25,Charlie Pullen,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,1,,
-2nd,2024/25,John Lear,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,1,,
-2nd,2023/24,Jacob Davidson,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
-2nd,2021/22,Oli Brown ,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,1,,
-2nd,2021/22,Ryland Thomas,0.0,0.0,0.0,2.0,0.0,0.0,0.0,2.0,0.0,2.0,2,,
-2nd,2023/24,George Robinson,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,1,,
-1st,2023/24,Dave Bridges,2.0,2.0,2.0,9.0,1.0,1.0,4.0,11.0,5.0,12.0,17,Prop,Forwards
-1st,2024/25,Guy Collins,0.0,0.0,14.0,2.0,0.0,0.0,14.0,2.0,14.0,2.0,16,Prop,Forwards
-2nd,2022/23,Josh Brimecombe,0.0,0.0,2.0,0.0,0.0,0.0,2.0,0.0,2.0,0.0,2,Prop,Forwards
-2nd,2022/23,Charlie Pullen,0.0,1.0,6.0,2.0,0.0,1.0,6.0,3.0,6.0,4.0,10,Prop,Forwards
-2nd,2023/24,George Naylor,0.0,0.0,6.0,1.0,1.0,1.0,6.0,1.0,7.0,2.0,9,Prop,Forwards
-2nd,2022/23,George Beet,0.0,0.0,3.0,1.0,2.0,0.0,3.0,1.0,5.0,1.0,6,Hooker,Forwards
-2nd,2024/25,Billy Davis,0.0,0.0,0.0,2.0,1.0,0.0,0.0,2.0,1.0,2.0,3,Prop,Forwards
-2nd,2024/25,Max Morgan,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1,Second Row,Forwards
-2nd,2024/25,Will Bramwell,0.0,0.0,1.0,0.0,1.0,0.0,1.0,0.0,2.0,0.0,2,Second Row,Forwards
-1st,2023/24,Jules Jardim,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1,Second Row,Forwards
-1st,2024/25,Oscar Staples,0.0,0.0,4.0,2.0,0.0,0.0,4.0,2.0,4.0,2.0,6,Second Row,Forwards
-1st,2021/22,Liam Casey,0.0,0.0,4.0,1.0,1.0,1.0,4.0,1.0,5.0,2.0,7,Back Row,Forwards
-1st,2023/24,Aaron Boczek,3.0,0.0,16.0,0.0,1.0,0.0,19.0,0.0,20.0,0.0,20,Back Row,Forwards
-1st,2024/25,Josh Weaver,0.0,0.0,6.0,1.0,0.0,0.0,6.0,1.0,6.0,1.0,7,Back Row,Forwards
-2nd,2021/22,Harrison Berry,2.0,0.0,8.0,4.0,4.0,0.0,10.0,4.0,14.0,4.0,18,Back Row,Forwards
-2nd,2023/24,Archie Vickers,0.0,0.0,4.0,0.0,1.0,0.0,4.0,0.0,5.0,0.0,5,Back Row,Forwards
-1st,2021/22,Tom Byron,0.0,2.0,2.0,0.0,1.0,0.0,2.0,2.0,3.0,2.0,5,Back Row,Forwards
-2nd,2022/23,Connor Leggat,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1,Back Row,Forwards
-2nd,2021/22,George Johnson,0.0,0.0,1.0,0.0,0.0,1.0,1.0,0.0,1.0,1.0,2,Scrum Half,Backs
-2nd,2024/25,Will Roberts,0.0,0.0,3.0,0.0,4.0,0.0,3.0,0.0,7.0,0.0,7,Back Three,Backs
-1st,2022/23,Richard Dodgson,0.0,0.0,1.0,2.0,0.0,0.0,1.0,2.0,1.0,2.0,3,Centre,Backs
-2nd,2022/23,Andy Blackmore,1.0,0.0,5.0,0.0,0.0,0.0,6.0,0.0,6.0,0.0,6,Centre,Backs
-2nd,2023/24,Max Crawley-Moore,0.0,0.0,5.0,0.0,1.0,0.0,5.0,0.0,6.0,0.0,6,Centre,Backs
-1st,2023/24,Harrison Lock,0.0,2.0,0.0,0.0,0.0,0.0,0.0,2.0,0.0,2.0,2,,
-2nd,2023/24,Mike Unsworth,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,1,,
-2nd,2023/24,Ollie Hall,0.0,0.0,0.0,2.0,0.0,0.0,0.0,2.0,0.0,2.0,2,,
-2nd,2024/25,Digby Blake,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
-1st,2022/23,Max Morgan,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
-1st,2022/23,Will Roberts,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
-1st,2024/25,Colm Geraghty,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
-2nd,2022/23,Zack Bradbury,0.0,1.0,0.0,1.0,0.0,0.0,0.0,2.0,0.0,2.0,2,,
-2nd,2024/25,Mark Oliver,0.0,0.0,0.0,0.0,0.0,2.0,0.0,0.0,0.0,2.0,2,,
-2nd,2022/23,Sean Madden,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,1,,
-1st,2023/24,Guy Collins,4.0,0.0,20.0,0.0,1.0,0.0,24.0,0.0,25.0,0.0,25,Prop,Forwards
-1st,2024/25,Dave Bridges,0.0,0.0,3.0,4.0,0.0,0.0,3.0,4.0,3.0,4.0,7,Prop,Forwards
-2nd,2021/22,Josh Brimecombe,1.0,0.0,5.0,0.0,0.0,0.0,6.0,0.0,6.0,0.0,6,Prop,Forwards
-2nd,2021/22,George Beet,1.0,1.0,7.0,2.0,1.0,0.0,8.0,3.0,9.0,3.0,12,Hooker,Forwards
-2nd,2023/24,Rob Salvi,0.0,0.0,2.0,6.0,1.0,1.0,2.0,6.0,3.0,7.0,10,Prop,Forwards
-2nd,2024/25,James Funnell,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1,Prop,Forwards
-2nd,2022/23,Harrison Berry,1.0,0.0,8.0,1.0,1.0,1.0,9.0,1.0,10.0,2.0,12,Back Row,Forwards
-1st,2022/23,Pete Morley,0.0,0.0,11.0,2.0,0.0,0.0,11.0,2.0,11.0,2.0,13,Second Row,Forwards
-1st,2024/25,Tim Morris,0.0,0.0,3.0,4.0,0.0,0.0,3.0,4.0,3.0,4.0,7,Second Row,Forwards
-2nd,2024/25,Pete Morley,0.0,0.0,4.0,0.0,3.0,0.0,4.0,0.0,7.0,0.0,7,Second Row,Forwards
-2nd,2023/24,Tom Mooney,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1,Second Row,Forwards
-1st,2023/24,Oscar Staples,1.0,1.0,2.0,0.0,0.0,0.0,3.0,1.0,3.0,1.0,4,Back Row,Forwards
-1st,2021/22,Eoin O'Donoghue,2.0,0.0,0.0,2.0,0.0,0.0,2.0,2.0,2.0,2.0,4,Back Row,Forwards
-1st,2022/23,Ryland Thomas,0.0,0.0,5.0,2.0,0.0,0.0,5.0,2.0,5.0,2.0,7,Back Row,Forwards
-2nd,2023/24,Jack Billin,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1,Scrum Half,Backs
-2nd,2024/25,Chris Taylor,0.0,0.0,2.0,0.0,2.0,0.0,2.0,0.0,4.0,0.0,4,Scrum Half,Backs
-2nd,2024/25,Ben Gray,0.0,0.0,2.0,0.0,0.0,0.0,2.0,0.0,2.0,0.0,2,Fly Half,Backs
-2nd,2024/25,Sam Johnston,0.0,0.0,3.0,0.0,1.0,0.0,3.0,0.0,4.0,0.0,4,Back Three,Backs
-1st,2022/23,Ryan Morlen,0.0,0.0,12.0,3.0,0.0,0.0,12.0,3.0,12.0,3.0,15,Centre,Backs
-1st,2023/24,Colm Geraghty,1.0,1.0,1.0,2.0,0.0,1.0,2.0,3.0,2.0,4.0,6,Centre,Backs
-1st,2024/25,Aaron Boczek,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1,Centre,Backs
-2nd,2021/22,Andy Blackmore,0.0,1.0,5.0,2.0,1.0,0.0,5.0,3.0,6.0,3.0,9,Centre,Backs
-2nd,2024/25,Ryan Morlen,0.0,0.0,1.0,1.0,0.0,0.0,1.0,1.0,1.0,1.0,2,Centre,Backs
-1st,2022/23,Chris Taylor,0.0,0.0,3.0,0.0,0.0,0.0,3.0,0.0,3.0,0.0,3,Back Three,Backs
-2nd,2021/22,Sean Madden,0.0,0.0,0.0,0.0,1.0,1.0,0.0,0.0,1.0,1.0,2,Back Three,Backs
-1st,2022/23,James Funnell,0.0,0.0,0.0,4.0,0.0,0.0,0.0,4.0,0.0,4.0,4,,
-1st,2021/22,James Jacobs,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1.0,0.0,2.0,2,,
-1st,2024/25,Nathan Oliver,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
-1st,2021/22,Jordan Hollis,0.0,0.0,0.0,0.0,0.0,2.0,0.0,0.0,0.0,2.0,2,,
-2nd,2021/22,Connor Leggat,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
-1st,2023/24,Josh Weaver,0.0,1.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
-2nd,2022/23,Mike Unsworth,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1,Prop,Forwards
-1st,2021/22,Ben Tottman,2.0,0.0,9.0,0.0,6.0,0.0,11.0,0.0,17.0,0.0,17,Hooker,Forwards
-1st,2021/22,Tom Kiernan,0.0,0.0,0.0,0.0,2.0,3.0,0.0,0.0,2.0,3.0,5,Hooker,Forwards
-2nd,2023/24,George Beet,0.0,0.0,10.0,1.0,1.0,1.0,10.0,1.0,11.0,2.0,13,Hooker,Forwards
-2nd,2021/22,Alex Maynard,0.0,0.0,1.0,0.0,1.0,0.0,1.0,0.0,2.0,0.0,2,Prop,Forwards
-2nd,2022/23,Jacob James,0.0,0.0,1.0,1.0,0.0,0.0,1.0,1.0,1.0,1.0,2,Prop,Forwards
-1st,2023/24,Sam Lindsay-McCall,2.0,0.0,18.0,1.0,2.0,0.0,20.0,1.0,22.0,1.0,23,Second Row,Forwards
-1st,2024/25,John Peaty,0.0,0.0,7.0,1.0,0.0,0.0,7.0,1.0,7.0,1.0,8,Second Row,Forwards
-2nd,2023/24,Zack Bradbury,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1,Second Row,Forwards
-2nd,2023/24,Charlie Pullen,0.0,0.0,6.0,2.0,2.0,0.0,6.0,2.0,8.0,2.0,10,Back Row,Forwards
-2nd,2024/25,Dan Arnold,0.0,0.0,3.0,0.0,1.0,0.0,3.0,0.0,4.0,0.0,4,Centre,Forwards
-2nd,2024/25,Greg Brack,0.0,0.0,2.0,2.0,1.0,1.0,2.0,2.0,3.0,3.0,6,Back Row,Forwards
-1st,2021/22,Alex Jackson,0.0,0.0,2.0,0.0,2.0,0.0,2.0,0.0,4.0,0.0,4,Back Row,Forwards
-1st,2021/22,Ben Hogan,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1,Scrum Half,Backs
-1st,2021/22,Oli Billin,0.0,1.0,1.0,4.0,1.0,3.0,1.0,5.0,2.0,8.0,10,Fly Half,Backs
-1st,2022/23,Dan Poulton,0.0,0.0,15.0,1.0,0.0,0.0,15.0,1.0,15.0,1.0,16,Fly Half,Backs
-1st,2024/25,Noah Merrion,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1,Fly Half,Backs
-1st,2021/22,Ali Moffatt,2.0,0.0,4.0,1.0,3.0,0.0,6.0,1.0,9.0,1.0,10,Back Three,Backs
-1st,2023/24,Luke Maker,2.0,1.0,9.0,0.0,0.0,1.0,11.0,1.0,11.0,2.0,13,Back Three,Backs
-1st,2024/25,Ted Hardisty,0.0,0.0,13.0,1.0,0.0,0.0,13.0,1.0,13.0,1.0,14,Back Three,Backs
-1st,2023/24,Chris May-Miller,2.0,0.0,2.0,0.0,0.0,0.0,4.0,0.0,4.0,0.0,4,Centre,Backs
-2nd,2021/22,Joe Terry,2.0,0.0,1.0,0.0,0.0,0.0,3.0,0.0,3.0,0.0,3,Centre,Backs
-2nd,2023/24,Sam Musgrave,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1,Centre,Backs
-2nd,2024/25,Ben Beard,0.0,0.0,2.0,0.0,0.0,0.0,2.0,0.0,2.0,0.0,2,Centre,Backs
-1st,2022/23,Ben Beard,0.0,0.0,1.0,1.0,0.0,0.0,1.0,1.0,1.0,1.0,2,Back Three,Backs
-1st,2021/22,Tom Poynder,0.0,0.0,0.0,0.0,0.0,2.0,0.0,0.0,0.0,2.0,2,,
-2nd,2022/23,Elliott Martin-Drew,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
-2nd,2022/23,Jake Ayres,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
-2nd,2024/25,Sachio Shimizu,0.0,0.0,0.0,2.0,0.0,0.0,0.0,2.0,0.0,2.0,2,,
-2nd,2022/23,Matt Marriott,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
-1st,2024/25,Or Shay,0.0,0.0,1.0,2.0,0.0,0.0,1.0,2.0,1.0,2.0,3,Prop,Forwards
-2nd,2022/23,Ben Watkinson,0.0,0.0,8.0,1.0,1.0,1.0,8.0,1.0,9.0,2.0,11,Back Row,Forwards
-2nd,2023/24,Ben Pellett,0.0,0.0,1.0,2.0,0.0,0.0,1.0,2.0,1.0,2.0,3,Prop,Forwards
-2nd,2023/24,Sean Morgan,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1,Prop,Forwards
-1st,2022/23,Sam Lindsay-McCall,0.0,0.0,15.0,0.0,0.0,0.0,15.0,0.0,15.0,0.0,15,Second Row,Forwards
-2nd,2023/24,Daan Hulst,0.0,0.0,5.0,1.0,0.0,0.0,5.0,1.0,5.0,1.0,6,Second Row,Forwards
-2nd,2024/25,Evan Gosling,0.0,0.0,2.0,4.0,1.0,2.0,2.0,4.0,3.0,6.0,9,Back Three,Backs
-1st,2021/22,Harrison Berry,0.0,0.0,0.0,0.0,1.0,1.0,0.0,0.0,1.0,1.0,2,Back Row,Forwards
-1st,2022/23,Jordan Walker,0.0,0.0,10.0,1.0,0.0,0.0,10.0,1.0,10.0,1.0,11,Back Row,Forwards
-2nd,2021/22,Liam Casey,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1,Back Row,Forwards
-1st,2024/25,Rory Evans,0.0,0.0,3.0,1.0,0.0,0.0,3.0,1.0,3.0,1.0,4,Back Row,Forwards
-1st,2021/22,George Johnson,2.0,0.0,7.0,0.0,1.0,0.0,9.0,0.0,10.0,0.0,10,Scrum Half,Backs
-1st,2023/24,Dan Poulton,0.0,0.0,12.0,1.0,0.0,1.0,12.0,1.0,12.0,2.0,14,Fly Half,Backs
-1st,2024/25,Sam Spriddell,0.0,0.0,7.0,0.0,0.0,0.0,7.0,0.0,7.0,0.0,7,Scrum Half,Backs
-2nd,2023/24,Kit Clarke,0.0,0.0,1.0,0.0,1.0,0.0,1.0,0.0,2.0,0.0,2,Scrum Half,Backs
-2nd,2021/22,Jake Bond,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1,Fly Half,Backs
-2nd,2024/25,Luke Maker,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1,Fly Half,Backs
-1st,2021/22,Jake Radcliffe,2.0,0.0,8.0,0.0,4.0,1.0,10.0,0.0,14.0,1.0,15,Back Three,Backs
-2nd,2022/23,Stanley Kennett,0.0,0.0,2.0,1.0,1.0,0.0,2.0,1.0,3.0,1.0,4,Back Three,Backs
-2nd,2022/23,Titch Mitchell,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1,Centre,Backs
-1st,2023/24,Ben Beard,0.0,0.0,1.0,1.0,0.0,1.0,1.0,1.0,1.0,2.0,3,Back Three,Backs
-2nd,2023/24,Jamie Gache,0.0,0.0,0.0,0.0,0.0,2.0,0.0,0.0,0.0,2.0,2,,
-2nd,2021/22,Tom Byron,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
-2nd,2024/25,Ed Arundell,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1.0,0.0,2.0,2,,
-2nd,2024/25,Sam Lindsay-McCall,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,1,,
-2nd,2022/23,Jordan Hollis,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
-2nd,2023/24,Mark Fulham,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,1,,
-1st,2021/22,James Funnell,2.0,0.0,5.0,4.0,5.0,0.0,7.0,4.0,12.0,4.0,16,Prop,Forwards
-2nd,2021/22,Sam Lindsay,0.0,0.0,1.0,0.0,1.0,0.0,1.0,0.0,2.0,0.0,2,Prop,Forwards
-2nd,2023/24,Dave Bridges,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1,Prop,Forwards
-2nd,2023/24,Harrison Lock,0.0,0.0,3.0,1.0,0.0,0.0,3.0,1.0,3.0,1.0,4,Prop,Forwards
-1st,2024/25,Reggie Harris,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1,Hooker,Forwards
-2nd,2021/22,Devon Frost,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1,Prop,Forwards
-1st,2021/22,Pete Morley,0.0,0.0,1.0,0.0,3.0,0.0,1.0,0.0,4.0,0.0,4,Second Row,Forwards
-1st,2024/25,Tom Mooney,0.0,0.0,13.0,1.0,0.0,0.0,13.0,1.0,13.0,1.0,14,Back Row,Forwards
-2nd,2023/24,Tim Morris,0.0,0.0,6.0,4.0,1.0,0.0,6.0,4.0,7.0,4.0,11,Second Row,Forwards
-1st,2024/25,Ollie Toogood,0.0,0.0,5.0,0.0,0.0,0.0,5.0,0.0,5.0,0.0,5,Second Row,Forwards
-2nd,2023/24,Ky Oliveira,0.0,0.0,2.0,1.0,0.0,0.0,2.0,1.0,2.0,1.0,3,Second Row,Forwards
-2nd,2023/24,Jules Jardim,0.0,0.0,0.0,2.0,1.0,0.0,0.0,2.0,1.0,2.0,3,Back Row,Forwards
-1st,2021/22,Tom Hicks,0.0,0.0,2.0,0.0,5.0,0.0,2.0,0.0,7.0,0.0,7,Scrum Half,Backs
-1st,2022/23,Titch Mitchell,0.0,0.0,3.0,0.0,0.0,0.0,3.0,0.0,3.0,0.0,3,Scrum Half,Backs
-1st,2023/24,Elliott Martin-Drew,0.0,0.0,0.0,2.0,1.0,1.0,0.0,2.0,1.0,3.0,4,Scrum Half,Backs
-1st,2024/25,Jack Billin,0.0,0.0,1.0,1.0,0.0,0.0,1.0,1.0,1.0,1.0,2,Scrum Half,Backs
-2nd,2021/22,Lukis Waite,0.0,0.0,1.0,0.0,1.0,0.0,1.0,0.0,2.0,0.0,2,Scrum Half,Backs
-1st,2021/22,Chris Taylor,0.0,0.0,0.0,0.0,2.0,3.0,0.0,0.0,2.0,3.0,5,Back Three,Backs
-2nd,2024/25,Ben Watkinson,0.0,0.0,1.0,5.0,0.0,1.0,1.0,5.0,1.0,6.0,7,Back Three,Backs
-1st,2021/22,Ryan Morlen,1.0,1.0,6.0,4.0,1.0,6.0,7.0,5.0,8.0,11.0,19,Centre,Backs
-1st,2023/24,Max Crawley-Moore,2.0,0.0,11.0,2.0,1.0,0.0,13.0,2.0,14.0,2.0,16,Centre,Backs
-2nd,2021/22,Robert Poole,0.0,1.0,3.0,1.0,0.0,1.0,3.0,2.0,3.0,3.0,6,Back Three,Backs
-2nd,2024/25,Stanley Kennett,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1,Back Three,Backs
-1st,2023/24,Archie Vickers,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
-2nd,2021/22,Nick Carter,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
-2nd,2023/24,Drew King,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
-2nd,2021/22,Oliver Roberts,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
-2nd,2023/24,James Jenkins,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
-2nd,2023/24,Ryan Kirk,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,1,,
-2nd,2021/22,Guy Phillips,0.0,0.0,1.0,4.0,1.0,1.0,1.0,4.0,2.0,5.0,7,Prop,Forwards
-2nd,2023/24,Mark Oliver,0.0,0.0,2.0,1.0,1.0,0.0,2.0,1.0,3.0,1.0,4,Hooker,Forwards
-2nd,2024/25,Michael Presland,0.0,0.0,8.0,0.0,2.0,2.0,8.0,0.0,10.0,2.0,12,Prop,Forwards
-2nd,2024/25,George Naylor,0.0,0.0,7.0,0.0,2.0,0.0,7.0,0.0,9.0,0.0,9,Prop,Forwards
-2nd,2021/22,Tao Benn,0.0,0.0,2.0,2.0,1.0,0.0,2.0,2.0,3.0,2.0,5,Second Row,Forwards
-2nd,2022/23,Dan Arnold,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1,Second Row,Forwards
-2nd,2023/24,Will Bramwell,0.0,0.0,3.0,1.0,0.0,0.0,3.0,1.0,3.0,1.0,4,Back Row,Forwards
-1st,2022/23,Archie Vickers,0.0,0.0,6.0,3.0,0.0,0.0,6.0,3.0,6.0,3.0,9,Back Row,Forwards
-2nd,2021/22,Rory Evans,2.0,0.0,11.0,1.0,0.0,1.0,13.0,1.0,13.0,2.0,15,Back Row,Forwards
-1st,2024/25,Noah Roberts,0.0,0.0,13.0,1.0,0.0,0.0,13.0,1.0,13.0,1.0,14,Scrum Half,Backs
-2nd,2024/25,Patrick Thomson,0.0,0.0,4.0,0.0,1.0,0.0,4.0,0.0,5.0,0.0,5,Scrum Half,Backs
-1st,2023/24,Stanley Kennett,0.0,0.0,0.0,0.0,1.0,1.0,0.0,0.0,1.0,1.0,2,Back Three,Backs
-1st,2023/24,Titch Mitchell,0.0,0.0,2.0,0.0,0.0,0.0,2.0,0.0,2.0,0.0,2,Back Three,Backs
-2nd,2023/24,Will Roberts,0.0,0.0,11.0,0.0,2.0,0.0,11.0,0.0,13.0,0.0,13,Back Three,Backs
-1st,2022/23,Max Crawley-Moore,0.0,0.0,18.0,0.0,0.0,0.0,18.0,0.0,18.0,0.0,18,Centre,Backs
-2nd,2024/25,Max Crawley-Moore,0.0,0.0,3.0,0.0,1.0,0.0,3.0,0.0,4.0,0.0,4,Centre,Backs
-2nd,2022/23,Jacob Davidson,0.0,0.0,2.0,0.0,2.0,0.0,2.0,0.0,4.0,0.0,4,Centre,Backs
-2nd,2024/25,Elliott Martin-Drew,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1,Back Three,Backs
-2nd,2021/22,Sam Spriddell,1.0,0.0,1.0,0.0,1.0,1.0,2.0,0.0,3.0,1.0,4,Back Three,Backs
-2nd,2023/24,Max Morgan,0.0,0.0,0.0,2.0,0.0,1.0,0.0,2.0,0.0,3.0,3,,
-1st,2021/22,Fin Edwards,0.0,0.0,0.0,0.0,0.0,2.0,0.0,0.0,0.0,2.0,2,,
-1st,2021/22,Alex Leadbeater,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,1,,
-2nd,2021/22,Mark Oliver,1.0,0.0,3.0,1.0,1.0,1.0,4.0,1.0,5.0,2.0,7,Prop,Forwards
-2nd,2023/24,Guy Phillips,0.0,0.0,1.0,1.0,0.0,0.0,1.0,1.0,1.0,1.0,2,Prop,Forwards
-1st,2023/24,Ben Tottman,3.0,0.0,20.0,0.0,2.0,0.0,23.0,0.0,25.0,0.0,25,Hooker,Forwards
-2nd,2021/22,Will Burch,0.0,0.0,3.0,1.0,0.0,0.0,3.0,1.0,3.0,1.0,4,Prop,Forwards
-2nd,2024/25,Harrison Berry,0.0,0.0,10.0,0.0,5.0,0.0,10.0,0.0,15.0,0.0,15,Back Row,Forwards
-1st,2021/22,Sam Lindsay-McCall,2.0,0.0,9.0,0.0,7.0,0.0,11.0,0.0,18.0,0.0,18,Second Row,Forwards
-1st,2024/25,Daan Hulst,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1,Second Row,Forwards
-2nd,2021/22,Matthew Robotham,0.0,0.0,0.0,1.0,1.0,0.0,0.0,1.0,1.0,1.0,2,Second Row,Forwards
-2nd,2022/23,Pete Morley,1.0,0.0,1.0,0.0,0.0,0.0,2.0,0.0,2.0,0.0,2,Second Row,Forwards
-2nd,2023/24,Or Shay,0.0,0.0,2.0,0.0,0.0,0.0,2.0,0.0,2.0,0.0,2,Second Row,Forwards
-1st,2024/25,Dan Billin,0.0,0.0,11.0,1.0,0.0,0.0,11.0,1.0,11.0,1.0,12,Back Row,Forwards
-2nd,2023/24,Gareth Arthur,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1,Second Row,Forwards
-2nd,2021/22,Blake English,0.0,0.0,0.0,1.0,1.0,0.0,0.0,1.0,1.0,1.0,2,Back Row,Forwards
-2nd,2022/23,Ryland Thomas,0.0,0.0,1.0,0.0,1.0,0.0,1.0,0.0,2.0,0.0,2,Back Row,Forwards
-2nd,2023/24,Rory Evans,0.0,0.0,6.0,4.0,1.0,1.0,6.0,4.0,7.0,5.0,12,Back Row,Forwards
-1st,2021/22,James Busby,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1,Back Row,Forwards
-1st,2022/23,George Johnson,0.0,0.0,16.0,0.0,0.0,0.0,16.0,0.0,16.0,0.0,16,Scrum Half,Backs
-2nd,2023/24,Morgan Burger,0.0,0.0,1.0,1.0,0.0,1.0,1.0,1.0,1.0,2.0,3,Scrum Half,Backs
-1st,2023/24,Oli Billin,3.0,0.0,19.0,0.0,2.0,0.0,22.0,0.0,24.0,0.0,24,Fly Half,Backs
-2nd,2022/23,Chris Taylor,1.0,0.0,7.0,0.0,2.0,0.0,8.0,0.0,10.0,0.0,10,Back Three,Backs
-2nd,2022/23,Ben Gray,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1,Fly Half,Backs
-2nd,2024/25,Rhys Skinner,0.0,0.0,3.0,0.0,2.0,0.0,3.0,0.0,5.0,0.0,5,Centre,Backs
-1st,2021/22,Archie Neill,1.0,0.0,1.0,0.0,0.0,0.0,2.0,0.0,2.0,0.0,2,Back Three,Backs
-1st,2022/23,Jake Radcliffe,0.0,0.0,10.0,0.0,0.0,0.0,10.0,0.0,10.0,0.0,10,Back Three,Backs
-1st,2023/24,Ali Moffatt,3.0,0.0,9.0,7.0,2.0,0.0,12.0,7.0,14.0,7.0,21,Back Three,Backs
-1st,2023/24,Alister Yaffa,1.0,0.0,1.0,1.0,0.0,0.0,2.0,1.0,2.0,1.0,3,Back Three,Backs
-2nd,2023/24,Oscar Morgan,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1,Back Three,Backs
-1st,2024/25,Dante Maynard,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1,Centre,Backs
-2nd,2021/22,Richard Dodgson,0.0,0.0,5.0,0.0,0.0,0.0,5.0,0.0,5.0,0.0,5,Centre,Backs
-1st,2024/25,Ben Pellett,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
-2nd,2021/22,Jordan Tucker,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1.0,0.0,2.0,2,,
-2nd,2024/25,Barley O'Conor,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
-2nd,2024/25,Idris Lawal,0.0,0.0,0.0,3.0,0.0,2.0,0.0,3.0,0.0,5.0,5,,
-1st,2024/25,Mark Lewis,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
-2nd,2021/22,Max Morgan,0.0,0.0,0.0,2.0,0.0,0.0,0.0,2.0,0.0,2.0,2,,
 1st,2021/22,Sean Morgan,0.0,0.0,7.0,3.0,2.0,0.0,7.0,3.0,9.0,3.0,12,Prop,Forwards
 2nd,2024/25,Or Shay,0.0,0.0,5.0,0.0,3.0,1.0,5.0,0.0,8.0,1.0,9,Back Row,Forwards
 2nd,2023/24,Harrison Berry,0.0,0.0,10.0,2.0,2.0,0.0,10.0,2.0,12.0,2.0,14,Back Row,Forwards
@@ -339,116 +33,68 @@ Squad,Season,Player,CupStarts,CupBench,LeagueStarts,LeagueBench,FriendlyStarts,F
 1st,2021/22,Rory Duncanson,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,1,,
 2nd,2023/24,Jake Radcliffe,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,1,,
 1st,2021/22,Ollie Adams,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,1,,
-1st,2021/22,Josh Brimecombe,0.0,1.0,3.0,3.0,5.0,0.0,3.0,4.0,8.0,4.0,12,Prop,Forwards
-1st,2022/23,Devon Frost,0.0,0.0,11.0,5.0,0.0,0.0,11.0,5.0,11.0,5.0,16,Prop,Forwards
-2nd,2021/22,James Jacobs,0.0,0.0,5.0,0.0,2.0,0.0,5.0,0.0,7.0,0.0,7,Prop,Forwards
-2nd,2023/24,Bertram Beanland,0.0,0.0,0.0,1.0,1.0,0.0,0.0,1.0,1.0,1.0,2,Prop,Forwards
-2nd,2021/22,Eoin O'Donoghue,1.0,1.0,0.0,1.0,0.0,0.0,1.0,2.0,1.0,2.0,3,Hooker,Forwards
-1st,2021/22,George Beet,0.0,0.0,0.0,0.0,1.0,3.0,0.0,0.0,1.0,3.0,4,Prop,Forwards
-1st,2022/23,John Peaty,0.0,0.0,18.0,0.0,0.0,0.0,18.0,0.0,18.0,0.0,18,Back Row,Forwards
-2nd,2024/25,John Peaty,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1,Second Row,Forwards
-2nd,2024/25,Dylan Hammocks,0.0,0.0,3.0,4.0,3.0,0.0,3.0,4.0,6.0,4.0,10,Second Row,Forwards
-2nd,2023/24,James Griffiths,0.0,0.0,1.0,1.0,0.0,0.0,1.0,1.0,1.0,1.0,2,Second Row,Forwards
-1st,2023/24,Rory Evans,0.0,0.0,2.0,1.0,0.0,1.0,2.0,1.0,2.0,2.0,4,Back Row,Forwards
-2nd,2021/22,Ben Watkinson,0.0,1.0,9.0,0.0,3.0,0.0,9.0,1.0,12.0,1.0,13,Back Row,Forwards
-1st,2023/24,Ben Saunders,1.0,0.0,12.0,2.0,0.0,0.0,13.0,2.0,13.0,2.0,15,Centre,Backs
-2nd,2022/23,Tom Byron,0.0,0.0,0.0,1.0,1.0,0.0,0.0,1.0,1.0,1.0,2,Back Row,Forwards
-1st,2021/22,Connor Leggat,1.0,0.0,5.0,3.0,0.0,0.0,6.0,3.0,6.0,3.0,9,Back Row,Forwards
-1st,2023/24,Sam Spriddell,1.0,0.0,8.0,0.0,1.0,1.0,9.0,0.0,10.0,1.0,11,Scrum Half,Backs
-2nd,2024/25,Lukis Waite,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1,Scrum Half,Backs
-1st,2024/25,Dan Poulton,0.0,0.0,3.0,2.0,0.0,0.0,3.0,2.0,3.0,2.0,5,Fly Half,Backs
-2nd,2021/22,Jordan Hollis,0.0,0.0,1.0,0.0,1.0,0.0,1.0,0.0,2.0,0.0,2,Fly Half,Backs
-2nd,2022/23,Noah Roberts,1.0,0.0,1.0,0.0,0.0,0.0,2.0,0.0,2.0,0.0,2,Fly Half,Backs
-2nd,2024/25,Fin Fisher,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1,Fly Half,Backs
-2nd,2024/25,Noah Merrion,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1,Fly Half,Backs
-2nd,2023/24,Ali Moffatt,0.0,0.0,2.0,0.0,0.0,0.0,2.0,0.0,2.0,0.0,2,Centre,Backs
-2nd,2024/25,Dougie Anson-Gates,0.0,0.0,2.0,0.0,0.0,0.0,2.0,0.0,2.0,0.0,2,Centre,Backs
-2nd,2024/25,Ollie Johnston,0.0,0.0,2.0,1.0,1.0,0.0,2.0,1.0,3.0,1.0,4,Centre,Backs
-2nd,2023/24,Alister Yaffa,0.0,0.0,2.0,0.0,0.0,0.0,2.0,0.0,2.0,0.0,2,Centre,Backs
-2nd,2024/25,Ted Hardisty,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1,Centre,Backs
-1st,2024/25,Ben Beard,0.0,0.0,1.0,1.0,0.0,0.0,1.0,1.0,1.0,1.0,2,Back Three,Backs
-2nd,2023/24,Duncan Fraser,0.0,0.0,0.0,1.0,1.0,0.0,0.0,1.0,1.0,1.0,2,Back Three,Backs
-2nd,2022/23,Sam Ashley-Williams,0.0,0.0,0.0,2.0,0.0,0.0,0.0,2.0,0.0,2.0,2,,
-2nd,2021/22,Tamas Tolnai,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
-2nd,2021/22,Harry Bryant,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
-2nd,2022/23,Max English,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,1,,
-1st,2022/23,Dave Bridges,0.0,0.0,10.0,4.0,0.0,0.0,10.0,4.0,10.0,4.0,14,Prop,Forwards
-1st,2024/25,James Funnell,0.0,0.0,1.0,1.0,0.0,0.0,1.0,1.0,1.0,1.0,2,Prop,Forwards
-2nd,2022/23,Sean Morgan,1.0,0.0,4.0,0.0,1.0,0.0,5.0,0.0,6.0,0.0,6,Prop,Forwards
-2nd,2022/23,Ben Pellett,0.0,0.0,4.0,2.0,2.0,0.0,4.0,2.0,6.0,2.0,8,Prop,Forwards
-2nd,2023/24,Ben Watkinson,0.0,0.0,9.0,0.0,1.0,0.0,9.0,0.0,10.0,0.0,10,Prop,Forwards
-1st,2023/24,Mark Oliver,1.0,1.0,0.0,5.0,0.0,1.0,1.0,6.0,1.0,7.0,8,Hooker,Forwards
-2nd,2021/22,Tom Kiernan,0.0,0.0,3.0,1.0,2.0,1.0,3.0,1.0,5.0,2.0,7,Hooker,Forwards
-2nd,2024/25,George Jones,0.0,0.0,2.0,2.0,2.0,1.0,2.0,2.0,4.0,3.0,7,Prop,Forwards
-2nd,2022/23,Daan Hulst,1.0,0.0,1.0,2.0,0.0,0.0,2.0,2.0,2.0,2.0,4,Second Row,Forwards
-2nd,2024/25,Dave Bridges,0.0,0.0,2.0,0.0,0.0,0.0,2.0,0.0,2.0,0.0,2,Second Row,Forwards
-2nd,2024/25,Tim Morris,0.0,0.0,2.0,0.0,1.0,0.0,2.0,0.0,3.0,0.0,3,Second Row,Forwards
-1st,2023/24,Will Bramwell,1.0,2.0,0.0,0.0,0.0,0.0,1.0,2.0,1.0,2.0,3,Second Row,Forwards
-2nd,2021/22,Tom Halligey,0.0,0.0,1.0,1.0,1.0,1.0,1.0,1.0,2.0,2.0,4,Second Row,Forwards
-2nd,2024/25,Jules Jardim,0.0,0.0,1.0,1.0,0.0,0.0,1.0,1.0,1.0,1.0,2,Second Row,Forwards
-1st,2022/23,Aaron Boczek,0.0,0.0,15.0,1.0,0.0,0.0,15.0,1.0,15.0,1.0,16,Back Row,Forwards
-1st,2024/25,Ryland Thomas,0.0,0.0,12.0,2.0,0.0,0.0,12.0,2.0,12.0,2.0,14,Back Row,Forwards
-2nd,2022/23,Joe Boczek,1.0,0.0,1.0,1.0,1.0,0.0,2.0,1.0,3.0,1.0,4,Back Row,Forwards
-2nd,2024/25,Nathan Oliver,0.0,0.0,3.0,1.0,2.0,0.0,3.0,1.0,5.0,1.0,6,Centre,Backs
-2nd,2021/22,Alex Jackson,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1,Back Row,Forwards
-2nd,2022/23,Dan Billin,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1,Back Row,Forwards
-2nd,2024/25,Aaron Boczek,0.0,0.0,2.0,0.0,0.0,1.0,2.0,0.0,2.0,1.0,3,Back Row,Forwards
-1st,2024/25,Chris Taylor,0.0,0.0,4.0,0.0,0.0,0.0,4.0,0.0,4.0,0.0,4,Scrum Half,Backs
-2nd,2021/22,Ben Hogan,2.0,0.0,1.0,1.0,1.0,0.0,3.0,1.0,4.0,1.0,5,Scrum Half,Backs
-2nd,2023/24,Jordan Hollis,0.0,0.0,1.0,0.0,1.0,0.0,1.0,0.0,2.0,0.0,2,Scrum Half,Backs
-2nd,2024/25,James Jenkins,0.0,0.0,2.0,0.0,1.0,0.0,2.0,0.0,3.0,0.0,3,Back Three,Backs
-2nd,2021/22,Ali Moffatt,1.0,0.0,8.0,0.0,2.0,0.0,9.0,0.0,11.0,0.0,11,Centre,Backs
-2nd,2022/23,Ollie Adams,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1,Fly Half,Backs
-1st,2023/24,Will Roberts,0.0,2.0,0.0,0.0,1.0,0.0,0.0,2.0,1.0,2.0,3,Back Three,Backs
-2nd,2021/22,Ethan Carrick,2.0,0.0,5.0,1.0,0.0,1.0,7.0,1.0,7.0,2.0,9,Back Three,Backs
-2nd,2023/24,Titch Mitchell,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1,Centre,Backs
-2nd,2023/24,Stanley Kennett,0.0,0.0,8.0,1.0,2.0,0.0,8.0,1.0,10.0,1.0,11,Back Three,Backs
-1st,2022/23,James Jenkins,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1,Back Three,Backs
-2nd,2022/23,Sean Taylor,0.0,0.0,1.0,2.0,0.0,1.0,1.0,2.0,1.0,3.0,4,Back Three,Backs
-2nd,2021/22,Oli Billin,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1,Back Three,Backs
-2nd,2022/23,Jamie Gache,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
-1st,2024/25,Pete Morley,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
-2nd,2022/23,Brad Taylor,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
-2nd,2022/23,Rory Duncanson,0.0,0.0,0.0,2.0,0.0,0.0,0.0,2.0,0.0,2.0,2,,
-1st,2024/25,Ryan Morlen,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
-1st,2021/22,Tom Mooney,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,1,,
-2nd,2021/22,Alfie Jeffers,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
-1st,2022/23,Guy Collins,0.0,0.0,10.0,7.0,0.0,0.0,10.0,7.0,10.0,7.0,17,Prop,Forwards
-2nd,2021/22,Sean Morgan,1.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1,Prop,Forwards
-2nd,2022/23,Tom Halligey,0.0,0.0,3.0,2.0,0.0,1.0,3.0,2.0,3.0,3.0,6,Back Row,Forwards
-2nd,2024/25,Guy Collins,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1,Prop,Forwards
-2nd,2021/22,Rory Duncanson,0.0,0.0,3.0,5.0,1.0,2.0,3.0,5.0,4.0,7.0,11,Hooker,Forwards
-1st,2023/24,Pete Morley,0.0,0.0,2.0,1.0,0.0,1.0,2.0,1.0,2.0,2.0,4,Second Row,Forwards
-2nd,2021/22,Ben Pellett,0.0,0.0,1.0,2.0,0.0,1.0,1.0,2.0,1.0,3.0,4,Second Row,Forwards
-2nd,2024/25,Oscar Staples,0.0,0.0,2.0,0.0,3.0,0.0,2.0,0.0,5.0,0.0,5,Second Row,Forwards
-1st,2021/22,Archie Vickers,0.0,0.0,6.0,1.0,2.0,2.0,6.0,1.0,8.0,3.0,11,Back Row,Forwards
-2nd,2024/25,Josh Weaver,0.0,0.0,2.0,0.0,0.0,0.0,2.0,0.0,2.0,0.0,2,Back Row,Forwards
-1st,2023/24,Ryland Thomas,3.0,1.0,19.0,0.0,1.0,1.0,22.0,1.0,23.0,2.0,25,Back Row,Forwards
-2nd,2023/24,Tom Byron,0.0,0.0,3.0,3.0,1.0,1.0,3.0,3.0,4.0,4.0,8,Back Row,Forwards
-2nd,2021/22,Dan Billin,2.0,0.0,1.0,0.0,0.0,0.0,3.0,0.0,3.0,0.0,3,Back Row,Forwards
-2nd,2022/23,Ben Hogan,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1,Scrum Half,Backs
-2nd,2021/22,Matt Brooke,0.0,0.0,2.0,1.0,0.0,0.0,2.0,1.0,2.0,1.0,3,Fly Half,Backs
-2nd,2023/24,Noah Roberts,0.0,0.0,1.0,0.0,1.0,1.0,1.0,0.0,2.0,1.0,3,Fly Half,Backs
-1st,2021/22,Sam Montagu,0.0,0.0,0.0,1.0,2.0,0.0,0.0,1.0,2.0,1.0,3,Back Three,Backs
-1st,2024/25,Will Roberts,0.0,0.0,6.0,0.0,0.0,0.0,6.0,0.0,6.0,0.0,6,Back Three,Backs
-2nd,2024/25,Tommy Nasta,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1,Back Three,Backs
-1st,2021/22,Max Crawley-Moore,2.0,0.0,11.0,0.0,6.0,0.0,13.0,0.0,19.0,0.0,19,Centre,Backs
-2nd,2022/23,Ethan Carrick,0.0,0.0,1.0,0.0,1.0,0.0,1.0,0.0,2.0,0.0,2,Centre,Backs
-2nd,2023/24,Ryan Foster,0.0,0.0,0.0,1.0,1.0,0.0,0.0,1.0,1.0,1.0,2,Centre,Backs
-2nd,2024/25,Dillan Bowe,0.0,0.0,2.0,1.0,0.0,0.0,2.0,1.0,2.0,1.0,3,Centre,Backs
-1st,2023/24,Chris Taylor,0.0,1.0,2.0,1.0,0.0,0.0,2.0,2.0,2.0,2.0,4,Back Three,Backs
-2nd,2022/23,Duncan Fraser,0.0,0.0,2.0,0.0,0.0,0.0,2.0,0.0,2.0,0.0,2,Back Three,Backs
-2nd,2024/25,Owen Jones,0.0,0.0,1.0,1.0,0.0,0.0,1.0,1.0,1.0,1.0,2,Back Three,Backs
-1st,2023/24,James Funnell,0.0,0.0,0.0,1.0,0.0,2.0,0.0,1.0,0.0,3.0,3,,
-2nd,2022/23,Bertram Beanland,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1.0,0.0,2.0,2,,
-2nd,2022/23,J Weeden,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
-2nd,2023/24,Alfie Fuller,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
-1st,2024/25,Max Morgan,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
-1st,2024/25,Will Bramwell,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
-2nd,2021/22,Mark Fulham,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
-2nd,2024/25,Connor Williams,0.0,0.0,0.0,1.0,0.0,2.0,0.0,1.0,0.0,3.0,3,,
-2nd,2021/22,Brad Taylor,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1.0,0.0,2.0,2,,
-2nd,2024/25,Colm Geraghty,0.0,0.0,0.0,0.0,0.0,2.0,0.0,0.0,0.0,2.0,2,,
+1st,2022/23,Sean Morgan,0.0,0.0,6.0,2.0,0.0,0.0,6.0,2.0,6.0,2.0,8,Prop,Forwards
+1st,2023/24,Connor Leggat,2.0,0.0,12.0,4.0,2.0,0.0,14.0,4.0,16.0,4.0,20,Prop,Forwards
+2nd,2021/22,Darren Gwynn,0.0,1.0,5.0,5.0,3.0,0.0,5.0,6.0,8.0,6.0,14,Second Row,Forwards
+2nd,2024/25,Ben Pellett,0.0,0.0,3.0,1.0,1.0,0.0,3.0,1.0,4.0,1.0,5,Prop,Forwards
+1st,2023/24,Josh Brimecombe,2.0,0.0,18.0,0.0,1.0,0.0,20.0,0.0,21.0,0.0,21,Prop,Forwards
+2nd,2022/23,Jules Jardim,1.0,0.0,5.0,1.0,1.0,0.0,6.0,1.0,7.0,1.0,8,Second Row,Forwards
+2nd,2024/25,Daan Hulst,0.0,0.0,2.0,0.0,2.0,0.0,2.0,0.0,4.0,0.0,4,Second Row,Forwards
+1st,2021/22,Tao Benn,0.0,0.0,1.0,0.0,1.0,3.0,1.0,0.0,2.0,3.0,5,Second Row,Forwards
+2nd,2022/23,Ky Oliveira,0.0,0.0,2.0,0.0,0.0,0.0,2.0,0.0,2.0,0.0,2,Second Row,Forwards
+1st,2021/22,Ben Saunders,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1,Back Row,Forwards
+1st,2022/23,Dan Billin,0.0,0.0,3.0,4.0,0.0,0.0,3.0,4.0,3.0,4.0,7,Back Row,Forwards
+1st,2023/24,Charlie Pullen,1.0,1.0,1.0,2.0,0.0,1.0,2.0,3.0,2.0,4.0,6,Back Row,Forwards
+1st,2021/22,Rory Evans,0.0,0.0,0.0,0.0,1.0,3.0,0.0,0.0,1.0,3.0,4,Back Row,Forwards
+1st,2021/22,Sam Spriddell,0.0,0.0,5.0,1.0,6.0,1.0,5.0,1.0,11.0,2.0,13,Back Three,Backs
+2nd,2024/25,Mark Lewis,0.0,0.0,3.0,0.0,2.0,0.0,3.0,0.0,5.0,0.0,5,Fly Half,Backs
+2nd,2024/25,Kit Clarke,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1,Scrum Half,Backs
+1st,2024/25,Jake Radcliffe,0.0,0.0,13.0,1.0,0.0,0.0,13.0,1.0,13.0,1.0,14,Back Three,Backs
+2nd,2021/22,Scott Devlin,2.0,0.0,6.0,4.0,3.0,0.0,8.0,4.0,11.0,4.0,15,Back Three,Backs
+2nd,2022/23,James Jenkins,0.0,0.0,7.0,0.0,2.0,0.0,7.0,0.0,9.0,0.0,9,Back Three,Backs
+1st,2023/24,Sam Musgrave,3.0,0.0,6.0,0.0,0.0,0.0,9.0,0.0,9.0,0.0,9,Centre,Backs
+1st,2024/25,Rhys Skinner,0.0,0.0,3.0,0.0,0.0,0.0,3.0,0.0,3.0,0.0,3,Centre,Backs
+2nd,2021/22,Alex Leadbeater,0.0,0.0,3.0,2.0,3.0,0.0,3.0,2.0,6.0,2.0,8,Centre,Backs
+2nd,2023/24,Chris May-Miller,0.0,0.0,2.0,0.0,1.0,0.0,2.0,0.0,3.0,0.0,3,Centre,Backs
+1st,2022/23,Ollie Adams,0.0,0.0,2.0,0.0,0.0,0.0,2.0,0.0,2.0,0.0,2,Back Three,Backs
+2nd,2023/24,Luke Maker,0.0,0.0,7.0,0.0,1.0,0.0,7.0,0.0,8.0,0.0,8,Back Three,Backs
+2nd,2021/22,David Wilkinson,0.0,0.0,2.0,3.0,0.0,1.0,2.0,3.0,2.0,4.0,6,Back Three,Backs
+1st,2023/24,George Beet,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,1,,
+2nd,2022/23,Drew King,0.0,1.0,0.0,1.0,0.0,0.0,0.0,2.0,0.0,2.0,2,,
+1st,2024/25,Harrison Berry,0.0,0.0,0.0,2.0,0.0,0.0,0.0,2.0,0.0,2.0,2,,
+2nd,2021/22,Mikey Redmond,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1.0,0.0,2.0,2,,
+2nd,2024/25,Sean Morgan,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
+2nd,2024/25,Dante Maynard,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
+2nd,2022/23,Mike Unsworth,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1,Prop,Forwards
+1st,2021/22,Ben Tottman,2.0,0.0,9.0,0.0,6.0,0.0,11.0,0.0,17.0,0.0,17,Hooker,Forwards
+1st,2021/22,Tom Kiernan,0.0,0.0,0.0,0.0,2.0,3.0,0.0,0.0,2.0,3.0,5,Hooker,Forwards
+2nd,2023/24,George Beet,0.0,0.0,10.0,1.0,1.0,1.0,10.0,1.0,11.0,2.0,13,Hooker,Forwards
+2nd,2021/22,Alex Maynard,0.0,0.0,1.0,0.0,1.0,0.0,1.0,0.0,2.0,0.0,2,Prop,Forwards
+2nd,2022/23,Jacob James,0.0,0.0,1.0,1.0,0.0,0.0,1.0,1.0,1.0,1.0,2,Prop,Forwards
+1st,2023/24,Sam Lindsay-McCall,2.0,0.0,18.0,1.0,2.0,0.0,20.0,1.0,22.0,1.0,23,Second Row,Forwards
+1st,2024/25,John Peaty,0.0,0.0,7.0,1.0,0.0,0.0,7.0,1.0,7.0,1.0,8,Second Row,Forwards
+2nd,2023/24,Zack Bradbury,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1,Second Row,Forwards
+2nd,2023/24,Charlie Pullen,0.0,0.0,6.0,2.0,2.0,0.0,6.0,2.0,8.0,2.0,10,Back Row,Forwards
+2nd,2024/25,Dan Arnold,0.0,0.0,3.0,0.0,1.0,0.0,3.0,0.0,4.0,0.0,4,Centre,Forwards
+2nd,2024/25,Greg Brack,0.0,0.0,2.0,2.0,1.0,1.0,2.0,2.0,3.0,3.0,6,Back Row,Forwards
+1st,2021/22,Alex Jackson,0.0,0.0,2.0,0.0,2.0,0.0,2.0,0.0,4.0,0.0,4,Back Row,Forwards
+1st,2021/22,Ben Hogan,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1,Scrum Half,Backs
+1st,2021/22,Oli Billin,0.0,1.0,1.0,4.0,1.0,3.0,1.0,5.0,2.0,8.0,10,Fly Half,Backs
+1st,2022/23,Dan Poulton,0.0,0.0,15.0,1.0,0.0,0.0,15.0,1.0,15.0,1.0,16,Fly Half,Backs
+1st,2024/25,Noah Merrion,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1,Fly Half,Backs
+1st,2021/22,Ali Moffatt,2.0,0.0,4.0,1.0,3.0,0.0,6.0,1.0,9.0,1.0,10,Back Three,Backs
+1st,2023/24,Luke Maker,2.0,1.0,9.0,0.0,0.0,1.0,11.0,1.0,11.0,2.0,13,Back Three,Backs
+1st,2024/25,Ted Hardisty,0.0,0.0,13.0,1.0,0.0,0.0,13.0,1.0,13.0,1.0,14,Back Three,Backs
+1st,2023/24,Chris May-Miller,2.0,0.0,2.0,0.0,0.0,0.0,4.0,0.0,4.0,0.0,4,Centre,Backs
+2nd,2021/22,Joe Terry,2.0,0.0,1.0,0.0,0.0,0.0,3.0,0.0,3.0,0.0,3,Centre,Backs
+2nd,2023/24,Sam Musgrave,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1,Centre,Backs
+2nd,2024/25,Ben Beard,0.0,0.0,2.0,0.0,0.0,0.0,2.0,0.0,2.0,0.0,2,Centre,Backs
+1st,2022/23,Ben Beard,0.0,0.0,1.0,1.0,0.0,0.0,1.0,1.0,1.0,1.0,2,Back Three,Backs
+1st,2021/22,Tom Poynder,0.0,0.0,0.0,0.0,0.0,2.0,0.0,0.0,0.0,2.0,2,,
+2nd,2022/23,Elliott Martin-Drew,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
+2nd,2022/23,Jake Ayres,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
+2nd,2024/25,Sachio Shimizu,0.0,0.0,0.0,2.0,0.0,0.0,0.0,2.0,0.0,2.0,2,,
+2nd,2022/23,Matt Marriott,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
 2nd,2021/22,Dave Bridges,2.0,0.0,3.0,1.0,1.0,1.0,5.0,1.0,6.0,2.0,8,Prop,Forwards
 2nd,2022/23,Guy Collins,0.0,0.0,1.0,0.0,1.0,0.0,1.0,0.0,2.0,0.0,2,Prop,Forwards
 1st,2022/23,Ben Tottman,0.0,0.0,18.0,0.0,0.0,0.0,18.0,0.0,18.0,0.0,18,Hooker,Forwards
@@ -493,6 +139,360 @@ Squad,Season,Player,CupStarts,CupBench,LeagueStarts,LeagueBench,FriendlyStarts,F
 1st,2023/24,Harrison Berry,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,2.0,2,,
 2nd,2024/25,James Griffiths,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1.0,0.0,2.0,2,,
 1st,2021/22,Henry Weller,0.0,0.0,0.0,0.0,0.0,2.0,0.0,0.0,0.0,2.0,2,,
+1st,2021/22,Devon Frost,1.0,1.0,9.0,1.0,1.0,1.0,10.0,2.0,11.0,3.0,14,Prop,Forwards
+1st,2022/23,Josh Brimecombe,0.0,0.0,14.0,1.0,0.0,0.0,14.0,1.0,14.0,1.0,15,Prop,Forwards
+1st,2023/24,Sean Morgan,0.0,0.0,2.0,0.0,0.0,0.0,2.0,0.0,2.0,0.0,2,Prop,Forwards
+2nd,2022/23,Mark Oliver,0.0,0.0,2.0,0.0,0.0,1.0,2.0,0.0,2.0,1.0,3,Prop,Forwards
+1st,2024/25,Ben Tottman,0.0,0.0,14.0,1.0,0.0,0.0,14.0,1.0,14.0,1.0,15,Hooker,Forwards
+2nd,2024/25,George Beet,0.0,0.0,2.0,1.0,1.0,0.0,2.0,1.0,3.0,1.0,4,Hooker,Forwards
+2nd,2024/25,Jack Jacobs,0.0,0.0,3.0,1.0,0.0,1.0,3.0,1.0,3.0,2.0,5,Hooker,Forwards
+1st,2023/24,Ben Pellett,0.0,1.0,1.0,0.0,0.0,0.0,1.0,1.0,1.0,1.0,2,Prop,Forwards
+1st,2021/22,John Peaty,2.0,0.0,9.0,0.0,1.0,0.0,11.0,0.0,12.0,0.0,12,Second Row,Forwards
+1st,2021/22,Nick Carter,0.0,0.0,4.0,0.0,0.0,0.0,4.0,0.0,4.0,0.0,4,Back Row,Forwards
+1st,2023/24,Dan Billin,3.0,1.0,14.0,1.0,2.0,0.0,17.0,2.0,19.0,2.0,21,Second Row,Forwards
+1st,2023/24,Daan Hulst,2.0,0.0,0.0,1.0,0.0,0.0,2.0,1.0,2.0,1.0,3,Second Row,Forwards
+2nd,2022/23,Blake English,0.0,0.0,1.0,1.0,0.0,2.0,1.0,1.0,1.0,3.0,4,Second Row,Forwards
+2nd,2021/22,Pete Morley,1.0,0.0,6.0,0.0,1.0,0.0,7.0,0.0,8.0,0.0,8,Second Row,Forwards
+2nd,2022/23,Max Morgan,0.0,0.0,4.0,0.0,1.0,0.0,4.0,0.0,5.0,0.0,5,Back Row,Forwards
+2nd,2023/24,Dan Arnold,0.0,0.0,1.0,2.0,1.0,0.0,1.0,2.0,2.0,2.0,4,Back Row,Forwards
+1st,2022/23,Connor Leggat,0.0,0.0,7.0,2.0,0.0,0.0,7.0,2.0,7.0,2.0,9,Back Row,Forwards
+2nd,2021/22,Chris Taylor,0.0,0.0,2.0,1.0,4.0,0.0,2.0,1.0,6.0,1.0,7,Scrum Half,Backs
+1st,2024/25,Oli Billin,0.0,0.0,10.0,2.0,0.0,0.0,10.0,2.0,10.0,2.0,12,Fly Half,Backs
+2nd,2021/22,Ben Gray,0.0,0.0,1.0,2.0,0.0,0.0,1.0,2.0,1.0,2.0,3,Fly Half,Backs
+2nd,2021/22,Ryan Morlen,0.0,0.0,0.0,1.0,1.0,0.0,0.0,1.0,1.0,1.0,2,Fly Half,Backs
+1st,2024/25,Ali Moffatt,0.0,0.0,9.0,0.0,0.0,0.0,9.0,0.0,9.0,0.0,9,Back Three,Backs
+2nd,2022/23,Will Roberts,1.0,0.0,6.0,1.0,0.0,0.0,7.0,1.0,7.0,1.0,8,Back Three,Backs
+1st,2021/22,Jack Andrews,0.0,0.0,3.0,0.0,6.0,0.0,3.0,0.0,9.0,0.0,9,Centre,Backs
+2nd,2022/23,Richard Dodgson,1.0,0.0,5.0,0.0,1.0,0.0,6.0,0.0,7.0,0.0,7,Centre,Backs
+1st,2024/25,Alister Yaffa,0.0,0.0,3.0,0.0,0.0,0.0,3.0,0.0,3.0,0.0,3,Back Three,Backs
+1st,2024/25,Duncan Fraser,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1,Back Three,Backs
+1st,2021/22,Sam Lindsay,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,1,,
+1st,2022/23,George Beet,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
+2nd,2022/23,Gus Nye,0.0,1.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
+2nd,2023/24,Sachio Shimizu,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,1,,
+2nd,2021/22,Michael Simmonds,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
+2nd,2024/25,Charlie Pullen,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,1,,
+2nd,2024/25,John Lear,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,1,,
+2nd,2023/24,Jacob Davidson,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
+2nd,2021/22,Oli Brown ,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,1,,
+2nd,2021/22,Ryland Thomas,0.0,0.0,0.0,2.0,0.0,0.0,0.0,2.0,0.0,2.0,2,,
+2nd,2023/24,George Robinson,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,1,,
+1st,2024/25,Or Shay,0.0,0.0,1.0,2.0,0.0,0.0,1.0,2.0,1.0,2.0,3,Prop,Forwards
+2nd,2022/23,Ben Watkinson,0.0,0.0,8.0,1.0,1.0,1.0,8.0,1.0,9.0,2.0,11,Back Row,Forwards
+2nd,2023/24,Ben Pellett,0.0,0.0,1.0,2.0,0.0,0.0,1.0,2.0,1.0,2.0,3,Prop,Forwards
+2nd,2023/24,Sean Morgan,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1,Prop,Forwards
+1st,2022/23,Sam Lindsay-McCall,0.0,0.0,15.0,0.0,0.0,0.0,15.0,0.0,15.0,0.0,15,Second Row,Forwards
+2nd,2023/24,Daan Hulst,0.0,0.0,5.0,1.0,0.0,0.0,5.0,1.0,5.0,1.0,6,Second Row,Forwards
+2nd,2024/25,Evan Gosling,0.0,0.0,2.0,4.0,1.0,2.0,2.0,4.0,3.0,6.0,9,Back Three,Backs
+1st,2021/22,Harrison Berry,0.0,0.0,0.0,0.0,1.0,1.0,0.0,0.0,1.0,1.0,2,Back Row,Forwards
+1st,2022/23,Jordan Walker,0.0,0.0,10.0,1.0,0.0,0.0,10.0,1.0,10.0,1.0,11,Back Row,Forwards
+2nd,2021/22,Liam Casey,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1,Back Row,Forwards
+1st,2024/25,Rory Evans,0.0,0.0,3.0,1.0,0.0,0.0,3.0,1.0,3.0,1.0,4,Back Row,Forwards
+1st,2021/22,George Johnson,2.0,0.0,7.0,0.0,1.0,0.0,9.0,0.0,10.0,0.0,10,Scrum Half,Backs
+1st,2023/24,Dan Poulton,0.0,0.0,12.0,1.0,0.0,1.0,12.0,1.0,12.0,2.0,14,Fly Half,Backs
+1st,2024/25,Sam Spriddell,0.0,0.0,7.0,0.0,0.0,0.0,7.0,0.0,7.0,0.0,7,Scrum Half,Backs
+2nd,2023/24,Kit Clarke,0.0,0.0,1.0,0.0,1.0,0.0,1.0,0.0,2.0,0.0,2,Scrum Half,Backs
+2nd,2021/22,Jake Bond,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1,Fly Half,Backs
+2nd,2024/25,Luke Maker,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1,Fly Half,Backs
+1st,2021/22,Jake Radcliffe,2.0,0.0,8.0,0.0,4.0,1.0,10.0,0.0,14.0,1.0,15,Back Three,Backs
+2nd,2022/23,Stanley Kennett,0.0,0.0,2.0,1.0,1.0,0.0,2.0,1.0,3.0,1.0,4,Back Three,Backs
+2nd,2022/23,Titch Mitchell,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1,Centre,Backs
+1st,2023/24,Ben Beard,0.0,0.0,1.0,1.0,0.0,1.0,1.0,1.0,1.0,2.0,3,Back Three,Backs
+2nd,2023/24,Jamie Gache,0.0,0.0,0.0,0.0,0.0,2.0,0.0,0.0,0.0,2.0,2,,
+2nd,2021/22,Tom Byron,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
+2nd,2024/25,Ed Arundell,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1.0,0.0,2.0,2,,
+2nd,2024/25,Sam Lindsay-McCall,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,1,,
+2nd,2022/23,Jordan Hollis,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
+2nd,2023/24,Mark Fulham,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,1,,
+2nd,2021/22,Mark Oliver,1.0,0.0,3.0,1.0,1.0,1.0,4.0,1.0,5.0,2.0,7,Prop,Forwards
+2nd,2023/24,Guy Phillips,0.0,0.0,1.0,1.0,0.0,0.0,1.0,1.0,1.0,1.0,2,Prop,Forwards
+1st,2023/24,Ben Tottman,3.0,0.0,20.0,0.0,2.0,0.0,23.0,0.0,25.0,0.0,25,Hooker,Forwards
+2nd,2021/22,Will Burch,0.0,0.0,3.0,1.0,0.0,0.0,3.0,1.0,3.0,1.0,4,Prop,Forwards
+2nd,2024/25,Harrison Berry,0.0,0.0,10.0,0.0,5.0,0.0,10.0,0.0,15.0,0.0,15,Back Row,Forwards
+1st,2021/22,Sam Lindsay-McCall,2.0,0.0,9.0,0.0,7.0,0.0,11.0,0.0,18.0,0.0,18,Second Row,Forwards
+1st,2024/25,Daan Hulst,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1,Second Row,Forwards
+2nd,2021/22,Matthew Robotham,0.0,0.0,0.0,1.0,1.0,0.0,0.0,1.0,1.0,1.0,2,Second Row,Forwards
+2nd,2022/23,Pete Morley,1.0,0.0,1.0,0.0,0.0,0.0,2.0,0.0,2.0,0.0,2,Second Row,Forwards
+2nd,2023/24,Or Shay,0.0,0.0,2.0,0.0,0.0,0.0,2.0,0.0,2.0,0.0,2,Second Row,Forwards
+1st,2024/25,Dan Billin,0.0,0.0,11.0,1.0,0.0,0.0,11.0,1.0,11.0,1.0,12,Back Row,Forwards
+2nd,2023/24,Gareth Arthur,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1,Second Row,Forwards
+2nd,2021/22,Blake English,0.0,0.0,0.0,1.0,1.0,0.0,0.0,1.0,1.0,1.0,2,Back Row,Forwards
+2nd,2022/23,Ryland Thomas,0.0,0.0,1.0,0.0,1.0,0.0,1.0,0.0,2.0,0.0,2,Back Row,Forwards
+2nd,2023/24,Rory Evans,0.0,0.0,6.0,4.0,1.0,1.0,6.0,4.0,7.0,5.0,12,Back Row,Forwards
+1st,2021/22,James Busby,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1,Back Row,Forwards
+1st,2022/23,George Johnson,0.0,0.0,16.0,0.0,0.0,0.0,16.0,0.0,16.0,0.0,16,Scrum Half,Backs
+2nd,2023/24,Morgan Burger,0.0,0.0,1.0,1.0,0.0,1.0,1.0,1.0,1.0,2.0,3,Scrum Half,Backs
+1st,2023/24,Oli Billin,3.0,0.0,19.0,0.0,2.0,0.0,22.0,0.0,24.0,0.0,24,Fly Half,Backs
+2nd,2022/23,Chris Taylor,1.0,0.0,7.0,0.0,2.0,0.0,8.0,0.0,10.0,0.0,10,Back Three,Backs
+2nd,2022/23,Ben Gray,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1,Fly Half,Backs
+2nd,2024/25,Rhys Skinner,0.0,0.0,3.0,0.0,2.0,0.0,3.0,0.0,5.0,0.0,5,Centre,Backs
+1st,2021/22,Archie Neill,1.0,0.0,1.0,0.0,0.0,0.0,2.0,0.0,2.0,0.0,2,Back Three,Backs
+1st,2022/23,Jake Radcliffe,0.0,0.0,10.0,0.0,0.0,0.0,10.0,0.0,10.0,0.0,10,Back Three,Backs
+1st,2023/24,Ali Moffatt,3.0,0.0,9.0,7.0,2.0,0.0,12.0,7.0,14.0,7.0,21,Back Three,Backs
+1st,2023/24,Alister Yaffa,1.0,0.0,1.0,1.0,0.0,0.0,2.0,1.0,2.0,1.0,3,Back Three,Backs
+2nd,2023/24,Oscar Morgan,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1,Back Three,Backs
+1st,2024/25,Dante Maynard,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1,Centre,Backs
+2nd,2021/22,Richard Dodgson,0.0,0.0,5.0,0.0,0.0,0.0,5.0,0.0,5.0,0.0,5,Centre,Backs
+1st,2024/25,Ben Pellett,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
+2nd,2021/22,Jordan Tucker,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1.0,0.0,2.0,2,,
+2nd,2024/25,Barley O'Conor,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
+2nd,2024/25,Idris Lawal,0.0,0.0,0.0,3.0,0.0,2.0,0.0,3.0,0.0,5.0,5,,
+1st,2024/25,Mark Lewis,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
+2nd,2021/22,Max Morgan,0.0,0.0,0.0,2.0,0.0,0.0,0.0,2.0,0.0,2.0,2,,
+2nd,2023/24,Guy Collins,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1,Prop,Forwards
+1st,2021/22,Peter Morley,0.0,0.0,0.0,0.0,2.0,0.0,0.0,0.0,2.0,0.0,2,Second Row,Forwards
+2nd,2021/22,James Busby,0.0,0.0,3.0,1.0,0.0,1.0,3.0,1.0,3.0,2.0,5,Second Row,Forwards
+2nd,2021/22,Sam Lindsay-McCall,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,2.0,0.0,2,Second Row,Forwards
+2nd,2024/25,Oli Hodge,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1,Second Row,Forwards
+1st,2022/23,Tom Byron,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1,Back Row,Forwards
+1st,2023/24,Tom Mooney,1.0,0.0,1.0,1.0,1.0,0.0,2.0,1.0,3.0,1.0,4,Back Row,Forwards
+2nd,2023/24,Josh Weaver,0.0,0.0,1.0,1.0,1.0,0.0,1.0,1.0,2.0,1.0,3,Back Row,Forwards
+2nd,2024/25,Tom Byron,0.0,0.0,4.0,1.0,3.0,0.0,4.0,1.0,7.0,1.0,8,Back Row,Forwards
+1st,2021/22,Gus Nye,0.0,0.0,1.0,0.0,5.0,0.0,1.0,0.0,6.0,0.0,6,Back Row,Forwards
+2nd,2022/23,Artemis Maynard,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1,Back Row,Forwards
+1st,2023/24,Jack Billin,2.0,0.0,3.0,1.0,1.0,1.0,5.0,1.0,6.0,2.0,8,Scrum Half,Backs
+2nd,2024/25,Ben Green,0.0,0.0,5.0,2.0,3.0,0.0,5.0,2.0,8.0,2.0,10,Back Three,Backs
+2nd,2024/25,Noah Roberts,0.0,0.0,2.0,0.0,1.0,0.0,2.0,0.0,3.0,0.0,3,Back Three,Backs
+2nd,2021/22,Archie Neill,2.0,0.0,8.0,0.0,3.0,0.0,10.0,0.0,13.0,0.0,13,Back Three,Backs
+1st,2021/22,Richard Dodgson,0.0,0.0,1.0,0.0,1.0,0.0,1.0,0.0,2.0,0.0,2,Centre,Backs
+1st,2024/25,Max Crawley-Moore,0.0,0.0,9.0,1.0,0.0,0.0,9.0,1.0,9.0,1.0,10,Centre,Backs
+2nd,2022/23,Dougie Anson-Gates,0.0,0.0,0.0,1.0,1.0,1.0,0.0,1.0,1.0,2.0,3,Centre,Backs
+2nd,2024/25,Ryan Foster,0.0,0.0,3.0,0.0,0.0,0.0,3.0,0.0,3.0,0.0,3,Centre,Backs
+2nd,2023/24,Scott Devlin,0.0,0.0,3.0,5.0,1.0,1.0,3.0,5.0,4.0,6.0,10,Back Three,Backs
+2nd,2023/24,Oscar Read,0.0,0.0,0.0,1.0,1.0,0.0,0.0,1.0,1.0,1.0,2,Back Three,Backs
+1st,2024/25,George Naylor,0.0,0.0,0.0,2.0,0.0,0.0,0.0,2.0,0.0,2.0,2,,
+2nd,2022/23,Oliver Roberts,0.0,0.0,0.0,4.0,0.0,1.0,0.0,4.0,0.0,5.0,5,,
+2nd,2023/24,Oscar Staples,0.0,0.0,0.0,6.0,0.0,0.0,0.0,6.0,0.0,6.0,6,,
+2nd,2022/23,Lukis Waite,0.0,0.0,0.0,2.0,0.0,0.0,0.0,2.0,0.0,2.0,2,,
+2nd,2022/23,Robert Poole,0.0,0.0,0.0,2.0,0.0,0.0,0.0,2.0,0.0,2.0,2,,
+2nd,2022/23,Henry Aronson,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
+2nd,2023/24,Darren Gwynn,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,1,,
+2nd,2023/24,Patrick Bowe,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,1,,
+1st,2023/24,Dave Bridges,2.0,2.0,2.0,9.0,1.0,1.0,4.0,11.0,5.0,12.0,17,Prop,Forwards
+1st,2024/25,Guy Collins,0.0,0.0,14.0,2.0,0.0,0.0,14.0,2.0,14.0,2.0,16,Prop,Forwards
+2nd,2022/23,Josh Brimecombe,0.0,0.0,2.0,0.0,0.0,0.0,2.0,0.0,2.0,0.0,2,Prop,Forwards
+2nd,2022/23,Charlie Pullen,0.0,1.0,6.0,2.0,0.0,1.0,6.0,3.0,6.0,4.0,10,Prop,Forwards
+2nd,2023/24,George Naylor,0.0,0.0,6.0,1.0,1.0,1.0,6.0,1.0,7.0,2.0,9,Prop,Forwards
+2nd,2022/23,George Beet,0.0,0.0,3.0,1.0,2.0,0.0,3.0,1.0,5.0,1.0,6,Hooker,Forwards
+2nd,2024/25,Billy Davis,0.0,0.0,0.0,2.0,1.0,0.0,0.0,2.0,1.0,2.0,3,Prop,Forwards
+2nd,2024/25,Max Morgan,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1,Second Row,Forwards
+2nd,2024/25,Will Bramwell,0.0,0.0,1.0,0.0,1.0,0.0,1.0,0.0,2.0,0.0,2,Second Row,Forwards
+1st,2023/24,Jules Jardim,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1,Second Row,Forwards
+1st,2024/25,Oscar Staples,0.0,0.0,4.0,2.0,0.0,0.0,4.0,2.0,4.0,2.0,6,Second Row,Forwards
+1st,2021/22,Liam Casey,0.0,0.0,4.0,1.0,1.0,1.0,4.0,1.0,5.0,2.0,7,Back Row,Forwards
+1st,2023/24,Aaron Boczek,3.0,0.0,16.0,0.0,1.0,0.0,19.0,0.0,20.0,0.0,20,Back Row,Forwards
+1st,2024/25,Josh Weaver,0.0,0.0,6.0,1.0,0.0,0.0,6.0,1.0,6.0,1.0,7,Back Row,Forwards
+2nd,2021/22,Harrison Berry,2.0,0.0,8.0,4.0,4.0,0.0,10.0,4.0,14.0,4.0,18,Back Row,Forwards
+2nd,2023/24,Archie Vickers,0.0,0.0,4.0,0.0,1.0,0.0,4.0,0.0,5.0,0.0,5,Back Row,Forwards
+1st,2021/22,Tom Byron,0.0,2.0,2.0,0.0,1.0,0.0,2.0,2.0,3.0,2.0,5,Back Row,Forwards
+2nd,2022/23,Connor Leggat,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1,Back Row,Forwards
+2nd,2021/22,George Johnson,0.0,0.0,1.0,0.0,0.0,1.0,1.0,0.0,1.0,1.0,2,Scrum Half,Backs
+2nd,2024/25,Will Roberts,0.0,0.0,3.0,0.0,4.0,0.0,3.0,0.0,7.0,0.0,7,Back Three,Backs
+1st,2022/23,Richard Dodgson,0.0,0.0,1.0,2.0,0.0,0.0,1.0,2.0,1.0,2.0,3,Centre,Backs
+2nd,2022/23,Andy Blackmore,1.0,0.0,5.0,0.0,0.0,0.0,6.0,0.0,6.0,0.0,6,Centre,Backs
+2nd,2023/24,Max Crawley-Moore,0.0,0.0,5.0,0.0,1.0,0.0,5.0,0.0,6.0,0.0,6,Centre,Backs
+1st,2023/24,Harrison Lock,0.0,2.0,0.0,0.0,0.0,0.0,0.0,2.0,0.0,2.0,2,,
+2nd,2023/24,Mike Unsworth,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,1,,
+2nd,2023/24,Ollie Hall,0.0,0.0,0.0,2.0,0.0,0.0,0.0,2.0,0.0,2.0,2,,
+2nd,2024/25,Digby Blake,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
+1st,2022/23,Max Morgan,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
+1st,2022/23,Will Roberts,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
+1st,2024/25,Colm Geraghty,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
+2nd,2022/23,Zack Bradbury,0.0,1.0,0.0,1.0,0.0,0.0,0.0,2.0,0.0,2.0,2,,
+2nd,2024/25,Mark Oliver,0.0,0.0,0.0,0.0,0.0,2.0,0.0,0.0,0.0,2.0,2,,
+2nd,2022/23,Sean Madden,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,1,,
+1st,2021/22,Josh Brimecombe,0.0,1.0,3.0,3.0,5.0,0.0,3.0,4.0,8.0,4.0,12,Prop,Forwards
+1st,2022/23,Devon Frost,0.0,0.0,11.0,5.0,0.0,0.0,11.0,5.0,11.0,5.0,16,Prop,Forwards
+2nd,2021/22,James Jacobs,0.0,0.0,5.0,0.0,2.0,0.0,5.0,0.0,7.0,0.0,7,Prop,Forwards
+2nd,2023/24,Bertram Beanland,0.0,0.0,0.0,1.0,1.0,0.0,0.0,1.0,1.0,1.0,2,Prop,Forwards
+2nd,2021/22,Eoin O'Donoghue,1.0,1.0,0.0,1.0,0.0,0.0,1.0,2.0,1.0,2.0,3,Hooker,Forwards
+1st,2021/22,George Beet,0.0,0.0,0.0,0.0,1.0,3.0,0.0,0.0,1.0,3.0,4,Prop,Forwards
+1st,2022/23,John Peaty,0.0,0.0,18.0,0.0,0.0,0.0,18.0,0.0,18.0,0.0,18,Back Row,Forwards
+2nd,2024/25,John Peaty,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1,Second Row,Forwards
+2nd,2024/25,Dylan Hammocks,0.0,0.0,3.0,4.0,3.0,0.0,3.0,4.0,6.0,4.0,10,Second Row,Forwards
+2nd,2023/24,James Griffiths,0.0,0.0,1.0,1.0,0.0,0.0,1.0,1.0,1.0,1.0,2,Second Row,Forwards
+1st,2023/24,Rory Evans,0.0,0.0,2.0,1.0,0.0,1.0,2.0,1.0,2.0,2.0,4,Back Row,Forwards
+2nd,2021/22,Ben Watkinson,0.0,1.0,9.0,0.0,3.0,0.0,9.0,1.0,12.0,1.0,13,Back Row,Forwards
+1st,2023/24,Ben Saunders,1.0,0.0,12.0,2.0,0.0,0.0,13.0,2.0,13.0,2.0,15,Centre,Backs
+2nd,2022/23,Tom Byron,0.0,0.0,0.0,1.0,1.0,0.0,0.0,1.0,1.0,1.0,2,Back Row,Forwards
+1st,2021/22,Connor Leggat,1.0,0.0,5.0,3.0,0.0,0.0,6.0,3.0,6.0,3.0,9,Back Row,Forwards
+1st,2023/24,Sam Spriddell,1.0,0.0,8.0,0.0,1.0,1.0,9.0,0.0,10.0,1.0,11,Scrum Half,Backs
+2nd,2024/25,Lukis Waite,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1,Scrum Half,Backs
+1st,2024/25,Dan Poulton,0.0,0.0,3.0,2.0,0.0,0.0,3.0,2.0,3.0,2.0,5,Fly Half,Backs
+2nd,2021/22,Jordan Hollis,0.0,0.0,1.0,0.0,1.0,0.0,1.0,0.0,2.0,0.0,2,Fly Half,Backs
+2nd,2022/23,Noah Roberts,1.0,0.0,1.0,0.0,0.0,0.0,2.0,0.0,2.0,0.0,2,Fly Half,Backs
+2nd,2024/25,Fin Fisher,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1,Fly Half,Backs
+2nd,2024/25,Noah Merrion,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1,Fly Half,Backs
+2nd,2023/24,Ali Moffatt,0.0,0.0,2.0,0.0,0.0,0.0,2.0,0.0,2.0,0.0,2,Centre,Backs
+2nd,2024/25,Dougie Anson-Gates,0.0,0.0,2.0,0.0,0.0,0.0,2.0,0.0,2.0,0.0,2,Centre,Backs
+2nd,2024/25,Ollie Johnston,0.0,0.0,2.0,1.0,1.0,0.0,2.0,1.0,3.0,1.0,4,Centre,Backs
+2nd,2023/24,Alister Yaffa,0.0,0.0,2.0,0.0,0.0,0.0,2.0,0.0,2.0,0.0,2,Centre,Backs
+2nd,2024/25,Ted Hardisty,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1,Centre,Backs
+1st,2024/25,Ben Beard,0.0,0.0,1.0,1.0,0.0,0.0,1.0,1.0,1.0,1.0,2,Back Three,Backs
+2nd,2023/24,Duncan Fraser,0.0,0.0,0.0,1.0,1.0,0.0,0.0,1.0,1.0,1.0,2,Back Three,Backs
+2nd,2022/23,Sam Ashley-Williams,0.0,0.0,0.0,2.0,0.0,0.0,0.0,2.0,0.0,2.0,2,,
+2nd,2021/22,Tamas Tolnai,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
+2nd,2021/22,Harry Bryant,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
+2nd,2022/23,Max English,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,1,,
+1st,2023/24,Guy Collins,4.0,0.0,20.0,0.0,1.0,0.0,24.0,0.0,25.0,0.0,25,Prop,Forwards
+1st,2024/25,Dave Bridges,0.0,0.0,3.0,4.0,0.0,0.0,3.0,4.0,3.0,4.0,7,Prop,Forwards
+2nd,2021/22,Josh Brimecombe,1.0,0.0,5.0,0.0,0.0,0.0,6.0,0.0,6.0,0.0,6,Prop,Forwards
+2nd,2021/22,George Beet,1.0,1.0,7.0,2.0,1.0,0.0,8.0,3.0,9.0,3.0,12,Hooker,Forwards
+2nd,2023/24,Rob Salvi,0.0,0.0,2.0,6.0,1.0,1.0,2.0,6.0,3.0,7.0,10,Prop,Forwards
+2nd,2024/25,James Funnell,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1,Prop,Forwards
+2nd,2022/23,Harrison Berry,1.0,0.0,8.0,1.0,1.0,1.0,9.0,1.0,10.0,2.0,12,Back Row,Forwards
+1st,2022/23,Pete Morley,0.0,0.0,11.0,2.0,0.0,0.0,11.0,2.0,11.0,2.0,13,Second Row,Forwards
+1st,2024/25,Tim Morris,0.0,0.0,3.0,4.0,0.0,0.0,3.0,4.0,3.0,4.0,7,Second Row,Forwards
+2nd,2024/25,Pete Morley,0.0,0.0,4.0,0.0,3.0,0.0,4.0,0.0,7.0,0.0,7,Second Row,Forwards
+2nd,2023/24,Tom Mooney,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1,Second Row,Forwards
+1st,2023/24,Oscar Staples,1.0,1.0,2.0,0.0,0.0,0.0,3.0,1.0,3.0,1.0,4,Back Row,Forwards
+1st,2021/22,Eoin O'Donoghue,2.0,0.0,0.0,2.0,0.0,0.0,2.0,2.0,2.0,2.0,4,Back Row,Forwards
+1st,2022/23,Ryland Thomas,0.0,0.0,5.0,2.0,0.0,0.0,5.0,2.0,5.0,2.0,7,Back Row,Forwards
+2nd,2023/24,Jack Billin,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1,Scrum Half,Backs
+2nd,2024/25,Chris Taylor,0.0,0.0,2.0,0.0,2.0,0.0,2.0,0.0,4.0,0.0,4,Scrum Half,Backs
+2nd,2024/25,Ben Gray,0.0,0.0,2.0,0.0,0.0,0.0,2.0,0.0,2.0,0.0,2,Fly Half,Backs
+2nd,2024/25,Sam Johnston,0.0,0.0,3.0,0.0,1.0,0.0,3.0,0.0,4.0,0.0,4,Back Three,Backs
+1st,2022/23,Ryan Morlen,0.0,0.0,12.0,3.0,0.0,0.0,12.0,3.0,12.0,3.0,15,Centre,Backs
+1st,2023/24,Colm Geraghty,1.0,1.0,1.0,2.0,0.0,1.0,2.0,3.0,2.0,4.0,6,Centre,Backs
+1st,2024/25,Aaron Boczek,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1,Centre,Backs
+2nd,2021/22,Andy Blackmore,0.0,1.0,5.0,2.0,1.0,0.0,5.0,3.0,6.0,3.0,9,Centre,Backs
+2nd,2024/25,Ryan Morlen,0.0,0.0,1.0,1.0,0.0,0.0,1.0,1.0,1.0,1.0,2,Centre,Backs
+1st,2022/23,Chris Taylor,0.0,0.0,3.0,0.0,0.0,0.0,3.0,0.0,3.0,0.0,3,Back Three,Backs
+2nd,2021/22,Sean Madden,0.0,0.0,0.0,0.0,1.0,1.0,0.0,0.0,1.0,1.0,2,Back Three,Backs
+1st,2022/23,James Funnell,0.0,0.0,0.0,4.0,0.0,0.0,0.0,4.0,0.0,4.0,4,,
+1st,2021/22,James Jacobs,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1.0,0.0,2.0,2,,
+1st,2024/25,Nathan Oliver,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
+1st,2021/22,Jordan Hollis,0.0,0.0,0.0,0.0,0.0,2.0,0.0,0.0,0.0,2.0,2,,
+2nd,2021/22,Connor Leggat,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
+1st,2023/24,Josh Weaver,0.0,1.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
+1st,2021/22,James Funnell,2.0,0.0,5.0,4.0,5.0,0.0,7.0,4.0,12.0,4.0,16,Prop,Forwards
+2nd,2021/22,Sam Lindsay,0.0,0.0,1.0,0.0,1.0,0.0,1.0,0.0,2.0,0.0,2,Prop,Forwards
+2nd,2023/24,Dave Bridges,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1,Prop,Forwards
+2nd,2023/24,Harrison Lock,0.0,0.0,3.0,1.0,0.0,0.0,3.0,1.0,3.0,1.0,4,Prop,Forwards
+1st,2024/25,Reggie Harris,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1,Hooker,Forwards
+2nd,2021/22,Devon Frost,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1,Prop,Forwards
+1st,2021/22,Pete Morley,0.0,0.0,1.0,0.0,3.0,0.0,1.0,0.0,4.0,0.0,4,Second Row,Forwards
+1st,2024/25,Tom Mooney,0.0,0.0,13.0,1.0,0.0,0.0,13.0,1.0,13.0,1.0,14,Back Row,Forwards
+2nd,2023/24,Tim Morris,0.0,0.0,6.0,4.0,1.0,0.0,6.0,4.0,7.0,4.0,11,Second Row,Forwards
+1st,2024/25,Ollie Toogood,0.0,0.0,5.0,0.0,0.0,0.0,5.0,0.0,5.0,0.0,5,Second Row,Forwards
+2nd,2023/24,Ky Oliveira,0.0,0.0,2.0,1.0,0.0,0.0,2.0,1.0,2.0,1.0,3,Second Row,Forwards
+2nd,2023/24,Jules Jardim,0.0,0.0,0.0,2.0,1.0,0.0,0.0,2.0,1.0,2.0,3,Back Row,Forwards
+1st,2021/22,Tom Hicks,0.0,0.0,2.0,0.0,5.0,0.0,2.0,0.0,7.0,0.0,7,Scrum Half,Backs
+1st,2022/23,Titch Mitchell,0.0,0.0,3.0,0.0,0.0,0.0,3.0,0.0,3.0,0.0,3,Scrum Half,Backs
+1st,2023/24,Elliott Martin-Drew,0.0,0.0,0.0,2.0,1.0,1.0,0.0,2.0,1.0,3.0,4,Scrum Half,Backs
+1st,2024/25,Jack Billin,0.0,0.0,1.0,1.0,0.0,0.0,1.0,1.0,1.0,1.0,2,Scrum Half,Backs
+2nd,2021/22,Lukis Waite,0.0,0.0,1.0,0.0,1.0,0.0,1.0,0.0,2.0,0.0,2,Scrum Half,Backs
+1st,2021/22,Chris Taylor,0.0,0.0,0.0,0.0,2.0,3.0,0.0,0.0,2.0,3.0,5,Back Three,Backs
+2nd,2024/25,Ben Watkinson,0.0,0.0,1.0,5.0,0.0,1.0,1.0,5.0,1.0,6.0,7,Back Three,Backs
+1st,2021/22,Ryan Morlen,1.0,1.0,6.0,4.0,1.0,6.0,7.0,5.0,8.0,11.0,19,Centre,Backs
+1st,2023/24,Max Crawley-Moore,2.0,0.0,11.0,2.0,1.0,0.0,13.0,2.0,14.0,2.0,16,Centre,Backs
+2nd,2021/22,Robert Poole,0.0,1.0,3.0,1.0,0.0,1.0,3.0,2.0,3.0,3.0,6,Back Three,Backs
+2nd,2024/25,Stanley Kennett,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1,Back Three,Backs
+1st,2023/24,Archie Vickers,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
+2nd,2021/22,Nick Carter,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
+2nd,2023/24,Drew King,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
+2nd,2021/22,Oliver Roberts,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
+2nd,2023/24,James Jenkins,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
+2nd,2023/24,Ryan Kirk,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,1,,
+1st,2022/23,Dave Bridges,0.0,0.0,10.0,4.0,0.0,0.0,10.0,4.0,10.0,4.0,14,Prop,Forwards
+1st,2024/25,James Funnell,0.0,0.0,1.0,1.0,0.0,0.0,1.0,1.0,1.0,1.0,2,Prop,Forwards
+2nd,2022/23,Sean Morgan,1.0,0.0,4.0,0.0,1.0,0.0,5.0,0.0,6.0,0.0,6,Prop,Forwards
+2nd,2022/23,Ben Pellett,0.0,0.0,4.0,2.0,2.0,0.0,4.0,2.0,6.0,2.0,8,Prop,Forwards
+2nd,2023/24,Ben Watkinson,0.0,0.0,9.0,0.0,1.0,0.0,9.0,0.0,10.0,0.0,10,Prop,Forwards
+1st,2023/24,Mark Oliver,1.0,1.0,0.0,5.0,0.0,1.0,1.0,6.0,1.0,7.0,8,Hooker,Forwards
+2nd,2021/22,Tom Kiernan,0.0,0.0,3.0,1.0,2.0,1.0,3.0,1.0,5.0,2.0,7,Hooker,Forwards
+2nd,2024/25,George Jones,0.0,0.0,2.0,2.0,2.0,1.0,2.0,2.0,4.0,3.0,7,Prop,Forwards
+2nd,2022/23,Daan Hulst,1.0,0.0,1.0,2.0,0.0,0.0,2.0,2.0,2.0,2.0,4,Second Row,Forwards
+2nd,2024/25,Dave Bridges,0.0,0.0,2.0,0.0,0.0,0.0,2.0,0.0,2.0,0.0,2,Second Row,Forwards
+2nd,2024/25,Tim Morris,0.0,0.0,2.0,0.0,1.0,0.0,2.0,0.0,3.0,0.0,3,Second Row,Forwards
+1st,2023/24,Will Bramwell,1.0,2.0,0.0,0.0,0.0,0.0,1.0,2.0,1.0,2.0,3,Second Row,Forwards
+2nd,2021/22,Tom Halligey,0.0,0.0,1.0,1.0,1.0,1.0,1.0,1.0,2.0,2.0,4,Second Row,Forwards
+2nd,2024/25,Jules Jardim,0.0,0.0,1.0,1.0,0.0,0.0,1.0,1.0,1.0,1.0,2,Second Row,Forwards
+1st,2022/23,Aaron Boczek,0.0,0.0,15.0,1.0,0.0,0.0,15.0,1.0,15.0,1.0,16,Back Row,Forwards
+1st,2024/25,Ryland Thomas,0.0,0.0,12.0,2.0,0.0,0.0,12.0,2.0,12.0,2.0,14,Back Row,Forwards
+2nd,2022/23,Joe Boczek,1.0,0.0,1.0,1.0,1.0,0.0,2.0,1.0,3.0,1.0,4,Back Row,Forwards
+2nd,2024/25,Nathan Oliver,0.0,0.0,3.0,1.0,2.0,0.0,3.0,1.0,5.0,1.0,6,Centre,Backs
+2nd,2021/22,Alex Jackson,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1,Back Row,Forwards
+2nd,2022/23,Dan Billin,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1,Back Row,Forwards
+2nd,2024/25,Aaron Boczek,0.0,0.0,2.0,0.0,0.0,1.0,2.0,0.0,2.0,1.0,3,Back Row,Forwards
+1st,2024/25,Chris Taylor,0.0,0.0,4.0,0.0,0.0,0.0,4.0,0.0,4.0,0.0,4,Scrum Half,Backs
+2nd,2021/22,Ben Hogan,2.0,0.0,1.0,1.0,1.0,0.0,3.0,1.0,4.0,1.0,5,Scrum Half,Backs
+2nd,2023/24,Jordan Hollis,0.0,0.0,1.0,0.0,1.0,0.0,1.0,0.0,2.0,0.0,2,Scrum Half,Backs
+2nd,2024/25,James Jenkins,0.0,0.0,2.0,0.0,1.0,0.0,2.0,0.0,3.0,0.0,3,Back Three,Backs
+2nd,2021/22,Ali Moffatt,1.0,0.0,8.0,0.0,2.0,0.0,9.0,0.0,11.0,0.0,11,Centre,Backs
+2nd,2022/23,Ollie Adams,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1,Fly Half,Backs
+1st,2023/24,Will Roberts,0.0,2.0,0.0,0.0,1.0,0.0,0.0,2.0,1.0,2.0,3,Back Three,Backs
+2nd,2021/22,Ethan Carrick,2.0,0.0,5.0,1.0,0.0,1.0,7.0,1.0,7.0,2.0,9,Back Three,Backs
+2nd,2023/24,Titch Mitchell,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1,Centre,Backs
+2nd,2023/24,Stanley Kennett,0.0,0.0,8.0,1.0,2.0,0.0,8.0,1.0,10.0,1.0,11,Back Three,Backs
+1st,2022/23,James Jenkins,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1,Back Three,Backs
+2nd,2022/23,Sean Taylor,0.0,0.0,1.0,2.0,0.0,1.0,1.0,2.0,1.0,3.0,4,Back Three,Backs
+2nd,2021/22,Oli Billin,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1,Back Three,Backs
+2nd,2022/23,Jamie Gache,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
+1st,2024/25,Pete Morley,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
+2nd,2022/23,Brad Taylor,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
+2nd,2022/23,Rory Duncanson,0.0,0.0,0.0,2.0,0.0,0.0,0.0,2.0,0.0,2.0,2,,
+1st,2024/25,Ryan Morlen,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
+1st,2021/22,Tom Mooney,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,1,,
+2nd,2021/22,Alfie Jeffers,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
+2nd,2021/22,Guy Phillips,0.0,0.0,1.0,4.0,1.0,1.0,1.0,4.0,2.0,5.0,7,Prop,Forwards
+2nd,2023/24,Mark Oliver,0.0,0.0,2.0,1.0,1.0,0.0,2.0,1.0,3.0,1.0,4,Hooker,Forwards
+2nd,2024/25,Michael Presland,0.0,0.0,8.0,0.0,2.0,2.0,8.0,0.0,10.0,2.0,12,Prop,Forwards
+2nd,2024/25,George Naylor,0.0,0.0,7.0,0.0,2.0,0.0,7.0,0.0,9.0,0.0,9,Prop,Forwards
+2nd,2021/22,Tao Benn,0.0,0.0,2.0,2.0,1.0,0.0,2.0,2.0,3.0,2.0,5,Second Row,Forwards
+2nd,2022/23,Dan Arnold,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1,Second Row,Forwards
+2nd,2023/24,Will Bramwell,0.0,0.0,3.0,1.0,0.0,0.0,3.0,1.0,3.0,1.0,4,Back Row,Forwards
+1st,2022/23,Archie Vickers,0.0,0.0,6.0,3.0,0.0,0.0,6.0,3.0,6.0,3.0,9,Back Row,Forwards
+2nd,2021/22,Rory Evans,2.0,0.0,11.0,1.0,0.0,1.0,13.0,1.0,13.0,2.0,15,Back Row,Forwards
+1st,2024/25,Noah Roberts,0.0,0.0,13.0,1.0,0.0,0.0,13.0,1.0,13.0,1.0,14,Scrum Half,Backs
+2nd,2024/25,Patrick Thomson,0.0,0.0,4.0,0.0,1.0,0.0,4.0,0.0,5.0,0.0,5,Scrum Half,Backs
+1st,2023/24,Stanley Kennett,0.0,0.0,0.0,0.0,1.0,1.0,0.0,0.0,1.0,1.0,2,Back Three,Backs
+1st,2023/24,Titch Mitchell,0.0,0.0,2.0,0.0,0.0,0.0,2.0,0.0,2.0,0.0,2,Back Three,Backs
+2nd,2023/24,Will Roberts,0.0,0.0,11.0,0.0,2.0,0.0,11.0,0.0,13.0,0.0,13,Back Three,Backs
+1st,2022/23,Max Crawley-Moore,0.0,0.0,18.0,0.0,0.0,0.0,18.0,0.0,18.0,0.0,18,Centre,Backs
+2nd,2024/25,Max Crawley-Moore,0.0,0.0,3.0,0.0,1.0,0.0,3.0,0.0,4.0,0.0,4,Centre,Backs
+2nd,2022/23,Jacob Davidson,0.0,0.0,2.0,0.0,2.0,0.0,2.0,0.0,4.0,0.0,4,Centre,Backs
+2nd,2024/25,Elliott Martin-Drew,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1,Back Three,Backs
+2nd,2021/22,Sam Spriddell,1.0,0.0,1.0,0.0,1.0,1.0,2.0,0.0,3.0,1.0,4,Back Three,Backs
+2nd,2023/24,Max Morgan,0.0,0.0,0.0,2.0,0.0,1.0,0.0,2.0,0.0,3.0,3,,
+1st,2021/22,Fin Edwards,0.0,0.0,0.0,0.0,0.0,2.0,0.0,0.0,0.0,2.0,2,,
+1st,2021/22,Alex Leadbeater,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,1,,
+1st,2022/23,Guy Collins,0.0,0.0,10.0,7.0,0.0,0.0,10.0,7.0,10.0,7.0,17,Prop,Forwards
+2nd,2021/22,Sean Morgan,1.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1,Prop,Forwards
+2nd,2022/23,Tom Halligey,0.0,0.0,3.0,2.0,0.0,1.0,3.0,2.0,3.0,3.0,6,Back Row,Forwards
+2nd,2024/25,Guy Collins,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1,Prop,Forwards
+2nd,2021/22,Rory Duncanson,0.0,0.0,3.0,5.0,1.0,2.0,3.0,5.0,4.0,7.0,11,Hooker,Forwards
+1st,2023/24,Pete Morley,0.0,0.0,2.0,1.0,0.0,1.0,2.0,1.0,2.0,2.0,4,Second Row,Forwards
+2nd,2021/22,Ben Pellett,0.0,0.0,1.0,2.0,0.0,1.0,1.0,2.0,1.0,3.0,4,Second Row,Forwards
+2nd,2024/25,Oscar Staples,0.0,0.0,2.0,0.0,3.0,0.0,2.0,0.0,5.0,0.0,5,Second Row,Forwards
+1st,2021/22,Archie Vickers,0.0,0.0,6.0,1.0,2.0,2.0,6.0,1.0,8.0,3.0,11,Back Row,Forwards
+2nd,2024/25,Josh Weaver,0.0,0.0,2.0,0.0,0.0,0.0,2.0,0.0,2.0,0.0,2,Back Row,Forwards
+1st,2023/24,Ryland Thomas,3.0,1.0,19.0,0.0,1.0,1.0,22.0,1.0,23.0,2.0,25,Back Row,Forwards
+2nd,2023/24,Tom Byron,0.0,0.0,3.0,3.0,1.0,1.0,3.0,3.0,4.0,4.0,8,Back Row,Forwards
+2nd,2021/22,Dan Billin,2.0,0.0,1.0,0.0,0.0,0.0,3.0,0.0,3.0,0.0,3,Back Row,Forwards
+2nd,2022/23,Ben Hogan,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1,Scrum Half,Backs
+2nd,2021/22,Matt Brooke,0.0,0.0,2.0,1.0,0.0,0.0,2.0,1.0,2.0,1.0,3,Fly Half,Backs
+2nd,2023/24,Noah Roberts,0.0,0.0,1.0,0.0,1.0,1.0,1.0,0.0,2.0,1.0,3,Fly Half,Backs
+1st,2021/22,Sam Montagu,0.0,0.0,0.0,1.0,2.0,0.0,0.0,1.0,2.0,1.0,3,Back Three,Backs
+1st,2024/25,Will Roberts,0.0,0.0,6.0,0.0,0.0,0.0,6.0,0.0,6.0,0.0,6,Back Three,Backs
+2nd,2024/25,Tommy Nasta,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1,Back Three,Backs
+1st,2021/22,Max Crawley-Moore,2.0,0.0,11.0,0.0,6.0,0.0,13.0,0.0,19.0,0.0,19,Centre,Backs
+2nd,2022/23,Ethan Carrick,0.0,0.0,1.0,0.0,1.0,0.0,1.0,0.0,2.0,0.0,2,Centre,Backs
+2nd,2023/24,Ryan Foster,0.0,0.0,0.0,1.0,1.0,0.0,0.0,1.0,1.0,1.0,2,Centre,Backs
+2nd,2024/25,Dillan Bowe,0.0,0.0,2.0,1.0,0.0,0.0,2.0,1.0,2.0,1.0,3,Centre,Backs
+1st,2023/24,Chris Taylor,0.0,1.0,2.0,1.0,0.0,0.0,2.0,2.0,2.0,2.0,4,Back Three,Backs
+2nd,2022/23,Duncan Fraser,0.0,0.0,2.0,0.0,0.0,0.0,2.0,0.0,2.0,0.0,2,Back Three,Backs
+2nd,2024/25,Owen Jones,0.0,0.0,1.0,1.0,0.0,0.0,1.0,1.0,1.0,1.0,2,Back Three,Backs
+1st,2023/24,James Funnell,0.0,0.0,0.0,1.0,0.0,2.0,0.0,1.0,0.0,3.0,3,,
+2nd,2022/23,Bertram Beanland,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1.0,0.0,2.0,2,,
+2nd,2022/23,J Weeden,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
+2nd,2023/24,Alfie Fuller,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
+1st,2024/25,Max Morgan,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
+1st,2024/25,Will Bramwell,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
+2nd,2021/22,Mark Fulham,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1,,
+2nd,2024/25,Connor Williams,0.0,0.0,0.0,1.0,0.0,2.0,0.0,1.0,0.0,3.0,3,,
+2nd,2021/22,Brad Taylor,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1.0,0.0,2.0,2,,
+2nd,2024/25,Colm Geraghty,0.0,0.0,0.0,0.0,0.0,2.0,0.0,0.0,0.0,2.0,2,,
 2nd,2021/22,Sachio Shimizu,0.0,0.0,1.0,0.0,0.0,1.0,1.0,0.0,1.0,1.0,2,Prop,Forwards
 2nd,2024/25,Reggie Harris,0.0,0.0,4.0,1.0,1.0,0.0,4.0,1.0,5.0,1.0,6,Hooker,Forwards
 2nd,2024/25,Rob Salvi,0.0,0.0,1.0,2.0,0.0,3.0,1.0,2.0,1.0,5.0,6,Prop,Forwards

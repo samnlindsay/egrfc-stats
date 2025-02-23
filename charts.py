@@ -106,6 +106,8 @@ def hack_params_css(file, overlay=False):
   # Append the new CSS to the <style> tag
   style_tag.append(css_to_add)
 
+  # Add google fonts
+  soup.head.append(soup.new_tag("link", rel="stylesheet", href="https://fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700"))
   soup.head.append(soup.new_tag("link", rel="stylesheet", href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900"))          
   
   # Write the modified HTML back to the file
