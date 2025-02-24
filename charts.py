@@ -629,18 +629,6 @@ def lineout_success(types=types, df=None, file=None):
 
 def points_scorers_chart(df=None, file=None):
 
-    if df is None:
-        df = pitchero_stats()
-    
-    scorers = df[df["Points"] > 0]
-
-    scorers = scorers.drop("Points", axis=1)
-    scorers = scorers.melt(
-        id_vars=[c for c in scorers.columns if c not in ["Tries", "Pens", "Cons"]], 
-        var_name="Type", 
-        value_name="Points"
-    )
-
     selection = alt.selection_point(fields=['Type'], bind='legend')
 
     squad_selection = alt.param(
