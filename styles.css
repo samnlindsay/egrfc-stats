@@ -197,8 +197,9 @@ nav.navbar {
     font-size: small;
 }
 
-.table #squad1, #squad2 {
+.table #squad1, #squad2, #squadT {
     font-family: 'PT Sans Narrow', sans-serif !important;
+    font-size: 1.2rem;
 }
 
 .table select {
