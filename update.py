@@ -19,8 +19,6 @@ analysis = game_stats()
 game_df.to_csv('data/game.csv', index=False)
 players_df.to_csv('data/players.csv', index=False)
 players_agg_df.to_csv('data/players_agg.csv', index=False)
-lineouts_df.to_csv('data/lineouts.csv', index=False)
-pitchero_df.to_csv('data/players_agg.csv', index=False)
 set_piece_df.to_csv('data/set_piece.csv', index=False)
 analysis.to_csv('data/analysis.csv', index=False)
 
