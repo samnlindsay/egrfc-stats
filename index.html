@@ -428,7 +428,7 @@
                     document.getElementById("apps2").innerText = data["2nd"].Players_A;
                     document.getElementById("tries2").innerText = data["2nd"].Players_T;
                     document.getElementById("playersT").innerText = data["Total"].PlayersUsed;
-                    document.getElementById("appsT").innerText = data["Total"].Players_A;
+                    document.getElementById("appsT").innerText = data["Total"].Players_A.replaceAll(" / ","/<br>");
                     document.getElementById("triesT").innerText = data["Total"].Players_T;
                 }
                 );
