@@ -295,6 +295,34 @@
                     </div>
                 </div>
                 <hr> 
+                <!-- Other links -->
+                <h2 class="text-center">External links</h2>
+                <div class="d-flex justify-content-center align-items-center mb-2">
+                    <div>
+                        <div class="btn-toolbar my-2 mx-0 p-0 min-content justify-content-center" role="toolbar" aria-label="Toolbar with button groups">
+                            <div class="btn-group me-1 mb-1" role="group">
+                                <a href="http://www.egrfc.com" target="_blank" type="button" class="btn btn-dark" style="border-color:black; color: var(--light-color); font-weight:bold;">Pitchero</a>
+                                <a href="https://www.egrfc.com/teams/142068" type="button" class="btn custom-btn" style="border-color: black;">1st XV</a>
+                                <a href="https://www.egrfc.com/teams/142069" type="button" class="btn custom-btn" style="border-color: black;">2nd XV</a>
+                            </div>
+                            <div class="btn-group ms-1 mb-1" role="group">
+                                <a href="https://www.englandrugby.com/fixtures-and-results/search-results?competition=261&season=2024-2025&division=56612#tables"
+                                    type="button" class="btn btn-dark" style="border-color:black; color: var(--light-color); font-weight: bold;">League Tables</a>
+                                <a href="https://www.englandrugby.com/fixtures-and-results/search-results?competition=261&season=2024-2025&division=56612#tables"
+                                    type="button" class="btn custom-btn" style="border-color: black;">1st XV</a>
+                                <a href="https://www.englandrugby.com/fixtures-and-results/search-results?division=57767&competition=206&season=2024-2025" 
+                                    type="button" class="btn custom-btn" style="border-color: black;">2nd XV</a>
+                            </div>
+                        </div>
+                        <div class="btn-group justify-content-center" role="group">
+                            <button class="btn btn-primary" style="font-weight: bold;">Other SLM content</button>
+                            <a href="https://tinyurl.com/egrfc-playbook" target="_blank" type="button" class="btn btn-outline-primary" style="color:var(--light-color)">Playbook</a>
+                            <a href="https://lineout-builder.tiiny.site" target="_blank" type="button" class="btn btn-outline-primary" style="color:var(--light-color)">Lineout Builder</a>
+                            <a href="https://samnlindsay.github.io/egrfc-league-predictor" target="_blank" type="button" class="btn btn-outline-primary" style="color:var(--light-color)">League Predictor</a>
+                        </div>
+                        </div>  
+                    </div>
+                </div>  
             </div>
             
         </div>
@@ -422,14 +450,15 @@
                 .then(data => {
                     console.log(data);
                     document.getElementById("players1").innerText = data["1st"].PlayersUsed;
-                    document.getElementById("apps1").innerText = data["1st"].Players_A;
-                    document.getElementById("tries1").innerText = data["1st"].Players_T;
+                    document.getElementById("apps1").innerText = data["1st"].Players_A.replaceAll(" / ", "\n");
+                    document.getElementById("tries1").innerText = data["1st"].Players_T.replaceAll(" / ", "\n");
                     document.getElementById("players2").innerText = data["2nd"].PlayersUsed;
-                    document.getElementById("apps2").innerText = data["2nd"].Players_A;
-                    document.getElementById("tries2").innerText = data["2nd"].Players_T;
+                    document.getElementById("apps2").innerText = data["2nd"].Players_A.replaceAll(" / ", "\n");
+                    document.getElementById("tries2").innerText = data["2nd"].Players_T.replaceAll(" / ", "\n");
                     document.getElementById("playersT").innerText = data["Total"].PlayersUsed;
-                    document.getElementById("appsT").innerText = data["Total"].Players_A;
-                    document.getElementById("triesT").innerText = data["Total"].Players_T;
+                    document.getElementById("appsT").innerText = data["Total"].Players_A.replaceAll(" / ", "\n");
+                    // Replace " / " in text with a line break
+                    document.getElementById("triesT").innerText = data["Total"].Players_T.replaceAll(" / ", "\n");
                 }
                 );
         }

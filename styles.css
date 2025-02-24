@@ -48,37 +48,22 @@ body {
 }
 
 .custom-btn {
-    color: var(--dark-color);
-    background-color: var(--light-color);
-    border-color: black;
-    font-family: 'Lato', 'Tahoma', sans-serif;
+    color: var(--light-color);
+    background-color: var(--dark-color);
+    border-color: var(--light-color);
+    font-family: 'Lato', 'Tahoma', sans-serif !important;
 }
 
 .custom-btn:hover {
+    color: var(--primary-color);
+    background-color: var(--light-color);
+    border-color: var(--dark-color);
+}
+
+.custom-btn disabled {
     color: var(--light-color);
     background-color: var(--dark-color);
-}
-
-.btn-1 {
-    font-weight: bold;
-    color: var(--light-color);
-    background-color: var(--primary-color);
-    border-color: black;
-    border-width: 2px;
-}
-
-.btn-2 {
-    font-weight: bold;
-    color: var(--primary-color);
-    background-color: white;
-    border-color: black;
-    border-width: 2px;
-}
-
-.title-button {
-    font-family: 'PT Sans Narrow', sans-serif;
-    font-size: 1.5rem;
-    color: var(--dark-color);
+    border-color: var(--light-color);
 }
 
 .dropdown-item {
