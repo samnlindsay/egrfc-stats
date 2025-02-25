@@ -16,7 +16,7 @@ set_piece_df = set_piece_results()
 analysis = game_stats()
  
 # Save data
-game_df.to_csv('data/game.csv', index=False)
+game_df.to_json('data/game.json', orient='records')
 players_df.to_csv('data/players.csv', index=False)
 players_agg_df.to_csv('data/players_agg.csv', index=False)
 set_piece_df.to_csv('data/set_piece.csv', index=False)

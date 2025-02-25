@@ -794,7 +794,7 @@ def captains_chart(df=None, file=None):
     )
 
     chart = (
-       alt.Chart(df if df is not None else {"name": "df", "url":'https://raw.githubusercontent.com/samnlindsay/egrfc-stats/main/data/game.csv',"format":{'type':"csv"}})
+       alt.Chart(df if df is not None else {"name": "df", "url":'https://raw.githubusercontent.com/samnlindsay/egrfc-stats/main/data/game.json',"format":{'type':"json"}})
         .transform_fold(["Captain", "VC1", "VC2"], as_=["Role", "Player"])
         .transform_calculate(Role="datum.Role == 'Captain' ? 'Captain' : 'VC'")
         .transform_filter("datum.Player != null && datum.Player != ''")
@@ -847,7 +847,7 @@ def results_chart(df=None, file=None):
     )
 
     base = (
-        alt.Chart(df if df is not None else {"name": "df", "url":'https://raw.githubusercontent.com/samnlindsay/egrfc-stats/main/data/game.csv',"format":{'type':"csv"}})
+        alt.Chart(df if df is not None else {"name": "df", "url":'https://raw.githubusercontent.com/samnlindsay/egrfc-stats/main/data/game.json',"format":{'type':"json"}})
         .transform_calculate(
             loser="datum.Result == 'L' ? datum.PF : datum.PA",
             winner="datum.Result == 'W' ? datum.PF : datum.PA",
@@ -1073,7 +1073,7 @@ def squad_continuity_chart(df=None, file=None):
     season_selection = alt.selection_point(on="mouseover", name="Season", fields=["Season"], empty=True)
 
     base = (
-        alt.Chart(df if df is not None else {"name":"df", "url":'https://raw.githubusercontent.com/samnlindsay/egrfc-stats/main/data/game.csv',"format":{'type':"csv"}})
+        alt.Chart(df if df is not None else {"name":"df", "url":'https://raw.githubusercontent.com/samnlindsay/egrfc-stats/main/data/game.json',"format":{'type':"json"}})
         .mark_bar(stroke="black", strokeWidth=1, strokeOpacity=0.5, size=20)
         .transform_calculate(Starters_retained="toNumber(datum.Starters_retained)")
         .transform_filter(season_selection)
@@ -1119,7 +1119,7 @@ def squad_continuity_chart(df=None, file=None):
     )
 
     trend = (
-        alt.Chart(df if df is not None else {"name":"df", "url":'https://raw.githubusercontent.com/samnlindsay/egrfc-stats/main/data/game.csv',"format":{'type':"csv"}})
+        alt.Chart(df if df is not None else {"name":"df", "url":'https://raw.githubusercontent.com/samnlindsay/egrfc-stats/main/data/game.json',"format":{'type':"json"}})
         .transform_aggregate(
             Starters="mean(Starters_retained)", 
             Forwards="mean(Forwards_retained)",
