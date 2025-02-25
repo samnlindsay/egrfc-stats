@@ -19,7 +19,7 @@
     "2022/23": {
         "1st": {
             "PlayersUsed": 41,
-            "Players_A": "Ben Tottman / John Peaty / Max Crawley-Moore  (18)",
+            "Players_A": "Max Crawley-Moore / Ben Tottman / John Peaty  (18)",
             "Players_T": "Ryan Morlen  (20)"
         },
         "2nd": {
@@ -29,14 +29,14 @@
         },
         "Total": {
             "PlayersUsed": 90,
-            "Players_A": "Ben Tottman / John Peaty / Max Crawley-Moore  (18)",
+            "Players_A": "Max Crawley-Moore / Ben Tottman / John Peaty  (18)",
             "Players_T": "Ryan Morlen  (20)"
         }
     },
     "2023/24": {
         "1st": {
             "PlayersUsed": 55,
-            "Players_A": "Guy Collins / Ryland Thomas / Ben Tottman  (25)",
+            "Players_A": "Ryland Thomas / Ben Tottman / Guy Collins  (25)",
             "Players_T": "Jake Radcliffe  (11)"
         },
         "2nd": {
@@ -46,14 +46,14 @@
         },
         "Total": {
             "PlayersUsed": 96,
-            "Players_A": "Guy Collins / Ryland Thomas / Ben Tottman  (25)",
+            "Players_A": "Ryland Thomas / Ben Tottman / Guy Collins  (25)",
             "Players_T": "Will Roberts  (15)"
         }
     },
     "2024/25": {
         "1st": {
-            "PlayersUsed": 50,
-            "Players_A": "Sam Lindsay-McCall  (18)",
+            "PlayersUsed": 52,
+            "Players_A": "1  (79)",
             "Players_T": "Jake Radcliffe  (6)"
         },
         "2nd": {
@@ -62,8 +62,8 @@
             "Players_T": "Jack Billin  (6)"
         },
         "Total": {
-            "PlayersUsed": 96,
-            "Players_A": "Sam Lindsay-McCall  (18)",
+            "PlayersUsed": 98,
+            "Players_A": "1  (79)",
             "Players_T": "Jake Radcliffe / Jack Billin  (6)"
         }
     }
