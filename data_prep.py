@@ -52,6 +52,32 @@ my_sheet = client.open_by_url("https://docs.google.com/spreadsheets/d/1keX2eGbyi
 #####################################################
 ### TEAM SHEETS - 4th and 7th sheets in the workbook
 #####################################################
+def squad_consistency(df):
+    
+    df = df.reset_index(drop=True)
+
+    starter_cols = [str(i) for i in range(1, 16)]
+    squad_cols = [str(i) for i in range(1, 30)]
+
+    # Merge columns "1" to "15" into a single list column "Players"
+    df["Starters"] = df[starter_cols].values.tolist()
+    df["Starters"] = df["Starters"].apply(lambda x: [i for i in x if (i is not None and i!="")])
+    df["FullSquad"] = df[squad_cols].values.tolist()
+    df["FullSquad"] = df["FullSquad"].apply(lambda x: [i for i in x if isinstance(i, str)])
+
+    # Count players in common with previous game (previous row) in same Season and Squad
+    df["Starters_prev"] = df.groupby(["Season", "Squad"])["Starters"].shift(1, fill_value=list()).reset_index(drop=True)
+    df["Starters_common"] = df.apply(lambda x: list(set(x["Starters"]) & set(x["Starters_prev"])), axis=1)
+    df["Starters_retained"] = df["Starters_common"].apply(len).astype(int)
+
+    df["FullSquad_prev"] = df.groupby(["Season", "Squad"])["FullSquad"].shift(1, fill_value=list()).reset_index(drop=True)
+    df["FullSquad_common"] = df.apply(lambda x: list(set(x["FullSquad"]) & set(x["FullSquad_prev"])), axis=1)
+    df["FullSquad_retained"] = df["FullSquad_common"].apply(len).astype(int)
+
+    df = df.drop(columns=["Starters_prev", "Starters_common", "FullSquad_prev", "FullSquad_common"])
+
+    return df
+
 def team_sheets():
 
     t1, t2 = [
@@ -78,6 +104,8 @@ def team_sheets():
 
     # All column names to string
     team.columns = team.columns.astype(str)
+
+    team = squad_consistency(team)
 
     return team
 
