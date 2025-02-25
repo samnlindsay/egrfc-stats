@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<style>
+    #vis.vega-embed {
+      width: 100%;
+      display: flex;
+    }
+
+    #vis.vega-embed details,
+    #vis.vega-embed details summary {
+      position: relative;
+    }
+  
+
+      body {
+          margin: 0;
+      }
+  
+      /* Default size for larger screens */
+      .vega-embed {
+          width: 100%;
+          height: 100%;
+          transform-origin: top left;
+      }
+
+      /* Scale for tablet devices */
+      @media (max-width: 768px) {
+          .vega-embed {
+              transform: scale(0.75);
+              width: 100%;
+              height: 100%;
+          }
+      }
+
+      /* Scale for mobile devices */
+      @media (max-width: 480px) {
+          .vega-embed {
+              transform: scale(0.5);
+              width: 100%;
+              height: 100%;
+          }
+      }
+
+      .vega-bindings {
+        border: 2px solid black;
+        background-color: #e5e4e7;
+        color: #202946;
+        width: fit-content;
+        height: fit-content;
+        position: static;
+        display: none;
+        justify-content: center;
+        gap: 20px;
+        padding: 10px;
+        font-size: large;
+      }
+      .chart-wrapper {
+          display: grid;
+          grid-template-columns: 1fr 1fr; /* Chart takes 3x space, form takes 1x */
+      }
+
+      .vega-bind {
+        font-family: 'Lato', sans-serif;
+        padding: 10px;
+        padding-top: 5px;
+        width: min-content;
+      }
+            
+      .vega-bind-name {
+        font-family: 'Lato', sans-serif;
+        font-weight: bold;
+        font-size: larger;
+        color: #202946; 
+      }
+
+      .vega-bind-radio input {
+        width: 1rem;
+        height: 1rem;
+      }
+
+      .vega-bind-radio label {
+        font-family: 'Lato', sans-serif;
+        display: flex;
+        padding: 0.1rem;
+        cursor: pointer;
+        transition: all 0.3s;
+        font-size: medium;
+      }
+
+      .vega-bind-radio input:checked+label {
+        background-color: #202946;
+        color: #e5e4e7;
+    }
+  </style>
+<script src="https://cdn.jsdelivr.net/npm/vega@5" type="text/javascript"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-lite@5.20.1" type="text/javascript"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-embed@6" type="text/javascript"></script>
+<link href="https://fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700" rel="stylesheet"/><link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet"/></head>
+<body>
+<div id="vis"></div>
+<script>
+    (function(vegaEmbed) {
+      var spec = {"config": {"axis": {"labelFont": "Lato, sans-serif", "titleFont": "PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif", "labelFontSize": 13, "titleFontSize": 24, "gridColor": "#202947", "gridOpacity": 0.2}, "header": {"labelFont": "PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif", "titleFont": "PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif", "labelFontSize": 24, "titleFontSize": 28, "labelFontWeight": "bold", "orient": "left"}, "legend": {"labelFont": "Lato, sans-serif", "titleFont": "PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif", "labelFontSize": 14, "titleFontSize": 16, "titlePadding": 5, "fillColor": "white", "strokeColor": "black", "padding": 10, "titleFontWeight": "lighter", "titleFontStyle": "italic", "titleColor": "gray", "offset": 10}, "title": {"font": "PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif", "fontSize": 48, "fontWeight": "bold", "anchor": "start", "align": "center", "titlePadding": 20, "subtitlePadding": 10, "subtitleFontSize": 13, "subtitleColor": "", "subtitleFontStyle": "italic", "offset": 15, "color": "black"}, "axisX": {"labelAngle": 0}, "facet": {"title": null, "header": null, "align": {"row": "each", "column": "each"}}, "resolve": {"scale": {"y": "independent", "facet": "independent"}}, "background": "#20294710"}, "hconcat": [{"data": {"name": "df", "url": "https://raw.githubusercontent.com/samnlindsay/egrfc-stats/main/data/game.csv", "format": {"type": "csv"}}, "mark": {"type": "bar", "size": 20, "stroke": "black", "strokeOpacity": 0.5, "strokeWidth": 1}, "encoding": {"color": {"field": "Starters_retained", "legend": null, "scale": {"scheme": "blues"}, "type": "quantitative"}, "x": {"aggregate": "count", "axis": {"grid": false, "tickMinStep": 1.0, "title": "Games"}, "scale": {"reverse": true}, "type": "quantitative"}, "y": {"axis": {"labelAlign": "center", "labelPadding": 10, "orient": "right", "ticks": false, "title": null}, "field": "Starters_retained", "scale": {"domain": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], "reverse": true}, "type": "ordinal"}}, "height": 400, "title": {"text": "1st XV", "anchor": "middle", "color": "#202947", "fontSize": 36}, "transform": [{"calculate": "toNumber(datum.Starters_retained)", "as": "Starters_retained"}, {"filter": {"param": "Season", "empty": true}}, {"filter": "datum.Starters_retained > 0"}, {"filter": "datum.Squad == '1st'"}], "width": 200}, {"layer": [{"mark": {"type": "line", "point": false}, "encoding": {"color": {"field": "Squad", "legend": {"direction": "horizontal", "labelExpr": "datum.label + ' XV'", "orient": "top-left", "title": null}, "scale": {"domain": ["1st", "2nd"], "range": ["#202947", "#146f14"]}, "type": "nominal"}, "opacity": {"field": "Type", "scale": {"domain": ["Starters", "Forwards", "Backs"], "range": [1, 0.5]}, "type": "nominal"}, "strokeDash": {"field": "Type", "legend": null, "scale": {"domain": ["Starters", "Forwards", "Backs"], "range": [[0, 0], [15, 5], [2, 2]]}, "type": "nominal"}, "tooltip": [{"field": "Season", "title": "Season", "type": "ordinal"}, {"field": "Squad", "title": "Squad", "type": "nominal"}, {"field": "Starters", "format": ".1f", "title": "Starters retained", "type": "quantitative"}, {"field": "Forwards", "format": ".1f", "title": "Forwards retained", "type": "quantitative"}, {"field": "Backs", "format": ".1f", "title": "Backs retained", "type": "quantitative"}], "x": {"axis": {"labelExpr": "substring(datum.label, 2, 7)", "title": "Season"}, "field": "Season", "type": "ordinal"}, "y": {"axis": {"labels": false, "ticks": false}, "field": "Retained", "scale": {"domain": [0.5, 15.5]}, "title": null, "type": "quantitative"}}, "title": {"text": "Average by Season", "anchor": "middle", "fontSize": 24, "offset": 5, "subtitle": "Hover over a season to filter", "subtitlePadding": 5}, "transform": [{"aggregate": [{"op": "mean", "field": "Starters_retained", "as": "Starters"}, {"op": "mean", "field": "Forwards_retained", "as": "Forwards"}, {"op": "mean", "field": "Backs_retained", "as": "Backs"}], "groupby": ["Squad", "Season"]}, {"fold": ["Starters", "Forwards", "Backs"], "as": ["Type", "Retained"]}]}, {"mark": {"type": "point", "filled": true, "size": 100}, "encoding": {"color": {"field": "Squad", "legend": {"direction": "horizontal", "labelExpr": "datum.label + ' XV'", "orient": "top-left", "title": null}, "scale": {"domain": ["1st", "2nd"], "range": ["#202947", "#146f14"]}, "type": "nominal"}, "opacity": {"condition": {"param": "Season", "value": 1, "empty": true}, "value": 0.1}, "tooltip": [{"field": "Season", "title": "Season", "type": "ordinal"}, {"field": "Squad", "title": "Squad", "type": "nominal"}, {"field": "Starters", "format": ".1f", "title": "Starters retained", "type": "quantitative"}, {"field": "Forwards", "format": ".1f", "title": "Forwards retained", "type": "quantitative"}, {"field": "Backs", "format": ".1f", "title": "Backs retained", "type": "quantitative"}], "x": {"axis": {"labelExpr": "substring(datum.label, 2, 7)", "title": "Season"}, "field": "Season", "type": "ordinal"}, "y": {"axis": {"labels": false, "ticks": false}, "field": "Retained", "scale": {"domain": [0.5, 15.5]}, "title": null, "type": "quantitative"}}, "name": "view_1", "title": {"text": "Average by Season", "anchor": "middle", "fontSize": 24, "offset": 5, "subtitle": "Hover over a season to filter", "subtitlePadding": 5}, "transform": [{"aggregate": [{"op": "mean", "field": "Starters_retained", "as": "Starters"}, {"op": "mean", "field": "Forwards_retained", "as": "Forwards"}, {"op": "mean", "field": "Backs_retained", "as": "Backs"}], "groupby": ["Squad", "Season"]}, {"fold": ["Starters", "Forwards", "Backs"], "as": ["Type", "Retained"]}, {"filter": "datum.Type == 'Starters'"}]}, {"mark": {"type": "text", "dy": -15, "fontSize": 13}, "encoding": {"color": {"field": "Squad", "legend": {"direction": "horizontal", "labelExpr": "datum.label + ' XV'", "orient": "top-left", "title": null}, "scale": {"domain": ["1st", "2nd"], "range": ["#202947", "#146f14"]}, "type": "nominal"}, "opacity": {"condition": {"param": "Season", "value": 1, "empty": true}, "value": 0.1}, "text": {"field": "Starters", "format": ".1f", "type": "quantitative"}, "tooltip": [{"field": "Season", "title": "Season", "type": "ordinal"}, {"field": "Squad", "title": "Squad", "type": "nominal"}, {"field": "Starters", "format": ".1f", "title": "Starters retained", "type": "quantitative"}, {"field": "Forwards", "format": ".1f", "title": "Forwards retained", "type": "quantitative"}, {"field": "Backs", "format": ".1f", "title": "Backs retained", "type": "quantitative"}], "x": {"axis": {"labelExpr": "substring(datum.label, 2, 7)", "title": "Season"}, "field": "Season", "type": "ordinal"}, "y": {"axis": {"labels": false, "ticks": false}, "field": "Retained", "scale": {"domain": [0.5, 15.5]}, "title": null, "type": "quantitative"}}, "title": {"text": "Average by Season", "anchor": "middle", "fontSize": 24, "offset": 5, "subtitle": "Hover over a season to filter", "subtitlePadding": 5}, "transform": [{"aggregate": [{"op": "mean", "field": "Starters_retained", "as": "Starters"}, {"op": "mean", "field": "Forwards_retained", "as": "Forwards"}, {"op": "mean", "field": "Backs_retained", "as": "Backs"}], "groupby": ["Squad", "Season"]}, {"fold": ["Starters", "Forwards", "Backs"], "as": ["Type", "Retained"]}, {"filter": "datum.Type == 'Starters'"}]}], "data": {"name": "df", "url": "https://raw.githubusercontent.com/samnlindsay/egrfc-stats/main/data/game.csv", "format": {"type": "csv"}}, "height": 400, "width": 200}, {"data": {"name": "df", "url": "https://raw.githubusercontent.com/samnlindsay/egrfc-stats/main/data/game.csv", "format": {"type": "csv"}}, "mark": {"type": "bar", "size": 20, "stroke": "black", "strokeOpacity": 0.5, "strokeWidth": 1}, "encoding": {"color": {"field": "Starters_retained", "legend": null, "scale": {"scheme": "greens"}, "type": "quantitative"}, "x": {"aggregate": "count", "axis": {"grid": false, "title": "Games"}, "type": "quantitative"}, "y": {"axis": {"grid": false, "labelAlign": "center", "labelPadding": 10, "orient": "left", "tickMinStep": 1.0, "ticks": false, "title": null}, "field": "Starters_retained", "scale": {"domain": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], "reverse": true}, "type": "ordinal"}}, "height": 400, "title": {"text": "2nd XV", "anchor": "middle", "color": "#146f14", "fontSize": 36}, "transform": [{"calculate": "toNumber(datum.Starters_retained)", "as": "Starters_retained"}, {"filter": {"param": "Season", "empty": true}}, {"filter": "datum.Starters_retained > 0"}, {"filter": "datum.Squad == '2nd'"}, {"filter": {"param": "Season", "empty": true}}], "width": 200}], "params": [{"name": "Season", "select": {"type": "point", "fields": ["Season"], "on": "mouseover"}, "views": ["view_1"]}], "resolve": {"scale": {"y": "shared"}}, "spacing": 0, "title": {"text": "Squad Continuity", "subtitle": ["Number of players in the starting XV retained from the previous game", "Dashed lines (forwards) and dotted lines (backs) show average by season"]}, "$schema": "https://vega.github.io/schema/vega-lite/v5.20.1.json"};
+      var embedOpt = {"mode": "vega-lite"};
+
+      function showError(el, error){
+          el.innerHTML = ('<div style="color:red;">'
+                          + '<p>JavaScript Error: ' + error.message + '</p>'
+                          + "<p>This usually means there's a typo in your chart specification. "
+                          + "See the javascript console for the full traceback.</p>"
+                          + '</div>');
+          throw error;
+      }
+      const el = document.getElementById('vis');
+      vegaEmbed("#vis", spec, embedOpt)
+        .catch(error => showError(el, error));
+    })(vegaEmbed);
+
+  </script>
+</body>
+</html>

@@ -7,7 +7,7 @@ import os
 from bs4 import BeautifulSoup
 
 
-def hack_params_css(file, overlay=False):
+def hack_params_css(file, overlay=False, params=True):
 
   # Define the CSS to be added
   css_to_add = f'''
@@ -48,7 +48,7 @@ def hack_params_css(file, overlay=False):
         width: fit-content;
         height: fit-content;
         position: {"static" if not overlay else "fixed; top: 1rem; right: 1rem"};
-        display: block;
+        display: {"block" if params else "none"};
         justify-content: center;
         gap: 20px;
         padding: 10px;
@@ -1066,5 +1066,137 @@ def set_piece_h2h_chart(df=None, file=None):
     if file:
         chart.save(file)
         hack_params_css(file)
+
+    return chart
+
+def squad_continuity_chart(df=None, file=None):
+    season_selection = alt.selection_point(on="mouseover", name="Season", fields=["Season"], empty=True)
+
+    base = (
+        alt.Chart(df if df is not None else {"name":"df", "url":'https://raw.githubusercontent.com/samnlindsay/egrfc-stats/main/data/game.csv',"format":{'type':"csv"}})
+        .mark_bar(stroke="black", strokeWidth=1, strokeOpacity=0.5, size=20)
+        .transform_calculate(Starters_retained="toNumber(datum.Starters_retained)")
+        .transform_filter(season_selection)
+        .transform_filter("datum.Starters_retained > 0")
+        .properties(width=200, height=400)
+    )
+
+    b1 = (
+        base.transform_filter("datum.Squad == '1st'")
+        .encode(
+            y=alt.Y(
+                "Starters_retained:O",
+                axis=alt.Axis(title=None, orient="right", ticks=False, labelAlign="center", labelPadding=10),
+                scale=alt.Scale(domain=list(range(1, 16)), reverse=True),
+            ),
+            x=alt.X("count()", axis=alt.Axis(title="Games", grid=False, tickMinStep=1.0), scale=alt.Scale(reverse=True)),
+            color=alt.Color(
+                "Starters_retained:Q",
+                scale=alt.Scale(scheme="blues"), 
+                legend=None
+            )
+        )
+        .properties(title=alt.Title(text="1st XV", anchor="middle", fontSize=36, color=squad_scale.range[0]))
+    )
+
+    b2 = (
+        base.transform_filter("datum.Squad == '2nd'")
+        .transform_filter(season_selection)
+        .encode(
+            y=alt.Y(
+                "Starters_retained:O",
+                axis=alt.Axis(title=None, orient="left", grid=False, ticks=False, labelAlign="center", labelPadding=10, tickMinStep=1.0),
+                scale=alt.Scale(domain=list(range(1, 16)), reverse=True),
+            ),
+            x=alt.X("count()", axis=alt.Axis(title="Games", grid=False)),
+            color=alt.Color(
+                "Starters_retained:Q",
+                scale=alt.Scale(scheme="greens"), 
+                legend=None
+            )
+        )
+        .properties(title=alt.Title(text="2nd XV", anchor="middle", fontSize=36, color=squad_scale.range[1]))
+    )
+
+    trend = (
+        alt.Chart(df if df is not None else {"name":"df", "url":'https://raw.githubusercontent.com/samnlindsay/egrfc-stats/main/data/game.csv',"format":{'type':"csv"}})
+        .transform_aggregate(
+            Starters="mean(Starters_retained)", 
+            Forwards="mean(Forwards_retained)",
+            Backs="mean(Backs_retained)",
+            groupby=["Squad", "Season"]
+        )
+        .transform_fold(["Starters", "Forwards", "Backs"], as_=["Type", "Retained"])
+        .encode(
+            x=alt.X("Season:O", axis=alt.Axis(title="Season", labelExpr="substring(datum.label, 2, 7)")),
+            y=alt.Y("Retained:Q", title=None, scale=alt.Scale(domain=[0.5, 15.5]), axis=alt.Axis(labels=False, ticks=False)),
+            color=alt.Color(
+                "Squad:N", 
+                scale=squad_scale,
+                legend=alt.Legend(orient="top-left", labelExpr="datum.label + ' XV'", title=None, direction="horizontal")
+            ),
+            opacity=alt.condition(season_selection, alt.value(1), alt.value(0.1)),
+            tooltip=[
+                alt.Tooltip("Season:O", title="Season"),
+                alt.Tooltip("Squad:N", title="Squad"),
+                alt.Tooltip("Starters:Q", title="Starters retained", format=".1f"),
+                alt.Tooltip("Forwards:Q", title="Forwards retained", format=".1f"),
+                alt.Tooltip("Backs:Q", title="Backs retained", format=".1f"),
+            ]
+        )
+        .properties(
+            width=200, height=400,
+            title=alt.Title(
+                text="Average by Season", 
+                fontSize=24, 
+                anchor="middle", 
+                subtitle="Hover over a season to filter",
+                subtitlePadding=5,
+                offset=5
+            )
+        )
+    )
+
+    line = trend.mark_line(point=False).encode(
+        strokeDash=alt.StrokeDash(
+            "Type:N", 
+            scale=alt.Scale(
+                domain=["Starters", "Forwards", "Backs"], 
+                range=[[0, 0], [15, 5], [2, 2]]
+            ), 
+            legend=None
+        ),
+        opacity=alt.Opacity("Type:N", scale=alt.Scale(domain=["Starters", "Forwards", "Backs"], range=[1, 0.5])),
+    )
+    point = (
+        trend.mark_point(filled=True, size=100)
+        .add_params(season_selection)
+        .transform_filter("datum.Type == 'Starters'")
+    )
+    text = (
+        trend.mark_text(dy=-15, fontSize=13)
+        .encode(text=alt.Text("Starters:Q", format=".1f"))
+        .transform_filter("datum.Type == 'Starters'")
+    )
+    trends = alt.layer(line, point, text)
+
+
+    chart = (
+        alt.hconcat(b1, trends, b2, spacing=0)
+        .resolve_scale(y="shared")
+        .properties(
+            title=alt.Title(
+                text="Squad Continuity", 
+                subtitle=[
+                    "Number of players in the starting XV retained from the previous game", 
+                    "Dashed lines (forwards) and dotted lines (backs) show average by season"
+                ]
+            )
+        )
+    )
+
+    if file:
+        chart.save(file)
+        hack_params_css(file, params=False)
 
     return chart

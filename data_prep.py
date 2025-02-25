@@ -60,12 +60,22 @@ def squad_consistency(df):
     squad_cols = [str(i) for i in range(1, 30)]
 
     # Merge columns "1" to "15" into a single list column "Players"
+    df["Forwards"] = df[["1", "2", "3", "4", "5", "6", "7", "8"]].values.tolist()
+    df["Backs"] = df[["9", "10", "11", "12", "13", "14", "15"]].values.tolist()
     df["Starters"] = df[starter_cols].values.tolist()
     df["Starters"] = df["Starters"].apply(lambda x: [i for i in x if (i is not None and i!="")])
     df["FullSquad"] = df[squad_cols].values.tolist()
     df["FullSquad"] = df["FullSquad"].apply(lambda x: [i for i in x if isinstance(i, str)])
 
     # Count players in common with previous game (previous row) in same Season and Squad
+    df["Forwards_prev"] = df.groupby(["Season", "Squad"])["Forwards"].shift(1, fill_value=list()).reset_index(drop=True)
+    df["Forwards_common"] = df.apply(lambda x: list(set(x["Forwards"]) & set(x["Forwards_prev"])), axis=1)
+    df["Forwards_retained"] = df["Forwards_common"].apply(len).astype(int)
+
+    df["Backs_prev"] = df.groupby(["Season", "Squad"])["Backs"].shift(1, fill_value=list()).reset_index(drop=True)
+    df["Backs_common"] = df.apply(lambda x: list(set(x["Backs"]) & set(x["Backs_prev"])), axis=1)
+    df["Backs_retained"] = df["Backs_common"].apply(len).astype(int)
+
     df["Starters_prev"] = df.groupby(["Season", "Squad"])["Starters"].shift(1, fill_value=list()).reset_index(drop=True)
     df["Starters_common"] = df.apply(lambda x: list(set(x["Starters"]) & set(x["Starters_prev"])), axis=1)
     df["Starters_retained"] = df["Starters_common"].apply(len).astype(int)
@@ -74,7 +84,12 @@ def squad_consistency(df):
     df["FullSquad_common"] = df.apply(lambda x: list(set(x["FullSquad"]) & set(x["FullSquad_prev"])), axis=1)
     df["FullSquad_retained"] = df["FullSquad_common"].apply(len).astype(int)
 
-    df = df.drop(columns=["Starters_prev", "Starters_common", "FullSquad_prev", "FullSquad_common"])
+    df = df.drop(columns=[
+        "Starters", "Starters_prev", "Starters_common", 
+        "FullSquad", "FullSquad_prev", "FullSquad_common", 
+        "Forwards", "Forwards_prev", "Forwards_common", 
+        "Backs", "Backs_prev", "Backs_common"
+    ])
 
     return df
 

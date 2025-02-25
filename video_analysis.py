@@ -590,6 +590,6 @@ def game_stats_charts(df, file=None):
     )
     if file:
         chart.save(file)
-        hack_params_css(file)
+        hack_params_css(file, params=False)
 
     return chart

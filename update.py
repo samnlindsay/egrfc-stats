@@ -36,6 +36,7 @@ card_chart(file='Charts/cards.html')
 points_scorers_chart(file='Charts/points.html')
 team_sheets_chart(file='Charts/team-sheets.html')
 set_piece_h2h_chart(file='Charts/set-piece.html')
+squad_continuity_chart(file='Charts/continuity.html')
 
 # Self-contained charts (chart needs updating)
 game_stats_charts(analysis, file='Charts/video_analysis.html')

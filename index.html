@@ -39,6 +39,8 @@
                                         onclick="loadPage('Charts/results.html')">Results by Game</a></li>
                                 <li><a class="dropdown-item" href="#" onclick="loadPage('Charts/video_analysis.html')">Video
                                         Analysis by Game</a></li>
+                                <li><a class="dropdown-item" href="#" onclick="loadPage('Charts/continuity.html')">Squad
+                                        Continuity</a></li>
                                 <li><a class="dropdown-item" href="#" onclick="loadPage('Charts/set-piece.html')">Set
                                         Piece Results by Game</a></li>
                                 <li><a class="dropdown-item" href="#" onclick="loadPage('Charts/lineouts.html')">Lineout
@@ -80,11 +82,11 @@
             <div class="container-fluid">
                 <div class="my-2">
                     <button class="btn btn-primary w-100 text-center" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#resultsSummary" aria-expanded="false">
-                        Results Summary
+                        data-bs-target="#teamStats" aria-expanded="false">
+                        Team Stats
                     </button>
-                    <div class="collapse mt-2 show justify-content-center align-items-center" id="resultsSummary">
-                        <table class="table table-borderless text-center align-middle">
+                    <div class="collapse mt-2 show justify-content-center align-items-center" id="teamStats">
+                        <table class="table table-borderless mx-auto">
                             <thead class="table-dark">
                                 <tr>
                                     <th rowspan="2">
@@ -132,6 +134,7 @@
                                     Game</button>
                                 <button class="btn custom-btn py-2" onclick="loadPage('Charts/video_analysis.html')">Video
                                     Analysis by Game</button>
+                                <button class="btn custom-btn py-2" onclick="loadPage('Charts/continuity.html')">Squad Continuity</button>
                             </div>
                         </div>
                     </div>
@@ -144,7 +147,7 @@
                         Scrums & Lineouts
                     </button>
                     <div class="collapse mt-2 justify-content-center align-items-center" id="setPieceSummary">
-                        <table class="table table-borderless text-center align-middle">
+                        <table class="table table-borderless mx-auto text-center align-middle">
                             <thead class="table-dark">
                                 <tr>
                                     <th rowspan="2" colspan="2" class="align-middle py-0 my-0">
@@ -239,7 +242,7 @@
                         Player Stats
                     </button>
                     <div class="collapse mt-2 justify-content-center align-items-center" id="playerStats">
-                        <table class="table table-borderless text-center align-middle align-items-center" style="max-width: 700px;">
+                        <table class="table table-borderless mx-auto text-center align-middle align-items-center" style="max-width: 700px;">
                             <thead class="table-dark">
                                 <tr>
                                     <th class="p-1 pe-0">
