@@ -154,7 +154,7 @@ def team_sheets_chart(df=None, file=None):
     def team_sheet_part(df, position_type):
 
         base = (
-            alt.Chart(df if df is not None else {"url":'https://raw.githubusercontent.com/samnlindsay/egrfc-stats/main/data/players.csv',"format":{'type':"csv"}})
+            alt.Chart(df if df is not None else {"url":'https://raw.githubusercontent.com/samnlindsay/egrfc-stats/main/data/players.json',"format":{'type':"json"}})
             .transform_calculate(
                 P="split(datum.Player, ' ')[0][0] + ' ' + split(datum.Player, ' ')[1]",
             )

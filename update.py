@@ -17,10 +17,10 @@ analysis = game_stats()
  
 # Save data
 game_df.to_json('data/game.json', orient='records')
-players_df.to_csv('data/players.csv', index=False)
-players_agg_df.to_csv('data/players_agg.csv', index=False)
-set_piece_df.to_csv('data/set_piece.csv', index=False)
-analysis.to_csv('data/analysis.csv', index=False)
+players_df.to_json('data/players.json', orient='records')
+players_agg_df.to_json('data/players_agg.json', orient='records')
+set_piece_df.to_json('data/set_piece.json', orient='records')
+analysis.to_json('data/analysis.json', orient='records')
 
 # Update tables
 update_season_summaries(game_df, seasons)

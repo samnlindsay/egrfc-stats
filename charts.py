@@ -240,7 +240,7 @@ def plot_starts_by_position(df=None, min=0, file=None):
 
     # altair bar chart of starts by position
     chart = (
-        alt.Chart(df if df is not None else {"name": "df", "url":'https://raw.githubusercontent.com/samnlindsay/egrfc-stats/main/data/players.csv',"format":{'type':"csv"}})
+        alt.Chart(df if df is not None else {"name": "df", "url":'https://raw.githubusercontent.com/samnlindsay/egrfc-stats/main/data/players.json',"format":{'type':"json"}})
         .mark_bar()
         .encode(
             x=alt.X('count()', axis=alt.Axis(title=None, orient="top")),
@@ -307,7 +307,7 @@ def plot_games_by_player(min=5, df=None, file=None):
     )
 
     chart = (
-        alt.Chart(df if df is not None else {"name": "df", "url":'https://raw.githubusercontent.com/samnlindsay/egrfc-stats/main/data/players.csv',"format":{'type':"csv"}})
+        alt.Chart(df if df is not None else {"name": "df", "url":'https://raw.githubusercontent.com/samnlindsay/egrfc-stats/main/data/players.json',"format":{'type':"json"}})
         .mark_bar(strokeWidth=2)
         .encode(
             x=alt.X("count()", axis=alt.Axis(title=None, orient="top")),
@@ -488,7 +488,7 @@ def lineout_success_by_type(type, df=None, top=True, standalone=False):
     
     # Base chart
     base = (
-        alt.Chart(df if df is not None else {"name": "df", "url":'https://raw.githubusercontent.com/samnlindsay/egrfc-stats/main/data/lineouts.csv',"format":{'type':"csv"}})
+        alt.Chart(df if df is not None else {"name": "df", "url":'https://raw.githubusercontent.com/samnlindsay/egrfc-stats/main/data/lineouts.json',"format":{'type':"json"}})
         .add_selection(type_selections[type])
     )
     if standalone:
@@ -642,7 +642,7 @@ def points_scorers_chart(df=None, file=None):
     )
 
     chart = (
-        alt.Chart(df if df is not None else {"name": "df", "url":'https://raw.githubusercontent.com/samnlindsay/egrfc-stats/main/data/players_agg.csv',"format":{'type':"csv"}})
+        alt.Chart(df if df is not None else {"name": "df", "url":'https://raw.githubusercontent.com/samnlindsay/egrfc-stats/main/data/players_agg.json',"format":{'type':"json"}})
         .mark_bar()
         .transform_filter("datum.Points > 0")
         .transform_fold(["Tries", "Pens", "Cons"], as_=["Type", "Points"])
@@ -734,7 +734,7 @@ def card_chart(df=None, file=None):
     )
 
     chart = (
-        alt.Chart(df if df is not None else {"name": "df", "url":'https://raw.githubusercontent.com/samnlindsay/egrfc-stats/main/data/players_agg.csv',"format":{'type':"csv"}})
+        alt.Chart(df if df is not None else {"name": "df", "url":'https://raw.githubusercontent.com/samnlindsay/egrfc-stats/main/data/players_agg.json',"format":{'type':"json"}})
         .transform_calculate(Cards="datum.YC + datum.RC")
         .transform_filter("datum.YC > 0 || datum.RC > 0")
         .add_params(season_selection)
@@ -950,7 +950,7 @@ def set_piece_h2h_chart(df=None, file=None):
     )
     
     base = (
-        alt.Chart(df if df is not None else {"name":"df", "url":'https://raw.githubusercontent.com/samnlindsay/egrfc-stats/main/data/set_piece.csv',"format":{'type':"csv"}})
+        alt.Chart(df if df is not None else {"name":"df", "url":'https://raw.githubusercontent.com/samnlindsay/egrfc-stats/main/data/set_piece.json',"format":{'type':"json"}})
         .add_params(
             alt.param(
                 name="x_max",
