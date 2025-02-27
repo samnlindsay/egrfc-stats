@@ -65,15 +65,35 @@ def debuts(df, df_agg):
 
     df = df.sort_values(["Player", "Squad", "GameSort"])
 
-    debut = df.groupby(["Player","Squad"]).agg({"GameID": "first", "Season": "first"}).reset_index()
-    debut["Debut1"] = list(zip(debut["GameID"], debut["Season"]))
-    debut = debut[debut["Squad"] == "1st"].drop(columns=["Squad", "GameID", "Season"])
+    first_season = (
+        df_agg.groupby("Player")
+        .agg({"Season": "min"})
+        .reset_index()
+        .rename(columns={"Season": "FirstSeason"})
+    )
 
+    debut_season1 = (
+        df_agg[df_agg["Squad"]=="1st"]
+        .groupby("Player")
+        .agg({"Season": "min"})
+        .reset_index()
+        .rename(columns={"Season": "DebutSeason"})
+    )
 
-    first_season = df_agg.groupby("Player").agg({"Season": "min"}).reset_index()
-    first_season = first_season.rename(columns={"Season": "FirstSeason"})
+    debut_game1 = (
+        df[df["Squad"]=="1st"]
+        .groupby(["Player", "Season"])
+        .agg({"GameID": "first"})
+        .reset_index()
+        .rename(columns={"Season": "DebutSeason"})
+    )
 
-    debuts = first_season.merge(debut, on="Player", how="left")
+    debuts = (
+        first_season
+        .merge(debut_season1, on="Player", how="left")
+        .merge(debut_game1, on=["Player","DebutSeason"], how="left")
+        .fillna("-")
+    )
 
     return debuts
 

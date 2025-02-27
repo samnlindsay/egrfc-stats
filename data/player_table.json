@@ -11,7 +11,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2017\/18",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"A Baston",
@@ -25,7 +26,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2018\/19",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"A Borrow",
@@ -39,7 +41,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2017\/18",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"A Gee",
@@ -53,7 +56,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2017\/18",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"A Goodbrand",
@@ -67,7 +71,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2018\/19",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"A Hammer",
@@ -81,7 +86,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2019\/20",
-    "Debut1":null
+    "DebutSeason":"2019\/20",
+    "GameID":"-"
   },
   {
     "Player":"A Ingham",
@@ -95,7 +101,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2017\/18",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"A Kauffman",
@@ -109,7 +116,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2016\/17",
-    "Debut1":null
+    "DebutSeason":"2018\/19",
+    "GameID":"-"
   },
   {
     "Player":"A Schofield",
@@ -123,7 +131,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2018\/19",
-    "Debut1":null
+    "DebutSeason":"2018\/19",
+    "GameID":"-"
   },
   {
     "Player":"Aaron Boczek",
@@ -137,10 +146,8 @@
     "Games2":3,
     "Position":"Number 8 \/ Flanker",
     "FirstSeason":"2022\/23",
-    "Debut1":[
-      "Lewes (A)",
-      "2022\/23"
-    ]
+    "DebutSeason":"2022\/23",
+    "GameID":"Lewes (A)"
   },
   {
     "Player":"Aaron Stonell",
@@ -154,7 +161,8 @@
     "Games2":0,
     "Position":"Prop",
     "FirstSeason":"2022\/23",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"Alex Jackson",
@@ -168,10 +176,8 @@
     "Games2":0,
     "Position":"Number 8",
     "FirstSeason":"2021\/22",
-    "Debut1":[
-      "Crawley (H)",
-      "2021\/22"
-    ]
+    "DebutSeason":"2021\/22",
+    "GameID":"Crawley (H)"
   },
   {
     "Player":"Alex Leadbeater",
@@ -185,24 +191,8 @@
     "Games2":0,
     "Position":"Centre \/ Wing",
     "FirstSeason":"2019\/20",
-    "Debut1":[
-      "London Irish (A)",
-      "2021\/22"
-    ]
-  },
-  {
-    "Player":"Alex Maynard",
-    "TotalTries":4,
-    "TotalGames":11,
-    "TotalGames1":7,
-    "TotalGames2":4,
-    "Tries":0,
-    "Games":0,
-    "Games1":0,
-    "Games2":0,
-    "Position":"Prop",
-    "FirstSeason":"2019\/20",
-    "Debut1":null
+    "DebutSeason":"2021\/22",
+    "GameID":"London Irish (A)"
   },
   {
     "Player":"Alfie Fuller",
@@ -216,7 +206,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2023\/24",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"Alfie Jeffers",
@@ -230,7 +221,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2021\/22",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"Ali Moffatt",
@@ -244,10 +236,8 @@
     "Games2":4,
     "Position":"Wing \/ Centre",
     "FirstSeason":"2018\/19",
-    "Debut1":[
-      "University of Brighton (A)",
-      "2021\/22"
-    ]
+    "DebutSeason":"2018\/19",
+    "GameID":"-"
   },
   {
     "Player":"Alister Yaffa",
@@ -261,10 +251,8 @@
     "Games2":0,
     "Position":"Full Back \/ Centre \/ Wing",
     "FirstSeason":"2023\/24",
-    "Debut1":[
-      "Old Walcountians (H)",
-      "2023\/24"
-    ]
+    "DebutSeason":"2023\/24",
+    "GameID":"Old Walcountians (H)"
   },
   {
     "Player":"Andy Blackmore",
@@ -278,7 +266,8 @@
     "Games2":0,
     "Position":"Centre",
     "FirstSeason":"2021\/22",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"Archie Neill",
@@ -292,10 +281,8 @@
     "Games2":0,
     "Position":"Wing \/ Centre \/ Full Back",
     "FirstSeason":"2019\/20",
-    "Debut1":[
-      "Seaford (H)",
-      "2021\/22"
-    ]
+    "DebutSeason":"2019\/20",
+    "GameID":"-"
   },
   {
     "Player":"Archie Vickers",
@@ -309,10 +296,23 @@
     "Games2":0,
     "Position":"Flanker \/ Number 8",
     "FirstSeason":"2019\/20",
-    "Debut1":[
-      "University of Brighton (A)",
-      "2021\/22"
-    ]
+    "DebutSeason":"2019\/20",
+    "GameID":"-"
+  },
+  {
+    "Player":"Artemis Maynard",
+    "TotalTries":4,
+    "TotalGames":11,
+    "TotalGames1":7,
+    "TotalGames2":4,
+    "Tries":0,
+    "Games":0,
+    "Games1":0,
+    "Games2":0,
+    "Position":"Flanker",
+    "FirstSeason":"2019\/20",
+    "DebutSeason":"2019\/20",
+    "GameID":"-"
   },
   {
     "Player":"B Carter",
@@ -326,7 +326,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2016\/17",
-    "Debut1":null
+    "DebutSeason":"2017\/18",
+    "GameID":"-"
   },
   {
     "Player":"B Clarke",
@@ -340,7 +341,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2017\/18",
-    "Debut1":null
+    "DebutSeason":"2017\/18",
+    "GameID":"-"
   },
   {
     "Player":"B Meyerratken",
@@ -354,7 +356,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2018\/19",
-    "Debut1":null
+    "DebutSeason":"2018\/19",
+    "GameID":"-"
   },
   {
     "Player":"B Swadling",
@@ -368,7 +371,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2016\/17",
-    "Debut1":null
+    "DebutSeason":"2016\/17",
+    "GameID":"-"
   },
   {
     "Player":"B Whiteman",
@@ -382,7 +386,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2017\/18",
-    "Debut1":null
+    "DebutSeason":"2017\/18",
+    "GameID":"-"
   },
   {
     "Player":"Barley O'Conor",
@@ -396,7 +401,8 @@
     "Games2":1,
     "Position":null,
     "FirstSeason":"2024\/25",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"Ben Beard",
@@ -410,10 +416,8 @@
     "Games2":2,
     "Position":"Wing \/ Centre",
     "FirstSeason":"2018\/19",
-    "Debut1":[
-      "Seaford (A)",
-      "2022\/23"
-    ]
+    "DebutSeason":"2018\/19",
+    "GameID":"-"
   },
   {
     "Player":"Ben Gray",
@@ -427,7 +431,8 @@
     "Games2":2,
     "Position":"Fly Half",
     "FirstSeason":"2016\/17",
-    "Debut1":null
+    "DebutSeason":"2017\/18",
+    "GameID":"-"
   },
   {
     "Player":"Ben Green",
@@ -441,7 +446,8 @@
     "Games2":10,
     "Position":"Wing \/ Full Back",
     "FirstSeason":"2024\/25",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"Ben Hogan",
@@ -455,10 +461,8 @@
     "Games2":0,
     "Position":"Scrum Half",
     "FirstSeason":"2019\/20",
-    "Debut1":[
-      "Purley John Fisher (H)",
-      "2021\/22"
-    ]
+    "DebutSeason":"2019\/20",
+    "GameID":"-"
   },
   {
     "Player":"Ben Pellett",
@@ -472,10 +476,8 @@
     "Games2":5,
     "Position":"Prop",
     "FirstSeason":"2021\/22",
-    "Debut1":[
-      "Brighton 2 (A)",
-      "2023\/24"
-    ]
+    "DebutSeason":"2023\/24",
+    "GameID":"Brighton 2 (A)"
   },
   {
     "Player":"Ben Saunders",
@@ -489,10 +491,8 @@
     "Games2":0,
     "Position":"Centre",
     "FirstSeason":"2019\/20",
-    "Debut1":[
-      "Metropolitan Police (H)",
-      "2021\/22"
-    ]
+    "DebutSeason":"2019\/20",
+    "GameID":"-"
   },
   {
     "Player":"Ben Tottman",
@@ -506,10 +506,8 @@
     "Games2":1,
     "Position":"Hooker",
     "FirstSeason":"2018\/19",
-    "Debut1":[
-      "Crawley (H)",
-      "2021\/22"
-    ]
+    "DebutSeason":"2018\/19",
+    "GameID":"-"
   },
   {
     "Player":"Ben Watkinson",
@@ -523,7 +521,8 @@
     "Games2":7,
     "Position":"Number 8 \/ Prop",
     "FirstSeason":"2017\/18",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"Bertram Beanland",
@@ -537,7 +536,8 @@
     "Games2":0,
     "Position":"Prop",
     "FirstSeason":"2016\/17",
-    "Debut1":null
+    "DebutSeason":"2016\/17",
+    "GameID":"-"
   },
   {
     "Player":"Billy Davis",
@@ -551,7 +551,8 @@
     "Games2":3,
     "Position":"Prop",
     "FirstSeason":"2024\/25",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"Blake English",
@@ -565,7 +566,8 @@
     "Games2":0,
     "Position":"Flanker \/ Second Row",
     "FirstSeason":"2021\/22",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"Brad Taylor",
@@ -579,7 +581,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2018\/19",
-    "Debut1":null
+    "DebutSeason":"2018\/19",
+    "GameID":"-"
   },
   {
     "Player":"Bryan Karimanzira",
@@ -593,7 +596,8 @@
     "Games2":0,
     "Position":"Prop",
     "FirstSeason":"2022\/23",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"C Champain",
@@ -607,7 +611,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2016\/17",
-    "Debut1":null
+    "DebutSeason":"2017\/18",
+    "GameID":"-"
   },
   {
     "Player":"C Devery",
@@ -621,7 +626,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2017\/18",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"C Franklin",
@@ -635,7 +641,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2017\/18",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"C Lear",
@@ -649,7 +656,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2018\/19",
-    "Debut1":null
+    "DebutSeason":"2018\/19",
+    "GameID":"-"
   },
   {
     "Player":"C Macintyre",
@@ -663,7 +671,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2019\/20",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"Charlie Pullen",
@@ -677,10 +686,8 @@
     "Games2":1,
     "Position":"Number 8",
     "FirstSeason":"2022\/23",
-    "Debut1":[
-      "Old Colfeians (H)",
-      "2023\/24"
-    ]
+    "DebutSeason":"2023\/24",
+    "GameID":"Old Colfeians (H)"
   },
   {
     "Player":"Chris May-Miller",
@@ -694,10 +701,8 @@
     "Games2":0,
     "Position":"Centre",
     "FirstSeason":"2023\/24",
-    "Debut1":[
-      "Hove (H)",
-      "2023\/24"
-    ]
+    "DebutSeason":"2023\/24",
+    "GameID":"Hove (H)"
   },
   {
     "Player":"Chris Pentney",
@@ -711,7 +716,8 @@
     "Games2":0,
     "Position":"Second Row",
     "FirstSeason":"2017\/18",
-    "Debut1":null
+    "DebutSeason":"2017\/18",
+    "GameID":"-"
   },
   {
     "Player":"Chris Taylor",
@@ -725,10 +731,8 @@
     "Games2":4,
     "Position":"Scrum Half \/ Full Back",
     "FirstSeason":"2021\/22",
-    "Debut1":[
-      "Crawley (H)",
-      "2021\/22"
-    ]
+    "DebutSeason":"2021\/22",
+    "GameID":"Crawley (H)"
   },
   {
     "Player":"Colm Geraghty",
@@ -742,10 +746,8 @@
     "Games2":2,
     "Position":"Centre \/ Full Back",
     "FirstSeason":"2023\/24",
-    "Debut1":[
-      "Heathfield & Waldron (H)",
-      "2023\/24"
-    ]
+    "DebutSeason":"2023\/24",
+    "GameID":"Heathfield & Waldron (H)"
   },
   {
     "Player":"Connor Leggat",
@@ -759,10 +761,8 @@
     "Games2":0,
     "Position":"Number 8 \/ Prop",
     "FirstSeason":"2016\/17",
-    "Debut1":[
-      "Lewes (H)",
-      "2021\/22"
-    ]
+    "DebutSeason":"2016\/17",
+    "GameID":"-"
   },
   {
     "Player":"Connor Williams",
@@ -776,7 +776,8 @@
     "Games2":3,
     "Position":null,
     "FirstSeason":"2024\/25",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"D Baptist",
@@ -790,7 +791,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2016\/17",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"D Stewart",
@@ -804,7 +806,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2018\/19",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"D Tuvey",
@@ -818,7 +821,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2018\/19",
-    "Debut1":null
+    "DebutSeason":"2018\/19",
+    "GameID":"-"
   },
   {
     "Player":"D Ward",
@@ -832,7 +836,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2018\/19",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"Daan Hulst",
@@ -846,10 +851,8 @@
     "Games2":4,
     "Position":"Second Row \/ Number 8",
     "FirstSeason":"2016\/17",
-    "Debut1":[
-      "Brighton 2 (A)",
-      "2023\/24"
-    ]
+    "DebutSeason":"2016\/17",
+    "GameID":"-"
   },
   {
     "Player":"Dan Arnold",
@@ -863,10 +866,8 @@
     "Games2":4,
     "Position":"Second Row \/ Flanker \/ Centre",
     "FirstSeason":"2016\/17",
-    "Debut1":[
-      "Horsham (A)",
-      "2021\/22"
-    ]
+    "DebutSeason":"2016\/17",
+    "GameID":"-"
   },
   {
     "Player":"Dan Billin",
@@ -880,10 +881,8 @@
     "Games2":0,
     "Position":"Number 8 \/ Second Row \/ Flanker",
     "FirstSeason":"2021\/22",
-    "Debut1":[
-      "Horsham (A)",
-      "2021\/22"
-    ]
+    "DebutSeason":"2021\/22",
+    "GameID":"Horsham (A)"
   },
   {
     "Player":"Dan Poulton",
@@ -897,10 +896,8 @@
     "Games2":0,
     "Position":"Fly Half",
     "FirstSeason":"2021\/22",
-    "Debut1":[
-      "Crawley (H)",
-      "2021\/22"
-    ]
+    "DebutSeason":"2021\/22",
+    "GameID":"Crawley (H)"
   },
   {
     "Player":"Dante Maynard",
@@ -914,10 +911,8 @@
     "Games2":1,
     "Position":"Centre",
     "FirstSeason":"2024\/25",
-    "Debut1":[
-      "Weybridge Vandals (H)",
-      "2024\/25"
-    ]
+    "DebutSeason":"2024\/25",
+    "GameID":"Weybridge Vandals (H)"
   },
   {
     "Player":"Darren Gwynn",
@@ -931,7 +926,8 @@
     "Games2":0,
     "Position":"Second Row \/ Prop",
     "FirstSeason":"2018\/19",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"Dave Bridges",
@@ -945,10 +941,8 @@
     "Games2":2,
     "Position":"Prop \/ Second Row",
     "FirstSeason":"2016\/17",
-    "Debut1":[
-      "Uckfield (H)",
-      "2021\/22"
-    ]
+    "DebutSeason":"2016\/17",
+    "GameID":"-"
   },
   {
     "Player":"David Wilkinson",
@@ -962,7 +956,8 @@
     "Games2":0,
     "Position":"Full Back",
     "FirstSeason":"2021\/22",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"Devon Frost",
@@ -976,10 +971,8 @@
     "Games2":0,
     "Position":"Prop",
     "FirstSeason":"2019\/20",
-    "Debut1":[
-      "Purley John Fisher (H)",
-      "2021\/22"
-    ]
+    "DebutSeason":"2019\/20",
+    "GameID":"-"
   },
   {
     "Player":"Digby Blake",
@@ -993,7 +986,8 @@
     "Games2":1,
     "Position":null,
     "FirstSeason":"2024\/25",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"Dillan Bowe",
@@ -1007,7 +1001,8 @@
     "Games2":3,
     "Position":"Centre \/ Wing",
     "FirstSeason":"2024\/25",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"Dougie Anson-Gates",
@@ -1021,7 +1016,8 @@
     "Games2":2,
     "Position":"Centre",
     "FirstSeason":"2022\/23",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"Drew King",
@@ -1035,10 +1031,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2018\/19",
-    "Debut1":[
-      "Crawley (H)",
-      "2021\/22"
-    ]
+    "DebutSeason":"2018\/19",
+    "GameID":"-"
   },
   {
     "Player":"Duncan Fraser",
@@ -1052,10 +1046,8 @@
     "Games2":6,
     "Position":"Full Back \/ Wing",
     "FirstSeason":"2022\/23",
-    "Debut1":[
-      "Haywards Heath (H)",
-      "2022\/23"
-    ]
+    "DebutSeason":"2022\/23",
+    "GameID":"Haywards Heath (H)"
   },
   {
     "Player":"Dylan Hammocks",
@@ -1069,7 +1061,8 @@
     "Games2":20,
     "Position":"Flanker \/ Second Row",
     "FirstSeason":"2024\/25",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"Ed Arundell",
@@ -1083,7 +1076,8 @@
     "Games2":2,
     "Position":null,
     "FirstSeason":"2024\/25",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"Edu Fernandez",
@@ -1097,7 +1091,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2023\/24",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"Elliott Martin-Drew",
@@ -1111,10 +1106,8 @@
     "Games2":1,
     "Position":"Scrum Half \/ Wing",
     "FirstSeason":"2022\/23",
-    "Debut1":[
-      "Old Colfeians (H)",
-      "2023\/24"
-    ]
+    "DebutSeason":"2023\/24",
+    "GameID":"Old Colfeians (H)"
   },
   {
     "Player":"Eoin O'Donoghue",
@@ -1128,10 +1121,8 @@
     "Games2":0,
     "Position":"Flanker \/ Hooker",
     "FirstSeason":"2021\/22",
-    "Debut1":[
-      "Uckfield (A)",
-      "2021\/22"
-    ]
+    "DebutSeason":"2021\/22",
+    "GameID":"Uckfield (A)"
   },
   {
     "Player":"Ethan Carrick",
@@ -1145,10 +1136,8 @@
     "Games2":0,
     "Position":"Wing",
     "FirstSeason":"2021\/22",
-    "Debut1":[
-      "Haywards Heath (A)",
-      "2022\/23"
-    ]
+    "DebutSeason":"2022\/23",
+    "GameID":"Haywards Heath (A)"
   },
   {
     "Player":"Evan Gosling",
@@ -1162,7 +1151,8 @@
     "Games2":9,
     "Position":"Wing \/ Second Row",
     "FirstSeason":"2024\/25",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"F Lee-Fisher",
@@ -1176,7 +1166,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2019\/20",
-    "Debut1":null
+    "DebutSeason":"2019\/20",
+    "GameID":"-"
   },
   {
     "Player":"F Robinson",
@@ -1190,7 +1181,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2016\/17",
-    "Debut1":null
+    "DebutSeason":"2016\/17",
+    "GameID":"-"
   },
   {
     "Player":"Fergus Wood",
@@ -1204,10 +1196,8 @@
     "Games2":0,
     "Position":"Full Back \/ Wing",
     "FirstSeason":"2021\/22",
-    "Debut1":[
-      "Hellingly (A)",
-      "2021\/22"
-    ]
+    "DebutSeason":"2021\/22",
+    "GameID":"Hellingly (A)"
   },
   {
     "Player":"Fin Edwards",
@@ -1221,10 +1211,8 @@
     "Games2":0,
     "Position":"Fly Half",
     "FirstSeason":"2018\/19",
-    "Debut1":[
-      "Crawley (H)",
-      "2021\/22"
-    ]
+    "DebutSeason":"2018\/19",
+    "GameID":"-"
   },
   {
     "Player":"Fin Fisher",
@@ -1238,7 +1226,8 @@
     "Games2":1,
     "Position":"Fly Half \/ Centre",
     "FirstSeason":"2023\/24",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"G Cook",
@@ -1252,7 +1241,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2018\/19",
-    "Debut1":null
+    "DebutSeason":"2018\/19",
+    "GameID":"-"
   },
   {
     "Player":"G Harden",
@@ -1266,7 +1256,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2016\/17",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"G Jacobs",
@@ -1280,7 +1271,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2017\/18",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"G Kellas",
@@ -1294,7 +1286,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2016\/17",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"G Mercer",
@@ -1308,7 +1301,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2017\/18",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"G Skipworth",
@@ -1322,7 +1316,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2016\/17",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"Gareth Arthur",
@@ -1336,7 +1331,8 @@
     "Games2":1,
     "Position":"Second Row \/ Wing",
     "FirstSeason":"2023\/24",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"George Beet",
@@ -1350,10 +1346,8 @@
     "Games2":4,
     "Position":"Hooker",
     "FirstSeason":"2018\/19",
-    "Debut1":[
-      "Crawley (H)",
-      "2021\/22"
-    ]
+    "DebutSeason":"2018\/19",
+    "GameID":"-"
   },
   {
     "Player":"George Johnson",
@@ -1367,10 +1361,8 @@
     "Games2":0,
     "Position":"Scrum Half",
     "FirstSeason":"2021\/22",
-    "Debut1":[
-      "Burgess Hill (H)",
-      "2021\/22"
-    ]
+    "DebutSeason":"2021\/22",
+    "GameID":"Burgess Hill (H)"
   },
   {
     "Player":"George Jones",
@@ -1384,7 +1376,8 @@
     "Games2":7,
     "Position":"Prop",
     "FirstSeason":"2024\/25",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"George Naylor",
@@ -1398,10 +1391,8 @@
     "Games2":9,
     "Position":"Prop",
     "FirstSeason":"2023\/24",
-    "Debut1":[
-      "Hove (A)",
-      "2024\/25"
-    ]
+    "DebutSeason":"2024\/25",
+    "GameID":"Hove (A)"
   },
   {
     "Player":"George Robinson",
@@ -1415,7 +1406,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2023\/24",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"Greg Brack",
@@ -1429,7 +1421,8 @@
     "Games2":6,
     "Position":"Flanker \/ Second Row",
     "FirstSeason":"2024\/25",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"Gus Nye",
@@ -1443,10 +1436,8 @@
     "Games2":0,
     "Position":"Flanker",
     "FirstSeason":"2018\/19",
-    "Debut1":[
-      "Crawley (H)",
-      "2021\/22"
-    ]
+    "DebutSeason":"2019\/20",
+    "GameID":"-"
   },
   {
     "Player":"Guy Collins",
@@ -1460,10 +1451,8 @@
     "Games2":1,
     "Position":"Prop \/ Second Row",
     "FirstSeason":"2022\/23",
-    "Debut1":[
-      "Lewes (A)",
-      "2022\/23"
-    ]
+    "DebutSeason":"2022\/23",
+    "GameID":"Lewes (A)"
   },
   {
     "Player":"Guy Phillips",
@@ -1477,7 +1466,8 @@
     "Games2":0,
     "Position":"Prop",
     "FirstSeason":"2016\/17",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"H Burgis",
@@ -1491,7 +1481,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2019\/20",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"Harrison Berry",
@@ -1505,10 +1496,8 @@
     "Games2":15,
     "Position":"Flanker",
     "FirstSeason":"2021\/22",
-    "Debut1":[
-      "University of Brighton (A)",
-      "2021\/22"
-    ]
+    "DebutSeason":"2021\/22",
+    "GameID":"University of Brighton (A)"
   },
   {
     "Player":"Harrison Griffiths",
@@ -1522,10 +1511,8 @@
     "Games2":0,
     "Position":"Flanker",
     "FirstSeason":"2023\/24",
-    "Debut1":[
-      "Heathfield & Waldron (H)",
-      "2023\/24"
-    ]
+    "DebutSeason":"2023\/24",
+    "GameID":"Heathfield & Waldron (H)"
   },
   {
     "Player":"Harrison Lock",
@@ -1539,10 +1526,8 @@
     "Games2":0,
     "Position":"Prop",
     "FirstSeason":"2023\/24",
-    "Debut1":[
-      "Brighton 2 (A)",
-      "2023\/24"
-    ]
+    "DebutSeason":"2023\/24",
+    "GameID":"Brighton 2 (A)"
   },
   {
     "Player":"Harry Bryant",
@@ -1556,7 +1541,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2021\/22",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"Harry White",
@@ -1570,10 +1556,8 @@
     "Games2":0,
     "Position":"Scrum Half",
     "FirstSeason":"2023\/24",
-    "Debut1":[
-      "KCS Old Boys (H)",
-      "2023\/24"
-    ]
+    "DebutSeason":"2023\/24",
+    "GameID":"KCS Old Boys (H)"
   },
   {
     "Player":"Henry Aronson",
@@ -1587,7 +1571,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2018\/19",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"Henry Weller",
@@ -1601,10 +1586,8 @@
     "Games2":0,
     "Position":"Wing",
     "FirstSeason":"2019\/20",
-    "Debut1":[
-      "Metropolitan Police (H)",
-      "2021\/22"
-    ]
+    "DebutSeason":"2021\/22",
+    "GameID":"Metropolitan Police (H)"
   },
   {
     "Player":"Idris Lawal",
@@ -1618,7 +1601,8 @@
     "Games2":5,
     "Position":null,
     "FirstSeason":"2024\/25",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"J Carr",
@@ -1632,7 +1616,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2016\/17",
-    "Debut1":null
+    "DebutSeason":"2016\/17",
+    "GameID":"-"
   },
   {
     "Player":"J Defriend",
@@ -1646,7 +1631,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2016\/17",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"J Eduardo Fernandez-Oliva Fernandez",
@@ -1660,7 +1646,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2018\/19",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"J Gibbs",
@@ -1674,7 +1661,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2017\/18",
-    "Debut1":null
+    "DebutSeason":"2018\/19",
+    "GameID":"-"
   },
   {
     "Player":"J Hogbin",
@@ -1688,7 +1676,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2016\/17",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"J Leppard",
@@ -1702,7 +1691,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2019\/20",
-    "Debut1":null
+    "DebutSeason":"2019\/20",
+    "GameID":"-"
   },
   {
     "Player":"J Marriott",
@@ -1716,7 +1706,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2016\/17",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"J Miller",
@@ -1730,7 +1721,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2016\/17",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"J Seal",
@@ -1744,7 +1736,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2017\/18",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"J Stokes",
@@ -1758,7 +1751,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2016\/17",
-    "Debut1":null
+    "DebutSeason":"2017\/18",
+    "GameID":"-"
   },
   {
     "Player":"J Weeden",
@@ -1772,7 +1766,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2018\/19",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"J Winter - Tear",
@@ -1786,7 +1781,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2019\/20",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"Jack Andrews",
@@ -1800,10 +1796,8 @@
     "Games2":0,
     "Position":"Centre",
     "FirstSeason":"2018\/19",
-    "Debut1":[
-      "Crawley (H)",
-      "2021\/22"
-    ]
+    "DebutSeason":"2018\/19",
+    "GameID":"-"
   },
   {
     "Player":"Jack Billin",
@@ -1817,10 +1811,8 @@
     "Games2":5,
     "Position":"Scrum Half",
     "FirstSeason":"2022\/23",
-    "Debut1":[
-      "Crawley (A)",
-      "2022\/23"
-    ]
+    "DebutSeason":"2022\/23",
+    "GameID":"Crawley (A)"
   },
   {
     "Player":"Jack Jacobs",
@@ -1834,7 +1826,8 @@
     "Games2":5,
     "Position":"Hooker \/ Wing",
     "FirstSeason":"2021\/22",
-    "Debut1":null
+    "DebutSeason":"2021\/22",
+    "GameID":"-"
   },
   {
     "Player":"Jack Skipworth",
@@ -1848,10 +1841,8 @@
     "Games2":0,
     "Position":"Wing",
     "FirstSeason":"2016\/17",
-    "Debut1":[
-      "Crawley (H)",
-      "2021\/22"
-    ]
+    "DebutSeason":"2017\/18",
+    "GameID":"-"
   },
   {
     "Player":"Jacob Davidson",
@@ -1865,10 +1856,8 @@
     "Games2":0,
     "Position":"Scrum Half \/ Centre",
     "FirstSeason":"2021\/22",
-    "Debut1":[
-      "Lewes (A)",
-      "2021\/22"
-    ]
+    "DebutSeason":"2021\/22",
+    "GameID":"Lewes (A)"
   },
   {
     "Player":"Jacob James",
@@ -1882,7 +1871,8 @@
     "Games2":0,
     "Position":"Prop",
     "FirstSeason":"2021\/22",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"Jake Ayres",
@@ -1896,7 +1886,8 @@
     "Games2":0,
     "Position":"Centre",
     "FirstSeason":"2021\/22",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"Jake Bond",
@@ -1910,7 +1901,8 @@
     "Games2":0,
     "Position":"Fly Half",
     "FirstSeason":"2021\/22",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"Jake Radcliffe",
@@ -1924,10 +1916,8 @@
     "Games2":0,
     "Position":"Wing",
     "FirstSeason":"2017\/18",
-    "Debut1":[
-      "Crawley (H)",
-      "2021\/22"
-    ]
+    "DebutSeason":"2017\/18",
+    "GameID":"-"
   },
   {
     "Player":"James Busby",
@@ -1941,10 +1931,8 @@
     "Games2":0,
     "Position":"Second Row \/ Number 8",
     "FirstSeason":"2019\/20",
-    "Debut1":[
-      "Horsham (H)",
-      "2021\/22"
-    ]
+    "DebutSeason":"2019\/20",
+    "GameID":"-"
   },
   {
     "Player":"James Funnell",
@@ -1958,10 +1946,8 @@
     "Games2":1,
     "Position":"Prop",
     "FirstSeason":"2016\/17",
-    "Debut1":[
-      "Crawley (H)",
-      "2021\/22"
-    ]
+    "DebutSeason":"2016\/17",
+    "GameID":"-"
   },
   {
     "Player":"James Griffiths",
@@ -1975,7 +1961,8 @@
     "Games2":2,
     "Position":"Second Row",
     "FirstSeason":"2023\/24",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"James Jenkins",
@@ -1989,10 +1976,8 @@
     "Games2":3,
     "Position":"Full Back \/ Wing",
     "FirstSeason":"2022\/23",
-    "Debut1":[
-      "Lewes (A)",
-      "2022\/23"
-    ]
+    "DebutSeason":"2022\/23",
+    "GameID":"Lewes (A)"
   },
   {
     "Player":"Jamie Gache",
@@ -2006,7 +1991,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2017\/18",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"Joe Boczek",
@@ -2020,7 +2006,8 @@
     "Games2":0,
     "Position":"Flanker",
     "FirstSeason":"2022\/23",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"Joe Bull",
@@ -2034,7 +2021,8 @@
     "Games2":1,
     "Position":"Second Row",
     "FirstSeason":"2024\/25",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"Joe Terry",
@@ -2048,10 +2036,8 @@
     "Games2":0,
     "Position":"Centre \/ Wing",
     "FirstSeason":"2021\/22",
-    "Debut1":[
-      "Uckfield (H)",
-      "2022\/23"
-    ]
+    "DebutSeason":"2022\/23",
+    "GameID":"Uckfield (H)"
   },
   {
     "Player":"John Lear",
@@ -2065,7 +2051,8 @@
     "Games2":1,
     "Position":null,
     "FirstSeason":"2024\/25",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"John Peaty",
@@ -2079,10 +2066,8 @@
     "Games2":1,
     "Position":"Second Row \/ Flanker",
     "FirstSeason":"2016\/17",
-    "Debut1":[
-      "Eastbourne (H)",
-      "2021\/22"
-    ]
+    "DebutSeason":"2016\/17",
+    "GameID":"-"
   },
   {
     "Player":"Jonny Martin",
@@ -2096,7 +2081,8 @@
     "Games2":8,
     "Position":"Wing",
     "FirstSeason":"2024\/25",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"Jordan Hollis",
@@ -2110,10 +2096,8 @@
     "Games2":0,
     "Position":"Fly Half \/ Centre \/ Scrum Half",
     "FirstSeason":"2021\/22",
-    "Debut1":[
-      "Metropolitan Police (H)",
-      "2021\/22"
-    ]
+    "DebutSeason":"2021\/22",
+    "GameID":"Metropolitan Police (H)"
   },
   {
     "Player":"Jordan Tucker",
@@ -2127,7 +2111,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2016\/17",
-    "Debut1":null
+    "DebutSeason":"2017\/18",
+    "GameID":"-"
   },
   {
     "Player":"Jordan Walker",
@@ -2141,10 +2126,8 @@
     "Games2":0,
     "Position":"Flanker",
     "FirstSeason":"2022\/23",
-    "Debut1":[
-      "Haywards Heath (A)",
-      "2022\/23"
-    ]
+    "DebutSeason":"2022\/23",
+    "GameID":"Haywards Heath (A)"
   },
   {
     "Player":"Josh Brimecombe",
@@ -2158,10 +2141,8 @@
     "Games2":0,
     "Position":"Prop",
     "FirstSeason":"2021\/22",
-    "Debut1":[
-      "Crawley (H)",
-      "2021\/22"
-    ]
+    "DebutSeason":"2021\/22",
+    "GameID":"Crawley (H)"
   },
   {
     "Player":"Josh Weaver",
@@ -2175,10 +2156,8 @@
     "Games2":2,
     "Position":"Flanker",
     "FirstSeason":"2023\/24",
-    "Debut1":[
-      "Brighton 2 (A)",
-      "2023\/24"
-    ]
+    "DebutSeason":"2023\/24",
+    "GameID":"Brighton 2 (A)"
   },
   {
     "Player":"Jules Jardim",
@@ -2192,10 +2171,8 @@
     "Games2":2,
     "Position":"Second Row",
     "FirstSeason":"2021\/22",
-    "Debut1":[
-      "Old Colfeians (H)",
-      "2023\/24"
-    ]
+    "DebutSeason":"2023\/24",
+    "GameID":"Old Colfeians (H)"
   },
   {
     "Player":"K Ailes",
@@ -2209,7 +2186,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2017\/18",
-    "Debut1":null
+    "DebutSeason":"2017\/18",
+    "GameID":"-"
   },
   {
     "Player":"K Roser",
@@ -2223,7 +2201,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2016\/17",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"Kit Clarke",
@@ -2237,7 +2216,8 @@
     "Games2":1,
     "Position":"Scrum Half",
     "FirstSeason":"2023\/24",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"Ky Oliveira",
@@ -2251,10 +2231,8 @@
     "Games2":0,
     "Position":"Second Row",
     "FirstSeason":"2021\/22",
-    "Debut1":[
-      "Eastbourne (A)2",
-      "2021\/22"
-    ]
+    "DebutSeason":"2021\/22",
+    "GameID":"Eastbourne (A)2"
   },
   {
     "Player":"L Cammish",
@@ -2268,7 +2246,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2019\/20",
-    "Debut1":null
+    "DebutSeason":"2019\/20",
+    "GameID":"-"
   },
   {
     "Player":"L Sands",
@@ -2282,7 +2261,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2016\/17",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"Liam Casey",
@@ -2296,10 +2276,8 @@
     "Games2":0,
     "Position":"Flanker",
     "FirstSeason":"2017\/18",
-    "Debut1":[
-      "Crawley (H)",
-      "2021\/22"
-    ]
+    "DebutSeason":"2018\/19",
+    "GameID":"-"
   },
   {
     "Player":"Luke Maker",
@@ -2313,10 +2291,8 @@
     "Games2":1,
     "Position":"Full Back \/ Wing",
     "FirstSeason":"2023\/24",
-    "Debut1":[
-      "Heathfield & Waldron (H)",
-      "2023\/24"
-    ]
+    "DebutSeason":"2023\/24",
+    "GameID":"Heathfield & Waldron (H)"
   },
   {
     "Player":"Lukis Waite",
@@ -2330,7 +2306,8 @@
     "Games2":1,
     "Position":"Scrum Half",
     "FirstSeason":"2016\/17",
-    "Debut1":null
+    "DebutSeason":"2018\/19",
+    "GameID":"-"
   },
   {
     "Player":"M Ansboro",
@@ -2344,7 +2321,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2016\/17",
-    "Debut1":null
+    "DebutSeason":"2017\/18",
+    "GameID":"-"
   },
   {
     "Player":"M Dewing",
@@ -2358,7 +2336,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2017\/18",
-    "Debut1":null
+    "DebutSeason":"2017\/18",
+    "GameID":"-"
   },
   {
     "Player":"M Edwards",
@@ -2372,7 +2351,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2017\/18",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"M Evans",
@@ -2386,7 +2366,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2017\/18",
-    "Debut1":null
+    "DebutSeason":"2017\/18",
+    "GameID":"-"
   },
   {
     "Player":"M Taylor",
@@ -2400,7 +2381,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2016\/17",
-    "Debut1":null
+    "DebutSeason":"2016\/17",
+    "GameID":"-"
   },
   {
     "Player":"M Tomkinson",
@@ -2414,7 +2396,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2018\/19",
-    "Debut1":null
+    "DebutSeason":"2018\/19",
+    "GameID":"-"
   },
   {
     "Player":"M Williams",
@@ -2428,7 +2411,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2017\/18",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"Mark Fulham",
@@ -2442,7 +2426,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2018\/19",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"Mark Lewis",
@@ -2456,10 +2441,8 @@
     "Games2":5,
     "Position":"Fly Half \/ Scrum Half",
     "FirstSeason":"2024\/25",
-    "Debut1":[
-      "Hove (H)",
-      "2024\/25"
-    ]
+    "DebutSeason":"2024\/25",
+    "GameID":"Hove (H)"
   },
   {
     "Player":"Mark Oliver",
@@ -2473,10 +2456,8 @@
     "Games2":2,
     "Position":"Prop \/ Hooker",
     "FirstSeason":"2016\/17",
-    "Debut1":[
-      "Old Colfeians (H)",
-      "2023\/24"
-    ]
+    "DebutSeason":"2016\/17",
+    "GameID":"-"
   },
   {
     "Player":"Matt Brooke",
@@ -2490,7 +2471,8 @@
     "Games2":0,
     "Position":"Fly Half \/ Full Back",
     "FirstSeason":"2016\/17",
-    "Debut1":null
+    "DebutSeason":"2018\/19",
+    "GameID":"-"
   },
   {
     "Player":"Matt Marriott",
@@ -2504,7 +2486,8 @@
     "Games2":0,
     "Position":"Full Back",
     "FirstSeason":"2016\/17",
-    "Debut1":null
+    "DebutSeason":"2017\/18",
+    "GameID":"-"
   },
   {
     "Player":"Matthew Robotham",
@@ -2518,7 +2501,8 @@
     "Games2":0,
     "Position":"Second Row",
     "FirstSeason":"2016\/17",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"Max Crawley-Moore",
@@ -2532,10 +2516,8 @@
     "Games2":4,
     "Position":"Centre",
     "FirstSeason":"2017\/18",
-    "Debut1":[
-      "Crawley (H)",
-      "2021\/22"
-    ]
+    "DebutSeason":"2017\/18",
+    "GameID":"-"
   },
   {
     "Player":"Max English",
@@ -2549,7 +2531,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2022\/23",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"Max Morgan",
@@ -2563,10 +2546,8 @@
     "Games2":1,
     "Position":"Flanker",
     "FirstSeason":"2021\/22",
-    "Debut1":[
-      "Seaford (A)",
-      "2022\/23"
-    ]
+    "DebutSeason":"2022\/23",
+    "GameID":"Seaford (A)"
   },
   {
     "Player":"Michael Presland",
@@ -2580,7 +2561,8 @@
     "Games2":12,
     "Position":"Prop",
     "FirstSeason":"2024\/25",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"Michael Simmonds",
@@ -2594,7 +2576,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2019\/20",
-    "Debut1":null
+    "DebutSeason":"2019\/20",
+    "GameID":"-"
   },
   {
     "Player":"Mike Unsworth",
@@ -2608,7 +2591,8 @@
     "Games2":0,
     "Position":"Prop",
     "FirstSeason":"2016\/17",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"Mikey Redmond",
@@ -2622,7 +2606,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2016\/17",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"Morgan Burger",
@@ -2636,7 +2621,8 @@
     "Games2":0,
     "Position":"Centre \/ Flanker \/ Scrum Half",
     "FirstSeason":"2016\/17",
-    "Debut1":null
+    "DebutSeason":"2016\/17",
+    "GameID":"-"
   },
   {
     "Player":"N Oakley",
@@ -2650,7 +2636,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2019\/20",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"Nathan Oliver",
@@ -2664,10 +2651,8 @@
     "Games2":6,
     "Position":"Centre \/ Flanker",
     "FirstSeason":"2024\/25",
-    "Debut1":[
-      "Hove (A)",
-      "2024\/25"
-    ]
+    "DebutSeason":"2024\/25",
+    "GameID":"Hove (A)"
   },
   {
     "Player":"Nick Carter",
@@ -2681,10 +2666,8 @@
     "Games2":0,
     "Position":"Flanker \/ Second Row",
     "FirstSeason":"2021\/22",
-    "Debut1":[
-      "Uckfield (A)",
-      "2021\/22"
-    ]
+    "DebutSeason":"2021\/22",
+    "GameID":"Uckfield (A)"
   },
   {
     "Player":"Noah Merrion",
@@ -2698,10 +2681,8 @@
     "Games2":1,
     "Position":"Fly Half",
     "FirstSeason":"2024\/25",
-    "Debut1":[
-      "Eastbourne (H)",
-      "2024\/25"
-    ]
+    "DebutSeason":"2024\/25",
+    "GameID":"Eastbourne (H)"
   },
   {
     "Player":"Noah Roberts",
@@ -2715,10 +2696,8 @@
     "Games2":3,
     "Position":"Scrum Half \/ Fly Half \/ Full Back",
     "FirstSeason":"2022\/23",
-    "Debut1":[
-      "Old Colfeians (H)",
-      "2023\/24"
-    ]
+    "DebutSeason":"2023\/24",
+    "GameID":"Old Colfeians (H)"
   },
   {
     "Player":"O Leggat",
@@ -2732,7 +2711,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2018\/19",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"O Waite",
@@ -2746,7 +2726,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2017\/18",
-    "Debut1":null
+    "DebutSeason":"2017\/18",
+    "GameID":"-"
   },
   {
     "Player":"Oli Billin",
@@ -2760,10 +2741,8 @@
     "Games2":0,
     "Position":"Full Back \/ Fly Half",
     "FirstSeason":"2019\/20",
-    "Debut1":[
-      "Crawley (H)",
-      "2021\/22"
-    ]
+    "DebutSeason":"2019\/20",
+    "GameID":"-"
   },
   {
     "Player":"Oli Brown ",
@@ -2777,7 +2756,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2017\/18",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"Oli Hodge",
@@ -2791,7 +2771,8 @@
     "Games2":1,
     "Position":"Second Row",
     "FirstSeason":"2024\/25",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"Oliver Roberts",
@@ -2805,7 +2786,8 @@
     "Games2":0,
     "Position":"Wing",
     "FirstSeason":"2019\/20",
-    "Debut1":null
+    "DebutSeason":"2019\/20",
+    "GameID":"-"
   },
   {
     "Player":"Ollie Adams",
@@ -2819,10 +2801,8 @@
     "Games2":0,
     "Position":"Fly Half \/ Full Back \/ Wing",
     "FirstSeason":"2018\/19",
-    "Debut1":[
-      "Metropolitan Police (H)",
-      "2021\/22"
-    ]
+    "DebutSeason":"2018\/19",
+    "GameID":"-"
   },
   {
     "Player":"Ollie Hall",
@@ -2836,7 +2816,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2023\/24",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"Ollie Johnston",
@@ -2850,7 +2831,8 @@
     "Games2":4,
     "Position":"Centre",
     "FirstSeason":"2024\/25",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"Ollie Toogood",
@@ -2864,10 +2846,8 @@
     "Games2":0,
     "Position":"Second Row",
     "FirstSeason":"2017\/18",
-    "Debut1":[
-      "London Cornish (H)",
-      "2024\/25"
-    ]
+    "DebutSeason":"2017\/18",
+    "GameID":"-"
   },
   {
     "Player":"Or Shay",
@@ -2881,10 +2861,8 @@
     "Games2":9,
     "Position":"Number 8 \/ Second Row",
     "FirstSeason":"2022\/23",
-    "Debut1":[
-      "Crawley (H)",
-      "2022\/23"
-    ]
+    "DebutSeason":"2022\/23",
+    "GameID":"Crawley (H)"
   },
   {
     "Player":"Oscar Morgan",
@@ -2898,7 +2876,8 @@
     "Games2":0,
     "Position":"Wing",
     "FirstSeason":"2023\/24",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"Oscar Read",
@@ -2912,7 +2891,8 @@
     "Games2":0,
     "Position":"Wing",
     "FirstSeason":"2023\/24",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"Oscar Staples",
@@ -2926,10 +2906,8 @@
     "Games2":5,
     "Position":"Flanker \/ Second Row",
     "FirstSeason":"2023\/24",
-    "Debut1":[
-      "Kingston (A)",
-      "2023\/24"
-    ]
+    "DebutSeason":"2023\/24",
+    "GameID":"Kingston (A)"
   },
   {
     "Player":"Owen Jones",
@@ -2943,7 +2921,8 @@
     "Games2":2,
     "Position":"Wing",
     "FirstSeason":"2017\/18",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"Owen Peel",
@@ -2957,10 +2936,8 @@
     "Games2":0,
     "Position":"Number 8",
     "FirstSeason":"2021\/22",
-    "Debut1":[
-      "Horsham (H)",
-      "2021\/22"
-    ]
+    "DebutSeason":"2021\/22",
+    "GameID":"Horsham (H)"
   },
   {
     "Player":"Paddy Shepherd",
@@ -2974,7 +2951,8 @@
     "Games2":2,
     "Position":"Centre \/ Second Row",
     "FirstSeason":"2024\/25",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"Patrick Bowe",
@@ -2988,7 +2966,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2023\/24",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"Patrick Thomson",
@@ -3002,10 +2981,11 @@
     "Games2":5,
     "Position":"Scrum Half \/ Wing \/ Fly Half",
     "FirstSeason":"2024\/25",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
-    "Player":"Pete Morley",
+    "Player":"Peter Morley",
     "TotalTries":5,
     "TotalGames":80,
     "TotalGames1":32,
@@ -3016,10 +2996,8 @@
     "Games2":7,
     "Position":"Second Row",
     "FirstSeason":"2016\/17",
-    "Debut1":[
-      "Horsham (A)",
-      "2021\/22"
-    ]
+    "DebutSeason":"2017\/18",
+    "GameID":"-"
   },
   {
     "Player":"R Andrews",
@@ -3033,7 +3011,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2017\/18",
-    "Debut1":null
+    "DebutSeason":"2017\/18",
+    "GameID":"-"
   },
   {
     "Player":"R Darch",
@@ -3047,7 +3026,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2017\/18",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"R Lewis",
@@ -3061,7 +3041,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2018\/19",
-    "Debut1":null
+    "DebutSeason":"2018\/19",
+    "GameID":"-"
   },
   {
     "Player":"R Marsh",
@@ -3075,7 +3056,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2016\/17",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"R Perry",
@@ -3089,7 +3071,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2016\/17",
-    "Debut1":null
+    "DebutSeason":"2016\/17",
+    "GameID":"-"
   },
   {
     "Player":"Reggie Harris",
@@ -3103,10 +3086,8 @@
     "Games2":6,
     "Position":"Hooker",
     "FirstSeason":"2024\/25",
-    "Debut1":[
-      "Hove (A)",
-      "2024\/25"
-    ]
+    "DebutSeason":"2024\/25",
+    "GameID":"Hove (A)"
   },
   {
     "Player":"Rhys Skinner",
@@ -3120,10 +3101,8 @@
     "Games2":5,
     "Position":"Fly Half \/ Centre",
     "FirstSeason":"2023\/24",
-    "Debut1":[
-      "Weybridge Vandals (H)",
-      "2023\/24"
-    ]
+    "DebutSeason":"2023\/24",
+    "GameID":"Weybridge Vandals (H)"
   },
   {
     "Player":"Richard Dodgson",
@@ -3137,10 +3116,8 @@
     "Games2":0,
     "Position":"Centre",
     "FirstSeason":"2016\/17",
-    "Debut1":[
-      "Horsham (H)",
-      "2021\/22"
-    ]
+    "DebutSeason":"2017\/18",
+    "GameID":"-"
   },
   {
     "Player":"Rob Salvi",
@@ -3154,7 +3131,8 @@
     "Games2":6,
     "Position":"Prop \/ Hooker",
     "FirstSeason":"2023\/24",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"Robert Poole",
@@ -3168,7 +3146,8 @@
     "Games2":0,
     "Position":"Wing",
     "FirstSeason":"2016\/17",
-    "Debut1":null
+    "DebutSeason":"2018\/19",
+    "GameID":"-"
   },
   {
     "Player":"Rory Duncanson",
@@ -3182,10 +3161,8 @@
     "Games2":0,
     "Position":"Hooker \/ Flanker",
     "FirstSeason":"2021\/22",
-    "Debut1":[
-      "Horsham (A)",
-      "2021\/22"
-    ]
+    "DebutSeason":"2021\/22",
+    "GameID":"Horsham (A)"
   },
   {
     "Player":"Rory Evans",
@@ -3199,10 +3176,8 @@
     "Games2":10,
     "Position":"Flanker",
     "FirstSeason":"2021\/22",
-    "Debut1":[
-      "Crawley (H)",
-      "2021\/22"
-    ]
+    "DebutSeason":"2021\/22",
+    "GameID":"Crawley (H)"
   },
   {
     "Player":"Ryan Foster",
@@ -3216,7 +3191,8 @@
     "Games2":3,
     "Position":"Centre",
     "FirstSeason":"2016\/17",
-    "Debut1":null
+    "DebutSeason":"2016\/17",
+    "GameID":"-"
   },
   {
     "Player":"Ryan Kirk",
@@ -3230,7 +3206,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2023\/24",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"Ryan McGealy",
@@ -3244,10 +3221,8 @@
     "Games2":0,
     "Position":"Second Row",
     "FirstSeason":"2021\/22",
-    "Debut1":[
-      "Lewes (H)",
-      "2021\/22"
-    ]
+    "DebutSeason":"2021\/22",
+    "GameID":"Lewes (H)"
   },
   {
     "Player":"Ryan Morlen",
@@ -3261,10 +3236,8 @@
     "Games2":2,
     "Position":"Centre",
     "FirstSeason":"2021\/22",
-    "Debut1":[
-      "Crawley (H)",
-      "2021\/22"
-    ]
+    "DebutSeason":"2021\/22",
+    "GameID":"Crawley (H)"
   },
   {
     "Player":"Ryland Thomas",
@@ -3278,10 +3251,8 @@
     "Games2":0,
     "Position":"Flanker",
     "FirstSeason":"2017\/18",
-    "Debut1":[
-      "Pulborough (H)",
-      "2022\/23"
-    ]
+    "DebutSeason":"2017\/18",
+    "GameID":"-"
   },
   {
     "Player":"S Anderson",
@@ -3295,7 +3266,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2016\/17",
-    "Debut1":null
+    "DebutSeason":"2016\/17",
+    "GameID":"-"
   },
   {
     "Player":"S Cooke",
@@ -3309,7 +3281,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2016\/17",
-    "Debut1":null
+    "DebutSeason":"2016\/17",
+    "GameID":"-"
   },
   {
     "Player":"S Elliott",
@@ -3323,7 +3296,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2017\/18",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"Sachio Shimizu",
@@ -3337,7 +3311,8 @@
     "Games2":2,
     "Position":"Prop",
     "FirstSeason":"2017\/18",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"Sam Ashley-Williams",
@@ -3351,7 +3326,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2022\/23",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"Sam Johnston",
@@ -3365,7 +3341,8 @@
     "Games2":4,
     "Position":"Full Back \/ Centre \/ Fly Half",
     "FirstSeason":"2024\/25",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"Sam Lindsay",
@@ -3379,10 +3356,8 @@
     "Games2":0,
     "Position":"Hooker \/ Prop",
     "FirstSeason":"2021\/22",
-    "Debut1":[
-      "Horsham (A)",
-      "2021\/22"
-    ]
+    "DebutSeason":"2021\/22",
+    "GameID":"Horsham (A)"
   },
   {
     "Player":"Sam Lindsay-McCall",
@@ -3396,10 +3371,8 @@
     "Games2":1,
     "Position":"Second Row",
     "FirstSeason":"2017\/18",
-    "Debut1":[
-      "Crawley (H)",
-      "2021\/22"
-    ]
+    "DebutSeason":"2021\/22",
+    "GameID":"Crawley (H)"
   },
   {
     "Player":"Sam McCarthy",
@@ -3413,7 +3386,8 @@
     "Games2":10,
     "Position":"Flanker \/ Wing",
     "FirstSeason":"2024\/25",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"Sam Montagu",
@@ -3427,10 +3401,8 @@
     "Games2":0,
     "Position":"Wing \/ Centre",
     "FirstSeason":"2016\/17",
-    "Debut1":[
-      "Crawley (H)",
-      "2021\/22"
-    ]
+    "DebutSeason":"2016\/17",
+    "GameID":"-"
   },
   {
     "Player":"Sam Musgrave",
@@ -3444,10 +3416,8 @@
     "Games2":0,
     "Position":"Centre",
     "FirstSeason":"2023\/24",
-    "Debut1":[
-      "Old Walcountians (H)",
-      "2023\/24"
-    ]
+    "DebutSeason":"2023\/24",
+    "GameID":"Old Walcountians (H)"
   },
   {
     "Player":"Sam Spriddell",
@@ -3461,10 +3431,8 @@
     "Games2":2,
     "Position":"Full Back \/ Scrum Half",
     "FirstSeason":"2016\/17",
-    "Debut1":[
-      "Crawley (H)",
-      "2021\/22"
-    ]
+    "DebutSeason":"2021\/22",
+    "GameID":"Crawley (H)"
   },
   {
     "Player":"Scott Devlin",
@@ -3478,7 +3446,8 @@
     "Games2":0,
     "Position":"Wing",
     "FirstSeason":"2021\/22",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"Sean Madden",
@@ -3492,7 +3461,8 @@
     "Games2":0,
     "Position":"Wing",
     "FirstSeason":"2021\/22",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"Sean Morgan",
@@ -3506,10 +3476,8 @@
     "Games2":1,
     "Position":"Prop",
     "FirstSeason":"2016\/17",
-    "Debut1":[
-      "London Irish (A)",
-      "2021\/22"
-    ]
+    "DebutSeason":"2017\/18",
+    "GameID":"-"
   },
   {
     "Player":"Sean Taylor",
@@ -3523,7 +3491,8 @@
     "Games2":0,
     "Position":"Wing",
     "FirstSeason":"2022\/23",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"Stanley Kennett",
@@ -3537,10 +3506,8 @@
     "Games2":1,
     "Position":"Full Back \/ Wing",
     "FirstSeason":"2022\/23",
-    "Debut1":[
-      "Old Colfeians (H)",
-      "2023\/24"
-    ]
+    "DebutSeason":"2023\/24",
+    "GameID":"Old Colfeians (H)"
   },
   {
     "Player":"Steve Lampkin",
@@ -3554,7 +3521,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2016\/17",
-    "Debut1":null
+    "DebutSeason":"2017\/18",
+    "GameID":"-"
   },
   {
     "Player":"T Bowden",
@@ -3568,7 +3536,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2016\/17",
-    "Debut1":null
+    "DebutSeason":"2017\/18",
+    "GameID":"-"
   },
   {
     "Player":"T Keeley",
@@ -3582,7 +3551,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2016\/17",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"T Mccallum",
@@ -3596,7 +3566,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2017\/18",
-    "Debut1":null
+    "DebutSeason":"2017\/18",
+    "GameID":"-"
   },
   {
     "Player":"T Sandys",
@@ -3610,7 +3581,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2016\/17",
-    "Debut1":null
+    "DebutSeason":"2016\/17",
+    "GameID":"-"
   },
   {
     "Player":"Tamas Tolnai",
@@ -3624,7 +3596,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2021\/22",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"Tao Benn",
@@ -3638,10 +3611,8 @@
     "Games2":0,
     "Position":"Second Row",
     "FirstSeason":"2021\/22",
-    "Debut1":[
-      "Crawley (H)",
-      "2021\/22"
-    ]
+    "DebutSeason":"2021\/22",
+    "GameID":"Crawley (H)"
   },
   {
     "Player":"Ted Hardisty",
@@ -3655,10 +3626,8 @@
     "Games2":1,
     "Position":"Wing \/ Centre",
     "FirstSeason":"2023\/24",
-    "Debut1":[
-      "Horsham (A)",
-      "2023\/24"
-    ]
+    "DebutSeason":"2023\/24",
+    "GameID":"Horsham (A)"
   },
   {
     "Player":"Tim Morris",
@@ -3672,10 +3641,8 @@
     "Games2":3,
     "Position":"Second Row \/ Flanker",
     "FirstSeason":"2017\/18",
-    "Debut1":[
-      "Crawley (H)",
-      "2021\/22"
-    ]
+    "DebutSeason":"2017\/18",
+    "GameID":"-"
   },
   {
     "Player":"Titch Mitchell",
@@ -3689,10 +3656,8 @@
     "Games2":0,
     "Position":"Centre \/ Wing",
     "FirstSeason":"2016\/17",
-    "Debut1":[
-      "Burgess Hill (A)",
-      "2022\/23"
-    ]
+    "DebutSeason":"2017\/18",
+    "GameID":"-"
   },
   {
     "Player":"Toby Rowe",
@@ -3706,10 +3671,8 @@
     "Games2":0,
     "Position":"Fly Half",
     "FirstSeason":"2021\/22",
-    "Debut1":[
-      "London Irish (A)",
-      "2021\/22"
-    ]
+    "DebutSeason":"2021\/22",
+    "GameID":"London Irish (A)"
   },
   {
     "Player":"Tom Byron",
@@ -3723,10 +3686,8 @@
     "Games2":8,
     "Position":"Flanker",
     "FirstSeason":"2019\/20",
-    "Debut1":[
-      "Horsham (H)",
-      "2021\/22"
-    ]
+    "DebutSeason":"2019\/20",
+    "GameID":"-"
   },
   {
     "Player":"Tom Halligey",
@@ -3740,7 +3701,8 @@
     "Games2":0,
     "Position":"Number 8 \/ Prop \/ Second Row",
     "FirstSeason":"2016\/17",
-    "Debut1":null
+    "DebutSeason":"2018\/19",
+    "GameID":"-"
   },
   {
     "Player":"Tom Hicks",
@@ -3754,10 +3716,8 @@
     "Games2":0,
     "Position":"Scrum Half",
     "FirstSeason":"2021\/22",
-    "Debut1":[
-      "Crawley (H)",
-      "2021\/22"
-    ]
+    "DebutSeason":"2021\/22",
+    "GameID":"Crawley (H)"
   },
   {
     "Player":"Tom Kiernan",
@@ -3771,10 +3731,8 @@
     "Games2":1,
     "Position":"Flanker \/ Hooker",
     "FirstSeason":"2016\/17",
-    "Debut1":[
-      "University of Brighton (A)",
-      "2021\/22"
-    ]
+    "DebutSeason":"2017\/18",
+    "GameID":"-"
   },
   {
     "Player":"Tom Marr",
@@ -3788,10 +3746,8 @@
     "Games2":0,
     "Position":"Fly Half \/ Centre",
     "FirstSeason":"2023\/24",
-    "Debut1":[
-      "KCS Old Boys (H)",
-      "2023\/24"
-    ]
+    "DebutSeason":"2023\/24",
+    "GameID":"KCS Old Boys (H)"
   },
   {
     "Player":"Tom Mooney",
@@ -3805,10 +3761,8 @@
     "Games2":1,
     "Position":"Flanker",
     "FirstSeason":"2019\/20",
-    "Debut1":[
-      "University of Brighton (A)",
-      "2021\/22"
-    ]
+    "DebutSeason":"2019\/20",
+    "GameID":"-"
   },
   {
     "Player":"Tom Poynder",
@@ -3822,10 +3776,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2021\/22",
-    "Debut1":[
-      "Crawley (H)",
-      "2021\/22"
-    ]
+    "DebutSeason":"2021\/22",
+    "GameID":"Crawley (H)"
   },
   {
     "Player":"Tommy Nasta",
@@ -3839,7 +3791,8 @@
     "Games2":1,
     "Position":"Wing",
     "FirstSeason":"2024\/25",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"W Blackledge",
@@ -3853,7 +3806,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2016\/17",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"W De La Haye",
@@ -3867,7 +3821,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2016\/17",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"Will Bramwell",
@@ -3881,10 +3836,8 @@
     "Games2":2,
     "Position":"Second Row \/ Flanker",
     "FirstSeason":"2023\/24",
-    "Debut1":[
-      "Horsham (A)",
-      "2023\/24"
-    ]
+    "DebutSeason":"2023\/24",
+    "GameID":"Horsham (A)"
   },
   {
     "Player":"Will Burch",
@@ -3898,7 +3851,8 @@
     "Games2":0,
     "Position":"Prop \/ Hooker",
     "FirstSeason":"2021\/22",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   },
   {
     "Player":"Will Roberts",
@@ -3912,10 +3866,8 @@
     "Games2":7,
     "Position":"Wing",
     "FirstSeason":"2022\/23",
-    "Debut1":[
-      "Burgess Hill (A)",
-      "2022\/23"
-    ]
+    "DebutSeason":"2022\/23",
+    "GameID":"Burgess Hill (A)"
   },
   {
     "Player":"Z Roberts",
@@ -3929,7 +3881,8 @@
     "Games2":0,
     "Position":null,
     "FirstSeason":"2018\/19",
-    "Debut1":null
+    "DebutSeason":"2018\/19",
+    "GameID":"-"
   },
   {
     "Player":"Zack Bradbury",
@@ -3943,6 +3896,7 @@
     "Games2":0,
     "Position":"Second Row",
     "FirstSeason":"2022\/23",
-    "Debut1":null
+    "DebutSeason":"-",
+    "GameID":"-"
   }
 ]
