@@ -218,7 +218,7 @@ def team_sheets_chart(df=None, file=None):
             team_sheet_part(df, "Forwards"),
             team_sheet_part(df, "Backs"),
             team_sheet_part(df, "Bench")
-        )
+        ).resolve_scale(color="shared")
         .properties(title=alt.Title(text="Team Sheets", subtitle=["Hover over a player to highlight their appearances", "Click anywhere to filter by the selected opposition."]))
     )
 

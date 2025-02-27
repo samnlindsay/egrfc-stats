@@ -823,7 +823,7 @@ def captains_chart(df=None, file=None):
         .properties(
             title=alt.Title("Match Day Captains", subtitle="Captains and Vice-Captains (if named). Friendly games are shaded lighter."),
             width=400,
-            height=alt.Step(20)
+            height=alt.Step(16)
         )
         .resolve_scale(x="shared", y="independent", opacity="shared")
     )

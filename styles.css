@@ -29,10 +29,10 @@ body {
     align-items: center;
     height: 100vh;
     margin: 0;
-    background-color: var(--light-color);
+    background-color: var(--primary-color);
     font-size: 2rem;
     align-items: center;
-}
+
 
 .container {
     background-color: var(--light-color);
@@ -211,6 +211,32 @@ nav.navbar {
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='white' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
 }
 
+#playerTable {
+    font-family: 'Lato', 'Tahoma', sans-serif !important;
+    font-size: 1rem;
+    max-width: 700px;
+}
+
+#selectedPlayer {
+    font-family: 'PT Sans Narrow', sans-serif;
+    font-size: 3rem;
+    color: var(--light-color);
+}
+#playerPosition {
+    font-family: 'PT Sans Narrow', sans-serif;
+    font-size: 1.5rem;
+    font-style: italic;
+    color: var(--light-color);
+}
+
+#ppTitle {
+    font-family: 'PT Sans Narrow', sans-serif;
+    font-size: 4rem;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+
 @media (max-width: 992px) {
     #dynamic-content {
         margin-top: 56px !important;
@@ -227,6 +253,16 @@ nav.navbar {
     .table {
         font-size: 1rem;
     }
+
+    #ppTitle {
+        font-size: 3rem;
+    }
+    #selectedPlayer {
+        font-size: 2rem;
+    }
+    #playerPosition {
+        font-size: 1.25rem;
+    }
 }
 
 @media (max-width: 480px) {
@@ -234,7 +270,18 @@ nav.navbar {
     .table {
         font-size: 1rem;
     }
+
+    #ppTitle {
+        font-size: 2rem;
+    }
+    #selectedPlayer {
+        font-size: 1.5rem;
+    }
+    #playerPosition {
+        font-size: 1rem;
+    }
 }
+
 
 .hidden {
     display: none !important;
