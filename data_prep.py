@@ -106,7 +106,7 @@ def team_sheets():
     t1["GameSort"] = t1.index
     t2["Squad"] = "2nd"
     t2["GameSort"] = t2.index
-    
+
     team = pd.concat([t1, t2]).dropna(subset=['Season','Score'])
 
     team["GameID"] = team["Opposition"] + team.groupby(["Squad", "Opposition", "Season"]).cumcount().add(1).replace(1, "").astype(str)
@@ -182,15 +182,53 @@ def players_agg(df=None):
     GROUP BY Squad, Season, Player
     """).to_df()
 
-    pitchero_df = pitchero_stats()
-
     players_agg["Player_join"] = players_agg["Player"].apply(clean_name)
+    name_lookup = (
+        players_agg[["Player", "Player_join"]]
+        .drop_duplicates()
+        .set_index("Player_join")
+        .to_dict()["Player"]
+    )
+    other_names = {
+        "S Cooke": "Steve Cooke",
+        "R Andrews": "Ruari Andrews",
+        "R Perry": "Ross Perry",
+        "J Stokes": "James Stokes",
+        "C Champain": "Callum Champain",
+        "M Dewing": "Max Dewing",
+        "A Schofield": "Ali Schofield",
+        "J Gibbs": "Johnny Gibbs",
+        "M Taylor": "Mark Taylor",
+        "M Evans": "Max Evans",
+        "J Carr": "Josh Carr",
+        "Z Roberts": "Zach Roberts",
+        "W Blackledge": "Will Blackledge",
+        "T Sandys": "Tom Sandys",
+        "B Swadling": "Ben Swadling",
+        "O Waite": "Oscar Waite",
+        "S Anderson": "Scott Anderson",
+        "M Ansboro": "Martyn Ansboro",
+        "M Tomkinson": "Matt Tomkinson",
+        "B Meyerratken": "Ben Meyerratken",
+        "L Cammish": "Leo Cammish",
+        "C Lear": "Charlie Lear",
+    }
+
+
+
+    pitchero_df = pitchero_stats()
 
     df = players_agg.merge(
         pitchero_df, 
         on=["Squad", "Season", "Player_join"], 
         how="left"
     )
+
+    df = pd.concat([df, pitchero_df[~pitchero_df["Season"].isin(df["Season"].unique())]], axis=0)
+    df["Player"] = df["Player_join"].map(lambda x: name_lookup.get(x, x))
+
+    # If null, replace from other column
+    df["TotalGames"] = df["TotalGames"].fillna(df["A"])
 
     return df
 
@@ -266,23 +304,24 @@ def clean_name(name):
 
 def pitchero_stats():
 
+    season_ids = {
+        "2016/17": 42025,
+        "2017/18": 47693,
+        "2018/19": 52304,
+        "2019/20": 68499,
+        "2021/22": 79578,
+        "2022/23": 83980,
+        "2023/24": 87941,
+        "2024/25": 91673,
+    }
+
     dfs = []
     for squad in [1, 2]:
-        for season in ["2021/22", "2022/23", "2023/24", "2024/25"]:
-            url = f"https://www.egrfc.com/teams/14206{8 if squad==1 else 9}/statistics"
-            seasonID = {
-                "2021/22": 79578,
-                "2022/23": 83980,
-                "2023/24": 87941,
-                "2024/25": 91673,
-            }[season]
-
-            url += f"?season={seasonID}"
-            
+        for season in season_ids.keys():
+            url = f"https://www.egrfc.com/teams/14206{8 if squad==1 else 9}/statistics?season={season_ids[season]}"            
 
             page = requests.get(url)
             soup = BeautifulSoup(page.content, 'html.parser')
-
 
             table = soup.find_all("div", {"class": "no-grid-hide"})[0]
 
@@ -551,3 +590,5 @@ def top_players_summary(df):
         json.dump(d, f, indent=4)
 
     return df_final
+
+
