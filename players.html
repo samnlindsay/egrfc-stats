@@ -35,7 +35,7 @@
                     <thead>
                         <tr>
                             <th style="background-color: transparent; opacity: 0.5;"
-                                class="small text-start text-white mt-2 mb-0 mx-2"><sup>*</sup>since 2021</th>
+                                class="small text-start text-white mt-2 mb-0 mx-2"><sup>*</sup>since 2017</th>
                             <th>Total<sup>*</sup></th>
                             <th class="table-primary" style="color:var(--primary-color)">This Season</th>
                         </tr>
@@ -111,8 +111,8 @@
                         document.getElementById('totalGames').innerText = selectedPlayer.TotalGames;
                         document.getElementById('currentTries').innerText = selectedPlayer.Tries;
                         document.getElementById('totalTries').innerText = selectedPlayer.TotalTries;
-                        document.getElementById('debut').innerText = selectedPlayer.Debut1[0];
-                        document.getElementById('debutSeason').innerText = selectedPlayer.Debut1[1];
+                        document.getElementById('debut').innerText = selectedPlayer.GameID;
+                        document.getElementById('debutSeason').innerText = selectedPlayer.DebutSeason;
                     }
                 });
             const selectedPlayer = players.find(p => p.Player === player);
