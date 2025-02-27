@@ -3,6 +3,7 @@
 
 from data_prep import *
 from charts import *
+from players import *
 from video_analysis import *
 from team_sheets import *
 
@@ -27,6 +28,7 @@ lineouts_df.to_json('data/lineouts.json', orient='records')
 update_season_summaries(game_df, seasons)
 set_piece_summaries(set_piece_df)
 top_players_summary(players_agg_df)
+players_table_data(players_df, players_agg_df)
 
 # One-off charts (only source data needs updating)
 # captains_chart(file='Charts/captains.html')

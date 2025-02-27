@@ -61,7 +61,7 @@ def get_positions(df, by=None):
 
     return df
 
-def debuts(df):
+def debuts(df, df_agg):
 
     df = df.sort_values(["Player", "Squad", "GameSort"])
 
@@ -70,17 +70,19 @@ def debuts(df):
     debut = debut[debut["Squad"] == "1st"].drop(columns=["Squad", "GameID", "Season"])
 
 
-    first_season = df.groupby("Player").agg({"Season": "min"}).reset_index()
+    first_season = df_agg.groupby("Player").agg({"Season": "min"}).reset_index()
     first_season = first_season.rename(columns={"Season": "FirstSeason"})
 
     debuts = first_season.merge(debut, on="Player", how="left")
 
     return debuts
 
-def players_table_data(df=None):
+def players_table_data(df=None, df_agg=None):
 
     if df is None:
         df = players(team_sheets())
+    if df_agg is None:
+        df_agg = players_agg(df)
     
     positions = get_positions(df)
     positions = positions[
@@ -90,7 +92,7 @@ def players_table_data(df=None):
 
     players_agg_df = players_agg(df)
     current_season = players_agg_df["Season"].max()
-    
+
     df_current = totals(players_agg_df[players_agg_df["Season"] == current_season])
     df_total = totals(players_agg_df).rename(columns={
         "Tries": "TotalTries", 
@@ -99,7 +101,7 @@ def players_table_data(df=None):
         "Games2": "TotalGames2"
     })
 
-    debuts_df = debuts(df)
+    debuts_df = debuts(df, players_agg_df)
 
     df = (
         df_total
@@ -112,5 +114,3 @@ def players_table_data(df=None):
     df.to_json("data/player_table.json", orient="records", indent=2)
 
     return df
-
-df = players_table_data()

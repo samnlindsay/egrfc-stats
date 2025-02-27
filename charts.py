@@ -285,60 +285,46 @@ def plot_starts_by_position(df=None, min=0, file=None):
 
 def plot_games_by_player(min=5, df=None, file=None):
 
-    c = alt.Color(
-        f"GameType:N",
-        scale=game_type_scale,
-        legend=alt.Legend(
-            title=None, orient="bottom", direction="horizontal", titleOrient="left"
-        )
-    )
-    o = alt.Order("GameType:N", sort="descending")
-
-    # legend selection filter
-    legend = alt.selection_point(fields=["GameType"], bind="legend", on="click")
+    c = alt.Color("Squad:N", scale=squad_scale, legend=None)
 
     season_selection = alt.param(
-        bind=alt.binding_radio(options=[*seasons, "Total"], name="Season"), 
-        value="2024/25" 
+        bind=alt.binding_radio(options=[*seasons_hist, *seasons, "Total"], name="Season"), 
+        value="Total" 
     )
     squad_selection = alt.param(
         bind=alt.binding_radio(options=["1st", "2nd", "Total"], name="Squad"),
         value="Total"
     )
 
+    min_selection = alt.param(
+        bind=alt.binding_range(name="Minimum Games", min=1, max=20, step=1),
+        value=min
+    )
+
     chart = (
-        alt.Chart(df if df is not None else {"name": "df", "url":'https://raw.githubusercontent.com/samnlindsay/egrfc-stats/main/data/players.json',"format":{'type':"json"}})
+        alt.Chart(df if df is not None else {"name": "df", "url":'https://raw.githubusercontent.com/samnlindsay/egrfc-stats/main/data/players_agg.json',"format":{'type':"json"}})
         .mark_bar(strokeWidth=2)
         .encode(
-            x=alt.X("count()", axis=alt.Axis(title=None, orient="top")),
+            x=alt.X("sum(TotalGames):Q", axis=alt.Axis(title=None, orient="top")),
             y=alt.Y("Player:N", sort="-x", title=None),
             color=c,
-            order=o,
-            opacity=alt.Opacity(
-                "PositionType:N",
-                scale=alt.Scale(domain=["Start", "Bench"], range=[1.0, 0.6]), 
-                legend=None
-            ),
             tooltip=[
                 "Player:N", 
-                "Season:N",
-                "GameType:N",
                 "Squad:N",
-                alt.Tooltip("count()", title="Games"), 
-                alt.Tooltip("TotalGames:Q", title="Total Games")
+                alt.Tooltip("sum(TotalGames):Q", title="Games"), 
             ]
         )
-        .transform_filter(legend)
-        .add_params(legend, season_selection, squad_selection)
+        # .transform_filter(legend)
+        .add_params(season_selection, squad_selection, min_selection)
         .resolve_scale(y="independent")
         .transform_filter(f"datum.Season == {season_selection.name} | {season_selection.name} == 'Total'")
         .transform_filter(f"datum.Squad == {squad_selection.name} | {squad_selection.name} == 'Total'")
-        .transform_joinaggregate(TotalGames="count()", groupby=["Player"])
-        .transform_filter(f"datum.TotalGames >= {min}")
+        .transform_aggregate(TotalGames="sum(TotalGames)", groupby=["Player", "Squad"])
+        .transform_filter(f"datum.TotalGames >= {min_selection.name}")
         .properties(
             title=alt.Title(
                 text=f"Appearances",
-                subtitle=f"Minimum {min} appearances. Lighter shaded bars represent bench appearances.",
+                subtitle=f"Using Pitchero data from 2016/17 to 2019/20.",
                 subtitleFontStyle="italic"  
             ),
             width=400,
@@ -637,7 +623,7 @@ def points_scorers_chart(df=None, file=None):
     )
 
     season_selection = alt.param(
-        bind=alt.binding_radio(options=[*seasons, "All"], name="Season"), 
+        bind=alt.binding_radio(options=[*seasons_hist, *seasons, "All"], name="Season"), 
         value="All" 
     )
 
@@ -929,6 +915,7 @@ def results_chart(df=None, file=None):
     return chart
 
 seasons = ["2021/22", "2022/23", "2023/24", "2024/25"]
+seasons_hist = ["2016/17", "2017/18", "2018/19", "2019/20"]
 
 turnover_filter = alt.selection_point(fields=["Turnover"], bind="legend")
 put_in_filter = alt.selection_point(fields=["Team"], bind="legend")

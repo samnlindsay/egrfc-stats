@@ -3,7 +3,7 @@ import os
 from PIL import Image
 
 # Input and output directories
-input_folder = "/Users/samlindsay/Downloads/Finals"
+input_folder = "/Users/samlindsay/Documents/Projects/Personal/egrfc-stats/img/old_headshots/"
 output_folder = "img/headshots/"
 output_size = 400  # Change to 200 if needed
 
@@ -60,8 +60,10 @@ def smart_crop_and_resize(image_path, output_path, output_size=400):
 
 # Process all PNG images in the folder
 for filename in os.listdir(input_folder):
-    if filename.lower().endswith(".png"):
+    if filename.lower().endswith(".png") or filename.lower().endswith(".jpg"):
         input_path = os.path.join(input_folder, filename)
+        if filename.lower().endswith(".jpg"):
+            filename = filename.replace(".jpg", ".png")
         output_path = os.path.join(output_folder, filename)
         smart_crop_and_resize(input_path, output_path, output_size)
 
