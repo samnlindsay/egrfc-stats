@@ -108,6 +108,14 @@ body {
     align-items: start;
 }
 
+#playerChart {
+    background-color: var(--light-color);
+    width: 100%;
+    max-width: 100%;
+    border: none;
+    align-items: end;
+}
+
 nav {
     display: none;
     background-color: var(--primary-color);
@@ -163,14 +171,15 @@ nav.navbar {
 }
 
 .table {
-    border: 1px solid black;
+    /* border: 1px solid black; */
     font-family: 'Lato', 'Tahoma', sans-serif !important;
     font-size: 1rem;
     max-width: 700px;
 }
 
 .table th {
-    color: var(--light-color);
+    /* color: var(--light-color); */
+    font-family: 'PT Sans Narrow', sans-serif !important;
 }
 
 .br {

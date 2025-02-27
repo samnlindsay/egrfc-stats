@@ -103,7 +103,10 @@ def team_sheets():
         for s in [4, 7]
     ]
     t1["Squad"] = "1st"
+    t1["GameSort"] = t1.index
     t2["Squad"] = "2nd"
+    t2["GameSort"] = t2.index
+    
     team = pd.concat([t1, t2]).dropna(subset=['Season','Score'])
 
     team["GameID"] = team["Opposition"] + team.groupby(["Squad", "Opposition", "Season"]).cumcount().add(1).replace(1, "").astype(str)
@@ -133,7 +136,7 @@ def players(df=None):
         df = team_sheets()
 
     players = df.melt(
-        id_vars=["GameID", "Squad", "Season", "Competition", "GameType", "Opposition", "Home/Away", "PF", "PA", "Result", "Captain", "VC1", "VC2"], 
+        id_vars=["GameSort", "GameID", "Squad", "Season", "Competition", "GameType", "Opposition", "Home/Away", "PF", "PA", "Result", "Captain", "VC1", "VC2"], 
         value_vars=list(map(str,range(1, 26))), 
         value_name="Player",
         var_name="Number"

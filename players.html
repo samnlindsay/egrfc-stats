@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,8 +15,9 @@
     <link href="https://fonts.googleapis.com/css2?family=PT+Sans" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Oswald:200,400,600" rel="stylesheet" />
 </head>
+
 <body>
-    <div class="col-12 h-100 p-0" style="background-color: var(--primary-color); border-top: 2px solid white;">
+    <div class="col-12 p-0 h-100" style="background-color: var(--primary-color); border-top: 2px solid white;">
         <div class="row col-12 d-flex align-items-center p-0 m-0" style="background-color: var(--light-color);">
             <span class="col-6 p-3 text-center min-content" id="ppTitle">Player Profiles</span>
             <div class="col-6 d-flex row align-items-center">
@@ -26,28 +28,50 @@
         <!-- Column layout (picture on left, table on right) aligned to top of page-->
         <div class="row d-flex align-items-center">
             <div class="col-6  align-self-end">
-                <h1 class="text-center" id="selectedPlayer"></h1>
-                <h2 class="text-center" id="playerPosition"></h2>
-                <table class="table table-borderless table-dark pb-0 mb-0 mt-4" id="playerTable">
+                <h1 class="text-center pt-2 pb-0 m-0" id="selectedPlayer"></h1>
+                <h2 class="text-center pt-0 pb-2 m-0" id="playerPosition"></h2>
+                <table class="table table-light table-sm table-borderless pb-0 mb-0 mt-4 text-center align-middle"
+                    id="playerTable">
                     <thead>
                         <tr>
-                            <th></th>
-                            <th>This Season</th>
+                            <th style="background-color: transparent; opacity: 0.5;"
+                                class="small text-start text-white mt-2 mb-0 mx-2"><sup>*</sup>since 2021</th>
                             <th>Total<sup>*</sup></th>
+                            <th class="table-primary" style="color:var(--primary-color)">This Season</th>
                         </tr>
                     </thead>
-                    <tbody id="playerStats">
-
+                    <tbody id="playerStats" class="table-group-divider">
+                        <tr>
+                            <th class="fs-4">Appearances</th>
+                            <td class="fs-2" id="totalGames">0</td>
+                            <td class="fs-2 table-primary" id="currentGames">0</td>
+                        </tr>
+                        <tr>
+                            <th class="fs-4">Tries</th>
+                            <td class="fs-2" id="totalTries">0</td>
+                            <td class="fs-2 table-primary" id="currentTries">0</td>
+                        </tr>
                     </tbody>
-                </table>
-                <p class="small text-end text-white fw-italic mt-2 mb-0"><sup>*</sup>since 2021</p>
+                    <tfoot class="table-dark">
+                        <tr>
+                            <th class="fs-5">1st XV Debut</th>
+                            <td class="p-0" colspan="2">
+                                <span id="debut" class="small"></span><br>
+                                <span id="debutSeason" class="small align-middle"></span>
             </div>
-            <div class="col-6">
-                <img src="img/headshots/ChrisMayMiller.png" class="img-fluid" alt="Player" />
-            </div>
+            </td>
+            </tr>
+            </tfoot>
+            </table>
         </div>
+        <div class="col-6">
+            <img src="img/headshots/ChrisMayMiller.png" class="img-fluid" alt="Player" />
+        </div>
+        <!-- <div id="playerChart">
+            <iframe src="Charts/cards.html" class="col-12" style="border: none; height:100vh; max-height: 600px;"></iframe>
+        </div> -->
+        <!-- embed HTML chart in iframe below -->
     </div>
-    
     <script>
 
         const playerSelect = document.getElementById('playerSelect');
@@ -59,12 +83,13 @@
             .then(players => {
                 players.forEach(player => {
                     const option = document.createElement('option');
+                    if (player.Player === 'Chris May-Miller') {
+                        option.selected = true;
+                        populatePlayerStats(player.Player);
+                    }
                     option.value = player.Player;
                     option.text = player.Player;
                     playerSelect.appendChild(option);
-                    if (player.Player === 'Chris May-Miller') {
-                        option.selected = true;
-                    }
                 });
             });
 
@@ -82,21 +107,12 @@
                         console.log(selectedPlayer);
                         document.getElementById('selectedPlayer').innerText = selectedPlayer.Player;
                         document.getElementById('playerPosition').innerText = selectedPlayer.Position;
-                        const playerRow = document.createElement('tr');
-                        playerRow.innerHTML = `
-                            <td class="fw-bold">Appearances</td>
-                            <td>${selectedPlayer.Games}</td>
-                            <td>${selectedPlayer.TotalGames}</td>
-                        `;
-                        playerStats.appendChild(playerRow);
-
-                        const triesRow = document.createElement('tr');
-                        triesRow.innerHTML = `
-                            <td>Tries</td>
-                            <td>${selectedPlayer.Tries}</td>
-                            <td>${selectedPlayer.TotalTries}</td>
-                        `;
-                        playerStats.appendChild(triesRow);
+                        document.getElementById('currentGames').innerText = selectedPlayer.Games;
+                        document.getElementById('totalGames').innerText = selectedPlayer.TotalGames;
+                        document.getElementById('currentTries').innerText = selectedPlayer.Tries;
+                        document.getElementById('totalTries').innerText = selectedPlayer.TotalTries;
+                        document.getElementById('debut').innerText = selectedPlayer.Debut1[0];
+                        document.getElementById('debutSeason').innerText = selectedPlayer.Debut1[1];
                     }
                 });
             const selectedPlayer = players.find(p => p.Player === player);
@@ -119,14 +135,11 @@
         document.getElementById('playerSelect').addEventListener('change', (event) => {
             const player = event.target.value;
             const playerStats = document.getElementById('playerStats');
-            playerStats.innerHTML = '';
             populatePlayerStats(player);
             console.log(player);
         });
 
-        // Populate the table with the default player
-        populatePlayerStats('Chris May-Miller');
-
     </script>
 </body>
+
 </html>
