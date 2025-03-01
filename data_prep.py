@@ -576,7 +576,7 @@ def top_players_summary(df):
 
     df_final = pd.concat([df_squad, df_total])
 
-    df_final["Players_A"] = df_final["Players_A"] + "  (" + df_final["TotalGames"].astype(str) + ")"
+    df_final["Players_A"] = df_final["Players_A"] + "  (" + df_final["TotalGames"].astype(int).astype(str) + ")"
     df_final["Players_T"] = df_final["Players_T"] + "  (" + df_final["T"].astype(int).astype(str) + ")"
     df_final = df_final[["Season", "Squad", "PlayersUsed", "Players_A", "Players_T"]].sort_values(["Season", "Squad"])
 

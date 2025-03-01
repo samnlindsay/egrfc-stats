@@ -95,7 +95,7 @@ def debuts(df, df_agg):
         .fillna("-")
     )
 
-    return debuts
+    return debuts   
 
 def players_table_data(df=None, df_agg=None):
 

@@ -67,9 +67,9 @@
         <div class="col-6">
             <img src="img/headshots/ChrisMayMiller.png" class="img-fluid" alt="Player" />
         </div>
-        <!-- <div id="playerChart">
-            <iframe src="Charts/cards.html" class="col-12" style="border: none; height:100vh; max-height: 600px;"></iframe>
-        </div> -->
+        <div id="playerChart">
+            <iframe src="Charts/player_appearances.html" id="chartFrame" class="col-12" style="border: none; height:100vh; max-height: 600px; width:100%; overflow: hidden;"></iframe>
+        </div>
         <!-- embed HTML chart in iframe below -->
     </div>
     <script>
@@ -135,10 +135,23 @@
         document.getElementById('playerSelect').addEventListener('change', (event) => {
             const player = event.target.value;
             const playerStats = document.getElementById('playerStats');
+            const iframe = document.getElementById("chartFrame");
+
+            iframe.contentWindow.postMessage({ selectedPlayer: player }, "*");
+            
             populatePlayerStats(player);
+
             console.log(player);
         });
 
+    </script>
+
+    <!-- On loading the page, simulate clicking on the dropdown and selecting "Chris May-Miller" -->
+    <script>
+        window.onload = function () {
+            const event = new Event('change');
+            document.getElementById('playerSelect').dispatchEvent(event);
+        }
     </script>
 </body>
 
