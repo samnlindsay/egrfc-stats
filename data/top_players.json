@@ -104,7 +104,7 @@
     "2023/24": {
         "1st": {
             "PlayersUsed": 55,
-            "Players_A": "Ryland Thomas / Guy Collins / Ben Tottman  (25)",
+            "Players_A": "Guy Collins / Ben Tottman / Ryland Thomas  (25)",
             "Players_T": "Jake Radcliffe  (11)"
         },
         "2nd": {
@@ -114,25 +114,25 @@
         },
         "Total": {
             "PlayersUsed": 96,
-            "Players_A": "Ryland Thomas / Guy Collins / Ben Tottman  (25)",
+            "Players_A": "Guy Collins / Ben Tottman / Ryland Thomas  (25)",
             "Players_T": "Will Roberts  (15)"
         }
     },
     "2024/25": {
         "1st": {
-            "PlayersUsed": 50,
-            "Players_A": "Sam Lindsay-McCall  (18)",
+            "PlayersUsed": 51,
+            "Players_A": "Sam Lindsay-McCall  (19)",
             "Players_T": "Jake Radcliffe  (6)"
         },
         "2nd": {
-            "PlayersUsed": 86,
-            "Players_A": "Harrison Berry  (15)",
+            "PlayersUsed": 88,
+            "Players_A": "Harrison Berry  (16)",
             "Players_T": "Jack Billin  (6)"
         },
         "Total": {
-            "PlayersUsed": 96,
-            "Players_A": "Sam Lindsay-McCall  (18)",
-            "Players_T": "Jack Billin / Jake Radcliffe  (6)"
+            "PlayersUsed": 98,
+            "Players_A": "Sam Lindsay-McCall  (19)",
+            "Players_T": "Jake Radcliffe / Jack Billin  (6)"
         }
     }
 }
