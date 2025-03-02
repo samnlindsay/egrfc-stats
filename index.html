@@ -450,7 +450,7 @@
                 .then(data => {
                     console.log(data);
                     document.getElementById("players1").innerText = data["1st"].PlayersUsed;
-                    document.getElementById("apps1").innerText = data["1st"].   .replaceAll(" / ", "\n");
+                    document.getElementById("apps1").innerText = data["1st"].Players_A.replaceAll(" / ", "\n");
                     document.getElementById("tries1").innerText = data["1st"].Players_T.replaceAll(" / ", "\n");
                     document.getElementById("players2").innerText = data["2nd"].PlayersUsed;
                     document.getElementById("apps2").innerText = data["2nd"].Players_A.replaceAll(" / ", "\n");
