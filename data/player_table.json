@@ -1066,11 +1066,11 @@
   },
   {
     "Player":"Ed Arundell",
-    "TotalTries":0,
+    "TotalTries":2,
     "TotalGames":3,
     "TotalGames1":0,
     "TotalGames2":3,
-    "Tries":0,
+    "Tries":2,
     "Games":3,
     "Games1":0,
     "Games2":3,
@@ -2985,7 +2985,7 @@
     "GameID":"-"
   },
   {
-    "Player":"Pete Morley",
+    "Player":"Peter Morley",
     "TotalTries":5,
     "TotalGames":80,
     "TotalGames1":32,

@@ -2,8 +2,8 @@
     "2016/17": {
         "1st": {
             "PlayersUsed": 19,
-            "Players_A": "S Anderson / Dan Arnold / Bertram Beanland / Dave Bridges / Morgan Burger / J Carr / S Cooke / Ryan Foster / James Funnell / Daan Hulst / Connor Leggat / Sam Montagu / Mark Oliver / John Peaty / R Perry / F Robinson / T Sandys / B Swadling / M Taylor  (1)",
-            "Players_T": "S Anderson / Dan Arnold / J Carr / James Funnell / F Robinson  (1)"
+            "Players_A": "Bertram Beanland / B Swadling / Connor Leggat / Dan Arnold / Dave Bridges / Daan Hulst / F Robinson / J Carr / James Funnell / John Peaty / Morgan Burger / Mark Oliver / M Taylor / Ryan Foster / R Perry / S Anderson / S Cooke / Sam Montagu / T Sandys  (1)",
+            "Players_T": "Dan Arnold / F Robinson / J Carr / James Funnell / S Anderson  (1)"
         },
         "2nd": {
             "PlayersUsed": 47,
@@ -53,7 +53,7 @@
     "2019/20": {
         "1st": {
             "PlayersUsed": 48,
-            "Players_A": "Ollie Adams / Jack Andrews  (15)",
+            "Players_A": "Jack Andrews / Ollie Adams  (15)",
             "Players_T": "Ben Beard  (12)"
         },
         "2nd": {
@@ -63,14 +63,14 @@
         },
         "Total": {
             "PlayersUsed": 75,
-            "Players_A": "Ollie Adams / Jack Andrews  (15)",
+            "Players_A": "Jack Andrews / Ollie Adams  (15)",
             "Players_T": "Ben Beard  (12)"
         }
     },
     "2021/22": {
         "1st": {
             "PlayersUsed": 60,
-            "Players_A": "Max Crawley-Moore / Ryan Morlen  (19)",
+            "Players_A": "Ryan Morlen / Max Crawley-Moore  (19)",
             "Players_T": "Fergus Wood  (22)"
         },
         "2nd": {
@@ -80,14 +80,14 @@
         },
         "Total": {
             "PlayersUsed": 101,
-            "Players_A": "Max Crawley-Moore / Ryan Morlen  (19)",
+            "Players_A": "Ryan Morlen / Max Crawley-Moore  (19)",
             "Players_T": "Fergus Wood  (22)"
         }
     },
     "2022/23": {
         "1st": {
             "PlayersUsed": 41,
-            "Players_A": "Ben Tottman / John Peaty / Max Crawley-Moore  (18)",
+            "Players_A": "Max Crawley-Moore / John Peaty / Ben Tottman  (18)",
             "Players_T": "Ryan Morlen  (20)"
         },
         "2nd": {
@@ -97,7 +97,7 @@
         },
         "Total": {
             "PlayersUsed": 90,
-            "Players_A": "Ben Tottman / John Peaty / Max Crawley-Moore  (18)",
+            "Players_A": "Max Crawley-Moore / John Peaty / Ben Tottman  (18)",
             "Players_T": "Ryan Morlen  (20)"
         }
     },
