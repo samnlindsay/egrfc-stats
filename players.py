@@ -92,6 +92,7 @@ def players_table_data(df=None, df_agg=None):
     
     positions = get_positions(df)
     positions = positions[positions["Games"] >= 0.2 * positions["Starts"]]
+    positions = positions[positions["Position"] != "Bench"]
     positions = positions.groupby('Player').agg({'Position': lambda x: ' / '.join(x)}).reset_index()
 
     current_season = df_agg["Season"].max()
