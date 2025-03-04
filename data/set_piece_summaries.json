@@ -128,21 +128,21 @@
     "2024/25": {
         "1st": {
             "Lineout": {
-                "count": 14,
-                "EG_total": 11.5,
-                "EG_success": 0.6956521739130436,
-                "Opp_total": 11.714285714285714,
-                "Opp_success": 0.8414634146341464,
-                "T_won": 1.8571428571428572,
-                "T_lost": 3.5
+                "count": 15,
+                "EG_total": 11.466666666666667,
+                "EG_success": 0.7034883720930233,
+                "Opp_total": 11.666666666666666,
+                "Opp_success": 0.8400000000000001,
+                "T_won": 1.8666666666666667,
+                "T_lost": 3.4
             },
             "Scrum": {
-                "count": 14,
-                "EG_total": 8.428571428571429,
+                "count": 15,
+                "EG_total": 8.6,
                 "EG_success": 1.0,
-                "Opp_total": 7.214285714285714,
-                "Opp_success": 0.8118811881188118,
-                "T_won": 1.3571428571428572,
+                "Opp_total": 7.0,
+                "Opp_success": 0.8095238095238095,
+                "T_won": 1.3333333333333333,
                 "T_lost": 0.0
             }
         },
@@ -164,28 +164,6 @@
                 "Opp_success": 0.9058823529411765,
                 "T_won": 0.8,
                 "T_lost": 1.0
-            }
-        }
-    },
-    "2024/26": {
-        "1st": {
-            "Lineout": {
-                "count": 1,
-                "EG_total": 11.0,
-                "EG_success": 0.8181818181818182,
-                "Opp_total": 11.0,
-                "Opp_success": 0.8181818181818182,
-                "T_won": 2.0,
-                "T_lost": 2.0
-            },
-            "Scrum": {
-                "count": 1,
-                "EG_total": 11.0,
-                "EG_success": 1.0,
-                "Opp_total": 4.0,
-                "Opp_success": 0.75,
-                "T_won": 1.0,
-                "T_lost": 0.0
             }
         }
     }

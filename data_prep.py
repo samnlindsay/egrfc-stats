@@ -161,7 +161,7 @@ def players(df=None):
     ).dropna(subset=["Player"])
     players["Number"] = players["Number"].astype("int")
     players["Position"] = players["Number"].map(d).astype("category", )
-    players["Position_specific"] = players["Number"].map(d).astype("category", )
+    players["Position_specific"] = players["Number"].map(d_specific).fillna("Bench").astype("category", )
     # If Position in ("Back Three", "Centre", "Fly Half", "Scrum Half"), then it's a Back, else it's a Forward
     players["PositionType"] = players["Number"].apply(position_category) 
     # positions_start = positions_start[positions_start["Position"].notna()]
@@ -368,6 +368,10 @@ def pitchero_stats():
             df["Player_join"] = df["Player"].apply(clean_name)
 
             df.drop(columns=["Player"], inplace=True)
+
+            # Before 2021/22, replace "S Lindsay" with "S Lindsay 2"
+            if season < "2021/22":
+                df["Player_join"] = df["Player_join"].replace("S Lindsay", "S Lindsay 2")
 
             if season == "2024/25" and squad == 1:
                 # remove 1 from YC column for 'Guy Collins' and 'Aaron Boczek'
