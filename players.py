@@ -157,7 +157,7 @@ def season_squad_chart(df, player=None):
         )
     )
     bar = base.mark_bar(stroke="black").encode(
-        color=alt.Color('Squad:N', scale=squad_scale, legend=None),
+        color=alt.Color('Squad:N', scale=squad_scale, legend=alt.Legend(title="Squad", orient="right")),
     )
     text = base.mark_text(dx=-15, color='white', fontSize=18).encode(detail='Squad:N')
 
@@ -238,7 +238,7 @@ def position_pie(df, player=None):
                     range=[
                         "#d71621", "#f23623", "#fc7335", "#fea045", "#fec460",
                         "#c7e9b5", "#86d08b", "#45b4c2", "#258bbb", "#225aa5",
-                        "lightgray"
+                        "darkgray"
                     ]
                 ),
                 legend=None

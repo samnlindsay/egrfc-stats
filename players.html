@@ -24,12 +24,12 @@
         </div>
         <!-- Column layout (picture on left, table on right) aligned to top of page-->
         <div class="row">
-            <div class="col-6 column flex-column d-flex">
+            <div class="col-6 column flex-column d-flex px-0">
                 <div class="my-auto">
                     <h1 class="text-center pt-2 pb-0 m-0" id="selectedPlayer"></h1>
                     <h2 class="text-center pt-0 pb-2 m-0" id="playerPosition"></h2>
                 </div>
-                <table class="table table-light table-sm table-borderless pb-0 mb-0 text-center align-end"
+                <table class="table table-light table-sm table-borderless pb-0 mb-0 text-center"
                     id="playerTable">
                     <thead>
                         <tr>
@@ -77,8 +77,8 @@
         let players = [];
         fetch('data/player_table.json')
             .then(response => response.json())
-            // Filter out players with no games played
-            .then(players => players.filter(player => player.Games > 0))
+            // Filter out players
+            .then(players => players.filter(player => player.Games >= 5))
             .then(players => {
                 players.forEach(player => {
                     const option = document.createElement('option');
