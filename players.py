@@ -238,7 +238,7 @@ def position_pie(df, player=None):
                     domain=position_sort,
                     range=[
                         "#d71621", "#f23623", "#fc7335", "#fea045", "#fec460",
-                        "#c7e9b5", "#86d08b", "#45b4c2", "#258bbb", "#225aa5",
+                        "#b0d0a0", "#80d080", "#45b4c2", "#258bbb", "#225aa5",
                         "darkgray"
                     ]
                 ),
