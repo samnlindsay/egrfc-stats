@@ -164,7 +164,7 @@ def season_squad_chart(df, player=None):
     chart = (bar + text).properties(
         title=alt.Title(
             text="Games per Season", 
-            subtitle="Since Pitchero records began in 2016/17",
+            subtitle="Since Pitchero records began in 2017",
             fontSize=36, 
             orient="top",
         )
@@ -200,7 +200,7 @@ def squad_pie(df, player=None):
         detail="Squad:N",
         color=alt.value("white")
     )
-    text2 = base.mark_text(radius=140, size=28, font="PT Sans Narrow").encode(
+    text2 = base.mark_text(radius=150, size=28, font="PT Sans Narrow").encode(
         theta=alt.Theta("sum(TotalGames)", stack=True),
         text=alt.Text("label:N"),
         detail="Squad:N",
@@ -345,7 +345,7 @@ def player_profile_charts(player=None, df=None, df_agg=None):
                 results_pie(df, player).properties(height=250),
             ).resolve_scale(color='independent'),
             season_squad_chart(df_agg, player).properties(height=alt.Step(30), width=600),
-            spacing=20
+            spacing=30
         )    
         .resolve_scale(color='independent')
         .configure_view(stroke=None)

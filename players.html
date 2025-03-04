@@ -15,43 +15,45 @@
 
 <body>
     <div class="col-12 p-0 h-100" style="background-color: var(--primary-color); border-top: 2px solid white;">
-        <div class="row col-12 d-flex align-items-center p-0 m-0" style="background-color: var(--light-color);">
-            <span class="col-6 p-3 text-center min-content" id="ppTitle">Player Profiles</span>
+        <div class="row col-12 d-flex align-items-center justify-content-around p-0 m-0" style="background-color: var(--light-color);">
+            <span class="col-6 text-center px-0" id="ppTitle">Player Profiles</span>
             <div class="col-6 d-flex row align-items-center">
                 <label for="playerSelect" class="small p-0">Select a player:</label>
                 <select id="playerSelect" class="form-select"></select>
             </div>
         </div>
         <!-- Column layout (picture on left, table on right) aligned to top of page-->
-        <div class="row d-flex align-items-center">
-            <div class="col-6  align-self-end">
-                <h1 class="text-center pt-2 pb-0 m-0" id="selectedPlayer"></h1>
-                <h2 class="text-center pt-0 pb-2 m-0" id="playerPosition"></h2>
-                <table class="table table-light table-sm table-borderless pb-0 mb-0 mt-4 text-center align-middle"
+        <div class="row">
+            <div class="col-6 column flex-column d-flex">
+                <div class="my-auto">
+                    <h1 class="text-center pt-2 pb-0 m-0" id="selectedPlayer"></h1>
+                    <h2 class="text-center pt-0 pb-2 m-0" id="playerPosition"></h2>
+                </div>
+                <table class="table table-light table-sm table-borderless pb-0 mb-0 text-center align-end"
                     id="playerTable">
                     <thead>
                         <tr>
                             <th style="background-color: transparent; opacity: 0.5;"
-                                class="small text-start text-white mt-2 mb-0 mx-2"><sup>*</sup>since 2017</th>
+                                class="small text-white mt-2 mb-0 mx-2"><sup>*</sup>since 2017</th>
                             <th>Total<sup>*</sup></th>
                             <th class="table-primary" style="color:var(--primary-color)">This Season</th>
                         </tr>
                     </thead>
                     <tbody id="playerStats" class="table-group-divider">
                         <tr>
-                            <th class="fs-4">Appearances</th>
-                            <td class="fs-2" id="totalGames">0</td>
-                            <td class="fs-2 table-primary" id="currentGames">0</td>
+                            <th>Appearances</th>
+                            <td id="totalGames">0</td>
+                            <td class="table-primary" id="currentGames">0</td>
                         </tr>
                         <tr>
-                            <th class="fs-4">Tries</th>
-                            <td class="fs-2" id="totalTries">0</td>
-                            <td class="fs-2 table-primary" id="currentTries">0</td>
+                            <th>Tries</th>
+                            <td id="totalTries">0</td>
+                            <td class="table-primary" id="currentTries">0</td>
                         </tr>
                     </tbody>
                     <tfoot class="table-dark">
                         <tr>
-                            <th class="fs-5">1st XV Debut</th>
+                            <th>1st XV Debut</th>
                             <td class="p-0" colspan="2">
                                 <span id="debut" class="small"></span><br>
                                 <span id="debutSeason" class="small align-middle"></span>
@@ -61,7 +63,7 @@
             </tfoot>
             </table>
         </div>
-        <div class="col-6">
+        <div class="col-6 px-0">
             <img src="img/headshots/ChrisMayMiller.png" class="img-fluid" alt="Player" />
         </div>
         <div id="playerChart">
