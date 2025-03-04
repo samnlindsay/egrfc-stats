@@ -28,6 +28,24 @@ d = {
     15: "Back Three",
 }
 
+d_specific = {
+    1: "Prop",
+    2: "Hooker",
+    3: "Prop",
+    4: "Second Row",
+    5: "Second Row",
+    6: "Flanker",
+    7: "Flanker",
+    8: "Number 8",
+    9: "Scrum Half",
+    10: "Fly Half",
+    11: "Wing",
+    12: "Centre",
+    13: "Centre",
+    14: "Wing",
+    15: "Full Back",
+}
+
 def position_category(x):
     if x <= 8:
         return "Forwards"
@@ -143,6 +161,7 @@ def players(df=None):
     ).dropna(subset=["Player"])
     players["Number"] = players["Number"].astype("int")
     players["Position"] = players["Number"].map(d).astype("category", )
+    players["Position_specific"] = players["Number"].map(d).astype("category", )
     # If Position in ("Back Three", "Centre", "Fly Half", "Scrum Half"), then it's a Back, else it's a Forward
     players["PositionType"] = players["Number"].apply(position_category) 
     # positions_start = positions_start[positions_start["Position"].notna()]
@@ -359,6 +378,8 @@ def pitchero_stats():
             dfs.append(df)
 
     pitchero_df = pd.concat(dfs)
+
+    pitchero_df = pitchero_df.groupby(["Squad", "Season", "Player_join"]).sum().reset_index()
     
     return pitchero_df
 

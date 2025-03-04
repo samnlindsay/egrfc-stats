@@ -41,33 +41,20 @@ def hack_params_css(file, overlay=False, params=True):
           }}
       }}
 
-      .vega-bindings {{
-        border: 2px solid black;
-        background-color: #e5e4e7;
-        color: #202946;
-        width: fit-content;
-        height: fit-content;
-        position: {"static" if not overlay else "fixed; top: 1rem; right: 1rem"};
-        display: {"block" if params else "none"};
-        justify-content: center;
-        gap: 20px;
-        padding: 10px;
-        font-size: large;
-      }}
       .chart-wrapper {{
           display: grid;
           grid-template-columns: 1fr 1fr; /* Chart takes 3x space, form takes 1x */
       }}
 
       .vega-bind {{
-        font-family: 'Lato', sans-serif;
+        font-family: 'Lato', sans-serif !important;
         padding: 10px;
         padding-top: 5px;
         width: min-content;
       }}
             
       .vega-bind-name {{
-        font-family: 'Lato', sans-serif;
+        font-family: 'Lato', sans-serif !important;
         font-weight: bold;
         font-size: larger;
         color: #202946; 
@@ -90,6 +77,23 @@ def hack_params_css(file, overlay=False, params=True):
       .vega-bind-radio input:checked+label {{
         background-color: #202946;
         color: #e5e4e7;
+    }}
+    '''
+
+  if params:
+      css_to_add += f'''
+      .vega-bindings {{
+      border: 2px solid black;
+      background-color: #e5e4e7;
+      color: #202946;
+      width: fit-content;
+      height: fit-content;
+      position: {"static" if not overlay else "fixed; top: 1rem; right: 1rem"};
+      display: "block";
+      justify-content: center;
+      gap: 20px;
+      padding: 10px;
+      font-size: large;
     }}
   '''
 

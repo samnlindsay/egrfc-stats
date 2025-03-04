@@ -189,10 +189,25 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":"Centre \/ Wing",
+    "Position":"Centre \/ Bench \/ Wing",
     "FirstSeason":"2019\/20",
     "DebutSeason":"2021\/22",
     "GameID":"London Irish (A)"
+  },
+  {
+    "Player":"Alex Maynard",
+    "TotalTries":4,
+    "TotalGames":11,
+    "TotalGames1":7,
+    "TotalGames2":4,
+    "Tries":0,
+    "Games":0,
+    "Games1":0,
+    "Games2":0,
+    "Position":"Prop",
+    "FirstSeason":"2019\/20",
+    "DebutSeason":"2019\/20",
+    "GameID":"-"
   },
   {
     "Player":"Alfie Fuller",
@@ -204,7 +219,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":null,
+    "Position":"Bench",
     "FirstSeason":"2023\/24",
     "DebutSeason":"-",
     "GameID":"-"
@@ -219,7 +234,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":null,
+    "Position":"Bench",
     "FirstSeason":"2021\/22",
     "DebutSeason":"-",
     "GameID":"-"
@@ -264,7 +279,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":"Centre",
+    "Position":"Centre \/ Bench",
     "FirstSeason":"2021\/22",
     "DebutSeason":"-",
     "GameID":"-"
@@ -294,22 +309,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":"Flanker \/ Number 8",
-    "FirstSeason":"2019\/20",
-    "DebutSeason":"2019\/20",
-    "GameID":"-"
-  },
-  {
-    "Player":"Artemis Maynard",
-    "TotalTries":4,
-    "TotalGames":11,
-    "TotalGames1":7,
-    "TotalGames2":4,
-    "Tries":0,
-    "Games":0,
-    "Games1":0,
-    "Games2":0,
-    "Position":"Flanker",
+    "Position":"Flanker \/ Number 8 \/ Bench",
     "FirstSeason":"2019\/20",
     "DebutSeason":"2019\/20",
     "GameID":"-"
@@ -384,7 +384,7 @@
     "Games":1,
     "Games1":0,
     "Games2":1,
-    "Position":null,
+    "Position":"Bench",
     "FirstSeason":"2024\/25",
     "DebutSeason":"-",
     "GameID":"-"
@@ -399,7 +399,7 @@
     "Games":4,
     "Games1":2,
     "Games2":2,
-    "Position":"Wing \/ Centre",
+    "Position":"Bench \/ Wing \/ Centre",
     "FirstSeason":"2018\/19",
     "DebutSeason":"2018\/19",
     "GameID":"-"
@@ -414,7 +414,7 @@
     "Games":2,
     "Games1":0,
     "Games2":2,
-    "Position":"Fly Half",
+    "Position":"Fly Half \/ Bench",
     "FirstSeason":"2016\/17",
     "DebutSeason":"2017\/18",
     "GameID":"-"
@@ -429,7 +429,7 @@
     "Games":11,
     "Games1":0,
     "Games2":11,
-    "Position":"Wing \/ Full Back",
+    "Position":"Wing \/ Full Back \/ Bench",
     "FirstSeason":"2024\/25",
     "DebutSeason":"-",
     "GameID":"-"
@@ -444,7 +444,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":"Scrum Half",
+    "Position":"Scrum Half \/ Bench",
     "FirstSeason":"2019\/20",
     "DebutSeason":"2019\/20",
     "GameID":"-"
@@ -459,7 +459,7 @@
     "Games":6,
     "Games1":1,
     "Games2":5,
-    "Position":"Prop",
+    "Position":"Prop \/ Bench",
     "FirstSeason":"2021\/22",
     "DebutSeason":"2023\/24",
     "GameID":"Brighton 2 (A)"
@@ -474,7 +474,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":"Centre",
+    "Position":"Centre \/ Bench",
     "FirstSeason":"2019\/20",
     "DebutSeason":"2019\/20",
     "GameID":"-"
@@ -504,7 +504,7 @@
     "Games":8,
     "Games1":0,
     "Games2":8,
-    "Position":"Number 8 \/ Prop",
+    "Position":"Number 8 \/ Bench \/ Prop",
     "FirstSeason":"2017\/18",
     "DebutSeason":"-",
     "GameID":"-"
@@ -519,7 +519,7 @@
     "Games":1,
     "Games1":0,
     "Games2":1,
-    "Position":null,
+    "Position":"Bench",
     "FirstSeason":"2017\/18",
     "DebutSeason":"2017\/18",
     "GameID":"-"
@@ -534,7 +534,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":"Prop",
+    "Position":"Bench \/ Prop",
     "FirstSeason":"2016\/17",
     "DebutSeason":"2016\/17",
     "GameID":"-"
@@ -549,7 +549,7 @@
     "Games":3,
     "Games1":0,
     "Games2":3,
-    "Position":"Prop",
+    "Position":"Bench \/ Prop",
     "FirstSeason":"2024\/25",
     "DebutSeason":"-",
     "GameID":"-"
@@ -564,7 +564,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":"Flanker \/ Second Row",
+    "Position":"Bench \/ Flanker \/ Second Row",
     "FirstSeason":"2021\/22",
     "DebutSeason":"-",
     "GameID":"-"
@@ -579,7 +579,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":null,
+    "Position":"Bench",
     "FirstSeason":"2018\/19",
     "DebutSeason":"2018\/19",
     "GameID":"-"
@@ -594,7 +594,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":"Prop",
+    "Position":"Bench \/ Prop",
     "FirstSeason":"2022\/23",
     "DebutSeason":"-",
     "GameID":"-"
@@ -684,7 +684,7 @@
     "Games":1,
     "Games1":0,
     "Games2":1,
-    "Position":"Number 8",
+    "Position":"Bench \/ Number 8",
     "FirstSeason":"2022\/23",
     "DebutSeason":"2023\/24",
     "GameID":"Old Colfeians (H)"
@@ -744,7 +744,7 @@
     "Games":3,
     "Games1":1,
     "Games2":2,
-    "Position":"Centre \/ Full Back",
+    "Position":"Bench \/ Centre \/ Full Back",
     "FirstSeason":"2023\/24",
     "DebutSeason":"2023\/24",
     "GameID":"Heathfield & Waldron (H)"
@@ -752,14 +752,14 @@
   {
     "Player":"Connor Leggat",
     "TotalTries":20,
-    "TotalGames":88,
-    "TotalGames1":85,
+    "TotalGames":79,
+    "TotalGames1":76,
     "TotalGames2":3,
     "Tries":2,
     "Games":11,
     "Games1":11,
     "Games2":0,
-    "Position":"Number 8 \/ Prop",
+    "Position":"Number 8 \/ Bench \/ Prop",
     "FirstSeason":"2016\/17",
     "DebutSeason":"2016\/17",
     "GameID":"-"
@@ -774,7 +774,7 @@
     "Games":3,
     "Games1":0,
     "Games2":3,
-    "Position":null,
+    "Position":"Bench",
     "FirstSeason":"2024\/25",
     "DebutSeason":"-",
     "GameID":"-"
@@ -849,7 +849,7 @@
     "Games":5,
     "Games1":1,
     "Games2":4,
-    "Position":"Second Row \/ Number 8",
+    "Position":"Second Row \/ Bench \/ Number 8",
     "FirstSeason":"2016\/17",
     "DebutSeason":"2016\/17",
     "GameID":"-"
@@ -864,7 +864,7 @@
     "Games":4,
     "Games1":0,
     "Games2":4,
-    "Position":"Second Row \/ Flanker \/ Centre",
+    "Position":"Bench \/ Second Row \/ Flanker \/ Centre",
     "FirstSeason":"2016\/17",
     "DebutSeason":"2016\/17",
     "GameID":"-"
@@ -909,7 +909,7 @@
     "Games":2,
     "Games1":1,
     "Games2":1,
-    "Position":"Centre",
+    "Position":"Bench \/ Centre",
     "FirstSeason":"2024\/25",
     "DebutSeason":"2024\/25",
     "GameID":"Weybridge Vandals (H)"
@@ -924,7 +924,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":"Second Row \/ Prop",
+    "Position":"Bench \/ Second Row \/ Prop",
     "FirstSeason":"2018\/19",
     "DebutSeason":"-",
     "GameID":"-"
@@ -939,7 +939,7 @@
     "Games":10,
     "Games1":8,
     "Games2":2,
-    "Position":"Prop \/ Second Row",
+    "Position":"Bench \/ Prop \/ Second Row",
     "FirstSeason":"2016\/17",
     "DebutSeason":"2016\/17",
     "GameID":"-"
@@ -954,7 +954,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":"Full Back",
+    "Position":"Bench \/ Full Back",
     "FirstSeason":"2021\/22",
     "DebutSeason":"-",
     "GameID":"-"
@@ -969,7 +969,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":"Prop",
+    "Position":"Prop \/ Bench",
     "FirstSeason":"2019\/20",
     "DebutSeason":"2019\/20",
     "GameID":"-"
@@ -984,7 +984,7 @@
     "Games":1,
     "Games1":0,
     "Games2":1,
-    "Position":null,
+    "Position":"Bench",
     "FirstSeason":"2024\/25",
     "DebutSeason":"-",
     "GameID":"-"
@@ -999,7 +999,7 @@
     "Games":3,
     "Games1":0,
     "Games2":3,
-    "Position":"Centre \/ Wing",
+    "Position":"Bench \/ Centre \/ Wing",
     "FirstSeason":"2024\/25",
     "DebutSeason":"-",
     "GameID":"-"
@@ -1014,7 +1014,7 @@
     "Games":2,
     "Games1":0,
     "Games2":2,
-    "Position":"Centre",
+    "Position":"Centre \/ Bench",
     "FirstSeason":"2022\/23",
     "DebutSeason":"-",
     "GameID":"-"
@@ -1029,7 +1029,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":null,
+    "Position":"Bench",
     "FirstSeason":"2018\/19",
     "DebutSeason":"2018\/19",
     "GameID":"-"
@@ -1044,7 +1044,7 @@
     "Games":8,
     "Games1":1,
     "Games2":7,
-    "Position":"Full Back \/ Wing",
+    "Position":"Full Back \/ Bench \/ Wing",
     "FirstSeason":"2022\/23",
     "DebutSeason":"2022\/23",
     "GameID":"Haywards Heath (H)"
@@ -1052,14 +1052,14 @@
   {
     "Player":"Dylan Hammocks",
     "TotalTries":0,
-    "TotalGames":22,
+    "TotalGames":11,
     "TotalGames1":0,
-    "TotalGames2":22,
+    "TotalGames2":11,
     "Tries":0,
-    "Games":22,
+    "Games":11,
     "Games1":0,
-    "Games2":22,
-    "Position":"Second Row \/ Flanker",
+    "Games2":11,
+    "Position":"Bench \/ Second Row \/ Flanker",
     "FirstSeason":"2024\/25",
     "DebutSeason":"-",
     "GameID":"-"
@@ -1074,7 +1074,7 @@
     "Games":3,
     "Games1":0,
     "Games2":3,
-    "Position":null,
+    "Position":"Bench",
     "FirstSeason":"2024\/25",
     "DebutSeason":"-",
     "GameID":"-"
@@ -1089,7 +1089,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":null,
+    "Position":"Bench",
     "FirstSeason":"2023\/24",
     "DebutSeason":"-",
     "GameID":"-"
@@ -1104,7 +1104,7 @@
     "Games":1,
     "Games1":0,
     "Games2":1,
-    "Position":"Scrum Half \/ Wing",
+    "Position":"Bench \/ Scrum Half \/ Wing",
     "FirstSeason":"2022\/23",
     "DebutSeason":"2023\/24",
     "GameID":"Old Colfeians (H)"
@@ -1119,7 +1119,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":"Flanker \/ Hooker",
+    "Position":"Bench \/ Flanker \/ Hooker",
     "FirstSeason":"2021\/22",
     "DebutSeason":"2021\/22",
     "GameID":"Uckfield (A)"
@@ -1134,7 +1134,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":"Wing",
+    "Position":"Wing \/ Bench",
     "FirstSeason":"2021\/22",
     "DebutSeason":"2022\/23",
     "GameID":"Haywards Heath (A)"
@@ -1149,7 +1149,7 @@
     "Games":10,
     "Games1":0,
     "Games2":10,
-    "Position":"Wing \/ Second Row",
+    "Position":"Bench \/ Wing \/ Second Row",
     "FirstSeason":"2024\/25",
     "DebutSeason":"-",
     "GameID":"-"
@@ -1209,7 +1209,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":"Fly Half",
+    "Position":"Fly Half \/ Bench",
     "FirstSeason":"2018\/19",
     "DebutSeason":"2018\/19",
     "GameID":"-"
@@ -1344,7 +1344,7 @@
     "Games":13,
     "Games1":9,
     "Games2":4,
-    "Position":"Hooker",
+    "Position":"Hooker \/ Bench",
     "FirstSeason":"2018\/19",
     "DebutSeason":"2018\/19",
     "GameID":"-"
@@ -1374,7 +1374,7 @@
     "Games":8,
     "Games1":0,
     "Games2":8,
-    "Position":"Prop",
+    "Position":"Prop \/ Bench",
     "FirstSeason":"2024\/25",
     "DebutSeason":"-",
     "GameID":"-"
@@ -1389,7 +1389,7 @@
     "Games":11,
     "Games1":2,
     "Games2":9,
-    "Position":"Prop",
+    "Position":"Prop \/ Bench",
     "FirstSeason":"2023\/24",
     "DebutSeason":"2024\/25",
     "GameID":"Hove (A)"
@@ -1404,7 +1404,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":null,
+    "Position":"Bench",
     "FirstSeason":"2023\/24",
     "DebutSeason":"-",
     "GameID":"-"
@@ -1419,7 +1419,7 @@
     "Games":6,
     "Games1":0,
     "Games2":6,
-    "Position":"Flanker \/ Second Row",
+    "Position":"Bench \/ Flanker \/ Second Row",
     "FirstSeason":"2024\/25",
     "DebutSeason":"-",
     "GameID":"-"
@@ -1464,7 +1464,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":"Prop",
+    "Position":"Bench \/ Prop",
     "FirstSeason":"2016\/17",
     "DebutSeason":"-",
     "GameID":"-"
@@ -1494,7 +1494,7 @@
     "Games":18,
     "Games1":2,
     "Games2":16,
-    "Position":"Flanker",
+    "Position":"Flanker \/ Bench",
     "FirstSeason":"2021\/22",
     "DebutSeason":"2021\/22",
     "GameID":"University of Brighton (A)"
@@ -1509,7 +1509,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":"Flanker",
+    "Position":"Bench \/ Flanker",
     "FirstSeason":"2023\/24",
     "DebutSeason":"2023\/24",
     "GameID":"Heathfield & Waldron (H)"
@@ -1524,7 +1524,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":"Prop",
+    "Position":"Bench \/ Prop",
     "FirstSeason":"2023\/24",
     "DebutSeason":"2023\/24",
     "GameID":"Brighton 2 (A)"
@@ -1539,7 +1539,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":null,
+    "Position":"Bench",
     "FirstSeason":"2021\/22",
     "DebutSeason":"-",
     "GameID":"-"
@@ -1569,7 +1569,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":null,
+    "Position":"Bench",
     "FirstSeason":"2018\/19",
     "DebutSeason":"-",
     "GameID":"-"
@@ -1584,7 +1584,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":"Wing",
+    "Position":"Bench \/ Wing",
     "FirstSeason":"2019\/20",
     "DebutSeason":"2021\/22",
     "GameID":"Metropolitan Police (H)"
@@ -1599,7 +1599,7 @@
     "Games":5,
     "Games1":0,
     "Games2":5,
-    "Position":null,
+    "Position":"Bench",
     "FirstSeason":"2024\/25",
     "DebutSeason":"-",
     "GameID":"-"
@@ -1764,7 +1764,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":null,
+    "Position":"Bench",
     "FirstSeason":"2018\/19",
     "DebutSeason":"-",
     "GameID":"-"
@@ -1824,7 +1824,7 @@
     "Games":5,
     "Games1":0,
     "Games2":5,
-    "Position":"Hooker \/ Wing",
+    "Position":"Bench \/ Hooker \/ Wing",
     "FirstSeason":"2021\/22",
     "DebutSeason":"2021\/22",
     "GameID":"-"
@@ -1869,7 +1869,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":"Prop",
+    "Position":"Prop \/ Bench",
     "FirstSeason":"2021\/22",
     "DebutSeason":"-",
     "GameID":"-"
@@ -1884,7 +1884,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":"Centre",
+    "Position":"Bench \/ Centre",
     "FirstSeason":"2021\/22",
     "DebutSeason":"-",
     "GameID":"-"
@@ -1929,7 +1929,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":"Second Row \/ Number 8",
+    "Position":"Second Row \/ Bench \/ Number 8",
     "FirstSeason":"2019\/20",
     "DebutSeason":"2019\/20",
     "GameID":"-"
@@ -1944,7 +1944,7 @@
     "Games":3,
     "Games1":2,
     "Games2":1,
-    "Position":"Prop",
+    "Position":"Prop \/ Bench",
     "FirstSeason":"2016\/17",
     "DebutSeason":"2016\/17",
     "GameID":"-"
@@ -1959,7 +1959,7 @@
     "Games":2,
     "Games1":0,
     "Games2":2,
-    "Position":"Second Row",
+    "Position":"Bench \/ Second Row",
     "FirstSeason":"2023\/24",
     "DebutSeason":"-",
     "GameID":"-"
@@ -1989,7 +1989,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":null,
+    "Position":"Bench",
     "FirstSeason":"2017\/18",
     "DebutSeason":"-",
     "GameID":"-"
@@ -2004,7 +2004,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":"Flanker",
+    "Position":"Flanker \/ Bench",
     "FirstSeason":"2022\/23",
     "DebutSeason":"-",
     "GameID":"-"
@@ -2049,7 +2049,7 @@
     "Games":1,
     "Games1":0,
     "Games2":1,
-    "Position":null,
+    "Position":"Bench",
     "FirstSeason":"2024\/25",
     "DebutSeason":"-",
     "GameID":"-"
@@ -2094,7 +2094,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":"Fly Half \/ Centre \/ Scrum Half",
+    "Position":"Bench \/ Fly Half \/ Centre \/ Scrum Half",
     "FirstSeason":"2021\/22",
     "DebutSeason":"2021\/22",
     "GameID":"Metropolitan Police (H)"
@@ -2109,7 +2109,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":null,
+    "Position":"Bench",
     "FirstSeason":"2016\/17",
     "DebutSeason":"2017\/18",
     "GameID":"-"
@@ -2154,7 +2154,7 @@
     "Games":10,
     "Games1":8,
     "Games2":2,
-    "Position":"Flanker",
+    "Position":"Flanker \/ Bench",
     "FirstSeason":"2023\/24",
     "DebutSeason":"2023\/24",
     "GameID":"Brighton 2 (A)"
@@ -2169,7 +2169,7 @@
     "Games":2,
     "Games1":0,
     "Games2":2,
-    "Position":"Second Row",
+    "Position":"Second Row \/ Bench",
     "FirstSeason":"2021\/22",
     "DebutSeason":"2023\/24",
     "GameID":"Old Colfeians (H)"
@@ -2274,7 +2274,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":"Flanker",
+    "Position":"Flanker \/ Bench",
     "FirstSeason":"2017\/18",
     "DebutSeason":"2018\/19",
     "GameID":"-"
@@ -2304,7 +2304,7 @@
     "Games":1,
     "Games1":0,
     "Games2":1,
-    "Position":"Scrum Half",
+    "Position":"Scrum Half \/ Bench",
     "FirstSeason":"2016\/17",
     "DebutSeason":"2018\/19",
     "GameID":"-"
@@ -2424,7 +2424,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":null,
+    "Position":"Bench",
     "FirstSeason":"2018\/19",
     "DebutSeason":"-",
     "GameID":"-"
@@ -2439,7 +2439,7 @@
     "Games":6,
     "Games1":1,
     "Games2":5,
-    "Position":"Fly Half \/ Scrum Half",
+    "Position":"Fly Half \/ Bench \/ Scrum Half",
     "FirstSeason":"2024\/25",
     "DebutSeason":"2024\/25",
     "GameID":"Hove (H)"
@@ -2454,7 +2454,7 @@
     "Games":2,
     "Games1":0,
     "Games2":2,
-    "Position":"Prop \/ Hooker",
+    "Position":"Bench \/ Prop \/ Hooker",
     "FirstSeason":"2016\/17",
     "DebutSeason":"2016\/17",
     "GameID":"-"
@@ -2469,7 +2469,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":"Fly Half \/ Full Back",
+    "Position":"Bench \/ Fly Half \/ Full Back",
     "FirstSeason":"2016\/17",
     "DebutSeason":"2018\/19",
     "GameID":"-"
@@ -2484,7 +2484,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":"Full Back",
+    "Position":"Bench \/ Full Back",
     "FirstSeason":"2016\/17",
     "DebutSeason":"2017\/18",
     "GameID":"-"
@@ -2499,7 +2499,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":"Second Row",
+    "Position":"Bench \/ Second Row",
     "FirstSeason":"2016\/17",
     "DebutSeason":"-",
     "GameID":"-"
@@ -2529,7 +2529,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":null,
+    "Position":"Bench",
     "FirstSeason":"2022\/23",
     "DebutSeason":"-",
     "GameID":"-"
@@ -2544,7 +2544,7 @@
     "Games":2,
     "Games1":1,
     "Games2":1,
-    "Position":"Flanker",
+    "Position":"Bench \/ Flanker",
     "FirstSeason":"2021\/22",
     "DebutSeason":"2022\/23",
     "GameID":"Seaford (A)"
@@ -2574,7 +2574,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":null,
+    "Position":"Bench",
     "FirstSeason":"2019\/20",
     "DebutSeason":"2019\/20",
     "GameID":"-"
@@ -2589,7 +2589,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":"Prop",
+    "Position":"Bench \/ Prop",
     "FirstSeason":"2016\/17",
     "DebutSeason":"-",
     "GameID":"-"
@@ -2604,7 +2604,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":null,
+    "Position":"Bench",
     "FirstSeason":"2016\/17",
     "DebutSeason":"-",
     "GameID":"-"
@@ -2619,7 +2619,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":"Centre \/ Flanker \/ Scrum Half",
+    "Position":"Bench \/ Centre \/ Flanker \/ Scrum Half",
     "FirstSeason":"2016\/17",
     "DebutSeason":"2016\/17",
     "GameID":"-"
@@ -2649,7 +2649,7 @@
     "Games":7,
     "Games1":1,
     "Games2":6,
-    "Position":"Centre \/ Flanker",
+    "Position":"Centre \/ Bench \/ Flanker",
     "FirstSeason":"2024\/25",
     "DebutSeason":"2024\/25",
     "GameID":"Hove (A)"
@@ -2664,7 +2664,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":"Flanker \/ Second Row",
+    "Position":"Flanker \/ Bench \/ Second Row",
     "FirstSeason":"2021\/22",
     "DebutSeason":"2021\/22",
     "GameID":"Uckfield (A)"
@@ -2739,7 +2739,7 @@
     "Games":13,
     "Games1":13,
     "Games2":0,
-    "Position":"Full Back \/ Fly Half",
+    "Position":"Full Back \/ Fly Half \/ Bench",
     "FirstSeason":"2019\/20",
     "DebutSeason":"2019\/20",
     "GameID":"-"
@@ -2754,7 +2754,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":null,
+    "Position":"Bench",
     "FirstSeason":"2017\/18",
     "DebutSeason":"-",
     "GameID":"-"
@@ -2784,7 +2784,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":"Wing",
+    "Position":"Bench \/ Wing",
     "FirstSeason":"2019\/20",
     "DebutSeason":"2019\/20",
     "GameID":"-"
@@ -2799,7 +2799,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":"Fly Half \/ Full Back \/ Wing",
+    "Position":"Bench \/ Fly Half \/ Full Back \/ Wing",
     "FirstSeason":"2018\/19",
     "DebutSeason":"2018\/19",
     "GameID":"-"
@@ -2814,7 +2814,7 @@
     "Games":1,
     "Games1":0,
     "Games2":1,
-    "Position":null,
+    "Position":"Bench",
     "FirstSeason":"2023\/24",
     "DebutSeason":"-",
     "GameID":"-"
@@ -2829,7 +2829,7 @@
     "Games":4,
     "Games1":0,
     "Games2":4,
-    "Position":"Centre",
+    "Position":"Centre \/ Bench",
     "FirstSeason":"2024\/25",
     "DebutSeason":"-",
     "GameID":"-"
@@ -2859,7 +2859,7 @@
     "Games":13,
     "Games1":3,
     "Games2":10,
-    "Position":"Number 8 \/ Second Row",
+    "Position":"Number 8 \/ Bench \/ Second Row",
     "FirstSeason":"2022\/23",
     "DebutSeason":"2022\/23",
     "GameID":"Crawley (H)"
@@ -2889,7 +2889,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":"Wing",
+    "Position":"Bench \/ Wing",
     "FirstSeason":"2023\/24",
     "DebutSeason":"-",
     "GameID":"-"
@@ -2904,7 +2904,7 @@
     "Games":11,
     "Games1":6,
     "Games2":5,
-    "Position":"Flanker \/ Second Row",
+    "Position":"Bench \/ Flanker \/ Second Row",
     "FirstSeason":"2023\/24",
     "DebutSeason":"2023\/24",
     "GameID":"Kingston (A)"
@@ -2919,7 +2919,7 @@
     "Games":3,
     "Games1":0,
     "Games2":3,
-    "Position":"Wing",
+    "Position":"Bench \/ Wing",
     "FirstSeason":"2017\/18",
     "DebutSeason":"-",
     "GameID":"-"
@@ -2934,7 +2934,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":"Number 8",
+    "Position":"Bench \/ Number 8",
     "FirstSeason":"2021\/22",
     "DebutSeason":"2021\/22",
     "GameID":"Horsham (H)"
@@ -2949,7 +2949,7 @@
     "Games":3,
     "Games1":1,
     "Games2":2,
-    "Position":"Centre \/ Second Row",
+    "Position":"Bench \/ Centre \/ Second Row",
     "FirstSeason":"2024\/25",
     "DebutSeason":"2024\/25",
     "GameID":"Trinity (A)"
@@ -2964,7 +2964,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":null,
+    "Position":"Bench",
     "FirstSeason":"2023\/24",
     "DebutSeason":"-",
     "GameID":"-"
@@ -3129,7 +3129,7 @@
     "Games":6,
     "Games1":0,
     "Games2":6,
-    "Position":"Prop \/ Hooker",
+    "Position":"Bench \/ Prop \/ Hooker",
     "FirstSeason":"2023\/24",
     "DebutSeason":"-",
     "GameID":"-"
@@ -3144,7 +3144,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":"Wing",
+    "Position":"Bench \/ Wing",
     "FirstSeason":"2016\/17",
     "DebutSeason":"2018\/19",
     "GameID":"-"
@@ -3159,7 +3159,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":"Hooker \/ Flanker",
+    "Position":"Bench \/ Hooker \/ Flanker",
     "FirstSeason":"2021\/22",
     "DebutSeason":"2021\/22",
     "GameID":"Horsham (A)"
@@ -3174,7 +3174,7 @@
     "Games":15,
     "Games1":4,
     "Games2":11,
-    "Position":"Flanker",
+    "Position":"Flanker \/ Bench",
     "FirstSeason":"2021\/22",
     "DebutSeason":"2021\/22",
     "GameID":"Crawley (H)"
@@ -3189,7 +3189,7 @@
     "Games":3,
     "Games1":0,
     "Games2":3,
-    "Position":"Centre",
+    "Position":"Centre \/ Bench",
     "FirstSeason":"2016\/17",
     "DebutSeason":"2016\/17",
     "GameID":"-"
@@ -3204,7 +3204,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":null,
+    "Position":"Bench",
     "FirstSeason":"2023\/24",
     "DebutSeason":"-",
     "GameID":"-"
@@ -3219,7 +3219,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":"Second Row",
+    "Position":"Bench \/ Second Row",
     "FirstSeason":"2021\/22",
     "DebutSeason":"2021\/22",
     "GameID":"Lewes (H)"
@@ -3234,7 +3234,7 @@
     "Games":3,
     "Games1":1,
     "Games2":2,
-    "Position":"Centre",
+    "Position":"Centre \/ Bench",
     "FirstSeason":"2021\/22",
     "DebutSeason":"2021\/22",
     "GameID":"Crawley (H)"
@@ -3309,7 +3309,7 @@
     "Games":2,
     "Games1":0,
     "Games2":2,
-    "Position":"Prop",
+    "Position":"Bench \/ Prop",
     "FirstSeason":"2017\/18",
     "DebutSeason":"-",
     "GameID":"-"
@@ -3324,7 +3324,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":null,
+    "Position":"Bench",
     "FirstSeason":"2022\/23",
     "DebutSeason":"-",
     "GameID":"-"
@@ -3354,7 +3354,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":"Hooker \/ Prop",
+    "Position":"Bench \/ Hooker \/ Prop",
     "FirstSeason":"2021\/22",
     "DebutSeason":"2021\/22",
     "GameID":"Horsham (A)"
@@ -3362,9 +3362,9 @@
   {
     "Player":"Sam Lindsay-McCall",
     "TotalTries":7,
-    "TotalGames":81,
+    "TotalGames":79,
     "TotalGames1":75,
-    "TotalGames2":6,
+    "TotalGames2":4,
     "Tries":0,
     "Games":20,
     "Games1":19,
@@ -3384,7 +3384,7 @@
     "Games":11,
     "Games1":0,
     "Games2":11,
-    "Position":"Flanker \/ Wing",
+    "Position":"Flanker \/ Bench \/ Wing",
     "FirstSeason":"2024\/25",
     "DebutSeason":"-",
     "GameID":"-"
@@ -3399,7 +3399,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":"Wing \/ Centre",
+    "Position":"Wing \/ Bench \/ Centre",
     "FirstSeason":"2016\/17",
     "DebutSeason":"2016\/17",
     "GameID":"-"
@@ -3429,7 +3429,7 @@
     "Games":10,
     "Games1":8,
     "Games2":2,
-    "Position":"Full Back \/ Scrum Half",
+    "Position":"Full Back \/ Scrum Half \/ Bench",
     "FirstSeason":"2016\/17",
     "DebutSeason":"2021\/22",
     "GameID":"Crawley (H)"
@@ -3444,7 +3444,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":"Wing",
+    "Position":"Wing \/ Bench",
     "FirstSeason":"2021\/22",
     "DebutSeason":"-",
     "GameID":"-"
@@ -3459,7 +3459,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":"Wing",
+    "Position":"Bench \/ Wing",
     "FirstSeason":"2021\/22",
     "DebutSeason":"-",
     "GameID":"-"
@@ -3474,7 +3474,7 @@
     "Games":1,
     "Games1":0,
     "Games2":1,
-    "Position":"Prop",
+    "Position":"Prop \/ Bench",
     "FirstSeason":"2016\/17",
     "DebutSeason":"2017\/18",
     "GameID":"-"
@@ -3489,7 +3489,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":"Wing",
+    "Position":"Bench \/ Wing",
     "FirstSeason":"2022\/23",
     "DebutSeason":"-",
     "GameID":"-"
@@ -3504,7 +3504,7 @@
     "Games":1,
     "Games1":0,
     "Games2":1,
-    "Position":"Full Back \/ Wing",
+    "Position":"Full Back \/ Wing \/ Bench",
     "FirstSeason":"2022\/23",
     "DebutSeason":"2023\/24",
     "GameID":"Old Colfeians (H)"
@@ -3519,7 +3519,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":null,
+    "Position":"Bench",
     "FirstSeason":"2016\/17",
     "DebutSeason":"2017\/18",
     "GameID":"-"
@@ -3594,7 +3594,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":null,
+    "Position":"Bench",
     "FirstSeason":"2021\/22",
     "DebutSeason":"-",
     "GameID":"-"
@@ -3609,7 +3609,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":"Second Row",
+    "Position":"Bench \/ Second Row",
     "FirstSeason":"2021\/22",
     "DebutSeason":"2021\/22",
     "GameID":"Crawley (H)"
@@ -3639,7 +3639,7 @@
     "Games":11,
     "Games1":8,
     "Games2":3,
-    "Position":"Second Row \/ Flanker",
+    "Position":"Second Row \/ Bench \/ Flanker",
     "FirstSeason":"2017\/18",
     "DebutSeason":"2017\/18",
     "GameID":"-"
@@ -3647,8 +3647,8 @@
   {
     "Player":"Titch Mitchell",
     "TotalTries":5,
-    "TotalGames":13,
-    "TotalGames1":9,
+    "TotalGames":10,
+    "TotalGames1":6,
     "TotalGames2":4,
     "Tries":0,
     "Games":0,
@@ -3669,7 +3669,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":"Fly Half",
+    "Position":"Fly Half \/ Bench",
     "FirstSeason":"2021\/22",
     "DebutSeason":"2021\/22",
     "GameID":"London Irish (A)"
@@ -3684,7 +3684,7 @@
     "Games":8,
     "Games1":0,
     "Games2":8,
-    "Position":"Flanker",
+    "Position":"Flanker \/ Bench",
     "FirstSeason":"2019\/20",
     "DebutSeason":"2019\/20",
     "GameID":"-"
@@ -3699,7 +3699,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":"Number 8 \/ Prop \/ Second Row",
+    "Position":"Bench \/ Number 8 \/ Prop \/ Second Row",
     "FirstSeason":"2016\/17",
     "DebutSeason":"2018\/19",
     "GameID":"-"
@@ -3729,7 +3729,7 @@
     "Games":1,
     "Games1":0,
     "Games2":1,
-    "Position":"Flanker \/ Hooker",
+    "Position":"Bench \/ Flanker \/ Hooker",
     "FirstSeason":"2016\/17",
     "DebutSeason":"2017\/18",
     "GameID":"-"
@@ -3744,7 +3744,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":"Fly Half \/ Centre",
+    "Position":"Fly Half \/ Bench \/ Centre",
     "FirstSeason":"2023\/24",
     "DebutSeason":"2023\/24",
     "GameID":"KCS Old Boys (H)"
@@ -3774,7 +3774,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":null,
+    "Position":"Bench",
     "FirstSeason":"2021\/22",
     "DebutSeason":"2021\/22",
     "GameID":"Crawley (H)"
@@ -3834,7 +3834,7 @@
     "Games":3,
     "Games1":1,
     "Games2":2,
-    "Position":"Second Row \/ Flanker",
+    "Position":"Bench \/ Second Row \/ Flanker",
     "FirstSeason":"2023\/24",
     "DebutSeason":"2023\/24",
     "GameID":"Horsham (A)"
@@ -3849,7 +3849,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":"Prop \/ Hooker",
+    "Position":"Prop \/ Bench \/ Hooker",
     "FirstSeason":"2021\/22",
     "DebutSeason":"-",
     "GameID":"-"
@@ -3894,7 +3894,7 @@
     "Games":0,
     "Games1":0,
     "Games2":0,
-    "Position":"Second Row",
+    "Position":"Bench \/ Second Row",
     "FirstSeason":"2022\/23",
     "DebutSeason":"-",
     "GameID":"-"

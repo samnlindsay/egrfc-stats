@@ -30,6 +30,7 @@ set_piece_summaries(set_piece_df)
 top_players_summary(players_agg_df)
 players_table_data(players_df, players_agg_df)
 
+
 # One-off charts (only source data needs updating)
 # captains_chart(file='Charts/captains.html')
 # results_chart(file='Charts/results.html')
@@ -44,3 +45,4 @@ players_table_data(players_df, players_agg_df)
 
 # Self-contained charts (chart needs updating)
 game_stats_charts(analysis, file='Charts/video_analysis.html')
+player_profile_charts()
