@@ -238,6 +238,14 @@ nav.navbar {
     color: var(--light-color);
 }
 
+#playerSponsor {
+    font-family: 'Lato', sans-serif;
+    font-size: 1rem;
+    font-style: italic;
+    color: var(--light-color);
+    opacity: 0.5;
+}
+
 #ppTitle {
     font-family: 'PT Sans Narrow', sans-serif;
     font-size: 4rem;
