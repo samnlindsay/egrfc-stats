@@ -191,10 +191,10 @@ def squad_pie(df, player=None):
         )
         .add_params(alt.param(value=None, name="selectedPlayer"))
         .transform_filter("datum.Player == selectedPlayer || selectedPlayer == null")
-        .transform_calculate(label="datum.Squad + ' XV'")
+        .transform_calculate(label="split(datum.Squad + ' XV', ' ')")
     )
 
-    pie = base.mark_arc(outerRadius=120, innerRadius=50)
+    pie = base.mark_arc(outerRadius=120, innerRadius=50, stroke="black")
     text1 = base.mark_text(radius=85, size=36, font="PT Sans Narrow").encode(
         theta=alt.Theta("sum(TotalGames)", stack=True),
         text=alt.Text("sum(TotalGames)"), 
@@ -225,7 +225,7 @@ def squad_pie(df, player=None):
 
 position_sort = ["Prop", "Hooker", "Second Row", "Flanker", "Number 8", "Scrum Half", "Fly Half", "Centre", "Wing", "Full Back", "Bench"]
 
-def position_pie(df, player=None):
+def position_pie(df, player=None, position_field="Position_specific"):
 
     base = (
         alt.Chart(df)
@@ -243,23 +243,29 @@ def position_pie(df, player=None):
                     ]
                 ),
                 legend=None
-            )
+            ),
+            detail=f"{position_field}:N"
         )
         .add_params(alt.param(value=None, name="selectedPlayer"))
         .transform_filter("datum.Player == selectedPlayer || selectedPlayer == null")
-        .transform_calculate(Position_label="split(datum.Position_specific, ' ')")
+        .transform_calculate(Number="datum.Number <= 15 ? datum.Number : ''")
     )
 
-    pie = base.mark_arc(outerRadius=120, innerRadius=50)
+    if position_field == "Number":
+        base = base.transform_calculate(Position_label="split(datum.Position_specific + ' ' + datum.Number, ' ')")
+    else:
+        base = base.transform_calculate(Position_label="split(datum.Position_specific, ' ')")
+
+    pie = base.mark_arc(outerRadius=120, innerRadius=50, stroke="black")
 
     text1 = base.mark_text(radius=85, size=36, font="PT Sans Narrow").encode(
         theta=alt.Theta("count()", stack=True, sort="descending"),
         text=alt.Text("count()"), 
-        detail="Position_specific:N",
+        detail=f"{position_field}:N",
         color=alt.value("white")
     )
 
-    text2 = base.mark_text(radius=155, size=24, font="PT Sans Narrow").encode(
+    text2 = base.mark_text(radius=155, size=24, font="PT Sans Narrow", baseline="line-bottom").encode(
         theta=alt.Theta("count()", stack=True),
         text=alt.Text("Position_label:N"),
         detail="Position_specific:N",
@@ -300,7 +306,7 @@ def results_pie(df, player=None):
         .transform_filter("datum.Player == selectedPlayer || selectedPlayer == null")
     )
 
-    pie = base.mark_arc(outerRadius=120, innerRadius=50)
+    pie = base.mark_arc(outerRadius=120, innerRadius=50, stroke="black")
 
     text1 = base.mark_text(radius=85, size=36, font="PT Sans Narrow").encode(
         theta=alt.Theta("count()", stack=True),
@@ -331,7 +337,7 @@ def results_pie(df, player=None):
 
     return chart
 
-def player_profile_charts(player=None, df=None, df_agg=None):
+def player_profile_charts(player=None, df=None, df_agg=None, position_field="Position_specific"):
 
     if df is None:
         df = players(team_sheets())
@@ -342,7 +348,7 @@ def player_profile_charts(player=None, df=None, df_agg=None):
         alt.vconcat(
             alt.hconcat(
                 squad_pie(df_agg, player).properties(height=250), 
-                position_pie(df, player).properties(height=250),
+                position_pie(df, player, position_field=position_field).properties(height=250),
                 results_pie(df, player).properties(height=250),
             ).resolve_scale(color='independent'),
             season_squad_chart(df_agg, player).properties(height=alt.Step(30), width=600),
