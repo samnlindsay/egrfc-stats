@@ -623,12 +623,14 @@ def points_scorers_chart(df=None, file=None):
 
     squad_selection = alt.param(
         bind=alt.binding_radio(options=["1st", "2nd", "Total"], name="Squad"),
-        value="Total"
+        value="Total",
+        name="squadSelection"
     )
 
     season_selection = alt.param(
         bind=alt.binding_radio(options=[*seasons_hist, *seasons, "All"], name="Season"), 
-        value="All" 
+        value="All" ,
+        name="seasonSelection"
     )
 
     chart = (
@@ -720,15 +722,23 @@ def card_chart(df=None, file=None):
 
     season_selection = alt.param(
         bind=alt.binding_radio(options=[*seasons, "All"], name="Season"), 
-        value="All" 
+        value="All" ,
+        name="seasonSelection"
+    )
+
+    squad_selection = alt.param(
+        bind=alt.binding_radio(options=["1st", "2nd", "Both"], name="Squad"),
+        value="Both",
+        name="squadSelection"
     )
 
     chart = (
         alt.Chart(df if df is not None else {"name": "df", "url":'https://raw.githubusercontent.com/samnlindsay/egrfc-stats/main/data/players_agg.json',"format":{'type':"json"}})
         .transform_calculate(Cards="datum.YC + datum.RC")
         .transform_filter("datum.YC > 0 || datum.RC > 0")
-        .add_params(season_selection)
+        # .add_params(season_selection, squad_selection)
         .transform_filter(f"datum.Season == {season_selection.name} | {season_selection.name} == 'All'")
+        .transform_filter(f"datum.Squad == {squad_selection.name} | {squad_selection.name} == 'Both'")
         .transform_fold(["YC", "RC"], as_=["key", "value"])
         .transform_aggregate(
             A="sum(A)", 

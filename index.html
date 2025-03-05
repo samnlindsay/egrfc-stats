@@ -12,7 +12,7 @@
     <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=PT+Sans+Narrow" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 </head>
 
 <body>
@@ -40,6 +40,7 @@
                                         Analysis by Game</a></li>
                                 <li><a class="dropdown-item" href="#" onclick="loadPage('Charts/continuity.html')">Squad
                                         Continuity</a></li>
+                                <hr class="dropdown-divider">
                                 <li><a class="dropdown-item" href="#" onclick="loadPage('Charts/set-piece.html')">Set
                                         Piece Results by Game</a></li>
                                 <li><a class="dropdown-item" href="#" onclick="loadPage('Charts/lineouts.html')">Lineout
@@ -50,21 +51,14 @@
                             <a aria-expanded="false" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#"
                                 id="navbarDropdownPlayer" role="button">Player Stats</a>
                             <ul aria-labelledby="navbarDropdownPlayer" class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#"
-                                        onclick="loadPage('players.html')">Player Profiles</a></li>
-                                <!-- horizontal rule between options -->
+                                <li><a class="dropdown-item" href="#" onclick="loadPage('players.html')">Player Profiles</a></li>
                                 <hr class="dropdown-divider">
-                                <li><a class="dropdown-item" href="#"
-                                        onclick="loadPage('Charts/appearances.html')">Appearances</a></li>
-                                <li><a class="dropdown-item" href="#" onclick="loadPage('Charts/positions.html')">Starts
-                                        by Position</a></li>
-                                <li><a class="dropdown-item" href="#"
-                                        onclick="loadPage('Charts/captains.html')">Captains</a></li>
-                                <li><a class="dropdown-item" href="#"
-                                        onclick="loadPage('Charts/points.html')">Scorers</a></li>
+                                <li><a class="dropdown-item" href="#" onclick="loadPage('Charts/appearances.html')">Appearances</a></li>
+                                <li><a class="dropdown-item" href="#" onclick="loadPage('Charts/positions.html')">Starts by Position</a></li>
+                                <li><a class="dropdown-item" href="#" onclick="loadPage('Charts/team-sheets.html')">Team Sheets</a></li>
+                                <li><a class="dropdown-item" href="#" onclick="loadPage('Charts/captains.html')">Captains</a></li>
+                                <li><a class="dropdown-item" href="#" onclick="loadPage('Charts/points.html')">Scorers</a></li>
                                 <li><a class="dropdown-item" href="#" onclick="loadPage('Charts/cards.html')">Cards</a>
-                                <li><a class="dropdown-item" href="#" onclick="loadPage('Charts/team-sheets.html')">Team
-                                        Sheets</a></li>
                         </li>
                     </ul>
                     </li>
@@ -86,7 +80,7 @@
                 <div class="my-2">
                     <button class="btn btn-primary w-100 text-center" type="button" data-bs-toggle="collapse"
                         data-bs-target="#teamStats" aria-expanded="false">
-                        Team Stats
+                        <i class="bi bi-people-fill"></i> Team Stats
                     </button>
                     <div class="collapse mt-2 justify-content-center align-items-center" id="teamStats">
                         <table class="table table-borderless mx-auto">
@@ -139,6 +133,75 @@
                                     Analysis by Game</button>
                                 <button class="btn custom-btn py-2" onclick="loadPage('Charts/continuity.html')">Squad Continuity</button>
                             </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="my-2">
+                    <hr class="my-1">
+                    <button class="btn btn-primary w-100 text-center" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#playerStats" aria-expanded="false">
+                        <i class="bi bi-person-fill"></i> Player Stats
+                    </button>
+                    <div class="collapse mt-2 justify-content-center align-items-center" id="playerStats">
+                        <table class="table table-borderless mx-auto mb-1 text-center align-middle align-items-center"
+                            style="max-width: 700px;">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th class="p-1 pe-0">
+                                        <select class="form-select m-0 ps-1" id="seasonSelect3" onchange="updateTable()"
+                                            style="width: min-content;">
+                                            <option value="2024/25">2024/25</option>
+                                            <option value="2023/24">2023/24</option>
+                                            <option value="2022/23">2022/23</option>
+                                            <option value="2021/22">2021/22</option>
+                                        </select>
+                                    </th>
+                                    <th class="align-middle small py-1" style="line-height:0.8; max-width:100px;">Total Players</th>
+                                    <th class="align-middle small py-1">Most Appearances</th>
+                                    <th class="align-middle small py-1">Most Tries</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr id="row1">
+                                    <th class="align-middle py-1" id="squad1">1st XV</th>
+                                    <td class="align-middle py-1 px-0" id="players1"></td>
+                                    <td class="align-middle small py-1 px-1" id="apps1"></td>
+                                    <td class="align-middle small py-1 px-1" id="tries1"></td>
+                                </tr>
+                                <tr id="row2">
+                                    <th class="align-middle py-1" id="squad2">2nd XV</th>
+                                    <td class="align-middle py-1 px-0" id="players2"></td>
+                                    <td class="align-middle small py-1 px-1" id="apps2"></td>
+                                    <td class="align-middle small py-1 px-1" id="tries2"></td>
+                                </tr>
+                                <tr id="rowT" class="table-dark" style="border-top: 2px solid black">
+                                    <th class="align-middle py-1" id="squadT">Overall</th>
+                                    <td class="align-middle py-1 px-0" id="playersT"></td>
+                                    <td class="align-middle small py-1 px-1" id="appsT"></td>
+                                    <td class="align-middle small py-1 px-1" id="triesT"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="d-flex justify-content-end align-items-center">
+                            <h4 class="me-3">Charts:</h4>
+                            <div class="flex-column">
+                                <button class="btn btn-primary col-12 mb-2" style="border-color: var(--light-color);" onclick="loadPage('players.html')">
+                                    <i class="bi bi-person-vcard"></i> Player Profiles
+                                </button>
+                                <div class="flex-row m-0 p-0 height:100%">
+                                    <div class="btn-group-vertical" style="height: 100%;">
+                                        <button class="btn custom-btn" onclick="loadPage('Charts/appearances.html')">Appearances</button>
+                                        <button class="btn custom-btn" onclick="loadPage('Charts/positions.html')">Starts by Position</button>
+                                        <button class="btn custom-btn" onclick="loadPage('Charts/team-sheets.html')">Team Sheets</button>
+                                    </div>
+                                    <div class="btn-group-vertical ps-1" style="height:100%">
+                                        <button class="btn custom-btn" onclick="loadPage('Charts/captains.html')">Captains</button>
+                                        <button class="btn custom-btn" onclick="loadPage('Charts/points.html')">Scorers</button>
+                                        <button class="btn custom-btn" onclick="loadPage('Charts/cards.html')">Cards</button>
+                                    </div>
+                                </div>
+                            </div>  
                         </div>
                     </div>
                 </div>
@@ -239,75 +302,6 @@
                 </div>
 
                 <div class="my-2">
-                    <hr class="my-1">
-                    <button class="btn btn-primary w-100 text-center" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#playerStats" aria-expanded="false">
-                        Player Stats
-                    </button>
-                    <div class="collapse mt-2 justify-content-center align-items-center" id="playerStats">
-                        <table class="table table-borderless mx-auto text-center align-middle align-items-center" style="max-width: 700px;">
-                            <thead class="table-dark">
-                                <tr>
-                                    <th class="p-1 pe-0">
-                                        <select class="form-select m-0 ps-1" id="seasonSelect3" onchange="updateTable()" style="width: min-content;">
-                                            <option value="2024/25">2024/25</option>
-                                            <option value="2023/24">2023/24</option>
-                                            <option value="2022/23">2022/23</option>
-                                            <option value="2021/22">2021/22</option>
-                                        </select>
-                                    </th>
-                                    <th class="align-middle small py-1" style="line-height:0.8; max-width:100px;">Total Players</th>
-                                    <th class="align-middle small py-1">Most Appearances</th>
-                                    <th class="align-middle small py-1">Most Tries</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr id="row1">
-                                    <th class="align-middle py-1" id="squad1">1st XV</th>
-                                    <td class="align-middle py-1 px-0" id="players1"></td>
-                                    <td class="align-middle small py-1 px-1" id="apps1"></td>
-                                    <td class="align-middle small py-1 px-1" id="tries1"></td>
-                                </tr>
-                                <tr id="row2">
-                                    <th class="align-middle py-1" id="squad2">2nd XV</th>
-                                    <td class="align-middle py-1 px-0" id="players2"></td>
-                                    <td class="align-middle small py-1 px-1" id="apps2"></td>
-                                    <td class="align-middle small py-1 px-1" id="tries2"></td>
-                                </tr>
-                                <tr id="rowT" class="table-dark" style="border-top: 2px solid black">
-                                    <th class="align-middle py-1" id="squadT">Overall</th>
-                                    <td class="align-middle py-1 px-0" id="playersT"></td>
-                                    <td class="align-middle small py-1 px-1" id="appsT"></td>
-                                    <td class="align-middle small py-1 px-1" id="triesT"></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <div class="row col-12 justify-content-end px-0 mx-0 pb-2">
-                            <button class="btn btn-primary" onclick="loadPage('players.html')">
-                                <i class="bi bi-person-vcard"></i> Player Profiles
-                            </button>
-                        </div>
-                        <div class="d-flex justify-content-end align-items-center">
-                            <h4 class="me-3">Charts:</h4>
-                            <div class="btn-group-vertical" style="height: 100%;">
-                                <button class="btn custom-btn" onclick="loadPage('Charts/appearances.html')">Total
-                                    Appearances</button>
-                                <button class="btn custom-btn" onclick="loadPage('Charts/positions.html')">Starts by
-                                    Position</button>
-                                <button class="btn custom-btn" onclick="loadPage('Charts/team-sheets.html')">Team
-                                    Sheets</button>
-                                    </div>  
-                            <div class="btn-group-vertical ps-1 h-100">
-                                <button class="btn custom-btn"
-                                    onclick="loadPage('Charts/captains.html')">Captains</button>
-                                <button class="btn custom-btn" onclick="loadPage('Charts/points.html')">Scorers</button>
-                                <button class="btn custom-btn" onclick="loadPage('Charts/cards.html')">Cards</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="my-2">
                     <hr class="my-2">
                     <h2 class="text-center">External links</h2>
                     <div class="btn-group mb-1" role="group">
@@ -336,6 +330,22 @@
 
         <!-- Placeholder for dynamic content -->
         <div class="iframe-container hidden" id="dynamic-content">
+            <!-- <div id="selects" class="p-2">
+                <label for="seasonSelect">Season</label>
+                <select id="seasonSelect" class="form-select">
+                    <option selected value="All">All</option>
+                    <option value="2024/25">2024/25</option>
+                    <option value="2023/24">2023/24</option>
+                    <option value="2022/23">2022/23</option>
+                    <option value="2021/22">2021/22</option>
+                </select>
+                <label for="squadSelect">Squad</label>
+                <select id="squadSelect" class="form-select">
+                    <option value="1st XV">1st XV</option>
+                    <option value="2nd XV">2nd XV</option>
+                    <option selected value="Both">Both</option>
+                </select>
+            </div> -->
             <iframe id="chart-frame"
                 style="width: 100%; height: 100%; border: none; background-color: whitesmoke;"></iframe>
         </div>
@@ -526,6 +536,17 @@
             });
 
         });
+
+        // Event listener for player select dropdown
+        document.getElementById('seasonSelect').addEventListener('change', (event) => {
+            const season = event.target.value;
+            const iframe = document.getElementById('chart-frame');
+
+            iframe.contentWindow.postMessage({ seasonSelection: season }, "*");
+
+            console.log(season);
+        });
+
     </script>
 
 </body>
