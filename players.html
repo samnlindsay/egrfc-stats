@@ -79,7 +79,7 @@
         fetch('data/player_table.json')
             .then(response => response.json())
             // Filter out players
-            .then(players => players.filter(player => player.Games >= 5))
+            .then(players => players.filter(player => player.Games >= 1))
             .then(players => {
                 players.forEach(player => {
                     const option = document.createElement('option');
