@@ -1,0 +1,57 @@
+{
+    "date": "2024-09-07",
+    "score": [
+        38,
+        13
+    ],
+    "teams": [
+        "Eastbourne",
+        "Haywards Heath"
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7209.png",
+        "https://images.englandrugby.com/club_images/9776.png"
+    ],
+    "players": [
+        {
+            "15": "Jack Brown",
+            "14": "Oliver Horley",
+            "13": "Jake Howe",
+            "12": "Owen Jones",
+            "11": "Dylan Viles",
+            "10": "Aaron Hossack",
+            "9": "Leon Wood",
+            "8": "Jeremy Montes",
+            "7": "Vincent Morse",
+            "6": "Ben Gower",
+            "5": "Owen Davies",
+            "4": "Joshua Buckwell",
+            "3": "Paul Smith",
+            "2": "Konrad Oneill",
+            "1": "Christopher Hosking",
+            "S1": "Luke Thomas",
+            "S2": "Alun Cranch",
+            "S3": "Finlay Warner",
+            "S4": "Owen Jones",
+            "S5": "Thomas Wharton"
+        },
+        {
+            "15": "Jamie Diggle",
+            "14": "Nicolas Main",
+            "13": "Jack Lucas",
+            "12": "Name withheld",
+            "11": "James Thurston",
+            "10": "James Buttle",
+            "9": "Geoffrey Bridges",
+            "8": "Otto Serjeant",
+            "7": "Jack Herbert",
+            "6": "Ellis Dubois",
+            "5": "Sebastian Probert-Broster",
+            "4": "William Purdy",
+            "3": "Jack Bull",
+            "2": "Elliott Higgin",
+            "1": "Ben Eustace",
+            "S1": "Christopher Neill"
+        }
+    ]
+}

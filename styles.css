@@ -250,7 +250,7 @@ nav.navbar {
 #playerSponsor {
     font-family: 'Lato', sans-serif;
     font-style: italic;
-    color: var(--light-color);
+    color: var(--light-color);  
     opacity: 0.5;
 }
 

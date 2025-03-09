@@ -265,7 +265,7 @@ def position_pie(df, player=None, position_field="Position_specific"):
         color=alt.value("white")
     )
 
-    text2 = base.mark_text(radius=155, size=24, font="PT Sans Narrow", baseline="line-bottom").encode(
+    text2 = base.mark_text(radius=155, size=24, font="PT Sans Narrow").encode(
         theta=alt.Theta("count()", stack=True),
         text=alt.Text("Position_label:N"),
         detail="Position_specific:N",
