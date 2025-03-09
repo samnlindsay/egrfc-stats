@@ -736,7 +736,7 @@ def card_chart(df=None, file=None):
         alt.Chart(df if df is not None else {"name": "df", "url":'https://raw.githubusercontent.com/samnlindsay/egrfc-stats/main/data/players_agg.json',"format":{'type':"json"}})
         .transform_calculate(Cards="datum.YC + datum.RC")
         .transform_filter("datum.YC > 0 || datum.RC > 0")
-        # .add_params(season_selection, squad_selection)
+        .add_params(season_selection, squad_selection)
         .transform_filter(f"datum.Season == {season_selection.name} | {season_selection.name} == 'All'")
         .transform_filter(f"datum.Squad == {squad_selection.name} | {squad_selection.name} == 'Both'")
         .transform_fold(["YC", "RC"], as_=["key", "value"])
