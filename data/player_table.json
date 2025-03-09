@@ -1815,6 +1815,21 @@
     "GameID":"Crawley (A)"
   },
   {
+    "Player":"Jack Jacobs",
+    "TotalTries":1,
+    "TotalGames":14,
+    "TotalGames1":2,
+    "TotalGames2":12,
+    "Tries":0,
+    "Games":5,
+    "Games1":0,
+    "Games2":5,
+    "Position":"Hooker \/ Wing",
+    "FirstSeason":"2021\/22",
+    "DebutSeason":"2021\/22",
+    "GameID":"-"
+  },
+  {
     "Player":"Jack Skipworth",
     "TotalTries":18,
     "TotalGames":38,
@@ -1948,21 +1963,6 @@
     "FirstSeason":"2023\/24",
     "DebutSeason":"-",
     "GameID":"-"
-  },
-  {
-    "Player":"James Jacobs",
-    "TotalTries":1,
-    "TotalGames":14,
-    "TotalGames1":2,
-    "TotalGames2":12,
-    "Tries":0,
-    "Games":5,
-    "Games1":0,
-    "Games2":5,
-    "Position":"Prop",
-    "FirstSeason":"2021\/22",
-    "DebutSeason":"2021\/22",
-    "GameID":"University of Brighton (A)"
   },
   {
     "Player":"James Jenkins",
