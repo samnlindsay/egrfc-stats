@@ -46,6 +46,8 @@ df = pd.DataFrame(data)
 df["Date"] = pd.to_datetime(df["Date"])
 df = df.sort_values(["Team", "Date"])
 
+df["Unit"] = df["Position"].apply(lambda x: "Bench" if not(x.isnumeric()) else "Forwards" if int(x) <= 8 else "Backs")
+
 # Summary Statistics
 appearance_count = (
     df.groupby(["Team", "Player"]).size()
@@ -53,48 +55,67 @@ appearance_count = (
     .sort_values("Appearances", ascending=False)
 )
 players_per_team = (
-    df.groupby("Team")["Player"].nunique()
-    .reset_index(name="Total Players")
-    .sort_values("Total Players", ascending=False)
+    df.groupby(["Team", "Player"])["Unit"]
+    .agg(lambda x: "Forwards" if "Forwards" in x.values else "Backs" if "Backs" in x.values else "Bench")
+    .reset_index()
+    .groupby(["Team", "Unit"])
+    .size()
+    .reset_index()
+    .rename(columns={0: "Total Players"})
 )
 
-# Retention Analysis Option
-INCLUDE_FULL_SQUAD = False  # Change to False for only the starting 15
+total_players_per_team = df.groupby("Team")["Player"].nunique().reset_index()
+total_players_per_team.columns = ["Team", "Total Players"]
+total_players_per_team["Unit"] = "Total"
+
+players_per_team = pd.concat([players_per_team, total_players_per_team], ignore_index=True)
 
 retention_data = []
 
 # Process retention per team
 for team, matches in df.groupby("Team"):
     prev_squad = set()
+    prev_forwards = set()
+    prev_backs = set()
     
     for match_id, match in matches.groupby("Match ID"):
-        # Filter based on full squad or only starting 15
-        if INCLUDE_FULL_SQUAD:
-            current_squad = set(match["Player"])
-        else:
-            current_squad = set(match[match["Position"].astype(str).str.isnumeric()]["Player"])  # Exclude substitutes
+        current_squad = set(match[match["Unit"]!="Bench"]["Player"])  # Exclude substitutes
+        forwards = set(match[match["Unit"]=="Forwards"]["Player"])
+        backs = set(match[match["Unit"]=="Backs"]["Player"])
         
         if prev_squad:
             retained = len(current_squad & prev_squad)
+            retained_forwards = len(forwards & prev_forwards)
+            retained_backs = len(backs & prev_backs)
         else:
             retained = None  # No previous match to compare
+            retained_forwards = None
+            retained_backs = None
 
         retention_data.append({
             "Match ID": match_id,
             "Date": match["Date"].iloc[0],
             "Team": team,
-            "Players Retained": retained
+            "Players Retained": retained,
+            "Forwards Retained": retained_forwards,
+            "Backs Retained": retained_backs
         })
         
         prev_squad = current_squad
+        prev_forwards = forwards
+        prev_backs = backs
 
 retention_df = pd.DataFrame(retention_data).dropna()  # Remove first match (no previous squad)
 
 # Average squad retention per team
 average_retention = (
-    retention_df.groupby("Team")["Players Retained"]
-    .mean().reset_index(name="Average Retention")
+    retention_df
+    .groupby("Team").agg({"Players Retained": "mean", "Forwards Retained": "mean", "Backs Retained": "mean"})
+    .reset_index()
+    .melt("Team", var_name="Unit", value_name="Average Retention")
 )
+
+average_retention["Unit"] = average_retention["Unit"].str.replace(" Retained", "").replace("Players", "Total")
 
 ##############
 ### CHARTS ###
@@ -132,7 +153,7 @@ top_players_chart = (
     .encode(
         x=alt.X("Appearances:Q", title="Total Appearances"),
         y=alt.Y("Player:N", sort="-x", title="Player"),
-        color=alt.Color("Team:N", scale=alt.Scale(domain=teams, range=main_colors), legend=None),
+        color=alt.Color("Team:N", scale=alt.Scale(domain=teams, range=main_colors)),
         stroke=alt.Stroke("Team:N", scale=alt.Scale(domain=teams, range=accent_colors), legend=None),
         tooltip=["Player", "Team", "Appearances"],
         opacity=alt.condition(selection, alt.value(1), alt.value(0.2)),
@@ -151,18 +172,20 @@ players_per_team_chart = (
     .mark_bar(strokeWidth=2)
     .encode(
         x=alt.X("Total Players:Q", title="Total Players"),
-        y=alt.Y("Team:N", sort="-x", title="Team"),
+        y=alt.Y("Team:N", sort="-x", title=None),
         color=alt.Color("Team:N", scale=alt.Scale(domain=teams, range=main_colors)),
         stroke=alt.Stroke("Team:N", scale=alt.Scale(domain=teams, range=accent_colors), legend=None),
-        tooltip=["Team", "Total Players"],
+        tooltip=["Team", "Unit", "Total Players"],
         opacity=alt.condition(selection, alt.value(1), alt.value(0.2)),
+        column=alt.Column("Unit:N", title=None, sort=["Total", "Forwards", "Backs", "Bench"]),
     )
+    .resolve_scale(y="independent", x="independent")
     .properties(
         title=alt.Title(
             text="Squad Size", 
-            subtitle="Total unique players representing each team across the season"
+            subtitle="Total players representing each team across the season, and split by forwards, backs, and bench-only players."
         ),
-        width=300,height=alt.Step(30)
+        width=180,height=alt.Step(30)
     )
     # .add_params(selection)
 )
@@ -175,13 +198,13 @@ retention_chart = (
         y=alt.Y(
             "Players Retained:Q", 
             title="Players Retained", 
-            scale=alt.Scale(domain=[0, 18 if INCLUDE_FULL_SQUAD else 15])
+            scale=alt.Scale(domain=[0, 15])
         ),
         color=alt.Color(
             "Team:N", 
             title="Team (click to highlight)",
             scale=alt.Scale(domain=teams, range=main_colors), 
-            legend=alt.Legend(title="Team", orient="none", legendY=50, legendX=1050)
+            legend=alt.Legend(title=["Team", "(click to highlight)"], orient="none", legendY=500, legendX=1050)
         ),
         tooltip=["Team", "Date", "Players Retained"],
         opacity=alt.condition(selection, alt.value(1), alt.value(0.1)),
@@ -189,7 +212,7 @@ retention_chart = (
     .properties(
         title=alt.Title(
             text="Squad Retention Over Time",
-            subtitle="Number of players retained in the starting XV for the following match."
+            subtitle="Total number of players retained in the starting XV for the following match."
         ),
         width=1000,
         height=400
@@ -199,30 +222,25 @@ retention_chart = (
 
 
 # Average squad retention per team
-average_retention = retention_df.groupby("Team")["Players Retained"].mean().reset_index(name="Average Retention")
-
-# Altair Chart: Average Squad Retention per Team
 average_retention_chart = (
     alt.Chart(average_retention)
     .mark_bar()
     .encode(
-        x=alt.X(
-            "Average Retention:Q", 
-            title="Average Players Retained", 
-            scale=alt.Scale(domain=[0, 18 if INCLUDE_FULL_SQUAD else 15])
-        ),
-        y=alt.Y("Team:N", sort="-x", title="Team"),
+        x=alt.X("Average Retention:Q", title=None),
+        y=alt.Y("Team:N", sort="-x", title=None, axis=alt.Axis(ticks=False, domain=False, labelPadding=10)),
         color=alt.Color("Team:N", scale=alt.Scale(domain=teams, range=main_colors)),
         stroke=alt.Stroke("Team:N", scale=alt.Scale(domain=teams, range=accent_colors), legend=None),
-        tooltip=["Team", "Average Retention"],
+        tooltip=["Team", "Unit:N", "Players Retained:Q"],
         opacity=alt.condition(selection, alt.value(1), alt.value(0.2)),
+        column=alt.Column("Unit:N", title=None, sort=["Total", "Forwards", "Backs"])
     )
+    .resolve_scale(y="independent", x="independent")
     .properties(
         title=alt.Title(
             text="Average Squad Retention",
-            subtitle="Average number of players retained from the starting XV from game to game"
+            subtitle="Average number of players retained from the starting XV from game to game, and split by forwards and backs."
         ), 
-        width=300, height=alt.Step(30)
+        width=240, height=alt.Step(30)
     )
     # .add_params(selection)
 )
@@ -240,8 +258,8 @@ violin_chart = (
     ) 
     .mark_area(orient="horizontal", opacity=0.5)
     .encode(
-        y=alt.Y("Appearances:Q", title="Player Appearances"),
-        x=alt.X("Density:Q", title="Density", stack="center", axis=alt.Axis(ticks=False, labels=False, offset=10)),
+        y=alt.Y("Appearances:Q", title="Appearances"),
+        x=alt.X("Density:Q", title="Density", stack="center", axis=alt.Axis(ticks=False, labels=False, offset=10, grid=False), scale=alt.Scale(nice=False)),
         color=alt.Color("Team:N", scale=alt.Scale(domain=teams, range=main_colors)),
         stroke=alt.Stroke("Team:N", scale=alt.Scale(domain=teams, range=accent_colors), legend=None),
         tooltip=["Team", "Appearances"],
@@ -261,9 +279,11 @@ violin_chart = (
 # Display charts
 chart = (
     (
+        players_per_team_chart &
         retention_chart &
-        (top_players_chart | players_per_team_chart | average_retention_chart) & 
-        violin_chart
+        average_retention_chart & 
+        violin_chart &
+        top_players_chart
     )
     .add_params(selection)
     .configure_scale(bandPaddingInner=0.2).resolve_scale(color="shared")
