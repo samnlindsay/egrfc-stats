@@ -8,21 +8,21 @@ from video_analysis import *
 from team_sheets import *
 
 # Load data
-# game_df = team_sheets()
-# players_df = players(game_df)
-# players_agg_df = players_agg(players_df)
-# lineouts_df = lineouts()
-# pitchero_df = pitchero_stats()
-# set_piece_df = set_piece_results()
-# analysis = game_stats()
+game_df = team_sheets()
+players_df = players(game_df)
+players_agg_df = players_agg(players_df)
+lineouts_df = lineouts()
+pitchero_df = pitchero_stats()
+set_piece_df = set_piece_results()
+analysis = game_stats()
  
 # Save data
-# game_df.to_json('data/game.json', orient='records')
-# players_df.to_json('data/players.json', orient='records')
-# players_agg_df.to_json('data/players_agg.json', orient='records')
-# set_piece_df.to_json('data/set_piece.json', orient='records')
-# analysis.to_json('data/analysis.json', orient='records')
-# lineouts_df.to_json('data/lineouts.json', orient='records')
+game_df.to_json('data/game.json', orient='records')
+players_df.to_json('data/players.json', orient='records')
+players_agg_df.to_json('data/players_agg.json', orient='records')
+set_piece_df.to_json('data/set_piece.json', orient='records')
+analysis.to_json('data/analysis.json', orient='records')
+lineouts_df.to_json('data/lineouts.json', orient='records')
 
 # Update tables
 # update_season_summaries(game_df, seasons)
@@ -34,7 +34,7 @@ from team_sheets import *
 # One-off charts (only source data needs updating)
 # captains_chart(file='Charts/captains.html')
 # results_chart(file='Charts/results.html')
-plot_games_by_player(file='Charts/appearances.html')
+# plot_games_by_player(file='Charts/appearances.html')
 # plot_starts_by_position(file='Charts/positions.html')
 # card_chart(file='Charts/cards.html')
 # points_scorers_chart(file='Charts/points.html')

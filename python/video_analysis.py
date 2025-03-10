@@ -589,7 +589,7 @@ def game_stats_charts(df, file=None):
         )
     )
     if file:
-        chart.save(file, embed_options={'renderer':'svg', 'actions': {'export': true, 'source':false, 'editor':true, 'compiled':false} })
+        chart.save(file, embed_options={'renderer':'svg', 'actions': {'export': True, 'source':False, 'editor':True, 'compiled':False} })
         hack_params_css(file, params=False)
 
     return chart
