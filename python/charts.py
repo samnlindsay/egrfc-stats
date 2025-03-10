@@ -292,7 +292,7 @@ def plot_starts_by_position(df=None, min=0, file=None):
         .transform_filter(legend)
     )
     if file:
-        chart.save(file, embed_options={'renderer':'svg', 'actions': {'export': true, 'source':false, 'editor':true, 'compiled':false} })
+        chart.save(file, embed_options={'renderer':'svg', 'actions': {'export': True, 'source':False, 'editor':True, 'compiled':False} })
         hack_params_css(file)
 
     return chart  
@@ -335,7 +335,8 @@ def plot_games_by_player(min=5, df=None, file=None):
         .transform_filter(f"datum.Season == {season_selection.name} | {season_selection.name} == 'Total'")
         .transform_filter(f"datum.Squad == {squad_selection.name} | {squad_selection.name} == 'Total'")
         .transform_aggregate(TotalGames="sum(TotalGames)", groupby=["Player", "Squad"])
-        .transform_filter(f"datum.TotalGames >= {min_selection.name}")
+        .transform_joinaggregate(Total="sum(TotalGames)", groupby=["Player"])
+        .transform_filter(f"datum.Total >= {min_selection.name}")
         .properties(
             title=alt.Title(
                 text=f"Appearances",
@@ -347,7 +348,7 @@ def plot_games_by_player(min=5, df=None, file=None):
         )
     )
     if file:
-        chart.save(file, embed_options={'renderer':'svg', 'actions': {'export': true, 'source':false, 'editor':true, 'compiled':false} })
+        chart.save(file, embed_options={'renderer':'svg', 'actions': {'export': True, 'source':False, 'editor':True, 'compiled':False} })
         hack_params_css(file)
 
     return chart
@@ -622,7 +623,7 @@ def lineout_success(types=types, df=None, file=None):
         )
     )
     if file:
-        file, embed_options={'renderer':'svg', 'actions': {'export': true, 'source':false, 'editor':true, 'compiled':false} })
+        file, embed_options={'renderer':'svg', 'actions': {'export': True, 'source':False, 'editor':True, 'compiled':False} }
         hack_params_css(file)
     return chart
 
@@ -724,7 +725,7 @@ def points_scorers_chart(df=None, file=None):
     )
 
     if file:
-        chart.save(file, embed_options={'renderer':'svg', 'actions': {'export': true, 'source':false, 'editor':true, 'compiled':false} })
+        chart.save(file, embed_options={'renderer':'svg', 'actions': {'export': True, 'source':False, 'editor':True, 'compiled':False} })
         hack_params_css(file, overlay=True)
 
     return chart
@@ -787,7 +788,7 @@ def card_chart(df=None, file=None):
         )
     )
     if file:
-        chart.save(file, embed_options={'renderer':'svg', 'actions': {'export': true, 'source':false, 'editor':true, 'compiled':false} })
+        chart.save(file, embed_options={'renderer':'svg', 'actions': {'export': True, 'source':False, 'editor':True, 'compiled':False}})
         hack_params_css(file)
 
     return chart
@@ -839,7 +840,7 @@ def captains_chart(df=None, file=None):
         .resolve_scale(x="shared", y="independent", opacity="shared")
     )
     if file:
-        chart.save(file, embed_options={'renderer':'svg', 'actions': {'export': true, 'source':false, 'editor':true, 'compiled':false} })
+        chart.save(file, embed_options={'renderer':'svg', 'actions': {'export': True, 'source':False, 'editor':True, 'compiled':False} })
         hack_params_css(file)
 
     return chart
@@ -934,7 +935,7 @@ def results_chart(df=None, file=None):
     )
 
     if file:
-        chart.save(file, embed_options={'renderer':'svg', 'actions': {'export': true, 'source':false, 'editor':true, 'compiled':false} })
+        chart.save(file, embed_options={'renderer':'svg', 'actions': {'export': True, 'source':False, 'editor':True, 'compiled':False} })
         hack_params_css(file)
     
     return chart
@@ -1076,7 +1077,7 @@ def set_piece_h2h_chart(df=None, file=None):
     )
 
     if file:
-        chart.save(file, embed_options={'renderer':'svg', 'actions': {'export': true, 'source':false, 'editor':true, 'compiled':false} })
+        chart.save(file, embed_options={'renderer':'svg', 'actions': {'export': True, 'source':False, 'editor':True, 'compiled':False} })
         hack_params_css(file)
 
     return chart
@@ -1208,7 +1209,7 @@ def squad_continuity_chart(df=None, file=None):
     )
 
     if file:
-        chart.save(file, embed_options={'renderer':'svg', 'actions': {'export': true, 'source':false, 'editor':true, 'compiled':false} })
+        chart.save(file, embed_options={'renderer':'svg', 'actions': {'export': True, 'source':False, 'editor':True, 'compiled':False} })
         hack_params_css(file, params=False)
 
     return chart
