@@ -263,7 +263,7 @@ violin_chart = (
         color=alt.Color("Team:N", scale=alt.Scale(domain=teams, range=main_colors)),
         stroke=alt.Stroke("Team:N", scale=alt.Scale(domain=teams, range=accent_colors), legend=None),
         tooltip=["Team", "Appearances"],
-        facet=alt.Facet("Team:N", columns=4, title=None, header=alt.Header(labelColor="gray"), spacing={"row": 30}),
+        facet=alt.Facet("Team:N", columns=6, title=None, header=alt.Header(labelColor="gray", labelFontSize=18), spacing={"row": 30, "column": 0}),
         opacity=alt.condition(selection, alt.value(1), alt.value(0.2)),
     )
     .properties(
@@ -271,27 +271,24 @@ violin_chart = (
             text="Player Appearance Distribution", 
             subtitle=["Distribution of appearances per player for each team, from most appearances (top) to least (bottom).", "The wider the area, the more players with that number of appearances. "],
         ),
-        width=250, height=200
+        width=180, height=200
     )
     # .add_params(selection)
 )
 
 # Display charts
 chart = (
-    (
-        players_per_team_chart &
-        retention_chart &
-        average_retention_chart & 
-        violin_chart &
+    alt.vconcat(
+        players_per_team_chart,
+        retention_chart,
+        average_retention_chart,
+        violin_chart,
         top_players_chart
     )
     .add_params(selection)
     .configure_scale(bandPaddingInner=0.2).resolve_scale(color="shared")
 )
 
-
-
-
 file = "charts/league/squad_analysis.html"
-chart.save(file)
+chart.save(file, embed_options={'renderer':'svg', 'actions': {'export': true, 'source':false, 'editor':true, 'compiled':false} })
 hack_params_css(file, params=False)

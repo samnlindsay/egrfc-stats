@@ -112,7 +112,18 @@ def hack_params_css(file, overlay=False, params=True):
 
   # Add google fonts
   soup.head.append(soup.new_tag("link", rel="stylesheet", href="https://fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700"))
-  soup.head.append(soup.new_tag("link", rel="stylesheet", href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900"))          
+  soup.head.append(soup.new_tag("link", rel="stylesheet", href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900"))     
+
+  script_reload = """
+    document.addEventListener("DOMContentLoaded", function () {
+      setTimeout(() => {
+        window.dispatchEvent(new Event('resize'));
+      }, 100);
+    });
+  """     
+  # Add script_reload to the last script tag in document
+  script_tag = soup.find_all('script')[-1]
+  script_tag.append(script_reload)
   
   # Write the modified HTML back to the file
   with open(file, 'w', encoding='utf-8') as f:
@@ -186,7 +197,7 @@ def alt_theme():
                     "facet": "independent"
                 }
             },
-            "background": "#20294710"
+            "background": "#f2f1f4"
         }
     }
 
@@ -281,7 +292,7 @@ def plot_starts_by_position(df=None, min=0, file=None):
         .transform_filter(legend)
     )
     if file:
-        chart.save(file)
+        chart.save(file, embed_options={'renderer':'svg', 'actions': {'export': true, 'source':false, 'editor':true, 'compiled':false} })
         hack_params_css(file)
 
     return chart  
@@ -336,7 +347,7 @@ def plot_games_by_player(min=5, df=None, file=None):
         )
     )
     if file:
-        chart.save(file)
+        chart.save(file, embed_options={'renderer':'svg', 'actions': {'export': true, 'source':false, 'editor':true, 'compiled':false} })
         hack_params_css(file)
 
     return chart
@@ -611,7 +622,7 @@ def lineout_success(types=types, df=None, file=None):
         )
     )
     if file:
-        chart.save(file)
+        file, embed_options={'renderer':'svg', 'actions': {'export': true, 'source':false, 'editor':true, 'compiled':false} })
         hack_params_css(file)
     return chart
 
@@ -713,7 +724,7 @@ def points_scorers_chart(df=None, file=None):
     )
 
     if file:
-        chart.save(file)
+        chart.save(file, embed_options={'renderer':'svg', 'actions': {'export': true, 'source':false, 'editor':true, 'compiled':false} })
         hack_params_css(file, overlay=True)
 
     return chart
@@ -776,7 +787,7 @@ def card_chart(df=None, file=None):
         )
     )
     if file:
-        chart.save(file)
+        chart.save(file, embed_options={'renderer':'svg', 'actions': {'export': true, 'source':false, 'editor':true, 'compiled':false} })
         hack_params_css(file)
 
     return chart
@@ -828,7 +839,7 @@ def captains_chart(df=None, file=None):
         .resolve_scale(x="shared", y="independent", opacity="shared")
     )
     if file:
-        chart.save(file)
+        chart.save(file, embed_options={'renderer':'svg', 'actions': {'export': true, 'source':false, 'editor':true, 'compiled':false} })
         hack_params_css(file)
 
     return chart
@@ -923,7 +934,7 @@ def results_chart(df=None, file=None):
     )
 
     if file:
-        chart.save(file)
+        chart.save(file, embed_options={'renderer':'svg', 'actions': {'export': true, 'source':false, 'editor':true, 'compiled':false} })
         hack_params_css(file)
     
     return chart
@@ -1065,7 +1076,7 @@ def set_piece_h2h_chart(df=None, file=None):
     )
 
     if file:
-        chart.save(file)
+        chart.save(file, embed_options={'renderer':'svg', 'actions': {'export': true, 'source':false, 'editor':true, 'compiled':false} })
         hack_params_css(file)
 
     return chart
@@ -1197,7 +1208,7 @@ def squad_continuity_chart(df=None, file=None):
     )
 
     if file:
-        chart.save(file)
+        chart.save(file, embed_options={'renderer':'svg', 'actions': {'export': true, 'source':false, 'editor':true, 'compiled':false} })
         hack_params_css(file, params=False)
 
     return chart

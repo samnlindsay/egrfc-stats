@@ -223,7 +223,7 @@ def team_sheets_chart(df=None, file=None):
     )
 
     if file:
-        chart.save(file)
+        chart.save(file, embed_options={'renderer':'svg', 'actions': {'export': true, 'source':false, 'editor':true, 'compiled':false} })
         hack_params_css(file, overlay=True)
     
     return chart
