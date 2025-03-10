@@ -230,7 +230,7 @@ average_retention_chart = (
         y=alt.Y("Team:N", sort="-x", title=None, axis=alt.Axis(ticks=False, domain=False, labelPadding=10)),
         color=alt.Color("Team:N", scale=alt.Scale(domain=teams, range=main_colors)),
         stroke=alt.Stroke("Team:N", scale=alt.Scale(domain=teams, range=accent_colors), legend=None),
-        tooltip=["Team", "Unit:N", "Players Retained:Q"],
+        tooltip=["Team", "Unit:N", alt.Tooltip("Average Retention:Q", format=".2f")],
         opacity=alt.condition(selection, alt.value(1), alt.value(0.2)),
         column=alt.Column("Unit:N", title=None, sort=["Total", "Forwards", "Backs"])
     )
@@ -271,7 +271,7 @@ violin_chart = (
             text="Player Appearance Distribution", 
             subtitle=["Distribution of appearances per player for each team, from most appearances (top) to least (bottom).", "The wider the area, the more players with that number of appearances. "],
         ),
-        width=300, height=200
+        width=250, height=200
     )
     # .add_params(selection)
 )
