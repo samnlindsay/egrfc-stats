@@ -889,13 +889,16 @@ def results_chart(df=None, file=None):
 
     selection = alt.selection_point(fields=['Result'], bind='legend')
 
+    season_selection = alt.param(
+        bind=alt.binding_select(options=["All", *seasons[::-1]], name="Season"), 
+        value="All",
+        name="seasonSelection"
+    )
+
     squad_selection = alt.param(
         bind=alt.binding_radio(options=["1st", "2nd", "Both"], name="Squad"),
-        value="Both"
-    )
-    season_selection = alt.param(
-        bind=alt.binding_radio(options=[*seasons, "All"], name="Season"),
-        value="All"
+        value="Both",
+        name="squadSelection"
     )
 
     base = (
@@ -993,13 +996,15 @@ opacity_scale = alt.Scale(domain=["Turnover", "Retained"], range=[1, 0.5])
 def set_piece_h2h_chart(df=None, file=None):
 
     season_selection = alt.param(
-        bind=alt.binding_radio(options=[*seasons], name="Season"),
-        value="2024/25"
+        bind=alt.binding_select(options=seasons[::-1], name="Season"), 
+        value="2024/25",
+        name="seasonSelection"
     )
 
     squad_selection = alt.param(
         bind=alt.binding_radio(options=["1st", "2nd"], name="Squad"),
-        value="1st"
+        value="1st",
+        name="squadSelection"
     )
     
     base = (
