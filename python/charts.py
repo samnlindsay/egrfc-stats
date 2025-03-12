@@ -6,6 +6,7 @@ from copy import deepcopy
 import os
 from bs4 import BeautifulSoup
 
+pitchero_caveat = f"Using Pitchero data from 2017 to 2019/20. Manually updated records from 2021 onwards"
 
 def hack_params_css(file, overlay=False, params=True):
 
@@ -240,8 +241,8 @@ def plot_starts_by_position(df=None, min=0, file=None):
     legend = alt.selection_point(fields=["GameType"], bind="legend", on="click")
 
     season_selection = alt.param(
-        bind=alt.binding_radio(options=[*seasons, "All"], name="Season"), 
-        value="All" 
+        bind=alt.binding_radio(options=["All", *seasons[::-1]], name="Season"), 
+        value=max(seasons) 
     )
     squad_selection = alt.param(
         bind=alt.binding_radio(options=["1st", "2nd", "Total"], name="Squad"),
@@ -264,7 +265,7 @@ def plot_starts_by_position(df=None, min=0, file=None):
                 "Position:O", 
                 columns=4,  
                 header=alt.Header(title=None, labelFontSize=36, labelOrient="top"), 
-                spacing=20, 
+                spacing=0, 
                 sort=position_order,
                 align="each"
             ),
@@ -300,11 +301,18 @@ def plot_starts_by_position(df=None, min=0, file=None):
 
 def plot_games_by_player(min=5, df=None, file=None):
 
-    c = alt.Color("Squad:N", scale=squad_scale, legend=None)
+    c = alt.Color(
+        "GameType:N",
+        scale=game_type_scale,
+        legend=alt.Legend(title=None, orient="bottom", direction="horizontal", titleOrient="left")
+    )
+
+    # legend selection filter
+    legend = alt.selection_point(fields=["GameType"], bind="legend", on="click")
 
     season_selection = alt.param(
-        bind=alt.binding_radio(options=[*seasons_hist, *seasons, "Total"], name="Season"), 
-        value="Total" 
+        bind=alt.binding_select(options=["All", *seasons[::-1], *seasons_hist[::-1]], name="Season"), 
+        value=max(seasons), 
     )
     squad_selection = alt.param(
         bind=alt.binding_radio(options=["1st", "2nd", "Total"], name="Squad"),
@@ -320,27 +328,37 @@ def plot_games_by_player(min=5, df=None, file=None):
         alt.Chart(df if df is not None else {"name": "df", "url":'https://raw.githubusercontent.com/samnlindsay/egrfc-stats/main/data/players_agg.json',"format":{'type':"json"}})
         .mark_bar(strokeWidth=2)
         .encode(
-            x=alt.X("sum(TotalGames):Q", axis=alt.Axis(title=None, orient="top")),
+            x=alt.X("Games:Q", axis=alt.Axis(title=None, orient="top")),
             y=alt.Y("Player:N", sort="-x", title=None),
             color=c,
+            order="order:Q",
             tooltip=[
                 "Player:N", 
-                "Squad:N",
-                alt.Tooltip("sum(TotalGames):Q", title="Games"), 
+                "GameType:N",
+                "Games:Q",
+                "Total:Q",
+                "order:Q"
             ]
         )
-        # .transform_filter(legend)
-        .add_params(season_selection, squad_selection, min_selection)
+        .add_params(season_selection, squad_selection, min_selection, legend)
         .resolve_scale(y="independent")
-        .transform_filter(f"datum.Season == {season_selection.name} | {season_selection.name} == 'Total'")
+        .transform_calculate(
+            Cup="datum.CupStarts + datum.CupBench",
+            League="datum.LeagueStarts + datum.LeagueBench",
+            Friendly="datum.FriendlyStarts + datum.FriendlyBench",
+        )
+        .transform_fold(["Cup", "League", "Friendly"], as_=["GameType", "Games"])
+        .transform_filter(f"datum.Season == {season_selection.name} | {season_selection.name} == 'All'")
         .transform_filter(f"datum.Squad == {squad_selection.name} | {squad_selection.name} == 'Total'")
-        .transform_aggregate(TotalGames="sum(TotalGames)", groupby=["Player", "Squad"])
-        .transform_joinaggregate(Total="sum(TotalGames)", groupby=["Player"])
+        .transform_aggregate(Games="sum(Games)", groupby=["Player", "GameType"])
+        .transform_joinaggregate(Total="sum(Games)", groupby=["Player"])
         .transform_filter(f"datum.Total >= {min_selection.name}")
+        .transform_calculate(order="datum.GameType == 'League' ? 0 : (datum.GameType == 'Cup' ? 1 : 2)")
+        .transform_filter(legend)
         .properties(
             title=alt.Title(
                 text=f"Appearances",
-                subtitle=f"Using Pitchero data from 2016/17 to 2019/20.",
+                subtitle=pitchero_caveat,
                 subtitleFontStyle="italic"  
             ),
             width=400,
@@ -640,101 +658,112 @@ def points_scorers_chart(df=None, file=None):
     )
 
     season_selection = alt.param(
-        bind=alt.binding_radio(options=[*seasons_hist, *seasons, "All"], name="Season"), 
-        value="All" ,
+        bind=alt.binding_select(options=["All", *seasons[::-1], *seasons_hist[::-1]], name="Season"), 
+        value="2024/25",
         name="seasonSelection"
     )
 
-    chart = (
+    base = (
         alt.Chart(df if df is not None else {"name": "df", "url":'https://raw.githubusercontent.com/samnlindsay/egrfc-stats/main/data/players_agg.json',"format":{'type':"json"}})
-        .mark_bar()
         .transform_filter("datum.Points > 0")
-        .transform_fold(["Tries", "Pens", "Cons"], as_=["Type", "Points"])
-        .transform_joinaggregate(
-            sortfield="sum(Points)",    
+        .transform_filter(f"datum.Season == {season_selection.name} | {season_selection.name} == 'All'")
+        .transform_filter(f"datum.Squad == {squad_selection.name} | {squad_selection.name} == 'Total'")
+        .transform_aggregate(
+            Games="sum(A)",
             T="sum(T)",
             PK="sum(PK)",
             Con="sum(Con)",
-            groupby=["Player", "Season", "Type"]
+            Tries="sum(Tries)",
+            Pens="sum(Pens)",
+            Cons="sum(Cons)",
+            Points="sum(Points)",
+            groupby=["Player"]
         )
-        .transform_filter("datum.sortfield > 0")
-        .transform_calculate(label="if(datum.T>0, datum.T + 'T ','') + if(datum.PK>0, datum.PK + 'P ', '') + if(datum.Con>0, datum.Con + 'C ', '')")
+        .transform_fold(["Tries", "Pens", "Cons"], as_=["Type", "Points"])
+        .transform_filter(selection)
+        .transform_calculate(
+            label="if(datum.T>0, datum.T + 'T ','') + if(datum.PK>0, datum.PK + 'P ', '') + if(datum.Con>0, datum.Con + 'C ', '')"
+        )
         .transform_joinaggregate(
             label="max(label)",
-            totalpoints="sum(Points)",    
-            groupby=["Player", "Season"]
+            totalpoints="sum(Points)",
+            groupby=["Player"]
         )
+        .transform_calculate(
+            PPG="datum.totalpoints / datum.Games"
+        )
+        .transform_filter("datum.totalpoints > 0")
+        .encode(
+            order=alt.Order("Type:N", sort="descending"),
+            y=alt.Y("Player:N", sort="-x", title=None),
+            text=alt.Text("label:N")
+        )
+    )
+
+    bar = (
+        base.mark_bar()
         .encode(
             x=alt.X("sum(Points):Q", axis=alt.Axis(orient="top", title="Points")),
-            y=alt.Y(
-                "Player:N", 
-                sort="-x",
-                title=None
+            color=alt.Color(
+                "Type:N", 
+                legend=alt.Legend(
+                    title="Click to filter",
+                    titleOrient="top",
+                    orient="none",
+                    legendX=300,
+                    legendY=100
+                ), 
+                scale=alt.Scale(domain=['Tries', 'Pens', 'Cons'], range=["#202947", "#981515", "#146f14"])
             ),
-            order=alt.Order("Points:Q", sort="descending"),
             tooltip=[
                 alt.Tooltip("Player:N", title=" "), 
-                # alt.Tooltip("A:Q", title="Games"),
                 alt.Tooltip("label:N", title="Scores"),
-                alt.Tooltip("totalpoints:Q", title="Total Points"),
                 alt.Tooltip("Type:N", title=None),
                 alt.Tooltip("Points:Q", title="Points"),
-                # "T:Q", "PK:Q", "Con:Q"
+                alt.Tooltip("Games:Q", title="Games"),
+                alt.Tooltip("totalpoints:Q", title="Total Points"),
+                alt.Tooltip("PPG:Q", title="Points per game", format=".2f")
             ],
         )
         .properties(width=400, height=alt.Step(16))
     )
     
     text = (
-        chart    
+        base
+        .transform_aggregate(
+            totalpoints="max(totalpoints)",
+            label="max(label)",
+            groupby=["Player"]
+        )
         .mark_text(align="left", dx=5, color="black")
         .encode(
             y=alt.Y(
                 "Player:N", 
                 sort="-x",
-                title=None
+                title=None,
+                axis=None
             ),
-            x=alt.X("totalpoints:Q"),
-            text=alt.Text("label:N")
+            x=alt.X("totalpoints:Q")
         )
     )
 
-    chart = chart.encode(
-        color=alt.Color(
-                "Type:N", 
-                legend=alt.Legend(
-                    title="Click to filter",
-                    titleOrient="left",
-                    orient="bottom",
-                ), 
-                scale=alt.Scale(domain=['Tries', 'Pens', 'Cons'], range=["#202947", "#981515", "#146f14"])
-            ),
-    )
-
-
     chart = (
-        (chart + text).resolve_scale(x="shared")
-        .facet(column=alt.Column("Season:O", title=None, header=alt.Header(labelFontSize=36)), spacing=20)
+        (bar + text).resolve_scale(x="shared", y="independent")
         .add_params(selection, season_selection, squad_selection)
-        .transform_filter(selection)
-        .transform_filter("datum.Points > 0")
-        .transform_filter(f"datum.Season == {season_selection.name} | {season_selection.name} == 'All'")
-        .transform_filter(f"datum.Squad == {squad_selection.name} | {squad_selection.name} == 'Total'")
         .properties(title=alt.Title(text="Points Scorers", subtitle="According to Pitchero data"))
-        .resolve_scale(y="independent", x="independent")
     )
 
     if file:
         chart.save(file, embed_options={'renderer':'svg', 'actions': {'export': True, 'source':False, 'editor':True, 'compiled':False} })
-        hack_params_css(file, overlay=True)
+        hack_params_css(file, params=True)
 
     return chart
 
 def card_chart(df=None, file=None):
 
     season_selection = alt.param(
-        bind=alt.binding_radio(options=[*seasons, "All"], name="Season"), 
-        value="All" ,
+        bind=alt.binding_select(options=["All", *seasons[::-1], *seasons_hist[::-1]], name="Season"), 
+        value="2024/25",
         name="seasonSelection"
     )
 
@@ -747,31 +776,37 @@ def card_chart(df=None, file=None):
     chart = (
         alt.Chart(df if df is not None else {"name": "df", "url":'https://raw.githubusercontent.com/samnlindsay/egrfc-stats/main/data/players_agg.json',"format":{'type':"json"}})
         .transform_calculate(Cards="datum.YC + datum.RC")
-        .transform_filter("datum.YC > 0 || datum.RC > 0")
         .add_params(season_selection, squad_selection)
         .transform_filter(f"datum.Season == {season_selection.name} | {season_selection.name} == 'All'")
         .transform_filter(f"datum.Squad == {squad_selection.name} | {squad_selection.name} == 'Both'")
         .transform_fold(["YC", "RC"], as_=["key", "value"])
         .transform_aggregate(
             A="sum(A)", 
-            # YC="sum(YC)",
-            # RC="sum(RC)",
             value="sum(value)",
-            groupby=["Player", "Season", "key"])
+            groupby=["Player", "key"]
+        )
+        .transform_joinaggregate(
+            Total="sum(value)",
+            groupby=["Player"]
+        )
+        .transform_calculate(
+            GPC="datum.A / datum.Total"
+        )
+        .transform_filter("datum.value > 0")
         .mark_bar(stroke="black", strokeOpacity=0.2).encode(
             y=alt.Y("Player:N", title=None, sort="-x"),
-            x=alt.X("value:Q", title=None, axis=alt.Axis(values=[0,1,2,3,4,5], format="d", orient="top")),        
+            x=alt.X("value:Q", title=None, axis=alt.Axis(format="d", orient="top")),        
             color=alt.Color(
                 "key:N", 
                 title=None, 
                 legend=alt.Legend(orient="bottom")
             ).scale(domain=["YC", "RC"], range=["#e6c719", "#981515"]),
-            column=alt.Column("Season:N", title=None, header=alt.Header(labelFontSize=36), spacing=10),
             tooltip=[
                 "Player:N", 
                 alt.Tooltip("A:Q", title="Appearances"),
                 alt.Tooltip("key:N", title="Card Type"),
-                alt.Tooltip("value:Q", title="Cards")
+                alt.Tooltip("value:Q", title="Cards"),
+                alt.Tooltip("GPC:Q", title="Games per card", format=".2f")
             ],
         )
         .resolve_scale(y="independent")
@@ -780,29 +815,33 @@ def card_chart(df=None, file=None):
                 text="Cards",
                 fontSize=48, 
                 subtitle=[
-                    "According to Pitchero data (both 1st and 2nd XV)", 
+                    "According to Pitchero data.", 
                     "2 YC leading to a RC in a game is shown as 1 YC + 1 RC (2 cards total)"
                 ]
             ),
-            width=120,
+            width=300,
         )
     )
     if file:
         chart.save(file, embed_options={'renderer':'svg', 'actions': {'export': True, 'source':False, 'editor':True, 'compiled':False}})
-        hack_params_css(file)
+        hack_params_css(file, params=True)
 
     return chart
 
 def captains_chart(df=None, file=None):
 
-    squad_selection = alt.param(
-        bind=alt.binding_radio(options=["1st", "2nd", "Both"], name="Squad"),
-        value="Both"
-    )
+    selection = alt.selection_point(fields=['Role'], bind='legend')
 
     season_selection = alt.param(
-        bind=alt.binding_radio(options=[*seasons, "Total"], name="Season"), 
-        value="Total" 
+        bind=alt.binding_select(options=["All", *seasons[::-1]], name="Season"), 
+        value="All",
+        name="seasonSelection"
+    )
+
+    squad_selection = alt.param(
+        bind=alt.binding_radio(options=["1st", "2nd", "Both"], name="Squad"),
+        value="Both",
+        name="squadSelection"
     )
 
     chart = (
@@ -818,7 +857,7 @@ def captains_chart(df=None, file=None):
                 scale=alt.Scale(domain=["Captain", "VC"], range=["#202947", "#146f14"]),
                 legend=alt.Legend(title=None, direction="horizontal", orient="bottom")
             ), 
-            row=alt.Row("Squad:N", header=alt.Header(title=None, labelFontSize=36, labelExpr="datum.value + ' XV'"), spacing=20),
+            row=alt.Row("Squad:N", header=alt.Header(title=None, labelFontSize=36, labelExpr="datum.value + ' XV'"), spacing=50),
             order=alt.Order("order:N", sort="ascending"),
             opacity=alt.condition("datum.GameType == 'Friendly'", alt.value(0.5), alt.value(1)),
             tooltip=[
@@ -829,12 +868,13 @@ def captains_chart(df=None, file=None):
             ]
         )
         .transform_calculate(order = "(datum.Role=='Captain' ? 'a' : 'b') + (datum.GameType == 'Friendly' ? 'b' : 'a')")
-        .add_params(season_selection, squad_selection)
-        .transform_filter(f"datum.Season == {season_selection.name} | {season_selection.name} == 'Total'")
+        .add_params(season_selection, squad_selection, selection)
+        .transform_filter(selection)
+        .transform_filter(f"datum.Season == {season_selection.name} | {season_selection.name} == 'All'")
         .transform_filter(f"datum.Squad == {squad_selection.name} | {squad_selection.name} == 'Both'")
         .properties(
             title=alt.Title("Match Day Captains", subtitle="Captains and Vice-Captains (if named). Friendly games are shaded lighter."),
-            width=400,
+            width=350,
             height=alt.Step(16)
         )
         .resolve_scale(x="shared", y="independent", opacity="shared")

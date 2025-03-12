@@ -44,33 +44,20 @@
           }
       }
 
-      .vega-bindings {
-        border: 2px solid black;
-        background-color: #e5e4e7;
-        color: #202946;
-        width: fit-content;
-        height: fit-content;
-        position: fixed; top: 1rem; right: 1rem;
-        display: block;
-        justify-content: center;
-        gap: 20px;
-        padding: 10px;
-        font-size: large;
-      }
       .chart-wrapper {
           display: grid;
           grid-template-columns: 1fr 1fr; /* Chart takes 3x space, form takes 1x */
       }
 
       .vega-bind {
-        font-family: 'Lato', sans-serif;
+        font-family: 'Lato', sans-serif !important;
         padding: 10px;
         padding-top: 5px;
         width: min-content;
       }
             
       .vega-bind-name {
-        font-family: 'Lato', sans-serif;
+        font-family: 'Lato', sans-serif !important;
         font-weight: bold;
         font-size: larger;
         color: #202946; 
@@ -94,6 +81,20 @@
         background-color: #202946;
         color: #e5e4e7;
     }
+    
+      .vega-bindings {
+      border: 2px solid black;
+      background-color: #e5e4e7;
+      color: #202946;
+      width: fit-content;
+      height: fit-content;
+      position: static;
+      display: "block";
+      justify-content: center;
+      gap: 20px;
+      padding: 10px;
+      font-size: large;
+    }
   </style>
 <script src="https://cdn.jsdelivr.net/npm/vega@5" type="text/javascript"></script>
 <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.20.1" type="text/javascript"></script>
@@ -103,8 +104,8 @@
 <div id="vis"></div>
 <script>
     (function(vegaEmbed) {
-      var spec = {"config": {"axis": {"labelFont": "Lato, sans-serif", "titleFont": "PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif", "labelFontSize": 13, "titleFontSize": 24, "gridColor": "#202947", "gridOpacity": 0.2}, "header": {"labelFont": "PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif", "titleFont": "PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif", "labelFontSize": 24, "titleFontSize": 28, "labelFontWeight": "bold", "orient": "left"}, "legend": {"labelFont": "Lato, sans-serif", "titleFont": "PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif", "labelFontSize": 14, "titleFontSize": 16, "titlePadding": 5, "fillColor": "white", "strokeColor": "black", "padding": 10, "titleFontWeight": "lighter", "titleFontStyle": "italic", "titleColor": "gray", "offset": 10}, "title": {"font": "PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif", "fontSize": 48, "fontWeight": "bold", "anchor": "start", "align": "center", "titlePadding": 20, "subtitlePadding": 10, "subtitleFontSize": 13, "subtitleColor": "", "subtitleFontStyle": "italic", "offset": 15, "color": "black"}, "axisX": {"labelAngle": 0}, "facet": {"title": null, "header": null, "align": {"row": "each", "column": "each"}}, "resolve": {"scale": {"y": "independent", "facet": "independent"}}, "background": "#f2f1f4"}, "data": {"name": "df", "url": "https://raw.githubusercontent.com/samnlindsay/egrfc-stats/main/data/players_agg.json", "format": {"type": "json"}}, "facet": {"column": {"field": "Season", "header": {"labelFontSize": 36}, "title": null, "type": "ordinal"}}, "spec": {"layer": [{"mark": {"type": "bar"}, "encoding": {"color": {"field": "Type", "legend": {"orient": "bottom", "title": "Click to filter", "titleOrient": "left"}, "scale": {"domain": ["Tries", "Pens", "Cons"], "range": ["#202947", "#981515", "#146f14"]}, "type": "nominal"}, "order": {"field": "Points", "sort": "descending", "type": "quantitative"}, "tooltip": [{"field": "Player", "title": " ", "type": "nominal"}, {"field": "label", "title": "Scores", "type": "nominal"}, {"field": "totalpoints", "title": "Total Points", "type": "quantitative"}, {"field": "Type", "title": null, "type": "nominal"}, {"field": "Points", "title": "Points", "type": "quantitative"}], "x": {"aggregate": "sum", "axis": {"orient": "top", "title": "Points"}, "field": "Points", "type": "quantitative"}, "y": {"field": "Player", "sort": "-x", "title": null, "type": "nominal"}}, "name": "view_1", "transform": [{"filter": "datum.Points > 0"}, {"fold": ["Tries", "Pens", "Cons"], "as": ["Type", "Points"]}, {"joinaggregate": [{"op": "sum", "field": "Points", "as": "sortfield"}, {"op": "sum", "field": "T", "as": "T"}, {"op": "sum", "field": "PK", "as": "PK"}, {"op": "sum", "field": "Con", "as": "Con"}], "groupby": ["Player", "Season", "Type"]}, {"filter": "datum.sortfield > 0"}, {"calculate": "if(datum.T>0, datum.T + 'T ','') + if(datum.PK>0, datum.PK + 'P ', '') + if(datum.Con>0, datum.Con + 'C ', '')", "as": "label"}, {"joinaggregate": [{"op": "max", "field": "label", "as": "label"}, {"op": "sum", "field": "Points", "as": "totalpoints"}], "groupby": ["Player", "Season"]}]}, {"mark": {"type": "text", "align": "left", "color": "black", "dx": 5}, "encoding": {"order": {"field": "Points", "sort": "descending", "type": "quantitative"}, "text": {"field": "label", "type": "nominal"}, "tooltip": [{"field": "Player", "title": " ", "type": "nominal"}, {"field": "label", "title": "Scores", "type": "nominal"}, {"field": "totalpoints", "title": "Total Points", "type": "quantitative"}, {"field": "Type", "title": null, "type": "nominal"}, {"field": "Points", "title": "Points", "type": "quantitative"}], "x": {"field": "totalpoints", "type": "quantitative"}, "y": {"field": "Player", "sort": "-x", "title": null, "type": "nominal"}}, "transform": [{"filter": "datum.Points > 0"}, {"fold": ["Tries", "Pens", "Cons"], "as": ["Type", "Points"]}, {"joinaggregate": [{"op": "sum", "field": "Points", "as": "sortfield"}, {"op": "sum", "field": "T", "as": "T"}, {"op": "sum", "field": "PK", "as": "PK"}, {"op": "sum", "field": "Con", "as": "Con"}], "groupby": ["Player", "Season", "Type"]}, {"filter": "datum.sortfield > 0"}, {"calculate": "if(datum.T>0, datum.T + 'T ','') + if(datum.PK>0, datum.PK + 'P ', '') + if(datum.Con>0, datum.Con + 'C ', '')", "as": "label"}, {"joinaggregate": [{"op": "max", "field": "label", "as": "label"}, {"op": "sum", "field": "Points", "as": "totalpoints"}], "groupby": ["Player", "Season"]}]}], "height": {"step": 16}, "resolve": {"scale": {"x": "shared"}}, "width": 400}, "params": [{"name": "param_16", "select": {"type": "point", "fields": ["Type"]}, "bind": "legend", "views": ["view_1"]}, {"name": "param_18", "bind": {"input": "radio", "options": ["2016/17", "2017/18", "2018/19", "2019/20", "2021/22", "2022/23", "2023/24", "2024/25", "All"], "name": "Season"}, "value": "All"}, {"name": "param_17", "bind": {"input": "radio", "options": ["1st", "2nd", "Total"], "name": "Squad"}, "value": "Total"}], "resolve": {"scale": {"x": "independent", "y": "independent"}}, "spacing": 20, "title": {"text": "Points Scorers", "subtitle": "According to Pitchero data"}, "transform": [{"filter": {"param": "param_16"}}, {"filter": "datum.Points > 0"}, {"filter": "datum.Season == param_18 | param_18 == 'All'"}, {"filter": "datum.Squad == param_17 | param_17 == 'Total'"}], "$schema": "https://vega.github.io/schema/vega-lite/v5.20.1.json"};
-      var embedOpt = {"mode": "vega-lite", 'renderer':'svg', 'actions': {'export': true, 'source':false, 'editor':true, 'compiled':false} };
+      var spec = {"config": {"axis": {"labelFont": "Lato, sans-serif", "titleFont": "PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif", "labelFontSize": 13, "titleFontSize": 24, "gridColor": "#202947", "gridOpacity": 0.2}, "header": {"labelFont": "PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif", "titleFont": "PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif", "labelFontSize": 24, "titleFontSize": 28, "labelFontWeight": "bold", "orient": "left"}, "legend": {"labelFont": "Lato, sans-serif", "titleFont": "PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif", "labelFontSize": 14, "titleFontSize": 16, "titlePadding": 5, "fillColor": "white", "strokeColor": "black", "padding": 10, "titleFontWeight": "lighter", "titleFontStyle": "italic", "titleColor": "gray", "offset": 10}, "title": {"font": "PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif", "fontSize": 48, "fontWeight": "bold", "anchor": "start", "align": "center", "titlePadding": 20, "subtitlePadding": 10, "subtitleFontSize": 13, "subtitleColor": "", "subtitleFontStyle": "italic", "offset": 15, "color": "black"}, "axisX": {"labelAngle": 0}, "facet": {"title": null, "header": null, "align": {"row": "each", "column": "each"}}, "resolve": {"scale": {"y": "independent", "facet": "independent"}}, "background": "#f2f1f4"}, "layer": [{"mark": {"type": "bar"}, "encoding": {"color": {"field": "Type", "legend": {"legendX": 300, "legendY": 100, "orient": "none", "title": "Click to filter", "titleOrient": "top"}, "scale": {"domain": ["Tries", "Pens", "Cons"], "range": ["#202947", "#981515", "#146f14"]}, "type": "nominal"}, "order": {"field": "Type", "sort": "descending", "type": "nominal"}, "text": {"field": "label", "type": "nominal"}, "tooltip": [{"field": "Player", "title": " ", "type": "nominal"}, {"field": "label", "title": "Scores", "type": "nominal"}, {"field": "Type", "title": null, "type": "nominal"}, {"field": "Points", "title": "Points", "type": "quantitative"}, {"field": "Games", "title": "Games", "type": "quantitative"}, {"field": "totalpoints", "title": "Total Points", "type": "quantitative"}, {"field": "PPG", "format": ".2f", "title": "Points per game", "type": "quantitative"}], "x": {"aggregate": "sum", "axis": {"orient": "top", "title": "Points"}, "field": "Points", "type": "quantitative"}, "y": {"field": "Player", "sort": "-x", "title": null, "type": "nominal"}}, "name": "view_1", "transform": [{"filter": "datum.Points > 0"}, {"filter": "datum.Season == seasonSelection | seasonSelection == 'All'"}, {"filter": "datum.Squad == squadSelection | squadSelection == 'Total'"}, {"aggregate": [{"op": "sum", "field": "A", "as": "Games"}, {"op": "sum", "field": "T", "as": "T"}, {"op": "sum", "field": "PK", "as": "PK"}, {"op": "sum", "field": "Con", "as": "Con"}, {"op": "sum", "field": "Tries", "as": "Tries"}, {"op": "sum", "field": "Pens", "as": "Pens"}, {"op": "sum", "field": "Cons", "as": "Cons"}, {"op": "sum", "field": "Points", "as": "Points"}], "groupby": ["Player"]}, {"fold": ["Tries", "Pens", "Cons"], "as": ["Type", "Points"]}, {"filter": {"param": "param_13"}}, {"calculate": "if(datum.T>0, datum.T + 'T ','') + if(datum.PK>0, datum.PK + 'P ', '') + if(datum.Con>0, datum.Con + 'C ', '')", "as": "label"}, {"joinaggregate": [{"op": "max", "field": "label", "as": "label"}, {"op": "sum", "field": "Points", "as": "totalpoints"}], "groupby": ["Player"]}, {"calculate": "datum.totalpoints / datum.Games", "as": "PPG"}, {"filter": "datum.totalpoints > 0"}]}, {"mark": {"type": "text", "align": "left", "color": "black", "dx": 5}, "encoding": {"order": {"field": "Type", "sort": "descending", "type": "nominal"}, "text": {"field": "label", "type": "nominal"}, "x": {"field": "totalpoints", "type": "quantitative"}, "y": {"axis": null, "field": "Player", "sort": "-x", "title": null, "type": "nominal"}}, "transform": [{"filter": "datum.Points > 0"}, {"filter": "datum.Season == seasonSelection | seasonSelection == 'All'"}, {"filter": "datum.Squad == squadSelection | squadSelection == 'Total'"}, {"aggregate": [{"op": "sum", "field": "A", "as": "Games"}, {"op": "sum", "field": "T", "as": "T"}, {"op": "sum", "field": "PK", "as": "PK"}, {"op": "sum", "field": "Con", "as": "Con"}, {"op": "sum", "field": "Tries", "as": "Tries"}, {"op": "sum", "field": "Pens", "as": "Pens"}, {"op": "sum", "field": "Cons", "as": "Cons"}, {"op": "sum", "field": "Points", "as": "Points"}], "groupby": ["Player"]}, {"fold": ["Tries", "Pens", "Cons"], "as": ["Type", "Points"]}, {"filter": {"param": "param_13"}}, {"calculate": "if(datum.T>0, datum.T + 'T ','') + if(datum.PK>0, datum.PK + 'P ', '') + if(datum.Con>0, datum.Con + 'C ', '')", "as": "label"}, {"joinaggregate": [{"op": "max", "field": "label", "as": "label"}, {"op": "sum", "field": "Points", "as": "totalpoints"}], "groupby": ["Player"]}, {"calculate": "datum.totalpoints / datum.Games", "as": "PPG"}, {"filter": "datum.totalpoints > 0"}, {"aggregate": [{"op": "max", "field": "totalpoints", "as": "totalpoints"}, {"op": "max", "field": "label", "as": "label"}], "groupby": ["Player"]}]}], "data": {"name": "df", "url": "https://raw.githubusercontent.com/samnlindsay/egrfc-stats/main/data/players_agg.json", "format": {"type": "json"}}, "height": {"step": 16}, "params": [{"name": "param_13", "select": {"type": "point", "fields": ["Type"]}, "bind": "legend", "views": ["view_1"]}, {"name": "seasonSelection", "bind": {"input": "select", "options": ["All", "2024/25", "2023/24", "2022/23", "2021/22", "2019/20", "2018/19", "2017/18", "2016/17"], "name": "Season"}, "value": "2024/25"}, {"name": "squadSelection", "bind": {"input": "radio", "options": ["1st", "2nd", "Total"], "name": "Squad"}, "value": "Total"}], "resolve": {"scale": {"x": "shared", "y": "independent"}}, "title": {"text": "Points Scorers", "subtitle": "According to Pitchero data"}, "width": 400, "$schema": "https://vega.github.io/schema/vega-lite/v5.20.1.json"};
+      var embedOpt = {"renderer": "svg", "actions": {"export": true, "source": false, "editor": true, "compiled": false}, "mode": "vega-lite"};
 
       function showError(el, error){
           el.innerHTML = ('<div style="color:red;">'
@@ -119,6 +120,12 @@
         .catch(error => showError(el, error));
     })(vegaEmbed);
 
+  
+    document.addEventListener("DOMContentLoaded", function () {
+      setTimeout(() => {
+        window.dispatchEvent(new Event('resize'));
+      }, 100);
+    });
   </script>
 </body>
 </html>

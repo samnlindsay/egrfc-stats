@@ -326,8 +326,7 @@ chart = (
         players_per_team_chart,
         average_retention_chart,
         retention_chart,
-        alt.hconcat(violin_chart, top_players_chart),
-        center=True
+        alt.hconcat(violin_chart, top_players_chart)
     )
     .configure_scale(bandPaddingInner=0.2).resolve_scale(color="shared")
 )

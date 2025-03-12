@@ -44,33 +44,20 @@
           }
       }
 
-      .vega-bindings {
-        border: 2px solid black;
-        background-color: #e5e4e7;
-        color: #202946;
-        width: fit-content;
-        height: fit-content;
-        position: static;
-        display: block;
-        justify-content: center;
-        gap: 20px;
-        padding: 10px;
-        font-size: large;
-      }
       .chart-wrapper {
           display: grid;
           grid-template-columns: 1fr 1fr; /* Chart takes 3x space, form takes 1x */
       }
 
       .vega-bind {
-        font-family: 'Lato', sans-serif;
+        font-family: 'Lato', sans-serif !important;
         padding: 10px;
         padding-top: 5px;
         width: min-content;
       }
             
       .vega-bind-name {
-        font-family: 'Lato', sans-serif;
+        font-family: 'Lato', sans-serif !important;
         font-weight: bold;
         font-size: larger;
         color: #202946; 
@@ -94,6 +81,20 @@
         background-color: #202946;
         color: #e5e4e7;
     }
+    
+      .vega-bindings {
+      border: 2px solid black;
+      background-color: #e5e4e7;
+      color: #202946;
+      width: fit-content;
+      height: fit-content;
+      position: static;
+      display: "block";
+      justify-content: center;
+      gap: 20px;
+      padding: 10px;
+      font-size: large;
+    }
   </style>
 <script src="https://cdn.jsdelivr.net/npm/vega@5" type="text/javascript"></script>
 <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.20.1" type="text/javascript"></script>
@@ -103,8 +104,8 @@
 <div id="vis"></div>
 <script>
     (function(vegaEmbed) {
-      var spec = {"config": {"axis": {"labelFont": "Lato, sans-serif", "titleFont": "PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif", "labelFontSize": 13, "titleFontSize": 24, "gridColor": "#202947", "gridOpacity": 0.2}, "header": {"labelFont": "PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif", "titleFont": "PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif", "labelFontSize": 24, "titleFontSize": 28, "labelFontWeight": "bold", "orient": "left"}, "legend": {"labelFont": "Lato, sans-serif", "titleFont": "PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif", "labelFontSize": 14, "titleFontSize": 16, "titlePadding": 5, "fillColor": "white", "strokeColor": "black", "padding": 10, "titleFontWeight": "lighter", "titleFontStyle": "italic", "titleColor": "gray", "offset": 10}, "title": {"font": "PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif", "fontSize": 48, "fontWeight": "bold", "anchor": "start", "align": "center", "titlePadding": 20, "subtitlePadding": 10, "subtitleFontSize": 13, "subtitleColor": "", "subtitleFontStyle": "italic", "offset": 15, "color": "black"}, "axisX": {"labelAngle": 0}, "facet": {"title": null, "header": null, "align": {"row": "each", "column": "each"}}, "resolve": {"scale": {"y": "independent", "facet": "independent"}}, "background": "#f2f1f4"}, "data": {"name": "df", "url": "https://raw.githubusercontent.com/samnlindsay/egrfc-stats/main/data/game.json", "format": {"type": "json"}}, "mark": {"type": "bar"}, "encoding": {"color": {"field": "Role", "legend": {"direction": "horizontal", "orient": "bottom", "title": null}, "scale": {"domain": ["Captain", "VC"], "range": ["#202947", "#146f14"]}, "type": "nominal"}, "opacity": {"condition": {"test": "datum.GameType == 'Friendly'", "value": 0.5}, "value": 1}, "order": {"field": "order", "sort": "ascending", "type": "nominal"}, "row": {"field": "Squad", "header": {"labelExpr": "datum.value + ' XV'", "labelFontSize": 36, "title": null}, "spacing": 20, "type": "nominal"}, "tooltip": [{"field": "Player", "title": "Player", "type": "nominal"}, {"aggregate": "count", "title": "Games", "type": "quantitative"}, {"field": "Role", "title": "Role", "type": "nominal"}, {"field": "GameType", "title": "Game Type", "type": "nominal"}], "x": {"aggregate": "count", "axis": {"orient": "top"}, "sort": {"field": "Role", "order": "descending"}, "title": "Games", "type": "quantitative"}, "y": {"field": "Player", "sort": "-x", "title": null, "type": "nominal"}}, "height": {"step": 20}, "params": [{"name": "param_14", "bind": {"input": "radio", "options": ["2021/22", "2022/23", "2023/24", "2024/25", "Total"], "name": "Season"}, "value": "Total"}, {"name": "param_13", "bind": {"input": "radio", "options": ["1st", "2nd", "Both"], "name": "Squad"}, "value": "Both"}], "resolve": {"scale": {"opacity": "shared", "x": "shared", "y": "independent"}}, "title": {"text": "Match Day Captains", "subtitle": "Captains and Vice-Captains (if named). Friendly games are shaded lighter."}, "transform": [{"fold": ["Captain", "VC1", "VC2"], "as": ["Role", "Player"]}, {"calculate": "datum.Role == 'Captain' ? 'Captain' : 'VC'", "as": "Role"}, {"filter": "datum.Player != null && datum.Player != ''"}, {"calculate": "(datum.Role=='Captain' ? 'a' : 'b') + (datum.GameType == 'Friendly' ? 'b' : 'a')", "as": "order"}, {"filter": "datum.Season == param_14 | param_14 == 'Total'"}, {"filter": "datum.Squad == param_13 | param_13 == 'Both'"}], "width": 400, "$schema": "https://vega.github.io/schema/vega-lite/v5.20.1.json"};
-      var embedOpt = {"mode": "vega-lite", 'renderer':'svg', 'actions': {'export': true, 'source':false, 'editor':true, 'compiled':false} };
+      var spec = {"config": {"axis": {"labelFont": "Lato, sans-serif", "titleFont": "PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif", "labelFontSize": 13, "titleFontSize": 24, "gridColor": "#202947", "gridOpacity": 0.2}, "header": {"labelFont": "PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif", "titleFont": "PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif", "labelFontSize": 24, "titleFontSize": 28, "labelFontWeight": "bold", "orient": "left"}, "legend": {"labelFont": "Lato, sans-serif", "titleFont": "PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif", "labelFontSize": 14, "titleFontSize": 16, "titlePadding": 5, "fillColor": "white", "strokeColor": "black", "padding": 10, "titleFontWeight": "lighter", "titleFontStyle": "italic", "titleColor": "gray", "offset": 10}, "title": {"font": "PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif", "fontSize": 48, "fontWeight": "bold", "anchor": "start", "align": "center", "titlePadding": 20, "subtitlePadding": 10, "subtitleFontSize": 13, "subtitleColor": "", "subtitleFontStyle": "italic", "offset": 15, "color": "black"}, "axisX": {"labelAngle": 0}, "facet": {"title": null, "header": null, "align": {"row": "each", "column": "each"}}, "resolve": {"scale": {"y": "independent", "facet": "independent"}}, "background": "#f2f1f4"}, "data": {"name": "df", "url": "https://raw.githubusercontent.com/samnlindsay/egrfc-stats/main/data/game.json", "format": {"type": "json"}}, "mark": {"type": "bar"}, "encoding": {"color": {"field": "Role", "legend": {"direction": "horizontal", "orient": "bottom", "title": null}, "scale": {"domain": ["Captain", "VC"], "range": ["#202947", "#146f14"]}, "type": "nominal"}, "opacity": {"condition": {"test": "datum.GameType == 'Friendly'", "value": 0.5}, "value": 1}, "order": {"field": "order", "sort": "ascending", "type": "nominal"}, "row": {"field": "Squad", "header": {"labelExpr": "datum.value + ' XV'", "labelFontSize": 36, "title": null}, "spacing": 50, "type": "nominal"}, "tooltip": [{"field": "Player", "title": "Player", "type": "nominal"}, {"aggregate": "count", "title": "Games", "type": "quantitative"}, {"field": "Role", "title": "Role", "type": "nominal"}, {"field": "GameType", "title": "Game Type", "type": "nominal"}], "x": {"aggregate": "count", "axis": {"orient": "top"}, "sort": {"field": "Role", "order": "descending"}, "title": "Games", "type": "quantitative"}, "y": {"field": "Player", "sort": "-x", "title": null, "type": "nominal"}}, "height": {"step": 16}, "params": [{"name": "seasonSelection", "bind": {"input": "select", "options": ["All", "2024/25", "2023/24", "2022/23", "2021/22"], "name": "Season"}, "value": "All"}, {"name": "squadSelection", "bind": {"input": "radio", "options": ["1st", "2nd", "Both"], "name": "Squad"}, "value": "Both"}, {"name": "param_13", "select": {"type": "point", "fields": ["Role"]}, "bind": "legend"}], "resolve": {"scale": {"opacity": "shared", "x": "shared", "y": "independent"}}, "title": {"text": "Match Day Captains", "subtitle": "Captains and Vice-Captains (if named). Friendly games are shaded lighter."}, "transform": [{"fold": ["Captain", "VC1", "VC2"], "as": ["Role", "Player"]}, {"calculate": "datum.Role == 'Captain' ? 'Captain' : 'VC'", "as": "Role"}, {"filter": "datum.Player != null && datum.Player != ''"}, {"calculate": "(datum.Role=='Captain' ? 'a' : 'b') + (datum.GameType == 'Friendly' ? 'b' : 'a')", "as": "order"}, {"filter": {"param": "param_13"}}, {"filter": "datum.Season == seasonSelection | seasonSelection == 'All'"}, {"filter": "datum.Squad == squadSelection | squadSelection == 'Both'"}], "width": 350, "$schema": "https://vega.github.io/schema/vega-lite/v5.20.1.json"};
+      var embedOpt = {"renderer": "svg", "actions": {"export": true, "source": false, "editor": true, "compiled": false}, "mode": "vega-lite"};
 
       function showError(el, error){
           el.innerHTML = ('<div style="color:red;">'
@@ -119,6 +120,12 @@
         .catch(error => showError(el, error));
     })(vegaEmbed);
 
+  
+    document.addEventListener("DOMContentLoaded", function () {
+      setTimeout(() => {
+        window.dispatchEvent(new Event('resize'));
+      }, 100);
+    });
   </script>
 </body>
 </html>

@@ -44,33 +44,20 @@
           }
       }
 
-      .vega-bindings {
-        border: 2px solid black;
-        background-color: #e5e4e7;
-        color: #202946;
-        width: fit-content;
-        height: fit-content;
-        position: static;
-        display: block;
-        justify-content: center;
-        gap: 20px;
-        padding: 10px;
-        font-size: large;
-      }
       .chart-wrapper {
           display: grid;
           grid-template-columns: 1fr 1fr; /* Chart takes 3x space, form takes 1x */
       }
 
       .vega-bind {
-        font-family: 'Lato', sans-serif;
+        font-family: 'Lato', sans-serif !important;
         padding: 10px;
         padding-top: 5px;
         width: min-content;
       }
             
       .vega-bind-name {
-        font-family: 'Lato', sans-serif;
+        font-family: 'Lato', sans-serif !important;
         font-weight: bold;
         font-size: larger;
         color: #202946; 
@@ -94,6 +81,20 @@
         background-color: #202946;
         color: #e5e4e7;
     }
+    
+      .vega-bindings {
+      border: 2px solid black;
+      background-color: #e5e4e7;
+      color: #202946;
+      width: fit-content;
+      height: fit-content;
+      position: static;
+      display: "block";
+      justify-content: center;
+      gap: 20px;
+      padding: 10px;
+      font-size: large;
+    }
   </style>
 <script src="https://cdn.jsdelivr.net/npm/vega@5" type="text/javascript"></script>
 <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.20.1" type="text/javascript"></script>
@@ -103,8 +104,8 @@
 <div id="vis"></div>
 <script>
     (function(vegaEmbed) {
-      var spec = {"config": {"axis": {"labelFont": "Lato, sans-serif", "titleFont": "PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif", "labelFontSize": 13, "titleFontSize": 24, "gridColor": "#202947", "gridOpacity": 0.2}, "header": {"labelFont": "PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif", "titleFont": "PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif", "labelFontSize": 24, "titleFontSize": 28, "labelFontWeight": "bold", "orient": "left"}, "legend": {"labelFont": "Lato, sans-serif", "titleFont": "PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif", "labelFontSize": 14, "titleFontSize": 16, "titlePadding": 5, "fillColor": "white", "strokeColor": "black", "padding": 10, "titleFontWeight": "lighter", "titleFontStyle": "italic", "titleColor": "gray", "offset": 10}, "title": {"font": "PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif", "fontSize": 48, "fontWeight": "bold", "anchor": "start", "align": "center", "titlePadding": 20, "subtitlePadding": 10, "subtitleFontSize": 13, "subtitleColor": "", "subtitleFontStyle": "italic", "offset": 15, "color": "black"}, "axisX": {"labelAngle": 0}, "facet": {"title": null, "header": null, "align": {"row": "each", "column": "each"}}, "resolve": {"scale": {"y": "independent", "facet": "independent"}}, "background": "#f2f1f4"}, "data": {"name": "df", "url": "https://raw.githubusercontent.com/samnlindsay/egrfc-stats/main/data/players.json", "format": {"type": "json"}}, "mark": {"type": "bar"}, "encoding": {"color": {"field": "GameType", "legend": {"direction": "horizontal", "orient": "bottom", "title": null, "titleOrient": "left"}, "scale": {"domain": ["League", "Cup", "Friendly"], "range": ["#202947", "#981515", "#146f14"]}, "type": "nominal"}, "facet": {"align": "each", "columns": 4, "field": "Position", "header": {"labelFontSize": 36, "labelOrient": "top", "title": null}, "sort": ["Prop", "Hooker", "Second Row", "Back Row", "Scrum Half", "Fly Half", "Centre", "Back Three"], "spacing": 20, "type": "ordinal"}, "order": {"field": "GameType", "sort": "descending", "type": "nominal"}, "tooltip": [{"field": "Player", "type": "nominal"}, {"field": "Position", "type": "nominal"}, {"aggregate": "count", "title": "Starts", "type": "quantitative"}, {"field": "GameType", "type": "nominal"}], "x": {"aggregate": "count", "axis": {"orient": "top", "title": null}, "type": "quantitative"}, "y": {"field": "Player", "sort": "-x", "title": null, "type": "nominal"}}, "height": {"step": 14}, "params": [{"name": "param_21", "select": {"type": "point", "fields": ["GameType"], "on": "click"}, "bind": "legend"}, {"name": "param_22", "bind": {"input": "radio", "options": ["2021/22", "2022/23", "2023/24", "2024/25", "All"], "name": "Season"}, "value": "All"}, {"name": "param_23", "bind": {"input": "radio", "options": ["1st", "2nd", "Total"], "name": "Squad"}, "value": "Total"}, {"name": "param_24", "bind": {"input": "range", "max": 20, "min": 1, "name": "Minimum Starts", "step": 1}, "value": 0}], "resolve": {"scale": {"x": "independent", "y": "independent"}}, "title": {"text": "Starts (by position)", "subtitle": "Not including bench appearances."}, "transform": [{"filter": "datum.Number <= 15"}, {"joinaggregate": [{"op": "count", "as": "TotalGames"}], "groupby": ["Player", "Position"]}, {"filter": "datum.TotalGames >= param_24"}, {"filter": "datum.Season == param_22 | param_22 == 'All'"}, {"filter": "datum.Squad == param_23 | param_23 == 'Total'"}, {"filter": {"param": "param_21"}}], "width": 150, "$schema": "https://vega.github.io/schema/vega-lite/v5.20.1.json"};
-      var embedOpt = {"mode": "vega-lite", 'renderer':'svg', 'actions': {'export': true, 'source':false, 'editor':true, 'compiled':false} };
+      var spec = {"config": {"axis": {"labelFont": "Lato, sans-serif", "titleFont": "PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif", "labelFontSize": 13, "titleFontSize": 24, "gridColor": "#202947", "gridOpacity": 0.2}, "header": {"labelFont": "PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif", "titleFont": "PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif", "labelFontSize": 24, "titleFontSize": 28, "labelFontWeight": "bold", "orient": "left"}, "legend": {"labelFont": "Lato, sans-serif", "titleFont": "PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif", "labelFontSize": 14, "titleFontSize": 16, "titlePadding": 5, "fillColor": "white", "strokeColor": "black", "padding": 10, "titleFontWeight": "lighter", "titleFontStyle": "italic", "titleColor": "gray", "offset": 10}, "title": {"font": "PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif", "fontSize": 48, "fontWeight": "bold", "anchor": "start", "align": "center", "titlePadding": 20, "subtitlePadding": 10, "subtitleFontSize": 13, "subtitleColor": "", "subtitleFontStyle": "italic", "offset": 15, "color": "black"}, "axisX": {"labelAngle": 0}, "facet": {"title": null, "header": null, "align": {"row": "each", "column": "each"}}, "resolve": {"scale": {"y": "independent", "facet": "independent"}}, "background": "#f2f1f4"}, "data": {"name": "df", "url": "https://raw.githubusercontent.com/samnlindsay/egrfc-stats/main/data/players.json", "format": {"type": "json"}}, "mark": {"type": "bar"}, "encoding": {"color": {"field": "GameType", "legend": {"direction": "horizontal", "orient": "bottom", "title": null, "titleOrient": "left"}, "scale": {"domain": ["League", "Cup", "Friendly"], "range": ["#202947", "#981515", "#146f14"]}, "type": "nominal"}, "facet": {"align": "each", "columns": 4, "field": "Position", "header": {"labelFontSize": 36, "labelOrient": "top", "title": null}, "sort": ["Prop", "Hooker", "Second Row", "Back Row", "Scrum Half", "Fly Half", "Centre", "Back Three"], "spacing": 0, "type": "ordinal"}, "order": {"field": "GameType", "sort": "descending", "type": "nominal"}, "tooltip": [{"field": "Player", "type": "nominal"}, {"field": "Position", "type": "nominal"}, {"aggregate": "count", "title": "Starts", "type": "quantitative"}, {"field": "GameType", "type": "nominal"}], "x": {"aggregate": "count", "axis": {"orient": "top", "title": null}, "type": "quantitative"}, "y": {"field": "Player", "sort": "-x", "title": null, "type": "nominal"}}, "height": {"step": 14}, "params": [{"name": "param_13", "select": {"type": "point", "fields": ["GameType"], "on": "click"}, "bind": "legend"}, {"name": "param_14", "bind": {"input": "radio", "options": ["All", "2024/25", "2023/24", "2022/23", "2021/22"], "name": "Season"}, "value": "2024/25"}, {"name": "param_15", "bind": {"input": "radio", "options": ["1st", "2nd", "Total"], "name": "Squad"}, "value": "Total"}, {"name": "param_16", "bind": {"input": "range", "max": 20, "min": 1, "name": "Minimum Starts", "step": 1}, "value": 0}], "resolve": {"scale": {"x": "independent", "y": "independent"}}, "title": {"text": "Starts (by position)", "subtitle": "Not including bench appearances."}, "transform": [{"filter": "datum.Number <= 15"}, {"joinaggregate": [{"op": "count", "as": "TotalGames"}], "groupby": ["Player", "Position"]}, {"filter": "datum.TotalGames >= param_16"}, {"filter": "datum.Season == param_14 | param_14 == 'All'"}, {"filter": "datum.Squad == param_15 | param_15 == 'Total'"}, {"filter": {"param": "param_13"}}], "width": 150, "$schema": "https://vega.github.io/schema/vega-lite/v5.20.1.json"};
+      var embedOpt = {"renderer": "svg", "actions": {"export": true, "source": false, "editor": true, "compiled": false}, "mode": "vega-lite"};
 
       function showError(el, error){
           el.innerHTML = ('<div style="color:red;">'
@@ -119,6 +120,12 @@
         .catch(error => showError(el, error));
     })(vegaEmbed);
 
+  
+    document.addEventListener("DOMContentLoaded", function () {
+      setTimeout(() => {
+        window.dispatchEvent(new Event('resize'));
+      }, 100);
+    });
   </script>
 </body>
 </html>
