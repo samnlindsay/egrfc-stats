@@ -279,6 +279,10 @@ nav.navbar {
         font-size: 1rem;
     }
 
+    #leagueTable {
+        font-size: 0.9rem;
+    }
+
     #ppTitle {
         font-size: 3rem;
     }
@@ -288,12 +292,24 @@ nav.navbar {
     #playerPosition {
         font-size: 1.25rem;
     }
+
+    #tablePF, #tablePA, #tablePD, #tableD {
+        display: none;
+    }
 }
 
 @media (max-width: 480px) {
 
     .table {
         font-size: 1rem;
+    }
+
+    #table\# {
+        display: none;
+    }
+
+    #leagueTable {
+        font-size: 0.75rem;
     }
 
     #ppTitle {

@@ -197,7 +197,7 @@ top_players_chart = (
             text="Most Appearances",
             subtitle="Players with the most appearances in the league this season"
         ),
-        width=300, height=alt.Step(18))
+        width=300, height=alt.Step(15))
     .add_params(season_select, team_select)
     .transform_filter(season_select)
     # Filter top 20 players
@@ -223,7 +223,7 @@ players_per_team_chart = (
             text="Squad Size", 
             subtitle="Total players representing each team across the season, and split by forwards, backs, and bench-only players."
         ),
-        width=180,height=alt.Step(30)
+        width=180,height=alt.Step(25)
     )
     .add_params(season_select, team_select)
     .transform_filter(season_select)
@@ -276,7 +276,7 @@ average_retention_chart = (
             text="Average Squad Retention",
             subtitle="Average number of players retained from the starting XV from game to game, and split by forwards and backs."
         ), 
-        width=180, height=alt.Step(30)
+        width=180, height=alt.Step(25)
     )
     .add_params(season_select, team_select)
     .transform_filter(season_select)
@@ -328,9 +328,160 @@ chart = (
         retention_chart,
         alt.hconcat(violin_chart, top_players_chart)
     )
-    .configure_scale(bandPaddingInner=0.2).resolve_scale(color="shared")
+    .configure_scale(bandPaddingInner=0.1).resolve_scale(color="shared")
 )
 
-file = "charts/league/squad_analysis.html"
+file = "Charts/league/squad_analysis.html"
 chart.save(file, embed_options={'renderer':'svg', 'actions': {'export': True, 'source':False, 'editor':True, 'compiled':False} })
 hack_params_css(file, params=True)
+
+def league_results_chart(season):
+
+    df = pd.read_json('data/matches.json')[["season", "league", "date", "teams", "score"]]
+    df = df[df["season"] == season]
+    df["Home"] = df["teams"].apply(lambda x: x[0])
+    df["Away"] = df["teams"].apply(lambda x: x[1])
+    df["PF"] = df["score"].apply(lambda x: x[0])
+    df["PA"] = df["score"].apply(lambda x: x[1])
+    df["PD"] = df["PF"] - df["PA"]
+    df["score"] = df["score"].apply(lambda x: f"{x[0]}-{x[1]}")
+
+    def result(x):
+        result = None
+        if x["PD"] > 0:
+            result = "Home Win"
+        elif x["PD"] < 0:
+            result = "Away Win"
+        elif x["PD"] == 0:
+            return "Draw"
+        elif x["Home"] != x["Away"]:
+            return "To be played"
+        else:
+            return result
+
+        if abs(x["PD"]) < 8:
+            result += " (LBP)"
+
+        return result
+
+    # Fill in missing combinations of teams
+    teams = df["Home"].unique()
+    df = df.set_index(["Home", "Away"]).reindex(pd.MultiIndex.from_product([teams, teams], names=["Home", "Away"])).reset_index()
+    df["Result"] = df.apply(result, axis=1)
+    df["color_R"] = df.apply(lambda x: "black" if x["Home"]==x["Away"] else "#146f14" if x["Result"]=="Home Win" else "#991515" if x["Result"]=="Away Win" else "gray" if x["Result"]=="Draw" else "white", axis=1)
+    df["color_PD"] = df.apply(lambda x: "black" if x["Home"]==x["Away"] else "#146f14" if x["PD"]>7 else "#146f14a0" if x["PD"]>0 else "#991515" if x["PD"]<-7 else "#991515a0" if x["PD"]<0 else "gray" if x["PD"]==0 else "white", axis=1) 
+    df["score"] = df["score"].fillna("")
+    df["PF"] = df["PF"].fillna("")
+    df["PA"] = df["PA"].fillna("")
+
+
+    # Calculate average points difference for all of each team's games (home or away)
+    pd_df = []
+    for team in teams:
+        home_pd = df[(df["Home"]==team) & (df["Result"]!="")]["PD"].sum()
+        away_pd = df[(df["Away"]==team) & (df["Result"]!="")]["PD"].sum()
+        pd_df.append([team, home_pd - away_pd])
+    pd_df = (
+        pd.DataFrame(pd_df, columns=["Team", "PD"])
+        .sort_values("PD", ascending=False)
+        .reset_index().reset_index()
+        .rename(columns={"level_0": "Rank"})
+        .drop(columns=["index"])
+    )
+
+    # Define color encoding
+    color_scale = alt.Scale(
+        domain=['Home Win', 'Home Win (LBP)', 'Away Win', 'Away Win (LBP)', 'Draw', 'To be played', None],
+        range=['#146f14', '#146f14a0', '#991515', '#991515a0', 'gray', 'white', 'black']
+    )
+
+
+    # Highlight row and column on hover
+    highlight = alt.selection_point(on='click', fields=['Home', 'Away'], empty='none', nearest=True, value="East Grinstead")
+    predicate = f"datum.Home == {highlight.name}['Home'] | datum.Away == {highlight.name}['Home']"
+    text_color = alt.condition(f"{predicate} | !isValid({highlight.name}['Home'])", alt.value('white'), alt.value('black'))
+
+    heatmap = alt.Chart(df).mark_rect().encode(
+        x=alt.X('Away:N', title="Away Team",
+            sort=pd_df["Team"].tolist()[::-1],
+            axis=alt.Axis(ticks=False, domain=False, labelAngle=30, orient="top", titleFontSize=32)
+        ),
+        y=alt.Y('Home:N', title="Home Team",
+            sort=pd_df["Team"].tolist(),
+            axis=alt.Axis(ticks=False, domain=False, labelAngle=0, labelFontSize=14, titleFontSize=32, labelFontWeight="bold")
+        ),
+        tooltip=['Home:N', 'Away:N', alt.Tooltip('score:N', title="Score"), alt.Tooltip('date:T', title="Date", format="%d %b %Y")],
+        opacity=alt.condition(f"{predicate} | !isValid({highlight.name}['Home'])", alt.value(1.0), alt.value(0.2)),
+        color=alt.Color(
+            'Result:N', 
+            scale=color_scale,
+            title="Result", 
+            legend=alt.Legend(
+                orient="none",
+                direction="horizontal",
+                titleOrient="left",
+                legendX=50,
+                legendY=430,
+                symbolStrokeColor="black",
+                symbolStrokeWidth=1,
+                values=['Home Win', 'Away Win', 'Draw', 'To be played'],
+            )
+        ),
+    ).properties(width=alt.Step(50), height=alt.Step(35))
+
+    # Add text annotations for scorelines
+    textH = alt.Chart(df).mark_text(size=15, xOffset=-10, yOffset=5, fontWeight="bold").encode(
+        x=alt.X('Away:N', title=None,
+            sort=pd_df["Team"].tolist()[::-1],
+            axis=alt.Axis(ticks=False, domain=False, labels=False)
+        ),
+        y=alt.Y('Home:N', title=None,
+            sort=pd_df["Team"].tolist(),
+            axis=alt.Axis(ticks=False, domain=False, labels=False)
+        ),
+        text=alt.Text('PF:N'),
+        color=text_color,
+        opacity=alt.condition(f"{predicate} | !isValid({highlight.name}['Home'])", alt.value(1.0), alt.value(0.5)),
+    )
+    textA = alt.Chart(df).mark_text(size=14, xOffset=10, yOffset=-5, fontStyle="italic").encode(
+        x=alt.X('Away:N', title=None,
+            sort=pd_df["Team"].tolist()[::-1],
+            axis=alt.Axis(ticks=False, domain=False, labels=False)
+        ),
+        y=alt.Y('Home:N', title=None,
+            sort=pd_df["Team"].tolist(),
+            axis=alt.Axis(ticks=False, domain=False, labels=False)
+        ),
+        text=alt.Text('PA:N'),
+        color=text_color,
+        opacity=alt.condition(f"{predicate} | !isValid({highlight.name}['Home'])", alt.value(0.8), alt.value(0.4)),
+    )
+
+    textPD = alt.Chart(pd_df).mark_text(size=14, color="white", opacity=0.8).encode(
+        x=alt.X('Team:N', title=None, sort=pd_df["Team"].tolist()[::-1], axis=alt.Axis(ticks=False, domain=False, labels=False)),
+        y=alt.Y('Team:N', title=None, sort=pd_df["Team"].tolist(), axis=alt.Axis(ticks=False, domain=False, labels=False)),
+        text=alt.Text('PD:N', format="+d")
+    )
+
+    # Combine heatmap and text annotations
+    final_chart = (
+        (heatmap + textA + textH + textPD)
+        .add_params(highlight)
+        .resolve_scale(color="independent", x="independent", y="independent", opacity="independent")
+        .properties(
+            title=alt.Title(
+                text="League Results", 
+                subtitle=[
+                    "Teams ranked by average points difference (shown in black cells).",
+                    "Lighter shaded results were within 7 points (i.e. losing bonus point).",
+                    "Click on a cell to highlight all of the home team's results."
+                    ],
+            ),
+            background="white")
+    )
+    final_chart.save("Charts/league/results.html", embed_options={'renderer':'svg', 'actions': {'export': True, 'source':False, 'editor':True, 'compiled':False} })
+    hack_params_css("Charts/league/results.html", params=False)
+
+    return final_chart
+
+league_results_chart("2024-2025")

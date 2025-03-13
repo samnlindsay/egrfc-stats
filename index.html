@@ -142,7 +142,6 @@
                                     <button class="btn custom-btn py-2" onclick="loadPage('Charts/video_analysis.html')">Video Analysis by Game</button>
                                     <button class="btn custom-btn py-2" onclick="loadPage('Charts/continuity.html')">Squad Continuity</button>
                                 </div>
-                                <button class="btn custom-btn py-2" onclick="loadPage('Charts/league/squad_analysis.html')">Counties 1 Surrey/Sussex (All Clubs)</button>
                             </div>
                         </div>
                     </div>
@@ -307,6 +306,27 @@
                                     Game</button>
                                 <button class="btn custom-btn py-2" onclick="loadPage('Charts/lineouts.html')">Lineout
                                     Analysis</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="my-2">
+                    <hr class="my-1">
+                    <button class="btn btn-danger w-100 text-center" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#leagueSummary" aria-expanded="false">
+                        League Stats (1st XV)
+                    </button>
+                    <div class="collapse mt-2 justify-content-center align-items-center" id="leagueSummary">
+                        <!-- Add HTML from 'Charts/league/table.html' -->
+                        
+
+                        
+                        <div class="d-flex justify-content-end align-items-center">
+                            <h4 class="me-3">Charts:</h4>
+                            <div class="btn-group">
+                                <button class="btn custom-btn py-2" onclick="loadPage('Charts/league/results.html')">Results</button>
+                                <button class="btn custom-btn py-2" onclick="loadPage('Charts/league/squad_analysis.html')">Squad Analysis</button>
                             </div>
                         </div>
                     </div>
@@ -546,6 +566,13 @@
                 });
             });
 
+            // Add league table (from 'Charts/league/table.html') to the top of #leagueSummary
+            fetch("Charts/league/table.html")
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById("leagueSummary").innerHTML = data + document.getElementById("leagueSummary").innerHTML;
+                });
+        
         });
 
         // Event listener for player select dropdown

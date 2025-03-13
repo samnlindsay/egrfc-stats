@@ -32,6 +32,52 @@ division_ids = {
     }
 }
 
+def fetch_league_table(season="2024-2025", league="Counties 1 Surrey/Sussex"):
+    """Fetch league table from the England Rugby website."""
+
+    competition = 261 if league != "Counties 3 Sussex" else 206
+    division = division_ids[league][season]
+
+    url = f'https://www.englandrugby.com/fixtures-and-results/search-results?competition={competition}&season={season}&division={division}#tables'
+    logging.info(f"Fetching match list from: {url}")
+
+    response = requests.get(url)
+
+    soup = BeautifulSoup(response.text, 'html.parser')
+    table = soup.find_all('table')[0]
+    df = pd.read_html(str(table))[0]
+    df.rename(columns={"+/-":"PD"}, inplace=True)
+
+    def generate_bootstrap_table(df, title="League Table"):
+        table_html = f'''
+        <table class="table table-striped table-borderless mx-auto text-center align-middle small" id="leagueTable">
+            <thead class="table-danger">
+                <tr>{''.join(f'<th {'id="table'+col+'"'}>{col}</th>' for col in df.columns)}</tr>
+            </thead>
+            <tbody>
+                {
+                    ''.join(
+                        f'<tr{' class="table-primary fw-bold"' if row["TEAM"]=="East Grinstead" else ''}>' + ''.join(
+                            f'<td class="p-1" {'id="table'+col+'"'}>{row[col]}</td>' for col in df.columns
+                        ) + '</tr>' for _, row in df.iterrows()
+                    )
+                }
+            </tbody>
+        </table>
+        '''
+        return table_html
+
+    # Generate HTML table
+    html_table = generate_bootstrap_table(df)
+
+    # Save to file (optional)
+    with open("Charts/league/table.html", "w") as f:
+        f.write(html_table)
+
+    # Output HTML
+    return df
+
+
 def fetch_match_ids(season="2024-2025", league="Counties 1 Surrey/Sussex"):
     """Fetch match IDs from the England Rugby website."""
 
@@ -160,6 +206,8 @@ def main():
     parser.add_argument("--league", required=False, help="League (e.g., Counties 1 Surrey/Sussex)", default="Counties 1 Surrey/Sussex")
 
     args = parser.parse_args()
+
+    table = fetch_league_table(args.season, args.league)
 
     match_ids = fetch_match_ids(args.season, args.league)
     if not match_ids:
