@@ -25,10 +25,10 @@ analysis.to_json('data/analysis.json', orient='records')
 lineouts_df.to_json('data/lineouts.json', orient='records')
 
 # Update tables
-# update_season_summaries(game_df, seasons)
-# set_piece_summaries(set_piece_df)
-# top_players_summary(players_agg_df)
-# players_table_data(players_df, players_agg_df)
+update_season_summaries(game_df, seasons)
+set_piece_summaries(set_piece_df)
+top_players_summary(players_agg_df)
+players_table_data(players_df, players_agg_df)
 
 
 # One-off charts (only source data needs updating)

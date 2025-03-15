@@ -128,22 +128,22 @@
     "2024/25": {
         "1st": {
             "Lineout": {
-                "count": 15,
-                "EG_total": 11.466666666666667,
-                "EG_success": 0.7034883720930233,
-                "Opp_total": 11.666666666666666,
-                "Opp_success": 0.8400000000000001,
-                "T_won": 1.8666666666666667,
-                "T_lost": 3.4
+                "count": 16,
+                "EG_total": 11.625,
+                "EG_success": 0.7096774193548387,
+                "Opp_total": 11.4375,
+                "Opp_success": 0.8306010928961749,
+                "T_won": 1.9375,
+                "T_lost": 3.375
             },
             "Scrum": {
-                "count": 15,
-                "EG_total": 8.6,
-                "EG_success": 1.0,
-                "Opp_total": 7.0,
-                "Opp_success": 0.8095238095238095,
-                "T_won": 1.3333333333333333,
-                "T_lost": 0.0
+                "count": 16,
+                "EG_total": 8.75,
+                "EG_success": 0.9928571428571429,
+                "Opp_total": 6.75,
+                "Opp_success": 0.8055555555555556,
+                "T_won": 1.3125,
+                "T_lost": 0.0625
             }
         },
         "2nd": {
