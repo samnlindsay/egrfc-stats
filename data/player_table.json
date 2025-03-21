@@ -459,7 +459,7 @@
     "Games":1,
     "Games1":0,
     "Games2":1,
-    "Position":"Full Back",
+    "Position":null,
     "FirstSeason":"2024\/25",
     "DebutSeason":"-",
     "GameID":"-"
@@ -1014,7 +1014,7 @@
     "Games":4,
     "Games1":0,
     "Games2":4,
-    "Position":"Wing \/ Centre",
+    "Position":"Centre \/ Wing",
     "FirstSeason":"2024\/25",
     "DebutSeason":"-",
     "GameID":"-"
@@ -1830,21 +1830,6 @@
     "GameID":"Crawley (A)"
   },
   {
-    "Player":"Jack Jacobs",
-    "TotalTries":1,
-    "TotalGames":14,
-    "TotalGames1":2,
-    "TotalGames2":12,
-    "Tries":0,
-    "Games":5,
-    "Games1":0,
-    "Games2":5,
-    "Position":"Hooker \/ Wing",
-    "FirstSeason":"2021\/22",
-    "DebutSeason":"2021\/22",
-    "GameID":"-"
-  },
-  {
     "Player":"Jack Skipworth",
     "TotalTries":18,
     "TotalGames":38,
@@ -1980,6 +1965,21 @@
     "GameID":"-"
   },
   {
+    "Player":"James Jacobs",
+    "TotalTries":1,
+    "TotalGames":14,
+    "TotalGames1":2,
+    "TotalGames2":12,
+    "Tries":0,
+    "Games":5,
+    "Games1":0,
+    "Games2":5,
+    "Position":"Prop",
+    "FirstSeason":"2021\/22",
+    "DebutSeason":"2021\/22",
+    "GameID":"University of Brighton (A)"
+  },
+  {
     "Player":"James Jenkins",
     "TotalTries":2,
     "TotalGames":15,
@@ -2004,7 +2004,7 @@
     "Games":1,
     "Games1":0,
     "Games2":1,
-    "Position":"Scrum Half",
+    "Position":null,
     "FirstSeason":"2016\/17",
     "DebutSeason":"2017\/18",
     "GameID":"-"
@@ -2679,7 +2679,7 @@
     "Games":8,
     "Games1":1,
     "Games2":7,
-    "Position":"Centre",
+    "Position":"Centre \/ Flanker",
     "FirstSeason":"2024\/25",
     "DebutSeason":"2024\/25",
     "GameID":"Hove (A)"
@@ -2790,6 +2790,21 @@
     "GameID":"-"
   },
   {
+    "Player":"Oli Hodge",
+    "TotalTries":0,
+    "TotalGames":2,
+    "TotalGames1":0,
+    "TotalGames2":2,
+    "Tries":0,
+    "Games":2,
+    "Games1":0,
+    "Games2":2,
+    "Position":"Second Row",
+    "FirstSeason":"2024\/25",
+    "DebutSeason":"-",
+    "GameID":"-"
+  },
+  {
     "Player":"Oliver Roberts",
     "TotalTries":3,
     "TotalGames":18,
@@ -2802,21 +2817,6 @@
     "Position":"Wing",
     "FirstSeason":"2019\/20",
     "DebutSeason":"2019\/20",
-    "GameID":"-"
-  },
-  {
-    "Player":"Oll Hodge",
-    "TotalTries":0,
-    "TotalGames":2,
-    "TotalGames1":0,
-    "TotalGames2":2,
-    "Tries":0,
-    "Games":2,
-    "Games1":0,
-    "Games2":2,
-    "Position":null,
-    "FirstSeason":"2024\/25",
-    "DebutSeason":"-",
     "GameID":"-"
   },
   {
@@ -2979,7 +2979,7 @@
     "Games":5,
     "Games1":2,
     "Games2":3,
-    "Position":"Centre \/ Flanker \/ Second Row",
+    "Position":"Centre \/ Second Row",
     "FirstSeason":"2024\/25",
     "DebutSeason":"2024\/25",
     "GameID":"Trinity (A)"
@@ -3114,7 +3114,7 @@
     "Games":9,
     "Games1":1,
     "Games2":8,
-    "Position":"Hooker \/ Prop",
+    "Position":"Hooker",
     "FirstSeason":"2024\/25",
     "DebutSeason":"2024\/25",
     "GameID":"Hove (A)"
