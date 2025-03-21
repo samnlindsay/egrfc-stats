@@ -206,8 +206,8 @@ alt.themes.register("my_custom_theme", alt_theme)
 alt.themes.enable("my_custom_theme")
 
 game_type_scale = alt.Scale(
-    domain=["League", "Cup", "Friendly"], 
-    range=["#202947", "#981515", "#146f14"]                
+    domain=["League", "Cup", "Friendly", "NA"],
+    range=["#202947", "#981515", "#146f14", "#20294780"]                
 )
 
 squad_scale = alt.Scale(
@@ -346,8 +346,9 @@ def plot_games_by_player(min=5, df=None, file=None):
             Cup="datum.CupStarts + datum.CupBench",
             League="datum.LeagueStarts + datum.LeagueBench",
             Friendly="datum.FriendlyStarts + datum.FriendlyBench",
+            NA="datum.TotalGames - datum.Cup - datum.League - datum.Friendly",
         )
-        .transform_fold(["Cup", "League", "Friendly"], as_=["GameType", "Games"])
+        .transform_fold(["Cup", "League", "Friendly", "NA"], as_=["GameType", "Games"])
         .transform_filter(f"datum.Season == {season_selection.name} | {season_selection.name} == 'All'")
         .transform_filter(f"datum.Squad == {squad_selection.name} | {squad_selection.name} == 'Total'")
         .transform_aggregate(Games="sum(Games)", groupby=["Player", "GameType"])
