@@ -18923,5 +18923,364 @@
                 "S2": "Timothy Daniel"
             }
         ]
+    },
+    {
+        "match_id": "1136526",
+        "season": "2024-2025",
+        "league": "Counties 1 Surrey/Sussex",
+        "date": "2025-03-22",
+        "teams": [
+            "Eastbourne",
+            "Old Haileyburians"
+        ],
+        "score": [
+            77,
+            21
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/7209.png",
+            "https://images.englandrugby.com/club_images/15747.png"
+        ],
+        "players": [
+            {
+                "15": "Mason Dowle",
+                "14": "Jeremy Montes",
+                "13": "Jake Howe",
+                "12": "Maxence Saint-Andr\u00e9",
+                "11": "Oliver Horley",
+                "10": "Aaron Hossack",
+                "9": "Leon Wood",
+                "8": "Owen Davies",
+                "7": "Vincent Morse",
+                "6": "Ben Gower",
+                "5": "Jack Curtis",
+                "4": "Joshua Buckwell",
+                "3": "Alun Cranch",
+                "2": "Konrad Oneill",
+                "1": "Christopher Hosking",
+                "S1": "Brandon Foot",
+                "S2": "Paul Smith",
+                "S3": "Dylan Viles"
+            },
+            {
+                "15": "Ollie Mann",
+                "14": "Luke Wright",
+                "13": "Benedict Trimmer",
+                "12": "Zachary Hebron",
+                "11": "Ethan Mead",
+                "10": "Fred Lowe",
+                "9": "Name withheld",
+                "8": "Thomas Wright",
+                "7": "Harry Harper-Dowe",
+                "6": "Robin Kear",
+                "5": "Guy Hennings-Haahr",
+                "4": "Tobi Costello",
+                "3": "Hugo Walton",
+                "2": "James Black",
+                "1": "Harry Clesham",
+                "S1": "Alfie Jeavons-Fellows",
+                "S2": "Ben Ter Haar"
+            }
+        ]
+    },
+    {
+        "match_id": "1136525",
+        "season": "2024-2025",
+        "league": "Counties 1 Surrey/Sussex",
+        "date": "2025-03-22",
+        "teams": [
+            "Trinity",
+            "London Cornish"
+        ],
+        "score": [
+            38,
+            31
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/23175.png",
+            "https://images.englandrugby.com/club_images/12508.png"
+        ],
+        "players": [
+            {
+                "15": "Joshua Joubert",
+                "14": "Olly Wilcox",
+                "13": "Archie McMillan",
+                "12": "Thomas Wilcox",
+                "11": "Tyriq Williams",
+                "10": "George Kimmins",
+                "9": "Harry Wilson",
+                "8": "Farooq Agbalaya",
+                "7": "Khrystopher Speed",
+                "6": "Oliver Hubbard",
+                "5": "Thomas Black",
+                "4": "Marc McEvilly",
+                "3": "Christopher Reid Gomez",
+                "2": "Quinn Singh",
+                "1": "Alastair Hall",
+                "S1": "David Hoffmann",
+                "S2": "Fuad Agbalaya",
+                "S3": "Max Farrell"
+            },
+            {
+                "15": "George Bromage",
+                "14": "Mark Lockhart",
+                "13": "Charlie Lambert",
+                "12": "Peter Brogden",
+                "11": "will spring",
+                "10": "Dan Phoenix",
+                "9": "Findlay Tweedie",
+                "8": "Mark Osei-Tutu",
+                "7": "Alex Davey",
+                "6": "Chai Clarkson",
+                "5": "James Squires",
+                "4": "Thomas Carr",
+                "3": "David Theobald",
+                "2": "Oscar Cruz",
+                "1": "Mathew Hand",
+                "S1": "James New",
+                "S2": "Kalib Falconer",
+                "S3": "Shaun Parkes"
+            }
+        ]
+    },
+    {
+        "match_id": "1136527",
+        "season": "2024-2025",
+        "league": "Counties 1 Surrey/Sussex",
+        "date": "2025-03-22",
+        "teams": [
+            "KCS Old Boys",
+            "Haywards Heath"
+        ],
+        "score": [
+            38,
+            31
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/11188.png",
+            "https://images.englandrugby.com/club_images/9776.png"
+        ],
+        "players": [
+            {
+                "15": "Tom Senior",
+                "14": "George Pickens",
+                "13": "Dara Madden",
+                "12": "Thomas Evans",
+                "11": "Thomas Woods",
+                "10": "William Carter",
+                "9": "Jack McGarey",
+                "8": "Matt Young",
+                "7": "Dale Spratt",
+                "6": "James Shaw",
+                "5": "Cameron Keller",
+                "4": "Sam Young",
+                "3": "Charlie Topley",
+                "2": "Alexander Owen",
+                "1": "Benoit Israel",
+                "S1": "Minhyuk Seo",
+                "S2": "Rees Powell",
+                "S3": "Neil Williams"
+            },
+            {
+                "15": "Name withheld",
+                "14": "Takhy Ndiaye Marrero",
+                "13": "Jack Flower",
+                "12": "Jack Lucas",
+                "11": "Cameron Reed",
+                "10": "Thomas Wharton",
+                "9": "James Thurston",
+                "8": "Geoffrey Bridges",
+                "7": "Kai Dolan",
+                "6": "Connor Mullins",
+                "5": "Daniel Jarman",
+                "4": "Ellis Dubois",
+                "3": "Harrison Thomas Edwards",
+                "2": "William Purdy",
+                "1": "Sebastian Probert-Broster",
+                "S1": "Harry Clark",
+                "S2": "Thomas Smith",
+                "S3": "James Fleming"
+            }
+        ]
+    },
+    {
+        "match_id": "1136528",
+        "season": "2024-2025",
+        "league": "Counties 1 Surrey/Sussex",
+        "date": "2025-03-22",
+        "teams": [
+            "Twickenham",
+            "Weybridge Vandals"
+        ],
+        "score": [
+            29,
+            22
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/23336.png",
+            "https://images.englandrugby.com/club_images/25094.png"
+        ],
+        "players": [
+            {
+                "15": "Thomas Foster",
+                "14": "William Hellel",
+                "13": "Louis Boyd",
+                "12": "John Smith",
+                "11": "Arthur Polley",
+                "10": "Jamie See",
+                "9": "Samuel Goddard",
+                "8": "Nicholas Smith",
+                "7": "James Moore",
+                "6": "Richard Moses",
+                "5": "Jake White",
+                "4": "Louie Banks",
+                "3": "Jordan Fyles",
+                "2": "Joshua Otter",
+                "1": "Frazer Gibson",
+                "S1": "Alex Bennett",
+                "S2": "Jasper Bhamra",
+                "S3": "Joe Ash"
+            },
+            {
+                "15": "Thomas Bolger",
+                "14": "Luke Phair",
+                "13": "Harry Reed",
+                "12": "Sam Bullett",
+                "11": "Karl Hoade",
+                "10": "Daniel Wellden",
+                "9": "Joseph Graves",
+                "8": "James Gulliver",
+                "7": "Robbie Dones",
+                "6": "Thomas Frewin",
+                "5": "Lewis Bryant",
+                "4": "Richard Crabb",
+                "3": "Joshua Thomas",
+                "2": "Cameron Edgar",
+                "1": "Luke Hempstead",
+                "S1": "Lloyd Pullen",
+                "S2": "Darren Lockyer",
+                "S3": "Harry Weatherall"
+            }
+        ]
+    },
+    {
+        "match_id": "1136529",
+        "season": "2024-2025",
+        "league": "Counties 1 Surrey/Sussex",
+        "date": "2025-03-22",
+        "teams": [
+            "Hove",
+            "Old Rutlishians"
+        ],
+        "score": [
+            19,
+            61
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/10503.png",
+            "https://images.englandrugby.com/club_images/16005.png"
+        ],
+        "players": [
+            {
+                "15": "Jack Hancock",
+                "14": "Tom Holborn",
+                "13": "Tom Crisp",
+                "12": "Leo Robertson",
+                "11": "John Orme-Williams",
+                "10": "Jack Moore",
+                "9": "Dominic Woodfine",
+                "8": "Tobias Brown",
+                "7": "Robin Ward",
+                "6": "Jordan Sayers",
+                "5": "IAN SAUNDERS",
+                "4": "George Brown",
+                "3": "Name withheld",
+                "2": "tyler ray hooper",
+                "1": "Stephen Klein",
+                "S1": "Ryan Storer",
+                "S2": "Ben Stephens",
+                "S3": "Jack Edwards"
+            },
+            {
+                "15": "Oliver O'Brien",
+                "14": "Charles Julian",
+                "13": "David Cecil",
+                "12": "Maximilian Lufkin",
+                "11": "Michael Boland",
+                "10": "Toby Harrison",
+                "9": "Alexander O'Dell",
+                "8": "Robert Cecil",
+                "7": "Benjamin Sumrie",
+                "6": "Harry Hovell",
+                "5": "Josh Jibulu",
+                "4": "Alasdair Dean",
+                "3": "William Donegan",
+                "2": "LOUIE DAVIES",
+                "1": "Kenneth Cecil",
+                "S1": "Ryan Dunne",
+                "S2": "Benjamin Jones",
+                "S3": "Thomas Checkley"
+            }
+        ]
+    },
+    {
+        "match_id": "1136524",
+        "season": "2024-2025",
+        "league": "Counties 1 Surrey/Sussex",
+        "date": "2025-03-22",
+        "teams": [
+            "East Grinstead",
+            "Cobham"
+        ],
+        "score": [
+            21,
+            43
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/7134.png",
+            "https://images.englandrugby.com/club_images/5336.png"
+        ],
+        "players": [
+            {
+                "15": "Oliver Billin",
+                "14": "William Roberts",
+                "13": "Ted Hardisty",
+                "12": "Jake Radcliffe",
+                "11": "Sam Spriddell",
+                "10": "Noah Merrion",
+                "9": "Mark Lewis",
+                "8": "Aaronn Boczek",
+                "7": "Ryland Thomas",
+                "6": "Tom Mooney",
+                "5": "John Peaty",
+                "4": "Samuel Lindsay-McCall",
+                "3": "Guy Collins",
+                "2": "Benjamin Tottman",
+                "1": "George Naylor",
+                "S1": "Michael Presland",
+                "S2": "Josh Weaver",
+                "S3": "Noah Roberts"
+            },
+            {
+                "15": "William Springett",
+                "14": "Sandro Celebidachi",
+                "13": "Alexander O'Connor",
+                "12": "Taylor Rice-Burnett",
+                "11": "Laurence Hemary",
+                "10": "Jordan Bond",
+                "9": "Rory Penfold",
+                "8": "Jake Mcquade",
+                "7": "Oliver Fox",
+                "6": "Oliver Fielding",
+                "5": "Louis Porter",
+                "4": "Luke Westgarth-Taylor",
+                "3": "Anthony Moss",
+                "2": "Ryan Aujla",
+                "1": "Chris Lippiatt",
+                "S1": "Gabriel Clark",
+                "S2": "Lewis Joyce",
+                "S3": "Marcus Watson"
+            }
+        ]
     }
 ]

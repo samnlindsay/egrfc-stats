@@ -11,9 +11,12 @@ import os
 import json
 import pandas as pd
 
+
+women=False
+
 # Define file paths
-MATCH_DATA_FILE = "data/matches.json"  # Updated to read from a single JSON file
-OUTPUT_FILE = "season_squad_analysis.csv"
+MATCH_DATA_FILE = f"data/{'women_' if women else ''}matches.json"  # Updated to read from a single JSON file
+OUTPUT_FILE = f"{'women_' if women else ''}season_squad_analysis.csv"
 
 # Load all match data from the JSON file
 if not os.path.exists(MATCH_DATA_FILE):
@@ -27,6 +30,7 @@ data = []
 
 colors = {
     "East Grinstead": ["darkblue", "white"],
+    "East Grinstead Ladies": ["darkblue", "white"],
     "Hove": ["dodgerblue", "maroon"],
     "Eastbourne": ["royalblue", "yellow"],
     "Haywards Heath": ["red", "black"],
@@ -297,7 +301,7 @@ violin_chart = (
     .transform_density(
         density="Appearances",
         groupby=["Team", "Color1", "Color2"],
-        extent=[1, 22],
+        extent=[1, 25],
         steps=21,
         as_=["Appearances", "Density"],
     ) 
@@ -331,13 +335,13 @@ chart = (
     .configure_scale(bandPaddingInner=0.1).resolve_scale(color="shared")
 )
 
-file = "Charts/league/squad_analysis.html"
+file = f"Charts/league/{'women_' if women else ''}squad_analysis.html"
 chart.save(file, embed_options={'renderer':'svg', 'actions': {'export': True, 'source':False, 'editor':True, 'compiled':False} })
 hack_params_css(file, params=True)
 
 def league_results_chart(season):
 
-    df = pd.read_json('data/matches.json')[["season", "league", "date", "teams", "score"]]
+    df = pd.read_json(MATCH_DATA_FILE)[["season", "league", "date", "teams", "score"]]
     df = df[df["season"] == season]
     df["Home"] = df["teams"].apply(lambda x: x[0])
     df["Away"] = df["teams"].apply(lambda x: x[1])
@@ -479,8 +483,8 @@ def league_results_chart(season):
             ),
             background="white")
     )
-    final_chart.save("Charts/league/results.html", embed_options={'renderer':'svg', 'actions': {'export': True, 'source':False, 'editor':True, 'compiled':False} })
-    hack_params_css("Charts/league/results.html", params=False)
+    final_chart.save(f"Charts/league/{'women_' if women else ''}results.html", embed_options={'renderer':'svg', 'actions': {'export': True, 'source':False, 'editor':True, 'compiled':False} })
+    hack_params_css(f"Charts/league/{'women_' if women else ''}results.html", params=False)
 
     return final_chart
 

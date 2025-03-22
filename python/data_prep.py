@@ -125,7 +125,7 @@ def team_sheets():
     t2["Squad"] = "2nd"
     t2["GameSort"] = t2.index
 
-    team = pd.concat([t1, t2]).dropna(subset=['Season','Score'])
+    team = pd.concat([t1, t2]).dropna(subset=['Season'])
 
     team["GameID"] = team["Opposition"] + team.groupby(["Squad", "Opposition", "Season"]).cumcount().add(1).replace(1, "").astype(str)
     team['Home/Away'] = team['Opposition'].apply(lambda x: "H" if "(H)" in x else "A")
@@ -133,10 +133,13 @@ def team_sheets():
     team["GameType"] = team["Competition"].apply(
         lambda x: "Friendly" if x=="Friendly" else ("Cup" if re.search("Cup|Plate|Vase", x) else "League")
     )
-    team["PF"] = team.apply(lambda x: int(x["Score"].split("-")[0 if x["Home/Away"] == "H" else 1]), axis=1)
-    team["PA"] = team.apply(lambda x: int(x["Score"].split("-")[1 if x["Home/Away"] == "H" else 0]), axis=1)
+    # If Score is not null and contains a hyphen, split into PF and PA
+    team["PF"] = team.apply(lambda x: x["Score"].split("-")[0 if x["Home/Away"] == "H" else 1], axis=1)
+    team["PA"] = team.apply(lambda x: x["Score"].split("-")[1 if x["Home/Away"] == "H" else 0], axis=1)
+    team["PF"] = pd.to_numeric(team["PF"], errors="coerce")
+    team["PA"] = pd.to_numeric(team["PA"], errors="coerce")
 
-    team["Result"] = team.apply(lambda x: "W" if x["PF"] > x["PA"] else ("L" if x["PF"] < x["PA"] else "D"), axis=1)
+    team["Result"] = team.apply(lambda x: "W" if x["PF"] > x["PA"] else ("L" if x["PF"] < x["PA"] else ("D" if x["PF"]==x["PA"] else None)), axis=1)
 
     # All column names to string
     team.columns = team.columns.astype(str)
@@ -581,19 +584,25 @@ def top_players_summary(df):
 
     # Total
     df_total = (
-        df.groupby(["Season"])
+        df.groupby(["Season", "Player"])
+        .agg(TotalGames=("TotalGames", "sum"), T=("T", "sum"))
+        .reset_index()
+        .groupby(["Season"])
         .agg(PlayersUsed=("Player", "nunique"), TotalGames=("TotalGames", "max"), T=("T", "max"))
         .reset_index()
     )
-
-    top_players = df.groupby(["Season", "TotalGames"]).agg(
-        Players_A=("Player", lambda x: " / ".join(x))
+    top_players = df.groupby(["Season", "Player"]).agg(
+        TotalGames=("TotalGames", "sum"), 
+        T=("T", "sum")
     ).reset_index()
 
-    top_tries = df.groupby(["Season", "T"]).agg(
+    top_tries = top_players.groupby(["Season", "T"]).agg(
         Players_T=("Player", lambda x: " / ".join(x))
     ).reset_index()
 
+    top_players = top_players.groupby(["Season", "TotalGames"]).agg(
+        Players_A=("Player", lambda x: " / ".join(x))
+    ).reset_index()
 
     df_total = df_total.merge(top_players, on=["Season", "TotalGames"], how="left")
     df_total = df_total.merge(top_tries, on=["Season", "T"], how="left")

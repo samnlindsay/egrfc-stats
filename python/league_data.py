@@ -13,8 +13,9 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(
 os.makedirs("data/match_data", exist_ok=True)
 
 competition_ids = {
-    261: "London & SE Division",
-    206: "Harvey's Brewery Sussex Leagues",
+    "London & SE Division": 261,
+    "Harvey's Brewery Sussex Leagues": 206,
+    "Women": 1782,
 }
 
 division_ids = {
@@ -29,14 +30,18 @@ division_ids = {
     },
     "Counties 3 Sussex": {
         "2024-2025": 57767,
-    }
+    },
+    "Women's NC 2 South East (South)": {
+        "2024-2025": 56677,
+    },
 }
 
-def fetch_league_table(season="2024-2025", league="Counties 1 Surrey/Sussex"):
+def fetch_league_table(season="2024-2025", league="Counties 1 Surrey/Sussex", comp="London & SE Division"):
     """Fetch league table from the England Rugby website."""
 
-    competition = 261 if league != "Counties 3 Sussex" else 206
-    division = division_ids[league][season]
+    # If string arg can be coerced to int, use it as competition ID
+    competition = comp if comp.isdigit() else competition_ids[comp]
+    division = league if league.isdigit() else division_ids[league][season]
 
     url = f'https://www.englandrugby.com/fixtures-and-results/search-results?competition={competition}&season={season}&division={division}#tables'
     logging.info(f"Fetching match list from: {url}")
@@ -78,11 +83,11 @@ def fetch_league_table(season="2024-2025", league="Counties 1 Surrey/Sussex"):
     return df
 
 
-def fetch_match_ids(season="2024-2025", league="Counties 1 Surrey/Sussex"):
+def fetch_match_ids(season="2024-2025", league="Counties 1 Surrey/Sussex", comp="London & SE Division"):
     """Fetch match IDs from the England Rugby website."""
 
-    competition = 261 if league != "Counties 3 Sussex" else 206
-    division = division_ids[league][season]
+    competition = comp if comp.isdigit() else competition_ids[comp]
+    division = league if league.isdigit() else division_ids[league][season]
 
     url = f'https://www.englandrugby.com/fixtures-and-results/search-results?competition={competition}&season={season}&division={division}#results'
     logging.info(f"Fetching match list from: {url}")
@@ -123,6 +128,11 @@ def fetch_match_data(match_id):
     """Fetch and process match details."""
     url = f'https://www.englandrugby.com/fixtures-and-results/match-centre-community?matchId={match_id}#lineup'
     logging.info(f"Fetching match data for ID {match_id}")
+
+    # Check if match data already exists
+    if os.path.exists(f"data/match_data/{match_id}.json"):
+        logging.info(f"Match {match_id} already exists. Skipping.")
+        return None
 
     try:
         response = requests.get(url, timeout=30)
@@ -204,18 +214,20 @@ def main():
     parser = argparse.ArgumentParser(description="Scrape England Rugby match data.")
     parser.add_argument("--season", required=False, help="Season (e.g., 2024-2025)", default="2024-2025")
     parser.add_argument("--league", required=False, help="League (e.g., Counties 1 Surrey/Sussex)", default="Counties 1 Surrey/Sussex")
+    parser.add_argument("--comp", required=False, help="Competition (e.g., London & SE Division)", default="London & SE Division")
+    parser.add_argument("--file", required=False, help="Output file for match data", default="data/matches.json")
 
     args = parser.parse_args()
 
-    table = fetch_league_table(args.season, args.league)
+    table = fetch_league_table(args.season, args.league, args.comp)
 
-    match_ids = fetch_match_ids(args.season, args.league)
+    match_ids = fetch_match_ids(args.season, args.league, args.comp)
     if not match_ids:
         logging.error("No match IDs found. Exiting.")
         return
 
     matches = [fetch_match_data(match_id) for match_id in match_ids]
-    save_match_data(matches)
+    save_match_data(matches, filename=args.file)
 
 if __name__ == "__main__":
     main()
