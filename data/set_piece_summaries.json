@@ -128,22 +128,22 @@
     "2024/25": {
         "1st": {
             "Lineout": {
-                "count": 16,
-                "EG_total": 11.625,
-                "EG_success": 0.7096774193548387,
-                "Opp_total": 11.4375,
-                "Opp_success": 0.8306010928961749,
-                "T_won": 1.9375,
-                "T_lost": 3.375
+                "count": 17,
+                "EG_total": 12.117647058823529,
+                "EG_success": 0.7135922330097088,
+                "Opp_total": 11.529411764705882,
+                "Opp_success": 0.8316326530612246,
+                "T_won": 1.9411764705882353,
+                "T_lost": 3.4705882352941178
             },
             "Scrum": {
-                "count": 16,
-                "EG_total": 8.75,
-                "EG_success": 0.9928571428571429,
-                "Opp_total": 6.75,
-                "Opp_success": 0.8055555555555556,
-                "T_won": 1.3125,
-                "T_lost": 0.0625
+                "count": 17,
+                "EG_total": 8.588235294117647,
+                "EG_success": 0.9863013698630136,
+                "Opp_total": 6.647058823529412,
+                "Opp_success": 0.7964601769911503,
+                "T_won": 1.3529411764705883,
+                "T_lost": 0.11764705882352941
             }
         },
         "2nd": {
@@ -164,6 +164,28 @@
                 "Opp_success": 0.9058823529411765,
                 "T_won": 0.8,
                 "T_lost": 1.0
+            }
+        }
+    },
+    "2024/26": {
+        "2nd": {
+            "Lineout": {
+                "count": 1,
+                "EG_total": 10.0,
+                "EG_success": 0.9,
+                "Opp_total": 10.0,
+                "Opp_success": 0.7,
+                "T_won": 3.0,
+                "T_lost": 1.0
+            },
+            "Scrum": {
+                "count": 1,
+                "EG_total": 7.0,
+                "EG_success": 1.0,
+                "Opp_total": 8.0,
+                "Opp_success": 0.875,
+                "T_won": 1.0,
+                "T_lost": 0.0
             }
         }
     }

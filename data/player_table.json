@@ -195,21 +195,6 @@
     "GameID":"London Irish (A)"
   },
   {
-    "Player":"Alex Maynard",
-    "TotalTries":4,
-    "TotalGames":11,
-    "TotalGames1":7,
-    "TotalGames2":4,
-    "Tries":0,
-    "Games":0,
-    "Games1":0,
-    "Games2":0,
-    "Position":"Prop",
-    "FirstSeason":"2019\/20",
-    "DebutSeason":"2019\/20",
-    "GameID":"-"
-  },
-  {
     "Player":"Alfie Fuller",
     "TotalTries":0,
     "TotalGames":1,
@@ -310,6 +295,21 @@
     "Games1":0,
     "Games2":0,
     "Position":"Flanker \/ Number 8",
+    "FirstSeason":"2019\/20",
+    "DebutSeason":"2019\/20",
+    "GameID":"-"
+  },
+  {
+    "Player":"Artemis Maynard",
+    "TotalTries":4,
+    "TotalGames":11,
+    "TotalGames1":7,
+    "TotalGames2":4,
+    "Tries":0,
+    "Games":0,
+    "Games1":0,
+    "Games2":0,
+    "Position":"Flanker",
     "FirstSeason":"2019\/20",
     "DebutSeason":"2019\/20",
     "GameID":"-"
@@ -2176,11 +2176,11 @@
   },
   {
     "Player":"Josh Weaver",
-    "TotalTries":1,
+    "TotalTries":2,
     "TotalGames":16,
     "TotalGames1":11,
     "TotalGames2":5,
-    "Tries":1,
+    "Tries":2,
     "Games":12,
     "Games1":10,
     "Games2":2,
@@ -2790,6 +2790,21 @@
     "GameID":"-"
   },
   {
+    "Player":"Oli Hodge",
+    "TotalTries":0,
+    "TotalGames":2,
+    "TotalGames1":0,
+    "TotalGames2":2,
+    "Tries":0,
+    "Games":2,
+    "Games1":0,
+    "Games2":2,
+    "Position":"Second Row",
+    "FirstSeason":"2024\/25",
+    "DebutSeason":"-",
+    "GameID":"-"
+  },
+  {
     "Player":"Oliver Roberts",
     "TotalTries":3,
     "TotalGames":18,
@@ -2802,21 +2817,6 @@
     "Position":"Wing",
     "FirstSeason":"2019\/20",
     "DebutSeason":"2019\/20",
-    "GameID":"-"
-  },
-  {
-    "Player":"Oll Hodge",
-    "TotalTries":0,
-    "TotalGames":2,
-    "TotalGames1":0,
-    "TotalGames2":2,
-    "Tries":0,
-    "Games":2,
-    "Games1":0,
-    "Games2":2,
-    "Position":null,
-    "FirstSeason":"2024\/25",
-    "DebutSeason":"-",
     "GameID":"-"
   },
   {
