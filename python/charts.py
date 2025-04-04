@@ -642,7 +642,7 @@ def lineout_success(types=types, df=None, file=None):
         )
     )
     if file:
-        file, embed_options={'renderer':'svg', 'actions': {'export': True, 'source':False, 'editor':True, 'compiled':False} }
+        chart.save(file, embed_options={'renderer':'svg', 'actions': {'export': True, 'source':False, 'editor':True, 'compiled':False} })
         hack_params_css(file)
     return chart
 
