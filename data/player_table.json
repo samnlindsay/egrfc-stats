@@ -1845,6 +1845,21 @@
     "GameID":"Crawley (A)"
   },
   {
+    "Player":"Jack Jacobs",
+    "TotalTries":1,
+    "TotalGames":14,
+    "TotalGames1":2,
+    "TotalGames2":12,
+    "Tries":0,
+    "Games":5,
+    "Games1":0,
+    "Games2":5,
+    "Position":"Hooker \/ Wing",
+    "FirstSeason":"2021\/22",
+    "DebutSeason":"2021\/22",
+    "GameID":"-"
+  },
+  {
     "Player":"Jack Skipworth",
     "TotalTries":18,
     "TotalGames":38,
@@ -1978,21 +1993,6 @@
     "FirstSeason":"2023\/24",
     "DebutSeason":"-",
     "GameID":"-"
-  },
-  {
-    "Player":"James Jacobs",
-    "TotalTries":1,
-    "TotalGames":14,
-    "TotalGames1":2,
-    "TotalGames2":12,
-    "Tries":0,
-    "Games":5,
-    "Games1":0,
-    "Games2":5,
-    "Position":"Prop",
-    "FirstSeason":"2021\/22",
-    "DebutSeason":"2021\/22",
-    "GameID":"University of Brighton (A)"
   },
   {
     "Player":"James Jenkins",
@@ -2731,11 +2731,11 @@
   },
   {
     "Player":"Noah Roberts",
-    "TotalTries":7,
+    "TotalTries":8,
     "TotalGames":36,
     "TotalGames1":28,
     "TotalGames2":8,
-    "Tries":6,
+    "Tries":7,
     "Games":21,
     "Games1":18,
     "Games2":3,
@@ -3886,11 +3886,11 @@
   },
   {
     "Player":"Will Roberts",
-    "TotalTries":30,
+    "TotalTries":31,
     "TotalGames":43,
     "TotalGames1":14,
     "TotalGames2":29,
-    "Tries":7,
+    "Tries":8,
     "Games":17,
     "Games1":10,
     "Games2":7,
