@@ -325,7 +325,7 @@
                         <div class="d-flex justify-content-end align-items-center">
                             <h4 class="me-3">Charts:</h4>
                             <div class="btn-group">
-                                <button class="btn custom-btn py-2" onclick="loadPage('Charts/league/results.html')">Results</button>
+                                <button class="btn custom-btn py-2" onclick="loadPage('Charts/league/results_2024-2025.html')">Results</button>
                                 <button class="btn custom-btn py-2" onclick="loadPage('Charts/league/squad_analysis.html')">Squad Analysis</button>
                             </div>
                         </div>
@@ -567,7 +567,7 @@
             });
 
             // Add league table (from 'Charts/league/table.html') to the top of #leagueSummary
-            fetch("Charts/league/table.html")
+            fetch("Charts/league/table_2024-2025.html")
                 .then(response => response.text())
                 .then(data => {
                     document.getElementById("leagueSummary").innerHTML = data + document.getElementById("leagueSummary").innerHTML;

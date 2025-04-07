@@ -76,7 +76,7 @@ def fetch_league_table(season="2024-2025", league="Counties 1 Surrey/Sussex", co
     html_table = generate_bootstrap_table(df)
 
     # Save to file (optional)
-    with open("Charts/league/table.html", "w") as f:
+    with open(f"Charts/league/table_{season}.html", "w") as f:
         f.write(html_table)
 
     # Output HTML

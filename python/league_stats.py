@@ -335,7 +335,7 @@ chart = (
     .configure_scale(bandPaddingInner=0.1).resolve_scale(color="shared")
 )
 
-file = f"Charts/league/{'women_' if women else ''}squad_analysis.html"
+file = f"Charts/league/{'women_' if women else ''}squad_analysis_{season}.html"
 chart.save(file, embed_options={'renderer':'svg', 'actions': {'export': True, 'source':False, 'editor':True, 'compiled':False} })
 hack_params_css(file, params=True)
 
@@ -395,7 +395,7 @@ def league_results_chart(season, table_order=False):
 
     if table_order:
         # Read league table from Charts/league/table.html
-        table_df = pd.read_html("Charts/league/table.html")[0]
+        table_df = pd.read_html(f"Charts/league/table_{season}.html")[0]
         teams = table_df["TEAM"].tolist()
     else:
         teams = pd_df["Team"].unique()
@@ -491,8 +491,8 @@ def league_results_chart(season, table_order=False):
             ),
             background="white")
     )
-    final_chart.save(f"Charts/league/{'women_' if women else ''}results.html", embed_options={'renderer':'svg', 'actions': {'export': True, 'source':False, 'editor':True, 'compiled':False} })
-    hack_params_css(f"Charts/league/{'women_' if women else ''}results.html", params=False)
+    final_chart.save(f"Charts/league/{'women_' if women else ''}results_{season}.html", embed_options={'renderer':'svg', 'actions': {'export': True, 'source':False, 'editor':True, 'compiled':False} })
+    hack_params_css(f"Charts/league/{'women_' if women else ''}results_{season}.html", params=False)
 
     return final_chart
 
