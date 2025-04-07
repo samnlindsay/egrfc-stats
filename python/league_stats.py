@@ -403,7 +403,7 @@ def league_results_chart(season, table_order=False):
     # Define color encoding
     color_scale = alt.Scale(
         domain=['Home Win', 'Home Win (LBP)', 'Away Win', 'Away Win (LBP)', 'Draw', 'To be played', None],
-        range=['#146f14', '#146f14a0', '#991515', '#991515a0', 'gray', 'white', 'black']
+        range=['#146f14', '#146f14a0', '#991515', '#991515a0', 'goldenrod', 'white', 'black']
     )
 
 
@@ -483,9 +483,10 @@ def league_results_chart(season, table_order=False):
             title=alt.Title(
                 text="League Results", 
                 subtitle=[
-                    "Teams ranked by average points difference (shown in black cells).",
+                    # "Teams ranked by average points difference (shown in black cells).",
+                    "Each row is a team's home games, and each column is a team's away games.",
                     "Lighter shaded results were within 7 points (i.e. losing bonus point).",
-                    "Click on a cell to highlight all of the home team's results."
+                    "Click on a cell to highlight all of the home team's results. (Double click to reset)",
                     ],
             ),
             background="white")
