@@ -19658,7 +19658,6 @@
             "https://images.englandrugby.com/club_images/7134.png"
         ],
         "players": [
-            {},
             {
                 "15": "Kieran Rodda",
                 "14": "Mark Lockhart",
@@ -19678,6 +19677,26 @@
                 "S1": "Oliver Low",
                 "S2": "Oscar Cruz",
                 "S3": "Matthew Shah"
+            },
+            {
+                "15": "Noah Roberts",
+                "14": "William Roberts",
+                "13": "Ted Hardisty",
+                "12": "Christopher May-Miller",
+                "11": "Jake Radcliffe",
+                "10": "Oliver Billin",
+                "9": "Jack Billin",
+                "8": "Tom Mooney",
+                "7": "Ryland Thomas",
+                "6": "Oscar Staples",
+                "5": "John Peaty",
+                "4": "Samuel Lindsay-McCall",
+                "3": "Reggie Harris",
+                "2": "Benjamin Tottman",
+                "1": "Michael Presland",
+                "S1": "Joshua Brimecombe",
+                "S2": "William Bramwell",
+                "S3": "Ben Marelli"
             }
         ]
     }

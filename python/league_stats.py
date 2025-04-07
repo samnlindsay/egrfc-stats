@@ -339,7 +339,7 @@ file = f"Charts/league/{'women_' if women else ''}squad_analysis.html"
 chart.save(file, embed_options={'renderer':'svg', 'actions': {'export': True, 'source':False, 'editor':True, 'compiled':False} })
 hack_params_css(file, params=True)
 
-def league_results_chart(season):
+def league_results_chart(season, table_order=False):
 
     df = pd.read_json(MATCH_DATA_FILE)[["season", "league", "date", "teams", "score"]]
     df = df[df["season"] == season]
@@ -393,6 +393,13 @@ def league_results_chart(season):
         .drop(columns=["index"])
     )
 
+    if table_order:
+        # Read league table from Charts/league/table.html
+        table_df = pd.read_html("Charts/league/table.html")[0]
+        teams = table_df["TEAM"].tolist()
+    else:
+        teams = pd_df["Team"].unique()
+
     # Define color encoding
     color_scale = alt.Scale(
         domain=['Home Win', 'Home Win (LBP)', 'Away Win', 'Away Win (LBP)', 'Draw', 'To be played', None],
@@ -407,11 +414,11 @@ def league_results_chart(season):
 
     heatmap = alt.Chart(df).mark_rect().encode(
         x=alt.X('Away:N', title="Away Team",
-            sort=pd_df["Team"].tolist()[::-1],
+            sort=teams[::-1],
             axis=alt.Axis(ticks=False, domain=False, labelAngle=30, orient="top", titleFontSize=32)
         ),
         y=alt.Y('Home:N', title="Home Team",
-            sort=pd_df["Team"].tolist(),
+            sort=teams,
             axis=alt.Axis(ticks=False, domain=False, labelAngle=0, labelFontSize=14, titleFontSize=32, labelFontWeight="bold")
         ),
         tooltip=['Home:N', 'Away:N', alt.Tooltip('score:N', title="Score"), alt.Tooltip('date:T', title="Date", format="%d %b %Y")],
@@ -436,11 +443,11 @@ def league_results_chart(season):
     # Add text annotations for scorelines
     textH = alt.Chart(df).mark_text(size=15, xOffset=-10, yOffset=5, fontWeight="bold").encode(
         x=alt.X('Away:N', title=None,
-            sort=pd_df["Team"].tolist()[::-1],
+            sort=teams[::-1],
             axis=alt.Axis(ticks=False, domain=False, labels=False)
         ),
         y=alt.Y('Home:N', title=None,
-            sort=pd_df["Team"].tolist(),
+            sort=teams,
             axis=alt.Axis(ticks=False, domain=False, labels=False)
         ),
         text=alt.Text('PF:N'),
@@ -449,11 +456,11 @@ def league_results_chart(season):
     )
     textA = alt.Chart(df).mark_text(size=14, xOffset=10, yOffset=-5, fontStyle="italic").encode(
         x=alt.X('Away:N', title=None,
-            sort=pd_df["Team"].tolist()[::-1],
+            sort=teams[::-1],
             axis=alt.Axis(ticks=False, domain=False, labels=False)
         ),
         y=alt.Y('Home:N', title=None,
-            sort=pd_df["Team"].tolist(),
+            sort=teams,
             axis=alt.Axis(ticks=False, domain=False, labels=False)
         ),
         text=alt.Text('PA:N'),
@@ -462,8 +469,8 @@ def league_results_chart(season):
     )
 
     textPD = alt.Chart(pd_df).mark_text(size=14, color="white", opacity=0.8).encode(
-        x=alt.X('Team:N', title=None, sort=pd_df["Team"].tolist()[::-1], axis=alt.Axis(ticks=False, domain=False, labels=False)),
-        y=alt.Y('Team:N', title=None, sort=pd_df["Team"].tolist(), axis=alt.Axis(ticks=False, domain=False, labels=False)),
+        x=alt.X('Team:N', title=None, sort=teams[::-1], axis=alt.Axis(ticks=False, domain=False, labels=False)),
+        y=alt.Y('Team:N', title=None, sort=teams, axis=alt.Axis(ticks=False, domain=False, labels=False)),
         text=alt.Text('PD:N', format="+d")
     )
 
@@ -488,4 +495,4 @@ def league_results_chart(season):
 
     return final_chart
 
-league_results_chart("2024-2025")
+league_results_chart("2024-2025", table_order=True)
