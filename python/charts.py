@@ -254,7 +254,19 @@ def plot_starts_by_position(df=None, min=0, file=None):
         value=min
     )
 
-    # altair bar chart of starts by position
+    # Define the number of top players to highlight based on position
+    top_players = {
+        "Hooker": 1,
+        "Scrum Half": 1,
+        "Fly Half": 1,
+        "Prop": 2,
+        "Second Row": 2,
+        "Centre": 2,
+        "Back Row": 3,
+        "Back Three": 3
+    }
+
+    # Add a calculated field to determine the rank of players within each position
     chart = (
         alt.Chart(df if df is not None else {"name": "df", "url":'https://raw.githubusercontent.com/samnlindsay/egrfc-stats/main/data/players.json',"format":{'type':"json"}})
         .mark_bar()
@@ -280,17 +292,33 @@ def plot_starts_by_position(df=None, min=0, file=None):
                 scale=game_type_scale,
                 legend=alt.Legend(title=None, orient="bottom", direction="horizontal", titleOrient="left")
             ),
-            order=alt.Order('GameType:N', sort='descending')
+            order=alt.Order('GameType:N', sort='descending'),
+            opacity=alt.condition(
+                "(datum.Rank <= 3 && (datum.Position == 'Back Row' | datum.Position == 'Back Three')) || (datum.Rank <= 2 && (datum.Position == 'Prop' | datum.Position == 'Second Row' || datum.Position == 'Centre' )) || datum.Rank <= 1",
+                alt.value(1),
+                alt.value(0.5)
+            )
         )
         .resolve_scale(y="independent", x="independent")
         .transform_filter("datum.Number <= 15")
         .properties(width=150, height=alt.Step(14), title=alt.Title(text="Starts (by position)", subtitle="Not including bench appearances."))
         .add_params(legend, season_selection, squad_selection, min_selection)
         .transform_joinaggregate(TotalGames="count()", groupby=["Player", "Position"])
+        .transform_window(
+            Rank="rank(count())",
+            groupby=["Position"],
+            sort=[alt.SortField("count()", order="descending")]
+        )
         .transform_filter(f"datum.TotalGames >= {min_selection.name}")
         .transform_filter(f"datum.Season == {season_selection.name} | {season_selection.name} == 'All'")
         .transform_filter(f"datum.Squad == {squad_selection.name} | {squad_selection.name} == 'Total'")
         .transform_filter(legend)
+        .transform_joinaggregate(Games="count()", groupby=["Player", "Position"])
+        .transform_window(
+            Rank="dense_rank(Games)",
+            groupby=["Position"],
+            sort=[{"field": "Games", "order": "descending"}]
+        )
     )
     if file:
         chart.save(file, embed_options={'renderer':'svg', 'actions': {'export': True, 'source':False, 'editor':True, 'compiled':False} })
