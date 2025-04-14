@@ -195,6 +195,21 @@
     "GameID":"London Irish (A)"
   },
   {
+    "Player":"Alex Maynard",
+    "TotalTries":4,
+    "TotalGames":11,
+    "TotalGames1":7,
+    "TotalGames2":4,
+    "Tries":0,
+    "Games":0,
+    "Games1":0,
+    "Games2":0,
+    "Position":"Prop",
+    "FirstSeason":"2019\/20",
+    "DebutSeason":"2019\/20",
+    "GameID":"-"
+  },
+  {
     "Player":"Alfie Fuller",
     "TotalTries":0,
     "TotalGames":1,
@@ -295,21 +310,6 @@
     "Games1":0,
     "Games2":0,
     "Position":"Flanker \/ Number 8",
-    "FirstSeason":"2019\/20",
-    "DebutSeason":"2019\/20",
-    "GameID":"-"
-  },
-  {
-    "Player":"Artemis Maynard",
-    "TotalTries":4,
-    "TotalGames":11,
-    "TotalGames1":7,
-    "TotalGames2":4,
-    "Tries":0,
-    "Games":0,
-    "Games1":0,
-    "Games2":0,
-    "Position":"Flanker",
     "FirstSeason":"2019\/20",
     "DebutSeason":"2019\/20",
     "GameID":"-"
@@ -2010,21 +2010,6 @@
     "GameID":"Lewes (A)"
   },
   {
-    "Player":"James Mitchell",
-    "TotalTries":5,
-    "TotalGames":11,
-    "TotalGames1":6,
-    "TotalGames2":5,
-    "Tries":0,
-    "Games":1,
-    "Games1":0,
-    "Games2":1,
-    "Position":"Scrum Half",
-    "FirstSeason":"2016\/17",
-    "DebutSeason":"2017\/18",
-    "GameID":"-"
-  },
-  {
     "Player":"Jamie Gache",
     "TotalTries":1,
     "TotalGames":10,
@@ -3686,6 +3671,21 @@
     "Games2":4,
     "Position":"Second Row \/ Flanker",
     "FirstSeason":"2017\/18",
+    "DebutSeason":"2017\/18",
+    "GameID":"-"
+  },
+  {
+    "Player":"Titch Mitchell",
+    "TotalTries":5,
+    "TotalGames":11,
+    "TotalGames1":6,
+    "TotalGames2":5,
+    "Tries":0,
+    "Games":1,
+    "Games1":0,
+    "Games2":1,
+    "Position":"Centre \/ Wing",
+    "FirstSeason":"2016\/17",
     "DebutSeason":"2017\/18",
     "GameID":"-"
   },
