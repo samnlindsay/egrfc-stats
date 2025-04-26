@@ -131,7 +131,7 @@ def team_sheets():
     team['Home/Away'] = team['Opposition'].apply(lambda x: "H" if "(H)" in x else "A")
     team["Opposition"] = team["Opposition"].apply(lambda x: x.replace("(H)","").replace("(A)","").strip())
     team["GameType"] = team["Competition"].apply(
-        lambda x: "Friendly" if x=="Friendly" else ("Cup" if re.search("Cup|Plate|Vase", x) else "League")
+        lambda x: "Friendly" if x=="Friendly" else ("Cup" if re.search("Cup|Plate|Vase|Shield", x) else "League")
     )
     # If Score is not null and contains a hyphen, split into PF and PA
     team["PF"] = team.apply(lambda x: x["Score"].split("-")[0 if x["Home/Away"] == "H" else 1], axis=1)

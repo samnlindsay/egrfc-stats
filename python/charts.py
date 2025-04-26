@@ -254,19 +254,6 @@ def plot_starts_by_position(df=None, min=0, file=None):
         value=min
     )
 
-    # Define the number of top players to highlight based on position
-    top_players = {
-        "Hooker": 1,
-        "Scrum Half": 1,
-        "Fly Half": 1,
-        "Prop": 2,
-        "Second Row": 2,
-        "Centre": 2,
-        "Back Row": 3,
-        "Back Three": 3
-    }
-
-    # Add a calculated field to determine the rank of players within each position
     chart = (
         alt.Chart(df if df is not None else {"name": "df", "url":'https://raw.githubusercontent.com/samnlindsay/egrfc-stats/main/data/players.json',"format":{'type':"json"}})
         .mark_bar()
@@ -285,7 +272,8 @@ def plot_starts_by_position(df=None, min=0, file=None):
                 "Player:N", 
                 "Position:N", 
                 alt.Tooltip("count()", title="Starts"), 
-                'GameType:N'
+                'GameType:N',
+                "Rank:N",
             ],      
             color=alt.Color(
                 "GameType:N",

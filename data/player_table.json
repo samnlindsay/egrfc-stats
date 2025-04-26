@@ -195,6 +195,21 @@
     "GameID":"London Irish (A)"
   },
   {
+    "Player":"Alex Maynard",
+    "TotalTries":4,
+    "TotalGames":11,
+    "TotalGames1":7,
+    "TotalGames2":4,
+    "Tries":0,
+    "Games":0,
+    "Games1":0,
+    "Games2":0,
+    "Position":"Prop",
+    "FirstSeason":"2019\/20",
+    "DebutSeason":"2019\/20",
+    "GameID":"-"
+  },
+  {
     "Player":"Alfie Fuller",
     "TotalTries":0,
     "TotalGames":1,
@@ -295,21 +310,6 @@
     "Games1":0,
     "Games2":0,
     "Position":"Flanker \/ Number 8",
-    "FirstSeason":"2019\/20",
-    "DebutSeason":"2019\/20",
-    "GameID":"-"
-  },
-  {
-    "Player":"Artemis Maynard",
-    "TotalTries":4,
-    "TotalGames":11,
-    "TotalGames1":7,
-    "TotalGames2":4,
-    "Tries":0,
-    "Games":0,
-    "Games1":0,
-    "Games2":0,
-    "Position":"Flanker",
     "FirstSeason":"2019\/20",
     "DebutSeason":"2019\/20",
     "GameID":"-"
@@ -1845,21 +1845,6 @@
     "GameID":"Crawley (A)"
   },
   {
-    "Player":"Jack Jacobs",
-    "TotalTries":1,
-    "TotalGames":14,
-    "TotalGames1":2,
-    "TotalGames2":12,
-    "Tries":0,
-    "Games":5,
-    "Games1":0,
-    "Games2":5,
-    "Position":"Hooker \/ Wing",
-    "FirstSeason":"2021\/22",
-    "DebutSeason":"2021\/22",
-    "GameID":"-"
-  },
-  {
     "Player":"Jack Skipworth",
     "TotalTries":18,
     "TotalGames":38,
@@ -1993,6 +1978,21 @@
     "FirstSeason":"2023\/24",
     "DebutSeason":"-",
     "GameID":"-"
+  },
+  {
+    "Player":"James Jacobs",
+    "TotalTries":1,
+    "TotalGames":14,
+    "TotalGames1":2,
+    "TotalGames2":12,
+    "Tries":0,
+    "Games":5,
+    "Games1":0,
+    "Games2":5,
+    "Position":"Prop",
+    "FirstSeason":"2021\/22",
+    "DebutSeason":"2021\/22",
+    "GameID":"University of Brighton (A)"
   },
   {
     "Player":"James Jenkins",
@@ -2942,13 +2942,13 @@
   {
     "Player":"Oscar Staples",
     "TotalTries":0,
-    "TotalGames":26,
+    "TotalGames":25,
     "TotalGames1":13,
-    "TotalGames2":13,
+    "TotalGames2":12,
     "Tries":0,
-    "Games":16,
+    "Games":15,
     "Games1":9,
-    "Games2":7,
+    "Games2":6,
     "Position":"Flanker \/ Second Row",
     "FirstSeason":"2023\/24",
     "DebutSeason":"2023\/24",
@@ -2994,7 +2994,7 @@
     "Games":6,
     "Games1":2,
     "Games2":4,
-    "Position":"Centre \/ Flanker \/ Second Row",
+    "Position":"Second Row \/ Centre \/ Flanker",
     "FirstSeason":"2024\/25",
     "DebutSeason":"2024\/25",
     "GameID":"Trinity (A)"
@@ -3144,7 +3144,7 @@
     "Games":12,
     "Games1":4,
     "Games2":8,
-    "Position":"Centre \/ Fly Half",
+    "Position":"Fly Half \/ Centre",
     "FirstSeason":"2023\/24",
     "DebutSeason":"2023\/24",
     "GameID":"Weybridge Vandals (H)"
