@@ -195,6 +195,21 @@
     "GameID":"London Irish (A)"
   },
   {
+    "Player":"Alex Maynard",
+    "TotalTries":4,
+    "TotalGames":11,
+    "TotalGames1":7,
+    "TotalGames2":4,
+    "Tries":0,
+    "Games":0,
+    "Games1":0,
+    "Games2":0,
+    "Position":"Prop",
+    "FirstSeason":"2019\/20",
+    "DebutSeason":"2019\/20",
+    "GameID":"-"
+  },
+  {
     "Player":"Alfie Fuller",
     "TotalTries":0,
     "TotalGames":1,
@@ -295,21 +310,6 @@
     "Games1":0,
     "Games2":0,
     "Position":"Flanker \/ Number 8",
-    "FirstSeason":"2019\/20",
-    "DebutSeason":"2019\/20",
-    "GameID":"-"
-  },
-  {
-    "Player":"Artemis Maynard",
-    "TotalTries":4,
-    "TotalGames":11,
-    "TotalGames1":7,
-    "TotalGames2":4,
-    "Tries":0,
-    "Games":0,
-    "Games1":0,
-    "Games2":0,
-    "Position":"Flanker",
     "FirstSeason":"2019\/20",
     "DebutSeason":"2019\/20",
     "GameID":"-"
@@ -459,7 +459,7 @@
     "Games":5,
     "Games1":3,
     "Games2":2,
-    "Position":"Full Back",
+    "Position":"Full Back \/ Wing",
     "FirstSeason":"2024\/25",
     "DebutSeason":"2024\/25",
     "GameID":"London Cornish (A)"
@@ -1269,7 +1269,7 @@
     "Games":1,
     "Games1":1,
     "Games2":0,
-    "Position":null,
+    "Position":"Flanker",
     "FirstSeason":"2024\/25",
     "DebutSeason":"2024\/25",
     "GameID":"Ashford (A)"
@@ -1860,6 +1860,21 @@
     "GameID":"Crawley (A)"
   },
   {
+    "Player":"Jack Jacobs",
+    "TotalTries":1,
+    "TotalGames":14,
+    "TotalGames1":2,
+    "TotalGames2":12,
+    "Tries":0,
+    "Games":5,
+    "Games1":0,
+    "Games2":5,
+    "Position":"Hooker \/ Wing",
+    "FirstSeason":"2021\/22",
+    "DebutSeason":"2021\/22",
+    "GameID":"-"
+  },
+  {
     "Player":"Jack Skipworth",
     "TotalTries":18,
     "TotalGames":38,
@@ -1993,21 +2008,6 @@
     "FirstSeason":"2023\/24",
     "DebutSeason":"-",
     "GameID":"-"
-  },
-  {
-    "Player":"James Jacobs",
-    "TotalTries":1,
-    "TotalGames":14,
-    "TotalGames1":2,
-    "TotalGames2":12,
-    "Tries":0,
-    "Games":5,
-    "Games1":0,
-    "Games2":5,
-    "Position":"Prop",
-    "FirstSeason":"2021\/22",
-    "DebutSeason":"2021\/22",
-    "GameID":"University of Brighton (A)"
   },
   {
     "Player":"James Jenkins",
@@ -2754,7 +2754,7 @@
     "Games":23,
     "Games1":20,
     "Games2":3,
-    "Position":"Scrum Half \/ Fly Half \/ Full Back",
+    "Position":"Scrum Half \/ Full Back \/ Fly Half",
     "FirstSeason":"2022\/23",
     "DebutSeason":"2023\/24",
     "GameID":"Old Colfeians (H)"
