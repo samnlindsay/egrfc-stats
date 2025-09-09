@@ -65,7 +65,7 @@
             </table>
         </div>
         <div class="col-6 px-0">
-            <img src="img/headshots/ChrisMayMiller.png" class="img-fluid pt-auto" alt="Player" />
+            <img src="img/headshots/RoryEvans.png" class="img-fluid pt-auto" alt="Player" />
         </div>
         <div id="playerChart">
             <iframe src="Charts/player_appearances.html" id="chartFrame" class="col-12" style="border: none; height:100vh; max-height: 600px; width:100%; overflow: hidden;"></iframe>
@@ -83,7 +83,7 @@
             .then(players => {
                 players.forEach(player => {
                     const option = document.createElement('option');
-                    if (player.Player === 'Chris May-Miller') {
+                    if (player.Player === 'Rory Evans') {
                         option.selected = true;
                         populatePlayerStats(player.Player);
                     }
@@ -158,7 +158,7 @@
 
     </script>
 
-    <!-- On loading the page, simulate clicking on the dropdown and selecting "Chris May-Miller" -->
+    <!-- On loading the page, simulate clicking on the dropdown and selecting "Rory Evans" -->
     <script>
         window.onload = function () {
             const event = new Event('change');
