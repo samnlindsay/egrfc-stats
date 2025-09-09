@@ -393,12 +393,11 @@
         document.querySelectorAll('input[name="gameTypeCheck"]')
             .forEach(checkbox => checkbox.addEventListener("change", renderCharts));
 
-        // Multi-select change events (wait for jQuery to be available)
         $(document).ready(function () {
             $('#seasonSelect').on('changed.bs.select', renderCharts);
             $('#positionSelect').on('changed.bs.select', renderCharts);
 
-            // Handle season-based filter enabling/disabling
+            // Handle season-based filter enabling/disabling - FIXED VERSION
             $('#seasonSelect').on('changed.bs.select', function () {
                 const selectedSeasons = $(this).val();
                 const hasOldSeasons = selectedSeasons && selectedSeasons.some(season => season < "2021/22");
@@ -410,8 +409,12 @@
                         el.disabled = true;
                     });
 
-                    $('#positionSelect').selectpicker('deselectAll');
-                    $('#positionSelect').prop('disabled', true).selectpicker('refresh');
+                    // Only refresh if the state actually changes
+                    if (!$('#positionSelect').prop('disabled')) {
+                        $('#positionSelect').selectpicker('deselectAll');
+                        $('#positionSelect').prop('disabled', true);
+                        $('#positionSelect').selectpicker('refresh');
+                    }
 
                     document.getElementById("includeBenchSwitch").checked = true;
                     document.getElementById("includeBenchSwitch").disabled = true;
@@ -422,16 +425,19 @@
                         el.checked = true;
                     });
 
-                    $('#positionSelect').prop('disabled', false).selectpicker('refresh');
+                    // Only refresh if the state actually changes
+                    if ($('#positionSelect').prop('disabled')) {
+                        $('#positionSelect').prop('disabled', false);
+                        $('#positionSelect').selectpicker('refresh');
+                    }
                     document.getElementById("includeBenchSwitch").disabled = false;
                 }
-                renderCharts();
+                // Don't call renderCharts here since it's already called by the main event listener
             });
         });
 
         document.getElementById("includeBenchSwitch").addEventListener("change", renderCharts);
 
-        // Better approach - avoid destroying the selectpicker
         document.querySelectorAll('#chartTabs button').forEach(tab => {
             tab.addEventListener('click', (event) => {
                 event.preventDefault();
@@ -443,13 +449,18 @@
 
                 // Manage filter availability based on active tab
                 const tabId = tab.getAttribute('id');
+                let needsRefresh = false;
 
                 if (tabId === 'captains-tab') {
                     // Captains tab: disable position and bench filters
                     if (typeof $ !== 'undefined') {
                         $('#positionSelect').selectpicker('deselectAll');
-                        $('#positionSelect').prop('disabled', true);
-                        $('#positionSelect').selectpicker('refresh');
+
+                        // Only change state if needed
+                        if (!$('#positionSelect').prop('disabled')) {
+                            $('#positionSelect').prop('disabled', true);
+                            needsRefresh = true;
+                        }
                     }
                     document.getElementById("includeBenchSwitch").checked = true;
                     document.getElementById("includeBenchSwitch").disabled = true;
@@ -460,17 +471,24 @@
                         const hasOldSeasons = selectedSeasons && selectedSeasons.some(season => season < "2021/22");
 
                         if (!hasOldSeasons) {
-                            $('#positionSelect').prop('disabled', false);
-                            $('#positionSelect').selectpicker('refresh');
+                            // Only change state if needed
+                            if ($('#positionSelect').prop('disabled')) {
+                                $('#positionSelect').prop('disabled', false);
+                                needsRefresh = true;
+                            }
                             document.getElementById("includeBenchSwitch").disabled = false;
                         }
                     }
                 }
 
+                // Only refresh if the disabled state actually changed
+                if (needsRefresh && typeof $ !== 'undefined') {
+                    $('#positionSelect').selectpicker('refresh');
+                }
+
                 // Render charts after DOM updates
                 setTimeout(renderCharts, 50);
             });
-
         });
 
         // Toggle collapsible filter section
