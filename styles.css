@@ -17,7 +17,7 @@ h1,
 h2,
 h3,
 h4 {
-    font-family: 'PT Sans Narrow', sans-serif;
+    font-family: 'PT Sans Narrow', sans-serif !important;
     color: var(--light-color);
 }
 
@@ -129,7 +129,7 @@ nav.navbar {
     left: 0;
     background-color: var(--primary-color);
     padding: 0.5rem 1rem;
-    font-family: 'PT Sans Narrow', sans-serif;
+    font-family: 'PT Sans Narrow', sans-serif !important;
 }
 
 .dropdown-menu {
@@ -236,12 +236,12 @@ nav.navbar {
 }
 
 #selectedPlayer {
-    font-family: 'PT Sans Narrow', sans-serif;
+    font-family: 'PT Sans Narrow', sans-serif !important;
     font-size: 3rem;
     color: var(--light-color);
 }
 #playerPosition {
-    font-family: 'PT Sans Narrow', sans-serif;
+    font-family: 'PT Sans Narrow', sans-serif !important;
     font-size: 1.5rem;
     font-style: italic;
     color: var(--light-color);
@@ -255,7 +255,7 @@ nav.navbar {
 }
 
 #ppTitle {
-    font-family: 'PT Sans Narrow', sans-serif;
+    font-family: 'PT Sans Narrow', sans-serif !important;
     font-size: 4rem;
     font-weight: bold;
     color: var(--primary-color);
