@@ -599,15 +599,16 @@
         });
 
         function embedChart(selector, spec, customOptions = {}) {
+            console.log('📊 embedChart called for:', selector);
+            console.log('📊 Spec filters:', spec.transform?.filter(t => t._externalFilter));
+
             // Make chart responsive by removing fixed width/height
             if (spec.width) {
-                spec.width = Math.max(600, spec.width); // Minimum width of 800px
+                spec.width = Math.max(600, spec.width); // Minimum width of 600px
             }
             if (spec.height && window.innerWidth <= 768) {
                 spec.height = Math.max(spec.height * 0.8, 400); // Slightly reduce height on mobile
             }
-
-            // const scaleFactor = window.innerWidth <= 768 ? 2 : 1; // 2x scale on mobile
 
             const defaultOptions = {
                 actions: false,
@@ -622,43 +623,131 @@
             };
 
             const embedOptions = { ...defaultOptions, ...customOptions };
-            return vegaEmbed(selector, spec, embedOptions);
+
+            console.log('📊 About to call vegaEmbed for:', selector);
+            return vegaEmbed(selector, spec, embedOptions)
+                .then(result => {
+                    console.log('✅ vegaEmbed completed for:', selector);
+                    return result;
+                })
+                .catch(error => {
+                    console.error('❌ vegaEmbed failed for:', selector, error);
+                    throw error;
+                });
         }
 
         // Function to render all charts with current filters
         function renderCharts() {
+            console.log('🔄 renderCharts called at:', new Date().toISOString());
+            console.log('🔄 About to render all charts...');
+
             renderAppearancesChart();
             renderCaptainsChart();
             renderPointScorersChart();
             renderCardsChart();
             renderTeamSheetsChart();
+
+            console.log('🔄 All chart render functions called');
         }
 
+        /* filepath: /Users/samlindsay/Documents/Projects/Personal/EGRFC/egrfc-stats/python/test.html */
+        /* Alternative: Replace the chart rendering functions with this more aggressive approach: */
+
         function renderAppearancesChart() {
+            console.log('🎯 Rendering Player Appearances chart...');
+            const parentContainer = document.getElementById('apps-content');
+            const oldContainer = document.getElementById('player-apps-vis');
+
+            // Remove old container completely
+            if (oldContainer) {
+                oldContainer.remove();
+            }
+
+            // Create fresh container
+            const newContainer = document.createElement('div');
+            newContainer.id = 'player-apps-vis';
+            parentContainer.appendChild(newContainer);
+
             let spec = JSON.parse(JSON.stringify(playerAppsSpec)); // deep copy
             applyFilters(spec, true, true, true); // Apply all filters
             embedChart("#player-apps-vis", spec);
         }
 
         function renderCaptainsChart() {
+            console.log('🎯 Rendering Captains chart...');
+            const parentContainer = document.getElementById('captains-content');
+            const oldContainer = document.getElementById('captains-vis');
+
+            // Remove old container completely
+            if (oldContainer) {
+                oldContainer.remove();
+            }
+
+            // Create fresh container
+            const newContainer = document.createElement('div');
+            newContainer.id = 'captains-vis';
+            parentContainer.appendChild(newContainer);
+
             let spec = JSON.parse(JSON.stringify(captainsSpec)); // deep copy
             applyFilters(spec, false, false, true); // Skip bench and position filters
             embedChart("#captains-vis", spec);
         }
 
         function renderPointScorersChart() {
+            console.log('🎯 Rendering Point Scorers chart...');
+            const parentContainer = document.getElementById('point-scorers-content');
+            const oldContainer = document.getElementById('point-scorers-vis');
+
+            // Remove old container completely
+            if (oldContainer) {
+                oldContainer.remove();
+            }
+
+            // Create fresh container
+            const newContainer = document.createElement('div');
+            newContainer.id = 'point-scorers-vis';
+            parentContainer.appendChild(newContainer);
+
             let spec = JSON.parse(JSON.stringify(pointScorersSpec)); // deep copy
             applyFilters(spec, false, false, false);
             embedChart("#point-scorers-vis", spec);
         }
 
         function renderCardsChart() {
+            console.log('🎯 Rendering Cards chart...');
+            const parentContainer = document.getElementById('cards-content');
+            const oldContainer = document.getElementById('cards-vis');
+
+            // Remove old container completely
+            if (oldContainer) {
+                oldContainer.remove();
+            }
+
+            // Create fresh container
+            const newContainer = document.createElement('div');
+            newContainer.id = 'cards-vis';
+            parentContainer.appendChild(newContainer);
+
             let spec = JSON.parse(JSON.stringify(cardsSpec)); // deep copy
             applyFilters(spec, false, false, false); // Same as point scorers: no bench, no position, no competition filters
             embedChart("#cards-vis", spec);
         }
 
         function renderTeamSheetsChart() {
+            console.log('🎯 Rendering Team Sheets chart...');
+            const parentContainer = document.getElementById('team-sheets-content');
+            const oldContainer = document.getElementById('team-sheets-vis');
+
+            // Remove old container completely
+            if (oldContainer) {
+                oldContainer.remove();
+            }
+
+            // Create fresh container
+            const newContainer = document.createElement('div');
+            newContainer.id = 'team-sheets-vis';
+            parentContainer.appendChild(newContainer);
+
             let spec = JSON.parse(JSON.stringify(teamSheetsSpec)); // deep copy
             let filters = applyFilters(spec, true, true, true); // Apply all filters
             console.log("Team Sheets Filters:", filters);
@@ -681,217 +770,39 @@
             }
         }
 
-        function handleSeasonChange() {
-            const selectedSeasons = $('#seasonSelect').val() || [];
-            const hasOldSeasons = selectedSeasons.some(season => season < "2021/22") ||
-                selectedSeasons.length === $('#seasonSelect option').length;
-
-            // Get current active tab
-            const activeTab = document.querySelector('#chartTabs button.active');
-            const tabId = activeTab ? activeTab.getAttribute('id') : 'apps-tab';
-
-            if (hasOldSeasons) {
-                // Disable position filter when old seasons selected
-                if (!$('#positionSelect').prop('disabled')) {
-                    updateSelectpicker('#positionSelect', ($el) => {
-                        $el.val([]);
-                        $el.prop('disabled', true);
-                    });
-                }
-
-                // Disable other filters
-                document.querySelectorAll('.btn-check[name="gameTypeCheck"]').forEach(el => {
-                    el.checked = false;
-                    el.disabled = true;
-                });
-                document.getElementById("includeBenchSwitch").checked = true;
-                document.getElementById("includeBenchSwitch").disabled = true;
-
-            } else {
-                // Only enable position filter for Player Appearances tab
-                // Team Sheets tab keeps position enabled always (old seasons are already disabled)
-                if (tabId === 'apps-tab' || tabId === 'team-sheets-tab') {
-                    const selectedPositions = $('#positionSelect').val() || [];
-                    if (selectedPositions.length === 0) {
-                        // Only enable if no positions are selected
-                        if ($('#positionSelect').prop('disabled')) {
-                            updateSelectpicker('#positionSelect', ($el) => {
-                                $el.prop('disabled', false);
-                                $el.val([]);
-                            });
-                        }
-
-                        // Re-enable other filters (except for team sheets where bench is always disabled)
-                        if (tabId === 'apps-tab') {
-                            document.querySelectorAll('.btn-check[name="gameTypeCheck"]').forEach(el => {
-                                el.disabled = false;
-                                el.checked = true;
-                            });
-                            document.getElementById("includeBenchSwitch").disabled = false;
-                        }
-                    }
-                }
-                // For other tabs (captains, point-scorers, cards), keep position disabled
-            }
-
-            renderCharts();
-        }
-
-        function handlePositionChange() {
-            const selectedPositions = $('#positionSelect').val() || [];
-            const selectedSeasons = $('#seasonSelect').val() || [];
-
-            if (selectedPositions.length > 0) {
-                // Filter out old seasons from selection and disable old season options
-                const newSeasons = selectedSeasons.filter(season => season >= "2021/22");
-
-                updateSelectpicker('#seasonSelect', ($el) => {
-                    // Disable old season options
-                    $el.find('option').each(function () {
-                        if ($(this).val() < "2021/22" && $(this).val() !== "2020/21") {
-                            $(this).prop('disabled', true);
-                        } else if ($(this).val() !== "2020/21") {
-                            $(this).prop('disabled', false);
-                        }
-                    });
-
-                    // Set the filtered season selection
-                    $el.val(newSeasons);
-                });
-
-                $('#seasonSelect').off('changed.bs.select').on('changed.bs.select', handleSeasonChange);
-
-            } else {
-                // Re-enable old season options when no positions selected
-                updateSelectpicker('#seasonSelect', ($el) => {
-                    $el.find('option').each(function () {
-                        if ($(this).val() !== "2020/21") {
-                            $(this).prop('disabled', false);
-                        }
-                    });
-                    $el.val(selectedSeasons);
-                });
-
-                $('#seasonSelect').off('changed.bs.select').on('changed.bs.select', handleSeasonChange);
-            }
-
-            renderCharts();
-        }
-
         $(document).ready(function () {
+            console.log('🔧 Document ready, initializing...');
+
+            // Initialize selectpicker
             $('.selectpicker').selectpicker();
 
-            // SMART FILTERING LOGIC - Only update when state actually needs to change
-            function updateFilterStates(triggerElement) {
-                const selectedSeasons = $('#seasonSelect').val() || [];
-                const selectedPositions = $('#positionSelect').val() || [];
+            // Simple event listeners - ONE TIME ONLY
+            $('#seasonSelect').on('changed.bs.select', function () {
+                console.log('Season changed');
+                renderCharts();
+            });
 
-                // Check if old seasons are selected
-                const hasOldSeasons = selectedSeasons.some(season => season < "2020/21") ||
-                    selectedSeasons.length === $('#seasonSelect option').length;
+            $('#positionSelect').on('changed.bs.select', function () {
+                console.log('Position changed');
+                renderCharts();
+            });
 
-                if (hasOldSeasons) {
-                    // OLD SEASONS: Only update position dropdown if it's not already disabled
-                    if (!$('#positionSelect').prop('disabled')) {
-                        updateSelectpicker('#positionSelect', ($el) => {
-                            $el.val([]);
-                            $el.prop('disabled', true);
-                        });
-                    }
-
-                    document.querySelectorAll('.btn-check[name="gameTypeCheck"]').forEach(el => {
-                        el.checked = false;
-                        el.disabled = true;
-                    });
-
-                    document.getElementById("includeBenchSwitch").checked = true;
-                    document.getElementById("includeBenchSwitch").disabled = true;
-
-                } else if (selectedPositions.length > 0) {
-                    // POSITIONS SELECTED: Only update if old seasons are actually selected
-                    const needsSeasonUpdate = selectedSeasons.some(season => season < "2020/21");
-
-                    // Check if old seasons need to be disabled by filtering options manually
-                    const oldSeasonsNeedDisabling = $('#seasonSelect option').filter(function () {
-                        const value = $(this).val();
-                        return value < "2020/21" && !$(this).prop('disabled');
-                    }).length > 0;
-
-                    if (needsSeasonUpdate || oldSeasonsNeedDisabling) {
-                        const newSeasons = selectedSeasons.filter(season => season >= "2020/21");
-
-                        updateSelectpicker('#seasonSelect', ($el) => {
-                            $el.find('option').each(function () {
-                                if ($(this).val() < "2020/21") {
-                                    $(this).prop('disabled', true);
-                                } else if ($(this).val() > "2020/21") {
-                                    $(this).prop('disabled', false);
-                                }
-                            });
-
-                            if (newSeasons.length !== selectedSeasons.length) {
-                                $el.val(newSeasons);
-                            } else {
-                                $el.val(selectedSeasons);
-                            }
-                        });
-                    }
-
-                } else {
-                    // DEFAULT STATE: Only update if things are actually disabled
-                    let needsUpdate = false;
-
-                    if ($('#positionSelect').prop('disabled')) {
-                        updateSelectpicker('#positionSelect', ($el) => {
-                            $el.prop('disabled', false);
-                            $el.val(selectedPositions);
-                        });
-                        needsUpdate = true;
-                    }
-
-                    // Check if old seasons are disabled by filtering options manually
-                    const oldSeasonsDisabled = $('#seasonSelect option').filter(function () {
-                        const value = $(this).val();
-                        return value < "2020/21" && $(this).prop('disabled');
-                    }).length > 0;
-
-                    if (oldSeasonsDisabled) {
-                        updateSelectpicker('#seasonSelect', ($el) => {
-                            $el.find('option').each(function () {
-                                if ($(this).val() < "2020/21") {
-                                    $(this).prop('disabled', false);
-                                }
-                            });
-                            $el.val(selectedSeasons);
-                        });
-                        needsUpdate = true;
-                    }
-
-                    if (needsUpdate) {
-                        document.querySelectorAll('.btn-check[name="gameTypeCheck"]').forEach(el => {
-                            el.disabled = false;
-                            el.checked = true;
-                        });
-                        document.getElementById("includeBenchSwitch").disabled = false;
-                    }
-                }
-            }
-
-            // Attach event listeners using named functions
-            $('#seasonSelect').on('changed.bs.select', handleSeasonChange);
-            $('#positionSelect').on('changed.bs.select', handlePositionChange);
-
-            // Simple event listeners for other filters - NO state updates
             document.querySelectorAll('input[name="squadRadio"]')
-                .forEach(radio => radio.addEventListener("change", renderCharts));
+                .forEach(radio => radio.addEventListener("change", function () {
+                    console.log('Squad changed');
+                    renderCharts();
+                }));
 
             document.querySelectorAll('input[name="gameTypeCheck"]')
-                .forEach(checkbox => checkbox.addEventListener("change", renderCharts));
+                .forEach(checkbox => checkbox.addEventListener("change", function () {
+                    console.log('Competition changed');
+                    renderCharts();
+                }));
 
-            document.getElementById("includeBenchSwitch").addEventListener("change", renderCharts);
-
-            /* filepath: /Users/samlindsay/Documents/Projects/Personal/EGRFC/egrfc-stats/python/test.html */
-            /* Update the sidebar toggle JavaScript (around line 875) to make the entire strip clickable: */
+            document.getElementById("includeBenchSwitch").addEventListener("change", function () {
+                console.log('Bench toggle changed');
+                renderCharts();
+            });
 
             // Sidebar toggle functionality with backdrop
             setTimeout(function () {
@@ -982,13 +893,13 @@
             }, 100);
         });
 
-        // SIMPLIFIED APPLY FILTERS FUNCTION
+
         function applyFilters(spec, applyBenchFilter = true, applyPositionFilter = true, applyCompetitionFilter = true) {
             const filters = [];
 
             // Squad filter
             const selectedSquad = document.querySelector('.btn-check[name="squadRadio"]:checked');
-            if (selectedSquad && selectedSquad.value) {
+            if (selectedSquad && selectedSquad.value && selectedSquad.value !== '') {
                 filters.push(`datum.squad == '${selectedSquad.value}'`);
             }
 
@@ -998,24 +909,20 @@
                 filters.push(`indexof(${JSON.stringify(selectedSeasons)}, datum.season) >= 0`);
             }
 
-            // Competition filter - only if enabled and some selected
-            if (applyCompetitionFilter) {
-                const gameTypeCheckboxes = document.querySelectorAll('input[name="gameTypeCheck"]:checked');
-                const isEnabled = !document.querySelector('input[name="gameTypeCheck"]').disabled;
-
-                if (gameTypeCheckboxes.length > 0 && isEnabled) {
-                    const selectedTypes = Array.from(gameTypeCheckboxes).map(cb => cb.value);
-                    filters.push(`(indexof(${JSON.stringify(selectedTypes)}, datum.game_type) >= 0 || datum.game_type == null || datum.game_type == '')`);
+            // Position filter
+            if (applyPositionFilter) {
+                const selectedPositions = $('#positionSelect').val() || [];
+                if (selectedPositions && selectedPositions.length > 0) {
+                    filters.push(`indexof(${JSON.stringify(selectedPositions)}, datum.position) >= 0`);
                 }
             }
 
-            // Position filter - only if enabled and some selected
-            if (applyPositionFilter) {
-                const selectedPositions = $('#positionSelect').val();
-                const isEnabled = !$('#positionSelect').prop('disabled');
-
-                if (selectedPositions && selectedPositions.length > 0 && isEnabled) {
-                    filters.push(`indexof(${JSON.stringify(selectedPositions)}, datum.position) >= 0`);
+            // Competition filter
+            if (applyCompetitionFilter) {
+                const gameTypeCheckboxes = document.querySelectorAll('input[name="gameTypeCheck"]:checked');
+                if (gameTypeCheckboxes.length > 0) {
+                    const selectedTypes = Array.from(gameTypeCheckboxes).map(cb => cb.value);
+                    filters.push(`(indexof(${JSON.stringify(selectedTypes)}, datum.game_type) >= 0 || datum.game_type == null || datum.game_type == '')`);
                 }
             }
 
@@ -1029,13 +936,124 @@
             spec.transform = spec.transform.filter(t => !t._externalFilter);
 
             if (filters.length > 0) {
+                const combinedFilter = filters.join(" && ");
                 spec.transform.push({
-                    filter: filters.join(" && "),
+                    filter: combinedFilter,
                     _externalFilter: true
                 });
             }
 
             return filters;
+        }
+
+        function applyTabSpecificLogic(tabId) {
+            console.log('Applying tab-specific logic for:', tabId);
+
+            if (tabId === 'team-sheets-tab') {
+                // Team Sheets: Enable positions, disable old seasons, force bench on
+                updateSelectpicker('#positionSelect', ($el) => {
+                    $el.prop('disabled', false);
+                });
+
+                // Disable seasons before 2021/22
+                const selectedSeasons = $('#seasonSelect').val() || [];
+                const newSeasons = selectedSeasons.filter(season => season >= "2021/22");
+
+                updateSelectpicker('#seasonSelect', ($el) => {
+                    $el.find('option').each(function () {
+                        if ($(this).val() < "2021/22" && $(this).val() !== "2020/21") {
+                            $(this).prop('disabled', true);
+                        } else if ($(this).val() !== "2020/21") {
+                            $(this).prop('disabled', false);
+                        }
+                    });
+
+                    if (newSeasons.length !== selectedSeasons.length) {
+                        $el.val(newSeasons);
+                    }
+                });
+
+                // Enable bench toggle for team sheets
+                document.getElementById("includeBenchSwitch").disabled = false;
+
+            } else if (tabId === 'captains-tab') {
+                // Captains: Disable positions, disable old seasons, force bench on and disable toggle
+                updateSelectpicker('#positionSelect', ($el) => {
+                    $el.val([]);
+                    $el.prop('disabled', true);
+                });
+
+                // Disable seasons before 2021/22
+                const selectedSeasons = $('#seasonSelect').val() || [];
+                const newSeasons = selectedSeasons.filter(season => season >= "2021/22");
+
+                updateSelectpicker('#seasonSelect', ($el) => {
+                    $el.find('option').each(function () {
+                        if ($(this).val() < "2021/22" && $(this).val() !== "2020/21") {
+                            $(this).prop('disabled', true);
+                        } else if ($(this).val() !== "2020/21") {
+                            $(this).prop('disabled', false);
+                        }
+                    });
+
+                    if (newSeasons.length !== selectedSeasons.length) {
+                        $el.val(newSeasons);
+                    }
+                });
+
+                // Force bench on and disable toggle for captains
+                document.getElementById("includeBenchSwitch").checked = true;
+                document.getElementById("includeBenchSwitch").disabled = true;
+
+            } else if (tabId === 'point-scorers-tab' || tabId === 'cards-tab') {
+                // Point Scorers & Cards: Disable positions, enable all seasons, force bench on and disable toggle
+                updateSelectpicker('#positionSelect', ($el) => {
+                    $el.val([]);
+                    $el.prop('disabled', true);
+                });
+
+                // Enable all seasons for point scorers and cards
+                updateSelectpicker('#seasonSelect', ($el) => {
+                    $el.find('option').each(function () {
+                        if ($(this).val() !== "2020/21") {
+                            $(this).prop('disabled', false);
+                        }
+                    });
+                });
+
+                // Force bench on and disable toggle for point scorers and cards
+                document.getElementById("includeBenchSwitch").checked = true;
+                document.getElementById("includeBenchSwitch").disabled = true;
+
+            } else {
+                // Player Appearances: Enable all filters with conditional logic
+                const selectedSeasons = $('#seasonSelect').val() || [];
+                const hasOldSeasons = selectedSeasons && selectedSeasons.some(season => season < "2021/22");
+
+                // Enable all seasons for apps chart
+                updateSelectpicker('#seasonSelect', ($el) => {
+                    $el.find('option').each(function () {
+                        if ($(this).val() !== "2020/21") {
+                            $(this).prop('disabled', false);
+                        }
+                    });
+                });
+
+                // Only enable position filter if no old seasons selected
+                if (!hasOldSeasons) {
+                    updateSelectpicker('#positionSelect', ($el) => {
+                        $el.prop('disabled', false);
+                    });
+                    document.getElementById("includeBenchSwitch").disabled = false;
+                } else {
+                    updateSelectpicker('#positionSelect', ($el) => {
+                        $el.val([]);
+                        $el.prop('disabled', true);
+                    });
+                    document.getElementById("includeBenchSwitch").checked = true;
+                    document.getElementById("includeBenchSwitch").disabled = true;
+                }
+            }
         }
 
         document.querySelectorAll('#chartTabs button').forEach(tab => {
@@ -1047,167 +1065,7 @@
                 document.querySelectorAll('#chartTabs button').forEach(t => t.classList.remove('active'));
                 tab.classList.add('active');
 
-                // Manage filter availability based on active tab
-                const tabId = tab.getAttribute('id');
-
-                if (tabId === 'team-sheets-tab') {
-                    // Team Sheets tab: default to 1st XV and disable "All" option
-                    document.getElementById('squad1st').checked = true;
-                    document.getElementById('squadAll').disabled = true;
-
-                    // Disable position filters for team sheets
-                    if (typeof $ !== 'undefined') {
-                        updateSelectpicker('#positionSelect', ($el) => {
-                            $el.prop('disabled', false);
-                        });
-
-                        // Disable old seasons for team sheets
-                        const selectedSeasons = $('#seasonSelect').val() || [];
-                        const newSeasons = selectedSeasons.filter(season => season >= "2020/21");
-
-                        updateSelectpicker('#seasonSelect', ($el) => {
-                            $el.find('option').each(function () {
-                                if ($(this).val() < "2020/21") {
-                                    $(this).prop('disabled', true);
-                                } else if ($(this).val() !== "2020/21") {
-                                    $(this).prop('disabled', false);
-                                }
-                            });
-
-                            // Update selection if old seasons were selected
-                            if (newSeasons.length !== selectedSeasons.length) {
-                                $el.val(newSeasons);
-                            } else {
-                                $el.val(selectedSeasons);
-                            }
-                        });
-
-                        // RE-ATTACH the season event listener after updateSelectpicker
-                        $('#seasonSelect').off('changed.bs.select').on('changed.bs.select', handleSeasonChange);
-                    }
-                    document.getElementById("includeBenchSwitch").checked = true;
-                    document.getElementById("includeBenchSwitch").disabled = true;
-
-                } else if (tabId === 'captains-tab') {
-                    // Re-enable "All" squad option for captains tab
-                    document.getElementById('squadAll').disabled = false;
-
-                    // Captains tab: disable position selection and bench filters
-                    if (typeof $ !== 'undefined') {
-                        updateSelectpicker('#positionSelect', ($el) => {
-                            $el.val([]);
-                            $el.prop('disabled', true);
-                        });
-
-                        // Disable old seasons for captains
-                        const selectedSeasons = $('#seasonSelect').val() || [];
-                        const newSeasons = selectedSeasons.filter(season => season >= "2020/21");
-
-                        updateSelectpicker('#seasonSelect', ($el) => {
-                            $el.find('option').each(function () {
-                                if ($(this).val() < "2020/21") {
-                                    $(this).prop('disabled', true);
-                                } else if ($(this).val() !== "2020/21") {
-                                    $(this).prop('disabled', false);
-                                }
-                            });
-
-                            // Update selection if old seasons were selected
-                            if (newSeasons.length !== selectedSeasons.length) {
-                                $el.val(newSeasons);
-                            } else {
-                                $el.val(selectedSeasons);
-                            }
-                        });
-
-                        // RE-ATTACH the season event listener after updateSelectpicker
-                        $('#seasonSelect').off('changed.bs.select').on('changed.bs.select', handleSeasonChange);
-                    }
-                    document.getElementById("includeBenchSwitch").checked = true;
-                    document.getElementById("includeBenchSwitch").disabled = true;
-
-                    // Enable competition filters for captains tab
-                    document.querySelectorAll('.btn-check[name="gameTypeCheck"]').forEach(el => {
-                        el.disabled = false;
-                        el.checked = true;
-                    });
-
-                } else if (tabId === 'point-scorers-tab' || tabId === 'cards-tab') {
-                    // Re-enable "All" squad option for point scorers and cards tabs
-                    document.getElementById('squadAll').disabled = false;
-
-                    if (typeof $ !== 'undefined') {
-                        updateSelectpicker('#positionSelect', ($el) => {
-                            $el.val([]);
-                            $el.prop('disabled', true);
-                        });
-
-                        // Enable old seasons for point scorers and cards
-                        updateSelectpicker('#seasonSelect', ($el) => {
-                            $el.find('option').each(function () {
-                                if ($(this).val() !== "2020/21") { // Keep COVID season disabled
-                                    $(this).prop('disabled', false);
-                                }
-                            });
-
-                            // Preserve current selection
-                            const currentSelection = $('#seasonSelect').val() || [];
-                            $el.val(currentSelection);
-                        });
-
-                        // RE-ATTACH the season event listener after updateSelectpicker
-                        $('#seasonSelect').off('changed.bs.select').on('changed.bs.select', handleSeasonChange);
-                    }
-                    document.getElementById("includeBenchSwitch").checked = true;
-                    document.getElementById("includeBenchSwitch").disabled = true;
-
-                    // Disable competition filters for point scorers and cards tabs
-                    document.querySelectorAll('.btn-check[name="gameTypeCheck"]').forEach(el => {
-                        el.checked = false;
-                        el.disabled = true;
-                    });
-
-
-                } else {
-                    // Player Appearances tab: enable all filters including "All" squad
-                    document.getElementById('squadAll').disabled = false;
-
-                    if (typeof $ !== 'undefined') {
-                        // Enable old seasons for apps chart
-                        updateSelectpicker('#seasonSelect', ($el) => {
-                            $el.find('option').each(function () {
-                                if ($(this).val() !== "2020/21") { // Keep COVID season disabled
-                                    $(this).prop('disabled', false);
-                                }
-                            });
-
-                            // Preserve current selection
-                            const currentSelection = $('#seasonSelect').val() || [];
-                            $el.val(currentSelection);
-                        });
-
-                        // RE-ATTACH the season event listener after updateSelectpicker
-                        $('#seasonSelect').off('changed.bs.select').on('changed.bs.select', handleSeasonChange);
-
-                        const selectedSeasons = $('#seasonSelect').val();
-                        const hasOldSeasons = selectedSeasons && selectedSeasons.some(season => season < "2021/22");
-
-                        if (!hasOldSeasons) {
-                            updateSelectpicker('#positionSelect', ($el) => {
-                                $el.prop('disabled', false);
-                            });
-                            document.getElementById("includeBenchSwitch").disabled = false;
-                        }
-                    }
-
-                    // Enable competition filters for apps tab
-                    document.querySelectorAll('.btn-check[name="gameTypeCheck"]').forEach(el => {
-                        el.disabled = false;
-                        el.checked = true;
-                    });
-                }
-
-                // Render charts after DOM updates
+                // Simple: just render charts when tab changes
                 setTimeout(renderCharts, 50);
             });
         });
