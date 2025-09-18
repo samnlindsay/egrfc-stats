@@ -331,56 +331,10 @@
 
         /* ===== MOBILE RESPONSIVE ===== */
         @media (max-width: 768px) {
-            :root {
-                --sidebar-width: 300px;
-                --sidebar-collapsed-width: 60px;
-                /* Wider strip on mobile */
-            }
-
             /* Ensure sidebar is always visible on mobile */
             .sidebar {
                 z-index: 1050;
                 /* Higher z-index for mobile */
-            }
-
-            .sidebar.collapsed {
-                transform: translateX(-240px);
-            }
-
-            .sidebar.collapsed:hover {
-                transform: translateX(-235px);
-                /* Subtle hover effect */
-            }
-
-            /* Adjust main content for mobile */
-            .main-content {
-                margin-left: var(--sidebar-collapsed-width);
-                /* Use the mobile width */
-                width: calc(100% - var(--sidebar-collapsed-width));
-            }
-
-            .sidebar.collapsed .sidebar-toggle {
-                background-color: rgba(255, 255, 255, 0.4);
-                /* More visible */
-                border-radius: 8px;
-                /* Less rounded for mobile */
-                width: 45px;
-                /* Larger button */
-                height: 45px;
-                border: 3px solid white;
-                /* Thicker border */
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-            }
-
-            .sidebar.collapsed .sidebar-toggle:hover,
-            .sidebar.collapsed .sidebar-toggle:active {
-                background-color: rgba(255, 255, 255, 0.6);
-                transform: scale(1.1);
-            }
-
-            .sidebar.collapsed .sidebar-toggle i {
-                font-size: 1.5rem;
-                /* Larger icon */
             }
 
             /* Mobile navigation tabs */
@@ -422,7 +376,6 @@
             /* Ensure backdrop doesn't interfere on mobile */
             .sidebar-backdrop {
                 z-index: 1049;
-                /* Below sidebar but above content */
             }
         }
     </style>
