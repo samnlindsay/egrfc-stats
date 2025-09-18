@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Player Appearances Dashboard</title>
+    <title>EGRFC Player Stats</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=PT+Sans+Narrow:wght@400;700&display=swap" rel="stylesheet">
@@ -23,6 +23,7 @@
     <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
 
     <style>
+        /* ===== CSS VARIABLES ===== */
         :root {
             --primary-color: #202946;
             --accent-color: #7d96e8;
@@ -34,6 +35,7 @@
             --sidebar-collapsed-width: 50px;
         }
 
+        /* ===== BASE STYLES ===== */
         body {
             font-family: 'PT Sans Narrow', 'Arial Narrow', sans-serif;
             margin: 0;
@@ -41,9 +43,7 @@
             overflow-x: hidden;
         }
 
-        /* Replace the sidebar CSS (around line 35) with this corrected version: */
-
-        /* Sidebar Styles */
+        /* ===== SIDEBAR STYLES ===== */
         .sidebar {
             position: fixed;
             top: 0;
@@ -52,15 +52,12 @@
             width: var(--sidebar-width);
             background-color: var(--primary-color);
             z-index: 1000;
-            transition: width 0.3s ease, transform 0.3s ease;
+            transition: transform 0.3s ease;
             display: flex;
             flex-direction: column;
             box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
             overflow: hidden;
-        }
-
-        .sidebar.collapsed {
-            width: var(--sidebar-collapsed-width);
+            transform: translateX(0);
         }
 
         .sidebar-header {
@@ -82,7 +79,8 @@
             padding: 0.5rem;
             border-radius: 0.25rem;
             transition: background-color 0.2s;
-            width: calc(var(--sidebar-collapsed-width) - 1rem);
+            min-width: 40px;
+            min-height: 40px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -104,12 +102,6 @@
             overflow: hidden;
         }
 
-        .sidebar.collapsed .sidebar-title {
-            opacity: 0;
-            width: 0;
-            margin-left: 0;
-        }
-
         .sidebar-content {
             flex: 1;
             padding: 1rem;
@@ -119,42 +111,80 @@
             transition: opacity 0.3s ease;
         }
 
-        .sidebar.collapsed .sidebar-content {
-            opacity: 0;
-            pointer-events: none;
-            padding: 0;
+        /* Collapsed sidebar states */
+        .sidebar.collapsed {
+            transform: translateX(-300px);
+            /* Show 50px strip */
+            overflow: hidden;
         }
 
-        /* Main content area */
-        .main-content {
-            margin-left: var(--sidebar-width);
-            transition: margin-left 0.3s ease;
-            /* padding: 2rem; */
-            min-height: 100vh;
+        .sidebar.collapsed:hover {
+            transform: translateX(-298px);
         }
 
-        .sidebar.collapsed+.main-content {
-            margin-left: var(--sidebar-collapsed-width);
+        .sidebar.collapsed .sidebar-content,
+        .sidebar.collapsed .sidebar-title {
+            opacity: 0 !important;
+            pointer-events: none !important;
+            visibility: hidden !important;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
         }
 
-        /* Consistent label width for all input groups */
-        .input-group-text {
-            font-family: 'PT Sans Narrow', sans-serif;
-            min-width: 100px;
-            flex: 0 0 100px;
-            text-align: center;
-            background-color: #202946;
-            border: none;
+        .sidebar.collapsed .sidebar-toggle {
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            margin: 0;
+            transition: all 0.3s ease;
+            opacity: 1;
+            border: 2px solid white;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .sidebar.collapsed .sidebar-toggle:hover {
+            background-color: rgba(255, 255, 255, 0.5);
+            transform: scale(1.2) translateX(3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        .sidebar.collapsed .sidebar-toggle i {
+            font-size: 1.3rem;
             color: white;
         }
 
-        /* Fixed width for all input groups */
-        .input-group {
-            min-width: 300px;
-            max-width: 400px;
+        .sidebar.collapsed .sidebar-toggle::after {
+            content: "";
+            position: absolute;
+            top: -3px;
+            right: -3px;
+            width: 12px;
+            height: 12px;
+            background: var(--red-color);
+            border-radius: 50%;
+            border: 2px solid white;
         }
 
-        /* Stack filters vertically with consistent spacing */
+        /* Sidebar backdrop */
+        .sidebar-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .sidebar-backdrop.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* ===== FILTER CONTROLS ===== */
         .filters-container {
             display: flex;
             flex-direction: column;
@@ -162,14 +192,27 @@
             align-items: flex-start;
         }
 
-        /* Filter items align to left */
         .filter-item {
             width: 100%;
             max-width: 500px;
             font-family: 'PT Sans Narrow', sans-serif;
         }
 
-        /* Style adjustments for better appearance */
+        .input-group {
+            min-width: 300px;
+            max-width: 400px;
+        }
+
+        .input-group-text {
+            font-family: 'PT Sans Narrow', sans-serif;
+            min-width: 100px;
+            flex: 0 0 100px;
+            text-align: center;
+            background-color: var(--primary-color);
+            border: none;
+            color: white;
+        }
+
         .btn-group .btn {
             border-radius: 0;
         }
@@ -184,22 +227,12 @@
             border-bottom-right-radius: 0.375rem;
         }
 
-        /* Special styling for the toggle switch */
-        .switch-container {
-            display: flex;
-            align-items: center;
-            background-color: #f8f9fa;
-            border: 1px solid #dee2e6;
-            border-radius: 0 0.375rem 0.375rem 0;
-            font-family: 'PT Sans Narrow', sans-serif;
-        }
-
         .form-check-label {
             font-size: 0.9rem;
             font-family: 'PT Sans Narrow', sans-serif;
         }
 
-        /* Style the bootstrap-select dropdowns */
+        /* Bootstrap Select styling */
         .bootstrap-select .dropdown-toggle {
             font-family: 'PT Sans Narrow', sans-serif !important;
             border-radius: 0 0.375rem 0.375rem 0 !important;
@@ -211,43 +244,25 @@
             font-size: 1rem !important;
         }
 
-        /* Disabled options styling */
         .dropdown-item.disabled {
             opacity: 0.5;
         }
 
-        /* Format data-subtext content */
         .dropdown-item .text-muted {
             font-size: 0.85rem;
             color: #666 !important;
         }
 
-        /* Add padding to tab content, not the main container */
-        .tab-content {
-            flex: 1;
-            padding: 0
+        /* ===== MAIN CONTENT AREA ===== */
+        .main-content {
+            margin-left: var(--sidebar-collapsed-width);
+            transition: margin-left 0.3s ease;
+            min-height: 100vh;
+            width: calc(100% - var(--sidebar-collapsed-width));
+            position: relative;
         }
 
-        .vega-embed {
-            width: 100% !important;
-            height: fit-content !important;
-            transform-origin: top left;
-            overflow-x: auto;
-        }
-
-        .vega-embed svg {
-            width: 100% !important;
-            height: auto !important;
-        }
-
-        .tab-pane {
-            display: flex;
-            flex-direction: column;
-            min-height: 0;
-            align-items: center;
-            max-width: 800px;
-        }
-
+        /* ===== NAVIGATION TABS ===== */
         .nav-tabs {
             min-height: 60px;
             display: flex;
@@ -292,6 +307,36 @@
             background-color: var(--light-color);
         }
 
+        /* ===== CHART CONTENT ===== */
+        .tab-content {
+            flex: 1;
+            padding: 0;
+        }
+
+        .tab-pane {
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+            align-items: center;
+            max-width: 800px;
+        }
+
+        #team-sheets-content {
+            max-width: 1000px !important;
+        }
+
+        .vega-embed {
+            width: 100% !important;
+            height: fit-content !important;
+            transform-origin: top left;
+            overflow-x: auto;
+        }
+
+        .vega-embed svg {
+            width: 100% !important;
+            height: auto !important;
+        }
+
         #player-apps-vis,
         #captains-vis,
         #point-scorers-vis,
@@ -302,20 +347,14 @@
             overflow-x: auto;
         }
 
-        #team-sheets-content {
-            max-width: 1000px !important;
-        }
-
-        /* Responsive design for smaller screens */
+        /* ===== MOBILE RESPONSIVE ===== */
         @media (max-width: 768px) {
             :root {
                 --sidebar-width: 300px;
-                /* --sidebar-collapsed-width: 20px; */
             }
 
-            /* Enhanced mobile nav tabs for better touch interaction */
+            /* Mobile navigation tabs */
             body .nav-tabs {
-                min-height: 75px;
                 padding: 0.25rem 0.5rem;
                 overflow-x: auto;
                 overflow-y: hidden;
@@ -325,98 +364,27 @@
 
             body .nav-tabs .nav-link {
                 font-size: 1.2rem;
-                padding: 0.75rem 1rem;
-                min-height: 50px;
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 text-align: center;
                 white-space: nowrap;
-                border-radius: 0.375rem;
-                margin: 0.25rem 0.125rem;
                 transition: all 0.2s ease;
             }
 
-            body .nav-tabs .nav-link:active {
-                transform: scale(0.98);
-            }
-
+            /* Mobile filter controls */
             .input-group-text {
                 font-size: 1rem;
-                min-width: 90px;
-                /* Slightly smaller to fit mobile */
-                padding: 0.5rem 0.75rem;
+                padding: 0.25rem;
             }
 
             .btn-group .btn {
-                font-size: 1.5rem;
-                padding: 0.5rem 0.75rem;
-                min-height: 44px;
-                /* Apple's recommended minimum touch target */
-            }
-
-            .form-check-label {
                 font-size: 1rem;
-                /* Increased from 0.9rem */
-            }
-
-            .form-check-input {
-                transform: scale(1.2);
-                /* Larger toggle switch */
-            }
-
-            /* Larger dropdown text for mobile */
-            .bootstrap-select .dropdown-toggle {
-                font-size: 1rem !important;
-                padding: 0.5rem 0.75rem !important;
-                min-height: 44px !important;
-            }
-
-            .bootstrap-select .dropdown-menu {
-                font-size: 1.1rem !important;
-            }
-
-            .dropdown-item {
-                padding: 0.75rem 1rem !important;
-                /* Larger touch targets */
-            }
-
-            /* Adjust tab content padding for mobile */
-            .tab-pane {
-                padding: 0.75rem;
-                overflow-x: auto;
-                -webkit-overflow-scrolling: touch;
-                /* Smooth scrolling on iOS */
-                /* Increased from 0.5rem */
-            }
-
-            /* Better spacing for filter items on mobile */
-            .filter-item {
-                margin-bottom: 0.75rem;
-            }
-
-            .filters-container {
-                gap: 0.75rem;
-                /* Increased spacing between filters */
-            }
-        }
-
-        /* Additional CSS for better touch interaction on all screen sizes */
-        @media (hover: none) and (pointer: coarse) {
-
-            /* This targets touch devices specifically */
-            .nav-tabs .nav-link {
-                min-height: 48px;
-                /* Ensure touch targets are at least 48px */
-                padding: 0.75rem 1rem;
-            }
-
-            .btn {
-                min-height: 44px;
-                padding: 0.5rem 0.75rem;
+                padding: 0.1rem;
             }
         }
     </style>
+
 </head>
 
 <body>
@@ -526,6 +494,8 @@
             </div>
         </div>
     </div>
+
+    <!-- <div id="sidebar-backdrop" class="sidebar-backdrop"></div> -->
 
     <!-- Main content area -->
     <div id="mainContent" class="main-content">
@@ -903,22 +873,83 @@
 
             document.getElementById("includeBenchSwitch").addEventListener("change", renderCharts);
 
-            // Sidebar toggle functionality
+            /* filepath: /Users/samlindsay/Documents/Projects/Personal/EGRFC/egrfc-stats/python/test.html */
+            /* Update the sidebar toggle JavaScript (around line 875) to make the entire strip clickable: */
+
+            // Sidebar toggle functionality with backdrop
             setTimeout(function () {
                 const $sidebarToggle = $('#sidebarToggle');
                 const $sidebar = $('#sidebar');
+                const $sidebarHeader = $('#sidebar .sidebar-header');
 
-                console.log('jQuery sidebar setup - Toggle:', $sidebarToggle.length, 'Sidebar:', $sidebar.length);
+                // Create backdrop element
+                let backdrop = document.getElementById('sidebar-backdrop');
+                if (!backdrop) {
+                    backdrop = document.createElement('div');
+                    backdrop.id = 'sidebar-backdrop';
+                    backdrop.className = 'sidebar-backdrop';
+                    document.body.appendChild(backdrop);
 
-                $sidebarToggle.off('click').on('click', function (e) {
+                    // Close sidebar when clicking backdrop
+                    backdrop.addEventListener('click', function () {
+                        $sidebar.addClass('collapsed');
+                        backdrop.classList.remove('show');
+                        localStorage.setItem('sidebarCollapsed', true);
+                    });
+                }
+
+                console.log('Sidebar setup - Toggle:', $sidebarToggle.length, 'Header:', $sidebarHeader.length, 'Sidebar:', $sidebar.length);
+
+                // Function to toggle sidebar
+                function toggleSidebar(e) {
                     e.preventDefault();
-                    console.log('Sidebar toggle clicked via jQuery!');
-                    $sidebar.toggleClass('collapsed');
+                    e.stopPropagation(); // Prevent event bubbling
+                    console.log('Sidebar toggle clicked!');
+
+                    const isCurrentlyCollapsed = $sidebar.hasClass('collapsed');
+
+                    if (isCurrentlyCollapsed) {
+                        // Show sidebar
+                        $sidebar.removeClass('collapsed');
+                        backdrop.classList.add('show');
+                    } else {
+                        // Hide sidebar
+                        $sidebar.addClass('collapsed');
+                        backdrop.classList.remove('show');
+                    }
 
                     // Store sidebar state in localStorage
                     const isCollapsed = $sidebar.hasClass('collapsed');
                     localStorage.setItem('sidebarCollapsed', isCollapsed);
                     console.log('Sidebar collapsed state:', isCollapsed);
+                }
+
+                // Attach event to toggle button
+                $sidebarHeader.off('click').on('click', function (e) {
+                    console.log('Sidebar header clicked, collapsed:', $sidebar.hasClass('collapsed'));
+
+                    // Only trigger if sidebar is collapsed
+                    if ($sidebar.hasClass('collapsed')) {
+                        // Prevent the toggle button's own click event from interfering
+                        if (!$(e.target).hasClass('sidebar-toggle') && !$(e.target).closest('.sidebar-toggle').length) {
+                            toggleSidebar(e);
+                        }
+                    }
+                });
+
+                $sidebar.off('click.collapsed').on('click.collapsed', function (e) {
+                    if ($sidebar.hasClass('collapsed')) {
+                        console.log('Collapsed sidebar clicked');
+                        e.preventDefault();
+                        e.stopPropagation();
+                        toggleSidebar(e);
+                    }
+                });
+
+                // Also make the toggle button work in all states
+                $sidebarToggle.off('click').on('click', function (e) {
+                    e.stopPropagation(); // Prevent header click from also firing
+                    toggleSidebar(e);
                 });
 
                 // Restore sidebar state on page load
@@ -926,6 +957,10 @@
                 console.log('Saved sidebar state:', savedState);
                 if (savedState === 'true') {
                     $sidebar.addClass('collapsed');
+                    backdrop.classList.remove('show');
+                } else {
+                    // If sidebar should be open, show backdrop
+                    backdrop.classList.add('show');
                 }
             }, 100);
         });
