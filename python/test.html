@@ -65,7 +65,7 @@
             align-items: center;
             padding: 0.5rem;
             background-color: var(--primary-color);
-            height: 60px;
+            height: fit-content;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             flex-shrink: 0;
         }
@@ -114,55 +114,37 @@
         /* Collapsed sidebar states */
         .sidebar.collapsed {
             transform: translateX(-300px);
-            /* Show 50px strip */
             overflow: hidden;
         }
 
-        .sidebar.collapsed:hover {
-            transform: translateX(-298px);
-        }
-
-        .sidebar.collapsed .sidebar-content,
-        .sidebar.collapsed .sidebar-title {
+        .sidebar.collapsed .sidebar-content {
             opacity: 0 !important;
             pointer-events: none !important;
             visibility: hidden !important;
             transition: opacity 0.3s ease, visibility 0.3s ease;
         }
 
-        .sidebar.collapsed .sidebar-toggle {
-            background-color: rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
+        .sidebar.collapsed .sidebar-header {
+            height: 200px;
             margin: 0;
             transition: all 0.3s ease;
             opacity: 1;
-            border: 2px solid white;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
         }
 
-        .sidebar.collapsed .sidebar-toggle:hover {
-            background-color: rgba(255, 255, 255, 0.5);
-            transform: scale(1.2) translateX(3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+        .sidebar.collapsed .sidebar-title {
+            font-size: 1.5rem;
+            margin-left: 0;
+        }
+        .sidebar.collapsed .sidebar-toggle {
+            padding:0;
+            font-size: 1.5rem;
         }
 
-        .sidebar.collapsed .sidebar-toggle i {
-            font-size: 1.3rem;
-            color: white;
-        }
-
-        .sidebar.collapsed .sidebar-toggle::after {
-            content: "";
-            position: absolute;
-            top: -3px;
-            right: -3px;
-            width: 12px;
-            height: 12px;
-            background: var(--red-color);
-            border-radius: 50%;
-            border: 2px solid white;
+        .sidebar.collapsed .sidebar-header {
+            align-items: end;
+            float: right;
+            writing-mode: sideways-lr;
+            z-index: 1;
         }
 
         /* Sidebar backdrop */
@@ -351,6 +333,54 @@
         @media (max-width: 768px) {
             :root {
                 --sidebar-width: 300px;
+                --sidebar-collapsed-width: 60px;
+                /* Wider strip on mobile */
+            }
+
+            /* Ensure sidebar is always visible on mobile */
+            .sidebar {
+                z-index: 1050;
+                /* Higher z-index for mobile */
+            }
+
+            .sidebar.collapsed {
+                transform: translateX(-240px);
+            }
+
+            .sidebar.collapsed:hover {
+                transform: translateX(-235px);
+                /* Subtle hover effect */
+            }
+
+            /* Adjust main content for mobile */
+            .main-content {
+                margin-left: var(--sidebar-collapsed-width);
+                /* Use the mobile width */
+                width: calc(100% - var(--sidebar-collapsed-width));
+            }
+
+            .sidebar.collapsed .sidebar-toggle {
+                background-color: rgba(255, 255, 255, 0.4);
+                /* More visible */
+                border-radius: 8px;
+                /* Less rounded for mobile */
+                width: 45px;
+                /* Larger button */
+                height: 45px;
+                border: 3px solid white;
+                /* Thicker border */
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            }
+
+            .sidebar.collapsed .sidebar-toggle:hover,
+            .sidebar.collapsed .sidebar-toggle:active {
+                background-color: rgba(255, 255, 255, 0.6);
+                transform: scale(1.1);
+            }
+
+            .sidebar.collapsed .sidebar-toggle i {
+                font-size: 1.5rem;
+                /* Larger icon */
             }
 
             /* Mobile navigation tabs */
@@ -381,6 +411,18 @@
             .btn-group .btn {
                 font-size: 1rem;
                 padding: 0.1rem;
+            }
+
+            /* Add touch-friendly interactions */
+            .sidebar.collapsed {
+                cursor: pointer;
+                -webkit-tap-highlight-color: rgba(255, 255, 255, 0.2);
+            }
+
+            /* Ensure backdrop doesn't interfere on mobile */
+            .sidebar-backdrop {
+                z-index: 1049;
+                /* Below sidebar but above content */
             }
         }
     </style>
