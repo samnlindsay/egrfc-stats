@@ -307,19 +307,10 @@
         }
 
         /* Responsive design for smaller screens */
-        @media (max-width: 1024px) {
+        @media (max-width: 768px) {
             :root {
                 --sidebar-width: 300px;
-                --sidebar-collapsed-width: 0px;
-            }
-
-            .sidebar.collapsed {
-                width: 0px;
-                transform: translateX(-100%);
-            }
-
-            .sidebar.collapsed+.main-content {
-                margin-left: 0;
+                /* --sidebar-collapsed-width: 20px; */
             }
 
             /* Enhanced mobile nav tabs for better touch interaction */
@@ -333,7 +324,7 @@
             }
 
             body .nav-tabs .nav-link {
-                font-size: 1.5rem;
+                font-size: 1.2rem;
                 padding: 0.75rem 1rem;
                 min-height: 50px;
                 display: flex;
@@ -348,22 +339,6 @@
 
             body .nav-tabs .nav-link:active {
                 transform: scale(0.98);
-            }
-
-            /* Larger filter button for mobile */
-            .sidebar-toggle {
-                font-size: 2rem;
-                /* Increased from 1.5rem */
-                padding: 0.75rem;
-                /* Increased padding */
-                min-height: 50px;
-                min-width: 50px;
-            }
-
-            /* Larger text and controls in sidebar for mobile */
-            .sidebar-title {
-                font-size: 1.5rem;
-                /* Increased from 1.25rem */
             }
 
             .input-group-text {
@@ -439,11 +414,6 @@
             .btn {
                 min-height: 44px;
                 padding: 0.5rem 0.75rem;
-            }
-
-            .sidebar-toggle {
-                min-height: 48px;
-                min-width: 48px;
             }
         }
     </style>
