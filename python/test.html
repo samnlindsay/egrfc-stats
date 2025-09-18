@@ -136,6 +136,8 @@
             margin-left: var(--sidebar-collapsed-width);
         }
 
+        /* Replace the mobile responsive CSS section (around line 125) with this enhanced version: */
+
         /* Responsive design for smaller screens */
         @media (max-width: 768px) {
             :root {
@@ -150,6 +152,146 @@
 
             .sidebar.collapsed+.main-content {
                 margin-left: 0;
+            }
+
+            /* Enhanced mobile nav tabs for better touch interaction */
+            .nav-tabs {
+                min-height: 75px;
+                /* Increased from 60px */
+                padding: 0.25rem 0.5rem;
+                overflow-x: auto;
+                /* Allow horizontal scrolling if needed */
+                overflow-y: hidden;
+                white-space: nowrap;
+                -webkit-overflow-scrolling: touch;
+                /* Smooth scrolling on iOS */
+            }
+
+            .nav-tabs .nav-item {
+                flex-shrink: 0;
+                /* Prevent tabs from shrinking */
+            }
+
+            .nav-tabs .nav-link {
+                font-size: 1.1rem;
+                /* Increased from 1rem */
+                padding: 0.75rem 1rem;
+                /* Increased from 0.4rem 0.6rem */
+                min-height: 50px;
+                /* Ensure minimum touch target size */
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                white-space: nowrap;
+                border-radius: 0.375rem;
+                /* Slightly rounded corners for better mobile UX */
+                margin: 0.25rem 0.125rem;
+                /* Add small margins between tabs */
+                transition: all 0.2s ease;
+            }
+
+            .nav-tabs .nav-link:active {
+                transform: scale(0.98);
+                /* Subtle feedback on tap */
+            }
+
+            /* Larger filter button for mobile */
+            .sidebar-toggle {
+                font-size: 1.75rem;
+                /* Increased from 1.5rem */
+                padding: 0.75rem;
+                /* Increased padding */
+                min-height: 50px;
+                min-width: 50px;
+            }
+
+            /* Larger text and controls in sidebar for mobile */
+            .sidebar-title {
+                font-size: 1.4rem;
+                /* Increased from 1.25rem */
+            }
+
+            .input-group-text {
+                font-size: 1rem;
+                min-width: 90px;
+                /* Slightly smaller to fit mobile */
+                padding: 0.5rem 0.75rem;
+            }
+
+            .btn-group .btn {
+                font-size: 1rem;
+                padding: 0.5rem 0.75rem;
+                min-height: 44px;
+                /* Apple's recommended minimum touch target */
+            }
+
+            .form-check-label {
+                font-size: 1rem;
+                /* Increased from 0.9rem */
+            }
+
+            .form-check-input {
+                transform: scale(1.2);
+                /* Larger toggle switch */
+            }
+
+            /* Larger dropdown text for mobile */
+            .bootstrap-select .dropdown-toggle {
+                font-size: 1rem !important;
+                padding: 0.5rem 0.75rem !important;
+                min-height: 44px !important;
+            }
+
+            .bootstrap-select .dropdown-menu {
+                font-size: 1.1rem !important;
+            }
+
+            .dropdown-item {
+                padding: 0.75rem 1rem !important;
+                /* Larger touch targets */
+            }
+
+            /* Adjust tab content padding for mobile */
+            .tab-pane {
+                padding: 0.75rem;
+                /* Increased from 0.5rem */
+            }
+
+            /* Better spacing for filter items on mobile */
+            .filter-item {
+                margin-bottom: 0.75rem;
+            }
+
+            .filters-container {
+                gap: 0.75rem;
+                /* Increased spacing between filters */
+            }
+
+            /* Ensure charts have adequate padding on mobile */
+            .vega-embed {
+                margin: 1rem 0;
+            }
+        }
+
+        /* Additional CSS for better touch interaction on all screen sizes */
+        @media (hover: none) and (pointer: coarse) {
+
+            /* This targets touch devices specifically */
+            .nav-tabs .nav-link {
+                min-height: 48px;
+                /* Ensure touch targets are at least 48px */
+                padding: 0.75rem 1rem;
+            }
+
+            .btn {
+                min-height: 44px;
+                padding: 0.5rem 0.75rem;
+            }
+
+            .sidebar-toggle {
+                min-height: 48px;
+                min-width: 48px;
             }
         }
 
@@ -242,18 +384,17 @@
         .tab-content {
             flex: 1;
             padding: 0
-        };
+        }
 
         .vega-embed {
-            width: fit-content !important;
+            width: 100% !important;
             height: fit-content !important;
             margin: 0 auto;
         }
 
         .vega-embed svg {
-            width: auto !important;
+            width: 100% !important;
             height: auto !important;
-            max-width: 100%;
         }
 
         .tab-pane {
@@ -262,8 +403,6 @@
             min-height: 0;
             align-items: center;
         }
-
-        /* Replace the nav-tabs CSS (around line 380) with this updated version: */
 
         .nav-tabs {
             min-height: 60px;
@@ -314,10 +453,10 @@
         #point-scorers-vis,
         #team-sheets-vis,
         #cards-vis {
-            flex: 0 0 auto;
-            width: fit-content;
+            width: 100%;
+            max-width: 100%;
+            overflow-x: auto;
         }
-
     </style>
 </head>
 
@@ -513,13 +652,23 @@
         });
 
         function embedChart(selector, spec, customOptions = {}) {
+            // Make chart responsive by removing fixed width/height
+            if (spec.width) {
+                spec.width = 'container';
+            }
+            if (spec.height && window.innerWidth <= 768) {
+                // On mobile, let height be automatic
+                delete spec.height;
+            }
+
             const defaultOptions = {
-                // actions: false,
+                actions: false,
                 renderer: 'svg',
                 scaleFactor: 1,
                 config: {
                     autosize: {
-                        resize: false
+                        resize: true,
+                        type: 'fit',
                     }
                 }
             };
@@ -683,19 +832,6 @@
 
         $(document).ready(function () {
             $('.selectpicker').selectpicker();
-
-            // Set global Vega-Embed defaults
-            vegaEmbed.defaultOptions = {
-                actions: false,
-                renderer: 'svg',
-                scaleFactor: 1,
-                config: {
-                    autosize: {
-                        type: 'none',
-                        resize: false
-                    }
-                }
-            };
 
             // SMART FILTERING LOGIC - Only update when state actually needs to change
             function updateFilterStates(triggerElement) {
@@ -908,7 +1044,9 @@
 
                     // Disable position filters for team sheets
                     if (typeof $ !== 'undefined') {
-                        $('#positionSelect').prop('disabled', false).selectpicker('refresh');
+                        updateSelectpicker('#positionSelect', ($el) => {
+                            $el.prop('disabled', false);
+                        });
 
                         // Disable old seasons for team sheets
                         const selectedSeasons = $('#seasonSelect').val() || [];
@@ -943,8 +1081,10 @@
 
                     // Captains tab: disable position selection and bench filters
                     if (typeof $ !== 'undefined') {
-                        $('#positionSelect').selectpicker('deselectAll');
-                        $('#positionSelect').prop('disabled', true).selectpicker('refresh');
+                        updateSelectpicker('#positionSelect', ($el) => {
+                            $el.val([]);
+                            $el.prop('disabled', true);
+                        });
 
                         // Disable old seasons for captains
                         const selectedSeasons = $('#seasonSelect').val() || [];
@@ -984,8 +1124,10 @@
                     document.getElementById('squadAll').disabled = false;
 
                     if (typeof $ !== 'undefined') {
-                        $('#positionSelect').selectpicker('deselectAll');
-                        $('#positionSelect').prop('disabled', true).selectpicker('refresh');
+                        updateSelectpicker('#positionSelect', ($el) => {
+                            $el.val([]);
+                            $el.prop('disabled', true);
+                        });
 
                         // Enable old seasons for point scorers and cards
                         updateSelectpicker('#seasonSelect', ($el) => {
@@ -1038,8 +1180,9 @@
                         const hasOldSeasons = selectedSeasons && selectedSeasons.some(season => season < "2021/22");
 
                         if (!hasOldSeasons) {
-                            // Only enable if no old seasons are selected
-                            $('#positionSelect').prop('disabled', false).selectpicker('refresh');
+                            updateSelectpicker('#positionSelect', ($el) => {
+                                $el.prop('disabled', false);
+                            });
                             document.getElementById("includeBenchSwitch").disabled = false;
                         }
                     }
