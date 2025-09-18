@@ -135,8 +135,9 @@
             font-size: 1.5rem;
             margin-left: 0;
         }
+
         .sidebar.collapsed .sidebar-toggle {
-            padding:0;
+            padding: 0;
             font-size: 1.5rem;
         }
 
@@ -293,29 +294,33 @@
         .tab-content {
             flex: 1;
             padding: 0;
+            overflow-x: auto;
+            overflow-y: visible;
         }
 
         .tab-pane {
             display: flex;
             flex-direction: column;
             min-height: 0;
-            align-items: center;
-            max-width: 800px;
+            align-items: flex-start;
+            min-width: 600px;
+            width: max-content;
         }
 
         #team-sheets-content {
-            max-width: 1000px !important;
+            min-width: 1000px !important;
         }
 
         .vega-embed {
-            width: 100% !important;
+            min-width: 600px;
+            width: auto !important;
             height: fit-content !important;
             transform-origin: top left;
-            overflow-x: auto;
         }
 
         .vega-embed svg {
-            width: 100% !important;
+            min-width: 600px;
+            width: auto !important;
             height: auto !important;
         }
 
@@ -324,13 +329,32 @@
         #point-scorers-vis,
         #team-sheets-vis,
         #cards-vis {
-            width: 100%;
-            max-width: 100%;
+            min-width: 600px;
             overflow-x: auto;
+        }
+
+        /* Scrollable container styling */
+        .tab-content::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .tab-content::-webkit-scrollbar-track {
+            background: var(--light-color);
+            border-radius: 4px;
+        }
+
+        .tab-content::-webkit-scrollbar-thumb {
+            background: var(--accent-color);
+            border-radius: 4px;
+        }
+
+        .tab-content::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-color);
         }
 
         /* ===== MOBILE RESPONSIVE ===== */
         @media (max-width: 768px) {
+
             /* Ensure sidebar is always visible on mobile */
             .sidebar {
                 z-index: 1050;
@@ -339,7 +363,6 @@
 
             /* Mobile navigation tabs */
             body .nav-tabs {
-                padding: 0.25rem 0.5rem;
                 overflow-x: auto;
                 overflow-y: hidden;
                 white-space: nowrap;
@@ -578,19 +601,18 @@
         function embedChart(selector, spec, customOptions = {}) {
             // Make chart responsive by removing fixed width/height
             if (spec.width) {
-                spec.width = 'container';
+                spec.width = Math.max(600, spec.width); // Minimum width of 800px
             }
             if (spec.height && window.innerWidth <= 768) {
-                // On mobile, let height be automatic
-                delete spec.height;
+                spec.height = Math.max(spec.height * 0.8, 400); // Slightly reduce height on mobile
             }
 
-            const scaleFactor = window.innerWidth <= 768 ? 2 : 1; // 2x scale on mobile
+            // const scaleFactor = window.innerWidth <= 768 ? 2 : 1; // 2x scale on mobile
 
             const defaultOptions = {
                 actions: false,
                 renderer: 'svg',
-                scaleFactor: scaleFactor,
+                scaleFactor: 1,
                 config: {
                     autosize: {
                         resize: true,
