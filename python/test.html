@@ -136,165 +136,6 @@
             margin-left: var(--sidebar-collapsed-width);
         }
 
-        /* Replace the mobile responsive CSS section (around line 125) with this enhanced version: */
-
-        /* Responsive design for smaller screens */
-        @media (max-width: 768px) {
-            :root {
-                --sidebar-width: 300px;
-                --sidebar-collapsed-width: 0px;
-            }
-
-            .sidebar.collapsed {
-                width: 0px;
-                transform: translateX(-100%);
-            }
-
-            .sidebar.collapsed+.main-content {
-                margin-left: 0;
-            }
-
-            /* Enhanced mobile nav tabs for better touch interaction */
-            .nav-tabs {
-                min-height: 75px;
-                /* Increased from 60px */
-                padding: 0.25rem 0.5rem;
-                overflow-x: auto;
-                /* Allow horizontal scrolling if needed */
-                overflow-y: hidden;
-                white-space: nowrap;
-                -webkit-overflow-scrolling: touch;
-                /* Smooth scrolling on iOS */
-            }
-
-            .nav-tabs .nav-item {
-                flex-shrink: 0;
-                /* Prevent tabs from shrinking */
-            }
-
-            .nav-tabs .nav-link {
-                font-size: 1.1rem;
-                /* Increased from 1rem */
-                padding: 0.75rem 1rem;
-                /* Increased from 0.4rem 0.6rem */
-                min-height: 50px;
-                /* Ensure minimum touch target size */
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                text-align: center;
-                white-space: nowrap;
-                border-radius: 0.375rem;
-                /* Slightly rounded corners for better mobile UX */
-                margin: 0.25rem 0.125rem;
-                /* Add small margins between tabs */
-                transition: all 0.2s ease;
-            }
-
-            .nav-tabs .nav-link:active {
-                transform: scale(0.98);
-                /* Subtle feedback on tap */
-            }
-
-            /* Larger filter button for mobile */
-            .sidebar-toggle {
-                font-size: 1.75rem;
-                /* Increased from 1.5rem */
-                padding: 0.75rem;
-                /* Increased padding */
-                min-height: 50px;
-                min-width: 50px;
-            }
-
-            /* Larger text and controls in sidebar for mobile */
-            .sidebar-title {
-                font-size: 1.4rem;
-                /* Increased from 1.25rem */
-            }
-
-            .input-group-text {
-                font-size: 1rem;
-                min-width: 90px;
-                /* Slightly smaller to fit mobile */
-                padding: 0.5rem 0.75rem;
-            }
-
-            .btn-group .btn {
-                font-size: 1rem;
-                padding: 0.5rem 0.75rem;
-                min-height: 44px;
-                /* Apple's recommended minimum touch target */
-            }
-
-            .form-check-label {
-                font-size: 1rem;
-                /* Increased from 0.9rem */
-            }
-
-            .form-check-input {
-                transform: scale(1.2);
-                /* Larger toggle switch */
-            }
-
-            /* Larger dropdown text for mobile */
-            .bootstrap-select .dropdown-toggle {
-                font-size: 1rem !important;
-                padding: 0.5rem 0.75rem !important;
-                min-height: 44px !important;
-            }
-
-            .bootstrap-select .dropdown-menu {
-                font-size: 1.1rem !important;
-            }
-
-            .dropdown-item {
-                padding: 0.75rem 1rem !important;
-                /* Larger touch targets */
-            }
-
-            /* Adjust tab content padding for mobile */
-            .tab-pane {
-                padding: 0.75rem;
-                /* Increased from 0.5rem */
-            }
-
-            /* Better spacing for filter items on mobile */
-            .filter-item {
-                margin-bottom: 0.75rem;
-            }
-
-            .filters-container {
-                gap: 0.75rem;
-                /* Increased spacing between filters */
-            }
-
-            /* Ensure charts have adequate padding on mobile */
-            .vega-embed {
-                margin: 1rem 0;
-            }
-        }
-
-        /* Additional CSS for better touch interaction on all screen sizes */
-        @media (hover: none) and (pointer: coarse) {
-
-            /* This targets touch devices specifically */
-            .nav-tabs .nav-link {
-                min-height: 48px;
-                /* Ensure touch targets are at least 48px */
-                padding: 0.75rem 1rem;
-            }
-
-            .btn {
-                min-height: 44px;
-                padding: 0.5rem 0.75rem;
-            }
-
-            .sidebar-toggle {
-                min-height: 48px;
-                min-width: 48px;
-            }
-        }
-
         /* Consistent label width for all input groups */
         .input-group-text {
             font-family: 'PT Sans Narrow', sans-serif;
@@ -389,7 +230,8 @@
         .vega-embed {
             width: 100% !important;
             height: fit-content !important;
-            margin: 0 auto;
+            transform-origin: top left;
+            overflow-x: auto;
         }
 
         .vega-embed svg {
@@ -402,6 +244,7 @@
             flex-direction: column;
             min-height: 0;
             align-items: center;
+            max-width: 800px;
         }
 
         .nav-tabs {
@@ -456,6 +299,151 @@
             width: 100%;
             max-width: 100%;
             overflow-x: auto;
+        }
+
+        #team-sheets-content {
+            max-width: 1000px !important;
+        }
+
+        /* Responsive design for smaller screens */
+        @media (max-width: 768px) {
+            :root {
+                --sidebar-width: 300px;
+                --sidebar-collapsed-width: 0px;
+            }
+
+            .sidebar.collapsed {
+                width: 0px;
+                transform: translateX(-100%);
+            }
+
+            .sidebar.collapsed+.main-content {
+                margin-left: 0;
+            }
+
+            /* Enhanced mobile nav tabs for better touch interaction */
+            body .nav-tabs {
+                min-height: 75px;
+                padding: 0.25rem 0.5rem;
+                overflow-x: auto;
+                overflow-y: hidden;
+                white-space: nowrap;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            body .nav-tabs .nav-link {
+                font-size: 1.5rem;
+                padding: 0.75rem 1rem;
+                min-height: 50px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                white-space: nowrap;
+                border-radius: 0.375rem;
+                margin: 0.25rem 0.125rem;
+                transition: all 0.2s ease;
+            }
+
+            body .nav-tabs .nav-link:active {
+                transform: scale(0.98);
+            }
+
+            /* Larger filter button for mobile */
+            .sidebar-toggle {
+                font-size: 2rem;
+                /* Increased from 1.5rem */
+                padding: 0.75rem;
+                /* Increased padding */
+                min-height: 50px;
+                min-width: 50px;
+            }
+
+            /* Larger text and controls in sidebar for mobile */
+            .sidebar-title {
+                font-size: 1.5rem;
+                /* Increased from 1.25rem */
+            }
+
+            .input-group-text {
+                font-size: 1rem;
+                min-width: 90px;
+                /* Slightly smaller to fit mobile */
+                padding: 0.5rem 0.75rem;
+            }
+
+            .btn-group .btn {
+                font-size: 1.5rem;
+                padding: 0.5rem 0.75rem;
+                min-height: 44px;
+                /* Apple's recommended minimum touch target */
+            }
+
+            .form-check-label {
+                font-size: 1rem;
+                /* Increased from 0.9rem */
+            }
+
+            .form-check-input {
+                transform: scale(1.2);
+                /* Larger toggle switch */
+            }
+
+            /* Larger dropdown text for mobile */
+            .bootstrap-select .dropdown-toggle {
+                font-size: 1rem !important;
+                padding: 0.5rem 0.75rem !important;
+                min-height: 44px !important;
+            }
+
+            .bootstrap-select .dropdown-menu {
+                font-size: 1.1rem !important;
+            }
+
+            .dropdown-item {
+                padding: 0.75rem 1rem !important;
+                /* Larger touch targets */
+            }
+
+            /* Adjust tab content padding for mobile */
+            .tab-pane {
+                padding: 0.75rem;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                /* Smooth scrolling on iOS */
+                /* Increased from 0.5rem */
+            }
+
+            /* Better spacing for filter items on mobile */
+            .filter-item {
+                margin-bottom: 0.75rem;
+            }
+
+            .filters-container {
+                gap: 0.75rem;
+                /* Increased spacing between filters */
+            }
+        }
+
+        /* Additional CSS for better touch interaction on all screen sizes */
+        @media (hover: none) and (pointer: coarse) {
+
+            /* This targets touch devices specifically */
+            .nav-tabs .nav-link {
+                min-height: 48px;
+                /* Ensure touch targets are at least 48px */
+                padding: 0.75rem 1rem;
+            }
+
+            .btn {
+                min-height: 44px;
+                padding: 0.5rem 0.75rem;
+            }
+
+            .sidebar-toggle {
+                min-height: 48px;
+                min-width: 48px;
+            }
         }
     </style>
 </head>
@@ -661,10 +649,12 @@
                 delete spec.height;
             }
 
+            const scaleFactor = window.innerWidth <= 768 ? 2 : 1; // 2x scale on mobile
+
             const defaultOptions = {
                 actions: false,
                 renderer: 'svg',
-                scaleFactor: 1,
+                scaleFactor: scaleFactor,
                 config: {
                     autosize: {
                         resize: true,
@@ -1197,6 +1187,16 @@
                 // Render charts after DOM updates
                 setTimeout(renderCharts, 50);
             });
+        });
+
+        // Add window resize handler for responsive scale factor
+        let resizeTimeout;
+        window.addEventListener('resize', function () {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(function () {
+                // Re-render charts with correct scale factor for new screen size
+                renderCharts();
+            }, 300);
         });
 
     </script>
