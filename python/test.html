@@ -29,29 +29,128 @@
             --dark-color: #333333;
             --green-color: #146f14;
             --red-color: #991515;
+            --sidebar-width: 350px;
+            --sidebar-collapsed-width: 50px;
         }
 
         body {
-            padding: 2rem;
             font-family: 'PT Sans Narrow', 'Arial Narrow', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
         }
 
-        /* Format accordion */
-        .accordion {
-            width: fit-content;
+        /* Replace the sidebar CSS (around line 35) with this corrected version: */
+
+        /* Sidebar Styles */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: var(--sidebar-width);
+            background-color: var(--primary-color);
+            z-index: 1000;
+            transition: width 0.3s ease, transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
         }
 
-        .accordion-button {
-            font-family: 'PT Sans Narrow', sans-serif !important;
+        .sidebar.collapsed {
+            width: var(--sidebar-collapsed-width);
+        }
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem;
+            background-color: var(--primary-color);
+            height: 60px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            flex-shrink: 0;
+        }
+
+        .sidebar-toggle {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            transition: background-color 0.2s;
+            width: calc(var(--sidebar-collapsed-width) - 1rem);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .sidebar-toggle:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-title {
+            color: white;
             font-size: 1.25rem;
             font-weight: bold;
-            background-color: var(--primary-color) !important;
-            color: white !important;
+            margin-left: 1rem;
+            white-space: nowrap;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+            overflow: hidden;
         }
 
-        .accordion-body {
-            background-color: var(--light-color) !important;
-            width: fit-content;
+        .sidebar.collapsed .sidebar-title {
+            opacity: 0;
+            width: 0;
+            margin-left: 0;
+        }
+
+        .sidebar-content {
+            flex: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            background-color: var(--light-color);
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        .sidebar.collapsed .sidebar-content {
+            opacity: 0;
+            pointer-events: none;
+            padding: 0;
+        }
+
+        /* Main content area */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            transition: margin-left 0.3s ease;
+            /* padding: 2rem; */
+            min-height: 100vh;
+        }
+
+        .sidebar.collapsed+.main-content {
+            margin-left: var(--sidebar-collapsed-width);
+        }
+
+        /* Responsive design for smaller screens */
+        @media (max-width: 768px) {
+            :root {
+                --sidebar-width: 300px;
+                --sidebar-collapsed-width: 0px;
+            }
+
+            .sidebar.collapsed {
+                width: 0px;
+                transform: translateX(-100%);
+            }
+
+            .sidebar.collapsed+.main-content {
+                margin-left: 0;
+            }
         }
 
         /* Consistent label width for all input groups */
@@ -138,176 +237,252 @@
             font-size: 0.85rem;
             color: #666 !important;
         }
+
+        /* Add padding to tab content, not the main container */
+        .tab-content {
+            flex: 1;
+            padding: 0
+        };
+
+        .vega-embed {
+            width: fit-content !important;
+            height: fit-content !important;
+            margin: 0 auto;
+        }
+
+        .vega-embed svg {
+            width: auto !important;
+            height: auto !important;
+            max-width: 100%;
+        }
+
+        .tab-pane {
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+            align-items: center;
+        }
+
+        /* Replace the nav-tabs CSS (around line 380) with this updated version: */
+
+        .nav-tabs {
+            min-height: 60px;
+            display: flex;
+            align-items: flex-end;
+            margin-top: 0 !important;
+            background-color: var(--primary-color);
+            padding: 0;
+        }
+
+        .nav-tabs .nav-item {
+            margin-bottom: 0;
+        }
+
+        .nav-tabs .nav-link {
+            font-size: 1.2rem;
+            background-color: white;
+            color: var(--accent-color);
+            padding: 0.5rem 0.75rem;
+            margin-bottom: 0;
+            height: auto;
+            display: flex;
+            align-items: center;
+            border: 1px solid var(--accent-color);
+            border-bottom: 2px solid var(--accent-color);
+        }
+
+        .nav-tabs .nav-link.active {
+            background-color: var(--light-color);
+            color: var(--primary-color);
+            font-weight: 800;
+            border-left: 2px solid var(--accent-color);
+            border-top: 2px solid var(--accent-color);
+            border-right: 2px solid var(--accent-color);
+            border-bottom: 2px solid transparent;
+        }
+
+        .nav-tabs .nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-tabs .nav-link.active:hover {
+            background-color: var(--light-color);
+        }
+
+        #player-apps-vis,
+        #captains-vis,
+        #point-scorers-vis,
+        #team-sheets-vis,
+        #cards-vis {
+            flex: 0 0 auto;
+            width: fit-content;
+        }
+
     </style>
 </head>
 
 <body>
 
-    <div class="accordion" id="filterAccordion">
-        <div class="accordion-item">
-            <h2 class="accordion-header">
-                <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#filterSection">
-                    <i class="bi bi-filter me-3"></i> Filters
-                </button>
-            </h2>
-            <div id="filterSection" class="accordion-collapse collapse show" data-bs-parent="#filterAccordion">
-                <div class="accordion-body">
-                    <div class="filters-container">
+    <!-- Sidebar Overlay -->
+    <div id="sidebar" class="sidebar">
+        <div class="sidebar-header">
+            <button id="sidebarToggle" class="sidebar-toggle" type="button">
+                <i class="bi bi-filter"></i>
+            </button>
+            <span class="sidebar-title">Filters</span>
+        </div>
 
-                        <!-- SQUAD -->
-                        <div class="filter-item">
-                            <div class="input-group">
-                                <span class="input-group-text">Squad</span>
-                                <div class="btn-group flex-fill" role="group">
-                                    <input type="radio" class="btn-check" name="squadRadio" id="squadAll" value=""
-                                        checked>
-                                    <label class="btn btn-outline-dark" for="squadAll">All</label>
+        <div class="sidebar-content">
+            <div class="filters-container">
+                <!-- SQUAD -->
+                <div class="filter-item">
+                    <div class="input-group">
+                        <span class="input-group-text">Squad</span>
+                        <div class="btn-group flex-fill" role="group">
+                            <input type="radio" class="btn-check" name="squadRadio" id="squadAll" value="" checked>
+                            <label class="btn btn-outline-dark" for="squadAll">All</label>
 
-                                    <input type="radio" class="btn-check" name="squadRadio" id="squad1st" value="1st">
-                                    <label class="btn btn-outline-primary" for="squad1st">1st</label>
+                            <input type="radio" class="btn-check" name="squadRadio" id="squad1st" value="1st">
+                            <label class="btn btn-outline-primary" for="squad1st">1st</label>
 
-                                    <input type="radio" class="btn-check" name="squadRadio" id="squad2nd" value="2nd">
-                                    <label class="btn btn-outline-secondary" for="squad2nd">2nd</label>
-                                </div>
-                            </div>
+                            <input type="radio" class="btn-check" name="squadRadio" id="squad2nd" value="2nd">
+                            <label class="btn btn-outline-secondary" for="squad2nd">2nd</label>
                         </div>
+                    </div>
+                </div>
 
-                        <!-- COMPETITION -->
-                        <div class="filter-item">
-                            <div class="input-group">
-                                <span class="input-group-text">Competition</span>
-                                <div class="btn-group flex-fill" role="group">
-                                    <input type="checkbox" class="btn-check" name="gameTypeCheck" id="gameTypeLeague"
-                                        value="League" checked>
-                                    <label class="btn btn-outline-primary" for="gameTypeLeague">League</label>
+                <!-- COMPETITION -->
+                <div class="filter-item">
+                    <div class="input-group">
+                        <span class="input-group-text">Competition</span>
+                        <div class="btn-group flex-fill" role="group">
+                            <input type="checkbox" class="btn-check" name="gameTypeCheck" id="gameTypeLeague"
+                                value="League" checked>
+                            <label class="btn btn-outline-primary" for="gameTypeLeague">League</label>
 
-                                    <input type="checkbox" class="btn-check" name="gameTypeCheck" id="gameTypeCup"
-                                        value="Cup" checked>
-                                    <label class="btn btn-outline-danger" for="gameTypeCup">Cup</label>
+                            <input type="checkbox" class="btn-check" name="gameTypeCheck" id="gameTypeCup" value="Cup"
+                                checked>
+                            <label class="btn btn-outline-danger" for="gameTypeCup">Cup</label>
 
-                                    <input type="checkbox" class="btn-check" name="gameTypeCheck" id="gameTypeFriendly"
-                                        value="Friendly" checked>
-                                    <label class="btn btn-outline-success" for="gameTypeFriendly">Friendly</label>
-                                </div>
-                            </div>
+                            <input type="checkbox" class="btn-check" name="gameTypeCheck" id="gameTypeFriendly"
+                                value="Friendly" checked>
+                            <label class="btn btn-outline-success" for="gameTypeFriendly">Friendly</label>
                         </div>
+                    </div>
+                </div>
 
-                        <!-- SEASON (Multi-select) -->
-                        <div class="filter-item">
-                            <div class="input-group">
-                                <span class="input-group-text">Season</span>
-                                <select id="seasonSelect" class="selectpicker form-control flex-fill" multiple
-                                    title="Select seasons" data-actions-box="true"
-                                    data-selected-text-format="count > 2">
-                                    <option value="2025/26">2025/26</option>
-                                    <option value="2024/25">2024/25</option>
-                                    <option value="2023/24">2023/24</option>
-                                    <option value="2022/23">2022/23</option>
-                                    <option value="2021/22">2021/22</option>
-                                    <option value="2020/21" data-subtext="COVID" disabled>2020/21</option>
-                                    <option value="2019/20" data-subtext="Limited data">2019/20</option>
-                                    <option value="2018/19" data-subtext="Limited data">2018/19</option>
-                                    <option value="2017/18" data-subtext="Limited data">2017/18</option>
-                                    <option value="2016/17" data-subtext="Limited data">2016/17</option>
-                                    <!-- </optgroup> -->
-                                </select>
-                            </div>
+                <!-- SEASON (Multi-select) -->
+                <div class="filter-item">
+                    <div class="input-group">
+                        <span class="input-group-text">Season</span>
+                        <select id="seasonSelect" class="selectpicker form-control flex-fill" multiple
+                            title="Select seasons" data-actions-box="true" data-selected-text-format="count > 2">
+                            <option value="2025/26">2025/26</option>
+                            <option value="2024/25">2024/25</option>
+                            <option value="2023/24">2023/24</option>
+                            <option value="2022/23">2022/23</option>
+                            <option value="2021/22">2021/22</option>
+                            <option value="2020/21" data-subtext="COVID" disabled>2020/21</option>
+                            <option value="2019/20" data-subtext="Limited data">2019/20</option>
+                            <option value="2018/19" data-subtext="Limited data">2018/19</option>
+                            <option value="2017/18" data-subtext="Limited data">2017/18</option>
+                            <option value="2016/17" data-subtext="Limited data">2016/17</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- POSITIONS (Multi-select) -->
+                <div class="filter-item">
+                    <div class="input-group">
+                        <span class="input-group-text">Position</span>
+                        <select id="positionSelect" class="selectpicker form-control flex-fill" multiple
+                            title="Select positions" data-actions-box="true" data-selected-text-format="count > 2">
+                            <option value="Prop">Prop</option>
+                            <option value="Hooker">Hooker</option>
+                            <option value="Second Row">Second Row</option>
+                            <option value="Flanker">Flanker</option>
+                            <option value="Number 8">Number 8</option>
+                            <option data-divider="true"></option>
+
+                            <option value="Scrum Half">Scrum Half</option>
+                            <option value="Fly Half">Fly Half</option>
+                            <option value="Centre">Centre</option>
+                            <option value="Wing">Wing</option>
+                            <option value="Full Back">Full Back</option>
+                            <option data-divider="true"></option>
+                            <option value="Bench">Bench</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- INCLUDE BENCH TOGGLE -->
+                <div class="filter-item">
+                    <div class="input-group mt-2">
+                        <label class="form-check-label ms-2 mb-2" for="includeBenchSwitch">Include bench</label>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="includeBenchSwitch" checked
+                                style="margin: 0;">
                         </div>
-
-                        <!-- POSITIONS (Multi-select) -->
-                        <div class="filter-item">
-                            <div class="input-group">
-                                <span class="input-group-text">Position</span>
-                                <select id="positionSelect" class="selectpicker form-control flex-fill" multiple
-                                    title="Select positions" data-actions-box="true"
-                                    data-selected-text-format="count > 2">
-                                    <option value="Prop">Prop</option>
-                                    <option value="Hooker">Hooker</option>
-                                    <option value="Second Row">Second Row</option>
-                                    <option value="Flanker">Flanker</option>
-                                    <option value="Number 8">Number 8</option>
-                                    <option data-divider="true"></option>
-
-                                    <option value="Scrum Half">Scrum Half</option>
-                                    <option value="Fly Half">Fly Half</option>
-                                    <option value="Centre">Centre</option>
-                                    <option value="Wing">Wing</option>
-                                    <option value="Full Back">Full Back</option>
-                                    <option data-divider="true"></option>
-                                    <option value="Bench">Bench</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- INCLUDE BENCH TOGGLE -->
-                        <div class="filter-item">
-                            <div class="input-group mt-2">
-                                <label class="form-check-label ms-2 mb-2" for="includeBenchSwitch">Include bench</label>
-                                <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" id="includeBenchSwitch" checked
-                                        style="margin: 0;">
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Chart containers -->
-    <!-- Tabs navigation -->
-    <ul class="nav nav-tabs mt-4" id="chartTabs" role="tablist">
-        <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="apps-tab" data-bs-toggle="tab" data-bs-target="#apps-content"
-                type="button" role="tab">
-                Player Appearances
-            </button>
-        </li>
-        <li class="nav-item" role="presentation">
-            <button class="nav-link" id="captains-tab" data-bs-toggle="tab" data-bs-target="#captains-content"
-                type="button" role="tab">
-                Captains
-            </button>
-        </li>
-        <li class="nav-item" role="presentation">
-            <button class="nav-link" id="point-scorers-tab" data-bs-toggle="tab" data-bs-target="#point-scorers-content"
-                type="button" role="tab">
-                Point Scorers
-            </button>
-        </li>
-        <li class="nav-item" role="presentation">
-            <button class="nav-link" id="cards-tab" data-bs-toggle="tab" data-bs-target="#cards-content" type="button"
-                role="tab">
-                Cards
-            </button>
-        </li>
-        <li class="nav-item" role="presentation">
-            <button class="nav-link" id="team-sheets-tab" data-bs-toggle="tab" data-bs-target="#team-sheets-content"
-                type="button" role="tab">
-                Team Sheets
-            </button>
-        </li>
-    </ul>
+    <!-- Main content area -->
+    <div id="mainContent" class="main-content">
+        <!-- Chart containers -->
+        <!-- Tabs navigation -->
+        <ul class="nav nav-tabs" id="chartTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="team-sheets-tab" data-bs-toggle="tab" data-bs-target="#team-sheets-content"
+                    type="button" role="tab">
+                    Team Sheets
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="apps-tab" data-bs-toggle="tab" data-bs-target="#apps-content"
+                    type="button" role="tab">
+                    Player Appearances
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="captains-tab" data-bs-toggle="tab" data-bs-target="#captains-content"
+                    type="button" role="tab">
+                    Captains
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="point-scorers-tab" data-bs-toggle="tab"
+                    data-bs-target="#point-scorers-content" type="button" role="tab">
+                    Point Scorers
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="cards-tab" data-bs-toggle="tab" data-bs-target="#cards-content"
+                    type="button" role="tab">
+                    Cards
+                </button>
+            </li>
+        </ul>
 
-    <!-- Tabs content -->
-    <div class="tab-content" id="chartTabsContent">
-        <div class="tab-pane fade show active" id="apps-content" role="tabpanel">
-            <div id="player-apps-vis"></div>
-        </div>
-        <div class="tab-pane fade" id="captains-content" role="tabpanel">
-            <div id="captains-vis"></div>
-        </div>
-        <div class="tab-pane fade" id="point-scorers-content" role="tabpanel">
-            <div id="point-scorers-vis"></div>
-        </div>
-        <div class="tab-pane fade" id="cards-content" role="tabpanel">
-            <div id="cards-vis"></div>
-        </div>
-        <div class="tab-pane fade" id="team-sheets-content" role="tabpanel">
-            <div id="team-sheets-vis"></div>
+        <!-- Tabs content -->
+        <div class="tab-content" id="chartTabsContent">
+            <div class="tab-pane fade" id="team-sheets-content" role="tabpanel">
+                <div id="team-sheets-vis"></div>
+            </div>
+            <div class="tab-pane fade show active" id="apps-content" role="tabpanel">
+                <div id="player-apps-vis"></div>
+            </div>
+            <div class="tab-pane fade" id="captains-content" role="tabpanel">
+                <div id="captains-vis"></div>
+            </div>
+            <div class="tab-pane fade" id="point-scorers-content" role="tabpanel">
+                <div id="point-scorers-vis"></div>
+            </div>
+            <div class="tab-pane fade" id="cards-content" role="tabpanel">
+                <div id="cards-vis"></div>
+            </div>
         </div>
     </div>
 
@@ -337,6 +512,22 @@
             renderCharts();
         });
 
+        function embedChart(selector, spec, customOptions = {}) {
+            const defaultOptions = {
+                // actions: false,
+                renderer: 'svg',
+                scaleFactor: 1,
+                config: {
+                    autosize: {
+                        resize: false
+                    }
+                }
+            };
+
+            const embedOptions = { ...defaultOptions, ...customOptions };
+            return vegaEmbed(selector, spec, embedOptions);
+        }
+
         // Function to render all charts with current filters
         function renderCharts() {
             renderAppearancesChart();
@@ -349,32 +540,32 @@
         function renderAppearancesChart() {
             let spec = JSON.parse(JSON.stringify(playerAppsSpec)); // deep copy
             applyFilters(spec, true, true, true); // Apply all filters
-            vegaEmbed("#player-apps-vis", spec, { actions: false });
+            embedChart("#player-apps-vis", spec);
         }
 
         function renderCaptainsChart() {
             let spec = JSON.parse(JSON.stringify(captainsSpec)); // deep copy
             applyFilters(spec, false, false, true); // Skip bench and position filters
-            vegaEmbed("#captains-vis", spec, { actions: false });
+            embedChart("#captains-vis", spec);
         }
 
         function renderPointScorersChart() {
             let spec = JSON.parse(JSON.stringify(pointScorersSpec)); // deep copy
             applyFilters(spec, false, false, false);
-            vegaEmbed("#point-scorers-vis", spec, { actions: false });
+            embedChart("#point-scorers-vis", spec);
         }
 
         function renderCardsChart() {
             let spec = JSON.parse(JSON.stringify(cardsSpec)); // deep copy
             applyFilters(spec, false, false, false); // Same as point scorers: no bench, no position, no competition filters
-            vegaEmbed("#cards-vis", spec, { actions: false });
+            embedChart("#cards-vis", spec);
         }
 
         function renderTeamSheetsChart() {
             let spec = JSON.parse(JSON.stringify(teamSheetsSpec)); // deep copy
             let filters = applyFilters(spec, true, true, true); // Apply all filters
             console.log("Team Sheets Filters:", filters);
-            vegaEmbed("#team-sheets-vis", spec, { actions: false });
+            embedChart("#team-sheets-vis", spec);
         }
 
 
@@ -398,6 +589,10 @@
             const hasOldSeasons = selectedSeasons.some(season => season < "2021/22") ||
                 selectedSeasons.length === $('#seasonSelect option').length;
 
+            // Get current active tab
+            const activeTab = document.querySelector('#chartTabs button.active');
+            const tabId = activeTab ? activeTab.getAttribute('id') : 'apps-tab';
+
             if (hasOldSeasons) {
                 // Disable position filter when old seasons selected
                 if (!$('#positionSelect').prop('disabled')) {
@@ -416,24 +611,30 @@
                 document.getElementById("includeBenchSwitch").disabled = true;
 
             } else {
-                // Enable position filter when only new seasons selected
-                const selectedPositions = $('#positionSelect').val() || [];
-                if (selectedPositions.length === 0) {
-                    // Only enable if no positions are selected
-                    if ($('#positionSelect').prop('disabled')) {
-                        updateSelectpicker('#positionSelect', ($el) => {
-                            $el.prop('disabled', false);
-                            $el.val([]);
-                        });
-                    }
+                // Only enable position filter for Player Appearances tab
+                // Team Sheets tab keeps position enabled always (old seasons are already disabled)
+                if (tabId === 'apps-tab' || tabId === 'team-sheets-tab') {
+                    const selectedPositions = $('#positionSelect').val() || [];
+                    if (selectedPositions.length === 0) {
+                        // Only enable if no positions are selected
+                        if ($('#positionSelect').prop('disabled')) {
+                            updateSelectpicker('#positionSelect', ($el) => {
+                                $el.prop('disabled', false);
+                                $el.val([]);
+                            });
+                        }
 
-                    // Re-enable other filters
-                    document.querySelectorAll('.btn-check[name="gameTypeCheck"]').forEach(el => {
-                        el.disabled = false;
-                        el.checked = true;
-                    });
-                    document.getElementById("includeBenchSwitch").disabled = false;
+                        // Re-enable other filters (except for team sheets where bench is always disabled)
+                        if (tabId === 'apps-tab') {
+                            document.querySelectorAll('.btn-check[name="gameTypeCheck"]').forEach(el => {
+                                el.disabled = false;
+                                el.checked = true;
+                            });
+                            document.getElementById("includeBenchSwitch").disabled = false;
+                        }
+                    }
                 }
+                // For other tabs (captains, point-scorers, cards), keep position disabled
             }
 
             renderCharts();
@@ -481,8 +682,7 @@
         }
 
         $(document).ready(function () {
-            // Initialize selectpickers ONCE
-            // $('.selectpicker').selectpicker();
+            $('.selectpicker').selectpicker();
 
             // Set global Vega-Embed defaults
             vegaEmbed.defaultOptions = {
@@ -606,14 +806,31 @@
 
             document.getElementById("includeBenchSwitch").addEventListener("change", renderCharts);
 
-            // Simple event listeners for other filters - NO state updates
-            document.querySelectorAll('input[name="squadRadio"]')
-                .forEach(radio => radio.addEventListener("change", renderCharts));
+            // Sidebar toggle functionality
+            setTimeout(function () {
+                const $sidebarToggle = $('#sidebarToggle');
+                const $sidebar = $('#sidebar');
 
-            document.querySelectorAll('input[name="gameTypeCheck"]')
-                .forEach(checkbox => checkbox.addEventListener("change", renderCharts));
+                console.log('jQuery sidebar setup - Toggle:', $sidebarToggle.length, 'Sidebar:', $sidebar.length);
 
-            document.getElementById("includeBenchSwitch").addEventListener("change", renderCharts);
+                $sidebarToggle.off('click').on('click', function (e) {
+                    e.preventDefault();
+                    console.log('Sidebar toggle clicked via jQuery!');
+                    $sidebar.toggleClass('collapsed');
+
+                    // Store sidebar state in localStorage
+                    const isCollapsed = $sidebar.hasClass('collapsed');
+                    localStorage.setItem('sidebarCollapsed', isCollapsed);
+                    console.log('Sidebar collapsed state:', isCollapsed);
+                });
+
+                // Restore sidebar state on page load
+                const savedState = localStorage.getItem('sidebarCollapsed');
+                console.log('Saved sidebar state:', savedState);
+                if (savedState === 'true') {
+                    $sidebar.addClass('collapsed');
+                }
+            }, 100);
         });
 
         // SIMPLIFIED APPLY FILTERS FUNCTION
@@ -691,8 +908,7 @@
 
                     // Disable position filters for team sheets
                     if (typeof $ !== 'undefined') {
-                        $('#positionSelect').selectpicker('deselectAll');
-                        $('#positionSelect').prop('disabled', true).selectpicker('refresh');
+                        $('#positionSelect').prop('disabled', false).selectpicker('refresh');
 
                         // Disable old seasons for team sheets
                         const selectedSeasons = $('#seasonSelect').val() || [];
@@ -837,16 +1053,6 @@
 
                 // Render charts after DOM updates
                 setTimeout(renderCharts, 50);
-            });
-        });
-
-        // Toggle collapsible filter section
-        document.querySelectorAll('[data-bs-toggle="collapse"]').forEach(button => {
-            button.addEventListener('click', () => {
-                const target = document.querySelector(button.getAttribute('data-bs-target'));
-                if (target) {
-                    target.classList.toggle('show');
-                }
             });
         });
 
