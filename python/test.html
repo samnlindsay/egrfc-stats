@@ -290,6 +290,39 @@
             background-color: var(--light-color);
         }
 
+        /* Dropdown in nav tabs */
+        .nav-tabs .dropdown-menu {
+            font-family: 'PT Sans Narrow', sans-serif;
+            border: 2px solid var(--accent-color);
+            border-top: none;
+            border-radius: 0 0 0.375rem 0.375rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-tabs .dropdown-item {
+            color: var(--primary-color);
+            padding: 0.5rem 1rem;
+            font-size: 1.2rem;
+        }
+
+        .nav-tabs .dropdown-item:hover {
+            background-color: var(--light-color);
+            color: var(--primary-color);
+        }
+
+        .nav-tabs .dropdown-item:focus {
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        .nav-tabs .nav-link.dropdown-toggle {
+            border-bottom: 2px solid var(--accent-color);
+        }
+
+        .nav-tabs .nav-link.dropdown-toggle.active {
+            border-bottom: 2px solid transparent;
+        }
+
         /* ===== CHART CONTENT ===== */
         .tab-content {
             flex: 1;
@@ -328,7 +361,9 @@
         #captains-vis,
         #point-scorers-vis,
         #team-sheets-vis,
-        #cards-vis {
+        #cards-vis,
+        #results-vis,
+        #set-piece-vis {
             min-width: 600px;
             overflow-x: auto;
         }
@@ -521,6 +556,12 @@
         <!-- Tabs navigation -->
         <ul class="nav nav-tabs" id="chartTabs" role="tablist">
             <li class="nav-item" role="presentation">
+                <button class="nav-link" id="results-tab" data-bs-toggle="tab" data-bs-target="#results-content"
+                    type="button" role="tab">
+                    Results
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
                 <button class="nav-link" id="team-sheets-tab" data-bs-toggle="tab" data-bs-target="#team-sheets-content"
                     type="button" role="tab">
                     Team Sheets
@@ -550,10 +591,27 @@
                     Cards
                 </button>
             </li>
+            <li class="nav-item dropdown" role="presentation">
+                <button class="nav-link dropdown-toggle" id="set-piece-dropdown" data-bs-toggle="dropdown" type="button"
+                    role="button" aria-expanded="false">
+                    Set Piece
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#" data-chart-type="lineout"
+                            data-bs-target="#set-piece-content">Lineout</a>
+                    </li>
+                    <li><a class="dropdown-item" href="#" data-chart-type="scrum"
+                            data-bs-target="#set-piece-content">Scrum</a></li>
+                </ul>
+            </li>
+
         </ul>
 
         <!-- Tabs content -->
         <div class="tab-content" id="chartTabsContent">
+            <div class="tab-pane fade" id="results-content" role="tabpanel">
+                <div id="results-vis"></div>
+            </div>
             <div class="tab-pane fade" id="team-sheets-content" role="tabpanel">
                 <div id="team-sheets-vis"></div>
             </div>
@@ -569,6 +627,9 @@
             <div class="tab-pane fade" id="cards-content" role="tabpanel">
                 <div id="cards-vis"></div>
             </div>
+            <div class="tab-pane fade" id="set-piece-content" role="tabpanel">
+                <div id="set-piece-vis"></div>
+            </div>
         </div>
     </div>
 
@@ -579,7 +640,7 @@
 
     <script>
 
-        let playerAppsSpec, captainsSpec, pointScorersSpec, cardsSpec, teamSheetsSpec;
+        let playerAppsSpec, captainsSpec, pointScorersSpec, cardsSpec, teamSheetsSpec, resultsSpec, lineoutSpec, scrumSpec;
 
         // Load all charts
         Promise.all([
@@ -588,12 +649,18 @@
             fetch("point_scorers.json").then(res => res.json()),
             fetch("cards.json").then(res => res.json()),
             fetch("team_sheets.json").then(res => res.json()),
-        ]).then(([appearancesSpec, captSpec, scorersSpec, cardsSpecData, teamSpec]) => {
+            fetch("results.json").then(res => res.json()),
+            fetch("Lineout_success.json").then(res => res.json()),
+            fetch("Scrum_success.json").then(res => res.json()),
+        ]).then(([appearancesSpec, captSpec, scorersSpec, cardsSpecData, teamSpec, resultsSpecData, lineoutSpecData, scrumSpecData]) => {
             playerAppsSpec = appearancesSpec;
             captainsSpec = captSpec;
             pointScorersSpec = scorersSpec;
             cardsSpec = cardsSpecData;
             teamSheetsSpec = teamSpec;
+            resultsSpec = resultsSpecData;
+            lineoutSpec = lineoutSpecData;
+            scrumSpec = scrumSpecData;
 
             renderCharts();
         });
@@ -646,12 +713,34 @@
             renderPointScorersChart();
             renderCardsChart();
             renderTeamSheetsChart();
+            renderResultsChart();
+            renderSetPieceChart();
 
             console.log('🔄 All chart render functions called');
         }
 
         /* filepath: /Users/samlindsay/Documents/Projects/Personal/EGRFC/egrfc-stats/python/test.html */
         /* Alternative: Replace the chart rendering functions with this more aggressive approach: */
+
+        function renderResultsChart() {
+            console.log('🎯 Rendering Results chart...');
+            const parentContainer = document.getElementById('results-content');
+            const oldContainer = document.getElementById('results-vis');
+
+            // Remove old container completely
+            if (oldContainer) {
+                oldContainer.remove();
+            }
+
+            // Create fresh container
+            const newContainer = document.createElement('div');
+            newContainer.id = 'results-vis';
+            parentContainer.appendChild(newContainer);
+
+            let spec = JSON.parse(JSON.stringify(resultsSpec)); // deep copy
+            applyFilters(spec, false, false, true); // Apply squad, season, and competition filters (no bench, no position)
+            embedChart("#results-vis", spec);
+        }
 
         function renderAppearancesChart() {
             console.log('🎯 Rendering Player Appearances chart...');
@@ -754,6 +843,33 @@
             embedChart("#team-sheets-vis", spec);
         }
 
+        let currentSetPieceType = 'lineout'; // Default to lineout
+
+        function renderSetPieceChart() {
+            console.log('🎯 Rendering Set Piece chart...');
+            const parentContainer = document.getElementById('set-piece-content');
+            const oldContainer = document.getElementById('set-piece-vis');
+
+            // Remove old container completely
+            if (oldContainer) {
+                oldContainer.remove();
+            }
+
+            // Create fresh container
+            const newContainer = document.createElement('div');
+            newContainer.id = 'set-piece-vis';
+            parentContainer.appendChild(newContainer);
+
+            // Use the stored set piece type
+            const spec = currentSetPieceType === 'lineout' ? lineoutSpec : scrumSpec;
+
+            console.log('Set piece type:', currentSetPieceType);
+
+            let chartSpec = JSON.parse(JSON.stringify(spec)); // deep copy
+            applyFilters(chartSpec, false, false, true); // Apply squad, season, and competition filters (no bench, no position)
+            embedChart("#set-piece-vis", chartSpec);
+        }
+
 
         // Helper function to safely update selectpicker
         function updateSelectpicker(selector, callback) {
@@ -802,6 +918,37 @@
             document.getElementById("includeBenchSwitch").addEventListener("change", function () {
                 console.log('Bench toggle changed');
                 renderCharts();
+            });
+
+            // Set Piece dropdown event listeners
+            document.querySelectorAll('.dropdown-item[data-chart-type]').forEach(item => {
+                item.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    const chartType = this.getAttribute('data-chart-type');
+                    const targetId = this.getAttribute('data-bs-target');
+
+                    console.log('Set piece dropdown clicked:', chartType);
+
+                    // Update the stored set piece type
+                    currentSetPieceType = chartType;
+
+                    // Update dropdown button text
+                    document.getElementById('set-piece-dropdown').textContent =
+                        chartType.charAt(0).toUpperCase() + chartType.slice(1);
+
+                    // Show the set piece tab content
+                    document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('show', 'active'));
+                    document.querySelector(targetId).classList.add('show', 'active');
+
+                    // Update tab active state
+                    document.querySelectorAll('#chartTabs .nav-link').forEach(t => t.classList.remove('active'));
+                    document.getElementById('set-piece-dropdown').classList.add('active');
+
+                    // Apply tab-specific logic and render
+                    applyTabSpecificLogic('set-piece-tab');
+                    setTimeout(renderSetPieceChart, 50); // Only render the set piece chart
+                });
             });
 
             // Sidebar toggle functionality with backdrop
@@ -950,7 +1097,7 @@
             console.log('Applying tab-specific logic for:', tabId);
 
             if (tabId === 'team-sheets-tab') {
-                // Team Sheets: Enable positions, disable old seasons, force bench on
+                // Team Sheets: Enable positions, disable old seasons, enable bench toggle
                 updateSelectpicker('#positionSelect', ($el) => {
                     $el.prop('disabled', false);
                 });
@@ -1025,6 +1172,26 @@
                 document.getElementById("includeBenchSwitch").checked = true;
                 document.getElementById("includeBenchSwitch").disabled = true;
 
+            } else if (tabId === 'results-tab' || tabId === 'set-piece-tab') {
+                // Results & Set Piece: Disable positions, enable all seasons, force bench on and disable toggle
+                updateSelectpicker('#positionSelect', ($el) => {
+                    $el.val([]);
+                    $el.prop('disabled', true);
+                });
+
+                // Enable all seasons for results and set piece
+                updateSelectpicker('#seasonSelect', ($el) => {
+                    $el.find('option').each(function () {
+                        if ($(this).val() !== "2020/21") {
+                            $(this).prop('disabled', false);
+                        }
+                    });
+                });
+
+                // Force bench on and disable toggle for results and set piece
+                document.getElementById("includeBenchSwitch").checked = true;
+                document.getElementById("includeBenchSwitch").disabled = true;
+
             } else {
                 // Player Appearances: Enable all filters with conditional logic
                 const selectedSeasons = $('#seasonSelect').val() || [];
@@ -1056,14 +1223,18 @@
             }
         }
 
-        document.querySelectorAll('#chartTabs button').forEach(tab => {
+        document.querySelectorAll('#chartTabs button:not(.dropdown-toggle)').forEach(tab => {
             tab.addEventListener('click', (event) => {
                 event.preventDefault();
                 const targetId = tab.getAttribute('data-bs-target');
                 document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('show', 'active'));
                 document.querySelector(targetId).classList.add('show', 'active');
-                document.querySelectorAll('#chartTabs button').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('#chartTabs .nav-link').forEach(t => t.classList.remove('active'));
                 tab.classList.add('active');
+
+                // Apply tab-specific logic
+                const tabId = tab.getAttribute('id');
+                applyTabSpecificLogic(tabId);
 
                 // Simple: just render charts when tab changes
                 setTimeout(renderCharts, 50);
