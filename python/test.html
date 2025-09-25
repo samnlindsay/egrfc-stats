@@ -357,12 +357,9 @@
             height: auto !important;
         }
 
-        #player-apps-vis,
-        #captains-vis,
-        #point-scorers-vis,
-        #team-sheets-vis,
-        #cards-vis,
         #results-vis,
+        #team-sheets-vis,
+        #player-stats-vis,
         #set-piece-vis {
             min-width: 600px;
             overflow-x: auto;
@@ -567,29 +564,21 @@
                     Team Sheets
                 </button>
             </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="apps-tab" data-bs-toggle="tab" data-bs-target="#apps-content"
-                    type="button" role="tab">
-                    Player Appearances
+            <li class="nav-item dropdown" role="presentation">
+                <button class="nav-link dropdown-toggle active" id="player-stats-dropdown" data-bs-toggle="dropdown"
+                    type="button" role="button" aria-expanded="false">
+                    Player Stats
                 </button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="captains-tab" data-bs-toggle="tab" data-bs-target="#captains-content"
-                    type="button" role="tab">
-                    Captains
-                </button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="point-scorers-tab" data-bs-toggle="tab"
-                    data-bs-target="#point-scorers-content" type="button" role="tab">
-                    Point Scorers
-                </button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="cards-tab" data-bs-toggle="tab" data-bs-target="#cards-content"
-                    type="button" role="tab">
-                    Cards
-                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#" data-chart-type="appearances"
+                            data-bs-target="#player-stats-content">Appearances</a></li>
+                    <li><a class="dropdown-item" href="#" data-chart-type="captains"
+                            data-bs-target="#player-stats-content">Captains</a></li>
+                    <li><a class="dropdown-item" href="#" data-chart-type="point-scorers"
+                            data-bs-target="#player-stats-content">Scorers</a></li>
+                    <li><a class="dropdown-item" href="#" data-chart-type="cards"
+                            data-bs-target="#player-stats-content">Cards</a></li>
+                </ul>
             </li>
             <li class="nav-item dropdown" role="presentation">
                 <button class="nav-link dropdown-toggle" id="set-piece-dropdown" data-bs-toggle="dropdown" type="button"
@@ -601,10 +590,10 @@
                             data-bs-target="#set-piece-content">Lineout</a>
                     </li>
                     <li><a class="dropdown-item" href="#" data-chart-type="scrum"
-                            data-bs-target="#set-piece-content">Scrum</a></li>
+                            data-bs-target="#set-piece-content">Scrum</a>
+                    </li>
                 </ul>
             </li>
-
         </ul>
 
         <!-- Tabs content -->
@@ -615,17 +604,8 @@
             <div class="tab-pane fade" id="team-sheets-content" role="tabpanel">
                 <div id="team-sheets-vis"></div>
             </div>
-            <div class="tab-pane fade show active" id="apps-content" role="tabpanel">
-                <div id="player-apps-vis"></div>
-            </div>
-            <div class="tab-pane fade" id="captains-content" role="tabpanel">
-                <div id="captains-vis"></div>
-            </div>
-            <div class="tab-pane fade" id="point-scorers-content" role="tabpanel">
-                <div id="point-scorers-vis"></div>
-            </div>
-            <div class="tab-pane fade" id="cards-content" role="tabpanel">
-                <div id="cards-vis"></div>
+            <div class="tab-pane fade show active" id="player-stats-content" role="tabpanel">
+                <div id="player-stats-vis"></div>
             </div>
             <div class="tab-pane fade" id="set-piece-content" role="tabpanel">
                 <div id="set-piece-vis"></div>
@@ -640,7 +620,7 @@
 
     <script>
 
-        let playerAppsSpec, captainsSpec, pointScorersSpec, cardsSpec, teamSheetsSpec, resultsSpec, lineoutSpec, scrumSpec;
+        let appearancesSpec, captainsSpec, pointScorersSpec, cardsSpec, teamSheetsSpec, resultsSpec, lineoutSpec, scrumSpec;
 
         // Load all charts
         Promise.all([
@@ -652,15 +632,15 @@
             fetch("results.json").then(res => res.json()),
             fetch("Lineout_success.json").then(res => res.json()),
             fetch("Scrum_success.json").then(res => res.json()),
-        ]).then(([appearancesSpec, captSpec, scorersSpec, cardsSpecData, teamSpec, resultsSpecData, lineoutSpecData, scrumSpecData]) => {
-            playerAppsSpec = appearancesSpec;
-            captainsSpec = captSpec;
-            pointScorersSpec = scorersSpec;
-            cardsSpec = cardsSpecData;
-            teamSheetsSpec = teamSpec;
-            resultsSpec = resultsSpecData;
-            lineoutSpec = lineoutSpecData;
-            scrumSpec = scrumSpecData;
+        ]).then(([appearances, captains, pointScorers, cards, teamSheets, results, lineout, scrum]) => {
+            appearancesSpec = appearances;
+            captainsSpec = captains;
+            pointScorersSpec = pointScorers;
+            cardsSpec = cards;
+            teamSheetsSpec = teamSheets;
+            resultsSpec = results;
+            lineoutSpec = lineout;
+            scrumSpec = scrum;
 
             renderCharts();
         });
@@ -703,24 +683,81 @@
                 });
         }
 
+        let currentPlayerStatsType = 'appearances'; // Default to appearances
+        let currentSetPieceType = 'lineout'; // Default to lineout
+
         // Function to render all charts with current filters
         function renderCharts() {
             console.log('🔄 renderCharts called at:', new Date().toISOString());
             console.log('🔄 About to render all charts...');
 
-            renderAppearancesChart();
-            renderCaptainsChart();
-            renderPointScorersChart();
-            renderCardsChart();
-            renderTeamSheetsChart();
             renderResultsChart();
+            renderTeamSheetsChart();
+            renderPlayerStatsChart();
             renderSetPieceChart();
 
             console.log('🔄 All chart render functions called');
         }
 
-        /* filepath: /Users/samlindsay/Documents/Projects/Personal/EGRFC/egrfc-stats/python/test.html */
-        /* Alternative: Replace the chart rendering functions with this more aggressive approach: */
+        function renderPlayerStatsChart() {
+            console.log('🎯 Rendering Player Stats chart:', currentPlayerStatsType);
+            const parentContainer = document.getElementById('player-stats-content');
+            const oldContainer = document.getElementById('player-stats-vis');
+
+            // Remove old container completely
+            if (oldContainer) {
+                oldContainer.remove();
+            }
+
+            // Create fresh container
+            const newContainer = document.createElement('div');
+            newContainer.id = 'player-stats-vis';
+            parentContainer.appendChild(newContainer);
+
+            // Select the appropriate spec based on current type
+            let spec;
+            let applyBench = true;
+            let applyPosition = true;
+            let applyCompetition = true;
+
+            switch (currentPlayerStatsType) {
+                case 'appearances':
+                    spec = appearancesSpec;
+                    applyBench = true;
+                    applyPosition = true;
+                    applyCompetition = true;
+                    break;
+                case 'captains':
+                    spec = captainsSpec;
+                    applyBench = false;
+                    applyPosition = false;
+                    applyCompetition = true;
+                    break;
+                case 'point-scorers':
+                    spec = pointScorersSpec;
+                    applyBench = false;
+                    applyPosition = false;
+                    applyCompetition = false;
+                    break;
+                case 'cards':
+                    spec = cardsSpec;
+                    applyBench = false;
+                    applyPosition = false;
+                    applyCompetition = false;
+                    break;
+                default:
+                    spec = appearancesSpec;
+                    applyBench = true;
+                    applyPosition = true;
+                    applyCompetition = true;
+            }
+
+            console.log('Player Stats type:', currentPlayerStatsType);
+
+            let chartSpec = JSON.parse(JSON.stringify(spec)); // deep copy
+            applyFilters(chartSpec, applyBench, applyPosition, applyCompetition);
+            embedChart("#player-stats-vis", chartSpec);
+        }
 
         function renderResultsChart() {
             console.log('🎯 Rendering Results chart...');
@@ -740,86 +777,6 @@
             let spec = JSON.parse(JSON.stringify(resultsSpec)); // deep copy
             applyFilters(spec, false, false, true); // Apply squad, season, and competition filters (no bench, no position)
             embedChart("#results-vis", spec);
-        }
-
-        function renderAppearancesChart() {
-            console.log('🎯 Rendering Player Appearances chart...');
-            const parentContainer = document.getElementById('apps-content');
-            const oldContainer = document.getElementById('player-apps-vis');
-
-            // Remove old container completely
-            if (oldContainer) {
-                oldContainer.remove();
-            }
-
-            // Create fresh container
-            const newContainer = document.createElement('div');
-            newContainer.id = 'player-apps-vis';
-            parentContainer.appendChild(newContainer);
-
-            let spec = JSON.parse(JSON.stringify(playerAppsSpec)); // deep copy
-            applyFilters(spec, true, true, true); // Apply all filters
-            embedChart("#player-apps-vis", spec);
-        }
-
-        function renderCaptainsChart() {
-            console.log('🎯 Rendering Captains chart...');
-            const parentContainer = document.getElementById('captains-content');
-            const oldContainer = document.getElementById('captains-vis');
-
-            // Remove old container completely
-            if (oldContainer) {
-                oldContainer.remove();
-            }
-
-            // Create fresh container
-            const newContainer = document.createElement('div');
-            newContainer.id = 'captains-vis';
-            parentContainer.appendChild(newContainer);
-
-            let spec = JSON.parse(JSON.stringify(captainsSpec)); // deep copy
-            applyFilters(spec, false, false, true); // Skip bench and position filters
-            embedChart("#captains-vis", spec);
-        }
-
-        function renderPointScorersChart() {
-            console.log('🎯 Rendering Point Scorers chart...');
-            const parentContainer = document.getElementById('point-scorers-content');
-            const oldContainer = document.getElementById('point-scorers-vis');
-
-            // Remove old container completely
-            if (oldContainer) {
-                oldContainer.remove();
-            }
-
-            // Create fresh container
-            const newContainer = document.createElement('div');
-            newContainer.id = 'point-scorers-vis';
-            parentContainer.appendChild(newContainer);
-
-            let spec = JSON.parse(JSON.stringify(pointScorersSpec)); // deep copy
-            applyFilters(spec, false, false, false);
-            embedChart("#point-scorers-vis", spec);
-        }
-
-        function renderCardsChart() {
-            console.log('🎯 Rendering Cards chart...');
-            const parentContainer = document.getElementById('cards-content');
-            const oldContainer = document.getElementById('cards-vis');
-
-            // Remove old container completely
-            if (oldContainer) {
-                oldContainer.remove();
-            }
-
-            // Create fresh container
-            const newContainer = document.createElement('div');
-            newContainer.id = 'cards-vis';
-            parentContainer.appendChild(newContainer);
-
-            let spec = JSON.parse(JSON.stringify(cardsSpec)); // deep copy
-            applyFilters(spec, false, false, false); // Same as point scorers: no bench, no position, no competition filters
-            embedChart("#cards-vis", spec);
         }
 
         function renderTeamSheetsChart() {
@@ -843,8 +800,6 @@
             embedChart("#team-sheets-vis", spec);
         }
 
-        let currentSetPieceType = 'lineout'; // Default to lineout
-
         function renderSetPieceChart() {
             console.log('🎯 Rendering Set Piece chart...');
             const parentContainer = document.getElementById('set-piece-content');
@@ -866,7 +821,32 @@
             console.log('Set piece type:', currentSetPieceType);
 
             let chartSpec = JSON.parse(JSON.stringify(spec)); // deep copy
-            applyFilters(chartSpec, false, false, true); // Apply squad, season, and competition filters (no bench, no position)
+
+            // Apply filters to all parts of the set piece chart
+            const filters = applyFilters(chartSpec, false, false, true);
+
+            // EXPLICITLY apply filters to area chart layers if they exist
+            // This handles the specific structure of your set piece charts
+            if (chartSpec.hconcat && chartSpec.hconcat.length >= 3) {
+                // The third element should be the success rate area chart
+                const successRateChart = chartSpec.hconcat[2];
+
+                if (successRateChart && successRateChart.layer) {
+                    successRateChart.layer.forEach(layer => {
+                        layer.transform = layer.transform || [];
+                        layer.transform = layer.transform.filter(t => !t._externalFilter);
+
+                        if (filters.length > 0) {
+                            const combinedFilter = filters.join(" && ");
+                            layer.transform.push({
+                                filter: combinedFilter,
+                                _externalFilter: true
+                            });
+                        }
+                    });
+                }
+            }
+
             embedChart("#set-piece-vis", chartSpec);
         }
 
@@ -920,7 +900,7 @@
                 renderCharts();
             });
 
-            // Set Piece dropdown event listeners
+            // Player Stats dropdown event listeners
             document.querySelectorAll('.dropdown-item[data-chart-type]').forEach(item => {
                 item.addEventListener('click', function (e) {
                     e.preventDefault();
@@ -928,26 +908,44 @@
                     const chartType = this.getAttribute('data-chart-type');
                     const targetId = this.getAttribute('data-bs-target');
 
-                    console.log('Set piece dropdown clicked:', chartType);
+                    console.log('Dropdown clicked:', chartType);
 
-                    // Update the stored set piece type
-                    currentSetPieceType = chartType;
+                    // Handle Player Stats dropdown
+                    if (targetId === '#player-stats-content') {
+                        // Update the stored player stats type
+                        currentPlayerStatsType = chartType;
 
-                    // Update dropdown button text
-                    document.getElementById('set-piece-dropdown').textContent =
-                        chartType.charAt(0).toUpperCase() + chartType.slice(1);
+                        // DO NOT update dropdown button text - keep it as "Player Stats"
+                        // document.getElementById('player-stats-dropdown').textContent = "Player Stats";
 
-                    // Show the set piece tab content
-                    document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('show', 'active'));
-                    document.querySelector(targetId).classList.add('show', 'active');
+                        // Show the player stats tab content
+                        document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('show', 'active'));
+                        document.querySelector(targetId).classList.add('show', 'active');
 
-                    // Update tab active state
-                    document.querySelectorAll('#chartTabs .nav-link').forEach(t => t.classList.remove('active'));
-                    document.getElementById('set-piece-dropdown').classList.add('active');
+                        // Update tab active state
+                        document.querySelectorAll('#chartTabs .nav-link').forEach(t => t.classList.remove('active'));
+                        document.getElementById('player-stats-dropdown').classList.add('active');
 
-                    // Apply tab-specific logic and render
-                    applyTabSpecificLogic('set-piece-tab');
-                    setTimeout(renderSetPieceChart, 50); // Only render the set piece chart
+                        // Apply tab-specific logic and render
+                        applyTabSpecificLogic('player-stats-tab');
+                        setTimeout(renderPlayerStatsChart, 50); // Only render the player stats chart
+
+                    } else if (targetId === '#set-piece-content') {
+                        // Handle Set Piece dropdown
+                        currentSetPieceType = chartType;
+
+                        // DO NOT update dropdown button text - keep it as "Set Piece"
+                        // document.getElementById('set-piece-dropdown').textContent = "Set Piece";
+
+                        document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('show', 'active'));
+                        document.querySelector(targetId).classList.add('show', 'active');
+
+                        document.querySelectorAll('#chartTabs .nav-link').forEach(t => t.classList.remove('active'));
+                        document.getElementById('set-piece-dropdown').classList.add('active');
+
+                        applyTabSpecificLogic('set-piece-tab');
+                        setTimeout(renderSetPieceChart, 50);
+                    }
                 });
             });
 
@@ -1123,103 +1121,106 @@
                 // Enable bench toggle for team sheets
                 document.getElementById("includeBenchSwitch").disabled = false;
 
-            } else if (tabId === 'captains-tab') {
-                // Captains: Disable positions, disable old seasons, force bench on and disable toggle
-                updateSelectpicker('#positionSelect', ($el) => {
-                    $el.val([]);
-                    $el.prop('disabled', true);
-                });
+            } else if (tabId === 'player-stats-tab') {
+                // Player Stats: Apply logic based on current type
+                if (currentPlayerStatsType === 'appearances') {
+                    // Appearances: Enable all filters with conditional logic
+                    const selectedSeasons = $('#seasonSelect').val() || [];
+                    const hasOldSeasons = selectedSeasons && selectedSeasons.some(season => season < "2021/22");
 
-                // Disable seasons before 2021/22
-                const selectedSeasons = $('#seasonSelect').val() || [];
-                const newSeasons = selectedSeasons.filter(season => season >= "2021/22");
-
-                updateSelectpicker('#seasonSelect', ($el) => {
-                    $el.find('option').each(function () {
-                        if ($(this).val() < "2021/22" && $(this).val() !== "2020/21") {
-                            $(this).prop('disabled', true);
-                        } else if ($(this).val() !== "2020/21") {
-                            $(this).prop('disabled', false);
-                        }
+                    // Enable all seasons for appearances chart
+                    updateSelectpicker('#seasonSelect', ($el) => {
+                        $el.find('option').each(function () {
+                            if ($(this).val() !== "2020/21") {
+                                $(this).prop('disabled', false);
+                            }
+                        });
                     });
 
-                    if (newSeasons.length !== selectedSeasons.length) {
-                        $el.val(newSeasons);
+                    // Only enable position filter if no old seasons selected
+                    if (!hasOldSeasons) {
+                        updateSelectpicker('#positionSelect', ($el) => {
+                            $el.prop('disabled', false);
+                        });
+                        document.getElementById("includeBenchSwitch").disabled = false;
+                    } else {
+                        updateSelectpicker('#positionSelect', ($el) => {
+                            $el.val([]);
+                            $el.prop('disabled', true);
+                        });
+                        document.getElementById("includeBenchSwitch").checked = true;
+                        document.getElementById("includeBenchSwitch").disabled = true;
                     }
-                });
 
-                // Force bench on and disable toggle for captains
-                document.getElementById("includeBenchSwitch").checked = true;
-                document.getElementById("includeBenchSwitch").disabled = true;
-
-            } else if (tabId === 'point-scorers-tab' || tabId === 'cards-tab') {
-                // Point Scorers & Cards: Disable positions, enable all seasons, force bench on and disable toggle
-                updateSelectpicker('#positionSelect', ($el) => {
-                    $el.val([]);
-                    $el.prop('disabled', true);
-                });
-
-                // Enable all seasons for point scorers and cards
-                updateSelectpicker('#seasonSelect', ($el) => {
-                    $el.find('option').each(function () {
-                        if ($(this).val() !== "2020/21") {
-                            $(this).prop('disabled', false);
-                        }
-                    });
-                });
-
-                // Force bench on and disable toggle for point scorers and cards
-                document.getElementById("includeBenchSwitch").checked = true;
-                document.getElementById("includeBenchSwitch").disabled = true;
-
-            } else if (tabId === 'results-tab' || tabId === 'set-piece-tab') {
-                // Results & Set Piece: Disable positions, enable all seasons, force bench on and disable toggle
-                updateSelectpicker('#positionSelect', ($el) => {
-                    $el.val([]);
-                    $el.prop('disabled', true);
-                });
-
-                // Enable all seasons for results and set piece
-                updateSelectpicker('#seasonSelect', ($el) => {
-                    $el.find('option').each(function () {
-                        if ($(this).val() !== "2020/21") {
-                            $(this).prop('disabled', false);
-                        }
-                    });
-                });
-
-                // Force bench on and disable toggle for results and set piece
-                document.getElementById("includeBenchSwitch").checked = true;
-                document.getElementById("includeBenchSwitch").disabled = true;
-
-            } else {
-                // Player Appearances: Enable all filters with conditional logic
-                const selectedSeasons = $('#seasonSelect').val() || [];
-                const hasOldSeasons = selectedSeasons && selectedSeasons.some(season => season < "2021/22");
-
-                // Enable all seasons for apps chart
-                updateSelectpicker('#seasonSelect', ($el) => {
-                    $el.find('option').each(function () {
-                        if ($(this).val() !== "2020/21") {
-                            $(this).prop('disabled', false);
-                        }
-                    });
-                });
-
-                // Only enable position filter if no old seasons selected
-                if (!hasOldSeasons) {
-                    updateSelectpicker('#positionSelect', ($el) => {
-                        $el.prop('disabled', false);
-                    });
-                    document.getElementById("includeBenchSwitch").disabled = false;
-                } else {
+                } else if (currentPlayerStatsType === 'captains') {
+                    // Captains: Disable positions, disable old seasons, force bench on
                     updateSelectpicker('#positionSelect', ($el) => {
                         $el.val([]);
                         $el.prop('disabled', true);
                     });
+
+                    // Disable seasons before 2021/22
+                    const selectedSeasons = $('#seasonSelect').val() || [];
+                    const newSeasons = selectedSeasons.filter(season => season >= "2021/22");
+
+                    updateSelectpicker('#seasonSelect', ($el) => {
+                        $el.find('option').each(function () {
+                            if ($(this).val() < "2021/22" && $(this).val() !== "2020/21") {
+                                $(this).prop('disabled', true);
+                            } else if ($(this).val() !== "2020/21") {
+                                $(this).prop('disabled', false);
+                            }
+                        });
+
+                        if (newSeasons.length !== selectedSeasons.length) {
+                            $el.val(newSeasons);
+                        }
+                    });
+
+                    // Force bench on and disable toggle for captains
+                    document.getElementById("includeBenchSwitch").checked = true;
+                    document.getElementById("includeBenchSwitch").disabled = true;
+
+                } else if (currentPlayerStatsType === 'point-scorers' || currentPlayerStatsType === 'cards') {
+                    // Point Scorers & Cards: Disable positions, enable all seasons, force bench on
+                    updateSelectpicker('#positionSelect', ($el) => {
+                        $el.val([]);
+                        $el.prop('disabled', true);
+                    });
+
+                    // Enable all seasons
+                    updateSelectpicker('#seasonSelect', ($el) => {
+                        $el.find('option').each(function () {
+                            if ($(this).val() !== "2020/21") {
+                                $(this).prop('disabled', false);
+                            }
+                        });
+                    });
+
+                    // Force bench on and disable toggle
                     document.getElementById("includeBenchSwitch").checked = true;
                     document.getElementById("includeBenchSwitch").disabled = true;
                 }
+
+            } else if (tabId === 'results-tab' || tabId === 'set-piece-tab') {
+                // Results & Set Piece: Disable positions, enable all seasons, force bench on
+                updateSelectpicker('#positionSelect', ($el) => {
+                    $el.val([]);
+                    $el.prop('disabled', true);
+                });
+
+                // Enable all seasons
+                updateSelectpicker('#seasonSelect', ($el) => {
+                    $el.find('option').each(function () {
+                        if ($(this).val() !== "2020/21") {
+                            $(this).prop('disabled', false);
+                        }
+                    });
+                });
+
+                // Force bench on and disable toggle
+                document.getElementById("includeBenchSwitch").checked = true;
+                document.getElementById("includeBenchSwitch").disabled = true;
             }
         }
 
