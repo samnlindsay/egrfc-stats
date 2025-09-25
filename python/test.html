@@ -31,8 +31,8 @@
             --dark-color: #333333;
             --green-color: #146f14;
             --red-color: #991515;
-            --sidebar-width: 350px;
-            --sidebar-collapsed-width: 50px;
+            --filter-panel-collapsed-height: 60px;
+            --filter-panel-content-padding: 1rem;
         }
 
         /* ===== BASE STYLES ===== */
@@ -41,36 +41,48 @@
             margin: 0;
             padding: 0;
             overflow-x: hidden;
+            overflow-y: auto;
+            padding-bottom: var(--filter-panel-collapsed-height);
         }
 
-        /* ===== SIDEBAR STYLES ===== */
-        .sidebar {
+        /* ===== BOTTOM FILTER PANEL STYLES ===== */
+        .filter-panel {
             position: fixed;
-            top: 0;
+            bottom: 0;
             left: 0;
-            height: 100vh;
-            width: var(--sidebar-width);
+            right: 0;
             background-color: var(--primary-color);
             z-index: 1000;
             transition: transform 0.3s ease;
             display: flex;
             flex-direction: column;
-            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            transform: translateX(0);
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+            /* Remove fixed height - let it size based on content */
+            min-height: var(--filter-panel-collapsed-height);
+            /* Start collapsed by translating down to show only header */
+            transform: translateY(calc(100% - var(--filter-panel-collapsed-height)));
+            overflow: visible !important;
         }
 
-        .sidebar-header {
+        .filter-panel.expanded {
+            /* When expanded, show full panel */
+            transform: translateY(0);
+        }
+
+        .filter-panel-header {
             display: flex;
             align-items: center;
-            padding: 0.5rem;
+            justify-content: center;
+            padding: 0.75rem;
             background-color: var(--primary-color);
-            height: fit-content;
+            height: var(--filter-panel-collapsed-height);
+            cursor: pointer;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             flex-shrink: 0;
+            position: relative;
         }
 
-        .sidebar-toggle {
+        .filter-panel-toggle {
             background: none;
             border: none;
             color: white;
@@ -78,126 +90,102 @@
             cursor: pointer;
             padding: 0.5rem;
             border-radius: 0.25rem;
-            transition: background-color 0.2s;
-            min-width: 40px;
-            min-height: 40px;
+            transition: all 0.2s;
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-shrink: 0;
+            width: 100%;
         }
 
-        .sidebar-toggle:hover {
+        .filter-panel-toggle:hover {
             background-color: rgba(255, 255, 255, 0.1);
+            transform: scale(1.1);
         }
 
-        .sidebar-title {
+        .filter-panel-title {
             color: white;
             font-size: 1.25rem;
             font-weight: bold;
-            margin-left: 1rem;
+            margin-left: 0.75rem;
             white-space: nowrap;
-            opacity: 1;
-            transition: opacity 0.3s ease;
-            overflow: hidden;
         }
 
-        .sidebar-content {
-            flex: 1;
-            padding: 1rem;
-            overflow-y: auto;
+        /* Ensure filter panel allows overflow for dropdowns */
+        .filter-panel-content {
+            flex: 0 0 auto;
+            padding: var(--filter-panel-content-padding);
             background-color: var(--light-color);
-            opacity: 1;
-            transition: opacity 0.3s ease;
+            overflow: visible !important;
+            position: static;
         }
 
-        /* Collapsed sidebar states */
-        .sidebar.collapsed {
-            transform: translateX(-300px);
-            overflow: hidden;
-        }
-
-        .sidebar.collapsed .sidebar-content {
-            opacity: 0 !important;
-            pointer-events: none !important;
-            visibility: hidden !important;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-        }
-
-        .sidebar.collapsed .sidebar-header {
-            height: 200px;
-            margin: 0;
-            transition: all 0.3s ease;
-            opacity: 1;
-        }
-
-        .sidebar.collapsed .sidebar-title {
-            font-size: 1.5rem;
-            margin-left: 0;
-        }
-
-        .sidebar.collapsed .sidebar-toggle {
-            padding: 0;
-            font-size: 1.5rem;
-        }
-
-        .sidebar.collapsed .sidebar-header {
-            align-items: end;
-            float: right;
-            writing-mode: sideways-lr;
-            z-index: 1;
-        }
-
-        /* Sidebar backdrop */
-        .sidebar-backdrop {
+        /* Backdrop for mobile */
+        .filter-panel-backdrop {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            background-color: rgba(0, 0, 0, 0.5);
+            background-color: rgba(0, 0, 0, 0.3);
             z-index: 999;
             opacity: 0;
             visibility: hidden;
             transition: opacity 0.3s ease, visibility 0.3s ease;
         }
 
-        .sidebar-backdrop.show {
+        .filter-panel-backdrop.show {
             opacity: 1;
             visibility: visible;
         }
 
         /* ===== FILTER CONTROLS ===== */
         .filters-container {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            align-items: flex-start;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            /* Slightly wider minimum */
+            gap: 1rem;
+            align-items: start;
         }
 
         .filter-item {
             width: 100%;
-            max-width: 500px;
             font-family: 'PT Sans Narrow', sans-serif;
         }
 
         .input-group {
             min-width: 300px;
-            max-width: 400px;
         }
 
         .input-group-text {
             font-family: 'PT Sans Narrow', sans-serif;
             min-width: 100px;
+            width: 100px;
             flex: 0 0 100px;
             text-align: center;
             background-color: var(--primary-color);
             border: none;
             color: white;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        /* ===== BUTTON GROUP IMPROVEMENTS ===== */
+        .btn-group {
+            display: flex;
         }
 
         .btn-group .btn {
+            flex: 1;
+            /* Equal width buttons */
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 0.4rem 0.2rem;
+            /* Tighter padding */
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
             border-radius: 0;
+            transition: all 0.2s ease;
         }
 
         .btn-group .btn:first-child {
@@ -210,38 +198,119 @@
             border-bottom-right-radius: 0.375rem;
         }
 
-        .form-check-label {
-            font-size: 0.9rem;
-            font-family: 'PT Sans Narrow', sans-serif;
+        /* ===== BOOTSTRAP SELECT IMPROVEMENTS ===== */
+        .bootstrap-select {
+            flex: 1;
         }
 
-        /* Bootstrap Select styling */
         .bootstrap-select .dropdown-toggle {
             font-family: 'PT Sans Narrow', sans-serif !important;
             border-radius: 0 0.375rem 0.375rem 0 !important;
             border-left: none !important;
+            height: auto !important;
+            padding: 0.4rem 0.75rem !important;
+            font-size: 0.9rem !important;
+            font-weight: 600 !important;
+            text-align: left !important;
         }
 
+        /* Let Bootstrap Select handle dropdown positioning naturally */
         .bootstrap-select .dropdown-menu {
             font-family: 'PT Sans Narrow', sans-serif !important;
-            font-size: 1rem !important;
+            font-size: 0.9rem !important;
+            z-index: 1050 !important;
+            /* max-height: 400px !important; */
+            overflow-y: auto !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+        }
+
+        .bootstrap-select .dropdown-item {
+            padding: 0.4rem 1rem !important;
+            font-size: 0.9rem !important;
+            line-height: 1.4 !important;
+            color: #212529 !important;
+            background-color: transparent !important;
+        }
+
+        .bootstrap-select .dropdown-item:hover,
+        .bootstrap-select .dropdown-item:focus {
+            background-color: var(--accent-color) !important;
+            color: white !important;
+        }
+
+        .bootstrap-select .dropdown-item.active {
+            background-color: var(--primary-color) !important;
+            color: white !important;
         }
 
         .dropdown-item.disabled {
             opacity: 0.5;
+            color: #6c757d !important;
         }
 
         .dropdown-item .text-muted {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: #666 !important;
+        }
+
+        /* Bootstrap select actions box */
+        .bootstrap-select .bs-actionsbox {
+            width: 100% !important;
+            padding: 0.25rem 0.5rem !important;
+        }
+
+        .bootstrap-select .bs-actionsbox .btn-group {
+            width: 100% !important;
+        }
+
+        .bootstrap-select .bs-actionsbox .btn {
+            font-size: 0.8rem !important;
+            padding: 0.25rem 0.5rem !important;
+        }
+
+        /* Bootstrap select button text styling */
+        .bootstrap-select .filter-option-inner-inner {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        /* ===== FORM CONTROLS ===== */
+        .form-check-label {
+            font-size: 0.9rem;
+            font-family: 'PT Sans Narrow', sans-serif;
+            font-weight: 600;
+        }
+
+        .form-switch .form-check-input {
+            width: 2.5rem;
+            height: 1.25rem;
+        }
+
+        .form-switch .form-check-input:checked {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        /* Switch container improvements */
+        .filter-item:last-child .input-group {
+            align-items: center;
+            min-height: 38px;
+            /* Match other controls */
+        }
+
+        .filter-item:last-child .form-check {
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         /* ===== MAIN CONTENT AREA ===== */
         .main-content {
-            margin-left: var(--sidebar-collapsed-width);
-            transition: margin-left 0.3s ease;
-            min-height: 100vh;
-            width: calc(100% - var(--sidebar-collapsed-width));
+            margin-left: 0;
+            min-height: calc(100vh - var(--filter-panel-collapsed-height));
+            width: 100%;
             position: relative;
         }
 
@@ -384,13 +453,212 @@
             background: var(--primary-color);
         }
 
+        /* ===== TOUCH DEVICE OPTIMIZATIONS ===== */
+
+        /* Additional touch device styles */
+        .touch-device .filter-panel-toggle.touching {
+            background-color: rgba(255, 255, 255, 0.3) !important;
+            transform: scale(0.95) !important;
+        }
+
+        .touch-device .bootstrap-select.touch-active .dropdown-toggle {
+            background-color: #e9ecef !important;
+            border-color: var(--accent-color) !important;
+        }
+
+        /* Improve touch scrolling performance */
+        .touch-device .tab-content {
+            scroll-behavior: smooth !important;
+            -webkit-overflow-scrolling: touch !important;
+        }
+
+        .touch-device .bootstrap-select .dropdown-menu {
+            -webkit-overflow-scrolling: touch !important;
+            scroll-behavior: smooth !important;
+        }
+
+        /* Prevent zoom on double-tap for form inputs */
+        .touch-device input,
+        .touch-device select,
+        .touch-device textarea {
+            font-size: 16px !important; /* Prevents zoom on iOS */
+        }
+
+        /* Remove hover effects on touch devices */
+        @media (hover: none) and (pointer: coarse) {
+
+            /* Filter panel toggle - remove hover effects on touch */
+            .filter-panel-toggle:hover {
+                background-color: transparent !important;
+                transform: none !important;
+            }
+
+            /* Navigation tabs - remove hover effects on touch */
+            .nav-tabs .nav-link:hover {
+                background-color: white !important;
+            }
+
+            .nav-tabs .nav-link.active:hover {
+                background-color: var(--light-color) !important;
+            }
+
+            .nav-tabs .dropdown-item:hover {
+                background-color: transparent !important;
+                color: var(--primary-color) !important;
+            }
+
+            /* Bootstrap select - remove hover effects on touch */
+            .bootstrap-select .dropdown-item:hover {
+                background-color: transparent !important;
+                color: #212529 !important;
+            }
+
+            /* Button hover effects - remove on touch */
+            .btn:hover {
+                color: inherit !important;
+                background-color: inherit !important;
+                border-color: inherit !important;
+            }
+
+            /* Scrollbar hover effects - remove on touch */
+            .tab-content::-webkit-scrollbar-thumb:hover {
+                background: var(--accent-color) !important;
+            }
+        }
+
+        /* Touch-friendly sizing and spacing */
+        @media (pointer: coarse) {
+
+            /* Larger touch targets for mobile */
+            .filter-panel-toggle {
+                min-height: 44px !important;
+                /* iOS recommended minimum */
+                min-width: 44px !important;
+                padding: 0.75rem !important;
+            }
+
+            .btn {
+                min-height: 44px !important;
+                padding: 0.5rem 0.75rem !important;
+            }
+
+            .nav-tabs .nav-link {
+                min-height: 44px !important;
+                padding: 0.75rem 1rem !important;
+            }
+
+            .nav-tabs .dropdown-item {
+                min-height: 44px !important;
+                padding: 0.75rem 1rem !important;
+            }
+
+            .bootstrap-select .dropdown-item {
+                min-height: 44px !important;
+                padding: 0.75rem 1rem !important;
+                line-height: 1.2 !important;
+            }
+
+            .bootstrap-select .dropdown-toggle {
+                min-height: 44px !important;
+                padding: 0.75rem !important;
+            }
+
+            .form-switch .form-check-input {
+                width: 3rem !important;
+                height: 1.5rem !important;
+            }
+
+            /* Larger dropdown for easier touch interaction */
+            .bootstrap-select .dropdown-menu {
+                max-height: 60vh !important;
+                /* Use viewport height for better mobile experience */
+            }
+        }
+
+        /* Active states for touch feedback */
+        .filter-panel-toggle:active {
+            background-color: rgba(255, 255, 255, 0.2) !important;
+            transform: scale(0.95) !important;
+        }
+
+        .btn:active {
+            transform: scale(0.98) !important;
+        }
+
+        .nav-tabs .nav-link:active {
+            background-color: rgba(255, 255, 255, 0.1) !important;
+        }
+
+        .nav-tabs .nav-link.active:active {
+            background-color: var(--light-color) !important;
+        }
+
+        .bootstrap-select .dropdown-item:active {
+            background-color: var(--accent-color) !important;
+            color: white !important;
+        }
+
+        /* Prevent text selection on touch interfaces */
+        .filter-panel-toggle,
+        .nav-tabs .nav-link,
+        .btn,
+        .bootstrap-select .dropdown-toggle {
+            -webkit-user-select: none !important;
+            -moz-user-select: none !important;
+            -ms-user-select: none !important;
+            user-select: none !important;
+            -webkit-touch-callout: none !important;
+        }
+
+        /* Smooth touch scrolling */
+        .tab-content,
+        .filter-panel-content,
+        .bootstrap-select .dropdown-menu {
+            -webkit-overflow-scrolling: touch !important;
+        }
+
+        /* Remove outline on touch devices (already handled by focus styles) */
+        @media (pointer: coarse) {
+
+            .btn:focus,
+            .bootstrap-select .dropdown-toggle:focus,
+            .form-check-input:focus {
+                outline: none !important;
+            }
+        }
+
         /* ===== MOBILE RESPONSIVE ===== */
         @media (max-width: 768px) {
+            .filters-container {
+                grid-template-columns: 1fr;
+                /* Single column on mobile */
+                gap: 0.75rem;
+            }
 
-            /* Ensure sidebar is always visible on mobile */
-            .sidebar {
-                z-index: 1050;
-                /* Higher z-index for mobile */
+            .input-group {
+                min-width: 100%;
+            }
+
+            .input-group-text {
+                min-width: 80px;
+                flex: 0 0 80px;
+                font-size: 0.8rem;
+            }
+
+            .btn-group .btn {
+                font-size: 0.8rem;
+                padding: 0.3rem 0.2rem;
+            }
+
+            .bootstrap-select .dropdown-toggle {
+                font-size: 0.8rem !important;
+                padding: 0.3rem 0.5rem !important;
+            }
+
+            /* Show backdrop on mobile when expanded */
+            .filter-panel.expanded~.filter-panel-backdrop {
+                opacity: 1;
+                visibility: visible;
             }
 
             /* Mobile navigation tabs */
@@ -402,7 +670,7 @@
             }
 
             body .nav-tabs .nav-link {
-                font-size: 1.2rem;
+                font-size: 1.1rem;
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -410,28 +678,28 @@
                 white-space: nowrap;
                 transition: all 0.2s ease;
             }
+        }
 
-            /* Mobile filter controls */
-            .input-group-text {
-                font-size: 1rem;
-                padding: 0.25rem;
-            }
+        /* ===== ANIMATION IMPROVEMENTS ===== */
+        .filter-panel-toggle i {
+            transition: transform 0.3s ease;
+        }
 
-            .btn-group .btn {
-                font-size: 1rem;
-                padding: 0.1rem;
-            }
+        .filter-panel.expanded .filter-panel-toggle i {
+            transform: rotate(180deg);
+        }
 
-            /* Add touch-friendly interactions */
-            .sidebar.collapsed {
-                cursor: pointer;
-                -webkit-tap-highlight-color: rgba(255, 255, 255, 0.2);
-            }
+        /* ===== ACCESSIBILITY IMPROVEMENTS ===== */
+        .btn:focus {
+            box-shadow: 0 0 0 0.2rem rgba(125, 150, 232, 0.25);
+        }
 
-            /* Ensure backdrop doesn't interfere on mobile */
-            .sidebar-backdrop {
-                z-index: 1049;
-            }
+        .bootstrap-select .dropdown-toggle:focus {
+            box-shadow: 0 0 0 0.2rem rgba(125, 150, 232, 0.25);
+        }
+
+        .form-check-input:focus {
+            box-shadow: 0 0 0 0.2rem rgba(125, 150, 232, 0.25);
         }
     </style>
 
@@ -439,16 +707,16 @@
 
 <body>
 
-    <!-- Sidebar Overlay -->
-    <div id="sidebar" class="sidebar">
-        <div class="sidebar-header">
-            <button id="sidebarToggle" class="sidebar-toggle" type="button">
-                <i class="bi bi-filter"></i>
+    <!-- Bottom Filter Panel -->
+    <div id="filterPanel" class="filter-panel">
+        <div class="filter-panel-header" id="filterPanelToggle">
+            <button class="filter-panel-toggle" type="button">
+                <i class="bi bi-chevron-up"></i>
+                <span class="filter-panel-title">Filters</span>
             </button>
-            <span class="sidebar-title">Filters</span>
         </div>
 
-        <div class="sidebar-content">
+        <div class="filter-panel-content">
             <div class="filters-container">
                 <!-- SQUAD -->
                 <div class="filter-item">
@@ -545,11 +813,11 @@
         </div>
     </div>
 
-    <!-- <div id="sidebar-backdrop" class="sidebar-backdrop"></div> -->
+    <!-- Filter Panel Backdrop (for mobile) -->
+    <div id="filterPanelBackdrop" class="filter-panel-backdrop"></div>
 
     <!-- Main content area -->
     <div id="mainContent" class="main-content">
-        <!-- Chart containers -->
         <!-- Tabs navigation -->
         <ul class="nav nav-tabs" id="chartTabs" role="tablist">
             <li class="nav-item" role="presentation">
@@ -850,7 +1118,6 @@
             embedChart("#set-piece-vis", chartSpec);
         }
 
-
         // Helper function to safely update selectpicker
         function updateSelectpicker(selector, callback) {
             const $element = $(selector);
@@ -869,8 +1136,78 @@
         $(document).ready(function () {
             console.log('🔧 Document ready, initializing...');
 
-            // Initialize selectpicker
-            $('.selectpicker').selectpicker();
+            // Detect touch device
+            const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0);
+
+            if (isTouchDevice) {
+                console.log('📱 Touch device detected - optimizing for touch');
+
+                // Add touch class to body for CSS targeting
+                document.body.classList.add('touch-device');
+
+                // Prevent double-tap zoom on buttons and interactive elements
+                const preventDoubleTap = (selector) => {
+                    $(selector).on('touchend', function (e) {
+                        e.preventDefault();
+                        $(this).trigger('click');
+                    });
+                };
+
+                // Apply to key interactive elements
+                preventDoubleTap('.filter-panel-toggle');
+                preventDoubleTap('.nav-tabs .nav-link');
+                preventDoubleTap('.nav-tabs .dropdown-item');
+                preventDoubleTap('.btn');
+
+                // Handle dropdown items specifically for touch
+                $(document).on('touchend', '.bootstrap-select .dropdown-item', function (e) {
+                    e.preventDefault();
+                    $(this).trigger('click');
+                });
+
+                // Improve Bootstrap Select touch behavior
+                $('.selectpicker').on('show.bs.select', function () {
+                    // Add touch-friendly styling when dropdown opens
+                    $(this).closest('.bootstrap-select').addClass('touch-active');
+                }).on('hide.bs.select', function () {
+                    // Remove touch styling when dropdown closes
+                    $(this).closest('.bootstrap-select').removeClass('touch-active');
+                });
+
+                // Handle filter panel toggle for touch
+                $('#filterPanelToggle').on('touchstart', function (e) {
+                    // Add visual feedback on touch start
+                    $(this).addClass('touching');
+                }).on('touchend touchcancel', function (e) {
+                    // Remove visual feedback on touch end
+                    $(this).removeClass('touching');
+                });
+
+                // Prevent context menu on long press for key elements
+                $('.filter-panel-toggle, .nav-tabs .nav-link, .btn').on('contextmenu', function (e) {
+                    e.preventDefault();
+                    return false;
+                });
+
+                // Handle backdrop touch more reliably
+                $('#filterPanelBackdrop').on('touchend', function (e) {
+                    e.preventDefault();
+                    $('#filterPanel').removeClass('expanded');
+                    $(this).removeClass('show');
+                    localStorage.setItem('filterPanelExpanded', false);
+                });
+            }
+
+            // Initialize selectpicker with touch-friendly options
+            $('.selectpicker').selectpicker({
+                dropupAuto: true,
+                size: 'auto',
+                width: '100%',
+                maxOptions: false,
+                maxOptionsText: 'No more selections allowed',
+                mobile: isTouchDevice, // Enable mobile mode for touch devices
+                container: isTouchDevice ? 'body' : false // Use body container on mobile for better positioning
+            });
 
             // Simple event listeners - ONE TIME ONLY
             $('#seasonSelect').on('changed.bs.select', function () {
@@ -912,131 +1249,102 @@
 
                     // Handle Player Stats dropdown
                     if (targetId === '#player-stats-content') {
-                        // Update the stored player stats type
                         currentPlayerStatsType = chartType;
-
-                        // DO NOT update dropdown button text - keep it as "Player Stats"
-                        // document.getElementById('player-stats-dropdown').textContent = "Player Stats";
-
-                        // Show the player stats tab content
                         document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('show', 'active'));
                         document.querySelector(targetId).classList.add('show', 'active');
-
-                        // Update tab active state
                         document.querySelectorAll('#chartTabs .nav-link').forEach(t => t.classList.remove('active'));
                         document.getElementById('player-stats-dropdown').classList.add('active');
-
-                        // Apply tab-specific logic and render
                         applyTabSpecificLogic('player-stats-tab');
-                        setTimeout(renderPlayerStatsChart, 50); // Only render the player stats chart
+                        setTimeout(renderPlayerStatsChart, 50);
 
                     } else if (targetId === '#set-piece-content') {
-                        // Handle Set Piece dropdown
                         currentSetPieceType = chartType;
-
-                        // DO NOT update dropdown button text - keep it as "Set Piece"
-                        // document.getElementById('set-piece-dropdown').textContent = "Set Piece";
-
                         document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('show', 'active'));
                         document.querySelector(targetId).classList.add('show', 'active');
-
                         document.querySelectorAll('#chartTabs .nav-link').forEach(t => t.classList.remove('active'));
                         document.getElementById('set-piece-dropdown').classList.add('active');
-
                         applyTabSpecificLogic('set-piece-tab');
                         setTimeout(renderSetPieceChart, 50);
                     }
                 });
             });
 
-            // Sidebar toggle functionality with backdrop
+            // Filter panel toggle functionality
             setTimeout(function () {
-                const $sidebarToggle = $('#sidebarToggle');
-                const $sidebar = $('#sidebar');
-                const $sidebarHeader = $('#sidebar .sidebar-header');
+                const $filterPanelToggle = $('#filterPanelToggle');
+                const $filterPanel = $('#filterPanel');
+                const $backdrop = $('#filterPanelBackdrop');
 
-                // Create backdrop element
-                let backdrop = document.getElementById('sidebar-backdrop');
-                if (!backdrop) {
-                    backdrop = document.createElement('div');
-                    backdrop.id = 'sidebar-backdrop';
-                    backdrop.className = 'sidebar-backdrop';
-                    document.body.appendChild(backdrop);
+                console.log('Filter panel setup - Toggle:', $filterPanelToggle.length, 'Panel:', $filterPanel.length, 'Backdrop:', $backdrop.length);
 
-                    // Close sidebar when clicking backdrop
-                    backdrop.addEventListener('click', function () {
-                        $sidebar.addClass('collapsed');
-                        backdrop.classList.remove('show');
-                        localStorage.setItem('sidebarCollapsed', true);
-                    });
-                }
-
-                console.log('Sidebar setup - Toggle:', $sidebarToggle.length, 'Header:', $sidebarHeader.length, 'Sidebar:', $sidebar.length);
-
-                // Function to toggle sidebar
-                function toggleSidebar(e) {
+                // Function to toggle filter panel
+                function toggleFilterPanel(e) {
                     e.preventDefault();
-                    e.stopPropagation(); // Prevent event bubbling
-                    console.log('Sidebar toggle clicked!');
+                    e.stopPropagation();
+                    console.log('Filter panel toggle clicked!');
 
-                    const isCurrentlyCollapsed = $sidebar.hasClass('collapsed');
+                    const isCurrentlyExpanded = $filterPanel.hasClass('expanded');
 
-                    if (isCurrentlyCollapsed) {
-                        // Show sidebar
-                        $sidebar.removeClass('collapsed');
-                        backdrop.classList.add('show');
+                    if (isCurrentlyExpanded) {
+                        $filterPanel.removeClass('expanded');
+                        $backdrop.removeClass('show');
                     } else {
-                        // Hide sidebar
-                        $sidebar.addClass('collapsed');
-                        backdrop.classList.remove('show');
-                    }
-
-                    // Store sidebar state in localStorage
-                    const isCollapsed = $sidebar.hasClass('collapsed');
-                    localStorage.setItem('sidebarCollapsed', isCollapsed);
-                    console.log('Sidebar collapsed state:', isCollapsed);
-                }
-
-                // Attach event to toggle button
-                $sidebarHeader.off('click').on('click', function (e) {
-                    console.log('Sidebar header clicked, collapsed:', $sidebar.hasClass('collapsed'));
-
-                    // Only trigger if sidebar is collapsed
-                    if ($sidebar.hasClass('collapsed')) {
-                        // Prevent the toggle button's own click event from interfering
-                        if (!$(e.target).hasClass('sidebar-toggle') && !$(e.target).closest('.sidebar-toggle').length) {
-                            toggleSidebar(e);
+                        $filterPanel.addClass('expanded');
+                        if (window.innerWidth <= 768) {
+                            $backdrop.addClass('show');
                         }
+                        // REMOVED: selectpicker refresh that was causing duplication
                     }
-                });
 
-                $sidebar.off('click.collapsed').on('click.collapsed', function (e) {
-                    if ($sidebar.hasClass('collapsed')) {
-                        console.log('Collapsed sidebar clicked');
-                        e.preventDefault();
-                        e.stopPropagation();
-                        toggleSidebar(e);
-                    }
-                });
-
-                // Also make the toggle button work in all states
-                $sidebarToggle.off('click').on('click', function (e) {
-                    e.stopPropagation(); // Prevent header click from also firing
-                    toggleSidebar(e);
-                });
-
-                // Restore sidebar state on page load
-                const savedState = localStorage.getItem('sidebarCollapsed');
-                console.log('Saved sidebar state:', savedState);
-                if (savedState === 'true') {
-                    $sidebar.addClass('collapsed');
-                    backdrop.classList.remove('show');
-                } else {
-                    // If sidebar should be open, show backdrop
-                    backdrop.classList.add('show');
+                    const isExpanded = $filterPanel.hasClass('expanded');
+                    localStorage.setItem('filterPanelExpanded', isExpanded);
+                    console.log('Filter panel expanded state:', isExpanded);
                 }
+
+                $filterPanelToggle.off('click').on('click', function (e) {
+                    toggleFilterPanel(e);
+                });
+
+                $backdrop.off('click').on('click', function (e) {
+                    $filterPanel.removeClass('expanded');
+                    $backdrop.removeClass('show');
+                    localStorage.setItem('filterPanelExpanded', false);
+                });
+
+                // Restore panel state on page load
+                const savedState = localStorage.getItem('filterPanelExpanded');
+                console.log('Saved filter panel state:', savedState);
+                if (savedState === 'true') {
+                    $filterPanel.addClass('expanded');
+                    // REMOVED: selectpicker refresh that was causing duplication
+                }
+
+                // Handle window resize
+                window.addEventListener('resize', function () {
+                    if (window.innerWidth > 768) {
+                        $backdrop.removeClass('show');
+                    } else if ($filterPanel.hasClass('expanded')) {
+                        $backdrop.addClass('show');
+                    }
+                    // REMOVED: selectpicker refresh that was causing duplication
+                });
+
             }, 100);
         });
+
+        // Helper function to safely update selectpicker WITHOUT causing duplication
+        function updateSelectpicker(selector, callback) {
+            const $element = $(selector);
+
+            // DON'T destroy and recreate - just update the underlying select
+            callback($element);
+
+            // Refresh only if needed and only once
+            if ($element.hasClass('selectpicker')) {
+                $element.selectpicker('refresh');
+            }
+        }
+
 
 
         function applyFilters(spec, applyBenchFilter = true, applyPositionFilter = true, applyCompetitionFilter = true) {
