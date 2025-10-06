@@ -57,15 +57,12 @@
             display: flex;
             flex-direction: column;
             box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
-            /* Remove fixed height - let it size based on content */
             min-height: var(--filter-panel-collapsed-height);
-            /* Start collapsed by translating down to show only header */
             transform: translateY(calc(100% - var(--filter-panel-collapsed-height)));
             overflow: visible !important;
         }
 
         .filter-panel.expanded {
-            /* When expanded, show full panel */
             transform: translateY(0);
         }
 
@@ -110,7 +107,6 @@
             white-space: nowrap;
         }
 
-        /* Ensure filter panel allows overflow for dropdowns */
         .filter-panel-content {
             flex: 0 0 auto;
             padding: var(--filter-panel-content-padding);
@@ -119,7 +115,6 @@
             position: static;
         }
 
-        /* Backdrop for mobile */
         .filter-panel-backdrop {
             position: fixed;
             top: 0;
@@ -142,7 +137,6 @@
         .filters-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            /* Slightly wider minimum */
             gap: 1rem;
             align-items: start;
         }
@@ -154,6 +148,9 @@
 
         .input-group {
             min-width: 300px;
+            display: flex !important;
+            flex-wrap: nowrap !important;
+            align-items: stretch !important;
         }
 
         .input-group-text {
@@ -169,18 +166,16 @@
             font-weight: 600;
         }
 
-        /* ===== BUTTON GROUP IMPROVEMENTS ===== */
+        /* ===== BUTTON GROUP STYLES ===== */
         .btn-group {
             display: flex;
         }
 
         .btn-group .btn {
             flex: 1;
-            /* Equal width buttons */
             font-size: 0.9rem;
             font-weight: 600;
             padding: 0.4rem 0.2rem;
-            /* Tighter padding */
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -198,12 +193,23 @@
             border-bottom-right-radius: 0.375rem;
         }
 
-        /* ===== BOOTSTRAP SELECT IMPROVEMENTS ===== */
+
+        /* ===== BOOTSTRAP SELECT STYLES ===== */
         .bootstrap-select {
-            flex: 1;
+            width: 100% !important;
+            flex: 1 1 auto !important;
+            display: block !important;
+        }
+
+        .input-group .bootstrap-select {
+            flex: 1 1 auto !important;
+            width: 1% !important;
         }
 
         .bootstrap-select .dropdown-toggle {
+            width: 100% !important;
+            display: block !important;
+            box-sizing: border-box !important;
             font-family: 'PT Sans Narrow', sans-serif !important;
             border-radius: 0 0.375rem 0.375rem 0 !important;
             border-left: none !important;
@@ -212,14 +218,15 @@
             font-size: 0.9rem !important;
             font-weight: 600 !important;
             text-align: left !important;
+            white-space: nowrap !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
         }
 
-        /* Let Bootstrap Select handle dropdown positioning naturally */
         .bootstrap-select .dropdown-menu {
             font-family: 'PT Sans Narrow', sans-serif !important;
             font-size: 0.9rem !important;
             z-index: 1050 !important;
-            /* max-height: 400px !important; */
             overflow-y: auto !important;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
         }
@@ -243,17 +250,16 @@
             color: white !important;
         }
 
-        .dropdown-item.disabled {
+        .bootstrap-select .dropdown-item.disabled {
             opacity: 0.5;
             color: #6c757d !important;
         }
 
-        .dropdown-item .text-muted {
+        .bootstrap-select .dropdown-item .text-muted {
             font-size: 0.8rem;
             color: #666 !important;
         }
 
-        /* Bootstrap select actions box */
         .bootstrap-select .bs-actionsbox {
             width: 100% !important;
             padding: 0.25rem 0.5rem !important;
@@ -268,7 +274,6 @@
             padding: 0.25rem 0.5rem !important;
         }
 
-        /* Bootstrap select button text styling */
         .bootstrap-select .filter-option-inner-inner {
             overflow: hidden;
             text-overflow: ellipsis;
@@ -292,11 +297,9 @@
             border-color: var(--primary-color);
         }
 
-        /* Switch container improvements */
         .filter-item:last-child .input-group {
             align-items: center;
             min-height: 38px;
-            /* Match other controls */
         }
 
         .filter-item:last-child .form-check {
@@ -312,6 +315,8 @@
             min-height: calc(100vh - var(--filter-panel-collapsed-height));
             width: 100%;
             position: relative;
+            overflow: visible !important;
+            /* z-index: 1030 !important; */
         }
 
         /* ===== NAVIGATION TABS ===== */
@@ -322,10 +327,18 @@
             margin-top: 0 !important;
             background-color: var(--primary-color);
             padding: 0;
+            position: relative;
+            overflow: visible !important;
+            z-index: 1040 !important;
         }
 
         .nav-tabs .nav-item {
             margin-bottom: 0;
+            position: static !important;
+        }
+
+        .nav-tabs .nav-item.dropdown {
+            position: static !important;
         }
 
         .nav-tabs .nav-link {
@@ -339,6 +352,7 @@
             align-items: center;
             border: 1px solid var(--accent-color);
             border-bottom: 2px solid var(--accent-color);
+            position: relative;
         }
 
         .nav-tabs .nav-link.active {
@@ -359,13 +373,13 @@
             background-color: var(--light-color);
         }
 
-        /* Dropdown in nav tabs */
+        /* ===== NAVIGATION DROPDOWN STYLES ===== */
         .nav-tabs .dropdown-menu {
-            font-family: 'PT Sans Narrow', sans-serif;
-            border: 2px solid var(--accent-color);
-            border-top: none;
-            border-radius: 0 0 0.375rem 0.375rem;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            font-family: 'PT Sans Narrow', sans-serif !important;
+            border: 2px solid var(--accent-color) !important;
+            border-top: none !important;
+            border-radius: 0 0 0.375rem 0.375rem !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
         }
 
         .nav-tabs .dropdown-item {
@@ -382,14 +396,6 @@
         .nav-tabs .dropdown-item:focus {
             background-color: var(--accent-color);
             color: white;
-        }
-
-        .nav-tabs .nav-link.dropdown-toggle {
-            border-bottom: 2px solid var(--accent-color);
-        }
-
-        .nav-tabs .nav-link.dropdown-toggle.active {
-            border-bottom: 2px solid transparent;
         }
 
         /* ===== CHART CONTENT ===== */
@@ -434,7 +440,6 @@
             overflow-x: auto;
         }
 
-        /* Scrollable container styling */
         .tab-content::-webkit-scrollbar {
             height: 8px;
         }
@@ -454,8 +459,6 @@
         }
 
         /* ===== TOUCH DEVICE OPTIMIZATIONS ===== */
-
-        /* Additional touch device styles */
         .touch-device .filter-panel-toggle.touching {
             background-color: rgba(255, 255, 255, 0.3) !important;
             transform: scale(0.95) !important;
@@ -466,7 +469,6 @@
             border-color: var(--accent-color) !important;
         }
 
-        /* Improve touch scrolling performance */
         .touch-device .tab-content {
             scroll-behavior: smooth !important;
             -webkit-overflow-scrolling: touch !important;
@@ -477,23 +479,19 @@
             scroll-behavior: smooth !important;
         }
 
-        /* Prevent zoom on double-tap for form inputs */
         .touch-device input,
         .touch-device select,
         .touch-device textarea {
-            font-size: 16px !important; /* Prevents zoom on iOS */
+            font-size: 16px !important;
         }
 
         /* Remove hover effects on touch devices */
         @media (hover: none) and (pointer: coarse) {
-
-            /* Filter panel toggle - remove hover effects on touch */
             .filter-panel-toggle:hover {
                 background-color: transparent !important;
                 transform: none !important;
             }
 
-            /* Navigation tabs - remove hover effects on touch */
             .nav-tabs .nav-link:hover {
                 background-color: white !important;
             }
@@ -507,32 +505,26 @@
                 color: var(--primary-color) !important;
             }
 
-            /* Bootstrap select - remove hover effects on touch */
             .bootstrap-select .dropdown-item:hover {
                 background-color: transparent !important;
                 color: #212529 !important;
             }
 
-            /* Button hover effects - remove on touch */
             .btn:hover {
                 color: inherit !important;
                 background-color: inherit !important;
                 border-color: inherit !important;
             }
 
-            /* Scrollbar hover effects - remove on touch */
             .tab-content::-webkit-scrollbar-thumb:hover {
                 background: var(--accent-color) !important;
             }
         }
 
-        /* Touch-friendly sizing and spacing */
+        /* Touch-friendly sizing */
         @media (pointer: coarse) {
-
-            /* Larger touch targets for mobile */
             .filter-panel-toggle {
                 min-height: 44px !important;
-                /* iOS recommended minimum */
                 min-width: 44px !important;
                 padding: 0.75rem !important;
             }
@@ -568,10 +560,8 @@
                 height: 1.5rem !important;
             }
 
-            /* Larger dropdown for easier touch interaction */
             .bootstrap-select .dropdown-menu {
                 max-height: 60vh !important;
-                /* Use viewport height for better mobile experience */
             }
         }
 
@@ -598,7 +588,7 @@
             color: white !important;
         }
 
-        /* Prevent text selection on touch interfaces */
+        /* Prevent text selection on interactive elements */
         .filter-panel-toggle,
         .nav-tabs .nav-link,
         .btn,
@@ -610,14 +600,14 @@
             -webkit-touch-callout: none !important;
         }
 
-        /* Smooth touch scrolling */
+        /* Smooth scrolling */
         .tab-content,
         .filter-panel-content,
         .bootstrap-select .dropdown-menu {
             -webkit-overflow-scrolling: touch !important;
         }
 
-        /* Remove outline on touch devices (already handled by focus styles) */
+        /* Remove outline on touch devices */
         @media (pointer: coarse) {
 
             .btn:focus,
@@ -631,7 +621,6 @@
         @media (max-width: 768px) {
             .filters-container {
                 grid-template-columns: 1fr;
-                /* Single column on mobile */
                 gap: 0.75rem;
             }
 
@@ -655,21 +644,13 @@
                 padding: 0.3rem 0.5rem !important;
             }
 
-            /* Show backdrop on mobile when expanded */
             .filter-panel.expanded~.filter-panel-backdrop {
                 opacity: 1;
                 visibility: visible;
             }
 
-            /* Mobile navigation tabs */
-            body .nav-tabs {
-                overflow-x: auto;
-                overflow-y: hidden;
-                white-space: nowrap;
-                -webkit-overflow-scrolling: touch;
-            }
 
-            body .nav-tabs .nav-link {
+            /* .nav-tabs .nav-link {
                 font-size: 1.1rem;
                 display: flex;
                 align-items: center;
@@ -677,29 +658,22 @@
                 text-align: center;
                 white-space: nowrap;
                 transition: all 0.2s ease;
+                min-width: fit-content;
+            } */
+
+        }
+
+        /* Very narrow screens */
+        @media (max-width: 480px) {
+            .nav-tabs .dropdown-menu {
+                left: auto !important;
+                right: 0 !important;
             }
-        }
 
-        /* ===== ANIMATION IMPROVEMENTS ===== */
-        .filter-panel-toggle i {
-            transition: transform 0.3s ease;
-        }
-
-        .filter-panel.expanded .filter-panel-toggle i {
-            transform: rotate(180deg);
-        }
-
-        /* ===== ACCESSIBILITY IMPROVEMENTS ===== */
-        .btn:focus {
-            box-shadow: 0 0 0 0.2rem rgba(125, 150, 232, 0.25);
-        }
-
-        .bootstrap-select .dropdown-toggle:focus {
-            box-shadow: 0 0 0 0.2rem rgba(125, 150, 232, 0.25);
-        }
-
-        .form-check-input:focus {
-            box-shadow: 0 0 0 0.2rem rgba(125, 150, 232, 0.25);
+            .nav-tabs .dropdown-menu.dropdown-menu-end {
+                right: 0 !important;
+                left: auto !important;
+            }
         }
     </style>
 
@@ -1122,14 +1096,13 @@
         function updateSelectpicker(selector, callback) {
             const $element = $(selector);
 
-            $element.selectpicker('destroy');
+            // Just update the underlying select element - don't destroy/recreate
             callback($element);
-            $element.selectpicker();
 
-            // PROPER DISABLED STATE HANDLING FOR BOOTSTRAP SELECT
-            if ($element.prop('disabled')) {
-                // Disable using Bootstrap Select's method
-                $element.prop('disabled', true).selectpicker('refresh');
+            // Only refresh if the element is actually a selectpicker and needs updating
+            if ($element.hasClass('selectpicker') && $element.data('selectpicker')) {
+                // Use a more gentle refresh that doesn't recreate the DOM structure
+                $element.selectpicker('refresh');
             }
         }
 
@@ -1402,131 +1375,136 @@
         function applyTabSpecificLogic(tabId) {
             console.log('Applying tab-specific logic for:', tabId);
 
-            if (tabId === 'team-sheets-tab') {
-                // Team Sheets: Enable positions, disable old seasons, enable bench toggle
-                updateSelectpicker('#positionSelect', ($el) => {
-                    $el.prop('disabled', false);
-                });
+            // Helper function to safely update a selectpicker
+            function safeUpdateSelectpicker(selector, updateFunction) {
+                const $element = $(selector);
 
-                // Disable seasons before 2021/22
+                // Apply the update function to modify options
+                updateFunction($element);
+
+                // Destroy and reinitialize to prevent duplication
+                $element.selectpicker('destroy');
+                $element.selectpicker({
+                    dropupAuto: true,
+                    size: 'auto',
+                    width: '100%',
+                    maxOptions: false,
+                    mobile: $('body').hasClass('touch-device')
+                });
+            }
+
+            if (tabId === 'team-sheets-tab') {
+                // Enable positions
+                $('#positionSelect').prop('disabled', false);
+
+                // Handle season restrictions
                 const selectedSeasons = $('#seasonSelect').val() || [];
                 const newSeasons = selectedSeasons.filter(season => season >= "2021/22");
 
-                updateSelectpicker('#seasonSelect', ($el) => {
-                    $el.find('option').each(function () {
-                        if ($(this).val() < "2021/22" && $(this).val() !== "2020/21") {
+                safeUpdateSelectpicker('#seasonSelect', function ($select) {
+                    $select.find('option').each(function () {
+                        const seasonValue = $(this).val();
+                        if (seasonValue < "2021/22" && seasonValue !== "2020/21") {
                             $(this).prop('disabled', true);
-                        } else if ($(this).val() !== "2020/21") {
+                        } else if (seasonValue !== "2020/21") {
                             $(this).prop('disabled', false);
                         }
                     });
 
                     if (newSeasons.length !== selectedSeasons.length) {
-                        $el.val(newSeasons);
+                        $select.val(newSeasons);
                     }
                 });
 
-                // Enable bench toggle for team sheets
+                safeUpdateSelectpicker('#positionSelect', function ($select) {
+                    // Position select doesn't need option changes, just enable
+                });
+
                 document.getElementById("includeBenchSwitch").disabled = false;
 
             } else if (tabId === 'player-stats-tab') {
-                // Player Stats: Apply logic based on current type
                 if (currentPlayerStatsType === 'appearances') {
-                    // Appearances: Enable all filters with conditional logic
                     const selectedSeasons = $('#seasonSelect').val() || [];
                     const hasOldSeasons = selectedSeasons && selectedSeasons.some(season => season < "2021/22");
 
-                    // Enable all seasons for appearances chart
-                    updateSelectpicker('#seasonSelect', ($el) => {
-                        $el.find('option').each(function () {
+                    safeUpdateSelectpicker('#seasonSelect', function ($select) {
+                        $select.find('option').each(function () {
                             if ($(this).val() !== "2020/21") {
                                 $(this).prop('disabled', false);
                             }
                         });
                     });
 
-                    // Only enable position filter if no old seasons selected
                     if (!hasOldSeasons) {
-                        updateSelectpicker('#positionSelect', ($el) => {
-                            $el.prop('disabled', false);
-                        });
+                        $('#positionSelect').prop('disabled', false);
                         document.getElementById("includeBenchSwitch").disabled = false;
+                        safeUpdateSelectpicker('#positionSelect', function ($select) {
+                            // No changes needed, just refresh
+                        });
                     } else {
-                        updateSelectpicker('#positionSelect', ($el) => {
-                            $el.val([]);
-                            $el.prop('disabled', true);
+                        safeUpdateSelectpicker('#positionSelect', function ($select) {
+                            $select.val([]).prop('disabled', true);
                         });
                         document.getElementById("includeBenchSwitch").checked = true;
                         document.getElementById("includeBenchSwitch").disabled = true;
                     }
 
                 } else if (currentPlayerStatsType === 'captains') {
-                    // Captains: Disable positions, disable old seasons, force bench on
-                    updateSelectpicker('#positionSelect', ($el) => {
-                        $el.val([]);
-                        $el.prop('disabled', true);
-                    });
-
-                    // Disable seasons before 2021/22
                     const selectedSeasons = $('#seasonSelect').val() || [];
                     const newSeasons = selectedSeasons.filter(season => season >= "2021/22");
 
-                    updateSelectpicker('#seasonSelect', ($el) => {
-                        $el.find('option').each(function () {
-                            if ($(this).val() < "2021/22" && $(this).val() !== "2020/21") {
+                    safeUpdateSelectpicker('#positionSelect', function ($select) {
+                        $select.val([]).prop('disabled', true);
+                    });
+
+                    safeUpdateSelectpicker('#seasonSelect', function ($select) {
+                        $select.find('option').each(function () {
+                            const seasonValue = $(this).val();
+                            if (seasonValue < "2021/22" && seasonValue !== "2020/21") {
                                 $(this).prop('disabled', true);
-                            } else if ($(this).val() !== "2020/21") {
+                            } else if (seasonValue !== "2020/21") {
                                 $(this).prop('disabled', false);
                             }
                         });
 
                         if (newSeasons.length !== selectedSeasons.length) {
-                            $el.val(newSeasons);
+                            $select.val(newSeasons);
                         }
                     });
 
-                    // Force bench on and disable toggle for captains
                     document.getElementById("includeBenchSwitch").checked = true;
                     document.getElementById("includeBenchSwitch").disabled = true;
 
                 } else if (currentPlayerStatsType === 'point-scorers' || currentPlayerStatsType === 'cards') {
-                    // Point Scorers & Cards: Disable positions, enable all seasons, force bench on
-                    updateSelectpicker('#positionSelect', ($el) => {
-                        $el.val([]);
-                        $el.prop('disabled', true);
+                    safeUpdateSelectpicker('#positionSelect', function ($select) {
+                        $select.val([]).prop('disabled', true);
                     });
 
-                    // Enable all seasons
-                    updateSelectpicker('#seasonSelect', ($el) => {
-                        $el.find('option').each(function () {
+                    safeUpdateSelectpicker('#seasonSelect', function ($select) {
+                        $select.find('option').each(function () {
                             if ($(this).val() !== "2020/21") {
                                 $(this).prop('disabled', false);
                             }
                         });
                     });
 
-                    // Force bench on and disable toggle
                     document.getElementById("includeBenchSwitch").checked = true;
                     document.getElementById("includeBenchSwitch").disabled = true;
                 }
 
             } else if (tabId === 'results-tab' || tabId === 'set-piece-tab') {
-                // Results & Set Piece: Disable positions, enable all seasons, force bench on
-                updateSelectpicker('#positionSelect', ($el) => {
-                    $el.val([]);
-                    $el.prop('disabled', true);
+                safeUpdateSelectpicker('#positionSelect', function ($select) {
+                    $select.val([]).prop('disabled', true);
                 });
 
-                // Enable all seasons
-                updateSelectpicker('#seasonSelect', ($el) => {
-                    $el.find('option').each(function () {
+                safeUpdateSelectpicker('#seasonSelect', function ($select) {
+                    $select.find('option').each(function () {
                         if ($(this).val() !== "2020/21") {
                             $(this).prop('disabled', false);
                         }
                     });
                 });
 
-                // Force bench on and disable toggle
                 document.getElementById("includeBenchSwitch").checked = true;
                 document.getElementById("includeBenchSwitch").disabled = true;
             }
