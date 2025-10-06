@@ -1121,18 +1121,37 @@
                 // Prevent double-tap zoom on buttons and interactive elements
                 const preventDoubleTap = (selector) => {
                     $(selector).on('touchend', function (e) {
+                        // IMPORTANT: Don't interfere with dropdown items
+                        if ($(this).hasClass('dropdown-item') || $(this).closest('.dropdown-menu').length) {
+                            return; // Let the dropdown items handle their own events
+                        }
                         e.preventDefault();
                         $(this).trigger('click');
                     });
                 };
 
-                // Apply to key interactive elements
+                // Apply to key interactive elements - EXCLUDE dropdown items
                 preventDoubleTap('.filter-panel-toggle');
-                preventDoubleTap('.nav-tabs .nav-link');
-                preventDoubleTap('.nav-tabs .dropdown-item');
-                preventDoubleTap('.btn');
+                preventDoubleTap('.nav-tabs .nav-link:not(.dropdown-toggle)'); // Exclude dropdown toggles
+                preventDoubleTap('.btn:not(.dropdown-item)'); // Exclude dropdown items
 
-                // Handle dropdown items specifically for touch
+                // Handle dropdown items specifically for touch - USE TOUCHSTART INSTEAD
+                $(document).on('touchstart', '.nav-tabs .dropdown-item', function (e) {
+                    console.log('Touch start on nav dropdown item:', this.textContent);
+                    // Don't prevent default - let the touch event flow naturally
+                });
+
+                // Handle dropdown items with touchend - trigger click directly
+                $(document).on('touchend', '.nav-tabs .dropdown-item', function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log('Touch end on nav dropdown item:', this.textContent);
+
+                    // Trigger the click event directly
+                    $(this).trigger('click');
+                });
+
+                // Handle bootstrap select dropdown items separately
                 $(document).on('touchend', '.bootstrap-select .dropdown-item', function (e) {
                     e.preventDefault();
                     $(this).trigger('click');
@@ -1140,24 +1159,20 @@
 
                 // Improve Bootstrap Select touch behavior
                 $('.selectpicker').on('show.bs.select', function () {
-                    // Add touch-friendly styling when dropdown opens
                     $(this).closest('.bootstrap-select').addClass('touch-active');
                 }).on('hide.bs.select', function () {
-                    // Remove touch styling when dropdown closes
                     $(this).closest('.bootstrap-select').removeClass('touch-active');
                 });
 
                 // Handle filter panel toggle for touch
                 $('#filterPanelToggle').on('touchstart', function (e) {
-                    // Add visual feedback on touch start
                     $(this).addClass('touching');
                 }).on('touchend touchcancel', function (e) {
-                    // Remove visual feedback on touch end
                     $(this).removeClass('touching');
                 });
 
-                // Prevent context menu on long press for key elements
-                $('.filter-panel-toggle, .nav-tabs .nav-link, .btn').on('contextmenu', function (e) {
+                // Prevent context menu on long press for key elements - EXCLUDE dropdown items
+                $('.filter-panel-toggle, .nav-tabs .nav-link:not(.dropdown-toggle), .btn:not(.dropdown-item)').on('contextmenu', function (e) {
                     e.preventDefault();
                     return false;
                 });
