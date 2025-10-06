@@ -380,12 +380,18 @@
             border-top: none !important;
             border-radius: 0 0 0.375rem 0.375rem !important;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+            z-index: 9999 !important;
+            min-width: auto !important;
+            width: max-content !important;
+            padding: 0.25rem 0 !important;
         }
 
         .nav-tabs .dropdown-item {
             color: var(--primary-color);
-            padding: 0.5rem 1rem;
-            font-size: 1.2rem;
+            padding: 0.375rem 0.75rem !important;
+            font-size: 1.1rem !important;
+            white-space: nowrap !important;
+            line-height: 1.2 !important;
         }
 
         .nav-tabs .dropdown-item:hover {
@@ -491,30 +497,76 @@
                 visibility: visible;
             }
 
-
-            /* .nav-tabs .nav-link {
-                font-size: 1.1rem;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                text-align: center;
+            /* Mobile navigation optimizations */
+            .nav-tabs {
+                overflow-x: auto !important;
+                overflow-y: visible !important;
                 white-space: nowrap;
-                transition: all 0.2s ease;
-                min-width: fit-content;
-            } */
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+                -ms-overflow-style: none;
+            }
+
+            .nav-tabs::-webkit-scrollbar {
+                display: none;
+            }
+
+            .nav-tabs .nav-link {
+                font-size: 1rem !important;
+                /* Smaller font on mobile */
+                padding: 0.4rem 0.6rem !important;
+                /* Smaller padding */
+                white-space: nowrap;
+            }
+
+            /* Mobile dropdown adjustments */
+            .nav-tabs .dropdown-menu {
+                font-size: 1rem !important;
+                /* Smaller font on mobile */
+                min-width: 100px !important;
+                /* Smaller minimum width */
+                max-width: calc(100vw - 40px) !important;
+                /* Prevent overflow */
+            }
+
+            .nav-tabs .dropdown-item {
+                padding: 0.3rem 0.6rem !important;
+                /* Smaller padding on mobile */
+                font-size: 1rem !important;
+                /* Smaller font */
+            }
 
         }
 
         /* Very narrow screens */
         @media (max-width: 480px) {
+
+            /* REMOVE THE PROBLEMATIC RULES AND REPLACE WITH PROPER POSITIONING */
             .nav-tabs .dropdown-menu {
-                left: auto !important;
-                right: 0 !important;
+                position: fixed !important;
+                /* Use fixed positioning */
+                z-index: 9999 !important;
+                min-width: 90px !important;
+                /* Even smaller minimum */
+                max-width: calc(100vw - 20px) !important;
+                /* Allow some margin */
+                font-size: 0.9rem !important;
+                /* Even smaller font */
+                /* Remove left/right positioning - let JavaScript handle it */
             }
 
-            .nav-tabs .dropdown-menu.dropdown-menu-end {
-                right: 0 !important;
-                left: auto !important;
+            .nav-tabs .dropdown-item {
+                padding: 0.25rem 0.5rem !important;
+                /* Very compact padding */
+                font-size: 0.9rem !important;
+                /* Smaller font */
+            }
+
+            .nav-tabs .nav-link {
+                font-size: 0.9rem !important;
+                /* Smaller navigation font */
+                padding: 0.3rem 0.5rem !important;
+                /* More compact */
             }
         }
     </style>
@@ -949,138 +1001,180 @@
         }
 
         $(document).ready(function () {
-                console.log('🔧 Document ready, initializing...');
+            console.log('🔧 Document ready, initializing...');
 
-                // Initialize selectpicker with simple configuration
-                $('.selectpicker').selectpicker({
-                    dropupAuto: true,
-                    size: 'auto',
-                    width: '100%',
-                    maxOptions: false
-                });
+            // Initialize Bootstrap dropdowns properly
+            $('.nav-tabs .dropdown-toggle').dropdown();
 
-                // Simple event listeners - ONE TIME ONLY
-                $('#seasonSelect').on('changed.bs.select', function () {
-                    console.log('Season changed');
+            // Handle dropdown positioning on narrow screens
+            $('.nav-tabs .dropdown-toggle').on('show.bs.dropdown', function (e) {
+                console.log('Dropdown showing for:', this.id);
+            });
+
+            $('.nav-tabs .dropdown-toggle').on('shown.bs.dropdown', function (e) {
+                console.log('Dropdown shown for:', this.id);
+
+                // Handle positioning for very narrow screens
+                if (window.innerWidth <= 480) {
+                    const $menu = $(this).siblings('.dropdown-menu');
+                    const buttonRect = this.getBoundingClientRect();
+                    const menuWidth = $menu.outerWidth();
+                    const viewportWidth = window.innerWidth;
+
+                    // Position the dropdown
+                    let leftPosition = buttonRect.left;
+
+                    // Adjust if dropdown would go off the right edge
+                    if (leftPosition + menuWidth > viewportWidth - 10) {
+                        leftPosition = viewportWidth - menuWidth - 10;
+                    }
+
+                    // Ensure it doesn't go off the left edge
+                    if (leftPosition < 10) {
+                        leftPosition = 10;
+                    }
+
+                    $menu.css({
+                        'position': 'fixed',
+                        'top': (buttonRect.bottom + 2) + 'px',
+                        'left': leftPosition + 'px',
+                        'right': 'auto'
+                    });
+
+                    console.log('Positioned dropdown at:', leftPosition, 'Button rect:', buttonRect);
+                }
+            });
+
+            // Initialize selectpicker with simple configuration
+            $('.selectpicker').selectpicker({
+                dropupAuto: true,
+                size: 'auto',
+                width: '100%',
+                maxOptions: false
+            });
+
+            // Simple event listeners - ONE TIME ONLY
+            $('#seasonSelect').on('changed.bs.select', function () {
+                console.log('Season changed');
+                renderCharts();
+            });
+
+            $('#positionSelect').on('changed.bs.select', function () {
+                console.log('Position changed');
+                renderCharts();
+            });
+
+            document.querySelectorAll('input[name="squadRadio"]')
+                .forEach(radio => radio.addEventListener("change", function () {
+                    console.log('Squad changed');
                     renderCharts();
-                });
+                }));
 
-                $('#positionSelect').on('changed.bs.select', function () {
-                    console.log('Position changed');
+            document.querySelectorAll('input[name="gameTypeCheck"]')
+                .forEach(checkbox => checkbox.addEventListener("change", function () {
+                    console.log('Competition changed');
                     renderCharts();
+                }));
+
+            document.getElementById("includeBenchSwitch").addEventListener("change", function () {
+                console.log('Bench toggle changed');
+                renderCharts();
+            });
+
+            // Dropdown item click handlers - using event delegation for reliability
+            $(document).on('click', '.dropdown-item[data-chart-type]', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                const chartType = this.getAttribute('data-chart-type');
+                const targetId = this.getAttribute('data-bs-target');
+
+                console.log('Dropdown clicked:', chartType, 'Target:', targetId);
+
+                // Handle Player Stats dropdown
+                if (targetId === '#player-stats-content') {
+                    currentPlayerStatsType = chartType;
+                    document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('show', 'active'));
+                    document.querySelector(targetId).classList.add('show', 'active');
+                    document.querySelectorAll('#chartTabs .nav-link').forEach(t => t.classList.remove('active'));
+                    document.getElementById('player-stats-dropdown').classList.add('active');
+                    applyTabSpecificLogic('player-stats-tab');
+                    setTimeout(renderPlayerStatsChart, 50);
+
+                } else if (targetId === '#set-piece-content') {
+                    currentSetPieceType = chartType;
+                    document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('show', 'active'));
+                    document.querySelector(targetId).classList.add('show', 'active');
+                    document.querySelectorAll('#chartTabs .nav-link').forEach(t => t.classList.remove('active'));
+                    document.getElementById('set-piece-dropdown').classList.add('active');
+                    applyTabSpecificLogic('set-piece-tab');
+                    setTimeout(renderSetPieceChart, 50);
+                }
+            });
+
+            // SIMPLIFIED: Only add touch handling for chart containers
+            if ('ontouchstart' in window) {
+                console.log('📱 Touch device detected - adding chart touch optimization');
+
+                // Add touch-friendly scrolling for chart content only
+                $('.tab-content, .vega-embed').css({
+                    '-webkit-overflow-scrolling': 'touch',
+                    'scroll-behavior': 'smooth'
                 });
 
-                document.querySelectorAll('input[name="squadRadio"]')
-                    .forEach(radio => radio.addEventListener("change", function () {
-                        console.log('Squad changed');
-                        renderCharts();
-                    }));
-
-                document.querySelectorAll('input[name="gameTypeCheck"]')
-                    .forEach(checkbox => checkbox.addEventListener("change", function () {
-                        console.log('Competition changed');
-                        renderCharts();
-                    }));
-
-                document.getElementById("includeBenchSwitch").addEventListener("change", function () {
-                    console.log('Bench toggle changed');
-                    renderCharts();
+                // Prevent zoom on double-tap for chart areas only
+                $(document).on('touchend', '.vega-embed, .tab-content', function (e) {
+                    e.preventDefault();
                 });
+            }
 
-                // Dropdown item click handlers - using event delegation for reliability
-                $(document).on('click', '.dropdown-item[data-chart-type]', function (e) {
+            // Filter panel toggle functionality - keep it simple
+            setTimeout(function () {
+                const $filterPanelToggle = $('#filterPanelToggle');
+                const $filterPanel = $('#filterPanel');
+                const $backdrop = $('#filterPanelBackdrop');
+
+                function toggleFilterPanel(e) {
                     e.preventDefault();
                     e.stopPropagation();
 
-                    const chartType = this.getAttribute('data-chart-type');
-                    const targetId = this.getAttribute('data-bs-target');
+                    const isCurrentlyExpanded = $filterPanel.hasClass('expanded');
 
-                    console.log('Dropdown clicked:', chartType, 'Target:', targetId);
-
-                    // Handle Player Stats dropdown
-                    if (targetId === '#player-stats-content') {
-                        currentPlayerStatsType = chartType;
-                        document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('show', 'active'));
-                        document.querySelector(targetId).classList.add('show', 'active');
-                        document.querySelectorAll('#chartTabs .nav-link').forEach(t => t.classList.remove('active'));
-                        document.getElementById('player-stats-dropdown').classList.add('active');
-                        applyTabSpecificLogic('player-stats-tab');
-                        setTimeout(renderPlayerStatsChart, 50);
-
-                    } else if (targetId === '#set-piece-content') {
-                        currentSetPieceType = chartType;
-                        document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('show', 'active'));
-                        document.querySelector(targetId).classList.add('show', 'active');
-                        document.querySelectorAll('#chartTabs .nav-link').forEach(t => t.classList.remove('active'));
-                        document.getElementById('set-piece-dropdown').classList.add('active');
-                        applyTabSpecificLogic('set-piece-tab');
-                        setTimeout(renderSetPieceChart, 50);
-                    }
-                });
-
-                // SIMPLIFIED: Only add touch handling for chart containers
-                if ('ontouchstart' in window) {
-                    console.log('📱 Touch device detected - adding chart touch optimization');
-
-                    // Add touch-friendly scrolling for chart content only
-                    $('.tab-content, .vega-embed').css({
-                        '-webkit-overflow-scrolling': 'touch',
-                        'scroll-behavior': 'smooth'
-                    });
-
-                    // Prevent zoom on double-tap for chart areas only
-                    $(document).on('touchend', '.vega-embed, .tab-content', function (e) {
-                        e.preventDefault();
-                    });
-                }
-
-                // Filter panel toggle functionality - keep it simple
-                setTimeout(function () {
-                    const $filterPanelToggle = $('#filterPanelToggle');
-                    const $filterPanel = $('#filterPanel');
-                    const $backdrop = $('#filterPanelBackdrop');
-
-                    function toggleFilterPanel(e) {
-                        e.preventDefault();
-                        e.stopPropagation();
-
-                        const isCurrentlyExpanded = $filterPanel.hasClass('expanded');
-
-                        if (isCurrentlyExpanded) {
-                            $filterPanel.removeClass('expanded');
-                            $backdrop.removeClass('show');
-                        } else {
-                            $filterPanel.addClass('expanded');
-                            if (window.innerWidth <= 768) {
-                                $backdrop.addClass('show');
-                            }
-                        }
-
-                        localStorage.setItem('filterPanelExpanded', $filterPanel.hasClass('expanded'));
-                    }
-
-                    $filterPanelToggle.on('click', toggleFilterPanel);
-                    $backdrop.on('click', function () {
+                    if (isCurrentlyExpanded) {
                         $filterPanel.removeClass('expanded');
                         $backdrop.removeClass('show');
-                        localStorage.setItem('filterPanelExpanded', false);
-                    });
-
-                    // Restore panel state
-                    if (localStorage.getItem('filterPanelExpanded') === 'true') {
+                    } else {
                         $filterPanel.addClass('expanded');
-                    }
-
-                    // Handle window resize
-                    window.addEventListener('resize', function () {
-                        if (window.innerWidth > 768) {
-                            $backdrop.removeClass('show');
-                        } else if ($filterPanel.hasClass('expanded')) {
+                        if (window.innerWidth <= 768) {
                             $backdrop.addClass('show');
                         }
-                    });
-                }, 100);
-            });
+                    }
+
+                    localStorage.setItem('filterPanelExpanded', $filterPanel.hasClass('expanded'));
+                }
+
+                $filterPanelToggle.on('click', toggleFilterPanel);
+                $backdrop.on('click', function () {
+                    $filterPanel.removeClass('expanded');
+                    $backdrop.removeClass('show');
+                    localStorage.setItem('filterPanelExpanded', false);
+                });
+
+                // Restore panel state
+                if (localStorage.getItem('filterPanelExpanded') === 'true') {
+                    $filterPanel.addClass('expanded');
+                }
+
+                // Handle window resize
+                window.addEventListener('resize', function () {
+                    if (window.innerWidth > 768) {
+                        $backdrop.removeClass('show');
+                    } else if ($filterPanel.hasClass('expanded')) {
+                        $backdrop.addClass('show');
+                    }
+                });
+            }, 100);
+        });
 
         // Helper function to safely update selectpicker WITHOUT causing duplication
         function updateSelectpicker(selector, callback) {
