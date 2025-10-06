@@ -433,7 +433,6 @@
         }
 
         .vega-embed svg {
-            min-width: 600px;
             width: auto !important;
             height: auto !important;
         }
@@ -474,7 +473,8 @@
             }
 
             .tab-pane {
-                min-width: 500px; /* Adjust container to accommodate scaled content */
+                min-width: 500px;
+                /* Adjust container to accommodate scaled content */
             }
 
             .filters-container {
@@ -551,7 +551,7 @@
             .tab-pane {
                 min-width: 400px;
             }
-            
+
             .nav-tabs .dropdown-menu {
                 position: fixed !important;
                 /* Use fixed positioning */
@@ -568,7 +568,7 @@
             .nav-tabs .dropdown-item {
                 padding: 0.25rem 0.5rem !important;
             }
-            
+
         }
     </style>
 
@@ -795,7 +795,7 @@
             }
 
             const defaultOptions = {
-                actions: false,
+                actions: true,
                 renderer: 'svg',
                 scaleFactor: 1,
                 config: {
@@ -826,14 +826,41 @@
         // Function to render all charts with current filters
         function renderCharts() {
             console.log('🔄 renderCharts called at:', new Date().toISOString());
-            console.log('🔄 About to render all charts...');
 
-            renderResultsChart();
-            renderTeamSheetsChart();
-            renderPlayerStatsChart();
-            renderSetPieceChart();
+            // Find the active tab and render only that chart
+            const activeTab = document.querySelector('#chartTabs .nav-link.active');
+            if (!activeTab) {
+                console.log('🔄 No active tab found');
+                return;
+            }
 
-            console.log('🔄 All chart render functions called');
+            const tabId = activeTab.getAttribute('id');
+            console.log('🔄 Rendering chart for active tab:', tabId);
+
+            applyTabSpecificLogic(tabId);
+
+            // Small delay to ensure selectpicker updates are processed
+            setTimeout(() => {
+                // Render only the active chart
+                switch (tabId) {
+                    case 'results-tab':
+                        renderResultsChart();
+                        break;
+                    case 'team-sheets-tab':
+                        renderTeamSheetsChart();
+                        break;
+                    case 'player-stats-dropdown':
+                        renderPlayerStatsChart();
+                        break;
+                    case 'set-piece-dropdown':
+                        renderSetPieceChart();
+                        break;
+                    default:
+                        console.log('🔄 Unknown tab ID:', tabId);
+                }
+
+                console.log('🔄 Active chart rendered');
+            }, 10); // Small delay to ensure selectpicker changes are processed
         }
 
         function renderPlayerStatsChart() {
@@ -1092,25 +1119,28 @@
 
                 console.log('Dropdown clicked:', chartType, 'Target:', targetId);
 
-                // Handle Player Stats dropdown
+                // Update the current chart type
                 if (targetId === '#player-stats-content') {
                     currentPlayerStatsType = chartType;
-                    document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('show', 'active'));
-                    document.querySelector(targetId).classList.add('show', 'active');
-                    document.querySelectorAll('#chartTabs .nav-link').forEach(t => t.classList.remove('active'));
-                    document.getElementById('player-stats-dropdown').classList.add('active');
-                    applyTabSpecificLogic('player-stats-tab');
-                    setTimeout(renderPlayerStatsChart, 50);
-
                 } else if (targetId === '#set-piece-content') {
                     currentSetPieceType = chartType;
-                    document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('show', 'active'));
-                    document.querySelector(targetId).classList.add('show', 'active');
-                    document.querySelectorAll('#chartTabs .nav-link').forEach(t => t.classList.remove('active'));
-                    document.getElementById('set-piece-dropdown').classList.add('active');
-                    applyTabSpecificLogic('set-piece-tab');
-                    setTimeout(renderSetPieceChart, 50);
                 }
+
+                // Update tab content visibility
+                document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('show', 'active'));
+                document.querySelector(targetId).classList.add('show', 'active');
+
+                // Update tab button active state
+                document.querySelectorAll('#chartTabs .nav-link').forEach(t => t.classList.remove('active'));
+
+                if (targetId === '#player-stats-content') {
+                    document.getElementById('player-stats-dropdown').classList.add('active');
+                } else if (targetId === '#set-piece-content') {
+                    document.getElementById('set-piece-dropdown').classList.add('active');
+                }
+
+                // Render only the newly active chart
+                setTimeout(renderCharts, 50);
             });
 
             // SIMPLIFIED: Only add touch handling for chart containers
@@ -1251,19 +1281,22 @@
             function safeUpdateSelectpicker(selector, updateFunction) {
                 const $element = $(selector);
 
+                // Store the current value before update
+                const currentValue = $element.val();
+
                 // Apply the update function to modify options
                 updateFunction($element);
 
-                // Destroy and reinitialize to prevent duplication
-                $element.selectpicker('destroy');
-                $element.selectpicker({
-                    dropupAuto: true,
-                    size: 'auto',
-                    width: '100%',
-                    maxOptions: false,
-                    mobile: $('body').hasClass('touch-device')
-                });
+                // Get the new value after update
+                const newValue = $element.val();
+
+               
+
+                // Return whether the value changed
+                return JSON.stringify(currentValue) !== JSON.stringify(newValue);
             }
+
+            let needsRerender = false;
 
             if (tabId === 'team-sheets-tab') {
                 // Enable positions
@@ -1273,7 +1306,7 @@
                 const selectedSeasons = $('#seasonSelect').val() || [];
                 const newSeasons = selectedSeasons.filter(season => season >= "2021/22");
 
-                safeUpdateSelectpicker('#seasonSelect', function ($select) {
+                const seasonChanged = safeUpdateSelectpicker('#seasonSelect', function ($select) {
                     $select.find('option').each(function () {
                         const seasonValue = $(this).val();
                         if (seasonValue < "2021/22" && seasonValue !== "2020/21") {
@@ -1285,6 +1318,7 @@
 
                     if (newSeasons.length !== selectedSeasons.length) {
                         $select.val(newSeasons);
+                        needsRerender = true;
                     }
                 });
 
@@ -1314,9 +1348,10 @@
                             // No changes needed, just refresh
                         });
                     } else {
-                        safeUpdateSelectpicker('#positionSelect', function ($select) {
+                        const positionChanged = safeUpdateSelectpicker('#positionSelect', function ($select) {
                             $select.val([]).prop('disabled', true);
                         });
+                        if (positionChanged) needsRerender = true;
                         document.getElementById("includeBenchSwitch").checked = true;
                         document.getElementById("includeBenchSwitch").disabled = true;
                     }
@@ -1325,11 +1360,12 @@
                     const selectedSeasons = $('#seasonSelect').val() || [];
                     const newSeasons = selectedSeasons.filter(season => season >= "2021/22");
 
-                    safeUpdateSelectpicker('#positionSelect', function ($select) {
+                    const positionChanged = safeUpdateSelectpicker('#positionSelect', function ($select) {
                         $select.val([]).prop('disabled', true);
                     });
+                    if (positionChanged) needsRerender = true;
 
-                    safeUpdateSelectpicker('#seasonSelect', function ($select) {
+                    const seasonChanged = safeUpdateSelectpicker('#seasonSelect', function ($select) {
                         $select.find('option').each(function () {
                             const seasonValue = $(this).val();
                             if (seasonValue < "2021/22" && seasonValue !== "2020/21") {
@@ -1341,6 +1377,7 @@
 
                         if (newSeasons.length !== selectedSeasons.length) {
                             $select.val(newSeasons);
+                            needsRerender = true;
                         }
                     });
 
@@ -1348,9 +1385,10 @@
                     document.getElementById("includeBenchSwitch").disabled = true;
 
                 } else if (currentPlayerStatsType === 'point-scorers' || currentPlayerStatsType === 'cards') {
-                    safeUpdateSelectpicker('#positionSelect', function ($select) {
+                    const positionChanged = safeUpdateSelectpicker('#positionSelect', function ($select) {
                         $select.val([]).prop('disabled', true);
                     });
+                    if (positionChanged) needsRerender = true;
 
                     safeUpdateSelectpicker('#seasonSelect', function ($select) {
                         $select.find('option').each(function () {
@@ -1365,9 +1403,10 @@
                 }
 
             } else if (tabId === 'results-tab' || tabId === 'set-piece-tab') {
-                safeUpdateSelectpicker('#positionSelect', function ($select) {
+                const positionChanged = safeUpdateSelectpicker('#positionSelect', function ($select) {
                     $select.val([]).prop('disabled', true);
                 });
+                if (positionChanged) needsRerender = true;
 
                 safeUpdateSelectpicker('#seasonSelect', function ($select) {
                     $select.find('option').each(function () {
@@ -1380,22 +1419,24 @@
                 document.getElementById("includeBenchSwitch").checked = true;
                 document.getElementById("includeBenchSwitch").disabled = true;
             }
+
+            return needsRerender;
         }
 
         document.querySelectorAll('#chartTabs button:not(.dropdown-toggle)').forEach(tab => {
             tab.addEventListener('click', (event) => {
                 event.preventDefault();
                 const targetId = tab.getAttribute('data-bs-target');
+
+                // Update tab content visibility
                 document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('show', 'active'));
                 document.querySelector(targetId).classList.add('show', 'active');
+
+                // Update tab button active state
                 document.querySelectorAll('#chartTabs .nav-link').forEach(t => t.classList.remove('active'));
                 tab.classList.add('active');
 
-                // Apply tab-specific logic
-                const tabId = tab.getAttribute('id');
-                applyTabSpecificLogic(tabId);
-
-                // Simple: just render charts when tab changes
+                // Render only the newly active chart
                 setTimeout(renderCharts, 50);
             });
         });
