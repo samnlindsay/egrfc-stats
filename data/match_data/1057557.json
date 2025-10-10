@@ -1,0 +1,59 @@
+{
+    "match_id": "1057557",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2024-03-16",
+    "teams": [
+        "Weybridge Vandals",
+        "East Grinstead"
+    ],
+    "score": [
+        71,
+        26
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/25094.png",
+        "https://images.englandrugby.com/club_images/7134.png"
+    ],
+    "players": [
+        {
+            "15": "Thomas Bolger",
+            "14": "Harry Reed",
+            "13": "Oliver Day",
+            "12": "Karl Hoade",
+            "11": "Luke Phair",
+            "10": "Jack O'Mara",
+            "9": "Daniel Wellden",
+            "8": "Name withheld",
+            "7": "Reece Innes-Gray",
+            "6": "Luke Dones",
+            "5": "Michael Mason",
+            "4": "Richard Crabb",
+            "3": "Luke Hempstead",
+            "2": "Callum Hennessey",
+            "1": "Lloyd Pullen",
+            "S1": "Edward Rawding",
+            "S2": "Darren Lockyer",
+            "S3": "Joseph Graves"
+        },
+        {
+            "15": "Luke Maker",
+            "14": "Samuel Musgrave",
+            "13": "Benjamin Saunders",
+            "12": "Jake Radcliffe",
+            "11": "Oliver Billin",
+            "10": "Noah Roberts",
+            "9": "Connor Leggat",
+            "8": "Ryland Thomas",
+            "7": "Aaronn Boczek",
+            "6": "Daniel Billin",
+            "5": "Guy Collins",
+            "4": "Ben Pellett",
+            "3": "Benjamin Tottman",
+            "2": "Sean Morgan",
+            "1": "Charles Pullen",
+            "S1": "Alistair Moffatt",
+            "S2": "Alister Yaffa"
+        }
+    ]
+}

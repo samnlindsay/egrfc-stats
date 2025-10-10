@@ -1,0 +1,59 @@
+{
+    "match_id": "981984",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2022-10-29",
+    "teams": [
+        "East Grinstead",
+        "Burgess Hill"
+    ],
+    "score": [
+        53,
+        5
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7134.png",
+        "https://images.englandrugby.com/club_images/3659.png"
+    ],
+    "players": [
+        {
+            "15": "Oliver Adams",
+            "14": "Alistair Moffatt",
+            "13": "Max Crawley-Moore",
+            "12": "Ryan Morlen",
+            "11": "Jake Radcliffe",
+            "10": "Oliver Billin",
+            "9": "George Johnson",
+            "8": "Connor Leggat",
+            "7": "John Peaty",
+            "6": "Benjamin Tottman",
+            "5": "Guy Collins",
+            "4": "Samuel Lindsay-McCall",
+            "3": "Devon Frost",
+            "2": "Joshua Brimecombe",
+            "1": "David Bridges",
+            "S1": "Peter Morley",
+            "S2": "Daniel Billin",
+            "S3": "Daniel Poulton"
+        },
+        {
+            "15": "Sekove Vuniyayawa",
+            "14": "Joseph Brown",
+            "13": "Sairussi Madigii",
+            "12": "Ropate Ralawa",
+            "11": "Neori Navo",
+            "10": "Vilitati Ligairi",
+            "9": "Jon Maple",
+            "8": "David Wattam",
+            "7": "Matt Firmager",
+            "6": "Adam Rezazadeh",
+            "5": "Harvey Hays",
+            "4": "Charlie Lewis",
+            "3": "Craig Wells",
+            "2": "Timothy Daniel",
+            "1": "Andrew Mackay",
+            "S1": "Tamanilatui Sailosi",
+            "S2": "Luke Rokosauu"
+        }
+    ]
+}

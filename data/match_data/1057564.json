@@ -1,0 +1,60 @@
+{
+    "match_id": "1057564",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2024-03-23",
+    "teams": [
+        "Old Walcountians",
+        "Twickenham"
+    ],
+    "score": [
+        15,
+        60
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/16075.png",
+        "https://images.englandrugby.com/club_images/23336.png"
+    ],
+    "players": [
+        {
+            "15": "Mohamed-Amin Fatah",
+            "14": "Omarie Brown",
+            "13": "Chidi Ofili",
+            "12": "Andrew Togbolah",
+            "11": "Ted Stoner",
+            "10": "Alexander Skinner",
+            "9": "Callum Stone",
+            "8": "Thomas Brown",
+            "7": "Marvin Fletcher-Rogers",
+            "6": "Oliver Sanders",
+            "5": "Lewis Hessey",
+            "4": "Dominic Bell",
+            "3": "Paul Harris",
+            "2": "James Blackmore",
+            "1": "James Ford",
+            "S1": "Alec Beeson",
+            "S2": "Harry Hanson",
+            "S3": "Joe Henderson"
+        },
+        {
+            "15": "Arthur Polley",
+            "14": "William Hellel",
+            "13": "Archie Lamont",
+            "12": "Joe Ash",
+            "11": "Daniel Rose",
+            "10": "Samuel Goddard",
+            "9": "Alex Stagg",
+            "8": "Nicholas Smith",
+            "7": "James Moore",
+            "6": "Jasper Bhamra",
+            "5": "Scott Davidson",
+            "4": "Louie Banks",
+            "3": "Louis Haskell",
+            "2": "Ben Goddard",
+            "1": "Richard Moses",
+            "S1": "Frazer Gibson",
+            "S2": "Jack Fullicks",
+            "S3": "Samuel Griffin"
+        }
+    ]
+}

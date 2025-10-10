@@ -1,1 +1,60 @@
-{"date": "2024-09-14", "score": [26, 22], "teams": ["Twickenham", "Old Rutlishians"], "logos": ["https://images.englandrugby.com/club_images/23336.png", "https://images.englandrugby.com/club_images/16005.png"], "players": [{"15": "Louis Boyd", "14": "Archie Lamont", "13": "Samuel Griffin", "12": "Joe Ash", "11": "Arthur Polley", "10": "Jamie See", "9": "Alex Stagg", "8": "Nicholas Smith", "7": "Richard Moses", "6": "Jack Fullicks", "5": "Louie Banks", "4": "Scott Davidson", "3": "Jordan Fyles", "2": "Joshua Otter", "1": "Alex Bennett", "S1": "Frazer Gibson", "S2": "Jake White", "S3": "Jake Griffiths"}, {"15": "James Collins", "14": "Charles Julian", "13": "David Cecil", "12": "Oliver O'Brien", "11": "Benjamin Navosailagi", "10": "Toby Harrison", "9": "Alexander O'Dell", "8": "Robert Cecil", "7": "Benjamin Jones", "6": "Oliver Cross", "5": "Jordan Braddock", "4": "Josh Jibulu", "3": "LOUIE DAVIES", "2": "William Dooley", "1": "Kenneth Cecil", "S1": "Ryan Dunne", "S2": "Harry Hovell", "S3": "Corey Holland"}]}
+{
+    "date": "2024-09-14",
+    "score": [
+        26,
+        22
+    ],
+    "teams": [
+        "Twickenham",
+        "Old Rutlishians"
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/23336.png",
+        "https://images.englandrugby.com/club_images/16005.png"
+    ],
+    "players": [
+        {
+            "15": "Louis Boyd",
+            "14": "Archie Lamont",
+            "13": "Samuel Griffin",
+            "12": "Joe Ash",
+            "11": "Arthur Polley",
+            "10": "Jamie See",
+            "9": "Alex Stagg",
+            "8": "Nicholas Smith",
+            "7": "Richard Moses",
+            "6": "Jack Fullicks",
+            "5": "Louie Banks",
+            "4": "Scott Davidson",
+            "3": "Jordan Fyles",
+            "2": "Joshua Otter",
+            "1": "Alex Bennett",
+            "S1": "Frazer Gibson",
+            "S2": "Jake White",
+            "S3": "Jake Griffiths"
+        },
+        {
+            "15": "James Collins",
+            "14": "Charles Julian",
+            "13": "David Cecil",
+            "12": "Oliver O'Brien",
+            "11": "Benjamin Navosailagi",
+            "10": "Toby Harrison",
+            "9": "Alexander O'Dell",
+            "8": "Robert Cecil",
+            "7": "Benjamin Jones",
+            "6": "Oliver Cross",
+            "5": "Jordan Braddock",
+            "4": "Josh Jibulu",
+            "3": "LOUIE DAVIES",
+            "2": "William Dooley",
+            "1": "Kenneth Cecil",
+            "S1": "Ryan Dunne",
+            "S2": "Harry Hovell",
+            "S3": "Corey Holland"
+        }
+    ],
+    "match_id": "1136415",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex"
+}

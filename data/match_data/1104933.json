@@ -1,0 +1,57 @@
+{
+    "match_id": "1104933",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2023-11-25",
+    "teams": [
+        "Hove",
+        "KCS Old Boys"
+    ],
+    "score": [
+        27,
+        29
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/10503.png",
+        "https://images.englandrugby.com/club_images/11188.png"
+    ],
+    "players": [
+        {
+            "15": "Name withheld",
+            "14": "Lloyd Sweeney",
+            "13": "Guy Patton",
+            "12": "Tom Crisp",
+            "11": "Andrew Carmichael",
+            "10": "Olly Lewis",
+            "9": "Charlie Knight",
+            "8": "Tobias Brown",
+            "7": "Ben Anderson",
+            "6": "Ian Saunders",
+            "5": "George Brown",
+            "4": "Thomas Baker",
+            "3": "Tyler Hooper",
+            "2": "Jordan Gibson",
+            "1": "Charlie Butcher",
+            "S1": "Danny O'Conner",
+            "S2": "Jack Dunn",
+            "S3": "Josh Dhillon"
+        },
+        {
+            "15": "Jamie Miller",
+            "14": "James Hattersley",
+            "13": "Nathan Chan",
+            "12": "Leon Driscoll",
+            "11": "Cameron Keller",
+            "10": "Callum Young",
+            "9": "James Shaw",
+            "8": "Seth Eley",
+            "7": "Dominic Soin-Stanley",
+            "6": "Alexander Owen",
+            "5": "William Page",
+            "4": "Benoit Israel",
+            "3": "Funmi Oduniyi",
+            "2": "Rees Powell",
+            "1": "Neil Williams"
+        }
+    ]
+}

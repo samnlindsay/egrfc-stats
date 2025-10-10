@@ -1,0 +1,58 @@
+{
+    "match_id": "981977",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2022-10-15",
+    "teams": [
+        "Uckfield",
+        "Haywards Heath"
+    ],
+    "score": [
+        15,
+        7
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/23445.png",
+        "https://images.englandrugby.com/club_images/9776.png"
+    ],
+    "players": [
+        {
+            "15": "Name withheld",
+            "14": "Joel Andrews",
+            "13": "Matthew Desouza",
+            "12": "Joel Forward",
+            "11": "Callum Harvey",
+            "10": "Charlie Buckland",
+            "9": "Jordon Southgate",
+            "8": "Guy Cornick",
+            "7": "Thomas Booth",
+            "6": "Terry Funnell",
+            "5": "Thomas Lightfoot",
+            "4": "Stephen Hartfield",
+            "3": "Matthew Longhurst",
+            "2": "Alfie Richardson",
+            "1": "Davy Armstrong",
+            "S1": "Jack Harvey",
+            "S2": "Craig Marshall",
+            "S3": "Kane Drummond"
+        },
+        {
+            "15": "Christopher Neill",
+            "14": "Douglas Kern",
+            "13": "Jack Flower",
+            "12": "Henry Verbi",
+            "11": "Samuela Bulitokaivale-Lancaster",
+            "10": "Thomas Wharton",
+            "9": "James Thurston",
+            "8": "Geoffrey Bridges",
+            "7": "Lewis Goodall",
+            "6": "Fraser Russell",
+            "5": "Ellis Dubois",
+            "4": "Elliott Higgin",
+            "3": "Jack Herbert",
+            "2": "Ben Eustace",
+            "1": "Harrison Thomas Edwards",
+            "S1": "Mitchell Day"
+        }
+    ]
+}

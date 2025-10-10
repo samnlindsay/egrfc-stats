@@ -1,0 +1,60 @@
+{
+    "match_id": "1057568",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2024-04-06",
+    "teams": [
+        "Weybridge Vandals",
+        "Eastbourne"
+    ],
+    "score": [
+        38,
+        5
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/25094.png",
+        "https://images.englandrugby.com/club_images/7209.png"
+    ],
+    "players": [
+        {
+            "15": "Thomas Bolger",
+            "14": "Samuel Hall",
+            "13": "Oliver Day",
+            "12": "Karl Hoade",
+            "11": "Joseph Graves",
+            "10": "David Loubser",
+            "9": "Daniel Wellden",
+            "8": "Michael Mason",
+            "7": "Reece Innes-Gray",
+            "6": "Name withheld",
+            "5": "Darren Lockyer",
+            "4": "Richard Crabb",
+            "3": "Luke Hempstead",
+            "2": "Callum Hennessey",
+            "1": "Joshua Thomas",
+            "S1": "Lloyd Pullen",
+            "S2": "Nicholas Blount",
+            "S3": "Harry Robinson"
+        },
+        {
+            "15": "Mason Dowle",
+            "14": "Owen Jones",
+            "13": "Dylan Viles",
+            "12": "Ronnie Doorey-Palmer",
+            "11": "Pedro Sousa",
+            "10": "Jake Howe",
+            "9": "Brendan Challis",
+            "8": "Jeremy Montes",
+            "7": "Vincent Morse",
+            "6": "Ryan Shields",
+            "5": "Owen Davies",
+            "4": "Luke Thomas",
+            "3": "Paul Smith",
+            "2": "Joseph Bettles",
+            "1": "Daniel Keen",
+            "S1": "Amro Hammer",
+            "S2": "Oliver Horley",
+            "S3": "Cameron Burleigh"
+        }
+    ]
+}

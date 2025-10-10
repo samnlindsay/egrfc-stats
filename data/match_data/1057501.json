@@ -1,0 +1,57 @@
+{
+    "match_id": "1057501",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2023-12-02",
+    "teams": [
+        "Old Cranleighans",
+        "KCS Old Boys"
+    ],
+    "score": [
+        26,
+        27
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/15615.png",
+        "https://images.englandrugby.com/club_images/11188.png"
+    ],
+    "players": [
+        {
+            "15": "Scott Rees",
+            "14": "Toby Pattinson",
+            "13": "Thomas Webster",
+            "12": "Name withheld",
+            "11": "Robert Mackenzie",
+            "10": "Oliver Butler",
+            "9": "Peter Dowling",
+            "8": "Bradley Lennard",
+            "7": "Barney Gill",
+            "6": "Michael Parnaby",
+            "5": "Mylo Boyd",
+            "4": "James Fitzmaurice",
+            "3": "William Lankfer",
+            "2": "Edward Higgins",
+            "1": "James McLeod",
+            "S1": "Simon Steer",
+            "S2": "Jochem Oostenbroek",
+            "S3": "Jack Dunn"
+        },
+        {
+            "15": "Josh Dhillon",
+            "14": "Jamie Miller",
+            "13": "James Hattersley",
+            "12": "William Carter",
+            "11": "Thomas Evans",
+            "10": "James Shaw",
+            "9": "Matthew Anthony",
+            "8": "Seth Eley",
+            "7": "Dominic Soin-Stanley",
+            "6": "Minhyuk Seo",
+            "5": "Alexander Owen",
+            "4": "Benoit Israel",
+            "3": "Funmi Oduniyi",
+            "2": "Fraser Houlder",
+            "1": "Eddie Wang"
+        }
+    ]
+}

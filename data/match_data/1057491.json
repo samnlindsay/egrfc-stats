@@ -1,0 +1,60 @@
+{
+    "match_id": "1057491",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2023-11-18",
+    "teams": [
+        "Eastbourne",
+        "East Grinstead"
+    ],
+    "score": [
+        26,
+        24
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7209.png",
+        "https://images.englandrugby.com/club_images/7134.png"
+    ],
+    "players": [
+        {
+            "15": "Mason Dowle",
+            "14": "Gianluca Bianchi",
+            "13": "Jake Howe",
+            "12": "Ronnie Doorey-Palmer",
+            "11": "Dylan Viles",
+            "10": "Aaron Hossack",
+            "9": "Name withheld",
+            "8": "Jeremy Montes",
+            "7": "Owen Davies",
+            "6": "James Grey",
+            "5": "Luke Thomas",
+            "4": "Joshua Buckwell",
+            "3": "Paul Smith",
+            "2": "Joseph Bettles",
+            "1": "Christopher Hosking",
+            "S1": "Benjamin Gower",
+            "S2": "Konrad Oneill",
+            "S3": "Pedro Sousa"
+        },
+        {
+            "15": "Oliver Billin",
+            "14": "Jake Radcliffe",
+            "13": "Samuel Spriddell",
+            "12": "Benjamin Saunders",
+            "11": "Alistair Moffatt",
+            "10": "Daniel Poulton",
+            "9": "Harry White",
+            "8": "Aaronn Boczek",
+            "7": "Ryland Thomas",
+            "6": "John Peaty",
+            "5": "Guy Collins",
+            "4": "Daniel Billin",
+            "3": "Joshua Brimecombe",
+            "2": "Benjamin Tottman",
+            "1": "Connor Leggat",
+            "S1": "David Bridges",
+            "S2": "Samuel Lindsay-McCall",
+            "S3": "Max Crawley-Moore"
+        }
+    ]
+}

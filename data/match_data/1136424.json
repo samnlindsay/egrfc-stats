@@ -1,1 +1,60 @@
-{"date": "2024-09-28", "score": [24, 20], "teams": ["Twickenham", "Eastbourne"], "logos": ["https://images.englandrugby.com/club_images/23336.png", "https://images.englandrugby.com/club_images/7209.png"], "players": [{"15": "John Smith", "14": "Jake Griffiths", "13": "Archie Lamont", "12": "Samuel Griffin", "11": "Arthur Polley", "10": "Jamie See", "9": "Samuel Goddard", "8": "Nicholas Smith", "7": "Luke Deakin", "6": "Jack Fullicks", "5": "Jake White", "4": "Louie Banks", "3": "Jordan Fyles", "2": "Joshua Otter", "1": "Alex Bennett", "S1": "Frazer Gibson", "S2": "Richard Moses", "S3": "Alex Stagg"}, {"15": "Mason Dowle", "14": "Oliver Horley", "13": "Jake Howe", "12": "Ronnie Doorey-Palmer", "11": "Dylan Viles", "10": "Aaron Hossack", "9": "Leon Wood", "8": "Jeremy Montes", "7": "Vincent Morse", "6": "Ben Gower", "5": "Jack Curtis", "4": "Owen Davies", "3": "Paul Smith", "2": "Konrad Oneill", "1": "Christopher Hosking", "S1": "Alun Cranch", "S2": "Owen Jones", "S3": "Luke Thomas"}]}
+{
+    "date": "2024-09-28",
+    "score": [
+        24,
+        20
+    ],
+    "teams": [
+        "Twickenham",
+        "Eastbourne"
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/23336.png",
+        "https://images.englandrugby.com/club_images/7209.png"
+    ],
+    "players": [
+        {
+            "15": "John Smith",
+            "14": "Jake Griffiths",
+            "13": "Archie Lamont",
+            "12": "Samuel Griffin",
+            "11": "Arthur Polley",
+            "10": "Jamie See",
+            "9": "Samuel Goddard",
+            "8": "Nicholas Smith",
+            "7": "Luke Deakin",
+            "6": "Jack Fullicks",
+            "5": "Jake White",
+            "4": "Louie Banks",
+            "3": "Jordan Fyles",
+            "2": "Joshua Otter",
+            "1": "Alex Bennett",
+            "S1": "Frazer Gibson",
+            "S2": "Richard Moses",
+            "S3": "Alex Stagg"
+        },
+        {
+            "15": "Mason Dowle",
+            "14": "Oliver Horley",
+            "13": "Jake Howe",
+            "12": "Ronnie Doorey-Palmer",
+            "11": "Dylan Viles",
+            "10": "Aaron Hossack",
+            "9": "Leon Wood",
+            "8": "Jeremy Montes",
+            "7": "Vincent Morse",
+            "6": "Ben Gower",
+            "5": "Jack Curtis",
+            "4": "Owen Davies",
+            "3": "Paul Smith",
+            "2": "Konrad Oneill",
+            "1": "Christopher Hosking",
+            "S1": "Alun Cranch",
+            "S2": "Owen Jones",
+            "S3": "Luke Thomas"
+        }
+    ],
+    "match_id": "1136424",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex"
+}

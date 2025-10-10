@@ -1,0 +1,58 @@
+{
+    "match_id": "1057492",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2023-11-18",
+    "teams": [
+        "Weybridge Vandals",
+        "Old Walcountians"
+    ],
+    "score": [
+        47,
+        3
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/25094.png",
+        "https://images.englandrugby.com/club_images/16075.png"
+    ],
+    "players": [
+        {
+            "15": "Thomas Bolger",
+            "14": "Karl Hoade",
+            "13": "Harry Weatherall",
+            "12": "Oliver Day",
+            "11": "Harry Reed",
+            "10": "David Loubser",
+            "9": "Joseph Graves",
+            "8": "Name withheld",
+            "7": "Reece Innes-Gray",
+            "6": "Mattia Mengotti",
+            "5": "Darren Lockyer",
+            "4": "Nicholas Blount",
+            "3": "Luke Hempstead",
+            "2": "Callum Hennessey",
+            "1": "Joshua Thomas",
+            "S1": "Wayne Mason",
+            "S2": "Michael Mason",
+            "S3": "Luke Parr"
+        },
+        {
+            "15": "Harrison Mogridge",
+            "14": "Ejiro Erhirhie",
+            "13": "Marvin Fletcher-Rogers",
+            "12": "Heathcliffe Bateman",
+            "11": "Andrew Togbolah",
+            "10": "Alexander Skinner",
+            "9": "Liam Moorhead",
+            "8": "Thomas Brown",
+            "7": "Joe Henderson",
+            "6": "Oliver Sanders",
+            "5": "Peter Thomas",
+            "4": "Joseph Lawrence",
+            "3": "Dominic Bell",
+            "2": "James Blackmore",
+            "1": "Omarie Brown",
+            "S1": "James Ford"
+        }
+    ]
+}

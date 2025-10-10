@@ -1,1 +1,61 @@
-{"date": "2025-02-01", "score": [14, 45], "teams": ["Haywards Heath", "Old Rutlishians"], "logos": ["https://images.englandrugby.com/club_images/9776.png", "https://images.englandrugby.com/club_images/16005.png"], "players": [{"15": "Thomas Wharton", "14": "Takhy Ndiaye Marrero", "13": "Jack Lucas", "12": "Geoffrey Bridges", "11": "Luca Cavalli", "10": "James Thurston", "9": "James Buttle", "8": "Otto Serjeant", "7": "Daniel Jarman", "6": "Josh Pope", "5": "Ellis Dubois", "4": "Harry Clark", "3": "Euan Greaves-Smith", "2": "William Purdy", "1": "Harrison Thomas Edwards", "S1": "Sebastian Probert-Broster", "S2": "Jack Herbert", "S3": "Jack Hart"}, {"15": "James Collins", "14": "Elliot Shrimpton", "13": "David Cecil", "12": "Oliver O\u2019Brien", "11": "Findlay Pearson", "10": "Toby Harrison", "9": "Thomas Checkley", "8": "Robert Cecil", "7": "Benjamin Sumrie", "6": "Harry Hovell", "5": "Josh Jibulu", "4": "Jordan Braddock", "3": "LOUIE DAVIES", "2": "Harry Hudson", "1": "William Donegan", "S1": "Chezter Altea", "S2": "Benjamin Lenehan", "S3": "Ben Hatfield", "S4": "Andrew Mileham"}]}
+{
+    "date": "2025-02-01",
+    "score": [
+        14,
+        45
+    ],
+    "teams": [
+        "Haywards Heath",
+        "Old Rutlishians"
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/9776.png",
+        "https://images.englandrugby.com/club_images/16005.png"
+    ],
+    "players": [
+        {
+            "15": "Thomas Wharton",
+            "14": "Takhy Ndiaye Marrero",
+            "13": "Jack Lucas",
+            "12": "Geoffrey Bridges",
+            "11": "Luca Cavalli",
+            "10": "James Thurston",
+            "9": "James Buttle",
+            "8": "Otto Serjeant",
+            "7": "Daniel Jarman",
+            "6": "Josh Pope",
+            "5": "Ellis Dubois",
+            "4": "Harry Clark",
+            "3": "Euan Greaves-Smith",
+            "2": "William Purdy",
+            "1": "Harrison Thomas Edwards",
+            "S1": "Sebastian Probert-Broster",
+            "S2": "Jack Herbert",
+            "S3": "Jack Hart"
+        },
+        {
+            "15": "James Collins",
+            "14": "Elliot Shrimpton",
+            "13": "David Cecil",
+            "12": "Oliver O\u2019Brien",
+            "11": "Findlay Pearson",
+            "10": "Toby Harrison",
+            "9": "Thomas Checkley",
+            "8": "Robert Cecil",
+            "7": "Benjamin Sumrie",
+            "6": "Harry Hovell",
+            "5": "Josh Jibulu",
+            "4": "Jordan Braddock",
+            "3": "LOUIE DAVIES",
+            "2": "Harry Hudson",
+            "1": "William Donegan",
+            "S1": "Chezter Altea",
+            "S2": "Benjamin Lenehan",
+            "S3": "Ben Hatfield",
+            "S4": "Andrew Mileham"
+        }
+    ],
+    "match_id": "1136505",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex"
+}

@@ -1,0 +1,58 @@
+{
+    "match_id": "1136531",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2025-04-05",
+    "teams": [
+        "Weybridge Vandals",
+        "KCS Old Boys"
+    ],
+    "score": [
+        88,
+        0
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/25094.png",
+        "https://images.englandrugby.com/club_images/11188.png"
+    ],
+    "players": [
+        {
+            "15": "Thomas Bolger",
+            "14": "Luke Phair",
+            "13": "Harry Weatherall",
+            "12": "Sam Bullett",
+            "11": "Name withheld",
+            "10": "Daniel Wellden",
+            "9": "Joseph Graves",
+            "8": "Thomas Frewin",
+            "7": "Lewis Bryant",
+            "6": "Richard Crabb",
+            "5": "Luke Hempstead",
+            "4": "Cameron Edgar",
+            "3": "Joshua Thomas",
+            "2": "Joel Keefe",
+            "1": "Jack O\u2019Mara",
+            "S1": "Robbie Dones",
+            "S2": "Tom Senior",
+            "S3": "Hamish Day"
+        },
+        {
+            "15": "George Pickens",
+            "14": "James Shaw",
+            "13": "Maximilian Robinson",
+            "12": "William Carter",
+            "11": "Neil Williams",
+            "10": "Stephen Byrne",
+            "9": "Duncan Bucknell",
+            "8": "Douglas Bartlett",
+            "7": "Rees Powell",
+            "6": "Fergus Keegan",
+            "5": "Alexander Owen",
+            "4": "Minhyuk Seo",
+            "3": "Benoit Israel",
+            "2": "Rory Watson",
+            "1": "Finn Rowland",
+            "S1": "Jay Bhatia"
+        }
+    ]
+}

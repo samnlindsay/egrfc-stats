@@ -1,0 +1,37 @@
+{
+    "match_id": "1155358",
+    "season": "2024-2025",
+    "league": "Harvey's Brewery Counties 3 Sussex",
+    "date": "2024-09-21",
+    "teams": [
+        "Midhurst",
+        "Newick"
+    ],
+    "score": [
+        7,
+        12
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/13824.png",
+        "https://images.englandrugby.com/club_images/14523.png"
+    ],
+    "players": [
+        {},
+        {
+            "15": "Oliver Dunn",
+            "14": "Chris Franklin",
+            "13": "Oli Backhouse",
+            "12": "Anthony Norris",
+            "10": "Name withheld",
+            "9": "Stephen Adams",
+            "8": "George Frost",
+            "7": "George Heroys",
+            "6": "Adam Procter",
+            "5": "Andrew Morrison",
+            "4": "Nicholas Morrin",
+            "3": "Harry Carter",
+            "2": "Daniel Stevens",
+            "1": "Earl Michael Bolton Boyd"
+        }
+    ]
+}

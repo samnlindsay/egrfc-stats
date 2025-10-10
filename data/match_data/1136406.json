@@ -1,1 +1,59 @@
-{"date": "2024-09-07", "score": [20, 19], "teams": ["Trinity", "Old Haileyburians"], "logos": ["https://images.englandrugby.com/club_images/23175.png", "https://images.englandrugby.com/club_images/15747.png"], "players": [{"15": "Benjamin Telfer", "14": "Max Mouna", "13": "Thomas Wilcox", "12": "Marc McEvilly", "11": "Thomas Fairclough", "10": "George Kimmins", "9": "Harry Wilson", "8": "Farooq Agbalaya", "7": "Khalil Alleyne", "6": "Oliver Hubbard", "5": "Thomas Black", "4": "Fuad Agbalaya", "3": "Alastair Hall", "2": "Quinn Singh", "1": "Christopher Reid Gomez", "S1": "Timothy Jupp", "S2": "Paul Roberts", "S3": "Barney Kember"}, {"15": "Jon Searle", "14": "Josh King", "13": "Benedict Trimmer", "12": "Oliver Bluck", "11": "Luke Wright", "10": "Ollie Mann", "9": "Name withheld", "8": "Thomas Wright", "7": "Harry Clesham", "6": "Charles Spilsbury", "5": "Thomas Woodruff", "4": "Oliver L Marsden", "3": "Jacob Cummins", "2": "Sonny Kelly", "1": "Robin Kear", "S1": "Oliver Beere", "S2": "Issac Jeavons-Fellows"}]}
+{
+    "date": "2024-09-07",
+    "score": [
+        20,
+        19
+    ],
+    "teams": [
+        "Trinity",
+        "Old Haileyburians"
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/23175.png",
+        "https://images.englandrugby.com/club_images/15747.png"
+    ],
+    "players": [
+        {
+            "15": "Benjamin Telfer",
+            "14": "Max Mouna",
+            "13": "Thomas Wilcox",
+            "12": "Marc McEvilly",
+            "11": "Thomas Fairclough",
+            "10": "George Kimmins",
+            "9": "Harry Wilson",
+            "8": "Farooq Agbalaya",
+            "7": "Khalil Alleyne",
+            "6": "Oliver Hubbard",
+            "5": "Thomas Black",
+            "4": "Fuad Agbalaya",
+            "3": "Alastair Hall",
+            "2": "Quinn Singh",
+            "1": "Christopher Reid Gomez",
+            "S1": "Timothy Jupp",
+            "S2": "Paul Roberts",
+            "S3": "Barney Kember"
+        },
+        {
+            "15": "Jon Searle",
+            "14": "Josh King",
+            "13": "Benedict Trimmer",
+            "12": "Oliver Bluck",
+            "11": "Luke Wright",
+            "10": "Ollie Mann",
+            "9": "Name withheld",
+            "8": "Thomas Wright",
+            "7": "Harry Clesham",
+            "6": "Charles Spilsbury",
+            "5": "Thomas Woodruff",
+            "4": "Oliver L Marsden",
+            "3": "Jacob Cummins",
+            "2": "Sonny Kelly",
+            "1": "Robin Kear",
+            "S1": "Oliver Beere",
+            "S2": "Issac Jeavons-Fellows"
+        }
+    ],
+    "match_id": "1136406",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex"
+}

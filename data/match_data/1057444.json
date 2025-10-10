@@ -1,0 +1,59 @@
+{
+    "match_id": "1057444",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2023-09-16",
+    "teams": [
+        "Old Walcountians",
+        "Trinity"
+    ],
+    "score": [
+        15,
+        20
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/16075.png",
+        "https://images.englandrugby.com/club_images/23175.png"
+    ],
+    "players": [
+        {
+            "15": "Kieran Kavanagh",
+            "14": "Andrew Togbolah",
+            "13": "Dominic Barnaby",
+            "12": "Heathcliffe Bateman",
+            "11": "Omarie Brown",
+            "10": "Ross Lever",
+            "9": "Thomas Downes",
+            "8": "Thomas Brown",
+            "7": "Joe Henderson",
+            "6": "Tom Housden",
+            "5": "Oliver Sanders",
+            "4": "Joseph Lawrence",
+            "3": "James Ford",
+            "2": "Name withheld",
+            "1": "Paul Harris",
+            "S1": "Dylan Camakamma",
+            "S2": "Chidi Ofili",
+            "S3": "Jack Greenwood"
+        },
+        {
+            "15": "James Duffy",
+            "14": "Marc McEvilly",
+            "13": "Andrew Dean",
+            "12": "James Jenkins",
+            "11": "Daniel Crouch",
+            "10": "Harry Wilson",
+            "9": "Farooq Agbalaya",
+            "8": "Benjamin Vaillant",
+            "7": "Oliver Hubbard",
+            "6": "Christopher Spedding",
+            "5": "Mark Macaskill",
+            "4": "Jacques Bryant",
+            "3": "Timothy Jupp",
+            "2": "Alastair Hall",
+            "1": "Dominic Plumb",
+            "S1": "Alexander Scott",
+            "S2": "Benjamin Telfer"
+        }
+    ]
+}

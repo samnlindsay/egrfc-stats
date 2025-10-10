@@ -1,0 +1,56 @@
+{
+    "match_id": "1057465",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2023-10-07",
+    "teams": [
+        "Old Cranleighans",
+        "Hove"
+    ],
+    "score": [
+        17,
+        24
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/15615.png",
+        "https://images.englandrugby.com/club_images/10503.png"
+    ],
+    "players": [
+        {
+            "15": "Nathan Thomas",
+            "14": "Toby Pattinson",
+            "13": "Oliver Butler",
+            "12": "Euan Watt",
+            "11": "George Blurton",
+            "10": "Samuel Lubbock",
+            "9": "Ioan Davies",
+            "8": "Ben Huntley",
+            "7": "Bradley Lennard",
+            "6": "Name withheld",
+            "5": "Mylo Boyd",
+            "4": "Charlie Wilson",
+            "3": "Charles Blurton",
+            "2": "Edward Higgins",
+            "1": "William Lankfer",
+            "S1": "Archie Mayo",
+            "S2": "Arya Firake",
+            "S3": "James McLeod"
+        },
+        {
+            "15": "Andrew Carmichael",
+            "14": "Raife Weir",
+            "13": "Guy Patton",
+            "12": "Tom Holborn",
+            "11": "Jerome Pye",
+            "10": "Danny O'Conner",
+            "9": "Ben Anderson",
+            "8": "Jordan Gibson",
+            "7": "Thomas Baker",
+            "6": "Tyler Hooper",
+            "5": "Charlie Butcher",
+            "4": "Ryan Storer",
+            "3": "Thomas Mohan",
+            "2": "George Davies"
+        }
+    ]
+}

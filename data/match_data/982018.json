@@ -1,0 +1,59 @@
+{
+    "match_id": "982018",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2023-01-21",
+    "teams": [
+        "East Grinstead",
+        "Seaford"
+    ],
+    "score": [
+        43,
+        5
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7134.png",
+        "https://images.englandrugby.com/club_images/18868.png"
+    ],
+    "players": [
+        {
+            "15": "Samuel Spriddell",
+            "14": "Chris Taylor",
+            "13": "Max Crawley-Moore",
+            "12": "Benjamin Saunders",
+            "11": "Alistair Moffatt",
+            "10": "Daniel Poulton",
+            "9": "George Johnson",
+            "8": "Aaronn Boczek",
+            "7": "John Peaty",
+            "6": "David Bridges",
+            "5": "Peter Morley",
+            "4": "Samuel Lindsay-McCall",
+            "3": "Joshua Brimecombe",
+            "2": "Benjamin Tottman",
+            "1": "Devon Frost",
+            "S1": "Guy Collins",
+            "S2": "Ryland Thomas",
+            "S3": "Oliver Billin"
+        },
+        {
+            "15": "Paddy Powney",
+            "14": "Charlie Crossgrove",
+            "13": "Luke Taylor",
+            "12": "Paul Burns",
+            "11": "Jason Staples",
+            "10": "Dominic Joy",
+            "9": "Jack Cullinane",
+            "8": "Andrew Fry",
+            "7": "Harvey Joy",
+            "6": "Name withheld",
+            "5": "Daniel Newby",
+            "4": "Sam Diplock",
+            "2": "KEVIN LEWIS",
+            "1": "Luke Read",
+            "S1": "Josh Hennessy",
+            "S2": "Tom Peissel",
+            "S3": "Mark Tait"
+        }
+    ]
+}

@@ -1,0 +1,59 @@
+{
+    "match_id": "981973",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2022-10-15",
+    "teams": [
+        "Pulborough",
+        "Seaford"
+    ],
+    "score": [
+        40,
+        21
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/17255.png",
+        "https://images.englandrugby.com/club_images/18868.png"
+    ],
+    "players": [
+        {
+            "15": "Raiph Robson",
+            "14": "Archie Sadler",
+            "13": "Frazer Oliphant-Hope",
+            "12": "Bryan Woodhouse",
+            "11": "William Scrase",
+            "10": "Simon Burfiend",
+            "9": "Daniel Paige",
+            "8": "Henry Lee",
+            "7": "Joe Johnson",
+            "6": "Kieran Mellor",
+            "5": "Ben Sadler",
+            "4": "James Hobbs",
+            "3": "Harry O'Brien",
+            "2": "Matthew Corrall",
+            "1": "Name withheld",
+            "S1": "Joshua Fforde",
+            "S2": "Ben O'Connor",
+            "S3": "Noah Minchell"
+        },
+        {
+            "15": "Rhys Roberts",
+            "14": "Jason Dubas-Fisher",
+            "13": "Corey Digby-Clarke",
+            "12": "Jason Staples",
+            "11": "Luke Taylor",
+            "10": "Jack Cullinane",
+            "9": "Bradley Newby",
+            "8": "Harvey Joy",
+            "7": "Sam Diplock",
+            "6": "Dominic Joy",
+            "5": "Lee Furminger",
+            "4": "Luke Read",
+            "3": "Andrew Fry",
+            "2": "Daniel Newby",
+            "1": "Philip Innis",
+            "S1": "Andrew Salter",
+            "S2": "Stuart Cotter"
+        }
+    ]
+}

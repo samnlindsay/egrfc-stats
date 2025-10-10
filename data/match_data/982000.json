@@ -1,0 +1,59 @@
+{
+    "match_id": "982000",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2022-11-26",
+    "teams": [
+        "Eastbourne",
+        "Uckfield"
+    ],
+    "score": [
+        55,
+        14
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7209.png",
+        "https://images.englandrugby.com/club_images/23445.png"
+    ],
+    "players": [
+        {
+            "15": "Mason Dowle",
+            "14": "Gianluca Bianchi",
+            "13": "Jake Howe",
+            "12": "Ben Perrott",
+            "11": "Dylan Becker",
+            "10": "Martial Chaput",
+            "9": "Harrison Gibbons",
+            "8": "Jeremy Montes",
+            "7": "Vincent Morse",
+            "6": "Owen Davies",
+            "5": "Joshua Buckwell",
+            "4": "Luke Thomas",
+            "3": "Paul Smith",
+            "2": "Joseph Bettles",
+            "1": "Christopher Hosking",
+            "S1": "Ryan Shields",
+            "S2": "Aaron Hossack",
+            "S3": "Name withheld"
+        },
+        {
+            "15": "Ross James",
+            "14": "Nick Cherry",
+            "13": "Sean Bate",
+            "12": "Joel Forward",
+            "11": "Charlie Buckland",
+            "10": "Jordon Southgate",
+            "9": "Guy Cornick",
+            "8": "Ryan Bate",
+            "7": "Craig Marshall",
+            "6": "Stephen Hartfield",
+            "5": "Thomas Lightfoot",
+            "4": "Matthew Longhurst",
+            "3": "Alfie Richardson",
+            "2": "Davy Armstrong",
+            "1": "Colin Bradley",
+            "S1": "Luke Austin",
+            "S2": "Kane Drummond"
+        }
+    ]
+}

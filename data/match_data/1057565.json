@@ -1,0 +1,55 @@
+{
+    "match_id": "1057565",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2024-03-23",
+    "teams": [
+        "East Grinstead",
+        "Hove"
+    ],
+    "score": [
+        13,
+        15
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7134.png",
+        "https://images.englandrugby.com/club_images/10503.png"
+    ],
+    "players": [
+        {
+            "15": "Alister Yaffa",
+            "14": "Jake Radcliffe",
+            "13": "Christopher May-Miller",
+            "12": "Samuel Musgrave",
+            "11": "Name withheld",
+            "10": "Oliver Billin",
+            "9": "Noah Roberts",
+            "8": "Connor Leggat",
+            "7": "Benjamin Saunders",
+            "6": "Aaronn Boczek",
+            "5": "Samuel Lindsay-McCall",
+            "4": "Daniel Billin",
+            "3": "Sean Morgan",
+            "2": "Benjamin Tottman",
+            "1": "Guy Collins",
+            "S1": "Charles Pullen",
+            "S2": "Alistair Moffatt",
+            "S3": "Joey Magill"
+        },
+        {
+            "15": "Guy Patton",
+            "14": "Leo Robertson",
+            "13": "Lloyd Sweeney",
+            "12": "Olly Lewis",
+            "11": "Charlie Knight",
+            "10": "Tobias Brown",
+            "9": "Ian Saunders",
+            "8": "George Brown",
+            "7": "Thomas Baker",
+            "6": "Tyler Hooper",
+            "5": "Jordan Gibson",
+            "4": "Ryan Storer",
+            "3": "John Orme-Williams"
+        }
+    ]
+}

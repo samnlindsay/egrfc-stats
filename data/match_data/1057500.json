@@ -1,0 +1,59 @@
+{
+    "match_id": "1057500",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2023-12-02",
+    "teams": [
+        "Teddington",
+        "Eastbourne"
+    ],
+    "score": [
+        62,
+        5
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/21732.png",
+        "https://images.englandrugby.com/club_images/7209.png"
+    ],
+    "players": [
+        {
+            "15": "Joe Stainer",
+            "14": "Emerson Allen",
+            "13": "Joshua Mckiernan",
+            "12": "Harry Smith",
+            "11": "Name withheld",
+            "10": "Robert Beevers",
+            "9": "William Mavin",
+            "8": "Daniel Robertshaw",
+            "7": "Alfie Ransom",
+            "6": "Jack Valentine",
+            "5": "Oliver Holland",
+            "4": "James Nelson",
+            "3": "Rory Mercer",
+            "2": "Samuel Rawsthorne",
+            "1": "George Bradford",
+            "S1": "Christopher Lidington",
+            "S2": "Ethan Davies",
+            "S3": "Adam Price"
+        },
+        {
+            "15": "Mason Dowle",
+            "14": "Stuart Baker",
+            "13": "Jake Howe",
+            "12": "Martial Chaput",
+            "11": "Gianluca Bianchi",
+            "10": "Aaron Hossack",
+            "9": "Ryan Shields",
+            "8": "Benjamin Gower",
+            "7": "Owen Davies",
+            "6": "Joshua Buckwell",
+            "5": "Luke Thomas",
+            "4": "Paul Smith",
+            "3": "Joseph Bettles",
+            "2": "Christopher Hosking",
+            "1": "Konrad Oneill",
+            "S1": "Benjamin Gower",
+            "S2": "Owen Jones"
+        }
+    ]
+}

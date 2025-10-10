@@ -1,1 +1,59 @@
-{"date": "2024-11-22", "score": [19, 7], "teams": ["KCS Old Boys", "Old Haileyburians"], "logos": ["https://images.englandrugby.com/club_images/11188.png", "https://images.englandrugby.com/club_images/15747.png"], "players": [{"15": "Max Gardiner", "14": "Victor Bakker", "13": "Maximilian Robinson", "12": "Christiaan du Toit", "11": "Thomas Schofield", "10": "William Carter", "9": "Neil Williams", "8": "Thomas Evans", "7": "Dale Spratt", "6": "Charles Paterson", "5": "Cameron Keller", "4": "Fergus Keegan", "3": "Alexander Owen", "2": "William Page", "1": "Charlie Topley", "S1": "Lekan Oduniyi", "S2": "Samuel Craig", "S3": "Stephen Byrne"}, {"15": "Josh King", "14": "Ethan Mead", "13": "Benedict Trimmer", "12": "Elliot Hopkin", "11": "Rory Dickson", "10": "Name withheld", "9": "Harry Taylor", "8": "Harry Clesham", "7": "Jonathan Parr", "6": "Thomas Woodruff", "5": "Sonny Kelly", "4": "Joshua Sterne", "3": "Tobi Costello", "2": "Oliver L Marsden", "1": "Jack Swingler", "S1": "Edward Walker", "S2": "Daniel Blackwell"}]}
+{
+    "date": "2024-11-22",
+    "score": [
+        19,
+        7
+    ],
+    "teams": [
+        "KCS Old Boys",
+        "Old Haileyburians"
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/11188.png",
+        "https://images.englandrugby.com/club_images/15747.png"
+    ],
+    "players": [
+        {
+            "15": "Max Gardiner",
+            "14": "Victor Bakker",
+            "13": "Maximilian Robinson",
+            "12": "Christiaan du Toit",
+            "11": "Thomas Schofield",
+            "10": "William Carter",
+            "9": "Neil Williams",
+            "8": "Thomas Evans",
+            "7": "Dale Spratt",
+            "6": "Charles Paterson",
+            "5": "Cameron Keller",
+            "4": "Fergus Keegan",
+            "3": "Alexander Owen",
+            "2": "William Page",
+            "1": "Charlie Topley",
+            "S1": "Lekan Oduniyi",
+            "S2": "Samuel Craig",
+            "S3": "Stephen Byrne"
+        },
+        {
+            "15": "Josh King",
+            "14": "Ethan Mead",
+            "13": "Benedict Trimmer",
+            "12": "Elliot Hopkin",
+            "11": "Rory Dickson",
+            "10": "Name withheld",
+            "9": "Harry Taylor",
+            "8": "Harry Clesham",
+            "7": "Jonathan Parr",
+            "6": "Thomas Woodruff",
+            "5": "Sonny Kelly",
+            "4": "Joshua Sterne",
+            "3": "Tobi Costello",
+            "2": "Oliver L Marsden",
+            "1": "Jack Swingler",
+            "S1": "Edward Walker",
+            "S2": "Daniel Blackwell"
+        }
+    ],
+    "match_id": "1183278",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex"
+}

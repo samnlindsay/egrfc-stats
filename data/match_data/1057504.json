@@ -1,0 +1,57 @@
+{
+    "match_id": "1057504",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2023-12-09",
+    "teams": [
+        "Hove",
+        "East Grinstead"
+    ],
+    "score": [
+        12,
+        26
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/10503.png",
+        "https://images.englandrugby.com/club_images/7134.png"
+    ],
+    "players": [
+        {
+            "15": "Name withheld",
+            "14": "Andrew Carmichael",
+            "13": "Guy Patton",
+            "12": "Leo Robertson",
+            "11": "Tom Holborn",
+            "10": "George Davies",
+            "9": "Charlie Knight",
+            "8": "Tobias Brown",
+            "7": "Ben Stephens",
+            "6": "Charlie Butcher",
+            "5": "Thomas Baker",
+            "4": "George Brown",
+            "3": "Jordan Gibson",
+            "2": "Ryan Storer",
+            "1": "Thomas Mohan",
+            "S1": "Danny O'Conner",
+            "S2": "Oliver Billin",
+            "S3": "Max Crawley-Moore"
+        },
+        {
+            "15": "Daniel Billin",
+            "14": "Luke Maker",
+            "13": "Daniel Poulton",
+            "12": "Samuel Spriddell",
+            "11": "Aaronn Boczek",
+            "10": "Ryland Thomas",
+            "9": "John Peaty",
+            "8": "Samuel Lindsay-McCall",
+            "7": "Guy Collins",
+            "6": "Joshua Brimecombe",
+            "5": "Benjamin Tottman",
+            "4": "Connor Leggat",
+            "3": "James Funnell",
+            "2": "Rory Evans",
+            "1": "Chris Taylor"
+        }
+    ]
+}

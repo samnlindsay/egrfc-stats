@@ -1,0 +1,56 @@
+{
+    "match_id": "1036370",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2023-01-28",
+    "teams": [
+        "Crawley",
+        "Haywards Heath"
+    ],
+    "score": [
+        24,
+        27
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/5807.png",
+        "https://images.englandrugby.com/club_images/9776.png"
+    ],
+    "players": [
+        {
+            "15": "Lewis Burke",
+            "14": "William Ofosuhene",
+            "13": "Name withheld",
+            "12": "Patrick Dean",
+            "11": "Kristian Dean",
+            "10": "Jake Jackson",
+            "9": "Oliver Hall",
+            "8": "Harry Mansfield",
+            "7": "Joao Andre Garanito Sousa",
+            "6": "Oliver Plunkett",
+            "5": "Bradley Davies",
+            "4": "Mark Stevenson",
+            "3": "Robert Higgins",
+            "2": "Nathan Cox",
+            "1": "Ieuan Death",
+            "S1": "Aaron O'Callaghan",
+            "S2": "Samuela Bulitokaivale-Lancaster",
+            "S3": "Mitchell Day"
+        },
+        {
+            "15": "Christopher Neill",
+            "14": "James Trinder",
+            "13": "Matthew Cains",
+            "12": "Thomas Wharton",
+            "11": "Charles Richardson",
+            "10": "Fraser Russell",
+            "9": "Geoffrey Bridges",
+            "8": "Jack Bull",
+            "7": "Ellis Dubois",
+            "6": "Sebastian Broster",
+            "5": "Jack Herbert",
+            "4": "Harrison Thomas Edwards",
+            "3": "Henry Dickson",
+            "2": "Samuel Walker"
+        }
+    ]
+}

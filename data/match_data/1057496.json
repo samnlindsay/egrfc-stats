@@ -1,0 +1,59 @@
+{
+    "match_id": "1057496",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2023-12-02",
+    "teams": [
+        "Old Tiffinians",
+        "Trinity"
+    ],
+    "score": [
+        57,
+        14
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/16068.png",
+        "https://images.englandrugby.com/club_images/23175.png"
+    ],
+    "players": [
+        {
+            "15": "William Sharp",
+            "14": "Maximilian Talman",
+            "13": "Sharif Dougramaji",
+            "12": "Sebastion Kay",
+            "11": "Andrew Day",
+            "10": "George Taylor",
+            "9": "Huw Morris",
+            "8": "Timothy Fawcett",
+            "7": "Jaewon Jang",
+            "6": "Hugh Turnbull",
+            "5": "Robert Myddelton",
+            "4": "Noah-Vincenz Noeh",
+            "3": "Name withheld",
+            "2": "Sam Rumball",
+            "1": "Ross Hobbs",
+            "S1": "Ben Sykes",
+            "S2": "Michael O'Connell",
+            "S3": "Rory Coats"
+        },
+        {
+            "15": "Benjamin Telfer",
+            "14": "Thomas Caplin",
+            "13": "Tyriq Williams",
+            "12": "Andrew Dean",
+            "11": "Fuad Agbalaya",
+            "10": "Marc McEvilly",
+            "9": "Jack Greenwood",
+            "8": "Farooq Agbalaya",
+            "7": "Benjamin Vaillant",
+            "6": "Adam Stammers",
+            "5": "Alfie Lamb",
+            "4": "GEORGE DANIELS",
+            "3": "Jacques Bryant",
+            "2": "Timothy Jupp",
+            "1": "Alastair Hall",
+            "S1": "Dominic Plumb",
+            "S2": "Toby Plant"
+        }
+    ]
+}

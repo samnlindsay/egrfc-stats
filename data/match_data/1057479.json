@@ -1,0 +1,58 @@
+{
+    "match_id": "1057479",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2023-11-04",
+    "teams": [
+        "Teddington",
+        "Old Walcountians"
+    ],
+    "score": [
+        43,
+        7
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/21732.png",
+        "https://images.englandrugby.com/club_images/16075.png"
+    ],
+    "players": [
+        {
+            "15": "Name withheld",
+            "14": "James Frankenberger",
+            "13": "Joe Stainer",
+            "12": "Huw Morgan",
+            "11": "Joshua Mckiernan",
+            "10": "Robert Beevers",
+            "9": "Angus Bell",
+            "8": "Jack Capon",
+            "7": "Rory Mercer",
+            "6": "Alfie Ransom",
+            "5": "Jack Valentine",
+            "4": "Oliver Holland",
+            "3": "Henry Dare",
+            "2": "Daniel Robertshaw",
+            "1": "Samuel Rawsthorne",
+            "S1": "George Bradford",
+            "S2": "Christopher Lidington",
+            "S3": "Edward Hussey"
+        },
+        {
+            "15": "Harrison Mogridge",
+            "14": "Omarie Brown",
+            "13": "Dominic Barnaby",
+            "12": "Alexander Skinner",
+            "11": "Ejiro Erhirhie",
+            "10": "Ross Lever",
+            "9": "Callum Stone",
+            "8": "Thomas Brown",
+            "7": "Joe Henderson",
+            "6": "Tom Housden",
+            "5": "Oliver Sanders",
+            "4": "Peter Thomas",
+            "3": "Paul Harris",
+            "2": "Jonathan Evans",
+            "1": "Heathcliffe Bateman",
+            "S1": "Andrew Togbolah"
+        }
+    ]
+}

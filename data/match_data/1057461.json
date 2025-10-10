@@ -1,0 +1,58 @@
+{
+    "match_id": "1057461",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2023-10-07",
+    "teams": [
+        "Kingston",
+        "Old Walcountians"
+    ],
+    "score": [
+        19,
+        26
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/11663.png",
+        "https://images.englandrugby.com/club_images/16075.png"
+    ],
+    "players": [
+        {
+            "15": "Scott McKenna",
+            "14": "Devon Parsons",
+            "13": "Connor Ashwin",
+            "12": "Brandon Nisbet",
+            "11": "Charles Kelly",
+            "10": "Boyd Rouse",
+            "9": "Jonathan Mcdunphy",
+            "8": "Harry Bettinson",
+            "7": "Luke Burge",
+            "6": "Christopher Hall",
+            "5": "Samuel Rushmer",
+            "4": "David Wakefield",
+            "3": "Tom Rushmer",
+            "2": "Name withheld",
+            "1": "Tom Tyler",
+            "S1": "Samuel Johnson",
+            "S2": "William Smith",
+            "S3": "Zane Anderson"
+        },
+        {
+            "15": "Ejiro Erhirhie",
+            "14": "Andrew Togbolah",
+            "13": "Dominic Barnaby",
+            "12": "Heathcliffe Bateman",
+            "11": "Omarie Brown",
+            "10": "Sebastian Chmielinski",
+            "9": "Liam Moorhead",
+            "8": "Edward Bellringer",
+            "7": "Joe Henderson",
+            "6": "Tom Housden",
+            "5": "Thomas Brown",
+            "4": "Peter Thomas",
+            "3": "Paul Harris",
+            "2": "Dylan Camakamma",
+            "1": "Spencer Moorhead",
+            "S1": "Jack Smart"
+        }
+    ]
+}

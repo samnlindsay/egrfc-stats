@@ -1,0 +1,59 @@
+{
+    "match_id": "1057548",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2024-02-17",
+    "teams": [
+        "Trinity",
+        "Old Cranleighans"
+    ],
+    "score": [
+        19,
+        13
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/23175.png",
+        "https://images.englandrugby.com/club_images/15615.png"
+    ],
+    "players": [
+        {
+            "15": "Benjamin Telfer",
+            "14": "David Stanton",
+            "13": "Tyriq Williams",
+            "12": "Marc McEvilly",
+            "11": "Callum True",
+            "10": "Daniel Crouch",
+            "9": "Jack Greenwood",
+            "8": "Oliver Hubbard",
+            "7": "Benjamin Vaillant",
+            "6": "Archie McMillan",
+            "5": "David Spedding",
+            "4": "Nathan Bacon",
+            "3": "Jacques Bryant",
+            "2": "Timothy Jupp",
+            "1": "Alastair Hall",
+            "S1": "Dominic Plumb",
+            "S2": "Alexander Scott",
+            "S3": "Harry Wilson"
+        },
+        {
+            "15": "Peter Dowling",
+            "14": "Jochem Oostenbroek",
+            "13": "Oliver Salmon",
+            "12": "Thomas Webster",
+            "11": "Simon Steer",
+            "10": "Edward Sanderson",
+            "9": "Christopher Cheney",
+            "8": "Edward Higgins",
+            "7": "Barney Gill",
+            "6": "Michael Parnaby",
+            "5": "Thomas Reinhardt",
+            "4": "James Fitzmaurice",
+            "3": "Charles Blurton",
+            "2": "James McLeod",
+            "1": "Name withheld",
+            "S1": "Trevor Selvanayagam",
+            "S2": "Timothy Carpenter"
+        }
+    ]
+}

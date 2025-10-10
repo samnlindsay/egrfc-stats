@@ -1,1 +1,60 @@
-{"date": "2024-12-07", "score": [26, 7], "teams": ["Cobham", "East Grinstead"], "logos": ["https://images.englandrugby.com/club_images/5336.png", "https://images.englandrugby.com/club_images/7134.png"], "players": [{"15": "Connor Dellapina", "14": "Rory Penfold", "13": "Will Palmer", "12": "Finlay Savill", "11": "James Edmondson", "10": "Knox O'Connor", "9": "Ryan Saunders", "8": "Matthew Frost", "7": "Oliver Fox", "6": "Oliver Fielding", "5": "Will O'Leary", "4": "Louis Porter", "3": "Ryan Aujla", "2": "Andrew Murphy", "1": "Chris Lippiatt", "S1": "Gabriel Clark", "S2": "Luke Westgarth-Taylor", "S3": "Will Stephen"}, {"15": "Luke Maker", "14": "Duncan Fraser", "13": "Ted Hardisty", "12": "Max Crawley-Moore", "11": "Benjamin Beard", "10": "Noah Roberts", "9": "Sam Spriddell", "8": "Connor Leggat", "7": "Ryland Thomas", "6": "Daniel Billin", "5": "Samuel Lindsay-McCall", "4": "Daan Hulst", "3": "Joshua Brimecombe", "2": "Benjamin Tottman", "1": "Guy Collins", "S1": "Timothy Morris", "S2": "George Beet", "S3": "Rory evans"}]}
+{
+    "date": "2024-12-07",
+    "score": [
+        26,
+        7
+    ],
+    "teams": [
+        "Cobham",
+        "East Grinstead"
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/5336.png",
+        "https://images.englandrugby.com/club_images/7134.png"
+    ],
+    "players": [
+        {
+            "15": "Connor Dellapina",
+            "14": "Rory Penfold",
+            "13": "Will Palmer",
+            "12": "Finlay Savill",
+            "11": "James Edmondson",
+            "10": "Knox O'Connor",
+            "9": "Ryan Saunders",
+            "8": "Matthew Frost",
+            "7": "Oliver Fox",
+            "6": "Oliver Fielding",
+            "5": "Will O'Leary",
+            "4": "Louis Porter",
+            "3": "Ryan Aujla",
+            "2": "Andrew Murphy",
+            "1": "Chris Lippiatt",
+            "S1": "Gabriel Clark",
+            "S2": "Luke Westgarth-Taylor",
+            "S3": "Will Stephen"
+        },
+        {
+            "15": "Luke Maker",
+            "14": "Duncan Fraser",
+            "13": "Ted Hardisty",
+            "12": "Max Crawley-Moore",
+            "11": "Benjamin Beard",
+            "10": "Noah Roberts",
+            "9": "Sam Spriddell",
+            "8": "Connor Leggat",
+            "7": "Ryland Thomas",
+            "6": "Daniel Billin",
+            "5": "Samuel Lindsay-McCall",
+            "4": "Daan Hulst",
+            "3": "Joshua Brimecombe",
+            "2": "Benjamin Tottman",
+            "1": "Guy Collins",
+            "S1": "Timothy Morris",
+            "S2": "George Beet",
+            "S3": "Rory evans"
+        }
+    ],
+    "match_id": "1136469",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex"
+}

@@ -1,0 +1,59 @@
+{
+    "match_id": "1136530",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2025-04-05",
+    "teams": [
+        "Hove",
+        "Twickenham"
+    ],
+    "score": [
+        10,
+        57
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/10503.png",
+        "https://images.englandrugby.com/club_images/23336.png"
+    ],
+    "players": [
+        {
+            "15": "Guy Patton",
+            "14": "Issac Thomas",
+            "13": "Tom Crisp",
+            "12": "Leo Robertson",
+            "11": "Tom Holborn",
+            "10": "Cameron Kirkland",
+            "9": "John Orme-Williams",
+            "8": "Jordan Sayers",
+            "7": "Tobias Brown",
+            "6": "Name withheld",
+            "5": "George Brown",
+            "4": "IAN SAUNDERS",
+            "3": "tyler ray hooper",
+            "2": "Ryan Storer",
+            "1": "Stephen Klein",
+            "S1": "Ryan Murrough",
+            "S2": "Charlie Butcher",
+            "S3": "Thomas Foster"
+        },
+        {
+            "15": "William Hellel",
+            "14": "Lewis Harrison",
+            "13": "John Smith",
+            "12": "Arthur Polley",
+            "11": "Jamie See",
+            "10": "Samuel Goddard",
+            "9": "Nicholas Smith",
+            "8": "James Moore",
+            "7": "Jack Fullicks",
+            "6": "Jake White",
+            "5": "Louie Banks",
+            "4": "Jordan Fyles",
+            "3": "Joshua Otter",
+            "2": "Frazer Gibson",
+            "1": "Alex Bennett",
+            "S1": "Jasper Bhamra",
+            "S2": "Joe Ash"
+        }
+    ]
+}

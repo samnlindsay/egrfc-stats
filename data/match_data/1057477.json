@@ -1,0 +1,58 @@
+{
+    "match_id": "1057477",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2023-10-21",
+    "teams": [
+        "Old Cranleighans",
+        "Twickenham"
+    ],
+    "score": [
+        16,
+        29
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/15615.png",
+        "https://images.englandrugby.com/club_images/23336.png"
+    ],
+    "players": [
+        {
+            "15": "Scott Rees",
+            "14": "Peter Dowling",
+            "13": "Oliver Salmon",
+            "12": "Thomas Puijk",
+            "11": "Robert Mackenzie",
+            "10": "Thomas Webster",
+            "9": "Ioan Davies",
+            "8": "Thomas Reinhardt",
+            "7": "Matthew Percival",
+            "6": "Charles Collyer",
+            "5": "Mylo Boyd",
+            "4": "James Fitzmaurice",
+            "3": "Trevor Selvanayagam",
+            "2": "Barney Gill",
+            "1": "Name withheld",
+            "S1": "Christopher Scott"
+        },
+        {
+            "15": "Thomas Foster",
+            "14": "Arthur Polley",
+            "13": "Samuel Griffin",
+            "12": "Joe Ash",
+            "11": "Louis Chapman",
+            "10": "Jamie See",
+            "9": "Thomas Meldon",
+            "8": "Nicholas Smith",
+            "7": "James Moore",
+            "6": "Jack Fullicks",
+            "5": "Tom Knight",
+            "4": "Luke Deakin",
+            "3": "Jordan Fyles",
+            "2": "Joshua Otter",
+            "1": "Alex Bennett",
+            "S1": "Ben Goddard",
+            "S2": "Richard Moses",
+            "S3": "Alex Stagg"
+        }
+    ]
+}

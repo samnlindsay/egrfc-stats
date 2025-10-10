@@ -1,0 +1,54 @@
+{
+    "match_id": "982010",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2022-12-10",
+    "teams": [
+        "East Grinstead",
+        "Crawley"
+    ],
+    "score": [
+        75,
+        12
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7134.png",
+        "https://images.englandrugby.com/club_images/5807.png"
+    ],
+    "players": [
+        {
+            "15": "Samuel Spriddell",
+            "14": "Alistair Moffatt",
+            "13": "Max Crawley-Moore",
+            "12": "Ryan Morlen",
+            "11": "Ethan Carrick",
+            "10": "Daniel Poulton",
+            "9": "George Johnson",
+            "8": "Aaronn Boczek",
+            "7": "Archie Vickers",
+            "6": "Jordan Walker",
+            "5": "Peter Morley",
+            "4": "David Bridges",
+            "3": "Joshua Brimecombe",
+            "2": "Benjamin Tottman",
+            "1": "Guy Collins",
+            "S1": "Devon Frost",
+            "S2": "Or Shay",
+            "S3": "Richard Dodgson"
+        },
+        {
+            "15": "Kristian Dean",
+            "13": "William Ofosuhene",
+            "12": "Harry Hickmet",
+            "10": "Sven Dahlmann",
+            "8": "Arron Alison",
+            "7": "Joao Andre Garanito Sousa",
+            "6": "David Marfe",
+            "5": "Oliver Plunkett",
+            "4": "Kieran Gosling",
+            "3": "Ieuan Death",
+            "2": "Robert Higgins",
+            "1": "Sergio Fernandez"
+        }
+    ]
+}

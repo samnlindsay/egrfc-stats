@@ -1,0 +1,57 @@
+{
+    "match_id": "1057498",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2023-12-02",
+    "teams": [
+        "Old Walcountians",
+        "Hove"
+    ],
+    "score": [
+        25,
+        8
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/16075.png",
+        "https://images.englandrugby.com/club_images/10503.png"
+    ],
+    "players": [
+        {
+            "15": "Ejiro Erhirhie",
+            "14": "Omarie Brown",
+            "13": "Alexander French",
+            "12": "Dominic Barnaby",
+            "11": "Marvin Fletcher-Rogers",
+            "10": "Harry Wrightson",
+            "9": "James Henderson",
+            "8": "Thomas Brown",
+            "7": "Joe Henderson",
+            "6": "Tom Housden",
+            "5": "Dominic Bell",
+            "4": "Peter Thomas",
+            "3": "James Ford",
+            "2": "Alexander Skinner",
+            "1": "Jonathan Evans",
+            "S1": "Name withheld",
+            "S2": "Heathcliffe Bateman",
+            "S3": "Andrew Togbolah"
+        },
+        {
+            "15": "George Davies",
+            "14": "Joey Magill",
+            "13": "Guy Patton",
+            "12": "Leo Robertson",
+            "11": "Danny O'Conner",
+            "10": "Olly Lewis",
+            "9": "Charlie Knight",
+            "8": "Tobias Brown",
+            "7": "Charlie Butcher",
+            "6": "George Brown",
+            "5": "Ben Stephens",
+            "4": "Tyler Hooper",
+            "3": "Jordan Gibson",
+            "2": "Thomas Mohan",
+            "1": "Ryan Nixon"
+        }
+    ]
+}

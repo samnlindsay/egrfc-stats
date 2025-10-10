@@ -1,1 +1,60 @@
-{"date": "2024-11-16", "score": [60, 20], "teams": ["Cobham", "Eastbourne"], "logos": ["https://images.englandrugby.com/club_images/5336.png", "https://images.englandrugby.com/club_images/7209.png"], "players": [{"15": "Connor Dellapina", "14": "Rory Penfold", "13": "Will Stephen", "12": "Will Palmer", "11": "James Edmondson", "10": "Knox O'Connor", "9": "Ryan Saunders", "8": "Matthew Frost", "7": "Oliver Fox", "6": "Oliver Fielding", "5": "Thomas Davison", "4": "James White", "3": "Ryan Aujla", "2": "Andrew Murphy", "1": "Chris Lippiatt", "S1": "Gabriel Clark", "S2": "Finlay Savill", "S3": "Jordan Bond"}, {"15": "Mason Dowle", "14": "Oliver Horley", "13": "Jake Howe", "12": "Ronnie Doorey-Palmer", "11": "Dylan Viles", "10": "Aaron Hossack", "9": "Leon Wood", "8": "Owen Davies", "7": "Vincent Morse", "6": "Ben Gower", "5": "Joshua Buckwell", "4": "Jack Curtis", "3": "Paul Smith", "2": "Konrad Oneill", "1": "Alun Cranch", "S1": "Ryan Shields", "S2": "Stuart Baker", "S3": "Christopher Hosking"}]}
+{
+    "date": "2024-11-16",
+    "score": [
+        60,
+        20
+    ],
+    "teams": [
+        "Cobham",
+        "Eastbourne"
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/5336.png",
+        "https://images.englandrugby.com/club_images/7209.png"
+    ],
+    "players": [
+        {
+            "15": "Connor Dellapina",
+            "14": "Rory Penfold",
+            "13": "Will Stephen",
+            "12": "Will Palmer",
+            "11": "James Edmondson",
+            "10": "Knox O'Connor",
+            "9": "Ryan Saunders",
+            "8": "Matthew Frost",
+            "7": "Oliver Fox",
+            "6": "Oliver Fielding",
+            "5": "Thomas Davison",
+            "4": "James White",
+            "3": "Ryan Aujla",
+            "2": "Andrew Murphy",
+            "1": "Chris Lippiatt",
+            "S1": "Gabriel Clark",
+            "S2": "Finlay Savill",
+            "S3": "Jordan Bond"
+        },
+        {
+            "15": "Mason Dowle",
+            "14": "Oliver Horley",
+            "13": "Jake Howe",
+            "12": "Ronnie Doorey-Palmer",
+            "11": "Dylan Viles",
+            "10": "Aaron Hossack",
+            "9": "Leon Wood",
+            "8": "Owen Davies",
+            "7": "Vincent Morse",
+            "6": "Ben Gower",
+            "5": "Joshua Buckwell",
+            "4": "Jack Curtis",
+            "3": "Paul Smith",
+            "2": "Konrad Oneill",
+            "1": "Alun Cranch",
+            "S1": "Ryan Shields",
+            "S2": "Stuart Baker",
+            "S3": "Christopher Hosking"
+        }
+    ],
+    "match_id": "1136456",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex"
+}

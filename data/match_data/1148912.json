@@ -1,1 +1,60 @@
-{"date": "2024-09-07", "score": [32, 41], "teams": ["Cobham", "Old Rutlishians"], "logos": ["https://images.englandrugby.com/club_images/5336.png", "https://images.englandrugby.com/club_images/16005.png"], "players": [{"15": "Wilfred Saywell", "14": "Tiernan White", "13": "Sam Meehan", "12": "Taylor Rice-Burnett", "11": "Ross Munro", "10": "Knox O'Connor", "9": "Rory Penfold", "8": "Jake Mcquade", "7": "Thomas Davison", "6": "Korbyn Sherrington", "5": "Will O'Leary", "4": "Louis Porter", "3": "Ryan Aujla", "2": "Andrew Murphy", "1": "Chris Lippiatt", "S1": "Lewis Joyce", "S2": "Joseph Harker", "S3": "Oliver Fox"}, {"15": "James Collins", "14": "Charles Julian", "13": "David Cecil", "12": "Maximilian Lufkin", "11": "Corey Holland", "10": "Toby Harrison", "9": "Elliot Shrimpton", "8": "Jordan Braddock", "7": "Benjamin Jones", "6": "Name withheld", "5": "Thomas Noble", "4": "Josh Jibulu", "3": "LOUIE DAVIES", "2": "Wesley Poku", "1": "Kenneth Cecil", "S1": "Chezter Altea", "S2": "Oliver Cross", "S3": "Luca Dowdall"}]}
+{
+    "date": "2024-09-07",
+    "score": [
+        32,
+        41
+    ],
+    "teams": [
+        "Cobham",
+        "Old Rutlishians"
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/5336.png",
+        "https://images.englandrugby.com/club_images/16005.png"
+    ],
+    "players": [
+        {
+            "15": "Wilfred Saywell",
+            "14": "Tiernan White",
+            "13": "Sam Meehan",
+            "12": "Taylor Rice-Burnett",
+            "11": "Ross Munro",
+            "10": "Knox O'Connor",
+            "9": "Rory Penfold",
+            "8": "Jake Mcquade",
+            "7": "Thomas Davison",
+            "6": "Korbyn Sherrington",
+            "5": "Will O'Leary",
+            "4": "Louis Porter",
+            "3": "Ryan Aujla",
+            "2": "Andrew Murphy",
+            "1": "Chris Lippiatt",
+            "S1": "Lewis Joyce",
+            "S2": "Joseph Harker",
+            "S3": "Oliver Fox"
+        },
+        {
+            "15": "James Collins",
+            "14": "Charles Julian",
+            "13": "David Cecil",
+            "12": "Maximilian Lufkin",
+            "11": "Corey Holland",
+            "10": "Toby Harrison",
+            "9": "Elliot Shrimpton",
+            "8": "Jordan Braddock",
+            "7": "Benjamin Jones",
+            "6": "Name withheld",
+            "5": "Thomas Noble",
+            "4": "Josh Jibulu",
+            "3": "LOUIE DAVIES",
+            "2": "Wesley Poku",
+            "1": "Kenneth Cecil",
+            "S1": "Chezter Altea",
+            "S2": "Oliver Cross",
+            "S3": "Luca Dowdall"
+        }
+    ],
+    "match_id": "1148912",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex"
+}

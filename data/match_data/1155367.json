@@ -1,0 +1,39 @@
+{
+    "match_id": "1155367",
+    "season": "2024-2025",
+    "league": "Harvey's Brewery Counties 3 Sussex",
+    "date": "2024-10-12",
+    "teams": [
+        "Midhurst",
+        "Burgess Hill"
+    ],
+    "score": [
+        8,
+        24
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/13824.png",
+        "https://images.englandrugby.com/club_images/3659.png"
+    ],
+    "players": [
+        {},
+        {
+            "15": "Dan Clayton",
+            "14": "Dean Marks",
+            "13": "Name withheld",
+            "12": "Felix Hobbs",
+            "11": "Oliver Dunn",
+            "10": "Anthony Norris",
+            "9": "George Heroys",
+            "8": "Adam Procter",
+            "7": "Nuno Siqueira",
+            "6": "Nicholas Morrin",
+            "5": "George Frost",
+            "4": "Daniel Stevens",
+            "3": "Earl Michael Bolton Boyd",
+            "2": "Chris Franklin",
+            "1": "Andrew Morrison",
+            "S1": "No lineup to show."
+        }
+    ]
+}

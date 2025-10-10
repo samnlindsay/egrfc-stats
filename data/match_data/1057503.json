@@ -1,0 +1,59 @@
+{
+    "match_id": "1057503",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2023-12-09",
+    "teams": [
+        "Weybridge Vandals",
+        "Teddington"
+    ],
+    "score": [
+        15,
+        29
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/25094.png",
+        "https://images.englandrugby.com/club_images/21732.png"
+    ],
+    "players": [
+        {
+            "15": "Thomas Bolger",
+            "14": "Harry Weatherall",
+            "13": "Jack O'Mara",
+            "12": "Oliver Day",
+            "11": "Karl Hoade",
+            "10": "David Loubser",
+            "9": "Daniel Wellden",
+            "8": "Name withheld",
+            "7": "Reece Innes-Gray",
+            "6": "Mattia Mengotti",
+            "5": "Michael Mason",
+            "4": "Nicholas Blount",
+            "3": "Joshua Thomas",
+            "2": "Callum Hennessey",
+            "1": "Wayne Mason",
+            "S1": "Luke Hempstead",
+            "S2": "Richard Crabb",
+            "S3": "Joseph Graves"
+        },
+        {
+            "15": "Joshua Mckiernan",
+            "14": "Harry Smith",
+            "13": "Huw Morgan",
+            "12": "Gabriel Roberts",
+            "11": "Robert Beevers",
+            "10": "Joe Stainer",
+            "9": "Jack Capon",
+            "8": "Alfie Ransom",
+            "7": "Daniel Robertshaw",
+            "6": "Oliver Holland",
+            "5": "Jack Valentine",
+            "4": "Henry Dare",
+            "3": "Samuel Rawsthorne",
+            "2": "George Bradford",
+            "1": "Rory Mercer",
+            "S1": "Callum Johnston",
+            "S2": "Stuart Ridler"
+        }
+    ]
+}

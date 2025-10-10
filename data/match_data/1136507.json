@@ -1,1 +1,58 @@
-{"date": "2025-02-15", "score": [19, 27], "teams": ["Old Haileyburians", "Hove"], "logos": ["https://images.englandrugby.com/club_images/15747.png", "https://images.englandrugby.com/club_images/10503.png"], "players": [{"15": "Dylan Connor", "14": "Ethan Mead", "13": "Benedict Trimmer", "12": "Name withheld", "11": "Shea Minty", "10": "Ollie Mann", "9": "Cameron Bullard", "8": "Thomas Wright", "7": "Jack Swingler", "6": "James Black", "5": "William Barnes", "4": "Tobi Costello", "3": "Jacob Cummins", "2": "Oliver L Marsden", "1": "Joshua Sterne", "S1": "Joshua Turley", "S2": "Alfie Jeavons-Fellows", "S3": "John Orme-Williams"}, {"15": "James Finlason", "14": "Guy Patton", "13": "Leo Robertson", "12": "Tom Holborn", "11": "Jack Moore", "10": "Dominic Woodfine", "9": "IAN SAUNDERS", "8": "Issac Thomas", "7": "Ben Stephens", "6": "Ryan Murrough", "5": "Joseph Coupe", "4": "Robin Ward", "3": "tyler ray hooper", "2": "Ryan Storer", "1": "Toby Downes", "S1": "Luke Brombley"}]}
+{
+    "date": "2025-02-15",
+    "score": [
+        19,
+        27
+    ],
+    "teams": [
+        "Old Haileyburians",
+        "Hove"
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/15747.png",
+        "https://images.englandrugby.com/club_images/10503.png"
+    ],
+    "players": [
+        {
+            "15": "Dylan Connor",
+            "14": "Ethan Mead",
+            "13": "Benedict Trimmer",
+            "12": "Name withheld",
+            "11": "Shea Minty",
+            "10": "Ollie Mann",
+            "9": "Cameron Bullard",
+            "8": "Thomas Wright",
+            "7": "Jack Swingler",
+            "6": "James Black",
+            "5": "William Barnes",
+            "4": "Tobi Costello",
+            "3": "Jacob Cummins",
+            "2": "Oliver L Marsden",
+            "1": "Joshua Sterne",
+            "S1": "Joshua Turley",
+            "S2": "Alfie Jeavons-Fellows",
+            "S3": "John Orme-Williams"
+        },
+        {
+            "15": "James Finlason",
+            "14": "Guy Patton",
+            "13": "Leo Robertson",
+            "12": "Tom Holborn",
+            "11": "Jack Moore",
+            "10": "Dominic Woodfine",
+            "9": "IAN SAUNDERS",
+            "8": "Issac Thomas",
+            "7": "Ben Stephens",
+            "6": "Ryan Murrough",
+            "5": "Joseph Coupe",
+            "4": "Robin Ward",
+            "3": "tyler ray hooper",
+            "2": "Ryan Storer",
+            "1": "Toby Downes",
+            "S1": "Luke Brombley"
+        }
+    ],
+    "match_id": "1136507",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex"
+}

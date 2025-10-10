@@ -1,0 +1,59 @@
+{
+    "match_id": "1057541",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2024-02-03",
+    "teams": [
+        "Trinity",
+        "Twickenham"
+    ],
+    "score": [
+        26,
+        61
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/23175.png",
+        "https://images.englandrugby.com/club_images/23336.png"
+    ],
+    "players": [
+        {
+            "15": "Max Mouna",
+            "14": "Thomas Caplin",
+            "13": "Tyriq Williams",
+            "12": "Benjamin Telfer",
+            "11": "Daniel Crouch",
+            "10": "David Stanton",
+            "9": "GEORGE DANIELS",
+            "8": "Benjamin Vaillant",
+            "7": "Archie McMillan",
+            "6": "Oliver Hubbard",
+            "5": "David Spedding",
+            "4": "Jacques Bryant",
+            "3": "Alastair Hall",
+            "2": "Dominic Plumb",
+            "1": "Toby Plant",
+            "S1": "Joshua Lee",
+            "S2": "Thomas Caplin",
+            "S3": "Archie Lamont"
+        },
+        {
+            "15": "Arthur Polley",
+            "14": "Samuel Griffin",
+            "13": "Joe Ash",
+            "12": "Thomas Meldon",
+            "11": "Jamie See",
+            "10": "Alex Stagg",
+            "9": "Nicholas Smith",
+            "8": "James Moore",
+            "7": "Jack Fullicks",
+            "6": "Scott Davidson",
+            "5": "Louie Banks",
+            "4": "Raynn Bruce",
+            "3": "Joshua Otter",
+            "2": "Alex Bennett",
+            "1": "Ben Goddard",
+            "S1": "Jasper Bhamra",
+            "S2": "Jack Metcalfe"
+        }
+    ]
+}

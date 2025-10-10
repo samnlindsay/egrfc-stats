@@ -1,1 +1,58 @@
-{"date": "2025-02-08", "score": [10, 28], "teams": ["Old Haileyburians", "Old Rutlishians"], "logos": ["https://images.englandrugby.com/club_images/15747.png", "https://images.englandrugby.com/club_images/16005.png"], "players": [{"15": "Joe Thomson", "14": "Luke Wright", "13": "Benedict Trimmer", "12": "Cameron Bullard", "11": "Name withheld", "10": "Ollie Mann", "9": "Fred Lowe", "8": "Jack Swingler", "7": "Thomas Wright", "6": "Edward Parr", "5": "Liam George", "4": "Harry Harper-Dowe", "3": "Tobi Costello", "2": "Jacob Cummins", "1": "James Black", "S1": "Guy Hennings-Haahr", "S2": "Hugo Walton", "S3": "Clement Leveau"}, {"15": "James Collins", "14": "Corey Holland", "13": "David Cecil", "12": "Maximilian Lufkin", "11": "Jonathan Jones", "10": "Oliver O\u2019Brien", "9": "Thomas Checkley", "8": "Robert Cecil", "7": "Benjamin Sumrie", "6": "Harry Hovell", "5": "LOUIE DAVIES", "4": "Harry Hudson", "3": "William Donegan", "2": "Kenneth Cecil", "1": "Alasdair Dean", "S1": "Felix Clarke"}]}
+{
+    "date": "2025-02-08",
+    "score": [
+        10,
+        28
+    ],
+    "teams": [
+        "Old Haileyburians",
+        "Old Rutlishians"
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/15747.png",
+        "https://images.englandrugby.com/club_images/16005.png"
+    ],
+    "players": [
+        {
+            "15": "Joe Thomson",
+            "14": "Luke Wright",
+            "13": "Benedict Trimmer",
+            "12": "Cameron Bullard",
+            "11": "Name withheld",
+            "10": "Ollie Mann",
+            "9": "Fred Lowe",
+            "8": "Jack Swingler",
+            "7": "Thomas Wright",
+            "6": "Edward Parr",
+            "5": "Liam George",
+            "4": "Harry Harper-Dowe",
+            "3": "Tobi Costello",
+            "2": "Jacob Cummins",
+            "1": "James Black",
+            "S1": "Guy Hennings-Haahr",
+            "S2": "Hugo Walton",
+            "S3": "Clement Leveau"
+        },
+        {
+            "15": "James Collins",
+            "14": "Corey Holland",
+            "13": "David Cecil",
+            "12": "Maximilian Lufkin",
+            "11": "Jonathan Jones",
+            "10": "Oliver O\u2019Brien",
+            "9": "Thomas Checkley",
+            "8": "Robert Cecil",
+            "7": "Benjamin Sumrie",
+            "6": "Harry Hovell",
+            "5": "LOUIE DAVIES",
+            "4": "Harry Hudson",
+            "3": "William Donegan",
+            "2": "Kenneth Cecil",
+            "1": "Alasdair Dean",
+            "S1": "Felix Clarke"
+        }
+    ],
+    "match_id": "1190745",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex"
+}

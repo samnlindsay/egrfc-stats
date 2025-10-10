@@ -1,0 +1,59 @@
+{
+    "match_id": "981985",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2022-10-29",
+    "teams": [
+        "Pulborough",
+        "Eastbourne"
+    ],
+    "score": [
+        12,
+        38
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/17255.png",
+        "https://images.englandrugby.com/club_images/7209.png"
+    ],
+    "players": [
+        {
+            "15": "Raiph Robson",
+            "14": "Archie Sadler",
+            "13": "Bradley Game",
+            "12": "Bryan Woodhouse",
+            "11": "William Scrase",
+            "10": "Simon Burfiend",
+            "9": "Matthew Goring",
+            "8": "Cameron Rowbotham",
+            "7": "Kieran Mellor",
+            "6": "Tobias Woods",
+            "5": "James Hobbs",
+            "4": "Harry O'Brien",
+            "3": "Coby Coy",
+            "2": "Michael Woodhouse",
+            "1": "Matthew Corrall",
+            "S1": "Joshua Fforde",
+            "S2": "Henry Lee",
+            "S3": "Name withheld"
+        },
+        {
+            "15": "Gianluca Bianchi",
+            "14": "Jake Howe",
+            "13": "Ben Perrott",
+            "12": "Mason Dowle",
+            "11": "Aaron Hossack",
+            "10": "Harrison Gibbons",
+            "9": "Jeremy Montes",
+            "8": "Owen Davies",
+            "7": "Ryan Shields",
+            "6": "Joshua Buckwell",
+            "5": "Luke Thomas",
+            "4": "Alun Cranch",
+            "3": "Joseph Bettles",
+            "2": "Christopher Hosking",
+            "1": "Daniel Keen",
+            "S1": "Benjamin Gower",
+            "S2": "Dylan Becker"
+        }
+    ]
+}

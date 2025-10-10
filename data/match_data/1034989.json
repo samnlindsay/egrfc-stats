@@ -1,0 +1,57 @@
+{
+    "match_id": "1034989",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2023-02-25",
+    "teams": [
+        "Haywards Heath",
+        "Uckfield"
+    ],
+    "score": [
+        31,
+        29
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/9776.png",
+        "https://images.englandrugby.com/club_images/23445.png"
+    ],
+    "players": [
+        {
+            "15": "Roscoe Atkins",
+            "14": "Samuela Bulitokaivale-Lancaster",
+            "13": "Christopher Neill",
+            "12": "James Trinder",
+            "11": "Matthew Cains",
+            "10": "Thomas Wharton",
+            "9": "Charles Richardson",
+            "8": "Geoffrey Bridges",
+            "7": "Jack Herbert",
+            "6": "Ellis Dubois",
+            "5": "Henry Dickson",
+            "4": "Name withheld",
+            "3": "Sebastian Broster",
+            "2": "Harrison Thomas Edwards",
+            "1": "Elliott Higgin",
+            "S1": "Martin Mcdonagh",
+            "S2": "Charles Fenwick",
+            "S3": "Jacob Golbey"
+        },
+        {
+            "15": "Joel Andrews",
+            "14": "Samual Haines",
+            "13": "Kane Drummond",
+            "12": "Sean Bate",
+            "11": "Charlie Buckland",
+            "10": "Thomas Booth",
+            "9": "Harvey Pratt",
+            "8": "Thomas Lightfoot",
+            "7": "Stephen Hartfield",
+            "6": "Matthew Longhurst",
+            "5": "Davy Armstrong",
+            "4": "Alfie Richardson",
+            "3": "Adrian Stainer",
+            "2": "Harry Smith",
+            "1": "Darran ODonovan"
+        }
+    ]
+}

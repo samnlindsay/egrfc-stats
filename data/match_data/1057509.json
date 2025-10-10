@@ -1,0 +1,57 @@
+{
+    "match_id": "1057509",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2023-12-16",
+    "teams": [
+        "Old Walcountians",
+        "KCS Old Boys"
+    ],
+    "score": [
+        17,
+        36
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/16075.png",
+        "https://images.englandrugby.com/club_images/11188.png"
+    ],
+    "players": [
+        {
+            "15": "Ejiro Erhirhie",
+            "14": "Edward Bellringer",
+            "13": "Marvin Fletcher-Rogers",
+            "12": "Dominic Barnaby",
+            "11": "Andrew Togbolah",
+            "10": "Alexander French",
+            "9": "Thomas Downes",
+            "8": "Thomas Brown",
+            "7": "Jonathan Evans",
+            "6": "Joseph Lawrence",
+            "5": "Peter Thomas",
+            "4": "Dominic Bell",
+            "3": "Name withheld",
+            "2": "James Ford",
+            "1": "Dylan Camakamma",
+            "S1": "Paul Harris",
+            "S2": "Oliver Sanders",
+            "S3": "Jack Dunn"
+        },
+        {
+            "15": "Neil Williams",
+            "14": "Jamie Miller",
+            "13": "Josh Dhillon",
+            "12": "William Slater",
+            "11": "Thomas Evans",
+            "10": "James Shaw",
+            "9": "Cameron Keller",
+            "8": "Seth Eley",
+            "7": "Dominic Soin-Stanley",
+            "6": "Alexander Owen",
+            "5": "Callum Young",
+            "4": "Rees Powell",
+            "3": "Funmi Oduniyi",
+            "2": "William Page",
+            "1": "Fraser Houlder"
+        }
+    ]
+}

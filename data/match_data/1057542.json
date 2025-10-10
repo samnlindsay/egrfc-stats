@@ -1,0 +1,56 @@
+{
+    "match_id": "1057542",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2024-02-03",
+    "teams": [
+        "KCS Old Boys",
+        "Hove"
+    ],
+    "score": [
+        24,
+        20
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/11188.png",
+        "https://images.englandrugby.com/club_images/10503.png"
+    ],
+    "players": [
+        {
+            "15": "Nial Parkash",
+            "14": "Name withheld",
+            "13": "Leon Driscoll",
+            "12": "James Hattersley",
+            "11": "Thomas Hamill",
+            "10": "William Carter",
+            "9": "Jamie Miller",
+            "8": "Thomas Evans",
+            "7": "Charles Paterson",
+            "6": "Ed Butler",
+            "5": "Cameron Keller",
+            "4": "Dominic Soin-Stanley",
+            "3": "Alexander Owen",
+            "2": "Minhyuk Seo",
+            "1": "Jacob Bishop",
+            "S1": "Funmi Oduniyi",
+            "S2": "Viktor Bakker",
+            "S3": "Neil Williams"
+        },
+        {
+            "15": "Lloyd Sweeney",
+            "14": "Tom Crisp",
+            "13": "Leo Robertson",
+            "12": "John Orme-Williams",
+            "11": "Jack Edwards",
+            "10": "Charlie Knight",
+            "9": "Jordan Sayers",
+            "8": "Tobias Brown",
+            "7": "Tyler Hooper",
+            "6": "Thomas Baker",
+            "5": "George Brown",
+            "4": "Jordan Gibson",
+            "3": "Charlie Butcher",
+            "2": "Ryan Storer"
+        }
+    ]
+}

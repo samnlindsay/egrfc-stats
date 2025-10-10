@@ -1,0 +1,58 @@
+{
+    "match_id": "1031319",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2023-02-04",
+    "teams": [
+        "Burgess Hill",
+        "Haywards Heath"
+    ],
+    "score": [
+        19,
+        20
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/3659.png",
+        "https://images.englandrugby.com/club_images/9776.png"
+    ],
+    "players": [
+        {
+            "15": "Vilitati Ligairi",
+            "14": "Matheus Gava",
+            "13": "Samuel Kingscott",
+            "12": "Ben Mclaren",
+            "11": "Amini Umata",
+            "10": "Oliver Lewis",
+            "9": "Zac Harrison",
+            "8": "David Wattam",
+            "7": "Harvey Hays",
+            "6": "Matt Firmager",
+            "5": "Benjamin Dronfield",
+            "4": "Adam Rezazadeh",
+            "3": "Craig Wells",
+            "2": "Kyle Tucker",
+            "1": "Robert Blake",
+            "S1": "Adam Harman",
+            "S2": "Joseph Brown"
+        },
+        {
+            "15": "Samuela Bulitokaivale-Lancaster",
+            "14": "Roscoe Atkins",
+            "13": "Jack Flower",
+            "12": "Samuel Walker",
+            "11": "Matthew Cains",
+            "10": "James Trinder",
+            "9": "Thomas Wharton",
+            "8": "Geoffrey Bridges",
+            "7": "Ben Eustace",
+            "6": "Jack Bull",
+            "5": "Ellis Dubois",
+            "4": "Name withheld",
+            "3": "John Robertson",
+            "2": "Jack Herbert",
+            "1": "Elliott Higgin",
+            "S1": "Harrison Thomas Edwards",
+            "S2": "Fraser Russell"
+        }
+    ]
+}

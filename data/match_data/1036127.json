@@ -1,0 +1,59 @@
+{
+    "match_id": "1036127",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2023-03-18",
+    "teams": [
+        "Pulborough",
+        "Burgess Hill"
+    ],
+    "score": [
+        69,
+        5
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/17255.png",
+        "https://images.englandrugby.com/club_images/3659.png"
+    ],
+    "players": [
+        {
+            "15": "Archie Sadler",
+            "14": "Daniel Paige",
+            "13": "Raiph Robson",
+            "12": "Bryan Woodhouse",
+            "11": "Thomas Garnett",
+            "10": "Frazer Oliphant-Hope",
+            "9": "Simon Burfiend",
+            "8": "Joe Johnson",
+            "7": "Matthew Corrall",
+            "6": "Kieran Mellor",
+            "5": "James Hobbs",
+            "4": "Michael Woodhouse",
+            "3": "Harry O'Brien",
+            "2": "Declan Woodhouse",
+            "1": "Johny-joe Staples",
+            "S1": "Oliver Burnett",
+            "S2": "Charles Stephenson Coggan",
+            "S3": "Cameron Rowbotham"
+        },
+        {
+            "15": "Issoa Tadrau",
+            "14": "Matheus Gava",
+            "13": "Amini Umata",
+            "12": "Rhys Clarke",
+            "11": "Viliame Moceilagi",
+            "10": "Oliver Lewis",
+            "9": "Uraia Wacokecokee",
+            "8": "David Wattam",
+            "7": "Nasilasila Maleli",
+            "6": "Joseph Schofield",
+            "5": "Benjamin Dronfield",
+            "4": "Harvey Hays",
+            "3": "Lee Collingbourne",
+            "2": "Robert Blake",
+            "1": "Darren Coulton",
+            "S1": "Adam Harman",
+            "S2": "Timothy Daniel"
+        }
+    ]
+}

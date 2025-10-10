@@ -1,0 +1,56 @@
+{
+    "match_id": "1057515",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2024-01-06",
+    "teams": [
+        "Hove",
+        "Weybridge Vandals"
+    ],
+    "score": [
+        51,
+        26
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/10503.png",
+        "https://images.englandrugby.com/club_images/25094.png"
+    ],
+    "players": [
+        {
+            "15": "Name withheld",
+            "14": "Guy Patton",
+            "13": "Tom Crisp",
+            "12": "Leo Robertson",
+            "11": "Tom Holborn",
+            "10": "Olly Lewis",
+            "9": "Danny O'Conner",
+            "8": "Tobias Brown",
+            "7": "George Brown",
+            "6": "Ian Saunders",
+            "5": "Jordan Gibson",
+            "4": "Charlie Butcher",
+            "3": "Lloyd Sweeney",
+            "2": "Tyler Hooper",
+            "1": "Harry Weatherall",
+            "S1": "Thomas Bolger",
+            "S2": "Oliver Day",
+            "S3": "Daniel Wellden"
+        },
+        {
+            "15": "Jack O'Mara",
+            "14": "Kiran Patel",
+            "13": "Joseph Graves",
+            "12": "Mattia Mengotti",
+            "11": "Reece Innes-Gray",
+            "10": "Luke Dones",
+            "9": "Richard Crabb",
+            "8": "Luke Parr",
+            "7": "Edward Rawding",
+            "6": "Callum Hennessey",
+            "5": "Joshua Thomas",
+            "4": "Wayne Mason",
+            "3": "Michael Mason",
+            "2": "Stephen Harrison"
+        }
+    ]
+}

@@ -1,0 +1,59 @@
+{
+    "match_id": "1136532",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2025-04-05",
+    "teams": [
+        "Haywards Heath",
+        "Eastbourne"
+    ],
+    "score": [
+        5,
+        22
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/9776.png",
+        "https://images.englandrugby.com/club_images/7209.png"
+    ],
+    "players": [
+        {
+            "15": "Thomas Wharton",
+            "14": "Takhy Ndiaye Marrero",
+            "13": "Name withheld",
+            "12": "Alasdair Darling",
+            "11": "Cameron Reed",
+            "10": "Jack Lucas",
+            "9": "James Thurston",
+            "8": "Otto Serjeant",
+            "7": "Daniel Jarman",
+            "6": "Connor Mullins",
+            "5": "Harry Clark",
+            "4": "Ellis Dubois",
+            "3": "Geoffrey Bridges",
+            "2": "Charles Newey",
+            "1": "Harrison Thomas Edwards",
+            "S1": "Thomas Smith",
+            "S2": "Gabriel Moore",
+            "S3": "Mason Dowle"
+        },
+        {
+            "15": "Oliver Horley",
+            "14": "Dylan Viles",
+            "13": "Maxence Saint-Andr\u00e9",
+            "12": "Jeremy Montes",
+            "11": "Jake Howe",
+            "10": "Leon Wood",
+            "9": "Owen Davies",
+            "8": "Vincent Morse",
+            "7": "Ben Gower",
+            "6": "Joshua Buckwell",
+            "5": "Jack Curtis",
+            "4": "Paul Smith",
+            "3": "Konrad Oneill",
+            "2": "Christopher Hosking",
+            "1": "Brandon Foot",
+            "S1": "Joseph Bettles",
+            "S2": "Stuart Baker"
+        }
+    ]
+}

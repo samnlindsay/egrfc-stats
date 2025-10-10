@@ -1,0 +1,60 @@
+{
+    "match_id": "982029",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2023-02-11",
+    "teams": [
+        "Lewes",
+        "Burgess Hill"
+    ],
+    "score": [
+        19,
+        22
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/12206.png",
+        "https://images.englandrugby.com/club_images/3659.png"
+    ],
+    "players": [
+        {
+            "15": "Thomas Waters",
+            "14": "Tyler Edwards",
+            "13": "William Hoff",
+            "12": "Jude Littlewood",
+            "11": "Josh Ellis-Smith",
+            "10": "Angus Taylor",
+            "9": "James Durrant",
+            "8": "William Shiell",
+            "7": "Harry Weston",
+            "6": "Stewart Dickens",
+            "5": "Zac Ozeren",
+            "4": "James Sale",
+            "3": "Kane Dadswell",
+            "2": "George Gribble",
+            "1": "Nathan Roberts",
+            "S1": "Patrick Henshaw",
+            "S2": "Adam Hutchings",
+            "S3": "Dante Maguire"
+        },
+        {
+            "15": "William Pearson",
+            "14": "Matheus Gava",
+            "13": "Samuel Kingscott",
+            "12": "Ben Mclaren",
+            "11": "Amini Umata",
+            "10": "Oliver Lewis",
+            "9": "Zac Harrison",
+            "8": "David Wattam",
+            "7": "Name withheld",
+            "6": "Matt Firmager",
+            "5": "Benjamin Dronfield",
+            "4": "Adam Rezazadeh",
+            "3": "Craig Wells",
+            "2": "Kyle Tucker",
+            "1": "Robert Blake",
+            "S1": "Harvey Hays",
+            "S2": "Joseph Schofield",
+            "S3": "Bailey Upton"
+        }
+    ]
+}

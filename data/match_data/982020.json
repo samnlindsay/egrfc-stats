@@ -1,0 +1,58 @@
+{
+    "match_id": "982020",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2023-01-21",
+    "teams": [
+        "Uckfield",
+        "Crawley"
+    ],
+    "score": [
+        27,
+        26
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/23445.png",
+        "https://images.englandrugby.com/club_images/5807.png"
+    ],
+    "players": [
+        {
+            "15": "Jordon Southgate",
+            "14": "Callum Harvey",
+            "13": "Sean Bate",
+            "12": "Joel Forward",
+            "11": "Joel Andrews",
+            "10": "Ross James",
+            "9": "Charlie Buckland",
+            "8": "Guy Cornick",
+            "7": "Ryan Bate",
+            "6": "Harvey Pratt",
+            "5": "Thomas Lightfoot",
+            "4": "Stephen Hartfield",
+            "3": "Matthew Longhurst",
+            "2": "Davy Armstrong",
+            "1": "Jakub Rek",
+            "S1": "Alfie Richardson",
+            "S2": "Thomas Booth",
+            "S3": "Kane Drummond"
+        },
+        {
+            "15": "William Ofosuhene",
+            "14": "Kai Marshall",
+            "13": "Patrick Dean",
+            "12": "Harry Hickmet",
+            "11": "Name withheld",
+            "10": "Kristian Dean",
+            "9": "Oliver Hall",
+            "8": "Harry Mansfield",
+            "7": "Joao Andre Garanito Sousa",
+            "6": "Bradley Davies",
+            "5": "Mark Stevenson",
+            "4": "Robert Higgins",
+            "3": "Nathan Cox",
+            "2": "Anthony Dartnell",
+            "1": "Lewis Burke",
+            "S1": "Joel Fisher"
+        }
+    ]
+}

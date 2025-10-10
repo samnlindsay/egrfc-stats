@@ -1,0 +1,57 @@
+{
+    "match_id": "1057562",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2024-03-23",
+    "teams": [
+        "Old Tiffinians",
+        "KCS Old Boys"
+    ],
+    "score": [
+        26,
+        5
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/16068.png",
+        "https://images.englandrugby.com/club_images/11188.png"
+    ],
+    "players": [
+        {
+            "15": "Alistair Watkins",
+            "14": "Maximilian Talman",
+            "13": "Sharif Dougramaji",
+            "12": "Sebastion Kay",
+            "11": "George Price",
+            "10": "George Taylor",
+            "9": "Ben Sykes",
+            "8": "Jaewon Jang",
+            "7": "Name withheld",
+            "6": "Callum Fraser",
+            "5": "Robert Myddelton",
+            "4": "Noah-Vincenz Noeh",
+            "3": "Daniel Blackman",
+            "2": "Ross Hobbs",
+            "1": "Jack Corcoran",
+            "S1": "Timothy Fawcett",
+            "S2": "Louis Freeman",
+            "S3": "Viktor Bakker"
+        },
+        {
+            "15": "Jamie Miller",
+            "14": "Leon Driscoll",
+            "13": "Mark Joblin",
+            "12": "William Carter",
+            "11": "Cameron Keller",
+            "10": "James Shaw",
+            "9": "Alexander Laidlaw",
+            "8": "Dominic Soin-Stanley",
+            "7": "Samuel Young",
+            "6": "Alexander Owen",
+            "5": "William Page",
+            "4": "Minhyuk Seo",
+            "3": "James Stimson",
+            "2": "Charles Paterson",
+            "1": "Rory Watson"
+        }
+    ]
+}

@@ -1,0 +1,60 @@
+{
+    "match_id": "982027",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2023-01-28",
+    "teams": [
+        "Shoreham",
+        "Uckfield"
+    ],
+    "score": [
+        39,
+        27
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/19257.png",
+        "https://images.englandrugby.com/club_images/23445.png"
+    ],
+    "players": [
+        {
+            "15": "Toby Gale",
+            "14": "Charlie Ford",
+            "13": "Sean Shepherd",
+            "12": "Adam Fear",
+            "11": "Calum Erskine",
+            "10": "Ethan Bannister",
+            "9": "Schaeff Potter",
+            "8": "Christopher Reynolds",
+            "7": "Samuel Kentell",
+            "6": "Harvey Matthews",
+            "5": "Steven Goater",
+            "4": "Daniel Adams",
+            "3": "Mark Lavery",
+            "2": "Max Tozer",
+            "1": "Daryn Clarke",
+            "S1": "Mathew Bellenie",
+            "S2": "Gavin Cox",
+            "S3": "Connor Fairhall"
+        },
+        {
+            "15": "Jordon Southgate",
+            "14": "Joel Andrews",
+            "13": "Sean Bate",
+            "12": "Joel Forward",
+            "11": "Callum Harvey",
+            "10": "Ross James",
+            "9": "Charlie Buckland",
+            "8": "Guy Cornick",
+            "7": "Jack Harvey",
+            "6": "Ryan Bate",
+            "5": "Thomas Lightfoot",
+            "4": "Stephen Hartfield",
+            "3": "Davy Armstrong",
+            "2": "Alfie Richardson",
+            "1": "Jakub Rek",
+            "S1": "Matthew Longhurst",
+            "S2": "Harvey Pratt",
+            "S3": "Osin Mcwalter"
+        }
+    ]
+}

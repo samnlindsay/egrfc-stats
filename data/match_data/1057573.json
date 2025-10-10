@@ -1,0 +1,58 @@
+{
+    "match_id": "1057573",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2024-04-06",
+    "teams": [
+        "Old Cranleighans",
+        "Old Tiffinians"
+    ],
+    "score": [
+        31,
+        46
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/15615.png",
+        "https://images.englandrugby.com/club_images/16068.png"
+    ],
+    "players": [
+        {
+            "15": "Edward Sanderson",
+            "14": "Oliver Salmon",
+            "13": "James Hennessy",
+            "12": "Oliver Butler",
+            "11": "Thomas Puijk",
+            "10": "Samuel Lubbock",
+            "9": "Jago Bailey",
+            "8": "Bradley Lennard",
+            "7": "Barney Gill",
+            "6": "Name withheld",
+            "5": "Edward Higgins",
+            "4": "James Fitzmaurice",
+            "3": "Charles Blurton",
+            "2": "James McLeod",
+            "1": "Trevor Selvanayagam",
+            "S1": "Nathan O'Neill",
+            "S2": "Jochem Oostenbroek",
+            "S3": "Alistair Watkins"
+        },
+        {
+            "15": "Andrew Conder",
+            "14": "Sharif Dougramaji",
+            "13": "Maximilian Talman",
+            "12": "George Price",
+            "11": "George Taylor",
+            "10": "Louis Freeman",
+            "9": "Timothy Fawcett",
+            "8": "Jaewon Jang",
+            "7": "Hugh Turnbull",
+            "6": "William Staples",
+            "5": "Jack Corcoran",
+            "4": "Callum Fraser",
+            "3": "Ross Hobbs",
+            "2": "George Oram",
+            "1": "Timothy Baker",
+            "S1": "Andrew Blackburn"
+        }
+    ]
+}

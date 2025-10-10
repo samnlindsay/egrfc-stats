@@ -1,0 +1,59 @@
+{
+    "match_id": "1057544",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2024-02-17",
+    "teams": [
+        "Teddington",
+        "East Grinstead"
+    ],
+    "score": [
+        26,
+        0
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/21732.png",
+        "https://images.englandrugby.com/club_images/7134.png"
+    ],
+    "players": [
+        {
+            "15": "Joe Stainer",
+            "14": "Emerson Allen",
+            "13": "Joshua Mckiernan",
+            "12": "Harry Smith",
+            "11": "Name withheld",
+            "10": "Robert Beevers",
+            "9": "William Mavin",
+            "8": "Jack Capon",
+            "7": "Alfie Ransom",
+            "6": "Jack Valentine",
+            "5": "Oliver Holland",
+            "4": "Callum Johnston",
+            "3": "Henry Dare",
+            "2": "Samuel Rawsthorne",
+            "1": "George Bradford",
+            "S1": "Rory Mercer",
+            "S2": "Ethan Davies",
+            "S3": "Edward Hussey"
+        },
+        {
+            "15": "Oliver Billin",
+            "14": "Samuel Musgrave",
+            "13": "Benjamin Saunders",
+            "12": "Jake Radcliffe",
+            "11": "Daniel Poulton",
+            "10": "Noah Roberts",
+            "9": "Connor Leggat",
+            "8": "Ryland Thomas",
+            "7": "Aaronn Boczek",
+            "6": "Samuel Lindsay-McCall",
+            "5": "Daniel Billin",
+            "4": "Joshua Brimecombe",
+            "3": "Benjamin Tottman",
+            "2": "Guy Collins",
+            "1": "David Bridges",
+            "S1": "John Peaty",
+            "S2": "Alistair Moffatt"
+        }
+    ]
+}

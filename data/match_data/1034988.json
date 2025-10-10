@@ -1,0 +1,55 @@
+{
+    "match_id": "1034988",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2023-02-25",
+    "teams": [
+        "Burgess Hill",
+        "Eastbourne"
+    ],
+    "score": [
+        0,
+        57
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/3659.png",
+        "https://images.englandrugby.com/club_images/7209.png"
+    ],
+    "players": [
+        {
+            "15": "Issoa Tadrau",
+            "14": "Amini Umata",
+            "13": "Ben Mclaren",
+            "12": "William Pearson",
+            "11": "Rory Shillaker",
+            "9": "Massimo Hiller",
+            "8": "David Wattam",
+            "7": "Joseph Brown",
+            "6": "Harvey Hays",
+            "4": "Adam Harman",
+            "3": "Lee Collingbourne",
+            "2": "Timothy Daniel",
+            "1": "Robert Blake"
+        },
+        {
+            "15": "Mason Dowle",
+            "14": "Gianluca Bianchi",
+            "13": "Jake Howe",
+            "12": "Ben Perrott",
+            "11": "Dylan Becker",
+            "10": "Martial Chaput",
+            "9": "Name withheld",
+            "8": "Ryan Shields",
+            "7": "Carl Slaughter",
+            "6": "Benjamin Gower",
+            "5": "Owen Davies",
+            "4": "Luke Thomas",
+            "3": "Paul Smith",
+            "2": "Joseph Bettles",
+            "1": "Christopher Hosking",
+            "S1": "Ronnie Doorey-Palmer",
+            "S2": "Vincent Morse",
+            "S3": "Pedro Sousa"
+        }
+    ]
+}

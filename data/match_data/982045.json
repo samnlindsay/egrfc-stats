@@ -1,0 +1,56 @@
+{
+    "match_id": "982045",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2023-03-11",
+    "teams": [
+        "Eastbourne",
+        "Crawley"
+    ],
+    "score": [
+        67,
+        7
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7209.png",
+        "https://images.englandrugby.com/club_images/5807.png"
+    ],
+    "players": [
+        {
+            "15": "Martial Chaput",
+            "14": "Gianluca Bianchi",
+            "13": "Jake Howe",
+            "12": "Ben Perrott",
+            "11": "Dylan Becker",
+            "10": "Aaron Hossack",
+            "9": "Name withheld",
+            "8": "Jeremy Montes",
+            "7": "Vincent Morse",
+            "6": "Ryan Shields",
+            "5": "Owen Davies",
+            "4": "Luke Thomas",
+            "3": "Daniel Keen",
+            "2": "Joseph Bettles",
+            "1": "Christopher Hosking",
+            "S1": "Paul Smith",
+            "S2": "Mason Dowle",
+            "S3": "Ronnie Doorey-Palmer"
+        },
+        {
+            "15": "William Ofosuhene",
+            "14": "Kristian Dean",
+            "13": "Henry Tyson",
+            "12": "Harry Hickmet",
+            "11": "Joao Andre Garanito Sousa",
+            "10": "Toby Baldwin",
+            "9": "Bradley Davies",
+            "8": "Joe Ball",
+            "7": "Ieuan Death",
+            "6": "Robert Higgins",
+            "5": "Nathan Cox",
+            "4": "Joel Fisher",
+            "3": "Kieran Gosling",
+            "2": "Jake Jackson"
+        }
+    ]
+}

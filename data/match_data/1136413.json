@@ -1,1 +1,59 @@
-{"date": "2024-09-14", "score": [33, 34], "teams": ["Haywards Heath", "Trinity"], "logos": ["https://images.englandrugby.com/club_images/9776.png", "https://images.englandrugby.com/club_images/23175.png"], "players": [{"15": "Name withheld", "14": "Jack Flower", "13": "Jack Lucas", "12": "Nicolas Main", "11": "Christopher Neill", "10": "Thomas Wharton", "9": "James Thurston", "8": "Geoffrey Bridges", "7": "Ben Eustace", "6": "Connor Mullins", "5": "Ellis Dubois", "4": "Harrison Thomas Edwards", "3": "Jack Herbert", "2": "James Fleming", "1": "Flinn Herbert", "S1": "Martin Mcdonagh", "S2": "Oli Schlup", "S3": "Max Farrell"}, {"15": "Max Mouna", "14": "Archie McMillan", "13": "Thomas Wilcox", "12": "Olly Wilcox", "11": "Benjamin Telfer", "10": "Harry Wilson", "9": "Farooq Agbalaya", "8": "Khalil Alleyne", "7": "Oliver Hubbard", "6": "Marc McEvilly", "5": "Fuad Agbalaya", "4": "Christopher Reid Gomez", "3": "Quinn Singh", "2": "Alastair Hall", "1": "Timothy Jupp", "S1": "Benjamin Vaillant", "S2": "Samson Goldschmied"}]}
+{
+    "date": "2024-09-14",
+    "score": [
+        33,
+        34
+    ],
+    "teams": [
+        "Haywards Heath",
+        "Trinity"
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/9776.png",
+        "https://images.englandrugby.com/club_images/23175.png"
+    ],
+    "players": [
+        {
+            "15": "Name withheld",
+            "14": "Jack Flower",
+            "13": "Jack Lucas",
+            "12": "Nicolas Main",
+            "11": "Christopher Neill",
+            "10": "Thomas Wharton",
+            "9": "James Thurston",
+            "8": "Geoffrey Bridges",
+            "7": "Ben Eustace",
+            "6": "Connor Mullins",
+            "5": "Ellis Dubois",
+            "4": "Harrison Thomas Edwards",
+            "3": "Jack Herbert",
+            "2": "James Fleming",
+            "1": "Flinn Herbert",
+            "S1": "Martin Mcdonagh",
+            "S2": "Oli Schlup",
+            "S3": "Max Farrell"
+        },
+        {
+            "15": "Max Mouna",
+            "14": "Archie McMillan",
+            "13": "Thomas Wilcox",
+            "12": "Olly Wilcox",
+            "11": "Benjamin Telfer",
+            "10": "Harry Wilson",
+            "9": "Farooq Agbalaya",
+            "8": "Khalil Alleyne",
+            "7": "Oliver Hubbard",
+            "6": "Marc McEvilly",
+            "5": "Fuad Agbalaya",
+            "4": "Christopher Reid Gomez",
+            "3": "Quinn Singh",
+            "2": "Alastair Hall",
+            "1": "Timothy Jupp",
+            "S1": "Benjamin Vaillant",
+            "S2": "Samson Goldschmied"
+        }
+    ],
+    "match_id": "1136413",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex"
+}

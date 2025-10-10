@@ -1,1 +1,60 @@
-{"date": "2024-10-12", "score": [21, 34], "teams": ["East Grinstead", "Hove"], "logos": ["https://images.englandrugby.com/club_images/7134.png", "https://images.englandrugby.com/club_images/10503.png"], "players": [{"15": "Oliver Billin", "14": "Ted Hardisty", "13": "Christopher May-Miller", "12": "Max Crawley-Moore", "11": "Alister Yaffa", "10": "Luke Maker", "9": "Chris Taylor", "8": "Daniel Billin", "7": "Ryland Thomas", "6": "Tom Mooney", "5": "John Peaty", "4": "Samuel Lindsay-McCall", "3": "James Funnell", "2": "George Beet", "1": "Joshua Brimecombe", "S1": "Connor Leggat", "S2": "Josh Weaver", "S3": "Mark Lewis"}, {"15": "Jack Moore", "14": "John Orme-Williams", "13": "Charles Nicholson", "12": "Leo Robertson", "11": "Tom Holborn", "10": "Olly Lewis", "9": "Charles Soffe", "8": "Jordan Sayers", "7": "Jack Edwards", "6": "Robin Ward", "5": "Thomas Mohan", "4": "IAN SAUNDERS", "3": "Name withheld", "2": "Charlie Butcher", "1": "tyler ray hooper", "S1": "Toby Downes", "S2": "Archie Davies", "S3": "Oliver Ashby"}]}
+{
+    "date": "2024-10-12",
+    "score": [
+        21,
+        34
+    ],
+    "teams": [
+        "East Grinstead",
+        "Hove"
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7134.png",
+        "https://images.englandrugby.com/club_images/10503.png"
+    ],
+    "players": [
+        {
+            "15": "Oliver Billin",
+            "14": "Ted Hardisty",
+            "13": "Christopher May-Miller",
+            "12": "Max Crawley-Moore",
+            "11": "Alister Yaffa",
+            "10": "Luke Maker",
+            "9": "Chris Taylor",
+            "8": "Daniel Billin",
+            "7": "Ryland Thomas",
+            "6": "Tom Mooney",
+            "5": "John Peaty",
+            "4": "Samuel Lindsay-McCall",
+            "3": "James Funnell",
+            "2": "George Beet",
+            "1": "Joshua Brimecombe",
+            "S1": "Connor Leggat",
+            "S2": "Josh Weaver",
+            "S3": "Mark Lewis"
+        },
+        {
+            "15": "Jack Moore",
+            "14": "John Orme-Williams",
+            "13": "Charles Nicholson",
+            "12": "Leo Robertson",
+            "11": "Tom Holborn",
+            "10": "Olly Lewis",
+            "9": "Charles Soffe",
+            "8": "Jordan Sayers",
+            "7": "Jack Edwards",
+            "6": "Robin Ward",
+            "5": "Thomas Mohan",
+            "4": "IAN SAUNDERS",
+            "3": "Name withheld",
+            "2": "Charlie Butcher",
+            "1": "tyler ray hooper",
+            "S1": "Toby Downes",
+            "S2": "Archie Davies",
+            "S3": "Oliver Ashby"
+        }
+    ],
+    "match_id": "1136431",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex"
+}

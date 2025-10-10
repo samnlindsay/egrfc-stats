@@ -1,1 +1,59 @@
-{"date": "2024-11-09", "score": [39, 36], "teams": ["Hove", "Old Haileyburians"], "logos": ["https://images.englandrugby.com/club_images/10503.png", "https://images.englandrugby.com/club_images/15747.png"], "players": [{"15": "Jack Moore", "14": "John Orme-Williams", "13": "Charles Nicholson", "12": "Leo Robertson", "11": "Tom Holborn", "10": "Olly Lewis", "9": "Charlie Knight", "8": "Jordan Sayers", "7": "Jack Edwards", "6": "Robin Ward", "5": "Tobias Brown", "4": "IAN SAUNDERS", "3": "Name withheld", "2": "Charlie Butcher", "1": "tyler ray hooper", "S1": "Stephen Klein", "S2": "Carl Buckland", "S3": "Tom Crisp"}, {"15": "Alex Long", "14": "Elliot Hopkin", "13": "Ethan Mead", "12": "Fred Lowe", "11": "Harry Rigden", "10": "Cameron Bullard", "9": "Harry Clesham", "8": "Jonathan Parr", "7": "Charles Hymer", "6": "Thomas Woodruff", "5": "Oliver L Marsden", "4": "Jacob Cummins", "3": "Joshua Sterne", "2": "Dylan Wallis", "1": "Harry Bentley", "S1": "Sean Bondonno", "S2": "Oliver Hyne"}]}
+{
+    "date": "2024-11-09",
+    "score": [
+        39,
+        36
+    ],
+    "teams": [
+        "Hove",
+        "Old Haileyburians"
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/10503.png",
+        "https://images.englandrugby.com/club_images/15747.png"
+    ],
+    "players": [
+        {
+            "15": "Jack Moore",
+            "14": "John Orme-Williams",
+            "13": "Charles Nicholson",
+            "12": "Leo Robertson",
+            "11": "Tom Holborn",
+            "10": "Olly Lewis",
+            "9": "Charlie Knight",
+            "8": "Jordan Sayers",
+            "7": "Jack Edwards",
+            "6": "Robin Ward",
+            "5": "Tobias Brown",
+            "4": "IAN SAUNDERS",
+            "3": "Name withheld",
+            "2": "Charlie Butcher",
+            "1": "tyler ray hooper",
+            "S1": "Stephen Klein",
+            "S2": "Carl Buckland",
+            "S3": "Tom Crisp"
+        },
+        {
+            "15": "Alex Long",
+            "14": "Elliot Hopkin",
+            "13": "Ethan Mead",
+            "12": "Fred Lowe",
+            "11": "Harry Rigden",
+            "10": "Cameron Bullard",
+            "9": "Harry Clesham",
+            "8": "Jonathan Parr",
+            "7": "Charles Hymer",
+            "6": "Thomas Woodruff",
+            "5": "Oliver L Marsden",
+            "4": "Jacob Cummins",
+            "3": "Joshua Sterne",
+            "2": "Dylan Wallis",
+            "1": "Harry Bentley",
+            "S1": "Sean Bondonno",
+            "S2": "Oliver Hyne"
+        }
+    ],
+    "match_id": "1136448",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex"
+}

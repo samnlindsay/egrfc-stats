@@ -1,0 +1,58 @@
+{
+    "match_id": "1057454",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2023-09-30",
+    "teams": [
+        "Kingston",
+        "Old Cranleighans"
+    ],
+    "score": [
+        34,
+        7
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/11663.png",
+        "https://images.englandrugby.com/club_images/15615.png"
+    ],
+    "players": [
+        {
+            "15": "Joseph Daiton",
+            "14": "Philip Dabinski",
+            "13": "Jonathan Mcdunphy",
+            "12": "Boyd Rouse",
+            "11": "Chun Yeung WU",
+            "10": "Cameron Fisher",
+            "9": "Herbie Archer",
+            "8": "Harry Bettinson",
+            "7": "Luke Burge",
+            "6": "Scott McKenna",
+            "5": "Christopher Hall",
+            "4": "Tom Collis",
+            "3": "Samuel Johnson",
+            "2": "Name withheld",
+            "1": "Diego Borja Carbon Viera",
+            "S1": "Christopher Ward",
+            "S2": "Jacob Jennings",
+            "S3": "James Renouf",
+            "S4": "Peter Dowling"
+        },
+        {
+            "15": "William Dagnall",
+            "14": "Laughlan Wood",
+            "13": "Charles Collyer",
+            "12": "George Blurton",
+            "11": "Thomas Puijk",
+            "10": "Ioan Davies",
+            "9": "Edward Higgins",
+            "8": "Archie Mayo",
+            "7": "James McLeod",
+            "6": "Trevor Selvanayagam",
+            "5": "Thomas Reinhardt",
+            "4": "Charles Blurton",
+            "3": "Matthew Dawes",
+            "2": "Archie Jones",
+            "1": "Christopher Scott"
+        }
+    ]
+}

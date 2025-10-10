@@ -1,0 +1,59 @@
+{
+    "match_id": "1136524",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2025-03-22",
+    "teams": [
+        "East Grinstead",
+        "Cobham"
+    ],
+    "score": [
+        21,
+        43
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7134.png",
+        "https://images.englandrugby.com/club_images/5336.png"
+    ],
+    "players": [
+        {
+            "15": "Oliver Billin",
+            "14": "William Roberts",
+            "13": "Ted Hardisty",
+            "12": "Jake Radcliffe",
+            "11": "Sam Spriddell",
+            "10": "Noah Merrion",
+            "9": "Mark Lewis",
+            "8": "Aaronn Boczek",
+            "7": "Ryland Thomas",
+            "6": "Tom Mooney",
+            "5": "John Peaty",
+            "4": "Samuel Lindsay-McCall",
+            "3": "Guy Collins",
+            "2": "Benjamin Tottman",
+            "1": "George Naylor",
+            "S1": "Michael Presland",
+            "S2": "Josh Weaver",
+            "S3": "Noah Roberts"
+        },
+        {
+            "15": "William Springett",
+            "14": "Sandro Celebidachi",
+            "13": "Alexander O'Connor",
+            "12": "Taylor Rice-Burnett",
+            "11": "Laurence Hemary",
+            "10": "Jordan Bond",
+            "9": "Rory Penfold",
+            "8": "Jake Mcquade",
+            "7": "Oliver Fox",
+            "6": "Name withheld",
+            "5": "Louis Porter",
+            "4": "Luke Westgarth-Taylor",
+            "3": "Anthony Moss",
+            "2": "Chris Lippiatt",
+            "1": "Gabriel Clark",
+            "S1": "Lewis Joyce",
+            "S2": "Marcus Watson"
+        }
+    ]
+}

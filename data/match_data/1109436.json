@@ -1,0 +1,57 @@
+{
+    "match_id": "1109436",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2024-02-10",
+    "teams": [
+        "Eastbourne",
+        "Hove"
+    ],
+    "score": [
+        36,
+        15
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7209.png",
+        "https://images.englandrugby.com/club_images/10503.png"
+    ],
+    "players": [
+        {
+            "15": "Mason Dowle",
+            "14": "Gianluca Bianchi",
+            "13": "Jake Howe",
+            "12": "Ronnie Doorey-Palmer",
+            "11": "Dylan Viles",
+            "10": "Aaron Hossack",
+            "9": "Brendan Challis",
+            "8": "Jeremy Montes",
+            "7": "Vincent Morse",
+            "6": "Ryan Shields",
+            "5": "Joshua Buckwell",
+            "4": "Owen Davies",
+            "3": "Daniel Keen",
+            "2": "Joseph Bettles",
+            "1": "Christopher Hosking",
+            "S1": "Paul Smith",
+            "S2": "Luke Thomas",
+            "S3": "Pedro Sousa"
+        },
+        {
+            "15": "Name withheld",
+            "14": "Lloyd Sweeney",
+            "13": "Tyler Hooper",
+            "12": "Leo Robertson",
+            "11": "Tom Holborn",
+            "10": "Olly Lewis",
+            "9": "Danny O'Conner",
+            "8": "Jordan Sayers",
+            "7": "Tobias Brown",
+            "6": "Ian Saunders",
+            "5": "George Brown",
+            "4": "Jordan Gibson",
+            "3": "Charlie Butcher",
+            "2": "Thomas Baker",
+            "1": "Charlie Knight"
+        }
+    ]
+}

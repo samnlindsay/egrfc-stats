@@ -1,0 +1,60 @@
+{
+    "match_id": "1057487",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2023-11-11",
+    "teams": [
+        "East Grinstead",
+        "Teddington"
+    ],
+    "score": [
+        10,
+        27
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7134.png",
+        "https://images.englandrugby.com/club_images/21732.png"
+    ],
+    "players": [
+        {
+            "15": "Oliver Billin",
+            "14": "Jake Radcliffe",
+            "13": "Samuel Spriddell",
+            "12": "Benjamin Saunders",
+            "11": "Alistair Moffatt",
+            "10": "Daniel Poulton",
+            "9": "Jack Billin",
+            "8": "Aaronn Boczek",
+            "7": "Ryland Thomas",
+            "6": "John Peaty",
+            "5": "Samuel Lindsay-McCall",
+            "4": "Guy Collins",
+            "3": "Joshua Brimecombe",
+            "2": "Benjamin Tottman",
+            "1": "Connor Leggat",
+            "S1": "David Bridges",
+            "S2": "Daniel Billin",
+            "S3": "Max Crawley-Moore"
+        },
+        {
+            "15": "Name withheld",
+            "14": "Edward Hussey",
+            "13": "Harry Smith",
+            "12": "Joe Stainer",
+            "11": "Joshua Mckiernan",
+            "10": "Robert Beevers",
+            "9": "James Frankenberger",
+            "8": "Jack Capon",
+            "7": "Alfie Ransom",
+            "6": "Rory Mercer",
+            "5": "Oliver Holland",
+            "4": "Jack Valentine",
+            "3": "Henry Dare",
+            "2": "Samuel Rawsthorne",
+            "1": "George Bradford",
+            "S1": "Callum Johnston",
+            "S2": "Christopher Lidington",
+            "S3": "James Nelson"
+        }
+    ]
+}

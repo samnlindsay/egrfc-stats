@@ -1,0 +1,60 @@
+{
+    "match_id": "981983",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2022-10-29",
+    "teams": [
+        "Lewes",
+        "Seaford"
+    ],
+    "score": [
+        17,
+        41
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/12206.png",
+        "https://images.englandrugby.com/club_images/18868.png"
+    ],
+    "players": [
+        {
+            "15": "Roberto Bello Hurtado",
+            "14": "Declan Over",
+            "13": "Tyler Edwards",
+            "12": "James Shafi",
+            "11": "Daniel Elmes",
+            "10": "Elliot Moule",
+            "9": "Dante Maguire",
+            "8": "Nathaniel Vine",
+            "7": "Alexander Audsley-Mckenna",
+            "6": "Lewis Evans",
+            "5": "Edward King",
+            "4": "James Sale",
+            "3": "Charlie Moran",
+            "2": "Harry Pryer",
+            "1": "Kane Dadswell",
+            "S1": "Mouhammed Bacha",
+            "S2": "Freddie Gander",
+            "S3": "Jordan Whiting"
+        },
+        {
+            "15": "Paddy Powney",
+            "14": "Charlie Crossgrove",
+            "13": "Paul Burns",
+            "12": "Corey Digby-Clarke",
+            "11": "Jason Staples",
+            "10": "Dominic Joy",
+            "9": "Jack Cullinane",
+            "8": "Bradley Newby",
+            "7": "Andrew Fry",
+            "6": "Andrew Salter",
+            "5": "Lee Furminger",
+            "4": "Sam Diplock",
+            "3": "Luke Read",
+            "2": "KEVIN LEWIS",
+            "1": "Daniel Newby",
+            "S1": "Philip Innis",
+            "S2": "Name withheld",
+            "S3": "Stuart Cotter"
+        }
+    ]
+}

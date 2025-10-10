@@ -1,0 +1,58 @@
+{
+    "match_id": "1057481",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2023-11-04",
+    "teams": [
+        "Weybridge Vandals",
+        "Old Tiffinians"
+    ],
+    "score": [
+        15,
+        12
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/25094.png",
+        "https://images.englandrugby.com/club_images/16068.png"
+    ],
+    "players": [
+        {
+            "15": "Thomas Bolger",
+            "14": "Luke Phair",
+            "13": "Harry Weatherall",
+            "12": "Oliver Day",
+            "11": "Harry Reed",
+            "10": "David Loubser",
+            "9": "Joseph Graves",
+            "8": "Name withheld",
+            "7": "Reece Innes-Gray",
+            "6": "Mattia Mengotti",
+            "5": "Richard Crabb",
+            "4": "Nicholas Blount",
+            "3": "Luke Hempstead",
+            "2": "Callum Hennessey",
+            "1": "Joshua Thomas",
+            "S1": "Wayne Mason",
+            "S2": "Michael Mason",
+            "S3": "Thomas Ducker"
+        },
+        {
+            "15": "William Sharp",
+            "14": "Maximilian Talman",
+            "13": "Sharif Dougramaji",
+            "12": "Sebastion Kay",
+            "11": "Andrew Day",
+            "10": "Timothy Fawcett",
+            "9": "George Taylor",
+            "8": "Jaewon Jang",
+            "7": "Daniel Blackman",
+            "6": "Hugh Turnbull",
+            "5": "Michael O'Connell",
+            "4": "Robert Myddelton",
+            "3": "Sam Rumball",
+            "2": "Ross Hobbs",
+            "1": "Toby Sydenham",
+            "S1": "Rory Coats"
+        }
+    ]
+}

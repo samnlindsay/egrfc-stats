@@ -1,1 +1,60 @@
-{"date": "2024-12-14", "score": [31, 26], "teams": ["Old Rutlishians", "Twickenham"], "logos": ["https://images.englandrugby.com/club_images/16005.png", "https://images.englandrugby.com/club_images/23336.png"], "players": [{"15": "Oliver O\u2019Brien", "14": "Charles Julian", "13": "David Cecil", "12": "Maximilian Lufkin", "11": "Corey Holland", "10": "Toby Harrison", "9": "Alexander O'Dell", "8": "Robert Cecil", "7": "Benjamin Sumrie", "6": "Benjamin Jones", "5": "Name withheld", "4": "Josh Jibulu", "3": "William Donegan", "2": "LOUIE DAVIES", "1": "Kenneth Cecil", "S1": "Chezter Altea", "S2": "Harry Hovell", "S3": "James Collins"}, {"15": "Jake Griffiths", "14": "Kai Patrick", "13": "Archie Lamont", "12": "John Smith", "11": "Arthur Polley", "10": "Jamie See", "9": "Alex Stagg", "8": "Nicholas Smith", "7": "James Moore", "6": "Jack Fullicks", "5": "Mohammed Elata", "4": "Jake White", "3": "Frazer Gibson", "2": "Richard Moses", "1": "Alex Bennett", "S1": "James Filbey", "S2": "Jasper Bhamra", "S3": "Jordan Howell"}]}
+{
+    "date": "2024-12-14",
+    "score": [
+        31,
+        26
+    ],
+    "teams": [
+        "Old Rutlishians",
+        "Twickenham"
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/16005.png",
+        "https://images.englandrugby.com/club_images/23336.png"
+    ],
+    "players": [
+        {
+            "15": "Oliver O\u2019Brien",
+            "14": "Charles Julian",
+            "13": "David Cecil",
+            "12": "Maximilian Lufkin",
+            "11": "Corey Holland",
+            "10": "Toby Harrison",
+            "9": "Alexander O'Dell",
+            "8": "Robert Cecil",
+            "7": "Benjamin Sumrie",
+            "6": "Benjamin Jones",
+            "5": "Name withheld",
+            "4": "Josh Jibulu",
+            "3": "William Donegan",
+            "2": "LOUIE DAVIES",
+            "1": "Kenneth Cecil",
+            "S1": "Chezter Altea",
+            "S2": "Harry Hovell",
+            "S3": "James Collins"
+        },
+        {
+            "15": "Jake Griffiths",
+            "14": "Kai Patrick",
+            "13": "Archie Lamont",
+            "12": "John Smith",
+            "11": "Arthur Polley",
+            "10": "Jamie See",
+            "9": "Alex Stagg",
+            "8": "Nicholas Smith",
+            "7": "James Moore",
+            "6": "Jack Fullicks",
+            "5": "Mohammed Elata",
+            "4": "Jake White",
+            "3": "Frazer Gibson",
+            "2": "Richard Moses",
+            "1": "Alex Bennett",
+            "S1": "James Filbey",
+            "S2": "Jasper Bhamra",
+            "S3": "Jordan Howell"
+        }
+    ],
+    "match_id": "1136475",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex"
+}

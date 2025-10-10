@@ -1,0 +1,58 @@
+{
+    "match_id": "1057519",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2024-01-06",
+    "teams": [
+        "Old Cranleighans",
+        "Kingston"
+    ],
+    "score": [
+        12,
+        21
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/15615.png",
+        "https://images.englandrugby.com/club_images/11663.png"
+    ],
+    "players": [
+        {
+            "15": "Scott Rees",
+            "14": "Jochem Oostenbroek",
+            "13": "Robert Mackenzie",
+            "12": "Name withheld",
+            "11": "Peter Dowling",
+            "10": "Ioan Davies",
+            "9": "Duncan Rutherford",
+            "8": "Barney Gill",
+            "7": "Mylo Boyd",
+            "6": "Rayyan Shaikh",
+            "5": "Edward Higgins",
+            "4": "James Fitzmaurice",
+            "3": "Philip Hodson",
+            "2": "James McLeod",
+            "1": "Simon Steer",
+            "S1": "James Richardson",
+            "S2": "Sam Kennedy",
+            "S3": "Joseph Daiton"
+        },
+        {
+            "15": "Elton Gwekwete",
+            "14": "Connor Ashwin",
+            "13": "Jonathan Mcdunphy",
+            "12": "Charles Kelly",
+            "11": "Cameron Fisher",
+            "10": "Herbie Archer",
+            "9": "Hugo Eyre",
+            "8": "Luke Burge",
+            "7": "David Wakefield",
+            "6": "Samuel Rushmer",
+            "5": "Nick Crandon",
+            "4": "Samuel Johnson",
+            "3": "Tom Tyler",
+            "2": "Tom Rushmer",
+            "1": "Christopher Hall",
+            "S1": "Scott McKenna"
+        }
+    ]
+}

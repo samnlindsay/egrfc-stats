@@ -1,0 +1,58 @@
+{
+    "match_id": "1057508",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2023-12-16",
+    "teams": [
+        "Kingston",
+        "Old Tiffinians"
+    ],
+    "score": [
+        31,
+        45
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/11663.png",
+        "https://images.englandrugby.com/club_images/16068.png"
+    ],
+    "players": [
+        {
+            "15": "Charles Kelly",
+            "14": "Philip Dabinski",
+            "13": "Brandon Nisbet",
+            "12": "Tyler Reichardt",
+            "11": "Devon Parsons",
+            "10": "Daniel Joel Harris",
+            "9": "Herbie Archer",
+            "8": "Hugo Eyre",
+            "7": "Luke Burge",
+            "6": "Christopher Hall",
+            "5": "Samuel Rushmer",
+            "4": "Scott Howe",
+            "3": "Samuel Johnson",
+            "2": "Name withheld",
+            "1": "Tom Tyler",
+            "S1": "Mathew Bolster",
+            "S2": "William Smith",
+            "S3": "Joseph Daiton"
+        },
+        {
+            "15": "Louis Freeman",
+            "14": "Ben Marshall",
+            "13": "Sharif Dougramaji",
+            "12": "Maximilian Talman",
+            "11": "Rory Coats",
+            "10": "William Sharp",
+            "9": "Ben Sykes",
+            "8": "Timothy Fawcett",
+            "7": "Jaewon Jang",
+            "6": "Robert Myddelton",
+            "5": "Michael O'Connell",
+            "4": "Daniel Blackman",
+            "3": "Ross Hobbs",
+            "2": "Jack Corcoran",
+            "1": "Timothy Baker",
+            "S1": "Andrew Blackburn"
+        }
+    ]
+}

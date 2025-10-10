@@ -1,0 +1,60 @@
+{
+    "match_id": "982033",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2023-02-18",
+    "teams": [
+        "Pulborough",
+        "East Grinstead"
+    ],
+    "score": [
+        14,
+        35
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/17255.png",
+        "https://images.englandrugby.com/club_images/7134.png"
+    ],
+    "players": [
+        {
+            "15": "Frazer Oliphant-Hope",
+            "14": "Archie Sadler",
+            "13": "Raiph Robson",
+            "12": "Bryan Woodhouse",
+            "11": "Thomas Garnett",
+            "10": "Ludo Milne",
+            "9": "Simon Burfiend",
+            "8": "Henry Lee",
+            "7": "Kieran Mellor",
+            "6": "James Hobbs",
+            "5": "Ben Sadler",
+            "4": "Matthew Goring",
+            "3": "Harry O'Brien",
+            "2": "Michael Woodhouse",
+            "1": "Johny-joe Staples",
+            "S1": "Coby Coy",
+            "S2": "Sven Dahlmann",
+            "S3": "Cameron Rowbotham"
+        },
+        {
+            "15": "Samuel Spriddell",
+            "14": "Ethan Carrick",
+            "13": "Jake Radcliffe",
+            "12": "Max Crawley-Moore",
+            "11": "Alistair Moffatt",
+            "10": "Oliver Billin",
+            "9": "Benjamin Hogan",
+            "8": "Daniel Billin",
+            "7": "Ryland Thomas",
+            "6": "Jordan Walker",
+            "5": "Peter Morley",
+            "4": "Samuel Lindsay-McCall",
+            "3": "Guy Collins",
+            "2": "Benjamin Tottman",
+            "1": "Sean Morgan",
+            "S1": "Connor Leggat",
+            "S2": "Archie Vickers",
+            "S3": "Ryan Morlen"
+        }
+    ]
+}

@@ -1,0 +1,58 @@
+{
+    "match_id": "982005",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2022-12-03",
+    "teams": [
+        "Crawley",
+        "Pulborough"
+    ],
+    "score": [
+        10,
+        41
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/5807.png",
+        "https://images.englandrugby.com/club_images/17255.png"
+    ],
+    "players": [
+        {
+            "15": "Patrick Dean",
+            "14": "Lewis Burke",
+            "13": "Kristian Dean",
+            "12": "Corey Toogood",
+            "10": "Sven Dahlmann",
+            "9": "Dominic Morgan",
+            "8": "Kieran Gosling",
+            "7": "Harry Mansfield",
+            "6": "Joao Andre Garanito Sousa",
+            "5": "Oliver Plunkett",
+            "4": "Luke Attew",
+            "3": "Ieuan Death",
+            "2": "Andrew Wilson",
+            "1": "Nathan Cox",
+            "S1": "Robert Higgins",
+            "S2": "Arron Alison",
+            "S3": "William Ofosuhene"
+        },
+        {
+            "15": "Raiph Robson",
+            "14": "Archie Sadler",
+            "13": "Name withheld",
+            "12": "Bryan Woodhouse",
+            "11": "Thomas Garnett",
+            "10": "Ludo Milne",
+            "9": "Simon Burfiend",
+            "8": "Henry Lee",
+            "7": "Kieran Mellor",
+            "6": "Michael Woodhouse",
+            "5": "James Hobbs",
+            "4": "Matthew Goring",
+            "3": "Johny-joe Staples",
+            "2": "Coby Coy",
+            "1": "Harry O'Brien",
+            "S1": "Ben Sadler",
+            "S2": "Finlay Pitt"
+        }
+    ]
+}

@@ -1,1 +1,59 @@
-{"date": "2024-09-21", "score": [36, 17], "teams": ["Eastbourne", "Hove"], "logos": ["https://images.englandrugby.com/club_images/7209.png", "https://images.englandrugby.com/club_images/10503.png"], "players": [{"15": "Mason Dowle", "14": "Oliver Horley", "13": "Jake Howe", "12": "Ronnie Doorey-Palmer", "11": "Dylan Viles", "10": "Aaron Hossack", "9": "Leon Wood", "8": "Owen Davies", "7": "Vincent Morse", "6": "Ben Gower", "5": "Jack Curtis", "4": "Luke Thomas", "3": "Paul Smith", "2": "Konrad Oneill", "1": "Alun Cranch", "S1": "Owen Jones", "S2": "Christopher Hosking", "S3": "Tom Lester"}, {"15": "Alex Parker", "14": "Oakley Hill-Smith", "13": "Leo Robertson", "12": "Max Marshall", "11": "Jack Edwards", "10": "Charles Soffe", "9": "Charles Watts", "8": "Robin Ward", "7": "Ben Stephens", "6": "IAN SAUNDERS", "5": "Tobias Brown", "4": "Name withheld", "3": "Christopher Knott", "2": "Ryan Storer", "1": "Toby Downes", "S1": "Oliver Ashby", "S2": "Charlie Butcher"}]}
+{
+    "date": "2024-09-21",
+    "score": [
+        36,
+        17
+    ],
+    "teams": [
+        "Eastbourne",
+        "Hove"
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7209.png",
+        "https://images.englandrugby.com/club_images/10503.png"
+    ],
+    "players": [
+        {
+            "15": "Mason Dowle",
+            "14": "Oliver Horley",
+            "13": "Jake Howe",
+            "12": "Ronnie Doorey-Palmer",
+            "11": "Dylan Viles",
+            "10": "Aaron Hossack",
+            "9": "Leon Wood",
+            "8": "Owen Davies",
+            "7": "Vincent Morse",
+            "6": "Ben Gower",
+            "5": "Jack Curtis",
+            "4": "Luke Thomas",
+            "3": "Paul Smith",
+            "2": "Konrad Oneill",
+            "1": "Alun Cranch",
+            "S1": "Owen Jones",
+            "S2": "Christopher Hosking",
+            "S3": "Tom Lester"
+        },
+        {
+            "15": "Alex Parker",
+            "14": "Oakley Hill-Smith",
+            "13": "Leo Robertson",
+            "12": "Max Marshall",
+            "11": "Jack Edwards",
+            "10": "Charles Soffe",
+            "9": "Charles Watts",
+            "8": "Robin Ward",
+            "7": "Ben Stephens",
+            "6": "IAN SAUNDERS",
+            "5": "Tobias Brown",
+            "4": "Name withheld",
+            "3": "Christopher Knott",
+            "2": "Ryan Storer",
+            "1": "Toby Downes",
+            "S1": "Oliver Ashby",
+            "S2": "Charlie Butcher"
+        }
+    ],
+    "match_id": "1136420",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex"
+}

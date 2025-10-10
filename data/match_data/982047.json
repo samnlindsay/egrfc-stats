@@ -1,0 +1,58 @@
+{
+    "match_id": "982047",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2023-03-11",
+    "teams": [
+        "Seaford",
+        "Haywards Heath"
+    ],
+    "score": [
+        12,
+        27
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/18868.png",
+        "https://images.englandrugby.com/club_images/9776.png"
+    ],
+    "players": [
+        {
+            "15": "Paddy Powney",
+            "14": "Stuart Cotter",
+            "13": "Charlie Crossgrove",
+            "12": "Paul Burns",
+            "11": "Jason Staples",
+            "10": "Corey Digby-Clarke",
+            "9": "Jack Cullinane",
+            "8": "Daniel Newby",
+            "7": "Name withheld",
+            "6": "Andrew Fry",
+            "5": "Bradley Newby",
+            "4": "Andrew Salter",
+            "3": "Matt Read",
+            "2": "KEVIN LEWIS",
+            "1": "Luke Read",
+            "S1": "Luke Taylor",
+            "S2": "Sam Diplock",
+            "S3": "Philip Innis"
+        },
+        {
+            "15": "Christopher Neill",
+            "14": "Samuela Bulitokaivale-Lancaster",
+            "13": "Jack Flower",
+            "12": "James Trinder",
+            "11": "Matthew Cains",
+            "10": "Thomas Wharton",
+            "9": "Charles Richardson",
+            "8": "Geoffrey Bridges",
+            "7": "Lewis Goodall",
+            "6": "Ellis Dubois",
+            "5": "Henry Dickson",
+            "4": "Elliott Higgin",
+            "3": "Harrison Thomas Edwards",
+            "2": "John Robertson",
+            "1": "Ben Eustace",
+            "S1": "Roscoe Atkins"
+        }
+    ]
+}

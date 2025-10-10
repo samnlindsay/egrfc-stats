@@ -1,0 +1,60 @@
+{
+    "match_id": "1116670",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2024-03-28",
+    "teams": [
+        "KCS Old Boys",
+        "Trinity"
+    ],
+    "score": [
+        17,
+        10
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/11188.png",
+        "https://images.englandrugby.com/club_images/23175.png"
+    ],
+    "players": [
+        {
+            "15": "Name withheld",
+            "14": "Viktor Bakker",
+            "13": "Leon Driscoll",
+            "12": "James Hattersley",
+            "11": "Thomas Hamill",
+            "10": "William Carter",
+            "9": "Jacob Wood",
+            "8": "James Shaw",
+            "7": "Jamie Miller",
+            "6": "Alexander Laidlaw",
+            "5": "Felix Griffin",
+            "4": "Cameron Keller",
+            "3": "Rees Powell",
+            "2": "Minhyuk Seo",
+            "1": "Benoit Israel",
+            "S1": "Funmi Oduniyi",
+            "S2": "Rory Watson",
+            "S3": "Stephen Byrne"
+        },
+        {
+            "15": "James Duffy",
+            "14": "Callum True",
+            "13": "Tyriq Williams",
+            "12": "Marc McEvilly",
+            "11": "Max Mouna",
+            "10": "Benjamin Telfer",
+            "9": "Harry Wilson",
+            "8": "Farooq Agbalaya",
+            "7": "Oliver Hubbard",
+            "6": "Fuad Agbalaya",
+            "5": "Alexander Scott",
+            "4": "GEORGE DANIELS",
+            "3": "Jacques Bryant",
+            "2": "Timothy Jupp",
+            "1": "Dominic Plumb",
+            "S1": "David Hoffman",
+            "S2": "Zouhair Mihramane",
+            "S3": "Jack Porter"
+        }
+    ]
+}

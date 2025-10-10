@@ -1,0 +1,59 @@
+{
+    "match_id": "1057532",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2024-01-27",
+    "teams": [
+        "East Grinstead",
+        "Old Walcountians"
+    ],
+    "score": [
+        38,
+        19
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7134.png",
+        "https://images.englandrugby.com/club_images/16075.png"
+    ],
+    "players": [
+        {
+            "15": "Oliver Billin",
+            "14": "Luke Maker",
+            "13": "Samuel Musgrave",
+            "12": "Benjamin Saunders",
+            "11": "Jake Radcliffe",
+            "10": "Daniel Poulton",
+            "9": "Noah Roberts",
+            "8": "Aaronn Boczek",
+            "7": "Ryland Thomas",
+            "6": "John Peaty",
+            "5": "Samuel Lindsay-McCall",
+            "4": "Daniel Billin",
+            "3": "Joshua Brimecombe",
+            "2": "Benjamin Tottman",
+            "1": "Guy Collins",
+            "S1": "David Bridges",
+            "S2": "Alister Yaffa",
+            "S3": "Alistair Moffatt"
+        },
+        {
+            "15": "Harrison Mogridge",
+            "14": "Marvin Fletcher-Rogers",
+            "13": "Ejiro Erhirhie",
+            "12": "Dominic Barnaby",
+            "11": "Andrew Togbolah",
+            "10": "Ross Lever",
+            "9": "Alexander French",
+            "8": "Thomas Brown",
+            "7": "Joe Henderson",
+            "6": "Scott Stevens",
+            "5": "Tomas Saladino",
+            "4": "Dominic Bell",
+            "3": "Paul Harris",
+            "2": "Name withheld",
+            "1": "James Ford",
+            "S1": "Tom Housden",
+            "S2": "Brendan Murphy"
+        }
+    ]
+}

@@ -1,0 +1,60 @@
+{
+    "match_id": "1057563",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2024-03-23",
+    "teams": [
+        "Kingston",
+        "Trinity"
+    ],
+    "score": [
+        14,
+        35
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/11663.png",
+        "https://images.englandrugby.com/club_images/23175.png"
+    ],
+    "players": [
+        {
+            "15": "Christopher Ward",
+            "14": "Philip Dabinski",
+            "13": "Joseph Daiton",
+            "12": "Connor Ashwin",
+            "11": "Chun Yeung WU",
+            "10": "Steffan Davies",
+            "9": "Herbie Archer",
+            "8": "Scott Howe",
+            "7": "William Smith",
+            "6": "Christopher Hall",
+            "5": "Samuel Rushmer",
+            "4": "David Wakefield",
+            "3": "Samuel Johnson",
+            "2": "Luke Burge",
+            "1": "Mathew Bolster",
+            "S1": "Jacob Jennings",
+            "S2": "Name withheld",
+            "S3": "James Renouf"
+        },
+        {
+            "15": "Benjamin Telfer",
+            "14": "Callum True",
+            "13": "Tyriq Williams",
+            "12": "Marc McEvilly",
+            "11": "David Stanton",
+            "10": "Daniel Crouch",
+            "9": "Harry Wilson",
+            "8": "Farooq Agbalaya",
+            "7": "Benjamin Vaillant",
+            "6": "Oliver Hubbard",
+            "5": "GEORGE DANIELS",
+            "4": "David Spedding",
+            "3": "Jacques Bryant",
+            "2": "Timothy Jupp",
+            "1": "Alastair Hall",
+            "S1": "Timothy Cochrane",
+            "S2": "Alexander Scott",
+            "S3": "Fuad Agbalaya"
+        }
+    ]
+}

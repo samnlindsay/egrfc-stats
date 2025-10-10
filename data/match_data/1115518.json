@@ -1,0 +1,58 @@
+{
+    "match_id": "1115518",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2024-03-09",
+    "teams": [
+        "Kingston",
+        "Hove"
+    ],
+    "score": [
+        19,
+        35
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/11663.png",
+        "https://images.englandrugby.com/club_images/10503.png"
+    ],
+    "players": [
+        {
+            "15": "Joe Best",
+            "14": "Joseph Daiton",
+            "13": "Ross Mctear",
+            "12": "Connor Ashwin",
+            "11": "Philip Dabinski",
+            "10": "Ivan Jones",
+            "9": "Herbie Archer",
+            "8": "Harry Bettinson",
+            "7": "Luke Burge",
+            "6": "William Smith",
+            "5": "Thomas Crawshaw",
+            "4": "Christopher Hall",
+            "3": "Samuel Johnson",
+            "2": "Tom Tyler",
+            "1": "Name withheld",
+            "S1": "Hugo Eyre",
+            "S2": "Elton Gwekwete",
+            "S3": "Tom Collis"
+        },
+        {
+            "15": "Joey Magill",
+            "14": "Guy Patton",
+            "13": "Leo Robertson",
+            "12": "Tom Holborn",
+            "11": "Olly Lewis",
+            "10": "Danny O'Conner",
+            "9": "Jordan Sayers",
+            "8": "Tobias Brown",
+            "7": "Benjamin Henderson",
+            "6": "Aled Davies",
+            "5": "George Brown",
+            "4": "Tyler Hooper",
+            "3": "Charlie Butcher",
+            "2": "Ryan Storer",
+            "1": "John Orme-Williams",
+            "S1": "Rhowan Braybrook"
+        }
+    ]
+}

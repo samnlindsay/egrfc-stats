@@ -1,0 +1,60 @@
+{
+    "match_id": "981989",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2022-11-05",
+    "teams": [
+        "Eastbourne",
+        "East Grinstead"
+    ],
+    "score": [
+        29,
+        15
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7209.png",
+        "https://images.englandrugby.com/club_images/7134.png"
+    ],
+    "players": [
+        {
+            "15": "Mason Dowle",
+            "14": "Name withheld",
+            "13": "Ronnie Doorey-Palmer",
+            "12": "Ben Perrott",
+            "11": "Dylan Becker",
+            "10": "Jake Howe",
+            "9": "Harrison Gibbons",
+            "8": "Jeremy Montes",
+            "7": "Vincent Morse",
+            "6": "Owen Davies",
+            "5": "Joshua Buckwell",
+            "4": "Luke Thomas",
+            "3": "Alun Cranch",
+            "2": "Joseph Bettles",
+            "1": "Christopher Hosking",
+            "S1": "Ryan Shields",
+            "S2": "Gianluca Bianchi",
+            "S3": "Paul Smith"
+        },
+        {
+            "15": "Oliver Billin",
+            "14": "Oliver Adams",
+            "13": "Max Crawley-Moore",
+            "12": "Joe Terry",
+            "11": "Samuel Spriddell",
+            "10": "Daniel Poulton",
+            "9": "George Johnson",
+            "8": "Aaronn Boczek",
+            "7": "John Peaty",
+            "6": "Daniel Billin",
+            "5": "Guy Collins",
+            "4": "David Bridges",
+            "3": "Devon Frost",
+            "2": "Benjamin Tottman",
+            "1": "Sean Morgan",
+            "S1": "Joshua Brimecombe",
+            "S2": "Connor Leggat",
+            "S3": "Richard Dodgson"
+        }
+    ]
+}

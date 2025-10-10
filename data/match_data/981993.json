@@ -1,0 +1,58 @@
+{
+    "match_id": "981993",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2022-11-12",
+    "teams": [
+        "Crawley",
+        "Seaford"
+    ],
+    "score": [
+        33,
+        10
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/5807.png",
+        "https://images.englandrugby.com/club_images/18868.png"
+    ],
+    "players": [
+        {
+            "15": "Andrew Evans",
+            "14": "Jude Read",
+            "13": "Kristian Dean",
+            "12": "William Ofosuhene",
+            "11": "Name withheld",
+            "10": "Corey Toogood",
+            "9": "Sven Dahlmann",
+            "8": "Oliver Hall",
+            "7": "Joao Andre Garanito Sousa",
+            "6": "Harry Hickmet",
+            "5": "Kieran Gosling",
+            "4": "Luke Attew",
+            "3": "Ieuan Death",
+            "2": "Robert Higgins",
+            "1": "Aaron O'Callaghan",
+            "S1": "William Griffin",
+            "S2": "David Marfe",
+            "S3": "Paddy Powney"
+        },
+        {
+            "15": "Jason Dubas-Fisher",
+            "14": "Corey Digby-Clarke",
+            "13": "Jason Staples",
+            "12": "Luke Taylor",
+            "11": "Jack Cullinane",
+            "10": "Bradley Newby",
+            "9": "Harvey Joy",
+            "8": "Andrew Fry",
+            "7": "Lee Furminger",
+            "6": "Andrew Salter",
+            "5": "Luke Read",
+            "4": "KEVIN LEWIS",
+            "3": "Daniel Newby",
+            "2": "Tom Peissel",
+            "1": "Mark Tait",
+            "S1": "Josh Hennessy"
+        }
+    ]
+}

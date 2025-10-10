@@ -1,0 +1,60 @@
+{
+    "match_id": "1057458",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2023-09-30",
+    "teams": [
+        "Eastbourne",
+        "Twickenham"
+    ],
+    "score": [
+        39,
+        29
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7209.png",
+        "https://images.englandrugby.com/club_images/23336.png"
+    ],
+    "players": [
+        {
+            "15": "Gianluca Bianchi",
+            "14": "Mason Dowle",
+            "13": "Jake Howe",
+            "12": "Ben Perrott",
+            "11": "Dylan Becker",
+            "10": "Martial Chaput",
+            "9": "Name withheld",
+            "8": "Jeremy Montes",
+            "7": "Owen Davies",
+            "6": "James Grey",
+            "5": "Luke Thomas",
+            "4": "Joshua Buckwell",
+            "3": "Paul Smith",
+            "2": "Konrad Oneill",
+            "1": "Joseph Bettles",
+            "S1": "Ryan Shields",
+            "S2": "Christopher Hosking",
+            "S3": "Oliver Horley"
+        },
+        {
+            "15": "Lewis Harrison",
+            "14": "Arthur Polley",
+            "13": "Samuel Griffin",
+            "12": "Jamie See",
+            "11": "Jack Dillon",
+            "10": "Thomas Foster",
+            "9": "Alex Stagg",
+            "8": "Nicholas Smith",
+            "7": "Oliver Gillett",
+            "6": "Joe Ash",
+            "5": "Luke Deakin",
+            "4": "Scott Davidson",
+            "3": "Jordan Fyles",
+            "2": "Joshua Otter",
+            "1": "Alex Bennett",
+            "S1": "Raynn Bruce",
+            "S2": "Jonathan Gilks",
+            "S3": "Samuel Goddard"
+        }
+    ]
+}

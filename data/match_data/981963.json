@@ -1,0 +1,58 @@
+{
+    "match_id": "981963",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2022-09-24",
+    "teams": [
+        "Burgess Hill",
+        "Seaford"
+    ],
+    "score": [
+        31,
+        7
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/3659.png",
+        "https://images.englandrugby.com/club_images/18868.png"
+    ],
+    "players": [
+        {
+            "15": "George Yeates",
+            "14": "Matheus Gava",
+            "13": "Neori Motoiula",
+            "12": "William Pearson",
+            "11": "Ben Mclaren",
+            "10": "Ollie Lewis",
+            "9": "Massimo Hiller",
+            "8": "Tamanilatui Sailosi",
+            "7": "Name withheld",
+            "6": "Matt Firmager",
+            "5": "Benjamin Dronfield",
+            "4": "Charlie Lewis",
+            "2": "Andrew Mackay",
+            "1": "Lee Collingbourne",
+            "S1": "Paul Hasib",
+            "S2": "Zac Harrison",
+            "S3": "Adam Harman"
+        },
+        {
+            "15": "Jason Dubas-Fisher",
+            "14": "Stuart Cotter",
+            "13": "Paul Burns",
+            "12": "Corey Digby-Clarke",
+            "11": "Jason Staples",
+            "10": "Luke Taylor",
+            "9": "Jack Cullinane",
+            "8": "Andrew Fry",
+            "7": "Paddy Powney",
+            "6": "Dominic Joy",
+            "5": "Andrew Salter",
+            "4": "Neil Murphy",
+            "3": "Luke Read",
+            "2": "Daniel Newby",
+            "1": "Rhys Roberts",
+            "S1": "Josh Hennessy",
+            "S2": "Chris Burns"
+        }
+    ]
+}

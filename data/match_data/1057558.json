@@ -1,0 +1,57 @@
+{
+    "match_id": "1057558",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2024-03-16",
+    "teams": [
+        "Hove",
+        "Old Walcountians"
+    ],
+    "score": [
+        53,
+        3
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/10503.png",
+        "https://images.englandrugby.com/club_images/16075.png"
+    ],
+    "players": [
+        {
+            "15": "Guy Patton",
+            "14": "Joey Magill",
+            "13": "John Orme-Williams",
+            "12": "Leo Robertson",
+            "11": "Tom Holborn",
+            "10": "Olly Lewis",
+            "9": "Charlie Knight",
+            "8": "Jordan Sayers",
+            "7": "Tobias Brown",
+            "6": "Name withheld",
+            "5": "Thomas Baker",
+            "4": "Ian Saunders",
+            "3": "Charlie Butcher",
+            "2": "Tyler Hooper",
+            "1": "Jordan Gibson",
+            "S1": "Lloyd Sweeney",
+            "S2": "Harrison Mogridge",
+            "S3": "Ted Stoner"
+        },
+        {
+            "15": "Heathcliffe Bateman",
+            "14": "Alexander French",
+            "13": "Ejiro Erhirhie",
+            "12": "Kieran Kavanagh",
+            "11": "Thomas Downes",
+            "10": "Thomas Brown",
+            "9": "Andrew Togbolah",
+            "8": "Marvin Fletcher-Rogers",
+            "7": "Steven Simmonds",
+            "6": "Oliver Sanders",
+            "5": "Paul Harris",
+            "4": "James Blackmore",
+            "3": "Dominic Bell",
+            "2": "Dominic Barnaby",
+            "1": "Conor Moorhead"
+        }
+    ]
+}

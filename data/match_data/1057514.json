@@ -1,0 +1,58 @@
+{
+    "match_id": "1057514",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2024-01-06",
+    "teams": [
+        "Old Tiffinians",
+        "Old Walcountians"
+    ],
+    "score": [
+        48,
+        14
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/16068.png",
+        "https://images.englandrugby.com/club_images/16075.png"
+    ],
+    "players": [
+        {
+            "15": "Andrew Day",
+            "14": "Louis Freeman",
+            "13": "Sharif Dougramaji",
+            "12": "Sebastion Kay",
+            "11": "Maximilian Talman",
+            "10": "William Sharp",
+            "9": "Ben Sykes",
+            "8": "Timothy Fawcett",
+            "7": "Jacob Fawssett",
+            "6": "Jaewon Jang",
+            "5": "Hugh Turnbull",
+            "4": "Robert Myddelton",
+            "3": "Name withheld",
+            "2": "Sam Rumball",
+            "1": "Ross Hobbs",
+            "S1": "Jack Corcoran",
+            "S2": "Timothy Baker",
+            "S3": "George Price"
+        },
+        {
+            "15": "Harrison Mogridge",
+            "14": "Andrew Togbolah",
+            "13": "Marvin Fletcher-Rogers",
+            "12": "Heathcliffe Bateman",
+            "11": "Ted Stoner",
+            "10": "Ross Lever",
+            "9": "Alexander French",
+            "8": "Alexander Skinner",
+            "7": "Brendan Murphy",
+            "6": "Joe Henderson",
+            "5": "Oliver Sanders",
+            "4": "Dominic Bell",
+            "3": "James Ford",
+            "2": "Dylan Camakamma",
+            "1": "Paul Harris",
+            "S1": "Callum Stone"
+        }
+    ]
+}

@@ -1,0 +1,58 @@
+{
+    "match_id": "982032",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2023-02-11",
+    "teams": [
+        "Pulborough",
+        "Haywards Heath"
+    ],
+    "score": [
+        68,
+        17
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/17255.png",
+        "https://images.englandrugby.com/club_images/9776.png"
+    ],
+    "players": [
+        {
+            "15": "Archie Sadler",
+            "14": "Thomas Garnett",
+            "13": "Raiph Robson",
+            "12": "Bryan Woodhouse",
+            "11": "Alexander Wadley",
+            "10": "Frazer Oliphant-Hope",
+            "9": "Simon Burfiend",
+            "8": "Henry Lee",
+            "7": "Kieran Mellor",
+            "6": "James Hobbs",
+            "5": "Matthew Goring",
+            "4": "Ben Sadler",
+            "3": "Harry O'Brien",
+            "2": "Michael Woodhouse",
+            "1": "Johny-joe Staples",
+            "S1": "Cameron Rowbotham",
+            "S2": "Harry Dancaster",
+            "S3": "Name withheld"
+        },
+        {
+            "15": "Samuela Bulitokaivale-Lancaster",
+            "14": "Samuel Walker",
+            "13": "Jack Flower",
+            "12": "Geoffrey Bridges",
+            "11": "Henry Dickson",
+            "10": "Thomas Wharton",
+            "9": "James Thurston",
+            "8": "Jack Hart",
+            "7": "Fraser Russell",
+            "6": "Ellis Dubois",
+            "5": "Elliott Higgin",
+            "4": "Sebastian Broster",
+            "3": "Harrison Thomas Edwards",
+            "2": "John Robertson",
+            "1": "Charles Fenwick",
+            "S1": "Jack Herbert"
+        }
+    ]
+}

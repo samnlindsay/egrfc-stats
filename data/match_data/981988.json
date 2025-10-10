@@ -1,0 +1,57 @@
+{
+    "match_id": "981988",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2022-11-05",
+    "teams": [
+        "Haywards Heath",
+        "Pulborough"
+    ],
+    "score": [
+        38,
+        12
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/9776.png",
+        "https://images.englandrugby.com/club_images/17255.png"
+    ],
+    "players": [
+        {
+            "15": "Douglas Kern",
+            "14": "Mitchell Day",
+            "13": "Name withheld",
+            "12": "Christopher Neill",
+            "11": "Thomas Wharton",
+            "10": "James Thurston",
+            "9": "Geoffrey Bridges",
+            "8": "Fraser Russell",
+            "7": "Jack Bull",
+            "6": "Ellis Dubois",
+            "5": "Sebastian Broster",
+            "4": "Jack Herbert",
+            "3": "Harrison Thomas Edwards",
+            "2": "John Robertson",
+            "1": "Henry Verbi",
+            "S1": "Patrick Stedman",
+            "S2": "Raiph Robson",
+            "S3": "James Hobbs"
+        },
+        {
+            "15": "Henry Lee",
+            "14": "Bryan Woodhouse",
+            "13": "Archie Sadler",
+            "12": "Ludo Milne",
+            "11": "Simon Burfiend",
+            "10": "Michael Woodhouse",
+            "9": "Matthew Corrall",
+            "8": "Kieran Mellor",
+            "7": "Charlie Denman",
+            "6": "Cameron Rowbotham",
+            "5": "Terry Falk",
+            "4": "Coby Coy",
+            "3": "Harry O'Brien",
+            "2": "Tobias Woods",
+            "1": "Matthew Goring"
+        }
+    ]
+}

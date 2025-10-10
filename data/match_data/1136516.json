@@ -1,1 +1,60 @@
-{"date": "2025-03-01", "score": [34, 18], "teams": ["Trinity", "East Grinstead"], "logos": ["https://images.englandrugby.com/club_images/23175.png", "https://images.englandrugby.com/club_images/7134.png"], "players": [{"15": "Olly Wilcox", "14": "Callum True", "13": "Archie McMillan", "12": "Thomas Wilcox", "11": "Thomas Fairclough", "10": "George Kimmins", "9": "Harry Wilson", "8": "Farooq Agbalaya", "7": "Fuad Agbalaya", "6": "Oliver Hubbard", "5": "Marc McEvilly", "4": "Thomas Black", "3": "Christopher Reid Gomez", "2": "Quinn Singh", "1": "Alastair Hall", "S1": "Timothy Jupp", "S2": "Alexander Willis", "S3": "Andrew Dean"}, {"15": "Noah Roberts", "14": "Alistair Moffatt", "13": "Ted Hardisty", "12": "Christopher May-Miller", "11": "William Roberts", "10": "Oliver Billin", "9": "Sam Spriddell", "8": "Aaronn Boczek", "7": "Ryland Thomas", "6": "Josh Weaver", "5": "Tom Mooney", "4": "Samuel Lindsay-McCall", "3": "Guy Collins", "2": "Benjamin Tottman", "1": "Joshua Brimecombe", "S1": "David Bridges", "S2": "Timothy Morris", "S3": "Paddy Shepherd"}]}
+{
+    "date": "2025-03-01",
+    "score": [
+        34,
+        18
+    ],
+    "teams": [
+        "Trinity",
+        "East Grinstead"
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/23175.png",
+        "https://images.englandrugby.com/club_images/7134.png"
+    ],
+    "players": [
+        {
+            "15": "Olly Wilcox",
+            "14": "Callum True",
+            "13": "Archie McMillan",
+            "12": "Thomas Wilcox",
+            "11": "Thomas Fairclough",
+            "10": "George Kimmins",
+            "9": "Harry Wilson",
+            "8": "Farooq Agbalaya",
+            "7": "Fuad Agbalaya",
+            "6": "Oliver Hubbard",
+            "5": "Marc McEvilly",
+            "4": "Thomas Black",
+            "3": "Christopher Reid Gomez",
+            "2": "Quinn Singh",
+            "1": "Alastair Hall",
+            "S1": "Timothy Jupp",
+            "S2": "Alexander Willis",
+            "S3": "Andrew Dean"
+        },
+        {
+            "15": "Noah Roberts",
+            "14": "Alistair Moffatt",
+            "13": "Ted Hardisty",
+            "12": "Christopher May-Miller",
+            "11": "William Roberts",
+            "10": "Oliver Billin",
+            "9": "Sam Spriddell",
+            "8": "Aaronn Boczek",
+            "7": "Ryland Thomas",
+            "6": "Josh Weaver",
+            "5": "Tom Mooney",
+            "4": "Samuel Lindsay-McCall",
+            "3": "Guy Collins",
+            "2": "Benjamin Tottman",
+            "1": "Joshua Brimecombe",
+            "S1": "David Bridges",
+            "S2": "Timothy Morris",
+            "S3": "Paddy Shepherd"
+        }
+    ],
+    "match_id": "1136516",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex"
+}

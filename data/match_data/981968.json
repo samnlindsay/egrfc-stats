@@ -1,0 +1,57 @@
+{
+    "match_id": "981968",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2022-10-01",
+    "teams": [
+        "Haywards Heath",
+        "Burgess Hill"
+    ],
+    "score": [
+        47,
+        24
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/9776.png",
+        "https://images.englandrugby.com/club_images/3659.png"
+    ],
+    "players": [
+        {
+            "15": "Christopher Neill",
+            "14": "Mitchell Day",
+            "13": "Jack Flower",
+            "12": "James Trinder",
+            "11": "Samuela Bulitokaivale-Lancaster",
+            "10": "Thomas Wharton",
+            "9": "James Thurston",
+            "8": "Geoffrey Bridges",
+            "7": "Lewis Goodall",
+            "6": "Fraser Russell",
+            "5": "Ellis Dubois",
+            "4": "Name withheld",
+            "3": "Sebastian Broster",
+            "2": "Jack Herbert",
+            "1": "Harrison Thomas Edwards",
+            "S1": "Charles Fenwick",
+            "S2": "Viltati Ligairi",
+            "S3": "Matheus Gava"
+        },
+        {
+            "15": "Ben Mclaren",
+            "14": "William Pearson",
+            "13": "Neori Navo",
+            "12": "Ollie Lewis",
+            "11": "Jon Maple",
+            "10": "Tamanilatui Sailosi",
+            "9": "Harvey Hays",
+            "8": "Benjamin Dronfield",
+            "7": "Charlie Lewis",
+            "6": "Lee Collingbourne",
+            "5": "Benjamin Dewey",
+            "4": "Andrew Mackay",
+            "3": "Kyle Tucker",
+            "2": "Robert Blake",
+            "1": "David Wattam"
+        }
+    ]
+}

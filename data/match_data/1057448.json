@@ -1,0 +1,60 @@
+{
+    "match_id": "1057448",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2023-09-23",
+    "teams": [
+        "Old Tiffinians",
+        "Kingston"
+    ],
+    "score": [
+        45,
+        15
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/16068.png",
+        "https://images.englandrugby.com/club_images/11663.png"
+    ],
+    "players": [
+        {
+            "15": "William Sharp",
+            "14": "Michael Greenfield",
+            "13": "Sharif Dougramaji",
+            "12": "Sebastion Kay",
+            "11": "Stefan Frost",
+            "10": "George Taylor",
+            "9": "Harry Jowett",
+            "8": "Timothy Fawcett",
+            "7": "Ben Marshall",
+            "6": "William Staples",
+            "5": "Michael O'Connell",
+            "4": "Robert Myddelton",
+            "3": "Sam Rumball",
+            "2": "Jaewon Jang",
+            "1": "Ross Hobbs",
+            "S1": "Alexander Turner",
+            "S2": "Andrew Blackburn",
+            "S3": "Huw Morris"
+        },
+        {
+            "15": "Scott McKenna",
+            "14": "Philip Dabinski",
+            "13": "Connor Ashwin",
+            "12": "Hugo Eyre",
+            "11": "Joseph Daiton",
+            "10": "Jonathan Mcdunphy",
+            "9": "Charles Kelly",
+            "8": "Samuel Rushmer",
+            "7": "Luke Burge",
+            "6": "William Smith",
+            "5": "David Wakefield",
+            "4": "Scott Howe",
+            "3": "Samuel Johnson",
+            "2": "Name withheld",
+            "1": "Tom Tyler",
+            "S1": "Tom Rushmer",
+            "S2": "Reiss Pyatt",
+            "S3": "Elton Gwekwete"
+        }
+    ]
+}

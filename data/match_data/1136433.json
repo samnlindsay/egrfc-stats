@@ -1,1 +1,60 @@
-{"date": "2024-10-12", "score": [74, 7], "teams": ["Eastbourne", "KCS Old Boys"], "logos": ["https://images.englandrugby.com/club_images/7209.png", "https://images.englandrugby.com/club_images/11188.png"], "players": [{"15": "Mason Dowle", "14": "Oliver Horley", "13": "Dylan Viles", "12": "Ronnie Doorey-Palmer", "11": "Stuart Baker", "10": "Jake Howe", "9": "Leon Wood", "8": "Jeremy Montes", "7": "Vincent Morse", "6": "Ben Gower", "5": "Owen Davies", "4": "Jack Curtis", "3": "Alun Cranch", "2": "Konrad Oneill", "1": "Christopher Hosking", "S1": "Paul Smith", "S2": "Joshua Buckwell", "S3": "Owen Jones"}, {"15": "Max Gardiner", "14": "Tom Senior", "13": "George Pickens", "12": "Maximilian Robinson", "11": "Thomas Woods", "10": "Jamie Miller", "9": "Neil Williams", "8": "Stephen Byrne", "7": "Charles Paterson", "6": "Adam Calaminus", "5": "Dom Soin-Stanley", "4": "Rees Powell", "3": "Charlie Topley", "2": "Minhyuk Seo", "1": "Benoit Israel", "S1": "Eddie Wang", "S2": "Joe Hampel", "S3": "William Carter"}]}
+{
+    "date": "2024-10-12",
+    "score": [
+        74,
+        7
+    ],
+    "teams": [
+        "Eastbourne",
+        "KCS Old Boys"
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7209.png",
+        "https://images.englandrugby.com/club_images/11188.png"
+    ],
+    "players": [
+        {
+            "15": "Mason Dowle",
+            "14": "Oliver Horley",
+            "13": "Dylan Viles",
+            "12": "Ronnie Doorey-Palmer",
+            "11": "Stuart Baker",
+            "10": "Jake Howe",
+            "9": "Leon Wood",
+            "8": "Jeremy Montes",
+            "7": "Vincent Morse",
+            "6": "Ben Gower",
+            "5": "Owen Davies",
+            "4": "Jack Curtis",
+            "3": "Alun Cranch",
+            "2": "Konrad Oneill",
+            "1": "Christopher Hosking",
+            "S1": "Paul Smith",
+            "S2": "Joshua Buckwell",
+            "S3": "Owen Jones"
+        },
+        {
+            "15": "Max Gardiner",
+            "14": "Tom Senior",
+            "13": "George Pickens",
+            "12": "Maximilian Robinson",
+            "11": "Thomas Woods",
+            "10": "Jamie Miller",
+            "9": "Neil Williams",
+            "8": "Stephen Byrne",
+            "7": "Charles Paterson",
+            "6": "Adam Calaminus",
+            "5": "Dom Soin-Stanley",
+            "4": "Rees Powell",
+            "3": "Charlie Topley",
+            "2": "Minhyuk Seo",
+            "1": "Benoit Israel",
+            "S1": "Eddie Wang",
+            "S2": "Joe Hampel",
+            "S3": "William Carter"
+        }
+    ],
+    "match_id": "1136433",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex"
+}

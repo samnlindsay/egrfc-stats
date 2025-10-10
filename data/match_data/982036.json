@@ -1,0 +1,55 @@
+{
+    "match_id": "982036",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2023-02-18",
+    "teams": [
+        "Seaford",
+        "Crawley"
+    ],
+    "score": [
+        42,
+        19
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/18868.png",
+        "https://images.englandrugby.com/club_images/5807.png"
+    ],
+    "players": [
+        {
+            "15": "Paddy Powney",
+            "14": "Stuart Cotter",
+            "13": "Charlie Crossgrove",
+            "12": "Paul Burns",
+            "11": "Jason Staples",
+            "10": "Dominic Joy",
+            "9": "Andrew Fry",
+            "8": "Daniel Newby",
+            "7": "Name withheld",
+            "6": "Andrew Salter",
+            "5": "Josh Hennessy",
+            "4": "Lee Furminger",
+            "3": "Matt Read",
+            "2": "Tom Peissel",
+            "1": "Philip Innis",
+            "S1": "Bradley Newby",
+            "S2": "Harvey Joy",
+            "S3": "Luke Taylor"
+        },
+        {
+            "15": "William Ofosuhene",
+            "14": "Kristian Dean",
+            "13": "Andrew Evans",
+            "12": "Oliver Plunkett",
+            "11": "Joao Andre Garanito Sousa",
+            "10": "Harry Hickmet",
+            "9": "Joe Ball",
+            "8": "Toby Baldwin",
+            "7": "Ieuan Death",
+            "6": "Aaron O'Callaghan",
+            "5": "Bradley Davies",
+            "4": "Joel Fisher",
+            "3": "David Marfe"
+        }
+    ]
+}

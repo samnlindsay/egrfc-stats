@@ -1,0 +1,59 @@
+{
+    "match_id": "1057535",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2024-01-27",
+    "teams": [
+        "Weybridge Vandals",
+        "KCS Old Boys"
+    ],
+    "score": [
+        31,
+        19
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/25094.png",
+        "https://images.englandrugby.com/club_images/11188.png"
+    ],
+    "players": [
+        {
+            "15": "Jack O'Mara",
+            "14": "Joseph Graves",
+            "13": "Oliver Day",
+            "12": "Reece Innes-Gray",
+            "11": "Stephen Harrison",
+            "10": "David Loubser",
+            "9": "Daniel Wellden",
+            "8": "Name withheld",
+            "7": "Luke Dones",
+            "6": "Mattia Mengotti",
+            "5": "Michael Mason",
+            "4": "Richard Crabb",
+            "3": "Joshua Thomas",
+            "2": "Callum Hennessey",
+            "1": "Luke Hempstead",
+            "S1": "Edward Rawding",
+            "S2": "Michael Dolan",
+            "S3": "Finley Dykes"
+        },
+        {
+            "15": "Thomas Hamill",
+            "14": "James Hattersley",
+            "13": "Mark Joblin",
+            "12": "Viktor Bakker",
+            "11": "William Carter",
+            "10": "Jacob Wood",
+            "9": "Cameron Keller",
+            "8": "Rees Powell",
+            "7": "Charles Paterson",
+            "6": "Samuel Young",
+            "5": "Dominic Soin-Stanley",
+            "4": "Alexander Owen",
+            "3": "Minhyuk Seo",
+            "2": "Benoit Israel",
+            "1": "William Page",
+            "S1": "Neil Williams",
+            "S2": "Leon Driscoll"
+        }
+    ]
+}

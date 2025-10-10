@@ -1,0 +1,57 @@
+{
+    "match_id": "1057507",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2023-12-09",
+    "teams": [
+        "KCS Old Boys",
+        "Old Tiffinians"
+    ],
+    "score": [
+        33,
+        28
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/11188.png",
+        "https://images.englandrugby.com/club_images/16068.png"
+    ],
+    "players": [
+        {
+            "15": "Leon Driscoll",
+            "14": "William Kibblewhite",
+            "13": "Jamie Miller",
+            "12": "James Hattersley",
+            "11": "Name withheld",
+            "10": "William Carter",
+            "9": "William Slater",
+            "8": "Thomas Evans",
+            "7": "James Shaw",
+            "6": "Cameron Keller",
+            "5": "Seth Eley",
+            "4": "Dominic Soin-Stanley",
+            "3": "Alexander Owen",
+            "2": "Callum Young",
+            "1": "Minhyuk Seo",
+            "S1": "Funmi Oduniyi",
+            "S2": "Charles Paterson",
+            "S3": "Andrew Day"
+        },
+        {
+            "15": "Rory Coats",
+            "14": "Sharif Dougramaji",
+            "13": "Sebastion Kay",
+            "12": "Maximilian Talman",
+            "11": "George Taylor",
+            "10": "Huw Morris",
+            "9": "Timothy Fawcett",
+            "8": "Jaewon Jang",
+            "7": "Noah-Vincenz Noeh",
+            "6": "Robert Myddelton",
+            "5": "Sam Rumball",
+            "4": "Ross Hobbs",
+            "3": "Michael O'Connell",
+            "2": "Hugh Turnbull",
+            "1": "Louis Freeman"
+        }
+    ]
+}

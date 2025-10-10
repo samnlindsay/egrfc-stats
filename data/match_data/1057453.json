@@ -1,0 +1,60 @@
+{
+    "match_id": "1057453",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2023-09-23",
+    "teams": [
+        "Old Cranleighans",
+        "Weybridge Vandals"
+    ],
+    "score": [
+        5,
+        78
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/15615.png",
+        "https://images.englandrugby.com/club_images/25094.png"
+    ],
+    "players": [
+        {
+            "15": "Thomas Beal",
+            "14": "Christopher Scott",
+            "13": "Oliver Salmon",
+            "12": "Zachary Roberts",
+            "11": "George Blurton",
+            "10": "Thomas Puijk",
+            "9": "Edward Sanderson",
+            "8": "Laughlan Wood",
+            "7": "Charles Collyer",
+            "6": "Barney Gill",
+            "5": "William Soulsby",
+            "4": "Thomas Reinhardt",
+            "3": "Charles Blurton",
+            "2": "Matthew Dawes",
+            "1": "Trevor Selvanayagam",
+            "S1": "Simon Whitcombe",
+            "S2": "James McLeod",
+            "S3": "Ben Pattenden"
+        },
+        {
+            "15": "Thomas Bolger",
+            "14": "Joseph Graves",
+            "13": "Harry Weatherall",
+            "12": "Jack O'Mara",
+            "11": "Luke Phair",
+            "10": "James Wellden",
+            "9": "Daniel Wellden",
+            "8": "Darren Lockyer",
+            "7": "Luke Dones",
+            "6": "Mattia Mengotti",
+            "5": "Nicholas Blount",
+            "4": "Richard Crabb",
+            "3": "Luke Hempstead",
+            "2": "Callum Hennessey",
+            "1": "Joshua Thomas",
+            "S1": "Lloyd Pullen",
+            "S2": "Karl Hoade",
+            "S3": "Michael Dolan"
+        }
+    ]
+}

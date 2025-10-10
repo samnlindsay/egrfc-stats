@@ -1,0 +1,60 @@
+{
+    "match_id": "1057560",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2024-03-16",
+    "teams": [
+        "Trinity",
+        "Old Tiffinians"
+    ],
+    "score": [
+        26,
+        34
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/23175.png",
+        "https://images.englandrugby.com/club_images/16068.png"
+    ],
+    "players": [
+        {
+            "15": "Benjamin Telfer",
+            "14": "Callum True",
+            "13": "Tyriq Williams",
+            "12": "Marc McEvilly",
+            "11": "David Stanton",
+            "10": "Daniel Crouch",
+            "9": "Harry Wilson",
+            "8": "GEORGE DANIELS",
+            "7": "Benjamin Vaillant",
+            "6": "Oliver Hubbard",
+            "5": "Callum Kerr",
+            "4": "David Spedding",
+            "3": "Dominic Plumb",
+            "2": "Timothy Jupp",
+            "1": "Alastair Hall",
+            "S1": "Ben Donovan",
+            "S2": "Mark Handley",
+            "S3": "Jack Porter"
+        },
+        {
+            "15": "Andrew Day",
+            "14": "Andrew Conder",
+            "13": "Sebastion Kay",
+            "12": "Maximilian Talman",
+            "11": "George Price",
+            "10": "George Taylor",
+            "9": "Louis Freeman",
+            "8": "Jaewon Jang",
+            "7": "Peter Lehmann",
+            "6": "Sharif Dougramaji",
+            "5": "Robert Myddelton",
+            "4": "Timothy Baker",
+            "3": "Jack Corcoran",
+            "2": "Daniel Blackman",
+            "1": "Ross Hobbs",
+            "S1": "Name withheld",
+            "S2": "Timothy Fawcett",
+            "S3": "Toby Sydenham"
+        }
+    ]
+}

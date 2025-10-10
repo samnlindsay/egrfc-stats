@@ -1,1 +1,60 @@
-{"date": "2024-11-09", "score": [95, 0], "teams": ["Weybridge Vandals", "Haywards Heath"], "logos": ["https://images.englandrugby.com/club_images/25094.png", "https://images.englandrugby.com/club_images/9776.png"], "players": [{"15": "Thomas Bolger", "14": "Harry Reed", "13": "Karl Hoade", "12": "Harry Weatherall", "11": "Luke Phair", "10": "Sam Bullett", "9": "Joseph Graves", "8": "James Gulliver", "7": "Thomas Frewin", "6": "James Weatherall", "5": "Richard Crabb", "4": "Michael Mason", "3": "Joshua Thomas", "2": "Cameron Edgar", "1": "Luke Hempstead", "S1": "Wayne Mason", "S2": "Robbie Dones", "S3": "David Kemp"}, {"15": "Gabriel Moore", "14": "James Buttle", "13": "Alasdair Darling", "12": "Jack Lucas", "11": "Takhy Ndiaye Marrero", "10": "Thomas Wharton", "9": "James Thurston", "8": "Ben Eustace", "7": "Lewis Goodall", "6": "Thomas Smith", "5": "Ellis Dubois", "4": "Patrick Stedman", "3": "James Fleming", "2": "William Purdy", "1": "Elliott Higgin", "S1": "Jack Bull", "S2": "Christopher Neill", "S3": "Jack Herbert"}]}
+{
+    "date": "2024-11-09",
+    "score": [
+        95,
+        0
+    ],
+    "teams": [
+        "Weybridge Vandals",
+        "Haywards Heath"
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/25094.png",
+        "https://images.englandrugby.com/club_images/9776.png"
+    ],
+    "players": [
+        {
+            "15": "Thomas Bolger",
+            "14": "Harry Reed",
+            "13": "Karl Hoade",
+            "12": "Harry Weatherall",
+            "11": "Luke Phair",
+            "10": "Sam Bullett",
+            "9": "Joseph Graves",
+            "8": "James Gulliver",
+            "7": "Thomas Frewin",
+            "6": "James Weatherall",
+            "5": "Richard Crabb",
+            "4": "Michael Mason",
+            "3": "Joshua Thomas",
+            "2": "Cameron Edgar",
+            "1": "Luke Hempstead",
+            "S1": "Wayne Mason",
+            "S2": "Robbie Dones",
+            "S3": "David Kemp"
+        },
+        {
+            "15": "Gabriel Moore",
+            "14": "James Buttle",
+            "13": "Alasdair Darling",
+            "12": "Jack Lucas",
+            "11": "Takhy Ndiaye Marrero",
+            "10": "Thomas Wharton",
+            "9": "James Thurston",
+            "8": "Ben Eustace",
+            "7": "Lewis Goodall",
+            "6": "Thomas Smith",
+            "5": "Ellis Dubois",
+            "4": "Patrick Stedman",
+            "3": "James Fleming",
+            "2": "William Purdy",
+            "1": "Elliott Higgin",
+            "S1": "Jack Bull",
+            "S2": "Christopher Neill",
+            "S3": "Jack Herbert"
+        }
+    ],
+    "match_id": "1136449",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex"
+}

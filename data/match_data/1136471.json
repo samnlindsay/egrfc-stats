@@ -1,1 +1,60 @@
-{"date": "2024-12-14", "score": [18, 5], "teams": ["East Grinstead", "Old Haileyburians"], "logos": ["https://images.englandrugby.com/club_images/7134.png", "https://images.englandrugby.com/club_images/15747.png"], "players": [{"15": "Oliver Billin", "14": "Ted Hardisty", "13": "Luke Maker", "12": "Christopher May-Miller", "11": "William Roberts", "10": "Noah Roberts", "9": "Sam Spriddell", "8": "Connor Leggat", "7": "Rory evans", "6": "Tom Mooney", "5": "Oscar Staples", "4": "Samuel Lindsay-McCall", "3": "Joshua Brimecombe", "2": "George Beet", "1": "Guy Collins", "S1": "David Bridges", "S2": "Timothy Morris", "S3": "Max Crawley-Moore"}, {"15": "Josh King", "14": "Dylan Connor", "13": "Benedict Trimmer", "12": "Zachary Hebron", "11": "Joseph Selim", "10": "Ollie Mann", "9": "Jon Searle", "8": "Joshua Turley", "7": "Edward Parr", "6": "Harry Clesham", "5": "Name withheld", "4": "Harry Harper-Dowe", "3": "Charles Hymer", "2": "Jacob Cummins", "1": "Charles Stewart", "S1": "Dylan Wallis", "S2": "Alfie Jeavons-Fellows", "S3": "Edward Boden"}]}
+{
+    "date": "2024-12-14",
+    "score": [
+        18,
+        5
+    ],
+    "teams": [
+        "East Grinstead",
+        "Old Haileyburians"
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7134.png",
+        "https://images.englandrugby.com/club_images/15747.png"
+    ],
+    "players": [
+        {
+            "15": "Oliver Billin",
+            "14": "Ted Hardisty",
+            "13": "Luke Maker",
+            "12": "Christopher May-Miller",
+            "11": "William Roberts",
+            "10": "Noah Roberts",
+            "9": "Sam Spriddell",
+            "8": "Connor Leggat",
+            "7": "Rory evans",
+            "6": "Tom Mooney",
+            "5": "Oscar Staples",
+            "4": "Samuel Lindsay-McCall",
+            "3": "Joshua Brimecombe",
+            "2": "George Beet",
+            "1": "Guy Collins",
+            "S1": "David Bridges",
+            "S2": "Timothy Morris",
+            "S3": "Max Crawley-Moore"
+        },
+        {
+            "15": "Josh King",
+            "14": "Dylan Connor",
+            "13": "Benedict Trimmer",
+            "12": "Zachary Hebron",
+            "11": "Joseph Selim",
+            "10": "Ollie Mann",
+            "9": "Jon Searle",
+            "8": "Joshua Turley",
+            "7": "Edward Parr",
+            "6": "Harry Clesham",
+            "5": "Name withheld",
+            "4": "Harry Harper-Dowe",
+            "3": "Charles Hymer",
+            "2": "Jacob Cummins",
+            "1": "Charles Stewart",
+            "S1": "Dylan Wallis",
+            "S2": "Alfie Jeavons-Fellows",
+            "S3": "Edward Boden"
+        }
+    ],
+    "match_id": "1136471",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex"
+}

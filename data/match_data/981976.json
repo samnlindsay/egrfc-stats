@@ -1,0 +1,60 @@
+{
+    "match_id": "981976",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2022-10-15",
+    "teams": [
+        "East Grinstead",
+        "Shoreham"
+    ],
+    "score": [
+        72,
+        11
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7134.png",
+        "https://images.englandrugby.com/club_images/19257.png"
+    ],
+    "players": [
+        {
+            "15": "Joe Terry",
+            "14": "Samuel Spriddell",
+            "13": "Max Crawley-Moore",
+            "12": "Ryan Morlen",
+            "11": "Alistair Moffatt",
+            "10": "Daniel Poulton",
+            "9": "George Johnson",
+            "8": "Aaronn Boczek",
+            "7": "John Peaty",
+            "6": "Archie Vickers",
+            "5": "Peter Morley",
+            "4": "Samuel Lindsay-McCall",
+            "3": "David Bridges",
+            "2": "Benjamin Tottman",
+            "1": "Sean Morgan",
+            "S1": "Devon Frost",
+            "S2": "Guy Collins",
+            "S3": "Oliver Billin"
+        },
+        {
+            "15": "Sean Shepherd",
+            "14": "Connor Fairhall",
+            "13": "Charlie Ford",
+            "12": "Calum Erskine",
+            "11": "Paul Mamoany",
+            "10": "Toby Gale",
+            "9": "Schaeff Potter",
+            "8": "Gavin Cox",
+            "7": "Steven Goater",
+            "6": "Cameron Waller",
+            "5": "Alex Hall",
+            "4": "Daniel Adams",
+            "3": "Mark Lavery",
+            "2": "George Clarke",
+            "1": "Daryn Clarke",
+            "S1": "James Marsh",
+            "S2": "Samuel Kentell",
+            "S3": "Harvey Matthews"
+        }
+    ]
+}

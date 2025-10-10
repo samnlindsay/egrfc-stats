@@ -1,0 +1,59 @@
+{
+    "match_id": "982008",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2022-12-10",
+    "teams": [
+        "Eastbourne",
+        "Seaford"
+    ],
+    "score": [
+        47,
+        19
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7209.png",
+        "https://images.englandrugby.com/club_images/18868.png"
+    ],
+    "players": [
+        {
+            "15": "Oliver Horley",
+            "14": "Gianluca Bianchi",
+            "13": "Jake Howe",
+            "12": "Aaron Hossack",
+            "11": "Ben Perrott",
+            "10": "Martial Chaput",
+            "9": "Harrison Gibbons",
+            "8": "Jeremy Montes",
+            "7": "Owen Davies",
+            "6": "Ryan Shields",
+            "5": "Joshua Buckwell",
+            "4": "Luke Thomas",
+            "3": "Alun Cranch",
+            "2": "Joseph Bettles",
+            "1": "Christopher Hosking",
+            "S1": "Stefan Cousins",
+            "S2": "Mason Dowle",
+            "S3": "Name withheld"
+        },
+        {
+            "15": "Paddy Powney",
+            "14": "Paul Burns",
+            "13": "Corey Digby-Clarke",
+            "12": "Jason Staples",
+            "11": "Jason Dubas-Fisher",
+            "10": "Jack Cullinane",
+            "9": "Harvey Joy",
+            "8": "Bradley Newby",
+            "7": "Andrew Salter",
+            "6": "Lee Furminger",
+            "5": "Sam Diplock",
+            "4": "Philip Innis",
+            "3": "KEVIN LEWIS",
+            "2": "Daniel Newby",
+            "1": "Neil Murphy",
+            "S1": "Andrew Fry",
+            "S2": "Charlie Crossgrove"
+        }
+    ]
+}

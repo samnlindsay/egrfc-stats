@@ -1,0 +1,60 @@
+{
+    "match_id": "982046",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2023-03-11",
+    "teams": [
+        "Burgess Hill",
+        "Shoreham"
+    ],
+    "score": [
+        24,
+        10
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/3659.png",
+        "https://images.englandrugby.com/club_images/19257.png"
+    ],
+    "players": [
+        {
+            "15": "William Pearson",
+            "14": "Matheus Gava",
+            "13": "Samuel Kingscott",
+            "12": "Rhys Clarke",
+            "11": "Amini Umata",
+            "10": "Oliver Lewis",
+            "9": "Owain Jenkins",
+            "8": "David Wattam",
+            "7": "Joseph Brown",
+            "6": "Benjamin Dronfield",
+            "5": "Nasilasila Maleli",
+            "4": "Timothy Daniel",
+            "3": "Craig Wells",
+            "2": "Robert Blake",
+            "1": "Lee Collingbourne",
+            "S1": "Kyle Tucker",
+            "S2": "Ben Mclaren",
+            "S3": "Harvey Baker"
+        },
+        {
+            "15": "Toby Gale",
+            "14": "Daniel James",
+            "13": "Sean Shepherd",
+            "12": "Adam Fear",
+            "11": "Calum Erskine",
+            "10": "Ethan Bannister",
+            "9": "Schaeff Potter",
+            "8": "Steven Goater",
+            "7": "Samuel Kentell",
+            "6": "Max Tozer",
+            "5": "Alex Hall",
+            "4": "Daniel Adams",
+            "3": "Mathew Bellenie",
+            "2": "Mark Lavery",
+            "1": "Michael Shaw",
+            "S1": "George Clarke",
+            "S2": "Daryn Clarke",
+            "S3": "Charlie Ford"
+        }
+    ]
+}

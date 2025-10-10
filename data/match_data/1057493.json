@@ -1,0 +1,56 @@
+{
+    "match_id": "1057493",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2023-11-18",
+    "teams": [
+        "Hove",
+        "Kingston"
+    ],
+    "score": [
+        27,
+        12
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/10503.png",
+        "https://images.englandrugby.com/club_images/11663.png"
+    ],
+    "players": [
+        {
+            "15": "Lloyd Sweeney",
+            "14": "Rhowan Braybrook",
+            "13": "Andrew Carmichael",
+            "12": "Guy Patton",
+            "11": "Tom Holborn",
+            "10": "Olly Lewis",
+            "9": "Charlie Knight",
+            "8": "Jordan Sayers",
+            "7": "Ben Stephens",
+            "6": "Tobias Brown",
+            "5": "George Brown",
+            "4": "Ian Saunders",
+            "3": "Tyler Hooper",
+            "2": "Jordan Gibson",
+            "1": "Name withheld",
+            "S1": "Charlie Butcher",
+            "S2": "Charles Kelly",
+            "S3": "Philip Dabinski"
+        },
+        {
+            "15": "Elton Gwekwete",
+            "14": "Salvador Gomes",
+            "13": "Brandon Nisbet",
+            "12": "Ross Mctear",
+            "11": "Jonathan Mcdunphy",
+            "10": "Samuel Rushmer",
+            "9": "Luke Burge",
+            "8": "Christopher Hall",
+            "7": "David Wakefield",
+            "6": "Scott Howe",
+            "5": "Samuel Johnson",
+            "4": "Tom Tyler",
+            "3": "William Smith",
+            "2": "Joseph Daiton"
+        }
+    ]
+}

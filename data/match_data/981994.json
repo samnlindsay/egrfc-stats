@@ -1,0 +1,60 @@
+{
+    "match_id": "981994",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2022-11-12",
+    "teams": [
+        "Uckfield",
+        "Burgess Hill"
+    ],
+    "score": [
+        21,
+        10
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/23445.png",
+        "https://images.englandrugby.com/club_images/3659.png"
+    ],
+    "players": [
+        {
+            "15": "Callum Harvey",
+            "14": "Kane Drummond",
+            "13": "Sean Bate",
+            "12": "Joel Forward",
+            "11": "Name withheld",
+            "10": "Ross James",
+            "9": "Jordon Southgate",
+            "8": "Guy Cornick",
+            "7": "Thomas Booth",
+            "6": "Ryan Bate",
+            "5": "Terry Funnell",
+            "4": "Stephen Hartfield",
+            "3": "Matthew Longhurst",
+            "2": "Alfie Richardson",
+            "1": "Davy Armstrong",
+            "S1": "Colin Bradley",
+            "S2": "Craig Marshall",
+            "S3": "Harvey Pratt"
+        },
+        {
+            "15": "Oliver Lewis",
+            "14": "Amini Umata",
+            "13": "Samuel Kingscott",
+            "12": "Jim Waqanibau",
+            "11": "Joseph Brown",
+            "10": "Rhys Clarke",
+            "9": "Ben Mclaren",
+            "8": "David Wattam",
+            "7": "Matt Firmager",
+            "6": "Adam Rezazadeh",
+            "5": "Harvey Hays",
+            "4": "Charlie Lewis",
+            "3": "Robert Blake",
+            "2": "Timothy Daniel",
+            "1": "Lee Collingbourne",
+            "S1": "Kyle Tucker",
+            "S2": "Craig Wells",
+            "S3": "Benjamin Dronfield"
+        }
+    ]
+}

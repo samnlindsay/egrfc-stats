@@ -1,0 +1,59 @@
+{
+    "match_id": "981961",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2022-09-17",
+    "teams": [
+        "Uckfield",
+        "Pulborough"
+    ],
+    "score": [
+        29,
+        12
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/23445.png",
+        "https://images.englandrugby.com/club_images/17255.png"
+    ],
+    "players": [
+        {
+            "15": "Ross James",
+            "14": "Joel Andrews",
+            "13": "Osin Mcwalter",
+            "12": "Joel Forward",
+            "11": "Callum Harvey",
+            "10": "Charlie Buckland",
+            "9": "Jordon Southgate",
+            "8": "Craig Marshall",
+            "7": "Jack Harvey",
+            "6": "Ryan Bate",
+            "5": "Terry Funnell",
+            "4": "Stephen Hartfield",
+            "3": "Matthew Longhurst",
+            "2": "Alfie Richardson",
+            "1": "Max Currums",
+            "S1": "Abraham Bredin",
+            "S2": "Kian Saunders",
+            "S3": "Rob Mayer"
+        },
+        {
+            "15": "William Scrase",
+            "14": "Bradley Game",
+            "13": "Oliver Burnett",
+            "12": "Bryan Woodhouse",
+            "11": "James Hobbs",
+            "10": "Simon Burfiend",
+            "9": "Daniel Paige",
+            "8": "Matthew Goring",
+            "7": "Ben Roberts",
+            "6": "Joe Johnson",
+            "5": "Charlie Mears",
+            "4": "Ben Sadler",
+            "3": "Charlie Williams",
+            "2": "Kieran Mellor",
+            "1": "Michael Woodhouse",
+            "S1": "Jonathan Scrase",
+            "S2": "Matthew Gue"
+        }
+    ]
+}

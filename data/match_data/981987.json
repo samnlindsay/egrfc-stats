@@ -1,0 +1,56 @@
+{
+    "match_id": "981987",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2022-10-29",
+    "teams": [
+        "Crawley",
+        "Haywards Heath"
+    ],
+    "score": [
+        18,
+        41
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/5807.png",
+        "https://images.englandrugby.com/club_images/9776.png"
+    ],
+    "players": [
+        {
+            "15": "Lewis Burke",
+            "14": "William Ofosuhene",
+            "13": "Kristian Dean",
+            "12": "Jordan Walker",
+            "11": "Name withheld",
+            "10": "Corey Toogood",
+            "9": "Sven Dahlmann",
+            "8": "David Marfe",
+            "7": "Oliver Hall",
+            "6": "Harry Mansfield",
+            "5": "Kieran Gosling",
+            "4": "Luke Attew",
+            "3": "Sergio Fernandez",
+            "2": "Joao Andre Garanito Sousa",
+            "1": "Bradley Davies",
+            "S1": "Aaron O'Callaghan",
+            "S2": "Andrew Evans"
+        },
+        {
+            "15": "Douglas Kern",
+            "14": "Jack Flower",
+            "13": "James Trinder",
+            "12": "Matthew Cains",
+            "11": "Thomas Wharton",
+            "10": "James Thurston",
+            "9": "Fraser Russell",
+            "8": "Ben Eustace",
+            "7": "Jack Herbert",
+            "6": "Ellis Dubois",
+            "5": "Sebastian Broster",
+            "4": "Harrison Thomas Edwards",
+            "3": "Christopher Neill",
+            "2": "Henry Dickson",
+            "1": "Samuela Bulitokaivale-Lancaster"
+        }
+    ]
+}

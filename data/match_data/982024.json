@@ -1,0 +1,60 @@
+{
+    "match_id": "982024",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2023-01-28",
+    "teams": [
+        "Burgess Hill",
+        "East Grinstead"
+    ],
+    "score": [
+        0,
+        63
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/3659.png",
+        "https://images.englandrugby.com/club_images/7134.png"
+    ],
+    "players": [
+        {
+            "15": "Tuila Waki",
+            "14": "Amini Umata",
+            "13": "Vilitati Ligairi",
+            "12": "Ben Mclaren",
+            "11": "Matheus Gava",
+            "10": "Samuela Tamani",
+            "9": "Oliver Lewis",
+            "8": "David Wattam",
+            "7": "Adam Rezazadeh",
+            "6": "Matt Firmager",
+            "5": "Charlie Lewis",
+            "4": "Benjamin Dronfield",
+            "3": "Paul Hasib",
+            "2": "Timothy Daniel",
+            "1": "Robert Blake",
+            "S1": "Kyle Tucker",
+            "S2": "Harvey Hays",
+            "S3": "Joseph Brown"
+        },
+        {
+            "15": "Samuel Spriddell",
+            "14": "Benjamin Hogan",
+            "13": "James Mitchell",
+            "12": "Alistair Moffatt",
+            "11": "Ethan Carrick",
+            "10": "Daniel Poulton",
+            "9": "George Johnson",
+            "8": "Aaronn Boczek",
+            "7": "Ryland Thomas",
+            "6": "Jordan Walker",
+            "5": "John Peaty",
+            "4": "David Bridges",
+            "3": "Joshua Brimecombe",
+            "2": "Benjamin Tottman",
+            "1": "Devon Frost",
+            "S1": "Guy Collins",
+            "S2": "Or Shay",
+            "S3": "Chris Taylor"
+        }
+    ]
+}

@@ -1,0 +1,59 @@
+{
+    "match_id": "1057494",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2023-11-18",
+    "teams": [
+        "Twickenham",
+        "Old Tiffinians"
+    ],
+    "score": [
+        25,
+        42
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/23336.png",
+        "https://images.englandrugby.com/club_images/16068.png"
+    ],
+    "players": [
+        {
+            "15": "John Smith",
+            "14": "Arthur Polley",
+            "13": "Samuel Griffin",
+            "12": "Joe Ash",
+            "11": "Lewis Harrison",
+            "10": "Samuel Goddard",
+            "9": "Alex Stagg",
+            "8": "Nicholas Smith",
+            "7": "James Moore",
+            "6": "Jack Fullicks",
+            "5": "Scott Davidson",
+            "4": "Louie Banks",
+            "3": "Tom Knight",
+            "2": "Joshua Otter",
+            "1": "Raynn Bruce",
+            "S1": "Elliot Bailey",
+            "S2": "Luke Deakin",
+            "S3": "William Hellel"
+        },
+        {
+            "15": "William Sharp",
+            "14": "Ben Sykes",
+            "13": "Sharif Dougramaji",
+            "12": "Sebastion Kay",
+            "11": "Rory Coats",
+            "10": "George Taylor",
+            "9": "Huw Morris",
+            "8": "Timothy Fawcett",
+            "7": "Daniel Blackman",
+            "6": "Jaewon Jang",
+            "5": "Robert Myddelton",
+            "4": "Hugh Turnbull",
+            "3": "Name withheld",
+            "2": "Sam Rumball",
+            "1": "Ross Hobbs",
+            "S1": "Noah-Vincenz Noeh",
+            "S2": "Andrew Blackburn"
+        }
+    ]
+}

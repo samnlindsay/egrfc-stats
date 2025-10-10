@@ -1,0 +1,58 @@
+{
+    "match_id": "1057469",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2023-10-14",
+    "teams": [
+        "Eastbourne",
+        "KCS Old Boys"
+    ],
+    "score": [
+        33,
+        19
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7209.png",
+        "https://images.englandrugby.com/club_images/11188.png"
+    ],
+    "players": [
+        {
+            "15": "Oliver Horley",
+            "14": "Gianluca Bianchi",
+            "13": "Dylan Viles",
+            "12": "Ben Perrott",
+            "11": "Mason Dowle",
+            "10": "Martial Chaput",
+            "9": "Name withheld",
+            "8": "James Grey",
+            "7": "Vincent Morse",
+            "6": "Owen Davies",
+            "5": "Joshua Buckwell",
+            "4": "Luke Thomas",
+            "3": "Paul Smith",
+            "2": "Joseph Bettles",
+            "1": "Christopher Hosking",
+            "S1": "Konrad Oneill",
+            "S2": "Jeremy Montes",
+            "S3": "Ronnie Doorey-Palmer"
+        },
+        {
+            "15": "Thomas Davies",
+            "14": "Nathan Chan",
+            "13": "Leon Driscoll",
+            "12": "James Hattersley",
+            "11": "William Carter",
+            "10": "Charles Paterson",
+            "9": "Frederick Preston",
+            "8": "Cameron Keller",
+            "7": "Harry Stevens",
+            "6": "Dominic Soin-Stanley",
+            "5": "Alexander Owen",
+            "4": "Callum Young",
+            "3": "Jacob Bishop",
+            "2": "Minhyuk Seo",
+            "1": "Alexander Laidlaw",
+            "S1": "Lloyd Allen"
+        }
+    ]
+}

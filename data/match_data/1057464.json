@@ -1,0 +1,58 @@
+{
+    "match_id": "1057464",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2023-10-07",
+    "teams": [
+        "KCS Old Boys",
+        "Teddington"
+    ],
+    "score": [
+        14,
+        48
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/11188.png",
+        "https://images.englandrugby.com/club_images/21732.png"
+    ],
+    "players": [
+        {
+            "15": "Leon Driscoll",
+            "14": "Name withheld",
+            "13": "Jamie Miller",
+            "12": "James Hattersley",
+            "11": "William Carter",
+            "10": "Charlie Hewes",
+            "9": "Thomas Evans",
+            "8": "Callum Young",
+            "7": "Charles Paterson",
+            "6": "Cameron Keller",
+            "5": "Seth Eley",
+            "4": "Rees Powell",
+            "3": "Alexander Owen",
+            "2": "Funmi Oduniyi",
+            "1": "Matthew Anthony",
+            "S1": "James Shaw",
+            "S2": "William Slater",
+            "S3": "Joe Stainer"
+        },
+        {
+            "15": "Joshua Mckiernan",
+            "14": "Harry Smith",
+            "13": "Huw Morgan",
+            "12": "Robert Beevers",
+            "11": "Angus Bell",
+            "10": "Jack Capon",
+            "9": "Stuart Ridler",
+            "8": "James McConnell",
+            "7": "Jack Valentine",
+            "6": "Oliver Holland",
+            "5": "Henry Dare",
+            "4": "Daniel Robertshaw",
+            "3": "George Bradford",
+            "2": "Rory Mercer",
+            "1": "Alfie Ransom",
+            "S1": "Callum Johnston"
+        }
+    ]
+}

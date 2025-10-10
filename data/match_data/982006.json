@@ -1,0 +1,60 @@
+{
+    "match_id": "982006",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2022-12-03",
+    "teams": [
+        "Uckfield",
+        "East Grinstead"
+    ],
+    "score": [
+        13,
+        22
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/23445.png",
+        "https://images.englandrugby.com/club_images/7134.png"
+    ],
+    "players": [
+        {
+            "15": "Ross James",
+            "14": "Joel Andrews",
+            "13": "Osin Mcwalter",
+            "12": "Sean Bate",
+            "11": "Callum Harvey",
+            "10": "Charlie Buckland",
+            "9": "Jordon Southgate",
+            "8": "Craig Marshall",
+            "7": "Ryan Bate",
+            "6": "Thomas Booth",
+            "5": "Harvey Pratt",
+            "4": "Stephen Hartfield",
+            "3": "Matthew Longhurst",
+            "2": "Harry Smith",
+            "1": "Alfie Richardson",
+            "S1": "Adrian Stainer",
+            "S2": "Joel Forward",
+            "S3": "Tristan Sturt"
+        },
+        {
+            "15": "Oliver Billin",
+            "14": "Alistair Moffatt",
+            "13": "Max Crawley-Moore",
+            "12": "Richard Dodgson",
+            "11": "Samuel Spriddell",
+            "10": "Daniel Poulton",
+            "9": "Jack Billin",
+            "8": "Aaronn Boczek",
+            "7": "Archie Vickers",
+            "6": "Jordan Walker",
+            "5": "Peter Morley",
+            "4": "John Peaty",
+            "3": "Joshua Brimecombe",
+            "2": "Benjamin Tottman",
+            "1": "Guy Collins",
+            "S1": "David Bridges",
+            "S2": "Daniel Billin",
+            "S3": "Benjamin Hogan"
+        }
+    ]
+}

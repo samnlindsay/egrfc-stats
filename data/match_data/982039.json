@@ -1,0 +1,58 @@
+{
+    "match_id": "982039",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2023-03-04",
+    "teams": [
+        "Crawley",
+        "Burgess Hill"
+    ],
+    "score": [
+        14,
+        36
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/5807.png",
+        "https://images.englandrugby.com/club_images/3659.png"
+    ],
+    "players": [
+        {
+            "15": "Lewis Burke",
+            "14": "Jude Read",
+            "13": "William Ofosuhene",
+            "12": "Name withheld",
+            "11": "Patrick Dean",
+            "10": "Henry Tyson",
+            "9": "Oliver Hall",
+            "8": "Harry Hickmet",
+            "7": "Joao Andre Garanito Sousa",
+            "6": "Joe Ball",
+            "5": "Bradley Davies",
+            "4": "Ieuan Death",
+            "3": "Robert Higgins",
+            "2": "Joel Fisher",
+            "1": "Anthony Dartnell",
+            "S1": "Kai Marshall",
+            "S2": "Andrew Evans",
+            "S3": "Issoa Tadrau"
+        },
+        {
+            "15": "Matheus Gava",
+            "14": "Samuel Kingscott",
+            "13": "Euan Mclaren",
+            "12": "Viliame Moceilagi",
+            "11": "Oliver Lewis",
+            "10": "Jon Maple",
+            "9": "David Wattam",
+            "8": "Harvey Baker",
+            "7": "Joseph Brown",
+            "6": "Salacieli Cama",
+            "5": "Harvey Hays",
+            "4": "Darren Coulton",
+            "3": "Timothy Daniel",
+            "2": "Adam Harman",
+            "1": "Rhys Clarke",
+            "S1": "Amini Umata"
+        }
+    ]
+}

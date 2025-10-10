@@ -1,0 +1,60 @@
+{
+    "match_id": "981986",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2022-10-29",
+    "teams": [
+        "Uckfield",
+        "Shoreham"
+    ],
+    "score": [
+        13,
+        14
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/23445.png",
+        "https://images.englandrugby.com/club_images/19257.png"
+    ],
+    "players": [
+        {
+            "15": "Ross James",
+            "14": "Name withheld",
+            "13": "Sean Bate",
+            "12": "Kane Drummond",
+            "11": "Callum Harvey",
+            "10": "Charlie Buckland",
+            "9": "Jordon Southgate",
+            "8": "Guy Cornick",
+            "7": "Ryan Bate",
+            "6": "Thomas Booth",
+            "5": "Harvey Pratt",
+            "4": "Thomas Lightfoot",
+            "3": "Matthew Longhurst",
+            "2": "Alfie Richardson",
+            "1": "Davy Armstrong",
+            "S1": "Colin Bradley",
+            "S2": "Luke Austin",
+            "S3": "Joel Forward"
+        },
+        {
+            "15": "Adam Fear",
+            "14": "Paul Mamoany",
+            "13": "Calum Erskine",
+            "12": "Ethan Bannister",
+            "11": "Charlie Ford",
+            "10": "Toby Gale",
+            "9": "Toby Reed",
+            "8": "Christopher Reynolds",
+            "7": "Samuel Kentell",
+            "6": "Fintan Holland",
+            "5": "Alex Hall",
+            "4": "Steven Goater",
+            "3": "Mathew Bellenie",
+            "2": "Calvin Jansz",
+            "1": "Daryn Clarke",
+            "S1": "Carl Pittaway",
+            "S2": "Ted Baynham",
+            "S3": "Daniel James"
+        }
+    ]
+}

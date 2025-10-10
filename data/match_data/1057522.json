@@ -1,0 +1,58 @@
+{
+    "match_id": "1057522",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2024-01-13",
+    "teams": [
+        "Teddington",
+        "KCS Old Boys"
+    ],
+    "score": [
+        45,
+        10
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/21732.png",
+        "https://images.englandrugby.com/club_images/11188.png"
+    ],
+    "players": [
+        {
+            "15": "Joe Stainer",
+            "14": "Name withheld",
+            "13": "Jack Miller",
+            "12": "Harry Smith",
+            "11": "Robert Beevers",
+            "10": "Angus Bell",
+            "9": "Jack Capon",
+            "8": "Alfie Ransom",
+            "7": "Daniel Robertshaw",
+            "6": "Callum Johnston",
+            "5": "Jack Valentine",
+            "4": "Henry Dare",
+            "3": "Samuel Rawsthorne",
+            "2": "George Bradford",
+            "1": "Oliver Holland",
+            "S1": "James McConnell",
+            "S2": "Joshua Mckiernan",
+            "S3": "Jack Dunn"
+        },
+        {
+            "15": "Nathan Chan",
+            "14": "Mark Joblin",
+            "13": "James Hattersley",
+            "12": "William Kibblewhite",
+            "11": "William Carter",
+            "10": "Jamie Miller",
+            "9": "Thomas Evans",
+            "8": "James Shaw",
+            "7": "Rees Powell",
+            "6": "Cameron Keller",
+            "5": "Dominic Soin-Stanley",
+            "4": "Alexander Owen",
+            "3": "Alexander Laidlaw",
+            "2": "Minhyuk Seo",
+            "1": "Stephen Byrne",
+            "S1": "Leon Driscoll"
+        }
+    ]
+}

@@ -1,0 +1,60 @@
+{
+    "match_id": "981972",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2022-10-01",
+    "teams": [
+        "Uckfield",
+        "Lewes"
+    ],
+    "score": [
+        33,
+        24
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/23445.png",
+        "https://images.englandrugby.com/club_images/12206.png"
+    ],
+    "players": [
+        {
+            "15": "Name withheld",
+            "14": "Alex Hughes",
+            "13": "Kane Drummond",
+            "12": "Charlie Buckland",
+            "11": "Callum Harvey",
+            "10": "Ross James",
+            "9": "Jordon Southgate",
+            "8": "Guy Cornick",
+            "7": "Ryan Bate",
+            "6": "Terry Funnell",
+            "5": "Thomas Lightfoot",
+            "4": "Stephen Hartfield",
+            "3": "Matthew Longhurst",
+            "2": "Davy Armstrong",
+            "1": "Jack Harvey",
+            "S1": "Colin Bradley",
+            "S2": "George Skinner",
+            "S3": "Nick Cherry"
+        },
+        {
+            "15": "Jordan Whiting",
+            "14": "Thomas Awdry",
+            "13": "William Shiell",
+            "12": "Elliot Moule",
+            "11": "Angus Taylor",
+            "10": "Cian Furlong",
+            "9": "Dante Maguire",
+            "8": "Stewart Dickens",
+            "7": "Damian Pye",
+            "6": "George Gribble",
+            "5": "Owen Edmonds",
+            "4": "James Sale",
+            "3": "Edward King",
+            "2": "Oliver Bowry",
+            "1": "Mouhammed Bacha",
+            "S1": "Simon Coe",
+            "S2": "Adam Hutchings",
+            "S3": "Robert Williams"
+        }
+    ]
+}

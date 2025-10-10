@@ -1,0 +1,57 @@
+{
+    "match_id": "1136533",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2025-04-05",
+    "teams": [
+        "Old Haileyburians",
+        "Trinity"
+    ],
+    "score": [
+        12,
+        26
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/15747.png",
+        "https://images.englandrugby.com/club_images/23175.png"
+    ],
+    "players": [
+        {
+            "15": "Rory Dickson",
+            "14": "Name withheld",
+            "13": "Benedict Trimmer",
+            "12": "Joe Thomson",
+            "11": "Ollie Mann",
+            "10": "Alfie Jeavons-Fellows",
+            "9": "Thomas Wright",
+            "8": "Harry Clesham",
+            "7": "Cameron Bullard",
+            "6": "Edward Parr",
+            "5": "Tobi Costello",
+            "4": "Jacob Cummins",
+            "3": "James Black",
+            "2": "Oliver L Marsden",
+            "1": "Harry Taylor",
+            "S1": "William Barnes",
+            "S2": "Max Farrell",
+            "S3": "Thomas Fairclough"
+        },
+        {
+            "15": "Aidan Sisk",
+            "14": "Thomas Wilcox",
+            "13": "Olly Wilcox",
+            "12": "George Kimmins",
+            "11": "Harry Wilson",
+            "10": "Farooq Agbalaya",
+            "9": "Oliver Hubbard",
+            "8": "Fuad Agbalaya",
+            "7": "Thomas Black",
+            "6": "Marc McEvilly",
+            "5": "Christopher Reid Gomez",
+            "4": "Quinn Singh",
+            "3": "Alastair Hall",
+            "2": "Alexander Willis",
+            "1": "Khalil Alleyne"
+        }
+    ]
+}

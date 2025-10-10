@@ -1,0 +1,57 @@
+{
+    "match_id": "1057523",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2024-01-13",
+    "teams": [
+        "Eastbourne",
+        "Trinity"
+    ],
+    "score": [
+        68,
+        19
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7209.png",
+        "https://images.englandrugby.com/club_images/23175.png"
+    ],
+    "players": [
+        {
+            "15": "Martial Chaput",
+            "14": "Stuart Baker",
+            "13": "Jake Howe",
+            "12": "Ronnie Doorey-Palmer",
+            "11": "Dylan Viles",
+            "10": "Aaron Hossack",
+            "9": "Pedro Sousa",
+            "8": "James Grey",
+            "7": "Vincent Morse",
+            "6": "Benjamin Gower",
+            "5": "Owen Davies",
+            "4": "Joshua Buckwell",
+            "3": "Paul Smith",
+            "2": "Joseph Bettles",
+            "1": "Daniel Keen",
+            "S1": "Luke Thomas",
+            "S2": "Christopher Hosking",
+            "S3": "Jeremy Montes"
+        },
+        {
+            "15": "Benjamin Telfer",
+            "14": "Aidan True",
+            "13": "Tyriq Williams",
+            "12": "Marc McEvilly",
+            "11": "Jeevan Saggu",
+            "10": "Daniel Crouch",
+            "9": "Jack Greenwood",
+            "8": "Oliver Hubbard",
+            "7": "Benjamin Vaillant",
+            "6": "GEORGE DANIELS",
+            "5": "Mark Macaskill",
+            "4": "David Spedding",
+            "3": "Jacques Bryant",
+            "S2": "Alexander Scott",
+            "S3": "Toby Plant"
+        }
+    ]
+}

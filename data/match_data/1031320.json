@@ -1,0 +1,59 @@
+{
+    "match_id": "1031320",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2023-02-04",
+    "teams": [
+        "Lewes",
+        "Uckfield"
+    ],
+    "score": [
+        17,
+        33
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/12206.png",
+        "https://images.englandrugby.com/club_images/23445.png"
+    ],
+    "players": [
+        {
+            "15": "Tyler Edwards",
+            "14": "Daniel Elmes",
+            "13": "William Hoff",
+            "12": "Jude Littlewood",
+            "11": "Josh Ellis-Smith",
+            "10": "Angus Taylor",
+            "9": "Dante Maguire",
+            "8": "William Shiell",
+            "7": "Stewart Dickens",
+            "6": "Harry Weston",
+            "5": "Edward King",
+            "4": "James Sale",
+            "3": "Kane Dadswell",
+            "2": "George Gribble",
+            "1": "Charlie Moran",
+            "S1": "Alex Frias del Rio",
+            "S2": "Nathan Roberts",
+            "S3": "Adam Hutchings"
+        },
+        {
+            "15": "Osin Mcwalter",
+            "14": "Name withheld",
+            "13": "Joel Andrews",
+            "12": "Ryan Bate",
+            "11": "Kane Drummond",
+            "10": "Joel Forward",
+            "9": "Charlie Buckland",
+            "8": "Guy Cornick",
+            "7": "Harvey Pratt",
+            "6": "Thomas Booth",
+            "5": "Thomas Lightfoot",
+            "4": "Stephen Hartfield",
+            "3": "Alfie Richardson",
+            "2": "Davy Armstrong",
+            "1": "Matthew Longhurst",
+            "S1": "Colin Bradley",
+            "S2": "Samual Haines"
+        }
+    ]
+}

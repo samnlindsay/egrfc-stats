@@ -1,0 +1,59 @@
+{
+    "match_id": "1057517",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2024-01-06",
+    "teams": [
+        "Trinity",
+        "Teddington"
+    ],
+    "score": [
+        0,
+        50
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/23175.png",
+        "https://images.englandrugby.com/club_images/21732.png"
+    ],
+    "players": [
+        {
+            "15": "Benjamin Telfer",
+            "14": "Aidan Sisk",
+            "13": "Marc McEvilly",
+            "12": "Andrew Dean",
+            "11": "Tyriq Williams",
+            "10": "Daniel Crouch",
+            "9": "Jack Greenwood",
+            "8": "Farooq Agbalaya",
+            "7": "Benjamin Vaillant",
+            "6": "Oliver Hubbard",
+            "5": "Alex Connaghton",
+            "4": "Timothy Cochrane",
+            "3": "Jacques Bryant",
+            "2": "Timothy Jupp",
+            "1": "Alastair Hall",
+            "S1": "Alfie Lamb",
+            "S2": "GEORGE DANIELS",
+            "S3": "Max Mouna"
+        },
+        {
+            "15": "Name withheld",
+            "14": "Joshua Mckiernan",
+            "13": "Jack Miller",
+            "12": "Harry Smith",
+            "11": "Robert Beevers",
+            "10": "James Frankenberger",
+            "9": "Daniel Robertshaw",
+            "8": "Alfie Ransom",
+            "7": "Jack Valentine",
+            "6": "Oliver Holland",
+            "5": "Callum Johnston",
+            "4": "Henry Dare",
+            "3": "Samuel Rawsthorne",
+            "2": "George Bradford",
+            "1": "Rory Mercer",
+            "S1": "Christopher Lidington",
+            "S2": "James McConnell"
+        }
+    ]
+}

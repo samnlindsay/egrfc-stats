@@ -1,0 +1,60 @@
+{
+    "match_id": "982014",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2023-01-14",
+    "teams": [
+        "Seaford",
+        "Pulborough"
+    ],
+    "score": [
+        12,
+        27
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/18868.png",
+        "https://images.englandrugby.com/club_images/17255.png"
+    ],
+    "players": [
+        {
+            "15": "Jason Dubas-Fisher",
+            "14": "Charlie Crossgrove",
+            "13": "Chris Burns",
+            "12": "Paul Burns",
+            "11": "Jason Staples",
+            "10": "Dominic Joy",
+            "9": "Jack Cullinane",
+            "8": "Daniel Newby",
+            "7": "Harvey Joy",
+            "6": "Andrew Salter",
+            "5": "Sam Diplock",
+            "4": "Lee Furminger",
+            "3": "Philip Innis",
+            "2": "Andrew Fry",
+            "1": "Neil Murphy",
+            "S1": "Mark Tait",
+            "S2": "Stuart Cotter",
+            "S3": "Gregory Cole"
+        },
+        {
+            "15": "Archie Sadler",
+            "14": "Name withheld",
+            "13": "Raiph Robson",
+            "12": "Bryan Woodhouse",
+            "11": "Thomas Garnett",
+            "10": "Ludo Milne",
+            "9": "Daniel Paige",
+            "8": "Henry Lee",
+            "7": "Kieran Mellor",
+            "6": "James Hobbs",
+            "5": "Matthew Goring",
+            "4": "Ben Sadler",
+            "3": "Harry O'Brien",
+            "2": "Coby Coy",
+            "1": "Johny-joe Staples",
+            "S1": "Cameron Rowbotham",
+            "S2": "Finlay Pitt",
+            "S3": "Michael Woodhouse"
+        }
+    ]
+}

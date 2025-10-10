@@ -1,0 +1,59 @@
+{
+    "match_id": "981969",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2022-10-01",
+    "teams": [
+        "Seaford",
+        "Eastbourne"
+    ],
+    "score": [
+        7,
+        26
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/18868.png",
+        "https://images.englandrugby.com/club_images/7209.png"
+    ],
+    "players": [
+        {
+            "15": "Luke Taylor",
+            "14": "Chris Burns",
+            "13": "Jason Dubas-Fisher",
+            "12": "Paul Burns",
+            "11": "Jason Staples",
+            "10": "Corey Digby-Clarke",
+            "9": "Andrew Fry",
+            "8": "Bradley Newby",
+            "7": "Harvey Joy",
+            "6": "Paddy Powney",
+            "5": "Sam Diplock",
+            "4": "Dominic Joy",
+            "3": "Philip Innis",
+            "2": "KEVIN LEWIS",
+            "1": "Daniel Newby",
+            "S1": "Andrew Salter",
+            "S2": "Jack Cullinane",
+            "S3": "Name withheld"
+        },
+        {
+            "15": "Mason Dowle",
+            "14": "Gianluca Bianchi",
+            "13": "Ben Perrott",
+            "12": "Ronnie Doorey-Palmer",
+            "11": "Aaron Hossack",
+            "10": "Harrison Gibbons",
+            "9": "Jeremy Montes",
+            "8": "Owen Davies",
+            "7": "Ryan Shields",
+            "6": "Joshua Buckwell",
+            "5": "Luke Thomas",
+            "4": "Alun Cranch",
+            "3": "Joseph Bettles",
+            "2": "Christopher Hosking",
+            "1": "Daniel Keen",
+            "S1": "Vincent Morse",
+            "S2": "Martial Chaput"
+        }
+    ]
+}

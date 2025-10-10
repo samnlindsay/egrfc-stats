@@ -1,0 +1,59 @@
+{
+    "match_id": "982016",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2023-01-14",
+    "teams": [
+        "Crawley",
+        "Lewes"
+    ],
+    "score": [
+        26,
+        5
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/5807.png",
+        "https://images.englandrugby.com/club_images/12206.png"
+    ],
+    "players": [
+        {
+            "15": "Lewis Burke",
+            "14": "William Ofosuhene",
+            "13": "Name withheld",
+            "12": "Patrick Dean",
+            "11": "Kristian Dean",
+            "10": "Jake Jackson",
+            "9": "Oliver Hall",
+            "8": "Harry Hickmet",
+            "7": "Toby Baldwin",
+            "6": "Oliver Plunkett",
+            "5": "Bradley Davies",
+            "4": "Ieuan Death",
+            "3": "Joao Andre Garanito Sousa",
+            "2": "Nathan Cox",
+            "1": "Robert Higgins",
+            "S1": "Aaron O'Callaghan",
+            "S2": "Jude Read",
+            "S3": "Jude Littlewood"
+        },
+        {
+            "15": "Alex Frias del Rio",
+            "14": "William Shiell",
+            "13": "Elliot Moule",
+            "12": "Josh Ellis-Smith",
+            "11": "Roberto Bello Hurtado",
+            "10": "Dante Maguire",
+            "9": "Nathaniel Vine",
+            "8": "Stewart Dickens",
+            "7": "Freddie Gander",
+            "6": "Zac Ozeren",
+            "5": "Edward King",
+            "4": "Fearghus Gage",
+            "3": "Harry Pryer",
+            "2": "Kane Dadswell",
+            "1": "Simon Coe",
+            "S1": "Nathan Roberts",
+            "S2": "Thomas Petty"
+        }
+    ]
+}

@@ -1,0 +1,58 @@
+{
+    "match_id": "1097837",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2023-11-04",
+    "teams": [
+        "Kingston",
+        "Eastbourne"
+    ],
+    "score": [
+        27,
+        27
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/11663.png",
+        "https://images.englandrugby.com/club_images/7209.png"
+    ],
+    "players": [
+        {
+            "15": "Ross Mctear",
+            "14": "Joseph Daiton",
+            "13": "Connor Ashwin",
+            "12": "Tyler Reichardt",
+            "11": "Chun Yeung WU",
+            "10": "Jonathan Mcdunphy",
+            "9": "Charles Kelly",
+            "8": "Hugo Eyre",
+            "7": "Luke Burge",
+            "6": "Christopher Hall",
+            "5": "Scott Howe",
+            "4": "Nick Crandon",
+            "3": "Samuel Johnson",
+            "2": "Name withheld",
+            "1": "Tom Rushmer",
+            "S1": "David Wakefield",
+            "S2": "Diego Borja Carbon Viera",
+            "S3": "Mason Dowle"
+        },
+        {
+            "15": "Gianluca Bianchi",
+            "14": "Jake Howe",
+            "13": "Ben Perrott",
+            "12": "Dylan Viles",
+            "11": "Aaron Hossack",
+            "10": "Jeremy Montes",
+            "9": "Vincent Morse",
+            "8": "Owen Davies",
+            "7": "Luke Thomas",
+            "6": "Joshua Buckwell",
+            "5": "Paul Smith",
+            "4": "Joseph Bettles",
+            "3": "Christopher Hosking",
+            "2": "Konrad Oneill",
+            "1": "James Grey",
+            "S1": "Ronnie Doorey-Palmer"
+        }
+    ]
+}

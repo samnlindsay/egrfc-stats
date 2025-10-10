@@ -1,0 +1,59 @@
+{
+    "match_id": "1057474",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2023-10-21",
+    "teams": [
+        "Old Walcountians",
+        "East Grinstead"
+    ],
+    "score": [
+        34,
+        25
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/16075.png",
+        "https://images.englandrugby.com/club_images/7134.png"
+    ],
+    "players": [
+        {
+            "15": "Ejiro Erhirhie",
+            "14": "Omarie Brown",
+            "13": "Alexander French",
+            "12": "Dominic Barnaby",
+            "11": "Marvin Fletcher-Rogers",
+            "10": "Harry Wrightson",
+            "9": "Sebastian Chmielinski",
+            "8": "Edward Bellringer",
+            "7": "Joe Henderson",
+            "6": "Andrew Togbolah",
+            "5": "Peter Thomas",
+            "4": "Oliver Sanders",
+            "3": "Paul Harris",
+            "2": "Name withheld",
+            "1": "Dominic Bell",
+            "S1": "Benjamin French",
+            "S2": "Liam Moorhead",
+            "S3": "Samuel Spriddell"
+        },
+        {
+            "15": "Benjamin Beard",
+            "14": "Max Crawley-Moore",
+            "13": "Benjamin Saunders",
+            "12": "Jake Radcliffe",
+            "11": "Oliver Billin",
+            "10": "Harry White",
+            "9": "Aaronn Boczek",
+            "8": "Thomas Byron",
+            "7": "Ryland Thomas",
+            "6": "Guy Collins",
+            "5": "Samuel Lindsay-McCall",
+            "4": "Joshua Brimecombe",
+            "3": "Benjamin Tottman",
+            "2": "Connor Leggat",
+            "1": "David Bridges",
+            "S1": "Peter Morley",
+            "S2": "Alistair Moffatt"
+        }
+    ]
+}

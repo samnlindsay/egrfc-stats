@@ -1,0 +1,60 @@
+{
+    "match_id": "1057497",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2023-12-02",
+    "teams": [
+        "Kingston",
+        "Twickenham"
+    ],
+    "score": [
+        17,
+        55
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/11663.png",
+        "https://images.englandrugby.com/club_images/23336.png"
+    ],
+    "players": [
+        {
+            "15": "Devon Parsons",
+            "14": "Elton Gwekwete",
+            "13": "Tyler Reichardt",
+            "12": "Salvador Gomes",
+            "11": "Brandon Nisbet",
+            "10": "Jonathan Mcdunphy",
+            "9": "Charles Kelly",
+            "8": "Luke Burge",
+            "7": "William Smith",
+            "6": "Christopher Hall",
+            "5": "Nick Crandon",
+            "4": "David Wakefield",
+            "3": "Tom Rushmer",
+            "2": "Name withheld",
+            "1": "Tom Tyler",
+            "S1": "Samuel Johnson",
+            "S2": "Tom Collis",
+            "S3": "Cameron Fisher"
+        },
+        {
+            "15": "Alex Stagg",
+            "14": "Lewis Harrison",
+            "13": "Samuel Griffin",
+            "12": "John Smith",
+            "11": "William Hellel",
+            "10": "Jamie See",
+            "9": "Samuel Goddard",
+            "8": "Nicholas Smith",
+            "7": "Jack Fullicks",
+            "6": "James Moore",
+            "5": "Louie Banks",
+            "4": "Tom Knight",
+            "3": "Jordan Fyles",
+            "2": "Joshua Otter",
+            "1": "Alex Bennett",
+            "S1": "Richard Moses",
+            "S2": "Scott Davidson",
+            "S3": "Joe Ash"
+        }
+    ]
+}

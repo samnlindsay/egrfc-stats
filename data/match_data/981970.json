@@ -1,0 +1,60 @@
+{
+    "match_id": "981970",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2022-10-01",
+    "teams": [
+        "Shoreham",
+        "Pulborough"
+    ],
+    "score": [
+        31,
+        37
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/19257.png",
+        "https://images.englandrugby.com/club_images/17255.png"
+    ],
+    "players": [
+        {
+            "15": "Daniel James",
+            "14": "Sean Shepherd",
+            "13": "Charlie Ford",
+            "12": "Noah Rudge",
+            "11": "Morgan Day",
+            "10": "Toby Gale",
+            "9": "Schaeff Potter",
+            "8": "Gavin Cox",
+            "7": "Samuel Kentell",
+            "6": "Cameron Waller",
+            "5": "Daniel Adams",
+            "4": "Alex Hall",
+            "3": "Mark Lavery",
+            "2": "George Clarke",
+            "1": "Daryn Clarke",
+            "S1": "Carl Pittaway",
+            "S2": "James Marsh",
+            "S3": "Connor Fairhall"
+        },
+        {
+            "15": "Archie Sadler",
+            "14": "William Scrase",
+            "13": "Frazer Oliphant-Hope",
+            "12": "Bryan Woodhouse",
+            "11": "Bradley Game",
+            "10": "Simon Burfiend",
+            "9": "Daniel Paige",
+            "8": "Thomas Pascall",
+            "7": "Kieran Mellor",
+            "6": "James Hobbs",
+            "5": "Ben Sadler",
+            "4": "Matthew Goring",
+            "3": "Matthew Corrall",
+            "2": "Harry Scrase",
+            "1": "Michael Woodhouse",
+            "S1": "Oliver Paige",
+            "S2": "Jonathan Scrase",
+            "S3": "Oliver Burnett"
+        }
+    ]
+}

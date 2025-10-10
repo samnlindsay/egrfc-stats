@@ -1,0 +1,41 @@
+{
+    "match_id": "1155368",
+    "season": "2024-2025",
+    "league": "Harvey's Brewery Counties 3 Sussex",
+    "date": "2024-10-12",
+    "teams": [
+        "Horsham Barbarians",
+        "Shoreham II"
+    ],
+    "score": [
+        15,
+        12
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/10451.png",
+        "https://images.englandrugby.com/club_images/19262.png"
+    ],
+    "players": [
+        {},
+        {
+            "15": "No lineup to show.",
+            "14": "Jack Bowman",
+            "13": "Patrick McCarthy",
+            "12": "Paul Mamoany",
+            "11": "Toby Reed",
+            "10": "David Ayres",
+            "9": "Adam Fear",
+            "8": "William Midwinter",
+            "7": "Alexander Hall",
+            "6": "Finnbar Broxup",
+            "5": "Harry Cracknell",
+            "4": "Ted Baynham",
+            "3": "Nathan Funnell",
+            "2": "Harry Rae-Clarke",
+            "1": "James Hannah",
+            "S1": "Sam Etherton",
+            "S2": "Tom Chapman",
+            "S3": "Jonathan Lewis"
+        }
+    ]
+}

@@ -1,0 +1,60 @@
+{
+    "match_id": "1057506",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2023-12-09",
+    "teams": [
+        "Trinity",
+        "Kingston"
+    ],
+    "score": [
+        27,
+        5
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/23175.png",
+        "https://images.englandrugby.com/club_images/11663.png"
+    ],
+    "players": [
+        {
+            "15": "Benjamin Telfer",
+            "14": "GEORGE DANIELS",
+            "13": "Tyriq Williams",
+            "12": "Andrew Dean",
+            "11": "Aidan True",
+            "10": "Marc McEvilly",
+            "9": "Jack Greenwood",
+            "8": "Farooq Agbalaya",
+            "7": "Benjamin Vaillant",
+            "6": "Adam Stammers",
+            "5": "Oliver Hubbard",
+            "4": "Nathan Bacon",
+            "3": "Jacques Bryant",
+            "2": "Timothy Jupp",
+            "1": "Alastair Hall",
+            "S1": "Mark Macaskill",
+            "S2": "David Spedding",
+            "S3": "Jeevan Saggu"
+        },
+        {
+            "15": "Charles Kelly",
+            "14": "Brandon Nisbet",
+            "13": "Tyler Reichardt",
+            "12": "Salvador Gomes",
+            "11": "Joseph Daiton",
+            "10": "Jonathan Mcdunphy",
+            "9": "Herbie Archer",
+            "8": "Scott Howe",
+            "7": "Luke Burge",
+            "6": "Tom Collis",
+            "5": "David Wakefield",
+            "4": "Nick Crandon",
+            "3": "Tom Rushmer",
+            "2": "Name withheld",
+            "1": "Tom Tyler",
+            "S1": "Samuel Johnson",
+            "S2": "Reiss Pyatt",
+            "S3": "Christopher Hall"
+        }
+    ]
+}

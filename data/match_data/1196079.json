@@ -1,0 +1,60 @@
+{
+    "match_id": "1196079",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2025-03-28",
+    "teams": [
+        "KCS Old Boys",
+        "London Cornish"
+    ],
+    "score": [
+        46,
+        24
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/11188.png",
+        "https://images.englandrugby.com/club_images/12508.png"
+    ],
+    "players": [
+        {
+            "15": "Patrick Smith",
+            "14": "George Pickens",
+            "13": "Dara Madden",
+            "12": "Thomas Evans",
+            "11": "Thomas Woods",
+            "10": "Neil Williams",
+            "9": "Jack McGarey",
+            "8": "Cameron Keller",
+            "7": "Adam Priest",
+            "6": "Dale Spratt",
+            "5": "Rees Powell",
+            "4": "Duncan Bucknell",
+            "3": "Charlie Topley",
+            "2": "Alexander Owen",
+            "1": "Benoit Israel",
+            "S1": "William Page",
+            "S2": "Fred Brett",
+            "S3": "Jay Bhatia"
+        },
+        {
+            "15": "George Bromage",
+            "14": "Reuben Salisbury",
+            "13": "Charlie Lambert",
+            "12": "Findlay Tweedie",
+            "11": "Kieran Rodda",
+            "10": "Michael Edworthy",
+            "9": "Mark Lockhart",
+            "8": "Kalib Falconer",
+            "7": "George Jackson",
+            "6": "Shaun Parkes",
+            "5": "James Squires",
+            "4": "David Chalkley",
+            "3": "David Theobald",
+            "2": "James Ritchie",
+            "1": "Mathew Hand",
+            "S1": "James New",
+            "S2": "Edward Fink",
+            "S3": "John Vanderstegen-Drake"
+        }
+    ]
+}

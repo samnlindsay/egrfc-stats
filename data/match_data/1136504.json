@@ -1,1 +1,59 @@
-{"date": "2025-02-01", "score": [27, 22], "teams": ["KCS Old Boys", "East Grinstead"], "logos": ["https://images.englandrugby.com/club_images/11188.png", "https://images.englandrugby.com/club_images/7134.png"], "players": [{"15": "Max Gardiner", "14": "Thomas Woods", "13": "Name withheld", "12": "Dara Madden", "11": "George Pickens", "10": "Neil Williams", "9": "Thomas Evans", "8": "Dale Spratt", "7": "James Shaw", "6": "Cameron Keller", "5": "Rees Powell", "4": "Charlie Topley", "3": "Alexander Owen", "2": "Benoit Israel", "1": "Minhyuk Seo", "S1": "Enz Dallaglio", "S2": "Fergus Keegan", "S3": "Noah Roberts"}, {"15": "William Roberts", "14": "Luke Maker", "13": "Aaronn Boczek", "12": "Jake Radcliffe", "11": "Oliver Billin", "10": "Sam Spriddell", "9": "Tom Mooney", "8": "Josh Weaver", "7": "Oscar Staples", "6": "John Peaty", "5": "Samuel Lindsay-McCall", "4": "Guy Collins", "3": "Benjamin Tottman", "2": "Joshua Brimecombe", "1": "David Bridges", "S1": "Timothy Morris", "S2": "Daniel Poulton"}]}
+{
+    "date": "2025-02-01",
+    "score": [
+        27,
+        22
+    ],
+    "teams": [
+        "KCS Old Boys",
+        "East Grinstead"
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/11188.png",
+        "https://images.englandrugby.com/club_images/7134.png"
+    ],
+    "players": [
+        {
+            "15": "Max Gardiner",
+            "14": "Thomas Woods",
+            "13": "Name withheld",
+            "12": "Dara Madden",
+            "11": "George Pickens",
+            "10": "Neil Williams",
+            "9": "Thomas Evans",
+            "8": "Dale Spratt",
+            "7": "James Shaw",
+            "6": "Cameron Keller",
+            "5": "Rees Powell",
+            "4": "Charlie Topley",
+            "3": "Alexander Owen",
+            "2": "Benoit Israel",
+            "1": "Minhyuk Seo",
+            "S1": "Enz Dallaglio",
+            "S2": "Fergus Keegan",
+            "S3": "Noah Roberts"
+        },
+        {
+            "15": "William Roberts",
+            "14": "Luke Maker",
+            "13": "Aaronn Boczek",
+            "12": "Jake Radcliffe",
+            "11": "Oliver Billin",
+            "10": "Sam Spriddell",
+            "9": "Tom Mooney",
+            "8": "Josh Weaver",
+            "7": "Oscar Staples",
+            "6": "John Peaty",
+            "5": "Samuel Lindsay-McCall",
+            "4": "Guy Collins",
+            "3": "Benjamin Tottman",
+            "2": "Joshua Brimecombe",
+            "1": "David Bridges",
+            "S1": "Timothy Morris",
+            "S2": "Daniel Poulton"
+        }
+    ],
+    "match_id": "1136504",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex"
+}

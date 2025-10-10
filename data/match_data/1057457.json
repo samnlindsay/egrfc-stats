@@ -1,0 +1,60 @@
+{
+    "match_id": "1057457",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2023-09-30",
+    "teams": [
+        "Teddington",
+        "Trinity"
+    ],
+    "score": [
+        67,
+        3
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/21732.png",
+        "https://images.englandrugby.com/club_images/23175.png"
+    ],
+    "players": [
+        {
+            "15": "Joe Stainer",
+            "14": "James Frankenberger",
+            "13": "Harry Smith",
+            "12": "Huw Morgan",
+            "11": "Name withheld",
+            "10": "Robert Beevers",
+            "9": "Angus Bell",
+            "8": "Jack Capon",
+            "7": "Stuart Ridler",
+            "6": "James McConnell",
+            "5": "Callum Johnston",
+            "4": "Jack Valentine",
+            "3": "Henry Dare",
+            "2": "Daniel Robertshaw",
+            "1": "George Bradford",
+            "S1": "Alfie Ransom",
+            "S2": "Oliver Holland",
+            "S3": "Joshua Mckiernan"
+        },
+        {
+            "15": "Jack Greenwood",
+            "14": "Max Mouna",
+            "13": "Aidan Sisk",
+            "12": "Marc McEvilly",
+            "11": "James Jenkins",
+            "10": "Daniel Crouch",
+            "9": "Harry Wilson",
+            "8": "Fuad Agbalaya",
+            "7": "Benjamin Vaillant",
+            "6": "Oliver Hubbard",
+            "5": "Louis Quarendon",
+            "4": "Alexander Scott",
+            "3": "Dominic Plumb",
+            "2": "Adam Stammers",
+            "1": "Alastair Hall",
+            "S1": "Zouhair Mihramane",
+            "S2": "Charlie Geary-Merrett",
+            "S3": "Toby Plant"
+        }
+    ]
+}

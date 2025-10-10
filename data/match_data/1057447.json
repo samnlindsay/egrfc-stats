@@ -1,0 +1,59 @@
+{
+    "match_id": "1057447",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2023-09-16",
+    "teams": [
+        "Eastbourne",
+        "Weybridge Vandals"
+    ],
+    "score": [
+        17,
+        33
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7209.png",
+        "https://images.englandrugby.com/club_images/25094.png"
+    ],
+    "players": [
+        {
+            "15": "Oliver Horley",
+            "14": "Gianluca Bianchi",
+            "13": "Dylan Becker",
+            "12": "Ben Perrott",
+            "11": "Owen Jones",
+            "10": "Martial Chaput",
+            "9": "Name withheld",
+            "8": "James Grey",
+            "7": "Vincent Morse",
+            "6": "Ryan Shields",
+            "5": "Owen Davies",
+            "4": "Joshua Buckwell",
+            "3": "Paul Smith",
+            "2": "Joseph Bettles",
+            "1": "Alun Cranch",
+            "S1": "Christopher Hosking",
+            "S2": "Jeremy Montes",
+            "S3": "Pedro Sousa"
+        },
+        {
+            "15": "Thomas Bolger",
+            "14": "Harry Reed",
+            "13": "Harry Weatherall",
+            "12": "Karl Hoade",
+            "11": "Oliver Day",
+            "10": "James Wellden",
+            "9": "Daniel Wellden",
+            "8": "Michael Mason",
+            "7": "Luke Dones",
+            "6": "Richard Crabb",
+            "5": "Nicholas Blount",
+            "4": "Luke Hempstead",
+            "3": "Callum Hennessey",
+            "2": "Joshua Thomas",
+            "1": "Wayne Mason",
+            "S1": "Darren Lockyer",
+            "S2": "Jack O'Mara"
+        }
+    ]
+}

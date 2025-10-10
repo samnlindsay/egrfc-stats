@@ -1,0 +1,57 @@
+{
+    "match_id": "1237832",
+    "season": "2025-2026",
+    "league": "Counties 2 Sussex",
+    "date": "2025-10-04",
+    "teams": [
+        "Ditchling",
+        "Brighton II"
+    ],
+    "score": [
+        19,
+        48
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/6541.png",
+        "https://images.englandrugby.com/club_images/3218.png"
+    ],
+    "players": [
+        {
+            "15": "Nick Whitley-Jones",
+            "14": "Takhy Ndiaye Marrero",
+            "13": "James Turner",
+            "12": "Adam Crook",
+            "11": "Name withheld",
+            "10": "Chris Anson",
+            "9": "Dylan Thomas",
+            "8": "Frazer Falzon",
+            "7": "Ollie Van Hoeken",
+            "6": "Alex Hinchliffe",
+            "5": "Murray Jardine",
+            "4": "William Purdy",
+            "3": "Gordon Costick",
+            "2": "Barney Reed",
+            "1": "Jarrell Bobo",
+            "S1": "Alex Taylor",
+            "S2": "Josefata Naga",
+            "S3": "alexander basson"
+        },
+        {
+            "15": "Zane Hanna",
+            "14": "Joseph Pratt",
+            "13": "Ibrahim Bangura",
+            "12": "Hayden Quigg",
+            "11": "Angus Taylor",
+            "10": "Mathew Bellenie",
+            "9": "Zak Ellenger",
+            "8": "Will Fitzpatrick",
+            "7": "Kameron Forward",
+            "6": "Jake Blackburn",
+            "5": "Adam Butler",
+            "4": "Josh Blackburn",
+            "3": "Luke Booth",
+            "2": "Tom Foster",
+            "1": "Nicolas Lewis"
+        }
+    ]
+}

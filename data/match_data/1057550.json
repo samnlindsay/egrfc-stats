@@ -1,0 +1,59 @@
+{
+    "match_id": "1057550",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2024-03-02",
+    "teams": [
+        "Old Tiffinians",
+        "Twickenham"
+    ],
+    "score": [
+        22,
+        24
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/16068.png",
+        "https://images.englandrugby.com/club_images/23336.png"
+    ],
+    "players": [
+        {
+            "15": "Alistair Watkins",
+            "14": "Andrew Day",
+            "13": "Jacob Fawssett",
+            "12": "Samuel Jones",
+            "11": "Oliver Beels",
+            "10": "George Taylor",
+            "9": "Louis Freeman",
+            "8": "Jaewon Jang",
+            "7": "Name withheld",
+            "6": "Daniel Blackman",
+            "5": "Robert Myddelton",
+            "4": "Michael O'Connell",
+            "3": "Sam Rumball",
+            "2": "Ross Hobbs",
+            "1": "Noah-Vincenz Noeh",
+            "S1": "Tomos Croxon",
+            "S2": "Andrew Conder",
+            "S3": "Thomas Foster"
+        },
+        {
+            "15": "William Hellel",
+            "14": "Archie Lamont",
+            "13": "Louis Boyd",
+            "12": "Louis Chapman",
+            "11": "Jamie See",
+            "10": "Samuel Goddard",
+            "9": "Nicholas Smith",
+            "8": "Jasper Bhamra",
+            "7": "James Moore",
+            "6": "Jack Fullicks",
+            "5": "Louie Banks",
+            "4": "Jordan Fyles",
+            "3": "Joshua Otter",
+            "2": "Alex Bennett",
+            "1": "Ben Goddard",
+            "S1": "Richard Moses",
+            "S2": "Alex Stagg"
+        }
+    ]
+}

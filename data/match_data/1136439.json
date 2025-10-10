@@ -1,1 +1,60 @@
-{"date": "2024-10-19", "score": [30, 31], "teams": ["Eastbourne", "Old Rutlishians"], "logos": ["https://images.englandrugby.com/club_images/7209.png", "https://images.englandrugby.com/club_images/16005.png"], "players": [{"15": "Mason Dowle", "14": "Owen Jones", "13": "Jake Howe", "12": "Ronnie Doorey-Palmer", "11": "Dylan Viles", "10": "Aaron Hossack", "9": "Leon Wood", "8": "Jeremy Montes", "7": "Vincent Morse", "6": "Ben Gower", "5": "Owen Davies", "4": "Jack Curtis", "3": "Alun Cranch", "2": "Konrad Oneill", "1": "Christopher Hosking", "S1": "Joshua Buckwell", "S2": "Paul Smith", "S3": "Oliver Horley"}, {"15": "James Collins", "14": "Thomas Checkley", "13": "David Cecil", "12": "Corey Holland", "11": "Benjamin Navosailagi", "10": "Toby Harrison", "9": "Alexander O'Dell", "8": "Robert Cecil", "7": "Josh Jibulu", "6": "Ethan Dawson", "5": "Jordan Braddock", "4": "Samuel Ferrat Figueredo", "3": "William Donegan", "2": "LOUIE DAVIES", "1": "Kenneth Cecil", "S1": "Benjamin Jones", "S2": "Carlos Rodriguez", "S3": "Maximilian Lufkin"}]}
+{
+    "date": "2024-10-19",
+    "score": [
+        30,
+        31
+    ],
+    "teams": [
+        "Eastbourne",
+        "Old Rutlishians"
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7209.png",
+        "https://images.englandrugby.com/club_images/16005.png"
+    ],
+    "players": [
+        {
+            "15": "Mason Dowle",
+            "14": "Owen Jones",
+            "13": "Jake Howe",
+            "12": "Ronnie Doorey-Palmer",
+            "11": "Dylan Viles",
+            "10": "Aaron Hossack",
+            "9": "Leon Wood",
+            "8": "Jeremy Montes",
+            "7": "Vincent Morse",
+            "6": "Ben Gower",
+            "5": "Owen Davies",
+            "4": "Jack Curtis",
+            "3": "Alun Cranch",
+            "2": "Konrad Oneill",
+            "1": "Christopher Hosking",
+            "S1": "Joshua Buckwell",
+            "S2": "Paul Smith",
+            "S3": "Oliver Horley"
+        },
+        {
+            "15": "James Collins",
+            "14": "Thomas Checkley",
+            "13": "David Cecil",
+            "12": "Corey Holland",
+            "11": "Benjamin Navosailagi",
+            "10": "Toby Harrison",
+            "9": "Alexander O'Dell",
+            "8": "Robert Cecil",
+            "7": "Josh Jibulu",
+            "6": "Ethan Dawson",
+            "5": "Jordan Braddock",
+            "4": "Samuel Ferrat Figueredo",
+            "3": "William Donegan",
+            "2": "LOUIE DAVIES",
+            "1": "Kenneth Cecil",
+            "S1": "Benjamin Jones",
+            "S2": "Carlos Rodriguez",
+            "S3": "Maximilian Lufkin"
+        }
+    ],
+    "match_id": "1136439",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex"
+}

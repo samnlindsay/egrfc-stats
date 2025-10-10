@@ -1,1 +1,60 @@
-{"date": "2024-12-14", "score": [36, 38], "teams": ["KCS Old Boys", "Hove"], "logos": ["https://images.englandrugby.com/club_images/11188.png", "https://images.englandrugby.com/club_images/10503.png"], "players": [{"15": "Max Gardiner", "14": "Maximilian Robinson", "13": "Victor Bakker", "12": "Thomas Woods", "11": "Tom Senior", "10": "William Carter", "9": "Neil Williams", "8": "Christiaan du Toit", "7": "Dale Spratt", "6": "Charles Paterson", "5": "Cameron Keller", "4": "Rees Powell", "3": "Alexander Owen", "2": "William Page", "1": "Benoit Israel", "S1": "Lekan Oduniyi", "S2": "Jay Bhatia", "S3": "George Pickens"}, {"15": "Tom Crisp", "14": "John Orme-Williams", "13": "Charles Nicholson", "12": "Leo Robertson", "11": "Tom Holborn", "10": "Charlie Knight", "9": "Charles Soffe", "8": "Tobias Brown", "7": "Jack Moore", "6": "tyler ray hooper", "5": "George Brown", "4": "IAN SAUNDERS", "3": "Name withheld", "2": "Christopher Knott", "1": "Ryan Storer", "S1": "Toby Downes", "S2": "Guy Patton", "S3": "Ryan Murrough"}]}
+{
+    "date": "2024-12-14",
+    "score": [
+        36,
+        38
+    ],
+    "teams": [
+        "KCS Old Boys",
+        "Hove"
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/11188.png",
+        "https://images.englandrugby.com/club_images/10503.png"
+    ],
+    "players": [
+        {
+            "15": "Max Gardiner",
+            "14": "Maximilian Robinson",
+            "13": "Victor Bakker",
+            "12": "Thomas Woods",
+            "11": "Tom Senior",
+            "10": "William Carter",
+            "9": "Neil Williams",
+            "8": "Christiaan du Toit",
+            "7": "Dale Spratt",
+            "6": "Charles Paterson",
+            "5": "Cameron Keller",
+            "4": "Rees Powell",
+            "3": "Alexander Owen",
+            "2": "William Page",
+            "1": "Benoit Israel",
+            "S1": "Lekan Oduniyi",
+            "S2": "Jay Bhatia",
+            "S3": "George Pickens"
+        },
+        {
+            "15": "Tom Crisp",
+            "14": "John Orme-Williams",
+            "13": "Charles Nicholson",
+            "12": "Leo Robertson",
+            "11": "Tom Holborn",
+            "10": "Charlie Knight",
+            "9": "Charles Soffe",
+            "8": "Tobias Brown",
+            "7": "Jack Moore",
+            "6": "tyler ray hooper",
+            "5": "George Brown",
+            "4": "IAN SAUNDERS",
+            "3": "Name withheld",
+            "2": "Christopher Knott",
+            "1": "Ryan Storer",
+            "S1": "Toby Downes",
+            "S2": "Guy Patton",
+            "S3": "Ryan Murrough"
+        }
+    ],
+    "match_id": "1136474",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex"
+}

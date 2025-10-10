@@ -1,0 +1,60 @@
+{
+    "match_id": "982023",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2023-01-28",
+    "teams": [
+        "Eastbourne",
+        "Pulborough"
+    ],
+    "score": [
+        27,
+        24
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7209.png",
+        "https://images.englandrugby.com/club_images/17255.png"
+    ],
+    "players": [
+        {
+            "15": "Mason Dowle",
+            "14": "Oliver Horley",
+            "13": "Jake Howe",
+            "12": "Ben Perrott",
+            "11": "Dylan Becker",
+            "10": "Martial Chaput",
+            "9": "Name withheld",
+            "8": "Jeremy Montes",
+            "7": "Vincent Morse",
+            "6": "Owen Davies",
+            "5": "Joshua Buckwell",
+            "4": "Luke Thomas",
+            "3": "Paul Smith",
+            "2": "Joseph Bettles",
+            "1": "Christopher Hosking",
+            "S1": "Stefan Cousins",
+            "S2": "Gianluca Bianchi",
+            "S3": "Carl Slaughter"
+        },
+        {
+            "15": "Archie Sadler",
+            "14": "Sven Dahlmann",
+            "13": "Raiph Robson",
+            "12": "Bryan Woodhouse",
+            "11": "Thomas Garnett",
+            "10": "Ludo Milne",
+            "9": "Daniel Paige",
+            "8": "Michael Woodhouse",
+            "7": "Kieran Mellor",
+            "6": "James Hobbs",
+            "5": "Ben Sadler",
+            "4": "Matthew Goring",
+            "3": "Harry O'Brien",
+            "2": "Coby Coy",
+            "1": "Johny-joe Staples",
+            "S1": "Henry Lee",
+            "S2": "Joe Johnson",
+            "S3": "Simon Burfiend"
+        }
+    ]
+}

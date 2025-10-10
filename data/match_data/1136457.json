@@ -1,1 +1,60 @@
-{"date": "2024-11-16", "score": [12, 48], "teams": ["East Grinstead", "Trinity"], "logos": ["https://images.englandrugby.com/club_images/7134.png", "https://images.englandrugby.com/club_images/23175.png"], "players": [{"15": "Ted Hardisty", "14": "Jake Radcliffe", "13": "Christopher May-Miller", "12": "Max Crawley-Moore", "11": "Alistair Moffatt", "10": "Oliver Billin", "9": "Noah Roberts", "8": "Connor Leggat", "7": "Ryland Thomas", "6": "Tom Mooney", "5": "John Peaty", "4": "Daniel Billin", "3": "Joshua Brimecombe", "2": "Benjamin Tottman", "1": "Guy Collins", "S1": "George Beet", "S2": "Samuel Lindsay-McCall", "S3": "Benjamin Beard"}, {"15": "Benjamin Telfer", "14": "Callum True", "13": "Archie McMillan", "12": "Thomas Wilcox", "11": "Ben Edmondson", "10": "George Kimmins", "9": "Harry Wilson", "8": "Farooq Agbalaya", "7": "Benjamin Vaillant", "6": "Kean Orchard", "5": "Edward Wilkie", "4": "Oliver Hubbard", "3": "Alastair Hall", "2": "Quinn Singh", "1": "Marc McEvilly", "S1": "David Hoffmann", "S2": "Alexander Scott", "S3": "Jack Greenwood"}]}
+{
+    "date": "2024-11-16",
+    "score": [
+        12,
+        48
+    ],
+    "teams": [
+        "East Grinstead",
+        "Trinity"
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7134.png",
+        "https://images.englandrugby.com/club_images/23175.png"
+    ],
+    "players": [
+        {
+            "15": "Ted Hardisty",
+            "14": "Jake Radcliffe",
+            "13": "Christopher May-Miller",
+            "12": "Max Crawley-Moore",
+            "11": "Alistair Moffatt",
+            "10": "Oliver Billin",
+            "9": "Noah Roberts",
+            "8": "Connor Leggat",
+            "7": "Ryland Thomas",
+            "6": "Tom Mooney",
+            "5": "John Peaty",
+            "4": "Daniel Billin",
+            "3": "Joshua Brimecombe",
+            "2": "Benjamin Tottman",
+            "1": "Guy Collins",
+            "S1": "George Beet",
+            "S2": "Samuel Lindsay-McCall",
+            "S3": "Benjamin Beard"
+        },
+        {
+            "15": "Benjamin Telfer",
+            "14": "Callum True",
+            "13": "Archie McMillan",
+            "12": "Thomas Wilcox",
+            "11": "Ben Edmondson",
+            "10": "George Kimmins",
+            "9": "Harry Wilson",
+            "8": "Farooq Agbalaya",
+            "7": "Benjamin Vaillant",
+            "6": "Kean Orchard",
+            "5": "Edward Wilkie",
+            "4": "Oliver Hubbard",
+            "3": "Alastair Hall",
+            "2": "Quinn Singh",
+            "1": "Marc McEvilly",
+            "S1": "David Hoffmann",
+            "S2": "Alexander Scott",
+            "S3": "Jack Greenwood"
+        }
+    ],
+    "match_id": "1136457",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex"
+}

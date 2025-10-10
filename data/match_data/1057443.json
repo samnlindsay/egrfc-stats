@@ -1,0 +1,57 @@
+{
+    "match_id": "1057443",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2023-09-16",
+    "teams": [
+        "Kingston",
+        "KCS Old Boys"
+    ],
+    "score": [
+        17,
+        39
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/11663.png",
+        "https://images.englandrugby.com/club_images/11188.png"
+    ],
+    "players": [
+        {
+            "15": "Joseph Daiton",
+            "14": "Chun Yeung WU",
+            "13": "Ross Mctear",
+            "12": "Salvador Gomes",
+            "11": "Elton Gwekwete",
+            "10": "Jonathan Mcdunphy",
+            "9": "Charles Kelly",
+            "8": "Samuel Rushmer",
+            "7": "William Smith",
+            "6": "Christopher Hall",
+            "5": "Scott Howe",
+            "4": "David Wakefield",
+            "3": "Samuel Johnson",
+            "2": "Name withheld",
+            "1": "Tom Tyler",
+            "S1": "James Layzell",
+            "S2": "James Renouf",
+            "S3": "Thomas Davies"
+        },
+        {
+            "15": "Nathan Chan",
+            "14": "James Hattersley",
+            "13": "William Melling",
+            "12": "Jacob Wood",
+            "11": "Funmi Oduniyi",
+            "10": "James Shaw",
+            "9": "Charles Paterson",
+            "8": "Harry Stevens",
+            "7": "Cameron Keller",
+            "6": "Alexander Owen",
+            "5": "William Page",
+            "4": "Benoit Israel",
+            "3": "James Stimson",
+            "2": "Adam Calaminus",
+            "1": "Jamie Miller"
+        }
+    ]
+}

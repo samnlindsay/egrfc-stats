@@ -1,0 +1,60 @@
+{
+    "match_id": "981966",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2022-09-24",
+    "teams": [
+        "Eastbourne",
+        "Shoreham"
+    ],
+    "score": [
+        77,
+        12
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7209.png",
+        "https://images.englandrugby.com/club_images/19257.png"
+    ],
+    "players": [
+        {
+            "15": "Name withheld",
+            "14": "Gianluca Bianchi",
+            "13": "Jake Howe",
+            "12": "Ben Perrott",
+            "11": "Dylan Becker",
+            "10": "Aaron Hossack",
+            "9": "Harrison Gibbons",
+            "8": "Owen Davies",
+            "7": "Carl Slaughter",
+            "6": "Ryan Shields",
+            "5": "Joshua Buckwell",
+            "4": "Luke Thomas",
+            "3": "Alun Cranch",
+            "2": "Joseph Bettles",
+            "1": "Christopher Hosking",
+            "S1": "Ronnie Doorey-Palmer",
+            "S2": "Mason Dowle",
+            "S3": "Joshua Imich"
+        },
+        {
+            "15": "Toby Reed",
+            "14": "Adam Fear",
+            "13": "Charlie Ford",
+            "12": "Calum Erskine",
+            "11": "Morgan Day",
+            "10": "Ethan Bannister",
+            "9": "Schaeff Potter",
+            "8": "Gavin Cox",
+            "7": "Samuel Kentell",
+            "6": "Cameron Waller",
+            "5": "Daniel Adams",
+            "4": "Alex Hall",
+            "3": "Mathew Bellenie",
+            "2": "James Marsh",
+            "1": "Daryn Clarke",
+            "S1": "Carl Pittaway",
+            "S2": "Noah Rudge",
+            "S3": "Steven Goater"
+        }
+    ]
+}

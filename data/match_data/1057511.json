@@ -1,0 +1,59 @@
+{
+    "match_id": "1057511",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2023-12-16",
+    "teams": [
+        "Teddington",
+        "Twickenham"
+    ],
+    "score": [
+        67,
+        24
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/21732.png",
+        "https://images.englandrugby.com/club_images/23336.png"
+    ],
+    "players": [
+        {
+            "15": "Name withheld",
+            "14": "Joshua Mckiernan",
+            "13": "Huw Morgan",
+            "12": "Harry Smith",
+            "11": "Robert Beevers",
+            "10": "James Frankenberger",
+            "9": "Jack Capon",
+            "8": "Alfie Ransom",
+            "7": "Jack Valentine",
+            "6": "Oliver Holland",
+            "5": "Callum Johnston",
+            "4": "Henry Dare",
+            "3": "Daniel Robertshaw",
+            "2": "George Bradford",
+            "1": "Theodore Gibson",
+            "S1": "Christopher Lidington",
+            "S2": "Gabriel Roberts",
+            "S3": "John Smith"
+        },
+        {
+            "15": "Arthur Polley",
+            "14": "Ross Cowell",
+            "13": "Joe Ash",
+            "12": "Pierre Doliveux",
+            "11": "Jamie See",
+            "10": "Alex Stagg",
+            "9": "Nicholas Smith",
+            "8": "Richard Moses",
+            "7": "Jack Fullicks",
+            "6": "Tom Knight",
+            "5": "Louie Banks",
+            "4": "Jordan Fyles",
+            "3": "Joshua Otter",
+            "2": "Alex Bennett",
+            "1": "Raynn Bruce",
+            "S1": "Shay Connolly",
+            "S2": "Luke Deakin"
+        }
+    ]
+}

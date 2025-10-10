@@ -1,0 +1,54 @@
+{
+    "match_id": "1057484",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2023-11-11",
+    "teams": [
+        "Old Tiffinians",
+        "Hove"
+    ],
+    "score": [
+        52,
+        22
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/16068.png",
+        "https://images.englandrugby.com/club_images/10503.png"
+    ],
+    "players": [
+        {
+            "15": "William Sharp",
+            "14": "Maximilian Talman",
+            "13": "Sharif Dougramaji",
+            "12": "Sebastion Kay",
+            "11": "Andrew Day",
+            "10": "George Taylor",
+            "9": "Huw Morris",
+            "8": "Timothy Fawcett",
+            "7": "Daniel Blackman",
+            "6": "Jaewon Jang",
+            "5": "Robert Myddelton",
+            "4": "Hugh Turnbull",
+            "3": "Name withheld",
+            "2": "Sam Rumball",
+            "1": "Ross Hobbs",
+            "S1": "Noah-Vincenz Noeh",
+            "S2": "Callum Fraser",
+            "S3": "Charlie Knight"
+        },
+        {
+            "15": "Tobias Brown",
+            "14": "Guy Patton",
+            "13": "Leo Robertson",
+            "12": "Olly Lewis",
+            "11": "Danny O'Conner",
+            "10": "Thomas Mohan",
+            "9": "Ben Stephens",
+            "8": "Ian Saunders",
+            "7": "George Brown",
+            "6": "Charlie Butcher",
+            "5": "Tyler Hooper",
+            "4": "Alun Sullivan"
+        }
+    ]
+}

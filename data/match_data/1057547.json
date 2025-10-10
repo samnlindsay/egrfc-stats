@@ -1,0 +1,55 @@
+{
+    "match_id": "1057547",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2024-02-17",
+    "teams": [
+        "Hove",
+        "Old Tiffinians"
+    ],
+    "score": [
+        26,
+        20
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/10503.png",
+        "https://images.englandrugby.com/club_images/16068.png"
+    ],
+    "players": [
+        {
+            "15": "Name withheld",
+            "14": "Lloyd Sweeney",
+            "13": "Joey Magill",
+            "12": "Leo Robertson",
+            "11": "Guy Patton",
+            "10": "Olly Lewis",
+            "9": "Charlie Knight",
+            "8": "Jordan Sayers",
+            "7": "Tobias Brown",
+            "6": "Ian Saunders",
+            "5": "George Brown",
+            "4": "Tyler Hooper",
+            "3": "Jordan Gibson",
+            "2": "Charlie Butcher",
+            "1": "Tom Holborn",
+            "S1": "Andrew Day",
+            "S2": "George Price",
+            "S3": "Sharif Dougramaji"
+        },
+        {
+            "15": "Maximilian Talman",
+            "14": "Thomas Latimer",
+            "13": "George Taylor",
+            "12": "Ben Sykes",
+            "11": "Jaewon Jang",
+            "10": "Toby Sydenham",
+            "9": "Hugh Turnbull",
+            "8": "Robert Myddelton",
+            "7": "Callum Fraser",
+            "6": "Ross Hobbs",
+            "5": "Jack Corcoran",
+            "4": "Noah-Vincenz Noeh",
+            "3": "Oliver Beels"
+        }
+    ]
+}

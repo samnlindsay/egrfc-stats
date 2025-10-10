@@ -1,0 +1,58 @@
+{
+    "match_id": "1057466",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2023-10-14",
+    "teams": [
+        "Old Walcountians",
+        "Old Cranleighans"
+    ],
+    "score": [
+        39,
+        17
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/16075.png",
+        "https://images.englandrugby.com/club_images/15615.png"
+    ],
+    "players": [
+        {
+            "15": "Ejiro Erhirhie",
+            "14": "Omarie Brown",
+            "13": "Alexander French",
+            "12": "Dominic Barnaby",
+            "11": "Brendan Murphy",
+            "10": "Sebastian Chmielinski",
+            "9": "Liam Moorhead",
+            "8": "Thomas Brown",
+            "7": "Joe Henderson",
+            "6": "Oliver Sanders",
+            "5": "Peter Thomas",
+            "4": "Joseph Lawrence",
+            "3": "Paul Harris",
+            "2": "Name withheld",
+            "1": "Dominic Bell",
+            "S1": "James Blackmore",
+            "S2": "Andrew Togbolah",
+            "S3": "Scott Rees"
+        },
+        {
+            "15": "Barney Gill",
+            "14": "Oliver Salmon",
+            "13": "Thomas Puijk",
+            "12": "George Blurton",
+            "11": "Samuel Lubbock",
+            "10": "Edward Sanderson",
+            "9": "Jacob Enness",
+            "8": "Bradley Lennard",
+            "7": "Laughlan Wood",
+            "6": "Charlie Wilson",
+            "5": "James Fitzmaurice",
+            "4": "Charles Blurton",
+            "3": "James McLeod",
+            "2": "Philip Hodson",
+            "1": "Patrick Wright",
+            "S1": "Arya Firake"
+        }
+    ]
+}

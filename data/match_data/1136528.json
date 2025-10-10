@@ -1,0 +1,60 @@
+{
+    "match_id": "1136528",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2025-03-22",
+    "teams": [
+        "Twickenham",
+        "Weybridge Vandals"
+    ],
+    "score": [
+        29,
+        22
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/23336.png",
+        "https://images.englandrugby.com/club_images/25094.png"
+    ],
+    "players": [
+        {
+            "15": "Thomas Foster",
+            "14": "William Hellel",
+            "13": "Louis Boyd",
+            "12": "John Smith",
+            "11": "Arthur Polley",
+            "10": "Jamie See",
+            "9": "Samuel Goddard",
+            "8": "Nicholas Smith",
+            "7": "James Moore",
+            "6": "Richard Moses",
+            "5": "Jake White",
+            "4": "Louie Banks",
+            "3": "Jordan Fyles",
+            "2": "Joshua Otter",
+            "1": "Frazer Gibson",
+            "S1": "Alex Bennett",
+            "S2": "Jasper Bhamra",
+            "S3": "Joe Ash"
+        },
+        {
+            "15": "Thomas Bolger",
+            "14": "Luke Phair",
+            "13": "Harry Reed",
+            "12": "Sam Bullett",
+            "11": "Karl Hoade",
+            "10": "Daniel Wellden",
+            "9": "Joseph Graves",
+            "8": "Name withheld",
+            "7": "Robbie Dones",
+            "6": "Thomas Frewin",
+            "5": "Lewis Bryant",
+            "4": "Richard Crabb",
+            "3": "Joshua Thomas",
+            "2": "Cameron Edgar",
+            "1": "Luke Hempstead",
+            "S1": "Lloyd Pullen",
+            "S2": "Darren Lockyer",
+            "S3": "Harry Weatherall"
+        }
+    ]
+}

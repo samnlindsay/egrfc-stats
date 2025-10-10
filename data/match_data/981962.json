@@ -1,0 +1,59 @@
+{
+    "match_id": "981962",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2022-09-17",
+    "teams": [
+        "Lewes",
+        "East Grinstead"
+    ],
+    "score": [
+        7,
+        69
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/12206.png",
+        "https://images.englandrugby.com/club_images/7134.png"
+    ],
+    "players": [
+        {
+            "15": "Andy Carmichael",
+            "14": "Daniel Elmes",
+            "13": "Tyler Edwards",
+            "12": "Jordan Whiting",
+            "11": "Joe Reid",
+            "10": "Cian Furlong",
+            "9": "Angus Taylor",
+            "8": "James Shafi",
+            "7": "Benjamin Bishop",
+            "6": "Harry Pryer",
+            "5": "James Sale",
+            "4": "Owen Edmonds",
+            "3": "Kane Dadswell",
+            "2": "Oliver Bowry",
+            "1": "Mouhammed Bacha",
+            "S1": "Edward King",
+            "S2": "Alexander Audsley-Mckenna",
+            "S3": "Thomas Awdry"
+        },
+        {
+            "15": "Chris Taylor",
+            "14": "James Jenkins",
+            "13": "Max Crawley-Moore",
+            "12": "Ryan Morlen",
+            "10": "Daniel Poulton",
+            "9": "George Johnson",
+            "8": "Aaronn Boczek",
+            "7": "Thomas Byron",
+            "6": "John Peaty",
+            "5": "Peter Morley",
+            "4": "Samuel Lindsay-McCall",
+            "3": "David Bridges",
+            "2": "Joshua Brimecombe",
+            "1": "Sean Morgan",
+            "S1": "James Funnell",
+            "S2": "Guy Collins",
+            "S3": "Benjamin Hogan"
+        }
+    ]
+}

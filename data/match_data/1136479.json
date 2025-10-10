@@ -1,1 +1,60 @@
-{"date": "2024-12-21", "score": [55, 17], "teams": ["Weybridge Vandals", "Trinity"], "logos": ["https://images.englandrugby.com/club_images/25094.png", "https://images.englandrugby.com/club_images/23175.png"], "players": [{"15": "Thomas Bolger", "14": "Harry Reed", "13": "Harry Weatherall", "12": "Name withheld", "11": "Karl Hoade", "10": "Daniel Wellden", "9": "Joseph Graves", "8": "Cameron Edgar", "7": "Reece Innes-Gray", "6": "Thomas Frewin", "5": "Michael Mason", "4": "Richard Crabb", "3": "Luke Hempstead", "2": "Callum Hennessey", "1": "Joshua Thomas", "S1": "Joel Keefe", "S2": "Lewis Bryant", "S3": "Paul-Louis Howard"}, {"15": "Benjamin Telfer", "14": "Thomas Fairclough", "13": "Archie McMillan", "12": "Thomas Wilcox", "11": "Olly Wilcox", "10": "George Kimmins", "9": "Harry Wilson", "8": "Oliver Hubbard", "7": "Khalil Alleyne", "6": "Benjamin Vaillant", "5": "GEORGE DANIELS", "4": "Samson Goldschmied", "3": "David Hoffmann", "2": "Quinn Singh", "1": "Alastair Hall", "S1": "Adam Stammers", "S2": "Ben Edmondson", "S3": "Max Farrell"}]}
+{
+    "date": "2024-12-21",
+    "score": [
+        55,
+        17
+    ],
+    "teams": [
+        "Weybridge Vandals",
+        "Trinity"
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/25094.png",
+        "https://images.englandrugby.com/club_images/23175.png"
+    ],
+    "players": [
+        {
+            "15": "Thomas Bolger",
+            "14": "Harry Reed",
+            "13": "Harry Weatherall",
+            "12": "Name withheld",
+            "11": "Karl Hoade",
+            "10": "Daniel Wellden",
+            "9": "Joseph Graves",
+            "8": "Cameron Edgar",
+            "7": "Reece Innes-Gray",
+            "6": "Thomas Frewin",
+            "5": "Michael Mason",
+            "4": "Richard Crabb",
+            "3": "Luke Hempstead",
+            "2": "Callum Hennessey",
+            "1": "Joshua Thomas",
+            "S1": "Joel Keefe",
+            "S2": "Lewis Bryant",
+            "S3": "Paul-Louis Howard"
+        },
+        {
+            "15": "Benjamin Telfer",
+            "14": "Thomas Fairclough",
+            "13": "Archie McMillan",
+            "12": "Thomas Wilcox",
+            "11": "Olly Wilcox",
+            "10": "George Kimmins",
+            "9": "Harry Wilson",
+            "8": "Oliver Hubbard",
+            "7": "Khalil Alleyne",
+            "6": "Benjamin Vaillant",
+            "5": "GEORGE DANIELS",
+            "4": "Samson Goldschmied",
+            "3": "David Hoffmann",
+            "2": "Quinn Singh",
+            "1": "Alastair Hall",
+            "S1": "Adam Stammers",
+            "S2": "Ben Edmondson",
+            "S3": "Max Farrell"
+        }
+    ],
+    "match_id": "1136479",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex"
+}

@@ -1,0 +1,59 @@
+{
+    "match_id": "1057472",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2023-10-21",
+    "teams": [
+        "Old Tiffinians",
+        "Eastbourne"
+    ],
+    "score": [
+        31,
+        17
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/16068.png",
+        "https://images.englandrugby.com/club_images/7209.png"
+    ],
+    "players": [
+        {
+            "15": "William Sharp",
+            "14": "Stefan Frost",
+            "13": "Sharif Dougramaji",
+            "12": "Maximilian Talman",
+            "11": "Oliver Beels",
+            "10": "George Taylor",
+            "9": "Louis Freeman",
+            "8": "Daniel Blackman",
+            "7": "Callum Fraser",
+            "6": "Toby Sydenham",
+            "5": "Noah-Vincenz Noeh",
+            "4": "Robert Myddelton",
+            "3": "Name withheld",
+            "2": "Sam Rumball",
+            "1": "Ross Hobbs",
+            "S1": "George Oram",
+            "S2": "Jack Corcoran",
+            "S3": "Tomos Croxon"
+        },
+        {
+            "15": "Oliver Horley",
+            "14": "Gianluca Bianchi",
+            "13": "Dylan Viles",
+            "12": "Ben Perrott",
+            "11": "Mason Dowle",
+            "10": "Jake Howe",
+            "9": "Jeremy Montes",
+            "8": "Vincent Morse",
+            "7": "James Grey",
+            "6": "Luke Thomas",
+            "5": "Owen Davies",
+            "4": "Paul Smith",
+            "3": "Joseph Bettles",
+            "2": "Christopher Hosking",
+            "1": "Joshua Buckwell",
+            "S1": "Konrad Oneill",
+            "S2": "Ronnie Doorey-Palmer"
+        }
+    ]
+}

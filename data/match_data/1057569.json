@@ -1,0 +1,55 @@
+{
+    "match_id": "1057569",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2024-04-06",
+    "teams": [
+        "Hove",
+        "Teddington"
+    ],
+    "score": [
+        22,
+        45
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/10503.png",
+        "https://images.englandrugby.com/club_images/21732.png"
+    ],
+    "players": [
+        {
+            "15": "Name withheld",
+            "14": "Guy Patton",
+            "13": "John Orme-Williams",
+            "12": "Leo Robertson",
+            "11": "Joey Magill",
+            "10": "Olly Lewis",
+            "9": "Charlie Knight",
+            "8": "Tobias Brown",
+            "7": "Tyler Hooper",
+            "6": "Ian Saunders",
+            "5": "Thomas Baker",
+            "4": "Jordan Gibson",
+            "3": "Ryan Storer",
+            "2": "George Brown",
+            "1": "Lloyd Sweeney",
+            "S1": "Emerson Allen",
+            "S2": "Joshua Mckiernan",
+            "S3": "Jonathan Harte"
+        },
+        {
+            "15": "Huw Morgan",
+            "14": "Joshua Penberthy",
+            "13": "Ethan Davies",
+            "12": "Daniel Robertshaw",
+            "11": "Jack Valentine",
+            "10": "Christopher Lidington",
+            "9": "Oliver Holland",
+            "8": "Rory Mercer",
+            "7": "Alfie Ransom",
+            "6": "Henry Dare",
+            "5": "James Tooke",
+            "4": "Callum Johnston",
+            "3": "Matthew Searle"
+        }
+    ]
+}

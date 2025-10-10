@@ -1,0 +1,56 @@
+{
+    "match_id": "1057536",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2024-01-27",
+    "teams": [
+        "Hove",
+        "Trinity"
+    ],
+    "score": [
+        46,
+        5
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/10503.png",
+        "https://images.englandrugby.com/club_images/23175.png"
+    ],
+    "players": [
+        {
+            "15": "Guy Patton",
+            "14": "Tom Holborn",
+            "13": "Tom Crisp",
+            "12": "Leo Robertson",
+            "11": "Raife Weir",
+            "10": "Name withheld",
+            "9": "Danny O'Conner",
+            "8": "Jordan Sayers",
+            "7": "Tobias Brown",
+            "6": "Ian Saunders",
+            "5": "George Brown",
+            "4": "Tyler Hooper",
+            "3": "Charlie Butcher",
+            "2": "Ryan Storer",
+            "1": "Rhowan Braybrook",
+            "S1": "Archie McMillan",
+            "S2": "Thomas Caplin",
+            "S3": "Tyriq Williams"
+        },
+        {
+            "15": "Marc McEvilly",
+            "14": "Aidan True",
+            "13": "Daniel Crouch",
+            "12": "David Stanton",
+            "11": "GEORGE DANIELS",
+            "10": "Benjamin Vaillant",
+            "9": "Oliver Hubbard",
+            "8": "Alexander Scott",
+            "7": "David Spedding",
+            "6": "Jacques Bryant",
+            "5": "Jason Hoffmann",
+            "4": "Dominic Plumb",
+            "3": "Toby Plant",
+            "2": "Ben Donovan"
+        }
+    ]
+}

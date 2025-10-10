@@ -1,0 +1,59 @@
+{
+    "match_id": "1057456",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2023-09-30",
+    "teams": [
+        "East Grinstead",
+        "KCS Old Boys"
+    ],
+    "score": [
+        22,
+        26
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7134.png",
+        "https://images.englandrugby.com/club_images/11188.png"
+    ],
+    "players": [
+        {
+            "15": "Chris Taylor",
+            "14": "Alistair Moffatt",
+            "13": "Max Crawley-Moore",
+            "12": "Jack Andrews",
+            "11": "James Mitchell",
+            "10": "Oliver Billin",
+            "9": "Harry White",
+            "8": "Aaronn Boczek",
+            "7": "Ryland Thomas",
+            "6": "Thomas Byron",
+            "5": "Samuel Lindsay-McCall",
+            "4": "Daniel Billin",
+            "3": "Joshua Brimecombe",
+            "2": "Benjamin Tottman",
+            "1": "Guy Collins",
+            "S1": "Mark Oliver",
+            "S2": "Harrison Griffiths",
+            "S3": "Tom Marr"
+        },
+        {
+            "15": "Jacob Wood",
+            "14": "Neil Williams",
+            "13": "Leon Driscoll",
+            "12": "Name withheld",
+            "11": "William Carter",
+            "10": "Charlie Hewes",
+            "9": "Thomas Evans",
+            "8": "Charles Paterson",
+            "7": "Cameron Keller",
+            "6": "Seth Eley",
+            "5": "Samuel Young",
+            "4": "Alexander Owen",
+            "3": "Callum Young",
+            "2": "Benoit Israel",
+            "1": "Funmi Oduniyi",
+            "S1": "Rees Powell",
+            "S2": "Alexander Laidlaw"
+        }
+    ]
+}

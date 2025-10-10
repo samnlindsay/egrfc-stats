@@ -1,1 +1,58 @@
-{"date": "2025-02-01", "score": [76, 5], "teams": ["Weybridge Vandals", "Old Haileyburians"], "logos": ["https://images.englandrugby.com/club_images/25094.png", "https://images.englandrugby.com/club_images/15747.png"], "players": [{"15": "Thomas Bolger", "14": "Luke Phair", "13": "Harry Weatherall", "12": "Karl Hoade", "11": "Name withheld", "10": "Sam Bullett", "9": "Daniel Wellden", "8": "James Gulliver", "7": "Reece Innes-Gray", "6": "Thomas Frewin", "5": "Richard Crabb", "4": "Michael Mason", "3": "Lloyd Pullen", "2": "Cameron Edgar", "1": "Joshua Thomas", "S1": "Robbie Dones", "S2": "Joseph Graves", "S3": "Harry Reed"}, {"15": "Edward Walker", "14": "Elliot Knox", "13": "Shea Minty", "12": "Ben Ter Haar", "11": "Ollie Mann", "10": "Cameron Bullard", "9": "Charles Hymer", "8": "Thomas Craven", "7": "Harry Harper-Dowe", "6": "Jack Swingler", "5": "Tobi Costello", "4": "Jacob Cummins", "3": "Charlie Golding", "2": "Robin Kear", "1": "Dylan Wallis", "S1": "Ben Lawrence"}]}
+{
+    "date": "2025-02-01",
+    "score": [
+        76,
+        5
+    ],
+    "teams": [
+        "Weybridge Vandals",
+        "Old Haileyburians"
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/25094.png",
+        "https://images.englandrugby.com/club_images/15747.png"
+    ],
+    "players": [
+        {
+            "15": "Thomas Bolger",
+            "14": "Luke Phair",
+            "13": "Harry Weatherall",
+            "12": "Karl Hoade",
+            "11": "Name withheld",
+            "10": "Sam Bullett",
+            "9": "Daniel Wellden",
+            "8": "James Gulliver",
+            "7": "Reece Innes-Gray",
+            "6": "Thomas Frewin",
+            "5": "Richard Crabb",
+            "4": "Michael Mason",
+            "3": "Lloyd Pullen",
+            "2": "Cameron Edgar",
+            "1": "Joshua Thomas",
+            "S1": "Robbie Dones",
+            "S2": "Joseph Graves",
+            "S3": "Harry Reed"
+        },
+        {
+            "15": "Edward Walker",
+            "14": "Elliot Knox",
+            "13": "Shea Minty",
+            "12": "Ben Ter Haar",
+            "11": "Ollie Mann",
+            "10": "Cameron Bullard",
+            "9": "Charles Hymer",
+            "8": "Thomas Craven",
+            "7": "Harry Harper-Dowe",
+            "6": "Jack Swingler",
+            "5": "Tobi Costello",
+            "4": "Jacob Cummins",
+            "3": "Charlie Golding",
+            "2": "Robin Kear",
+            "1": "Dylan Wallis",
+            "S1": "Ben Lawrence"
+        }
+    ],
+    "match_id": "1136502",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex"
+}

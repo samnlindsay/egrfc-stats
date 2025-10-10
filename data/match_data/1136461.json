@@ -1,1 +1,60 @@
-{"date": "2024-11-23", "score": [45, 10], "teams": ["Twickenham", "Haywards Heath"], "logos": ["https://images.englandrugby.com/club_images/23336.png", "https://images.englandrugby.com/club_images/9776.png"], "players": [{"15": "Jake Griffiths", "14": "William Hellel", "13": "John Smith", "12": "Joe Ash", "11": "Arthur Polley", "10": "Jamie See", "9": "Alex Stagg", "8": "Nicholas Smith", "7": "James Moore", "6": "Richard Moses", "5": "Jack Fullicks", "4": "Jake White", "3": "Jordan Fyles", "2": "Joshua Otter", "1": "Alex Bennett", "S1": "James Filbey", "S2": "Mohammed Elata", "S3": "Samuel Goddard"}, {"15": "Christopher Neill", "14": "Gabriel Moore", "13": "Ben Martin", "12": "Geoffrey Bridges", "11": "Takhy Ndiaye Marrero", "10": "Douglas Kern", "9": "James Thurston", "8": "Ben Eustace", "7": "Flinn Herbert", "6": "Thomas Smith", "5": "Ellis Dubois", "4": "Harry Clark", "3": "Harrison Thomas Edwards", "2": "William Purdy", "1": "Sebastian Probert-Broster", "S1": "Roscoe Atkins", "S2": "Martin Mcdonagh", "S3": "Josh Pope"}]}
+{
+    "date": "2024-11-23",
+    "score": [
+        45,
+        10
+    ],
+    "teams": [
+        "Twickenham",
+        "Haywards Heath"
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/23336.png",
+        "https://images.englandrugby.com/club_images/9776.png"
+    ],
+    "players": [
+        {
+            "15": "Jake Griffiths",
+            "14": "William Hellel",
+            "13": "John Smith",
+            "12": "Joe Ash",
+            "11": "Arthur Polley",
+            "10": "Jamie See",
+            "9": "Alex Stagg",
+            "8": "Nicholas Smith",
+            "7": "James Moore",
+            "6": "Richard Moses",
+            "5": "Jack Fullicks",
+            "4": "Jake White",
+            "3": "Jordan Fyles",
+            "2": "Joshua Otter",
+            "1": "Alex Bennett",
+            "S1": "James Filbey",
+            "S2": "Mohammed Elata",
+            "S3": "Samuel Goddard"
+        },
+        {
+            "15": "Christopher Neill",
+            "14": "Gabriel Moore",
+            "13": "Ben Martin",
+            "12": "Geoffrey Bridges",
+            "11": "Takhy Ndiaye Marrero",
+            "10": "Douglas Kern",
+            "9": "James Thurston",
+            "8": "Ben Eustace",
+            "7": "Flinn Herbert",
+            "6": "Thomas Smith",
+            "5": "Ellis Dubois",
+            "4": "Harry Clark",
+            "3": "Harrison Thomas Edwards",
+            "2": "William Purdy",
+            "1": "Sebastian Probert-Broster",
+            "S1": "Roscoe Atkins",
+            "S2": "Martin Mcdonagh",
+            "S3": "Josh Pope"
+        }
+    ],
+    "match_id": "1136461",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex"
+}

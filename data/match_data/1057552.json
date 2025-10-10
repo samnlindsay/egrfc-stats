@@ -1,0 +1,60 @@
+{
+    "match_id": "1057552",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2024-03-02",
+    "teams": [
+        "Old Walcountians",
+        "Weybridge Vandals"
+    ],
+    "score": [
+        3,
+        47
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/16075.png",
+        "https://images.englandrugby.com/club_images/25094.png"
+    ],
+    "players": [
+        {
+            "15": "Marvin Fletcher-Rogers",
+            "14": "Omarie Brown",
+            "13": "Andrew Togbolah",
+            "12": "Dominic Barnaby",
+            "11": "Ejiro Erhirhie",
+            "10": "Alexander French",
+            "9": "Thomas Downes",
+            "8": "Joe Henderson",
+            "7": "Scott Stevens",
+            "6": "Oliver Sanders",
+            "5": "Callum Rees",
+            "4": "Dominic Bell",
+            "3": "Paul Harris",
+            "2": "Alexander Skinner",
+            "1": "Daniel Bell",
+            "S1": "James Blackmore",
+            "S2": "Dylan Camakamma",
+            "S3": "Callum Stone"
+        },
+        {
+            "15": "Thomas Bolger",
+            "14": "Harry Reed",
+            "13": "Oliver Day",
+            "12": "Karl Hoade",
+            "11": "Luke Phair",
+            "10": "David Loubser",
+            "9": "Daniel Wellden",
+            "8": "Michael Mason",
+            "7": "Name withheld",
+            "6": "Luke Dones",
+            "5": "Darren Lockyer",
+            "4": "Richard Crabb",
+            "3": "Luke Hempstead",
+            "2": "Lewis Razey",
+            "1": "Joshua Thomas",
+            "S1": "Lloyd Pullen",
+            "S2": "Michael Dolan",
+            "S3": "Reece Innes-Gray"
+        }
+    ]
+}

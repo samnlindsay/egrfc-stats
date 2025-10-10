@@ -1,0 +1,60 @@
+{
+    "match_id": "1057553",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2024-03-02",
+    "teams": [
+        "East Grinstead",
+        "Eastbourne"
+    ],
+    "score": [
+        15,
+        14
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7134.png",
+        "https://images.englandrugby.com/club_images/7209.png"
+    ],
+    "players": [
+        {
+            "15": "Luke Maker",
+            "14": "Name withheld",
+            "13": "Samuel Musgrave",
+            "12": "Benjamin Saunders",
+            "11": "Jake Radcliffe",
+            "10": "Daniel Poulton",
+            "9": "Noah Roberts",
+            "8": "Connor Leggat",
+            "7": "Ryland Thomas",
+            "6": "Aaronn Boczek",
+            "5": "Daniel Billin",
+            "4": "Samuel Lindsay-McCall",
+            "3": "Joshua Brimecombe",
+            "2": "Benjamin Tottman",
+            "1": "Guy Collins",
+            "S1": "Mark Oliver",
+            "S2": "David Bridges",
+            "S3": "Alistair Moffatt"
+        },
+        {
+            "15": "Mason Dowle",
+            "14": "Gianluca Bianchi",
+            "13": "Jake Howe",
+            "12": "Ronnie Doorey-Palmer",
+            "11": "Dylan Viles",
+            "10": "Aaron Hossack",
+            "9": "Brendan Challis",
+            "8": "Jeremy Montes",
+            "7": "Vincent Morse",
+            "6": "Ryan Shields",
+            "5": "Owen Davies",
+            "4": "Luke Thomas",
+            "3": "Paul Smith",
+            "2": "Joseph Bettles",
+            "1": "Daniel Keen",
+            "S1": "Benjamin Gower",
+            "S2": "Pedro Sousa",
+            "S3": "Amro Hammer"
+        }
+    ]
+}

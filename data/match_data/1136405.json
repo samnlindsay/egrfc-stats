@@ -1,1 +1,60 @@
-{"date": "2024-09-07", "score": [16, 18], "teams": ["East Grinstead", "London Cornish"], "logos": ["https://images.englandrugby.com/club_images/7134.png", "https://images.englandrugby.com/club_images/12508.png"], "players": [{"15": "Noah Roberts", "14": "Alistair Moffatt", "13": "Name withheld", "12": "Christopher May-Miller", "11": "Jake Radcliffe", "10": "Luke Maker", "9": "Chris Taylor", "8": "Daniel Billin", "7": "Ryland Thomas", "6": "Josh Weaver", "5": "Oliver Toogood", "4": "Samuel Lindsay-McCall", "3": "Joshua Brimecombe", "2": "Benjamin Tottman", "1": "Guy Collins", "S1": "Or Shay", "S2": "Jack Billin", "S3": "Tom Mooney"}, {"15": "Finlay Robjohn", "14": "Robert Mackay", "13": "Kieran Rodda", "12": "Peter Brogden", "11": "George Bromage", "10": "Michael Edworthy", "9": "George Jackson", "8": "Mark Osei-Tutu", "7": "Conor Pearce", "6": "Chai Clarkson", "5": "Alex Davey", "4": "Lewis Farnell", "3": "Ross Mullard", "2": "Ryan Abraham", "1": "James New", "S1": "Anthony Graham", "S2": "Matthew Hakes", "S3": "Dan Phoenix"}]}
+{
+    "date": "2024-09-07",
+    "score": [
+        16,
+        18
+    ],
+    "teams": [
+        "East Grinstead",
+        "London Cornish"
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7134.png",
+        "https://images.englandrugby.com/club_images/12508.png"
+    ],
+    "players": [
+        {
+            "15": "Noah Roberts",
+            "14": "Alistair Moffatt",
+            "13": "Name withheld",
+            "12": "Christopher May-Miller",
+            "11": "Jake Radcliffe",
+            "10": "Luke Maker",
+            "9": "Chris Taylor",
+            "8": "Daniel Billin",
+            "7": "Ryland Thomas",
+            "6": "Josh Weaver",
+            "5": "Oliver Toogood",
+            "4": "Samuel Lindsay-McCall",
+            "3": "Joshua Brimecombe",
+            "2": "Benjamin Tottman",
+            "1": "Guy Collins",
+            "S1": "Or Shay",
+            "S2": "Jack Billin",
+            "S3": "Tom Mooney"
+        },
+        {
+            "15": "Finlay Robjohn",
+            "14": "Robert Mackay",
+            "13": "Kieran Rodda",
+            "12": "Peter Brogden",
+            "11": "George Bromage",
+            "10": "Michael Edworthy",
+            "9": "George Jackson",
+            "8": "Mark Osei-Tutu",
+            "7": "Conor Pearce",
+            "6": "Chai Clarkson",
+            "5": "Alex Davey",
+            "4": "Lewis Farnell",
+            "3": "Ross Mullard",
+            "2": "Ryan Abraham",
+            "1": "James New",
+            "S1": "Anthony Graham",
+            "S2": "Matthew Hakes",
+            "S3": "Dan Phoenix"
+        }
+    ],
+    "match_id": "1136405",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex"
+}

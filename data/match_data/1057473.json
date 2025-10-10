@@ -1,0 +1,59 @@
+{
+    "match_id": "1057473",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2023-10-21",
+    "teams": [
+        "Kingston",
+        "Teddington"
+    ],
+    "score": [
+        20,
+        49
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/11663.png",
+        "https://images.englandrugby.com/club_images/21732.png"
+    ],
+    "players": [
+        {
+            "15": "Scott McKenna",
+            "14": "Joseph Daiton",
+            "13": "Connor Ashwin",
+            "12": "Hugo Eyre",
+            "11": "Philip Dabinski",
+            "10": "Ivan Jones",
+            "9": "Jonathan Mcdunphy",
+            "8": "Samuel Rushmer",
+            "7": "Luke Burge",
+            "6": "Christopher Hall",
+            "5": "Scott Howe",
+            "4": "Nick Crandon",
+            "3": "Samuel Johnson",
+            "2": "Name withheld",
+            "1": "Tom Tyler",
+            "S1": "Tom Rushmer",
+            "S2": "Jonah Conway",
+            "S3": "Reiss Pyatt"
+        },
+        {
+            "15": "James Frankenberger",
+            "14": "Harry Smith",
+            "13": "Huw Morgan",
+            "12": "Joshua Mckiernan",
+            "11": "Robert Beevers",
+            "10": "Angus Bell",
+            "9": "Stuart Ridler",
+            "8": "Alfie Ransom",
+            "7": "James McConnell",
+            "6": "Oliver Holland",
+            "5": "Jack Valentine",
+            "4": "Henry Dare",
+            "3": "Daniel Robertshaw",
+            "2": "George Bradford",
+            "1": "Samuel Rawsthorne",
+            "S1": "Rory Mercer",
+            "S2": "Joe Stainer"
+        }
+    ]
+}

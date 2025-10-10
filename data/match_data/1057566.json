@@ -1,0 +1,59 @@
+{
+    "match_id": "1057566",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2024-03-23",
+    "teams": [
+        "Teddington",
+        "Weybridge Vandals"
+    ],
+    "score": [
+        45,
+        29
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/21732.png",
+        "https://images.englandrugby.com/club_images/25094.png"
+    ],
+    "players": [
+        {
+            "15": "Angus Bell",
+            "14": "Joshua Mckiernan",
+            "13": "Stuart Ridler",
+            "12": "Huw Morgan",
+            "11": "Name withheld",
+            "10": "Robert Beevers",
+            "9": "Matthew Searle",
+            "8": "Jack Capon",
+            "7": "Alfie Ransom",
+            "6": "Daniel Robertshaw",
+            "5": "Oliver Holland",
+            "4": "Jack Valentine",
+            "3": "Henry Dare",
+            "2": "Samuel Rawsthorne",
+            "1": "George Bradford",
+            "S1": "Rory Mercer",
+            "S2": "Ethan Davies",
+            "S3": "Christopher Lidington"
+        },
+        {
+            "15": "David Loubser",
+            "14": "Luke Phair",
+            "13": "Harry Reed",
+            "12": "Karl Hoade",
+            "11": "Joseph Graves",
+            "10": "Jack O'Mara",
+            "9": "Daniel Wellden",
+            "8": "Reece Innes-Gray",
+            "7": "Luke Dones",
+            "6": "Michael Mason",
+            "5": "Richard Crabb",
+            "4": "Luke Hempstead",
+            "3": "Callum Hennessey",
+            "2": "Joshua Thomas",
+            "1": "Lloyd Pullen",
+            "S1": "Michael Dolan",
+            "S2": "Joseph Spencer"
+        }
+    ]
+}

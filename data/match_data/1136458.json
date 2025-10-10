@@ -1,1 +1,60 @@
-{"date": "2024-11-23", "score": [0, 25], "teams": ["Trinity", "Cobham"], "logos": ["https://images.englandrugby.com/club_images/23175.png", "https://images.englandrugby.com/club_images/5336.png"], "players": [{"15": "Max Mouna", "14": "James Duffy", "13": "Archie McMillan", "12": "Thomas Wilcox", "11": "Ben Edmondson", "10": "Benjamin Telfer", "9": "Harry Wilson", "8": "Farooq Agbalaya", "7": "Benjamin Vaillant", "6": "Oliver Hubbard", "5": "Edward Wilkie", "4": "Kean Orchard", "3": "Alastair Hall", "2": "Quinn Singh", "1": "Marc McEvilly", "S1": "David Hoffmann", "S2": "Adam Stammers", "S3": "Jack Greenwood"}, {"15": "Connor Dellapina", "14": "Taylor Rice-Burnett", "13": "Finlay Savill", "12": "Will Stephen", "11": "James Edmondson", "10": "Knox O'Connor", "9": "Rory Penfold", "8": "Thomas Davison", "7": "Oliver Fox", "6": "Oliver Fielding", "5": "Louis Porter", "4": "James White", "3": "Ryan Aujla", "2": "Andrew Murphy", "1": "Chris Lippiatt", "S1": "Ben Joyce", "S2": "Edward Jackson", "S3": "Sam Meehan"}]}
+{
+    "date": "2024-11-23",
+    "score": [
+        0,
+        25
+    ],
+    "teams": [
+        "Trinity",
+        "Cobham"
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/23175.png",
+        "https://images.englandrugby.com/club_images/5336.png"
+    ],
+    "players": [
+        {
+            "15": "Max Mouna",
+            "14": "James Duffy",
+            "13": "Archie McMillan",
+            "12": "Thomas Wilcox",
+            "11": "Ben Edmondson",
+            "10": "Benjamin Telfer",
+            "9": "Harry Wilson",
+            "8": "Farooq Agbalaya",
+            "7": "Benjamin Vaillant",
+            "6": "Oliver Hubbard",
+            "5": "Edward Wilkie",
+            "4": "Kean Orchard",
+            "3": "Alastair Hall",
+            "2": "Quinn Singh",
+            "1": "Marc McEvilly",
+            "S1": "David Hoffmann",
+            "S2": "Adam Stammers",
+            "S3": "Jack Greenwood"
+        },
+        {
+            "15": "Connor Dellapina",
+            "14": "Taylor Rice-Burnett",
+            "13": "Finlay Savill",
+            "12": "Will Stephen",
+            "11": "James Edmondson",
+            "10": "Knox O'Connor",
+            "9": "Rory Penfold",
+            "8": "Thomas Davison",
+            "7": "Oliver Fox",
+            "6": "Oliver Fielding",
+            "5": "Louis Porter",
+            "4": "James White",
+            "3": "Ryan Aujla",
+            "2": "Andrew Murphy",
+            "1": "Chris Lippiatt",
+            "S1": "Ben Joyce",
+            "S2": "Edward Jackson",
+            "S3": "Sam Meehan"
+        }
+    ],
+    "match_id": "1136458",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex"
+}

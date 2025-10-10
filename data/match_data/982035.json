@@ -1,0 +1,58 @@
+{
+    "match_id": "982035",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2023-02-18",
+    "teams": [
+        "Burgess Hill",
+        "Uckfield"
+    ],
+    "score": [
+        24,
+        27
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/3659.png",
+        "https://images.englandrugby.com/club_images/23445.png"
+    ],
+    "players": [
+        {
+            "15": "William Pearson",
+            "14": "Matheus Gava",
+            "13": "Samuel Kingscott",
+            "12": "Ben Mclaren",
+            "11": "Amini Umata",
+            "10": "Oliver Lewis",
+            "9": "Massimo Hiller",
+            "8": "David Wattam",
+            "7": "Name withheld",
+            "6": "Matt Firmager",
+            "5": "Harvey Hays",
+            "4": "Adam Rezazadeh",
+            "3": "Craig Wells",
+            "2": "Robert Blake",
+            "1": "Lee Collingbourne",
+            "S1": "Benjamin Dronfield",
+            "S2": "Joseph Schofield",
+            "S3": "Joseph Brown"
+        },
+        {
+            "15": "Ross James",
+            "14": "Samual Haines",
+            "13": "Joel Andrews",
+            "12": "Sean Bate",
+            "11": "Joel Forward",
+            "10": "Charlie Buckland",
+            "9": "Jack Harvey",
+            "8": "Thomas Booth",
+            "7": "Craig Marshall",
+            "6": "Stephen Hartfield",
+            "5": "Matthew Longhurst",
+            "4": "Davy Armstrong",
+            "3": "Alfie Richardson",
+            "2": "Jakub Rek",
+            "1": "Harvey Pratt",
+            "S1": "Darran ODonovan"
+        }
+    ]
+}

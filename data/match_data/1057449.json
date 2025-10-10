@@ -1,0 +1,57 @@
+{
+    "match_id": "1057449",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2023-09-23",
+    "teams": [
+        "Hove",
+        "Eastbourne"
+    ],
+    "score": [
+        59,
+        28
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/10503.png",
+        "https://images.englandrugby.com/club_images/7209.png"
+    ],
+    "players": [
+        {
+            "15": "Raife Weir",
+            "14": "Tom Crisp",
+            "13": "Guy Patton",
+            "12": "Leo Robertson",
+            "11": "Tom Holborn",
+            "10": "George Davies",
+            "9": "Edward Kittow",
+            "8": "Name withheld",
+            "7": "Tyler Hooper",
+            "6": "Ben Stephens",
+            "5": "George Brown",
+            "4": "Thomas Baker",
+            "3": "Jordan Gibson",
+            "2": "Ryan Storer",
+            "1": "Ian Saunders",
+            "S1": "Andrew Carmichael",
+            "S2": "Oliver Horley",
+            "S3": "Gianluca Bianchi"
+        },
+        {
+            "15": "Martial Chaput",
+            "14": "Ben Perrott",
+            "13": "Dylan Becker",
+            "12": "Jake Howe",
+            "11": "James Grey",
+            "10": "Owen Davies",
+            "9": "Ryan Shields",
+            "8": "Luke Thomas",
+            "7": "Joshua Buckwell",
+            "6": "Alun Cranch",
+            "5": "Joseph Bettles",
+            "4": "Christopher Hosking",
+            "3": "Jeremy Montes",
+            "2": "Paul Smith",
+            "1": "Mason Dowle"
+        }
+    ]
+}

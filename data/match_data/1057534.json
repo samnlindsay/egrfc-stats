@@ -1,0 +1,60 @@
+{
+    "match_id": "1057534",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2024-01-27",
+    "teams": [
+        "Eastbourne",
+        "Old Tiffinians"
+    ],
+    "score": [
+        26,
+        48
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7209.png",
+        "https://images.englandrugby.com/club_images/16068.png"
+    ],
+    "players": [
+        {
+            "15": "Martial Chaput",
+            "14": "Pedro Sousa",
+            "13": "Jake Howe",
+            "12": "Gianluca Bianchi",
+            "11": "Justin Funnell",
+            "10": "Aaron Hossack",
+            "9": "Brendan Challis",
+            "8": "Jeremy Montes",
+            "7": "Vincent Morse",
+            "6": "Owen Davies",
+            "5": "Luke Thomas",
+            "4": "Joshua Buckwell",
+            "3": "Christopher Hosking",
+            "2": "Joseph Bettles",
+            "1": "Daniel Keen",
+            "S1": "Stuart Baker",
+            "S2": "Carl Slaughter",
+            "S3": "Ryan Shields"
+        },
+        {
+            "15": "William Sharp",
+            "14": "George Price",
+            "13": "Sharif Dougramaji",
+            "12": "Maximilian Talman",
+            "11": "Louis Freeman",
+            "10": "George Taylor",
+            "9": "Huw Morris",
+            "8": "Timothy Fawcett",
+            "7": "Jaewon Jang",
+            "6": "Hugh Turnbull",
+            "5": "Robert Myddelton",
+            "4": "Michael O'Connell",
+            "3": "Name withheld",
+            "2": "Sam Rumball",
+            "1": "Ross Hobbs",
+            "S1": "Jack Corcoran",
+            "S2": "Toby Sydenham",
+            "S3": "Tomos Croxon"
+        }
+    ]
+}

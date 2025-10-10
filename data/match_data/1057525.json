@@ -1,0 +1,54 @@
+{
+    "match_id": "1057525",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2024-01-13",
+    "teams": [
+        "Hove",
+        "Old Cranleighans"
+    ],
+    "score": [
+        58,
+        7
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/10503.png",
+        "https://images.englandrugby.com/club_images/15615.png"
+    ],
+    "players": [
+        {
+            "15": "Name withheld",
+            "14": "Rhowan Braybrook",
+            "13": "Tom Crisp",
+            "12": "Leo Robertson",
+            "11": "Lloyd Sweeney",
+            "10": "Olly Lewis",
+            "9": "Danny O'Conner",
+            "8": "Jordan Sayers",
+            "7": "Ben Stephens",
+            "6": "Thomas Baker",
+            "5": "Ian Saunders",
+            "4": "Tyler Hooper",
+            "3": "Charlie Butcher",
+            "2": "Ryan Storer",
+            "1": "Thomas Mohan",
+            "S1": "Scott Rees",
+            "S2": "George Blurton",
+            "S3": "Barney Gill"
+        },
+        {
+            "15": "Peter Dowling",
+            "14": "Ioan Davies",
+            "13": "Alex Nisbet",
+            "12": "Timothy Carpenter",
+            "11": "Simon Steer",
+            "10": "Oscar Davies",
+            "9": "Thomas Reinhardt",
+            "8": "James Fitzmaurice",
+            "7": "Edward Higgins",
+            "6": "James McLeod",
+            "5": "Gregory Mina",
+            "4": "Jochem Oostenbroek"
+        }
+    ]
+}

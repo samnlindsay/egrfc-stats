@@ -1,0 +1,40 @@
+{
+    "match_id": "1155372",
+    "season": "2024-2025",
+    "league": "Harvey's Brewery Counties 3 Sussex",
+    "date": "2024-10-19",
+    "teams": [
+        "Shoreham II",
+        "Haywards Heath II"
+    ],
+    "score": [
+        29,
+        21
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/19262.png",
+        "https://images.englandrugby.com/club_images/9777.png"
+    ],
+    "players": [
+        {},
+        {
+            "15": "Jack Bowman",
+            "14": "Ewan Shepherd",
+            "13": "Paul Mamoany",
+            "12": "James Marsh",
+            "11": "David Ayres",
+            "10": "Adam Fear",
+            "9": "Hector Hawkes",
+            "8": "Alexander Hall",
+            "7": "Ben French",
+            "6": "Harry Cracknell",
+            "5": "Ted Baynham",
+            "4": "Toby Hawker",
+            "3": "Tom Chapman",
+            "2": "James Hannah",
+            "1": "Sam Etherton",
+            "S2": "Joshua Harwood",
+            "S3": "Harry Chapman"
+        }
+    ]
+}

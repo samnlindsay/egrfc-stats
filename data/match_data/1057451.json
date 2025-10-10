@@ -1,0 +1,60 @@
+{
+    "match_id": "1057451",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2023-09-23",
+    "teams": [
+        "Trinity",
+        "East Grinstead"
+    ],
+    "score": [
+        22,
+        25
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/23175.png",
+        "https://images.englandrugby.com/club_images/7134.png"
+    ],
+    "players": [
+        {
+            "15": "Jack Greenwood",
+            "14": "Aidan Sisk",
+            "13": "Marc McEvilly",
+            "12": "Andrew Dean",
+            "11": "James Jenkins",
+            "10": "Daniel Crouch",
+            "9": "James Hammond",
+            "8": "Mark Macaskill",
+            "7": "Benjamin Vaillant",
+            "6": "Oliver Hubbard",
+            "5": "David Spedding",
+            "4": "Charlie Geary-Merrett",
+            "3": "Jacques Bryant",
+            "2": "Alastair Hall",
+            "1": "Alfie Lamb",
+            "S1": "Dominic Plumb",
+            "S2": "Farooq Agbalaya",
+            "S3": "Benjamin Telfer"
+        },
+        {
+            "15": "Jake Radcliffe",
+            "14": "Chris Taylor",
+            "13": "Max Crawley-Moore",
+            "12": "Daniel Billin",
+            "11": "Jack Billin",
+            "10": "Oliver Billin",
+            "9": "George Johnson",
+            "8": "Connor Leggat",
+            "7": "Ryland Thomas",
+            "6": "Aaronn Boczek",
+            "5": "David Bridges",
+            "4": "Samuel Lindsay-McCall",
+            "3": "Joshua Brimecombe",
+            "2": "Benjamin Tottman",
+            "1": "Guy Collins",
+            "S1": "Archie Vickers",
+            "S2": "Thomas Byron",
+            "S3": "Jack Andrews"
+        }
+    ]
+}

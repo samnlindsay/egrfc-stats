@@ -1,0 +1,60 @@
+{
+    "match_id": "1057483",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2023-11-04",
+    "teams": [
+        "Twickenham",
+        "Trinity"
+    ],
+    "score": [
+        52,
+        13
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/23336.png",
+        "https://images.englandrugby.com/club_images/23175.png"
+    ],
+    "players": [
+        {
+            "15": "John Smith",
+            "14": "Arthur Polley",
+            "13": "Samuel Griffin",
+            "12": "Joe Ash",
+            "11": "Lewis Harrison",
+            "10": "Thomas Foster",
+            "9": "Alex Stagg",
+            "8": "Nicholas Smith",
+            "7": "James Moore",
+            "6": "Jack Fullicks",
+            "5": "Tom Knight",
+            "4": "Scott Davidson",
+            "3": "Jordan Fyles",
+            "2": "Joshua Otter",
+            "1": "Richard Moses",
+            "S1": "Alex Bennett",
+            "S2": "Luke Deakin",
+            "S3": "Samuel Goddard"
+        },
+        {
+            "15": "Jack Greenwood",
+            "14": "Tyriq Williams",
+            "13": "Marc McEvilly",
+            "12": "Andrew Dean",
+            "11": "Aidan Sisk",
+            "10": "Daniel Crouch",
+            "9": "Sam Leeves",
+            "8": "Farooq Agbalaya",
+            "7": "Benjamin Vaillant",
+            "6": "Oliver Hubbard",
+            "5": "Toby Plant",
+            "4": "Zouhair Mihramane",
+            "3": "Jacques Bryant",
+            "2": "Timothy Jupp",
+            "1": "Alastair Hall",
+            "S1": "Dominic Plumb",
+            "S2": "Max Maynard",
+            "S3": "Aidan True"
+        }
+    ]
+}

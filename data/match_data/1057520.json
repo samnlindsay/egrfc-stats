@@ -1,0 +1,58 @@
+{
+    "match_id": "1057520",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2024-01-13",
+    "teams": [
+        "Old Walcountians",
+        "Kingston"
+    ],
+    "score": [
+        25,
+        5
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/16075.png",
+        "https://images.englandrugby.com/club_images/11663.png"
+    ],
+    "players": [
+        {
+            "15": "Harrison Mogridge",
+            "14": "Marvin Fletcher-Rogers",
+            "13": "Ejiro Erhirhie",
+            "12": "Alexander Skinner",
+            "11": "Brendan Murphy",
+            "10": "Alexander French",
+            "9": "James Henderson",
+            "8": "Oliver Dodwell",
+            "7": "Joe Henderson",
+            "6": "Thomas Brown",
+            "5": "Peter Thomas",
+            "4": "Dominic Bell",
+            "3": "James Ford",
+            "2": "Name withheld",
+            "1": "Jonathan Evans",
+            "S1": "Tom Housden",
+            "S2": "Andrew Togbolah",
+            "S3": "Cameron Fisher"
+        },
+        {
+            "15": "Jacob Jones",
+            "14": "Brandon Nisbet",
+            "13": "Tyler Reichardt",
+            "12": "Charles Kelly",
+            "11": "Boyd Rouse",
+            "10": "Herbie Archer",
+            "9": "Hugo Eyre",
+            "8": "William Smith",
+            "7": "Christopher Hall",
+            "6": "David Wakefield",
+            "5": "Nick Crandon",
+            "4": "Tom Rushmer",
+            "3": "Tom Tyler",
+            "2": "Samuel Johnson",
+            "1": "Scott McKenna",
+            "S1": "Devon Parsons"
+        }
+    ]
+}

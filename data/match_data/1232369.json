@@ -1,0 +1,66 @@
+{
+    "match_id": "1232369",
+    "season": "2025-2026",
+    "league": "Harvey's Brewery Counties 3 Sussex",
+    "date": "2025-10-04",
+    "teams": [
+        "Haywards Heath II",
+        "Worthing III"
+    ],
+    "score": [
+        54,
+        24
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/9777.png",
+        "https://images.englandrugby.com/club_images/127674.png"
+    ],
+    "players": [
+        {
+            "15": "Name withheld",
+            "14": "Che Stokes",
+            "13": "Douglas Kern",
+            "12": "Ben Eustace",
+            "11": "Jack Hart",
+            "10": "Christopher Neill",
+            "9": "Tom Butler",
+            "8": "Fraser Russell",
+            "7": "Josh Pope",
+            "6": "Jacob Davies",
+            "5": "Patrick Stedman",
+            "4": "Henry Dickson",
+            "3": "Martin Mcdonagh",
+            "2": "Lewis Goodall",
+            "1": "Karl Wicking",
+            "S1": "Stanley Bradford",
+            "S2": "Josh Jones",
+            "S3": "Zack Davies",
+            "S4": "Alexander Chard",
+            "S5": "Tom Baxter",
+            "S6": "Finlay Furse",
+            "S7": "Daniel Bellamy"
+        },
+        {
+            "15": "Philip Shambrook",
+            "14": "Jamie Burn",
+            "13": "Harry Squire",
+            "12": "Jordan Lowndes",
+            "11": "Jacob Mogre",
+            "10": "Taylor Lansley",
+            "9": "Nicholas Choate",
+            "8": "Jacob Brown",
+            "7": "Dominic Phillips",
+            "6": "Simon Miles",
+            "5": "Nathan Burstow",
+            "4": "Luke Williams",
+            "3": "William Hipkin",
+            "2": "Adam Clarke",
+            "1": "Nathan Roberts",
+            "S1": "Jack Munro",
+            "S2": "Ciaran Glenister",
+            "S3": "Taylor Garratt",
+            "S4": "Ash Rowland",
+            "S5": "Jamie Robertson"
+        }
+    ]
+}

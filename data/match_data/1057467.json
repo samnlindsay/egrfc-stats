@@ -1,0 +1,60 @@
+{
+    "match_id": "1057467",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2023-10-14",
+    "teams": [
+        "East Grinstead",
+        "Kingston"
+    ],
+    "score": [
+        20,
+        11
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7134.png",
+        "https://images.englandrugby.com/club_images/11663.png"
+    ],
+    "players": [
+        {
+            "15": "Oliver Billin",
+            "14": "Samuel Spriddell",
+            "13": "Max Crawley-Moore",
+            "12": "Benjamin Saunders",
+            "11": "Alistair Moffatt",
+            "10": "Daniel Poulton",
+            "9": "Harry White",
+            "8": "Aaronn Boczek",
+            "7": "Thomas Byron",
+            "6": "Ryland Thomas",
+            "5": "Peter Morley",
+            "4": "Samuel Lindsay-McCall",
+            "3": "Joshua Brimecombe",
+            "2": "Benjamin Tottman",
+            "1": "Guy Collins",
+            "S1": "Connor Leggat",
+            "S2": "Colm Geraghty",
+            "S3": "Benjamin Beard"
+        },
+        {
+            "15": "Charles Kelly",
+            "14": "Scott McKenna",
+            "13": "Ross Mctear",
+            "12": "Tyler Reichardt",
+            "11": "Philip Dabinski",
+            "10": "Cameron Fisher",
+            "9": "Herbie Archer",
+            "8": "Samuel Rushmer",
+            "7": "Luke Burge",
+            "6": "Reiss Pyatt",
+            "5": "David Wakefield",
+            "4": "Christopher Hall",
+            "3": "Samuel Johnson",
+            "2": "Name withheld",
+            "1": "Tom Tyler",
+            "S1": "Hugo Eyre",
+            "S2": "Elton Gwekwete",
+            "S3": "Jonathan Mcdunphy"
+        }
+    ]
+}

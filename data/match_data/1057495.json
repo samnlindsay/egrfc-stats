@@ -1,0 +1,59 @@
+{
+    "match_id": "1057495",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2023-11-18",
+    "teams": [
+        "Trinity",
+        "KCS Old Boys"
+    ],
+    "score": [
+        22,
+        42
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/23175.png",
+        "https://images.englandrugby.com/club_images/11188.png"
+    ],
+    "players": [
+        {
+            "15": "Benjamin Telfer",
+            "14": "Tyriq Williams",
+            "13": "Marc McEvilly",
+            "12": "Andrew Dean",
+            "11": "Max Maynard",
+            "10": "Daniel Crouch",
+            "9": "Jack Greenwood",
+            "8": "GEORGE DANIELS",
+            "7": "Benjamin Vaillant",
+            "6": "Oliver Hubbard",
+            "5": "Nathan Bacon",
+            "4": "David Spedding",
+            "3": "Jacques Bryant",
+            "2": "Adam Stammers",
+            "1": "Alastair Hall",
+            "S1": "Timothy Jupp",
+            "S2": "Fuad Agbalaya",
+            "S3": "Harry Wilson"
+        },
+        {
+            "15": "Jack Dunn",
+            "14": "William Kibblewhite",
+            "13": "Name withheld",
+            "12": "James Hattersley",
+            "11": "Nathan Chan",
+            "10": "William Carter",
+            "9": "Thomas Evans",
+            "8": "James Shaw",
+            "7": "Callum Young",
+            "6": "Seth Eley",
+            "5": "Cameron Keller",
+            "4": "Rees Powell",
+            "3": "Alexander Laidlaw",
+            "2": "Minhyuk Seo",
+            "1": "Funmi Oduniyi",
+            "S1": "Samuel Young",
+            "S2": "Josh Dhillon"
+        }
+    ]
+}

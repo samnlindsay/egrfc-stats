@@ -1,1 +1,60 @@
-{"date": "2025-03-01", "score": [26, 20], "teams": ["Weybridge Vandals", "Old Rutlishians"], "logos": ["https://images.englandrugby.com/club_images/25094.png", "https://images.englandrugby.com/club_images/16005.png"], "players": [{"15": "Thomas Bolger", "14": "Harry Reed", "13": "Harry Weatherall", "12": "Sam Bullett", "11": "Karl Hoade", "10": "Daniel Wellden", "9": "Joseph Graves", "8": "James Gulliver", "7": "Paul-Louis Howard", "6": "Reece Innes-Gray", "5": "Lewis Bryant", "4": "Richard Crabb", "3": "Joshua Thomas", "2": "Cameron Edgar", "1": "Luke Hempstead", "S1": "Lloyd Pullen", "S2": "Robbie Dones", "S3": "Luke Phair"}, {"15": "James Collins", "14": "Oliver O\u2019Brien", "13": "David Cecil", "12": "Maximilian Lufkin", "11": "Michael Boland", "10": "Toby Harrison", "9": "Thomas Checkley", "8": "Robert Cecil", "7": "Harry Hovell", "6": "Benjamin Sumrie", "5": "Alasdair Dean", "4": "Josh Jibulu", "3": "William Donegan", "2": "LOUIE DAVIES", "1": "Kenneth Cecil", "S1": "Ryan Dunne", "S2": "Jordan Braddock", "S3": "Charles Julian"}]}
+{
+    "date": "2025-03-01",
+    "score": [
+        26,
+        20
+    ],
+    "teams": [
+        "Weybridge Vandals",
+        "Old Rutlishians"
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/25094.png",
+        "https://images.englandrugby.com/club_images/16005.png"
+    ],
+    "players": [
+        {
+            "15": "Thomas Bolger",
+            "14": "Harry Reed",
+            "13": "Harry Weatherall",
+            "12": "Sam Bullett",
+            "11": "Karl Hoade",
+            "10": "Daniel Wellden",
+            "9": "Joseph Graves",
+            "8": "James Gulliver",
+            "7": "Paul-Louis Howard",
+            "6": "Reece Innes-Gray",
+            "5": "Lewis Bryant",
+            "4": "Richard Crabb",
+            "3": "Joshua Thomas",
+            "2": "Cameron Edgar",
+            "1": "Luke Hempstead",
+            "S1": "Lloyd Pullen",
+            "S2": "Robbie Dones",
+            "S3": "Luke Phair"
+        },
+        {
+            "15": "James Collins",
+            "14": "Oliver O\u2019Brien",
+            "13": "David Cecil",
+            "12": "Maximilian Lufkin",
+            "11": "Michael Boland",
+            "10": "Toby Harrison",
+            "9": "Thomas Checkley",
+            "8": "Robert Cecil",
+            "7": "Harry Hovell",
+            "6": "Benjamin Sumrie",
+            "5": "Alasdair Dean",
+            "4": "Josh Jibulu",
+            "3": "William Donegan",
+            "2": "LOUIE DAVIES",
+            "1": "Kenneth Cecil",
+            "S1": "Ryan Dunne",
+            "S2": "Jordan Braddock",
+            "S3": "Charles Julian"
+        }
+    ],
+    "match_id": "1136517",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex"
+}

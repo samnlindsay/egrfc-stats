@@ -1,0 +1,58 @@
+{
+    "match_id": "1057476",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2023-10-21",
+    "teams": [
+        "KCS Old Boys",
+        "Weybridge Vandals"
+    ],
+    "score": [
+        26,
+        21
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/11188.png",
+        "https://images.englandrugby.com/club_images/25094.png"
+    ],
+    "players": [
+        {
+            "15": "Jacques Birch",
+            "14": "Thomas Davies",
+            "13": "Leon Driscoll",
+            "12": "William Melling",
+            "11": "Name withheld",
+            "10": "William Carter",
+            "9": "Thomas Evans",
+            "8": "Callum Young",
+            "7": "Ed Butler",
+            "6": "Cameron Keller",
+            "5": "Samuel Young",
+            "4": "Rees Powell",
+            "3": "Alexander Laidlaw",
+            "2": "Funmi Oduniyi",
+            "1": "Benoit Israel",
+            "S1": "Charles Paterson",
+            "S2": "Neil Williams",
+            "S3": "Kiran Patel"
+        },
+        {
+            "15": "Oliver Day",
+            "14": "Harry Weatherall",
+            "13": "Karl Hoade",
+            "12": "Luke Phair",
+            "11": "Thomas Bolger",
+            "10": "Joseph Graves",
+            "9": "Reece Innes-Gray",
+            "8": "Mattia Mengotti",
+            "7": "Richard Crabb",
+            "6": "Michael Mason",
+            "5": "Luke Hempstead",
+            "4": "Callum Hennessey",
+            "3": "Joshua Thomas",
+            "2": "Lloyd Pullen",
+            "1": "Luke Parr",
+            "S1": "Thomas Ducker"
+        }
+    ]
+}

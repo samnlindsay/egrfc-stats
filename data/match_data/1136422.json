@@ -1,1 +1,60 @@
-{"date": "2024-09-28", "score": [28, 62], "teams": ["Haywards Heath", "Cobham"], "logos": ["https://images.englandrugby.com/club_images/9776.png", "https://images.englandrugby.com/club_images/5336.png"], "players": [{"15": "Christopher Neill", "14": "Gabriel Moore", "13": "James Thurston", "12": "Jack Lucas", "11": "Douglas Kern", "10": "Thomas Wharton", "9": "James Buttle", "8": "Geoffrey Bridges", "7": "Flinn Herbert", "6": "Ellis Dubois", "5": "Charles Fenwick", "4": "Name withheld", "3": "Jack Bull", "2": "William Purdy", "1": "James Fleming", "S1": "Gareth Fergusson", "S2": "Elliott Higgin", "S3": "Lewis Goodall"}, {"15": "Will Stephen", "14": "Elliot Riley", "13": "Will Palmer", "12": "Taylor Rice-Burnett", "11": "Joseph Yorke", "10": "Knox O'Connor", "9": "Ryan Saunders", "8": "Oliver Fielding", "7": "Louis Porter", "6": "Alexander Blackwood", "5": "Alex Humber", "4": "Luke Westgarth-Taylor", "3": "Ben Joyce", "2": "Andrew Murphy", "1": "Chris Lippiatt", "S1": "Ryan Aujla", "S2": "James White", "S3": "James Pearmund"}]}
+{
+    "date": "2024-09-28",
+    "score": [
+        28,
+        62
+    ],
+    "teams": [
+        "Haywards Heath",
+        "Cobham"
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/9776.png",
+        "https://images.englandrugby.com/club_images/5336.png"
+    ],
+    "players": [
+        {
+            "15": "Christopher Neill",
+            "14": "Gabriel Moore",
+            "13": "James Thurston",
+            "12": "Jack Lucas",
+            "11": "Douglas Kern",
+            "10": "Thomas Wharton",
+            "9": "James Buttle",
+            "8": "Geoffrey Bridges",
+            "7": "Flinn Herbert",
+            "6": "Ellis Dubois",
+            "5": "Charles Fenwick",
+            "4": "Name withheld",
+            "3": "Jack Bull",
+            "2": "William Purdy",
+            "1": "James Fleming",
+            "S1": "Gareth Fergusson",
+            "S2": "Elliott Higgin",
+            "S3": "Lewis Goodall"
+        },
+        {
+            "15": "Will Stephen",
+            "14": "Elliot Riley",
+            "13": "Will Palmer",
+            "12": "Taylor Rice-Burnett",
+            "11": "Joseph Yorke",
+            "10": "Knox O'Connor",
+            "9": "Ryan Saunders",
+            "8": "Oliver Fielding",
+            "7": "Louis Porter",
+            "6": "Alexander Blackwood",
+            "5": "Alex Humber",
+            "4": "Luke Westgarth-Taylor",
+            "3": "Ben Joyce",
+            "2": "Andrew Murphy",
+            "1": "Chris Lippiatt",
+            "S1": "Ryan Aujla",
+            "S2": "James White",
+            "S3": "James Pearmund"
+        }
+    ],
+    "match_id": "1136422",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex"
+}

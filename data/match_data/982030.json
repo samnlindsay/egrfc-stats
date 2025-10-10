@@ -1,0 +1,60 @@
+{
+    "match_id": "982030",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2023-02-11",
+    "teams": [
+        "East Grinstead",
+        "Eastbourne"
+    ],
+    "score": [
+        36,
+        30
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7134.png",
+        "https://images.englandrugby.com/club_images/7209.png"
+    ],
+    "players": [
+        {
+            "15": "Oliver Billin",
+            "14": "Benjamin Beard",
+            "13": "Max Crawley-Moore",
+            "12": "Alistair Moffatt",
+            "11": "Jake Radcliffe",
+            "10": "Daniel Poulton",
+            "9": "George Johnson",
+            "8": "Connor Leggat",
+            "7": "David Bridges",
+            "6": "Jordan Walker",
+            "5": "John Peaty",
+            "4": "Samuel Lindsay-McCall",
+            "3": "Joshua Brimecombe",
+            "2": "Benjamin Tottman",
+            "1": "Devon Frost",
+            "S1": "Guy Collins",
+            "S2": "Archie Vickers",
+            "S3": "Ryan Morlen"
+        },
+        {
+            "15": "Mason Dowle",
+            "14": "Gianluca Bianchi",
+            "13": "Jake Howe",
+            "12": "Ben Perrott",
+            "11": "Dylan Becker",
+            "10": "Martial Chaput",
+            "9": "Name withheld",
+            "8": "Owen Davies",
+            "7": "Vincent Morse",
+            "6": "Carl Slaughter",
+            "5": "Joshua Buckwell",
+            "4": "Luke Thomas",
+            "3": "Paul Smith",
+            "2": "Joseph Bettles",
+            "1": "Christopher Hosking",
+            "S1": "Oliver Horley",
+            "S2": "Jeremy Montes",
+            "S3": "Daniel Keen"
+        }
+    ]
+}

@@ -1,1 +1,60 @@
-{"date": "2024-10-26", "score": [58, 22], "teams": ["Old Rutlishians", "Haywards Heath"], "logos": ["https://images.englandrugby.com/club_images/16005.png", "https://images.englandrugby.com/club_images/9776.png"], "players": [{"15": "Oliver O\u2019Brien", "14": "Charles Julian", "13": "David Cecil", "12": "Maximilian Lufkin", "11": "Benjamin Navosailagi", "10": "Toby Harrison", "9": "Alexander O'Dell", "8": "Robert Cecil", "7": "Benjamin Jones", "6": "Ethan Dawson", "5": "Josh Jibulu", "4": "Samuel Ferrat Figueredo", "3": "William Donegan", "2": "LOUIE DAVIES", "1": "Kenneth Cecil", "S1": "Ryan Dunne", "S2": "Carlos Rodriguez", "S3": "Corey Holland"}, {"15": "Christopher Neill", "14": "Ben Martin", "13": "Name withheld", "12": "Jack Lucas", "11": "Takhy Ndiaye Marrero", "10": "Thomas Wharton", "9": "James Thurston", "8": "Geoffrey Bridges", "7": "Lewis Goodall", "6": "Thomas Smith", "5": "Ellis Dubois", "4": "Harry Clark", "3": "Elliott Higgin", "2": "William Purdy", "1": "Harrison Thomas Edwards", "S1": "Flinn Herbert", "S2": "Gareth Fergusson", "S3": "Martin Mcdonagh"}]}
+{
+    "date": "2024-10-26",
+    "score": [
+        58,
+        22
+    ],
+    "teams": [
+        "Old Rutlishians",
+        "Haywards Heath"
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/16005.png",
+        "https://images.englandrugby.com/club_images/9776.png"
+    ],
+    "players": [
+        {
+            "15": "Oliver O\u2019Brien",
+            "14": "Charles Julian",
+            "13": "David Cecil",
+            "12": "Maximilian Lufkin",
+            "11": "Benjamin Navosailagi",
+            "10": "Toby Harrison",
+            "9": "Alexander O'Dell",
+            "8": "Robert Cecil",
+            "7": "Benjamin Jones",
+            "6": "Ethan Dawson",
+            "5": "Josh Jibulu",
+            "4": "Samuel Ferrat Figueredo",
+            "3": "William Donegan",
+            "2": "LOUIE DAVIES",
+            "1": "Kenneth Cecil",
+            "S1": "Ryan Dunne",
+            "S2": "Carlos Rodriguez",
+            "S3": "Corey Holland"
+        },
+        {
+            "15": "Christopher Neill",
+            "14": "Ben Martin",
+            "13": "Name withheld",
+            "12": "Jack Lucas",
+            "11": "Takhy Ndiaye Marrero",
+            "10": "Thomas Wharton",
+            "9": "James Thurston",
+            "8": "Geoffrey Bridges",
+            "7": "Lewis Goodall",
+            "6": "Thomas Smith",
+            "5": "Ellis Dubois",
+            "4": "Harry Clark",
+            "3": "Elliott Higgin",
+            "2": "William Purdy",
+            "1": "Harrison Thomas Edwards",
+            "S1": "Flinn Herbert",
+            "S2": "Gareth Fergusson",
+            "S3": "Martin Mcdonagh"
+        }
+    ],
+    "match_id": "1136440",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex"
+}

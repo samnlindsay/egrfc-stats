@@ -1,0 +1,59 @@
+{
+    "match_id": "981996",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2022-11-12",
+    "teams": [
+        "East Grinstead",
+        "Pulborough"
+    ],
+    "score": [
+        27,
+        31
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7134.png",
+        "https://images.englandrugby.com/club_images/17255.png"
+    ],
+    "players": [
+        {
+            "15": "Oliver Billin",
+            "14": "Alistair Moffatt",
+            "13": "Max Crawley-Moore",
+            "12": "Ryan Morlen",
+            "11": "Joe Terry",
+            "10": "Daniel Poulton",
+            "9": "Benjamin Hogan",
+            "8": "Connor Leggat",
+            "7": "John Peaty",
+            "6": "Daniel Billin",
+            "5": "Guy Collins",
+            "4": "Samuel Lindsay-McCall",
+            "3": "Devon Frost",
+            "2": "Joshua Brimecombe",
+            "1": "Sean Morgan",
+            "S1": "George Beet",
+            "S2": "Ryland Thomas",
+            "S3": "Samuel Spriddell"
+        },
+        {
+            "15": "Archie Sadler",
+            "14": "James Hobbs",
+            "13": "Name withheld",
+            "12": "Bryan Woodhouse",
+            "11": "Thomas Garnett",
+            "10": "Ludo Milne",
+            "9": "Simon Burfiend",
+            "8": "Henry Lee",
+            "7": "Kieran Mellor",
+            "6": "Cameron Rowbotham",
+            "5": "Matthew Goring",
+            "4": "Harry O'Brien",
+            "3": "Michael Woodhouse",
+            "2": "Johny-joe Staples",
+            "1": "Ben Sadler",
+            "S1": "Matthew Corrall",
+            "S2": "Finlay Pitt"
+        }
+    ]
+}

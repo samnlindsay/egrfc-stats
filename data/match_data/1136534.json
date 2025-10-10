@@ -1,0 +1,41 @@
+{
+    "match_id": "1136534",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2025-04-05",
+    "teams": [
+        "London Cornish",
+        "East Grinstead"
+    ],
+    "score": [
+        21,
+        21
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/12508.png",
+        "https://images.englandrugby.com/club_images/7134.png"
+    ],
+    "players": [
+        {},
+        {
+            "15": "Kieran Rodda",
+            "14": "Mark Lockhart",
+            "13": "Charlie Lambert",
+            "12": "Christopher May-Miller",
+            "11": "Shaun Parkes",
+            "10": "Michael Edworthy",
+            "9": "George Jackson",
+            "8": "Tom Mooney",
+            "7": "will spring",
+            "6": "Edward Fink",
+            "5": "James Squires",
+            "4": "Thomas Carr",
+            "3": "David Theobald",
+            "2": "James Ritchie",
+            "1": "James New",
+            "S1": "Name withheld",
+            "S2": "Oscar Cruz",
+            "S3": "Matthew Shah"
+        }
+    ]
+}

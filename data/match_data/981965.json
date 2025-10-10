@@ -1,0 +1,60 @@
+{
+    "match_id": "981965",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2022-09-24",
+    "teams": [
+        "Pulborough",
+        "Crawley"
+    ],
+    "score": [
+        26,
+        19
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/17255.png",
+        "https://images.englandrugby.com/club_images/5807.png"
+    ],
+    "players": [
+        {
+            "15": "Henry Lee",
+            "14": "Bradley Game",
+            "13": "Oliver Burnett",
+            "12": "Bryan Woodhouse",
+            "11": "James Hobbs",
+            "10": "Archie Sadler",
+            "9": "Simon Burfiend",
+            "8": "Matthew Goring",
+            "7": "Kieran Mellor",
+            "6": "Ewan Callaway",
+            "5": "Joe Johnson",
+            "4": "Ben Sadler",
+            "3": "Michael Woodhouse",
+            "2": "Matthew Corrall",
+            "1": "Thomas Pascall",
+            "S1": "Jonathan Scrase",
+            "S2": "Garry Kidner",
+            "S3": "Terry Falk"
+        },
+        {
+            "15": "Lewis Burke",
+            "14": "Joshua Rodwell",
+            "13": "Elliot Anderson",
+            "12": "Kristian Dean",
+            "11": "Name withheld",
+            "10": "Corey Toogood",
+            "9": "Sven Dahlmann",
+            "8": "Oliver Hall",
+            "7": "Harry Hickmet",
+            "6": "Luke Attew",
+            "5": "Kieran Gosling",
+            "4": "Oliver Plunkett",
+            "3": "Andrew Wilson",
+            "2": "Coby Coy",
+            "1": "Mark Stevenson",
+            "S1": "Aaron O'Callaghan",
+            "S2": "Nathan Cox",
+            "S3": "Ieuan Death"
+        }
+    ]
+}

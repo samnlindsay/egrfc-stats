@@ -1,0 +1,60 @@
+{
+    "match_id": "1220042",
+    "season": "2025-2026",
+    "league": "Counties 2 Sussex",
+    "date": "2025-10-04",
+    "teams": [
+        "Pulborough",
+        "Eastbourne II"
+    ],
+    "score": [
+        39,
+        10
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/17255.png",
+        "https://images.englandrugby.com/club_images/7213.png"
+    ],
+    "players": [
+        {
+            "15": "Patrick Burnett",
+            "14": "William Scrase",
+            "13": "Ralph Robson",
+            "12": "Archie Sadler",
+            "11": "Ewan Callaway",
+            "10": "Stephen Wilson",
+            "9": "George Rydon",
+            "8": "Dylan Townsend",
+            "7": "Philip Dandy",
+            "6": "Ben Sadler",
+            "5": "George Harwood",
+            "4": "Carl Brewster",
+            "3": "Douglas Ludlow-monk",
+            "2": "James Ruff",
+            "1": "Reuben Joyce",
+            "S1": "Curtis Sentineal",
+            "S2": "Benjamin Monsey",
+            "S3": "Joseph Serna"
+        },
+        {
+            "15": "Stuart Baker",
+            "14": "Justin Funnell",
+            "13": "Harri Smith",
+            "12": "Archie Fox",
+            "11": "Louis Wood",
+            "10": "Name withheld",
+            "9": "Louis Nicholls",
+            "8": "Brandon Foot",
+            "7": "Michael Morehen",
+            "6": "Morgan Treacher",
+            "5": "Eddie Wrench",
+            "4": "Joseph Long",
+            "3": "Alun Cranch",
+            "2": "Tom Line",
+            "1": "Aitor Salas Blazquez",
+            "S1": "Luke Steel",
+            "S2": "Henry Duke",
+            "S3": "Paul Smith"
+        }
+    ]
+}

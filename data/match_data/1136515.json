@@ -1,1 +1,59 @@
-{"date": "2025-03-01", "score": [24, 38], "teams": ["Hove", "Haywards Heath"], "logos": ["https://images.englandrugby.com/club_images/10503.png", "https://images.englandrugby.com/club_images/9776.png"], "players": [{"15": "Charles Soffe", "14": "Guy Patton", "13": "Tom Crisp", "12": "Leo Robertson", "11": "Tom Holborn", "10": "Jack Moore", "9": "Dominic Woodfine", "8": "IAN SAUNDERS", "7": "Tobias Brown", "6": "Robin Ward", "5": "Ryan Murrough", "4": "Carl Buckland", "3": "Name withheld", "2": "tyler ray hooper", "1": "Stephen Klein", "S1": "Toby Downes", "S2": "Ben Stephens", "S3": "Rhowan Braybrook"}, {"15": "Thomas Wharton", "14": "Takhy Ndiaye Marrero", "13": "Alasdair Darling", "12": "Cameron Reed", "11": "Jack Lucas", "10": "James Thurston", "9": "Otto Serjeant", "8": "Daniel Jarman", "7": "Geoffrey Bridges", "6": "Harry Clark", "5": "Ellis Dubois", "4": "Harrison Thomas Edwards", "3": "William Purdy", "2": "Charles Newey", "1": "Thomas Smith", "S1": "Kai Dolan", "S2": "James Fleming"}]}
+{
+    "date": "2025-03-01",
+    "score": [
+        24,
+        38
+    ],
+    "teams": [
+        "Hove",
+        "Haywards Heath"
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/10503.png",
+        "https://images.englandrugby.com/club_images/9776.png"
+    ],
+    "players": [
+        {
+            "15": "Charles Soffe",
+            "14": "Guy Patton",
+            "13": "Tom Crisp",
+            "12": "Leo Robertson",
+            "11": "Tom Holborn",
+            "10": "Jack Moore",
+            "9": "Dominic Woodfine",
+            "8": "IAN SAUNDERS",
+            "7": "Tobias Brown",
+            "6": "Robin Ward",
+            "5": "Ryan Murrough",
+            "4": "Carl Buckland",
+            "3": "Name withheld",
+            "2": "tyler ray hooper",
+            "1": "Stephen Klein",
+            "S1": "Toby Downes",
+            "S2": "Ben Stephens",
+            "S3": "Rhowan Braybrook"
+        },
+        {
+            "15": "Thomas Wharton",
+            "14": "Takhy Ndiaye Marrero",
+            "13": "Alasdair Darling",
+            "12": "Cameron Reed",
+            "11": "Jack Lucas",
+            "10": "James Thurston",
+            "9": "Otto Serjeant",
+            "8": "Daniel Jarman",
+            "7": "Geoffrey Bridges",
+            "6": "Harry Clark",
+            "5": "Ellis Dubois",
+            "4": "Harrison Thomas Edwards",
+            "3": "William Purdy",
+            "2": "Charles Newey",
+            "1": "Thomas Smith",
+            "S1": "Kai Dolan",
+            "S2": "James Fleming"
+        }
+    ],
+    "match_id": "1136515",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex"
+}

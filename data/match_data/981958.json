@@ -1,0 +1,58 @@
+{
+    "match_id": "981958",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2022-09-17",
+    "teams": [
+        "Haywards Heath",
+        "Seaford"
+    ],
+    "score": [
+        39,
+        18
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/9776.png",
+        "https://images.englandrugby.com/club_images/18868.png"
+    ],
+    "players": [
+        {
+            "15": "Douglas Kern",
+            "14": "Mitchell Day",
+            "13": "Jack Flower",
+            "12": "Christopher Neill",
+            "11": "Samuela Bulitokaivale-Lancaster",
+            "10": "Thomas Wharton",
+            "9": "James Thurston",
+            "8": "Geoffrey Bridges",
+            "7": "Robert Ellis",
+            "6": "Fraser Russell",
+            "5": "Ellis Dubois",
+            "4": "Name withheld",
+            "3": "Jack Herbert",
+            "2": "Harrison Thomas Edwards",
+            "1": "Martin Mcdonagh",
+            "S1": "Jack Bull",
+            "S2": "Henry Verbi",
+            "S3": "Charlie Crossgrove"
+        },
+        {
+            "15": "Jason Dubas-Fisher",
+            "14": "Paul Burns",
+            "13": "Jason Staples",
+            "12": "Corey Digby-Clarke",
+            "11": "Andrew Fry",
+            "10": "Bradley Newby",
+            "9": "Harvey Joy",
+            "8": "Paddy Powney",
+            "7": "Lee Furminger",
+            "6": "Andrew Salter",
+            "5": "Luke Read",
+            "4": "KEVIN LEWIS",
+            "3": "Daniel Newby",
+            "2": "Philip Innis",
+            "1": "Stuart Cotter",
+            "S1": "Rhys Roberts"
+        }
+    ]
+}

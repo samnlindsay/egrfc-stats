@@ -1,0 +1,58 @@
+{
+    "match_id": "1136526",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2025-03-22",
+    "teams": [
+        "Eastbourne",
+        "Old Haileyburians"
+    ],
+    "score": [
+        77,
+        21
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7209.png",
+        "https://images.englandrugby.com/club_images/15747.png"
+    ],
+    "players": [
+        {
+            "15": "Mason Dowle",
+            "14": "Jeremy Montes",
+            "13": "Jake Howe",
+            "12": "Maxence Saint-Andr\u00e9",
+            "11": "Oliver Horley",
+            "10": "Aaron Hossack",
+            "9": "Leon Wood",
+            "8": "Owen Davies",
+            "7": "Vincent Morse",
+            "6": "Ben Gower",
+            "5": "Jack Curtis",
+            "4": "Joshua Buckwell",
+            "3": "Alun Cranch",
+            "2": "Konrad Oneill",
+            "1": "Christopher Hosking",
+            "S1": "Brandon Foot",
+            "S2": "Paul Smith",
+            "S3": "Dylan Viles"
+        },
+        {
+            "15": "Ollie Mann",
+            "14": "Luke Wright",
+            "13": "Benedict Trimmer",
+            "12": "Zachary Hebron",
+            "11": "Name withheld",
+            "10": "Fred Lowe",
+            "9": "Thomas Wright",
+            "8": "Harry Harper-Dowe",
+            "7": "Robin Kear",
+            "6": "Guy Hennings-Haahr",
+            "5": "Tobi Costello",
+            "4": "Hugo Walton",
+            "3": "James Black",
+            "2": "Harry Clesham",
+            "1": "Alfie Jeavons-Fellows",
+            "S1": "Ben Ter Haar"
+        }
+    ]
+}

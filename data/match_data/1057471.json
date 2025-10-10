@@ -1,0 +1,58 @@
+{
+    "match_id": "1057471",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2023-10-14",
+    "teams": [
+        "Hove",
+        "Twickenham"
+    ],
+    "score": [
+        26,
+        53
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/10503.png",
+        "https://images.englandrugby.com/club_images/23336.png"
+    ],
+    "players": [
+        {
+            "15": "Lloyd Sweeney",
+            "14": "Danny O'Conner",
+            "13": "Guy Patton",
+            "12": "Leo Robertson",
+            "11": "Tom Holborn",
+            "10": "George Davies",
+            "9": "Edward Kittow",
+            "8": "Name withheld",
+            "7": "Tobias Brown",
+            "6": "Tyler Hooper",
+            "5": "George Brown",
+            "4": "Ben Stephens",
+            "3": "Charlie Butcher",
+            "2": "Ryan Storer",
+            "1": "Benjamin Henderson",
+            "S1": "Olly Lewis",
+            "S2": "Lewis Harrison",
+            "S3": "Louis Chapman"
+        },
+        {
+            "15": "Samuel Griffin",
+            "14": "Joe Ash",
+            "13": "Arthur Polley",
+            "12": "Thomas Foster",
+            "11": "Thomas Meldon",
+            "10": "Nicholas Smith",
+            "9": "James Moore",
+            "8": "Luke Deakin",
+            "7": "Daniel Walsh",
+            "6": "Louie Banks",
+            "5": "Jordan Fyles",
+            "4": "Ben Goddard",
+            "3": "Alex Bennett",
+            "2": "Shay Connolly",
+            "1": "Samuel Cockroft",
+            "S1": "Aedan Mcdonagh"
+        }
+    ]
+}

@@ -1,0 +1,59 @@
+{
+    "match_id": "1057499",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2023-12-02",
+    "teams": [
+        "East Grinstead",
+        "Weybridge Vandals"
+    ],
+    "score": [
+        24,
+        28
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7134.png",
+        "https://images.englandrugby.com/club_images/25094.png"
+    ],
+    "players": [
+        {
+            "15": "Oliver Billin",
+            "14": "Name withheld",
+            "13": "Max Crawley-Moore",
+            "12": "Benjamin Saunders",
+            "11": "Alistair Moffatt",
+            "10": "Daniel Poulton",
+            "9": "Samuel Spriddell",
+            "8": "Daniel Billin",
+            "7": "Ryland Thomas",
+            "6": "John Peaty",
+            "5": "Samuel Lindsay-McCall",
+            "4": "Guy Collins",
+            "3": "Joshua Brimecombe",
+            "2": "Benjamin Tottman",
+            "1": "Connor Leggat",
+            "S1": "David Bridges",
+            "S2": "Thomas Byron",
+            "S3": "Rhys Skinner"
+        },
+        {
+            "15": "Thomas Bolger",
+            "14": "Oliver Day",
+            "13": "Harry Weatherall",
+            "12": "Karl Hoade",
+            "11": "Joseph Graves",
+            "10": "David Loubser",
+            "9": "Daniel Wellden",
+            "8": "Reece Innes-Gray",
+            "7": "Mattia Mengotti",
+            "6": "Richard Crabb",
+            "5": "Nicholas Blount",
+            "4": "Luke Hempstead",
+            "3": "Callum Hennessey",
+            "2": "Joshua Thomas",
+            "1": "Wayne Mason",
+            "S1": "Michael Mason",
+            "S2": "Jack O'Mara"
+        }
+    ]
+}

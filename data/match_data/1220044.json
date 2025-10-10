@@ -1,0 +1,60 @@
+{
+    "match_id": "1220044",
+    "season": "2025-2026",
+    "league": "Counties 2 Sussex",
+    "date": "2025-10-04",
+    "teams": [
+        "Royals RFC",
+        "Shoreham"
+    ],
+    "score": [
+        10,
+        34
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/94051.png",
+        "https://images.englandrugby.com/club_images/19257.png"
+    ],
+    "players": [
+        {
+            "15": "Jake Stanton",
+            "14": "Aidan Loane",
+            "13": "Ben Smith",
+            "12": "Hugo Reid",
+            "11": "George Burke",
+            "10": "Ben Pearson",
+            "9": "Harry Walton",
+            "8": "Cameron Queree",
+            "7": "John James Le Feuvre",
+            "6": "Charlie Courtness",
+            "5": "Lewis Ham-Howes",
+            "4": "Will Michel",
+            "3": "Jake Bates",
+            "2": "Jack Lowe",
+            "1": "Name withheld",
+            "S1": "Rowan Dixon-Smith",
+            "S2": "Conor Bisson-Mercury",
+            "S3": "Pearse Moloney"
+        },
+        {
+            "15": "Darren Locke",
+            "14": "David Ayres",
+            "13": "Sean Shepherd",
+            "12": "Ryan Morlen",
+            "11": "Connor Fairhall",
+            "10": "Zachary McEwan",
+            "9": "Adam Fear",
+            "8": "Gavin Cox",
+            "7": "Charlie Dale",
+            "6": "Alex Hall",
+            "5": "Daniel Adams",
+            "4": "Steven Goater",
+            "3": "Joshua Avis",
+            "2": "Mark Lavery",
+            "1": "Harry Rae",
+            "S1": "Noah Rudge",
+            "S2": "Jack Portman",
+            "S3": "William Midwinter"
+        }
+    ]
+}

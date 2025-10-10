@@ -1,0 +1,57 @@
+{
+    "match_id": "1032287",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2023-01-07",
+    "teams": [
+        "Crawley",
+        "Uckfield"
+    ],
+    "score": [
+        25,
+        26
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/5807.png",
+        "https://images.englandrugby.com/club_images/23445.png"
+    ],
+    "players": [
+        {
+            "15": "Kristian Dean",
+            "14": "Lewis Burke",
+            "13": "Name withheld",
+            "12": "Patrick Dean",
+            "11": "Corey Toogood",
+            "10": "Sven Dahlmann",
+            "9": "Oliver Hall",
+            "8": "Harry Hickmet",
+            "7": "Toby Baldwin",
+            "6": "Kieran Gosling",
+            "5": "Bradley Davies",
+            "4": "Ieuan Death",
+            "3": "Joao Andre Garanito Sousa",
+            "2": "Nathan Cox",
+            "1": "Joel Fisher",
+            "S1": "William Ofosuhene",
+            "S2": "Anthony Dartnell",
+            "S3": "Osin Mcwalter"
+        },
+        {
+            "15": "Samual Haines",
+            "14": "Joel Andrews",
+            "13": "Sean Bate",
+            "12": "Callum Harvey",
+            "11": "Charlie Buckland",
+            "10": "Jordon Southgate",
+            "9": "Jack Harvey",
+            "8": "Ryan Bate",
+            "7": "Harvey Pratt",
+            "6": "Charles Rumary",
+            "5": "Stephen Hartfield",
+            "4": "Davy Armstrong",
+            "3": "Jakub Rek",
+            "2": "Max Currums",
+            "1": "Thomas Booth"
+        }
+    ]
+}

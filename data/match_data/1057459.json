@@ -1,0 +1,56 @@
+{
+    "match_id": "1057459",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2023-09-30",
+    "teams": [
+        "Weybridge Vandals",
+        "Hove"
+    ],
+    "score": [
+        50,
+        31
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/25094.png",
+        "https://images.englandrugby.com/club_images/10503.png"
+    ],
+    "players": [
+        {
+            "15": "Thomas Bolger",
+            "14": "Harry Reed",
+            "13": "Harry Weatherall",
+            "12": "Karl Hoade",
+            "11": "Oliver Day",
+            "10": "James Wellden",
+            "9": "Daniel Wellden",
+            "8": "Name withheld",
+            "7": "Luke Dones",
+            "6": "Mattia Mengotti",
+            "5": "Darren Lockyer",
+            "4": "Nicholas Blount",
+            "3": "Luke Hempstead",
+            "2": "Callum Hennessey",
+            "1": "Joshua Thomas",
+            "S1": "Wayne Mason",
+            "S2": "Richard Crabb",
+            "S3": "Luke Phair"
+        },
+        {
+            "15": "Raife Weir",
+            "14": "Tom Holborn",
+            "13": "Tom Crisp",
+            "12": "Leo Robertson",
+            "11": "Guy Patton",
+            "10": "Jerome Pye",
+            "9": "Danny O'Conner",
+            "8": "Tobias Brown",
+            "7": "Charlie Butcher",
+            "6": "Thomas Baker",
+            "5": "Ian Saunders",
+            "4": "Jordan Gibson",
+            "3": "Ryan Storer",
+            "2": "Steve Klein"
+        }
+    ]
+}

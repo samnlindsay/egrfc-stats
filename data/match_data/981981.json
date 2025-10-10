@@ -1,0 +1,59 @@
+{
+    "match_id": "981981",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2022-10-22",
+    "teams": [
+        "Shoreham",
+        "Lewes"
+    ],
+    "score": [
+        71,
+        5
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/19257.png",
+        "https://images.englandrugby.com/club_images/12206.png"
+    ],
+    "players": [
+        {
+            "15": "Sean Shepherd",
+            "14": "Morgan Day",
+            "13": "Charlie Ford",
+            "12": "Calum Erskine",
+            "11": "Paul Mamoany",
+            "10": "Connor Fairhall",
+            "9": "William Midwinter",
+            "8": "Cameron Waller",
+            "7": "Samuel Kentell",
+            "6": "Steven Goater",
+            "5": "Daniel Adams",
+            "4": "Alex Hall",
+            "3": "Mathew Bellenie",
+            "2": "Mark Lavery",
+            "1": "Daryn Clarke",
+            "S1": "Ben French",
+            "S2": "Calvin Jansz",
+            "S3": "Adam Fear"
+        },
+        {
+            "15": "Joshua Leigh",
+            "14": "Declan Over",
+            "13": "Adam Hutchings",
+            "12": "Harry Pryer",
+            "11": "Daniel Elmes",
+            "10": "Cian Furlong",
+            "9": "Dante Maguire",
+            "8": "Nathaniel Vine",
+            "7": "George Gribble",
+            "6": "Stewart Dickens",
+            "5": "James Sale",
+            "4": "Lewis Evans",
+            "3": "Charlie Moran",
+            "2": "Damian Pye",
+            "1": "Kane Dadswell",
+            "S1": "Fearghus Gage",
+            "S2": "James Shafi"
+        }
+    ]
+}

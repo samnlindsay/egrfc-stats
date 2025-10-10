@@ -1,0 +1,60 @@
+{
+    "match_id": "982038",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2023-03-04",
+    "teams": [
+        "Shoreham",
+        "Seaford"
+    ],
+    "score": [
+        29,
+        19
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/19257.png",
+        "https://images.englandrugby.com/club_images/18868.png"
+    ],
+    "players": [
+        {
+            "15": "Toby Gale",
+            "14": "Daniel James",
+            "13": "Sean Shepherd",
+            "12": "Adam Fear",
+            "11": "Calum Erskine",
+            "10": "Ethan Bannister",
+            "9": "Schaeff Potter",
+            "8": "Harvey Matthews",
+            "7": "Samuel Kentell",
+            "6": "Steven Goater",
+            "5": "Alex Hall",
+            "4": "Daniel Adams",
+            "3": "Mark Lavery",
+            "2": "Max Tozer",
+            "1": "Michael Shaw",
+            "S1": "Mathew Bellenie",
+            "S2": "Gavin Cox",
+            "S3": "Charlie Ford"
+        },
+        {
+            "15": "Luke Taylor",
+            "14": "Stuart Cotter",
+            "13": "Charlie Crossgrove",
+            "12": "Paddy Powney",
+            "11": "Name withheld",
+            "10": "Corey Digby-Clarke",
+            "9": "Jack Cullinane",
+            "8": "Daniel Newby",
+            "7": "Harvey Joy",
+            "6": "Andrew Fry",
+            "5": "Bradley Newby",
+            "4": "Andrew Salter",
+            "3": "Matt Read",
+            "2": "Tom Peissel",
+            "1": "Luke Read",
+            "S1": "Philip Innis",
+            "S2": "Mark Tait",
+            "S3": "Rhys Roberts"
+        }
+    ]
+}

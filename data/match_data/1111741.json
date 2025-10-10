@@ -1,0 +1,58 @@
+{
+    "match_id": "1111741",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2024-02-10",
+    "teams": [
+        "Old Cranleighans",
+        "Old Walcountians"
+    ],
+    "score": [
+        9,
+        15
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/15615.png",
+        "https://images.englandrugby.com/club_images/16075.png"
+    ],
+    "players": [
+        {
+            "15": "Robert Mackenzie",
+            "14": "Jochem Oostenbroek",
+            "13": "Oliver Salmon",
+            "12": "Name withheld",
+            "11": "Christopher Scott",
+            "10": "Edward Sanderson",
+            "9": "William Ellis",
+            "8": "Barney Gill",
+            "7": "Jamie McDonald",
+            "6": "Andrew Eustace",
+            "5": "Edward Higgins",
+            "4": "James Fitzmaurice",
+            "3": "Charles Blurton",
+            "2": "James McLeod",
+            "1": "Timothy Carpenter",
+            "S1": "Christopher Cheney",
+            "S2": "Peter Dowling",
+            "S3": "Harrison Mogridge"
+        },
+        {
+            "15": "Kieran Kavanagh",
+            "14": "Dominic Barnaby",
+            "13": "Heathcliffe Bateman",
+            "12": "Omarie Brown",
+            "11": "Alexander French",
+            "10": "Thomas Downes",
+            "9": "Oliver Sanders",
+            "8": "Tom Housden",
+            "7": "Scott Stevens",
+            "6": "Jack Smart",
+            "5": "Dominic Bell",
+            "4": "Alexander Skinner",
+            "3": "Paul Harris",
+            "2": "Alec Beeson",
+            "1": "James Blackmore",
+            "S1": "Ted Stoner"
+        }
+    ]
+}

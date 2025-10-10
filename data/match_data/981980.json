@@ -1,0 +1,59 @@
+{
+    "match_id": "981980",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2022-10-22",
+    "teams": [
+        "Seaford",
+        "East Grinstead"
+    ],
+    "score": [
+        17,
+        62
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/18868.png",
+        "https://images.englandrugby.com/club_images/7134.png"
+    ],
+    "players": [
+        {
+            "15": "Name withheld",
+            "14": "Paddy Powney",
+            "13": "Jason Dubas-Fisher",
+            "12": "Corey Digby-Clarke",
+            "11": "Jason Staples",
+            "10": "Dominic Joy",
+            "9": "Luke Taylor",
+            "8": "Bradley Newby",
+            "7": "Andrew Salter",
+            "6": "Andrew Fry",
+            "5": "Sam Diplock",
+            "4": "Lee Furminger",
+            "3": "Philip Innis",
+            "2": "KEVIN LEWIS",
+            "1": "Luke Read",
+            "S1": "Rhys Jones",
+            "S2": "Alexander Tattam",
+            "S3": "Charlie Guest"
+        },
+        {
+            "15": "Joe Terry",
+            "14": "Alistair Moffatt",
+            "13": "Max Crawley-Moore",
+            "12": "Ryan Morlen",
+            "11": "Jake Radcliffe",
+            "10": "Oliver Billin",
+            "9": "George Johnson",
+            "8": "Aaronn Boczek",
+            "7": "John Peaty",
+            "6": "Archie Vickers",
+            "5": "Peter Morley",
+            "4": "Samuel Lindsay-McCall",
+            "3": "Devon Frost",
+            "2": "Benjamin Tottman",
+            "1": "David Bridges",
+            "S1": "Sean Morgan",
+            "S3": "Benjamin Beard"
+        }
+    ]
+}

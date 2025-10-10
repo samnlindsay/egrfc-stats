@@ -1,0 +1,57 @@
+{
+    "match_id": "981960",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2022-09-17",
+    "teams": [
+        "Crawley",
+        "Eastbourne"
+    ],
+    "score": [
+        19,
+        52
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/5807.png",
+        "https://images.englandrugby.com/club_images/7209.png"
+    ],
+    "players": [
+        {
+            "15": "Lewis Burke",
+            "14": "Name withheld",
+            "13": "Jordan Walker",
+            "12": "Kristian Dean",
+            "11": "William Ofosuhene",
+            "10": "Corey Toogood",
+            "9": "Oliver Hall",
+            "8": "Harry Hickmet",
+            "7": "Luke Attew",
+            "6": "Oliver Plunkett",
+            "5": "Kieran Gosling",
+            "4": "David Marfe",
+            "3": "Coby Coy",
+            "2": "Ieuan Death",
+            "1": "Aaron O'Callaghan",
+            "S1": "Joao Andre Garanito Sousa",
+            "S2": "Sven Dahlmann",
+            "S3": "Gianluca Bianchi"
+        },
+        {
+            "15": "Jake Howe",
+            "14": "Ben Perrott",
+            "13": "Dylan Becker",
+            "12": "Aaron Hossack",
+            "11": "Harrison Gibbons",
+            "10": "Jeremy Montes",
+            "9": "Vincent Morse",
+            "8": "Owen Davies",
+            "7": "Joshua Buckwell",
+            "6": "Luke Thomas",
+            "5": "Alun Cranch",
+            "4": "Joseph Bettles",
+            "3": "Christopher Hosking",
+            "2": "Joshua Imich",
+            "1": "Ryan Shields"
+        }
+    ]
+}

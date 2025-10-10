@@ -1,0 +1,41 @@
+{
+    "match_id": "982001",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2022-11-26",
+    "teams": [
+        "Burgess Hill",
+        "Crawley"
+    ],
+    "score": [
+        24,
+        17
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/3659.png",
+        "https://images.englandrugby.com/club_images/5807.png"
+    ],
+    "players": [
+        {},
+        {
+            "15": "Samuel Kingscott",
+            "14": "Neori Navo",
+            "13": "Vilitati Ligairi",
+            "12": "Ben Mclaren",
+            "11": "Matheus Gava",
+            "10": "George Yeates",
+            "9": "Zac Harrison",
+            "8": "David Wattam",
+            "7": "Name withheld",
+            "6": "Matt Firmager",
+            "5": "Benjamin Dronfield",
+            "4": "Timothy Daniel",
+            "3": "Craig Wells",
+            "2": "Andrew Mackay",
+            "1": "Robert Blake",
+            "S1": "Tamanilatui Sailosi",
+            "S2": "Gareth Scaife",
+            "S3": "Joseph Brown"
+        }
+    ]
+}

@@ -1,0 +1,60 @@
+{
+    "match_id": "1057549",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2024-02-17",
+    "teams": [
+        "Twickenham",
+        "KCS Old Boys"
+    ],
+    "score": [
+        31,
+        24
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/23336.png",
+        "https://images.englandrugby.com/club_images/11188.png"
+    ],
+    "players": [
+        {
+            "15": "Samuel Goddard",
+            "14": "Arthur Polley",
+            "13": "Samuel Griffin",
+            "12": "Joe Ash",
+            "11": "Archie Lamont",
+            "10": "Jamie See",
+            "9": "Alex Stagg",
+            "8": "Nicholas Smith",
+            "7": "James Moore",
+            "6": "Jasper Bhamra",
+            "5": "Jack Fullicks",
+            "4": "Louie Banks",
+            "3": "Jordan Fyles",
+            "2": "Joshua Otter",
+            "1": "Alex Bennett",
+            "S1": "Ben Goddard",
+            "S2": "Luke Deakin",
+            "S3": "John Smith"
+        },
+        {
+            "15": "Jack Dunn",
+            "14": "Thomas Hamill",
+            "13": "Edward Low",
+            "12": "James Hattersley",
+            "11": "Name withheld",
+            "10": "William Carter",
+            "9": "Jacob Wood",
+            "8": "Cameron Keller",
+            "7": "James Shaw",
+            "6": "Ed Butler",
+            "5": "Alexander Watts",
+            "4": "Dominic Soin-Stanley",
+            "3": "Alexander Owen",
+            "2": "Minhyuk Seo",
+            "1": "Benoit Israel",
+            "S1": "Alexander Laidlaw",
+            "S2": "Leon Driscoll",
+            "S3": "James Stimson"
+        }
+    ]
+}

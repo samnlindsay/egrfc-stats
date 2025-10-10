@@ -1,0 +1,58 @@
+{
+    "match_id": "1057537",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2024-01-27",
+    "teams": [
+        "Twickenham",
+        "Old Cranleighans"
+    ],
+    "score": [
+        46,
+        10
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/23336.png",
+        "https://images.englandrugby.com/club_images/15615.png"
+    ],
+    "players": [
+        {
+            "15": "Pierre Doliveux",
+            "14": "Arthur Polley",
+            "13": "Archie Lamont",
+            "12": "Samuel Griffin",
+            "11": "William Hellel",
+            "10": "Jamie See",
+            "9": "Samuel Goddard",
+            "8": "Nicholas Smith",
+            "7": "James Moore",
+            "6": "Jack Fullicks",
+            "5": "Scott Davidson",
+            "4": "Louie Banks",
+            "3": "Jordan Fyles",
+            "2": "Joshua Otter",
+            "1": "Alex Bennett",
+            "S1": "Richard Moses",
+            "S2": "Jasper Bhamra",
+            "S3": "Joe Ash"
+        },
+        {
+            "15": "Gregory Warren",
+            "14": "Peter Dowling",
+            "13": "Nathan Thomas",
+            "12": "Oliver Salmon",
+            "11": "Sam Kennedy",
+            "10": "Christopher Ealey",
+            "9": "Ioan Davies",
+            "8": "Trevor Selvanayagam",
+            "7": "Jochem Oostenbroek",
+            "6": "Laughlan Wood",
+            "5": "Edward Higgins",
+            "4": "James Fitzmaurice",
+            "3": "Charles Blurton",
+            "2": "Barney Gill",
+            "1": "Name withheld",
+            "S1": "Christopher Scott"
+        }
+    ]
+}

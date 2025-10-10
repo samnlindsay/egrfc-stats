@@ -1,0 +1,60 @@
+{
+    "match_id": "1057489",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2023-11-11",
+    "teams": [
+        "Old Cranleighans",
+        "Trinity"
+    ],
+    "score": [
+        24,
+        36
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/15615.png",
+        "https://images.englandrugby.com/club_images/23175.png"
+    ],
+    "players": [
+        {
+            "15": "Scott Rees",
+            "14": "Toby Pattinson",
+            "13": "Oliver Butler",
+            "12": "Thomas Puijk",
+            "11": "Robert Mackenzie",
+            "10": "Samuel Lubbock",
+            "9": "Ioan Davies",
+            "8": "Bradley Lennard",
+            "7": "Barney Gill",
+            "6": "Edward Higgins",
+            "5": "Charlie Wilson",
+            "4": "James Fitzmaurice",
+            "3": "Thomas Brearley",
+            "2": "Michael Parnaby",
+            "1": "Name withheld",
+            "S1": "James Hennessy",
+            "S2": "Oliver Salmon",
+            "S3": "Thomas Webster"
+        },
+        {
+            "15": "Matthew Shields",
+            "14": "Max Maynard",
+            "13": "Tyriq Williams",
+            "12": "Marc McEvilly",
+            "11": "James Jenkins",
+            "10": "Daniel Crouch",
+            "9": "Jack Greenwood",
+            "8": "Farooq Agbalaya",
+            "7": "Oliver Hubbard",
+            "6": "Adam Stammers",
+            "5": "Alexander Scott",
+            "4": "Nathan Bacon",
+            "3": "Alastair Hall",
+            "2": "Timothy Jupp",
+            "1": "Jacques Bryant",
+            "S1": "Dominic Plumb",
+            "S2": "Aidan True",
+            "S3": "David Stanton"
+        }
+    ]
+}

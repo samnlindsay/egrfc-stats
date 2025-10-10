@@ -1,0 +1,58 @@
+{
+    "match_id": "982028",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2023-02-11",
+    "teams": [
+        "Uckfield",
+        "Seaford"
+    ],
+    "score": [
+        8,
+        5
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/23445.png",
+        "https://images.englandrugby.com/club_images/18868.png"
+    ],
+    "players": [
+        {
+            "15": "Osin Mcwalter",
+            "14": "Samual Haines",
+            "13": "Joel Andrews",
+            "12": "Ryan Bate",
+            "11": "Kane Drummond",
+            "10": "Joel Forward",
+            "9": "Ross James",
+            "8": "Guy Cornick",
+            "7": "Thomas Booth",
+            "6": "Terry Funnell",
+            "5": "Name withheld",
+            "4": "Stephen Hartfield",
+            "3": "Matthew Longhurst",
+            "2": "Davy Armstrong",
+            "1": "Alfie Richardson",
+            "S1": "Jakub Rek",
+            "S2": "Harvey Pratt",
+            "S3": "Sean Bate"
+        },
+        {
+            "15": "Paddy Powney",
+            "14": "Stuart Cotter",
+            "13": "Charlie Crossgrove",
+            "12": "Paul Burns",
+            "11": "Jason Staples",
+            "10": "Dominic Joy",
+            "9": "Jack Cullinane",
+            "8": "Daniel Newby",
+            "7": "Andrew Salter",
+            "6": "Lee Furminger",
+            "5": "Josh Hennessy",
+            "4": "Matt Read",
+            "3": "Tom Peissel",
+            "2": "Luke Read",
+            "1": "Harvey Joy",
+            "S1": "Neil Murphy"
+        }
+    ]
+}

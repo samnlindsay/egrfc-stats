@@ -1,0 +1,60 @@
+{
+    "match_id": "1136525",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2025-03-22",
+    "teams": [
+        "Trinity",
+        "London Cornish"
+    ],
+    "score": [
+        38,
+        31
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/23175.png",
+        "https://images.englandrugby.com/club_images/12508.png"
+    ],
+    "players": [
+        {
+            "15": "Joshua Joubert",
+            "14": "Olly Wilcox",
+            "13": "Archie McMillan",
+            "12": "Thomas Wilcox",
+            "11": "Tyriq Williams",
+            "10": "George Kimmins",
+            "9": "Harry Wilson",
+            "8": "Farooq Agbalaya",
+            "7": "Khrystopher Speed",
+            "6": "Oliver Hubbard",
+            "5": "Thomas Black",
+            "4": "Marc McEvilly",
+            "3": "Christopher Reid Gomez",
+            "2": "Quinn Singh",
+            "1": "Alastair Hall",
+            "S1": "David Hoffmann",
+            "S2": "Fuad Agbalaya",
+            "S3": "Max Farrell"
+        },
+        {
+            "15": "George Bromage",
+            "14": "Mark Lockhart",
+            "13": "Charlie Lambert",
+            "12": "Peter Brogden",
+            "11": "will spring",
+            "10": "Dan Phoenix",
+            "9": "Findlay Tweedie",
+            "8": "Mark Osei-Tutu",
+            "7": "Alex Davey",
+            "6": "Chai Clarkson",
+            "5": "James Squires",
+            "4": "Thomas Carr",
+            "3": "David Theobald",
+            "2": "Oscar Cruz",
+            "1": "Mathew Hand",
+            "S1": "James New",
+            "S2": "Kalib Falconer",
+            "S3": "Shaun Parkes"
+        }
+    ]
+}

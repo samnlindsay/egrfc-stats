@@ -1,0 +1,59 @@
+{
+    "match_id": "1057572",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2024-04-06",
+    "teams": [
+        "KCS Old Boys",
+        "Kingston"
+    ],
+    "score": [
+        70,
+        12
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/11188.png",
+        "https://images.englandrugby.com/club_images/11663.png"
+    ],
+    "players": [
+        {
+            "15": "Name withheld",
+            "14": "Thomas Hamill",
+            "13": "Jamie Miller",
+            "12": "James Hattersley",
+            "11": "Viktor Bakker",
+            "10": "William Carter",
+            "9": "Jacob Wood",
+            "8": "James Shaw",
+            "7": "Alexander Laidlaw",
+            "6": "Charles Paterson",
+            "5": "Cameron Keller",
+            "4": "Dominic Soin-Stanley",
+            "3": "Rees Powell",
+            "2": "Alexander Owen",
+            "1": "Benoit Israel",
+            "S1": "Funmi Oduniyi",
+            "S2": "Leon Driscoll",
+            "S3": "William Slater"
+        },
+        {
+            "15": "Diego Borja Carbon Viera",
+            "14": "Chun Yeung WU",
+            "13": "Joseph Daiton",
+            "12": "Hugo Eyre",
+            "11": "Philip Dabinski",
+            "10": "Ross Mctear",
+            "9": "Rodrigo Lueje ripoll",
+            "8": "Samuel Rushmer",
+            "7": "Luke Burge",
+            "6": "Christopher Hall",
+            "5": "Tom Collis",
+            "4": "David Wakefield",
+            "3": "Samuel Johnson",
+            "2": "Tom Tyler",
+            "1": "Mathew Bolster",
+            "S1": "William Smith",
+            "S2": "Jack Bartlett"
+        }
+    ]
+}

@@ -1,0 +1,58 @@
+{
+    "match_id": "1057533",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2024-01-27",
+    "teams": [
+        "Teddington",
+        "Kingston"
+    ],
+    "score": [
+        57,
+        12
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/21732.png",
+        "https://images.englandrugby.com/club_images/11663.png"
+    ],
+    "players": [
+        {
+            "15": "Name withheld",
+            "14": "Joshua Mckiernan",
+            "13": "Huw Morgan",
+            "12": "Harry Smith",
+            "11": "Robert Beevers",
+            "10": "Angus Bell",
+            "9": "James McConnell",
+            "8": "Alfie Ransom",
+            "7": "Jack Valentine",
+            "6": "Oliver Holland",
+            "5": "Callum Johnston",
+            "4": "Rory Mercer",
+            "3": "Daniel Robertshaw",
+            "2": "Samuel Rawsthorne",
+            "1": "Christopher Lidington",
+            "S1": "Ethan Davies",
+            "S2": "Emerson Allen",
+            "S3": "Scott McKenna"
+        },
+        {
+            "15": "Elton Gwekwete",
+            "14": "Hugo Eyre",
+            "13": "Tyler Reichardt",
+            "12": "Joseph Daiton",
+            "11": "Christopher Ward",
+            "10": "Herbie Archer",
+            "9": "Scott Howe",
+            "8": "Luke Burge",
+            "7": "David Wakefield",
+            "6": "Samuel Rushmer",
+            "5": "Nick Crandon",
+            "4": "Samuel Johnson",
+            "3": "Tom Tyler",
+            "2": "Mathew Bolster",
+            "1": "Christopher Hall",
+            "S1": "Chun Yeung WU"
+        }
+    ]
+}

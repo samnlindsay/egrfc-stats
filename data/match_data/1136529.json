@@ -1,0 +1,58 @@
+{
+    "match_id": "1136529",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2025-03-22",
+    "teams": [
+        "Hove",
+        "Old Rutlishians"
+    ],
+    "score": [
+        19,
+        61
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/10503.png",
+        "https://images.englandrugby.com/club_images/16005.png"
+    ],
+    "players": [
+        {
+            "15": "Jack Hancock",
+            "14": "Tom Holborn",
+            "13": "Tom Crisp",
+            "12": "Leo Robertson",
+            "11": "John Orme-Williams",
+            "10": "Name withheld",
+            "9": "Dominic Woodfine",
+            "8": "Tobias Brown",
+            "7": "Jordan Sayers",
+            "6": "IAN SAUNDERS",
+            "5": "George Brown",
+            "4": "tyler ray hooper",
+            "3": "Stephen Klein",
+            "2": "Ryan Storer",
+            "1": "Ben Stephens",
+            "S1": "Jack Edwards",
+            "S2": "Oliver O'Brien",
+            "S3": "Charles Julian"
+        },
+        {
+            "15": "David Cecil",
+            "14": "Maximilian Lufkin",
+            "13": "Michael Boland",
+            "12": "Toby Harrison",
+            "11": "Alexander O'Dell",
+            "10": "Robert Cecil",
+            "9": "Benjamin Sumrie",
+            "8": "Harry Hovell",
+            "7": "Josh Jibulu",
+            "6": "Alasdair Dean",
+            "5": "William Donegan",
+            "4": "LOUIE DAVIES",
+            "3": "Kenneth Cecil",
+            "2": "Ryan Dunne",
+            "1": "Benjamin Jones",
+            "S1": "Thomas Checkley"
+        }
+    ]
+}

@@ -1,0 +1,59 @@
+{
+    "match_id": "1097838",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2024-02-03",
+    "teams": [
+        "Eastbourne",
+        "Kingston"
+    ],
+    "score": [
+        34,
+        24
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7209.png",
+        "https://images.englandrugby.com/club_images/11663.png"
+    ],
+    "players": [
+        {
+            "15": "Mason Dowle",
+            "14": "Gianluca Bianchi",
+            "13": "Jake Howe",
+            "12": "Ronnie Doorey-Palmer",
+            "11": "Dylan Viles",
+            "10": "Aaron Hossack",
+            "9": "Brendan Challis",
+            "8": "Jeremy Montes",
+            "7": "Vincent Morse",
+            "6": "Ryan Shields",
+            "5": "Joshua Buckwell",
+            "4": "Luke Thomas",
+            "3": "Daniel Keen",
+            "2": "Joseph Bettles",
+            "1": "Christopher Hosking",
+            "S1": "Paul Smith",
+            "S2": "Owen Davies",
+            "S3": "Pedro Sousa"
+        },
+        {
+            "15": "Daniel Foot",
+            "14": "Joe Best",
+            "13": "Jacob Jennings",
+            "12": "Hugo Eyre",
+            "11": "Joseph Daiton",
+            "10": "Jonathan Mcdunphy",
+            "9": "Herbie Archer",
+            "8": "Andrew Kellett",
+            "7": "Luke Burge",
+            "6": "Christopher Hall",
+            "5": "Scott Howe",
+            "4": "Tom Rushmer",
+            "3": "Samuel Johnson",
+            "2": "Name withheld",
+            "1": "Tom Tyler",
+            "S1": "Christopher Ward",
+            "S2": "Reiss Pyatt"
+        }
+    ]
+}

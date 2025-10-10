@@ -1,1 +1,59 @@
-{"date": "2024-11-16", "score": [17, 22], "teams": ["Old Haileyburians", "Twickenham"], "logos": ["https://images.englandrugby.com/club_images/15747.png", "https://images.englandrugby.com/club_images/23336.png"], "players": [{"15": "Jon Searle", "14": "Ethan Mead", "13": "Elliot Hopkin", "12": "Benedict Trimmer", "11": "Rory Dickson", "10": "Fred Lowe", "9": "Alfie Jeavons-Fellows", "8": "Thomas Wright", "7": "Harry Clesham", "6": "Cameron Bullard", "5": "Jonathan Parr", "4": "Thomas Woodruff", "3": "Oliver L Marsden", "2": "Jacob Cummins", "1": "Sonny Kelly", "S1": "Harry Taylor", "S2": "William Barnes", "S3": "Name withheld"}, {"15": "Jake Griffiths", "14": "Archie Lamont", "13": "Samuel Griffin", "12": "Joe Ash", "11": "Arthur Polley", "10": "John Smith", "9": "Samuel Goddard", "7": "Richard Moses", "6": "James Moore", "5": "Jake White", "4": "Luke Deakin", "3": "Frazer Gibson", "2": "Joshua Otter", "1": "Alex Bennett", "S1": "Mohammed Elata", "S2": "Jack Fullicks", "S3": "Ben Goddard"}]}
+{
+    "date": "2024-11-16",
+    "score": [
+        17,
+        22
+    ],
+    "teams": [
+        "Old Haileyburians",
+        "Twickenham"
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/15747.png",
+        "https://images.englandrugby.com/club_images/23336.png"
+    ],
+    "players": [
+        {
+            "15": "Jon Searle",
+            "14": "Ethan Mead",
+            "13": "Elliot Hopkin",
+            "12": "Benedict Trimmer",
+            "11": "Rory Dickson",
+            "10": "Fred Lowe",
+            "9": "Alfie Jeavons-Fellows",
+            "8": "Thomas Wright",
+            "7": "Harry Clesham",
+            "6": "Cameron Bullard",
+            "5": "Jonathan Parr",
+            "4": "Thomas Woodruff",
+            "3": "Oliver L Marsden",
+            "2": "Jacob Cummins",
+            "1": "Sonny Kelly",
+            "S1": "Harry Taylor",
+            "S2": "William Barnes",
+            "S3": "Name withheld"
+        },
+        {
+            "15": "Jake Griffiths",
+            "14": "Archie Lamont",
+            "13": "Samuel Griffin",
+            "12": "Joe Ash",
+            "11": "Arthur Polley",
+            "10": "John Smith",
+            "9": "Samuel Goddard",
+            "7": "Richard Moses",
+            "6": "James Moore",
+            "5": "Jake White",
+            "4": "Luke Deakin",
+            "3": "Frazer Gibson",
+            "2": "Joshua Otter",
+            "1": "Alex Bennett",
+            "S1": "Mohammed Elata",
+            "S2": "Jack Fullicks",
+            "S3": "Ben Goddard"
+        }
+    ],
+    "match_id": "1136454",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex"
+}

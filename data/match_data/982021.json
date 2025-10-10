@@ -1,0 +1,60 @@
+{
+    "match_id": "982021",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2023-01-21",
+    "teams": [
+        "Lewes",
+        "Shoreham"
+    ],
+    "score": [
+        14,
+        27
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/12206.png",
+        "https://images.englandrugby.com/club_images/19257.png"
+    ],
+    "players": [
+        {
+            "15": "Cian Furlong",
+            "14": "William Hoff",
+            "13": "Jude Littlewood",
+            "12": "Nathan Roberts",
+            "11": "Alex Frias del Rio",
+            "10": "Roberto Bello Hurtado",
+            "9": "Angus Taylor",
+            "8": "William Shiell",
+            "7": "Stewart Dickens",
+            "6": "Harry Weston",
+            "5": "Simon Coe",
+            "4": "James Sale",
+            "3": "Edward King",
+            "2": "Charlie Moran",
+            "1": "Kane Dadswell",
+            "S1": "Robert Williams",
+            "S2": "Alexander Audsley-Mckenna",
+            "S3": "Josh Ellis-Smith"
+        },
+        {
+            "15": "William Midwinter",
+            "14": "Charlie Ford",
+            "13": "Sean Shepherd",
+            "12": "Adam Fear",
+            "11": "Calum Erskine",
+            "10": "Toby Gale",
+            "9": "Schaeff Potter",
+            "8": "Harvey Matthews",
+            "7": "Samuel Kentell",
+            "6": "Steven Goater",
+            "5": "Alex Hall",
+            "4": "Daniel Adams",
+            "3": "Mark Lavery",
+            "2": "Max Tozer",
+            "1": "Daryn Clarke",
+            "S1": "George Clarke",
+            "S2": "Gavin Cox",
+            "S3": "Connor Fairhall"
+        }
+    ]
+}

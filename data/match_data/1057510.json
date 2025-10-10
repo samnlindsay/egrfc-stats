@@ -1,0 +1,60 @@
+{
+    "match_id": "1057510",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2023-12-16",
+    "teams": [
+        "East Grinstead",
+        "Trinity"
+    ],
+    "score": [
+        41,
+        10
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7134.png",
+        "https://images.englandrugby.com/club_images/23175.png"
+    ],
+    "players": [
+        {
+            "15": "Oliver Billin",
+            "14": "Jake Radcliffe",
+            "13": "Name withheld",
+            "12": "Max Crawley-Moore",
+            "11": "Luke Maker",
+            "10": "Daniel Poulton",
+            "9": "Samuel Spriddell",
+            "8": "Aaronn Boczek",
+            "7": "Ryland Thomas",
+            "6": "Rory Evans",
+            "5": "Guy Collins",
+            "4": "Samuel Lindsay-McCall",
+            "3": "Joshua Brimecombe",
+            "2": "Benjamin Tottman",
+            "1": "Connor Leggat",
+            "S1": "David Bridges",
+            "S2": "Thomas Byron",
+            "S3": "Jack Billin"
+        },
+        {
+            "15": "Benjamin Telfer",
+            "14": "Aidan Sisk",
+            "13": "Tyriq Williams",
+            "12": "Marc McEvilly",
+            "11": "Aidan True",
+            "10": "Daniel Crouch",
+            "9": "Jack Greenwood",
+            "8": "Farooq Agbalaya",
+            "7": "Benjamin Vaillant",
+            "6": "Oliver Hubbard",
+            "5": "Mark Macaskill",
+            "4": "David Spedding",
+            "3": "Dominic Plumb",
+            "2": "Alastair Hall",
+            "1": "Alfie Lamb",
+            "S1": "Jason Hoffmann",
+            "S2": "Alexander Scott",
+            "S3": "Callum Plumb"
+        }
+    ]
+}

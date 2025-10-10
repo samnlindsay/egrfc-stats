@@ -1,0 +1,57 @@
+{
+    "match_id": "1057540",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2024-02-03",
+    "teams": [
+        "Old Walcountians",
+        "Teddington"
+    ],
+    "score": [
+        0,
+        86
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/16075.png",
+        "https://images.englandrugby.com/club_images/21732.png"
+    ],
+    "players": [
+        {
+            "15": "Andrew Togbolah",
+            "14": "Marvin Fletcher-Rogers",
+            "13": "Dominic Barnaby",
+            "12": "Joe Henderson",
+            "11": "Omarie Brown",
+            "10": "Harrison Mogridge",
+            "9": "Thomas Downes",
+            "8": "Scott Stevens",
+            "7": "Dylan Camakamma",
+            "6": "James Blackmore",
+            "5": "Thomas Brown",
+            "4": "Dominic Bell",
+            "3": "Name withheld",
+            "2": "Paul Harris",
+            "1": "Alec Beeson",
+            "S1": "Ted Stoner",
+            "S2": "Emerson Allen",
+            "S3": "Huw Morgan"
+        },
+        {
+            "15": "Jack Miller",
+            "14": "Joshua Mckiernan",
+            "13": "Robert Beevers",
+            "12": "Angus Bell",
+            "11": "Daniel Robertshaw",
+            "10": "Alfie Ransom",
+            "9": "Jack Valentine",
+            "8": "Oliver Holland",
+            "7": "Callum Johnston",
+            "6": "Rory Mercer",
+            "5": "Samuel Rawsthorne",
+            "4": "Henry Dare",
+            "3": "Christopher Lidington",
+            "2": "Ethan Davies",
+            "1": "Edward Hussey"
+        }
+    ]
+}

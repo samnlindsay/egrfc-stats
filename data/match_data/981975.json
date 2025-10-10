@@ -1,0 +1,60 @@
+{
+    "match_id": "981975",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2022-10-15",
+    "teams": [
+        "Lewes",
+        "Crawley"
+    ],
+    "score": [
+        5,
+        44
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/12206.png",
+        "https://images.englandrugby.com/club_images/5807.png"
+    ],
+    "players": [
+        {
+            "15": "Thomas Awdry",
+            "14": "Karl Neale-Shutte",
+            "13": "Tyler Edwards",
+            "12": "Elliot Moule",
+            "11": "Dante Maguire",
+            "10": "Cian Furlong",
+            "9": "Angus Taylor",
+            "8": "Nathaniel Vine",
+            "7": "George Gribble",
+            "6": "Stewart Dickens",
+            "5": "Harry Pryer",
+            "4": "Lewis Evans",
+            "3": "Kane Dadswell",
+            "2": "Damian Pye",
+            "1": "Edward King",
+            "S1": "Charlie Moran",
+            "S2": "Adam Hutchings",
+            "S3": "Thomas Awdry"
+        },
+        {
+            "15": "Kristian Dean",
+            "14": "Joshua Rodwell",
+            "13": "Jordan Walker",
+            "12": "Harry Hickmet",
+            "11": "Jude Read",
+            "10": "Corey Toogood",
+            "9": "Sven Dahlmann",
+            "8": "Oliver Hall",
+            "7": "Joao Andre Garanito Sousa",
+            "6": "Luke Attew",
+            "5": "Oliver Plunkett",
+            "4": "Kieran Gosling",
+            "3": "Nathan Cox",
+            "2": "Coby Coy",
+            "1": "Mark Stevenson",
+            "S1": "William Griffin",
+            "S2": "Andrew Wilson",
+            "S3": "Dominic Morgan"
+        }
+    ]
+}

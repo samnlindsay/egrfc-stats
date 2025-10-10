@@ -1,1 +1,52 @@
-{"date": "2024-12-14", "score": [15, 46], "teams": ["Eastbourne", "Weybridge Vandals"], "logos": ["https://images.englandrugby.com/club_images/7209.png", "https://images.englandrugby.com/club_images/25094.png"], "players": [{"14": "Oliver Horley", "13": "Jake Howe", "11": "Dylan Viles", "9": "Leon Wood", "8": "Jeremy Montes", "7": "Vincent Morse", "5": "Jack Curtis", "4": "Joshua Buckwell", "3": "Paul Smith", "1": "Christopher Hosking"}, {"15": "Sam Bullett", "14": "Luke Phair", "13": "Harry Reed", "12": "Karl Hoade", "11": "Name withheld", "10": "Daniel Wellden", "9": "Joseph Graves", "8": "Reece Innes-Gray", "7": "Thomas Frewin", "6": "Cameron Edgar", "5": "Lewis Bryant", "4": "Michael Mason", "3": "Joshua Thomas", "2": "Callum Hennessey", "1": "Luke Hempstead", "S1": "Joel Keefe", "S2": "Richard Crabb", "S3": "Paul-Louis Howard"}]}
+{
+    "date": "2024-12-14",
+    "score": [
+        15,
+        46
+    ],
+    "teams": [
+        "Eastbourne",
+        "Weybridge Vandals"
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7209.png",
+        "https://images.englandrugby.com/club_images/25094.png"
+    ],
+    "players": [
+        {
+            "14": "Oliver Horley",
+            "13": "Jake Howe",
+            "11": "Dylan Viles",
+            "9": "Leon Wood",
+            "8": "Jeremy Montes",
+            "7": "Vincent Morse",
+            "5": "Jack Curtis",
+            "4": "Joshua Buckwell",
+            "3": "Paul Smith",
+            "1": "Christopher Hosking"
+        },
+        {
+            "15": "Sam Bullett",
+            "14": "Luke Phair",
+            "13": "Harry Reed",
+            "12": "Karl Hoade",
+            "11": "Name withheld",
+            "10": "Daniel Wellden",
+            "9": "Joseph Graves",
+            "8": "Reece Innes-Gray",
+            "7": "Thomas Frewin",
+            "6": "Cameron Edgar",
+            "5": "Lewis Bryant",
+            "4": "Michael Mason",
+            "3": "Joshua Thomas",
+            "2": "Callum Hennessey",
+            "1": "Luke Hempstead",
+            "S1": "Joel Keefe",
+            "S2": "Richard Crabb",
+            "S3": "Paul-Louis Howard"
+        }
+    ],
+    "match_id": "1136473",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex"
+}

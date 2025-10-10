@@ -1,0 +1,59 @@
+{
+    "match_id": "1057468",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2023-10-14",
+    "teams": [
+        "Teddington",
+        "Old Tiffinians"
+    ],
+    "score": [
+        38,
+        31
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/21732.png",
+        "https://images.englandrugby.com/club_images/16068.png"
+    ],
+    "players": [
+        {
+            "15": "Name withheld",
+            "14": "James Frankenberger",
+            "13": "Harry Smith",
+            "12": "Huw Morgan",
+            "11": "Joshua Mckiernan",
+            "10": "Joe Stainer",
+            "9": "Angus Bell",
+            "8": "Jack Capon",
+            "7": "Stuart Ridler",
+            "6": "James Nelson",
+            "5": "Oliver Holland",
+            "4": "Jack Valentine",
+            "3": "Henry Dare",
+            "2": "Daniel Robertshaw",
+            "1": "George Bradford",
+            "S1": "Theodore Gibson",
+            "S2": "Rory Mercer",
+            "S3": "Alfie Ransom"
+        },
+        {
+            "15": "William Sharp",
+            "14": "Maximilian Talman",
+            "13": "Sharif Dougramaji",
+            "12": "Sebastion Kay",
+            "11": "Andrew Day",
+            "10": "George Taylor",
+            "9": "Harry Jowett",
+            "8": "Robert Baragwanath",
+            "7": "Ben Marshall",
+            "6": "Jacob Fawssett",
+            "5": "Noah-Vincenz Noeh",
+            "4": "Michael O'Connell",
+            "3": "Jaewon Jang",
+            "2": "Ross Hobbs",
+            "1": "Sam Rumball",
+            "S1": "Hugh Turnbull",
+            "S2": "Daniel Blackman"
+        }
+    ]
+}

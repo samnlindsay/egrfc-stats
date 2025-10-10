@@ -1,1 +1,60 @@
-{"date": "2024-11-23", "score": [19, 23], "teams": ["East Grinstead", "Old Rutlishians"], "logos": ["https://images.englandrugby.com/club_images/7134.png", "https://images.englandrugby.com/club_images/16005.png"], "players": [{"15": "Ted Hardisty", "14": "Jake Radcliffe", "13": "Christopher May-Miller", "12": "Max Crawley-Moore", "11": "Benjamin Beard", "10": "Noah Roberts", "9": "Sam Spriddell", "8": "Connor Leggat", "7": "Ryland Thomas", "6": "Tom Mooney", "5": "John Peaty", "4": "Daniel Billin", "3": "Joshua Brimecombe", "2": "Benjamin Tottman", "1": "Guy Collins", "S1": "David Bridges", "S2": "Samuel Lindsay-McCall", "S3": "William Roberts"}, {"15": "Oliver O\u2019Brien", "14": "Charles Julian", "13": "David Cecil", "12": "Maximilian Lufkin", "11": "Corey Holland", "10": "Toby Harrison", "9": "Thomas Checkley", "8": "Robert Cecil", "7": "Alasdair Dean", "6": "Josh Jibulu", "5": "Jordan Braddock", "4": "Samuel Ferrat Figueredo", "3": "William Donegan", "2": "LOUIE DAVIES", "1": "Kenneth Cecil", "S1": "Ryan Dunne", "S2": "Chezter Altea", "S3": "James Collins"}]}
+{
+    "date": "2024-11-23",
+    "score": [
+        19,
+        23
+    ],
+    "teams": [
+        "East Grinstead",
+        "Old Rutlishians"
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7134.png",
+        "https://images.englandrugby.com/club_images/16005.png"
+    ],
+    "players": [
+        {
+            "15": "Ted Hardisty",
+            "14": "Jake Radcliffe",
+            "13": "Christopher May-Miller",
+            "12": "Max Crawley-Moore",
+            "11": "Benjamin Beard",
+            "10": "Noah Roberts",
+            "9": "Sam Spriddell",
+            "8": "Connor Leggat",
+            "7": "Ryland Thomas",
+            "6": "Tom Mooney",
+            "5": "John Peaty",
+            "4": "Daniel Billin",
+            "3": "Joshua Brimecombe",
+            "2": "Benjamin Tottman",
+            "1": "Guy Collins",
+            "S1": "David Bridges",
+            "S2": "Samuel Lindsay-McCall",
+            "S3": "William Roberts"
+        },
+        {
+            "15": "Oliver O\u2019Brien",
+            "14": "Charles Julian",
+            "13": "David Cecil",
+            "12": "Maximilian Lufkin",
+            "11": "Corey Holland",
+            "10": "Toby Harrison",
+            "9": "Thomas Checkley",
+            "8": "Robert Cecil",
+            "7": "Alasdair Dean",
+            "6": "Josh Jibulu",
+            "5": "Jordan Braddock",
+            "4": "Samuel Ferrat Figueredo",
+            "3": "William Donegan",
+            "2": "LOUIE DAVIES",
+            "1": "Kenneth Cecil",
+            "S1": "Ryan Dunne",
+            "S2": "Chezter Altea",
+            "S3": "James Collins"
+        }
+    ],
+    "match_id": "1136463",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex"
+}

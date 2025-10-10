@@ -1,1 +1,60 @@
-{"date": "2025-03-08", "score": [77, 14], "teams": ["Old Rutlishians", "East Grinstead"], "logos": ["https://images.englandrugby.com/club_images/16005.png", "https://images.englandrugby.com/club_images/7134.png"], "players": [{"15": "James Collins", "14": "Oliver O\u2019Brien", "13": "David Cecil", "12": "Maximilian Lufkin", "11": "Michael Boland", "10": "Toby Harrison", "9": "Thomas Checkley", "8": "Robert Cecil", "7": "Benjamin Sumrie", "6": "Harry Hovell", "5": "Josh Jibulu", "4": "Alasdair Dean", "3": "William Donegan", "2": "LOUIE DAVIES", "1": "Kenneth Cecil", "S1": "Ryan Dunne", "S2": "Harry Hudson", "S3": "Charles Julian"}, {"15": "Oliver Billin", "14": "Jake Radcliffe", "13": "Christopher May-Miller", "12": "Rhys Skinner", "11": "Ted Hardisty", "10": "Noah Merrion", "9": "Noah Roberts", "8": "Aaronn Boczek", "7": "Josh Weaver", "6": "Oscar Staples", "5": "John Peaty", "4": "Samuel Lindsay-McCall", "3": "Joshua Brimecombe", "2": "Benjamin Tottman", "1": "Guy Collins", "S1": "Michael Presland", "S2": "Paddy Shepherd", "S3": "William Roberts"}]}
+{
+    "date": "2025-03-08",
+    "score": [
+        77,
+        14
+    ],
+    "teams": [
+        "Old Rutlishians",
+        "East Grinstead"
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/16005.png",
+        "https://images.englandrugby.com/club_images/7134.png"
+    ],
+    "players": [
+        {
+            "15": "James Collins",
+            "14": "Oliver O\u2019Brien",
+            "13": "David Cecil",
+            "12": "Maximilian Lufkin",
+            "11": "Michael Boland",
+            "10": "Toby Harrison",
+            "9": "Thomas Checkley",
+            "8": "Robert Cecil",
+            "7": "Benjamin Sumrie",
+            "6": "Harry Hovell",
+            "5": "Josh Jibulu",
+            "4": "Alasdair Dean",
+            "3": "William Donegan",
+            "2": "LOUIE DAVIES",
+            "1": "Kenneth Cecil",
+            "S1": "Ryan Dunne",
+            "S2": "Harry Hudson",
+            "S3": "Charles Julian"
+        },
+        {
+            "15": "Oliver Billin",
+            "14": "Jake Radcliffe",
+            "13": "Christopher May-Miller",
+            "12": "Rhys Skinner",
+            "11": "Ted Hardisty",
+            "10": "Noah Merrion",
+            "9": "Noah Roberts",
+            "8": "Aaronn Boczek",
+            "7": "Josh Weaver",
+            "6": "Oscar Staples",
+            "5": "John Peaty",
+            "4": "Samuel Lindsay-McCall",
+            "3": "Joshua Brimecombe",
+            "2": "Benjamin Tottman",
+            "1": "Guy Collins",
+            "S1": "Michael Presland",
+            "S2": "Paddy Shepherd",
+            "S3": "William Roberts"
+        }
+    ],
+    "match_id": "1136523",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex"
+}

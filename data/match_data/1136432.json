@@ -1,1 +1,60 @@
-{"date": "2024-10-12", "score": [28, 23], "teams": ["Trinity", "Twickenham"], "logos": ["https://images.englandrugby.com/club_images/23175.png", "https://images.englandrugby.com/club_images/23336.png"], "players": [{"15": "Benjamin Telfer", "14": "Ben Edmondson", "13": "Archie McMillan", "12": "Thomas Wilcox", "11": "Joshua Joubert", "10": "George Kimmins", "9": "Harry Wilson", "8": "Oliver Hubbard", "7": "Khalil Alleyne", "6": "Benjamin Vaillant", "5": "David Spedding", "4": "Edward Wilkie", "3": "Christopher Reid Gomez", "2": "Quinn Singh", "1": "Alastair Hall", "S1": "Thomas Black", "S2": "Marc McEvilly", "S3": "Fuad Agbalaya"}, {"15": "Louis Boyd", "14": "Archie Lamont", "13": "Samuel Griffin", "12": "John Smith", "11": "Arthur Polley", "10": "Thomas Foster", "9": "Samuel Goddard", "8": "Nicholas Smith", "7": "James Moore", "6": "Jack Fullicks", "5": "Luke Deakin", "4": "Mohammed Elata", "3": "Jordan Fyles", "2": "Ben Goddard", "1": "Alex Bennett", "S1": "Frazer Gibson", "S2": "Joe Ash", "S3": "Name withheld"}]}
+{
+    "date": "2024-10-12",
+    "score": [
+        28,
+        23
+    ],
+    "teams": [
+        "Trinity",
+        "Twickenham"
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/23175.png",
+        "https://images.englandrugby.com/club_images/23336.png"
+    ],
+    "players": [
+        {
+            "15": "Benjamin Telfer",
+            "14": "Ben Edmondson",
+            "13": "Archie McMillan",
+            "12": "Thomas Wilcox",
+            "11": "Joshua Joubert",
+            "10": "George Kimmins",
+            "9": "Harry Wilson",
+            "8": "Oliver Hubbard",
+            "7": "Khalil Alleyne",
+            "6": "Benjamin Vaillant",
+            "5": "David Spedding",
+            "4": "Edward Wilkie",
+            "3": "Christopher Reid Gomez",
+            "2": "Quinn Singh",
+            "1": "Alastair Hall",
+            "S1": "Thomas Black",
+            "S2": "Marc McEvilly",
+            "S3": "Fuad Agbalaya"
+        },
+        {
+            "15": "Louis Boyd",
+            "14": "Archie Lamont",
+            "13": "Samuel Griffin",
+            "12": "John Smith",
+            "11": "Arthur Polley",
+            "10": "Thomas Foster",
+            "9": "Samuel Goddard",
+            "8": "Nicholas Smith",
+            "7": "James Moore",
+            "6": "Jack Fullicks",
+            "5": "Luke Deakin",
+            "4": "Mohammed Elata",
+            "3": "Jordan Fyles",
+            "2": "Ben Goddard",
+            "1": "Alex Bennett",
+            "S1": "Frazer Gibson",
+            "S2": "Joe Ash",
+            "S3": "Name withheld"
+        }
+    ],
+    "match_id": "1136432",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex"
+}

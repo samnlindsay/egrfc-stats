@@ -1,0 +1,60 @@
+{
+    "match_id": "981964",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2022-09-24",
+    "teams": [
+        "East Grinstead",
+        "Uckfield"
+    ],
+    "score": [
+        58,
+        3
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7134.png",
+        "https://images.englandrugby.com/club_images/23445.png"
+    ],
+    "players": [
+        {
+            "15": "Oliver Billin",
+            "14": "Benjamin Hogan",
+            "13": "Max Crawley-Moore",
+            "12": "Ryan Morlen",
+            "11": "Jake Radcliffe",
+            "10": "Daniel Poulton",
+            "9": "George Johnson",
+            "8": "Connor Leggat",
+            "7": "John Peaty",
+            "6": "Aaronn Boczek",
+            "5": "Samuel Lindsay-McCall",
+            "4": "Peter Morley",
+            "3": "David Bridges",
+            "2": "Benjamin Tottman",
+            "1": "Sean Morgan",
+            "S1": "James Funnell",
+            "S2": "Archie Vickers",
+            "S3": "Joe Terry"
+        },
+        {
+            "15": "Matthew Desouza",
+            "14": "Samuel Boswell",
+            "13": "Joel Forward",
+            "12": "Jack Harvey",
+            "11": "Callum Harvey",
+            "10": "Charlie Buckland",
+            "9": "Nick Cherry",
+            "8": "Craig Marshall",
+            "7": "Guy Cornick",
+            "6": "Terry Funnell",
+            "5": "Stephen Hartfield",
+            "4": "Thomas Lightfoot",
+            "3": "Matthew Longhurst",
+            "2": "Alfie Richardson",
+            "1": "Max Currums",
+            "S1": "Harvey Pratt",
+            "S2": "Darran ODonovan",
+            "S3": "Richard Haynes"
+        }
+    ]
+}

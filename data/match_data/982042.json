@@ -1,0 +1,55 @@
+{
+    "match_id": "982042",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2023-03-04",
+    "teams": [
+        "East Grinstead",
+        "Haywards Heath"
+    ],
+    "score": [
+        54,
+        17
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7134.png",
+        "https://images.englandrugby.com/club_images/9776.png"
+    ],
+    "players": [
+        {
+            "15": "Duncan Fraser",
+            "14": "James Mitchell",
+            "13": "Max Crawley-Moore",
+            "12": "Ryan Morlen",
+            "11": "Alistair Moffatt",
+            "10": "Daniel Poulton",
+            "9": "George Johnson",
+            "8": "Connor Leggat",
+            "7": "Ryland Thomas",
+            "6": "Jordan Walker",
+            "5": "John Peaty",
+            "4": "Samuel Lindsay-McCall",
+            "3": "Joshua Brimecombe",
+            "2": "Benjamin Tottman",
+            "1": "Guy Collins",
+            "S1": "Devon Frost",
+            "S2": "Aaronn Boczek",
+            "S3": "Benjamin Saunders"
+        },
+        {
+            "15": "Christopher Neill",
+            "14": "Samuela Bulitokaivale-Lancaster",
+            "13": "Name withheld",
+            "12": "Zac Palmer",
+            "11": "Jack Flower",
+            "10": "Thomas Wharton",
+            "9": "Ellis Dubois",
+            "8": "Elliott Higgin",
+            "7": "Henry Dickson",
+            "6": "John Robertson",
+            "5": "Geoffrey Bridges",
+            "4": "Martin Mcdonagh",
+            "3": "Henry Dickson"
+        }
+    ]
+}

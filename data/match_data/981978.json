@@ -1,0 +1,55 @@
+{
+    "match_id": "981978",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2022-10-22",
+    "teams": [
+        "Haywards Heath",
+        "Eastbourne"
+    ],
+    "score": [
+        10,
+        32
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/9776.png",
+        "https://images.englandrugby.com/club_images/7209.png"
+    ],
+    "players": [
+        {
+            "15": "Christopher Neill",
+            "14": "Samuela Bulitokaivale-Lancaster",
+            "13": "Name withheld",
+            "12": "Jamie Diggle",
+            "11": "Douglas Kern",
+            "10": "Thomas Wharton",
+            "9": "Fraser Russell",
+            "8": "Geoffrey Bridges",
+            "7": "Jack Bull",
+            "6": "Ellis Dubois",
+            "5": "Elliott Higgin",
+            "4": "Jack Herbert",
+            "3": "Matthew Cains",
+            "2": "Charles Fenwick",
+            "1": "Sebastian Broster",
+            "S1": "Mason Dowle",
+            "S2": "Jake Howe",
+            "S3": "Ben Perrott"
+        },
+        {
+            "15": "Dylan Becker",
+            "14": "Aaron Hossack",
+            "13": "Harrison Gibbons",
+            "12": "Jeremy Montes",
+            "11": "Vincent Morse",
+            "10": "Owen Davies",
+            "9": "Joshua Buckwell",
+            "8": "Luke Thomas",
+            "7": "Alun Cranch",
+            "6": "Joseph Bettles",
+            "5": "Christopher Hosking",
+            "4": "Gianluca Bianchi",
+            "3": "Ryan Shields"
+        }
+    ]
+}

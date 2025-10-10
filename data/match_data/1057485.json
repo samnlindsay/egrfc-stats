@@ -1,0 +1,61 @@
+{
+    "match_id": "1057485",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2023-11-11",
+    "teams": [
+        "Kingston",
+        "Weybridge Vandals"
+    ],
+    "score": [
+        12,
+        66
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/11663.png",
+        "https://images.englandrugby.com/club_images/25094.png"
+    ],
+    "players": [
+        {
+            "15": "Diego Borja Carbon Viera",
+            "14": "Joseph Daiton",
+            "13": "Ross Mctear",
+            "12": "Tyler Reichardt",
+            "11": "Elton Gwekwete",
+            "10": "Ivan Jones",
+            "9": "Rodrigo Lueje ripoll",
+            "8": "Hugo Eyre",
+            "7": "Luke Burge",
+            "6": "Christopher Hall",
+            "5": "Scott Howe",
+            "4": "Nick Crandon",
+            "3": "Samuel Johnson",
+            "2": "Tom Rushmer",
+            "1": "Tom Tyler",
+            "S1": "David Wakefield",
+            "S2": "Samuel Rushmer",
+            "S3": "Chun Yeung WU",
+            "S4": "Salvador Gomes"
+        },
+        {
+            "15": "Thomas Bolger",
+            "14": "Harry Reed",
+            "13": "Jack O'Mara",
+            "12": "Oliver Day",
+            "11": "Karl Hoade",
+            "10": "David Loubser",
+            "9": "Joseph Graves",
+            "8": "Reece Innes-Gray",
+            "7": "Mattia Mengotti",
+            "6": "Michael Mason",
+            "5": "Richard Crabb",
+            "4": "Nicholas Blount",
+            "3": "Luke Hempstead",
+            "2": "Callum Hennessey",
+            "1": "Joshua Thomas",
+            "S1": "Edward Rawding",
+            "S2": "Name withheld",
+            "S3": "Harry Weatherall"
+        }
+    ]
+}

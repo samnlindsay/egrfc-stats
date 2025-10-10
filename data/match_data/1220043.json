@@ -1,0 +1,58 @@
+{
+    "match_id": "1220043",
+    "season": "2025-2026",
+    "league": "Counties 2 Sussex",
+    "date": "2025-10-04",
+    "teams": [
+        "Crawley",
+        "Lewes"
+    ],
+    "score": [
+        0,
+        36
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/5807.png",
+        "https://images.englandrugby.com/club_images/12206.png"
+    ],
+    "players": [
+        {
+            "15": "Kristian Dean",
+            "14": "Gorm Young",
+            "13": "William Ofosuhene",
+            "12": "Conor Kelly",
+            "11": "Anthony Dartnell",
+            "10": "Oscar Davies",
+            "9": "Joshua Laviol",
+            "8": "Guy Craddock",
+            "7": "Aaron O'Callaghan",
+            "6": "Jonathan McGurk",
+            "5": "Name withheld",
+            "4": "Oliver Plunkett",
+            "3": "Joel Fisher",
+            "2": "Robert Higgins",
+            "1": "Bradley Davies",
+            "S1": "Callum Hankin",
+            "S2": "Jude Read",
+            "S3": "Andrew Griffiths"
+        },
+        {
+            "15": "Jack Soltermann",
+            "14": "Harry Carr",
+            "13": "Rafferty Green",
+            "12": "Ben Goode",
+            "11": "Jordan Smith",
+            "10": "Joseph Lacy",
+            "9": "Louis Medhurst",
+            "8": "Harry Weston",
+            "7": "Fearghus Gage",
+            "6": "James Sale",
+            "5": "Ian Thomas",
+            "4": "Benjamin Simmonds",
+            "3": "Kane Dadswell",
+            "2": "Thomas Petty",
+            "1": "Daryl Benson",
+            "S1": "Alexander Bray"
+        }
+    ]
+}

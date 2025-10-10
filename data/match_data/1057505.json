@@ -1,0 +1,59 @@
+{
+    "match_id": "1057505",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2023-12-09",
+    "teams": [
+        "Twickenham",
+        "Old Walcountians"
+    ],
+    "score": [
+        48,
+        0
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/23336.png",
+        "https://images.englandrugby.com/club_images/16075.png"
+    ],
+    "players": [
+        {
+            "15": "John Smith",
+            "14": "Arthur Polley",
+            "13": "Samuel Griffin",
+            "12": "Joe Ash",
+            "11": "Lewis Harrison",
+            "10": "Jamie See",
+            "9": "Samuel Goddard",
+            "8": "Nicholas Smith",
+            "7": "James Moore",
+            "6": "Jack Fullicks",
+            "5": "Scott Davidson",
+            "4": "Louie Banks",
+            "3": "Jordan Fyles",
+            "2": "Joshua Otter",
+            "1": "Alex Bennett",
+            "S1": "Richard Moses",
+            "S2": "Oscar Jansen",
+            "S3": "Alex Stagg"
+        },
+        {
+            "15": "Marvin Fletcher-Rogers",
+            "14": "Nino Stylianou",
+            "13": "Brendan Murphy",
+            "12": "Dominic Barnaby",
+            "11": "Omarie Brown",
+            "10": "Alexander Skinner",
+            "9": "James Henderson",
+            "8": "Joseph Lawrence",
+            "7": "Joe Henderson",
+            "6": "Andrew Togbolah",
+            "5": "Peter Thomas",
+            "4": "Dominic Bell",
+            "3": "Name withheld",
+            "2": "James Ford",
+            "1": "Heathcliffe Bateman",
+            "S1": "Paul Harris",
+            "S2": "Andrew Le Masurier"
+        }
+    ]
+}

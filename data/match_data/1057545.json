@@ -1,0 +1,60 @@
+{
+    "match_id": "1057545",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2024-02-17",
+    "teams": [
+        "Eastbourne",
+        "Old Walcountians"
+    ],
+    "score": [
+        29,
+        8
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7209.png",
+        "https://images.englandrugby.com/club_images/16075.png"
+    ],
+    "players": [
+        {
+            "15": "Mason Dowle",
+            "14": "Gianluca Bianchi",
+            "13": "Jake Howe",
+            "12": "Ronnie Doorey-Palmer",
+            "11": "Dylan Viles",
+            "10": "Aaron Hossack",
+            "9": "Brendan Challis",
+            "8": "Jeremy Montes",
+            "7": "Vincent Morse",
+            "6": "Ryan Shields",
+            "5": "Luke Thomas",
+            "4": "Owen Davies",
+            "3": "Paul Smith",
+            "2": "Joseph Bettles",
+            "1": "Daniel Keen",
+            "S1": "Amro Hammer",
+            "S2": "Joshua Buckwell",
+            "S3": "Pedro Sousa"
+        },
+        {
+            "15": "Harrison Mogridge",
+            "14": "Nino Stylianou",
+            "13": "Andrew Togbolah",
+            "12": "Heathcliffe Bateman",
+            "11": "Ted Stoner",
+            "10": "Kieran Kavanagh",
+            "9": "Thomas Downes",
+            "8": "Joe Henderson",
+            "7": "Dylan Camakamma",
+            "6": "Oliver Sanders",
+            "5": "Thomas Brown",
+            "4": "Peter Thomas",
+            "3": "Paul Harris",
+            "2": "Scott Stevens",
+            "1": "James Ford",
+            "S1": "James Blackmore",
+            "S2": "Jack Smart",
+            "S3": "Brendan Murphy"
+        }
+    ]
+}

@@ -1,0 +1,59 @@
+{
+    "match_id": "981979",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2022-10-22",
+    "teams": [
+        "Burgess Hill",
+        "Pulborough"
+    ],
+    "score": [
+        3,
+        36
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/3659.png",
+        "https://images.englandrugby.com/club_images/17255.png"
+    ],
+    "players": [
+        {
+            "15": "Vilitati Ligairi",
+            "14": "Rory Shillaker",
+            "13": "Ben Mclaren",
+            "12": "Jim Waqanibau",
+            "11": "Neori Navo",
+            "10": "Rhys Clarke",
+            "9": "Ollie Lewis",
+            "8": "David Wattam",
+            "7": "Matt Firmager",
+            "6": "Kyle Tucker",
+            "5": "Charlie Lewis",
+            "4": "Harvey Hays",
+            "3": "Craig Wells",
+            "2": "Andrew Mackay",
+            "1": "Timothy Daniel",
+            "S1": "Tamanilatui Sailosi",
+            "S2": "Ted Mata"
+        },
+        {
+            "15": "William Scrase",
+            "14": "Archie Sadler",
+            "13": "Harry Dancaster",
+            "12": "Frazer Oliphant-Hope",
+            "11": "Daniel Paige",
+            "10": "Simon Burfiend",
+            "9": "Jonathan Scrase",
+            "8": "Matthew Goring",
+            "7": "Kieran Mellor",
+            "6": "Joe Johnson",
+            "5": "Ben Sadler",
+            "4": "James Hobbs",
+            "3": "Harry O'Brien",
+            "2": "Matthew Corrall",
+            "1": "Michael Woodhouse",
+            "S1": "Cameron Rowbotham",
+            "S2": "Charlie Denman",
+            "S3": "Harry Scrase"
+        }
+    ]
+}

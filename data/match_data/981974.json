@@ -1,0 +1,58 @@
+{
+    "match_id": "981974",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2022-10-15",
+    "teams": [
+        "Eastbourne",
+        "Burgess Hill"
+    ],
+    "score": [
+        70,
+        3
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7209.png",
+        "https://images.englandrugby.com/club_images/3659.png"
+    ],
+    "players": [
+        {
+            "15": "Mason Dowle",
+            "14": "Gianluca Bianchi",
+            "13": "Jake Howe",
+            "12": "Martial Chaput",
+            "11": "Dylan Becker",
+            "10": "Aaron Hossack",
+            "9": "Harrison Gibbons",
+            "8": "Jeremy Montes",
+            "7": "Vincent Morse",
+            "6": "Owen Davies",
+            "5": "Joshua Buckwell",
+            "4": "Luke Thomas",
+            "3": "Name withheld",
+            "2": "Joseph Bettles",
+            "1": "Christopher Hosking",
+            "S1": "Alun Cranch",
+            "S2": "Ryan Shields",
+            "S3": "Archie Anscombe"
+        },
+        {
+            "15": "Rory Shillaker",
+            "14": "Neori Navo",
+            "13": "Ben Mclaren",
+            "12": "Matt Firmager",
+            "11": "Rhys Clarke",
+            "10": "Massimo Hiller",
+            "9": "David Wattam",
+            "8": "Adam Rezazadeh",
+            "7": "Tamanilatui Sailosi",
+            "6": "Craig Wells",
+            "5": "Andrew Mackay",
+            "4": "Lee Collingbourne",
+            "3": "Benjamin Dronfield",
+            "2": "Robert Blake",
+            "1": "Harvey Hays",
+            "S1": "Ollie Lewis"
+        }
+    ]
+}

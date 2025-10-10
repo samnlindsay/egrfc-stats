@@ -1,0 +1,59 @@
+{
+    "match_id": "982040",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2023-03-04",
+    "teams": [
+        "Uckfield",
+        "Eastbourne"
+    ],
+    "score": [
+        0,
+        43
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/23445.png",
+        "https://images.englandrugby.com/club_images/7209.png"
+    ],
+    "players": [
+        {
+            "15": "Osin Mcwalter",
+            "14": "Samual Haines",
+            "13": "Joel Andrews",
+            "12": "Sean Bate",
+            "11": "Charles Hawes",
+            "10": "Ross James",
+            "9": "Charlie Buckland",
+            "8": "Guy Cornick",
+            "7": "Thomas Booth",
+            "6": "Harvey Pratt",
+            "5": "Stephen Hartfield",
+            "4": "Thomas Lightfoot",
+            "3": "Alfie Richardson",
+            "2": "Adrian Stainer",
+            "1": "Max Currums",
+            "S1": "Colin Bradley",
+            "S2": "Name withheld",
+            "S3": "Joel Forward"
+        },
+        {
+            "15": "Mason Dowle",
+            "14": "Gianluca Bianchi",
+            "13": "Jake Howe",
+            "12": "Ben Perrott",
+            "11": "Dylan Becker",
+            "10": "Martial Chaput",
+            "9": "Ryan Shields",
+            "8": "Vincent Morse",
+            "7": "Carl Slaughter",
+            "6": "Owen Davies",
+            "5": "Luke Thomas",
+            "4": "Paul Smith",
+            "3": "Joseph Bettles",
+            "2": "Christopher Hosking",
+            "1": "Jeremy Montes",
+            "S1": "Daniel Keen",
+            "S2": "Aaron Hossack"
+        }
+    ]
+}

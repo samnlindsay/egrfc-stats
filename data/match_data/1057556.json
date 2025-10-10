@@ -1,0 +1,60 @@
+{
+    "match_id": "1057556",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2024-03-16",
+    "teams": [
+        "Eastbourne",
+        "Teddington"
+    ],
+    "score": [
+        41,
+        53
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7209.png",
+        "https://images.englandrugby.com/club_images/21732.png"
+    ],
+    "players": [
+        {
+            "15": "Mason Dowle",
+            "14": "Pedro Sousa",
+            "13": "Dylan Viles",
+            "12": "Ronnie Doorey-Palmer",
+            "11": "Gianluca Bianchi",
+            "10": "Jake Howe",
+            "9": "Brendan Challis",
+            "8": "Jeremy Montes",
+            "7": "Vincent Morse",
+            "6": "Ryan Shields",
+            "5": "Owen Davies",
+            "4": "Luke Thomas",
+            "3": "Paul Smith",
+            "2": "Joseph Bettles",
+            "1": "Daniel Keen",
+            "S1": "Amro Hammer",
+            "S2": "Joshua Buckwell",
+            "S3": "Stuart Baker"
+        },
+        {
+            "15": "Name withheld",
+            "14": "Emerson Allen",
+            "13": "Joshua Mckiernan",
+            "12": "Stuart Ridler",
+            "11": "Gabriel Roberts",
+            "10": "Robert Beevers",
+            "9": "Harry Smith",
+            "8": "Ethan Davies",
+            "7": "Alfie Ransom",
+            "6": "Jack Valentine",
+            "5": "Oliver Holland",
+            "4": "Christopher Lidington",
+            "3": "Henry Dare",
+            "2": "Samuel Rawsthorne",
+            "1": "George Bradford",
+            "S1": "Rory Mercer",
+            "S2": "Daniel Robertshaw",
+            "S3": "Matthew Searle"
+        }
+    ]
+}

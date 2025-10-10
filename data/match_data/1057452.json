@@ -1,0 +1,57 @@
+{
+    "match_id": "1057452",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2023-09-23",
+    "teams": [
+        "KCS Old Boys",
+        "Old Walcountians"
+    ],
+    "score": [
+        25,
+        17
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/11188.png",
+        "https://images.englandrugby.com/club_images/16075.png"
+    ],
+    "players": [
+        {
+            "15": "Name withheld",
+            "14": "Thomas Davies",
+            "13": "Jamie Miller",
+            "12": "Thomas Hamill",
+            "11": "William Carter",
+            "10": "Jacob Wood",
+            "9": "James Shaw",
+            "8": "Callum Young",
+            "7": "Charles Paterson",
+            "6": "Cameron Keller",
+            "5": "Seth Eley",
+            "4": "Alexander Owen",
+            "3": "William Page",
+            "2": "Benoit Israel",
+            "1": "Funmi Oduniyi",
+            "S1": "Leon Driscoll",
+            "S2": "Charles Williams",
+            "S3": "Harrison Mogridge"
+        },
+        {
+            "15": "Omarie Brown",
+            "14": "Dominic Barnaby",
+            "13": "Heathcliffe Bateman",
+            "12": "Marvin Fletcher-Rogers",
+            "11": "Ross Lever",
+            "10": "Thomas Downes",
+            "9": "Thomas Brown",
+            "8": "Joe Henderson",
+            "7": "Tom Housden",
+            "6": "Jonathan Evans",
+            "5": "Joseph Lawrence",
+            "4": "Dominic Bell",
+            "3": "James Ford",
+            "2": "Oliver Sanders",
+            "1": "Andrew Togbolah"
+        }
+    ]
+}

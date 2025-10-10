@@ -1,0 +1,60 @@
+{
+    "match_id": "1057571",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2024-04-06",
+    "teams": [
+        "Trinity",
+        "Old Walcountians"
+    ],
+    "score": [
+        43,
+        22
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/23175.png",
+        "https://images.englandrugby.com/club_images/16075.png"
+    ],
+    "players": [
+        {
+            "15": "Benjamin Telfer",
+            "14": "Callum True",
+            "13": "Archie McMillan",
+            "12": "Marc McEvilly",
+            "11": "Max Mouna",
+            "10": "Daniel Crouch",
+            "9": "Harry Wilson",
+            "8": "Farooq Agbalaya",
+            "7": "Oliver Hubbard",
+            "6": "Fuad Agbalaya",
+            "5": "GEORGE DANIELS",
+            "4": "David Spedding",
+            "3": "Jacques Bryant",
+            "2": "Timothy Jupp",
+            "1": "Alastair Hall",
+            "S1": "Dominic Plumb",
+            "S2": "Thomas Black",
+            "S3": "Jack Greenwood"
+        },
+        {
+            "15": "Marvin Fletcher-Rogers",
+            "14": "Omarie Brown",
+            "13": "Dominic Barnaby",
+            "12": "Alexander Skinner",
+            "11": "Andrew Togbolah",
+            "10": "Ross Lever",
+            "9": "Benjamin French",
+            "8": "Thomas Brown",
+            "7": "Joe Henderson",
+            "6": "Tom Housden",
+            "5": "Callum Rees",
+            "4": "Dominic Bell",
+            "3": "Paul Harris",
+            "2": "James Ford",
+            "1": "Daniel Bell",
+            "S1": "Harrison Mogridge",
+            "S2": "Oliver Sanders",
+            "S3": "Name withheld"
+        }
+    ]
+}

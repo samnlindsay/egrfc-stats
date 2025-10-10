@@ -1,0 +1,60 @@
+{
+    "match_id": "982025",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2023-01-28",
+    "teams": [
+        "Seaford",
+        "Lewes"
+    ],
+    "score": [
+        36,
+        12
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/18868.png",
+        "https://images.englandrugby.com/club_images/12206.png"
+    ],
+    "players": [
+        {
+            "15": "Paddy Powney",
+            "14": "Stuart Cotter",
+            "13": "Charlie Crossgrove",
+            "12": "Paul Burns",
+            "11": "Jason Staples",
+            "10": "Dominic Joy",
+            "9": "Jack Cullinane",
+            "8": "Daniel Newby",
+            "7": "Harvey Joy",
+            "6": "Name withheld",
+            "5": "Andrew Salter",
+            "4": "Josh Hennessy",
+            "3": "Luke Read",
+            "2": "Andrew Fry",
+            "1": "Matt Read",
+            "S1": "Jason Dubas-Fisher",
+            "S2": "Philip Innis",
+            "S3": "Luke Taylor"
+        },
+        {
+            "15": "Cian Furlong",
+            "14": "Daniel Elmes",
+            "13": "William Hoff",
+            "12": "Jude Littlewood",
+            "11": "Dante Maguire",
+            "10": "Roberto Bello Hurtado",
+            "9": "Angus Taylor",
+            "8": "William Shiell",
+            "7": "Harry Weston",
+            "6": "Simon Coe",
+            "5": "Zac Ozeren",
+            "4": "James Sale",
+            "3": "Charlie Moran",
+            "2": "Fearghus Gage",
+            "1": "Kane Dadswell",
+            "S1": "Adam Hutchings",
+            "S2": "Nathan Roberts",
+            "S3": "James Shafi"
+        }
+    ]
+}

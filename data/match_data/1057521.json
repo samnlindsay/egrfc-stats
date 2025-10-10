@@ -1,0 +1,57 @@
+{
+    "match_id": "1057521",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2024-01-13",
+    "teams": [
+        "East Grinstead",
+        "Old Tiffinians"
+    ],
+    "score": [
+        18,
+        39
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7134.png",
+        "https://images.englandrugby.com/club_images/16068.png"
+    ],
+    "players": [
+        {
+            "15": "Luke Maker",
+            "14": "Alistair Moffatt",
+            "13": "Max Crawley-Moore",
+            "12": "Benjamin Saunders",
+            "11": "Jake Radcliffe",
+            "10": "Oliver Billin",
+            "9": "Daniel Poulton",
+            "8": "Daniel Billin",
+            "7": "Ryland Thomas",
+            "6": "Rory Evans",
+            "5": "Samuel Lindsay-McCall",
+            "4": "John Peaty",
+            "3": "Joshua Brimecombe",
+            "2": "Benjamin Tottman",
+            "1": "Guy Collins",
+            "S1": "Mark Oliver",
+            "S2": "Elliott Martin-Drew",
+            "S3": "Name withheld"
+        },
+        {
+            "15": "William Sharp",
+            "14": "Maximilian Talman",
+            "13": "Sharif Dougramaji",
+            "12": "Sebastion Kay",
+            "11": "Andrew Day",
+            "10": "George Taylor",
+            "9": "Louis Freeman",
+            "8": "Timothy Fawcett",
+            "7": "Ben Marshall",
+            "6": "Robert Myddelton",
+            "5": "Hugh Turnbull",
+            "4": "Sam Rumball",
+            "3": "Ross Hobbs",
+            "2": "Michael O'Connell",
+            "1": "Andrew Blackburn"
+        }
+    ]
+}

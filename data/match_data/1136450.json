@@ -1,1 +1,60 @@
-{"date": "2024-11-09", "score": [33, 36], "teams": ["Eastbourne", "East Grinstead"], "logos": ["https://images.englandrugby.com/club_images/7209.png", "https://images.englandrugby.com/club_images/7134.png"], "players": [{"15": "Jack Brown", "14": "Mason Dowle", "13": "Jake Howe", "12": "Ronnie Doorey-Palmer", "11": "Dylan Viles", "10": "Aaron Hossack", "9": "Leon Wood", "8": "Jeremy Montes", "7": "Vincent Morse", "6": "Ben Gower", "5": "Owen Davies", "4": "Jack Curtis", "3": "Alun Cranch", "2": "Konrad Oneill", "1": "Christopher Hosking", "S1": "Paul Smith", "S2": "Joshua Buckwell", "S3": "Owen Jones"}, {"15": "Ted Hardisty", "14": "Jake Radcliffe", "13": "Christopher May-Miller", "12": "Max Crawley-Moore", "11": "Alistair Moffatt", "10": "Oliver Billin", "9": "Noah Roberts", "8": "Connor Leggat", "7": "Ryland Thomas", "6": "Tom Mooney", "5": "John Peaty", "4": "Daniel Billin", "3": "Joshua Brimecombe", "2": "Benjamin Tottman", "1": "Guy Collins", "S1": "George Beet", "S2": "Samuel Lindsay-McCall", "S3": "Or Shay"}]}
+{
+    "date": "2024-11-09",
+    "score": [
+        33,
+        36
+    ],
+    "teams": [
+        "Eastbourne",
+        "East Grinstead"
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7209.png",
+        "https://images.englandrugby.com/club_images/7134.png"
+    ],
+    "players": [
+        {
+            "15": "Jack Brown",
+            "14": "Mason Dowle",
+            "13": "Jake Howe",
+            "12": "Ronnie Doorey-Palmer",
+            "11": "Dylan Viles",
+            "10": "Aaron Hossack",
+            "9": "Leon Wood",
+            "8": "Jeremy Montes",
+            "7": "Vincent Morse",
+            "6": "Ben Gower",
+            "5": "Owen Davies",
+            "4": "Jack Curtis",
+            "3": "Alun Cranch",
+            "2": "Konrad Oneill",
+            "1": "Christopher Hosking",
+            "S1": "Paul Smith",
+            "S2": "Joshua Buckwell",
+            "S3": "Owen Jones"
+        },
+        {
+            "15": "Ted Hardisty",
+            "14": "Jake Radcliffe",
+            "13": "Christopher May-Miller",
+            "12": "Max Crawley-Moore",
+            "11": "Alistair Moffatt",
+            "10": "Oliver Billin",
+            "9": "Noah Roberts",
+            "8": "Connor Leggat",
+            "7": "Ryland Thomas",
+            "6": "Tom Mooney",
+            "5": "John Peaty",
+            "4": "Daniel Billin",
+            "3": "Joshua Brimecombe",
+            "2": "Benjamin Tottman",
+            "1": "Guy Collins",
+            "S1": "George Beet",
+            "S2": "Samuel Lindsay-McCall",
+            "S3": "Or Shay"
+        }
+    ],
+    "match_id": "1136450",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex"
+}

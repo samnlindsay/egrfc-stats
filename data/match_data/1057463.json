@@ -1,0 +1,60 @@
+{
+    "match_id": "1057463",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2023-10-07",
+    "teams": [
+        "Trinity",
+        "Eastbourne"
+    ],
+    "score": [
+        26,
+        19
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/23175.png",
+        "https://images.englandrugby.com/club_images/7209.png"
+    ],
+    "players": [
+        {
+            "15": "Jack Greenwood",
+            "14": "Tyriq Williams",
+            "13": "Marc McEvilly",
+            "12": "Andrew Dean",
+            "11": "Aidan Sisk",
+            "10": "Daniel Crouch",
+            "9": "Harry Wilson",
+            "8": "Oliver Hubbard",
+            "7": "Benjamin Vaillant",
+            "6": "Adam Stammers",
+            "5": "Louis Quarendon",
+            "4": "Mark Macaskill",
+            "3": "Jacques Bryant",
+            "2": "Timothy Jupp",
+            "1": "Alastair Hall",
+            "S1": "Alfie Lamb",
+            "S2": "Daniel Leadbeater",
+            "S3": "Benjamin Telfer"
+        },
+        {
+            "15": "Mason Dowle",
+            "14": "Gianluca Bianchi",
+            "13": "Jake Howe",
+            "12": "Ben Perrott",
+            "11": "Dylan Viles",
+            "10": "Martial Chaput",
+            "9": "Name withheld",
+            "8": "Jeremy Montes",
+            "7": "Owen Davies",
+            "6": "James Grey",
+            "5": "Luke Thomas",
+            "4": "Joshua Buckwell",
+            "3": "Joseph Bettles",
+            "2": "Konrad Oneill",
+            "1": "Christopher Hosking",
+            "S1": "Ryan Shields",
+            "S2": "Owen Jones",
+            "S3": "Alun Cranch"
+        }
+    ]
+}

@@ -1,1 +1,60 @@
-{"date": "2024-12-07", "score": [27, 0], "teams": ["London Cornish", "Trinity"], "logos": ["https://images.englandrugby.com/club_images/12508.png", "https://images.englandrugby.com/club_images/23175.png"], "players": [{"15": "Robert Mackay", "14": "Matthew Hakes", "13": "Benjamin Boorman", "12": "Peter Brogden", "11": "George Bromage", "10": "Michael Edworthy", "9": "Ciaran Johnston", "8": "Adam Wheeler", "7": "William Donaldson", "6": "Chai Clarkson", "5": "Lewis Farnell", "4": "James Squires", "3": "James New", "2": "Oscar Cruz", "1": "Mathew Hand", "S1": "Tom O'Hanlon", "S2": "Mark Osei-Tutu", "S3": "will spring"}, {"15": "James Duffy", "14": "Thomas Fairclough", "13": "Max Mouna", "12": "Thomas Wilcox", "11": "Ben Edmondson", "10": "Benjamin Telfer", "9": "Harry Wilson", "8": "Farooq Agbalaya", "7": "Benjamin Vaillant", "6": "Fuad Agbalaya", "5": "Kean Orchard", "4": "Edward Wilkie", "3": "Timothy Jupp", "2": "Quinn Singh", "1": "Alastair Hall", "S1": "Marc McEvilly", "S2": "Khalil Alleyne", "S3": "Jack Greenwood"}]}
+{
+    "date": "2024-12-07",
+    "score": [
+        27,
+        0
+    ],
+    "teams": [
+        "London Cornish",
+        "Trinity"
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/12508.png",
+        "https://images.englandrugby.com/club_images/23175.png"
+    ],
+    "players": [
+        {
+            "15": "Robert Mackay",
+            "14": "Matthew Hakes",
+            "13": "Benjamin Boorman",
+            "12": "Peter Brogden",
+            "11": "George Bromage",
+            "10": "Michael Edworthy",
+            "9": "Ciaran Johnston",
+            "8": "Adam Wheeler",
+            "7": "William Donaldson",
+            "6": "Chai Clarkson",
+            "5": "Lewis Farnell",
+            "4": "James Squires",
+            "3": "James New",
+            "2": "Oscar Cruz",
+            "1": "Mathew Hand",
+            "S1": "Tom O'Hanlon",
+            "S2": "Mark Osei-Tutu",
+            "S3": "will spring"
+        },
+        {
+            "15": "James Duffy",
+            "14": "Thomas Fairclough",
+            "13": "Max Mouna",
+            "12": "Thomas Wilcox",
+            "11": "Ben Edmondson",
+            "10": "Benjamin Telfer",
+            "9": "Harry Wilson",
+            "8": "Farooq Agbalaya",
+            "7": "Benjamin Vaillant",
+            "6": "Fuad Agbalaya",
+            "5": "Kean Orchard",
+            "4": "Edward Wilkie",
+            "3": "Timothy Jupp",
+            "2": "Quinn Singh",
+            "1": "Alastair Hall",
+            "S1": "Marc McEvilly",
+            "S2": "Khalil Alleyne",
+            "S3": "Jack Greenwood"
+        }
+    ],
+    "match_id": "1136468",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex"
+}

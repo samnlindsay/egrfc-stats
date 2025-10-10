@@ -1,1 +1,60 @@
-{"date": "2024-09-27", "score": [29, 25], "teams": ["KCS Old Boys", "Old Rutlishians"], "logos": ["https://images.englandrugby.com/club_images/11188.png", "https://images.englandrugby.com/club_images/16005.png"], "players": [{"15": "Max Gardiner", "14": "Tom Senior", "13": "Thomas Schofield", "12": "George Pickens", "11": "Robert Moore", "10": "Jamie Miller", "9": "Neil Williams", "8": "Thomas Evans", "7": "Jay Bhatia", "6": "Dale Spratt", "5": "Cameron Keller", "4": "Fergus Keegan", "3": "Rees Powell", "2": "Alexander Owen", "1": "Charlie Topley", "S1": "Benoit Israel", "S2": "Edward Forshaw", "S3": "Joe Hampel"}, {"15": "James Collins", "14": "Oliver O'Brien", "13": "David Cecil", "12": "Corey Holland", "11": "Charles Julian", "10": "Toby Harrison", "9": "Alexander O'Dell", "8": "Robert Cecil", "7": "Harry Hovell", "6": "Ethan Dawson", "5": "Samuel Ferrat Figueredo", "4": "Josh Jibulu", "3": "LOUIE DAVIES", "2": "Ryan Dunne", "1": "Kenneth Cecil", "S1": "William Donegan", "S2": "Wesley Poku", "S3": "Thomas Checkley"}]}
+{
+    "date": "2024-09-27",
+    "score": [
+        29,
+        25
+    ],
+    "teams": [
+        "KCS Old Boys",
+        "Old Rutlishians"
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/11188.png",
+        "https://images.englandrugby.com/club_images/16005.png"
+    ],
+    "players": [
+        {
+            "15": "Max Gardiner",
+            "14": "Tom Senior",
+            "13": "Thomas Schofield",
+            "12": "George Pickens",
+            "11": "Robert Moore",
+            "10": "Jamie Miller",
+            "9": "Neil Williams",
+            "8": "Thomas Evans",
+            "7": "Jay Bhatia",
+            "6": "Dale Spratt",
+            "5": "Cameron Keller",
+            "4": "Fergus Keegan",
+            "3": "Rees Powell",
+            "2": "Alexander Owen",
+            "1": "Charlie Topley",
+            "S1": "Benoit Israel",
+            "S2": "Edward Forshaw",
+            "S3": "Joe Hampel"
+        },
+        {
+            "15": "James Collins",
+            "14": "Oliver O'Brien",
+            "13": "David Cecil",
+            "12": "Corey Holland",
+            "11": "Charles Julian",
+            "10": "Toby Harrison",
+            "9": "Alexander O'Dell",
+            "8": "Robert Cecil",
+            "7": "Harry Hovell",
+            "6": "Ethan Dawson",
+            "5": "Samuel Ferrat Figueredo",
+            "4": "Josh Jibulu",
+            "3": "LOUIE DAVIES",
+            "2": "Ryan Dunne",
+            "1": "Kenneth Cecil",
+            "S1": "William Donegan",
+            "S2": "Wesley Poku",
+            "S3": "Thomas Checkley"
+        }
+    ],
+    "match_id": "1178936",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex"
+}

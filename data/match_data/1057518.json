@@ -1,0 +1,59 @@
+{
+    "match_id": "1057518",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2024-01-06",
+    "teams": [
+        "KCS Old Boys",
+        "East Grinstead"
+    ],
+    "score": [
+        44,
+        28
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/11188.png",
+        "https://images.englandrugby.com/club_images/7134.png"
+    ],
+    "players": [
+        {
+            "15": "Jacques Birch",
+            "14": "Jack Dunn",
+            "13": "Nial Parkash",
+            "12": "James Hattersley",
+            "11": "Josh Dhillon",
+            "10": "William Carter",
+            "9": "Name withheld",
+            "8": "Thomas Evans",
+            "7": "James Shaw",
+            "6": "Ed Butler",
+            "5": "Cameron Keller",
+            "4": "Alexander Watts",
+            "3": "Rees Powell",
+            "2": "William Page",
+            "1": "Benoit Israel",
+            "S1": "Funmi Oduniyi",
+            "S2": "Samuel Young",
+            "S3": "Neil Williams"
+        },
+        {
+            "15": "Oliver Billin",
+            "14": "Luke Maker",
+            "13": "Max Crawley-Moore",
+            "12": "Alistair Moffatt",
+            "11": "Daniel Poulton",
+            "10": "Samuel Spriddell",
+            "9": "Aaronn Boczek",
+            "8": "Ryland Thomas",
+            "7": "John Peaty",
+            "6": "Samuel Lindsay-McCall",
+            "5": "Guy Collins",
+            "4": "Joshua Brimecombe",
+            "3": "Benjamin Tottman",
+            "2": "Connor Leggat",
+            "1": "David Bridges",
+            "S1": "Benjamin Saunders",
+            "S2": "Colm Geraghty"
+        }
+    ]
+}

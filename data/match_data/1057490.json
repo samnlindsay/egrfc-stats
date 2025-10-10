@@ -1,0 +1,60 @@
+{
+    "match_id": "1057490",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2023-11-18",
+    "teams": [
+        "Teddington",
+        "Old Cranleighans"
+    ],
+    "score": [
+        50,
+        0
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/21732.png",
+        "https://images.englandrugby.com/club_images/15615.png"
+    ],
+    "players": [
+        {
+            "15": "William Mavin",
+            "14": "Gabriel Roberts",
+            "13": "Stuart Ridler",
+            "12": "Harry Smith",
+            "11": "Joshua Mckiernan",
+            "10": "Robert Beevers",
+            "9": "James Frankenberger",
+            "8": "James McConnell",
+            "7": "Alfie Ransom",
+            "6": "Jack Valentine",
+            "5": "Oliver Holland",
+            "4": "Callum Johnston",
+            "3": "Rory Mercer",
+            "2": "Samuel Rawsthorne",
+            "1": "George Bradford",
+            "S1": "Henry Dare",
+            "S2": "Christopher Lidington",
+            "S3": "Adam Price"
+        },
+        {
+            "15": "Christopher Scott",
+            "14": "Peter Dowling",
+            "13": "George Blurton",
+            "12": "Thomas Puijk",
+            "11": "Robert Mackenzie",
+            "10": "Thomas Webster",
+            "9": "Ioan Davies",
+            "8": "Ben Huntley",
+            "7": "Charles Collyer",
+            "6": "Barney Gill",
+            "5": "James Fitzmaurice",
+            "4": "Edward Higgins",
+            "3": "Philip Hodson",
+            "2": "James McLeod",
+            "1": "Name withheld",
+            "S1": "Trevor Selvanayagam",
+            "S2": "Charlie Wilson",
+            "S3": "Jochem Oostenbroek"
+        }
+    ]
+}

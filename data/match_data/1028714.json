@@ -1,0 +1,60 @@
+{
+    "match_id": "1028714",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2023-01-07",
+    "teams": [
+        "Burgess Hill",
+        "Lewes"
+    ],
+    "score": [
+        24,
+        10
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/3659.png",
+        "https://images.englandrugby.com/club_images/12206.png"
+    ],
+    "players": [
+        {
+            "15": "Massimo Hiller",
+            "14": "Ben Mclaren",
+            "13": "Samuel Kingscott",
+            "12": "William Pearson",
+            "11": "Matheus Gava",
+            "10": "Oliver Lewis",
+            "9": "Zac Harrison",
+            "8": "David Wattam",
+            "7": "Adam Rezazadeh",
+            "6": "Matt Firmager",
+            "5": "Benjamin Dronfield",
+            "4": "Charlie Lewis",
+            "3": "Craig Wells",
+            "2": "Kyle Tucker",
+            "1": "Robert Blake",
+            "S1": "Name withheld",
+            "S2": "Harvey Hays",
+            "S3": "Joseph Brown"
+        },
+        {
+            "15": "Roberto Bello Hurtado",
+            "14": "Adam Hutchings",
+            "13": "Jude Littlewood",
+            "12": "Thomas Petty",
+            "11": "Alex Frias del Rio",
+            "10": "Cian Furlong",
+            "9": "Joe Reid",
+            "8": "George Gribble",
+            "7": "Harry Pryer",
+            "6": "Freddie Gander",
+            "5": "James Sale",
+            "4": "Simon Coe",
+            "3": "Edward King",
+            "2": "Damian Pye",
+            "1": "Benjamin Bishop",
+            "S1": "Josh Ellis-Smith",
+            "S2": "Nathan Roberts",
+            "S3": "Declan Over"
+        }
+    ]
+}

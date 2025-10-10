@@ -1,0 +1,60 @@
+{
+    "match_id": "982002",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2022-11-26",
+    "teams": [
+        "Seaford",
+        "Shoreham"
+    ],
+    "score": [
+        23,
+        11
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/18868.png",
+        "https://images.englandrugby.com/club_images/19257.png"
+    ],
+    "players": [
+        {
+            "15": "Paddy Powney",
+            "14": "Name withheld",
+            "13": "Paul Burns",
+            "12": "Corey Digby-Clarke",
+            "11": "Jason Staples",
+            "10": "Dominic Joy",
+            "9": "Jack Cullinane",
+            "8": "Bradley Newby",
+            "7": "Andrew Fry",
+            "6": "Andrew Salter",
+            "5": "Sam Diplock",
+            "4": "Lee Furminger",
+            "3": "Luke Read",
+            "2": "KEVIN LEWIS",
+            "1": "Daniel Newby",
+            "S1": "Philip Innis",
+            "S2": "Jason Dubas-Fisher",
+            "S3": "Charlie Crossgrove"
+        },
+        {
+            "15": "Sean Shepherd",
+            "14": "Adam Fear",
+            "13": "Calum Erskine",
+            "12": "George Clarke",
+            "11": "Charlie Ford",
+            "10": "Daniel James",
+            "9": "Schaeff Potter",
+            "8": "Gavin Cox",
+            "7": "Samuel Kentell",
+            "6": "Christopher Reynolds",
+            "5": "Ben French",
+            "4": "Alex Hall",
+            "3": "Mathew Bellenie",
+            "2": "Mark Lavery",
+            "1": "Daryn Clarke",
+            "S1": "Calvin Jansz",
+            "S2": "Morgan Day",
+            "S3": "Toby Gale"
+        }
+    ]
+}
