@@ -1,0 +1,59 @@
+{
+    "match_id": "1220054",
+    "season": "2025-2026",
+    "league": "Counties 2 Sussex",
+    "date": "2025-10-18",
+    "teams": [
+        "Shoreham",
+        "Lewes"
+    ],
+    "score": [
+        33,
+        51
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/19257.png",
+        "https://images.englandrugby.com/club_images/12206.png"
+    ],
+    "players": [
+        {
+            "15": "Darren Locke",
+            "14": "Name withheld",
+            "13": "Toby Reed",
+            "12": "Ryan Morlen",
+            "11": "David Ayres",
+            "10": "Zachary McEwan",
+            "9": "Adam Fear",
+            "8": "Charlie Dale",
+            "7": "Alex Hall",
+            "6": "Noah Rudge",
+            "5": "Daniel Adams",
+            "4": "Steven Goater",
+            "3": "Joshua Avis",
+            "2": "Jack Portman",
+            "1": "Daryn Clarke",
+            "S1": "Alfie Cawkwell",
+            "S2": "Nick Gray",
+            "S3": "Christopher Reynolds"
+        },
+        {
+            "15": "Alexander Bray",
+            "14": "Harry Carr",
+            "13": "Rafferty Green",
+            "12": "Kellen Harvey",
+            "11": "Jordan Smith",
+            "10": "Joseph Lacy",
+            "9": "Louis Medhurst",
+            "8": "William Cross",
+            "7": "Harry Weston",
+            "6": "Jack Bradford",
+            "5": "James Sale",
+            "4": "Ian Thomas",
+            "3": "Benjamin Simmonds",
+            "2": "Harry Pryer",
+            "1": "Sean Sayers",
+            "S1": "Thomas Petty",
+            "S2": "Thomas Rourke"
+        }
+    ]
+}

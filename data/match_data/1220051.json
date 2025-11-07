@@ -1,0 +1,59 @@
+{
+    "match_id": "1220051",
+    "season": "2025-2026",
+    "league": "Counties 2 Sussex",
+    "date": "2025-10-18",
+    "teams": [
+        "Pulborough",
+        "Seaford"
+    ],
+    "score": [
+        51,
+        3
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/17255.png",
+        "https://images.englandrugby.com/club_images/18868.png"
+    ],
+    "players": [
+        {
+            "15": "Sean Scrase",
+            "14": "William Scrase",
+            "13": "Nicholas Cooper",
+            "12": "Henry Lee",
+            "11": "Patrick Burnett",
+            "10": "Kieron Martin",
+            "9": "Archie Sadler",
+            "8": "Dylan Townsend",
+            "7": "Philip Dandy",
+            "6": "Ben Sadler",
+            "5": "George Harwood",
+            "4": "Alfred Reeves",
+            "3": "Douglas Ludlow-monk",
+            "2": "Tom Page",
+            "1": "Thomas Brackley",
+            "S1": "Charlie Denman",
+            "S2": "Joseph Serna",
+            "S3": "Ollie Johnston"
+        },
+        {
+            "15": "Jack Cullinane",
+            "14": "Rhys Roberts",
+            "13": "Charlie Crossgrove",
+            "12": "william joy",
+            "11": "Name withheld",
+            "10": "Oscar Weisz",
+            "9": "Oli Simmons",
+            "8": "Geoffrey Bridges",
+            "7": "Jason Staples",
+            "6": "Josh Ellis-Smith",
+            "5": "Zakary Hume",
+            "4": "Lee Furminger",
+            "3": "Joseph Drew",
+            "2": "Andrew Fry",
+            "1": "Joshua Hennessy",
+            "S1": "Shaun Brewer",
+            "S2": "Colm Evans"
+        }
+    ]
+}

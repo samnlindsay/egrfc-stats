@@ -1,0 +1,26 @@
+/* Base styles and layout */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'PT Sans Narrow', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--light-color);
+    color: var(--dark-color);
+    min-height: 100vh;
+    display: flex;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding-bottom: var(--filter-panel-collapsed-height);
+}
+
+.main-content {
+    margin-left: 0;
+    min-height: calc(100vh - var(--filter-panel-collapsed-height));
+    width: 100%;
+    position: relative;
+    overflow: visible !important;
+    /* z-index: 1030 !important; */
+}

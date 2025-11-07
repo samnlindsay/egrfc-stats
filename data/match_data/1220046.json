@@ -1,0 +1,58 @@
+{
+    "match_id": "1220046",
+    "season": "2025-2026",
+    "league": "Counties 2 Sussex",
+    "date": "2025-10-11",
+    "teams": [
+        "Lewes",
+        "Royals RFC"
+    ],
+    "score": [
+        26,
+        7
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/12206.png",
+        "https://images.englandrugby.com/club_images/94051.png"
+    ],
+    "players": [
+        {
+            "15": "Jack Soltermann",
+            "14": "Harry Carr",
+            "13": "Rafferty Green",
+            "12": "Ben Goode",
+            "11": "Daryl Benson",
+            "10": "Jordan Smith",
+            "9": "Joseph Lacy",
+            "8": "Louis Medhurst",
+            "7": "Harry Weston",
+            "6": "James Sale",
+            "5": "Jack Bradford",
+            "4": "Thomas Petty",
+            "3": "Fearghus Gage",
+            "2": "Benjamin Simmonds",
+            "1": "Kane Dadswell",
+            "S1": "Ian Thomas",
+            "S2": "Harry Pryer",
+            "S3": "Name withheld"
+        },
+        {
+            "15": "Jake Stanton",
+            "14": "Pearse Moloney",
+            "13": "Will Hodgson",
+            "12": "Hugo Reid",
+            "11": "George Burke",
+            "10": "Jenson Holmes",
+            "9": "Ben Smith",
+            "8": "Matthew Boyd",
+            "7": "Oliver Walker",
+            "6": "Rowan Dixon-Smith",
+            "5": "Will Michel",
+            "4": "Conor Bisson-Mercury",
+            "3": "Tristan Burns",
+            "2": "Jack Lowe",
+            "1": "Patrick Crossley",
+            "S1": "Lewis Ham-Howes"
+        }
+    ]
+}

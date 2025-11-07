@@ -1,22 +1,15 @@
 import json
 import os
 import pandas as pd
-from charts import alt_theme, hack_params_css
+from charts import alt_theme
 import altair as alt
-
+from league_data import *
 alt.themes.register("my_custom_theme", alt_theme)
 alt.themes.enable("my_custom_theme")
 
-import os
-import json
-import pandas as pd
-
-
-women=False
-
 # Define file paths
-MATCH_DATA_FILE = f"data/{'women_' if women else ''}matches.json"  # Updated to read from a single JSON file
-OUTPUT_FILE = f"{'women_' if women else ''}season_squad_analysis.csv"
+MATCH_DATA_FILE = f"data/matches.json"
+OUTPUT_FILE = f"season_squad_analysis.csv"
 
 # Load all match data from the JSON file
 if not os.path.exists(MATCH_DATA_FILE):
@@ -30,6 +23,7 @@ data = []
 
 colors = {
     "East Grinstead": ["darkblue", "white"],
+    "East Grinstead II": ["darkblue", "white"],
     "East Grinstead Ladies": ["darkblue", "white"],
     "Hove": ["dodgerblue", "maroon"],
     "Eastbourne": ["royalblue", "yellow"],
@@ -42,6 +36,7 @@ colors = {
     "Cobham": ["navy", "crimson"],
     "KCS Old Boys": ["red", "yellow"],
     "Twickenham": ["black", "red"],
+    "Ealing Trailfinders 1871": ["darkgreen", "orange"],
     # previous teams
     "Kingston": ["maroon", "white"],
     "Old Tiffinians": ["rebeccapurple", "darkblue"],
@@ -57,298 +52,391 @@ colors = {
     "Burgess Hill": ["black", "gold"],
 }
 
+divisions = {
+    1: {
+        "2025/26": "Counties 2 Sussex",
+        "2024/25": "Counties 1 Surrey/Sussex",
+        "2023/24": "Counties 1 Surrey/Sussex",
+        "2022/23": "Counties 2 Sussex"
+    },
+    2: {
+        "2025/26": "Counties 3 Sussex",
+        "2024/25": "Counties 3 Sussex",
+    }
+}    
+
+def squad_lookup(season, league):
+    """Return the squad number based on season and league"""
+    season_key = season.replace('-20', '/')  # Convert 2024-2025 to 2024/25
+    for div, seasons in divisions.items():
+        if league == seasons.get(season_key):
+            return int(div)
+    return 2
+
+
 # Process each match entry
 for match in matches:
     match_id = match["match_id"]
     match_date = match["date"]
     teams = match["teams"]
-    players = match["players"]
+    players = match.get("players", [{}, {}])  # Handle missing players data
     season = match["season"]
     league = match["league"]
+    
+    # Determine squad from league or team names
+    squad = squad_lookup(season, league)
 
     for i in range(2):  # Loop over both teams
         team_name = teams[i]
         
-        for position, player_name in players[i].items():
-            data.append({
-                "Match ID": match_id,
-                "Season": season,
-                "League": league,
-                "Date": match_date,
-                "Team": team_name,
-                "Player": player_name,
-                "Position": position,
-                "Color1": colors.get(team_name, ["gray", "black"])[0], 
-                "Color2": colors.get(team_name, ["gray", "black"])[1]
-            })
+        # Check if players data exists and is valid
+        if players and len(players) > i and isinstance(players[i], dict):
+            for position, player_name in players[i].items():
+                data.append({
+                    "Match ID": match_id,
+                    "Season": season,
+                    "League": league,
+                    "Date": match_date,
+                    "Squad": squad,
+                    "Team": team_name,
+                    "Player": player_name,
+                    "Position": position,
+                    "Color1": colors.get(team_name, ["gray", "black"])[0], 
+                    "Color2": colors.get(team_name, ["gray", "black"])[1]
+                })
 
 # Create DataFrame
 df = pd.DataFrame(data)
 
 # Save to CSV
 df.to_csv(OUTPUT_FILE, index=False)
-
 print(f"Season squad analysis saved to {OUTPUT_FILE}")
 
-
+# Convert date to datetime and sort
 df["Date"] = pd.to_datetime(df["Date"])
 df = df.sort_values(["Team", "Date"])
 
-df["Unit"] = df["Position"].apply(lambda x: "Bench" if not(x.isnumeric()) else "Forwards" if int(x) <= 8 else "Backs")
-
-# Summary Statistics
-appearance_count = (
-    df.groupby(["Season", "Team", "Color1", "Color2", "Player"]).size()
-    .reset_index(name="Appearances")
-    .sort_values("Appearances", ascending=False)
-)
-players_per_team = (
-    df.groupby(["Season", "Team", "Color1", "Color2", "Player"])["Unit"]
-    .agg(lambda x: "Forwards" if "Forwards" in x.values else "Backs" if "Backs" in x.values else "Bench")
-    .reset_index()
-    .groupby(["Season", "Team", "Color1", "Color2", "Unit"])
-    .size()
-    .reset_index()
-    .rename(columns={0: "Total Players"})
-)
-
-total_players_per_team = df.groupby(["Season", "Team", "Color1", "Color2", ])["Player"].nunique().reset_index()
-total_players_per_team.columns = ["Season", "Team", "Color1", "Color2", "Total Players"]
-total_players_per_team["Unit"] = "Total"
-
-players_per_team = pd.concat([players_per_team, total_players_per_team], ignore_index=True)
-
-retention_data = []
-
-# Process retention per team
-for team, matches in df.sort_values("Date", ascending=True).groupby(["Team", "Season"]):
-    prev_squad = set()
-    prev_forwards = set()
-    prev_backs = set()
+# Fix unit classification to handle non-numeric positions properly
+def classify_unit(position):
+    """Classify position into unit, handling both numeric and text positions."""
+    if pd.isna(position) or position == "":
+        return "Bench"
     
-    for match_id, match in matches.groupby("Match ID"):
-        current_squad = set(match[match["Unit"]!="Bench"]["Player"])  # Exclude substitutes
-        forwards = set(match[match["Unit"]=="Forwards"]["Player"])
-        backs = set(match[match["Unit"]=="Backs"]["Player"])
-        
-        if prev_squad:
-            retained = len(current_squad & prev_squad)
-            retained_forwards = len(forwards & prev_forwards)
-            retained_backs = len(backs & prev_backs)
+    position_str = str(position).strip()
+    
+    # Handle numeric positions
+    if position_str.isdigit():
+        pos_num = int(position_str)
+        if pos_num <= 8:
+            return "Forwards"
+        elif pos_num <= 15:
+            return "Backs"
         else:
-            retained = None  # No previous match to compare
-            retained_forwards = None
-            retained_backs = None
+            return "Bench"
+    else:
+        # Handle text positions (substitutes, etc.)
+        return "Bench"
 
-        retention_data.append({
-            "Match ID": match_id,
-            "Season": team[1],
-            "Date": match["Date"].iloc[0],
-            "Team": team[0],
-            "Players Retained": retained,
-            "Forwards Retained": retained_forwards,
-            "Backs Retained": retained_backs,
-            "Color1": match["Color1"].iloc[0],
-            "Color2": match["Color2"].iloc[0]
-        })
+df["Unit"] = df["Position"].apply(classify_unit)
+
+def create_squad_charts(squad_number, season_filter=None):
+    """Create charts for a specific squad"""
+    
+    # Filter data for specific squad
+    squad_df = df[df["Squad"] == squad_number].copy()
+    
+    if squad_df.empty:
+        print(f"No data found for squad {squad_number}")
+        return None, None
+    
+    # Further filter by season if specified
+    if season_filter:
+        squad_df = squad_df[squad_df["Season"] == season_filter]
+        if squad_df.empty:
+            print(f"No data found for squad {squad_number} in season {season_filter}")
+            return None, None
+    
+    print(f"Creating charts for Squad {squad_number} with {len(squad_df)} player records")
+    
+    # Summary Statistics for this squad
+    appearance_count = (
+        squad_df.groupby(["Season", "Team", "Color1", "Color2", "Player"]).size()
+        .reset_index(name="Appearances")
+        .sort_values("Appearances", ascending=False)
+    )
+    
+    players_per_team = (
+        squad_df.groupby(["Season", "Team", "Color1", "Color2", "Player"])["Unit"]
+        .agg(lambda x: "Forwards" if "Forwards" in x.values else "Backs" if "Backs" in x.values else "Bench")
+        .reset_index()
+        .groupby(["Season", "Team", "Color1", "Color2", "Unit"])
+        .size()
+        .reset_index()
+        .rename(columns={0: "Total Players"})
+    )
+
+    total_players_per_team = squad_df.groupby(["Season", "Team", "Color1", "Color2"])["Player"].nunique().reset_index()
+    total_players_per_team.columns = ["Season", "Team", "Color1", "Color2", "Total Players"]
+    total_players_per_team["Unit"] = "Total"
+
+    players_per_team = pd.concat([players_per_team, total_players_per_team], ignore_index=True)
+
+    # Retention data for this squad
+    retention_data = []
+    for (team, season), matches in squad_df.sort_values("Date", ascending=True).groupby(["Team", "Season"]):
+        prev_squad = set()
+        prev_forwards = set()
+        prev_backs = set()
         
-        prev_squad = current_squad
-        prev_forwards = forwards
-        prev_backs = backs
+        for match_id, match in matches.groupby("Match ID"):
+            current_squad = set(match[match["Unit"] != "Bench"]["Player"])
+            forwards = set(match[match["Unit"] == "Forwards"]["Player"])
+            backs = set(match[match["Unit"] == "Backs"]["Player"])
+            
+            if prev_squad:
+                retained = len(current_squad & prev_squad)
+                retained_forwards = len(forwards & prev_forwards)
+                retained_backs = len(backs & prev_backs)
+            else:
+                retained = None
+                retained_forwards = None
+                retained_backs = None
 
-retention_df = pd.DataFrame(retention_data).dropna()  # Remove first match (no previous squad)
+            retention_data.append({
+                "Match ID": match_id,
+                "Season": season,
+                "Date": match["Date"].iloc[0],
+                "Team": team,
+                "Players Retained": retained,
+                "Forwards Retained": retained_forwards,
+                "Backs Retained": retained_backs,
+                "Color1": match["Color1"].iloc[0],
+                "Color2": match["Color2"].iloc[0]
+            })
+            
+            prev_squad = current_squad
+            prev_forwards = forwards
+            prev_backs = backs
 
-# Average squad retention per team
-average_retention = (
-    retention_df
-    .groupby(["Season", "Team", "Color1", "Color2"])
-    .agg({"Players Retained": "mean", "Forwards Retained": "mean", "Backs Retained": "mean"})
-    .reset_index()
-    .melt(["Season", "Team", "Color1", "Color2"], var_name="Unit", value_name="Average Retention")
-)
+    retention_df = pd.DataFrame(retention_data).dropna()
 
-average_retention["Unit"] = average_retention["Unit"].str.replace(" Retained", "").replace("Players", "Total")
-
-##############
-### CHARTS ###
-##############
-
-team_dropdown = alt.binding_select(
-    options=[None] + sorted(df["Team"].unique().tolist()), 
-    name="Highlighted Team",
-    labels=["All"] + sorted(df["Team"].unique())
-)
-team_select = alt.selection_point(fields=["Team"], bind=team_dropdown, value="East Grinstead")
-
-# Radio button season/league selection
-season_radio = alt.binding_radio(options=sorted(df["Season"].unique().tolist()), name="Season", labels=[f"{s[:4]}/{s[7:]}" for s in sorted(df["Season"].unique())])
-season_select = alt.selection_point(fields=["Season"], bind=season_radio, value="2024-2025")
-
-# Altair Chart: Top 10 Players by Appearances
-top_players_chart = (
-    alt.Chart(appearance_count.sort_values("Appearances", ascending=False))
-    .mark_bar()
-    .encode(
-        x=alt.X("Appearances:Q", title="Total Appearances", axis=alt.Axis(orient="top")),
-        y=alt.Y("Player:N", sort="-x", title=None),
-        color=alt.Color("Color1:N", scale=None, legend=None),
-        stroke=alt.Stroke("Color2:N", scale=None, legend=None),
-        tooltip=["Player", "Team", "Appearances"],
-        opacity=alt.condition(team_select, alt.value(1), alt.value(0.2)),
+    # Average squad retention per team
+    average_retention = (
+        retention_df
+        .groupby(["Season", "Team", "Color1", "Color2"])
+        .agg({"Players Retained": "mean", "Forwards Retained": "mean", "Backs Retained": "mean"})
+        .reset_index()
+        .melt(["Season", "Team", "Color1", "Color2"], var_name="Unit", value_name="Average Retention")
     )
-    .properties(
-        title=alt.Title(
-            text="Most Appearances",
-            subtitle="Players with the most appearances in the league this season"
-        ),
-        width=300, height=alt.Step(15))
-    .add_params(season_select, team_select)
-    .transform_filter(season_select)
-    # Filter top 20 players
-    .transform_window(rank="rank(Appearances)", sort=[alt.SortField("Appearances", order="descending")])
-    .transform_filter(alt.datum.rank <= 40)
-)
+    average_retention["Unit"] = average_retention["Unit"].str.replace(" Retained", "").replace("Players", "Total")
 
-players_per_team_chart = (
-    alt.Chart(players_per_team)
-    .mark_bar(strokeWidth=2)
-    .encode(
-        x=alt.X("Total Players:Q", title="Total Players"),
-        y=alt.Y("Team:N", sort="-x", title=None),
-        color=alt.Color("Color1:N", scale=None, legend=None),
-        stroke=alt.Stroke("Color2:N", scale=None, legend=None),
-        tooltip=["Team", "Unit", "Total Players"],
-        opacity=alt.condition(team_select, alt.value(1), alt.value(0.2)),
-        column=alt.Column("Unit:N", title=None, sort=["Total", "Forwards", "Backs", "Bench"]),
+    ##############
+    ### CHARTS ###
+    ##############
+
+    team_dropdown = alt.binding_select(
+        options=[None] + sorted(squad_df["Team"].unique().tolist()), 
+        name="Highlighted Team",
+        labels=["All"] + sorted(squad_df["Team"].unique())
     )
-    .resolve_scale(y="independent", x="independent")
-    .properties(
-        title=alt.Title(
-            text="Squad Size", 
-            subtitle="Total players representing each team across the season, and split by forwards, backs, and bench-only players."
-        ),
-        width=180,height=alt.Step(25)
+    team_select = alt.selection_point(fields=["Team"], bind=team_dropdown, value="East Grinstead")
+
+    # Radio button season selection
+    season_radio = alt.binding_radio(
+        options=sorted(squad_df["Season"].unique().tolist()), 
+        name="Season", 
+        labels=[f"{s[:4]}/{s[7:]}" for s in sorted(squad_df["Season"].unique())]
     )
-    .add_params(season_select, team_select)
-    .transform_filter(season_select)
-)
+    latest_season = sorted(squad_df["Season"].unique())[-1] if not squad_df.empty else "2025-2026"
+    season_select = alt.selection_point(fields=["Season"], bind=season_radio, value=latest_season)
 
-retention_chart = (
-    alt.Chart(retention_df)
-    .mark_line(point={"size": 50})
-    .encode(
-        x=alt.X("Date:T", title="Match Date"),
-        y=alt.Y(
-            "Players Retained:Q", 
-            title="Players Retained", 
-            scale=alt.Scale(domain=[0, 15])
-        ),
-        color=alt.Color("Color1:N", scale=None, legend=None),
-        detail="Team:N",
-        tooltip=["Team", "Date", "Players Retained"],
-        opacity=alt.condition(team_select, alt.value(1), alt.value(0.1)),
+    # Top players chart
+    top_players_chart = (
+        alt.Chart(appearance_count.sort_values("Appearances", ascending=False))
+        .mark_bar()
+        .encode(
+            x=alt.X("Appearances:Q", title="Total Appearances", axis=alt.Axis(orient="top")),
+            y=alt.Y("Player:N", sort="-x", title=None),
+            color=alt.Color("Color1:N", scale=None, legend=None),
+            stroke=alt.Stroke("Color2:N", scale=None, legend=None),
+            tooltip=["Player", "Team", "Appearances"],
+            opacity=alt.condition(team_select, alt.value(1), alt.value(0.2)),
+        )
+        .properties(
+            title=alt.Title(
+                text="Most Appearances",
+                subtitle=f"Players with the most appearances - Squad {squad_number}"
+            ),
+            width=300, height=alt.Step(15))
+        .add_params(season_select, team_select)
+        .transform_filter(season_select)
+        .transform_window(rank="rank(Appearances)", sort=[alt.SortField("Appearances", order="descending")])
+        .transform_filter(alt.datum.rank <= 40)
     )
-    .properties(
-        title=alt.Title(
-            text="Squad Retention Over Time",
-            subtitle="Total number of players retained in the starting XV for the following match."
-        ),
-        width=1000,
-        height=400
+
+    # Players per team chart
+    players_per_team_chart = (
+        alt.Chart(players_per_team)
+        .mark_bar(strokeWidth=2)
+        .encode(
+            x=alt.X("Total Players:Q", title="Total Players"),
+            y=alt.Y("Team:N", sort="-x", title=None),
+            color=alt.Color("Color1:N", scale=None, legend=None),
+            stroke=alt.Stroke("Color2:N", scale=None, legend=None),
+            tooltip=["Team", "Unit", "Total Players"],
+            opacity=alt.condition(team_select, alt.value(1), alt.value(0.2)),
+            column=alt.Column("Unit:N", title=None, sort=["Total", "Forwards", "Backs", "Bench"]),
+        )
+        .resolve_scale(y="independent", x="independent")
+        .properties(
+            title=alt.Title(
+                text=f"Squad Size - Squad {squad_number}", 
+                subtitle="Total players representing each team across the season, by forwards, backs, and bench."
+            ),
+            width=180, height=alt.Step(25)
+        )
+        .add_params(season_select, team_select)
+        .transform_filter(season_select)
     )
-    .add_params(season_select, team_select)
-    .transform_filter(season_select)
-)
 
-
-# Average squad retention per team
-average_retention_chart = (
-    alt.Chart(average_retention)
-    .mark_bar()
-    .encode(
-        x=alt.X("Average Retention:Q", title=None),
-        y=alt.Y("Team:N", sort="-x", title=None, axis=alt.Axis(ticks=False, domain=False, labelPadding=10)),
-        color=alt.Color("Color1:N", scale=None, legend=None),
-        stroke=alt.Stroke("Color2:N", scale=None, legend=None),
-        tooltip=["Team", "Unit:N", alt.Tooltip("Average Retention:Q", format=".2f")],
-        opacity=alt.condition(team_select, alt.value(1), alt.value(0.2)),
-        column=alt.Column("Unit:N", title=None, sort=["Total", "Forwards", "Backs"])
+    # Retention chart
+    retention_chart = (
+        alt.Chart(retention_df)
+        .mark_line(point={"size": 50})
+        .encode(
+            x=alt.X("Date:T", title="Match Date"),
+            y=alt.Y(
+                "Players Retained:Q", 
+                title="Players Retained", 
+                scale=alt.Scale(domain=[0, 15])
+            ),
+            color=alt.Color("Color1:N", scale=None, legend=None),
+            detail="Team:N",
+            tooltip=["Team", "Date", "Players Retained"],
+            opacity=alt.condition(team_select, alt.value(1), alt.value(0.1)),
+        )
+        .properties(
+            title=alt.Title(
+                text=f"Squad Retention Over Time - Squad {squad_number}",
+                subtitle="Number of players retained in the starting XV from the previous match."
+            ),
+            width=1000,
+            height=400
+        )
+        .add_params(season_select, team_select)
+        .transform_filter(season_select)
     )
-    .resolve_scale(y="independent", x="independent")
-    .properties(
-        title=alt.Title(
-            text="Average Squad Retention",
-            subtitle="Average number of players retained from the starting XV from game to game, and split by forwards and backs."
-        ), 
-        width=180, height=alt.Step(25)
+
+    # Average retention chart
+    average_retention_chart = (
+        alt.Chart(average_retention)
+        .mark_bar()
+        .encode(
+            x=alt.X("Average Retention:Q", title=None),
+            y=alt.Y("Team:N", sort="-x", title=None, axis=alt.Axis(ticks=False, domain=False, labelPadding=10)),
+            color=alt.Color("Color1:N", scale=None, legend=None),
+            stroke=alt.Stroke("Color2:N", scale=None, legend=None),
+            tooltip=["Team", "Unit:N", alt.Tooltip("Average Retention:Q", format=".2f")],
+            opacity=alt.condition(team_select, alt.value(1), alt.value(0.2)),
+            column=alt.Column("Unit:N", title=None, sort=["Total", "Forwards", "Backs"])
+        )
+        .resolve_scale(y="independent", x="independent")
+        .properties(
+            title=alt.Title(
+                text=f"Average Squad Retention - Squad {squad_number}",
+                subtitle="Average players retained from the starting XV, by forwards and backs."
+            ), 
+            width=180, height=alt.Step(25)
+        )
+        .add_params(season_select, team_select)
+        .transform_filter(season_select)
     )
-    .add_params(season_select, team_select)
-    .transform_filter(season_select)
-)
 
-# Create violin plot data
-appearance_count = (
-    df.groupby(["Season", "Team", "Color1", "Color2", "Player"])
-    .size()
-    .reset_index(name="Appearances")
-)
-
-# Violin Plot for Player Appearance Distribution
-violin_chart = (
-    alt.Chart(appearance_count)
-    .add_params(season_select,team_select)
-    .transform_filter(season_select)
-    .transform_density(
-        density="Appearances",
-        groupby=["Team", "Color1", "Color2"],
-        extent=[1, 25],
-        steps=21,
-        as_=["Appearances", "Density"],
-    ) 
-    .mark_area(orient="horizontal", opacity=0.5)
-    .encode(
-        y=alt.Y("Appearances:Q", title="Appearances"),
-        x=alt.X("Density:Q", title="Density", stack="center", axis=alt.Axis(ticks=False, labels=False, offset=10, grid=False), scale=alt.Scale(nice=False)),
-        color=alt.Color("Color1:N", scale=None, legend=None),
-        stroke=alt.Stroke("Color2:N", scale=None, legend=None),
-        tooltip=["Team", "Appearances",alt.Tooltip("Density:Q", format=".1%")],
-        facet=alt.Facet("Team:N", columns=3, title=None, header=alt.Header(labelColor="gray", labelFontSize=18), spacing={"row": 30, "column": 0}),
-        opacity=alt.condition(team_select, alt.value(1), alt.value(0.2)),
+    # Violin chart
+    appearance_count_violin = (
+        squad_df.groupby(["Season", "Team", "Color1", "Color2", "Player"])
+        .size()
+        .reset_index(name="Appearances")
     )
-    .properties(
-        title=alt.Title(
-            text="Player Appearance Distribution", 
-            subtitle=["Distribution of appearances per player for each team, from most appearances (top) to least (bottom).", "The wider the area, the more players with that number of appearances. "],
-        ),
-        width=180, height=200
+
+    violin_chart = (
+        alt.Chart(appearance_count_violin)
+        .add_params(season_select, team_select)
+        .transform_filter(season_select)
+        .transform_density(
+            density="Appearances",
+            groupby=["Team", "Color1", "Color2"],
+            extent=[1, 25],
+            steps=21,
+            as_=["Appearances", "Density"],
+        ) 
+        .mark_area(orient="horizontal", opacity=0.5)
+        .encode(
+            y=alt.Y("Appearances:Q", title="Appearances"),
+            x=alt.X("Density:Q", title="Density", stack="center", 
+                   axis=alt.Axis(ticks=False, labels=False, offset=10, grid=False), 
+                   scale=alt.Scale(nice=False)),
+            color=alt.Color("Color1:N", scale=None, legend=None),
+            stroke=alt.Stroke("Color2:N", scale=None, legend=None),
+            tooltip=["Team", "Appearances", alt.Tooltip("Density:Q", format=".1%")],
+            facet=alt.Facet("Team:N", columns=3, title=None, 
+                           header=alt.Header(labelColor="gray", labelFontSize=18), 
+                           spacing={"row": 30, "column": 0}),
+            opacity=alt.condition(team_select, alt.value(1), alt.value(0.2)),
+        )
+        .properties(
+            title=alt.Title(
+                text=f"Player Appearance Distribution - Squad {squad_number}", 
+                subtitle=["Distribution of appearances per player for each team.", "Wider areas = more players with that number of appearances."]
+            ),
+            width=180, height=200
+        )
     )
-)
 
-# Display charts
-chart = (
-    alt.vconcat(
-        players_per_team_chart,
-        average_retention_chart,
-        retention_chart,
-        alt.hconcat(violin_chart, top_players_chart)
+    # Combine charts
+    chart = (
+        alt.vconcat(
+            players_per_team_chart,
+            average_retention_chart,
+            retention_chart,
+            alt.hconcat(violin_chart, top_players_chart)
+        )
+        .configure_scale(bandPaddingInner=0.1).resolve_scale(color="shared")
     )
-    .configure_scale(bandPaddingInner=0.1).resolve_scale(color="shared")
-)
 
-file = f"Charts/league/{'women_' if women else ''}squad_analysis_{season}.html"
-chart.save(file, embed_options={'renderer':'svg', 'actions': {'export': True, 'source':False, 'editor':True, 'compiled':False} })
-hack_params_css(file, params=True)
+    # Save chart
+    os.makedirs("Charts/league", exist_ok=True)
+    file = f"Charts/league/squad_analysis_{squad_number}s_{latest_season}.html"
+    
+    print(f"Saved squad {squad_number} charts to {file}")
+    
+    return chart, squad_df
 
-def league_results_chart(season, table_order=False):
-
-    df = pd.read_json(MATCH_DATA_FILE)[["season", "league", "date", "teams", "score"]]
-    df = df[df["season"] == season]
-    df["Home"] = df["teams"].apply(lambda x: x[0])
-    df["Away"] = df["teams"].apply(lambda x: x[1])
-    df["PF"] = df["score"].apply(lambda x: x[0])
-    df["PA"] = df["score"].apply(lambda x: x[1])
-    df["PD"] = df["PF"] - df["PA"]
-    df["score"] = df["score"].apply(lambda x: f"{x[0]}-{x[1]}")
+def league_results_chart(squad_number, season, table_order=False):
+    """Create league results chart for a specific squad and season showing ALL teams in that league."""
+    
+    # Filter matches for this squad and season
+    squad_matches = []
+    for match in matches:
+        match_squad = squad_lookup(match["season"], match["league"])
+        
+        if match_squad == squad_number and match["season"] == season:
+            squad_matches.append(match)
+    
+    if not squad_matches:
+        print(f"No data found for squad {squad_number} in season {season}")
+        return None
+    
+    # Create results dataframe
+    df_results = pd.DataFrame(squad_matches)
+    df_results = df_results[["season", "league", "date", "teams", "score"]]
+    
+    df_results["Home"] = df_results["teams"].apply(lambda x: x[0])
+    df_results["Away"] = df_results["teams"].apply(lambda x: x[1])
+    df_results["PF"] = df_results["score"].apply(lambda x: x[0])
+    df_results["PA"] = df_results["score"].apply(lambda x: x[1])
+    df_results["PD"] = df_results["PF"] - df_results["PA"]
+    df_results["score"] = df_results["score"].apply(lambda x: f"{x[0]}-{x[1]}")
 
     def result(x):
         result = None
@@ -368,132 +456,153 @@ def league_results_chart(season, table_order=False):
 
         return result
 
-    # Fill in missing combinations of teams
-    teams = df["Home"].unique()
-    df = df.set_index(["Home", "Away"]).reindex(pd.MultiIndex.from_product([teams, teams], names=["Home", "Away"])).reset_index()
-    df["Result"] = df.apply(result, axis=1)
-    df["color_R"] = df.apply(lambda x: "black" if x["Home"]==x["Away"] else "#146f14" if x["Result"]=="Home Win" else "#991515" if x["Result"]=="Away Win" else "gray" if x["Result"]=="Draw" else "white", axis=1)
-    df["color_PD"] = df.apply(lambda x: "black" if x["Home"]==x["Away"] else "#146f14" if x["PD"]>7 else "#146f14a0" if x["PD"]>0 else "#991515" if x["PD"]<-7 else "#991515a0" if x["PD"]<0 else "gray" if x["PD"]==0 else "white", axis=1) 
-    df["score"] = df["score"].fillna("")
-    df["PF"] = df["PF"].fillna("")
-    df["PA"] = df["PA"].fillna("")
-
-
-    # Calculate average points difference for all of each team's games (home or away)
-    pd_df = []
+    # Get all teams in this league
+    teams = list(set(df_results["Home"].unique()) | set(df_results["Away"].unique()))
+    
+    # Calculate points difference for each team BEFORE filling missing combinations
+    pd_data = []
     for team in teams:
-        home_pd = df[(df["Home"]==team) & (df["Result"]!="")]["PD"].sum()
-        away_pd = df[(df["Away"]==team) & (df["Result"]!="")]["PD"].sum()
-        pd_df.append([team, home_pd - away_pd])
+        home_games = df_results[(df_results["Home"] == team) & (~df_results["PD"].isna())]
+        away_games = df_results[(df_results["Away"] == team) & (~df_results["PD"].isna())]
+        
+        home_pd = home_games["PD"].sum()
+        away_pd = -away_games["PD"].sum()  # Flip sign for away games
+        total_pd = home_pd + away_pd
+        
+        pd_data.append([team, total_pd])
+        
     pd_df = (
-        pd.DataFrame(pd_df, columns=["Team", "PD"])
+        pd.DataFrame(pd_data, columns=["Team", "PD"])
         .sort_values("PD", ascending=False)
-        .reset_index().reset_index()
-        .rename(columns={"level_0": "Rank"})
-        .drop(columns=["index"])
+        .reset_index(drop=True)
+        .reset_index()
+        .rename(columns={"index": "Rank"})
     )
+    
+    # Fill in missing combinations of teams (create complete matrix)
+    all_combinations = pd.MultiIndex.from_product([teams, teams], names=["Home", "Away"])
+    df_results = df_results.set_index(["Home", "Away"]).reindex(all_combinations).reset_index()
+    
+    df_results["Result"] = df_results.apply(result, axis=1)
+    df_results["color_R"] = df_results.apply(
+        lambda x: "black" if x["Home"] == x["Away"] 
+        else "#146f14" if x["Result"] == "Home Win" 
+        else "#991515" if x["Result"] == "Away Win" 
+        else "gray" if x["Result"] == "Draw" 
+        else "white", axis=1
+    )
+    
+    df_results["score"] = df_results["score"].fillna("")
+    df_results["PF"] = df_results["PF"].fillna("")
+    df_results["PA"] = df_results["PA"].fillna("")
 
+    # Try to use league table order if available
     if table_order:
-        # Read league table from Charts/league/table.html
-        table_df = pd.read_html(f"Charts/league/table_{season}.html")[0]
-        teams = table_df["TEAM"].tolist()
+        table_file = f"Charts/league/table_{squad_number}s_{season.replace('-', '_')}.html"
+        if os.path.exists(table_file):
+            try:
+                table_df = pd.read_html(table_file)[0]
+                teams = table_df["TEAM"].tolist()
+            except:
+                teams = pd_df["Team"].tolist()
+        else:
+            teams = pd_df["Team"].tolist()
     else:
-        teams = pd_df["Team"].unique()
+        teams = pd_df["Team"].tolist()
 
-    # Define color encoding
+    # Color scale
     color_scale = alt.Scale(
         domain=['Home Win', 'Home Win (LBP)', 'Away Win', 'Away Win (LBP)', 'Draw', 'To be played', None],
         range=['#146f14', '#146f14a0', '#991515', '#991515a0', 'goldenrod', 'white', 'black']
     )
 
-
-    # Highlight row and column on hover
-    highlight = alt.selection_point(on='click', fields=['Home', 'Away'], empty='none', nearest=True, value="East Grinstead")
+    # Highlight selection
+    highlight = alt.selection_point(on='click', fields=['Home', 'Away'], empty='none', nearest=True, value=None)
     predicate = f"datum.Home == {highlight.name}['Home'] | datum.Away == {highlight.name}['Home']"
     text_color = alt.condition(f"{predicate} | !isValid({highlight.name}['Home'])", alt.value('white'), alt.value('black'))
 
-    heatmap = alt.Chart(df).mark_rect().encode(
-        x=alt.X('Away:N', title="Away Team",
-            sort=teams[::-1],
-            axis=alt.Axis(ticks=False, domain=False, labelAngle=30, orient="top", titleFontSize=32)
-        ),
-        y=alt.Y('Home:N', title="Home Team",
-            sort=teams,
-            axis=alt.Axis(ticks=False, domain=False, labelAngle=0, labelFontSize=14, titleFontSize=32, labelFontWeight="bold")
-        ),
+    # Heatmap
+    heatmap = alt.Chart(df_results).mark_rect().encode(
+        x=alt.X('Away:N', title="Away Team", sort=teams[::-1],
+               axis=alt.Axis(ticks=False, domain=False, labelAngle=30, orient="top", titleFontSize=32)),
+        y=alt.Y('Home:N', title="Home Team", sort=teams,
+               axis=alt.Axis(ticks=False, domain=False, labelAngle=0, labelFontSize=14, titleFontSize=32, labelFontWeight="bold")),
         tooltip=['Home:N', 'Away:N', alt.Tooltip('score:N', title="Score"), alt.Tooltip('date:T', title="Date", format="%d %b %Y")],
         opacity=alt.condition(f"{predicate} | !isValid({highlight.name}['Home'])", alt.value(1.0), alt.value(0.2)),
-        color=alt.Color(
-            'Result:N', 
-            scale=color_scale,
-            title="Result", 
-            legend=alt.Legend(
-                orient="none",
-                direction="horizontal",
-                titleOrient="left",
-                legendX=50,
-                legendY=430,
-                symbolStrokeColor="black",
-                symbolStrokeWidth=1,
-                values=['Home Win', 'Away Win', 'Draw', 'To be played'],
-            )
-        ),
+        color=alt.Color('Result:N', scale=color_scale, title="Result", 
+                       legend=alt.Legend(orient="none", direction="horizontal", titleOrient="left",
+                                       legendX=50, legendY=430, symbolStrokeColor="black", symbolStrokeWidth=1,
+                                       values=['Home Win', 'Away Win', 'Draw', 'To be played'])),
     ).properties(width=alt.Step(50), height=alt.Step(35))
 
-    # Add text annotations for scorelines
-    textH = alt.Chart(df).mark_text(size=15, xOffset=-10, yOffset=5, fontWeight="bold").encode(
-        x=alt.X('Away:N', title=None,
-            sort=teams[::-1],
-            axis=alt.Axis(ticks=False, domain=False, labels=False)
-        ),
-        y=alt.Y('Home:N', title=None,
-            sort=teams,
-            axis=alt.Axis(ticks=False, domain=False, labels=False)
-        ),
-        text=alt.Text('PF:N'),
-        color=text_color,
+    # Text annotations for scores
+    textH = alt.Chart(df_results).mark_text(size=15, xOffset=-10, yOffset=5, fontWeight="bold").encode(
+        x=alt.X('Away:N', title=None, sort=teams[::-1], axis=alt.Axis(ticks=False, domain=False, labels=False)),
+        y=alt.Y('Home:N', title=None, sort=teams, axis=alt.Axis(ticks=False, domain=False, labels=False)),
+        text=alt.Text('PF:N'), color=text_color,
         opacity=alt.condition(f"{predicate} | !isValid({highlight.name}['Home'])", alt.value(1.0), alt.value(0.5)),
     )
-    textA = alt.Chart(df).mark_text(size=14, xOffset=10, yOffset=-5, fontStyle="italic").encode(
-        x=alt.X('Away:N', title=None,
-            sort=teams[::-1],
-            axis=alt.Axis(ticks=False, domain=False, labels=False)
-        ),
-        y=alt.Y('Home:N', title=None,
-            sort=teams,
-            axis=alt.Axis(ticks=False, domain=False, labels=False)
-        ),
-        text=alt.Text('PA:N'),
-        color=text_color,
+    
+    textA = alt.Chart(df_results).mark_text(size=14, xOffset=10, yOffset=-5, fontStyle="italic").encode(
+        x=alt.X('Away:N', title=None, sort=teams[::-1], axis=alt.Axis(ticks=False, domain=False, labels=False)),
+        y=alt.Y('Home:N', title=None, sort=teams, axis=alt.Axis(ticks=False, domain=False, labels=False)),
+        text=alt.Text('PA:N'), color=text_color,
         opacity=alt.condition(f"{predicate} | !isValid({highlight.name}['Home'])", alt.value(0.8), alt.value(0.4)),
     )
 
+    # Points difference on diagonal - THIS IS THE KEY FIX!
     textPD = alt.Chart(pd_df).mark_text(size=14, color="white", opacity=0.8).encode(
         x=alt.X('Team:N', title=None, sort=teams[::-1], axis=alt.Axis(ticks=False, domain=False, labels=False)),
         y=alt.Y('Team:N', title=None, sort=teams, axis=alt.Axis(ticks=False, domain=False, labels=False)),
         text=alt.Text('PD:N', format="+d")
     )
 
-    # Combine heatmap and text annotations
+    # Final chart
     final_chart = (
         (heatmap + textA + textH + textPD)
         .add_params(highlight)
         .resolve_scale(color="independent", x="independent", y="independent", opacity="independent")
         .properties(
             title=alt.Title(
-                text="League Results", 
+                text=f"League Results - Squad {squad_number} - {season[:4]}/{season[7:]}", 
                 subtitle=[
-                    # "Teams ranked by average points difference (shown in black cells).",
-                    "Each row is a team's home games, and each column is a team's away games.",
-                    "Lighter shaded results were within 7 points (i.e. losing bonus point).",
+                    "Complete league matrix showing all teams in the division.",
+                    "Each row = team's home games, each column = away games.",
+                    "Diagonal shows total points difference for each team.",
+                    "Lighter shaded results were within 7 points (losing bonus point).",
                     "Click on a cell to highlight all of the home team's results. (Double click to reset)",
-                    ],
+                ]
             ),
-            background="white")
+            background="white"
+        )
     )
-    final_chart.save(f"Charts/league/{'women_' if women else ''}results_{season}.html", embed_options={'renderer':'svg', 'actions': {'export': True, 'source':False, 'editor':True, 'compiled':False} })
-    hack_params_css(f"Charts/league/{'women_' if women else ''}results_{season}.html", params=False)
-
+    
+    os.makedirs("Charts/league", exist_ok=True)
+    filename = f"Charts/league/results_{squad_number}s_{season}.html"
+    
+    print(f"Saved squad {squad_number} results chart to {filename}")
     return final_chart
 
-league_results_chart("2024-2025", table_order=True)
+# Generate charts for both squads
+if not df.empty:
+    available_squads = sorted([s for s in df["Squad"].dropna().unique() if pd.notna(s)])
+    latest_season = sorted(df["Season"].unique())[-1] if not df.empty else "2025-2026"
+    
+    print(f"Available squads: {available_squads}")
+    print(f"Latest season: {latest_season}")
+    
+    for squad_num in available_squads:
+        squad_num = int(squad_num)
+        print(f"\n=== Creating charts for Squad {squad_num} ===")
+        
+        # Create squad analysis charts
+        chart_result = create_squad_charts(squad_num)
+        if chart_result is not None:
+            chart, squad_data = chart_result
+            
+            # Create results chart for latest season
+            results_chart = league_results_chart(squad_num, latest_season, table_order=True)
+    
+    print(f"\n=== Charts created for all available squads ===")
+else:
+    print("No data available to create charts")

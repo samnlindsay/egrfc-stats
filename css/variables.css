@@ -1,0 +1,10 @@
+:root {
+    --primary-color: #202946;
+    --accent-color: #7d96e8;
+    --light-color: #e5e4e7;
+    --dark-color: #333333;
+    --green-color: #146f14;
+    --red-color: #991515;
+    --filter-panel-collapsed-height: 60px;
+    --filter-panel-content-padding: 1rem;
+}

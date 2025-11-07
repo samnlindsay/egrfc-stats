@@ -1,0 +1,63 @@
+/* ===== CHART CONTENT ===== */
+.tab-content {
+    flex: 1;
+    padding: 0;
+    overflow-x: auto;
+    overflow-y: visible;
+}
+
+.tab-pane {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    align-items: flex-start;
+    min-width: 600px;
+    width: max-content;
+}
+
+#team-sheets-content {
+    min-width: 1000px !important;
+}
+
+.vega-embed {
+    min-width: 600px;
+    width: auto !important;
+    height: fit-content !important;
+    transform-origin: top left;
+}
+
+.vega-embed svg {
+    width: auto !important;
+    height: auto !important;
+}
+
+#results-vis,
+#team-sheets-vis,
+#player-stats-vis,
+#set-piece-vis {
+    min-width: 600px;
+    overflow-x: auto;
+}
+
+/* ===== MOBILE RESPONSIVE ===== */
+@media (max-width: 768px) {
+
+    .vega-embed {
+        transform: scale(0.8);
+        transform-origin: top left;
+    }
+
+    .tab-pane {
+        min-width: 500px;
+        /* Adjust container to accommodate scaled content */
+    }
+}
+
+/* Very narrow screens */
+@media (max-width: 480px) {
+
+    .vega-embed {
+        transform: scale(0.65);
+        transform-origin: top left;
+    }
+}

@@ -1,0 +1,57 @@
+{
+    "match_id": "1220053",
+    "season": "2025-2026",
+    "league": "Counties 2 Sussex",
+    "date": "2025-10-18",
+    "teams": [
+        "Royals RFC",
+        "Eastbourne II"
+    ],
+    "score": [
+        34,
+        36
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/94051.png",
+        "https://images.englandrugby.com/club_images/7213.png"
+    ],
+    "players": [
+        {
+            "15": "Jenson Holmes",
+            "14": "Aidan Loane",
+            "13": "Ben Smith",
+            "12": "Marcus Brandon",
+            "11": "George Burke",
+            "10": "Ben Pearson",
+            "9": "Harry Walton",
+            "8": "Cameron Queree",
+            "7": "John James Le Feuvre",
+            "6": "Josh Twohig-Jones",
+            "5": "Harvey Evans",
+            "4": "Conor Bisson-Mercury",
+            "3": "Tristan Burns",
+            "2": "Jack Lowe",
+            "1": "Name withheld",
+            "S1": "Patrick Crossley",
+            "S2": "Hugo Reid",
+            "S3": "Martial Chaput"
+        },
+        {
+            "15": "Louis Wood",
+            "14": "Harri Smith",
+            "13": "Pedro Sousa",
+            "12": "Justin Funnell",
+            "11": "Louis Nicholls",
+            "10": "Morgan Treacher",
+            "9": "Michael Morehen",
+            "8": "Luke Steel",
+            "7": "Joseph Long",
+            "6": "Tom Lester",
+            "5": "Alun Cranch",
+            "4": "Tom Line",
+            "3": "Toby Slaughter",
+            "2": "Aitor Salas Blazquez",
+            "1": "Louis Paal"
+        }
+    ]
+}

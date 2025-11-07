@@ -3,7 +3,7 @@ Database operations and query functions
 """
 import duckdb
 import pandas as pd
-from python.new_data import DataExtractor
+from new_data import DataExtractor
 
 """
 Database schema definitions for EGRFC stats
@@ -97,6 +97,40 @@ CORE_TABLES = {
             'FOREIGN KEY (game_id) REFERENCES games(game_id)'
         ]
     },
+
+    'league_matches': {
+        'description': 'League match data from England Rugby website',
+        'columns': [
+            'match_id TEXT PRIMARY KEY',
+            'season TEXT',
+            'league TEXT', 
+            'date DATE',
+            'home_team TEXT',
+            'away_team TEXT',
+            'home_score INTEGER',
+            'away_score INTEGER',
+            'home_logo TEXT',
+            'away_logo TEXT',
+            'eg_squad TEXT',  # Which EG squad (1st/2nd) if applicable
+            'eg_home_away TEXT',  # H/A from EG perspective
+            'eg_score INTEGER',  # EG score
+            'opp_score INTEGER'  # Opposition score
+        ]
+    },
+    
+    'league_players': {
+        'description': 'Player appearances in league matches',
+        'columns': [
+            'appearance_id TEXT PRIMARY KEY',
+            'match_id TEXT',
+            'team TEXT',
+            'player TEXT',
+            'position TEXT',
+            'shirt_number TEXT',
+            'unit TEXT',  # Forwards, Backs, Bench
+            'FOREIGN KEY (match_id) REFERENCES league_matches(match_id)'
+        ]
+    }
     
     # 'squad_continuity': {
     #     'description': 'Squad retention between games',

@@ -1,0 +1,41 @@
+{
+    "match_id": "1232374",
+    "season": "2025-2026",
+    "league": "Harvey's Brewery Counties 3 Sussex",
+    "date": "2025-10-11",
+    "teams": [
+        "Worthing III",
+        "Crowborough II"
+    ],
+    "score": [
+        25,
+        7
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/127674.png",
+        "https://images.englandrugby.com/club_images/5919.png"
+    ],
+    "players": [
+        {},
+        {
+            "15": "Edward Wilkinson",
+            "14": "Peter Baldwin",
+            "13": "Kieran Gaskell",
+            "12": "Harry Squire",
+            "11": "Tom Flint",
+            "10": "Tayler Forrester",
+            "9": "Nicholas Choate",
+            "8": "Toby Hother",
+            "7": "Dominic Phillips",
+            "6": "Simon Miles",
+            "5": "Nathan Burstow",
+            "4": "Gregory Ponce",
+            "3": "William Hipkin",
+            "2": "Adam Clarke",
+            "1": "Guy Houston",
+            "S1": "Name withheld",
+            "S2": "Jack Munro",
+            "S3": "Sev Seviua"
+        }
+    ]
+}

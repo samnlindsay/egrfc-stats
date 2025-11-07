@@ -7,327 +7,381 @@ import re
 import requests
 from bs4 import BeautifulSoup
 
-pd.options.mode.chained_assignment = None  # default='warn'
-
-# Position dictionary
-d = {
-    1: "Prop",
-    2: "Hooker",
-    3: "Prop",
-    4: "Second Row",
-    5: "Second Row",
-    6: "Back Row",
-    7: "Back Row",
-    8: "Back Row",
-    9: "Scrum Half",
-    10: "Fly Half",
-    11: "Back Three",
-    12: "Centre",
-    13: "Centre",
-    14: "Back Three",
-    15: "Back Three",
-}
-
-d_specific = {
-    1: "Prop",
-    2: "Hooker",
-    3: "Prop",
-    4: "Second Row",
-    5: "Second Row",
-    6: "Flanker",
-    7: "Flanker",
-    8: "Number 8",
-    9: "Scrum Half",
-    10: "Fly Half",
-    11: "Wing",
-    12: "Centre",
-    13: "Centre",
-    14: "Wing",
-    15: "Full Back",
-}
-
-def position_category(x):
-    if x <= 8:
-        return "Forwards"
-    elif x <= 15:
-        return "Backs"
-    else:
-        return "Bench"
+pd.options.mode.chained_assignment = None
 
 con = duckdb.connect()
 
-import gspread
-from google.oauth2.service_account import Credentials
+# Google Sheets setup
 scope = ['https://spreadsheets.google.com/feeds',
          'https://www.googleapis.com/auth/drive']
 creds = Credentials.from_service_account_file('client_secret.json', scopes=scope)
 client = gspread.authorize(creds)
 
+# Use the optimized sheets
 sheet = client.open_by_url("https://docs.google.com/spreadsheets/d/1pcO8iEpZuds9AWs4AFRmqJtx5pv5QGbP4yg2dEkl8fU/edit#gid=2100247664").worksheets()
 
-my_sheet = client.open_by_url("https://docs.google.com/spreadsheets/d/1keX2eGbyiBejpfMPMbL7aXYLy7IDJZDBXQqiKVQavz0/edit#gid=390656160").worksheets()
+#####################################################
+### OPTIMIZED DATA LOADING FUNCTIONS
+#####################################################
+
+def load_matches():
+    """Load match data from optimized Matches sheet"""
+    try:
+        matches_sheet = next(ws for ws in sheet if ws.title == "Matches")
+        data = matches_sheet.get_all_records()
+        df = pd.DataFrame(data)
+        
+        # Convert data types
+        df['Date'] = pd.to_datetime(df['Date'], errors='coerce')
+        df['PF'] = pd.to_numeric(df['PF'], errors='coerce')
+        df['PA'] = pd.to_numeric(df['PA'], errors='coerce')
+        df['Margin'] = pd.to_numeric(df['Margin'], errors='coerce')
+        
+        # Convert retention columns to numeric
+        retention_cols = ['ForwardsRetained', 'BacksRetained', 'StartersRetained', 'FullSquadRetained']
+        for col in retention_cols:
+            df[col] = pd.to_numeric(df[col], errors='coerce').fillna(0)
+        
+        return df
+    except Exception as e:
+        print(f"Error loading matches: {e}")
+        return pd.DataFrame()
+
+def load_player_appearances():
+    """Load player appearances from optimized PlayerAppearances sheet"""
+    try:
+        appearances_sheet = next(ws for ws in sheet if ws.title == "PlayerAppearances")
+        data = appearances_sheet.get_all_records()
+        df = pd.DataFrame(data)
+        
+        # Convert data types
+        df['ShirtNumber'] = pd.to_numeric(df['ShirtNumber'], errors='coerce')
+        bool_cols = ['IsStarter', 'IsCaptain', 'IsVC']
+        for col in bool_cols:
+            df[col] = df[col].astype(bool)
+        
+        return df
+    except Exception as e:
+        print(f"Error loading player appearances: {e}")
+        return pd.DataFrame()
+
+def load_lineouts():
+    """Load lineout data from optimized LineoutsData sheet"""
+    try:
+        lineouts_sheet = next(ws for ws in sheet if ws.title == "LineoutsData")
+        data = lineouts_sheet.get_all_records()
+        df = pd.DataFrame(data)
+        
+        # Convert data types
+        df['Won'] = df['Won'].astype(bool)
+        bool_cols = ['Drive', 'Crusaders', 'Transfer']
+        for col in bool_cols:
+            df[col] = df[col].astype(bool)
+        
+        df['Flyby'] = pd.to_numeric(df['Flyby'], errors='coerce')
+        
+        return df
+    except Exception as e:
+        print(f"Error loading lineouts: {e}")
+        return pd.DataFrame()
+
+def load_set_piece():
+    """Load set piece data from optimized SetPieceData sheet"""
+    try:
+        setpiece_sheet = next(ws for ws in sheet if ws.title == "SetPieceData")
+        data = setpiece_sheet.get_all_records()
+        df = pd.DataFrame(data)
+        
+        # Convert numeric columns
+        numeric_cols = [col for col in df.columns if any(x in col for x in ['Won', 'Total', 'Pct', 'Gain'])]
+        for col in numeric_cols:
+            df[col] = pd.to_numeric(df[col], errors='coerce')
+        
+        return df
+    except Exception as e:
+        print(f"Error loading set piece data: {e}")
+        return pd.DataFrame()
 
 #####################################################
-### TEAM SHEETS - 4th and 7th sheets in the workbook
+### ENHANCED DATA PROCESSING FUNCTIONS
 #####################################################
-def squad_consistency(df):
+
+def players_agg_optimized():
+    """Create aggregated player statistics using optimized data"""
+    appearances_df = load_player_appearances()
+    matches_df = load_matches()
     
-    df = df.reset_index(drop=True)
-
-    starter_cols = [str(i) for i in range(1, 16)]
-    squad_cols = [str(i) for i in range(1, 30)]
-
-    # Merge columns "1" to "15" into a single list column "Players"
-    df["Forwards"] = df[["1", "2", "3", "4", "5", "6", "7", "8"]].values.tolist()
-    df["Backs"] = df[["9", "10", "11", "12", "13", "14", "15"]].values.tolist()
-    df["Starters"] = df[starter_cols].values.tolist()
-    df["Starters"] = df["Starters"].apply(lambda x: [i for i in x if (i is not None and i!="")])
-    df["FullSquad"] = df[squad_cols].values.tolist()
-    df["FullSquad"] = df["FullSquad"].apply(lambda x: [i for i in x if isinstance(i, str)])
-
-    # Count players in common with previous game (previous row) in same Season and Squad
-    df["Forwards_prev"] = df.groupby(["Season", "Squad"])["Forwards"].shift(1, fill_value=list()).reset_index(drop=True)
-    df["Forwards_common"] = df.apply(lambda x: list(set(x["Forwards"]) & set(x["Forwards_prev"])), axis=1)
-    df["Forwards_retained"] = df["Forwards_common"].apply(len).astype(int)
-
-    df["Backs_prev"] = df.groupby(["Season", "Squad"])["Backs"].shift(1, fill_value=list()).reset_index(drop=True)
-    df["Backs_common"] = df.apply(lambda x: list(set(x["Backs"]) & set(x["Backs_prev"])), axis=1)
-    df["Backs_retained"] = df["Backs_common"].apply(len).astype(int)
-
-    df["Starters_prev"] = df.groupby(["Season", "Squad"])["Starters"].shift(1, fill_value=list()).reset_index(drop=True)
-    df["Starters_common"] = df.apply(lambda x: list(set(x["Starters"]) & set(x["Starters_prev"])), axis=1)
-    df["Starters_retained"] = df["Starters_common"].apply(len).astype(int)
-
-    df["FullSquad_prev"] = df.groupby(["Season", "Squad"])["FullSquad"].shift(1, fill_value=list()).reset_index(drop=True)
-    df["FullSquad_common"] = df.apply(lambda x: list(set(x["FullSquad"]) & set(x["FullSquad_prev"])), axis=1)
-    df["FullSquad_retained"] = df["FullSquad_common"].apply(len).astype(int)
-
-    df = df.drop(columns=[
-        "Starters", "Starters_prev", "Starters_common", 
-        "FullSquad", "FullSquad_prev", "FullSquad_common", 
-        "Forwards", "Forwards_prev", "Forwards_common", 
-        "Backs", "Backs_prev", "Backs_common"
-    ])
-
-    return df
-
-def team_sheets():
-
-    t1, t2 = [
-        pd.DataFrame(
-            sheet[s].batch_get(['B5:AK'])[0], 
-            columns=["Season", "Competition", "Opposition", "Score", "Captain", "VC1", "VC2", *list(map(str,range(1, 30)))]
-        ).replace('', pd.NA)
-        for s in [4, 7]
-    ]
-    t1["Squad"] = "1st"
-    t1["GameSort"] = t1.index
-    t2["Squad"] = "2nd"
-    t2["GameSort"] = t2.index
-
-    team = pd.concat([t1, t2]).dropna(subset=['Season'])
-
-    team["GameID"] = team["Opposition"] + team.groupby(["Squad", "Opposition", "Season"]).cumcount().add(1).replace(1, "").astype(str)
-    team['Home/Away'] = team['Opposition'].apply(lambda x: "H" if "(H)" in x else "A")
-    team["Opposition"] = team["Opposition"].apply(lambda x: x.replace("(H)","").replace("(A)","").strip())
-    team["GameType"] = team["Competition"].apply(
-        lambda x: "Friendly" if x=="Friendly" else ("Cup" if re.search("Cup|Plate|Vase|Shield", x) else "League")
+    if appearances_df.empty or matches_df.empty:
+        return pd.DataFrame()
+    
+    # Join with match data for game type information
+    df = appearances_df.merge(
+        matches_df[['GameID', 'GameType', 'Date']], 
+        on='GameID', 
+        how='left'
     )
-    # If Score is not null and contains a hyphen, split into PF and PA
-    team["PF"] = team.apply(lambda x: x["Score"].split("-")[0 if x["Home/Away"] == "H" else 1], axis=1)
-    team["PA"] = team.apply(lambda x: x["Score"].split("-")[1 if x["Home/Away"] == "H" else 0], axis=1)
-    team["PF"] = pd.to_numeric(team["PF"], errors="coerce")
-    team["PA"] = pd.to_numeric(team["PA"], errors="coerce")
-
-    team["Result"] = team.apply(lambda x: "W" if x["PF"] > x["PA"] else ("L" if x["PF"] < x["PA"] else ("D" if x["PF"]==x["PA"] else None)), axis=1)
-
-    # All column names to string
-    team.columns = team.columns.astype(str)
-
-    team = squad_consistency(team)
-
-    return team
-
-
-# PLAYERS (1 row per player per game)
-###########################################
-def players(df=None):
-
-    if df is None:
-        df = team_sheets()
-
-    players = df.melt(
-        id_vars=["GameSort", "GameID", "Squad", "Season", "Competition", "GameType", "Opposition", "Home/Away", "PF", "PA", "Result", "Captain", "VC1", "VC2"], 
-        value_vars=list(map(str,range(1, 26))), 
-        value_name="Player",
-        var_name="Number"
-    ).dropna(subset=["Player"])
-    players["Number"] = players["Number"].astype("int")
-    players["Position"] = players["Number"].map(d).astype("category", )
-    players["Position_specific"] = players["Number"].map(d_specific).fillna("Bench").astype("category", )
-    # If Position in ("Back Three", "Centre", "Fly Half", "Scrum Half"), then it's a Back, else it's a Forward
-    players["PositionType"] = players["Number"].apply(position_category) 
-    # positions_start = positions_start[positions_start["Position"].notna()]
-    return players
-
-# PLAYERS_AGG (1 row per player per season)
-###########################################
-def players_agg(df=None):
-    if df is None:
-        df = players()
     
+    # Use DuckDB for efficient aggregation
     players_agg = con.query("""
     SELECT
         Squad,
         Season, 
-        Player, 
-        -- Cup games
-        SUM(CASE WHEN GameType = 'Cup' AND Number <= 15 THEN 1 ELSE 0 END) AS CupStarts,
-        SUM(CASE WHEN GameType = 'Cup' AND Number > 15 THEN 1 ELSE 0 END) AS CupBench,
-        -- League games
-        SUM(CASE WHEN GameType = 'League' AND Number <= 15 THEN 1 ELSE 0 END) AS LeagueStarts,
-        SUM(CASE WHEN GameType = 'League' AND Number > 15 THEN 1 ELSE 0 END) AS LeagueBench,
-        -- Friendlies
-        SUM(CASE WHEN GameType = 'Friendly' AND Number <= 15 THEN 1 ELSE 0 END) AS FriendlyStarts,
-        SUM(CASE WHEN GameType = 'Friendly' AND Number > 15 THEN 1 ELSE 0 END) AS FriendlyBench, 
-        -- Competitive Totals
-        SUM(CASE WHEN GameType != 'Friendly' AND Number <= 15 THEN 1 ELSE 0 END) AS CompetitiveStarts,
-        SUM(CASE WHEN GameType != 'Friendly' AND Number > 15 THEN 1 ELSE 0 END) AS CompetitiveBench,
+        Player,
+        -- Game type breakdowns
+        SUM(CASE WHEN GameType = 'Cup' AND IsStarter = 1 THEN 1 ELSE 0 END) AS CupStarts,
+        SUM(CASE WHEN GameType = 'Cup' AND IsStarter = 0 THEN 1 ELSE 0 END) AS CupBench,
+        SUM(CASE WHEN GameType = 'League' AND IsStarter = 1 THEN 1 ELSE 0 END) AS LeagueStarts,
+        SUM(CASE WHEN GameType = 'League' AND IsStarter = 0 THEN 1 ELSE 0 END) AS LeagueBench,
+        SUM(CASE WHEN GameType = 'Friendly' AND IsStarter = 1 THEN 1 ELSE 0 END) AS FriendlyStarts,
+        SUM(CASE WHEN GameType = 'Friendly' AND IsStarter = 0 THEN 1 ELSE 0 END) AS FriendlyBench,
         -- Totals
-        SUM(CASE WHEN Number <= 15 THEN 1 ELSE 0 END) AS TotalStarts,
-        SUM(CASE WHEN Number > 15 THEN 1 ELSE 0 END) AS TotalBench,                          
-        COUNT(*) AS TotalGames,      
-        -- Most common Positions
+        SUM(CASE WHEN IsStarter = 1 THEN 1 ELSE 0 END) AS TotalStarts,
+        SUM(CASE WHEN IsStarter = 0 THEN 1 ELSE 0 END) AS TotalBench,
+        COUNT(*) AS TotalGames,
+        -- Leadership
+        SUM(IsCaptain) AS TimesCaptain,
+        SUM(IsVC) AS TimesVC,
+        -- Most common positions
         MODE(Position) AS MostCommonPosition,
-        MODE(NULLIF(PositionType,'Bench')) AS MostCommonPositionType
+        MODE(PositionGroup) AS MostCommonPositionGroup,
+        MODE(CASE WHEN Unit != 'Bench' THEN Unit END) AS MostCommonUnit
     FROM df
     GROUP BY Squad, Season, Player
     """).to_df()
-
-    players_agg["Player_join"] = players_agg["Player"].apply(clean_name)
-    name_lookup = (
-        players_agg[["Player", "Player_join"]]
-        .drop_duplicates()
-        .set_index("Player_join")
-        .to_dict()["Player"]
-    )
-    other_names = {
-        "S Cooke": "Steve Cooke",
-        "R Andrews": "Ruari Andrews",
-        "R Perry": "Ross Perry",
-        "J Stokes": "James Stokes",
-        "C Champain": "Callum Champain",
-        "M Dewing": "Max Dewing",
-        "A Schofield": "Ali Schofield",
-        "J Gibbs": "Johnny Gibbs",
-        "M Taylor": "Mark Taylor",
-        "M Evans": "Max Evans",
-        "J Carr": "Josh Carr",
-        "Z Roberts": "Zach Roberts",
-        "W Blackledge": "Will Blackledge",
-        "T Sandys": "Tom Sandys",
-        "B Swadling": "Ben Swadling",
-        "O Waite": "Oscar Waite",
-        "S Anderson": "Scott Anderson",
-        "M Ansboro": "Martyn Ansboro",
-        "M Tomkinson": "Matt Tomkinson",
-        "B Meyerratken": "Ben Meyerratken",
-        "L Cammish": "Leo Cammish",
-        "C Lear": "Charlie Lear",
-    }
-
-
-
-    pitchero_df = pitchero_stats()
-
-    df = players_agg.merge(
-        pitchero_df, 
-        on=["Squad", "Season", "Player_join"], 
-        how="left"
-    )
-
-    df = pd.concat([df, pitchero_df[~pitchero_df["Season"].isin(df["Season"].unique())]], axis=0)
-    df["Player"] = df["Player_join"].map(lambda x: name_lookup.get(x, x))
-
-    # If null, replace from other column
-    df["TotalGames"] = df["TotalGames"].fillna(df["A"])
-
-    return df
-
-##################################################
-### LINEOUTS - 6th and 9th sheets in the workbook
-##################################################
-
-def call_type(call):
-
-    if call in ["Snap", "Yes", "No"]:
-        return "4-man only"
-    elif call in ["Red", "Orange", "RD", "Even", "Odd", "Green", "Plus", "Even +", "Odd +", "Green +", "Matlow"]:
-        return "Old"
-    elif call in ["C*", "A*", "C1", "C2", "C3", "H1", "H2", "H3", "A1", "A2", "A3", "W1", "W2", "W3"]:
-        return "New"    
-    else:
-        return "Other"
     
-def dummy_movement(call):
-    if call in ["RD", "Plus", "Even +", "Odd +", "Green +", "C3", "A1", "A2", "A3", "No"]:
-        return "Dummy"
-    elif call in ["Yes", "C1", "C2"]:
-        return "Move"
-    else:
-        return "Jump"
+    return players_agg
+
+def lineout_success_enhanced():
+    """Enhanced lineout analysis with optimized data"""
+    lineouts_df = load_lineouts()
+    
+    if lineouts_df.empty:
+        return pd.DataFrame()
+    
+    # Calculate success rates by various dimensions
+    success_analysis = con.query("""
+    SELECT
+        Squad,
+        Season,
+        Opposition,
+        Area,
+        Setup,
+        Movement,
+        CallType,
+        Hooker,
+        Jumper,
+        COUNT(*) as Total,
+        SUM(Won) as Won,
+        AVG(Won) as SuccessRate,
+        COUNT(CASE WHEN Drive = 1 THEN 1 END) as DriveLineouts,
+        AVG(CASE WHEN Drive = 1 THEN Won END) as DriveSuccessRate
+    FROM lineouts_df
+    WHERE Squad IS NOT NULL AND Season IS NOT NULL
+    GROUP BY Squad, Season, Opposition, Area, Setup, Movement, CallType, Hooker, Jumper
+    HAVING Total >= 1
+    ORDER BY Season DESC, Squad, Total DESC
+    """).to_df()
+    
+    return success_analysis
+
+def set_piece_h2h_optimized():
+    """Enhanced set piece head-to-head analysis"""
+    setpiece_df = load_set_piece()
+    
+    if setpiece_df.empty:
+        return pd.DataFrame()
+    
+    # Transform to long format for analysis
+    h2h_data = con.query("""
+    SELECT 
+        GameID,
+        Squad,
+        Season,
+        Date,
+        Opposition,
+        HomeAway,
+        'Lineout' as SetPiece,
+        'EG' as Team,
+        EG_Lineout_Won as Won,
+        EG_Lineout_Total as Total,
+        EG_Lineout_Total - EG_Lineout_Won as Lost
+    FROM setpiece_df
+    WHERE EG_Lineout_Total > 0
+    
+    UNION ALL
+    
+    SELECT 
+        GameID,
+        Squad,
+        Season,
+        Date,
+        Opposition,
+        HomeAway,
+        'Lineout' as SetPiece,
+        'Opposition' as Team,
+        Opp_Lineout_Won as Won,
+        Opp_Lineout_Total as Total,
+        Opp_Lineout_Total - Opp_Lineout_Won as Lost
+    FROM setpiece_df
+    WHERE Opp_Lineout_Total > 0
+    
+    UNION ALL
+    
+    SELECT 
+        GameID,
+        Squad,
+        Season,
+        Date,
+        Opposition,
+        HomeAway,
+        'Scrum' as SetPiece,
+        'EG' as Team,
+        EG_Scrum_Won as Won,
+        EG_Scrum_Total as Total,
+        EG_Scrum_Total - EG_Scrum_Won as Lost
+    FROM setpiece_df
+    WHERE EG_Scrum_Total > 0
+    
+    UNION ALL
+    
+    SELECT 
+        GameID,
+        Squad,
+        Season,
+        Date,
+        Opposition,
+        HomeAway,
+        'Scrum' as SetPiece,
+        'Opposition' as Team,
+        Opp_Scrum_Won as Won,
+        Opp_Scrum_Total as Total,
+        Opp_Scrum_Total - Opp_Scrum_Won as Lost
+    FROM setpiece_df
+    WHERE Opp_Scrum_Total > 0
+    """).to_df()
+    
+    return h2h_data
+
+#####################################################
+### COMPATIBILITY FUNCTIONS (for existing charts)
+#####################################################
+
+def team_sheets():
+    """Legacy compatibility function - maps to optimized matches data"""
+    matches_df = load_matches()
+    appearances_df = load_player_appearances()
+    
+    if matches_df.empty:
+        return pd.DataFrame()
+    
+    # For charts that expect the old format, we can reconstruct it
+    # This is a temporary bridge while updating chart functions
+    return matches_df
+
+def players(df=None):
+    """Legacy compatibility function - maps to optimized player appearances"""
+    return load_player_appearances()
+
+def players_agg(df=None):
+    """Legacy compatibility function"""
+    return players_agg_optimized()
 
 def lineouts():
-    l1, l2 = [sheet[s].batch_get(['B3:R'])[0] for s in [6, 9]]
-    l1 = pd.DataFrame(l1, columns=l1.pop(0))
-    l1["Squad"] = "1st"
-    l2 = pd.DataFrame(l2, columns=l2.pop(0))
-    l2["Squad"] = "2nd"
-    df = pd.concat([l1, l2]).replace("", pd.NA).fillna("")
+    """Legacy compatibility function"""
+    return load_lineouts()
 
-    df["Area"] = df.apply(lambda x: "Front" if x["Front"] == "x" else ("Middle" if x["Middle"]=="x" else "Back"), axis=1)
-    df["Won"] = df.apply(lambda x: 1 if x["Won"] == "Y" else 0, axis=1)
-    df["Drive"] = df.apply(lambda x: True if x["Drive"] == "x" else False, axis=1)
-    df["Crusaders"] = df.apply(lambda x: True if x["Crusaders"] == "x" else False, axis=1)
-    df["Transfer"] = df.apply(lambda x: True if x["Transfer"] == "x" else False, axis=1)
-    df["Flyby"] = df.apply(lambda x: None if x["Flyby"] == "" else int(x["Flyby"]), axis=1)
-    df["Movement"] = df.apply(lambda x: dummy_movement(x["Call"]), axis=1)
+def set_piece_results():
+    """Legacy compatibility function"""
+    return set_piece_h2h_optimized()
 
-    df["CallType"] = df["Call"].apply(call_type)
-    df["Setup"] = df["Call"].apply(lambda x: (x[0] if x[0] in ["A", "C", "H", "W"] else None) if len(x) > 0 else None)
+#####################################################
+### NEW ANALYSIS FUNCTIONS
+#####################################################
 
-    df = df[['Squad', 'Season', 'Opposition', 'Numbers', 'Call', 'CallType', 'Setup', 'Movement', 'Area', 'Drive', 'Crusaders', 'Transfer', 'Flyby', 'Hooker', 'Jumper', 'Won']]
+def squad_continuity_analysis():
+    """Enhanced squad continuity analysis"""
+    matches_df = load_matches()
+    
+    return con.query("""
+    SELECT
+        Squad,
+        Season,
+        AVG(ForwardsRetained) as AvgForwardsRetained,
+        AVG(BacksRetained) as AvgBacksRetained,
+        AVG(StartersRetained) as AvgStartersRetained,
+        AVG(FullSquadRetained) as AvgFullSquadRetained,
+        COUNT(*) as Games
+    FROM matches_df
+    WHERE Season IS NOT NULL
+    GROUP BY Squad, Season
+    ORDER BY Season DESC, Squad
+    """).to_df()
 
-    return df
+def player_positional_analysis():
+    """Analyze player position flexibility"""
+    appearances_df = load_player_appearances()
+    
+    return con.query("""
+    SELECT
+        Player,
+        Season,
+        Squad,
+        COUNT(DISTINCT Position) as PositionsPlayed,
+        COUNT(DISTINCT PositionGroup) as PositionGroupsPlayed,
+        MODE(Position) as PrimaryPosition,
+        MODE(PositionGroup) as PrimaryPositionGroup,
+        COUNT(*) as TotalAppearances,
+        SUM(IsStarter) as Starts
+    FROM appearances_df
+    WHERE Season IS NOT NULL
+    GROUP BY Player, Season, Squad
+    HAVING TotalAppearances >= 3
+    ORDER BY PositionsPlayed DESC, TotalAppearances DESC
+    """).to_df()
 
+def game_stats():
+    """Load video analysis data (keeping existing function)"""
+    try:
+        analysis = sheet[0].batch_get(['B4:AZ'])[0]
+        df = pd.DataFrame(analysis, columns=analysis.pop(0)).replace("", pd.NA)
+        
+        df.loc[:,"Date"] = pd.to_datetime(df["Date"], format="%d %b %Y")
+        
+        for c in df.columns:
+            if "%" in c:
+                df.loc[:,c] = df[c].str.replace("%", "").astype(float)*0.01
+        
+        df["Game"] = df.apply(lambda x: x["Opposition"] + " (" + x["Home/Away"] + ")", axis=1)
+        
+        id_cols = ["Date", "Game", "Opposition", "Home/Away"]
+        df = df.melt(id_vars=id_cols, var_name="Metric", value_name="Value")
+        
+        return df
+    except Exception as e:
+        print(f"Error loading game stats: {e}")
+        return pd.DataFrame()
 
-########################
-### PITCHERO TEAM STATS
-########################
-
+# Keep existing helper functions for compatibility
 def clean_name(name):
-
     name_dict = {
         "Sam Lindsay": "S Lindsay 2",
         "Sam Lindsay-McCall": "S Lindsay",
         "James Mitchell": "T Mitchell",
     }
-
+    
     if name in name_dict:
         return name_dict[name]
-
+    
     initial = name.split(" ")[0][0]
     surname = " ".join(name.split(" ")[1:])
-    surname = surname.replace("’", "'")
+    surname = surname.replace("'", "'")
     name_clean = f"{initial} {surname}"
-    # trim and title case
     return name_clean.strip().title()
-
 
 def pitchero_stats():
 
     season_ids = {
-        "2016/17": 42025,
+        # "2016/17": 42025, 
         "2017/18": 47693,
         "2018/19": 52304,
         "2019/20": 68499,
@@ -335,6 +389,7 @@ def pitchero_stats():
         "2022/23": 83980,
         "2023/24": 87941,
         "2024/25": 91673,
+        # "2025/26": 94981,
     }
 
     dfs = []

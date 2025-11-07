@@ -1,0 +1,59 @@
+{
+    "match_id": "1220050",
+    "season": "2025-2026",
+    "league": "Counties 2 Sussex",
+    "date": "2025-10-18",
+    "teams": [
+        "Brighton II",
+        "East Grinstead"
+    ],
+    "score": [
+        21,
+        61
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/3218.png",
+        "https://images.englandrugby.com/club_images/7134.png"
+    ],
+    "players": [
+        {
+            "15": "Ethan Humphreys",
+            "14": "Ibrahim Bangura",
+            "13": "Joseph Hoare",
+            "12": "Zane Hanna",
+            "11": "Max Suttner",
+            "10": "Charlie Maskrey",
+            "9": "Joshua Berman",
+            "8": "Mathew Bellenie",
+            "7": "Zak Ellenger",
+            "6": "Adam Butler",
+            "5": "Nathaniel Bellenie",
+            "4": "Jake Blackburn",
+            "3": "Daniel Grant",
+            "2": "Josh Blackburn",
+            "1": "Luke Booth",
+            "S1": "Frederick Tilley",
+            "S2": "Jack Rochford"
+        },
+        {
+            "15": "Alistair Moffatt",
+            "14": "Benjamin Green",
+            "13": "Name withheld",
+            "12": "Jake Radcliffe",
+            "11": "William Roberts",
+            "10": "Luke Maker",
+            "9": "Mark Lewis",
+            "8": "Aaronn Boczek",
+            "7": "Rory evans",
+            "6": "Or Shay",
+            "5": "Samuel Lindsay-McCall",
+            "4": "John Peaty",
+            "3": "Joshua Brimecombe",
+            "2": "Mark Oliver",
+            "1": "Guy Collins",
+            "S1": "George Naylor",
+            "S2": "Oscar Staples",
+            "S3": "Max Crawley-Moore"
+        }
+    ]
+}

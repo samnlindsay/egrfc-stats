@@ -350,6 +350,28 @@ class DataExtractor:
         
         return df_merged
     
+    def extract_league_data(self, season="2024-2025", league="Counties 1 Surrey/Sussex", comp="London & SE Division"):
+        """Extract league data using league_data functions"""
+        import sys
+        import os
+        sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+        
+        from league_data import fetch_match_ids, fetch_match_data, fetch_league_table
+        
+        # Get league table
+        table_df = fetch_league_table(season, league, comp)
+        
+        # Get all match data
+        match_ids = fetch_match_ids(season, league, comp)
+        matches_data = []
+        
+        for match_id in match_ids:
+            match_data = fetch_match_data(match_id)
+            if match_data:
+                matches_data.append(match_data)
+        
+        return table_df, matches_data
+    
     # Helper methods
     def _parse_date(self, date_str):
         """Parse date string to ISO format"""

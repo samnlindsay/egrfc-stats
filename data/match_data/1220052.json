@@ -1,0 +1,58 @@
+{
+    "match_id": "1220052",
+    "season": "2025-2026",
+    "league": "Counties 2 Sussex",
+    "date": "2025-10-18",
+    "teams": [
+        "Crawley",
+        "Ditchling"
+    ],
+    "score": [
+        7,
+        97
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/5807.png",
+        "https://images.englandrugby.com/club_images/6541.png"
+    ],
+    "players": [
+        {
+            "15": "William Ofosuhene",
+            "14": "Kai Marshall",
+            "13": "Conor Kelly",
+            "12": "Guy Craddock",
+            "11": "Jake Jackson",
+            "10": "Name withheld",
+            "9": "Callum Hankin",
+            "8": "Oliver Hall",
+            "7": "Braydon Thornback",
+            "6": "Andrew Griffiths",
+            "5": "Bradley Davies",
+            "4": "Andrew Jagger",
+            "3": "Nathan Cox",
+            "2": "Aaron O'Callaghan",
+            "1": "Jonathan McGurk",
+            "S1": "Andrew Wilson",
+            "S2": "Joel Fisher",
+            "S3": "Jozef Boczek"
+        },
+        {
+            "15": "Nick Whitley-Jones",
+            "14": "Takhy Ndiaye Marrero",
+            "13": "Adam Crook",
+            "12": "Rory Adams",
+            "11": "Fred Longley",
+            "10": "Dylan Thomas",
+            "9": "Frazer Falzon",
+            "8": "Barnaby van Hoeken",
+            "7": "Alex Hinchliffe",
+            "6": "Ollie Van Hoeken",
+            "5": "James Hill",
+            "4": "Samuel Lodge",
+            "3": "Murray Jardine",
+            "2": "Connor Nolan",
+            "1": "Jarrell Bobo",
+            "S1": "Elliott Matthews"
+        }
+    ]
+}

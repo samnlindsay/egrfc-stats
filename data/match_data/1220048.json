@@ -1,0 +1,59 @@
+{
+    "match_id": "1220048",
+    "season": "2025-2026",
+    "league": "Counties 2 Sussex",
+    "date": "2025-10-11",
+    "teams": [
+        "Ditchling",
+        "Pulborough"
+    ],
+    "score": [
+        17,
+        17
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/6541.png",
+        "https://images.englandrugby.com/club_images/17255.png"
+    ],
+    "players": [
+        {
+            "15": "Jarrell Bobo",
+            "14": "Harry Sandercock",
+            "13": "Rory Adams",
+            "12": "Frazer Falzon",
+            "11": "Takhy Ndiaye Marrero",
+            "10": "Adam Crook",
+            "9": "Name withheld",
+            "8": "Jamie Hutchings",
+            "7": "Alex Taylor",
+            "6": "Dylan Thomas",
+            "5": "Alex Hinchliffe",
+            "4": "Ollie Van Hoeken",
+            "3": "Samuel Lodge",
+            "2": "William Purdy",
+            "1": "Murray Jardine",
+            "S1": "James Hill",
+            "S2": "Barnaby van Hoeken",
+            "S3": "Oscar Wiseman"
+        },
+        {
+            "15": "Patrick Burnett",
+            "14": "William Scrase",
+            "13": "Ralph Robson",
+            "12": "Bryan Woodhouse",
+            "11": "Ben Sadler",
+            "10": "Hugo March",
+            "9": "Archie Sadler",
+            "8": "Dylan Townsend",
+            "7": "Philip Dandy",
+            "6": "Benjamin Monsey",
+            "5": "George Harwood",
+            "4": "Carl Brewster",
+            "3": "Douglas Ludlow-monk",
+            "2": "James Ruff",
+            "1": "Reuben Joyce",
+            "S1": "Thomas Brackley",
+            "S2": "Oliver Coombe-Tennant"
+        }
+    ]
+}

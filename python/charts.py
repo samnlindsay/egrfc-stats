@@ -289,7 +289,7 @@ def plot_starts_by_position(df=None, min=0, file=None):
         )
         .resolve_scale(y="independent", x="independent")
         .transform_filter("datum.Number <= 15")
-        .properties(width=150, height=alt.Step(14), title=alt.Title(text="Starts (by position)", subtitle="Not including bench appearances."))
+        .properties(width=150, height=alt.Step(14), title=alt.Title(text="Starts by Position)", subtitle="Not including bench appearances."))
         .add_params(legend, season_selection, squad_selection, min_selection)
         .transform_joinaggregate(TotalGames="count()", groupby=["Player", "Position"])
         .transform_window(
@@ -316,6 +316,9 @@ def plot_starts_by_position(df=None, min=0, file=None):
 
 
 def plot_games_by_player(min=5, df=None, file=None):
+    # Use optimized data if df not provided
+    if df is None:
+        df = players_agg_optimized()
 
     c = alt.Color(
         "GameType:N",
@@ -641,6 +644,10 @@ def lineout_success_by_type(type, df=None, top=True, standalone=False):
     return facet_chart  
 
 def lineout_success(types=types, df=None, file=None):
+    # Use optimized data if df not provided
+    if df is None:
+        df = load_lineouts()
+
     charts = [lineout_success_by_type(t, df=df, top=(i==0)) for i,t in enumerate(types)]
 
     chart = (
@@ -845,7 +852,7 @@ def card_chart(df=None, file=None):
 
     return chart
 
-def captains_chart(df=None, file=None):
+def     _chart(df=None, file=None):
 
     selection = alt.selection_point(fields=['Role'], bind='legend')
 
@@ -1011,6 +1018,9 @@ color_scale = alt.Scale(domain=["EG", "Opposition"], range=["#202946", "#981515"
 opacity_scale = alt.Scale(domain=["Turnover", "Retained"], range=[1, 0.5])
 
 def set_piece_h2h_chart(df=None, file=None):
+    # Use optimized data if df not provided
+    if df is None:
+        df = set_piece_h2h_optimized()
 
     season_selection = alt.param(
         bind=alt.binding_select(options=seasons[::-1], name="Season"), 

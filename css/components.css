@@ -1,0 +1,130 @@
+/* ===== BUTTON GROUP STYLES ===== */
+.btn-group {
+    display: flex;
+}
+
+.btn-group .btn {
+    flex: 1;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 0.4rem 0.2rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border-radius: 0;
+    transition: all 0.2s ease;
+}
+
+.btn-group .btn:first-child {
+    border-top-left-radius: 0.375rem;
+    border-bottom-left-radius: 0.375rem;
+}
+
+.btn-group .btn:last-child {
+    border-top-right-radius: 0.375rem;
+    border-bottom-right-radius: 0.375rem;
+}
+
+
+/* ===== BOOTSTRAP SELECT STYLES ===== */
+.bootstrap-select {
+    width: 100% !important;
+    flex: 1 1 auto !important;
+    display: block !important;
+}
+
+.input-group .bootstrap-select {
+    flex: 1 1 auto !important;
+    width: 1% !important;
+}
+
+.bootstrap-select .dropdown-toggle {
+    width: 100% !important;
+    display: block !important;
+    box-sizing: border-box !important;
+    font-family: 'PT Sans Narrow', sans-serif !important;
+    border-radius: 0 0.375rem 0.375rem 0 !important;
+    border-left: none !important;
+    height: auto !important;
+    padding: 0.4rem 0.75rem !important;
+    font-size: 0.9rem !important;
+    font-weight: 600 !important;
+    text-align: left !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+}
+
+.bootstrap-select .dropdown-menu {
+    font-family: 'PT Sans Narrow', sans-serif !important;
+    font-size: 0.9rem !important;
+    z-index: 1050 !important;
+    overflow-y: auto !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+}
+
+.bootstrap-select .dropdown-item {
+    padding: 0.4rem 1rem !important;
+    font-size: 0.9rem !important;
+    line-height: 1.4 !important;
+    color: #212529 !important;
+    background-color: transparent !important;
+}
+
+.bootstrap-select .dropdown-item:hover,
+.bootstrap-select .dropdown-item:focus {
+    background-color: var(--accent-color) !important;
+    color: white !important;
+}
+
+.bootstrap-select .dropdown-item.active {
+    background-color: var(--primary-color) !important;
+    color: white !important;
+}
+
+.bootstrap-select .dropdown-item.disabled {
+    opacity: 0.5;
+    color: #6c757d !important;
+}
+
+.bootstrap-select .dropdown-item .text-muted {
+    font-size: 0.8rem;
+    color: #666 !important;
+}
+
+.bootstrap-select .bs-actionsbox {
+    width: 100% !important;
+    padding: 0.25rem 0.5rem !important;
+}
+
+.bootstrap-select .bs-actionsbox .btn-group {
+    width: 100% !important;
+}
+
+.bootstrap-select .bs-actionsbox .btn {
+    font-size: 0.8rem !important;
+    padding: 0.25rem 0.5rem !important;
+}
+
+.bootstrap-select .filter-option-inner-inner {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* ===== FORM CONTROLS ===== */
+.form-check-label {
+    font-size: 0.9rem;
+    font-family: 'PT Sans Narrow', sans-serif;
+    font-weight: 600;
+}
+
+.form-switch .form-check-input {
+    width: 2.5rem;
+    height: 1.25rem;
+}
+
+.form-switch .form-check-input:checked {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}

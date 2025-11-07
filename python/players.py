@@ -49,7 +49,7 @@ def get_positions(df, by=None):
 
 def debuts(df, df_agg):
 
-    df = df.sort_values(["Player", "Squad", "GameSort"])
+    df = df.sort_values(["Player", "Squad", "Date"])
 
     first_season = (
         df_agg.groupby("Player")

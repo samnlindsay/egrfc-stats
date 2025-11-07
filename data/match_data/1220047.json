@@ -1,0 +1,58 @@
+{
+    "match_id": "1220047",
+    "season": "2025-2026",
+    "league": "Counties 2 Sussex",
+    "date": "2025-10-11",
+    "teams": [
+        "Eastbourne II",
+        "Crawley"
+    ],
+    "score": [
+        77,
+        0
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7213.png",
+        "https://images.englandrugby.com/club_images/5807.png"
+    ],
+    "players": [
+        {
+            "15": "Henry Duke",
+            "14": "Louis Wood",
+            "13": "Luke Steel",
+            "12": "Pedro Sousa",
+            "11": "Stuart Baker",
+            "10": "Martial Chaput",
+            "9": "Louis Nicholls",
+            "8": "Brandon Foot",
+            "7": "Morgan Treacher",
+            "6": "Michael Morehen",
+            "5": "Tom Lester",
+            "4": "Eddie Wrench",
+            "3": "Alun Cranch",
+            "2": "Aitor Salas Blazquez",
+            "1": "Toby Slaughter",
+            "S1": "Joseph Long",
+            "S2": "Glen Smith",
+            "S3": "Shane Lewin"
+        },
+        {
+            "15": "Dino Gomez Ruiz",
+            "14": "Kai Marshall",
+            "13": "Jozef Boczek",
+            "12": "Name withheld",
+            "11": "Gorm Young",
+            "10": "Paul Christie",
+            "9": "Oliver Plunkett",
+            "8": "Andrew Jagger",
+            "7": "Andrew Griffiths",
+            "6": "Bradley Davies",
+            "5": "Aaron O'Callaghan",
+            "4": "Adil Shah",
+            "3": "Stuart McKenzie",
+            "2": "Dean Riley",
+            "1": "Oscar Davies",
+            "S1": "William Ofosuhene"
+        }
+    ]
+}
