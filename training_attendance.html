@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    #vis.vega-embed {
+      width: 100%;
+      display: flex;
+    }
+
+    #vis.vega-embed details,
+    #vis.vega-embed details summary {
+      position: relative;
+    }
+  </style>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-lite@5.20.1"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+</head>
+<body>
+  <div id="vis"></div>
+  <script>
+    (function(vegaEmbed) {
+      var spec = {"config": {"axis": {"labelFont": "Lato, sans-serif", "titleFont": "PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif", "labelFontSize": 13, "titleFontSize": 24, "gridColor": "#202947", "gridOpacity": 0.2}, "header": {"labelFont": "PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif", "titleFont": "PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif", "labelFontSize": 24, "titleFontSize": 28, "labelFontWeight": "bold", "orient": "left"}, "legend": {"labelFont": "Lato, sans-serif", "titleFont": "PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif", "labelFontSize": 14, "titleFontSize": 16, "titlePadding": 5, "fillColor": "white", "strokeColor": "black", "padding": 10, "titleFontWeight": "lighter", "titleFontStyle": "italic", "titleColor": "gray", "offset": 10}, "title": {"font": "PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif", "fontSize": 48, "fontWeight": "bold", "anchor": "start", "align": "center", "titlePadding": 20, "subtitlePadding": 10, "subtitleFontSize": 13, "subtitleColor": "", "subtitleFontStyle": "italic", "offset": 15, "color": "black"}, "axisX": {"labelAngle": 0}, "facet": {"title": null, "header": null, "align": {"row": "each", "column": "each"}}, "resolve": {"scale": {"y": "independent", "facet": "independent"}}, "background": "#f2f1f4"}, "layer": [{"data": {"name": "data-f5394219758364f159932e20d672c471"}, "mark": {"type": "area", "color": {"gradient": "linear", "stops": [{"color": "white", "offset": 0}, {"color": "darkgreen", "offset": 1}], "x1": 1, "x2": 1, "y1": 1, "y2": 0}, "line": {"color": "darkgreen"}, "opacity": 0.5}, "encoding": {"x": {"axis": {"format": "%d %b", "grid": false, "tickCount": 5}, "field": "Date", "title": "Training Week", "type": "temporal"}, "y": {"axis": {"tickCount": 4}, "field": "Attendance", "scale": {"clamp": true, "domainMin": 10, "nice": true}, "stack": null, "title": "Attendance", "type": "quantitative"}}, "transform": [{"filter": "(datum.Attendance > 0)"}]}, {"layer": [{"mark": {"type": "area", "color": {"gradient": "linear", "stops": [{"color": "white", "offset": 0}, {"color": "darkblue", "offset": 1}], "x1": 1, "x2": 1, "y1": 1, "y2": 0}, "line": {"color": "darkblue"}, "opacity": 0.5}, "encoding": {"x": {"axis": {"format": "%d %b", "grid": false, "tickCount": 5}, "field": "Date", "title": "Training Week", "type": "temporal"}, "y": {"axis": {"tickCount": 4}, "field": "Attendance", "scale": {"clamp": true, "domainMin": 10, "nice": true}, "stack": null, "title": "Attendance", "type": "quantitative"}}, "transform": [{"filter": "(datum.Attendance > 0)"}]}, {"mark": {"type": "text", "align": "center", "baseline": "bottom", "color": "darkblue", "dx": 0, "dy": -8, "fontSize": 12}, "encoding": {"text": {"field": "Attendance", "type": "quantitative"}, "x": {"axis": {"format": "%d %b", "grid": false, "tickCount": 5}, "field": "Date", "title": "Training Week", "type": "temporal"}, "y": {"axis": {"tickCount": 4}, "field": "Attendance", "scale": {"clamp": true, "domainMin": 10, "nice": true}, "stack": null, "title": "Attendance", "type": "quantitative"}}, "transform": [{"filter": "(datum.Attendance > 0)"}]}], "data": {"name": "data-7c7c0942c685dffe9a49fc7902276540"}}], "height": 300, "title": {"text": "Training Attendance", "subtitle": "Senior players attending training on Tuesdays (green) and Thursdays (blue)", "subtitlePadding": 5}, "width": 500, "$schema": "https://vega.github.io/schema/vega-lite/v5.20.1.json", "datasets": {"data-f5394219758364f159932e20d672c471": [{"Week Commencing": "2025-07-07T00:00:00", "Day": "Tuesday", "Attendance": 0, "Date": "2025-07-08T00:00:00", "Week": "07 Jul"}, {"Week Commencing": "2025-07-14T00:00:00", "Day": "Tuesday", "Attendance": 16, "Date": "2025-07-15T00:00:00", "Week": "14 Jul"}, {"Week Commencing": "2025-07-21T00:00:00", "Day": "Tuesday", "Attendance": 21, "Date": "2025-07-22T00:00:00", "Week": "21 Jul"}, {"Week Commencing": "2025-07-28T00:00:00", "Day": "Tuesday", "Attendance": 24, "Date": "2025-07-29T00:00:00", "Week": "28 Jul"}, {"Week Commencing": "2025-08-04T00:00:00", "Day": "Tuesday", "Attendance": 23, "Date": "2025-08-05T00:00:00", "Week": "04 Aug"}, {"Week Commencing": "2025-08-11T00:00:00", "Day": "Tuesday", "Attendance": 24, "Date": "2025-08-12T00:00:00", "Week": "11 Aug"}, {"Week Commencing": "2025-08-18T00:00:00", "Day": "Tuesday", "Attendance": 27, "Date": "2025-08-19T00:00:00", "Week": "18 Aug"}, {"Week Commencing": "2025-08-25T00:00:00", "Day": "Tuesday", "Attendance": 24, "Date": "2025-08-26T00:00:00", "Week": "25 Aug"}, {"Week Commencing": "2025-09-01T00:00:00", "Day": "Tuesday", "Attendance": 14, "Date": "2025-09-02T00:00:00", "Week": "01 Sep"}, {"Week Commencing": "2025-09-08T00:00:00", "Day": "Tuesday", "Attendance": 21, "Date": "2025-09-09T00:00:00", "Week": "08 Sep"}], "data-7c7c0942c685dffe9a49fc7902276540": [{"Week Commencing": "2025-07-07T00:00:00", "Day": "Thursday", "Attendance": 22, "Date": "2025-07-10T00:00:00", "Week": "07 Jul"}, {"Week Commencing": "2025-07-14T00:00:00", "Day": "Thursday", "Attendance": 23, "Date": "2025-07-17T00:00:00", "Week": "14 Jul"}, {"Week Commencing": "2025-07-21T00:00:00", "Day": "Thursday", "Attendance": 22, "Date": "2025-07-24T00:00:00", "Week": "21 Jul"}, {"Week Commencing": "2025-07-28T00:00:00", "Day": "Thursday", "Attendance": 21, "Date": "2025-07-31T00:00:00", "Week": "28 Jul"}, {"Week Commencing": "2025-08-04T00:00:00", "Day": "Thursday", "Attendance": 26, "Date": "2025-08-07T00:00:00", "Week": "04 Aug"}, {"Week Commencing": "2025-08-11T00:00:00", "Day": "Thursday", "Attendance": 27, "Date": "2025-08-14T00:00:00", "Week": "11 Aug"}, {"Week Commencing": "2025-08-18T00:00:00", "Day": "Thursday", "Attendance": 29, "Date": "2025-08-21T00:00:00", "Week": "18 Aug"}, {"Week Commencing": "2025-08-25T00:00:00", "Day": "Thursday", "Attendance": 24, "Date": "2025-08-28T00:00:00", "Week": "25 Aug"}, {"Week Commencing": "2025-09-01T00:00:00", "Day": "Thursday", "Attendance": 25, "Date": "2025-09-04T00:00:00", "Week": "01 Sep"}, {"Week Commencing": "2025-09-08T00:00:00", "Day": "Thursday", "Attendance": 31, "Date": "2025-09-11T00:00:00", "Week": "08 Sep"}]}};
+      var embedOpt = {"mode": "vega-lite"};
+
+      function showError(el, error){
+          el.innerHTML = ('<div style="color:red;">'
+                          + '<p>JavaScript Error: ' + error.message + '</p>'
+                          + "<p>This usually means there's a typo in your chart specification. "
+                          + "See the javascript console for the full traceback.</p>"
+                          + '</div>');
+          throw error;
+      }
+      const el = document.getElementById('vis');
+      vegaEmbed("#vis", spec, embedOpt)
+        .catch(error => showError(el, error));
+    })(vegaEmbed);
+
+  </script>
+</body>
+</html>

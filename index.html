@@ -1,597 +1,235 @@
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
-    <title>EGRFC Stats</title>
-    <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <meta content="IE=edge" http-equiv="X-UA-Compatible" />
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-JNJSWM2ZJ0"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EGRFC Player Stats</title>
 
-  gtag('config', 'G-JNJSWM2ZJ0');
-</script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="styles.css" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=PT+Sans+Narrow" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- External Dependencies -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=PT+Sans+Narrow:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/css/bootstrap-select.min.css"
+        rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/navigation.css">
+    <link rel="stylesheet" href="css/filters.css">
+    <link rel="stylesheet" href="css/charts.css">
+    <link rel="stylesheet" href="css/responsive.css">
+
+    <!-- External Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
 </head>
 
 <body>
-    <div class="container text-center overflow-visible" style="width:100%; max-width: 100%">
-        <!-- Navbar -->
-        <nav class="navbar navbar-expand-lg navbar-dark col-12 position-fixed top-0 p-0" style="display: none;">
-            <div class="container-fluid p-2">
-                <button aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"
-                    class="navbar-toggler" data-bs-target="#navbarNav" data-bs-toggle="collapse" type="button">
-                    <span class="navbar-toggler-icon"></span>
-                    EGRFC Stats
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item">
-                            <a class="nav-link active" href="index.html" onclick="showHomePage(event)">Home</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a aria-expanded="false" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#"
-                                id="navbarDropdownTeam" role="button">Team Stats</a>
-                            <ul aria-labelledby="navbarDropdownTeam" class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#"
-                                        onclick="loadPage('Charts/results.html')">Results by Game</a></li>
-                                <li><a class="dropdown-item" href="#" onclick="loadPage('Charts/video_analysis.html')">Video
-                                        Analysis by Game</a></li>
-                                <li><a class="dropdown-item" href="#" onclick="loadPage('Charts/continuity.html')">Squad
-                                        Continuity</a></li>
-                                <li><a class="dropdown-item" href="#" onclick="loadPage('Charts/league/squad_analysis.html')">Counties 1 Surrey/Sussex (All Clubs)</a></li>
-                                <hr class="dropdown-divider">
-                                <li><a class="dropdown-item" href="#" onclick="loadPage('Charts/set-piece.html')">Set
-                                        Piece Results by Game</a></li>
-                                <li><a class="dropdown-item" href="#" onclick="loadPage('Charts/lineouts.html')">Lineout
-                                        Analysis</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a aria-expanded="false" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#"
-                                id="navbarDropdownPlayer" role="button">Player Stats</a>
-                            <ul aria-labelledby="navbarDropdownPlayer" class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#" onclick="loadPage('players.html')">Player Profiles</a></li>
-                                <hr class="dropdown-divider">
-                                <li><a class="dropdown-item" href="#" onclick="loadPage('Charts/appearances.html')">Appearances</a></li>
-                                <li><a class="dropdown-item" href="#" onclick="loadPage('Charts/positions.html')">Starts by Position</a></li>
-                                <li><a class="dropdown-item" href="#" onclick="loadPage('Charts/team-sheets.html')">Team Sheets</a></li>
-                                <li><a class="dropdown-item" href="#" onclick="loadPage('Charts/captains.html')">Captains</a></li>
-                                <li><a class="dropdown-item" href="#" onclick="loadPage('Charts/points.html')">Scorers</a></li>
-                                <li><a class="dropdown-item" href="#" onclick="loadPage('Charts/cards.html')">Cards</a>
-                        </li>
-                    </ul>
-                    </li>
-                    </ul>
+    <!-- Bottom Filter Panel -->
+    <div id="filterPanel" class="filter-panel">
+        <div class="filter-panel-header" id="filterPanelToggle">
+            <button class="filter-panel-toggle" type="button">
+                <i class="bi bi-chevron-up"></i>
+                <span class="filter-panel-title">Filters</span>
+            </button>
+        </div>
+    
+        <div class="filter-panel-content">
+            <div class="filters-container">
+                <!-- SQUAD -->
+                <div class="filter-item">
+                    <div class="input-group">
+                        <span class="input-group-text">Squad</span>
+                        <div class="btn-group flex-fill" role="group">
+                            <input type="radio" class="btn-check" name="squadRadio" id="squadAll" value="" checked>
+                            <label class="btn btn-outline-dark" for="squadAll">All</label>
+    
+                            <input type="radio" class="btn-check" name="squadRadio" id="squad1st" value="1st">
+                            <label class="btn btn-outline-primary" for="squad1st">1st</label>
+    
+                            <input type="radio" class="btn-check" name="squadRadio" id="squad2nd" value="2nd">
+                            <label class="btn btn-outline-secondary" for="squad2nd">2nd</label>
+                        </div>
+                    </div>
+                </div>
+    
+                <!-- COMPETITION -->
+                <div class="filter-item">
+                    <div class="input-group">
+                        <span class="input-group-text">Competition</span>
+                        <div class="btn-group flex-fill" role="group">
+                            <input type="checkbox" class="btn-check" name="gameTypeCheck" id="gameTypeLeague" value="League"
+                                checked>
+                            <label class="btn btn-outline-primary" for="gameTypeLeague">League</label>
+    
+                            <input type="checkbox" class="btn-check" name="gameTypeCheck" id="gameTypeCup" value="Cup"
+                                checked>
+                            <label class="btn btn-outline-danger" for="gameTypeCup">Cup</label>
+    
+                            <input type="checkbox" class="btn-check" name="gameTypeCheck" id="gameTypeFriendly"
+                                value="Friendly" checked>
+                            <label class="btn btn-outline-success" for="gameTypeFriendly">Friendly</label>
+                        </div>
+                    </div>
+                </div>
+    
+                <!-- SEASON (Multi-select) -->
+                <div class="filter-item">
+                    <div class="input-group">
+                        <span class="input-group-text">Season</span>
+                        <select id="seasonSelect" class="selectpicker form-control flex-fill" multiple
+                            title="Select seasons" data-actions-box="true" data-selected-text-format="count > 2">
+                            <option value="2025/26">2025/26</option>
+                            <option value="2024/25">2024/25</option>
+                            <option value="2023/24">2023/24</option>
+                            <option value="2022/23">2022/23</option>
+                            <option value="2021/22">2021/22</option>
+                            <option value="2020/21" data-subtext="COVID" disabled>2020/21</option>
+                            <option value="2019/20" data-subtext="Limited data">2019/20</option>
+                            <option value="2018/19" data-subtext="Limited data">2018/19</option>
+                            <option value="2017/18" data-subtext="Limited data">2017/18</option>
+                            <option value="2016/17" data-subtext="Limited data">2016/17</option>
+                        </select>
+                    </div>
+                </div>
+    
+                <!-- POSITIONS (Multi-select) -->
+                <div class="filter-item">
+                    <div class="input-group">
+                        <span class="input-group-text">Position</span>
+                        <select id="positionSelect" class="selectpicker form-control flex-fill" multiple
+                            title="Select positions" data-actions-box="true" data-selected-text-format="count > 2">
+                            <option value="Prop">Prop</option>
+                            <option value="Hooker">Hooker</option>
+                            <option value="Second Row">Second Row</option>
+                            <option value="Flanker">Flanker</option>
+                            <option value="Number 8">Number 8</option>
+                            <option data-divider="true"></option>
+    
+                            <option value="Scrum Half">Scrum Half</option>
+                            <option value="Fly Half">Fly Half</option>
+                            <option value="Centre">Centre</option>
+                            <option value="Wing">Wing</option>
+                            <option value="Full Back">Full Back</option>
+                            <option data-divider="true"></option>
+                            <option value="Bench">Bench</option>
+                        </select>
+                    </div>
+                </div>
+    
+                <!-- INCLUDE BENCH TOGGLE -->
+                <div class="filter-item">
+                    <div class="input-group mt-2">
+                        <label class="form-check-label ms-2 mb-2" for="includeBenchSwitch">Include bench</label>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="includeBenchSwitch" checked
+                                style="margin: 0;">
+                        </div>
+                    </div>
                 </div>
             </div>
-        </nav>
-
-
-        <div class="container d-flex align-items-center justify-content-center" id="home-content"
-            style="width:100%; max-width: 100%; height:100%">
-            <!-- Temporary content for testing -->
-            <a href="python/test.html" class="btn btn-warning mb-3">
-                <h4 style="color: black;">Click for Test Content</h4>
-                <p>Fully interactive player stats on one page</p>
-            </a>
-            <div class="text-center">
-                <img src="img/logo.png" alt="EGRFC Logo" class="mb-2" style="max-width: 200px; height: auto;">
-                <h1>East Grinstead RFC Stats</h1>
-                <span style="font-family: 'Lato', sans-serif; font-weight: 300; font-size: 1rem;">Select a section below to view summary statistics and various charts.</span>
-            </div>  
-
-            <div class="container-fluid">
-                <div class="my-2">
-                    <button class="btn btn-primary w-100 text-center" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#teamStats" aria-expanded="false">
-                        <i class="bi bi-people-fill"></i> Team Stats
-                    </button>
-                    <div class="collapse mt-2 justify-content-center align-items-center" id="teamStats">
-                        <table class="table table-borderless mx-auto">
-                            <thead class="table-dark">
-                                <tr>
-                                    <th rowspan="2">
-                                        <select class="form-select m-0" id="seasonSelect1" onchange="updateTable()"
-                                            style="width: min-content;">
-                                            <option value="2024/25">2024/25</option>
-                                            <option value="2023/24">2023/24</option>
-                                            <option value="2022/23">2022/23</option>
-                                            <option value="2021/22">2021/22</option>
-                                        </select>
-                                    </th>
-                                    <th class="align-middle py-1" rowspan="2">Games</th>
-                                    <th class="align-middle py-1" rowspan="2">Won</th>
-                                    <th class="align-middle py-1" rowspan="2">Lost</th>
-                                    <th class="align-middle py-0 my-0" colspan="2">Average</th>
-                                </tr>
-                                <tr>
-                                    <th class="align-middle py-0 mx-0 small">PF</th>
-                                    <th class="align-middle py-0 mx-0 small">PA</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr id="row1">
-                                    <td class="align-middle py-1" id="squad1">1st XV</td>
-                                    <td class="align-middle py-1" id="played1">18</td>
-                                    <td class="align-middle py-1" id="won1">3</td>
-                                    <td class="align-middle py-1" id="lost1">15</td>
-                                    <td class="align-middle py-1 small" id="pf1">17.0</td>
-                                    <td class="align-middle py-1 small" id="pa1">30.4</td>
-                                </tr>
-                                <tr id="row2">
-                                    <td class="align-middle py-1" id="squad2">2nd XV</td>
-                                    <td class="align-middle py-1" id="played2">15</td>
-                                    <td class="align-middle py-1" id="won2">8</td>
-                                    <td class="align-middle py-1" id="lost2">7</td>
-                                    <td class="align-middle py-1 small" id="pf2">20.9</td>
-                                    <td class="align-middle py-1 small" id="pa2">21.6</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <div class="d-flex justify-content-end align-items-center">
-                            <h4 class="me-3">Charts:</h4>
-                            <div class="flex-column">
-                                <div class="btn-group">
-                                    <button class="btn custom-btn py-2" onclick="loadPage('Charts/results.html')">Results by Game</button>
-                                    <button class="btn custom-btn py-2" onclick="loadPage('Charts/video_analysis.html')">Video Analysis by Game</button>
-                                    <button class="btn custom-btn py-2" onclick="loadPage('Charts/continuity.html')">Squad Continuity</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="my-2">
-                    <hr class="my-1">
-                    <button class="btn btn-primary w-100 text-center" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#playerStats" aria-expanded="false">
-                        <i class="bi bi-person-fill"></i> Player Stats
-                    </button>
-                    <div class="collapse mt-2 justify-content-center align-items-center" id="playerStats">
-                        <table class="table table-borderless mx-auto mb-1 text-center align-middle align-items-center"
-                            style="max-width: 700px;">
-                            <thead class="table-dark">
-                                <tr>
-                                    <th class="p-1 pe-0">
-                                        <select class="form-select m-0 ps-1" id="seasonSelect3" onchange="updateTable()"
-                                            style="width: min-content;">
-                                            <option value="2024/25">2024/25</option>
-                                            <option value="2023/24">2023/24</option>
-                                            <option value="2022/23">2022/23</option>
-                                            <option value="2021/22">2021/22</option>
-                                        </select>
-                                    </th>
-                                    <th class="align-middle small py-1" style="line-height:0.8; max-width:100px;">Total Players</th>
-                                    <th class="align-middle small py-1">Most Appearances</th>
-                                    <th class="align-middle small py-1">Most Tries</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr id="row1">
-                                    <th class="align-middle py-1" id="squad1">1st XV</th>
-                                    <td class="align-middle py-1 px-0" id="players1"></td>
-                                    <td class="align-middle small py-1 px-1" id="apps1"></td>
-                                    <td class="align-middle small py-1 px-1" id="tries1"></td>
-                                </tr>
-                                <tr id="row2">
-                                    <th class="align-middle py-1" id="squad2">2nd XV</th>
-                                    <td class="align-middle py-1 px-0" id="players2"></td>
-                                    <td class="align-middle small py-1 px-1" id="apps2"></td>
-                                    <td class="align-middle small py-1 px-1" id="tries2"></td>
-                                </tr>
-                                <tr id="rowT" class="table-dark" style="border-top: 2px solid black">
-                                    <th class="align-middle py-1" id="squadT">Overall</th>
-                                    <td class="align-middle py-1 px-0" id="playersT"></td>
-                                    <td class="align-middle small py-1 px-1" id="appsT"></td>
-                                    <td class="align-middle small py-1 px-1" id="triesT"></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <div class="d-flex justify-content-end align-items-center">
-                            <h4 class="me-3">Charts:</h4>
-                            <div class="flex-column">
-                                <button class="btn btn-primary col-12 mb-2" style="border-color: var(--light-color);" onclick="loadPage('players.html')">
-                                    <i class="bi bi-person-vcard"></i> Player Profiles
-                                </button>
-                                <div class="flex-row m-0 p-0 height:100%">
-                                    <div class="btn-group-vertical" style="height: 100%;">
-                                        <button class="btn custom-btn" onclick="loadPage('Charts/appearances.html')">Appearances</button>
-                                        <button class="btn custom-btn" onclick="loadPage('Charts/positions.html')">Starts by Position</button>
-                                        <button class="btn custom-btn" onclick="loadPage('Charts/team-sheets.html')">Team Sheets</button>
-                                    </div>
-                                    <div class="btn-group-vertical ps-1" style="height:100%">
-                                        <button class="btn custom-btn" onclick="loadPage('Charts/captains.html')">Captains</button>
-                                        <button class="btn custom-btn" onclick="loadPage('Charts/points.html')">Scorers</button>
-                                        <button class="btn custom-btn" onclick="loadPage('Charts/cards.html')">Cards</button>
-                                    </div>
-                                </div>
-                            </div>  
-                        </div>
-                    </div>
-                </div>
-
-                <div class="my-2">
-                    <hr class="my-1">
-                    <button class="btn btn-primary w-100 text-center" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#setPieceSummary" aria-expanded="false">
-                        Scrums & Lineouts
-                    </button>
-                    <div class="collapse mt-2 justify-content-center align-items-center" id="setPieceSummary">
-                        <table class="table table-borderless mx-auto text-center align-middle">
-                            <thead class="table-dark">
-                                <tr>
-                                    <th rowspan="2" colspan="2" class="align-middle py-0 my-0">
-                                        <select class="form-select" id="seasonSelect2" onchange="updateTable()"
-                                            style="width: min-content;">
-                                            <option value="2024/25">2024/25</option>
-                                            <option value="2023/24">2023/24</option>
-                                            <option value="2022/23">2022/23</option>
-                                            <option value="2021/22">2021/22</option>
-                                        </select>
-                                    </th>
-                                    <th class="align-middle py-0 ps-0 pe-1 m-0 small br" rowspan="2" style="line-height: 1.0;">
-                                        Games on
-                                        video</th>
-                                    <th class="align-middle eg-header br" colspan="2">EG</th>
-                                    <th class="align-middle opp-header br" colspan="2">Opposition</th>
-                                    <th class="align-middle" colspan="2">Turnovers</th>
-                                </tr>
-                                <tr>
-                                    <th class="align-middle py-2 small m-0 eg-header" style="line-height:0.8;">Avg per
-                                        game</th>
-                                    <th class="align-middle py-2 small m-0 eg-header br" style="line-height:0.8;">Avg
-                                        Success</th>
-                                    <th class="align-middle py-2 small m-0 opp-header" style="line-height:0.8;">Avg per
-                                        game</th>
-                                    <th class="align-middle py-2 small m-0 opp-header br" style="line-height:0.8;">Avg
-                                        Success</th>
-                                    <th class="align-middle py-2 small m-0 eg-header" style="line-height:0.8;">Avg Won</th>
-                                    <th class="align-middle py-2 small m-0 opp-header" style="line-height:0.8;">Avg Lost</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr id="row1" style="border-top: 2px solid black">
-                                    <td class="align-middle py-1" rowspan="2" id="squad1">1st XV</td>
-                                    <td class="align-middle py-1 pe-0" style="font-family: 'PT Sans Narrow', sans-serif;">Scrum</td>
-                                    <td class="px-0 br" rowspan="2" id="games1"></td>
-                                    <td class="align-middle small py-1" id="eg_n1s"></td>
-                                    <td class="align-middle py-1 br" id="eg_success1s"></td>
-                                    <td class="align-middle small py-1 opp" id="opp_n1s"></td>
-                                    <td class="align-middle py-1 opp br" id="opp_success1s"></td>
-                                    <td class="align-middle py-1" id="t_won1s"></td>
-                                    <td class="align-middle py-1 opp" id="t_lost1s"></td>
-                                </tr>
-                                <tr id="row1">
-                                    <td class="align-middle py-1 pe-0" style="font-family: 'PT Sans Narrow', sans-serif;">Lineout</td>
-                                    <td class="align-middle small py-1" id="eg_n1l"></td>
-                                    <td class="align-middle py-1 br" id="eg_success1l"></td>
-                                    <td class="align-middle small py-1 opp" id="opp_n1l"></td>
-                                    <td class="align-middle py-1 opp br" id="opp_success1l"></td>
-                                    <td class="align-middle py-1" id="t_won1l"></td>
-                                    <td class="align-middle py-1 opp" id="t_lost1l"></td>
-                                </tr>
-                                <tr id="row2">
-                                    <td class="align-middle py-1" rowspan="2" id="squad2">2nd XV</td>
-                                    <td class="align-middle py-1 pe-0" style="font-family: 'PT Sans Narrow', sans-serif;">Scrum</td>
-                                    <td class="px-0 br" rowspan="2" id="games2"></td>
-                                    <td class="align-middle small py-1" id="eg_n2s"></td>
-                                    <td class="align-middle py-1 br" id="eg_success2s"></td>
-                                    <td class="align-middle small py-1 opp" id="opp_n2s"></td>
-                                    <td class="align-middle py-1 opp br" id="opp_success2s"></td>
-                                    <td class="align-middle py-1" id="t_won2s"></td>
-                                    <td class="align-middle py-1 opp" id="t_lost2s"></td>
-                                </tr>
-                                <tr id="row2">
-                                    <td class="align-middle py-1 pe-0" style="font-family: 'PT Sans Narrow', sans-serif;">Lineout</td>
-                                    <td class="align-middle small py-1" id="eg_n2l"></td>
-                                    <td class="align-middle py-1 br" id="eg_success2l"></td>
-                                    <td class="align-middle small py-1 opp" id="opp_n2l"></td>
-                                    <td class="align-middle py-1 opp br" id="opp_success2l"></td>
-                                    <td class="align-middle py-1" id="t_won2l"></td>
-                                    <td class="align-middle py-1 opp" id="t_lost2l"></td>
-
-                            </tbody>
-                        </table>
-                        <div class="d-flex justify-content-end align-items-center">
-                            <h4 class="me-3">Charts:</h4>
-                            <div class="btn-group">
-                                <button class="btn custom-btn py-2" onclick="loadPage('Charts/set-piece.html')">Results
-                                    by
-                                    Game</button>
-                                <button class="btn custom-btn py-2" onclick="loadPage('Charts/lineouts.html')">Lineout
-                                    Analysis</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="my-2">
-                    <hr class="my-1">
-                    <button class="btn btn-danger w-100 text-center" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#leagueSummary" aria-expanded="false">
-                        League Stats (1st XV)
-                    </button>
-                    <div class="collapse mt-2 justify-content-center align-items-center" id="leagueSummary">
-                        <!-- Add HTML from 'Charts/league/table.html' -->
-                        
-
-                        
-                        <div class="d-flex justify-content-end align-items-center">
-                            <h4 class="me-3">Charts:</h4>
-                            <div class="btn-group">
-                                <button class="btn custom-btn py-2" onclick="loadPage('Charts/league/results_2024-2025.html')">Results</button>
-                                <button class="btn custom-btn py-2" onclick="loadPage('Charts/league/squad_analysis.html')">Squad Analysis</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="my-2">
-                    <hr class="my-2">
-                    <h2 class="text-center">External links</h2>
-                    <div class="btn-group mb-1" role="group">
-                        <a href="http://www.egrfc.com" target="_blank" type="button" class="btn btn-dark small" style="border-color:black; color: var(--light-color); font-weight:bold;">Pitchero</a>
-                        <a href="https://www.egrfc.com/teams/142068" type="button" class="btn custom-btn small" style="border-color: black;">1st XV</a>
-                        <a href="https://www.egrfc.com/teams/142069" type="button" class="btn custom-btn small" style="border-color: black;">2nd XV</a>
-                    </div>
-                    <div class="btn-group mb-1 align-items-center" role="group">
-                        <a href="https://www.englandrugby.com/fixtures-and-results/search-results?competition=261&season=2024-2025&division=56612#tables"
-                            type="button" class="btn btn-dark small" style="border-color:black; color: var(--light-color); font-weight: bold;">League Tables</a>
-                        <a href="https://www.englandrugby.com/fixtures-and-results/search-results?competition=261&season=2024-2025&division=56612#tables"
-                            type="button" class="btn custom-btn small" style="border-color: black;">1st XV</a>
-                        <a href="https://www.englandrugby.com/fixtures-and-results/search-results?division=57767&competition=206&season=2024-2025" 
-                            type="button" class="btn custom-btn small" style="border-color: black;">2nd XV</a>
-                    </div>
-                    <div class="btn-group justify-content-center mx-2" role="group">
-                        <button class="btn btn-primary small" style="font-weight: bold;">Other SLM content</button>
-                        <a href="https://tinyurl.com/egrfc-playbook" target="_blank" type="button" class="btn btn-outline-primary small" style="color:var(--light-color)">Playbook</a>
-                        <a href="https://lineout-builder.tiiny.site" target="_blank" type="button" class="btn btn-outline-primary small" style="color:var(--light-color)">Lineout Builder</a>
-                        <a href="https://samnlindsay.github.io/egrfc-league-predictor" target="_blank" type="button" class="btn btn-outline-primary small" style="color:var(--light-color)">League Predictor</a>
-                    </div>
-                </div>
-            </div>  
         </div>
-
-
-        <!-- Placeholder for dynamic content -->
-        <div class="iframe-container hidden" id="dynamic-content">
-            <!-- <div id="selects" class="p-2">
-                <label for="seasonSelect">Season</label>
-                <select id="seasonSelect" class="form-select">
-                    <option selected value="All">All</option>
-                    <option value="2024/25">2024/25</option>
-                    <option value="2023/24">2023/24</option>
-                    <option value="2022/23">2022/23</option>
-                    <option value="2021/22">2021/22</option>
-                </select>
-                <label for="squadSelect">Squad</label>
-                <select id="squadSelect" class="form-select">
-                    <option value="1st XV">1st XV</option>
-                    <option value="2nd XV">2nd XV</option>
-                    <option selected value="Both">Both</option>
-                </select>
-            </div> -->
-            <iframe id="chart-frame"
-                style="width: 100%; height: 100%; border: none; background-color: whitesmoke;"></iframe>
-        </div>
-
     </div>
-    <!-- Bootstrap JS -->
+    
+    <!-- Filter Panel Backdrop (for mobile) -->
+    <div id="filterPanelBackdrop" class="filter-panel-backdrop"></div>
+
+    <!-- Main content area -->
+    <div id="mainContent" class="main-content">
+        <!-- Tabs navigation -->
+        <ul class="nav nav-tabs" id="chartTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="results-tab" data-bs-toggle="tab" data-bs-target="#results-content"
+                    type="button" role="tab">
+                    Results
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="team-sheets-tab" data-bs-toggle="tab" data-bs-target="#team-sheets-content"
+                    type="button" role="tab">
+                    Team Sheets
+                </button>
+            </li>
+            <li class="nav-item dropdown" role="presentation">
+                <button class="nav-link dropdown-toggle active" id="player-stats-dropdown" data-bs-toggle="dropdown"
+                    type="button" role="button" aria-expanded="false">
+                    Player Stats
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#" data-chart-type="appearances"
+                            data-bs-target="#player-stats-content">Appearances</a></li>
+                    <li><a class="dropdown-item" href="#" data-chart-type="captains"
+                            data-bs-target="#player-stats-content">Captains</a></li>
+                    <li><a class="dropdown-item" href="#" data-chart-type="point-scorers"
+                            data-bs-target="#player-stats-content">Scorers</a></li>
+                    <li><a class="dropdown-item" href="#" data-chart-type="cards"
+                            data-bs-target="#player-stats-content">Cards</a></li>
+                </ul>
+            </li>
+            <li class="nav-item dropdown" role="presentation">
+                <button class="nav-link dropdown-toggle" id="set-piece-dropdown" data-bs-toggle="dropdown" type="button"
+                    role="button" aria-expanded="false">
+                    Set Piece
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#" data-chart-type="lineout"
+                            data-bs-target="#set-piece-content">Lineout</a>
+                    </li>
+                    <li><a class="dropdown-item" href="#" data-chart-type="scrum"
+                            data-bs-target="#set-piece-content">Scrum</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item dropdown">
+                <button class="nav-link dropdown-toggle" id="league-dropdown" data-bs-toggle="dropdown" type="button"
+                    role="button">League</button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#" data-chart-type="league-results"
+                            data-bs-target="#league-content">Results</a></li>
+                    <li><a class="dropdown-item" href="#" data-chart-type="league-analysis" data-bs-target="#league-content">Squad
+                            Analysis</a></li>
+                </ul>
+            </li>
+        </ul>
+    
+        <!-- Tabs content -->
+        <div class="tab-content" id="chartTabsContent">
+            <div class="tab-pane fade" id="results-content" role="tabpanel">
+                <div id="results-vis"></div>
+            </div>
+            <div class="tab-pane fade" id="team-sheets-content" role="tabpanel">
+                <div id="team-sheets-vis"></div>
+            </div>
+            <div class="tab-pane fade show active" id="player-stats-content" role="tabpanel">
+                <div id="player-stats-vis"></div>
+            </div>
+            <div class="tab-pane fade" id="set-piece-content" role="tabpanel">
+                <div id="set-piece-vis"></div>
+            </div>
+            <div class="tab-pane fade" id="league-content" role="tabpanel">
+                <div id="league-vis"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- External Dependencies -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        function loadPage(url) {
-            console.log("Loading page:", url);
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/js/bootstrap-select.min.js"></script>
 
-            document.querySelector('nav.navbar').style.display = 'block';
-
-            let homeContent = document.getElementById('home-content');
-            homeContent.classList.add("hidden");
-
-            let dynamicContent = document.getElementById('dynamic-content');
-            dynamicContent.classList.remove("hidden");
-
-            let iframe = document.getElementById('chart-frame');
-            iframe.src = url;
-
-            // Close navbar if open
-            let navbarToggler = document.querySelector('.navbar-toggler');
-            if (navbarToggler.getAttribute('aria-expanded') === 'true') {
-                navbarToggler.click();
-            }
-        }
-
-        function showHomePage(event) {
-            event.preventDefault();
-            console.log("Returning to home page");
-
-            // Hide the navbar
-            document.querySelector('nav.navbar').style.display = 'none';
-
-            // Show home-content
-            let homeContent = document.getElementById('home-content');
-            homeContent.classList.remove("hidden");
-
-            // Hide dynamic content
-            let dynamicContent = document.getElementById('dynamic-content');
-            dynamicContent.classList.add("hidden");
-        }
-
-        function updateTable() {
-            const selectedSeason1 = document.getElementById("seasonSelect1").value;
-            const selectedSeason2 = document.getElementById("seasonSelect2").value;
-            const selectedSeason3 = document.getElementById("seasonSelect3").value;
-
-            // Season summary table
-            fetch("data/season_summaries.json")
-                .then(response => response.json())
-                // Filter data for selected season (key = "2024-25", value = { "1st": {...}, "2nd": {...} })
-                .then(data => data[selectedSeason1])
-                .then(data => {
-                    console.log(data);
-                    document.getElementById("played1").innerText = data["1st"].Played;
-                    document.getElementById("won1").innerText = data["1st"].Won.toFixed(0)
-                    document.getElementById("lost1").innerText = data["1st"].Lost;
-                    document.getElementById("pf1").innerText = data["1st"].Avg_PF.toFixed(1);
-                    document.getElementById("pa1").innerText = data["1st"].Avg_PA.toFixed(1);
-
-                    document.getElementById("played2").innerText = data["2nd"].Played;
-                    document.getElementById("won2").innerText = data["2nd"].Won;
-                    document.getElementById("lost2").innerText = data["2nd"].Lost;
-                    document.getElementById("pf2").innerText = data["2nd"].Avg_PF.toFixed(1);
-                    document.getElementById("pa2").innerText = data["2nd"].Avg_PA.toFixed(1);
-                }
-                );
-
-            // Set piece table
-            fetch("data/set_piece_summaries.json")
-                .then(response => response.json())
-                .then(data => data[selectedSeason2])
-                .then(data => {
-                    console.log(data);
-                    // 1st XV Lineout
-                    document.getElementById("games1").innerText = data["1st"]["Lineout"].count;
-                    document.getElementById("eg_n1l").innerText = data["1st"]["Lineout"].EG_total.toFixed(1);
-                    document.getElementById("eg_success1l").innerText = (data["1st"]["Lineout"].EG_success * 100).toFixed(0) + "%";
-                    document.getElementById("opp_n1l").innerText = data["1st"]["Lineout"].Opp_total.toFixed(1);
-                    document.getElementById("opp_success1l").innerText = (data["1st"]["Lineout"].Opp_success * 100).toFixed(0) + "%";
-                    document.getElementById("t_won1l").innerText = data["1st"]["Lineout"].T_won.toFixed(1);
-                    document.getElementById("t_lost1l").innerText = data["1st"]["Lineout"].T_lost.toFixed(1);
-
-                    // 1st XV Scrum
-                    document.getElementById("eg_n1s").innerText = data["1st"]["Scrum"].EG_total.toFixed(1);
-                    document.getElementById("eg_success1s").innerText = (data["1st"]["Scrum"].EG_success * 100).toFixed(0) + "%";
-                    document.getElementById("opp_n1s").innerText = data["1st"]["Scrum"].Opp_total.toFixed(1);
-                    document.getElementById("opp_success1s").innerText = (data["1st"]["Scrum"].Opp_success * 100).toFixed(0) + "%";
-                    document.getElementById("t_won1s").innerText = data["1st"]["Scrum"].T_won.toFixed(1);
-                    document.getElementById("t_lost1s").innerText = data["1st"]["Scrum"].T_lost.toFixed(1);
-
-                    // 2nd XV Lineout
-                    document.getElementById("games2").innerText = data["2nd"]["Lineout"].count;
-                    document.getElementById("eg_n2l").innerText = data["2nd"]["Lineout"].EG_total.toFixed(1);
-                    document.getElementById("eg_success2l").innerText = (data["2nd"]["Lineout"].EG_success * 100).toFixed(0) + "%";
-                    document.getElementById("opp_n2l").innerText = data["2nd"]["Lineout"].Opp_total.toFixed(1);
-                    document.getElementById("opp_success2l").innerText = (data["2nd"]["Lineout"].Opp_success * 100).toFixed(0) + "%";
-                    document.getElementById("t_won2l").innerText = data["2nd"]["Lineout"].T_won.toFixed(1);
-                    document.getElementById("t_lost2l").innerText = data["2nd"]["Lineout"].T_lost.toFixed(1);
-
-                    // 2nd XV Scrum
-                    document.getElementById("eg_n2s").innerText = data["2nd"]["Scrum"].EG_total.toFixed(1);
-                    document.getElementById("eg_success2s").innerText = (data["2nd"]["Scrum"].EG_success * 100).toFixed(0) + "%";
-                    document.getElementById("opp_n2s").innerText = data["2nd"]["Scrum"].Opp_total.toFixed(1);
-                    document.getElementById("opp_success2s").innerText = (data["2nd"]["Scrum"].Opp_success * 100).toFixed(0) + "%";
-                    document.getElementById("t_won2s").innerText = data["2nd"]["Scrum"].T_won.toFixed(1);
-                    document.getElementById("t_lost2s").innerText = data["2nd"]["Scrum"].T_lost.toFixed(1);
-
-                }
-                );
-
-            // Top players table
-            fetch("data/top_players.json")
-                .then(response => response.json())
-                .then(data => data[selectedSeason3])
-                .then(data => {
-                    console.log(data);
-                    document.getElementById("players1").innerText = data["1st"].PlayersUsed;
-                    document.getElementById("apps1").innerText = data["1st"].Players_A.replaceAll(" / ", "\n");
-                    document.getElementById("tries1").innerText = data["1st"].Players_T.replaceAll(" / ", "\n");
-                    document.getElementById("players2").innerText = data["2nd"].PlayersUsed;
-                    document.getElementById("apps2").innerText = data["2nd"].Players_A.replaceAll(" / ", "\n");
-                    document.getElementById("tries2").innerText = data["2nd"].Players_T.replaceAll(" / ", "\n");
-                    document.getElementById("playersT").innerText = data["Total"].PlayersUsed;
-                    document.getElementById("appsT").innerText = data["Total"].Players_A.replaceAll(" / ", "\n");
-                    // Replace " / " in text with a line break
-                    document.getElementById("triesT").innerText = data["Total"].Players_T.replaceAll(" / ", "\n");
-                }
-                );
-        }
-
-        document.addEventListener("DOMContentLoaded", function () {
-            const iframe = document.getElementById("chart-frame");
-
-            function getScaleFactor() {
-                if (window.innerWidth <= 480) {
-                    return 0.7; // Mobile
-                } else if (window.innerWidth <= 768) {
-                    return 0.8; // Tablet
-                } else {
-                    return 1; // Desktop (no scaling)
-                }
-            }
-
-            function applyScaling() {
-                const scaleFactor = getScaleFactor();
-
-                // Ensure iframe takes full width
-                iframe.style.width = "100%";
-                iframe.style.height = "100%";
-
-                // Wait for the iframe to load
-                iframe.onload = function () {
-                    const iframeDoc = iframe.contentWindow.document;
-                    const vegaEmbed = iframeDoc.querySelector('.vega-embed');
-
-                    if (vegaEmbed) {
-                        // Apply scale factor to the vega-embed element
-                        vegaEmbed.style.width = `${100 * scaleFactor}%`;
-                    }
-                };
-            }
-
-            updateTable();
-
-            // Apply scaling on initial load
-            applyScaling();
-
-            // Apply scaling when the window is resized
-            window.addEventListener("resize", applyScaling);
-
-            const collapsibleButtons = document.querySelectorAll("[data-bs-toggle='collapse']");
-
-            collapsibleButtons.forEach(button => {
-                button.addEventListener("click", function () {
-                    const targetId = this.getAttribute("data-bs-target");
-
-                    // Close all collapsible sections except the clicked one
-                    document.querySelectorAll(".collapse.show").forEach(openSection => {
-                        if ("#" + openSection.id !== targetId) {
-                            new bootstrap.Collapse(openSection, { toggle: false }).hide();
-                        }
-                    });
-                });
-            });
-
-            // Add league table (from 'Charts/league/table.html') to the top of #leagueSummary
-            fetch("Charts/league/table_2024-2025.html")
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById("leagueSummary").innerHTML = data + document.getElementById("leagueSummary").innerHTML;
-                });
-        
-        });
-
-        // Event listener for player select dropdown
-        document.getElementById('seasonSelect').addEventListener('change', (event) => {
-            const season = event.target.value;
-            const iframe = document.getElementById('chart-frame');
-
-            iframe.contentWindow.postMessage({ seasonSelection: season }, "*");
-
-            console.log(season);
-        });
-
-    </script>
-
+    <!-- Custom Scripts -->
+    <script src="js/config.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/filters.js"></script>
+    <script src="js/charts.js"></script>
+    <script src="js/navigation.js"></script>
+    <script src="js/main.js"></script>
 </body>
 
 </html>
