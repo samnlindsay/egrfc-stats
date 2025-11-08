@@ -51,7 +51,7 @@ def clean_name(name):
     # trim and title case
     return name_clean.strip().title()
 
-def appearance_chart(db, output_file='../data/player_appearances.json'):
+def appearance_chart(db, output_file='../data/charts/player_appearances.json'):
     
     df = db.con.execute(
         """
@@ -142,7 +142,7 @@ def appearance_chart(db, output_file='../data/player_appearances.json'):
     return chart
 
 
-def captains_chart(db, output_file='../data/captains.json'):
+def captains_chart(db, output_file='../data/charts/captains.json'):
     df = db.con.execute(
     """
     SELECT 
@@ -181,7 +181,7 @@ def captains_chart(db, output_file='../data/captains.json'):
 
     return chart
 
-def point_scorers_chart(db, output_file='../data/point_scorers.json'):
+def point_scorers_chart(db, output_file='../data/charts/point_scorers.json'):
     df = db.con.execute(
     """
     SELECT 
@@ -231,7 +231,7 @@ def point_scorers_chart(db, output_file='../data/point_scorers.json'):
 
     return chart
 
-def cards_chart(db, output_file='../data/cards.json'):
+def cards_chart(db, output_file='../data/charts/cards.json'):
     df = db.con.execute(
     """
     SELECT 
@@ -274,7 +274,7 @@ def cards_chart(db, output_file='../data/cards.json'):
 
     return chart
 
-def team_sheets_chart(db, output_file='../data/team_sheets.json'):
+def team_sheets_chart(db, output_file='../data/charts/team_sheets.json'):
     # Use db to query player_apps_df joined with games_df in SQL, return as pandas DataFrame
     df = db.con.execute(
     """
@@ -386,7 +386,7 @@ def team_sheets_chart(db, output_file='../data/team_sheets.json'):
     return team_sheets
 
 
-def results_chart(db, output_file='../data/results.json'):
+def results_chart(db, output_file='../data/charts/results.json'):
     df = db.con.execute(
         """
         SELECT
@@ -669,14 +669,14 @@ def set_piece_chart(df, s="Scrum", output_file=None):
     if output_file:
         chart.save(output_file)
     else:
-        chart.save(f'../data/{s.lower()}_success.json')
+        chart.save(f'../data/charts/{s.lower()}_success.json')
 
     return chart
 
 #################################
 # League Analysis Charts
 #################################
-def league_results_chart(db, season="2024-2025", league="Counties 1 Surrey/Sussex", output_file='../data/league_results.json'):
+def league_results_chart(db, season="2024-2025", league="Counties 1 Surrey/Sussex", output_file='../data/charts/league_results.json'):
     """Create league results matrix chart"""
     
     # Query league match data
@@ -786,7 +786,7 @@ def league_results_chart(db, season="2024-2025", league="Counties 1 Surrey/Susse
     chart.save(output_file)
     return chart
 
-def league_squad_analysis_chart(db, season="2024-2025", league="Counties 1 Surrey/Sussex", output_file='../data/league_squad_analysis.json'):
+def league_squad_analysis_chart(db, season="2024-2025", league="Counties 1 Surrey/Sussex", output_file='../data/charts/league_squad_analysis.json'):
     """Create squad analysis charts"""
     
     # Get appearance data
