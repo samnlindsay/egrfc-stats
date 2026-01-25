@@ -1,0 +1,58 @@
+{
+    "match_id": "1220065",
+    "season": "2025-2026",
+    "league": "Counties 2 Sussex",
+    "date": "2025-11-29",
+    "teams": [
+        "Seaford",
+        "Shoreham"
+    ],
+    "score": [
+        43,
+        14
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/18868.png",
+        "https://images.englandrugby.com/club_images/19257.png"
+    ],
+    "players": [
+        {
+            "15": "Paddy Powney",
+            "14": "Charlie Crossgrove",
+            "13": "william joy",
+            "12": "Corey Digby-Clarke",
+            "11": "Name withheld",
+            "10": "Oscar Weisz",
+            "9": "Jack Cullinane",
+            "8": "Geoffrey Bridges",
+            "7": "Harvey Joy",
+            "6": "Jason Staples",
+            "5": "Elliott Curl",
+            "4": "Lee Furminger",
+            "3": "Joseph Drew",
+            "2": "Andrew Fry",
+            "1": "Joshua Hennessy",
+            "S1": "Daniel Newby",
+            "S2": "Colm Evans",
+            "S3": "Toby Reed"
+        },
+        {
+            "15": "David Ayres",
+            "14": "Connor Fairhall",
+            "13": "Sean Shepherd",
+            "12": "Ewan Shepherd",
+            "11": "Adam Fear",
+            "10": "Archie Winter",
+            "9": "Gavin Cox",
+            "8": "Joshua Avis",
+            "7": "Alex Hall",
+            "6": "Daniel Adams",
+            "5": "Steven Goater",
+            "4": "Jack Portman",
+            "3": "Mark Lavery",
+            "2": "Daryn Clarke",
+            "1": "Jack Baker",
+            "S1": "Noah Rudge"
+        }
+    ]
+}

@@ -1,0 +1,45 @@
+{
+    "match_id": "1232386",
+    "season": "2025-2026",
+    "league": "Harvey's Brewery Counties 3 Sussex",
+    "date": "2025-11-08",
+    "teams": [
+        "Worthing III",
+        "Horsham Barbarians"
+    ],
+    "score": [
+        17,
+        20
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/127674.png",
+        "https://images.englandrugby.com/club_images/10451.png"
+    ],
+    "players": [
+        {},
+        {
+            "15": "Edward Wilkinson",
+            "14": "James Freeman",
+            "13": "Tom Flint",
+            "12": "Harry Squire",
+            "11": "Dmitri Ziadie-Campbell",
+            "10": "Benjamin Champion-West",
+            "9": "Nicholas Choate",
+            "8": "Toby Hother",
+            "7": "Dominic Phillips",
+            "6": "Simon Miles",
+            "5": "Nathan Burstow",
+            "4": "Gregory Ponce",
+            "3": "Guy Houston",
+            "2": "Adam Clarke",
+            "1": "Zachary Hammond",
+            "S1": "Name withheld",
+            "S2": "Sev Seviua",
+            "S3": "Alistair Tobin",
+            "S4": "Taylor Lansley",
+            "S5": "Jamie Robertson",
+            "S6": "Luke Stephenson",
+            "S7": "Niall Cahill"
+        }
+    ]
+}

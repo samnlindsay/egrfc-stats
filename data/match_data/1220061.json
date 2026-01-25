@@ -1,0 +1,56 @@
+{
+    "match_id": "1220061",
+    "season": "2025-2026",
+    "league": "Counties 2 Sussex",
+    "date": "2025-11-22",
+    "teams": [
+        "Crawley",
+        "Brighton II"
+    ],
+    "score": [
+        7,
+        46
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/5807.png",
+        "https://images.englandrugby.com/club_images/3218.png"
+    ],
+    "players": [
+        {
+            "15": "Kristian Dean",
+            "14": "Name withheld",
+            "13": "Conor Kelly",
+            "12": "Vincenzo Dessena",
+            "11": "Dino Gomez Ruiz",
+            "10": "Oscar Davies",
+            "9": "Callum Hankin",
+            "8": "Bradley Davies",
+            "7": "Andrew Griffiths",
+            "6": "Braydon Thornback",
+            "5": "Nathan Cox",
+            "4": "Daniel Davis",
+            "3": "Aaron O'Callaghan",
+            "2": "Joel Fisher",
+            "1": "Adil Shah",
+            "S1": "Jozef Boczek",
+            "S2": "Dominic Woods",
+            "S3": "Zane Hanna"
+        },
+        {
+            "15": "Max Suttner",
+            "14": "Stephen Cahill",
+            "13": "Ibrahim Bangura",
+            "11": "Hayden Quigg",
+            "10": "Joshua Berman",
+            "9": "Adam Butler",
+            "8": "Luke Jameson Clark",
+            "7": "Zak Ellenger",
+            "6": "Dillon Stingemore",
+            "5": "Jake Blackburn",
+            "4": "Daniel Grant",
+            "3": "Nicolas Lewis",
+            "2": "Frederick Tilley",
+            "1": "McCauley Medhurst"
+        }
+    ]
+}

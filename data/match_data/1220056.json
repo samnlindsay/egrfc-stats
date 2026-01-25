@@ -1,0 +1,60 @@
+{
+    "match_id": "1220056",
+    "season": "2025-2026",
+    "league": "Counties 2 Sussex",
+    "date": "2025-11-08",
+    "teams": [
+        "Brighton II",
+        "Pulborough"
+    ],
+    "score": [
+        19,
+        50
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/3218.png",
+        "https://images.englandrugby.com/club_images/17255.png"
+    ],
+    "players": [
+        {
+            "15": "Aled Edwards",
+            "14": "Nathaniel Bellenie",
+            "13": "Zane Hanna",
+            "12": "Charlie Maskrey",
+            "11": "McCauley Medhurst",
+            "10": "Hayden Quigg",
+            "9": "Joshua Berman",
+            "8": "Mathew Bellenie",
+            "7": "Zak Ellenger",
+            "6": "Luke Jameson Clark",
+            "5": "Jake Mills",
+            "4": "Jake Blackburn",
+            "3": "Daniel Grant",
+            "2": "Josh Blackburn",
+            "1": "Luke Booth",
+            "S1": "Nicolas Lewis",
+            "S2": "Frederick Tilley",
+            "S3": "Name withheld"
+        },
+        {
+            "15": "Patrick Burnett",
+            "14": "William Scrase",
+            "13": "Ralph Robson",
+            "12": "Bryan Woodhouse",
+            "11": "Liam Masters",
+            "10": "Stephen Wilson",
+            "9": "Archie Sadler",
+            "8": "Joseph Serna",
+            "7": "Dylan Townsend",
+            "6": "Benjamin Monsey",
+            "5": "Ben Sadler",
+            "4": "Carl Brewster",
+            "3": "Michael Woodhouse",
+            "2": "Jake Parker",
+            "1": "Thomas Brackley",
+            "S1": "Harry Wells-Prior",
+            "S2": "Chad Marais",
+            "S3": "Henry Lee"
+        }
+    ]
+}

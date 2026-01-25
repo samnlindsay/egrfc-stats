@@ -1,0 +1,57 @@
+{
+    "match_id": "1220069",
+    "season": "2025-2026",
+    "league": "Counties 2 Sussex",
+    "date": "2025-11-29",
+    "teams": [
+        "East Grinstead",
+        "Eastbourne II"
+    ],
+    "score": [
+        56,
+        0
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7134.png",
+        "https://images.englandrugby.com/club_images/7213.png"
+    ],
+    "players": [
+        {
+            "15": "Alistair Moffatt",
+            "14": "Jack Andrews",
+            "13": "Name withheld",
+            "12": "Jake Radcliffe",
+            "11": "William Roberts",
+            "10": "Daniel Poulton",
+            "9": "Mark Lewis",
+            "8": "Connor Leggat",
+            "7": "Josh Weaver",
+            "6": "Or Shay",
+            "5": "John Peaty",
+            "4": "James Funnell",
+            "3": "Benjamin Tottman",
+            "2": "Joshua Brimecombe",
+            "1": "Mark Oliver",
+            "S1": "Harrison Berry",
+            "S2": "Henry Weller",
+            "S3": "Trystan Mocke"
+        },
+        {
+            "15": "Martial Chaput",
+            "14": "Maximus Smith",
+            "13": "Joshua Boundy",
+            "12": "Louis Nicholls",
+            "11": "Joshua Imich",
+            "10": "Glen Smith",
+            "9": "Morgan Treacher",
+            "8": "Michael Morehen",
+            "7": "Brandon Foot",
+            "6": "Christopher Hosking",
+            "5": "Tom Line",
+            "4": "Toby Slaughter",
+            "3": "Aitor Salas Blazquez",
+            "2": "Joseph Long",
+            "1": "Stuart Sorrell"
+        }
+    ]
+}

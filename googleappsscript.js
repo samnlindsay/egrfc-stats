@@ -43,7 +43,7 @@ function formatDate(d, format = "d MMM YY") {
   return Utilities.formatDate(
     new Date(d),
     Session.getScriptTimeZone(),
-    format
+    format,
     // "d'" + getDaySuffix(d.getDate()) + "' MMMM"
   );
 }
@@ -153,7 +153,7 @@ function exportAvailabilityPublic() {
 
   // Get the data we need
   const availabilityLatestSheet = sourceSS.getSheetByName(
-    AVAILABILITY_LATEST_SHEET_NAME
+    AVAILABILITY_LATEST_SHEET_NAME,
   );
   const scheduleSheet = sourceSS.getSheetByName(SCHEDULE_SHEET_NAME);
 
@@ -192,7 +192,7 @@ function exportAvailabilityPublic() {
   // Protect the sheet for view-only access
   try {
     const existingProtections = copiedSheet.getProtections(
-      SpreadsheetApp.ProtectionType.SHEET
+      SpreadsheetApp.ProtectionType.SHEET,
     );
     existingProtections.forEach((protection) => protection.remove());
 
@@ -214,7 +214,7 @@ function exportAvailabilityPublic() {
  */
 function setAvailabilityPublicSharing() {
   const destFileId = PropertiesService.getScriptProperties().getProperty(
-    "publicAvailabilitySheetId"
+    "publicAvailabilitySheetId",
   );
   if (!destFileId)
     throw new Error("Public Availability sheet hasn't been created yet.");
@@ -285,39 +285,39 @@ function onEdit(e) {
   if (sheetName === POSITIONS_SHEET_NAME && cellA1 === "B1") {
     updatePositions(
       getData(PLAYERS_SHEET_NAME),
-      getSheet(POSITIONS_SHEET_NAME)
+      getSheet(POSITIONS_SHEET_NAME),
     );
   } else if (sheetName === SCHEDULE_SHEET_NAME) {
     buildAvailability(
       getData(AVAILABILITY_LATEST_SHEET_NAME),
       getData(SCHEDULE_SHEET_NAME),
-      getSheet(AVAILABILITY_SHEET_NAME)
+      getSheet(AVAILABILITY_SHEET_NAME),
     );
 
     // Update Selection dropdown when Schedule changes
     updateSelectionDropdown(
       getData(SCHEDULE_SHEET_NAME),
       getData(AVAILABILITY_LATEST_SHEET_NAME),
-      getSheet(SELECTION_SHEET_NAME)
+      getSheet(SELECTION_SHEET_NAME),
     );
   } else if (sheetName === SELECTION_SHEET_NAME && cellA1 === "A2") {
     buildSelection(
       getData(PLAYERS_SHEET_NAME),
       getData(AVAILABILITY_LATEST_SHEET_NAME),
-      getSheet(SELECTION_SHEET_NAME)
+      getSheet(SELECTION_SHEET_NAME),
     );
   } else if (sheetName === ATTENDANCE_SHEET_NAME) {
     if (cellA1 === "B1") {
       loadAttendanceSheet(
         getSheet(PLAYERS_SHEET_NAME),
         getSheet(ATTENDANCE_SHEET_NAME),
-        getSheet(AVAILABILITY_LATEST_SHEET_NAME)
+        getSheet(AVAILABILITY_LATEST_SHEET_NAME),
       );
     } else if (cellA1 === "E1" && e.range.getValue() === true) {
       // This is the most expensive operation - optimize with data arrays
       updateAttendanceHistory(
         getSheet(ATTENDANCE_SHEET_NAME),
-        getSheet(ATTENDANCE_HISTORY_SHEET_NAME)
+        getSheet(ATTENDANCE_HISTORY_SHEET_NAME),
       );
 
       // Pass data arrays instead of sheets for these heavy operations
@@ -325,12 +325,12 @@ function onEdit(e) {
         getData(ATTENDANCE_HISTORY_SHEET_NAME),
         getData(SCHEDULE_SHEET_NAME),
         getData(AVAILABILITY_FORM_SHEET_NAME),
-        getSheet(AVAILABILITY_LATEST_SHEET_NAME)
+        getSheet(AVAILABILITY_LATEST_SHEET_NAME),
       );
       updateAvailability(
         getData(AVAILABILITY_LATEST_SHEET_NAME),
         getData(SCHEDULE_SHEET_NAME),
-        getSheet(AVAILABILITY_SHEET_NAME)
+        getSheet(AVAILABILITY_SHEET_NAME),
       );
     } else {
       getSheet(ATTENDANCE_SHEET_NAME).getRange("E1").setValue(false);
@@ -368,7 +368,7 @@ function onAvailabilityFormSubmit(e) {
     sheetData.attendanceHistory,
     sheetData.schedule,
     sheetData.availabilityForm,
-    sheets.availabilityLatest
+    sheets.availabilityLatest,
   );
 
   // Read fresh data after update
@@ -379,7 +379,7 @@ function onAvailabilityFormSubmit(e) {
   updateAvailability(
     freshAvailabilityData,
     sheetData.schedule,
-    sheets.availability
+    sheets.availability,
   );
 
   buildSelection(sheetData.players, freshAvailabilityData, sheets.selection);
@@ -464,7 +464,9 @@ function setDropdownChoices(form, questionTitle, choices) {
     .find(
       (q) =>
         q.getTitle().trim() === questionTitle &&
-        [FormApp.ItemType.LIST, FormApp.ItemType.DROPDOWN].includes(q.getType())
+        [FormApp.ItemType.LIST, FormApp.ItemType.DROPDOWN].includes(
+          q.getType(),
+        ),
     );
 
   if (!item) throw new Error(`Question titled "${questionTitle}" not found`);
@@ -498,7 +500,7 @@ function updatePlayers() {
   const fIdx = formHeaders.reduce((map, h, i) => ((map[h] = i), map), {});
 
   const fullNameSet = new Set(
-    playersRows.map((r) => (r[mIdx["Name"]] || "").trim().toLowerCase())
+    playersRows.map((r) => (r[mIdx["Name"]] || "").trim().toLowerCase()),
   );
 
   const numCols = playersHeaders.length;
@@ -538,10 +540,10 @@ function updatePlayers() {
     r[mIdx["1st"]] && !r[mIdx["2nd"]]
       ? 0
       : r[mIdx["1st"]] && r[mIdx["2nd"]]
-      ? 1
-      : r[mIdx["2nd"]] && !r[mIdx["1st"]]
-      ? 2
-      : 3;
+        ? 1
+        : r[mIdx["2nd"]] && !r[mIdx["1st"]]
+          ? 2
+          : 3;
   const getColtsRank = (r) => (r[mIdx.Colts] ? 1 : 0);
 
   combinedRows.sort((a, b) => {
@@ -582,7 +584,7 @@ function updatePlayers() {
     try {
       updateForm();
       Logger.log(
-        `Updated availability form dropdowns with ${newlyAdded} new players`
+        `Updated availability form dropdowns with ${newlyAdded} new players`,
       );
     } catch (error) {
       Logger.log(`Error updating form dropdowns: ${error.toString()}`);
@@ -611,7 +613,7 @@ function updatePositions(playersData, positionsSh) {
         fontColor: cell.getFontColor(),
         bold: cell.getFontWeight() === "bold",
       },
-    ])
+    ]),
   );
 
   // 3) Define positions and where they go
@@ -700,7 +702,7 @@ function updatePositions(playersData, positionsSh) {
     if (list.length === 0) return;
     // sort in-memory
     list.sort(
-      (a, b) => a.statusRank - b.statusRank || a.name.localeCompare(b.name)
+      (a, b) => a.statusRank - b.statusRank || a.name.localeCompare(b.name),
     );
     // batch‐write names
     const vals = list.map((p) => [p.name]);
@@ -732,7 +734,7 @@ function updateAvailabilityLatest(
   attendanceHistoryData, // Now expects data array
   scheduleData, // Now expects data array
   formData, // Now expects data array
-  availabilityLatestSh // Still expects sheet object for writing
+  availabilityLatestSh, // Still expects sheet object for writing
 ) {
   const headers = [
     "Name",
@@ -782,7 +784,7 @@ function updateAvailabilityLatest(
     name: formHeaders.indexOf("Name"),
     week: formHeaders.indexOf("Week commencing"),
     sel: formHeaders.indexOf(
-      "Select your training attendance / match day availability"
+      "Select your training attendance / match day availability",
     ),
     food: formHeaders.indexOf("Thursday post-training food?"),
   };
@@ -994,7 +996,7 @@ function updateAvailabilityLatest(
 
           // Check if this row is already being updated by form data
           const isAlreadyUpdating = updates.some(
-            (update) => update.row === i + 1
+            (update) => update.row === i + 1,
           );
           if (!isAlreadyUpdating) {
             updates.push({ row: i + 1, values: updatedRow });
@@ -1027,7 +1029,7 @@ function updateAvailabilityLatest(
       if (name && weekNumber && session) {
         // NEW: Validate that this session was actually scheduled
         const weekSchedule = scheduleData.find(
-          (row) => formatDate(row[1]) === formatDate(weekCommencing)
+          (row) => formatDate(row[1]) === formatDate(weekCommencing),
         );
 
         if (weekSchedule) {
@@ -1056,7 +1058,7 @@ function updateAvailabilityLatest(
           !existingMap.has(matchKey) &&
           !appends.some(
             (app) =>
-              app[0] === name && app[1] === weekNumber && app[3] === session
+              app[0] === name && app[1] === weekNumber && app[3] === session,
           )
         ) {
           // Convert session date to display format - FIX THE FORMATTING HERE
@@ -1114,7 +1116,7 @@ function updateAvailabilityLatest(
     2,
     1,
     availabilityLatestSh.getLastRow() - 1,
-    availabilityLatestSh.getLastColumn()
+    availabilityLatestSh.getLastColumn(),
   );
 
   if (dataRange.getNumRows() > 0) {
@@ -1133,7 +1135,7 @@ function buildAvailability(
   availabilityLatestData,
   scheduleData,
   availabilitySheet,
-  options = {}
+  options = {},
 ) {
   // Extract options with defaults
   const {
@@ -1216,7 +1218,7 @@ function buildAvailability(
   weekCols.forEach((week) => {
     const weekLabel = `Week ${week.week}`;
     const scheduleRow = scheduleData.find(
-      (row) => row[scheduleIndex["#"]] === week.week
+      (row) => row[scheduleIndex["#"]] === week.week,
     );
     const wcDate = scheduleRow
       ? scheduleRow[scheduleIndex["Week commencing"]]
@@ -1297,8 +1299,8 @@ function buildAvailability(
           val === true || val === "true" || val === "TRUE"
             ? "✔"
             : val === false || val === "false" || val === "FALSE"
-            ? "✘"
-            : "";
+              ? "✘"
+              : "";
 
         row.push(symbol);
 
@@ -1351,7 +1353,7 @@ function buildAvailability(
       availabilitySheet,
       outputData,
       weekCols,
-      isPublic
+      isPublic,
     );
 
     // Add filters only for private sheets
@@ -1369,7 +1371,7 @@ function buildAvailability(
       availabilityLatestData,
       scheduleData,
       availabilitySheet,
-      { isPublic }
+      { isPublic },
     );
 
     // Remove rows after maxRows for public sheets
@@ -1387,7 +1389,7 @@ function applyAvailabilityFormatting(
   availabilitySheet,
   outputData,
   weekCols,
-  isPublic = false
+  isPublic = false,
 ) {
   if (!outputData || outputData.length === 0 || !outputData[0]) {
     Logger.log("No output data to format");
@@ -1397,10 +1399,14 @@ function applyAvailabilityFormatting(
   const totalCols = outputData[0].length;
   const dataStartRow = 5;
   const COUNTS_START_ROW = 200;
-  
+
+  availabilitySheet
+    .getRange(1, 1, 4, availabilitySheet.getMaxColumns())
+    .clearFormat();
+
   // Calculate summary column start - ensure it's within bounds
   const summaryColStart = Math.max(1, totalCols - 1); // Ensure at least column 1
-  
+
   // Validate that we have enough columns before proceeding
   if (totalCols < 2) {
     Logger.log("Not enough columns to format properly");
@@ -1408,27 +1414,29 @@ function applyAvailabilityFormatting(
   }
 
   // Headers formatting - only format if we have data
-  if (totalCols >= 1) {
-    availabilitySheet
-      .getRange(1, 1, 3, 1)
-      .setHorizontalAlignment("right")
-      .setFontFamily("PT Sans Narrow")
-      .setFontWeight("bold")
-      .setFontSize(10);
-  }
+  availabilitySheet
+    .getRange(1, 1, 4, totalCols)
+    .setHorizontalAlignment("right")
+    .setFontFamily("PT Sans Narrow")
+    .setFontWeight("bold")
+    .setFontSize(10);
 
   // Merge header cells - only if we have enough columns
   let col = 2;
   weekCols.forEach((week) => {
     const span = week.cols.length;
-    if (span > 1 && col + span - 1 <= totalCols && col + span - 1 <= summaryColStart - 1) {
+    if (
+      span > 1 &&
+      col + span - 1 <= totalCols &&
+      col + span - 1 <= summaryColStart - 1
+    ) {
       try {
         availabilitySheet.getRange(1, col, 1, span).merge();
         availabilitySheet.getRange(2, col, 1, span).merge();
         availabilitySheet.getRange(3, col, 1, span).merge();
       } catch (e) {
         Logger.log(
-          `Failed to merge week ${week.week} columns: ${e.toString()}`
+          `Failed to merge week ${week.week} columns: ${e.toString()}`,
         );
       }
     }
@@ -1444,24 +1452,20 @@ function applyAvailabilityFormatting(
     }
   }
 
-  // Apply font formatting - ensure we don't exceed column bounds
-  const maxFormatCol = Math.min(totalCols, 50); // Reasonable upper limit
-  if (maxFormatCol >= 1) {
-    availabilitySheet
-      .getRange(1, 1, 1, maxFormatCol)
-      .setFontFamily("PT Sans Narrow")
-      .setFontSize(14)
-      .setFontWeight("bold");
+  availabilitySheet
+    .getRange(1, 1, 1, totalCols)
+    .setFontFamily("PT Sans Narrow")
+    .setFontSize(14)
+    .setFontWeight("bold");
 
-    availabilitySheet
-      .getRange(2, 1, 3, maxFormatCol)
-      .setFontFamily("PT Sans Narrow")
-      .setFontSize(10)
-      .setFontWeight("bold");
-  }
+  availabilitySheet
+    .getRange(2, 1, 2, totalCols)
+    .setFontFamily("PT Sans Narrow")
+    .setFontSize(10)
+    .setFontWeight("bold");
 
   // Set alignment and other formatting - only for week data columns
-  const weekDataEndCol = Math.min(summaryColStart - 1, totalCols);
+  const weekDataEndCol = Math.max(summaryColStart - 1, totalCols);
   if (weekDataEndCol >= 2) {
     availabilitySheet
       .getRange(1, 2, outputData.length, weekDataEndCol - 1)
@@ -1478,7 +1482,12 @@ function applyAvailabilityFormatting(
         .setBackground("#f0f0f0");
 
       availabilitySheet
-        .getRange(dataStartRow, summaryColStart, outputData.length - 4, summaryColsAvailable)
+        .getRange(
+          dataStartRow,
+          summaryColStart,
+          outputData.length - 4,
+          summaryColsAvailable,
+        )
         .setHorizontalAlignment("center")
         .setFontFamily("Lato")
         .setFontWeight("bold")
@@ -1490,7 +1499,7 @@ function applyAvailabilityFormatting(
           false,
           false,
           "black",
-          SpreadsheetApp.BorderStyle.SOLID
+          SpreadsheetApp.BorderStyle.SOLID,
         );
     }
   }
@@ -1512,7 +1521,7 @@ function applyAvailabilityFormatting(
     availabilitySheet,
     summaryColStart,
     COUNTS_START_ROW,
-    weekDataEndCol
+    weekDataEndCol,
   );
 
   // Apply borders and other visual formatting
@@ -1521,7 +1530,7 @@ function applyAvailabilityFormatting(
     weekCols,
     summaryColStart,
     COUNTS_START_ROW,
-    weekDataEndCol
+    weekDataEndCol,
   );
 
   // Column visibility
@@ -1551,7 +1560,7 @@ function applyAvailabilityConditionalFormatting(
   availabilitySheet,
   summaryColStart,
   COUNTS_START_ROW,
-  weekDataEndCol = null
+  weekDataEndCol = null,
 ) {
   const lastWeekDataCol = weekDataEndCol || summaryColStart - 1;
 
@@ -1560,7 +1569,7 @@ function applyAvailabilityConditionalFormatting(
       5,
       2,
       COUNTS_START_ROW - 5,
-      lastWeekDataCol - 1
+      lastWeekDataCol - 1,
     );
 
     availabilitySheet.clearConditionalFormatRules();
@@ -1591,7 +1600,7 @@ function applyAvailabilityBorders(
   weekCols,
   summaryColStart,
   COUNTS_START_ROW,
-  weekDataEndCol = null
+  weekDataEndCol = null,
 ) {
   const lastWeekDataCol = weekDataEndCol || summaryColStart - 1;
 
@@ -1607,7 +1616,7 @@ function applyAvailabilityBorders(
         false,
         false,
         "black",
-        SpreadsheetApp.BorderStyle.SOLID_MEDIUM
+        SpreadsheetApp.BorderStyle.SOLID_MEDIUM,
       );
 
     availabilitySheet
@@ -1620,7 +1629,7 @@ function applyAvailabilityBorders(
         false,
         false,
         "black",
-        SpreadsheetApp.BorderStyle.SOLID_MEDIUM
+        SpreadsheetApp.BorderStyle.SOLID_MEDIUM,
       );
   }
 
@@ -1638,7 +1647,7 @@ function applyAvailabilityBorders(
           null,
           null,
           "black",
-          SpreadsheetApp.BorderStyle.SOLID
+          SpreadsheetApp.BorderStyle.SOLID,
         );
     }
     col += week.cols.length;
@@ -1681,7 +1690,7 @@ function updateAvailability(
   availabilityLatestData,
   scheduleData,
   availabilitySheet,
-  options = {}
+  options = {},
 ) {
   const { isPublic = false } = options;
 
@@ -1760,7 +1769,7 @@ function updateAvailability(
 
     players[name][week][event] = getEffectiveValue(
       row[colIndex["Attended"]],
-      row[colIndex["Available"]]
+      row[colIndex["Available"]],
     );
   }
 
@@ -1804,7 +1813,7 @@ function updateAvailability(
 
       // Find the match date for this week to determine if it's current/past
       const scheduleRow = scheduleData.find(
-        (r) => r[scheduleIndex["#"]] === week.week
+        (r) => r[scheduleIndex["#"]] === week.week,
       );
       const matchDate = scheduleRow
         ? new Date(scheduleRow[scheduleIndex["Match Date"]])
@@ -1820,8 +1829,8 @@ function updateAvailability(
           val === true || val === "true" || val === "TRUE"
             ? "✔"
             : val === false || val === "false" || val === "FALSE"
-            ? "✘"
-            : "";
+              ? "✘"
+              : "";
 
         row.push(symbol);
 
@@ -1956,7 +1965,7 @@ function updateAvailability(
           false,
           false,
           "black",
-          SpreadsheetApp.BorderStyle.SOLID_MEDIUM
+          SpreadsheetApp.BorderStyle.SOLID_MEDIUM,
         );
 
       // Add border below count rows (bottom border of row 202) - excluding summary
@@ -1970,7 +1979,7 @@ function updateAvailability(
           false,
           false,
           "black",
-          SpreadsheetApp.BorderStyle.SOLID_MEDIUM
+          SpreadsheetApp.BorderStyle.SOLID_MEDIUM,
         );
 
       // Apply conditional formatting to count rows
@@ -1982,14 +1991,14 @@ function updateAvailability(
           COUNTS_START_ROW,
           2, // Start at B200
           1, // Just one row
-          lastWeekDataCol - 1 // Columns from B to the last week data column
+          lastWeekDataCol - 1, // Columns from B to the last week data column
         );
 
         const negativeCountRange = availabilitySheet.getRange(
           COUNTS_START_ROW + 1,
           2, // Start at B201
           1, // Just one row
-          lastWeekDataCol - 1 // Columns from B to the last week data column
+          lastWeekDataCol - 1, // Columns from B to the last week data column
         );
 
         // Summary columns count formatting (rows 5-199, summary columns only)
@@ -1997,7 +2006,7 @@ function updateAvailability(
           5,
           summaryColStart, // Start at first summary column
           200,
-          2 // Two summary columns
+          2, // Two summary columns
         );
 
         // Get existing rules and add count formatting rules
@@ -2036,7 +2045,7 @@ function updateAvailability(
       if (dataEndRow < COUNTS_START_ROW - 1) {
         availabilitySheet.hideRows(
           dataEndRow + 1,
-          COUNTS_START_ROW - dataEndRow - 1
+          COUNTS_START_ROW - dataEndRow - 1,
         );
       }
     } catch (error) {
@@ -2156,7 +2165,7 @@ function createAttendanceChart(availabilitySheet) {
     250,
     minCol,
     chartData.length,
-    3
+    3,
   );
   chartDataRange.setValues(chartData);
 
@@ -2173,7 +2182,6 @@ function createAttendanceChart(availabilitySheet) {
     .setPosition(205, minCol, 0, 0)
     .setNumHeaders(1)
     .setOption("title", `Training Attendance`)
-    .setOption("subtitle", `Not including colts`)
     .setOption("subtitleTextStyle", {
       fontSize: 14,
       italic: true,
@@ -2192,7 +2200,9 @@ function createAttendanceChart(availabilitySheet) {
       title: "Week Commencing",
       titleTextStyle: { fontSize: 14, bold: true },
       textStyle: { fontSize: 12, bold: false },
-      slantedText: false,
+      // vertical text (90 deg) for x-axis labels
+      slantedText: true,
+      slantedTextAngle: 90,
     })
     .setOption("vAxis", {
       title: "",
@@ -2215,15 +2225,34 @@ function createAttendanceChart(availabilitySheet) {
       },
     })
     .setOption("legend", {
-      position: "right",
-      alignment: "left",
+      // inside (top left)
+      position: "in",
+      alignment: "start",
+      textStyle: { fontSize: 12 },
+    })
+    // Add trendlines
+    .setOption("trendlines", {
+      0: {
+        type: "movingAverage",
+        color: "#6fa8dc",
+        lineWidth: 2,
+        opacity: 0.5,
+        showR2: false,
+      },
+      1: {
+        type: "movingAverage",
+        color: "#0b5394",
+        lineWidth: 2,
+        opacity: 0.5,
+        showR2: false,
+      },
     })
     .build();
 
   availabilitySheet.insertChart(chart);
 
   Logger.log(
-    `Training attendance chart created with ${sortedWeekData.length} weeks`
+    `Training attendance chart created with ${sortedWeekData.length} weeks`,
   );
 }
 
@@ -2256,7 +2285,7 @@ function updateTrainingDateDropdown() {
   const rule = SpreadsheetApp.newDataValidation()
     .requireValueInList(
       sessionDates.map((d) => formatDate(d)),
-      true
+      true,
     )
     .build();
 
@@ -2265,7 +2294,7 @@ function updateTrainingDateDropdown() {
 function loadAttendanceSheet(
   playersSheet,
   attendanceSheet,
-  availabilityLatestSheet
+  availabilityLatestSheet,
 ) {
   const dateStr = attendanceSheet.getRange("B1").getValue();
   const targetDate = new Date(dateStr);
@@ -2326,7 +2355,7 @@ function loadAttendanceSheet(
       // IMPORTANT: Only process players that exist in the Players sheet
       if (!validPlayerNames.has(name)) {
         Logger.log(
-          `Warning: Player "${name}" from availability data not found in Players sheet - skipping`
+          `Warning: Player "${name}" from availability data not found in Players sheet - skipping`,
         );
         return;
       }
@@ -2555,7 +2584,7 @@ function updateAttendanceHistory(attendanceSh, attendanceHistorySh) {
   }
 
   Logger.log(
-    `Attendance for ${dateStr} (${session}) saved: ${allPlayers.length} players recorded.`
+    `Attendance for ${dateStr} (${session}) saved: ${allPlayers.length} players recorded.`,
   );
 }
 
@@ -2588,7 +2617,7 @@ function buildSelection(playersData, availabilityLatestData, selectionSh) {
           first: row[playersIndex["1st"]] || false,
           second: row[playersIndex["2nd"]] || false,
         },
-      ])
+      ]),
   );
 
   // Simplified availability processing
@@ -2604,7 +2633,7 @@ function buildSelection(playersData, availabilityLatestData, selectionSh) {
       }
       players[name][event] = getEffectiveValue(
         row[colIndex.Attended],
-        row[colIndex.Available]
+        row[colIndex.Available],
       );
     }
   });
@@ -2654,13 +2683,13 @@ function buildSelection(playersData, availabilityLatestData, selectionSh) {
   displayAvailablePlayersGrouped(
     playersData,
     availabilityLatestData,
-    selectionSh
+    selectionSh,
   );
 }
 function updateSelectionDropdown(
   scheduleData,
   availabilityLatestData,
-  selectionSheet
+  selectionSheet,
 ) {
   // Get weeks that have availability responses
   const weeksWithResponses = new Set();
@@ -2729,7 +2758,7 @@ function updateSelectionDropdown(
 function displayAvailablePlayersGrouped(
   playersData,
   availabilityLatestData,
-  selectionSheet
+  selectionSheet,
 ) {
   const weekLabel = selectionSheet.getRange("A2").getValue();
   const weekNum = Number(weekLabel.match(/Week (\d+)/)[1]);
@@ -2838,7 +2867,7 @@ function displayAvailablePlayersGrouped(
       false,
       false,
       "black",
-      SpreadsheetApp.BorderStyle.SOLID_MEDIUM
+      SpreadsheetApp.BorderStyle.SOLID_MEDIUM,
     );
 
   // Reference key format cells
@@ -2860,7 +2889,7 @@ function displayAvailablePlayersGrouped(
         cell.getColumn(),
         cell.getColumn(),
         cell.getRow(),
-        cell.getRow()
+        cell.getRow(),
       );
     } else if (tues && thurs) {
       key.both.copyFormatToRange(
@@ -2868,7 +2897,7 @@ function displayAvailablePlayersGrouped(
         cell.getColumn(),
         cell.getColumn(),
         cell.getRow(),
-        cell.getRow()
+        cell.getRow(),
       );
     } else if (thurs) {
       key.thursOnly.copyFormatToRange(
@@ -2876,7 +2905,7 @@ function displayAvailablePlayersGrouped(
         cell.getColumn(),
         cell.getColumn(),
         cell.getRow(),
-        cell.getRow()
+        cell.getRow(),
       );
     } else if (tues) {
       key.tuesOnly.copyFormatToRange(
@@ -2884,7 +2913,7 @@ function displayAvailablePlayersGrouped(
         cell.getColumn(),
         cell.getColumn(),
         cell.getRow(),
-        cell.getRow()
+        cell.getRow(),
       );
     } else {
       key.none.copyFormatToRange(
@@ -2892,7 +2921,7 @@ function displayAvailablePlayersGrouped(
         cell.getColumn(),
         cell.getColumn(),
         cell.getRow(),
-        cell.getRow()
+        cell.getRow(),
       );
     }
   };
@@ -2912,7 +2941,7 @@ function displayAvailablePlayersGrouped(
       currentRow,
       positionCol,
       blockHeight,
-      1
+      1,
     );
 
     // Update color for scrum half and retain for all subsequent positions
@@ -2937,7 +2966,7 @@ function displayAvailablePlayersGrouped(
         false,
         false,
         "black",
-        SpreadsheetApp.BorderStyle.SOLID
+        SpreadsheetApp.BorderStyle.SOLID,
       );
 
     // Fill player cells
@@ -2966,7 +2995,7 @@ function displayAvailablePlayersGrouped(
         false,
         false,
         "black",
-        SpreadsheetApp.BorderStyle.SOLID_MEDIUM
+        SpreadsheetApp.BorderStyle.SOLID_MEDIUM,
       );
 
     // Move to next position
@@ -2991,7 +3020,7 @@ function buildSelectionLayout() {
     .getValues();
 
   const weeksWithResponses = new Set(
-    availabilityLatestSheet.slice(1).map((r) => r[0])
+    availabilityLatestSheet.slice(1).map((r) => r[0]),
   ); // '#' is col A
   const today = new Date();
   const scheduleHeaders = scheduleSheet[0];
@@ -3026,7 +3055,7 @@ function buildSelectionLayout() {
   dd.setDataValidation(
     SpreadsheetApp.newDataValidation()
       .requireValueInList(schedule, true)
-      .build()
+      .build(),
   );
   dd.setValue(schedule[0]);
   dd.setFontSize(14);
@@ -3040,7 +3069,7 @@ function buildSelectionLayout() {
     true,
     false,
     "black",
-    SpreadsheetApp.BorderStyle.SOLID_THICK
+    SpreadsheetApp.BorderStyle.SOLID_THICK,
   );
 
   const headers = [

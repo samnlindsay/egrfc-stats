@@ -1,0 +1,59 @@
+{
+    "match_id": "1220063",
+    "season": "2025-2026",
+    "league": "Counties 2 Sussex",
+    "date": "2025-11-22",
+    "teams": [
+        "Shoreham",
+        "Ditchling"
+    ],
+    "score": [
+        10,
+        29
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/19257.png",
+        "https://images.englandrugby.com/club_images/6541.png"
+    ],
+    "players": [
+        {
+            "15": "Darren Locke",
+            "14": "Nathan Funnell",
+            "13": "Ewan Shepherd",
+            "12": "Sean Shepherd",
+            "11": "David Ayres",
+            "10": "Zachary McEwan",
+            "9": "Adam Fear",
+            "8": "Gavin Cox",
+            "7": "Alex Hall",
+            "6": "Ben French",
+            "5": "Finnbar Broxup",
+            "4": "Steven Goater",
+            "3": "Joshua Avis",
+            "2": "Mark Lavery",
+            "1": "Daryn Clarke",
+            "S1": "Jack Portman",
+            "S2": "Alfie Cawkwell",
+            "S3": "Toby Reed"
+        },
+        {
+            "15": "Nick Whitley-Jones",
+            "14": "Joe McIntyre",
+            "13": "Adam Crook",
+            "12": "Rory Adams",
+            "11": "Name withheld",
+            "10": "Sonny Smyth",
+            "9": "Frazer Falzon",
+            "8": "Murray Jardine",
+            "7": "Jarrell Bobo",
+            "6": "Alex Hinchliffe",
+            "5": "Bill Sibun",
+            "4": "Samuel Lodge",
+            "3": "William Purdy",
+            "2": "Gordon Costick",
+            "1": "Oscar Wiseman",
+            "S1": "Barney Reed",
+            "S2": "Ben Poulton"
+        }
+    ]
+}

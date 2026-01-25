@@ -1,0 +1,60 @@
+{
+    "match_id": "1220057",
+    "season": "2025-2026",
+    "league": "Counties 2 Sussex",
+    "date": "2025-11-08",
+    "teams": [
+        "Eastbourne II",
+        "Shoreham"
+    ],
+    "score": [
+        22,
+        50
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7213.png",
+        "https://images.englandrugby.com/club_images/19257.png"
+    ],
+    "players": [
+        {
+            "15": "Oliver Horley",
+            "14": "Louis Paal",
+            "13": "Harri Smith",
+            "12": "Pedro Sousa",
+            "11": "Luke Steel",
+            "10": "Martial Chaput",
+            "9": "Louis Nicholls",
+            "8": "Glen Smith",
+            "7": "Michael Morehen",
+            "6": "Morgan Treacher",
+            "5": "Joseph Long",
+            "4": "Trystan Mocke",
+            "3": "Alun Cranch",
+            "2": "Tom Line",
+            "1": "Toby Slaughter",
+            "S1": "Konrad Oneill",
+            "S2": "Name withheld",
+            "S3": "Maximus Smith"
+        },
+        {
+            "15": "Darren Locke",
+            "14": "Ryan Morlen",
+            "13": "Sean Shepherd",
+            "12": "Charlie Dale",
+            "11": "Paul Mamoany",
+            "10": "Connor Fairhall",
+            "9": "Adam Fear",
+            "8": "Gavin Cox",
+            "7": "Alex Hall",
+            "6": "Finnbar Broxup",
+            "5": "Daniel Adams",
+            "4": "Steven Goater",
+            "3": "Joshua Avis",
+            "2": "Mark Lavery",
+            "1": "Daryn Clarke",
+            "S1": "Jack Portman",
+            "S2": "Jack Baker",
+            "S3": "Louie Bryant"
+        }
+    ]
+}

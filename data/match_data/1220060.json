@@ -1,0 +1,58 @@
+{
+    "match_id": "1220060",
+    "season": "2025-2026",
+    "league": "Counties 2 Sussex",
+    "date": "2025-11-22",
+    "teams": [
+        "Pulborough",
+        "East Grinstead"
+    ],
+    "score": [
+        12,
+        5
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/17255.png",
+        "https://images.englandrugby.com/club_images/7134.png"
+    ],
+    "players": [
+        {
+            "15": "Sean Scrase",
+            "14": "William Scrase",
+            "13": "Ralph Robson",
+            "12": "Ollie Johnston",
+            "11": "Patrick Burnett",
+            "10": "Stephen Wilson",
+            "9": "Archie Sadler",
+            "8": "Joseph Serna",
+            "7": "Dylan Townsend",
+            "6": "Benjamin Monsey",
+            "5": "Ben Sadler",
+            "4": "Alfred Reeves",
+            "3": "Douglas Ludlow-monk",
+            "2": "Harry Wells-Prior",
+            "1": "Thomas Brackley",
+            "S1": "Michael Woodhouse",
+            "S2": "Carl Brewster",
+            "S3": "George Harwood"
+        },
+        {
+            "15": "Jake Radcliffe",
+            "14": "William Roberts",
+            "13": "Name withheld",
+            "12": "Max Crawley-Moore",
+            "11": "Jack Andrews",
+            "10": "Rhys Skinner",
+            "9": "Aaronn Boczek",
+            "8": "Harrison Berry",
+            "7": "Rory evans",
+            "6": "John Peaty",
+            "5": "David Bridges",
+            "4": "Benjamin Tottman",
+            "3": "Joshua Brimecombe",
+            "2": "James Funnell",
+            "1": "Mark Oliver",
+            "S1": "Henry Weller"
+        }
+    ]
+}

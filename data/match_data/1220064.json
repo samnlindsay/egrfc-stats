@@ -1,0 +1,58 @@
+{
+    "match_id": "1220064",
+    "season": "2025-2026",
+    "league": "Counties 2 Sussex",
+    "date": "2025-11-22",
+    "teams": [
+        "Lewes",
+        "Eastbourne II"
+    ],
+    "score": [
+        24,
+        3
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/12206.png",
+        "https://images.englandrugby.com/club_images/7213.png"
+    ],
+    "players": [
+        {
+            "15": "Jack Soltermann",
+            "14": "Harry Carr",
+            "13": "Rafferty Green",
+            "12": "Kellen Harvey",
+            "11": "Ben Goode",
+            "10": "Jordan Smith",
+            "9": "Joseph Lacy",
+            "8": "Louis Medhurst",
+            "7": "Name withheld",
+            "6": "Harry Rees",
+            "5": "Jack Bradford",
+            "4": "Alfie Green",
+            "3": "Benjamin Simmonds",
+            "2": "Kane Dadswell",
+            "1": "Mark Teti",
+            "S1": "Thomas Petty",
+            "S2": "Daryl Benson",
+            "S3": "Pedro Sousa"
+        },
+        {
+            "15": "Louis Wood",
+            "14": "Martial Chaput",
+            "13": "Maximus Smith",
+            "12": "Henry Duke",
+            "11": "Louis Nicholls",
+            "10": "Glen Smith",
+            "9": "Sean Groombridge",
+            "8": "Morgan Treacher",
+            "7": "Tom Lester",
+            "6": "Michael Morehen",
+            "5": "Alun Cranch",
+            "4": "Tom Line",
+            "3": "Joshua Imich",
+            "2": "Aitor Salas Blazquez",
+            "1": "Joshua Boundy",
+            "S1": "John Welbourne"
+        }
+    ]
+}

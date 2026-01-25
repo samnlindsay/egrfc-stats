@@ -1,0 +1,60 @@
+{
+    "match_id": "1220055",
+    "season": "2025-2026",
+    "league": "Counties 2 Sussex",
+    "date": "2025-11-08",
+    "teams": [
+        "Seaford",
+        "Crawley"
+    ],
+    "score": [
+        45,
+        3
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/18868.png",
+        "https://images.englandrugby.com/club_images/5807.png"
+    ],
+    "players": [
+        {
+            "15": "Jack Armstrong",
+            "14": "Charlie Crossgrove",
+            "13": "william joy",
+            "12": "Corey Digby-Clarke",
+            "11": "Paddy Powney",
+            "10": "Oscar Weisz",
+            "9": "Jack Cullinane",
+            "8": "Geoffrey Bridges",
+            "7": "Name withheld",
+            "6": "Jason Staples",
+            "5": "Elliott Curl",
+            "4": "Lee Furminger",
+            "3": "Joshua Hennessy",
+            "2": "Andrew Fry",
+            "1": "Joseph Drew",
+            "S1": "Harvey Joy",
+            "S2": "Josh Ellis-Smith",
+            "S3": "Andrew Salter"
+        },
+        {
+            "15": "Kristian Dean",
+            "14": "Jude Read",
+            "13": "Guy Craddock",
+            "12": "William Ofosuhene",
+            "11": "Jake Jackson",
+            "10": "Vincenzo Dessena",
+            "9": "Callum Hankin",
+            "8": "Daniel Davis",
+            "7": "Braydon Thornback",
+            "6": "Andrew Griffiths",
+            "5": "Andrew Jagger",
+            "4": "Bradley Davies",
+            "3": "Nathan Cox",
+            "2": "Aaron O'Callaghan",
+            "1": "Jonathan McGurk",
+            "S1": "Andrew Wilson",
+            "S2": "Dominic Woods",
+            "S3": "Joshua Rodwell"
+        }
+    ]
+}

@@ -1,0 +1,53 @@
+{
+    "match_id": "1220058",
+    "season": "2025-2026",
+    "league": "Counties 2 Sussex",
+    "date": "2025-11-08",
+    "teams": [
+        "Ditchling",
+        "Royals RFC"
+    ],
+    "score": [
+        85,
+        0
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/6541.png",
+        "https://images.englandrugby.com/club_images/94051.png"
+    ],
+    "players": [
+        {
+            "15": "Nick Whitley-Jones",
+            "14": "Takhy Ndiaye Marrero",
+            "13": "Jarrell Bobo",
+            "12": "Dylan Thomas",
+            "11": "Name withheld",
+            "10": "Sonny Smyth",
+            "9": "Frazer Falzon",
+            "8": "Barnaby van Hoeken",
+            "7": "Alex Hinchliffe",
+            "6": "Ollie Van Hoeken",
+            "5": "Samuel Lodge",
+            "4": "William Purdy",
+            "3": "Murray Jardine",
+            "2": "Gordon Costick",
+            "1": "Oscar Wiseman",
+            "S1": "George Burke",
+            "S2": "Pearse Moloney",
+            "S3": "Oliver Walker"
+        },
+        {
+            "15": "Hugo Reid",
+            "14": "Corne Visagie",
+            "13": "Daniel Baker",
+            "12": "Harry Walton",
+            "11": "Will Michel",
+            "10": "John James Le Feuvre",
+            "9": "Tristan Burns",
+            "8": "Harvey Evans",
+            "7": "Conor Bisson-Mercury",
+            "6": "Jack Lowe",
+            "5": "Brodie Sutton"
+        }
+    ]
+}
