@@ -1,0 +1,59 @@
+{
+    "match_id": "1220085",
+    "season": "2025-2026",
+    "league": "Counties 2 Sussex",
+    "date": "2026-01-17",
+    "teams": [
+        "Brighton II",
+        "Seaford"
+    ],
+    "score": [
+        33,
+        12
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/3218.png",
+        "https://images.englandrugby.com/club_images/18868.png"
+    ],
+    "players": [
+        {
+            "15": "Aled Edwards",
+            "14": "Ibrahim Bangura",
+            "13": "Zane Hanna",
+            "12": "Stephen Cahill",
+            "11": "Name withheld",
+            "10": "Hayden Quigg",
+            "9": "Simon Lilley",
+            "8": "Luke Jameson Clark",
+            "7": "Max Suttner",
+            "6": "Zak Ellenger",
+            "5": "Dillon Stingemore",
+            "4": "Jake Blackburn",
+            "3": "Travis James",
+            "2": "Nicolas Lewis",
+            "1": "Luke Booth",
+            "S1": "Frederick Tilley",
+            "S2": "McCauley Medhurst",
+            "S3": "Pete Carter"
+        },
+        {
+            "15": "Rhys Beale",
+            "14": "william joy",
+            "13": "Corey Digby-Clarke",
+            "12": "Jason Staples",
+            "11": "Oscar Weisz",
+            "10": "Jack Cullinane",
+            "9": "Elliott Curl",
+            "8": "Harvey Joy",
+            "7": "Lee Furminger",
+            "6": "Shaun Brewer",
+            "5": "Zakary Hume",
+            "4": "Joseph Drew",
+            "3": "Andrew Fry",
+            "2": "Daniel Blunt",
+            "1": "Paddy Powney",
+            "S1": "Jake Davey",
+            "S2": "Charlie Crossgrove"
+        }
+    ]
+}

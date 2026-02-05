@@ -1,0 +1,56 @@
+{
+    "match_id": "1220092",
+    "season": "2025-2026",
+    "league": "Counties 2 Sussex",
+    "date": "2026-01-24",
+    "teams": [
+        "Eastbourne II",
+        "Royals RFC"
+    ],
+    "score": [
+        38,
+        5
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7213.png",
+        "https://images.englandrugby.com/club_images/94051.png"
+    ],
+    "players": [
+        {
+            "15": "Carl Slaughter",
+            "14": "Henry Duke",
+            "13": "Louis Paal",
+            "12": "Maximus Smith",
+            "11": "Finlay Warner",
+            "10": "Name withheld",
+            "9": "Louis Nicholls",
+            "8": "Glen Smith",
+            "7": "Tom Lester",
+            "6": "Morgan Treacher",
+            "5": "Michael Morehen",
+            "4": "Joseph Long",
+            "3": "Alun Cranch",
+            "2": "Tom Line",
+            "1": "Paul Smith",
+            "S1": "Konrad Oneill",
+            "S2": "Jack Curtis",
+            "S3": "Oliver Walker"
+        },
+        {
+            "15": "Corne Visagie",
+            "14": "George Burke",
+            "13": "Hugo Reid",
+            "12": "Aaron Morant",
+            "11": "Ben Pearson",
+            "10": "Pearse Moloney",
+            "9": "Cameron Queree",
+            "8": "Brodie Sutton",
+            "7": "John James Le Feuvre",
+            "6": "Will Michel",
+            "5": "Lewis Ham-Howes",
+            "4": "Tristan Burns",
+            "3": "Harvey Evans",
+            "2": "Ross Williamson"
+        }
+    ]
+}

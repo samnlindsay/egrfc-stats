@@ -1,0 +1,58 @@
+{
+    "match_id": "1220094",
+    "season": "2025-2026",
+    "league": "Counties 2 Sussex",
+    "date": "2026-01-24",
+    "teams": [
+        "East Grinstead",
+        "Brighton II"
+    ],
+    "score": [
+        0,
+        50
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7134.png",
+        "https://images.englandrugby.com/club_images/3218.png"
+    ],
+    "players": [
+        {
+            "15": "Alistair Moffatt",
+            "14": "Jack Andrews",
+            "13": "Name withheld",
+            "12": "Max Crawley-Moore",
+            "11": "William Roberts",
+            "10": "Noah Roberts",
+            "9": "Lukis Waite",
+            "8": "Connor Leggat",
+            "7": "Aaronn Boczek",
+            "6": "Rory evans",
+            "5": "John Peaty",
+            "4": "Or Shay",
+            "3": "Joshua Brimecombe",
+            "2": "Mark Oliver",
+            "1": "Guy Collins",
+            "S1": "Thomas McMahon",
+            "S2": "James Funnell",
+            "S3": "Josh Weaver"
+        },
+        {
+            "15": "Joshua Cooper",
+            "14": "Zane Hanna",
+            "13": "Arthur Robinson",
+            "12": "Joseph Pratt",
+            "11": "Charlie Maskrey",
+            "10": "Hayden Quigg",
+            "9": "Zak Ellenger",
+            "8": "Luke Jameson Clark",
+            "7": "Max Suttner",
+            "6": "Adam Butler",
+            "5": "Jake Blackburn",
+            "4": "Travis James",
+            "3": "Thomas Young",
+            "2": "Luke Booth",
+            "1": "Kaselle Lee",
+            "S1": "Maxx Morris"
+        }
+    ]
+}

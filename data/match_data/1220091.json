@@ -1,0 +1,56 @@
+{
+    "match_id": "1220091",
+    "season": "2025-2026",
+    "league": "Counties 2 Sussex",
+    "date": "2026-01-24",
+    "teams": [
+        "Lewes",
+        "Shoreham"
+    ],
+    "score": [
+        17,
+        5
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/12206.png",
+        "https://images.englandrugby.com/club_images/19257.png"
+    ],
+    "players": [
+        {
+            "15": "Jack Soltermann",
+            "14": "Harry Carr",
+            "13": "Rafferty Green",
+            "12": "Ben Goode",
+            "11": "Daryl Benson",
+            "10": "Jordan Smith",
+            "9": "Thomas Moore",
+            "8": "Louis Medhurst",
+            "7": "Harry Taylor",
+            "6": "James Sale",
+            "5": "Jack Bradford",
+            "4": "Archie Rayner",
+            "3": "Ian Thomas",
+            "2": "Simon Coe",
+            "1": "Thomas Petty",
+            "S1": "Harry Rees",
+            "S2": "Darren Locke",
+            "S3": "William Midwinter"
+        },
+        {
+            "15": "Sean Shepherd",
+            "14": "Steven Goater",
+            "13": "Toby Reed",
+            "12": "Adam Fear",
+            "11": "Nathan Funnell",
+            "10": "Gavin Cox",
+            "9": "Alex Hall",
+            "8": "Louie Bryant",
+            "7": "Finnbar Broxup",
+            "6": "Michael Shaw",
+            "5": "Mark Lavery",
+            "4": "Daryn Clarke",
+            "3": "Alfie Cawkwell",
+            "2": "Patrick McCarthy"
+        }
+    ]
+}

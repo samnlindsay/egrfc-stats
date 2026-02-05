@@ -7,6 +7,14 @@ import re
 import requests
 from bs4 import BeautifulSoup
 
+import sys
+from pathlib import Path
+
+# Add project root to Python path
+project_root = Path(__file__).parent.parent
+if str(project_root) not in sys.path:
+    sys.path.insert(0, str(project_root))
+
 pd.options.mode.chained_assignment = None
 
 con = duckdb.connect()

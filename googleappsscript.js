@@ -1400,9 +1400,9 @@ function applyAvailabilityFormatting(
   const dataStartRow = 5;
   const COUNTS_START_ROW = 200;
 
-  availabilitySheet
-    .getRange(1, 1, 4, availabilitySheet.getMaxColumns())
-    .clearFormat();
+  // availabilitySheet
+  //   .getRange(1, 1, 4, availabilitySheet.getMaxColumns())
+  //   .clearFormat();
 
   // Calculate summary column start - ensure it's within bounds
   const summaryColStart = Math.max(1, totalCols - 1); // Ensure at least column 1

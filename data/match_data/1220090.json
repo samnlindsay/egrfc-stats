@@ -1,0 +1,60 @@
+{
+    "match_id": "1220090",
+    "season": "2025-2026",
+    "league": "Counties 2 Sussex",
+    "date": "2026-01-24",
+    "teams": [
+        "Seaford",
+        "Pulborough"
+    ],
+    "score": [
+        10,
+        29
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/18868.png",
+        "https://images.englandrugby.com/club_images/17255.png"
+    ],
+    "players": [
+        {
+            "15": "Paddy Powney",
+            "14": "James Shipley",
+            "13": "william joy",
+            "12": "Corey Digby-Clarke",
+            "11": "Name withheld",
+            "10": "Oscar Weisz",
+            "9": "Oli Simmons",
+            "8": "Elliott Curl",
+            "7": "Harvey Joy",
+            "6": "Andrew Fry",
+            "5": "Zakary Hume",
+            "4": "Lee Furminger",
+            "3": "Joseph Drew",
+            "2": "Daniel Blunt",
+            "1": "Nathan Roberts",
+            "S1": "Andrew Salter",
+            "S2": "Rhys Beale",
+            "S3": "Jake Davey"
+        },
+        {
+            "15": "William Scrase",
+            "14": "Ewan Callaway",
+            "13": "Bryan Woodhouse",
+            "12": "Ollie Johnston",
+            "11": "Liam Masters",
+            "10": "Henry Lee",
+            "9": "Archie Sadler",
+            "8": "Dylan Townsend",
+            "7": "Ben Sadler",
+            "6": "Benjamin Monsey",
+            "5": "George Harwood",
+            "4": "Alfred Reeves",
+            "3": "Douglas Ludlow-monk",
+            "2": "Michael Woodhouse",
+            "1": "Thomas Brackley",
+            "S1": "Reuben Joyce",
+            "S2": "Carl Brewster",
+            "S3": "Kieron Martin"
+        }
+    ]
+}

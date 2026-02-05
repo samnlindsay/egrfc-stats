@@ -1,6 +1,15 @@
 """
 Extract data from Google Sheets and load into database
 """
+
+import sys
+from pathlib import Path
+
+# Add project root to Python path
+project_root = Path(__file__).parent.parent
+if str(project_root) not in sys.path:
+    sys.path.insert(0, str(project_root))
+    
 import gspread
 from google.oauth2.service_account import Credentials
 import pandas as pd
@@ -10,6 +19,7 @@ import re
 import requests
 from bs4 import BeautifulSoup
 import logging
+import os
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -34,6 +44,11 @@ class DataExtractor:
     def __init__(self, credentials_path='client_secret.json'):
         self.scope = ['https://spreadsheets.google.com/feeds',
                      'https://www.googleapis.com/auth/drive']
+        # Convert to absolute path if relative
+        if not os.path.isabs(credentials_path):
+            # Get the directory of this script
+            script_dir = os.path.dirname(os.path.abspath(__file__))
+            credentials_path = os.path.join(script_dir, credentials_path)
         self.creds = Credentials.from_service_account_file(credentials_path, scopes=self.scope)
         self.client = gspread.authorize(self.creds)
         self.sheet_url = "https://docs.google.com/spreadsheets/d/1pcO8iEpZuds9AWs4AFRmqJtx5pv5QGbP4yg2dEkl8fU/edit"

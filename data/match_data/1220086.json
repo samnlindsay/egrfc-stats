@@ -1,0 +1,58 @@
+{
+    "match_id": "1220086",
+    "season": "2025-2026",
+    "league": "Counties 2 Sussex",
+    "date": "2026-01-17",
+    "teams": [
+        "Pulborough",
+        "Ditchling"
+    ],
+    "score": [
+        36,
+        14
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/17255.png",
+        "https://images.englandrugby.com/club_images/6541.png"
+    ],
+    "players": [
+        {
+            "15": "Sean Scrase",
+            "14": "William Scrase",
+            "13": "Ralph Robson",
+            "12": "Bryan Woodhouse",
+            "11": "Patrick Burnett",
+            "10": "Henry Lee",
+            "9": "Archie Sadler",
+            "8": "Dylan Townsend",
+            "7": "Ben Sadler",
+            "6": "Benjamin Monsey",
+            "5": "George Harwood",
+            "4": "Alfred Reeves",
+            "3": "Thomas Brackley",
+            "2": "Harry Wells-Prior",
+            "1": "Reuben Joyce",
+            "S1": "Kieron Martin",
+            "S2": "Douglas Ludlow-monk",
+            "S3": "Nicholas Cooper"
+        },
+        {
+            "15": "Adam Crook",
+            "14": "Rufus Nolan",
+            "13": "Tom Wood",
+            "12": "Name withheld",
+            "11": "Jarrell Bobo",
+            "10": "Ben Poulton",
+            "9": "Jamie Hutchings",
+            "8": "Oliver Stern",
+            "7": "Alex Taylor",
+            "6": "Alex Hinchliffe",
+            "5": "Gordon Costick",
+            "4": "Dylan Thomas",
+            "3": "Samuel Lodge",
+            "2": "Alex Hargreaves",
+            "1": "Oscar Wiseman",
+            "S1": "Harry Sandercock"
+        }
+    ]
+}

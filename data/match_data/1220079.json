@@ -1,0 +1,57 @@
+{
+    "match_id": "1220079",
+    "season": "2025-2026",
+    "league": "Counties 2 Sussex",
+    "date": "2025-12-20",
+    "teams": [
+        "East Grinstead",
+        "Ditchling"
+    ],
+    "score": [
+        29,
+        17
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7134.png",
+        "https://images.englandrugby.com/club_images/6541.png"
+    ],
+    "players": [
+        {
+            "15": "Alistair Moffatt",
+            "14": "Max Crawley-Moore",
+            "13": "Benjamin Marelli",
+            "12": "Jake Radcliffe",
+            "11": "Samuel McCarthy",
+            "10": "Ryland Thomas",
+            "9": "Lukis Waite",
+            "8": "Connor Leggat",
+            "7": "Harrison Berry",
+            "6": "Or Shay",
+            "5": "Oscar Staples",
+            "4": "Name withheld",
+            "3": "Joshua Brimecombe",
+            "2": "Benjamin Tottman",
+            "1": "Guy Collins",
+            "S1": "Mark Oliver",
+            "S2": "Rory evans",
+            "S3": "George Beet"
+        },
+        {
+            "15": "Nick Whitley-Jones",
+            "14": "Harry Sandercock",
+            "13": "Tom Wood",
+            "12": "Adam Crook",
+            "11": "Jarrell Bobo",
+            "10": "Ben Poulton",
+            "9": "Connor Nolan",
+            "8": "Luke Dobson",
+            "7": "Alex Hinchliffe",
+            "6": "Ollie Van Hoeken",
+            "5": "Gordon Costick",
+            "4": "William Purdy",
+            "3": "Barney Reed",
+            "2": "James Hill",
+            "1": "Sean Laroche"
+        }
+    ]
+}

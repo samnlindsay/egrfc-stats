@@ -1,0 +1,57 @@
+{
+    "match_id": "1220075",
+    "season": "2025-2026",
+    "league": "Counties 2 Sussex",
+    "date": "2025-12-20",
+    "teams": [
+        "Seaford",
+        "Eastbourne II"
+    ],
+    "score": [
+        29,
+        25
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/18868.png",
+        "https://images.englandrugby.com/club_images/7213.png"
+    ],
+    "players": [
+        {
+            "15": "Jack Armstrong",
+            "14": "Name withheld",
+            "13": "william joy",
+            "12": "Colm Evans",
+            "11": "Oscar Weisz",
+            "10": "Jack Cullinane",
+            "9": "Geoffrey Bridges",
+            "8": "Harvey Joy",
+            "7": "Elliott Curl",
+            "6": "Zakary Hume",
+            "5": "Lee Furminger",
+            "4": "Daniel Blunt",
+            "3": "Andrew Fry",
+            "2": "Joshua Hennessy",
+            "1": "Brendan Strick",
+            "S1": "Rhys Beale",
+            "S2": "Shaun Brewer",
+            "S3": "Finlay Warner"
+        },
+        {
+            "15": "Louis Paal",
+            "14": "Oliver Horley",
+            "13": "Maximus Smith",
+            "12": "Stuart Baker",
+            "11": "Louis Nicholls",
+            "10": "Glen Smith",
+            "9": "Morgan Treacher",
+            "8": "Tom Lester",
+            "7": "Michael Morehen",
+            "6": "Brandon Foot",
+            "5": "Joshua Clarke",
+            "4": "Tom Line",
+            "3": "Christopher Hosking",
+            "2": "Aitor Salas Blazquez",
+            "1": "Joseph Long"
+        }
+    ]
+}

@@ -1,0 +1,59 @@
+{
+    "match_id": "1220081",
+    "season": "2025-2026",
+    "league": "Counties 2 Sussex",
+    "date": "2026-01-10",
+    "teams": [
+        "Shoreham",
+        "Crawley"
+    ],
+    "score": [
+        37,
+        24
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/19257.png",
+        "https://images.englandrugby.com/club_images/5807.png"
+    ],
+    "players": [
+        {
+            "15": "Connor Fairhall",
+            "14": "Paul Mamoany",
+            "13": "Sean Shepherd",
+            "12": "Noah Rudge",
+            "11": "David Ayres",
+            "10": "Adam Fear",
+            "9": "Nathan Funnell",
+            "8": "Gavin Cox",
+            "7": "Joshua Avis",
+            "6": "Alfie Cawkwell",
+            "5": "Finnbar Broxup",
+            "4": "Steven Goater",
+            "3": "Mark Lavery",
+            "2": "Jack Portman",
+            "1": "Daniel Adams",
+            "S1": "Daryn Clarke",
+            "S2": "Ryan Morlen",
+            "S3": "Name withheld"
+        },
+        {
+            "15": "Kristian Dean",
+            "14": "Kai Marshall",
+            "13": "Charles Dennis",
+            "12": "Conor Kelly",
+            "11": "Jake Jackson",
+            "10": "Vincenzo Dessena",
+            "9": "Callum Hankin",
+            "8": "Daniel Davis",
+            "7": "Guy Craddock",
+            "6": "William Ofosuhene",
+            "5": "Bradley Davies",
+            "4": "Nathan Cox",
+            "3": "Joel Fisher",
+            "2": "Jonathan McGurk",
+            "1": "Andrew Griffiths",
+            "S1": "Braydon Thornback",
+            "S2": "Andrew Jagger"
+        }
+    ]
+}

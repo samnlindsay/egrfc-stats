@@ -1,0 +1,54 @@
+{
+    "match_id": "1220076",
+    "season": "2025-2026",
+    "league": "Counties 2 Sussex",
+    "date": "2025-12-20",
+    "teams": [
+        "Brighton II",
+        "Lewes"
+    ],
+    "score": [
+        43,
+        33
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/3218.png",
+        "https://images.englandrugby.com/club_images/12206.png"
+    ],
+    "players": [
+        {
+            "15": "Joshua Cooper",
+            "14": "Name withheld",
+            "13": "Josh Blackburn",
+            "12": "Ibrahim Bangura",
+            "11": "Charlie Maskrey",
+            "10": "Joshua Berman",
+            "9": "Adam Butler",
+            "8": "Pete Carter",
+            "7": "Zak Ellenger",
+            "6": "Paul Buck",
+            "5": "Dillon Stingemore",
+            "4": "Travis James",
+            "3": "Nicolas Lewis",
+            "2": "Luke Booth",
+            "1": "Frederick Tilley",
+            "S1": "Thomas Moore"
+        },
+        {
+            "15": "Ben Goode",
+            "14": "Daryl Benson",
+            "13": "Thomas Roy",
+            "12": "Jack Soltermann",
+            "11": "Jordan Smith",
+            "10": "James Sale",
+            "9": "Harry Weston",
+            "8": "Harry Rees",
+            "7": "Thomas Petty",
+            "6": "Ian Thomas",
+            "5": "Benjamin Simmonds",
+            "4": "Fearghus Gage",
+            "3": "Charlie Moran",
+            "2": "James Firrell"
+        }
+    ]
+}

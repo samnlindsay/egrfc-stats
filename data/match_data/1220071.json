@@ -1,0 +1,60 @@
+{
+    "match_id": "1220071",
+    "season": "2025-2026",
+    "league": "Counties 2 Sussex",
+    "date": "2025-12-13",
+    "teams": [
+        "Royals RFC",
+        "Pulborough"
+    ],
+    "score": [
+        0,
+        91
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/94051.png",
+        "https://images.englandrugby.com/club_images/17255.png"
+    ],
+    "players": [
+        {
+            "15": "William Dawson",
+            "14": "George Burke",
+            "13": "Hamish Mackie",
+            "12": "Hugo Reid",
+            "11": "Pearse Moloney",
+            "10": "Ben Pearson",
+            "9": "Aidan Loane",
+            "8": "Cameron Queree",
+            "7": "John James Le Feuvre",
+            "6": "Charles Dixon-Smith",
+            "5": "Conor Bisson-Mercury",
+            "4": "Will Michel",
+            "3": "Tristan Burns",
+            "2": "Jack Lowe",
+            "1": "Name withheld",
+            "S1": "Jake Dillon",
+            "S2": "Patrick Crossley",
+            "S3": "Brian Njomba"
+        },
+        {
+            "15": "Ralph Robson",
+            "14": "William Scrase",
+            "13": "Bryan Woodhouse",
+            "12": "Ollie Johnston",
+            "11": "Patrick Burnett",
+            "10": "Henry Lee",
+            "9": "Archie Sadler",
+            "8": "Dylan Townsend",
+            "7": "Benjamin Monsey",
+            "6": "Ben Sadler",
+            "5": "George Harwood",
+            "4": "Carl Brewster",
+            "3": "Douglas Ludlow-monk",
+            "2": "Jake Parker",
+            "1": "Thomas Brackley",
+            "S1": "Harry Wells-Prior",
+            "S2": "Michael Woodhouse",
+            "S3": "Kieron Martin"
+        }
+    ]
+}

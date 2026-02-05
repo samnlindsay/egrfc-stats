@@ -1,0 +1,60 @@
+{
+    "match_id": "1220078",
+    "season": "2025-2026",
+    "league": "Counties 2 Sussex",
+    "date": "2025-12-20",
+    "teams": [
+        "Crawley",
+        "Royals RFC"
+    ],
+    "score": [
+        10,
+        37
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/5807.png",
+        "https://images.englandrugby.com/club_images/94051.png"
+    ],
+    "players": [
+        {
+            "15": "Kristian Dean",
+            "14": "Kai Marshall",
+            "13": "William Ofosuhene",
+            "12": "Conor Kelly",
+            "11": "Joshua Rodwell",
+            "10": "Vincenzo Dessena",
+            "9": "Callum Hankin",
+            "8": "Charles Dennis",
+            "7": "Braydon Thornback",
+            "6": "Jozef Boczek",
+            "5": "Daniel Davis",
+            "4": "Andrew Jagger",
+            "3": "Bradley Davies",
+            "2": "Joel Fisher",
+            "1": "Nathan Cox",
+            "S1": "Guy Craddock",
+            "S2": "Jonathan McGurk",
+            "S3": "Oscar Davies"
+        },
+        {
+            "15": "Jake Stanton",
+            "14": "George Burke",
+            "13": "Hamish Mackie",
+            "12": "Jake Bates",
+            "11": "Dan Haywood",
+            "10": "Ben Pearson",
+            "9": "Pearse Moloney",
+            "8": "Cameron Queree",
+            "7": "John James Le Feuvre",
+            "6": "Brian Njomba",
+            "5": "Josh Twohig-Jones",
+            "4": "Conor Bisson-Mercury",
+            "3": "Tristan Burns",
+            "2": "Patrick Crossley",
+            "1": "James Kent",
+            "S1": "Name withheld",
+            "S2": "Matthew Boyd",
+            "S3": "Corne Visagie"
+        }
+    ]
+}

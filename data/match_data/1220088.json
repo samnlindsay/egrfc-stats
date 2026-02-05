@@ -1,0 +1,58 @@
+{
+    "match_id": "1220088",
+    "season": "2025-2026",
+    "league": "Counties 2 Sussex",
+    "date": "2026-01-17",
+    "teams": [
+        "Royals RFC",
+        "Lewes"
+    ],
+    "score": [
+        24,
+        31
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/94051.png",
+        "https://images.englandrugby.com/club_images/12206.png"
+    ],
+    "players": [
+        {
+            "15": "Christian Weald",
+            "14": "George Burke",
+            "13": "Marcus Brandon",
+            "12": "Jake Bates",
+            "11": "Oliver Walker",
+            "10": "Ben Pearson",
+            "9": "Pearse Moloney",
+            "8": "Cameron Queree",
+            "7": "Josh Twohig-Jones",
+            "6": "Brian Njomba",
+            "5": "Will Michel",
+            "4": "Lewis Ham-Howes",
+            "3": "Name withheld",
+            "2": "Jack Lowe",
+            "1": "Tristan Burns",
+            "S1": "Matthew Boyd",
+            "S2": "Hugo Reid",
+            "S3": "Thomas Moore"
+        },
+        {
+            "15": "Harry Carr",
+            "14": "Rafferty Green",
+            "13": "Ben Goode",
+            "12": "Daryl Benson",
+            "11": "Jordan Smith",
+            "10": "Joseph Lacy",
+            "9": "Louis Medhurst",
+            "8": "Harry Weston",
+            "7": "Harry Rees",
+            "6": "James Sale",
+            "5": "Thomas Petty",
+            "4": "Fearghus Gage",
+            "3": "Benjamin Simmonds",
+            "2": "Ian Thomas",
+            "1": "Archie Rayner",
+            "S1": "Harry Pryer"
+        }
+    ]
+}

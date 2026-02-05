@@ -1,0 +1,57 @@
+{
+    "match_id": "1220083",
+    "season": "2025-2026",
+    "league": "Counties 2 Sussex",
+    "date": "2026-01-10",
+    "teams": [
+        "Eastbourne II",
+        "Brighton II"
+    ],
+    "score": [
+        26,
+        45
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7213.png",
+        "https://images.englandrugby.com/club_images/3218.png"
+    ],
+    "players": [
+        {
+            "15": "Joseph Satchwell",
+            "14": "Name withheld",
+            "13": "Martial Chaput",
+            "12": "Maximus Smith",
+            "11": "Henry Duke",
+            "10": "Louis Nicholls",
+            "9": "Glen Smith",
+            "8": "Konrad Oneill",
+            "7": "Joseph Long",
+            "6": "Michael Morehen",
+            "5": "Sean Groombridge",
+            "4": "Toby Slaughter",
+            "3": "Sebastian Wardle",
+            "2": "Christopher Hosking",
+            "1": "Alun Cranch",
+            "S1": "Aitor Salas Blazquez",
+            "S2": "Carl Slaughter",
+            "S3": "Zane Hanna"
+        },
+        {
+            "15": "Andre Syred",
+            "14": "Aled Edwards",
+            "13": "McCauley Medhurst",
+            "12": "Hayden Quigg",
+            "11": "Joshua Berman",
+            "10": "Adam Butler",
+            "9": "Max Suttner",
+            "8": "Luke Jameson Clark",
+            "7": "Dillon Stingemore",
+            "6": "Zak Ellenger",
+            "5": "Travis James",
+            "4": "Nicolas Lewis",
+            "3": "Luke Booth",
+            "2": "Frederick Tilley",
+            "1": "Pete Carter"
+        }
+    ]
+}

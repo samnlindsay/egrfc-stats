@@ -1,0 +1,60 @@
+{
+    "match_id": "1220089",
+    "season": "2025-2026",
+    "league": "Counties 2 Sussex",
+    "date": "2026-01-17",
+    "teams": [
+        "Shoreham",
+        "East Grinstead"
+    ],
+    "score": [
+        14,
+        38
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/19257.png",
+        "https://images.englandrugby.com/club_images/7134.png"
+    ],
+    "players": [
+        {
+            "15": "Darren Locke",
+            "14": "Ewan Shepherd",
+            "13": "Connor Fairhall",
+            "12": "Toby Reed",
+            "11": "David Ayres",
+            "10": "Adam Fear",
+            "9": "Nathan Funnell",
+            "8": "Gavin Cox",
+            "7": "Alex Hall",
+            "6": "Joel Carter",
+            "5": "Finnbar Broxup",
+            "4": "Daniel Adams",
+            "3": "Michael Shaw",
+            "2": "Jack Portman",
+            "1": "Daryn Clarke",
+            "S1": "Name withheld",
+            "S2": "Louie Bryant",
+            "S3": "Paul Mamoany"
+        },
+        {
+            "15": "Alistair Moffatt",
+            "14": "William Roberts",
+            "13": "Max Crawley-Moore",
+            "12": "Jack Andrews",
+            "11": "Henry Weller",
+            "10": "Noah Roberts",
+            "9": "Mark Lewis",
+            "8": "Connor Leggat",
+            "7": "Rory evans",
+            "6": "Aaronn Boczek",
+            "5": "John Peaty",
+            "4": "Samuel Lindsay-McCall",
+            "3": "Joshua Brimecombe",
+            "2": "Benjamin Tottman",
+            "1": "Guy Collins",
+            "S1": "James Funnell",
+            "S2": "Oscar Staples",
+            "S3": "Josh Weaver"
+        }
+    ]
+}

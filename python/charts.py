@@ -1,7 +1,15 @@
+import sys
+from pathlib import Path
+
+# Add project root to Python path
+project_root = Path(__file__).parent.parent
+if str(project_root) not in sys.path:
+    sys.path.insert(0, str(project_root))
+
 import json
 import altair as alt
 import pandas as pd
-from data_prep import *
+from python.data_prep import *
 from copy import deepcopy
 import os
 from bs4 import BeautifulSoup

@@ -1,0 +1,59 @@
+{
+    "match_id": "1220082",
+    "season": "2025-2026",
+    "league": "Counties 2 Sussex",
+    "date": "2026-01-10",
+    "teams": [
+        "Lewes",
+        "Pulborough"
+    ],
+    "score": [
+        6,
+        47
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/12206.png",
+        "https://images.englandrugby.com/club_images/17255.png"
+    ],
+    "players": [
+        {
+            "15": "Ben Goode",
+            "14": "Daryl Benson",
+            "13": "Rafferty Green",
+            "12": "Ben Smith",
+            "11": "Thomas Roy",
+            "10": "Jordan Smith",
+            "9": "Thomas Moore",
+            "8": "Louis Medhurst",
+            "7": "Harry Weston",
+            "6": "Harry Rees",
+            "5": "Jack Bradford",
+            "4": "Name withheld",
+            "3": "Fearghus Gage",
+            "2": "Benjamin Simmonds",
+            "1": "Ian Thomas",
+            "S1": "Thomas Petty",
+            "S2": "Simon Coe"
+        },
+        {
+            "15": "Ralph Robson",
+            "14": "William Scrase",
+            "13": "Bryan Woodhouse",
+            "12": "Ollie Johnston",
+            "11": "Patrick Burnett",
+            "10": "Henry Lee",
+            "9": "Archie Sadler",
+            "8": "Dylan Townsend",
+            "7": "Liam Masters",
+            "6": "Ben Sadler",
+            "5": "George Harwood",
+            "4": "Carl Brewster",
+            "3": "Douglas Ludlow-monk",
+            "2": "Jake Parker",
+            "1": "Reuben Joyce",
+            "S1": "Chad Marais",
+            "S2": "Kieron Martin",
+            "S3": "Hugo March"
+        }
+    ]
+}

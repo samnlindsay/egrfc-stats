@@ -1,0 +1,59 @@
+{
+    "match_id": "1261764",
+    "season": "2025-2026",
+    "league": "Counties 2 Sussex",
+    "date": "2026-01-10",
+    "teams": [
+        "East Grinstead",
+        "Royals RFC"
+    ],
+    "score": [
+        49,
+        5
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7134.png",
+        "https://images.englandrugby.com/club_images/94051.png"
+    ],
+    "players": [
+        {
+            "15": "Alistair Moffatt",
+            "14": "Ted Hardisty",
+            "13": "Benjamin Marelli",
+            "12": "Jake Radcliffe",
+            "11": "William Roberts",
+            "10": "Noah Roberts",
+            "9": "Mark Lewis",
+            "8": "Aaronn Boczek",
+            "7": "Rory evans",
+            "6": "Josh Weaver",
+            "5": "John Peaty",
+            "4": "Theo Fontaine",
+            "3": "Guy Collins",
+            "2": "Benjamin Tottman",
+            "1": "Joshua Brimecombe",
+            "S1": "Mark Oliver",
+            "S2": "Thomas McMahon",
+            "S3": "David Bridges"
+        },
+        {
+            "15": "Aidan Loane",
+            "14": "George Burke",
+            "13": "Hamish Mackie",
+            "12": "Jake Bates",
+            "11": "Hugo Reid",
+            "10": "Ben Pearson",
+            "9": "Pearse Moloney",
+            "8": "Cameron Queree",
+            "7": "Josh Twohig-Jones",
+            "6": "Charlie Courtness",
+            "5": "Will Michel",
+            "4": "Lewis Ham-Howes",
+            "3": "Name withheld",
+            "2": "Patrick Crossley",
+            "1": "Jack Lowe",
+            "S1": "John James Le Feuvre",
+            "S2": "Aaron Morant"
+        }
+    ]
+}

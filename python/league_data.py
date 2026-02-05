@@ -1,3 +1,4 @@
+import csv
 import requests
 import os
 import json
@@ -465,6 +466,31 @@ def update_multiple_seasons_and_squads(seasons=None, squads=None, consolidated_f
     
     return final_matches
 
+def save_summary_match_data(matches, output_file="data/summary_matches.csv"):
+    # Read matches.json
+    with open('data/matches.json', 'r') as f:
+        matches = json.load(f)
+
+    # Create CSV
+    with open('data/matches_summary.csv', 'w', newline='') as f:
+        writer = csv.DictWriter(f, fieldnames=['match_id', 'season', 'league', 'date', 'home_team', 'away_team', 'home_score', 'away_score'])
+        writer.writeheader()
+
+        for match in matches:
+            writer.writerow({
+                'match_id': match['match_id'],
+                'season': match['season'],
+                'league': match['league'],
+                'date': match['date'],
+                'home_team': match['teams'][0],
+                'away_team': match['teams'][1],
+                'home_score': match['score'][0] if match['score'][0] is not None else '',
+                'away_score': match['score'][1] if match['score'][1] is not None else ''
+            })
+
+    print(f'Created CSV with {len(matches)} matches')
+    print('Saved to data/matches_summary.csv')
+
 def main():
     """Main function to fetch and save match data."""
     parser = argparse.ArgumentParser(description="Scrape England Rugby match data.")
@@ -492,9 +518,12 @@ def main():
         logging.info(f"No specific squad/season specified. Updating {current_season} for both squads...")
         update_multiple_seasons_and_squads(
             seasons=[current_season], 
-            squads=[1, 2], 
+            squads=[1], 
             consolidated_file=args.file
         )
+
+    # Save summary CSV
+    save_summary_match_data(load_consolidated_matches(args.file), output_file="data/matches_summary.csv")
 
 if __name__ == "__main__":
     main()

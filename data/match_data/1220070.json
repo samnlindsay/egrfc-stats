@@ -1,0 +1,57 @@
+{
+    "match_id": "1220070",
+    "season": "2025-2026",
+    "league": "Counties 2 Sussex",
+    "date": "2025-12-13",
+    "teams": [
+        "Crawley",
+        "East Grinstead"
+    ],
+    "score": [
+        0,
+        58
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/5807.png",
+        "https://images.englandrugby.com/club_images/7134.png"
+    ],
+    "players": [
+        {
+            "15": "Name withheld",
+            "14": "Jozef Boczek",
+            "13": "William Ofosuhene",
+            "12": "Joshua Rodwell",
+            "11": "Kristian Dean",
+            "10": "Callum Hankin",
+            "9": "Charles Dennis",
+            "8": "Guy Craddock",
+            "7": "Daniel Davis",
+            "6": "Andrew Jagger",
+            "5": "Bradley Davies",
+            "4": "Nathan Cox",
+            "3": "Aaron O'Callaghan",
+            "2": "Joel Fisher",
+            "1": "Andrew Griffiths",
+            "S1": "Adam Dealhoy",
+            "S2": "Alistair Moffatt",
+            "S3": "Henry Weller"
+        },
+        {
+            "15": "Benjamin Marelli",
+            "14": "Jake Radcliffe",
+            "13": "Rhys Skinner",
+            "12": "Daniel Poulton",
+            "11": "Mark Lewis",
+            "10": "Aaronn Boczek",
+            "9": "Theo Fontaine",
+            "8": "Or Shay",
+            "7": "William Bramwell",
+            "6": "Guy Collins",
+            "5": "Mark Oliver",
+            "4": "Joshua Brimecombe",
+            "3": "Harrison Berry",
+            "2": "Gregory Brack",
+            "1": "George Beet"
+        }
+    ]
+}

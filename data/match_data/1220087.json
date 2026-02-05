@@ -1,0 +1,57 @@
+{
+    "match_id": "1220087",
+    "season": "2025-2026",
+    "league": "Counties 2 Sussex",
+    "date": "2026-01-17",
+    "teams": [
+        "Crawley",
+        "Eastbourne II"
+    ],
+    "score": [
+        83,
+        10
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/5807.png",
+        "https://images.englandrugby.com/club_images/7213.png"
+    ],
+    "players": [
+        {
+            "15": "Kristian Dean",
+            "14": "Kai Marshall",
+            "13": "Charles Dennis",
+            "12": "Conor Kelly",
+            "11": "Name withheld",
+            "10": "Vincenzo Dessena",
+            "9": "Callum Hankin",
+            "8": "Daniel Davis",
+            "7": "Guy Craddock",
+            "6": "William Ofosuhene",
+            "5": "Bradley Davies",
+            "4": "Nathan Cox",
+            "3": "Joel Fisher",
+            "2": "Jonathan McGurk",
+            "1": "Andrew Wilson",
+            "S1": "Andrew Jagger",
+            "S2": "Oscar Davies",
+            "S3": "Teddy Groves"
+        },
+        {
+            "15": "Carl Slaughter",
+            "14": "Maximus Smith",
+            "13": "Roscoe Gomm",
+            "12": "Martial Chaput",
+            "11": "Louis Nicholls",
+            "10": "Glen Smith",
+            "9": "Michael Morehen",
+            "8": "Joshua Boundy",
+            "7": "Joshua Imich",
+            "6": "Joseph Long",
+            "5": "Alun Cranch",
+            "4": "Aitor Salas Blazquez",
+            "3": "Toby Slaughter",
+            "2": "Matthew Saunders",
+            "1": "Kai Walker"
+        }
+    ]
+}

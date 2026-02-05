@@ -1,26 +1,95 @@
+#!/usr/bin/env python3
+"""
+League Statistics Generator
+
+Reads match data from matches_summary.csv and generates analysis charts
+for a specific squad and season.
+
+Usage:
+    python league_stats.py --squad 1 --season 2025/26
+    python league_stats.py --all  # Generate for all squads and seasons
+"""
+
+import sys
 import json
 import os
 import pandas as pd
-from charts import alt_theme
 import altair as alt
-from league_data import *
+import argparse
+import logging
+from pathlib import Path
+
+# Add project root to Python path
+project_root = Path(__file__).parent.parent
+if str(project_root) not in sys.path:
+    sys.path.insert(0, str(project_root))
+
+from python.chart_helpers import hack_params_css
+
+# Division definitions
+divisions = {
+    1: {
+        "2025/26": "Counties 2 Sussex",
+        "2024/25": "Counties 1 Surrey/Sussex",
+        "2023/24": "Counties 1 Surrey/Sussex",
+        "2022/23": "Counties 2 Sussex"
+    },
+    2: {
+        "2025/26": "Counties 3 Sussex",
+        "2024/25": "Counties 3 Sussex",
+    }
+}
+
+def squad_lookup(season, league):
+    """Return the squad number based on season and league"""
+    season_key = season.replace('-20', '/')  # Convert 2024-2025 to 2024/25
+    for div, seasons in divisions.items():
+        if league == seasons.get(season_key):
+            return int(div)
+    return 2
+
+# Define Altair theme inline to avoid import issues
+def alt_theme():
+    return {
+        "config": {
+            "view": {"continuousWidth": 400, "continuousHeight": 300},
+            "font": "PT Sans Narrow",
+            "title": {"fontSize": 22, "fontWeight": "bold", "color": "#202946"},
+        }
+    }
+
+# Configure logging
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+
+# Register Altair theme
 alt.themes.register("my_custom_theme", alt_theme)
 alt.themes.enable("my_custom_theme")
 
 # Define file paths
-MATCH_DATA_FILE = f"data/matches.json"
-OUTPUT_FILE = f"season_squad_analysis.csv"
+MATCHES_SUMMARY_CSV = "data/matches_summary.csv"
+MATCHES_JSON = "data/matches.json"
 
-# Load all match data from the JSON file
-if not os.path.exists(MATCH_DATA_FILE):
-    raise FileNotFoundError(f"Match data file '{MATCH_DATA_FILE}' not found.")
+def load_match_data():
+    """Load match data from CSV and JSON files."""
+    # Load summary CSV
+    if not os.path.exists(MATCHES_SUMMARY_CSV):
+        raise FileNotFoundError(f"Match summary file '{MATCHES_SUMMARY_CSV}' not found. Run league_data.py first.")
+    
+    df_summary = pd.read_csv(MATCHES_SUMMARY_CSV)
+    logging.info(f"Loaded {len(df_summary)} matches from {MATCHES_SUMMARY_CSV}")
+    
+    # Load full JSON for player data
+    if not os.path.exists(MATCHES_JSON):
+        logging.warning(f"Match JSON file '{MATCHES_JSON}' not found. Player data will be unavailable.")
+        matches_json = []
+    else:
+        with open(MATCHES_JSON, 'r') as f:
+            matches_json = json.load(f)
+        logging.info(f"Loaded {len(matches_json)} matches from {MATCHES_JSON}")
+    
+    return df_summary, matches_json
 
-with open(MATCH_DATA_FILE, "r") as f:
-    matches = json.load(f)
-
-# List to store structured match data
-data = []
-
+# Team colors for visualization
 colors = {
     "East Grinstead": ["darkblue", "white"],
     "East Grinstead II": ["darkblue", "white"],
@@ -50,73 +119,53 @@ colors = {
     "Uckfield": ["purple", "gold"],
     "Crawley": ["maroon", "deepskyblue"],
     "Burgess Hill": ["black", "gold"],
+    "Ditchling": ["black", "white"],
+    "Brighton II": ["skyblue", "white"],
 }
 
-divisions = {
-    1: {
-        "2025/26": "Counties 2 Sussex",
-        "2024/25": "Counties 1 Surrey/Sussex",
-        "2023/24": "Counties 1 Surrey/Sussex",
-        "2022/23": "Counties 2 Sussex"
-    },
-    2: {
-        "2025/26": "Counties 3 Sussex",
-        "2024/25": "Counties 3 Sussex",
-    }
-}    
-
-def squad_lookup(season, league):
-    """Return the squad number based on season and league"""
-    season_key = season.replace('-20', '/')  # Convert 2024-2025 to 2024/25
-    for div, seasons in divisions.items():
-        if league == seasons.get(season_key):
-            return int(div)
-    return 2
-
-
-# Process each match entry
-for match in matches:
-    match_id = match["match_id"]
-    match_date = match["date"]
-    teams = match["teams"]
-    players = match.get("players", [{}, {}])  # Handle missing players data
-    season = match["season"]
-    league = match["league"]
+def prepare_player_data(matches_json):
+    """Extract player appearance data from JSON matches."""
+    data = []
     
-    # Determine squad from league or team names
-    squad = squad_lookup(season, league)
-
-    for i in range(2):  # Loop over both teams
-        team_name = teams[i]
+    for match in matches_json:
+        match_id = match["match_id"]
+        match_date = match["date"]
+        teams = match["teams"]
+        players = match.get("players", [{}, {}])
+        season = match["season"]
+        league = match["league"]
         
-        # Check if players data exists and is valid
-        if players and len(players) > i and isinstance(players[i], dict):
-            for position, player_name in players[i].items():
-                data.append({
-                    "Match ID": match_id,
-                    "Season": season,
-                    "League": league,
-                    "Date": match_date,
-                    "Squad": squad,
-                    "Team": team_name,
-                    "Player": player_name,
-                    "Position": position,
-                    "Color1": colors.get(team_name, ["gray", "black"])[0], 
-                    "Color2": colors.get(team_name, ["gray", "black"])[1]
-                })
+        # Determine squad from league
+        squad = squad_lookup(season, league)
 
-# Create DataFrame
-df = pd.DataFrame(data)
+        for i in range(2):  # Loop over both teams
+            team_name = teams[i]
+            
+            # Check if players data exists and is valid
+            if players and len(players) > i and isinstance(players[i], dict):
+                for position, player_name in players[i].items():
+                    data.append({
+                        "Match ID": match_id,
+                        "Season": season,
+                        "League": league,
+                        "Date": match_date,
+                        "Squad": squad,
+                        "Team": team_name,
+                        "Player": player_name,
+                        "Position": position,
+                        "Color1": colors.get(team_name, ["gray", "black"])[0], 
+                        "Color2": colors.get(team_name, ["gray", "black"])[1]
+                    })
 
-# Save to CSV
-df.to_csv(OUTPUT_FILE, index=False)
-print(f"Season squad analysis saved to {OUTPUT_FILE}")
+    df = pd.DataFrame(data)
+    
+    if not df.empty:
+        # Convert date to datetime and sort
+        df["Date"] = pd.to_datetime(df["Date"])
+        df = df.sort_values(["Team", "Date"])
+    
+    return df
 
-# Convert date to datetime and sort
-df["Date"] = pd.to_datetime(df["Date"])
-df = df.sort_values(["Team", "Date"])
-
-# Fix unit classification to handle non-numeric positions properly
 def classify_unit(position):
     """Classify position into unit, handling both numeric and text positions."""
     if pd.isna(position) or position == "":
@@ -137,26 +186,31 @@ def classify_unit(position):
         # Handle text positions (substitutes, etc.)
         return "Bench"
 
-df["Unit"] = df["Position"].apply(classify_unit)
-
-def create_squad_charts(squad_number, season_filter=None):
+def create_squad_charts(df, squad_number, season_filter=None):
     """Create charts for a specific squad"""
+    
+    if df.empty:
+        logging.warning("No player data available for squad charts")
+        return None, None
+    
+    # Add unit classification
+    df["Unit"] = df["Position"].apply(classify_unit)
     
     # Filter data for specific squad
     squad_df = df[df["Squad"] == squad_number].copy()
     
     if squad_df.empty:
-        print(f"No data found for squad {squad_number}")
+        logging.warning(f"No data found for squad {squad_number}")
         return None, None
     
     # Further filter by season if specified
     if season_filter:
         squad_df = squad_df[squad_df["Season"] == season_filter]
         if squad_df.empty:
-            print(f"No data found for squad {squad_number} in season {season_filter}")
+            logging.warning(f"No data found for squad {squad_number} in season {season_filter}")
             return None, None
     
-    print(f"Creating charts for Squad {squad_number} with {len(squad_df)} player records")
+    logging.info(f"Creating charts for Squad {squad_number} with {len(squad_df)} player records")
     
     # Summary Statistics for this squad
     appearance_count = (
@@ -407,24 +461,26 @@ def create_squad_charts(squad_number, season_filter=None):
     # Save chart
     os.makedirs("Charts/league", exist_ok=True)
     file = f"Charts/league/squad_analysis_{squad_number}s_{latest_season}.html"
+    chart.save(file, embed_options={'renderer':'svg', 'actions': {'export': True, 'source':False, 'editor':True, 'compiled':False}})
+    hack_params_css(file, params=True)
     
-    print(f"Saved squad {squad_number} charts to {file}")
+    logging.info(f"Saved squad {squad_number} charts to {file}")
     
     return chart, squad_df
 
-def league_results_chart(squad_number, season, table_order=False):
+def league_results_chart(matches_json, squad_number, season, table_order=False):
     """Create league results chart for a specific squad and season showing ALL teams in that league."""
     
     # Filter matches for this squad and season
     squad_matches = []
-    for match in matches:
+    for match in matches_json:
         match_squad = squad_lookup(match["season"], match["league"])
         
         if match_squad == squad_number and match["season"] == season:
             squad_matches.append(match)
     
     if not squad_matches:
-        print(f"No data found for squad {squad_number} in season {season}")
+        logging.warning(f"No data found for squad {squad_number} in season {season}")
         return None
     
     # Create results dataframe
@@ -439,6 +495,12 @@ def league_results_chart(squad_number, season, table_order=False):
     df_results["score"] = df_results["score"].apply(lambda x: f"{x[0]}-{x[1]}")
 
     def result(x):
+        if pd.isna(x["PD"]):
+            return "To be played"
+            
+        if x["Home"] == x["Away"]:
+            return "N/A"
+            
         result = None
         if x["PD"] > 0:
             result = "Home Win"
@@ -446,10 +508,6 @@ def league_results_chart(squad_number, season, table_order=False):
             result = "Away Win"
         elif x["PD"] == 0:
             return "Draw"
-        elif x["Home"] != x["Away"]:
-            return "To be played"
-        else:
-            return result
 
         if abs(x["PD"]) < 8:
             result += " (LBP)"
@@ -550,7 +608,7 @@ def league_results_chart(squad_number, season, table_order=False):
         opacity=alt.condition(f"{predicate} | !isValid({highlight.name}['Home'])", alt.value(0.8), alt.value(0.4)),
     )
 
-    # Points difference on diagonal - THIS IS THE KEY FIX!
+    # Points difference on diagonal
     textPD = alt.Chart(pd_df).mark_text(size=14, color="white", opacity=0.8).encode(
         x=alt.X('Team:N', title=None, sort=teams[::-1], axis=alt.Axis(ticks=False, domain=False, labels=False)),
         y=alt.Y('Team:N', title=None, sort=teams, axis=alt.Axis(ticks=False, domain=False, labels=False)),
@@ -579,30 +637,100 @@ def league_results_chart(squad_number, season, table_order=False):
     
     os.makedirs("Charts/league", exist_ok=True)
     filename = f"Charts/league/results_{squad_number}s_{season}.html"
+    final_chart.save(filename, embed_options={'renderer':'svg', 'actions': {'export': True, 'source':False, 'editor':True, 'compiled':False}})
+    hack_params_css(filename, params=False)
     
-    print(f"Saved squad {squad_number} results chart to {filename}")
+    logging.info(f"Saved squad {squad_number} results chart to {filename}")
     return final_chart
 
-# Generate charts for both squads
-if not df.empty:
-    available_squads = sorted([s for s in df["Squad"].dropna().unique() if pd.notna(s)])
-    latest_season = sorted(df["Season"].unique())[-1] if not df.empty else "2025-2026"
+def generate_stats(squad=1, season="2025/26"):
+    """Generate statistics for a specific squad and season."""
     
-    print(f"Available squads: {available_squads}")
-    print(f"Latest season: {latest_season}")
+    # Load data
+    df_summary, matches_json = load_match_data()
     
-    for squad_num in available_squads:
-        squad_num = int(squad_num)
-        print(f"\n=== Creating charts for Squad {squad_num} ===")
+    # Convert season format for filtering (2025/26 -> 2025-2026)
+    season_filter = season.replace('/', '-20')
+    
+    # Filter summary data for this squad and season
+    league_name = divisions.get(squad, {}).get(season)
+    if not league_name:
+        logging.error(f"No league found for squad {squad} in season {season}")
+        return
+    
+    matches_filtered = df_summary[
+        (df_summary['season'] == season_filter) & 
+        (df_summary['league'] == league_name)
+    ]
+    
+    logging.info(f"Found {len(matches_filtered)} matches for squad {squad} in {season}")
+    
+    if matches_filtered.empty:
+        logging.warning(f"No matches found for squad {squad} in season {season}")
+        return
+    
+    # Generate results chart
+    if matches_json:
+        try:
+            results_chart = league_results_chart(matches_json, squad, season_filter, table_order=True)
+        except Exception as e:
+            logging.error(f"Error creating results chart: {e}")
+    
+    # Generate squad analysis charts (requires player data)
+    df_players = prepare_player_data(matches_json)
+    if not df_players.empty:
+        try:
+            chart, squad_data = create_squad_charts(df_players, squad, season_filter)
+        except Exception as e:
+            logging.error(f"Error creating squad analysis charts: {e}")
+    else:
+        logging.warning("No player data available for squad analysis")
+    
+    logging.info(f"Completed stats generation for squad {squad}, season {season}")
+
+def main():
+    """Main function to generate league statistics."""
+    parser = argparse.ArgumentParser(
+        description="Generate league statistics and charts from match data.",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+  python league_stats.py                      # Default: squad 1, season 2025/26
+  python league_stats.py --squad 2            # Squad 2, season 2025/26
+  python league_stats.py --season 2024/25     # Squad 1, season 2024/25
+  python league_stats.py --all                # All squads and seasons
+        """
+    )
+    parser.add_argument("--squad", type=int, default=1, help="Squad number (1 or 2)")
+    parser.add_argument("--season", type=str, default="2025/26", help="Season (e.g., 2025/26)")
+    parser.add_argument("--all", action="store_true", help="Generate for all available squads and seasons")
+    
+    args = parser.parse_args()
+    
+    if args.all:
+        # Generate for all available combinations
+        logging.info("Generating stats for all squads and seasons")
         
-        # Create squad analysis charts
-        chart_result = create_squad_charts(squad_num)
-        if chart_result is not None:
-            chart, squad_data = chart_result
+        df_summary, matches_json = load_match_data()
+        df_players = prepare_player_data(matches_json)
+        
+        if not df_players.empty:
+            available_squads = sorted([int(s) for s in df_players["Squad"].dropna().unique() if pd.notna(s)])
+            available_seasons = sorted(df_players["Season"].unique())
             
-            # Create results chart for latest season
-            results_chart = league_results_chart(squad_num, latest_season, table_order=True)
-    
-    print(f"\n=== Charts created for all available squads ===")
-else:
-    print("No data available to create charts")
+            for season in available_seasons:
+                season_short = season.replace('-20', '/')
+                for squad in available_squads:
+                    try:
+                        logging.info(f"\n=== Processing Squad {squad}, Season {season_short} ===")
+                        generate_stats(squad=squad, season=season_short)
+                    except Exception as e:
+                        logging.error(f"Error processing squad {squad}, season {season_short}: {e}")
+        else:
+            logging.error("No player data available")
+    else:
+        # Generate for specific squad and season
+        generate_stats(squad=args.squad, season=args.season)
+
+if __name__ == "__main__":
+    main()

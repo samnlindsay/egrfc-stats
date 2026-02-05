@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "egrfc-stats"
+version = "1.0.0"
+description = "Rugby club statistics tracking system for East Grinstead RFC"
+requires-python = ">=3.8"
+dependencies = [
+    "gspread",
+    "pandas",
+    "duckdb",
+    "altair",
+    "beautifulsoup4",
+    "requests",
+]
+
+[tool.setuptools]
+packages = ["python"]

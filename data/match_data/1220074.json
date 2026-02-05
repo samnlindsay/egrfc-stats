@@ -1,0 +1,57 @@
+{
+    "match_id": "1220074",
+    "season": "2025-2026",
+    "league": "Counties 2 Sussex",
+    "date": "2025-12-13",
+    "teams": [
+        "Eastbourne II",
+        "Ditchling"
+    ],
+    "score": [
+        22,
+        47
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7213.png",
+        "https://images.englandrugby.com/club_images/6541.png"
+    ],
+    "players": [
+        {
+            "15": "Stuart Baker",
+            "14": "Name withheld",
+            "13": "Maximus Smith",
+            "12": "Martial Chaput",
+            "11": "Louis Paal",
+            "10": "Louis Nicholls",
+            "9": "Konrad Oneill",
+            "8": "Morgan Treacher",
+            "7": "Glen Smith",
+            "6": "Michael Morehen",
+            "5": "Brandon Foot",
+            "4": "Christopher Hosking",
+            "3": "Joshua Clarke",
+            "2": "Toby Slaughter",
+            "1": "Joshua Imich",
+            "S1": "Joshua Boundy",
+            "S2": "Trystan Mocke",
+            "S3": "Nick Whitley-Jones"
+        },
+        {
+            "15": "Jarrell Bobo",
+            "14": "Connor Nolan",
+            "13": "Tom Wood",
+            "12": "Sonny Smyth",
+            "11": "Ben Poulton",
+            "10": "Barnaby van Hoeken",
+            "9": "Daniel Marshall",
+            "8": "Bill Sibun",
+            "7": "Ollie Van Hoeken",
+            "6": "Gordon Costick",
+            "5": "Samuel Lodge",
+            "4": "Sean Laroche",
+            "3": "Luke Dobson",
+            "2": "Murray Jardine",
+            "1": "Harry Sandercock"
+        }
+    ]
+}

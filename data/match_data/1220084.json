@@ -1,0 +1,56 @@
+{
+    "match_id": "1220084",
+    "season": "2025-2026",
+    "league": "Counties 2 Sussex",
+    "date": "2026-01-10",
+    "teams": [
+        "Ditchling",
+        "Seaford"
+    ],
+    "score": [
+        31,
+        26
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/6541.png",
+        "https://images.englandrugby.com/club_images/18868.png"
+    ],
+    "players": [
+        {
+            "15": "Adam Crook",
+            "14": "Jarrell Bobo",
+            "13": "Frazer Falzon",
+            "12": "Dylan Thomas",
+            "11": "Oscar Wiseman",
+            "10": "Fred Longley",
+            "9": "Name withheld",
+            "8": "Jamie Hutchings",
+            "7": "Alex Taylor",
+            "6": "Ollie Van Hoeken",
+            "5": "Alex Hinchliffe",
+            "4": "Gordon Costick",
+            "3": "Samuel Lodge",
+            "2": "Sean Laroche",
+            "1": "Alex Hargreaves",
+            "S1": "Ben Poulton",
+            "S2": "Corey Digby-Clarke",
+            "S3": "william joy"
+        },
+        {
+            "15": "Colm Evans",
+            "14": "Oscar Weisz",
+            "13": "Jack Cullinane",
+            "12": "Geoffrey Bridges",
+            "11": "Harvey Joy",
+            "10": "Jason Staples",
+            "9": "Elliott Curl",
+            "8": "Zakary Hume",
+            "7": "Joseph Drew",
+            "6": "Andrew Fry",
+            "5": "Joshua Hennessy",
+            "4": "Daniel Blunt",
+            "3": "Shaun Brewer",
+            "2": "Rhys Roberts"
+        }
+    ]
+}
