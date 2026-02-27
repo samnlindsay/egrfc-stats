@@ -12,7 +12,7 @@ if str(project_root) not in sys.path:
 
 import duckdb
 import pandas as pd
-from python.new_data import DataExtractor
+from python.data import DataExtractor
 
 """
 Database schema definitions for EGRFC stats

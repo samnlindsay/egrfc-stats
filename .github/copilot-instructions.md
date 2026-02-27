@@ -15,7 +15,7 @@ This is a rugby club statistics tracking system for East Grinstead RFC that pull
 ### Key Python Scripts (located in `python/`)
 
 **Data extraction & updates:**
-- `new_update.py` - **PRIMARY UPDATE SCRIPT** - Generates all charts using `DatabaseManager`
+- `update.py` - **PRIMARY UPDATE SCRIPT** - Generates all charts using `DatabaseManager`
 - `database.py` - Defines schema and `DatabaseManager` class with DuckDB queries
 - `new_data.py` - `DataExtractor` class pulls from Google Sheets, normalizes data
 - `data_prep.py` - Legacy loader (being deprecated in favor of `new_data.py`)
@@ -45,7 +45,7 @@ set_piece_stats     # Per-game set piece summary (game_id, team, set_piece, won,
 ### Running the full data update
 ```bash
 cd python
-python new_update.py  # Runs main() function - extracts data, generates all charts
+python update.py  # Runs main() function - extracts data, generates all charts
 ```
 
 This script:
@@ -72,10 +72,10 @@ Player names have multiple formats across data sources. Use `clean_name()` funct
 ```python
 # Converts "Sam Lindsay" → "S Lindsay 2" (handle duplicates)
 # Converts full names to "Initial Surname" format
-# Defined in both new_data.py and new_update.py
+# Defined in both new_data.py and update.py
 ```
 
-**Manual name mappings** exist in `other_names` dict (new_update.py:14-31) for historical Pitchero data.
+**Manual name mappings** exist in `other_names` dict (update.py:14-31) for historical Pitchero data.
 
 ### Squad Identification
 - `squad` field: `"1st"` or `"2nd"` (strings, not integers)
@@ -128,7 +128,7 @@ Not directly integrated with stats pipeline but shares player data.
 
 ## Data File Locations
 
-**Generated outputs** (git-ignored, regenerated via `new_update.py`):
+**Generated outputs** (git-ignored, regenerated via `update.py`):
 ```
 data/charts/*.json          # Vega-Lite chart specifications
 data/matches.json           # All match data
@@ -154,6 +154,6 @@ data/pitchero.json          # Historical Pitchero stats
 ## Key Files to Reference
 
 - Schema definitions: [database.py](python/database.py#L10-L100)
-- Chart generation patterns: [new_update.py](python/new_update.py#L50-L400)
+- Chart generation patterns: [update.py](python/update.py#L50-L400)
 - Frontend state management: [js/main.js](js/main.js)
 - CSS variables and theme: [css/variables.css](css/variables.css)
