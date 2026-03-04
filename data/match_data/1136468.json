@@ -1,12 +1,15 @@
 {
+    "match_id": "1136468",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2024-12-07",
-    "score": [
-        27,
-        0
-    ],
     "teams": [
         "London Cornish",
         "Trinity"
+    ],
+    "score": [
+        27,
+        0
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/12508.png",
@@ -53,8 +56,5 @@
             "S2": "Khalil Alleyne",
             "S3": "Jack Greenwood"
         }
-    ],
-    "match_id": "1136468",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

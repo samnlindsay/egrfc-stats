@@ -1,12 +1,15 @@
 {
+    "match_id": "1136445",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2024-10-26",
-    "score": [
-        18,
-        15
-    ],
     "teams": [
         "Trinity",
         "Eastbourne"
+    ],
+    "score": [
+        18,
+        15
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/23175.png",
@@ -53,8 +56,5 @@
             "S2": "Alun Cranch",
             "S3": "Maxence Saint-Andr\u00e9"
         }
-    ],
-    "match_id": "1136445",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

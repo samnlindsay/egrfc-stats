@@ -1,0 +1,60 @@
+{
+    "match_id": "1220104",
+    "season": "2025-2026",
+    "league": "Counties 2 Sussex",
+    "date": "2026-02-28",
+    "teams": [
+        "East Grinstead",
+        "Pulborough"
+    ],
+    "score": [
+        14,
+        13
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7134.png",
+        "https://images.englandrugby.com/club_images/17255.png"
+    ],
+    "players": [
+        {
+            "15": "Benjamin Marelli",
+            "14": "Alistair Moffatt",
+            "13": "Luke Maker",
+            "12": "Jake Radcliffe",
+            "11": "Jack Andrews",
+            "10": "Noah Roberts",
+            "9": "Mark Lewis",
+            "8": "Aaronn Boczek",
+            "7": "Rory evans",
+            "6": "Oscar Staples",
+            "5": "John Peaty",
+            "4": "Samuel Lindsay-McCall",
+            "3": "Guy Collins",
+            "2": "Mark Oliver",
+            "1": "Joshua Brimecombe",
+            "S1": "Benjamin Tottman",
+            "S2": "David Bridges",
+            "S3": "Or Shay"
+        },
+        {
+            "15": "Nicholas Cooper",
+            "14": "William Scrase",
+            "13": "Ralph Robson",
+            "12": "Bryan Woodhouse",
+            "11": "Matthew Sprigge",
+            "10": "Stephen Wilson",
+            "9": "Archie Sadler",
+            "8": "Joseph Serna",
+            "7": "Dylan Townsend",
+            "6": "Benjamin Monsey",
+            "5": "George Harwood",
+            "4": "Alfred Reeves",
+            "3": "Douglas Ludlow-monk",
+            "2": "Michael Woodhouse",
+            "1": "Thomas Brackley",
+            "S1": "Jake Parker",
+            "S2": "Carl Brewster",
+            "S3": "Ben Roberts"
+        }
+    ]
+}

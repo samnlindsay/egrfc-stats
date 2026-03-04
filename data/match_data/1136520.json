@@ -1,12 +1,15 @@
 {
+    "match_id": "1136520",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2025-03-08",
-    "score": [
-        14,
-        57
-    ],
     "teams": [
         "Old Haileyburians",
         "KCS Old Boys"
+    ],
+    "score": [
+        14,
+        57
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/15747.png",
@@ -15,46 +18,41 @@
     "players": [
         {
             "15": "Josh King",
-            "14": "Ethan Mead",
+            "14": "Name withheld",
             "13": "Luke Wright",
             "12": "Shea Minty",
             "11": "Dylan Connor",
             "10": "Ollie Mann",
-            "9": "Name withheld",
-            "8": "Edward Parr",
-            "7": "Harry Taylor",
-            "6": "Joshua Turley",
-            "5": "Charles Hymer",
-            "4": "William Barnes",
-            "3": "Oliver L Marsden",
-            "2": "Tobi Costello",
-            "1": "Joshua Sterne",
-            "S1": "Christopher Bryant",
-            "S2": "Hugo Walton",
-            "S3": "Rory Dickson"
+            "9": "Edward Parr",
+            "8": "Harry Taylor",
+            "7": "Joshua Turley",
+            "6": "William Barnes",
+            "5": "Oliver L Marsden",
+            "4": "Tobi Costello",
+            "3": "Joshua Sterne",
+            "2": "Christopher Bryant",
+            "1": "Hugo Walton",
+            "S1": "Rory Dickson",
+            "S2": "Patrick Smith",
+            "S3": "Hamish Day"
         },
         {
-            "15": "Patrick Smith",
-            "14": "Hamish Day",
-            "13": "George Pickens",
-            "12": "Thomas Evans",
-            "11": "James Shaw",
-            "10": "William Carter",
-            "9": "Neil Williams",
-            "8": "Stephen Byrne",
-            "7": "Dale Spratt",
-            "6": "Cameron Keller",
-            "5": "Rees Powell",
-            "4": "Fergus Keegan",
-            "3": "Charlie Topley",
-            "2": "Alexander Owen",
-            "1": "Benoit Israel",
-            "S1": "Minhyuk Seo",
-            "S2": "Matthew Young",
-            "S3": "Alexander van der Wielen"
+            "15": "George Pickens",
+            "14": "Thomas Evans",
+            "13": "James Shaw",
+            "12": "William Carter",
+            "11": "Neil Williams",
+            "10": "Stephen Byrne",
+            "9": "Dale Spratt",
+            "8": "Cameron Keller",
+            "7": "Rees Powell",
+            "6": "Fergus Keegan",
+            "5": "Charlie Topley",
+            "4": "Alexander Owen",
+            "3": "Benoit Israel",
+            "2": "Minhyuk Seo",
+            "1": "Matthew Young",
+            "S1": "Alexander van der Wielen"
         }
-    ],
-    "match_id": "1136520",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

@@ -1,12 +1,15 @@
 {
+    "match_id": "1136441",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2024-10-26",
-    "score": [
-        12,
-        47
-    ],
     "teams": [
         "Old Haileyburians",
         "Weybridge Vandals"
+    ],
+    "score": [
+        12,
+        47
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/15747.png",
@@ -15,7 +18,7 @@
     "players": [
         {
             "15": "Edward Walker",
-            "14": "Ethan Mead",
+            "14": "Name withheld",
             "13": "Benedict Trimmer",
             "12": "Issac Jeavons-Fellows",
             "11": "Samuel Mccafferty",
@@ -30,30 +33,24 @@
             "2": "Joseph Freeman",
             "1": "Tobi Costello",
             "S1": "Joshua Sterne",
-            "S2": "Charles Hymer",
-            "S3": "Name withheld"
+            "S2": "Thomas Bolger",
+            "S3": "David Kemp"
         },
         {
-            "15": "Thomas Bolger",
-            "14": "David Kemp",
-            "13": "Harry Reed",
-            "12": "Karl Hoade",
-            "11": "Luke Phair",
-            "10": "Daniel Wellden",
-            "9": "Joseph Graves",
-            "8": "James Gulliver",
-            "7": "James Weatherall",
-            "6": "Michael Mason",
-            "5": "Richard Crabb",
-            "4": "Luke Hempstead",
-            "3": "Cameron Edgar",
-            "2": "Joshua Thomas",
-            "1": "Lloyd Pullen",
-            "S1": "Thomas Frewin",
-            "S2": "Harry Weatherall"
+            "15": "Harry Reed",
+            "14": "Karl Hoade",
+            "13": "Luke Phair",
+            "12": "Daniel Wellden",
+            "11": "Joseph Graves",
+            "10": "James Weatherall",
+            "9": "Michael Mason",
+            "8": "Richard Crabb",
+            "7": "Luke Hempstead",
+            "6": "Cameron Edgar",
+            "5": "Joshua Thomas",
+            "4": "Lloyd Pullen",
+            "3": "Thomas Frewin",
+            "2": "Harry Weatherall"
         }
-    ],
-    "match_id": "1136441",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

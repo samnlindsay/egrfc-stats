@@ -1,12 +1,15 @@
 {
+    "match_id": "1136472",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2024-12-14",
-    "score": [
-        45,
-        14
-    ],
     "teams": [
         "Trinity",
         "Haywards Heath"
+    ],
+    "score": [
+        45,
+        14
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/23175.png",
@@ -53,8 +56,5 @@
             "S2": "Jack Bull",
             "S3": "Archie Kane"
         }
-    ],
-    "match_id": "1136472",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

@@ -1,12 +1,15 @@
 {
+    "match_id": "1136447",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2024-11-09",
-    "score": [
-        39,
-        22
-    ],
     "teams": [
         "Twickenham",
         "London Cornish"
+    ],
+    "score": [
+        39,
+        22
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/23336.png",
@@ -53,8 +56,5 @@
             "S2": "Thomas Carr",
             "S3": "James Marshall"
         }
-    ],
-    "match_id": "1136447",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

@@ -1,0 +1,58 @@
+{
+    "match_id": "1220102",
+    "season": "2025-2026",
+    "league": "Counties 2 Sussex",
+    "date": "2026-02-28",
+    "teams": [
+        "Eastbourne II",
+        "Lewes"
+    ],
+    "score": [
+        24,
+        49
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7213.png",
+        "https://images.englandrugby.com/club_images/12206.png"
+    ],
+    "players": [
+        {
+            "15": "Carl Slaughter",
+            "14": "Name withheld",
+            "13": "Maximus Smith",
+            "12": "Louis Paal",
+            "11": "Teddy Groves",
+            "10": "Louis Nicholls",
+            "9": "Glen Smith",
+            "8": "Ben Gower",
+            "7": "Tom Lester",
+            "6": "Eddie Wrench",
+            "5": "Michael Morehen",
+            "4": "Alun Cranch",
+            "3": "Joshua Clarke",
+            "2": "Toby Slaughter",
+            "1": "Joseph Long",
+            "S1": "Aitor Salas Blazquez",
+            "S2": "Trystan Mocke",
+            "S3": "Jack Soltermann"
+        },
+        {
+            "15": "Stanley Rowland",
+            "14": "Rafferty Green",
+            "13": "Ben Goode",
+            "12": "Jordan Smith",
+            "11": "Joseph Lacy",
+            "10": "Kane Dadswell",
+            "9": "Harry Weston",
+            "8": "Louis Medhurst",
+            "7": "Harry Taylor",
+            "6": "James Sale",
+            "5": "Alfie Green",
+            "4": "Harry Rees",
+            "3": "Ian Thomas",
+            "2": "Archie Rayner",
+            "1": "William Cross",
+            "S1": "Adam Hutchings"
+        }
+    ]
+}

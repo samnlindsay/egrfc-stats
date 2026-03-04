@@ -1,12 +1,15 @@
 {
+    "match_id": "1136503",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2025-02-01",
-    "score": [
-        64,
-        17
-    ],
     "teams": [
         "Eastbourne",
         "Trinity"
+    ],
+    "score": [
+        64,
+        17
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/7209.png",
@@ -53,8 +56,5 @@
             "S2": "Thomas Caplin",
             "S3": "Name withheld"
         }
-    ],
-    "match_id": "1136503",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

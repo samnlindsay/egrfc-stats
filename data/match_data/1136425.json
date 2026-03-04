@@ -1,12 +1,15 @@
 {
+    "match_id": "1136425",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2024-09-28",
-    "score": [
-        8,
-        29
-    ],
     "teams": [
         "Hove",
         "Trinity"
+    ],
+    "score": [
+        8,
+        29
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/10503.png",
@@ -26,12 +29,12 @@
             "6": "Thomas Mohan",
             "5": "Ben Stephens",
             "4": "IAN SAUNDERS",
-            "3": "Name withheld",
+            "3": "Adrian Shergold",
             "2": "Charlie Butcher",
             "1": "Ryan Storer",
             "S1": "Toby Downes",
             "S2": "Jack Edwards",
-            "S3": "Jack Moore"
+            "S3": "Name withheld"
         },
         {
             "15": "Joshua Joubert",
@@ -53,8 +56,5 @@
             "S2": "Marc McEvilly",
             "S3": "Fuad Agbalaya"
         }
-    ],
-    "match_id": "1136425",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

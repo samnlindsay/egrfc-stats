@@ -1,12 +1,15 @@
 {
+    "match_id": "1136422",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2024-09-28",
-    "score": [
-        28,
-        62
-    ],
     "teams": [
         "Haywards Heath",
         "Cobham"
+    ],
+    "score": [
+        28,
+        62
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/9776.png",
@@ -41,20 +44,15 @@
             "11": "Joseph Yorke",
             "10": "Knox O'Connor",
             "9": "Ryan Saunders",
-            "8": "Oliver Fielding",
-            "7": "Louis Porter",
-            "6": "Alexander Blackwood",
-            "5": "Alex Humber",
-            "4": "Luke Westgarth-Taylor",
-            "3": "Ben Joyce",
-            "2": "Andrew Murphy",
-            "1": "Chris Lippiatt",
-            "S1": "Ryan Aujla",
-            "S2": "James White",
-            "S3": "James Pearmund"
+            "8": "Louis Porter",
+            "7": "Alexander Blackwood",
+            "6": "Alex Humber",
+            "5": "Luke Westgarth-Taylor",
+            "4": "Ben Joyce",
+            "3": "Andrew Murphy",
+            "2": "Chris Lippiatt",
+            "1": "James White",
+            "S1": "James Pearmund"
         }
-    ],
-    "match_id": "1136422",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

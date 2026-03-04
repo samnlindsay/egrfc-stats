@@ -1,12 +1,15 @@
 {
+    "match_id": "1136429",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2024-10-12",
-    "score": [
-        38,
-        12
-    ],
     "teams": [
         "London Cornish",
         "Haywards Heath"
+    ],
+    "score": [
+        38,
+        12
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/12508.png",
@@ -53,8 +56,5 @@
             "S2": "Stanley Bradford",
             "S3": "Takhy Ndiaye Marrero"
         }
-    ],
-    "match_id": "1136429",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

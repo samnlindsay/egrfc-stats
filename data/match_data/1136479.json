@@ -1,12 +1,15 @@
 {
+    "match_id": "1136479",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2024-12-21",
-    "score": [
-        55,
-        17
-    ],
     "teams": [
         "Weybridge Vandals",
         "Trinity"
+    ],
+    "score": [
+        55,
+        17
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/25094.png",
@@ -53,8 +56,5 @@
             "S2": "Ben Edmondson",
             "S3": "Max Farrell"
         }
-    ],
-    "match_id": "1136479",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

@@ -1,12 +1,15 @@
 {
+    "match_id": "1136417",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2024-09-21",
-    "score": [
-        53,
-        10
-    ],
     "teams": [
         "Cobham",
         "Old Haileyburians"
+    ],
+    "score": [
+        53,
+        10
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/5336.png",
@@ -22,7 +25,7 @@
             "10": "Knox O'Connor",
             "9": "Ryan Saunders",
             "8": "Thomas Davison",
-            "7": "Oliver Fielding",
+            "7": "Name withheld",
             "6": "Louis Porter",
             "5": "Will O'Leary",
             "4": "Luke Westgarth-Taylor",
@@ -34,26 +37,20 @@
             "S3": "Will Stephen"
         },
         {
-            "15": "Jon Searle",
-            "14": "Ethan Mead",
-            "13": "Issac Jeavons-Fellows",
-            "12": "Oliver Bluck",
-            "11": "Joe Thomson",
-            "10": "Ollie Mann",
-            "9": "Name withheld",
-            "8": "Sonny Kelly",
-            "7": "Cameron Bullard",
-            "6": "Harry Clesham",
-            "5": "Jack Swingler",
-            "4": "Joshua Sterne",
-            "3": "Jacob Cummins",
-            "2": "Oliver L Marsden",
-            "1": "Henry Trimmer",
-            "S1": "Jonathan Parr",
-            "S2": "Joshua Bull"
+            "15": "Issac Jeavons-Fellows",
+            "14": "Oliver Bluck",
+            "13": "Joe Thomson",
+            "12": "Ollie Mann",
+            "11": "Sonny Kelly",
+            "10": "Cameron Bullard",
+            "9": "Harry Clesham",
+            "8": "Jack Swingler",
+            "7": "Joshua Sterne",
+            "6": "Jacob Cummins",
+            "5": "Oliver L Marsden",
+            "4": "Henry Trimmer",
+            "3": "Jonathan Parr",
+            "2": "Joshua Bull"
         }
-    ],
-    "match_id": "1136417",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

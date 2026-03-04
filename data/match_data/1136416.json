@@ -1,12 +1,15 @@
 {
+    "match_id": "1136416",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2024-09-21",
-    "score": [
-        38,
-        26
-    ],
     "teams": [
         "Old Rutlishians",
         "London Cornish"
+    ],
+    "score": [
+        38,
+        26
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/16005.png",
@@ -49,12 +52,9 @@
             "3": "James New",
             "2": "Oscar Cruz",
             "1": "reuben robinson",
-            "S1": "Oliver Low",
+            "S1": "Name withheld",
             "S2": "Tom O'Hanlon",
             "S3": "Ciaran Johnston"
         }
-    ],
-    "match_id": "1136416",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

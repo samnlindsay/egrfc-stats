@@ -1,12 +1,15 @@
 {
+    "match_id": "1136501",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2025-02-01",
-    "score": [
-        23,
-        12
-    ],
     "teams": [
         "Hove",
         "London Cornish"
+    ],
+    "score": [
+        23,
+        12
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/10503.png",
@@ -22,7 +25,7 @@
             "10": "Cameron Kirkland",
             "9": "Dominic Woodfine",
             "8": "Jordan Sayers",
-            "7": "Robin Ward",
+            "7": "Name withheld",
             "6": "IAN SAUNDERS",
             "5": "Carl Buckland",
             "4": "George Brown",
@@ -31,30 +34,26 @@
             "1": "Ryan Storer",
             "S1": "Stephen Klein",
             "S2": "Issac Thomas",
-            "S3": "Jack Moore"
+            "S3": "George Jackson"
         },
         {
-            "15": "George Jackson",
-            "14": "Charlie Lambert",
-            "13": "Dominic Brook",
-            "12": "Peter Brogden",
-            "11": "George Bromage",
-            "10": "Dan Phoenix",
-            "9": "Findlay Tweedie",
-            "8": "Chai Clarkson",
-            "7": "Conor Pearce",
-            "6": "will spring",
-            "5": "Lewis Farnell",
-            "4": "James Squires",
-            "3": "James New",
-            "2": "Will Carew-Gibbs",
-            "1": "Mathew Hand",
-            "S1": "David Theobald",
-            "S2": "Thomas Carr",
-            "S3": "Reuben Salisbury"
+            "15": "Charlie Lambert",
+            "14": "Dominic Brook",
+            "13": "Peter Brogden",
+            "12": "George Bromage",
+            "11": "Dan Phoenix",
+            "10": "Findlay Tweedie",
+            "9": "Chai Clarkson",
+            "8": "Conor Pearce",
+            "7": "will spring",
+            "6": "Lewis Farnell",
+            "5": "James Squires",
+            "4": "James New",
+            "3": "Will Carew-Gibbs",
+            "2": "Mathew Hand",
+            "1": "David Theobald",
+            "S1": "Thomas Carr",
+            "S2": "Reuben Salisbury"
         }
-    ],
-    "match_id": "1136501",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

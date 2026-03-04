@@ -1,12 +1,15 @@
 {
+    "match_id": "1136424",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2024-09-28",
-    "score": [
-        24,
-        20
-    ],
     "teams": [
         "Twickenham",
         "Eastbourne"
+    ],
+    "score": [
+        24,
+        20
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/23336.png",
@@ -53,8 +56,5 @@
             "S2": "Owen Jones",
             "S3": "Luke Thomas"
         }
-    ],
-    "match_id": "1136424",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

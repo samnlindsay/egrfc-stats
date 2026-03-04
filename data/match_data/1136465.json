@@ -1,12 +1,15 @@
 {
+    "match_id": "1136465",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2024-12-07",
-    "score": [
-        8,
-        9
-    ],
     "teams": [
         "Weybridge Vandals",
         "Twickenham"
+    ],
+    "score": [
+        8,
+        9
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/25094.png",
@@ -21,7 +24,7 @@
             "11": "Karl Hoade",
             "10": "Daniel Wellden",
             "9": "Joseph Graves",
-            "8": "James Gulliver",
+            "8": "Name withheld",
             "7": "Cameron Edgar",
             "6": "Michael Mason",
             "5": "Lewis Bryant",
@@ -53,8 +56,5 @@
             "S2": "Jasper Bhamra",
             "S3": "Archie Lamont"
         }
-    ],
-    "match_id": "1136465",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

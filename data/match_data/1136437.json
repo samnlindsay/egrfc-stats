@@ -1,12 +1,15 @@
 {
+    "match_id": "1136437",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2024-10-19",
-    "score": [
-        27,
-        31
-    ],
     "teams": [
         "KCS Old Boys",
         "Trinity"
+    ],
+    "score": [
+        27,
+        31
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/11188.png",
@@ -14,7 +17,7 @@
     ],
     "players": [
         {
-            "15": "Ellis Hook",
+            "15": "Name withheld",
             "14": "George Pickens",
             "13": "Maximilian Robinson",
             "12": "Christiaan du Toit",
@@ -52,8 +55,5 @@
             "S2": "Thomas Black",
             "S3": "Fuad Agbalaya"
         }
-    ],
-    "match_id": "1136437",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

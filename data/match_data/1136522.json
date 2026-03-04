@@ -1,12 +1,15 @@
 {
+    "match_id": "1136522",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2025-03-08",
-    "score": [
-        27,
-        31
-    ],
     "teams": [
         "Cobham",
         "Trinity"
+    ],
+    "score": [
+        27,
+        31
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/5336.png",
@@ -23,38 +26,34 @@
             "9": "Rory Penfold",
             "8": "Thomas Davison",
             "7": "Oliver Fox",
-            "6": "Oliver Fielding",
+            "6": "Name withheld",
             "5": "Hugh Farmer",
             "4": "Luke Westgarth-Taylor",
-            "3": "Ryan Aujla",
-            "2": "Andrew Murphy",
-            "1": "Chris Lippiatt",
-            "S1": "Gabriel Clark",
-            "S2": "Louis Porter",
-            "S3": "Sandro Celebidachi"
+            "3": "Andrew Murphy",
+            "2": "Chris Lippiatt",
+            "1": "Gabriel Clark",
+            "S1": "Louis Porter",
+            "S2": "Sandro Celebidachi",
+            "S3": "Joshua Joubert"
         },
         {
-            "15": "Joshua Joubert",
-            "14": "Callum True",
-            "13": "Archie McMillan",
-            "12": "Benjamin Telfer",
-            "11": "Thomas Fairclough",
-            "10": "George Kimmins",
-            "9": "Jack Greenwood",
-            "8": "Farooq Agbalaya",
-            "7": "Khrystopher Speed",
-            "6": "Thomas Wilcox",
-            "5": "Oliver Hubbard",
-            "4": "Marc McEvilly",
-            "3": "Christopher Reid Gomez",
-            "2": "Quinn Singh",
-            "1": "Alastair Hall",
-            "S1": "Timothy Cochrane",
-            "S2": "Tyriq Williams",
-            "S3": "Samson Goldschmied"
+            "15": "Callum True",
+            "14": "Archie McMillan",
+            "13": "Benjamin Telfer",
+            "12": "Thomas Fairclough",
+            "11": "George Kimmins",
+            "10": "Jack Greenwood",
+            "9": "Farooq Agbalaya",
+            "8": "Khrystopher Speed",
+            "7": "Thomas Wilcox",
+            "6": "Oliver Hubbard",
+            "5": "Marc McEvilly",
+            "4": "Christopher Reid Gomez",
+            "3": "Quinn Singh",
+            "2": "Alastair Hall",
+            "1": "Timothy Cochrane",
+            "S1": "Tyriq Williams",
+            "S2": "Samson Goldschmied"
         }
-    ],
-    "match_id": "1136522",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

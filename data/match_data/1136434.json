@@ -1,12 +1,15 @@
 {
+    "match_id": "1136434",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2024-10-19",
-    "score": [
-        39,
-        33
-    ],
     "teams": [
         "Hove",
         "Cobham"
+    ],
+    "score": [
+        39,
+        33
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/10503.png",
@@ -14,7 +17,7 @@
     ],
     "players": [
         {
-            "15": "Jack Moore",
+            "15": "Name withheld",
             "14": "John Orme-Williams",
             "13": "Charles Nicholson",
             "12": "Leo Robertson",
@@ -23,38 +26,32 @@
             "9": "Charlie Knight",
             "8": "Jordan Sayers",
             "7": "Jack Edwards",
-            "6": "Robin Ward",
-            "5": "Tobias Brown",
-            "4": "IAN SAUNDERS",
-            "3": "Name withheld",
-            "2": "Charlie Butcher",
-            "1": "tyler ray hooper",
-            "S1": "Stephen Klein",
-            "S2": "Thomas Mohan",
-            "S3": "Archie Davies"
+            "6": "Tobias Brown",
+            "5": "IAN SAUNDERS",
+            "4": "Adrian Shergold",
+            "3": "Charlie Butcher",
+            "2": "tyler ray hooper",
+            "1": "Stephen Klein",
+            "S1": "Thomas Mohan",
+            "S2": "Archie Davies",
+            "S3": "Rory Penfold"
         },
         {
-            "15": "Rory Penfold",
-            "14": "James Edmondson",
-            "13": "Will Stephen",
-            "12": "Taylor Rice-Burnett",
-            "11": "Tomsk Sherrington",
-            "10": "Knox O'Connor",
-            "9": "Max Franks",
-            "8": "Oliver Fielding",
-            "7": "Oliver Fox",
-            "6": "Louis Porter",
-            "5": "Hugh Farmer",
-            "4": "Joseph Harker",
-            "3": "Ben Joyce",
-            "2": "Andrew Murphy",
-            "1": "Chris Lippiatt",
-            "S1": "Ryan Aujla",
-            "S2": "James White",
-            "S3": "Joseph Yorke"
+            "15": "James Edmondson",
+            "14": "Will Stephen",
+            "13": "Taylor Rice-Burnett",
+            "12": "Tomsk Sherrington",
+            "11": "Knox O'Connor",
+            "10": "Max Franks",
+            "9": "Oliver Fox",
+            "8": "Louis Porter",
+            "7": "Hugh Farmer",
+            "6": "Joseph Harker",
+            "5": "Ben Joyce",
+            "4": "Andrew Murphy",
+            "3": "Chris Lippiatt",
+            "2": "James White",
+            "1": "Joseph Yorke"
         }
-    ],
-    "match_id": "1136434",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

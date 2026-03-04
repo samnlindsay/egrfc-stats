@@ -1,12 +1,15 @@
 {
+    "match_id": "1136474",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2024-12-14",
-    "score": [
-        36,
-        38
-    ],
     "teams": [
         "KCS Old Boys",
         "Hove"
+    ],
+    "score": [
+        36,
+        38
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/11188.png",
@@ -42,19 +45,16 @@
             "10": "Charlie Knight",
             "9": "Charles Soffe",
             "8": "Tobias Brown",
-            "7": "Jack Moore",
+            "7": "Name withheld",
             "6": "tyler ray hooper",
             "5": "George Brown",
             "4": "IAN SAUNDERS",
-            "3": "Name withheld",
+            "3": "Adrian Shergold",
             "2": "Christopher Knott",
             "1": "Ryan Storer",
             "S1": "Toby Downes",
             "S2": "Guy Patton",
             "S3": "Ryan Murrough"
         }
-    ],
-    "match_id": "1136474",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

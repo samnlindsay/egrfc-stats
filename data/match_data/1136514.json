@@ -1,12 +1,15 @@
 {
+    "match_id": "1136514",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2025-03-01",
-    "score": [
-        42,
-        14
-    ],
     "teams": [
         "Twickenham",
         "Old Haileyburians"
+    ],
+    "score": [
+        42,
+        14
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/23336.png",
@@ -38,21 +41,16 @@
             "14": "Dylan Connor",
             "13": "Benedict Trimmer",
             "12": "Name withheld",
-            "11": "Ethan Mead",
-            "10": "Fred Lowe",
-            "9": "Thomas Wright",
-            "8": "Harry Clesham",
-            "7": "Harry Taylor",
-            "6": "Harry Harper-Dowe",
-            "5": "Tobi Costello",
-            "4": "Dylan Wallis",
-            "3": "Joshua Sterne",
-            "2": "Charles Hymer",
-            "1": "Edward Walker",
-            "S1": "Sean Davies"
+            "11": "Fred Lowe",
+            "10": "Thomas Wright",
+            "9": "Harry Clesham",
+            "8": "Harry Taylor",
+            "7": "Harry Harper-Dowe",
+            "6": "Tobi Costello",
+            "5": "Dylan Wallis",
+            "4": "Joshua Sterne",
+            "3": "Edward Walker",
+            "2": "Sean Davies"
         }
-    ],
-    "match_id": "1136514",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

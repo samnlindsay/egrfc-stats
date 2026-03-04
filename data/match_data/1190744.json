@@ -1,12 +1,15 @@
 {
+    "match_id": "1190744",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2025-02-08",
-    "score": [
-        18,
-        11
-    ],
     "teams": [
         "Hove",
         "East Grinstead"
+    ],
+    "score": [
+        18,
+        11
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/10503.png",
@@ -14,7 +17,7 @@
     ],
     "players": [
         {
-            "15": "Jack Moore",
+            "15": "Name withheld",
             "14": "John Orme-Williams",
             "13": "Tom Crisp",
             "12": "Leo Robertson",
@@ -22,39 +25,33 @@
             "10": "Cameron Kirkland",
             "9": "Dominic Woodfine",
             "8": "Jordan Sayers",
-            "7": "Robin Ward",
-            "6": "Issac Thomas",
-            "5": "Carl Buckland",
-            "4": "George Brown",
-            "3": "Stephen Klein",
-            "2": "tyler ray hooper",
-            "1": "Ryan Storer",
-            "S1": "Marc Wigzell",
-            "S2": "Ryan Murrough",
-            "S3": "Rhowan Braybrook"
+            "7": "Issac Thomas",
+            "6": "Carl Buckland",
+            "5": "George Brown",
+            "4": "Stephen Klein",
+            "3": "tyler ray hooper",
+            "2": "Ryan Storer",
+            "1": "Marc Wigzell",
+            "S1": "Ryan Murrough",
+            "S2": "Rhowan Braybrook",
+            "S3": "Ted Hardisty"
         },
         {
-            "15": "Ted Hardisty",
-            "14": "William Roberts",
-            "13": "Christopher May-Miller",
-            "12": "Rhys Skinner",
-            "11": "Alistair Moffatt",
-            "10": "Daniel Poulton",
-            "9": "Noah Roberts",
-            "8": "Tom Mooney",
-            "7": "Josh Weaver",
-            "6": "John Peaty",
-            "5": "Samuel Lindsay-McCall",
-            "4": "Timothy Morris",
-            "3": "Guy Collins",
-            "2": "Reggie Harris",
-            "1": "Joshua Brimecombe",
-            "S1": "George Naylor",
-            "S2": "Ryland Thomas",
-            "S3": "Name withheld"
+            "15": "William Roberts",
+            "14": "Christopher May-Miller",
+            "13": "Rhys Skinner",
+            "12": "Alistair Moffatt",
+            "11": "Daniel Poulton",
+            "10": "Noah Roberts",
+            "9": "Tom Mooney",
+            "8": "Josh Weaver",
+            "7": "John Peaty",
+            "6": "Samuel Lindsay-McCall",
+            "5": "Guy Collins",
+            "4": "Reggie Harris",
+            "3": "Joshua Brimecombe",
+            "2": "George Naylor",
+            "1": "Ryland Thomas"
         }
-    ],
-    "match_id": "1190744",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

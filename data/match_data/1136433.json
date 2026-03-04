@@ -1,12 +1,15 @@
 {
+    "match_id": "1136433",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2024-10-12",
-    "score": [
-        74,
-        7
-    ],
     "teams": [
         "Eastbourne",
         "KCS Old Boys"
+    ],
+    "score": [
+        74,
+        7
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/7209.png",
@@ -44,7 +47,7 @@
             "8": "Stephen Byrne",
             "7": "Charles Paterson",
             "6": "Adam Calaminus",
-            "5": "Dom Soin-Stanley",
+            "5": "Name withheld",
             "4": "Rees Powell",
             "3": "Charlie Topley",
             "2": "Minhyuk Seo",
@@ -53,8 +56,5 @@
             "S2": "Joe Hampel",
             "S3": "William Carter"
         }
-    ],
-    "match_id": "1136433",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

@@ -1,12 +1,15 @@
 {
+    "match_id": "1136419",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2024-09-21",
-    "score": [
-        22,
-        10
-    ],
     "teams": [
         "Trinity",
         "Weybridge Vandals"
+    ],
+    "score": [
+        22,
+        10
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/23175.png",
@@ -50,11 +53,8 @@
             "2": "Callum Hennessey",
             "1": "Joel Keefe",
             "S1": "Lloyd Pullen",
-            "S2": "James Gulliver",
+            "S2": "Name withheld",
             "S3": "David Kemp"
         }
-    ],
-    "match_id": "1136419",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

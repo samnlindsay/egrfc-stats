@@ -1,12 +1,15 @@
 {
+    "match_id": "1136500",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2025-02-01",
-    "score": [
-        31,
-        15
-    ],
     "teams": [
         "Twickenham",
         "Cobham"
+    ],
+    "score": [
+        31,
+        15
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/23336.png",
@@ -43,18 +46,14 @@
             "9": "Ryan Saunders",
             "8": "Thomas Davison",
             "7": "Louis Porter",
-            "6": "Oliver Fielding",
+            "6": "Name withheld",
             "5": "Edward Jackson",
             "4": "Luke Westgarth-Taylor",
-            "3": "Ryan Aujla",
-            "2": "Andrew Murphy",
-            "1": "Chris Lippiatt",
-            "S1": "Gabriel Clark",
-            "S2": "Alexander Blackwood",
-            "S3": "Sandro Celebidachi"
+            "3": "Andrew Murphy",
+            "2": "Chris Lippiatt",
+            "1": "Gabriel Clark",
+            "S1": "Alexander Blackwood",
+            "S2": "Sandro Celebidachi"
         }
-    ],
-    "match_id": "1136500",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

@@ -1,12 +1,15 @@
 {
+    "match_id": "1190746",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2025-01-25",
-    "score": [
-        19,
-        19
-    ],
     "teams": [
         "Weybridge Vandals",
         "Cobham"
+    ],
+    "score": [
+        19,
+        19
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/25094.png",
@@ -21,7 +24,7 @@
             "11": "Karl Hoade",
             "10": "Daniel Wellden",
             "9": "Joseph Graves",
-            "8": "James Gulliver",
+            "8": "Name withheld",
             "7": "Cameron Edgar",
             "6": "Callum Hennessey",
             "5": "Lewis Bryant",
@@ -31,30 +34,24 @@
             "1": "Joshua Thomas",
             "S1": "Lloyd Pullen",
             "S2": "Richard Crabb",
-            "S3": "Name withheld"
+            "S3": "Will Stephen"
         },
         {
-            "15": "Will Stephen",
-            "14": "George Moule",
-            "13": "Finlay Savill",
-            "12": "Taylor Rice-Burnett",
-            "11": "Henry MacQuire",
-            "10": "Connor Dellapina",
-            "9": "Joseph Yorke",
-            "8": "Thomas Davison",
-            "7": "Edward Jackson",
-            "6": "Oliver Fielding",
-            "5": "Louis Porter",
-            "4": "Luke Westgarth-Taylor",
-            "3": "Ryan Aujla",
-            "2": "Andrew Murphy",
-            "1": "Chris Lippiatt",
-            "S1": "Gabriel Clark",
-            "S2": "Hugh Farmer",
-            "S3": "Joshua Millerd"
+            "15": "George Moule",
+            "14": "Finlay Savill",
+            "13": "Taylor Rice-Burnett",
+            "12": "Henry MacQuire",
+            "11": "Connor Dellapina",
+            "10": "Joseph Yorke",
+            "9": "Thomas Davison",
+            "8": "Edward Jackson",
+            "7": "Louis Porter",
+            "6": "Luke Westgarth-Taylor",
+            "5": "Andrew Murphy",
+            "4": "Chris Lippiatt",
+            "3": "Gabriel Clark",
+            "2": "Hugh Farmer",
+            "1": "Joshua Millerd"
         }
-    ],
-    "match_id": "1190746",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

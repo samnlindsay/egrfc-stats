@@ -1,12 +1,15 @@
 {
+    "match_id": "1136480",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2024-12-21",
-    "score": [
-        33,
-        5
-    ],
     "teams": [
         "Haywards Heath",
         "East Grinstead"
+    ],
+    "score": [
+        33,
+        5
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/9776.png",
@@ -53,8 +56,5 @@
             "S2": "William Bramwell",
             "S3": "Colm Geraghty"
         }
-    ],
-    "match_id": "1136480",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

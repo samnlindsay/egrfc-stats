@@ -1,12 +1,15 @@
 {
+    "match_id": "1136509",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2025-02-15",
-    "score": [
-        82,
-        31
-    ],
     "teams": [
         "Cobham",
         "KCS Old Boys"
+    ],
+    "score": [
+        82,
+        31
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/5336.png",
@@ -25,7 +28,7 @@
             "7": "Oliver Fox",
             "6": "Louis Porter",
             "5": "William O\u2019Leary",
-            "3": "Ryan Aujla",
+            "3": "Name withheld",
             "2": "Jake Mcquade",
             "1": "Chris Lippiatt",
             "S1": "Gabriel Clark",
@@ -52,8 +55,5 @@
             "S2": "Charles Paterson",
             "S3": "Jay Bhatia"
         }
-    ],
-    "match_id": "1136509",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

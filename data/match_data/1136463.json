@@ -1,12 +1,15 @@
 {
+    "match_id": "1136463",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2024-11-23",
-    "score": [
-        19,
-        23
-    ],
     "teams": [
         "East Grinstead",
         "Old Rutlishians"
+    ],
+    "score": [
+        19,
+        23
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/7134.png",
@@ -53,8 +56,5 @@
             "S2": "Chezter Altea",
             "S3": "James Collins"
         }
-    ],
-    "match_id": "1136463",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

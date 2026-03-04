@@ -1,12 +1,15 @@
 {
+    "match_id": "1136431",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2024-10-12",
-    "score": [
-        21,
-        34
-    ],
     "teams": [
         "East Grinstead",
         "Hove"
+    ],
+    "score": [
+        21,
+        34
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/7134.png",
@@ -34,7 +37,7 @@
             "S3": "Mark Lewis"
         },
         {
-            "15": "Jack Moore",
+            "15": "Name withheld",
             "14": "John Orme-Williams",
             "13": "Charles Nicholson",
             "12": "Leo Robertson",
@@ -43,18 +46,14 @@
             "9": "Charles Soffe",
             "8": "Jordan Sayers",
             "7": "Jack Edwards",
-            "6": "Robin Ward",
-            "5": "Thomas Mohan",
-            "4": "IAN SAUNDERS",
-            "3": "Name withheld",
-            "2": "Charlie Butcher",
-            "1": "tyler ray hooper",
-            "S1": "Toby Downes",
-            "S2": "Archie Davies",
-            "S3": "Oliver Ashby"
+            "6": "Thomas Mohan",
+            "5": "IAN SAUNDERS",
+            "4": "Adrian Shergold",
+            "3": "Charlie Butcher",
+            "2": "tyler ray hooper",
+            "1": "Toby Downes",
+            "S1": "Archie Davies",
+            "S2": "Oliver Ashby"
         }
-    ],
-    "match_id": "1136431",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

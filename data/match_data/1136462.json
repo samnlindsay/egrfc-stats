@@ -1,12 +1,15 @@
 {
+    "match_id": "1136462",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2024-11-23",
-    "score": [
-        20,
-        19
-    ],
     "teams": [
         "Hove",
         "Weybridge Vandals"
+    ],
+    "score": [
+        20,
+        19
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/10503.png",
@@ -23,9 +26,9 @@
             "9": "Dominic Woodfine",
             "8": "Tobias Brown",
             "7": "Jack Edwards",
-            "6": "Robin Ward",
+            "6": "Name withheld",
             "5": "George Brown",
-            "4": "Name withheld",
+            "4": "Adrian Shergold",
             "3": "tyler ray hooper",
             "2": "Christopher Knott",
             "1": "Ryan Storer",
@@ -41,19 +44,15 @@
             "11": "Luke Phair",
             "10": "Daniel Wellden",
             "9": "Joseph Graves",
-            "8": "James Gulliver",
-            "7": "Reece Innes-Gray",
-            "6": "Thomas Frewin",
-            "5": "Michael Mason",
-            "4": "Richard Crabb",
-            "3": "Joshua Thomas",
-            "2": "Callum Hennessey",
-            "1": "Joel Keefe",
-            "S1": "Luke Hempstead",
-            "S2": "Sam Bullett"
+            "8": "Reece Innes-Gray",
+            "7": "Thomas Frewin",
+            "6": "Michael Mason",
+            "5": "Richard Crabb",
+            "4": "Joshua Thomas",
+            "3": "Callum Hennessey",
+            "2": "Joel Keefe",
+            "1": "Luke Hempstead",
+            "S1": "Sam Bullett"
         }
-    ],
-    "match_id": "1136462",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

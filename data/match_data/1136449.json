@@ -1,12 +1,15 @@
 {
+    "match_id": "1136449",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2024-11-09",
-    "score": [
-        95,
-        0
-    ],
     "teams": [
         "Weybridge Vandals",
         "Haywards Heath"
+    ],
+    "score": [
+        95,
+        0
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/25094.png",
@@ -21,7 +24,7 @@
             "11": "Luke Phair",
             "10": "Sam Bullett",
             "9": "Joseph Graves",
-            "8": "James Gulliver",
+            "8": "Name withheld",
             "7": "Thomas Frewin",
             "6": "James Weatherall",
             "5": "Richard Crabb",
@@ -53,8 +56,5 @@
             "S2": "Christopher Neill",
             "S3": "Jack Herbert"
         }
-    ],
-    "match_id": "1136449",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

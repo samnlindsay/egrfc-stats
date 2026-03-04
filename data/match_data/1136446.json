@@ -1,12 +1,15 @@
 {
+    "match_id": "1136446",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2024-11-09",
-    "score": [
-        22,
-        25
-    ],
     "teams": [
         "KCS Old Boys",
         "Cobham"
+    ],
+    "score": [
+        22,
+        25
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/11188.png",
@@ -46,15 +49,12 @@
             "6": "Edward Jackson",
             "5": "Joseph Harker",
             "4": "James White",
-            "3": "Ryan Aujla",
+            "3": "Name withheld",
             "2": "Andrew Murphy",
             "1": "Chris Lippiatt",
             "S1": "Gabriel Clark",
             "S2": "George O'Connor",
             "S3": "Sam Meehan"
         }
-    ],
-    "match_id": "1136446",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

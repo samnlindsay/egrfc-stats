@@ -1,12 +1,15 @@
 {
+    "match_id": "1136409",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2024-09-07",
-    "score": [
-        51,
-        0
-    ],
     "teams": [
         "Twickenham",
         "Hove"
+    ],
+    "score": [
+        51,
+        0
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/23336.png",
@@ -34,7 +37,7 @@
             "S3": "Luke Deakin"
         },
         {
-            "15": "Jack Moore",
+            "15": "Name withheld",
             "14": "Tom Holborn",
             "13": "Leo Robertson",
             "12": "Jack Edwards",
@@ -43,18 +46,14 @@
             "9": "Charlie Knight",
             "8": "Tobias Brown",
             "7": "Charlie Butcher",
-            "6": "Robin Ward",
-            "5": "Jordan Sayers",
-            "4": "George Brown",
-            "3": "Stephen Klein",
-            "2": "Christopher Knott",
-            "1": "Ryan Storer",
-            "S1": "Toby Downes",
-            "S2": "Archie Winter",
-            "S3": "Oliver Ashby"
+            "6": "Jordan Sayers",
+            "5": "George Brown",
+            "4": "Stephen Klein",
+            "3": "Christopher Knott",
+            "2": "Ryan Storer",
+            "1": "Toby Downes",
+            "S1": "Charlie Butcher",
+            "S2": "Oliver Ashby"
         }
-    ],
-    "match_id": "1136409",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

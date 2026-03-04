@@ -1,12 +1,15 @@
 {
+    "match_id": "1136438",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2024-10-19",
-    "score": [
-        41,
-        33
-    ],
     "teams": [
         "Twickenham",
         "East Grinstead"
+    ],
+    "score": [
+        41,
+        33
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/23336.png",
@@ -50,11 +53,7 @@
             "2": "George Beet",
             "1": "Benjamin Tottman",
             "S1": "David Bridges",
-            "S2": "Harrison Berry",
-            "S3": "Timothy Morris"
+            "S2": "Harrison Berry"
         }
-    ],
-    "match_id": "1136438",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

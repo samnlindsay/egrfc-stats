@@ -1,12 +1,15 @@
 {
+    "match_id": "1136430",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2024-10-12",
-    "score": [
-        25,
-        27
-    ],
     "teams": [
         "Cobham",
         "Weybridge Vandals"
+    ],
+    "score": [
+        25,
+        27
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/5336.png",
@@ -21,7 +24,7 @@
             "11": "Ross Munro",
             "10": "Knox O'Connor",
             "9": "Ryan Saunders",
-            "8": "Oliver Fielding",
+            "8": "Name withheld",
             "7": "Korbyn Sherrington",
             "6": "Alexander Blackwood",
             "5": "Hugh Farmer",
@@ -29,32 +32,27 @@
             "3": "Ben Joyce",
             "2": "Andrew Murphy",
             "1": "Chris Lippiatt",
-            "S1": "Ryan Aujla",
-            "S2": "Joseph Harker",
-            "S3": "Connor Dellapina"
+            "S1": "Joseph Harker",
+            "S2": "Connor Dellapina",
+            "S3": "Thomas Bolger"
         },
         {
-            "15": "Thomas Bolger",
-            "14": "Harry Reed",
-            "13": "Oliver Day",
-            "12": "Karl Hoade",
-            "11": "Henry Gulliver",
-            "10": "Sam Bullett",
-            "9": "Joseph Graves",
-            "8": "Luke Dones",
-            "7": "James Gulliver",
-            "6": "Paul-Louis Howard",
-            "5": "Michael Mason",
-            "4": "Richard Crabb",
-            "3": "Luke Hempstead",
-            "2": "Cameron Edgar",
-            "1": "Joel Keefe",
-            "S1": "Joshua Thomas",
-            "S2": "James Weatherall",
-            "S3": "David Kemp"
+            "15": "Harry Reed",
+            "14": "Oliver Day",
+            "13": "Karl Hoade",
+            "12": "Henry Gulliver",
+            "11": "Sam Bullett",
+            "10": "Joseph Graves",
+            "9": "Luke Dones",
+            "8": "Paul-Louis Howard",
+            "7": "Michael Mason",
+            "6": "Richard Crabb",
+            "5": "Luke Hempstead",
+            "4": "Cameron Edgar",
+            "3": "Joel Keefe",
+            "2": "Joshua Thomas",
+            "1": "James Weatherall",
+            "S1": "David Kemp"
         }
-    ],
-    "match_id": "1136430",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

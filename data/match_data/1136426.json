@@ -1,12 +1,15 @@
 {
+    "match_id": "1136426",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2024-09-28",
-    "score": [
-        48,
-        15
-    ],
     "teams": [
         "Weybridge Vandals",
         "East Grinstead"
+    ],
+    "score": [
+        48,
+        15
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/25094.png",
@@ -22,7 +25,7 @@
             "10": "Jack O\u2019Mara",
             "9": "Daniel Wellden",
             "8": "Michael Mason",
-            "7": "James Gulliver",
+            "7": "Name withheld",
             "6": "Paul-Louis Howard",
             "5": "Darren Lockyer",
             "4": "Richard Crabb",
@@ -53,8 +56,5 @@
             "S2": "Harrison Berry",
             "S3": "James Funnell"
         }
-    ],
-    "match_id": "1136426",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

@@ -1,12 +1,15 @@
 {
+    "match_id": "1136502",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2025-02-01",
-    "score": [
-        76,
-        5
-    ],
     "teams": [
         "Weybridge Vandals",
         "Old Haileyburians"
+    ],
+    "score": [
+        76,
+        5
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/25094.png",
@@ -21,38 +24,33 @@
             "11": "Name withheld",
             "10": "Sam Bullett",
             "9": "Daniel Wellden",
-            "8": "James Gulliver",
-            "7": "Reece Innes-Gray",
-            "6": "Thomas Frewin",
-            "5": "Richard Crabb",
-            "4": "Michael Mason",
-            "3": "Lloyd Pullen",
-            "2": "Cameron Edgar",
-            "1": "Joshua Thomas",
-            "S1": "Robbie Dones",
-            "S2": "Joseph Graves",
-            "S3": "Harry Reed"
+            "8": "Reece Innes-Gray",
+            "7": "Thomas Frewin",
+            "6": "Richard Crabb",
+            "5": "Michael Mason",
+            "4": "Lloyd Pullen",
+            "3": "Cameron Edgar",
+            "2": "Joshua Thomas",
+            "1": "Robbie Dones",
+            "S1": "Joseph Graves",
+            "S2": "Harry Reed",
+            "S3": "Edward Walker"
         },
         {
-            "15": "Edward Walker",
-            "14": "Elliot Knox",
-            "13": "Shea Minty",
-            "12": "Ben Ter Haar",
-            "11": "Ollie Mann",
-            "10": "Cameron Bullard",
-            "9": "Charles Hymer",
-            "8": "Thomas Craven",
-            "7": "Harry Harper-Dowe",
-            "6": "Jack Swingler",
-            "5": "Tobi Costello",
-            "4": "Jacob Cummins",
-            "3": "Charlie Golding",
-            "2": "Robin Kear",
-            "1": "Dylan Wallis",
-            "S1": "Ben Lawrence"
+            "15": "Elliot Knox",
+            "14": "Shea Minty",
+            "13": "Ben Ter Haar",
+            "12": "Ollie Mann",
+            "11": "Cameron Bullard",
+            "10": "Thomas Craven",
+            "9": "Harry Harper-Dowe",
+            "8": "Jack Swingler",
+            "7": "Tobi Costello",
+            "6": "Jacob Cummins",
+            "5": "Charlie Golding",
+            "4": "Robin Kear",
+            "3": "Dylan Wallis",
+            "2": "Ben Lawrence"
         }
-    ],
-    "match_id": "1136502",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

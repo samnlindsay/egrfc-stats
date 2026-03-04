@@ -1,12 +1,15 @@
 {
+    "match_id": "1136450",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2024-11-09",
-    "score": [
-        33,
-        36
-    ],
     "teams": [
         "Eastbourne",
         "East Grinstead"
+    ],
+    "score": [
+        33,
+        36
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/7209.png",
@@ -53,8 +56,5 @@
             "S2": "Samuel Lindsay-McCall",
             "S3": "Or Shay"
         }
-    ],
-    "match_id": "1136450",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

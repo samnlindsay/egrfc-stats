@@ -1,4 +1,339 @@
 match_id,season,league,date,home_team,away_team,home_score,away_score
+981958,2022-2023,Counties 2 Sussex,2022-09-17,Haywards Heath,Seaford,39,18
+981959,2022-2023,Counties 2 Sussex,2022-09-17,Shoreham,Burgess Hill,101,35
+981960,2022-2023,Counties 2 Sussex,2022-09-17,Crawley,Eastbourne,19,52
+981961,2022-2023,Counties 2 Sussex,2022-09-17,Uckfield,Pulborough,29,12
+981962,2022-2023,Counties 2 Sussex,2022-09-17,Lewes,East Grinstead,7,69
+981965,2022-2023,Counties 2 Sussex,2022-09-24,Pulborough,Crawley,26,19
+981964,2022-2023,Counties 2 Sussex,2022-09-24,East Grinstead,Uckfield,58,3
+981966,2022-2023,Counties 2 Sussex,2022-09-24,Eastbourne,Shoreham,77,12
+981963,2022-2023,Counties 2 Sussex,2022-09-24,Burgess Hill,Seaford,31,7
+981969,2022-2023,Counties 2 Sussex,2022-10-01,Seaford,Eastbourne,7,26
+981971,2022-2023,Counties 2 Sussex,2022-10-01,Crawley,East Grinstead,36,39
+981972,2022-2023,Counties 2 Sussex,2022-10-01,Uckfield,Lewes,33,24
+981968,2022-2023,Counties 2 Sussex,2022-10-01,Haywards Heath,Burgess Hill,47,24
+981970,2022-2023,Counties 2 Sussex,2022-10-01,Shoreham,Pulborough,31,37
+981973,2022-2023,Counties 2 Sussex,2022-10-15,Pulborough,Seaford,40,21
+981977,2022-2023,Counties 2 Sussex,2022-10-15,Uckfield,Haywards Heath,15,7
+981976,2022-2023,Counties 2 Sussex,2022-10-15,East Grinstead,Shoreham,72,11
+981974,2022-2023,Counties 2 Sussex,2022-10-15,Eastbourne,Burgess Hill,70,3
+981975,2022-2023,Counties 2 Sussex,2022-10-15,Lewes,Crawley,5,44
+981981,2022-2023,Counties 2 Sussex,2022-10-22,Shoreham,Lewes,71,5
+981979,2022-2023,Counties 2 Sussex,2022-10-22,Burgess Hill,Pulborough,3,36
+981978,2022-2023,Counties 2 Sussex,2022-10-22,Haywards Heath,Eastbourne,10,32
+981980,2022-2023,Counties 2 Sussex,2022-10-22,Seaford,East Grinstead,17,62
+981985,2022-2023,Counties 2 Sussex,2022-10-29,Pulborough,Eastbourne,12,38
+981986,2022-2023,Counties 2 Sussex,2022-10-29,Uckfield,Shoreham,13,14
+981984,2022-2023,Counties 2 Sussex,2022-10-29,East Grinstead,Burgess Hill,53,5
+981983,2022-2023,Counties 2 Sussex,2022-10-29,Lewes,Seaford,17,41
+981987,2022-2023,Counties 2 Sussex,2022-10-29,Crawley,Haywards Heath,18,41
+981991,2022-2023,Counties 2 Sussex,2022-11-05,Seaford,Uckfield,12,19
+981992,2022-2023,Counties 2 Sussex,2022-11-05,Shoreham,Crawley,24,20
+981989,2022-2023,Counties 2 Sussex,2022-11-05,Eastbourne,East Grinstead,29,15
+981988,2022-2023,Counties 2 Sussex,2022-11-05,Haywards Heath,Pulborough,38,12
+981997,2022-2023,Counties 2 Sussex,2022-11-12,Shoreham,Haywards Heath,27,49
+981994,2022-2023,Counties 2 Sussex,2022-11-12,Uckfield,Burgess Hill,21,10
+981996,2022-2023,Counties 2 Sussex,2022-11-12,East Grinstead,Pulborough,27,31
+981993,2022-2023,Counties 2 Sussex,2022-11-12,Crawley,Seaford,33,10
+981998,2022-2023,Counties 2 Sussex,2022-11-26,Haywards Heath,East Grinstead,17,35
+982000,2022-2023,Counties 2 Sussex,2022-11-26,Eastbourne,Uckfield,55,14
+982002,2022-2023,Counties 2 Sussex,2022-11-26,Seaford,Shoreham,23,11
+982001,2022-2023,Counties 2 Sussex,2022-11-26,Burgess Hill,Crawley,24,17
+982003,2022-2023,Counties 2 Sussex,2022-12-03,Seaford,Burgess Hill,32,12
+982004,2022-2023,Counties 2 Sussex,2022-12-03,Shoreham,Eastbourne,17,57
+982006,2022-2023,Counties 2 Sussex,2022-12-03,Uckfield,East Grinstead,13,22
+982005,2022-2023,Counties 2 Sussex,2022-12-03,Crawley,Pulborough,10,41
+982010,2022-2023,Counties 2 Sussex,2022-12-10,East Grinstead,Crawley,75,12
+982008,2022-2023,Counties 2 Sussex,2022-12-10,Eastbourne,Seaford,47,19
+1032287,2022-2023,Counties 2 Sussex,2023-01-07,Crawley,Uckfield,25,26
+1028714,2022-2023,Counties 2 Sussex,2023-01-07,Burgess Hill,Lewes,24,10
+982015,2022-2023,Counties 2 Sussex,2023-01-14,Shoreham,East Grinstead,14,57
+982016,2022-2023,Counties 2 Sussex,2023-01-14,Crawley,Lewes,26,5
+982014,2022-2023,Counties 2 Sussex,2023-01-14,Seaford,Pulborough,12,27
+982018,2022-2023,Counties 2 Sussex,2023-01-21,East Grinstead,Seaford,43,5
+982022,2022-2023,Counties 2 Sussex,2023-01-21,Eastbourne,Haywards Heath,55,15
+982020,2022-2023,Counties 2 Sussex,2023-01-21,Uckfield,Crawley,27,26
+982021,2022-2023,Counties 2 Sussex,2023-01-21,Lewes,Shoreham,14,27
+982027,2022-2023,Counties 2 Sussex,2023-01-28,Shoreham,Uckfield,39,27
+982024,2022-2023,Counties 2 Sussex,2023-01-28,Burgess Hill,East Grinstead,0,63
+982025,2022-2023,Counties 2 Sussex,2023-01-28,Seaford,Lewes,36,12
+1036370,2022-2023,Counties 2 Sussex,2023-01-28,Crawley,Haywards Heath,24,27
+982023,2022-2023,Counties 2 Sussex,2023-01-28,Eastbourne,Pulborough,27,24
+1031320,2022-2023,Counties 2 Sussex,2023-02-04,Lewes,Uckfield,17,33
+1031319,2022-2023,Counties 2 Sussex,2023-02-04,Burgess Hill,Haywards Heath,19,20
+982032,2022-2023,Counties 2 Sussex,2023-02-11,Pulborough,Haywards Heath,68,17
+982028,2022-2023,Counties 2 Sussex,2023-02-11,Uckfield,Seaford,8,5
+982029,2022-2023,Counties 2 Sussex,2023-02-11,Lewes,Burgess Hill,19,22
+982030,2022-2023,Counties 2 Sussex,2023-02-11,East Grinstead,Eastbourne,36,30
+982031,2022-2023,Counties 2 Sussex,2023-02-11,Crawley,Shoreham,17,27
+982036,2022-2023,Counties 2 Sussex,2023-02-18,Seaford,Crawley,42,19
+982037,2022-2023,Counties 2 Sussex,2023-02-18,Haywards Heath,Shoreham,16,20
+982033,2022-2023,Counties 2 Sussex,2023-02-18,Pulborough,East Grinstead,14,35
+982035,2022-2023,Counties 2 Sussex,2023-02-18,Burgess Hill,Uckfield,24,27
+1034989,2022-2023,Counties 2 Sussex,2023-02-25,Haywards Heath,Uckfield,31,29
+1034988,2022-2023,Counties 2 Sussex,2023-02-25,Burgess Hill,Eastbourne,0,57
+982042,2022-2023,Counties 2 Sussex,2023-03-04,East Grinstead,Haywards Heath,54,17
+982039,2022-2023,Counties 2 Sussex,2023-03-04,Crawley,Burgess Hill,14,36
+982038,2022-2023,Counties 2 Sussex,2023-03-04,Shoreham,Seaford,29,19
+982040,2022-2023,Counties 2 Sussex,2023-03-04,Uckfield,Eastbourne,0,43
+982044,2022-2023,Counties 2 Sussex,2023-03-11,Pulborough,Uckfield,49,19
+982047,2022-2023,Counties 2 Sussex,2023-03-11,Seaford,Haywards Heath,12,27
+982046,2022-2023,Counties 2 Sussex,2023-03-11,Burgess Hill,Shoreham,24,10
+982045,2022-2023,Counties 2 Sussex,2023-03-11,Eastbourne,Crawley,67,7
+1036127,2022-2023,Counties 2 Sussex,2023-03-18,Pulborough,Burgess Hill,69,5
+1057446,2023-2024,Counties 1 Surrey/Sussex,2023-09-16,Teddington,Hove,72,17
+1057443,2023-2024,Counties 1 Surrey/Sussex,2023-09-16,Kingston,KCS Old Boys,17,39
+1057445,2023-2024,Counties 1 Surrey/Sussex,2023-09-16,East Grinstead,Twickenham,8,48
+1057447,2023-2024,Counties 1 Surrey/Sussex,2023-09-16,Eastbourne,Weybridge Vandals,17,33
+1057444,2023-2024,Counties 1 Surrey/Sussex,2023-09-16,Old Walcountians,Trinity,15,20
+1090461,2023-2024,Counties 1 Surrey/Sussex,2023-09-22,Twickenham,Teddington,24,39
+1057452,2023-2024,Counties 1 Surrey/Sussex,2023-09-23,KCS Old Boys,Old Walcountians,25,17
+1057453,2023-2024,Counties 1 Surrey/Sussex,2023-09-23,Old Cranleighans,Weybridge Vandals,5,78
+1057449,2023-2024,Counties 1 Surrey/Sussex,2023-09-23,Hove,Eastbourne,59,28
+1057451,2023-2024,Counties 1 Surrey/Sussex,2023-09-23,Trinity,East Grinstead,22,25
+1057448,2023-2024,Counties 1 Surrey/Sussex,2023-09-23,Old Tiffinians,Kingston,45,15
+1057457,2023-2024,Counties 1 Surrey/Sussex,2023-09-30,Teddington,Trinity,67,3
+1057455,2023-2024,Counties 1 Surrey/Sussex,2023-09-30,Old Walcountians,Old Tiffinians,33,40
+1057459,2023-2024,Counties 1 Surrey/Sussex,2023-09-30,Weybridge Vandals,Hove,50,31
+1057456,2023-2024,Counties 1 Surrey/Sussex,2023-09-30,East Grinstead,KCS Old Boys,22,26
+1057458,2023-2024,Counties 1 Surrey/Sussex,2023-09-30,Eastbourne,Twickenham,39,29
+1057454,2023-2024,Counties 1 Surrey/Sussex,2023-09-30,Kingston,Old Cranleighans,34,7
+1057465,2023-2024,Counties 1 Surrey/Sussex,2023-10-07,Old Cranleighans,Hove,17,24
+1057462,2023-2024,Counties 1 Surrey/Sussex,2023-10-07,Twickenham,Weybridge Vandals,15,19
+1057464,2023-2024,Counties 1 Surrey/Sussex,2023-10-07,KCS Old Boys,Teddington,14,48
+1057463,2023-2024,Counties 1 Surrey/Sussex,2023-10-07,Trinity,Eastbourne,26,19
+1057461,2023-2024,Counties 1 Surrey/Sussex,2023-10-07,Kingston,Old Walcountians,19,26
+1057460,2023-2024,Counties 1 Surrey/Sussex,2023-10-07,Old Tiffinians,East Grinstead,63,14
+1057471,2023-2024,Counties 1 Surrey/Sussex,2023-10-14,Hove,Twickenham,26,53
+1057466,2023-2024,Counties 1 Surrey/Sussex,2023-10-14,Old Walcountians,Old Cranleighans,39,17
+1057469,2023-2024,Counties 1 Surrey/Sussex,2023-10-14,Eastbourne,KCS Old Boys,33,19
+1057470,2023-2024,Counties 1 Surrey/Sussex,2023-10-14,Weybridge Vandals,Trinity,56,21
+1057468,2023-2024,Counties 1 Surrey/Sussex,2023-10-14,Teddington,Old Tiffinians,38,31
+1057467,2023-2024,Counties 1 Surrey/Sussex,2023-10-14,East Grinstead,Kingston,20,11
+1057472,2023-2024,Counties 1 Surrey/Sussex,2023-10-21,Old Tiffinians,Eastbourne,31,17
+1057474,2023-2024,Counties 1 Surrey/Sussex,2023-10-21,Old Walcountians,East Grinstead,34,25
+1057475,2023-2024,Counties 1 Surrey/Sussex,2023-10-21,Trinity,Hove,21,15
+1057477,2023-2024,Counties 1 Surrey/Sussex,2023-10-21,Old Cranleighans,Twickenham,16,29
+1057473,2023-2024,Counties 1 Surrey/Sussex,2023-10-21,Kingston,Teddington,20,49
+1057476,2023-2024,Counties 1 Surrey/Sussex,2023-10-21,KCS Old Boys,Weybridge Vandals,26,21
+1057479,2023-2024,Counties 1 Surrey/Sussex,2023-11-04,Teddington,Old Walcountians,43,7
+1097837,2023-2024,Counties 1 Surrey/Sussex,2023-11-04,Kingston,Eastbourne,27,27
+1057483,2023-2024,Counties 1 Surrey/Sussex,2023-11-04,Twickenham,Trinity,52,13
+1057481,2023-2024,Counties 1 Surrey/Sussex,2023-11-04,Weybridge Vandals,Old Tiffinians,15,12
+1104314,2023-2024,Counties 1 Surrey/Sussex,2023-11-10,KCS Old Boys,Twickenham,16,0
+1057487,2023-2024,Counties 1 Surrey/Sussex,2023-11-11,East Grinstead,Teddington,10,27
+1057484,2023-2024,Counties 1 Surrey/Sussex,2023-11-11,Old Tiffinians,Hove,52,22
+1057489,2023-2024,Counties 1 Surrey/Sussex,2023-11-11,Old Cranleighans,Trinity,24,36
+1057485,2023-2024,Counties 1 Surrey/Sussex,2023-11-11,Kingston,Weybridge Vandals,12,66
+1057486,2023-2024,Counties 1 Surrey/Sussex,2023-11-11,Old Walcountians,Eastbourne,33,40
+1057492,2023-2024,Counties 1 Surrey/Sussex,2023-11-18,Weybridge Vandals,Old Walcountians,47,3
+1057494,2023-2024,Counties 1 Surrey/Sussex,2023-11-18,Twickenham,Old Tiffinians,25,42
+1057491,2023-2024,Counties 1 Surrey/Sussex,2023-11-18,Eastbourne,East Grinstead,26,24
+1057495,2023-2024,Counties 1 Surrey/Sussex,2023-11-18,Trinity,KCS Old Boys,22,42
+1057493,2023-2024,Counties 1 Surrey/Sussex,2023-11-18,Hove,Kingston,27,12
+1057490,2023-2024,Counties 1 Surrey/Sussex,2023-11-18,Teddington,Old Cranleighans,50,0
+1104933,2023-2024,Counties 1 Surrey/Sussex,2023-11-25,Hove,KCS Old Boys,27,29
+1057499,2023-2024,Counties 1 Surrey/Sussex,2023-12-02,East Grinstead,Weybridge Vandals,24,28
+1057500,2023-2024,Counties 1 Surrey/Sussex,2023-12-02,Teddington,Eastbourne,62,5
+1057498,2023-2024,Counties 1 Surrey/Sussex,2023-12-02,Old Walcountians,Hove,25,8
+1057496,2023-2024,Counties 1 Surrey/Sussex,2023-12-02,Old Tiffinians,Trinity,57,14
+1057497,2023-2024,Counties 1 Surrey/Sussex,2023-12-02,Kingston,Twickenham,17,55
+1057501,2023-2024,Counties 1 Surrey/Sussex,2023-12-02,Old Cranleighans,KCS Old Boys,26,27
+1057507,2023-2024,Counties 1 Surrey/Sussex,2023-12-09,KCS Old Boys,Old Tiffinians,33,28
+1057504,2023-2024,Counties 1 Surrey/Sussex,2023-12-09,Hove,East Grinstead,12,26
+1057505,2023-2024,Counties 1 Surrey/Sussex,2023-12-09,Twickenham,Old Walcountians,48,0
+1057503,2023-2024,Counties 1 Surrey/Sussex,2023-12-09,Weybridge Vandals,Teddington,15,29
+1057506,2023-2024,Counties 1 Surrey/Sussex,2023-12-09,Trinity,Kingston,27,5
+1057511,2023-2024,Counties 1 Surrey/Sussex,2023-12-16,Teddington,Twickenham,67,24
+1057509,2023-2024,Counties 1 Surrey/Sussex,2023-12-16,Old Walcountians,KCS Old Boys,17,36
+1057510,2023-2024,Counties 1 Surrey/Sussex,2023-12-16,East Grinstead,Trinity,41,10
+1057508,2023-2024,Counties 1 Surrey/Sussex,2023-12-16,Kingston,Old Tiffinians,31,45
+1057514,2023-2024,Counties 1 Surrey/Sussex,2024-01-06,Old Tiffinians,Old Walcountians,48,14
+1057515,2023-2024,Counties 1 Surrey/Sussex,2024-01-06,Hove,Weybridge Vandals,51,26
+1057519,2023-2024,Counties 1 Surrey/Sussex,2024-01-06,Old Cranleighans,Kingston,12,21
+1057516,2023-2024,Counties 1 Surrey/Sussex,2024-01-06,Twickenham,Eastbourne,43,20
+1057517,2023-2024,Counties 1 Surrey/Sussex,2024-01-06,Trinity,Teddington,0,50
+1057518,2023-2024,Counties 1 Surrey/Sussex,2024-01-06,KCS Old Boys,East Grinstead,44,28
+1057522,2023-2024,Counties 1 Surrey/Sussex,2024-01-13,Teddington,KCS Old Boys,45,10
+1057525,2023-2024,Counties 1 Surrey/Sussex,2024-01-13,Hove,Old Cranleighans,58,7
+1057521,2023-2024,Counties 1 Surrey/Sussex,2024-01-13,East Grinstead,Old Tiffinians,18,39
+1057523,2023-2024,Counties 1 Surrey/Sussex,2024-01-13,Eastbourne,Trinity,68,19
+1057520,2023-2024,Counties 1 Surrey/Sussex,2024-01-13,Old Walcountians,Kingston,25,5
+1057530,2023-2024,Counties 1 Surrey/Sussex,2024-01-20,KCS Old Boys,Eastbourne,56,18
+1057532,2023-2024,Counties 1 Surrey/Sussex,2024-01-27,East Grinstead,Old Walcountians,38,19
+1057537,2023-2024,Counties 1 Surrey/Sussex,2024-01-27,Twickenham,Old Cranleighans,46,10
+1057535,2023-2024,Counties 1 Surrey/Sussex,2024-01-27,Weybridge Vandals,KCS Old Boys,31,19
+1057536,2023-2024,Counties 1 Surrey/Sussex,2024-01-27,Hove,Trinity,46,5
+1057534,2023-2024,Counties 1 Surrey/Sussex,2024-01-27,Eastbourne,Old Tiffinians,26,48
+1057533,2023-2024,Counties 1 Surrey/Sussex,2024-01-27,Teddington,Kingston,57,12
+1097838,2023-2024,Counties 1 Surrey/Sussex,2024-02-03,Eastbourne,Kingston,34,24
+1057538,2023-2024,Counties 1 Surrey/Sussex,2024-02-03,Old Tiffinians,Weybridge Vandals,54,42
+1057540,2023-2024,Counties 1 Surrey/Sussex,2024-02-03,Old Walcountians,Teddington,0,86
+1057541,2023-2024,Counties 1 Surrey/Sussex,2024-02-03,Trinity,Twickenham,26,61
+1057542,2023-2024,Counties 1 Surrey/Sussex,2024-02-03,KCS Old Boys,Hove,24,20
+1111741,2023-2024,Counties 1 Surrey/Sussex,2024-02-10,Old Cranleighans,Old Walcountians,9,15
+1111740,2023-2024,Counties 1 Surrey/Sussex,2024-02-10,Kingston,East Grinstead,7,48
+1109436,2023-2024,Counties 1 Surrey/Sussex,2024-02-10,Eastbourne,Hove,36,15
+1111742,2023-2024,Counties 1 Surrey/Sussex,2024-02-10,Old Tiffinians,Teddington,29,26
+1057549,2023-2024,Counties 1 Surrey/Sussex,2024-02-17,Twickenham,KCS Old Boys,31,24
+1057544,2023-2024,Counties 1 Surrey/Sussex,2024-02-17,Teddington,East Grinstead,26,0
+1057545,2023-2024,Counties 1 Surrey/Sussex,2024-02-17,Eastbourne,Old Walcountians,29,8
+1057547,2023-2024,Counties 1 Surrey/Sussex,2024-02-17,Hove,Old Tiffinians,26,20
+1057548,2023-2024,Counties 1 Surrey/Sussex,2024-02-17,Trinity,Old Cranleighans,19,13
+1113118,2023-2024,Counties 1 Surrey/Sussex,2024-02-23,Trinity,Weybridge Vandals,6,43
+1057552,2023-2024,Counties 1 Surrey/Sussex,2024-03-02,Old Walcountians,Weybridge Vandals,3,47
+1057550,2023-2024,Counties 1 Surrey/Sussex,2024-03-02,Old Tiffinians,Twickenham,22,24
+1057553,2023-2024,Counties 1 Surrey/Sussex,2024-03-02,East Grinstead,Eastbourne,15,14
+1115518,2023-2024,Counties 1 Surrey/Sussex,2024-03-09,Kingston,Hove,19,35
+1113692,2023-2024,Counties 1 Surrey/Sussex,2024-03-09,Weybridge Vandals,Twickenham,10,24
+1057557,2023-2024,Counties 1 Surrey/Sussex,2024-03-16,Weybridge Vandals,East Grinstead,71,26
+1057558,2023-2024,Counties 1 Surrey/Sussex,2024-03-16,Hove,Old Walcountians,53,3
+1057559,2023-2024,Counties 1 Surrey/Sussex,2024-03-16,Twickenham,Kingston,126,5
+1057560,2023-2024,Counties 1 Surrey/Sussex,2024-03-16,Trinity,Old Tiffinians,26,34
+1057556,2023-2024,Counties 1 Surrey/Sussex,2024-03-16,Eastbourne,Teddington,41,53
+1057562,2023-2024,Counties 1 Surrey/Sussex,2024-03-23,Old Tiffinians,KCS Old Boys,26,5
+1057564,2023-2024,Counties 1 Surrey/Sussex,2024-03-23,Old Walcountians,Twickenham,15,60
+1057566,2023-2024,Counties 1 Surrey/Sussex,2024-03-23,Teddington,Weybridge Vandals,45,29
+1057565,2023-2024,Counties 1 Surrey/Sussex,2024-03-23,East Grinstead,Hove,13,15
+1057563,2023-2024,Counties 1 Surrey/Sussex,2024-03-23,Kingston,Trinity,14,35
+1116670,2023-2024,Counties 1 Surrey/Sussex,2024-03-28,KCS Old Boys,Trinity,17,10
+1057572,2023-2024,Counties 1 Surrey/Sussex,2024-04-06,KCS Old Boys,Kingston,70,12
+1057570,2023-2024,Counties 1 Surrey/Sussex,2024-04-06,Twickenham,East Grinstead,35,10
+1057571,2023-2024,Counties 1 Surrey/Sussex,2024-04-06,Trinity,Old Walcountians,43,22
+1057569,2023-2024,Counties 1 Surrey/Sussex,2024-04-06,Hove,Teddington,22,45
+1057568,2023-2024,Counties 1 Surrey/Sussex,2024-04-06,Weybridge Vandals,Eastbourne,38,5
+1057573,2023-2024,Counties 1 Surrey/Sussex,2024-04-06,Old Cranleighans,Old Tiffinians,31,46
+1136406,2024-2025,Counties 1 Surrey/Sussex,2024-09-07,Trinity,Old Haileyburians,20,19
+1148912,2024-2025,Counties 1 Surrey/Sussex,2024-09-07,Cobham,Old Rutlishians,32,41
+1136407,2024-2025,Counties 1 Surrey/Sussex,2024-09-07,Eastbourne,Haywards Heath,38,13
+1136408,2024-2025,Counties 1 Surrey/Sussex,2024-09-07,KCS Old Boys,Weybridge Vandals,22,34
+1136409,2024-2025,Counties 1 Surrey/Sussex,2024-09-07,Twickenham,Hove,51,0
+1136405,2024-2025,Counties 1 Surrey/Sussex,2024-09-07,East Grinstead,London Cornish,16,18
+1136415,2024-2025,Counties 1 Surrey/Sussex,2024-09-14,Twickenham,Old Rutlishians,26,22
+1136413,2024-2025,Counties 1 Surrey/Sussex,2024-09-14,Haywards Heath,Trinity,33,34
+1136411,2024-2025,Counties 1 Surrey/Sussex,2024-09-14,Hove,KCS Old Boys,10,54
+1136414,2024-2025,Counties 1 Surrey/Sussex,2024-09-14,Old Haileyburians,East Grinstead,60,0
+1136410,2024-2025,Counties 1 Surrey/Sussex,2024-09-14,London Cornish,Cobham,37,36
+1136412,2024-2025,Counties 1 Surrey/Sussex,2024-09-14,Weybridge Vandals,Eastbourne,34,24
+1136420,2024-2025,Counties 1 Surrey/Sussex,2024-09-21,Eastbourne,Hove,36,17
+1136417,2024-2025,Counties 1 Surrey/Sussex,2024-09-21,Cobham,Old Haileyburians,53,10
+1136418,2024-2025,Counties 1 Surrey/Sussex,2024-09-21,East Grinstead,Haywards Heath,24,19
+1136421,2024-2025,Counties 1 Surrey/Sussex,2024-09-21,KCS Old Boys,Twickenham,22,31
+1136416,2024-2025,Counties 1 Surrey/Sussex,2024-09-21,Old Rutlishians,London Cornish,38,26
+1136419,2024-2025,Counties 1 Surrey/Sussex,2024-09-21,Trinity,Weybridge Vandals,22,10
+1178936,2024-2025,Counties 1 Surrey/Sussex,2024-09-27,KCS Old Boys,Old Rutlishians,29,25
+1136424,2024-2025,Counties 1 Surrey/Sussex,2024-09-28,Twickenham,Eastbourne,24,20
+1136425,2024-2025,Counties 1 Surrey/Sussex,2024-09-28,Hove,Trinity,8,29
+1136422,2024-2025,Counties 1 Surrey/Sussex,2024-09-28,Haywards Heath,Cobham,28,62
+1136426,2024-2025,Counties 1 Surrey/Sussex,2024-09-28,Weybridge Vandals,East Grinstead,48,15
+1136423,2024-2025,Counties 1 Surrey/Sussex,2024-09-28,Old Haileyburians,London Cornish,33,31
+1136429,2024-2025,Counties 1 Surrey/Sussex,2024-10-12,London Cornish,Haywards Heath,38,12
+1136433,2024-2025,Counties 1 Surrey/Sussex,2024-10-12,Eastbourne,KCS Old Boys,74,7
+1136428,2024-2025,Counties 1 Surrey/Sussex,2024-10-12,Old Rutlishians,Old Haileyburians,25,24
+1136432,2024-2025,Counties 1 Surrey/Sussex,2024-10-12,Trinity,Twickenham,28,23
+1136430,2024-2025,Counties 1 Surrey/Sussex,2024-10-12,Cobham,Weybridge Vandals,25,27
+1136431,2024-2025,Counties 1 Surrey/Sussex,2024-10-12,East Grinstead,Hove,21,34
+1136439,2024-2025,Counties 1 Surrey/Sussex,2024-10-19,Eastbourne,Old Rutlishians,30,31
+1136436,2024-2025,Counties 1 Surrey/Sussex,2024-10-19,Haywards Heath,Old Haileyburians,18,17
+1136434,2024-2025,Counties 1 Surrey/Sussex,2024-10-19,Hove,Cobham,39,33
+1136438,2024-2025,Counties 1 Surrey/Sussex,2024-10-19,Twickenham,East Grinstead,41,33
+1136437,2024-2025,Counties 1 Surrey/Sussex,2024-10-19,KCS Old Boys,Trinity,27,31
+1136435,2024-2025,Counties 1 Surrey/Sussex,2024-10-19,Weybridge Vandals,London Cornish,50,13
+1136444,2024-2025,Counties 1 Surrey/Sussex,2024-10-26,East Grinstead,KCS Old Boys,29,33
+1136441,2024-2025,Counties 1 Surrey/Sussex,2024-10-26,Old Haileyburians,Weybridge Vandals,12,47
+1136443,2024-2025,Counties 1 Surrey/Sussex,2024-10-26,Cobham,Twickenham,30,28
+1136442,2024-2025,Counties 1 Surrey/Sussex,2024-10-26,London Cornish,Hove,41,26
+1136440,2024-2025,Counties 1 Surrey/Sussex,2024-10-26,Old Rutlishians,Haywards Heath,58,22
+1136445,2024-2025,Counties 1 Surrey/Sussex,2024-10-26,Trinity,Eastbourne,18,15
+1136447,2024-2025,Counties 1 Surrey/Sussex,2024-11-09,Twickenham,London Cornish,39,22
+1136448,2024-2025,Counties 1 Surrey/Sussex,2024-11-09,Hove,Old Haileyburians,39,36
+1136449,2024-2025,Counties 1 Surrey/Sussex,2024-11-09,Weybridge Vandals,Haywards Heath,95,0
+1136451,2024-2025,Counties 1 Surrey/Sussex,2024-11-09,Trinity,Old Rutlishians,25,21
+1136450,2024-2025,Counties 1 Surrey/Sussex,2024-11-09,Eastbourne,East Grinstead,33,36
+1136446,2024-2025,Counties 1 Surrey/Sussex,2024-11-09,KCS Old Boys,Cobham,22,25
+1136454,2024-2025,Counties 1 Surrey/Sussex,2024-11-16,Old Haileyburians,Twickenham,17,22
+1136455,2024-2025,Counties 1 Surrey/Sussex,2024-11-16,London Cornish,KCS Old Boys,38,11
+1136452,2024-2025,Counties 1 Surrey/Sussex,2024-11-16,Old Rutlishians,Weybridge Vandals,33,22
+1136456,2024-2025,Counties 1 Surrey/Sussex,2024-11-16,Cobham,Eastbourne,60,20
+1136457,2024-2025,Counties 1 Surrey/Sussex,2024-11-16,East Grinstead,Trinity,12,48
+1136453,2024-2025,Counties 1 Surrey/Sussex,2024-11-16,Haywards Heath,Hove,23,22
+1183278,2024-2025,Counties 1 Surrey/Sussex,2024-11-22,KCS Old Boys,Old Haileyburians,19,7
+1136461,2024-2025,Counties 1 Surrey/Sussex,2024-11-23,Twickenham,Haywards Heath,45,10
+1136458,2024-2025,Counties 1 Surrey/Sussex,2024-11-23,Trinity,Cobham,0,25
+1136459,2024-2025,Counties 1 Surrey/Sussex,2024-11-23,Eastbourne,London Cornish,26,12
+1136463,2024-2025,Counties 1 Surrey/Sussex,2024-11-23,East Grinstead,Old Rutlishians,19,23
+1136462,2024-2025,Counties 1 Surrey/Sussex,2024-11-23,Hove,Weybridge Vandals,20,19
+1136469,2024-2025,Counties 1 Surrey/Sussex,2024-12-07,Cobham,East Grinstead,26,7
+1136464,2024-2025,Counties 1 Surrey/Sussex,2024-12-07,Old Rutlishians,Hove,40,5
+1136467,2024-2025,Counties 1 Surrey/Sussex,2024-12-07,Old Haileyburians,Eastbourne,15,31
+1136465,2024-2025,Counties 1 Surrey/Sussex,2024-12-07,Weybridge Vandals,Twickenham,8,9
+1136468,2024-2025,Counties 1 Surrey/Sussex,2024-12-07,London Cornish,Trinity,27,0
+1136466,2024-2025,Counties 1 Surrey/Sussex,2024-12-07,Haywards Heath,KCS Old Boys,25,12
+1136472,2024-2025,Counties 1 Surrey/Sussex,2024-12-14,Trinity,Haywards Heath,45,14
+1136473,2024-2025,Counties 1 Surrey/Sussex,2024-12-14,Eastbourne,Weybridge Vandals,15,46
+1136475,2024-2025,Counties 1 Surrey/Sussex,2024-12-14,Old Rutlishians,Twickenham,31,26
+1136470,2024-2025,Counties 1 Surrey/Sussex,2024-12-14,Cobham,London Cornish,40,34
+1136471,2024-2025,Counties 1 Surrey/Sussex,2024-12-14,East Grinstead,Old Haileyburians,18,5
+1136474,2024-2025,Counties 1 Surrey/Sussex,2024-12-14,KCS Old Boys,Hove,36,38
+1136479,2024-2025,Counties 1 Surrey/Sussex,2024-12-21,Weybridge Vandals,Trinity,55,17
+1136477,2024-2025,Counties 1 Surrey/Sussex,2024-12-21,Twickenham,KCS Old Boys,14,0
+1136481,2024-2025,Counties 1 Surrey/Sussex,2024-12-21,London Cornish,Old Rutlishians,20,21
+1136476,2024-2025,Counties 1 Surrey/Sussex,2024-12-21,Old Haileyburians,Cobham,12,69
+1136478,2024-2025,Counties 1 Surrey/Sussex,2024-12-21,Hove,Eastbourne,12,12
+1136480,2024-2025,Counties 1 Surrey/Sussex,2024-12-21,Haywards Heath,East Grinstead,33,5
+1136486,2024-2025,Counties 1 Surrey/Sussex,2025-01-04,Eastbourne,Twickenham,38,38
+1136483,2024-2025,Counties 1 Surrey/Sussex,2025-01-04,Cobham,Haywards Heath,53,3
+1136484,2024-2025,Counties 1 Surrey/Sussex,2025-01-04,East Grinstead,Weybridge Vandals,14,20
+1136490,2024-2025,Counties 1 Surrey/Sussex,2025-01-11,KCS Old Boys,Eastbourne,26,52
+1136496,2024-2025,Counties 1 Surrey/Sussex,2025-01-18,Cobham,Hove,60,5
+1136499,2024-2025,Counties 1 Surrey/Sussex,2025-01-18,Old Rutlishians,Eastbourne,43,24
+1136497,2024-2025,Counties 1 Surrey/Sussex,2025-01-18,East Grinstead,Twickenham,10,47
+1136498,2024-2025,Counties 1 Surrey/Sussex,2025-01-18,Trinity,KCS Old Boys,55,24
+1136494,2024-2025,Counties 1 Surrey/Sussex,2025-01-18,Old Haileyburians,Haywards Heath,27,22
+1189150,2024-2025,Counties 1 Surrey/Sussex,2025-01-25,Trinity,Hove,0,13
+1189151,2024-2025,Counties 1 Surrey/Sussex,2025-01-25,Old Rutlishians,KCS Old Boys,61,0
+1189152,2024-2025,Counties 1 Surrey/Sussex,2025-01-25,London Cornish,Old Haileyburians,44,0
+1190746,2024-2025,Counties 1 Surrey/Sussex,2025-01-25,Weybridge Vandals,Cobham,19,19
+1136505,2024-2025,Counties 1 Surrey/Sussex,2025-02-01,Haywards Heath,Old Rutlishians,14,45
+1136504,2024-2025,Counties 1 Surrey/Sussex,2025-02-01,KCS Old Boys,East Grinstead,27,22
+1136501,2024-2025,Counties 1 Surrey/Sussex,2025-02-01,Hove,London Cornish,23,12
+1136502,2024-2025,Counties 1 Surrey/Sussex,2025-02-01,Weybridge Vandals,Old Haileyburians,76,5
+1136503,2024-2025,Counties 1 Surrey/Sussex,2025-02-01,Eastbourne,Trinity,64,17
+1136500,2024-2025,Counties 1 Surrey/Sussex,2025-02-01,Twickenham,Cobham,31,15
+1190743,2024-2025,Counties 1 Surrey/Sussex,2025-02-08,Twickenham,Trinity,47,5
+1190742,2024-2025,Counties 1 Surrey/Sussex,2025-02-08,Haywards Heath,London Cornish,19,25
+1190745,2024-2025,Counties 1 Surrey/Sussex,2025-02-08,Old Haileyburians,Old Rutlishians,10,28
+1190744,2024-2025,Counties 1 Surrey/Sussex,2025-02-08,Hove,East Grinstead,18,11
+1136511,2024-2025,Counties 1 Surrey/Sussex,2025-02-15,East Grinstead,Eastbourne,14,15
+1136510,2024-2025,Counties 1 Surrey/Sussex,2025-02-15,Old Rutlishians,Trinity,49,15
+1136507,2024-2025,Counties 1 Surrey/Sussex,2025-02-15,Old Haileyburians,Hove,19,27
+1136506,2024-2025,Counties 1 Surrey/Sussex,2025-02-15,Haywards Heath,Weybridge Vandals,24,29
+1136508,2024-2025,Counties 1 Surrey/Sussex,2025-02-15,London Cornish,Twickenham,20,23
+1136509,2024-2025,Counties 1 Surrey/Sussex,2025-02-15,Cobham,KCS Old Boys,82,31
+1136517,2024-2025,Counties 1 Surrey/Sussex,2025-03-01,Weybridge Vandals,Old Rutlishians,26,20
+1136514,2024-2025,Counties 1 Surrey/Sussex,2025-03-01,Twickenham,Old Haileyburians,42,14
+1136515,2024-2025,Counties 1 Surrey/Sussex,2025-03-01,Hove,Haywards Heath,24,38
+1136516,2024-2025,Counties 1 Surrey/Sussex,2025-03-01,Trinity,East Grinstead,34,18
+1136512,2024-2025,Counties 1 Surrey/Sussex,2025-03-01,Eastbourne,Cobham,24,17
+1136518,2024-2025,Counties 1 Surrey/Sussex,2025-03-08,Weybridge Vandals,Hove,68,19
+1136523,2024-2025,Counties 1 Surrey/Sussex,2025-03-08,Old Rutlishians,East Grinstead,77,14
+1136520,2024-2025,Counties 1 Surrey/Sussex,2025-03-08,Old Haileyburians,KCS Old Boys,14,57
+1136522,2024-2025,Counties 1 Surrey/Sussex,2025-03-08,Cobham,Trinity,27,31
+1136519,2024-2025,Counties 1 Surrey/Sussex,2025-03-08,Haywards Heath,Twickenham,0,59
+1136521,2024-2025,Counties 1 Surrey/Sussex,2025-03-08,London Cornish,Eastbourne,52,46
+1136527,2024-2025,Counties 1 Surrey/Sussex,2025-03-22,KCS Old Boys,Haywards Heath,38,31
+1136528,2024-2025,Counties 1 Surrey/Sussex,2025-03-22,Twickenham,Weybridge Vandals,29,22
+1136525,2024-2025,Counties 1 Surrey/Sussex,2025-03-22,Trinity,London Cornish,38,31
+1136524,2024-2025,Counties 1 Surrey/Sussex,2025-03-22,East Grinstead,Cobham,21,43
+1136526,2024-2025,Counties 1 Surrey/Sussex,2025-03-22,Eastbourne,Old Haileyburians,77,21
+1136529,2024-2025,Counties 1 Surrey/Sussex,2025-03-22,Hove,Old Rutlishians,19,61
+1196079,2024-2025,Counties 1 Surrey/Sussex,2025-03-28,KCS Old Boys,London Cornish,46,24
+1136533,2024-2025,Counties 1 Surrey/Sussex,2025-04-05,Old Haileyburians,Trinity,12,26
+1136530,2024-2025,Counties 1 Surrey/Sussex,2025-04-05,Hove,Twickenham,10,57
+1148913,2024-2025,Counties 1 Surrey/Sussex,2025-04-05,Old Rutlishians,Cobham,24,38
+1136531,2024-2025,Counties 1 Surrey/Sussex,2025-04-05,Weybridge Vandals,KCS Old Boys,88,0
+1136534,2024-2025,Counties 1 Surrey/Sussex,2025-04-05,London Cornish,East Grinstead,21,21
+1136532,2024-2025,Counties 1 Surrey/Sussex,2025-04-05,Haywards Heath,Eastbourne,5,22
 1237832,2025-2026,Counties 2 Sussex,2025-10-04,Ditchling,Brighton II,19,48
 1220043,2025-2026,Counties 2 Sussex,2025-10-04,Crawley,Lewes,0,36
 1220042,2025-2026,Counties 2 Sussex,2025-10-04,Pulborough,Eastbourne II,39,10
@@ -98,3 +433,13 @@ match_id,season,league,date,home_team,away_team,home_score,away_score
 1255048,2025-2026,Harvey's Brewery Counties 3 Sussex,2026-01-24,Uckfield,Hellingly,45,5
 1233141,2025-2026,Harvey's Brewery Counties 3 Sussex,2026-01-24,Hove II,Crowborough II,28,17
 1233139,2025-2026,Harvey's Brewery Counties 3 Sussex,2026-01-24,Burgess Hill,Horsham Barbarians,46,21
+1220095,2025-2026,Counties 2 Sussex,2026-02-14,Pulborough,Brighton II,43,32
+1220099,2025-2026,Counties 2 Sussex,2026-02-14,Lewes,East Grinstead,22,39
+1220096,2025-2026,Counties 2 Sussex,2026-02-14,Crawley,Seaford,19,34
+1220097,2025-2026,Counties 2 Sussex,2026-02-14,Royals RFC,Ditchling,10,22
+1220098,2025-2026,Counties 2 Sussex,2026-02-14,Shoreham,Eastbourne II,41,33
+1220104,2025-2026,Counties 2 Sussex,2026-02-28,East Grinstead,Pulborough,14,13
+1220100,2025-2026,Counties 2 Sussex,2026-02-28,Seaford,Royals RFC,33,3
+1220103,2025-2026,Counties 2 Sussex,2026-02-28,Ditchling,Shoreham,40,7
+1220101,2025-2026,Counties 2 Sussex,2026-02-28,Brighton II,Crawley,27,12
+1220102,2025-2026,Counties 2 Sussex,2026-02-28,Eastbourne II,Lewes,24,49

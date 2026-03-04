@@ -1,12 +1,15 @@
 {
+    "match_id": "1189150",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2025-01-25",
-    "score": [
-        0,
-        13
-    ],
     "teams": [
         "Trinity",
         "Hove"
+    ],
+    "score": [
+        0,
+        13
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/23175.png",
@@ -42,19 +45,15 @@
             "10": "Cameron Kirkland",
             "9": "Dominic Woodfine",
             "8": "Tobias Brown",
-            "7": "Robin Ward",
+            "7": "Name withheld",
             "6": "IAN SAUNDERS",
             "5": "Ryan Murrough",
             "4": "Carl Buckland",
-            "3": "Name withheld",
+            "3": "Adrian Shergold",
             "2": "Christopher Knott",
             "1": "tyler ray hooper",
             "S1": "Ryan Storer",
-            "S2": "George Brown",
-            "S3": "Jack Moore"
+            "S2": "George Brown"
         }
-    ],
-    "match_id": "1189150",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

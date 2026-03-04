@@ -1,12 +1,15 @@
 {
+    "match_id": "1136517",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2025-03-01",
-    "score": [
-        26,
-        20
-    ],
     "teams": [
         "Weybridge Vandals",
         "Old Rutlishians"
+    ],
+    "score": [
+        26,
+        20
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/25094.png",
@@ -21,7 +24,7 @@
             "11": "Karl Hoade",
             "10": "Daniel Wellden",
             "9": "Joseph Graves",
-            "8": "James Gulliver",
+            "8": "Name withheld",
             "7": "Paul-Louis Howard",
             "6": "Reece Innes-Gray",
             "5": "Lewis Bryant",
@@ -53,8 +56,5 @@
             "S2": "Jordan Braddock",
             "S3": "Charles Julian"
         }
-    ],
-    "match_id": "1136517",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

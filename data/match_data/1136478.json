@@ -1,12 +1,15 @@
 {
+    "match_id": "1136478",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2024-12-21",
-    "score": [
-        12,
-        12
-    ],
     "teams": [
         "Hove",
         "Eastbourne"
+    ],
+    "score": [
+        12,
+        12
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/10503.png",
@@ -26,8 +29,8 @@
             "6": "Thomas Mohan",
             "5": "George Brown",
             "4": "Ryan Murrough",
-            "3": "Name withheld",
-            "2": "Robin Ward",
+            "3": "Adrian Shergold",
+            "2": "Name withheld",
             "1": "tyler ray hooper",
             "S1": "Toby Downes",
             "S2": "Carl Buckland",
@@ -53,8 +56,5 @@
             "S2": "Michael Morehen",
             "S3": "Morgan Treacher"
         }
-    ],
-    "match_id": "1136478",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

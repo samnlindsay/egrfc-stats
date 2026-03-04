@@ -1,0 +1,56 @@
+{
+    "match_id": "1220101",
+    "season": "2025-2026",
+    "league": "Counties 2 Sussex",
+    "date": "2026-02-28",
+    "teams": [
+        "Brighton II",
+        "Crawley"
+    ],
+    "score": [
+        27,
+        12
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/3218.png",
+        "https://images.englandrugby.com/club_images/5807.png"
+    ],
+    "players": [
+        {
+            "15": "Zane Hanna",
+            "14": "Ibrahim Bangura",
+            "13": "Hayden Quigg",
+            "12": "Joseph Pratt",
+            "11": "Name withheld",
+            "10": "Charlie Maskrey",
+            "9": "Angus Taylor",
+            "8": "Joshua Berman",
+            "7": "Luke Jameson Clark",
+            "6": "Zak Ellenger",
+            "5": "Jake Blackburn",
+            "4": "Dillon Stingemore",
+            "3": "Andrew Rowlandson",
+            "2": "Nicolas Lewis",
+            "1": "Luke Booth",
+            "S1": "Josh Blackburn"
+        },
+        {
+            "15": "Kristian Dean",
+            "14": "Charles Dennis",
+            "13": "Jake Jackson",
+            "12": "Kai Marshall",
+            "11": "Conor Kelly",
+            "10": "Callum Hankin",
+            "9": "Guy Craddock",
+            "8": "Adam Dealhoy",
+            "7": "William Ofosuhene",
+            "6": "Bradley Davies",
+            "5": "Daniel Davis",
+            "4": "Nathan Cox",
+            "3": "Joel Fisher",
+            "2": "Jonathan McGurk",
+            "1": "Andrew Jagger",
+            "S1": "Joshua Rodwell"
+        }
+    ]
+}

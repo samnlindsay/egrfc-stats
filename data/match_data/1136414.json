@@ -1,12 +1,15 @@
 {
+    "match_id": "1136414",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2024-09-14",
-    "score": [
-        60,
-        0
-    ],
     "teams": [
         "Old Haileyburians",
         "East Grinstead"
+    ],
+    "score": [
+        60,
+        0
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/15747.png",
@@ -14,46 +17,42 @@
     ],
     "players": [
         {
-            "15": "Jon Searle",
-            "14": "Ethan Mead",
-            "13": "Benedict Trimmer",
-            "12": "Oliver Bluck",
-            "11": "Issac Jeavons-Fellows",
-            "10": "Ollie Mann",
-            "9": "Alfie Jeavons-Fellows",
-            "8": "Cameron Bullard",
-            "7": "Harry Clesham",
-            "6": "Thomas Wright",
-            "5": "Thomas Woodruff",
-            "4": "Jack Swingler",
-            "3": "Tobi Costello",
-            "2": "Jacob Cummins",
-            "1": "Sonny Kelly",
-            "S1": "Harry Shields",
-            "S2": "Charles Wells"
+            "15": "Name withheld",
+            "14": "Benedict Trimmer",
+            "13": "Oliver Bluck",
+            "12": "Issac Jeavons-Fellows",
+            "11": "Ollie Mann",
+            "10": "Alfie Jeavons-Fellows",
+            "9": "Cameron Bullard",
+            "8": "Harry Clesham",
+            "7": "Thomas Wright",
+            "6": "Thomas Woodruff",
+            "5": "Jack Swingler",
+            "4": "Tobi Costello",
+            "3": "Jacob Cummins",
+            "2": "Sonny Kelly",
+            "1": "Harry Shields",
+            "S1": "Charles Wells",
+            "S2": "Noah Roberts"
         },
         {
-            "15": "Noah Roberts",
-            "14": "Alistair Moffatt",
-            "13": "Alister Yaffa",
-            "12": "Rhys Skinner",
-            "11": "Jake Radcliffe",
-            "10": "Luke Maker",
-            "9": "Jack Billin",
-            "8": "Daniel Billin",
-            "7": "Rory evans",
-            "6": "Josh Weaver",
-            "5": "Tom Mooney",
-            "4": "Samuel Lindsay-McCall",
-            "3": "Joshua Brimecombe",
-            "2": "Benjamin Tottman",
-            "1": "Or Shay",
-            "S1": "George Beet",
-            "S2": "Peter Morley",
-            "S3": "Oliver Billin"
+            "15": "Alistair Moffatt",
+            "14": "Alister Yaffa",
+            "13": "Rhys Skinner",
+            "12": "Jake Radcliffe",
+            "11": "Luke Maker",
+            "10": "Jack Billin",
+            "9": "Daniel Billin",
+            "8": "Rory evans",
+            "7": "Josh Weaver",
+            "6": "Tom Mooney",
+            "5": "Samuel Lindsay-McCall",
+            "4": "Joshua Brimecombe",
+            "3": "Benjamin Tottman",
+            "2": "Or Shay",
+            "1": "George Beet",
+            "S1": "Peter Morley",
+            "S2": "Oliver Billin"
         }
-    ],
-    "match_id": "1136414",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

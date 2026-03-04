@@ -1,12 +1,15 @@
 {
+    "match_id": "1148912",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2024-09-07",
-    "score": [
-        32,
-        41
-    ],
     "teams": [
         "Cobham",
         "Old Rutlishians"
+    ],
+    "score": [
+        32,
+        41
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/5336.png",
@@ -26,7 +29,7 @@
             "6": "Korbyn Sherrington",
             "5": "Will O'Leary",
             "4": "Louis Porter",
-            "3": "Ryan Aujla",
+            "3": "Name withheld",
             "2": "Andrew Murphy",
             "1": "Chris Lippiatt",
             "S1": "Lewis Joyce",
@@ -43,18 +46,14 @@
             "9": "Elliot Shrimpton",
             "8": "Jordan Braddock",
             "7": "Benjamin Jones",
-            "6": "Name withheld",
-            "5": "Thomas Noble",
-            "4": "Josh Jibulu",
-            "3": "LOUIE DAVIES",
-            "2": "Wesley Poku",
-            "1": "Kenneth Cecil",
-            "S1": "Chezter Altea",
-            "S2": "Oliver Cross",
-            "S3": "Luca Dowdall"
+            "6": "Thomas Noble",
+            "5": "Josh Jibulu",
+            "4": "LOUIE DAVIES",
+            "3": "Wesley Poku",
+            "2": "Kenneth Cecil",
+            "1": "Chezter Altea",
+            "S1": "Oliver Cross",
+            "S2": "Luca Dowdall"
         }
-    ],
-    "match_id": "1148912",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

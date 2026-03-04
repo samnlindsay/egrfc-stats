@@ -1,12 +1,15 @@
 {
+    "match_id": "1136458",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2024-11-23",
-    "score": [
-        0,
-        25
-    ],
     "teams": [
         "Trinity",
         "Cobham"
+    ],
+    "score": [
+        0,
+        25
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/23175.png",
@@ -43,18 +46,14 @@
             "9": "Rory Penfold",
             "8": "Thomas Davison",
             "7": "Oliver Fox",
-            "6": "Oliver Fielding",
+            "6": "Name withheld",
             "5": "Louis Porter",
             "4": "James White",
-            "3": "Ryan Aujla",
-            "2": "Andrew Murphy",
-            "1": "Chris Lippiatt",
-            "S1": "Ben Joyce",
-            "S2": "Edward Jackson",
-            "S3": "Sam Meehan"
+            "3": "Andrew Murphy",
+            "2": "Chris Lippiatt",
+            "1": "Ben Joyce",
+            "S1": "Edward Jackson",
+            "S2": "Sam Meehan"
         }
-    ],
-    "match_id": "1136458",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

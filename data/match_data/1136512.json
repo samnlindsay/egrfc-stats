@@ -1,12 +1,15 @@
 {
+    "match_id": "1136512",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2025-03-01",
-    "score": [
-        24,
-        17
-    ],
     "teams": [
         "Eastbourne",
         "Cobham"
+    ],
+    "score": [
+        24,
+        17
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/7209.png",
@@ -42,19 +45,15 @@
             "10": "Will Stephen",
             "9": "Rory Penfold",
             "8": "Jake Mcquade",
-            "7": "Oliver Fielding",
+            "7": "Name withheld",
             "6": "Thomas Davison",
             "5": "Louis Porter",
             "4": "Luke Westgarth-Taylor",
-            "3": "Ryan Aujla",
-            "2": "Andrew Murphy",
-            "1": "Chris Lippiatt",
-            "S1": "Gabriel Clark",
-            "S2": "Anthony Moss",
-            "S3": "Hugh Kennedy"
+            "3": "Andrew Murphy",
+            "2": "Chris Lippiatt",
+            "1": "Gabriel Clark",
+            "S1": "Anthony Moss",
+            "S2": "Hugh Kennedy"
         }
-    ],
-    "match_id": "1136512",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

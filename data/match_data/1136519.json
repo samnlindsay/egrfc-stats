@@ -1,12 +1,15 @@
 {
+    "match_id": "1136519",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2025-03-08",
-    "score": [
-        0,
-        59
-    ],
     "teams": [
         "Haywards Heath",
         "Twickenham"
+    ],
+    "score": [
+        0,
+        59
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/9776.png",
@@ -26,7 +29,7 @@
             "6": "Flinn Herbert",
             "5": "Daniel Jarman",
             "4": "Ellis Dubois",
-            "3": "Euan Greaves-Smith",
+            "3": "Name withheld",
             "2": "William Purdy",
             "1": "Charles Newey",
             "S1": "Harrison Thomas Edwards",
@@ -53,8 +56,5 @@
             "S2": "Jack Fullicks",
             "S3": "Alex Stagg"
         }
-    ],
-    "match_id": "1136519",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

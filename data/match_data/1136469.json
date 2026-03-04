@@ -1,12 +1,15 @@
 {
+    "match_id": "1136469",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2024-12-07",
-    "score": [
-        26,
-        7
-    ],
     "teams": [
         "Cobham",
         "East Grinstead"
+    ],
+    "score": [
+        26,
+        7
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/5336.png",
@@ -23,38 +26,33 @@
             "9": "Ryan Saunders",
             "8": "Matthew Frost",
             "7": "Oliver Fox",
-            "6": "Oliver Fielding",
+            "6": "Name withheld",
             "5": "Will O'Leary",
             "4": "Louis Porter",
-            "3": "Ryan Aujla",
-            "2": "Andrew Murphy",
-            "1": "Chris Lippiatt",
-            "S1": "Gabriel Clark",
-            "S2": "Luke Westgarth-Taylor",
-            "S3": "Will Stephen"
+            "3": "Andrew Murphy",
+            "2": "Chris Lippiatt",
+            "1": "Gabriel Clark",
+            "S1": "Luke Westgarth-Taylor",
+            "S2": "Will Stephen",
+            "S3": "Luke Maker"
         },
         {
-            "15": "Luke Maker",
-            "14": "Duncan Fraser",
-            "13": "Ted Hardisty",
-            "12": "Max Crawley-Moore",
-            "11": "Benjamin Beard",
-            "10": "Noah Roberts",
-            "9": "Sam Spriddell",
-            "8": "Connor Leggat",
-            "7": "Ryland Thomas",
-            "6": "Daniel Billin",
-            "5": "Samuel Lindsay-McCall",
-            "4": "Daan Hulst",
-            "3": "Joshua Brimecombe",
-            "2": "Benjamin Tottman",
-            "1": "Guy Collins",
-            "S1": "Timothy Morris",
-            "S2": "George Beet",
-            "S3": "Rory evans"
+            "15": "Duncan Fraser",
+            "14": "Ted Hardisty",
+            "13": "Max Crawley-Moore",
+            "12": "Benjamin Beard",
+            "11": "Noah Roberts",
+            "10": "Sam Spriddell",
+            "9": "Connor Leggat",
+            "8": "Ryland Thomas",
+            "7": "Daniel Billin",
+            "6": "Samuel Lindsay-McCall",
+            "5": "Daan Hulst",
+            "4": "Joshua Brimecombe",
+            "3": "Benjamin Tottman",
+            "2": "Guy Collins",
+            "1": "George Beet",
+            "S1": "Rory evans"
         }
-    ],
-    "match_id": "1136469",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

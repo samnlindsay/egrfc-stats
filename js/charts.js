@@ -229,6 +229,45 @@ const Charts = {
     this.embedChart("#league-vis", chartSpec);
   },
 
+  // Render League chart (loads HTML file in iframe)
+  renderLeagueChart() {
+    console.log("🎯 Rendering League chart:", currentLeagueType);
+
+    const parentContainer = document.getElementById("league-content");
+    const oldContainer = document.getElementById("league-vis");
+
+    // Remove old container
+    if (oldContainer) {
+      oldContainer.remove();
+    }
+
+    // Create fresh container
+    const newContainer = document.createElement("div");
+    newContainer.id = "league-vis";
+    newContainer.style.width = "100%";
+    newContainer.style.height = "calc(100vh - 200px)";
+    parentContainer.appendChild(newContainer);
+
+    // Map chart type to HTML file
+    const chartFiles = {
+      "league-results": "Charts/league/results_1s_combined.html",
+      "league-analysis": "Charts/league/squad_analysis_1s.html"
+    };
+
+    const htmlFile = chartFiles[currentLeagueType];
+    if (htmlFile) {
+      // Create iframe to load the HTML file
+      const iframe = document.createElement("iframe");
+      iframe.src = htmlFile;
+      iframe.style.width = "100%";
+      iframe.style.height = "100%";
+      iframe.style.border = "none";
+      newContainer.appendChild(iframe);
+    } else {
+      newContainer.innerHTML = '<p style="padding: 20px;">Chart not found</p>';
+    }
+  },
+
   // Function to render only the currently active chart with current filters
   renderCharts() {
     console.log("🔄 renderCharts called at:", new Date().toISOString());
@@ -261,6 +300,9 @@ const Charts = {
           break;
         case "set-piece-dropdown":
           this.renderSetPieceChart();
+          break;
+        case "league-dropdown":
+          this.renderLeagueChart();
           break;
         default:
           console.log("🔄 Unknown tab ID:", tabId);

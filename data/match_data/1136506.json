@@ -1,12 +1,15 @@
 {
+    "match_id": "1136506",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2025-02-15",
-    "score": [
-        24,
-        29
-    ],
     "teams": [
         "Haywards Heath",
         "Weybridge Vandals"
+    ],
+    "score": [
+        24,
+        29
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/9776.png",
@@ -25,34 +28,29 @@
             "7": "Daniel Jarman",
             "6": "Harry Clark",
             "5": "Ellis Dubois",
-            "4": "Euan Greaves-Smith",
-            "3": "Harrison Thomas Edwards",
-            "2": "Charles Newey",
-            "1": "Stanley Bradford",
-            "S1": "Ben Eustace",
-            "S2": "Charles Patey-Johns",
-            "S3": "Thomas Bolger"
+            "4": "Harrison Thomas Edwards",
+            "3": "Charles Newey",
+            "2": "Stanley Bradford",
+            "1": "Ben Eustace",
+            "S1": "Charles Patey-Johns",
+            "S2": "Thomas Bolger",
+            "S3": "Harry Reed"
         },
         {
-            "15": "Harry Reed",
-            "14": "Harry Weatherall",
-            "13": "Karl Hoade",
-            "12": "Luke Phair",
-            "11": "Sam Bullett",
-            "10": "Joseph Graves",
-            "9": "James Gulliver",
-            "8": "Thomas Frewin",
-            "7": "Michael Mason",
-            "6": "Richard Crabb",
-            "5": "Joshua Thomas",
-            "4": "Cameron Edgar",
-            "3": "Luke Hempstead",
-            "2": "Robbie Dones",
-            "1": "Darren Lockyer",
-            "S1": "Daniel Wellden"
+            "15": "Harry Weatherall",
+            "14": "Karl Hoade",
+            "13": "Luke Phair",
+            "12": "Sam Bullett",
+            "11": "Joseph Graves",
+            "10": "Thomas Frewin",
+            "9": "Michael Mason",
+            "8": "Richard Crabb",
+            "7": "Joshua Thomas",
+            "6": "Cameron Edgar",
+            "5": "Luke Hempstead",
+            "4": "Robbie Dones",
+            "3": "Darren Lockyer",
+            "2": "Daniel Wellden"
         }
-    ],
-    "match_id": "1136506",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

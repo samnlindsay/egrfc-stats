@@ -1,12 +1,15 @@
 {
+    "match_id": "1136494",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2025-01-18",
-    "score": [
-        27,
-        22
-    ],
     "teams": [
         "Old Haileyburians",
         "Haywards Heath"
+    ],
+    "score": [
+        27,
+        22
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/15747.png",
@@ -53,8 +56,5 @@
             "S2": "James Buttle",
             "S3": "Fraser Russell"
         }
-    ],
-    "match_id": "1136494",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

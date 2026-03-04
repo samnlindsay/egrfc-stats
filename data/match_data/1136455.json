@@ -1,12 +1,15 @@
 {
+    "match_id": "1136455",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2024-11-16",
-    "score": [
-        38,
-        11
-    ],
     "teams": [
         "London Cornish",
         "KCS Old Boys"
+    ],
+    "score": [
+        38,
+        11
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/12508.png",
@@ -53,8 +56,5 @@
             "S2": "Stephen Byrne",
             "S3": "Thomas Schofield"
         }
-    ],
-    "match_id": "1136455",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

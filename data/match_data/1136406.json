@@ -1,12 +1,15 @@
 {
+    "match_id": "1136406",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2024-09-07",
-    "score": [
-        20,
-        19
-    ],
     "teams": [
         "Trinity",
         "Old Haileyburians"
+    ],
+    "score": [
+        20,
+        19
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/23175.png",
@@ -34,26 +37,22 @@
             "S3": "Barney Kember"
         },
         {
-            "15": "Jon Searle",
+            "15": "Name withheld",
             "14": "Josh King",
             "13": "Benedict Trimmer",
             "12": "Oliver Bluck",
             "11": "Luke Wright",
             "10": "Ollie Mann",
-            "9": "Name withheld",
-            "8": "Thomas Wright",
-            "7": "Harry Clesham",
-            "6": "Charles Spilsbury",
-            "5": "Thomas Woodruff",
-            "4": "Oliver L Marsden",
-            "3": "Jacob Cummins",
-            "2": "Sonny Kelly",
-            "1": "Robin Kear",
-            "S1": "Oliver Beere",
-            "S2": "Issac Jeavons-Fellows"
+            "9": "Thomas Wright",
+            "8": "Harry Clesham",
+            "7": "Charles Spilsbury",
+            "6": "Thomas Woodruff",
+            "5": "Oliver L Marsden",
+            "4": "Jacob Cummins",
+            "3": "Sonny Kelly",
+            "2": "Robin Kear",
+            "1": "Oliver Beere",
+            "S1": "Issac Jeavons-Fellows"
         }
-    ],
-    "match_id": "1136406",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

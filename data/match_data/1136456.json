@@ -1,12 +1,15 @@
 {
+    "match_id": "1136456",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2024-11-16",
-    "score": [
-        60,
-        20
-    ],
     "teams": [
         "Cobham",
         "Eastbourne"
+    ],
+    "score": [
+        60,
+        20
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/5336.png",
@@ -23,38 +26,34 @@
             "9": "Ryan Saunders",
             "8": "Matthew Frost",
             "7": "Oliver Fox",
-            "6": "Oliver Fielding",
+            "6": "Name withheld",
             "5": "Thomas Davison",
             "4": "James White",
-            "3": "Ryan Aujla",
-            "2": "Andrew Murphy",
-            "1": "Chris Lippiatt",
-            "S1": "Gabriel Clark",
-            "S2": "Finlay Savill",
-            "S3": "Jordan Bond"
+            "3": "Andrew Murphy",
+            "2": "Chris Lippiatt",
+            "1": "Gabriel Clark",
+            "S1": "Finlay Savill",
+            "S2": "Jordan Bond",
+            "S3": "Mason Dowle"
         },
         {
-            "15": "Mason Dowle",
-            "14": "Oliver Horley",
-            "13": "Jake Howe",
-            "12": "Ronnie Doorey-Palmer",
-            "11": "Dylan Viles",
-            "10": "Aaron Hossack",
-            "9": "Leon Wood",
-            "8": "Owen Davies",
-            "7": "Vincent Morse",
-            "6": "Ben Gower",
-            "5": "Joshua Buckwell",
-            "4": "Jack Curtis",
-            "3": "Paul Smith",
-            "2": "Konrad Oneill",
-            "1": "Alun Cranch",
-            "S1": "Ryan Shields",
-            "S2": "Stuart Baker",
-            "S3": "Christopher Hosking"
+            "15": "Oliver Horley",
+            "14": "Jake Howe",
+            "13": "Ronnie Doorey-Palmer",
+            "12": "Dylan Viles",
+            "11": "Aaron Hossack",
+            "10": "Leon Wood",
+            "9": "Owen Davies",
+            "8": "Vincent Morse",
+            "7": "Ben Gower",
+            "6": "Joshua Buckwell",
+            "5": "Jack Curtis",
+            "4": "Paul Smith",
+            "3": "Konrad Oneill",
+            "2": "Alun Cranch",
+            "1": "Ryan Shields",
+            "S1": "Stuart Baker",
+            "S2": "Christopher Hosking"
         }
-    ],
-    "match_id": "1136456",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

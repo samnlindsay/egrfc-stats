@@ -1,12 +1,15 @@
 {
+    "match_id": "1136497",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2025-01-18",
-    "score": [
-        10,
-        47
-    ],
     "teams": [
         "East Grinstead",
         "Twickenham"
+    ],
+    "score": [
+        10,
+        47
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/7134.png",
@@ -25,7 +28,7 @@
             "7": "Oscar Staples",
             "6": "John Peaty",
             "5": "Samuel Lindsay-McCall",
-            "4": "Timothy Morris",
+            "4": "Name withheld",
             "3": "Joshua Brimecombe",
             "2": "George Beet",
             "1": "Guy Collins",
@@ -53,8 +56,5 @@
             "S2": "Mohammed Elata",
             "S3": "Alex Stagg"
         }
-    ],
-    "match_id": "1136497",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

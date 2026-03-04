@@ -1,12 +1,15 @@
 {
+    "match_id": "1136453",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2024-11-16",
-    "score": [
-        23,
-        22
-    ],
     "teams": [
         "Haywards Heath",
         "Hove"
+    ],
+    "score": [
+        23,
+        22
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/9776.png",
@@ -28,32 +31,28 @@
             "4": "Connor Mullins",
             "3": "James Fleming",
             "2": "William Purdy",
-            "1": "Euan Greaves-Smith",
-            "S1": "Harrison Thomas Edwards",
-            "S2": "Jack Bull",
-            "S3": "Henry Verbi"
+            "1": "Harrison Thomas Edwards",
+            "S1": "Jack Bull",
+            "S2": "Henry Verbi",
+            "S3": "Cameron Kirkland"
         },
         {
-            "15": "Cameron Kirkland",
-            "14": "John Orme-Williams",
-            "13": "Leo Robertson",
-            "12": "Charles Nicholson",
-            "11": "Tom Holborn",
-            "10": "Olly Lewis",
-            "9": "Charlie Knight",
-            "8": "Tobias Brown",
-            "7": "Jack Edwards",
-            "6": "Robin Ward",
-            "5": "Carl Buckland",
-            "4": "George Brown",
-            "3": "tyler ray hooper",
-            "2": "Charlie Butcher",
-            "1": "Ryan Storer",
-            "S1": "Tom Crisp",
-            "S2": "Charles Soffe"
+            "15": "John Orme-Williams",
+            "14": "Leo Robertson",
+            "13": "Charles Nicholson",
+            "12": "Tom Holborn",
+            "11": "Olly Lewis",
+            "10": "Charlie Knight",
+            "9": "Tobias Brown",
+            "8": "Jack Edwards",
+            "7": "Carl Buckland",
+            "6": "George Brown",
+            "5": "tyler ray hooper",
+            "4": "Charlie Butcher",
+            "3": "Ryan Storer",
+            "2": "Adrian Shergold",
+            "1": "Tom Crisp",
+            "S1": "Charles Soffe"
         }
-    ],
-    "match_id": "1136453",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

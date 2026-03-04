@@ -1,12 +1,15 @@
 {
+    "match_id": "1178936",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2024-09-27",
-    "score": [
-        29,
-        25
-    ],
     "teams": [
         "KCS Old Boys",
         "Old Rutlishians"
+    ],
+    "score": [
+        29,
+        25
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/11188.png",
@@ -53,8 +56,5 @@
             "S2": "Wesley Poku",
             "S3": "Thomas Checkley"
         }
-    ],
-    "match_id": "1178936",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

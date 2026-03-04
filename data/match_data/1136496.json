@@ -1,12 +1,15 @@
 {
+    "match_id": "1136496",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2025-01-18",
-    "score": [
-        60,
-        5
-    ],
     "teams": [
         "Cobham",
         "Hove"
+    ],
+    "score": [
+        60,
+        5
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/5336.png",
@@ -23,37 +26,31 @@
             "9": "Rory Penfold",
             "8": "Jake Mcquade",
             "7": "Thomas Davison",
-            "6": "Oliver Fielding",
+            "6": "Name withheld",
             "5": "Louis Porter",
             "4": "Luke Westgarth-Taylor",
             "3": "Ben Joyce",
             "2": "Andrew Murphy",
             "1": "Chris Lippiatt",
-            "S1": "Ryan Aujla",
-            "S2": "Oliver Fox",
-            "S3": "Edward Jackson"
+            "S1": "Oliver Fox",
+            "S2": "Edward Jackson",
+            "S3": "Tom Holborn"
         },
         {
-            "15": "Jack Moore",
-            "14": "Tom Holborn",
-            "13": "Guy Patton",
-            "12": "John Orme-Williams",
-            "11": "Rhowan Braybrook",
-            "10": "Cameron Kirkland",
-            "9": "Dominic Woodfine",
-            "8": "Robin Ward",
-            "7": "IAN SAUNDERS",
-            "6": "tyler ray hooper",
-            "5": "Carl Buckland",
-            "4": "George Brown",
-            "3": "Name withheld",
-            "2": "Christopher Knott",
-            "1": "Ryan Storer",
-            "S1": "Ben Stephens",
-            "S2": "Ryan Nixon"
+            "15": "Guy Patton",
+            "14": "John Orme-Williams",
+            "13": "Rhowan Braybrook",
+            "12": "Cameron Kirkland",
+            "11": "Dominic Woodfine",
+            "10": "IAN SAUNDERS",
+            "9": "tyler ray hooper",
+            "8": "Carl Buckland",
+            "7": "George Brown",
+            "6": "Adrian Shergold",
+            "5": "Christopher Knott",
+            "4": "Ryan Storer",
+            "3": "Ben Stephens",
+            "2": "Ryan Nixon"
         }
-    ],
-    "match_id": "1136496",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

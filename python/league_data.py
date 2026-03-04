@@ -87,6 +87,28 @@ headers = {
     'Cache-Control': 'max-age=0'
 }
 
+def squad_lookup(season, league):
+    """Return the squad number based on season and league."""
+    season_key = season.replace('-20', '/')  # Convert 2024-2025 to 2024/25
+    for div, seasons in divisions.items():
+        if league == seasons.get(season_key):
+            return int(div)
+    return 1  # Default to squad 1 if not found
+
+def is_match_complete(match_data):
+    """Check if match has complete data (score, both team lineups, date)."""
+    if not match_data:
+        return False
+    if not match_data.get('score') or None in match_data.get('score', []):
+        return False
+    if not match_data.get('players') or len(match_data.get('players', [])) < 2:
+        return False
+    if not match_data['players'][0] or not match_data['players'][1]:
+        return False
+    if not match_data.get('date'):
+        return False
+    return True
+
 def get_existing_match_ids_from_consolidated(consolidated_file="data/matches.json"):
     """Get set of match IDs from the consolidated matches.json file."""
     existing_ids = set()
@@ -124,6 +146,18 @@ def load_consolidated_matches(consolidated_file="data/matches.json"):
     except Exception as e:
         logging.error(f"Error loading consolidated file: {e}")
         return []
+
+def get_incomplete_match_ids(consolidated_file="data/matches.json"):
+    """Get match IDs that exist but have incomplete data."""
+    incomplete_ids = []
+    
+    matches = load_consolidated_matches(consolidated_file)
+    for match in matches:
+        if not is_match_complete(match):
+            incomplete_ids.append(match['match_id'])
+    
+    logging.info(f"Found {len(incomplete_ids)} matches with incomplete data")
+    return incomplete_ids
 
 def save_consolidated_matches(matches, consolidated_file="data/matches.json"):
     """Save matches to consolidated file, sorted by date."""
@@ -164,6 +198,37 @@ def generate_bootstrap_table(df, title="League Table"):
     </table>
     '''
     return table_html
+
+def get_team_stats_from_table(squad=1, season="2025/26"):
+    """Load league table and return dict of team stats."""
+    csv_file = f"data/league_table_{season.replace('/', '_')}_squad_{squad}.csv"
+    
+    if not os.path.exists(csv_file):
+        logging.debug(f"No league table found: {csv_file}")
+        return {}
+    
+    try:
+        df = pd.read_csv(csv_file)
+        
+        # Create lookup dict: team name -> {position, points, PD, etc}
+        team_stats = {}
+        for _, row in df.iterrows():
+            team_stats[row['TEAM']] = {
+                'position': row.get('#', None),
+                'points': row.get('Pts', None),
+                'played': row.get('P', None),
+                'won': row.get('W', None),
+                'drawn': row.get('D', None),
+                'lost': row.get('L', None),
+                'points_for': row.get('PF', None),
+                'points_against': row.get('PA', None),
+                'points_difference': row.get('PD', None)
+            }
+        
+        return team_stats
+    except Exception as e:
+        logging.error(f"Error reading league table {csv_file}: {e}")
+        return {}
 
 def fetch_league_table(squad=1, season="2025/26"):
     """Fetch league table from the England Rugby website."""
@@ -348,7 +413,7 @@ def fetch_match_data(match_id):
     return match_data
 
 def fetch_new_matches_only(squad=1, season="2025/26", consolidated_file="data/matches.json"):
-    """Fetch only matches that don't exist in the consolidated file."""
+    """Fetch new matches AND re-fetch incomplete ones."""
     
     # Get all match IDs for the season from website
     all_match_ids = fetch_match_ids(squad=squad, season=season)
@@ -360,54 +425,77 @@ def fetch_new_matches_only(squad=1, season="2025/26", consolidated_file="data/ma
     # Get existing match IDs from consolidated file
     existing_match_ids = get_existing_match_ids_from_consolidated(consolidated_file)
     
-    # Find new matches to fetch
+    # Get incomplete match IDs (in file but missing data)
+    incomplete_match_ids = get_incomplete_match_ids(consolidated_file)
+    
+    # New matches: not in consolidated file at all
     new_match_ids = [mid for mid in all_match_ids if mid not in existing_match_ids]
+    
+    # Incomplete matches: in file but missing data, and still on website
+    retry_match_ids = [mid for mid in incomplete_match_ids if mid in all_match_ids]
+    
+    # Combine both sets (remove duplicates)
+    to_fetch = list(set(new_match_ids + retry_match_ids))
     
     logging.info(f"Season {season} squad {squad}: {len(all_match_ids)} total matches on website")
     logging.info(f"Found {len(existing_match_ids)} existing matches in consolidated file")
-    logging.info(f"Need to fetch {len(new_match_ids)} new matches")
+    logging.info(f"Need to fetch: {len(new_match_ids)} new + {len(retry_match_ids)} incomplete = {len(to_fetch)} total")
     
-    if not new_match_ids:
-        logging.info("All matches already in consolidated file!")
+    if not to_fetch:
+        logging.info("All matches already in consolidated file with complete data!")
         return []
     
-    # Fetch only new matches
-    new_matches = []
-    for i, match_id in enumerate(new_match_ids, 1):
-        logging.info(f"Fetching {i}/{len(new_match_ids)}: {match_id}")
+    # Fetch matches
+    fetched_matches = []
+    for i, match_id in enumerate(to_fetch, 1):
+        match_type = "new" if match_id in new_match_ids else "retry"
+        logging.info(f"Fetching ({match_type}) {i}/{len(to_fetch)}: {match_id}")
         
         match_data = fetch_match_data(match_id)
         if match_data:
-            new_matches.append(match_data)
+            fetched_matches.append(match_data)
         
         # Delay between requests (except for last one)
-        if i < len(new_match_ids):
+        if i < len(to_fetch):
             time.sleep(random.uniform(3, 7))
     
-    logging.info(f"Successfully fetched {len(new_matches)} new matches")
-    return new_matches
+    logging.info(f"Successfully fetched {len(fetched_matches)} matches ({len([m for m in fetched_matches if is_match_complete(m)])} complete)")
+    return fetched_matches
 
 def update_consolidated_file(new_matches, consolidated_file="data/matches.json"):
-    """Add new matches to the consolidated file."""
+    """Add new matches or update existing ones in the consolidated file."""
     
     # Load existing matches
     existing_matches = load_consolidated_matches(consolidated_file)
     
-    # Get existing match IDs to avoid duplicates
-    existing_ids = {match['match_id'] for match in existing_matches if 'match_id' in match}
+    # Create dict for quick lookup and updating
+    matches_dict = {match['match_id']: match for match in existing_matches if 'match_id' in match}
     
-    # Filter out any duplicates from new matches
-    unique_new_matches = [match for match in new_matches if match['match_id'] not in existing_ids]
+    # Update or add matches
+    added_count = 0
+    updated_count = 0
     
-    if not unique_new_matches:
-        logging.info("No new unique matches to add to consolidated file")
-        return existing_matches
+    for match in new_matches:
+        match_id = match['match_id']
+        if match_id in matches_dict:
+            # Update existing match (in case we re-fetched incomplete data)
+            matches_dict[match_id] = match
+            updated_count += 1
+        else:
+            # Add new match
+            matches_dict[match_id] = match
+            added_count += 1
     
-    # Combine and save
-    all_matches = existing_matches + unique_new_matches
+    # Convert back to list
+    all_matches = list(matches_dict.values())
     
+    if added_count == 0 and updated_count == 0:
+        logging.info("No changes to consolidated file")
+        return all_matches
+    
+    # Save
     if save_consolidated_matches(all_matches, consolidated_file):
-        logging.info(f"Added {len(unique_new_matches)} new matches to consolidated file")
+        logging.info(f"Updated consolidated file: {added_count} added, {updated_count} updated")
     else:
         logging.error("Failed to update consolidated file")
     
@@ -466,30 +554,76 @@ def update_multiple_seasons_and_squads(seasons=None, squads=None, consolidated_f
     
     return final_matches
 
-def save_summary_match_data(matches, output_file="data/summary_matches.csv"):
-    # Read matches.json
-    with open('data/matches.json', 'r') as f:
-        matches = json.load(f)
+def generate_data_report(consolidated_file="data/matches.json"):
+    """Generate a report of data completeness."""
+    matches = load_consolidated_matches(consolidated_file)
+    
+    if not matches:
+        print("No matches found in consolidated file")
+        return {}
+    
+    by_league = {}
+    complete_count = 0
+    
+    for match in matches:
+        league = match.get('league', 'Unknown')
+        season = match.get('season', 'Unknown')
+        key = f"{season} - {league}"
+        
+        if key not in by_league:
+            by_league[key] = {'total': 0, 'complete': 0, 'teams': set()}
+        
+        by_league[key]['total'] += 1
+        by_league[key]['teams'].update(match.get('teams', []))
+        
+        if is_match_complete(match):
+            by_league[key]['complete'] += 1
+            complete_count += 1
+    
+    print("\n=== DATA COMPLETENESS REPORT ===")
+    print(f"Total matches: {len(matches)}")
+    print(f"Complete matches: {complete_count} ({100*complete_count/len(matches) if matches else 0:.1f}%)")
+    print(f"Incomplete matches: {len(matches) - complete_count}")
+    print("\nBy league/season:")
+    
+    for key, stats in sorted(by_league.items()):
+        completeness = 100 * stats['complete'] / stats['total'] if stats['total'] > 0 else 0
+        print(f"\n{key}:")
+        print(f"  Matches: {stats['complete']}/{stats['total']} complete ({completeness:.1f}%)")
+        print(f"  Teams: {len(stats['teams'])}")
+        team_list = sorted(stats['teams'])[:5]
+        if len(stats['teams']) > 5:
+            print(f"  Sample: {', '.join(team_list)}...")
+        else:
+            print(f"  Teams: {', '.join(team_list)}")
+    
+    return by_league
 
-    # Create CSV
-    with open('data/matches_summary.csv', 'w', newline='') as f:
-        writer = csv.DictWriter(f, fieldnames=['match_id', 'season', 'league', 'date', 'home_team', 'away_team', 'home_score', 'away_score'])
-        writer.writeheader()
-
-        for match in matches:
-            writer.writerow({
-                'match_id': match['match_id'],
-                'season': match['season'],
-                'league': match['league'],
-                'date': match['date'],
-                'home_team': match['teams'][0],
-                'away_team': match['teams'][1],
-                'home_score': match['score'][0] if match['score'][0] is not None else '',
-                'away_score': match['score'][1] if match['score'][1] is not None else ''
-            })
-
+def save_summary_match_data(matches, output_file="data/matches_summary.csv"):
+    """Save CSV summary with match results (without temporal league table data)."""
+    
+    rows = []
+    for match in matches:
+        home_team = match['teams'][0] if len(match.get('teams', [])) > 0 else ''
+        away_team = match['teams'][1] if len(match.get('teams', [])) > 1 else ''
+        
+        rows.append({
+            'match_id': match['match_id'],
+            'season': match['season'],
+            'league': match['league'],
+            'date': match['date'],
+            'home_team': home_team,
+            'away_team': away_team,
+            'home_score': match['score'][0] if match.get('score') and match['score'][0] is not None else '',
+            'away_score': match['score'][1] if match.get('score') and match['score'][1] is not None else '',
+        })
+    
+    df = pd.DataFrame(rows)
+    df.to_csv(output_file, index=False)
+    logging.info(f"Saved match summary with {len(df)} matches to {output_file}")
     print(f'Created CSV with {len(matches)} matches')
-    print('Saved to data/matches_summary.csv')
+    print(f'Saved to {output_file}')
+    print(f'League table data available separately in data/league_table_*.csv files')
 
 def main():
     """Main function to fetch and save match data."""
@@ -522,6 +656,11 @@ def main():
             consolidated_file=args.file
         )
 
+    # Generate data quality report
+    print("\n" + "="*50)
+    generate_data_report(args.file)
+    print("="*50 + "\n")
+    
     # Save summary CSV
     save_summary_match_data(load_consolidated_matches(args.file), output_file="data/matches_summary.csv")
 

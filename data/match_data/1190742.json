@@ -1,12 +1,15 @@
 {
+    "match_id": "1190742",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2025-02-08",
-    "score": [
-        19,
-        25
-    ],
     "teams": [
         "Haywards Heath",
         "London Cornish"
+    ],
+    "score": [
+        19,
+        25
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/9776.png",
@@ -53,8 +56,5 @@
             "S2": "John Vanderstegen-Drake",
             "S3": "Alec Gregory"
         }
-    ],
-    "match_id": "1190742",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

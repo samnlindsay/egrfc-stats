@@ -1,12 +1,15 @@
 {
+    "match_id": "1136505",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2025-02-01",
-    "score": [
-        14,
-        45
-    ],
     "teams": [
         "Haywards Heath",
         "Old Rutlishians"
+    ],
+    "score": [
+        14,
+        45
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/9776.png",
@@ -26,7 +29,7 @@
             "6": "Josh Pope",
             "5": "Ellis Dubois",
             "4": "Harry Clark",
-            "3": "Euan Greaves-Smith",
+            "3": "Name withheld",
             "2": "William Purdy",
             "1": "Harrison Thomas Edwards",
             "S1": "Sebastian Probert-Broster",
@@ -51,11 +54,7 @@
             "1": "William Donegan",
             "S1": "Chezter Altea",
             "S2": "Benjamin Lenehan",
-            "S3": "Ben Hatfield",
-            "S4": "Andrew Mileham"
+            "S3": "Andrew Mileham"
         }
-    ],
-    "match_id": "1136505",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

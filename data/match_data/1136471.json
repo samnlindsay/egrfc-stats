@@ -1,12 +1,15 @@
 {
+    "match_id": "1136471",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2024-12-14",
-    "score": [
-        18,
-        5
-    ],
     "teams": [
         "East Grinstead",
         "Old Haileyburians"
+    ],
+    "score": [
+        18,
+        5
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/7134.png",
@@ -30,7 +33,7 @@
             "2": "George Beet",
             "1": "Guy Collins",
             "S1": "David Bridges",
-            "S2": "Timothy Morris",
+            "S2": "Name withheld",
             "S3": "Max Crawley-Moore"
         },
         {
@@ -40,21 +43,15 @@
             "12": "Zachary Hebron",
             "11": "Joseph Selim",
             "10": "Ollie Mann",
-            "9": "Jon Searle",
-            "8": "Joshua Turley",
-            "7": "Edward Parr",
-            "6": "Harry Clesham",
-            "5": "Name withheld",
-            "4": "Harry Harper-Dowe",
-            "3": "Charles Hymer",
-            "2": "Jacob Cummins",
-            "1": "Charles Stewart",
-            "S1": "Dylan Wallis",
-            "S2": "Alfie Jeavons-Fellows",
-            "S3": "Edward Boden"
+            "9": "Joshua Turley",
+            "8": "Edward Parr",
+            "7": "Harry Clesham",
+            "6": "Harry Harper-Dowe",
+            "5": "Jacob Cummins",
+            "4": "Charles Stewart",
+            "3": "Dylan Wallis",
+            "2": "Alfie Jeavons-Fellows",
+            "1": "Edward Boden"
         }
-    ],
-    "match_id": "1136471",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

@@ -1,12 +1,15 @@
 {
+    "match_id": "1136521",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2025-03-08",
-    "score": [
-        52,
-        46
-    ],
     "teams": [
         "London Cornish",
         "Eastbourne"
+    ],
+    "score": [
+        52,
+        46
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/12508.png",
@@ -29,7 +32,7 @@
             "3": "James New",
             "2": "James Ritchie",
             "1": "Mathew Hand",
-            "S1": "Oliver Low",
+            "S1": "Name withheld",
             "S2": "Chai Clarkson",
             "S3": "Mark Lockhart"
         },
@@ -53,8 +56,5 @@
             "S2": "Christopher Hosking",
             "S3": "Luke Thomas"
         }
-    ],
-    "match_id": "1136521",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

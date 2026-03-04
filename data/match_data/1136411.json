@@ -1,12 +1,15 @@
 {
+    "match_id": "1136411",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2024-09-14",
-    "score": [
-        10,
-        54
-    ],
     "teams": [
         "Hove",
         "KCS Old Boys"
+    ],
+    "score": [
+        10,
+        54
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/10503.png",
@@ -14,7 +17,7 @@
     ],
     "players": [
         {
-            "15": "Jack Moore",
+            "15": "Name withheld",
             "14": "Oakley Hill-Smith",
             "13": "Philip Dugard",
             "12": "tyler ray hooper",
@@ -23,38 +26,33 @@
             "9": "Charles Soffe",
             "8": "Jordan Sayers",
             "7": "Tobias Brown",
-            "6": "Robin Ward",
-            "5": "George Brown",
-            "4": "IAN SAUNDERS",
-            "3": "Name withheld",
-            "2": "Charlie Butcher",
-            "1": "Ryan Storer",
-            "S1": "Stephen Klein",
-            "S2": "John Orme-Williams",
-            "S3": "Christopher Knott"
+            "6": "George Brown",
+            "5": "IAN SAUNDERS",
+            "4": "Adrian Shergold",
+            "3": "Charlie Butcher",
+            "2": "Ryan Storer",
+            "1": "Stephen Klein",
+            "S1": "John Orme-Williams",
+            "S2": "Christopher Knott",
+            "S3": "Thomas Schofield"
         },
         {
-            "15": "Thomas Schofield",
-            "14": "Max Gardiner",
-            "13": "Maximilian Robinson",
-            "12": "Jamie Miller",
-            "11": "Tom Senior",
-            "10": "Marcus Heenk",
-            "9": "Neil Williams",
-            "8": "Cameron Keller",
-            "7": "James Shaw",
-            "6": "Charles Paterson",
-            "5": "Fergus Keegan",
-            "4": "Dom Soin-Stanley",
-            "3": "Charlie Topley",
-            "2": "Alexander Owen",
-            "1": "Benoit Israel",
-            "S1": "Alexander Laidlaw",
-            "S2": "Jay Bhatia",
-            "S3": "Hamish Day"
+            "15": "Max Gardiner",
+            "14": "Maximilian Robinson",
+            "13": "Jamie Miller",
+            "12": "Tom Senior",
+            "11": "Marcus Heenk",
+            "10": "Neil Williams",
+            "9": "Cameron Keller",
+            "8": "James Shaw",
+            "7": "Charles Paterson",
+            "6": "Fergus Keegan",
+            "5": "Charlie Topley",
+            "4": "Alexander Owen",
+            "3": "Benoit Israel",
+            "2": "Alexander Laidlaw",
+            "1": "Jay Bhatia",
+            "S1": "Hamish Day"
         }
-    ],
-    "match_id": "1136411",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

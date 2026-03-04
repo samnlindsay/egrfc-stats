@@ -1,0 +1,55 @@
+{
+    "match_id": "1220098",
+    "season": "2025-2026",
+    "league": "Counties 2 Sussex",
+    "date": "2026-02-14",
+    "teams": [
+        "Shoreham",
+        "Eastbourne II"
+    ],
+    "score": [
+        41,
+        33
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/19257.png",
+        "https://images.englandrugby.com/club_images/7213.png"
+    ],
+    "players": [
+        {
+            "15": "David Ayres",
+            "14": "Paul Mamoany",
+            "13": "Connor Fairhall",
+            "12": "Steven Goater",
+            "11": "Name withheld",
+            "10": "Adam Fear",
+            "9": "Nathan Funnell",
+            "8": "Alfie Cawkwell",
+            "7": "Louie Bryant",
+            "6": "Finnbar Broxup",
+            "5": "Daniel Adams",
+            "4": "Michael Shaw",
+            "3": "Mark Lavery",
+            "2": "Joshua Avis",
+            "1": "Gavin Cox",
+            "S1": "Thomas Snell"
+        },
+        {
+            "15": "Maximus Smith",
+            "14": "Louis Paal",
+            "13": "Teddy Groves",
+            "12": "Louis Nicholls",
+            "11": "Glen Smith",
+            "10": "Tom Lester",
+            "9": "Joshua Boundy",
+            "8": "Michael Morehen",
+            "7": "Joseph Long",
+            "6": "Alun Cranch",
+            "5": "Edward Perry",
+            "4": "Toby Slaughter",
+            "3": "Pedro Sousa",
+            "2": "Kai Walker",
+            "1": "John Welbourne"
+        }
+    ]
+}

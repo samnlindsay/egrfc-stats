@@ -1,12 +1,15 @@
 {
+    "match_id": "1136475",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2024-12-14",
-    "score": [
-        31,
-        26
-    ],
     "teams": [
         "Old Rutlishians",
         "Twickenham"
+    ],
+    "score": [
+        31,
+        26
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/16005.png",
@@ -53,8 +56,5 @@
             "S2": "Jasper Bhamra",
             "S3": "Jordan Howell"
         }
-    ],
-    "match_id": "1136475",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

@@ -32,6 +32,7 @@ let appearancesSpec,
   scrumSpec;
 let currentPlayerStatsType = "appearances";
 let currentSetPieceType = "lineout";
+let currentLeagueType = "league-analysis";
 
 // Global state object
 const STATE = {

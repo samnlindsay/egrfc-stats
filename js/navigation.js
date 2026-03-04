@@ -101,6 +101,8 @@ const Navigation = {
         currentPlayerStatsType = chartType;
       } else if (targetId === "#set-piece-content") {
         currentSetPieceType = chartType;
+      } else if (targetId === "#league-content") {
+        currentLeagueType = chartType;
       }
 
       // Update tab content visibility
@@ -151,6 +153,8 @@ const Navigation = {
       document.getElementById("player-stats-dropdown").classList.add("active");
     } else if (targetId === "#set-piece-content") {
       document.getElementById("set-piece-dropdown").classList.add("active");
+    } else if (targetId === "#league-content") {
+      document.getElementById("league-dropdown").classList.add("active");
     }
   },
 
@@ -176,6 +180,7 @@ const Navigation = {
       // Set default chart types
       currentPlayerStatsType = "appearances";
       currentSetPieceType = "lineout";
+      currentLeagueType = "league-analysis";
     }
   },
 };

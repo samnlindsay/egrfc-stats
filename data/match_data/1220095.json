@@ -1,0 +1,57 @@
+{
+    "match_id": "1220095",
+    "season": "2025-2026",
+    "league": "Counties 2 Sussex",
+    "date": "2026-02-14",
+    "teams": [
+        "Pulborough",
+        "Brighton II"
+    ],
+    "score": [
+        43,
+        32
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/17255.png",
+        "https://images.englandrugby.com/club_images/3218.png"
+    ],
+    "players": [
+        {
+            "15": "Ralph Robson",
+            "14": "William Scrase",
+            "13": "Nicholas Cooper",
+            "12": "Bryan Woodhouse",
+            "11": "Ewan Callaway",
+            "10": "Sean Scrase",
+            "9": "Archie Sadler",
+            "8": "Dylan Townsend",
+            "7": "Ben Roberts",
+            "6": "George Harwood",
+            "5": "Carl Brewster",
+            "4": "Alfred Reeves",
+            "3": "Douglas Ludlow-monk",
+            "2": "Jake Parker",
+            "1": "Thomas Brackley",
+            "S1": "Reuben Joyce",
+            "S2": "Joseph Serna",
+            "S3": "Kieron Martin"
+        },
+        {
+            "15": "Zane Hanna",
+            "14": "Ibrahim Bangura",
+            "13": "Stephen Cahill",
+            "12": "Joseph Pratt",
+            "11": "Name withheld",
+            "10": "Charlie Maskrey",
+            "9": "Angus Taylor",
+            "8": "Adam Butler",
+            "7": "Zak Ellenger",
+            "6": "Luke Jameson Clark",
+            "5": "Frederick Tilley",
+            "4": "Dillon Stingemore",
+            "3": "Andrew Rowlandson",
+            "2": "Nicolas Lewis",
+            "1": "Luke Booth"
+        }
+    ]
+}

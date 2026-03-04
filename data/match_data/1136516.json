@@ -1,12 +1,15 @@
 {
+    "match_id": "1136516",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2025-03-01",
-    "score": [
-        34,
-        18
-    ],
     "teams": [
         "Trinity",
         "East Grinstead"
+    ],
+    "score": [
+        34,
+        18
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/23175.png",
@@ -50,11 +53,8 @@
             "2": "Benjamin Tottman",
             "1": "Joshua Brimecombe",
             "S1": "David Bridges",
-            "S2": "Timothy Morris",
+            "S2": "Name withheld",
             "S3": "Paddy Shepherd"
         }
-    ],
-    "match_id": "1136516",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

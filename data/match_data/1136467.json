@@ -1,12 +1,15 @@
 {
+    "match_id": "1136467",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2024-12-07",
-    "score": [
-        15,
-        31
-    ],
     "teams": [
         "Old Haileyburians",
         "Eastbourne"
+    ],
+    "score": [
+        15,
+        31
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/15747.png",
@@ -28,31 +31,27 @@
             "4": "Joshua Sterne",
             "3": "Jacob Cummins",
             "2": "Oliver L Marsden",
-            "1": "Charles Hymer",
-            "S1": "Edward Parr",
-            "S2": "Mason Dowle",
-            "S3": "Oliver Horley"
+            "1": "Edward Parr",
+            "S1": "Mason Dowle",
+            "S2": "Oliver Horley",
+            "S3": "Jake Howe"
         },
         {
-            "15": "Jake Howe",
-            "14": "Dylan Viles",
-            "13": "Stuart Baker",
-            "12": "Aaron Hossack",
-            "11": "Leon Wood",
-            "10": "Jeremy Montes",
-            "9": "Vincent Morse",
-            "8": "Owen Davies",
-            "7": "Joshua Buckwell",
-            "6": "Jack Curtis",
-            "5": "Paul Smith",
-            "4": "Konrad Oneill",
-            "3": "Christopher Hosking",
-            "2": "Ben Gower",
-            "1": "Ronnie Doorey-Palmer",
-            "S1": "Aitor Salas Blazquez"
+            "15": "Dylan Viles",
+            "14": "Stuart Baker",
+            "13": "Aaron Hossack",
+            "12": "Leon Wood",
+            "11": "Jeremy Montes",
+            "10": "Vincent Morse",
+            "9": "Owen Davies",
+            "8": "Joshua Buckwell",
+            "7": "Jack Curtis",
+            "6": "Paul Smith",
+            "5": "Konrad Oneill",
+            "4": "Christopher Hosking",
+            "3": "Ben Gower",
+            "2": "Ronnie Doorey-Palmer",
+            "1": "Aitor Salas Blazquez"
         }
-    ],
-    "match_id": "1136467",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

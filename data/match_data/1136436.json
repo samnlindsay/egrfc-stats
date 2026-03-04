@@ -1,12 +1,15 @@
 {
+    "match_id": "1136436",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2024-10-19",
-    "score": [
-        18,
-        17
-    ],
     "teams": [
         "Haywards Heath",
         "Old Haileyburians"
+    ],
+    "score": [
+        18,
+        17
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/9776.png",
@@ -28,33 +31,28 @@
             "4": "Harry Clark",
             "3": "James Fleming",
             "2": "William Purdy",
-            "1": "Euan Greaves-Smith",
-            "S1": "Elliott Higgin",
-            "S2": "Gareth Fergusson",
-            "S3": "Thomas Smith"
+            "1": "Elliott Higgin",
+            "S1": "Gareth Fergusson",
+            "S2": "Thomas Smith",
+            "S3": "Josh King"
         },
         {
-            "15": "Josh King",
-            "14": "Ethan Mead",
-            "13": "Benedict Trimmer",
-            "12": "Joseph Selim",
-            "11": "Elliot Hopkin",
-            "10": "Oliver Bluck",
-            "9": "Alfie Jeavons-Fellows",
-            "8": "Thomas Wright",
-            "7": "Harry Clesham",
-            "6": "Thomas Craven",
-            "5": "Sonny Kelly",
-            "4": "Jack Swingler",
-            "3": "Tobi Costello",
-            "2": "Jacob Cummins",
-            "1": "Oliver L Marsden",
-            "S1": "George Jeavons Fellows",
-            "S2": "Issac Jeavons-Fellows",
-            "S3": "Rory Dickson"
+            "15": "Benedict Trimmer",
+            "14": "Joseph Selim",
+            "13": "Elliot Hopkin",
+            "12": "Oliver Bluck",
+            "11": "Alfie Jeavons-Fellows",
+            "10": "Thomas Wright",
+            "9": "Harry Clesham",
+            "8": "Thomas Craven",
+            "7": "Sonny Kelly",
+            "6": "Jack Swingler",
+            "5": "Tobi Costello",
+            "4": "Jacob Cummins",
+            "3": "Oliver L Marsden",
+            "2": "George Jeavons Fellows",
+            "1": "Issac Jeavons-Fellows",
+            "S1": "Rory Dickson"
         }
-    ],
-    "match_id": "1136436",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

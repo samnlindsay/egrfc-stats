@@ -1,12 +1,15 @@
 {
+    "match_id": "1136407",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2024-09-07",
-    "score": [
-        38,
-        13
-    ],
     "teams": [
         "Eastbourne",
         "Haywards Heath"
+    ],
+    "score": [
+        38,
+        13
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/7209.png",
@@ -53,8 +56,5 @@
             "1": "Ben Eustace",
             "S1": "Christopher Neill"
         }
-    ],
-    "match_id": "1136407",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

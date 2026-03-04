@@ -1,12 +1,15 @@
 {
+    "match_id": "1136418",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2024-09-21",
-    "score": [
-        24,
-        19
-    ],
     "teams": [
         "East Grinstead",
         "Haywards Heath"
+    ],
+    "score": [
+        24,
+        19
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/7134.png",
@@ -48,13 +51,9 @@
             "4": "Name withheld",
             "3": "Sebastian Probert-Broster",
             "2": "Harrison Thomas Edwards",
-            "1": "Euan Greaves-Smith",
-            "S1": "Flinn Herbert",
-            "S2": "Thomas Smith",
-            "S3": "Patrick Stedman"
+            "1": "Flinn Herbert",
+            "S1": "Thomas Smith",
+            "S2": "Patrick Stedman"
         }
-    ],
-    "match_id": "1136418",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

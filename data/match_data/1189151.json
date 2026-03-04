@@ -1,12 +1,15 @@
 {
+    "match_id": "1189151",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2025-01-25",
-    "score": [
-        61,
-        0
-    ],
     "teams": [
         "Old Rutlishians",
         "KCS Old Boys"
+    ],
+    "score": [
+        61,
+        0
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/16005.png",
@@ -14,7 +17,7 @@
     ],
     "players": [
         {
-            "15": "James Cuthbert",
+            "15": "Name withheld",
             "14": "Oliver O\u2019Brien",
             "13": "David Cecil",
             "12": "Maximilian Lufkin",
@@ -52,8 +55,5 @@
             "S1": "Minhyuk Seo",
             "S2": "Joe Hampel"
         }
-    ],
-    "match_id": "1189151",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

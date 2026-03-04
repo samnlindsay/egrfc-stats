@@ -1,12 +1,15 @@
 {
+    "match_id": "1136504",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2025-02-01",
-    "score": [
-        27,
-        22
-    ],
     "teams": [
         "KCS Old Boys",
         "East Grinstead"
+    ],
+    "score": [
+        27,
+        22
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/11188.png",
@@ -49,11 +52,7 @@
             "3": "Benjamin Tottman",
             "2": "Joshua Brimecombe",
             "1": "David Bridges",
-            "S1": "Timothy Morris",
-            "S2": "Daniel Poulton"
+            "S1": "Daniel Poulton"
         }
-    ],
-    "match_id": "1136504",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

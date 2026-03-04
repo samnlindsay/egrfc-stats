@@ -1,12 +1,15 @@
 {
+    "match_id": "1136498",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2025-01-18",
-    "score": [
-        55,
-        24
-    ],
     "teams": [
         "Trinity",
         "KCS Old Boys"
+    ],
+    "score": [
+        55,
+        24
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/23175.png",
@@ -53,8 +56,5 @@
             "S2": "Finn Rowland",
             "S3": "Neil Williams"
         }
-    ],
-    "match_id": "1136498",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

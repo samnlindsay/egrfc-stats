@@ -1,12 +1,15 @@
 {
+    "match_id": "1136408",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2024-09-07",
-    "score": [
-        22,
-        34
-    ],
     "teams": [
         "KCS Old Boys",
         "Weybridge Vandals"
+    ],
+    "score": [
+        22,
+        34
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/11188.png",
@@ -14,46 +17,40 @@
     ],
     "players": [
         {
-            "15": "Ellis Hook",
+            "15": "Name withheld",
             "14": "Edward Shinn",
             "13": "Hugo Plat",
             "12": "Leon Driscoll",
             "11": "Thomas Schofield",
-            "10": "Name withheld",
-            "9": "Neil Williams",
-            "8": "Dale Spratt",
-            "7": "Rory Watson",
-            "6": "Ed Butler",
-            "5": "Dom Soin-Stanley",
-            "4": "Seth Eley",
-            "3": "Lekan Oduniyi",
-            "2": "Alister Coles",
-            "1": "Benoit Israel",
-            "S2": "Charles Paterson",
-            "S3": "Jamie Miller"
+            "10": "Neil Williams",
+            "9": "Dale Spratt",
+            "8": "Rory Watson",
+            "7": "Ed Butler",
+            "6": "Seth Eley",
+            "5": "Lekan Oduniyi",
+            "4": "Alister Coles",
+            "3": "Benoit Israel",
+            "2": "Charles Paterson",
+            "1": "Jamie Miller",
+            "S2": "Thomas Bolger",
+            "S3": "Karl Hoade"
         },
         {
-            "15": "Thomas Bolger",
-            "14": "Karl Hoade",
-            "13": "Harry Reed",
-            "12": "Harry Weatherall",
-            "11": "Oliver Day",
-            "10": "Jack O\u2019Mara",
-            "9": "Daniel Wellden",
-            "8": "James Gulliver",
-            "7": "Reece Innes-Gray",
-            "6": "Cameron Edgar",
-            "5": "Michael Mason",
-            "4": "Richard Crabb",
-            "3": "Luke Hempstead",
-            "2": "Callum Hennessey",
-            "1": "Joshua Thomas",
-            "S1": "Edward Rawding",
-            "S2": "Darren Lockyer",
-            "S3": "Sam Bullett"
+            "15": "Harry Reed",
+            "14": "Harry Weatherall",
+            "13": "Oliver Day",
+            "12": "Jack O\u2019Mara",
+            "11": "Daniel Wellden",
+            "10": "Reece Innes-Gray",
+            "9": "Cameron Edgar",
+            "8": "Michael Mason",
+            "7": "Richard Crabb",
+            "6": "Luke Hempstead",
+            "5": "Callum Hennessey",
+            "4": "Joshua Thomas",
+            "3": "Edward Rawding",
+            "2": "Darren Lockyer",
+            "1": "Sam Bullett"
         }
-    ],
-    "match_id": "1136408",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

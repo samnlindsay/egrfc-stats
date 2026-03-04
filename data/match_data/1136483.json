@@ -1,12 +1,15 @@
 {
+    "match_id": "1136483",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2025-01-04",
-    "score": [
-        53,
-        3
-    ],
     "teams": [
         "Cobham",
         "Haywards Heath"
+    ],
+    "score": [
+        53,
+        3
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/5336.png",
@@ -30,30 +33,26 @@
             "2": "Andrew Murphy",
             "1": "Chris Lippiatt",
             "S1": "Ben Joyce",
-            "S2": "Oliver Fielding",
+            "S2": "Name withheld",
             "S3": "Taylor Rice-Burnett"
         },
         {
             "15": "Gabriel Moore",
-            "14": "Name withheld",
-            "13": "Nicolas Main",
-            "12": "Jack Lucas",
-            "11": "Jack Flower",
-            "10": "Thomas Wharton",
-            "9": "Connor Mullins",
-            "8": "Geoffrey Bridges",
-            "7": "Josh Pope",
-            "6": "Ellis Dubois",
-            "5": "Harry Clark",
-            "4": "Sebastian Probert-Broster",
-            "3": "William Purdy",
-            "2": "Harrison Thomas Edwards",
-            "1": "Stanley Bradford",
-            "S1": "Kai Dolan",
-            "S2": "Alasdair Darling"
+            "14": "Nicolas Main",
+            "13": "Jack Lucas",
+            "12": "Jack Flower",
+            "11": "Thomas Wharton",
+            "10": "Connor Mullins",
+            "9": "Geoffrey Bridges",
+            "8": "Josh Pope",
+            "7": "Ellis Dubois",
+            "6": "Harry Clark",
+            "5": "Sebastian Probert-Broster",
+            "4": "William Purdy",
+            "3": "Harrison Thomas Edwards",
+            "2": "Stanley Bradford",
+            "1": "Kai Dolan",
+            "S1": "Alasdair Darling"
         }
-    ],
-    "match_id": "1136483",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

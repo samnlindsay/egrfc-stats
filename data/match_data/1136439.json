@@ -1,12 +1,15 @@
 {
+    "match_id": "1136439",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2024-10-19",
-    "score": [
-        30,
-        31
-    ],
     "teams": [
         "Eastbourne",
         "Old Rutlishians"
+    ],
+    "score": [
+        30,
+        31
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/7209.png",
@@ -53,8 +56,5 @@
             "S2": "Carlos Rodriguez",
             "S3": "Maximilian Lufkin"
         }
-    ],
-    "match_id": "1136439",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

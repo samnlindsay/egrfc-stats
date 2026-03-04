@@ -1,12 +1,15 @@
 {
+    "match_id": "1136420",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2024-09-21",
-    "score": [
-        36,
-        17
-    ],
     "teams": [
         "Eastbourne",
         "Hove"
+    ],
+    "score": [
+        36,
+        17
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/7209.png",
@@ -41,19 +44,16 @@
             "11": "Jack Edwards",
             "10": "Charles Soffe",
             "9": "Charles Watts",
-            "8": "Robin Ward",
+            "8": "Name withheld",
             "7": "Ben Stephens",
             "6": "IAN SAUNDERS",
             "5": "Tobias Brown",
-            "4": "Name withheld",
+            "4": "Adrian Shergold",
             "3": "Christopher Knott",
             "2": "Ryan Storer",
             "1": "Toby Downes",
             "S1": "Oliver Ashby",
             "S2": "Charlie Butcher"
         }
-    ],
-    "match_id": "1136420",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

@@ -1,12 +1,15 @@
 {
+    "match_id": "1136508",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2025-02-15",
-    "score": [
-        20,
-        23
-    ],
     "teams": [
         "London Cornish",
         "Twickenham"
+    ],
+    "score": [
+        20,
+        23
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/12508.png",
@@ -53,8 +56,5 @@
             "S2": "Jasper Bhamra",
             "S3": "Luke Deakin"
         }
-    ],
-    "match_id": "1136508",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

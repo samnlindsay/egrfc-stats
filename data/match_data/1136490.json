@@ -1,12 +1,15 @@
 {
+    "match_id": "1136490",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2025-01-11",
-    "score": [
-        26,
-        52
-    ],
     "teams": [
         "KCS Old Boys",
         "Eastbourne"
+    ],
+    "score": [
+        26,
+        52
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/11188.png",
@@ -53,8 +56,5 @@
             "S2": "Tom Lester",
             "S3": "Maxence Saint-Andr\u00e9"
         }
-    ],
-    "match_id": "1136490",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

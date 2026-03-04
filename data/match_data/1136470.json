@@ -1,12 +1,15 @@
 {
+    "match_id": "1136470",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2024-12-14",
-    "score": [
-        40,
-        34
-    ],
     "teams": [
         "Cobham",
         "London Cornish"
+    ],
+    "score": [
+        40,
+        34
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/5336.png",
@@ -26,7 +29,7 @@
             "6": "Edward Jackson",
             "5": "Louis Porter",
             "4": "Will O'Leary",
-            "3": "Ryan Aujla",
+            "3": "Name withheld",
             "2": "Andrew Murphy",
             "1": "Chris Lippiatt",
             "S1": "Gabriel Clark",
@@ -53,8 +56,5 @@
             "S2": "Oscar Cruz",
             "S3": "will spring"
         }
-    ],
-    "match_id": "1136470",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

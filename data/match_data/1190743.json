@@ -1,12 +1,15 @@
 {
+    "match_id": "1190743",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2025-02-08",
-    "score": [
-        47,
-        5
-    ],
     "teams": [
         "Twickenham",
         "Trinity"
+    ],
+    "score": [
+        47,
+        5
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/23336.png",
@@ -52,8 +55,5 @@
             "S1": "Dominic Plumb",
             "S2": "Mark Macaskill"
         }
-    ],
-    "match_id": "1190743",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

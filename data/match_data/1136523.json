@@ -1,12 +1,15 @@
 {
+    "match_id": "1136523",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2025-03-08",
-    "score": [
-        77,
-        14
-    ],
     "teams": [
         "Old Rutlishians",
         "East Grinstead"
+    ],
+    "score": [
+        77,
+        14
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/16005.png",
@@ -53,8 +56,5 @@
             "S2": "Paddy Shepherd",
             "S3": "William Roberts"
         }
-    ],
-    "match_id": "1136523",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

@@ -1,12 +1,15 @@
 {
+    "match_id": "1136412",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2024-09-14",
-    "score": [
-        34,
-        24
-    ],
     "teams": [
         "Weybridge Vandals",
         "Eastbourne"
+    ],
+    "score": [
+        34,
+        24
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/25094.png",
@@ -21,7 +24,7 @@
             "11": "Harry Reed",
             "10": "Jack O\u2019Mara",
             "9": "Daniel Wellden",
-            "8": "James Gulliver",
+            "8": "Name withheld",
             "7": "Reece Innes-Gray",
             "6": "Michael Mason",
             "5": "Darren Lockyer",
@@ -53,8 +56,5 @@
             "S2": "Alun Cranch",
             "S3": "Jack Curtis"
         }
-    ],
-    "match_id": "1136412",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

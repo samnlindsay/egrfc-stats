@@ -1,12 +1,15 @@
 {
+    "match_id": "1136484",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2025-01-04",
-    "score": [
-        14,
-        20
-    ],
     "teams": [
         "East Grinstead",
         "Weybridge Vandals"
+    ],
+    "score": [
+        14,
+        20
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/7134.png",
@@ -23,37 +26,32 @@
             "9": "Sam Spriddell",
             "8": "Connor Leggat",
             "7": "Rory evans",
-            "6": "Timothy Morris",
-            "5": "Samuel Lindsay-McCall",
-            "4": "Guy Collins",
-            "3": "David Bridges",
-            "2": "Benjamin Tottman",
-            "1": "Joshua Brimecombe",
-            "S2": "Oscar Staples",
-            "S3": "Ryland Thomas",
-            "S4": "Noah Roberts"
+            "6": "Samuel Lindsay-McCall",
+            "5": "Guy Collins",
+            "4": "David Bridges",
+            "3": "Benjamin Tottman",
+            "2": "Joshua Brimecombe",
+            "1": "Oscar Staples",
+            "S2": "Ryland Thomas",
+            "S3": "Noah Roberts",
+            "S4": "Thomas Bolger"
         },
         {
-            "15": "Thomas Bolger",
-            "14": "Harry Reed",
-            "13": "Harry Weatherall",
-            "12": "Sam Bullett",
-            "11": "Luke Phair",
-            "10": "Daniel Wellden",
-            "9": "Joseph Graves",
-            "8": "James Gulliver",
-            "7": "Reece Innes-Gray",
-            "6": "Paul-Louis Howard",
-            "5": "Michael Mason",
-            "4": "Thomas Frewin",
-            "3": "Luke Hempstead",
-            "2": "Callum Hennessey",
-            "1": "Joshua Thomas",
-            "S1": "Joel Keefe",
-            "S2": "Robbie Dones"
+            "15": "Harry Reed",
+            "14": "Harry Weatherall",
+            "13": "Sam Bullett",
+            "12": "Luke Phair",
+            "11": "Daniel Wellden",
+            "10": "Joseph Graves",
+            "9": "Reece Innes-Gray",
+            "8": "Paul-Louis Howard",
+            "7": "Michael Mason",
+            "6": "Thomas Frewin",
+            "5": "Luke Hempstead",
+            "4": "Callum Hennessey",
+            "3": "Joshua Thomas",
+            "2": "Joel Keefe",
+            "1": "Robbie Dones"
         }
-    ],
-    "match_id": "1136484",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

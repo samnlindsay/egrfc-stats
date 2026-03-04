@@ -1,0 +1,59 @@
+{
+    "match_id": "1220099",
+    "season": "2025-2026",
+    "league": "Counties 2 Sussex",
+    "date": "2026-02-14",
+    "teams": [
+        "Lewes",
+        "East Grinstead"
+    ],
+    "score": [
+        22,
+        39
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/12206.png",
+        "https://images.englandrugby.com/club_images/7134.png"
+    ],
+    "players": [
+        {
+            "15": "Jack Soltermann",
+            "14": "Name withheld",
+            "13": "Rafferty Green",
+            "12": "Ben Goode",
+            "11": "Harry Carr",
+            "10": "Jordan Smith",
+            "9": "Thomas Moore",
+            "8": "Harry Taylor",
+            "7": "Harry Weston",
+            "6": "Harry Rees",
+            "5": "Jack Bradford",
+            "4": "Fearghus Gage",
+            "3": "Benjamin Simmonds",
+            "2": "Kane Dadswell",
+            "1": "Ian Thomas",
+            "S1": "Thomas Roy",
+            "S2": "Matthew Henshaw",
+            "S3": "Benjamin Marelli"
+        },
+        {
+            "15": "William Roberts",
+            "14": "Luke Maker",
+            "13": "Jake Radcliffe",
+            "12": "Jack Andrews",
+            "11": "Noah Roberts",
+            "10": "Daniel Poulton",
+            "9": "Aaronn Boczek",
+            "8": "Rory evans",
+            "7": "John Peaty",
+            "6": "Oscar Staples",
+            "5": "Samuel Lindsay-McCall",
+            "4": "Guy Collins",
+            "3": "Benjamin Tottman",
+            "2": "Joshua Brimecombe",
+            "1": "Mark Oliver",
+            "S1": "Henry Weller",
+            "S2": "Daniel Harding"
+        }
+    ]
+}

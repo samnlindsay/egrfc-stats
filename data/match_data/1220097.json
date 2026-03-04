@@ -1,0 +1,58 @@
+{
+    "match_id": "1220097",
+    "season": "2025-2026",
+    "league": "Counties 2 Sussex",
+    "date": "2026-02-14",
+    "teams": [
+        "Royals RFC",
+        "Ditchling"
+    ],
+    "score": [
+        10,
+        22
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/94051.png",
+        "https://images.englandrugby.com/club_images/6541.png"
+    ],
+    "players": [
+        {
+            "15": "Pearse Moloney",
+            "14": "Aidan Loane",
+            "13": "Hamish Mackie",
+            "12": "Hugo Reid",
+            "11": "Harry Cruickshank",
+            "10": "Jack Lowe",
+            "9": "Harry Walton",
+            "8": "Cameron Queree",
+            "7": "John James Le Feuvre",
+            "6": "Matthew Boyd",
+            "5": "Brodie Sutton",
+            "4": "Lewis Ham-Howes",
+            "3": "Tristan Burns",
+            "2": "Patrick Crossley",
+            "1": "Jake Bates",
+            "S1": "Jake Dillon",
+            "S2": "Josh Twohig-Jones",
+            "S3": "Jenson Holmes"
+        },
+        {
+            "15": "Nick Whitley-Jones",
+            "14": "Oscar Wiseman",
+            "13": "Adam Crook",
+            "12": "Rory Adams",
+            "11": "Name withheld",
+            "10": "Ben Poulton",
+            "9": "Frazer Falzon",
+            "8": "Jarrell Bobo",
+            "7": "Ollie Van Hoeken",
+            "6": "Alex Hinchliffe",
+            "5": "Murray Jardine",
+            "4": "Gordon Costick",
+            "3": "Sean Laroche",
+            "2": "James Hill",
+            "1": "Rhys Stonely",
+            "S1": "Elliott Matthews"
+        }
+    ]
+}

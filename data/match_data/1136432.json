@@ -1,12 +1,15 @@
 {
+    "match_id": "1136432",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2024-10-12",
-    "score": [
-        28,
-        23
-    ],
     "teams": [
         "Trinity",
         "Twickenham"
+    ],
+    "score": [
+        28,
+        23
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/23175.png",
@@ -53,8 +56,5 @@
             "S2": "Joe Ash",
             "S3": "Name withheld"
         }
-    ],
-    "match_id": "1136432",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

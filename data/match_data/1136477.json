@@ -1,12 +1,15 @@
 {
+    "match_id": "1136477",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2024-12-21",
-    "score": [
-        14,
-        0
-    ],
     "teams": [
         "Twickenham",
         "KCS Old Boys"
+    ],
+    "score": [
+        14,
+        0
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/23336.png",
@@ -53,8 +56,5 @@
             "S2": "Dale Spratt",
             "S3": "Peter Wickham"
         }
-    ],
-    "match_id": "1136477",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

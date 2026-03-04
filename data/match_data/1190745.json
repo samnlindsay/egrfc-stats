@@ -1,12 +1,15 @@
 {
+    "match_id": "1190745",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2025-02-08",
-    "score": [
-        10,
-        28
-    ],
     "teams": [
         "Old Haileyburians",
         "Old Rutlishians"
+    ],
+    "score": [
+        10,
+        28
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/15747.png",
@@ -51,8 +54,5 @@
             "1": "Alasdair Dean",
             "S1": "Felix Clarke"
         }
-    ],
-    "match_id": "1190745",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

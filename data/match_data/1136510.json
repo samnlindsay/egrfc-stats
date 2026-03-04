@@ -1,12 +1,15 @@
 {
+    "match_id": "1136510",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2025-02-15",
-    "score": [
-        49,
-        15
-    ],
     "teams": [
         "Old Rutlishians",
         "Trinity"
+    ],
+    "score": [
+        49,
+        15
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/16005.png",
@@ -53,8 +56,5 @@
             "S2": "Alexander Scott",
             "S3": "Jack Greenwood"
         }
-    ],
-    "match_id": "1136510",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

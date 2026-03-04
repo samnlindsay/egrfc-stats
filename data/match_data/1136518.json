@@ -1,12 +1,15 @@
 {
+    "match_id": "1136518",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2025-03-08",
-    "score": [
-        68,
-        19
-    ],
     "teams": [
         "Weybridge Vandals",
         "Hove"
+    ],
+    "score": [
+        68,
+        19
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/25094.png",
@@ -21,7 +24,7 @@
             "11": "Luke Phair",
             "10": "Sam Bullett",
             "9": "Daniel Wellden",
-            "8": "James Gulliver",
+            "8": "Name withheld",
             "7": "Reece Innes-Gray",
             "6": "Thomas Frewin",
             "5": "Lewis Bryant",
@@ -31,29 +34,24 @@
             "1": "Lloyd Pullen",
             "S1": "Joshua Thomas",
             "S2": "Darren Lockyer",
-            "S3": "Name withheld"
+            "S3": "Tom Holborn"
         },
         {
-            "15": "Tom Holborn",
-            "14": "Rhowan Braybrook",
-            "13": "Tom Crisp",
-            "12": "tyler ray hooper",
-            "11": "Joseph Coupe",
-            "10": "John Orme-Williams",
-            "9": "Jack Moore",
-            "8": "IAN SAUNDERS",
-            "7": "Tobias Brown",
-            "6": "Ben Stephens",
-            "5": "Ryan Murrough",
-            "4": "George Brown",
-            "3": "Robin Ward",
-            "2": "Ryan Storer",
-            "1": "Toby Downes",
-            "S1": "Ryan Nixon",
-            "S2": "Jack Edwards"
+            "15": "Rhowan Braybrook",
+            "14": "Tom Crisp",
+            "13": "tyler ray hooper",
+            "12": "Joseph Coupe",
+            "11": "John Orme-Williams",
+            "10": "IAN SAUNDERS",
+            "9": "Tobias Brown",
+            "8": "Ben Stephens",
+            "7": "Ryan Murrough",
+            "6": "George Brown",
+            "5": "Adrian Shergold",
+            "4": "Ryan Storer",
+            "3": "Toby Downes",
+            "2": "Ryan Nixon",
+            "1": "Jack Edwards"
         }
-    ],
-    "match_id": "1136518",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

@@ -1,12 +1,15 @@
 {
+    "match_id": "1136499",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2025-01-18",
-    "score": [
-        43,
-        24
-    ],
     "teams": [
         "Old Rutlishians",
         "Eastbourne"
+    ],
+    "score": [
+        43,
+        24
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/16005.png",
@@ -53,8 +56,5 @@
             "S2": "Ben Perrott",
             "S3": "Stuart Baker"
         }
-    ],
-    "match_id": "1136499",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }

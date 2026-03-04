@@ -1,12 +1,15 @@
 {
+    "match_id": "1136428",
+    "season": "2024-2025",
+    "league": "Counties 1 Surrey/Sussex",
     "date": "2024-10-12",
-    "score": [
-        25,
-        24
-    ],
     "teams": [
         "Old Rutlishians",
         "Old Haileyburians"
+    ],
+    "score": [
+        25,
+        24
     ],
     "logos": [
         "https://images.englandrugby.com/club_images/16005.png",
@@ -34,26 +37,22 @@
             "S3": "Felix Clarke"
         },
         {
-            "15": "Jon Searle",
-            "14": "Elliot Hopkin",
-            "13": "Joshua Bull",
-            "12": "Joseph Selim",
-            "11": "Rory Dickson",
-            "10": "Ollie Mann",
-            "9": "Alfie Jeavons-Fellows",
-            "8": "Harry Clesham",
-            "7": "Thomas Woodruff",
-            "6": "Harry Harper-Dowe",
-            "5": "Jack Swingler",
-            "4": "Tobi Costello",
-            "3": "Jacob Cummins",
-            "2": "Oliver L Marsden",
-            "1": "Joshua Sterne",
-            "S1": "William Barnes",
-            "S2": "Edward Walker"
+            "15": "Elliot Hopkin",
+            "14": "Joshua Bull",
+            "13": "Joseph Selim",
+            "12": "Rory Dickson",
+            "11": "Ollie Mann",
+            "10": "Alfie Jeavons-Fellows",
+            "9": "Harry Clesham",
+            "8": "Thomas Woodruff",
+            "7": "Harry Harper-Dowe",
+            "6": "Jack Swingler",
+            "5": "Tobi Costello",
+            "4": "Jacob Cummins",
+            "3": "Oliver L Marsden",
+            "2": "Joshua Sterne",
+            "1": "William Barnes",
+            "S1": "Edward Walker"
         }
-    ],
-    "match_id": "1136428",
-    "season": "2024-2025",
-    "league": "Counties 1 Surrey/Sussex"
+    ]
 }
