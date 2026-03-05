@@ -137,6 +137,18 @@ class DataExtractor:
         for squad_name, sheet_name in [("1st", "1st XV Players"), ("2nd", "2nd XV Players")]:
             sheet = ss.worksheet(sheet_name)
             data = sheet.get_all_values()
+
+            # Build a shirt-number -> column-index map from the header row so we can
+            # handle sheet-specific layouts (e.g. optional columns before player 1).
+            shirt_col_map = {}
+            if len(data) >= 4:
+                header_row = data[3]
+                for idx, header in enumerate(header_row):
+                    header_value = str(header).strip()
+                    if header_value.isdigit():
+                        shirt_no = int(header_value)
+                        if 1 <= shirt_no <= 29:
+                            shirt_col_map[shirt_no] = idx
             
             for row in data[5:]:
                 if not row[1]:  # Skip if no season
@@ -150,9 +162,11 @@ class DataExtractor:
                 vc1 = row[6]
                 vc2 = row[7]
                 
-                # Extract players (positions 1-29, columns 8-36)
+                # Extract players (positions 1-29) using header-derived column map
                 for pos in range(1, 30):
-                    col_idx = 7 + pos  # Adjust based on your sheet structure
+                    col_idx = shirt_col_map.get(pos)
+                    if col_idx is None:
+                        continue
                     if col_idx < len(row):
                         player = row[col_idx].strip()
                         if player:
