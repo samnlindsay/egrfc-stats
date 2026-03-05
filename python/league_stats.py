@@ -709,11 +709,17 @@ def create_combined_results_chart(squad=1):
     predicate = f"datum.Home == {highlight.name}['Home'] | datum.Away == {highlight.name}['Home']"
     text_color = alt.condition(f"{predicate} | !isValid({highlight.name}['Home'])", alt.value('white'), alt.value('black'))
     
-    # Heatmap
+    # Add PD data to combined_df for sorting (rename to avoid conflicts)
+    pd_df_home = pd_df[['Season', 'Team', 'PD']].rename(columns={'Team': 'Home', 'PD': 'Home_PD'})
+    pd_df_away = pd_df[['Season', 'Team', 'PD']].rename(columns={'Team': 'Away', 'PD': 'Away_PD'})
+    combined_df = combined_df.merge(pd_df_home, on=['Season', 'Home'], how='left')
+    combined_df = combined_df.merge(pd_df_away, on=['Season', 'Away'], how='left')
+    
+    # Heatmap - sorted by points difference (descending)
     heatmap = alt.Chart(combined_df).mark_rect().encode(
-        x=alt.X('Away:N', title="Away Team",
+        x=alt.X('Away:N', title="Away Team", sort=alt.EncodingSortField(field='Away_PD', op='max', order='ascending'),
                axis=alt.Axis(ticks=False, domain=False, labelAngle=30, orient="top", titleFontSize=32)),
-        y=alt.Y('Home:N', title="Home Team",
+        y=alt.Y('Home:N', title="Home Team", sort=alt.EncodingSortField(field='Home_PD', op='max', order='descending'),
                axis=alt.Axis(ticks=False, domain=False, labelAngle=0, labelFontSize=14, titleFontSize=32, labelFontWeight="bold")),
         tooltip=['Home:N', 'Away:N', alt.Tooltip('score_str:N', title="Score"), alt.Tooltip('date:T', title="Date", format="%d %b %Y")],
         opacity=alt.condition(f"{predicate} | !isValid({highlight.name}['Home'])", alt.value(1.0), alt.value(0.2)),
@@ -725,23 +731,32 @@ def create_combined_results_chart(squad=1):
     
     # Text annotations
     textH = alt.Chart(combined_df).mark_text(size=15, xOffset=-10, yOffset=5, fontWeight="bold").encode(
-        x=alt.X('Away:N', title=None, axis=alt.Axis(ticks=False, domain=False, labels=False)),
-        y=alt.Y('Home:N', title=None, axis=alt.Axis(ticks=False, domain=False, labels=False)),
+        x=alt.X('Away:N', title=None, sort=alt.EncodingSortField(field='Away_PD', op='max', order='ascending'),
+                axis=alt.Axis(ticks=False, domain=False, labels=False)),
+        y=alt.Y('Home:N', title=None, sort=alt.EncodingSortField(field='Home_PD', op='max', order='descending'),
+                axis=alt.Axis(ticks=False, domain=False, labels=False)),
         text=alt.Text('PF:N'), color=text_color,
         opacity=alt.condition(f"{predicate} | !isValid({highlight.name}['Home'])", alt.value(1.0), alt.value(0.5)),
     ).transform_filter(season_select)
     
     textA = alt.Chart(combined_df).mark_text(size=14, xOffset=10, yOffset=-5, fontStyle="italic").encode(
-        x=alt.X('Away:N', title=None, axis=alt.Axis(ticks=False, domain=False, labels=False)),
-        y=alt.Y('Home:N', title=None, axis=alt.Axis(ticks=False, domain=False, labels=False)),
+        x=alt.X('Away:N', title=None, sort=alt.EncodingSortField(field='Away_PD', op='max', order='ascending'),
+                axis=alt.Axis(ticks=False, domain=False, labels=False)),
+        y=alt.Y('Home:N', title=None, sort=alt.EncodingSortField(field='Home_PD', op='max', order='descending'),
+                axis=alt.Axis(ticks=False, domain=False, labels=False)),
         text=alt.Text('PA:N'), color=text_color,
         opacity=alt.condition(f"{predicate} | !isValid({highlight.name}['Home'])", alt.value(0.8), alt.value(0.4)),
     ).transform_filter(season_select)
     
+    # Add PD for sorting to pd_df
+    pd_df['Team_PD'] = pd_df['PD']
+    
     # Points difference on diagonal
     textPD = alt.Chart(pd_df).mark_text(size=16, color="white", fontWeight="bold").encode(
-        x=alt.X('Team:N', title=None, axis=alt.Axis(ticks=False, domain=False, labels=False)),
-        y=alt.Y('Team:N', title=None, axis=alt.Axis(ticks=False, domain=False, labels=False)),
+        x=alt.X('Team:N', title=None, sort=alt.EncodingSortField(field='Team_PD', op='max', order='ascending'),
+                axis=alt.Axis(ticks=False, domain=False, labels=False)),
+        y=alt.Y('Team:N', title=None, sort=alt.EncodingSortField(field='Team_PD', op='max', order='descending'),
+                axis=alt.Axis(ticks=False, domain=False, labels=False)),
         text=alt.Text('PD:N', format="+d"),
         tooltip=[alt.Tooltip('Team:N', title="Team"), alt.Tooltip('PD:Q', title="Points Difference", format="+d")]
     ).transform_filter(season_select)
