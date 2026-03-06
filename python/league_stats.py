@@ -1630,14 +1630,6 @@ Examples:
                     create_combined_league_charts(squad=squad)
                     create_combined_results_chart(squad=squad)
                     
-                    # Also generate individual results charts for each season
-                    squad_seasons = sorted(df_players[df_players["Squad"] == squad]["Season"].unique())
-                    for season in squad_seasons:
-                        season_short = season.replace('-20', '/')
-                        try:
-                            league_results_chart(matches_json, squad, season, table_order=True)
-                        except Exception as e:
-                            logging.error(f"Error creating results chart for squad {squad}, season {season_short}: {e}")
                 except Exception as e:
                     logging.error(f"Error processing squad {squad}: {e}")
         else:

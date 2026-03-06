@@ -184,9 +184,33 @@ def create_database_schema(con):
 class DatabaseManager:
     def __init__(self, db_path=":memory:"):
         self.con = duckdb.connect(db_path)
+        self.project_root = Path(__file__).resolve().parent.parent
         create_database_schema(self.con)
+
+    def _load_pitchero_stats(self, extractor, refresh_pitchero=False, pitchero_cache_path=None):
+        """Load Pitchero stats from local cache unless refresh is requested."""
+        cache_path = Path(pitchero_cache_path) if pitchero_cache_path else self.project_root / "data" / "pitchero_stats_cache.json"
+        if not cache_path.is_absolute():
+            cache_path = self.project_root / cache_path
+
+        expected_columns = ["Season", "Squad", "Player_join", "A", "Event", "Count"]
+
+        if not refresh_pitchero and cache_path.exists():
+            pitchero_df = pd.read_json(cache_path)
+            missing_columns = [col for col in expected_columns if col not in pitchero_df.columns]
+            if not missing_columns:
+                print(f"Loaded {len(pitchero_df)} Pitchero stats from cache: {cache_path}")
+                return pitchero_df[expected_columns]
+
+            print(f"Pitchero cache missing required columns ({missing_columns}), refreshing from source...")
+
+        pitchero_df = extractor.extract_pitchero_stats()[expected_columns]
+        cache_path.parent.mkdir(parents=True, exist_ok=True)
+        pitchero_df.to_json(cache_path, orient="records")
+        print(f"Fetched and cached {len(pitchero_df)} Pitchero stats to: {cache_path}")
+        return pitchero_df
         
-    def load_source_data(self):
+    def load_source_data(self, refresh_pitchero=False, pitchero_cache_path=None):
         """Load all source data from Google Sheets"""
         extractor = DataExtractor()
         
@@ -203,7 +227,11 @@ class DatabaseManager:
         print(f"Loaded {len(appearances_df)} player appearances")
 
         # Extract and load Pitchero stats
-        pitchero_df = extractor.extract_pitchero_stats()
+        pitchero_df = self._load_pitchero_stats(
+            extractor,
+            refresh_pitchero=refresh_pitchero,
+            pitchero_cache_path=pitchero_cache_path,
+        )
         self.con.execute("DELETE FROM pitchero_stats")
         self.con.execute("INSERT INTO pitchero_stats SELECT * FROM pitchero_df")
         print(f"Loaded {len(pitchero_df)} Pitchero stats")

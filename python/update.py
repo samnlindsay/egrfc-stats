@@ -1,5 +1,6 @@
 import sys
 from pathlib import Path
+import argparse
 
 # Add project root to Python path
 project_root = Path(__file__).parent.parent
@@ -878,11 +879,14 @@ def league_squad_analysis_chart(db, season="2024-2025", league="Counties 1 Surre
     return chart
 
 # Update the main() function
-def main():
+def main(refresh_pitchero=False, pitchero_cache_path=None):
     """Main update function using optimized data"""
     
     db = DatabaseManager()
-    db.load_source_data()
+    db.load_source_data(
+        refresh_pitchero=refresh_pitchero,
+        pitchero_cache_path=pitchero_cache_path,
+    )
     
     # Load league data
     print("Loading league data...")
@@ -909,4 +913,20 @@ def main():
     print("All charts generated.")
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description="Update EGRFC stats and regenerate chart outputs")
+    parser.add_argument(
+        "--refresh-pitchero",
+        action="store_true",
+        help="Force refresh of Pitchero stats from the website (otherwise uses local cache if present)",
+    )
+    parser.add_argument(
+        "--pitchero-cache-path",
+        default="data/pitchero_stats_cache.json",
+        help="Path to local Pitchero cache file",
+    )
+
+    args = parser.parse_args()
+    main(
+        refresh_pitchero=args.refresh_pitchero,
+        pitchero_cache_path=args.pitchero_cache_path,
+    )
