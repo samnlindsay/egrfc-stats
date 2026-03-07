@@ -18,6 +18,7 @@ import altair as alt
 import argparse
 import logging
 from pathlib import Path
+from bs4 import BeautifulSoup
 
 # Add project root to Python path
 project_root = Path(__file__).parent.parent
@@ -584,8 +585,260 @@ def league_results_chart(matches_json, squad_number, season, table_order=False):
     logging.info(f"Saved squad {squad_number} results chart to {filename}")
     return final_chart
 
+
+def patch_combined_results_html(file_path, squad):
+    """Inject runtime season filtering and title updates into combined results HTML."""
+    with open(file_path, "r", encoding="utf-8") as file_handle:
+        soup = BeautifulSoup(file_handle, "html.parser")
+
+    script_tags = soup.find_all("script")
+    if not script_tags:
+        return
+
+    runtime_script = script_tags[-1]
+    script_content = runtime_script.string or ""
+
+    start_marker = "/* league_results_runtime_start */"
+    end_marker = "/* league_results_runtime_end */"
+    if start_marker in script_content and end_marker in script_content:
+        before_marker = script_content.split(start_marker)[0]
+        after_marker = script_content.split(end_marker)[-1]
+        script_content = f"{before_marker}{after_marker}"
+
+    squad_label = f"{squad}st XV" if squad == 1 else f"{squad}nd XV"
+
+    runtime_injection = f"""
+
+            {start_marker}
+            const queryParams = new URLSearchParams(window.location.search);
+            const selectedSeason = queryParams.get('season');
+
+            const ensureTightLayout = () => {{
+                if (document.getElementById('league-results-tight-layout')) {{
+                    return;
+                }}
+
+                const styleEl = document.createElement('style');
+                styleEl.id = 'league-results-tight-layout';
+                styleEl.textContent = `
+                    html, body {{
+                        margin: 0 !important;
+                        padding: 0 !important;
+                        overflow: hidden !important;
+                        height: auto !important;
+                        min-height: 0 !important;
+                    }}
+
+                    #vis, #vis.vega-embed, .vega-embed {{
+                        height: auto !important;
+                        min-height: 0 !important;
+                    }}
+                `;
+
+                document.head.appendChild(styleEl);
+            }};
+
+            const trimBodyToVis = () => {{
+                const visEl = document.getElementById('vis');
+                if (!visEl) {{
+                    return;
+                }}
+
+                const visRect = visEl.getBoundingClientRect();
+                const visHeight = Math.ceil(visRect.height || 0);
+                if (visHeight <= 0) {{
+                    return;
+                }}
+
+                const targetHeight = visHeight + 4;
+                document.body.style.height = `${{targetHeight}}px`;
+                document.documentElement.style.height = `${{targetHeight}}px`;
+                document.body.style.overflow = 'hidden';
+                document.documentElement.style.overflow = 'hidden';
+            }};
+
+            const formatSeasonLabel = (seasonValue) => {{
+                if (!seasonValue || !seasonValue.includes('-')) {{
+                    return seasonValue;
+                }}
+
+                const [startYear, endYear] = seasonValue.split('-');
+                return `${{startYear}}/${{String(endYear).slice(-2)}}`;
+            }};
+
+            const applySeasonFilter = (targetSpec, seasonValue) => {{
+                const seasonFilter = `datum.Season == '${{seasonValue}}' || datum.season == '${{seasonValue}}'`;
+
+                if (Array.isArray(targetSpec.layer)) {{
+                    targetSpec.layer.forEach((layer) => {{
+                        layer.transform = layer.transform || [];
+                        layer.transform = layer.transform.filter((transform) => {{
+                            if (!transform || !transform.filter) {{
+                                return true;
+                            }}
+                            if (typeof transform.filter === 'object' && transform.filter.param) {{
+                                return false;
+                            }}
+                            if (typeof transform.filter === 'string' && transform.filter.includes('datum.Season')) {{
+                                return false;
+                            }}
+                            return true;
+                        }});
+                        layer.transform.push({{ filter: seasonFilter }});
+                    }});
+                    return;
+                }}
+
+                targetSpec.transform = targetSpec.transform || [];
+                targetSpec.transform = targetSpec.transform.filter((transform) => {{
+                    if (!transform || !transform.filter) {{
+                        return true;
+                    }}
+                    if (typeof transform.filter === 'object' && transform.filter.param) {{
+                        return false;
+                    }}
+                    if (typeof transform.filter === 'string' && transform.filter.includes('datum.Season')) {{
+                        return false;
+                    }}
+                    return true;
+                }});
+                targetSpec.transform.push({{ filter: seasonFilter }});
+            }};
+
+            if (selectedSeason) {{
+                applySeasonFilter(spec, selectedSeason);
+
+                const seasonLabel = formatSeasonLabel(selectedSeason);
+                if (spec.title && seasonLabel) {{
+                    spec.title.text = '{squad_label} League Results ' + seasonLabel;
+                }}
+            }}
+
+            ensureTightLayout();
+            [120, 350, 800, 1400, 2200].forEach((delay) => {{
+                window.setTimeout(trimBodyToVis, delay);
+            }});
+            {end_marker}
+    """
+
+    insertion_anchor = "const el = document.getElementById('vis');"
+    if insertion_anchor in script_content:
+        runtime_script.string = script_content.replace(insertion_anchor, f"{runtime_injection}\n\n      {insertion_anchor}")
+    else:
+        runtime_script.string = script_content + runtime_injection
+
+    with open(file_path, "w", encoding="utf-8") as file_handle:
+        file_handle.write(str(soup))
+
+
+def patch_combined_squad_analysis_html(file_path):
+    """Inject runtime season filtering and layout tightening into combined squad analysis HTML."""
+    with open(file_path, "r", encoding="utf-8") as file_handle:
+        soup = BeautifulSoup(file_handle, "html.parser")
+
+    script_tags = soup.find_all("script")
+    if not script_tags:
+        return
+
+    runtime_script = script_tags[-1]
+    script_content = runtime_script.string or ""
+
+    start_marker = "/* league_analysis_runtime_start */"
+    end_marker = "/* league_analysis_runtime_end */"
+    if start_marker in script_content and end_marker in script_content:
+        before_marker = script_content.split(start_marker)[0]
+        after_marker = script_content.split(end_marker)[-1]
+        script_content = f"{before_marker}{after_marker}"
+
+    runtime_injection = f"""
+
+            {start_marker}
+            const queryParams = new URLSearchParams(window.location.search);
+            const selectedSeason = queryParams.get('season');
+
+            const ensureTightLayout = () => {{
+                if (document.getElementById('league-analysis-tight-layout')) {{
+                    return;
+                }}
+
+                const styleEl = document.createElement('style');
+                styleEl.id = 'league-analysis-tight-layout';
+                styleEl.textContent = `
+                    html, body {{
+                        margin: 0 !important;
+                        padding: 0 !important;
+                        overflow: hidden !important;
+                        height: auto !important;
+                        min-height: 0 !important;
+                    }}
+
+                    #vis, #vis.vega-embed, .vega-embed {{
+                        height: auto !important;
+                        min-height: 0 !important;
+                    }}
+                `;
+
+                document.head.appendChild(styleEl);
+            }};
+
+            const trimBodyToVis = () => {{
+                const visEl = document.getElementById('vis');
+                if (!visEl) {{
+                    return;
+                }}
+
+                const visRect = visEl.getBoundingClientRect();
+                const visHeight = Math.ceil(visRect.height || 0);
+                if (visHeight <= 0) {{
+                    return;
+                }}
+
+                const targetHeight = visHeight + 4;
+                document.body.style.height = `${{targetHeight}}px`;
+                document.documentElement.style.height = `${{targetHeight}}px`;
+                document.body.style.overflow = 'hidden';
+                document.documentElement.style.overflow = 'hidden';
+            }};
+
+            const findSeasonParam = (targetSpec) => {{
+                if (!targetSpec || !Array.isArray(targetSpec.params)) {{
+                    return null;
+                }}
+
+                return targetSpec.params.find((paramDef) =>
+                    paramDef
+                    && paramDef.bind
+                    && typeof paramDef.bind.name === 'string'
+                    && paramDef.bind.name.toLowerCase().includes('season')
+                ) || null;
+            }};
+
+            if (selectedSeason) {{
+                const seasonParam = findSeasonParam(spec);
+                if (seasonParam) {{
+                    seasonParam.value = {{ Season: selectedSeason }};
+                    delete seasonParam.bind;
+                }}
+            }}
+
+            ensureTightLayout();
+            [120, 350, 800, 1400, 2200].forEach((delay) => {{
+                window.setTimeout(trimBodyToVis, delay);
+            }});
+            {end_marker}
+    """
+
+    insertion_anchor = "const el = document.getElementById('vis');"
+    if insertion_anchor in script_content:
+        runtime_script.string = script_content.replace(insertion_anchor, f"{runtime_injection}\n\n      {insertion_anchor}")
+    else:
+        runtime_script.string = script_content + runtime_injection
+
+    with open(file_path, "w", encoding="utf-8") as file_handle:
+        file_handle.write(str(soup))
+
 def create_combined_results_chart(squad=1):
-    """Create a combined results chart with season selector for all available seasons."""
+    """Create a combined results chart for all available seasons."""
     
     # Load match data
     _, matches_json = load_match_data()
@@ -692,12 +945,6 @@ def create_combined_results_chart(squad=1):
     
     combined_df["Result"] = combined_df.apply(result, axis=1)
     
-    # Season selector
-    season_labels = [f"{s[:4]}/{s[7:]}" for s in squad_seasons]
-    season_radio = alt.binding_radio(options=squad_seasons, name="Season", labels=season_labels)
-    default_season = squad_seasons[-1]
-    season_select = alt.selection_point(fields=["Season"], bind=season_radio, value=default_season)
-    
     # Color scale
     color_scale = alt.Scale(
         domain=['Home Win', 'Home Win (LBP)', 'Away Win', 'Away Win (LBP)', 'Draw', 'To be played', 'N/A'],
@@ -727,7 +974,7 @@ def create_combined_results_chart(squad=1):
                        legend=alt.Legend(orient="none", direction="horizontal", titleOrient="left",
                                        legendX=50, legendY=430, symbolStrokeColor="black", symbolStrokeWidth=1,
                                        values=['Home Win', 'Away Win', 'Draw', 'To be played'])),
-    ).properties(width=alt.Step(50), height=alt.Step(35)).transform_filter(season_select)
+    ).properties(width=alt.Step(50), height=alt.Step(35))
     
     # Text annotations
     textH = alt.Chart(combined_df).mark_text(size=15, xOffset=-10, yOffset=5, fontWeight="bold").encode(
@@ -737,7 +984,7 @@ def create_combined_results_chart(squad=1):
                 axis=alt.Axis(ticks=False, domain=False, labels=False)),
         text=alt.Text('PF:N'), color=text_color,
         opacity=alt.condition(f"{predicate} | !isValid({highlight.name}['Home'])", alt.value(1.0), alt.value(0.5)),
-    ).transform_filter(season_select)
+    )
     
     textA = alt.Chart(combined_df).mark_text(size=14, xOffset=10, yOffset=-5, fontStyle="italic").encode(
         x=alt.X('Away:N', title=None, sort=alt.EncodingSortField(field='Away_PD', op='max', order='ascending'),
@@ -746,7 +993,7 @@ def create_combined_results_chart(squad=1):
                 axis=alt.Axis(ticks=False, domain=False, labels=False)),
         text=alt.Text('PA:N'), color=text_color,
         opacity=alt.condition(f"{predicate} | !isValid({highlight.name}['Home'])", alt.value(0.8), alt.value(0.4)),
-    ).transform_filter(season_select)
+    )
     
     # Add PD for sorting to pd_df
     pd_df['Team_PD'] = pd_df['PD']
@@ -759,14 +1006,14 @@ def create_combined_results_chart(squad=1):
                 axis=alt.Axis(ticks=False, domain=False, labels=False)),
         text=alt.Text('PD:N', format="+d"),
         tooltip=[alt.Tooltip('Team:N', title="Team"), alt.Tooltip('PD:Q', title="Points Difference", format="+d")]
-    ).transform_filter(season_select)
+    )
     
     # Final chart
     squad_label = f"{squad}st XV" if squad == 1 else f"{squad}nd XV"
     
     final_chart = (
         (heatmap + textA + textH + textPD)
-        .add_params(highlight, season_select)
+        .add_params(highlight)
         .resolve_scale(color="independent", x="independent", y="independent", opacity="independent")
         .properties(
             title=alt.Title(
@@ -787,10 +1034,260 @@ def create_combined_results_chart(squad=1):
     output_dir.mkdir(parents=True, exist_ok=True)
     filename = output_dir / f"results_{squad}s_combined.html"
     final_chart.save(str(filename), embed_options={'renderer':'svg', 'actions': {'export': True, 'source':False, 'editor':True, 'compiled':False}})
-    hack_params_css(str(filename), params=True)
+    hack_params_css(str(filename), params=False)
+    patch_combined_results_html(str(filename), squad)
     
     logging.info(f"Saved combined results chart for squad {squad} to {filename}")
     return final_chart
+
+
+def _season_dash_to_slash_short(season_dash):
+    """Convert season format from YYYY-YYYY to YYYY/YY."""
+    if not season_dash or "-" not in season_dash:
+        return season_dash
+
+    start_year, end_year = season_dash.split("-", 1)
+    return f"{start_year}/{end_year[-2:]}"
+
+
+def _load_combined_league_table_data(squad):
+    """Load all available league table files for a squad keyed by YYYY-YYYY season."""
+    table_data = {}
+    csv_pattern = f"league_table_*_squad_{squad}.csv"
+
+    for csv_file in sorted((project_root / "data").glob(csv_pattern)):
+        stem = csv_file.stem
+        season_token = stem.replace(f"_squad_{squad}", "").replace("league_table_", "")
+        season_parts = season_token.split("_")
+        if len(season_parts) != 2:
+            continue
+
+        start_year = season_parts[0]
+        end_short = season_parts[1]
+        end_year = f"20{end_short}"
+        season_dash = f"{start_year}-{end_year}"
+
+        try:
+            table_df = pd.read_csv(csv_file)
+        except Exception as exc:
+            logging.warning(f"Could not read league table CSV {csv_file}: {exc}")
+            continue
+
+        table_data[season_dash] = {
+            "league": divisions.get(squad, {}).get(_season_dash_to_slash_short(season_dash), f"Squad {squad}"),
+            "columns": table_df.columns.tolist(),
+            "rows": table_df.to_dict(orient="records"),
+        }
+
+    if table_data:
+        return table_data
+
+    html_pattern = f"table_{squad}s_*.html"
+    for html_file in sorted((project_root / "Charts" / "league").glob(html_pattern)):
+        if html_file.name.endswith("_combined.html"):
+            continue
+
+        season_dash = html_file.stem.replace(f"table_{squad}s_", "")
+        if not season_dash or "-" not in season_dash:
+            continue
+
+        try:
+            table_df = pd.read_html(str(html_file))[0]
+        except Exception as exc:
+            logging.warning(f"Could not read league table HTML {html_file}: {exc}")
+            continue
+
+        table_data[season_dash] = {
+            "league": divisions.get(squad, {}).get(_season_dash_to_slash_short(season_dash), f"Squad {squad}"),
+            "columns": table_df.columns.tolist(),
+            "rows": table_df.to_dict(orient="records"),
+        }
+
+    return table_data
+
+
+def create_combined_league_table_html(squad=1):
+    """Create a combined HTML league table and filter it using ?season=YYYY-YYYY."""
+    table_data = _load_combined_league_table_data(squad)
+    if not table_data:
+        logging.warning(f"No league table data found for squad {squad}")
+        return None
+
+    sorted_seasons = sorted(table_data.keys())
+    default_season = sorted_seasons[-1]
+    squad_label = f"{squad}st XV" if squad == 1 else f"{squad}nd XV"
+
+    html_content = f"""<!DOCTYPE html>
+<html>
+<head>
+    <meta charset=\"utf-8\" />
+    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />
+    <title>{squad_label} League Table</title>
+    <link href=\"../../css/variables.css\" rel=\"stylesheet\" />
+    <link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css\" rel=\"stylesheet\" />
+    <link href=\"https://fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700\" rel=\"stylesheet\" />
+    <link href=\"https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900\" rel=\"stylesheet\" />
+    <style>
+        body {{
+            margin: 0;
+            background: #f2f1f4;
+            font-family: Lato, sans-serif;
+            color: #202946;
+        }}
+
+        .table-wrap {{
+            padding: 12px 16px;
+            background: #ffffff;
+        }}
+
+        .table-title {{
+            margin: 0 0 10px 0;
+            font-family: 'PT Sans Narrow', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: #202946;
+        }}
+
+        table.league-table {{
+            --bs-table-bg: #ffffff;
+            --bs-table-color: #202946;
+            --bs-table-striped-bg: #f2f1f4;
+            --bs-table-striped-color: #202946;
+            --bs-table-accent-bg: transparent;
+            border-collapse: separate;
+            border-spacing: 0;
+        }}
+
+        thead th {{
+            background: var(--primary-color, #202946);
+            color: #f2f1f4;
+            font-family: 'PT Sans Narrow', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 1rem;
+            white-space: nowrap;
+            border: none !important;
+            border-bottom: 2px solid var(--primary-color, #202946) !important;
+        }}
+
+        tbody td {{
+            white-space: nowrap;
+            font-size: 0.9rem;
+            border: none !important;
+        }}
+
+        table.league-table tbody tr:nth-child(even) {{
+            background: #f2f1f4 !important;
+        }}
+
+        tbody.table-group-divider {{
+            border-top: none !important;
+        }}
+
+        tbody.table-group-divider tr:first-child td {{
+            border-top: 2px solid var(--primary-color, #202946) !important;
+        }}
+
+        .team-col {{
+            text-align: left !important;
+            font-weight: 700;
+        }}
+
+        tbody tr.eg-row,
+        tbody tr.eg-row td {{
+            background: #7d96e8 !important;
+            color: #ffffff;
+            font-weight: 700;
+        }}
+
+        .empty {{
+            border: 1px solid #e5e4e7;
+            padding: 14px;
+            background: #fff;
+            color: #202946;
+        }}
+    </style>
+</head>
+<body>
+    <div class=\"table-wrap\">
+        <h2 id=\"tableTitle\" class=\"table-title\">{squad_label} League Table</h2>
+        <div id=\"tableRoot\"></div>
+    </div>
+
+    <script>
+        const tableDataBySeason = {json.dumps(table_data)};
+        const defaultSeason = {json.dumps(default_season)};
+
+        const queryParams = new URLSearchParams(window.location.search);
+        const selectedSeason = queryParams.get('season');
+        const activeSeason = selectedSeason && tableDataBySeason[selectedSeason] ? selectedSeason : defaultSeason;
+
+        const seasonLabel = (seasonValue) => {{
+            if (!seasonValue || !seasonValue.includes('-')) return seasonValue;
+            const [startYear, endYear] = seasonValue.split('-');
+            return `${{startYear}}/${{String(endYear).slice(-2)}}`;
+        }};
+
+        const tableRoot = document.getElementById('tableRoot');
+        const tableTitle = document.getElementById('tableTitle');
+        if (activeSeason) {{
+            const leagueName = (tableDataBySeason[activeSeason] && tableDataBySeason[activeSeason].league)
+                ? tableDataBySeason[activeSeason].league
+                : '{squad_label} League';
+            tableTitle.textContent = leagueName + ' Table ' + seasonLabel(activeSeason);
+        }}
+
+        const activeData = tableDataBySeason[activeSeason];
+
+        if (!activeData || !Array.isArray(activeData.rows) || activeData.rows.length === 0) {{
+            tableRoot.innerHTML = '<div class="empty">No league table data is available for this season.</div>';
+        }} else {{
+            const headers = activeData.columns
+                .map((col) => {{
+                    const thClass = col === 'TEAM' ? ' class="text-start"' : '';
+                    return `<th${{thClass}}>${{col}}</th>`;
+                }})
+                .join('');
+
+            const formatValue = (col, value) => {{
+                if (value == null) return '';
+                if (col === 'PD') {{
+                    const numericValue = Number(value);
+                    if (!Number.isNaN(numericValue) && numericValue > 0) {{
+                        return `+${{numericValue}}`;
+                    }}
+                }}
+                return value;
+            }};
+
+            const rows = activeData.rows
+                .map((row) => {{
+                    const teamName = String(row['TEAM'] || '');
+                    const rowClass = teamName.includes('East Grinstead') ? ' class="eg-row"' : '';
+                    const cells = activeData.columns
+                        .map((col) => {{
+                            const cellClass = col === 'TEAM' ? ' class="team-col"' : '';
+                            return `<td${{cellClass}}>${{formatValue(col, row[col])}}</td>`;
+                        }})
+                        .join('');
+                    return `<tr${{rowClass}}>${{cells}}</tr>`;
+                }})
+                .join('');
+
+            tableRoot.innerHTML = `<table class="table table-borderless table-striped table-sm align-middle mb-0 league-table"><thead><tr>${{headers}}</tr></thead><tbody class="table-group-divider">${{rows}}</tbody></table>`;
+        }}
+    </script>
+</body>
+</html>
+"""
+
+    output_dir = project_root / "Charts" / "league"
+    output_dir.mkdir(parents=True, exist_ok=True)
+    output_file = output_dir / f"table_{squad}s_combined.html"
+
+    with open(output_file, "w", encoding="utf-8") as file_handle:
+        file_handle.write(html_content)
+
+    logging.info(f"Saved combined league table HTML for squad {squad} to {output_file}")
+    return output_file
 
 def create_combined_league_charts(squad=1):
     """Create combined league charts for all available seasons for a given squad."""
@@ -1360,6 +1857,7 @@ def create_combined_league_charts(squad=1):
     filename = output_dir / f"squad_analysis_{squad}s.html"
     final_chart.save(str(filename), embed_options={'renderer':'svg', 'actions': {'export': True, 'source':False, 'editor':True, 'compiled':False}})
     hack_params_css(str(filename), params=True)
+    patch_combined_squad_analysis_html(str(filename))
     
     logging.info(f"Saved combined squad {squad} charts to {filename}")
     
@@ -1629,6 +2127,7 @@ Examples:
                     logging.info(f"\n=== Generating combined charts for Squad {squad} ===")
                     create_combined_league_charts(squad=squad)
                     create_combined_results_chart(squad=squad)
+                    create_combined_league_table_html(squad=squad)
                     
                 except Exception as e:
                     logging.error(f"Error processing squad {squad}: {e}")
@@ -1648,6 +2147,7 @@ Examples:
         # Generate combined squad analysis
         create_combined_league_charts(squad=squad)
         create_combined_results_chart(squad=squad)
+        create_combined_league_table_html(squad=squad)
         
         # Export web charts (data files for JavaScript integration)
         export_web_charts(squad=squad)

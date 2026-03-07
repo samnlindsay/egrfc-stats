@@ -204,29 +204,214 @@ const Charts = {
     this.embedChart("#set-piece-vis", chartSpec);
   },
 
-  // Add to Charts object
-  renderLeagueChart() {
-    console.log("🎯 Rendering League chart:", currentLeagueType);
-
-    const parentContainer = document.getElementById("league-content");
-    const oldContainer = document.getElementById("league-vis");
-
-    if (oldContainer) {
-      oldContainer.remove();
+  getPrimarySelectedSeason() {
+    const selectedSeasons = $("#seasonSelect").val() || [];
+    if (selectedSeasons.length === 0) {
+      return "2025/26";
     }
 
-    const newContainer = document.createElement("div");
-    newContainer.id = "league-vis";
-    parentContainer.appendChild(newContainer);
+    const sortedSeasons = [...selectedSeasons].sort((a, b) => {
+      const aYear = parseInt(String(a).split("/")[0], 10) || 0;
+      const bYear = parseInt(String(b).split("/")[0], 10) || 0;
+      return bYear - aYear;
+    });
 
-    const spec =
-      currentLeagueType === "league-results"
-        ? leagueResultsSpec
-        : leagueAnalysisSpec;
-    let chartSpec = JSON.parse(JSON.stringify(spec));
+    return sortedSeasons[0];
+  },
 
-    // League charts may not need the same filters as EGRFC charts
-    this.embedChart("#league-vis", chartSpec);
+  getLeagueResultsFile(squad, season) {
+    return "Charts/league/results_1s_combined.html";
+  },
+
+  getLeagueTableFile(squad, season) {
+    return "Charts/league/table_1s_combined.html";
+  },
+
+  isLeagueResultsSeasonAvailable(season) {
+    const availableSeasons = new Set([
+      "2022/23",
+      "2023/24",
+      "2024/25",
+      "2025/26",
+    ]);
+
+    return availableSeasons.has(season);
+  },
+
+  toLeagueSeasonFormat(season) {
+    if (!season || !season.includes("/")) {
+      return season;
+    }
+
+    const [startYear, endShort] = String(season).split("/");
+    return `${startYear}-20${endShort}`;
+  },
+
+  buildLeagueResultsUrl(baseFile, season, includeCompetition = true) {
+    if (!baseFile) {
+      return null;
+    }
+
+    const selectedTypes = Array.from(
+      document.querySelectorAll('input[name="gameTypeCheck"]:checked')
+    ).map((checkbox) => checkbox.value);
+
+    const leagueSeason = this.toLeagueSeasonFormat(season);
+    const url = new URL(baseFile, window.location.href);
+
+    if (leagueSeason) {
+      url.searchParams.set("season", leagueSeason);
+    }
+
+    if (includeCompetition && selectedTypes.length > 0) {
+      url.searchParams.set("competition", selectedTypes.join(","));
+    }
+
+    return `${url.pathname}${url.search}`;
+  },
+
+  createAutoHeightLeagueIframe(src, className, minHeight = 300, options = {}) {
+    const iframe = document.createElement("iframe");
+    iframe.src = src;
+    iframe.className = className;
+    iframe.style.height = `${minHeight}px`;
+    iframe.style.overflow = "hidden";
+    iframe.setAttribute("scrolling", "no");
+
+    const updateHeight = () => {
+      try {
+        const doc = iframe.contentDocument || iframe.contentWindow?.document;
+        if (!doc) {
+          return;
+        }
+
+        const primaryContent =
+          doc.querySelector("#vis") ||
+          doc.querySelector("#tableRoot") ||
+          doc.querySelector(".table-wrap") ||
+          null;
+
+        if (options.fitToWidth && primaryContent) {
+          const contentWidth = Math.max(
+            primaryContent.scrollWidth || 0,
+            primaryContent.offsetWidth || 0,
+            primaryContent.getBoundingClientRect
+              ? primaryContent.getBoundingClientRect().width
+              : 0
+          );
+
+          const availableWidth =
+            iframe.clientWidth || iframe.getBoundingClientRect().width || 0;
+
+          if (contentWidth > 0 && availableWidth > 0) {
+            const baseScale = Math.min(1, (availableWidth - 8) / contentWidth);
+            const configuredMinScale = Number(options.minScale);
+            const nextScale = Number.isFinite(configuredMinScale)
+              ? Math.max(baseScale, configuredMinScale)
+              : baseScale;
+
+            if (nextScale < 0.999) {
+              primaryContent.style.transformOrigin = "top left";
+              primaryContent.style.transform = `scale(${nextScale})`;
+            } else {
+              primaryContent.style.transform = "none";
+            }
+          }
+        }
+
+        const contentHeight = primaryContent
+          ? Math.max(
+              primaryContent.scrollHeight || 0,
+              primaryContent.offsetHeight || 0,
+              primaryContent.getBoundingClientRect
+                ? primaryContent.getBoundingClientRect().height
+                : 0
+            )
+          : 0;
+
+        let scaleY = 1;
+        const transformTarget = primaryContent || doc.body;
+        if (transformTarget && transformTarget.ownerDocument?.defaultView) {
+          const computedStyle = transformTarget.ownerDocument.defaultView.getComputedStyle(transformTarget);
+          const transform = computedStyle?.transform;
+
+          if (transform && transform !== "none") {
+            const matrix3dMatch = transform.match(/^matrix3d\((.+)\)$/);
+            const matrixMatch = transform.match(/^matrix\((.+)\)$/);
+
+            if (matrix3dMatch) {
+              const values = matrix3dMatch[1].split(",").map((value) => Number(value.trim()));
+              if (values.length === 16 && !Number.isNaN(values[5]) && values[5] > 0) {
+                scaleY = values[5];
+              }
+            } else if (matrixMatch) {
+              const values = matrixMatch[1].split(",").map((value) => Number(value.trim()));
+              if (values.length === 6 && !Number.isNaN(values[3]) && values[3] > 0) {
+                scaleY = values[3];
+              }
+            }
+          }
+        }
+
+        const bodyHeight = doc.body ? doc.body.scrollHeight : 0;
+        const htmlHeight = doc.documentElement ? doc.documentElement.scrollHeight : 0;
+
+        const measuredHeight =
+          contentHeight > 0 ? contentHeight + 8 : Math.max(bodyHeight, htmlHeight);
+        const visibleHeight = measuredHeight * scaleY;
+        const nextHeight = Math.max(Math.ceil(visibleHeight), minHeight);
+
+        iframe.style.height = `${nextHeight}px`;
+      } catch (error) {
+        // Silent fail: keep fallback height
+      }
+    };
+
+    iframe.addEventListener("load", () => {
+      updateHeight();
+      [150, 500, 1000, 1800].forEach((delay) => {
+        window.setTimeout(updateHeight, delay);
+      });
+
+      window.addEventListener("resize", updateHeight);
+    });
+
+    return iframe;
+  },
+
+  createLeagueResultsPanel(resultsHtmlFile, tableHtmlFile = null, emptyMessage = null) {
+    const panel = document.createElement("div");
+    panel.className = "league-results-panel";
+
+    if (resultsHtmlFile) {
+      const resultsIframe = this.createAutoHeightLeagueIframe(
+        resultsHtmlFile,
+        "league-results-iframe",
+        320,
+        {
+          fitToWidth: true,
+        }
+      );
+      panel.appendChild(resultsIframe);
+
+      if (tableHtmlFile) {
+        const tableIframe = this.createAutoHeightLeagueIframe(
+          tableHtmlFile,
+          "league-table-iframe",
+          280
+        );
+        panel.appendChild(tableIframe);
+      }
+
+      return panel;
+    }
+
+    const emptyState = document.createElement("div");
+    emptyState.className = "league-results-empty";
+    emptyState.textContent =
+      emptyMessage || "No league results chart is available for this selection.";
+    panel.appendChild(emptyState);
+    return panel;
   },
 
   // Render League chart (loads HTML file in iframe)
@@ -245,27 +430,84 @@ const Charts = {
     const newContainer = document.createElement("div");
     newContainer.id = "league-vis";
     newContainer.style.width = "100%";
-    newContainer.style.height = "calc(100vh - 200px)";
+    newContainer.style.minHeight = "calc(100vh - 200px)";
     parentContainer.appendChild(newContainer);
 
-    // Map chart type to HTML file
+    if (currentLeagueType === "league-results") {
+      const selectedSeason = this.getPrimarySelectedSeason();
+
+      const grid = document.createElement("div");
+      grid.className = "league-results-grid";
+
+      if (!this.isLeagueResultsSeasonAvailable(selectedSeason)) {
+        const panel = this.createLeagueResultsPanel(
+          null,
+          `No 1st XV league results data is available for ${selectedSeason}. Please select one of: 2022/23, 2023/24, 2024/25, 2025/26.`
+        );
+        grid.appendChild(panel);
+        newContainer.appendChild(grid);
+        return;
+      }
+
+      const squad = "1st";
+      const baseFile = this.getLeagueResultsFile(squad, selectedSeason);
+      const resultsHtmlFile = this.buildLeagueResultsUrl(baseFile, selectedSeason);
+      const tableBaseFile = this.getLeagueTableFile(squad, selectedSeason);
+      const tableHtmlFile = this.buildLeagueResultsUrl(tableBaseFile, selectedSeason);
+      const panel = this.createLeagueResultsPanel(resultsHtmlFile, tableHtmlFile);
+      grid.appendChild(panel);
+
+      newContainer.appendChild(grid);
+      return;
+    }
+
     const chartFiles = {
-      "league-results": "Charts/league/results_1s_combined.html",
-      "league-analysis": "Charts/league/squad_analysis_1s.html"
+      "league-analysis": "Charts/league/squad_analysis_1s.html",
     };
 
     const htmlFile = chartFiles[currentLeagueType];
-    if (htmlFile) {
-      // Create iframe to load the HTML file
-      const iframe = document.createElement("iframe");
-      iframe.src = htmlFile;
-      iframe.style.width = "100%";
-      iframe.style.height = "100%";
-      iframe.style.border = "none";
-      newContainer.appendChild(iframe);
-    } else {
+    if (!htmlFile) {
       newContainer.innerHTML = '<p style="padding: 20px;">Chart not found</p>';
+      return;
     }
+
+    if (currentLeagueType === "league-analysis") {
+      const selectedSeason = this.getPrimarySelectedSeason();
+
+      if (!this.isLeagueResultsSeasonAvailable(selectedSeason)) {
+        const panel = this.createLeagueResultsPanel(
+          null,
+          null,
+          `No 1st XV squad analysis data is available for ${selectedSeason}. Please select one of: 2022/23, 2023/24, 2024/25, 2025/26.`
+        );
+        newContainer.appendChild(panel);
+        return;
+      }
+
+      const analysisUrl = this.buildLeagueResultsUrl(
+        htmlFile,
+        selectedSeason,
+        false
+      );
+      const minHeight = Math.max(500, window.innerHeight - 220);
+      const iframe = this.createAutoHeightLeagueIframe(
+        analysisUrl,
+        "league-results-iframe",
+        minHeight,
+        {
+          fitToWidth: true,
+        }
+      );
+      newContainer.appendChild(iframe);
+      return;
+    }
+
+    const iframe = this.createAutoHeightLeagueIframe(
+      htmlFile,
+      "league-results-iframe",
+      420
+    );
+    newContainer.appendChild(iframe);
   },
 
   // Function to render only the currently active chart with current filters

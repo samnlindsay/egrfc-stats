@@ -15,6 +15,12 @@
     width: max-content;
 }
 
+#league-content {
+    width: 100% !important;
+    min-width: 0 !important;
+    align-items: stretch;
+}
+
 #team-sheets-content {
     min-width: 1000px !important;
 }
@@ -39,8 +45,56 @@
     overflow-x: auto;
 }
 
+#league-vis {
+    min-width: 0;
+    width: 100%;
+}
+
+.league-results-grid {
+    width: 100%;
+    display: grid;
+    grid-template-columns: minmax(520px, 1fr);
+    gap: 1rem;
+    align-items: start;
+}
+
+.league-results-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.league-results-iframe {
+    width: 100%;
+    min-height: 320px;
+    border: none;
+    background: white;
+}
+
+.league-table-iframe {
+    width: 100%;
+    min-height: 280px;
+    border: none;
+    background: white;
+}
+
+.league-results-empty {
+    min-height: 220px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--dark-color);
+    border: 1px solid var(--light-color);
+    background: white;
+    padding: 1rem;
+}
+
 /* ===== MOBILE RESPONSIVE ===== */
 @media (max-width: 768px) {
+
+    .league-results-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
 
     .vega-embed {
         transform: scale(0.8);
