@@ -1,0 +1,58 @@
+{
+    "match_id": "1220108",
+    "season": "2025-2026",
+    "league": "Counties 2 Sussex",
+    "date": "2026-03-07",
+    "teams": [
+        "Eastbourne II",
+        "East Grinstead"
+    ],
+    "score": [
+        0,
+        29
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7213.png",
+        "https://images.englandrugby.com/club_images/7134.png"
+    ],
+    "players": [
+        {
+            "15": "Carl Slaughter",
+            "14": "Name withheld",
+            "13": "Maximus Smith",
+            "12": "Louis Paal",
+            "11": "Trystan Mocke",
+            "10": "Louis Nicholls",
+            "9": "Glen Smith",
+            "8": "Toby Wise",
+            "7": "Tom Lester",
+            "6": "Joseph Long",
+            "5": "Joshua Buckwell",
+            "4": "Paul Smith",
+            "3": "Tom Line",
+            "2": "Alun Cranch",
+            "1": "Joseph Bettles",
+            "S1": "Thomas Snell",
+            "S2": "Ted Hardisty",
+            "S3": "Jack Andrews"
+        },
+        {
+            "15": "Luke Maker",
+            "14": "Jake Radcliffe",
+            "13": "Alistair Moffatt",
+            "12": "Noah Roberts",
+            "11": "Daniel Poulton",
+            "10": "Theo Fontaine",
+            "9": "Rory evans",
+            "8": "Daniel Harding",
+            "7": "Samuel Lindsay-McCall",
+            "6": "Oscar Staples",
+            "5": "Guy Collins",
+            "4": "Benjamin Darch",
+            "3": "Thomas McMahon",
+            "2": "Benjamin Tottman",
+            "1": "Aaronn Boczek",
+            "S1": "John Peaty"
+        }
+    ]
+}

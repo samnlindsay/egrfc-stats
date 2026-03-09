@@ -400,7 +400,10 @@ const Charts = {
           "league-table-iframe",
           280
         );
-        panel.appendChild(tableIframe);
+        const tableShell = document.createElement("div");
+        tableShell.className = "league-table-shell";
+        tableShell.appendChild(tableIframe);
+        panel.appendChild(tableShell);
       }
 
       return panel;

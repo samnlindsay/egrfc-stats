@@ -1,0 +1,41 @@
+{
+    "match_id": "1220105",
+    "season": "2025-2026",
+    "league": "Counties 2 Sussex",
+    "date": "2026-03-07",
+    "teams": [
+        "Crawley",
+        "Pulborough"
+    ],
+    "score": [
+        7,
+        74
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/5807.png",
+        "https://images.englandrugby.com/club_images/17255.png"
+    ],
+    "players": [
+        {},
+        {
+            "15": "No lineup to show.",
+            "14": "Nicholas Cooper",
+            "13": "William Scrase",
+            "12": "Ralph Robson",
+            "11": "Bryan Woodhouse",
+            "10": "Liam Masters",
+            "9": "Matthew Sprigge",
+            "8": "Archie Sadler",
+            "7": "Joseph Serna",
+            "6": "Dylan Townsend",
+            "5": "Benjamin Monsey",
+            "4": "George Harwood",
+            "3": "Alfred Reeves",
+            "2": "Douglas Ludlow-monk",
+            "1": "Jake Parker",
+            "S1": "Thomas Brackley",
+            "S2": "Michael Woodhouse",
+            "S3": "Carl Brewster"
+        }
+    ]
+}

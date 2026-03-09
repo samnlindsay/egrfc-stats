@@ -62,20 +62,31 @@
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
+    width: 100%;
 }
 
 .league-results-iframe {
     width: 100%;
     min-height: 320px;
     border: none;
-    background: white;
+    background: transparent;
+}
+
+.league-table-shell {
+    width: 100%;
+    background: var(--light-color);
+    display: flex;
+    justify-content: center;
+    padding: 0.5rem 0.75rem;
 }
 
 .league-table-iframe {
     width: 100%;
+    max-width: 500px;
     min-height: 280px;
     border: none;
-    background: white;
+    background: transparent;
+    display: block;
 }
 
 .league-results-empty {

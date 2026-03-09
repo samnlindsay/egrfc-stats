@@ -572,7 +572,7 @@ def league_results_chart(matches_json, squad_number, season, table_order=False):
                     "Click on a cell to highlight all of the home team's results. (Double click to reset)",
                 ],
             ),
-            background="white"
+            background="#f2f1f4"
         )
     )
     
@@ -1024,7 +1024,6 @@ def create_combined_results_chart(squad=1):
                     "Click on a cell to highlight all of the home team's results. (Double click to reset)",
                 ],
             ),
-            background="white",
             padding={"left": 20, "top": 20, "right": 50, "bottom": 20}
         )
     )

@@ -1,0 +1,58 @@
+{
+    "match_id": "1220107",
+    "season": "2025-2026",
+    "league": "Counties 2 Sussex",
+    "date": "2026-03-07",
+    "teams": [
+        "Shoreham",
+        "Seaford"
+    ],
+    "score": [
+        14,
+        59
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/19257.png",
+        "https://images.englandrugby.com/club_images/18868.png"
+    ],
+    "players": [
+        {
+            "15": "Connor Fairhall",
+            "14": "David Ayres",
+            "13": "Ryan Morlen",
+            "12": "Steven Goater",
+            "11": "Toby Reed",
+            "10": "Adam Fear",
+            "9": "Nathan Funnell",
+            "8": "Gavin Cox",
+            "7": "Alex Hall",
+            "6": "Alfie Cawkwell",
+            "5": "Name withheld",
+            "4": "Jack Portman",
+            "3": "Mark Lavery",
+            "2": "Daniel Adams",
+            "1": "Andrew Mamoany",
+            "S1": "Paul Mamoany",
+            "S2": "Harry Cracknell",
+            "S3": "Jack Armstrong"
+        },
+        {
+            "15": "Paddy Powney",
+            "14": "william joy",
+            "13": "Corey Digby-Clarke",
+            "12": "Jake Davey",
+            "11": "Oscar Weisz",
+            "10": "Jack Cullinane",
+            "9": "Elliott Curl",
+            "8": "Harvey Joy",
+            "7": "Shaun Brewer",
+            "6": "Bradley Newby",
+            "5": "Lee Furminger",
+            "4": "Joshua Hennessy",
+            "3": "Geoffrey Bridges",
+            "2": "Nathan Roberts",
+            "1": "Daniel Blunt",
+            "S1": "Dominic Joy"
+        }
+    ]
+}

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<style>
+    #vis.vega-embed {
+      width: 100%;
+      display: flex;
+    }
+
+    #vis.vega-embed details,
+    #vis.vega-embed details summary {
+      position: relative;
+    }
+  
+
+      body {
+          margin: 0;
+      }
+  
+      /* Default size for larger screens */
+      .vega-embed {
+          width: 100%;
+          height: 100%;
+          transform-origin: top left;
+      }
+
+      /* Scale for tablet devices */
+      @media (max-width: 768px) {
+          .vega-embed {
+              transform: scale(0.75);
+              width: 100%;
+              height: 100%;
+          }
+      }
+
+      /* Scale for mobile devices */
+      @media (max-width: 480px) {
+          .vega-embed {
+              transform: scale(0.5);
+              width: 100%;
+              height: 100%;
+          }
+      }
+
+      .chart-wrapper {
+          display: grid;
+          grid-template-columns: 1fr 1fr; /* Chart takes 3x space, form takes 1x */
+      }
+
+      .vega-bind {
+        font-family: 'Lato', sans-serif !important;
+        padding: 10px;
+        padding-top: 5px;
+        width: min-content;
+      }
+            
+      .vega-bind-name {
+        font-family: 'Lato', sans-serif !important;
+        font-weight: bold;
+        font-size: larger;
+        color: #202946; 
+      }
+
+      .vega-bind-radio input {
+        width: 1rem;
+        height: 1rem;
+      }
+
+      .vega-bind-radio label {
+        font-family: 'Lato', sans-serif;
+        display: flex;
+        padding: 0.1rem;
+        cursor: pointer;
+        transition: all 0.3s;
+        font-size: medium;
+      }
+
+      .vega-bind-radio input:checked+label {
+        background-color: #202946;
+        color: #e5e4e7;
+    }
+    </style>
+<script src="https://cdn.jsdelivr.net/npm/vega@5" type="text/javascript"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-lite@5.20.1" type="text/javascript"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-embed@6" type="text/javascript"></script>
+<link href="https://fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700" rel="stylesheet"/><link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet"/></head>
+<body>
+<div id="vis"></div>
+<script>
+    (function(vegaEmbed) {
+      var spec = {"config": {"axis": {"labelFont": "Lato, sans-serif", "titleFont": "PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif", "labelFontSize": 13, "titleFontSize": 24, "gridColor": "#202947", "gridOpacity": 0.2}, "header": {"labelFont": "PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif", "titleFont": "PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif", "labelFontSize": 24, "titleFontSize": 28, "labelFontWeight": "bold", "orient": "left"}, "legend": {"labelFont": "Lato, sans-serif", "titleFont": "PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif", "labelFontSize": 14, "titleFontSize": 16, "titlePadding": 5, "fillColor": "white", "strokeColor": "black", "padding": 10, "titleFontWeight": "lighter", "titleFontStyle": "italic", "titleColor": "gray", "offset": 10}, "title": {"font": "PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif", "fontSize": 48, "fontWeight": "bold", "anchor": "start", "align": "center", "titlePadding": 20, "subtitlePadding": 10, "subtitleFontSize": 13, "subtitleColor": "", "subtitleFontStyle": "italic", "offset": 15, "color": "black"}, "axisX": {"labelAngle": 0}, "facet": {"title": null, "header": null, "align": {"row": "each", "column": "each"}}, "resolve": {"scale": {"y": "independent", "facet": "independent"}}, "background": "#f2f1f4"}, "layer": [{"mark": {"type": "rect"}, "encoding": {"color": {"field": "Result", "legend": {"direction": "horizontal", "legendX": 50, "legendY": 430, "orient": "none", "symbolStrokeColor": "black", "symbolStrokeWidth": 1, "titleOrient": "left", "values": ["Home Win", "Away Win", "Draw", "To be played"]}, "scale": {"domain": ["Home Win", "Home Win (LBP)", "Away Win", "Away Win (LBP)", "Draw", "To be played", "N/A"], "range": ["#146f14", "#146f14a0", "#991515", "#991515a0", "goldenrod", "white", "black"]}, "title": "Result", "type": "nominal"}, "opacity": {"condition": {"test": "datum.Home == param_6['Home'] | datum.Away == param_6['Home'] | !isValid(param_6['Home'])", "value": 1.0}, "value": 0.2}, "tooltip": [{"field": "Home", "type": "nominal"}, {"field": "Away", "type": "nominal"}, {"field": "score_str", "title": "Score", "type": "nominal"}, {"field": "date", "format": "%d %b %Y", "title": "Date", "type": "temporal"}], "x": {"axis": {"domain": false, "labelAngle": 30, "orient": "top", "ticks": false, "titleFontSize": 32}, "field": "Away", "sort": {"field": "Away_PD", "op": "max", "order": "ascending"}, "title": "Away Team", "type": "nominal"}, "y": {"axis": {"domain": false, "labelAngle": 0, "labelFontSize": 14, "labelFontWeight": "bold", "ticks": false, "titleFontSize": 32}, "field": "Home", "sort": {"field": "Home_PD", "op": "max", "order": "descending"}, "title": "Home Team", "type": "nominal"}}, "name": "view_12"}, {"mark": {"type": "text", "fontStyle": "italic", "size": 14, "xOffset": 10, "yOffset": -5}, "encoding": {"color": {"condition": {"test": "datum.Home == param_6['Home'] | datum.Away == param_6['Home'] | !isValid(param_6['Home'])", "value": "white"}, "value": "black"}, "opacity": {"condition": {"test": "datum.Home == param_6['Home'] | datum.Away == param_6['Home'] | !isValid(param_6['Home'])", "value": 0.8}, "value": 0.4}, "text": {"field": "PA", "type": "nominal"}, "x": {"axis": {"domain": false, "labels": false, "ticks": false}, "field": "Away", "sort": {"field": "Away_PD", "op": "max", "order": "ascending"}, "title": null, "type": "nominal"}, "y": {"axis": {"domain": false, "labels": false, "ticks": false}, "field": "Home", "sort": {"field": "Home_PD", "op": "max", "order": "descending"}, "title": null, "type": "nominal"}}}, {"mark": {"type": "text", "fontWeight": "bold", "size": 15, "xOffset": -10, "yOffset": 5}, "encoding": {"color": {"condition": {"test": "datum.Home == param_6['Home'] | datum.Away == param_6['Home'] | !isValid(param_6['Home'])", "value": "white"}, "value": "black"}, "opacity": {"condition": {"test": "datum.Home == param_6['Home'] | datum.Away == param_6['Home'] | !isValid(param_6['Home'])", "value": 1.0}, "value": 0.5}, "text": {"field": "PF", "type": "nominal"}, "x": {"axis": {"domain": false, "labels": false, "ticks": false}, "field": "Away", "sort": {"field": "Away_PD", "op": "max", "order": "ascending"}, "title": null, "type": "nominal"}, "y": {"axis": {"domain": false, "labels": false, "ticks": false}, "field": "Home", "sort": {"field": "Home_PD", "op": "max", "order": "descending"}, "title": null, "type": "nominal"}}}, {"data": {"name": "data-666f962452e73e161413234640adf009"}, "mark": {"type": "text", "color": "white", "fontWeight": "bold", "size": 16}, "encoding": {"text": {"field": "PD", "format": "+d", "type": "nominal"}, "tooltip": [{"field": "Team", "title": "Team", "type": "nominal"}, {"field": "PD", "format": "+d", "title": "Points Difference", "type": "quantitative"}], "x": {"axis": {"domain": false, "labels": false, "ticks": false}, "field": "Team", "sort": {"field": "Team_PD", "op": "max", "order": "ascending"}, "title": null, "type": "nominal"}, "y": {"axis": {"domain": false, "labels": false, "ticks": false}, "field": "Team", "sort": {"field": "Team_PD", "op": "max", "order": "descending"}, "title": null, "type": "nominal"}}}], "background": "white", "data": {"name": "data-2f257af5fa1dfae83e42ea977c8af56f"}, "height": {"step": 35}, "padding": {"left": 20, "top": 20, "right": 50, "bottom": 20}, "params": [{"name": "param_6", "select": {"type": "point", "fields": ["Home", "Away"], "nearest": true, "on": "click"}, "value": null, "views": ["view_12"]}], "resolve": {"scale": {"color": "independent", "opacity": "independent", "x": "independent", "y": "independent"}}, "title": {"text": "2nd XV League Results", "subtitle": ["Diagonal shows total points difference for each team.", "Lighter shaded results were within 7 points (losing bonus point).", "Click on a cell to highlight all of the home team's results. (Double click to reset)"]}, "width": {"step": 50}, "$schema": "https://vega.github.io/schema/vega-lite/v5.20.1.json", "datasets": {"data-2f257af5fa1dfae83e42ea977c8af56f": [{"Home": "Crowborough II", "Away": "Crowborough II", "season": null, "league": null, "date": null, "teams": null, "score": null, "PF": "", "PA": "", "PD": null, "score_str": "", "Season": "2025-2026", "Result": "N/A", "Home_PD": -17, "Away_PD": -17}, {"Home": "Crowborough II", "Away": "Worthing III", "season": "2025-2026", "league": "Harvey's Brewery Counties 3 Sussex", "date": "2026-01-17", "teams": ["Crowborough II", "Worthing III"], "score": [40, 0], "PF": 40.0, "PA": 0.0, "PD": 40.0, "score_str": "40-0", "Season": "2025-2026", "Result": "Home Win", "Home_PD": -17, "Away_PD": -118}, {"Home": "Crowborough II", "Away": "Burgess Hill", "season": "2025-2026", "league": "Harvey's Brewery Counties 3 Sussex", "date": "2025-10-04", "teams": ["Crowborough II", "Burgess Hill"], "score": [24, 32], "PF": 24.0, "PA": 32.0, "PD": -8.0, "score_str": "24-32", "Season": "2025-2026", "Result": "Away Win", "Home_PD": -17, "Away_PD": 207}, {"Home": "Crowborough II", "Away": "Uckfield", "season": "2025-2026", "league": "Harvey's Brewery Counties 3 Sussex", "date": "2025-12-13", "teams": ["Crowborough II", "Uckfield"], "score": [22, 7], "PF": 22.0, "PA": 7.0, "PD": 15.0, "score_str": "22-7", "Season": "2025-2026", "Result": "Home Win", "Home_PD": -17, "Away_PD": 52}, {"Home": "Crowborough II", "Away": "Hellingly", "season": "2025-2026", "league": "Harvey's Brewery Counties 3 Sussex", "date": "2025-11-22", "teams": ["Crowborough II", "Hellingly"], "score": [34, 19], "PF": 34.0, "PA": 19.0, "PD": 15.0, "score_str": "34-19", "Season": "2025-2026", "Result": "Home Win", "Home_PD": -17, "Away_PD": -175}, {"Home": "Crowborough II", "Away": "East Grinstead II", "season": null, "league": null, "date": null, "teams": null, "score": null, "PF": "", "PA": "", "PD": null, "score_str": "", "Season": "2025-2026", "Result": "To be played", "Home_PD": -17, "Away_PD": -10}, {"Home": "Crowborough II", "Away": "Shoreham II", "season": null, "league": null, "date": null, "teams": null, "score": null, "PF": "", "PA": "", "PD": null, "score_str": "", "Season": "2025-2026", "Result": "To be played", "Home_PD": -17, "Away_PD": -105}, {"Home": "Crowborough II", "Away": "Hove II", "season": "2025-2026", "league": "Harvey's Brewery Counties 3 Sussex", "date": "2025-10-18", "teams": ["Crowborough II", "Hove II"], "score": [15, 46], "PF": 15.0, "PA": 46.0, "PD": -31.0, "score_str": "15-46", "Season": "2025-2026", "Result": "Away Win", "Home_PD": -17, "Away_PD": 232}, {"Home": "Crowborough II", "Away": "Horsham Barbarians", "season": null, "league": null, "date": null, "teams": null, "score": null, "PF": "", "PA": "", "PD": null, "score_str": "", "Season": "2025-2026", "Result": "To be played", "Home_PD": -17, "Away_PD": -72}, {"Home": "Crowborough II", "Away": "Haywards Heath II", "season": null, "league": null, "date": null, "teams": null, "score": null, "PF": "", "PA": "", "PD": null, "score_str": "", "Season": "2025-2026", "Result": "To be played", "Home_PD": -17, "Away_PD": 6}, {"Home": "Worthing III", "Away": "Crowborough II", "season": "2025-2026", "league": "Harvey's Brewery Counties 3 Sussex", "date": "2025-10-11", "teams": ["Worthing III", "Crowborough II"], "score": [25, 7], "PF": 25.0, "PA": 7.0, "PD": 18.0, "score_str": "25-7", "Season": "2025-2026", "Result": "Home Win", "Home_PD": -118, "Away_PD": -17}, {"Home": "Worthing III", "Away": "Worthing III", "season": null, "league": null, "date": null, "teams": null, "score": null, "PF": "", "PA": "", "PD": null, "score_str": "", "Season": "2025-2026", "Result": "N/A", "Home_PD": -118, "Away_PD": -118}, {"Home": "Worthing III", "Away": "Burgess Hill", "season": null, "league": null, "date": null, "teams": null, "score": null, "PF": "", "PA": "", "PD": null, "score_str": "", "Season": "2025-2026", "Result": "To be played", "Home_PD": -118, "Away_PD": 207}, {"Home": "Worthing III", "Away": "Uckfield", "season": "2025-2026", "league": "Harvey's Brewery Counties 3 Sussex", "date": "2025-11-29", "teams": ["Worthing III", "Uckfield"], "score": [26, 14], "PF": 26.0, "PA": 14.0, "PD": 12.0, "score_str": "26-14", "Season": "2025-2026", "Result": "Home Win", "Home_PD": -118, "Away_PD": 52}, {"Home": "Worthing III", "Away": "Hellingly", "season": "2025-2026", "league": "Harvey's Brewery Counties 3 Sussex", "date": "2026-01-10", "teams": ["Worthing III", "Hellingly"], "score": [33, 24], "PF": 33.0, "PA": 24.0, "PD": 9.0, "score_str": "33-24", "Season": "2025-2026", "Result": "Home Win", "Home_PD": -118, "Away_PD": -175}, {"Home": "Worthing III", "Away": "East Grinstead II", "season": "2025-2026", "league": "Harvey's Brewery Counties 3 Sussex", "date": "2026-01-24", "teams": ["Worthing III", "East Grinstead II"], "score": [12, 31], "PF": 12.0, "PA": 31.0, "PD": -19.0, "score_str": "12-31", "Season": "2025-2026", "Result": "Away Win", "Home_PD": -118, "Away_PD": -10}, {"Home": "Worthing III", "Away": "Shoreham II", "season": null, "league": null, "date": null, "teams": null, "score": null, "PF": "", "PA": "", "PD": null, "score_str": "", "Season": "2025-2026", "Result": "To be played", "Home_PD": -118, "Away_PD": -105}, {"Home": "Worthing III", "Away": "Hove II", "season": "2025-2026", "league": "Harvey's Brewery Counties 3 Sussex", "date": "2025-12-13", "teams": ["Worthing III", "Hove II"], "score": [17, 42], "PF": 17.0, "PA": 42.0, "PD": -25.0, "score_str": "17-42", "Season": "2025-2026", "Result": "Away Win", "Home_PD": -118, "Away_PD": 232}, {"Home": "Worthing III", "Away": "Horsham Barbarians", "season": "2025-2026", "league": "Harvey's Brewery Counties 3 Sussex", "date": "2025-11-08", "teams": ["Worthing III", "Horsham Barbarians"], "score": [17, 20], "PF": 17.0, "PA": 20.0, "PD": -3.0, "score_str": "17-20", "Season": "2025-2026", "Result": "Away Win (LBP)", "Home_PD": -118, "Away_PD": -72}, {"Home": "Worthing III", "Away": "Haywards Heath II", "season": null, "league": null, "date": null, "teams": null, "score": null, "PF": "", "PA": "", "PD": null, "score_str": "", "Season": "2025-2026", "Result": "To be played", "Home_PD": -118, "Away_PD": 6}, {"Home": "Burgess Hill", "Away": "Crowborough II", "season": null, "league": null, "date": null, "teams": null, "score": null, "PF": "", "PA": "", "PD": null, "score_str": "", "Season": "2025-2026", "Result": "To be played", "Home_PD": 207, "Away_PD": -17}, {"Home": "Burgess Hill", "Away": "Worthing III", "season": "2025-2026", "league": "Harvey's Brewery Counties 3 Sussex", "date": "2025-11-22", "teams": ["Burgess Hill", "Worthing III"], "score": [40, 0], "PF": 40.0, "PA": 0.0, "PD": 40.0, "score_str": "40-0", "Season": "2025-2026", "Result": "Home Win", "Home_PD": 207, "Away_PD": -118}, {"Home": "Burgess Hill", "Away": "Burgess Hill", "season": null, "league": null, "date": null, "teams": null, "score": null, "PF": "", "PA": "", "PD": null, "score_str": "", "Season": "2025-2026", "Result": "N/A", "Home_PD": 207, "Away_PD": 207}, {"Home": "Burgess Hill", "Away": "Uckfield", "season": null, "league": null, "date": null, "teams": null, "score": null, "PF": "", "PA": "", "PD": null, "score_str": "", "Season": "2025-2026", "Result": "To be played", "Home_PD": 207, "Away_PD": 52}, {"Home": "Burgess Hill", "Away": "Hellingly", "season": null, "league": null, "date": null, "teams": null, "score": null, "PF": "", "PA": "", "PD": null, "score_str": "", "Season": "2025-2026", "Result": "To be played", "Home_PD": 207, "Away_PD": -175}, {"Home": "Burgess Hill", "Away": "East Grinstead II", "season": "2025-2026", "league": "Harvey's Brewery Counties 3 Sussex", "date": "2025-10-11", "teams": ["Burgess Hill", "East Grinstead II"], "score": [24, 12], "PF": 24.0, "PA": 12.0, "PD": 12.0, "score_str": "24-12", "Season": "2025-2026", "Result": "Home Win", "Home_PD": 207, "Away_PD": -10}, {"Home": "Burgess Hill", "Away": "Shoreham II", "season": null, "league": null, "date": null, "teams": null, "score": null, "PF": "", "PA": "", "PD": null, "score_str": "", "Season": "2025-2026", "Result": "To be played", "Home_PD": 207, "Away_PD": -105}, {"Home": "Burgess Hill", "Away": "Hove II", "season": null, "league": null, "date": null, "teams": null, "score": null, "PF": "", "PA": "", "PD": null, "score_str": "", "Season": "2025-2026", "Result": "To be played", "Home_PD": 207, "Away_PD": 232}, {"Home": "Burgess Hill", "Away": "Horsham Barbarians", "season": "2025-2026", "league": "Harvey's Brewery Counties 3 Sussex", "date": "2026-01-24", "teams": ["Burgess Hill", "Horsham Barbarians"], "score": [46, 21], "PF": 46.0, "PA": 21.0, "PD": 25.0, "score_str": "46-21", "Season": "2025-2026", "Result": "Home Win", "Home_PD": 207, "Away_PD": -72}, {"Home": "Burgess Hill", "Away": "Haywards Heath II", "season": "2025-2026", "league": "Harvey's Brewery Counties 3 Sussex", "date": "2026-01-10", "teams": ["Burgess Hill", "Haywards Heath II"], "score": [30, 24], "PF": 30.0, "PA": 24.0, "PD": 6.0, "score_str": "30-24", "Season": "2025-2026", "Result": "Home Win (LBP)", "Home_PD": 207, "Away_PD": 6}, {"Home": "Uckfield", "Away": "Crowborough II", "season": null, "league": null, "date": null, "teams": null, "score": null, "PF": "", "PA": "", "PD": null, "score_str": "", "Season": "2025-2026", "Result": "To be played", "Home_PD": 52, "Away_PD": -17}, {"Home": "Uckfield", "Away": "Worthing III", "season": null, "league": null, "date": null, "teams": null, "score": null, "PF": "", "PA": "", "PD": null, "score_str": "", "Season": "2025-2026", "Result": "To be played", "Home_PD": 52, "Away_PD": -118}, {"Home": "Uckfield", "Away": "Burgess Hill", "season": "2025-2026", "league": "Harvey's Brewery Counties 3 Sussex", "date": "2025-11-08", "teams": ["Uckfield", "Burgess Hill"], "score": [5, 29], "PF": 5.0, "PA": 29.0, "PD": -24.0, "score_str": "5-29", "Season": "2025-2026", "Result": "Away Win", "Home_PD": 52, "Away_PD": 207}, {"Home": "Uckfield", "Away": "Uckfield", "season": null, "league": null, "date": null, "teams": null, "score": null, "PF": "", "PA": "", "PD": null, "score_str": "", "Season": "2025-2026", "Result": "N/A", "Home_PD": 52, "Away_PD": 52}, {"Home": "Uckfield", "Away": "Hellingly", "season": "2025-2026", "league": "Harvey's Brewery Counties 3 Sussex", "date": "2026-01-24", "teams": ["Uckfield", "Hellingly"], "score": [45, 5], "PF": 45.0, "PA": 5.0, "PD": 40.0, "score_str": "45-5", "Season": "2025-2026", "Result": "Home Win", "Home_PD": 52, "Away_PD": -175}, {"Home": "Uckfield", "Away": "East Grinstead II", "season": null, "league": null, "date": null, "teams": null, "score": null, "PF": "", "PA": "", "PD": null, "score_str": "", "Season": "2025-2026", "Result": "To be played", "Home_PD": 52, "Away_PD": -10}, {"Home": "Uckfield", "Away": "Shoreham II", "season": null, "league": null, "date": null, "teams": null, "score": null, "PF": "", "PA": "", "PD": null, "score_str": "", "Season": "2025-2026", "Result": "To be played", "Home_PD": 52, "Away_PD": -105}, {"Home": "Uckfield", "Away": "Hove II", "season": "2025-2026", "league": "Harvey's Brewery Counties 3 Sussex", "date": "2025-12-20", "teams": ["Uckfield", "Hove II"], "score": [22, 12], "PF": 22.0, "PA": 12.0, "PD": 10.0, "score_str": "22-12", "Season": "2025-2026", "Result": "Home Win", "Home_PD": 52, "Away_PD": 232}, {"Home": "Uckfield", "Away": "Horsham Barbarians", "season": "2025-2026", "league": "Harvey's Brewery Counties 3 Sussex", "date": "2025-10-11", "teams": ["Uckfield", "Horsham Barbarians"], "score": [39, 24], "PF": 39.0, "PA": 24.0, "PD": 15.0, "score_str": "39-24", "Season": "2025-2026", "Result": "Home Win", "Home_PD": 52, "Away_PD": -72}, {"Home": "Uckfield", "Away": "Haywards Heath II", "season": null, "league": null, "date": null, "teams": null, "score": null, "PF": "", "PA": "", "PD": null, "score_str": "", "Season": "2025-2026", "Result": "To be played", "Home_PD": 52, "Away_PD": 6}, {"Home": "Hellingly", "Away": "Crowborough II", "season": null, "league": null, "date": null, "teams": null, "score": null, "PF": "", "PA": "", "PD": null, "score_str": "", "Season": "2025-2026", "Result": "To be played", "Home_PD": -175, "Away_PD": -17}, {"Home": "Hellingly", "Away": "Worthing III", "season": null, "league": null, "date": null, "teams": null, "score": null, "PF": "", "PA": "", "PD": null, "score_str": "", "Season": "2025-2026", "Result": "To be played", "Home_PD": -175, "Away_PD": -118}, {"Home": "Hellingly", "Away": "Burgess Hill", "season": "2025-2026", "league": "Harvey's Brewery Counties 3 Sussex", "date": "2025-12-20", "teams": ["Hellingly", "Burgess Hill"], "score": [7, 47], "PF": 7.0, "PA": 47.0, "PD": -40.0, "score_str": "7-47", "Season": "2025-2026", "Result": "Away Win", "Home_PD": -175, "Away_PD": 207}, {"Home": "Hellingly", "Away": "Uckfield", "season": "2025-2026", "league": "Harvey's Brewery Counties 3 Sussex", "date": "2025-10-18", "teams": ["Hellingly", "Uckfield"], "score": [19, 45], "PF": 19.0, "PA": 45.0, "PD": -26.0, "score_str": "19-45", "Season": "2025-2026", "Result": "Away Win", "Home_PD": -175, "Away_PD": 52}, {"Home": "Hellingly", "Away": "Hellingly", "season": null, "league": null, "date": null, "teams": null, "score": null, "PF": "", "PA": "", "PD": null, "score_str": "", "Season": "2025-2026", "Result": "N/A", "Home_PD": -175, "Away_PD": -175}, {"Home": "Hellingly", "Away": "East Grinstead II", "season": null, "league": null, "date": null, "teams": null, "score": null, "PF": "", "PA": "", "PD": null, "score_str": "", "Season": "2025-2026", "Result": "To be played", "Home_PD": -175, "Away_PD": -10}, {"Home": "Hellingly", "Away": "Shoreham II", "season": null, "league": null, "date": null, "teams": null, "score": null, "PF": "", "PA": "", "PD": null, "score_str": "", "Season": "2025-2026", "Result": "To be played", "Home_PD": -175, "Away_PD": -105}, {"Home": "Hellingly", "Away": "Hove II", "season": "2025-2026", "league": "Harvey's Brewery Counties 3 Sussex", "date": "2025-10-04", "teams": ["Hellingly", "Hove II"], "score": [17, 36], "PF": 17.0, "PA": 36.0, "PD": -19.0, "score_str": "17-36", "Season": "2025-2026", "Result": "Away Win", "Home_PD": -175, "Away_PD": 232}, {"Home": "Hellingly", "Away": "Horsham Barbarians", "season": null, "league": null, "date": null, "teams": null, "score": null, "PF": "", "PA": "", "PD": null, "score_str": "", "Season": "2025-2026", "Result": "To be played", "Home_PD": -175, "Away_PD": -72}, {"Home": "Hellingly", "Away": "Haywards Heath II", "season": "2025-2026", "league": "Harvey's Brewery Counties 3 Sussex", "date": "2025-11-08", "teams": ["Hellingly", "Haywards Heath II"], "score": [5, 45], "PF": 5.0, "PA": 45.0, "PD": -40.0, "score_str": "5-45", "Season": "2025-2026", "Result": "Away Win", "Home_PD": -175, "Away_PD": 6}, {"Home": "East Grinstead II", "Away": "Crowborough II", "season": null, "league": null, "date": null, "teams": null, "score": null, "PF": "", "PA": "", "PD": null, "score_str": "", "Season": "2025-2026", "Result": "To be played", "Home_PD": -10, "Away_PD": -17}, {"Home": "East Grinstead II", "Away": "Worthing III", "season": null, "league": null, "date": null, "teams": null, "score": null, "PF": "", "PA": "", "PD": null, "score_str": "", "Season": "2025-2026", "Result": "To be played", "Home_PD": -10, "Away_PD": -118}, {"Home": "East Grinstead II", "Away": "Burgess Hill", "season": "2025-2026", "league": "Harvey's Brewery Counties 3 Sussex", "date": "2026-01-17", "teams": ["East Grinstead II", "Burgess Hill"], "score": [5, 13], "PF": 5.0, "PA": 13.0, "PD": -8.0, "score_str": "5-13", "Season": "2025-2026", "Result": "Away Win", "Home_PD": -10, "Away_PD": 207}, {"Home": "East Grinstead II", "Away": "Uckfield", "season": "2025-2026", "league": "Harvey's Brewery Counties 3 Sussex", "date": "2026-01-10", "teams": ["East Grinstead II", "Uckfield"], "score": [28, 21], "PF": 28.0, "PA": 21.0, "PD": 7.0, "score_str": "28-21", "Season": "2025-2026", "Result": "Home Win (LBP)", "Home_PD": -10, "Away_PD": 52}, {"Home": "East Grinstead II", "Away": "Hellingly", "season": null, "league": null, "date": null, "teams": null, "score": null, "PF": "", "PA": "", "PD": null, "score_str": "", "Season": "2025-2026", "Result": "To be played", "Home_PD": -10, "Away_PD": -175}, {"Home": "East Grinstead II", "Away": "East Grinstead II", "season": null, "league": null, "date": null, "teams": null, "score": null, "PF": "", "PA": "", "PD": null, "score_str": "", "Season": "2025-2026", "Result": "N/A", "Home_PD": -10, "Away_PD": -10}, {"Home": "East Grinstead II", "Away": "Shoreham II", "season": null, "league": null, "date": null, "teams": null, "score": null, "PF": "", "PA": "", "PD": null, "score_str": "", "Season": "2025-2026", "Result": "To be played", "Home_PD": -10, "Away_PD": -105}, {"Home": "East Grinstead II", "Away": "Hove II", "season": null, "league": null, "date": null, "teams": null, "score": null, "PF": "", "PA": "", "PD": null, "score_str": "", "Season": "2025-2026", "Result": "To be played", "Home_PD": -10, "Away_PD": 232}, {"Home": "East Grinstead II", "Away": "Horsham Barbarians", "season": "2025-2026", "league": "Harvey's Brewery Counties 3 Sussex", "date": "2025-10-04", "teams": ["East Grinstead II", "Horsham Barbarians"], "score": [29, 5], "PF": 29.0, "PA": 5.0, "PD": 24.0, "score_str": "29-5", "Season": "2025-2026", "Result": "Home Win", "Home_PD": -10, "Away_PD": -72}, {"Home": "East Grinstead II", "Away": "Haywards Heath II", "season": null, "league": null, "date": null, "teams": null, "score": null, "PF": "", "PA": "", "PD": null, "score_str": "", "Season": "2025-2026", "Result": "To be played", "Home_PD": -10, "Away_PD": 6}, {"Home": "Shoreham II", "Away": "Crowborough II", "season": "2025-2026", "league": "Harvey's Brewery Counties 3 Sussex", "date": "2025-11-08", "teams": ["Shoreham II", "Crowborough II"], "score": [27, 27], "PF": 27.0, "PA": 27.0, "PD": 0.0, "score_str": "27-27", "Season": "2025-2026", "Result": "Draw", "Home_PD": -105, "Away_PD": -17}, {"Home": "Shoreham II", "Away": "Worthing III", "season": null, "league": null, "date": null, "teams": null, "score": null, "PF": "", "PA": "", "PD": null, "score_str": "", "Season": "2025-2026", "Result": "To be played", "Home_PD": -105, "Away_PD": -118}, {"Home": "Shoreham II", "Away": "Burgess Hill", "season": null, "league": null, "date": null, "teams": null, "score": null, "PF": "", "PA": "", "PD": null, "score_str": "", "Season": "2025-2026", "Result": "To be played", "Home_PD": -105, "Away_PD": 207}, {"Home": "Shoreham II", "Away": "Uckfield", "season": "2025-2026", "league": "Harvey's Brewery Counties 3 Sussex", "date": "2025-10-04", "teams": ["Shoreham II", "Uckfield"], "score": [17, 26], "PF": 17.0, "PA": 26.0, "PD": -9.0, "score_str": "17-26", "Season": "2025-2026", "Result": "Away Win", "Home_PD": -105, "Away_PD": 52}, {"Home": "Shoreham II", "Away": "Hellingly", "season": "2025-2026", "league": "Harvey's Brewery Counties 3 Sussex", "date": "2025-10-11", "teams": ["Shoreham II", "Hellingly"], "score": [13, 53], "PF": 13.0, "PA": 53.0, "PD": -40.0, "score_str": "13-53", "Season": "2025-2026", "Result": "Away Win", "Home_PD": -105, "Away_PD": -175}, {"Home": "Shoreham II", "Away": "East Grinstead II", "season": null, "league": null, "date": null, "teams": null, "score": null, "PF": "", "PA": "", "PD": null, "score_str": "", "Season": "2025-2026", "Result": "To be played", "Home_PD": -105, "Away_PD": -10}, {"Home": "Shoreham II", "Away": "Shoreham II", "season": null, "league": null, "date": null, "teams": null, "score": null, "PF": "", "PA": "", "PD": null, "score_str": "", "Season": "2025-2026", "Result": "N/A", "Home_PD": -105, "Away_PD": -105}, {"Home": "Shoreham II", "Away": "Hove II", "season": null, "league": null, "date": null, "teams": null, "score": null, "PF": "", "PA": "", "PD": null, "score_str": "", "Season": "2025-2026", "Result": "To be played", "Home_PD": -105, "Away_PD": 232}, {"Home": "Shoreham II", "Away": "Horsham Barbarians", "season": "2025-2026", "league": "Harvey's Brewery Counties 3 Sussex", "date": "2025-11-29", "teams": ["Shoreham II", "Horsham Barbarians"], "score": [24, 40], "PF": 24.0, "PA": 40.0, "PD": -16.0, "score_str": "24-40", "Season": "2025-2026", "Result": "Away Win", "Home_PD": -105, "Away_PD": -72}, {"Home": "Shoreham II", "Away": "Haywards Heath II", "season": null, "league": null, "date": null, "teams": null, "score": null, "PF": "", "PA": "", "PD": null, "score_str": "", "Season": "2025-2026", "Result": "To be played", "Home_PD": -105, "Away_PD": 6}, {"Home": "Hove II", "Away": "Crowborough II", "season": "2025-2026", "league": "Harvey's Brewery Counties 3 Sussex", "date": "2026-01-24", "teams": ["Hove II", "Crowborough II"], "score": [28, 17], "PF": 28.0, "PA": 17.0, "PD": 11.0, "score_str": "28-17", "Season": "2025-2026", "Result": "Home Win", "Home_PD": 232, "Away_PD": -17}, {"Home": "Hove II", "Away": "Worthing III", "season": null, "league": null, "date": null, "teams": null, "score": null, "PF": "", "PA": "", "PD": null, "score_str": "", "Season": "2025-2026", "Result": "To be played", "Home_PD": 232, "Away_PD": -118}, {"Home": "Hove II", "Away": "Burgess Hill", "season": "2025-2026", "league": "Harvey's Brewery Counties 3 Sussex", "date": "2025-11-29", "teams": ["Hove II", "Burgess Hill"], "score": [16, 20], "PF": 16.0, "PA": 20.0, "PD": -4.0, "score_str": "16-20", "Season": "2025-2026", "Result": "Away Win (LBP)", "Home_PD": 232, "Away_PD": 207}, {"Home": "Hove II", "Away": "Uckfield", "season": null, "league": null, "date": null, "teams": null, "score": null, "PF": "", "PA": "", "PD": null, "score_str": "", "Season": "2025-2026", "Result": "To be played", "Home_PD": 232, "Away_PD": 52}, {"Home": "Hove II", "Away": "Hellingly", "season": null, "league": null, "date": null, "teams": null, "score": null, "PF": "", "PA": "", "PD": null, "score_str": "", "Season": "2025-2026", "Result": "To be played", "Home_PD": 232, "Away_PD": -175}, {"Home": "Hove II", "Away": "East Grinstead II", "season": "2025-2026", "league": "Harvey's Brewery Counties 3 Sussex", "date": "2025-11-08", "teams": ["Hove II", "East Grinstead II"], "score": [59, 19], "PF": 59.0, "PA": 19.0, "PD": 40.0, "score_str": "59-19", "Season": "2025-2026", "Result": "Home Win", "Home_PD": 232, "Away_PD": -10}, {"Home": "Hove II", "Away": "Shoreham II", "season": "2025-2026", "league": "Harvey's Brewery Counties 3 Sussex", "date": "2026-01-10", "teams": ["Hove II", "Shoreham II"], "score": [45, 5], "PF": 45.0, "PA": 5.0, "PD": 40.0, "score_str": "45-5", "Season": "2025-2026", "Result": "Home Win", "Home_PD": 232, "Away_PD": -105}, {"Home": "Hove II", "Away": "Hove II", "season": null, "league": null, "date": null, "teams": null, "score": null, "PF": "", "PA": "", "PD": null, "score_str": "", "Season": "2025-2026", "Result": "N/A", "Home_PD": 232, "Away_PD": 232}, {"Home": "Hove II", "Away": "Horsham Barbarians", "season": null, "league": null, "date": null, "teams": null, "score": null, "PF": "", "PA": "", "PD": null, "score_str": "", "Season": "2025-2026", "Result": "To be played", "Home_PD": 232, "Away_PD": -72}, {"Home": "Hove II", "Away": "Haywards Heath II", "season": "2025-2026", "league": "Harvey's Brewery Counties 3 Sussex", "date": "2025-10-11", "teams": ["Hove II", "Haywards Heath II"], "score": [44, 5], "PF": 44.0, "PA": 5.0, "PD": 39.0, "score_str": "44-5", "Season": "2025-2026", "Result": "Home Win", "Home_PD": 232, "Away_PD": 6}, {"Home": "Horsham Barbarians", "Away": "Crowborough II", "season": "2025-2026", "league": "Harvey's Brewery Counties 3 Sussex", "date": "2026-01-10", "teams": ["Horsham Barbarians", "Crowborough II"], "score": [35, 0], "PF": 35.0, "PA": 0.0, "PD": 35.0, "score_str": "35-0", "Season": "2025-2026", "Result": "Home Win", "Home_PD": -72, "Away_PD": -17}, {"Home": "Horsham Barbarians", "Away": "Worthing III", "season": null, "league": null, "date": null, "teams": null, "score": null, "PF": "", "PA": "", "PD": null, "score_str": "", "Season": "2025-2026", "Result": "To be played", "Home_PD": -72, "Away_PD": -118}, {"Home": "Horsham Barbarians", "Away": "Burgess Hill", "season": "2025-2026", "league": "Harvey's Brewery Counties 3 Sussex", "date": "2025-10-18", "teams": ["Horsham Barbarians", "Burgess Hill"], "score": [5, 45], "PF": 5.0, "PA": 45.0, "PD": -40.0, "score_str": "5-45", "Season": "2025-2026", "Result": "Away Win", "Home_PD": -72, "Away_PD": 207}, {"Home": "Horsham Barbarians", "Away": "Uckfield", "season": "2025-2026", "league": "Harvey's Brewery Counties 3 Sussex", "date": "2026-01-17", "teams": ["Horsham Barbarians", "Uckfield"], "score": [7, 39], "PF": 7.0, "PA": 39.0, "PD": -32.0, "score_str": "7-39", "Season": "2025-2026", "Result": "Away Win", "Home_PD": -72, "Away_PD": 52}, {"Home": "Horsham Barbarians", "Away": "Hellingly", "season": "2025-2026", "league": "Harvey's Brewery Counties 3 Sussex", "date": "2025-12-13", "teams": ["Horsham Barbarians", "Hellingly"], "score": [33, 7], "PF": 33.0, "PA": 7.0, "PD": 26.0, "score_str": "33-7", "Season": "2025-2026", "Result": "Home Win", "Home_PD": -72, "Away_PD": -175}, {"Home": "Horsham Barbarians", "Away": "East Grinstead II", "season": null, "league": null, "date": null, "teams": null, "score": null, "PF": "", "PA": "", "PD": null, "score_str": "", "Season": "2025-2026", "Result": "To be played", "Home_PD": -72, "Away_PD": -10}, {"Home": "Horsham Barbarians", "Away": "Shoreham II", "season": null, "league": null, "date": null, "teams": null, "score": null, "PF": "", "PA": "", "PD": null, "score_str": "", "Season": "2025-2026", "Result": "To be played", "Home_PD": -72, "Away_PD": -105}, {"Home": "Horsham Barbarians", "Away": "Hove II", "season": "2025-2026", "league": "Harvey's Brewery Counties 3 Sussex", "date": "2025-11-22", "teams": ["Horsham Barbarians", "Hove II"], "score": [19, 38], "PF": 19.0, "PA": 38.0, "PD": -19.0, "score_str": "19-38", "Season": "2025-2026", "Result": "Away Win", "Home_PD": -72, "Away_PD": 232}, {"Home": "Horsham Barbarians", "Away": "Horsham Barbarians", "season": null, "league": null, "date": null, "teams": null, "score": null, "PF": "", "PA": "", "PD": null, "score_str": "", "Season": "2025-2026", "Result": "N/A", "Home_PD": -72, "Away_PD": -72}, {"Home": "Horsham Barbarians", "Away": "Haywards Heath II", "season": null, "league": null, "date": null, "teams": null, "score": null, "PF": "", "PA": "", "PD": null, "score_str": "", "Season": "2025-2026", "Result": "To be played", "Home_PD": -72, "Away_PD": 6}, {"Home": "Haywards Heath II", "Away": "Crowborough II", "season": "2025-2026", "league": "Harvey's Brewery Counties 3 Sussex", "date": "2025-11-29", "teams": ["Haywards Heath II", "Crowborough II"], "score": [29, 45], "PF": 29.0, "PA": 45.0, "PD": -16.0, "score_str": "29-45", "Season": "2025-2026", "Result": "Away Win", "Home_PD": 6, "Away_PD": -17}, {"Home": "Haywards Heath II", "Away": "Worthing III", "season": "2025-2026", "league": "Harvey's Brewery Counties 3 Sussex", "date": "2025-10-04", "teams": ["Haywards Heath II", "Worthing III"], "score": [54, 24], "PF": 54.0, "PA": 24.0, "PD": 30.0, "score_str": "54-24", "Season": "2025-2026", "Result": "Home Win", "Home_PD": 6, "Away_PD": -118}, {"Home": "Haywards Heath II", "Away": "Burgess Hill", "season": null, "league": null, "date": null, "teams": null, "score": null, "PF": "", "PA": "", "PD": null, "score_str": "", "Season": "2025-2026", "Result": "To be played", "Home_PD": 6, "Away_PD": 207}, {"Home": "Haywards Heath II", "Away": "Uckfield", "season": "2025-2026", "league": "Harvey's Brewery Counties 3 Sussex", "date": "2025-11-22", "teams": ["Haywards Heath II", "Uckfield"], "score": [41, 19], "PF": 41.0, "PA": 19.0, "PD": 22.0, "score_str": "41-19", "Season": "2025-2026", "Result": "Home Win", "Home_PD": 6, "Away_PD": 52}, {"Home": "Haywards Heath II", "Away": "Hellingly", "season": null, "league": null, "date": null, "teams": null, "score": null, "PF": "", "PA": "", "PD": null, "score_str": "", "Season": "2025-2026", "Result": "To be played", "Home_PD": 6, "Away_PD": -175}, {"Home": "Haywards Heath II", "Away": "East Grinstead II", "season": null, "league": null, "date": null, "teams": null, "score": null, "PF": "", "PA": "", "PD": null, "score_str": "", "Season": "2025-2026", "Result": "To be played", "Home_PD": 6, "Away_PD": -10}, {"Home": "Haywards Heath II", "Away": "Shoreham II", "season": null, "league": null, "date": null, "teams": null, "score": null, "PF": "", "PA": "", "PD": null, "score_str": "", "Season": "2025-2026", "Result": "To be played", "Home_PD": 6, "Away_PD": -105}, {"Home": "Haywards Heath II", "Away": "Hove II", "season": "2025-2026", "league": "Harvey's Brewery Counties 3 Sussex", "date": "2026-01-17", "teams": ["Haywards Heath II", "Hove II"], "score": [19, 41], "PF": 19.0, "PA": 41.0, "PD": -22.0, "score_str": "19-41", "Season": "2025-2026", "Result": "Away Win", "Home_PD": 6, "Away_PD": 232}, {"Home": "Haywards Heath II", "Away": "Horsham Barbarians", "season": "2025-2026", "league": "Harvey's Brewery Counties 3 Sussex", "date": "2025-12-20", "teams": ["Haywards Heath II", "Horsham Barbarians"], "score": [12, 15], "PF": 12.0, "PA": 15.0, "PD": -3.0, "score_str": "12-15", "Season": "2025-2026", "Result": "Away Win (LBP)", "Home_PD": 6, "Away_PD": -72}, {"Home": "Haywards Heath II", "Away": "Haywards Heath II", "season": null, "league": null, "date": null, "teams": null, "score": null, "PF": "", "PA": "", "PD": null, "score_str": "", "Season": "2025-2026", "Result": "N/A", "Home_PD": 6, "Away_PD": 6}], "data-666f962452e73e161413234640adf009": [{"Season": "2025-2026", "Team": "Crowborough II", "PD": -17, "Team_PD": -17}, {"Season": "2025-2026", "Team": "Worthing III", "PD": -118, "Team_PD": -118}, {"Season": "2025-2026", "Team": "Burgess Hill", "PD": 207, "Team_PD": 207}, {"Season": "2025-2026", "Team": "Uckfield", "PD": 52, "Team_PD": 52}, {"Season": "2025-2026", "Team": "Hellingly", "PD": -175, "Team_PD": -175}, {"Season": "2025-2026", "Team": "East Grinstead II", "PD": -10, "Team_PD": -10}, {"Season": "2025-2026", "Team": "Shoreham II", "PD": -105, "Team_PD": -105}, {"Season": "2025-2026", "Team": "Hove II", "PD": 232, "Team_PD": 232}, {"Season": "2025-2026", "Team": "Horsham Barbarians", "PD": -72, "Team_PD": -72}, {"Season": "2025-2026", "Team": "Haywards Heath II", "PD": 6, "Team_PD": 6}]}};
+      var embedOpt = {"renderer": "svg", "actions": {"export": true, "source": false, "editor": true, "compiled": false}, "mode": "vega-lite"};
+
+      function showError(el, error){
+          el.innerHTML = ('<div style="color:red;">'
+                          + '<p>JavaScript Error: ' + error.message + '</p>'
+                          + "<p>This usually means there's a typo in your chart specification. "
+                          + "See the javascript console for the full traceback.</p>"
+                          + '</div>');
+          throw error;
+      }
+      
+
+            /* league_results_runtime_start */
+            const queryParams = new URLSearchParams(window.location.search);
+            const selectedSeason = queryParams.get('season');
+
+            const ensureTightLayout = () => {
+                if (document.getElementById('league-results-tight-layout')) {
+                    return;
+                }
+
+                const styleEl = document.createElement('style');
+                styleEl.id = 'league-results-tight-layout';
+                styleEl.textContent = `
+                    html, body {
+                        margin: 0 !important;
+                        padding: 0 !important;
+                        overflow: hidden !important;
+                        height: auto !important;
+                        min-height: 0 !important;
+                    }
+
+                    #vis, #vis.vega-embed, .vega-embed {
+                        height: auto !important;
+                        min-height: 0 !important;
+                    }
+                `;
+
+                document.head.appendChild(styleEl);
+            };
+
+            const trimBodyToVis = () => {
+                const visEl = document.getElementById('vis');
+                if (!visEl) {
+                    return;
+                }
+
+                const visRect = visEl.getBoundingClientRect();
+                const visHeight = Math.ceil(visRect.height || 0);
+                if (visHeight <= 0) {
+                    return;
+                }
+
+                const targetHeight = visHeight + 4;
+                document.body.style.height = `${targetHeight}px`;
+                document.documentElement.style.height = `${targetHeight}px`;
+                document.body.style.overflow = 'hidden';
+                document.documentElement.style.overflow = 'hidden';
+            };
+
+            const formatSeasonLabel = (seasonValue) => {
+                if (!seasonValue || !seasonValue.includes('-')) {
+                    return seasonValue;
+                }
+
+                const [startYear, endYear] = seasonValue.split('-');
+                return `${startYear}/${String(endYear).slice(-2)}`;
+            };
+
+            const applySeasonFilter = (targetSpec, seasonValue) => {
+                const seasonFilter = `datum.Season == '${seasonValue}' || datum.season == '${seasonValue}'`;
+
+                if (Array.isArray(targetSpec.layer)) {
+                    targetSpec.layer.forEach((layer) => {
+                        layer.transform = layer.transform || [];
+                        layer.transform = layer.transform.filter((transform) => {
+                            if (!transform || !transform.filter) {
+                                return true;
+                            }
+                            if (typeof transform.filter === 'object' && transform.filter.param) {
+                                return false;
+                            }
+                            if (typeof transform.filter === 'string' && transform.filter.includes('datum.Season')) {
+                                return false;
+                            }
+                            return true;
+                        });
+                        layer.transform.push({ filter: seasonFilter });
+                    });
+                    return;
+                }
+
+                targetSpec.transform = targetSpec.transform || [];
+                targetSpec.transform = targetSpec.transform.filter((transform) => {
+                    if (!transform || !transform.filter) {
+                        return true;
+                    }
+                    if (typeof transform.filter === 'object' && transform.filter.param) {
+                        return false;
+                    }
+                    if (typeof transform.filter === 'string' && transform.filter.includes('datum.Season')) {
+                        return false;
+                    }
+                    return true;
+                });
+                targetSpec.transform.push({ filter: seasonFilter });
+            };
+
+            if (selectedSeason) {
+                applySeasonFilter(spec, selectedSeason);
+
+                const seasonLabel = formatSeasonLabel(selectedSeason);
+                if (spec.title && seasonLabel) {
+                    spec.title.text = '2nd XV League Results ' + seasonLabel;
+                }
+            }
+
+            ensureTightLayout();
+            [120, 350, 800, 1400, 2200].forEach((delay) => {
+                window.setTimeout(trimBodyToVis, delay);
+            });
+            /* league_results_runtime_end */
+    
+
+      const el = document.getElementById('vis');
+      vegaEmbed("#vis", spec, embedOpt)
+        .catch(error => showError(el, error));
+    })(vegaEmbed);
+
+  
+    document.addEventListener("DOMContentLoaded", function () {
+      setTimeout(() => {
+        window.dispatchEvent(new Event('resize'));
+      }, 100);
+    });
+  </script>
+</body>
+</html>

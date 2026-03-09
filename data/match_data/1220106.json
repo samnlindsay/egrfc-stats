@@ -1,0 +1,57 @@
+{
+    "match_id": "1220106",
+    "season": "2025-2026",
+    "league": "Counties 2 Sussex",
+    "date": "2026-03-07",
+    "teams": [
+        "Royals RFC",
+        "Brighton II"
+    ],
+    "score": [
+        21,
+        29
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/94051.png",
+        "https://images.englandrugby.com/club_images/3218.png"
+    ],
+    "players": [
+        {
+            "15": "Ben Pearson",
+            "14": "Aidan Loane",
+            "13": "Jean-Jacques Le Bihan",
+            "12": "Hugo Reid",
+            "11": "Pearse Moloney",
+            "10": "Jenson Holmes",
+            "9": "Harry Walton",
+            "8": "Matthew Boyd",
+            "7": "John James Le Feuvre",
+            "6": "Josh Twohig-Jones",
+            "5": "Will Michel",
+            "4": "Cameron Queree",
+            "3": "Name withheld",
+            "2": "Patrick Crossley",
+            "1": "Tristan Burns",
+            "S1": "Brian Njomba",
+            "S2": "Oliver Walker",
+            "S3": "Max Belson"
+        },
+        {
+            "15": "Ibrahim Bangura",
+            "14": "Max Suttner",
+            "13": "Joseph Pratt",
+            "12": "Zane Hanna",
+            "11": "hugo barnett",
+            "10": "Luke Jameson Clark",
+            "9": "Ruben Spencer",
+            "8": "Zak Ellenger",
+            "7": "Riley Ashby",
+            "6": "Dillon Stingemore",
+            "5": "Frederick Tilley",
+            "4": "Nicolas Lewis",
+            "3": "Luke Booth",
+            "2": "Andrew Forrester",
+            "1": "Will Prentice"
+        }
+    ]
+}
