@@ -64,7 +64,7 @@ class DataExtractor:
             data = sheet.get_all_values()
             
             # Skip header rows
-            for row in data[5:]:  # Assuming data starts at row 6
+            for row in data[4:]:  # Assuming data starts at row 6
                 if not row[1]:  # Skip if no season
                     continue
                     
@@ -150,7 +150,7 @@ class DataExtractor:
                         if 1 <= shirt_no <= 29:
                             shirt_col_map[shirt_no] = idx
             
-            for row in data[5:]:
+            for row in data[4:]:
                 if not row[1]:  # Skip if no season
                     continue
                     
