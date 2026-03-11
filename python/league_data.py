@@ -8,6 +8,8 @@ import logging
 from bs4 import BeautifulSoup
 import time
 import random
+import re
+from urllib.parse import parse_qs, urlparse
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
@@ -90,10 +92,117 @@ headers = {
 def squad_lookup(season, league):
     """Return the squad number based on season and league."""
     season_key = season.replace('-20', '/')  # Convert 2024-2025 to 2024/25
+    league_normalized = (league or "").replace("Harvey's Brewery ", "").strip()
     for div, seasons in divisions.items():
-        if league == seasons.get(season_key):
+        expected_league = seasons.get(season_key)
+        if league_normalized == expected_league:
             return int(div)
     return 1  # Default to squad 1 if not found
+
+
+def _parse_score_text(score_text):
+    """Parse score strings from England Rugby pages, including walkovers."""
+    if not score_text:
+        return [None, None]
+
+    text = score_text.strip().upper()
+
+    if text == "HWO":
+        return ["WO", ""]
+    if text == "AWO":
+        return ["", "WO"]
+
+    score_match = re.match(r"^(\d+)\s*[-–:]\s*(\d+)$", text)
+    if score_match:
+        return [int(score_match.group(1)), int(score_match.group(2))]
+
+    score_numbers = re.findall(r"\d+", text)
+    if len(score_numbers) >= 2:
+        return [int(score_numbers[0]), int(score_numbers[1])]
+
+    return [None, None]
+
+
+def _extract_match_id_from_href(href):
+    """Extract matchId from href robustly, handling query strings/fragments."""
+    if not href:
+        return None
+
+    parsed = urlparse(href)
+    query_match_ids = parse_qs(parsed.query).get("matchId")
+    if query_match_ids and query_match_ids[0].isdigit():
+        return query_match_ids[0]
+
+    match = re.search(r"(?:\?|&)matchId=(\d+)", href)
+    if match:
+        return match.group(1)
+
+    return None
+
+
+def _normalize_season(season):
+    """Normalize season labels to YYYY-YYYY format."""
+    if not season:
+        return season
+
+    season = season.strip()
+
+    if re.match(r"^\d{4}-\d{4}$", season):
+        return season
+
+    slash_match = re.match(r"^(\d{4})/(\d{2})$", season)
+    if slash_match:
+        start_year = int(slash_match.group(1))
+        end_suffix = int(slash_match.group(2))
+        century_base = (start_year // 100) * 100
+        end_year = century_base + end_suffix
+        if end_year < start_year:
+            end_year += 100
+        return f"{start_year}-{end_year}"
+
+    return season
+
+
+def _parse_results_card_score(score_box):
+    """Extract score pair from a results card score container."""
+    if not score_box:
+        return [None, None]
+
+    walkover_node = score_box.find('span', string=re.compile(r'^(HWO|AWO)$'))
+    if walkover_node:
+        return _parse_score_text(walkover_node.get_text(strip=True))
+
+    raw_score_text = score_box.get_text(" ", strip=True)
+    parsed_raw_score = _parse_score_text(raw_score_text)
+    if parsed_raw_score != [None, None]:
+        return parsed_raw_score
+
+    home_score_node = score_box.select_one('a.coh-style-numeric-score')
+    away_score_node = score_box.select_one('a.coh-style-numeric-right')
+    if home_score_node and away_score_node:
+        return _parse_score_text(
+            f"{home_score_node.get_text(strip=True)} - {away_score_node.get_text(strip=True)}"
+        )
+
+    return [None, None]
+
+
+def _parse_results_card_date(card):
+    """Extract normalized match date from a results card class list."""
+    for class_name in card.get('class', []):
+        if not class_name.startswith('cardContainer_'):
+            continue
+
+        raw_date = class_name.replace('cardContainer_', '')
+        for date_format in ("%A,%d%b%Y", "%a,%d%b%Y"):
+            try:
+                return pd.to_datetime(raw_date, format=date_format).strftime("%Y-%m-%d")
+            except ValueError:
+                continue
+
+        return None
+
+    return None
 
 def is_match_complete(match_data):
     """Check if match has complete data (score, both team lineups, date)."""
@@ -101,12 +210,24 @@ def is_match_complete(match_data):
         return False
     if not match_data.get('score') or None in match_data.get('score', []):
         return False
-    if not match_data.get('players') or len(match_data.get('players', [])) < 2:
-        return False
-    if not match_data['players'][0] or not match_data['players'][1]:
+    teams = match_data.get('teams', [])
+    if not teams or len(teams) < 2:
         return False
     if not match_data.get('date'):
         return False
+
+    season = match_data.get('season')
+    league = match_data.get('league')
+    squad = squad_lookup(season, league) if season and league else 1
+    teams = match_data.get('teams', [])
+    includes_eg = any("East Grinstead" in team for team in teams if isinstance(team, str))
+
+    if squad == 1 and includes_eg:
+        if not match_data.get('players') or len(match_data.get('players', [])) < 2:
+            return False
+        if not match_data['players'][0] or not match_data['players'][1]:
+            return False
+
     return True
 
 def get_existing_match_ids_from_consolidated(consolidated_file="data/matches.json"):
@@ -253,16 +374,6 @@ def fetch_league_table(squad=1, season="2025/26"):
         print("No table found on the page")
         return None   
 
-    # Generate HTML table
-    html_table = generate_bootstrap_table(df)
-
-    print(html_table)
-    # Save to file (optional)
-    os.makedirs("Charts/league", exist_ok=True)
-    with open(f"Charts/league/table_{squad}s_{season.replace('/', '-20')}.html", "w") as f:
-        f.write(html_table)
-
-    # Output HTML
     return df
 
 def fetch_match_ids(squad=1, season="2025/26"):
@@ -281,11 +392,71 @@ def fetch_match_ids(squad=1, season="2025/26"):
         return []
 
     soup = BeautifulSoup(response.text, 'html.parser')
-    links = {a['href'].split("=")[-1] for a in soup.find_all('a', href=True) 
-             if '/fixtures-and-results/match-centre-community' in a['href']}
+    links = {
+        match_id
+        for a in soup.find_all('a', href=True)
+        if '/fixtures-and-results/match-centre-community' in a['href']
+        for match_id in [_extract_match_id_from_href(a['href'])]
+        if match_id
+    }
     
     logging.info(f"Found {len(links)} match IDs for {season} squad {squad}")
     return list(links)
+
+
+def fetch_matches_from_results_page(squad=2, season="2025/26"):
+    """Fetch match summaries directly from the results list page (used for squad 2)."""
+
+    url = f"{get_url(squad=squad, season=season)}#results"
+
+    try:
+        response = requests.get(url, headers=headers, timeout=30)
+        response.raise_for_status()
+    except requests.RequestException as e:
+        logging.error(f"Error fetching results page for squad {squad}, season {season}: {e}")
+        return []
+
+    soup = BeautifulSoup(response.text, 'html.parser')
+    cards = soup.find_all('div', class_=lambda class_list: class_list and 'dataContainer' in class_list)
+
+    league = divisions.get(squad, {}).get(season, f"Squad {squad}")
+    season_dash = _normalize_season(season)
+    match_data_list = []
+
+    for card in cards:
+        match_link = card.find('a', href=lambda href: href and 'match-centre-community' in href)
+        if not match_link:
+            continue
+
+        match_id = _extract_match_id_from_href(match_link.get('href', ''))
+        if not match_id:
+            continue
+
+        home_node = card.select_one('.coh-style-hometeam a')
+        away_node = card.select_one('.coh-style-away-team a')
+        if not home_node or not away_node:
+            continue
+
+        teams = [home_node.get_text(strip=True), away_node.get_text(strip=True)]
+
+        score_box = card.select_one('.fnr-scores')
+        score = _parse_results_card_score(score_box)
+
+        match_date = _parse_results_card_date(card)
+
+        match_data_list.append({
+            "match_id": match_id,
+            "season": season_dash,
+            "league": league,
+            "date": match_date,
+            "teams": teams,
+            "score": score,
+            "logos": [],
+            "players": [{}, {}]
+        })
+
+    logging.info(f"Parsed {len(match_data_list)} match rows from results page for {season} squad {squad}")
+    return match_data_list
 
 def get_players(soup):
     """Extract player lineup from the match page."""
@@ -347,9 +518,8 @@ def fetch_match_data(match_id):
         logging.warning(f"Match {match_id} has no score available yet.")
         return None
     
-    try:
-        score = [int(s) for s in score_tag.text.strip().split(' - ')]
-    except ValueError:
+    score = _parse_score_text(score_tag.text.strip())
+    if score == [None, None]:
         logging.warning(f"Match {match_id} has invalid score format.")
         return None
 
@@ -387,8 +557,9 @@ def fetch_match_data(match_id):
         logging.warning(f"Match {match_id} doesn't have exactly 2 teams.")
         return None
 
-    # Extract player lineups
-    players = get_players(soup)
+    # Extract player lineups only for 1st XV matches
+    squad = squad_lookup(season, league)
+    players = get_players(soup) if squad == 1 else [{}, {}]
 
     match_data = {
         "match_id": match_id,
@@ -412,11 +583,29 @@ def fetch_match_data(match_id):
 
     return match_data
 
+
+def _get_match_sources(squad=1, season="2025/26"):
+    """Return match ids and optional prefetched match dict for a squad/season."""
+    if squad == 2:
+        results_page_matches = fetch_matches_from_results_page(squad=squad, season=season)
+        if not results_page_matches:
+            return [], {}
+
+        all_match_ids = [match["match_id"] for match in results_page_matches]
+        return all_match_ids, {match["match_id"]: match for match in results_page_matches}
+
+    return fetch_match_ids(squad=squad, season=season), {}
+
+
+def _fetch_match_for_squad(match_id, squad, results_by_id):
+    """Fetch or retrieve a single match based on squad strategy."""
+    if squad == 2:
+        return results_by_id.get(match_id)
+    return fetch_match_data(match_id)
+
 def fetch_new_matches_only(squad=1, season="2025/26", consolidated_file="data/matches.json"):
     """Fetch new matches AND re-fetch incomplete ones."""
-    
-    # Get all match IDs for the season from website
-    all_match_ids = fetch_match_ids(squad=squad, season=season)
+    all_match_ids, results_by_id = _get_match_sources(squad=squad, season=season)
     
     if not all_match_ids:
         logging.warning("No match IDs found for the season.")
@@ -436,10 +625,18 @@ def fetch_new_matches_only(squad=1, season="2025/26", consolidated_file="data/ma
     
     # Combine both sets (remove duplicates)
     to_fetch = list(set(new_match_ids + retry_match_ids))
+
+    # Squad 2 fixtures should be fully refreshed from results pages because score
+    # orientation can change and full lineups are not required.
+    if squad == 2:
+        to_fetch = list(all_match_ids)
     
     logging.info(f"Season {season} squad {squad}: {len(all_match_ids)} total matches on website")
     logging.info(f"Found {len(existing_match_ids)} existing matches in consolidated file")
-    logging.info(f"Need to fetch: {len(new_match_ids)} new + {len(retry_match_ids)} incomplete = {len(to_fetch)} total")
+    if squad == 2:
+        logging.info(f"Need to fetch: refreshing all {len(to_fetch)} squad 2 fixtures for score accuracy")
+    else:
+        logging.info(f"Need to fetch: {len(new_match_ids)} new + {len(retry_match_ids)} incomplete = {len(to_fetch)} total")
     
     if not to_fetch:
         logging.info("All matches already in consolidated file with complete data!")
@@ -450,16 +647,16 @@ def fetch_new_matches_only(squad=1, season="2025/26", consolidated_file="data/ma
     for i, match_id in enumerate(to_fetch, 1):
         match_type = "new" if match_id in new_match_ids else "retry"
         logging.info(f"Fetching ({match_type}) {i}/{len(to_fetch)}: {match_id}")
-        
-        match_data = fetch_match_data(match_id)
-        if match_data:
+
+        match_data = _fetch_match_for_squad(match_id, squad, results_by_id)
+
+        if match_data and is_match_complete(match_data):
             fetched_matches.append(match_data)
-        
-        # Delay between requests (except for last one)
-        if i < len(to_fetch):
+
+        if squad != 2 and i < len(to_fetch):
             time.sleep(random.uniform(3, 7))
     
-    logging.info(f"Successfully fetched {len(fetched_matches)} matches ({len([m for m in fetched_matches if is_match_complete(m)])} complete)")
+    logging.info(f"Successfully fetched {len(fetched_matches)} matches ({len(fetched_matches)} complete)")
     return fetched_matches
 
 def update_consolidated_file(new_matches, consolidated_file="data/matches.json"):

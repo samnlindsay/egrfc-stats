@@ -13004,6 +13004,101 @@
         ]
     },
     {
+        "match_id": "1155358",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2024-09-21",
+        "teams": [
+            "Midhurst",
+            "Newick"
+        ],
+        "score": [
+            7,
+            12
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1155361",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2024-09-21",
+        "teams": [
+            "Barns Green",
+            "Royals RFC"
+        ],
+        "score": [
+            10,
+            21
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1178624",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2024-09-21",
+        "teams": [
+            "East Grinstead II",
+            "Haywards Heath II"
+        ],
+        "score": [
+            45,
+            5
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1159734",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2024-09-21",
+        "teams": [
+            "Eastbourne II",
+            "Horsham Barbarians"
+        ],
+        "score": [
+            53,
+            17
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1155357",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2024-09-21",
+        "teams": [
+            "Shoreham II",
+            "Burgess Hill"
+        ],
+        "score": [
+            "",
+            "WO"
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
         "match_id": "1178936",
         "season": "2024-2025",
         "league": "Counties 1 Surrey/Sussex",
@@ -13358,6 +13453,63 @@
                 "S1": "Tom O'Hanlon",
                 "S2": "Peter Brogden"
             }
+        ]
+    },
+    {
+        "match_id": "1155363",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2024-09-28",
+        "teams": [
+            "East Grinstead II",
+            "Barns Green"
+        ],
+        "score": [
+            24,
+            31
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1155364",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2024-09-28",
+        "teams": [
+            "Eastbourne II",
+            "Haywards Heath II"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1155362",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2024-09-28",
+        "teams": [
+            "Shoreham II",
+            "Midhurst"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
         ]
     },
     {
@@ -13716,6 +13868,101 @@
         ]
     },
     {
+        "match_id": "1155367",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2024-10-12",
+        "teams": [
+            "Midhurst",
+            "Burgess Hill"
+        ],
+        "score": [
+            8,
+            24
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1155368",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2024-10-12",
+        "teams": [
+            "Horsham Barbarians",
+            "Shoreham II"
+        ],
+        "score": [
+            15,
+            12
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1155371",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2024-10-12",
+        "teams": [
+            "Royals RFC",
+            "East Grinstead II"
+        ],
+        "score": [
+            31,
+            18
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1155370",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2024-10-12",
+        "teams": [
+            "Barns Green",
+            "Eastbourne II"
+        ],
+        "score": [
+            33,
+            7
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1155369",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2024-10-12",
+        "teams": [
+            "Haywards Heath II",
+            "Newick"
+        ],
+        "score": [
+            "",
+            "WO"
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
         "match_id": "1136439",
         "season": "2024-2025",
         "league": "Counties 1 Surrey/Sussex",
@@ -14066,6 +14313,101 @@
                 "S2": "Mark Osei-Tutu",
                 "S3": "Matthew Shah"
             }
+        ]
+    },
+    {
+        "match_id": "1155374",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2024-10-19",
+        "teams": [
+            "Eastbourne II",
+            "Royals RFC"
+        ],
+        "score": [
+            26,
+            22
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1155373",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2024-10-19",
+        "teams": [
+            "Midhurst",
+            "Horsham Barbarians"
+        ],
+        "score": [
+            17,
+            57
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1155372",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2024-10-19",
+        "teams": [
+            "Shoreham II",
+            "Haywards Heath II"
+        ],
+        "score": [
+            29,
+            21
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1155375",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2024-10-19",
+        "teams": [
+            "Newick",
+            "Barns Green"
+        ],
+        "score": [
+            0,
+            14
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1155376",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2024-10-19",
+        "teams": [
+            "Burgess Hill",
+            "East Grinstead II"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
         ]
     },
     {
@@ -14421,6 +14763,101 @@
                 "S2": "Alun Cranch",
                 "S3": "Maxence Saint-Andr\u00e9"
             }
+        ]
+    },
+    {
+        "match_id": "1155377",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2024-10-26",
+        "teams": [
+            "Horsham Barbarians",
+            "Burgess Hill"
+        ],
+        "score": [
+            3,
+            18
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1155381",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2024-10-26",
+        "teams": [
+            "East Grinstead II",
+            "Eastbourne II"
+        ],
+        "score": [
+            29,
+            22
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1155380",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2024-10-26",
+        "teams": [
+            "Royals RFC",
+            "Newick"
+        ],
+        "score": [
+            29,
+            0
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1155379",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2024-10-26",
+        "teams": [
+            "Barns Green",
+            "Shoreham II"
+        ],
+        "score": [
+            33,
+            5
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1155378",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2024-10-26",
+        "teams": [
+            "Haywards Heath II",
+            "Midhurst"
+        ],
+        "score": [
+            "",
+            "WO"
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
         ]
     },
     {
@@ -14780,6 +15217,82 @@
         ]
     },
     {
+        "match_id": "1155383",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2024-11-09",
+        "teams": [
+            "Midhurst",
+            "Barns Green"
+        ],
+        "score": [
+            31,
+            21
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1155382",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2024-11-09",
+        "teams": [
+            "Shoreham II",
+            "Royals RFC"
+        ],
+        "score": [
+            12,
+            41
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1155385",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2024-11-09",
+        "teams": [
+            "Horsham Barbarians",
+            "Haywards Heath II"
+        ],
+        "score": [
+            40,
+            0
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1155387",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2024-11-09",
+        "teams": [
+            "Burgess Hill",
+            "Eastbourne II"
+        ],
+        "score": [
+            23,
+            24
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
         "match_id": "1136454",
         "season": "2024-2025",
         "league": "Counties 1 Surrey/Sussex",
@@ -15131,6 +15644,101 @@
                 "1": "Tom Crisp",
                 "S1": "Charles Soffe"
             }
+        ]
+    },
+    {
+        "match_id": "1158548",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2024-11-16",
+        "teams": [
+            "Horsham Barbarians",
+            "Barns Green"
+        ],
+        "score": [
+            19,
+            48
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1155388",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2024-11-16",
+        "teams": [
+            "Haywards Heath II",
+            "Burgess Hill"
+        ],
+        "score": [
+            5,
+            20
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1155392",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2024-11-16",
+        "teams": [
+            "Eastbourne II",
+            "Newick"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1155391",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2024-11-16",
+        "teams": [
+            "East Grinstead II",
+            "Shoreham II"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1155390",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2024-11-17",
+        "teams": [
+            "Royals RFC",
+            "Midhurst"
+        ],
+        "score": [
+            40,
+            10
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
         ]
     },
     {
@@ -15489,6 +16097,120 @@
         ]
     },
     {
+        "match_id": "1155398",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2024-11-23",
+        "teams": [
+            "Burgess Hill",
+            "Newick"
+        ],
+        "score": [
+            20,
+            7
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1155396",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2024-11-23",
+        "teams": [
+            "Horsham Barbarians",
+            "Royals RFC"
+        ],
+        "score": [
+            25,
+            20
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1155394",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2024-11-23",
+        "teams": [
+            "Shoreham II",
+            "Eastbourne II"
+        ],
+        "score": [
+            12,
+            20
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1155395",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2024-11-23",
+        "teams": [
+            "Midhurst",
+            "East Grinstead II"
+        ],
+        "score": [
+            "",
+            "WO"
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1184364",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2024-11-30",
+        "teams": [
+            "Newick",
+            "East Grinstead II"
+        ],
+        "score": [
+            10,
+            27
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1155397",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2024-11-30",
+        "teams": [
+            "Haywards Heath II",
+            "Barns Green"
+        ],
+        "score": [
+            10,
+            10
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
         "match_id": "1136469",
         "season": "2024-2025",
         "league": "Counties 1 Surrey/Sussex",
@@ -15840,6 +16562,44 @@
                 "S1": "Jay Bhatia",
                 "S2": "Edward Shinn"
             }
+        ]
+    },
+    {
+        "match_id": "1166161",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2024-12-07",
+        "teams": [
+            "Horsham Barbarians",
+            "East Grinstead II"
+        ],
+        "score": [
+            41,
+            7
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1155402",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2024-12-07",
+        "teams": [
+            "Eastbourne II",
+            "Midhurst"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
         ]
     },
     {
@@ -16197,6 +16957,82 @@
                 "S2": "Guy Patton",
                 "S3": "Ryan Murrough"
             }
+        ]
+    },
+    {
+        "match_id": "1155407",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2024-12-14",
+        "teams": [
+            "Barns Green",
+            "East Grinstead II"
+        ],
+        "score": [
+            27,
+            0
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1186151",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2024-12-14",
+        "teams": [
+            "Eastbourne II",
+            "Haywards Heath II"
+        ],
+        "score": [
+            22,
+            24
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1178886",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2024-12-14",
+        "teams": [
+            "Burgess Hill",
+            "Royals RFC"
+        ],
+        "score": [
+            34,
+            7
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1181331",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2024-12-14",
+        "teams": [
+            "Shoreham II",
+            "Midhurst"
+        ],
+        "score": [
+            46,
+            12
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
         ]
     },
     {
@@ -16734,6 +17570,44 @@
         ]
     },
     {
+        "match_id": "1187325",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2025-01-04",
+        "teams": [
+            "Barns Green",
+            "Burgess Hill"
+        ],
+        "score": [
+            24,
+            13
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1187236",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2025-01-04",
+        "teams": [
+            "Newick",
+            "Shoreham II"
+        ],
+        "score": [
+            "",
+            "WO"
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
         "match_id": "1136490",
         "season": "2024-2025",
         "league": "Counties 1 Surrey/Sussex",
@@ -16791,6 +17665,63 @@
                 "S2": "Tom Lester",
                 "S3": "Maxence Saint-Andr\u00e9"
             }
+        ]
+    },
+    {
+        "match_id": "1155411",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2025-01-11",
+        "teams": [
+            "Eastbourne II",
+            "Barns Green"
+        ],
+        "score": [
+            31,
+            26
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1155412",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2025-01-11",
+        "teams": [
+            "Newick",
+            "Haywards Heath II"
+        ],
+        "score": [
+            "",
+            "WO"
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1155413",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2025-01-11",
+        "teams": [
+            "Burgess Hill",
+            "Midhurst"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
         ]
     },
     {
@@ -17090,6 +18021,101 @@
         ]
     },
     {
+        "match_id": "1155418",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2025-01-18",
+        "teams": [
+            "East Grinstead II",
+            "Burgess Hill"
+        ],
+        "score": [
+            15,
+            8
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1155414",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2025-01-18",
+        "teams": [
+            "Horsham Barbarians",
+            "Midhurst"
+        ],
+        "score": [
+            29,
+            8
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1155415",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2025-01-18",
+        "teams": [
+            "Haywards Heath II",
+            "Shoreham II"
+        ],
+        "score": [
+            31,
+            24
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1155417",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2025-01-18",
+        "teams": [
+            "Royals RFC",
+            "Eastbourne II"
+        ],
+        "score": [
+            18,
+            19
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1155416",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2025-01-18",
+        "teams": [
+            "Barns Green",
+            "Newick"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
         "match_id": "1189150",
         "season": "2024-2025",
         "league": "Counties 1 Surrey/Sussex",
@@ -17320,6 +18346,25 @@
                 "2": "Hugh Farmer",
                 "1": "Joshua Millerd"
             }
+        ]
+    },
+    {
+        "match_id": "1187529",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2025-01-25",
+        "teams": [
+            "Horsham Barbarians",
+            "Newick"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
         ]
     },
     {
@@ -17675,6 +18720,101 @@
         ]
     },
     {
+        "match_id": "1155422",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2025-02-01",
+        "teams": [
+            "Newick",
+            "Royals RFC"
+        ],
+        "score": [
+            0,
+            29
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1155420",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2025-02-01",
+        "teams": [
+            "Midhurst",
+            "Haywards Heath II"
+        ],
+        "score": [
+            12,
+            52
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1155423",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2025-02-01",
+        "teams": [
+            "Burgess Hill",
+            "Horsham Barbarians"
+        ],
+        "score": [
+            14,
+            26
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1155421",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2025-02-01",
+        "teams": [
+            "Eastbourne II",
+            "East Grinstead II"
+        ],
+        "score": [
+            35,
+            10
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1155419",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2025-02-01",
+        "teams": [
+            "Shoreham II",
+            "Barns Green"
+        ],
+        "score": [
+            28,
+            26
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
         "match_id": "1190743",
         "season": "2024-2025",
         "league": "Counties 1 Surrey/Sussex",
@@ -17906,6 +19046,25 @@
                 "2": "George Naylor",
                 "1": "Ryland Thomas"
             }
+        ]
+    },
+    {
+        "match_id": "1191516",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2025-02-08",
+        "teams": [
+            "East Grinstead II",
+            "Royals RFC"
+        ],
+        "score": [
+            27,
+            17
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
         ]
     },
     {
@@ -18260,6 +19419,120 @@
         ]
     },
     {
+        "match_id": "1155425",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2025-02-15",
+        "teams": [
+            "Barns Green",
+            "Midhurst"
+        ],
+        "score": [
+            45,
+            5
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1155424",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2025-02-15",
+        "teams": [
+            "Haywards Heath II",
+            "Horsham Barbarians"
+        ],
+        "score": [
+            23,
+            14
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1155427",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2025-02-15",
+        "teams": [
+            "Eastbourne II",
+            "Burgess Hill"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1155426",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2025-02-15",
+        "teams": [
+            "Royals RFC",
+            "Shoreham II"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1155428",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2025-02-15",
+        "teams": [
+            "East Grinstead II",
+            "Newick"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1190445",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2025-02-22",
+        "teams": [
+            "Shoreham II",
+            "Horsham Barbarians"
+        ],
+        "score": [
+            17,
+            34
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
         "match_id": "1136517",
         "season": "2024-2025",
         "league": "Counties 1 Surrey/Sussex",
@@ -18550,6 +19823,101 @@
                 "S1": "Anthony Moss",
                 "S2": "Hugh Kennedy"
             }
+        ]
+    },
+    {
+        "match_id": "1158549",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2025-03-01",
+        "teams": [
+            "Barns Green",
+            "Horsham Barbarians"
+        ],
+        "score": [
+            13,
+            0
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1155433",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2025-03-01",
+        "teams": [
+            "Burgess Hill",
+            "Haywards Heath II"
+        ],
+        "score": [
+            0,
+            28
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1155430",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2025-03-01",
+        "teams": [
+            "Midhurst",
+            "Royals RFC"
+        ],
+        "score": [
+            10,
+            30
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1186673",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2025-03-01",
+        "teams": [
+            "East Grinstead II",
+            "Shoreham II"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1185809",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2025-03-01",
+        "teams": [
+            "Eastbourne II",
+            "Newick"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
         ]
     },
     {
@@ -18904,6 +20272,101 @@
                 "S2": "Christopher Hosking",
                 "S3": "Luke Thomas"
             }
+        ]
+    },
+    {
+        "match_id": "1155435",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2025-03-08",
+        "teams": [
+            "Royals RFC",
+            "Horsham Barbarians"
+        ],
+        "score": [
+            47,
+            7
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1155438",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2025-03-08",
+        "teams": [
+            "Newick",
+            "Burgess Hill"
+        ],
+        "score": [
+            21,
+            61
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1155437",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2025-03-08",
+        "teams": [
+            "Eastbourne II",
+            "Shoreham II"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1155434",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2025-03-08",
+        "teams": [
+            "Barns Green",
+            "Haywards Heath II"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1155436",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2025-03-08",
+        "teams": [
+            "East Grinstead II",
+            "Midhurst"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
         ]
     },
     {
@@ -19263,6 +20726,101 @@
         ]
     },
     {
+        "match_id": "1155443",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2025-03-22",
+        "teams": [
+            "Haywards Heath II",
+            "Royals RFC"
+        ],
+        "score": [
+            22,
+            26
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1155444",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2025-03-22",
+        "teams": [
+            "Burgess Hill",
+            "Barns Green"
+        ],
+        "score": [
+            13,
+            3
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1155441",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2025-03-22",
+        "teams": [
+            "Midhurst",
+            "Eastbourne II"
+        ],
+        "score": [
+            3,
+            43
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1166163",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2025-03-22",
+        "teams": [
+            "East Grinstead II",
+            "Horsham Barbarians"
+        ],
+        "score": [
+            54,
+            14
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1155440",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2025-03-22",
+        "teams": [
+            "Shoreham II",
+            "Newick"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
         "match_id": "1196079",
         "season": "2024-2025",
         "league": "Counties 1 Surrey/Sussex",
@@ -19320,6 +20878,25 @@
                 "S2": "Edward Fink",
                 "S3": "John Vanderstegen-Drake"
             }
+        ]
+    },
+    {
+        "match_id": "1155408",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2025-03-29",
+        "teams": [
+            "Royals RFC",
+            "Burgess Hill"
+        ],
+        "score": [
+            20,
+            10
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
         ]
     },
     {
@@ -19657,6 +21234,101 @@
         ]
     },
     {
+        "match_id": "1178625",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2025-04-05",
+        "teams": [
+            "Haywards Heath II",
+            "East Grinstead II"
+        ],
+        "score": [
+            41,
+            44
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1159735",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2025-04-05",
+        "teams": [
+            "Horsham Barbarians",
+            "Eastbourne II"
+        ],
+        "score": [
+            0,
+            19
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1155451",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2025-04-05",
+        "teams": [
+            "Burgess Hill",
+            "Shoreham II"
+        ],
+        "score": [
+            42,
+            21
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1155446",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2025-04-05",
+        "teams": [
+            "Royals RFC",
+            "Barns Green"
+        ],
+        "score": [
+            47,
+            26
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1155449",
+        "season": "2024-2025",
+        "league": "Counties 3 Sussex",
+        "date": "2025-04-05",
+        "teams": [
+            "Newick",
+            "Midhurst"
+        ],
+        "score": [
+            "",
+            "WO"
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
         "match_id": "1237832",
         "season": "2025-2026",
         "league": "Counties 2 Sussex",
@@ -19954,7 +21626,7 @@
     {
         "match_id": "1232369",
         "season": "2025-2026",
-        "league": "Harvey's Brewery Counties 3 Sussex",
+        "league": "Counties 3 Sussex",
         "date": "2025-10-04",
         "teams": [
             "Haywards Heath II",
@@ -19964,63 +21636,16 @@
             54,
             24
         ],
-        "logos": [
-            "https://images.englandrugby.com/club_images/9777.png",
-            "https://images.englandrugby.com/club_images/127674.png"
-        ],
+        "logos": [],
         "players": [
-            {
-                "15": "Name withheld",
-                "14": "Che Stokes",
-                "13": "Douglas Kern",
-                "12": "Ben Eustace",
-                "11": "Jack Hart",
-                "10": "Christopher Neill",
-                "9": "Tom Butler",
-                "8": "Fraser Russell",
-                "7": "Josh Pope",
-                "6": "Jacob Davies",
-                "5": "Patrick Stedman",
-                "4": "Henry Dickson",
-                "3": "Martin Mcdonagh",
-                "2": "Lewis Goodall",
-                "1": "Karl Wicking",
-                "S1": "Stanley Bradford",
-                "S2": "Josh Jones",
-                "S3": "Zack Davies",
-                "S4": "Alexander Chard",
-                "S5": "Tom Baxter",
-                "S6": "Finlay Furse",
-                "S7": "Daniel Bellamy"
-            },
-            {
-                "15": "Philip Shambrook",
-                "14": "Jamie Burn",
-                "13": "Harry Squire",
-                "12": "Jordan Lowndes",
-                "11": "Jacob Mogre",
-                "10": "Taylor Lansley",
-                "9": "Nicholas Choate",
-                "8": "Jacob Brown",
-                "7": "Dominic Phillips",
-                "6": "Simon Miles",
-                "5": "Nathan Burstow",
-                "4": "Luke Williams",
-                "3": "William Hipkin",
-                "2": "Adam Clarke",
-                "1": "Nathan Roberts",
-                "S1": "Jack Munro",
-                "S2": "Ciaran Glenister",
-                "S3": "Taylor Garratt",
-                "S4": "Ash Rowland",
-                "S5": "Jamie Robertson"
-            }
+            {},
+            {}
         ]
     },
     {
         "match_id": "1232371",
         "season": "2025-2026",
-        "league": "Harvey's Brewery Counties 3 Sussex",
+        "league": "Counties 3 Sussex",
         "date": "2025-10-04",
         "teams": [
             "East Grinstead II",
@@ -20030,10 +21655,7 @@
             29,
             5
         ],
-        "logos": [
-            "https://images.englandrugby.com/club_images/7136.png",
-            "https://images.englandrugby.com/club_images/10451.png"
-        ],
+        "logos": [],
         "players": [
             {},
             {}
@@ -20042,7 +21664,7 @@
     {
         "match_id": "1254977",
         "season": "2025-2026",
-        "league": "Harvey's Brewery Counties 3 Sussex",
+        "league": "Counties 3 Sussex",
         "date": "2025-10-04",
         "teams": [
             "Shoreham II",
@@ -20052,10 +21674,7 @@
             17,
             26
         ],
-        "logos": [
-            "https://images.englandrugby.com/club_images/19262.png",
-            "https://images.englandrugby.com/club_images/23445.png"
-        ],
+        "logos": [],
         "players": [
             {},
             {}
@@ -20064,7 +21683,7 @@
     {
         "match_id": "1232368",
         "season": "2025-2026",
-        "league": "Harvey's Brewery Counties 3 Sussex",
+        "league": "Counties 3 Sussex",
         "date": "2025-10-04",
         "teams": [
             "Hellingly",
@@ -20074,10 +21693,7 @@
             17,
             36
         ],
-        "logos": [
-            "https://images.englandrugby.com/club_images/9891.png",
-            "https://images.englandrugby.com/club_images/10504.png"
-        ],
+        "logos": [],
         "players": [
             {},
             {}
@@ -20086,7 +21702,7 @@
     {
         "match_id": "1232370",
         "season": "2025-2026",
-        "league": "Harvey's Brewery Counties 3 Sussex",
+        "league": "Counties 3 Sussex",
         "date": "2025-10-04",
         "teams": [
             "Crowborough II",
@@ -20096,10 +21712,7 @@
             24,
             32
         ],
-        "logos": [
-            "https://images.englandrugby.com/club_images/5919.png",
-            "https://images.englandrugby.com/club_images/3659.png"
-        ],
+        "logos": [],
         "players": [
             {},
             {}
@@ -20399,7 +22012,7 @@
     {
         "match_id": "1232375",
         "season": "2025-2026",
-        "league": "Harvey's Brewery Counties 3 Sussex",
+        "league": "Counties 3 Sussex",
         "date": "2025-10-11",
         "teams": [
             "Hove II",
@@ -20409,10 +22022,7 @@
             44,
             5
         ],
-        "logos": [
-            "https://images.englandrugby.com/club_images/10504.png",
-            "https://images.englandrugby.com/club_images/9777.png"
-        ],
+        "logos": [],
         "players": [
             {},
             {}
@@ -20421,7 +22031,7 @@
     {
         "match_id": "1232373",
         "season": "2025-2026",
-        "league": "Harvey's Brewery Counties 3 Sussex",
+        "league": "Counties 3 Sussex",
         "date": "2025-10-11",
         "teams": [
             "Burgess Hill",
@@ -20431,10 +22041,7 @@
             24,
             12
         ],
-        "logos": [
-            "https://images.englandrugby.com/club_images/3659.png",
-            "https://images.englandrugby.com/club_images/7136.png"
-        ],
+        "logos": [],
         "players": [
             {},
             {}
@@ -20443,7 +22050,7 @@
     {
         "match_id": "1232374",
         "season": "2025-2026",
-        "league": "Harvey's Brewery Counties 3 Sussex",
+        "league": "Counties 3 Sussex",
         "date": "2025-10-11",
         "teams": [
             "Worthing III",
@@ -20453,38 +22060,16 @@
             25,
             7
         ],
-        "logos": [
-            "https://images.englandrugby.com/club_images/127674.png",
-            "https://images.englandrugby.com/club_images/5919.png"
-        ],
+        "logos": [],
         "players": [
             {},
-            {
-                "15": "Edward Wilkinson",
-                "14": "Peter Baldwin",
-                "13": "Kieran Gaskell",
-                "12": "Harry Squire",
-                "11": "Tom Flint",
-                "10": "Tayler Forrester",
-                "9": "Nicholas Choate",
-                "8": "Toby Hother",
-                "7": "Dominic Phillips",
-                "6": "Simon Miles",
-                "5": "Nathan Burstow",
-                "4": "Gregory Ponce",
-                "3": "William Hipkin",
-                "2": "Adam Clarke",
-                "1": "Guy Houston",
-                "S1": "Name withheld",
-                "S2": "Jack Munro",
-                "S3": "Sev Seviua"
-            }
+            {}
         ]
     },
     {
         "match_id": "1232372",
         "season": "2025-2026",
-        "league": "Harvey's Brewery Counties 3 Sussex",
+        "league": "Counties 3 Sussex",
         "date": "2025-10-11",
         "teams": [
             "Shoreham II",
@@ -20494,10 +22079,7 @@
             13,
             53
         ],
-        "logos": [
-            "https://images.englandrugby.com/club_images/19262.png",
-            "https://images.englandrugby.com/club_images/9891.png"
-        ],
+        "logos": [],
         "players": [
             {},
             {}
@@ -20506,7 +22088,7 @@
     {
         "match_id": "1254982",
         "season": "2025-2026",
-        "league": "Harvey's Brewery Counties 3 Sussex",
+        "league": "Counties 3 Sussex",
         "date": "2025-10-11",
         "teams": [
             "Uckfield",
@@ -20516,10 +22098,7 @@
             39,
             24
         ],
-        "logos": [
-            "https://images.englandrugby.com/club_images/23445.png",
-            "https://images.englandrugby.com/club_images/10451.png"
-        ],
+        "logos": [],
         "players": [
             {},
             {}
@@ -20820,7 +22399,7 @@
     {
         "match_id": "1232381",
         "season": "2025-2026",
-        "league": "Harvey's Brewery Counties 3 Sussex",
+        "league": "Counties 3 Sussex",
         "date": "2025-10-18",
         "teams": [
             "Horsham Barbarians",
@@ -20830,10 +22409,7 @@
             5,
             45
         ],
-        "logos": [
-            "https://images.englandrugby.com/club_images/10451.png",
-            "https://images.englandrugby.com/club_images/3659.png"
-        ],
+        "logos": [],
         "players": [
             {},
             {}
@@ -20842,7 +22418,7 @@
     {
         "match_id": "1232379",
         "season": "2025-2026",
-        "league": "Harvey's Brewery Counties 3 Sussex",
+        "league": "Counties 3 Sussex",
         "date": "2025-10-18",
         "teams": [
             "Crowborough II",
@@ -20852,10 +22428,7 @@
             15,
             46
         ],
-        "logos": [
-            "https://images.englandrugby.com/club_images/5919.png",
-            "https://images.englandrugby.com/club_images/10504.png"
-        ],
+        "logos": [],
         "players": [
             {},
             {}
@@ -20864,7 +22437,7 @@
     {
         "match_id": "1254988",
         "season": "2025-2026",
-        "league": "Harvey's Brewery Counties 3 Sussex",
+        "league": "Counties 3 Sussex",
         "date": "2025-10-18",
         "teams": [
             "Hellingly",
@@ -20874,10 +22447,45 @@
             19,
             45
         ],
-        "logos": [
-            "https://images.englandrugby.com/club_images/9891.png",
-            "https://images.englandrugby.com/club_images/23445.png"
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1232380",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2025-10-18",
+        "teams": [
+            "East Grinstead II",
+            "Worthing III"
         ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1232378",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2025-10-18",
+        "teams": [
+            "Haywards Heath II",
+            "Shoreham II"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [],
         "players": [
             {},
             {}
@@ -21178,7 +22786,7 @@
     {
         "match_id": "1232385",
         "season": "2025-2026",
-        "league": "Harvey's Brewery Counties 3 Sussex",
+        "league": "Counties 3 Sussex",
         "date": "2025-11-08",
         "teams": [
             "Hellingly",
@@ -21188,36 +22796,16 @@
             5,
             45
         ],
-        "logos": [
-            "https://images.englandrugby.com/club_images/9891.png",
-            "https://images.englandrugby.com/club_images/9777.png"
-        ],
+        "logos": [],
         "players": [
             {},
-            {
-                "15": "No lineup to show.",
-                "13": "Name withheld",
-                "12": "Joshua Mann",
-                "11": "Che Stokes",
-                "10": "Christopher Neill",
-                "9": "Thomas Thurloway",
-                "8": "Patrick Stedman",
-                "7": "Karl Wicking",
-                "6": "Gareth Fergusson",
-                "5": "Henry Dickson",
-                "4": "Martin Mcdonagh",
-                "3": "Marcus Pemberton",
-                "2": "Elliott Higgin",
-                "1": "Zack Davies",
-                "S1": "Harry Crosta",
-                "S2": "Stanley Bradford"
-            }
+            {}
         ]
     },
     {
         "match_id": "1232388",
         "season": "2025-2026",
-        "league": "Harvey's Brewery Counties 3 Sussex",
+        "league": "Counties 3 Sussex",
         "date": "2025-11-08",
         "teams": [
             "Hove II",
@@ -21227,10 +22815,7 @@
             59,
             19
         ],
-        "logos": [
-            "https://images.englandrugby.com/club_images/10504.png",
-            "https://images.englandrugby.com/club_images/7136.png"
-        ],
+        "logos": [],
         "players": [
             {},
             {}
@@ -21239,7 +22824,7 @@
     {
         "match_id": "1254989",
         "season": "2025-2026",
-        "league": "Harvey's Brewery Counties 3 Sussex",
+        "league": "Counties 3 Sussex",
         "date": "2025-11-08",
         "teams": [
             "Uckfield",
@@ -21249,10 +22834,7 @@
             5,
             29
         ],
-        "logos": [
-            "https://images.englandrugby.com/club_images/23445.png",
-            "https://images.englandrugby.com/club_images/3659.png"
-        ],
+        "logos": [],
         "players": [
             {},
             {}
@@ -21261,7 +22843,7 @@
     {
         "match_id": "1232383",
         "season": "2025-2026",
-        "league": "Harvey's Brewery Counties 3 Sussex",
+        "league": "Counties 3 Sussex",
         "date": "2025-11-08",
         "teams": [
             "Shoreham II",
@@ -21271,10 +22853,7 @@
             27,
             27
         ],
-        "logos": [
-            "https://images.englandrugby.com/club_images/19262.png",
-            "https://images.englandrugby.com/club_images/5919.png"
-        ],
+        "logos": [],
         "players": [
             {},
             {}
@@ -21283,7 +22862,7 @@
     {
         "match_id": "1232386",
         "season": "2025-2026",
-        "league": "Harvey's Brewery Counties 3 Sussex",
+        "league": "Counties 3 Sussex",
         "date": "2025-11-08",
         "teams": [
             "Worthing III",
@@ -21293,36 +22872,10 @@
             17,
             20
         ],
-        "logos": [
-            "https://images.englandrugby.com/club_images/127674.png",
-            "https://images.englandrugby.com/club_images/10451.png"
-        ],
+        "logos": [],
         "players": [
             {},
-            {
-                "15": "Edward Wilkinson",
-                "14": "James Freeman",
-                "13": "Tom Flint",
-                "12": "Harry Squire",
-                "11": "Dmitri Ziadie-Campbell",
-                "10": "Benjamin Champion-West",
-                "9": "Nicholas Choate",
-                "8": "Toby Hother",
-                "7": "Dominic Phillips",
-                "6": "Simon Miles",
-                "5": "Nathan Burstow",
-                "4": "Gregory Ponce",
-                "3": "Guy Houston",
-                "2": "Adam Clarke",
-                "1": "Zachary Hammond",
-                "S1": "Name withheld",
-                "S2": "Sev Seviua",
-                "S3": "Alistair Tobin",
-                "S4": "Taylor Lansley",
-                "S5": "Jamie Robertson",
-                "S6": "Luke Stephenson",
-                "S7": "Niall Cahill"
-            }
+            {}
         ]
     },
     {
@@ -21616,7 +23169,7 @@
     {
         "match_id": "1232393",
         "season": "2025-2026",
-        "league": "Harvey's Brewery Counties 3 Sussex",
+        "league": "Counties 3 Sussex",
         "date": "2025-11-22",
         "teams": [
             "Horsham Barbarians",
@@ -21626,10 +23179,7 @@
             19,
             38
         ],
-        "logos": [
-            "https://images.englandrugby.com/club_images/10451.png",
-            "https://images.englandrugby.com/club_images/10504.png"
-        ],
+        "logos": [],
         "players": [
             {},
             {}
@@ -21638,7 +23188,7 @@
     {
         "match_id": "1254991",
         "season": "2025-2026",
-        "league": "Harvey's Brewery Counties 3 Sussex",
+        "league": "Counties 3 Sussex",
         "date": "2025-11-22",
         "teams": [
             "Haywards Heath II",
@@ -21648,10 +23198,7 @@
             41,
             19
         ],
-        "logos": [
-            "https://images.englandrugby.com/club_images/9777.png",
-            "https://images.englandrugby.com/club_images/23445.png"
-        ],
+        "logos": [],
         "players": [
             {},
             {}
@@ -21660,7 +23207,7 @@
     {
         "match_id": "1232391",
         "season": "2025-2026",
-        "league": "Harvey's Brewery Counties 3 Sussex",
+        "league": "Counties 3 Sussex",
         "date": "2025-11-22",
         "teams": [
             "Crowborough II",
@@ -21670,10 +23217,7 @@
             34,
             19
         ],
-        "logos": [
-            "https://images.englandrugby.com/club_images/5919.png",
-            "https://images.englandrugby.com/club_images/9891.png"
-        ],
+        "logos": [],
         "players": [
             {},
             {}
@@ -21682,7 +23226,7 @@
     {
         "match_id": "1232394",
         "season": "2025-2026",
-        "league": "Harvey's Brewery Counties 3 Sussex",
+        "league": "Counties 3 Sussex",
         "date": "2025-11-22",
         "teams": [
             "Burgess Hill",
@@ -21692,10 +23236,26 @@
             40,
             0
         ],
-        "logos": [
-            "https://images.englandrugby.com/club_images/3659.png",
-            "https://images.englandrugby.com/club_images/127674.png"
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1232392",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2025-11-22",
+        "teams": [
+            "East Grinstead II",
+            "Shoreham II"
         ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [],
         "players": [
             {},
             {}
@@ -21992,7 +23552,7 @@
     {
         "match_id": "1232397",
         "season": "2025-2026",
-        "league": "Harvey's Brewery Counties 3 Sussex",
+        "league": "Counties 3 Sussex",
         "date": "2025-11-29",
         "teams": [
             "Haywards Heath II",
@@ -22002,10 +23562,7 @@
             29,
             45
         ],
-        "logos": [
-            "https://images.englandrugby.com/club_images/9777.png",
-            "https://images.englandrugby.com/club_images/5919.png"
-        ],
+        "logos": [],
         "players": [
             {},
             {}
@@ -22014,7 +23571,7 @@
     {
         "match_id": "1232398",
         "season": "2025-2026",
-        "league": "Harvey's Brewery Counties 3 Sussex",
+        "league": "Counties 3 Sussex",
         "date": "2025-11-29",
         "teams": [
             "Hove II",
@@ -22024,10 +23581,7 @@
             16,
             20
         ],
-        "logos": [
-            "https://images.englandrugby.com/club_images/10504.png",
-            "https://images.englandrugby.com/club_images/3659.png"
-        ],
+        "logos": [],
         "players": [
             {},
             {}
@@ -22036,7 +23590,7 @@
     {
         "match_id": "1232395",
         "season": "2025-2026",
-        "league": "Harvey's Brewery Counties 3 Sussex",
+        "league": "Counties 3 Sussex",
         "date": "2025-11-29",
         "teams": [
             "Shoreham II",
@@ -22046,10 +23600,7 @@
             24,
             40
         ],
-        "logos": [
-            "https://images.englandrugby.com/club_images/19262.png",
-            "https://images.englandrugby.com/club_images/10451.png"
-        ],
+        "logos": [],
         "players": [
             {},
             {}
@@ -22058,7 +23609,7 @@
     {
         "match_id": "1255716",
         "season": "2025-2026",
-        "league": "Harvey's Brewery Counties 3 Sussex",
+        "league": "Counties 3 Sussex",
         "date": "2025-11-29",
         "teams": [
             "Worthing III",
@@ -22068,10 +23619,26 @@
             26,
             14
         ],
-        "logos": [
-            "https://images.englandrugby.com/club_images/127674.png",
-            "https://images.englandrugby.com/club_images/23445.png"
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1232396",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2025-11-29",
+        "teams": [
+            "Hellingly",
+            "East Grinstead II"
         ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [],
         "players": [
             {},
             {}
@@ -22370,7 +23937,7 @@
     {
         "match_id": "1255030",
         "season": "2025-2026",
-        "league": "Harvey's Brewery Counties 3 Sussex",
+        "league": "Counties 3 Sussex",
         "date": "2025-12-13",
         "teams": [
             "Crowborough II",
@@ -22380,10 +23947,7 @@
             22,
             7
         ],
-        "logos": [
-            "https://images.englandrugby.com/club_images/5919.png",
-            "https://images.englandrugby.com/club_images/23445.png"
-        ],
+        "logos": [],
         "players": [
             {},
             {}
@@ -22392,7 +23956,7 @@
     {
         "match_id": "1232402",
         "season": "2025-2026",
-        "league": "Harvey's Brewery Counties 3 Sussex",
+        "league": "Counties 3 Sussex",
         "date": "2025-12-13",
         "teams": [
             "Horsham Barbarians",
@@ -22402,10 +23966,7 @@
             33,
             7
         ],
-        "logos": [
-            "https://images.englandrugby.com/club_images/10451.png",
-            "https://images.englandrugby.com/club_images/9891.png"
-        ],
+        "logos": [],
         "players": [
             {},
             {}
@@ -22414,7 +23975,7 @@
     {
         "match_id": "1232404",
         "season": "2025-2026",
-        "league": "Harvey's Brewery Counties 3 Sussex",
+        "league": "Counties 3 Sussex",
         "date": "2025-12-13",
         "teams": [
             "Worthing III",
@@ -22424,10 +23985,45 @@
             17,
             42
         ],
-        "logos": [
-            "https://images.englandrugby.com/club_images/127674.png",
-            "https://images.englandrugby.com/club_images/10504.png"
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1232403",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2025-12-13",
+        "teams": [
+            "Burgess Hill",
+            "Shoreham II"
         ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1232401",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2025-12-13",
+        "teams": [
+            "East Grinstead II",
+            "Haywards Heath II"
+        ],
+        "score": [
+            "",
+            "WO"
+        ],
+        "logos": [],
         "players": [
             {},
             {}
@@ -22724,7 +24320,7 @@
     {
         "match_id": "1232406",
         "season": "2025-2026",
-        "league": "Harvey's Brewery Counties 3 Sussex",
+        "league": "Counties 3 Sussex",
         "date": "2025-12-20",
         "teams": [
             "Hellingly",
@@ -22734,10 +24330,7 @@
             7,
             47
         ],
-        "logos": [
-            "https://images.englandrugby.com/club_images/9891.png",
-            "https://images.englandrugby.com/club_images/3659.png"
-        ],
+        "logos": [],
         "players": [
             {},
             {}
@@ -22746,7 +24339,7 @@
     {
         "match_id": "1232407",
         "season": "2025-2026",
-        "league": "Harvey's Brewery Counties 3 Sussex",
+        "league": "Counties 3 Sussex",
         "date": "2025-12-20",
         "teams": [
             "Haywards Heath II",
@@ -22756,10 +24349,7 @@
             12,
             15
         ],
-        "logos": [
-            "https://images.englandrugby.com/club_images/9777.png",
-            "https://images.englandrugby.com/club_images/10451.png"
-        ],
+        "logos": [],
         "players": [
             {},
             {}
@@ -22768,7 +24358,7 @@
     {
         "match_id": "1255033",
         "season": "2025-2026",
-        "league": "Harvey's Brewery Counties 3 Sussex",
+        "league": "Counties 3 Sussex",
         "date": "2025-12-20",
         "teams": [
             "Uckfield",
@@ -22778,10 +24368,45 @@
             22,
             12
         ],
-        "logos": [
-            "https://images.englandrugby.com/club_images/23445.png",
-            "https://images.englandrugby.com/club_images/10504.png"
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1232408",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2025-12-20",
+        "teams": [
+            "Crowborough II",
+            "East Grinstead II"
         ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1232405",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2025-12-20",
+        "teams": [
+            "Shoreham II",
+            "Worthing III"
+        ],
+        "score": [
+            "",
+            "WO"
+        ],
+        "logos": [],
         "players": [
             {},
             {}
@@ -23080,7 +24705,7 @@
     {
         "match_id": "1233132",
         "season": "2025-2026",
-        "league": "Harvey's Brewery Counties 3 Sussex",
+        "league": "Counties 3 Sussex",
         "date": "2026-01-10",
         "teams": [
             "Hove II",
@@ -23090,10 +24715,7 @@
             45,
             5
         ],
-        "logos": [
-            "https://images.englandrugby.com/club_images/10504.png",
-            "https://images.englandrugby.com/club_images/19262.png"
-        ],
+        "logos": [],
         "players": [
             {},
             {}
@@ -23102,7 +24724,7 @@
     {
         "match_id": "1233130",
         "season": "2025-2026",
-        "league": "Harvey's Brewery Counties 3 Sussex",
+        "league": "Counties 3 Sussex",
         "date": "2026-01-10",
         "teams": [
             "Burgess Hill",
@@ -23112,10 +24734,7 @@
             30,
             24
         ],
-        "logos": [
-            "https://images.englandrugby.com/club_images/3659.png",
-            "https://images.englandrugby.com/club_images/9777.png"
-        ],
+        "logos": [],
         "players": [
             {},
             {}
@@ -23124,7 +24743,7 @@
     {
         "match_id": "1255040",
         "season": "2025-2026",
-        "league": "Harvey's Brewery Counties 3 Sussex",
+        "league": "Counties 3 Sussex",
         "date": "2026-01-10",
         "teams": [
             "East Grinstead II",
@@ -23134,10 +24753,7 @@
             28,
             21
         ],
-        "logos": [
-            "https://images.englandrugby.com/club_images/7136.png",
-            "https://images.englandrugby.com/club_images/23445.png"
-        ],
+        "logos": [],
         "players": [
             {},
             {}
@@ -23146,7 +24762,7 @@
     {
         "match_id": "1233129",
         "season": "2025-2026",
-        "league": "Harvey's Brewery Counties 3 Sussex",
+        "league": "Counties 3 Sussex",
         "date": "2026-01-10",
         "teams": [
             "Horsham Barbarians",
@@ -23156,10 +24772,7 @@
             35,
             0
         ],
-        "logos": [
-            "https://images.englandrugby.com/club_images/10451.png",
-            "https://images.englandrugby.com/club_images/5919.png"
-        ],
+        "logos": [],
         "players": [
             {},
             {}
@@ -23168,7 +24781,7 @@
     {
         "match_id": "1233131",
         "season": "2025-2026",
-        "league": "Harvey's Brewery Counties 3 Sussex",
+        "league": "Counties 3 Sussex",
         "date": "2026-01-10",
         "teams": [
             "Worthing III",
@@ -23178,10 +24791,7 @@
             33,
             24
         ],
-        "logos": [
-            "https://images.englandrugby.com/club_images/127674.png",
-            "https://images.englandrugby.com/club_images/9891.png"
-        ],
+        "logos": [],
         "players": [
             {},
             {}
@@ -23482,7 +25092,7 @@
     {
         "match_id": "1255046",
         "season": "2025-2026",
-        "league": "Harvey's Brewery Counties 3 Sussex",
+        "league": "Counties 3 Sussex",
         "date": "2026-01-17",
         "teams": [
             "Horsham Barbarians",
@@ -23492,10 +25102,7 @@
             7,
             39
         ],
-        "logos": [
-            "https://images.englandrugby.com/club_images/10451.png",
-            "https://images.englandrugby.com/club_images/23445.png"
-        ],
+        "logos": [],
         "players": [
             {},
             {}
@@ -23504,7 +25111,7 @@
     {
         "match_id": "1233135",
         "season": "2025-2026",
-        "league": "Harvey's Brewery Counties 3 Sussex",
+        "league": "Counties 3 Sussex",
         "date": "2026-01-17",
         "teams": [
             "Crowborough II",
@@ -23514,10 +25121,7 @@
             40,
             0
         ],
-        "logos": [
-            "https://images.englandrugby.com/club_images/5919.png",
-            "https://images.englandrugby.com/club_images/127674.png"
-        ],
+        "logos": [],
         "players": [
             {},
             {}
@@ -23526,7 +25130,7 @@
     {
         "match_id": "1233134",
         "season": "2025-2026",
-        "league": "Harvey's Brewery Counties 3 Sussex",
+        "league": "Counties 3 Sussex",
         "date": "2026-01-17",
         "teams": [
             "Haywards Heath II",
@@ -23536,10 +25140,7 @@
             19,
             41
         ],
-        "logos": [
-            "https://images.englandrugby.com/club_images/9777.png",
-            "https://images.englandrugby.com/club_images/10504.png"
-        ],
+        "logos": [],
         "players": [
             {},
             {}
@@ -23548,7 +25149,7 @@
     {
         "match_id": "1233136",
         "season": "2025-2026",
-        "league": "Harvey's Brewery Counties 3 Sussex",
+        "league": "Counties 3 Sussex",
         "date": "2026-01-17",
         "teams": [
             "East Grinstead II",
@@ -23558,10 +25159,26 @@
             5,
             13
         ],
-        "logos": [
-            "https://images.englandrugby.com/club_images/7136.png",
-            "https://images.englandrugby.com/club_images/3659.png"
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1233133",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2026-01-17",
+        "teams": [
+            "Hellingly",
+            "Shoreham II"
         ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [],
         "players": [
             {},
             {}
@@ -23800,7 +25417,7 @@
     {
         "match_id": "1233140",
         "season": "2025-2026",
-        "league": "Harvey's Brewery Counties 3 Sussex",
+        "league": "Counties 3 Sussex",
         "date": "2026-01-24",
         "teams": [
             "Worthing III",
@@ -23810,10 +25427,7 @@
             12,
             31
         ],
-        "logos": [
-            "https://images.englandrugby.com/club_images/127674.png",
-            "https://images.englandrugby.com/club_images/7136.png"
-        ],
+        "logos": [],
         "players": [
             {},
             {}
@@ -23822,7 +25436,7 @@
     {
         "match_id": "1255048",
         "season": "2025-2026",
-        "league": "Harvey's Brewery Counties 3 Sussex",
+        "league": "Counties 3 Sussex",
         "date": "2026-01-24",
         "teams": [
             "Uckfield",
@@ -23832,10 +25446,7 @@
             45,
             5
         ],
-        "logos": [
-            "https://images.englandrugby.com/club_images/23445.png",
-            "https://images.englandrugby.com/club_images/9891.png"
-        ],
+        "logos": [],
         "players": [
             {},
             {}
@@ -23844,7 +25455,7 @@
     {
         "match_id": "1233141",
         "season": "2025-2026",
-        "league": "Harvey's Brewery Counties 3 Sussex",
+        "league": "Counties 3 Sussex",
         "date": "2026-01-24",
         "teams": [
             "Hove II",
@@ -23854,10 +25465,7 @@
             28,
             17
         ],
-        "logos": [
-            "https://images.englandrugby.com/club_images/10504.png",
-            "https://images.englandrugby.com/club_images/5919.png"
-        ],
+        "logos": [],
         "players": [
             {},
             {}
@@ -23866,7 +25474,7 @@
     {
         "match_id": "1233139",
         "season": "2025-2026",
-        "league": "Harvey's Brewery Counties 3 Sussex",
+        "league": "Counties 3 Sussex",
         "date": "2026-01-24",
         "teams": [
             "Burgess Hill",
@@ -23876,10 +25484,45 @@
             46,
             21
         ],
-        "logos": [
-            "https://images.englandrugby.com/club_images/3659.png",
-            "https://images.englandrugby.com/club_images/10451.png"
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1233138",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2026-01-24",
+        "teams": [
+            "Shoreham II",
+            "Haywards Heath II"
         ],
+        "score": [
+            "",
+            "WO"
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1233164",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2026-01-31",
+        "teams": [
+            "Horsham Barbarians",
+            "Haywards Heath II"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [],
         "players": [
             {},
             {}
@@ -24169,6 +25812,101 @@
                 "2": "Kai Walker",
                 "1": "John Welbourne"
             }
+        ]
+    },
+    {
+        "match_id": "1233145",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2026-02-14",
+        "teams": [
+            "East Grinstead II",
+            "Hove II"
+        ],
+        "score": [
+            7,
+            47
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1255050",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2026-02-14",
+        "teams": [
+            "Burgess Hill",
+            "Uckfield"
+        ],
+        "score": [
+            41,
+            14
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1233146",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2026-02-14",
+        "teams": [
+            "Horsham Barbarians",
+            "Worthing III"
+        ],
+        "score": [
+            "",
+            "WO"
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1233144",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2026-02-14",
+        "teams": [
+            "Crowborough II",
+            "Shoreham II"
+        ],
+        "score": [
+            57,
+            17
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1233143",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2026-02-14",
+        "teams": [
+            "Haywards Heath II",
+            "Hellingly"
+        ],
+        "score": [
+            40,
+            0
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
         ]
     },
     {
@@ -24462,6 +26200,101 @@
         ]
     },
     {
+        "match_id": "1255053",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2026-02-28",
+        "teams": [
+            "Uckfield",
+            "Haywards Heath II"
+        ],
+        "score": [
+            24,
+            20
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1233151",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2026-02-28",
+        "teams": [
+            "Hove II",
+            "Horsham Barbarians"
+        ],
+        "score": [
+            42,
+            7
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1233150",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2026-02-28",
+        "teams": [
+            "Worthing III",
+            "Burgess Hill"
+        ],
+        "score": [
+            12,
+            52
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1233148",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2026-02-28",
+        "teams": [
+            "Shoreham II",
+            "East Grinstead II"
+        ],
+        "score": [
+            13,
+            15
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1233149",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2026-02-28",
+        "teams": [
+            "Hellingly",
+            "Crowborough II"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
         "match_id": "1220108",
         "season": "2025-2026",
         "league": "Counties 2 Sussex",
@@ -24730,6 +26563,101 @@
                 "2": "Andrew Forrester",
                 "1": "Will Prentice"
             }
+        ]
+    },
+    {
+        "match_id": "1255717",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2026-03-07",
+        "teams": [
+            "Uckfield",
+            "Worthing III"
+        ],
+        "score": [
+            53,
+            31
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1233154",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2026-03-07",
+        "teams": [
+            "East Grinstead II",
+            "Hellingly"
+        ],
+        "score": [
+            31,
+            5
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1233157",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2026-03-07",
+        "teams": [
+            "Burgess Hill",
+            "Hove II"
+        ],
+        "score": [
+            18,
+            12
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1233153",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2026-03-07",
+        "teams": [
+            "Crowborough II",
+            "Haywards Heath II"
+        ],
+        "score": [
+            41,
+            7
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1233155",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2026-03-07",
+        "teams": [
+            "Horsham Barbarians",
+            "Shoreham II"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
         ]
     }
 ]

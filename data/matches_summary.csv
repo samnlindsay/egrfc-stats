@@ -221,60 +221,104 @@ match_id,season,league,date,home_team,away_team,home_score,away_score
 1136421,2024-2025,Counties 1 Surrey/Sussex,2024-09-21,KCS Old Boys,Twickenham,22,31
 1136416,2024-2025,Counties 1 Surrey/Sussex,2024-09-21,Old Rutlishians,London Cornish,38,26
 1136419,2024-2025,Counties 1 Surrey/Sussex,2024-09-21,Trinity,Weybridge Vandals,22,10
+1155358,2024-2025,Counties 3 Sussex,2024-09-21,Midhurst,Newick,7,12
+1155361,2024-2025,Counties 3 Sussex,2024-09-21,Barns Green,Royals RFC,10,21
+1178624,2024-2025,Counties 3 Sussex,2024-09-21,East Grinstead II,Haywards Heath II,45,5
+1159734,2024-2025,Counties 3 Sussex,2024-09-21,Eastbourne II,Horsham Barbarians,53,17
+1155357,2024-2025,Counties 3 Sussex,2024-09-21,Shoreham II,Burgess Hill,,WO
 1178936,2024-2025,Counties 1 Surrey/Sussex,2024-09-27,KCS Old Boys,Old Rutlishians,29,25
 1136424,2024-2025,Counties 1 Surrey/Sussex,2024-09-28,Twickenham,Eastbourne,24,20
 1136425,2024-2025,Counties 1 Surrey/Sussex,2024-09-28,Hove,Trinity,8,29
 1136422,2024-2025,Counties 1 Surrey/Sussex,2024-09-28,Haywards Heath,Cobham,28,62
 1136426,2024-2025,Counties 1 Surrey/Sussex,2024-09-28,Weybridge Vandals,East Grinstead,48,15
 1136423,2024-2025,Counties 1 Surrey/Sussex,2024-09-28,Old Haileyburians,London Cornish,33,31
+1155363,2024-2025,Counties 3 Sussex,2024-09-28,East Grinstead II,Barns Green,24,31
+1155364,2024-2025,Counties 3 Sussex,2024-09-28,Eastbourne II,Haywards Heath II,WO,
+1155362,2024-2025,Counties 3 Sussex,2024-09-28,Shoreham II,Midhurst,WO,
 1136429,2024-2025,Counties 1 Surrey/Sussex,2024-10-12,London Cornish,Haywards Heath,38,12
 1136433,2024-2025,Counties 1 Surrey/Sussex,2024-10-12,Eastbourne,KCS Old Boys,74,7
 1136428,2024-2025,Counties 1 Surrey/Sussex,2024-10-12,Old Rutlishians,Old Haileyburians,25,24
 1136432,2024-2025,Counties 1 Surrey/Sussex,2024-10-12,Trinity,Twickenham,28,23
 1136430,2024-2025,Counties 1 Surrey/Sussex,2024-10-12,Cobham,Weybridge Vandals,25,27
 1136431,2024-2025,Counties 1 Surrey/Sussex,2024-10-12,East Grinstead,Hove,21,34
+1155367,2024-2025,Counties 3 Sussex,2024-10-12,Midhurst,Burgess Hill,8,24
+1155368,2024-2025,Counties 3 Sussex,2024-10-12,Horsham Barbarians,Shoreham II,15,12
+1155371,2024-2025,Counties 3 Sussex,2024-10-12,Royals RFC,East Grinstead II,31,18
+1155370,2024-2025,Counties 3 Sussex,2024-10-12,Barns Green,Eastbourne II,33,7
+1155369,2024-2025,Counties 3 Sussex,2024-10-12,Haywards Heath II,Newick,,WO
 1136439,2024-2025,Counties 1 Surrey/Sussex,2024-10-19,Eastbourne,Old Rutlishians,30,31
 1136436,2024-2025,Counties 1 Surrey/Sussex,2024-10-19,Haywards Heath,Old Haileyburians,18,17
 1136434,2024-2025,Counties 1 Surrey/Sussex,2024-10-19,Hove,Cobham,39,33
 1136438,2024-2025,Counties 1 Surrey/Sussex,2024-10-19,Twickenham,East Grinstead,41,33
 1136437,2024-2025,Counties 1 Surrey/Sussex,2024-10-19,KCS Old Boys,Trinity,27,31
 1136435,2024-2025,Counties 1 Surrey/Sussex,2024-10-19,Weybridge Vandals,London Cornish,50,13
+1155374,2024-2025,Counties 3 Sussex,2024-10-19,Eastbourne II,Royals RFC,26,22
+1155373,2024-2025,Counties 3 Sussex,2024-10-19,Midhurst,Horsham Barbarians,17,57
+1155372,2024-2025,Counties 3 Sussex,2024-10-19,Shoreham II,Haywards Heath II,29,21
+1155375,2024-2025,Counties 3 Sussex,2024-10-19,Newick,Barns Green,0,14
+1155376,2024-2025,Counties 3 Sussex,2024-10-19,Burgess Hill,East Grinstead II,WO,
 1136444,2024-2025,Counties 1 Surrey/Sussex,2024-10-26,East Grinstead,KCS Old Boys,29,33
 1136441,2024-2025,Counties 1 Surrey/Sussex,2024-10-26,Old Haileyburians,Weybridge Vandals,12,47
 1136443,2024-2025,Counties 1 Surrey/Sussex,2024-10-26,Cobham,Twickenham,30,28
 1136442,2024-2025,Counties 1 Surrey/Sussex,2024-10-26,London Cornish,Hove,41,26
 1136440,2024-2025,Counties 1 Surrey/Sussex,2024-10-26,Old Rutlishians,Haywards Heath,58,22
 1136445,2024-2025,Counties 1 Surrey/Sussex,2024-10-26,Trinity,Eastbourne,18,15
+1155377,2024-2025,Counties 3 Sussex,2024-10-26,Horsham Barbarians,Burgess Hill,3,18
+1155381,2024-2025,Counties 3 Sussex,2024-10-26,East Grinstead II,Eastbourne II,29,22
+1155380,2024-2025,Counties 3 Sussex,2024-10-26,Royals RFC,Newick,29,0
+1155379,2024-2025,Counties 3 Sussex,2024-10-26,Barns Green,Shoreham II,33,5
+1155378,2024-2025,Counties 3 Sussex,2024-10-26,Haywards Heath II,Midhurst,,WO
 1136447,2024-2025,Counties 1 Surrey/Sussex,2024-11-09,Twickenham,London Cornish,39,22
 1136448,2024-2025,Counties 1 Surrey/Sussex,2024-11-09,Hove,Old Haileyburians,39,36
 1136449,2024-2025,Counties 1 Surrey/Sussex,2024-11-09,Weybridge Vandals,Haywards Heath,95,0
 1136451,2024-2025,Counties 1 Surrey/Sussex,2024-11-09,Trinity,Old Rutlishians,25,21
 1136450,2024-2025,Counties 1 Surrey/Sussex,2024-11-09,Eastbourne,East Grinstead,33,36
 1136446,2024-2025,Counties 1 Surrey/Sussex,2024-11-09,KCS Old Boys,Cobham,22,25
+1155383,2024-2025,Counties 3 Sussex,2024-11-09,Midhurst,Barns Green,31,21
+1155382,2024-2025,Counties 3 Sussex,2024-11-09,Shoreham II,Royals RFC,12,41
+1155385,2024-2025,Counties 3 Sussex,2024-11-09,Horsham Barbarians,Haywards Heath II,40,0
+1155387,2024-2025,Counties 3 Sussex,2024-11-09,Burgess Hill,Eastbourne II,23,24
 1136454,2024-2025,Counties 1 Surrey/Sussex,2024-11-16,Old Haileyburians,Twickenham,17,22
 1136455,2024-2025,Counties 1 Surrey/Sussex,2024-11-16,London Cornish,KCS Old Boys,38,11
 1136452,2024-2025,Counties 1 Surrey/Sussex,2024-11-16,Old Rutlishians,Weybridge Vandals,33,22
 1136456,2024-2025,Counties 1 Surrey/Sussex,2024-11-16,Cobham,Eastbourne,60,20
 1136457,2024-2025,Counties 1 Surrey/Sussex,2024-11-16,East Grinstead,Trinity,12,48
 1136453,2024-2025,Counties 1 Surrey/Sussex,2024-11-16,Haywards Heath,Hove,23,22
+1158548,2024-2025,Counties 3 Sussex,2024-11-16,Horsham Barbarians,Barns Green,19,48
+1155388,2024-2025,Counties 3 Sussex,2024-11-16,Haywards Heath II,Burgess Hill,5,20
+1155392,2024-2025,Counties 3 Sussex,2024-11-16,Eastbourne II,Newick,WO,
+1155391,2024-2025,Counties 3 Sussex,2024-11-16,East Grinstead II,Shoreham II,WO,
+1155390,2024-2025,Counties 3 Sussex,2024-11-17,Royals RFC,Midhurst,40,10
 1183278,2024-2025,Counties 1 Surrey/Sussex,2024-11-22,KCS Old Boys,Old Haileyburians,19,7
 1136461,2024-2025,Counties 1 Surrey/Sussex,2024-11-23,Twickenham,Haywards Heath,45,10
 1136458,2024-2025,Counties 1 Surrey/Sussex,2024-11-23,Trinity,Cobham,0,25
 1136459,2024-2025,Counties 1 Surrey/Sussex,2024-11-23,Eastbourne,London Cornish,26,12
 1136463,2024-2025,Counties 1 Surrey/Sussex,2024-11-23,East Grinstead,Old Rutlishians,19,23
 1136462,2024-2025,Counties 1 Surrey/Sussex,2024-11-23,Hove,Weybridge Vandals,20,19
+1155398,2024-2025,Counties 3 Sussex,2024-11-23,Burgess Hill,Newick,20,7
+1155396,2024-2025,Counties 3 Sussex,2024-11-23,Horsham Barbarians,Royals RFC,25,20
+1155394,2024-2025,Counties 3 Sussex,2024-11-23,Shoreham II,Eastbourne II,12,20
+1155395,2024-2025,Counties 3 Sussex,2024-11-23,Midhurst,East Grinstead II,,WO
+1184364,2024-2025,Counties 3 Sussex,2024-11-30,Newick,East Grinstead II,10,27
+1155397,2024-2025,Counties 3 Sussex,2024-11-30,Haywards Heath II,Barns Green,10,10
 1136469,2024-2025,Counties 1 Surrey/Sussex,2024-12-07,Cobham,East Grinstead,26,7
 1136464,2024-2025,Counties 1 Surrey/Sussex,2024-12-07,Old Rutlishians,Hove,40,5
 1136467,2024-2025,Counties 1 Surrey/Sussex,2024-12-07,Old Haileyburians,Eastbourne,15,31
 1136465,2024-2025,Counties 1 Surrey/Sussex,2024-12-07,Weybridge Vandals,Twickenham,8,9
 1136468,2024-2025,Counties 1 Surrey/Sussex,2024-12-07,London Cornish,Trinity,27,0
 1136466,2024-2025,Counties 1 Surrey/Sussex,2024-12-07,Haywards Heath,KCS Old Boys,25,12
+1166161,2024-2025,Counties 3 Sussex,2024-12-07,Horsham Barbarians,East Grinstead II,41,7
+1155402,2024-2025,Counties 3 Sussex,2024-12-07,Eastbourne II,Midhurst,WO,
 1136472,2024-2025,Counties 1 Surrey/Sussex,2024-12-14,Trinity,Haywards Heath,45,14
 1136473,2024-2025,Counties 1 Surrey/Sussex,2024-12-14,Eastbourne,Weybridge Vandals,15,46
 1136475,2024-2025,Counties 1 Surrey/Sussex,2024-12-14,Old Rutlishians,Twickenham,31,26
 1136470,2024-2025,Counties 1 Surrey/Sussex,2024-12-14,Cobham,London Cornish,40,34
 1136471,2024-2025,Counties 1 Surrey/Sussex,2024-12-14,East Grinstead,Old Haileyburians,18,5
 1136474,2024-2025,Counties 1 Surrey/Sussex,2024-12-14,KCS Old Boys,Hove,36,38
+1155407,2024-2025,Counties 3 Sussex,2024-12-14,Barns Green,East Grinstead II,27,0
+1186151,2024-2025,Counties 3 Sussex,2024-12-14,Eastbourne II,Haywards Heath II,22,24
+1178886,2024-2025,Counties 3 Sussex,2024-12-14,Burgess Hill,Royals RFC,34,7
+1181331,2024-2025,Counties 3 Sussex,2024-12-14,Shoreham II,Midhurst,46,12
 1136479,2024-2025,Counties 1 Surrey/Sussex,2024-12-21,Weybridge Vandals,Trinity,55,17
 1136477,2024-2025,Counties 1 Surrey/Sussex,2024-12-21,Twickenham,KCS Old Boys,14,0
 1136481,2024-2025,Counties 1 Surrey/Sussex,2024-12-21,London Cornish,Old Rutlishians,20,21
@@ -284,167 +328,237 @@ match_id,season,league,date,home_team,away_team,home_score,away_score
 1136486,2024-2025,Counties 1 Surrey/Sussex,2025-01-04,Eastbourne,Twickenham,38,38
 1136483,2024-2025,Counties 1 Surrey/Sussex,2025-01-04,Cobham,Haywards Heath,53,3
 1136484,2024-2025,Counties 1 Surrey/Sussex,2025-01-04,East Grinstead,Weybridge Vandals,14,20
+1187325,2024-2025,Counties 3 Sussex,2025-01-04,Barns Green,Burgess Hill,24,13
+1187236,2024-2025,Counties 3 Sussex,2025-01-04,Newick,Shoreham II,,WO
 1136490,2024-2025,Counties 1 Surrey/Sussex,2025-01-11,KCS Old Boys,Eastbourne,26,52
+1155411,2024-2025,Counties 3 Sussex,2025-01-11,Eastbourne II,Barns Green,31,26
+1155412,2024-2025,Counties 3 Sussex,2025-01-11,Newick,Haywards Heath II,,WO
+1155413,2024-2025,Counties 3 Sussex,2025-01-11,Burgess Hill,Midhurst,WO,
 1136496,2024-2025,Counties 1 Surrey/Sussex,2025-01-18,Cobham,Hove,60,5
 1136499,2024-2025,Counties 1 Surrey/Sussex,2025-01-18,Old Rutlishians,Eastbourne,43,24
 1136497,2024-2025,Counties 1 Surrey/Sussex,2025-01-18,East Grinstead,Twickenham,10,47
 1136498,2024-2025,Counties 1 Surrey/Sussex,2025-01-18,Trinity,KCS Old Boys,55,24
 1136494,2024-2025,Counties 1 Surrey/Sussex,2025-01-18,Old Haileyburians,Haywards Heath,27,22
+1155418,2024-2025,Counties 3 Sussex,2025-01-18,East Grinstead II,Burgess Hill,15,8
+1155414,2024-2025,Counties 3 Sussex,2025-01-18,Horsham Barbarians,Midhurst,29,8
+1155415,2024-2025,Counties 3 Sussex,2025-01-18,Haywards Heath II,Shoreham II,31,24
+1155417,2024-2025,Counties 3 Sussex,2025-01-18,Royals RFC,Eastbourne II,18,19
+1155416,2024-2025,Counties 3 Sussex,2025-01-18,Barns Green,Newick,WO,
 1189150,2024-2025,Counties 1 Surrey/Sussex,2025-01-25,Trinity,Hove,0,13
 1189151,2024-2025,Counties 1 Surrey/Sussex,2025-01-25,Old Rutlishians,KCS Old Boys,61,0
 1189152,2024-2025,Counties 1 Surrey/Sussex,2025-01-25,London Cornish,Old Haileyburians,44,0
 1190746,2024-2025,Counties 1 Surrey/Sussex,2025-01-25,Weybridge Vandals,Cobham,19,19
+1187529,2024-2025,Counties 3 Sussex,2025-01-25,Horsham Barbarians,Newick,WO,
 1136505,2024-2025,Counties 1 Surrey/Sussex,2025-02-01,Haywards Heath,Old Rutlishians,14,45
 1136504,2024-2025,Counties 1 Surrey/Sussex,2025-02-01,KCS Old Boys,East Grinstead,27,22
 1136501,2024-2025,Counties 1 Surrey/Sussex,2025-02-01,Hove,London Cornish,23,12
 1136502,2024-2025,Counties 1 Surrey/Sussex,2025-02-01,Weybridge Vandals,Old Haileyburians,76,5
 1136503,2024-2025,Counties 1 Surrey/Sussex,2025-02-01,Eastbourne,Trinity,64,17
 1136500,2024-2025,Counties 1 Surrey/Sussex,2025-02-01,Twickenham,Cobham,31,15
+1155422,2024-2025,Counties 3 Sussex,2025-02-01,Newick,Royals RFC,0,29
+1155420,2024-2025,Counties 3 Sussex,2025-02-01,Midhurst,Haywards Heath II,12,52
+1155423,2024-2025,Counties 3 Sussex,2025-02-01,Burgess Hill,Horsham Barbarians,14,26
+1155421,2024-2025,Counties 3 Sussex,2025-02-01,Eastbourne II,East Grinstead II,35,10
+1155419,2024-2025,Counties 3 Sussex,2025-02-01,Shoreham II,Barns Green,28,26
 1190743,2024-2025,Counties 1 Surrey/Sussex,2025-02-08,Twickenham,Trinity,47,5
 1190742,2024-2025,Counties 1 Surrey/Sussex,2025-02-08,Haywards Heath,London Cornish,19,25
 1190745,2024-2025,Counties 1 Surrey/Sussex,2025-02-08,Old Haileyburians,Old Rutlishians,10,28
 1190744,2024-2025,Counties 1 Surrey/Sussex,2025-02-08,Hove,East Grinstead,18,11
+1191516,2024-2025,Counties 3 Sussex,2025-02-08,East Grinstead II,Royals RFC,27,17
 1136511,2024-2025,Counties 1 Surrey/Sussex,2025-02-15,East Grinstead,Eastbourne,14,15
 1136510,2024-2025,Counties 1 Surrey/Sussex,2025-02-15,Old Rutlishians,Trinity,49,15
 1136507,2024-2025,Counties 1 Surrey/Sussex,2025-02-15,Old Haileyburians,Hove,19,27
 1136506,2024-2025,Counties 1 Surrey/Sussex,2025-02-15,Haywards Heath,Weybridge Vandals,24,29
 1136508,2024-2025,Counties 1 Surrey/Sussex,2025-02-15,London Cornish,Twickenham,20,23
 1136509,2024-2025,Counties 1 Surrey/Sussex,2025-02-15,Cobham,KCS Old Boys,82,31
+1155425,2024-2025,Counties 3 Sussex,2025-02-15,Barns Green,Midhurst,45,5
+1155424,2024-2025,Counties 3 Sussex,2025-02-15,Haywards Heath II,Horsham Barbarians,23,14
+1155427,2024-2025,Counties 3 Sussex,2025-02-15,Eastbourne II,Burgess Hill,WO,
+1155426,2024-2025,Counties 3 Sussex,2025-02-15,Royals RFC,Shoreham II,WO,
+1155428,2024-2025,Counties 3 Sussex,2025-02-15,East Grinstead II,Newick,WO,
+1190445,2024-2025,Counties 3 Sussex,2025-02-22,Shoreham II,Horsham Barbarians,17,34
 1136517,2024-2025,Counties 1 Surrey/Sussex,2025-03-01,Weybridge Vandals,Old Rutlishians,26,20
 1136514,2024-2025,Counties 1 Surrey/Sussex,2025-03-01,Twickenham,Old Haileyburians,42,14
 1136515,2024-2025,Counties 1 Surrey/Sussex,2025-03-01,Hove,Haywards Heath,24,38
 1136516,2024-2025,Counties 1 Surrey/Sussex,2025-03-01,Trinity,East Grinstead,34,18
 1136512,2024-2025,Counties 1 Surrey/Sussex,2025-03-01,Eastbourne,Cobham,24,17
+1158549,2024-2025,Counties 3 Sussex,2025-03-01,Barns Green,Horsham Barbarians,13,0
+1155433,2024-2025,Counties 3 Sussex,2025-03-01,Burgess Hill,Haywards Heath II,0,28
+1155430,2024-2025,Counties 3 Sussex,2025-03-01,Midhurst,Royals RFC,10,30
+1186673,2024-2025,Counties 3 Sussex,2025-03-01,East Grinstead II,Shoreham II,WO,
+1185809,2024-2025,Counties 3 Sussex,2025-03-01,Eastbourne II,Newick,WO,
 1136518,2024-2025,Counties 1 Surrey/Sussex,2025-03-08,Weybridge Vandals,Hove,68,19
 1136523,2024-2025,Counties 1 Surrey/Sussex,2025-03-08,Old Rutlishians,East Grinstead,77,14
 1136520,2024-2025,Counties 1 Surrey/Sussex,2025-03-08,Old Haileyburians,KCS Old Boys,14,57
 1136522,2024-2025,Counties 1 Surrey/Sussex,2025-03-08,Cobham,Trinity,27,31
 1136519,2024-2025,Counties 1 Surrey/Sussex,2025-03-08,Haywards Heath,Twickenham,0,59
 1136521,2024-2025,Counties 1 Surrey/Sussex,2025-03-08,London Cornish,Eastbourne,52,46
+1155435,2024-2025,Counties 3 Sussex,2025-03-08,Royals RFC,Horsham Barbarians,47,7
+1155438,2024-2025,Counties 3 Sussex,2025-03-08,Newick,Burgess Hill,21,61
+1155437,2024-2025,Counties 3 Sussex,2025-03-08,Eastbourne II,Shoreham II,WO,
+1155434,2024-2025,Counties 3 Sussex,2025-03-08,Barns Green,Haywards Heath II,WO,
+1155436,2024-2025,Counties 3 Sussex,2025-03-08,East Grinstead II,Midhurst,WO,
 1136527,2024-2025,Counties 1 Surrey/Sussex,2025-03-22,KCS Old Boys,Haywards Heath,38,31
 1136528,2024-2025,Counties 1 Surrey/Sussex,2025-03-22,Twickenham,Weybridge Vandals,29,22
 1136525,2024-2025,Counties 1 Surrey/Sussex,2025-03-22,Trinity,London Cornish,38,31
 1136524,2024-2025,Counties 1 Surrey/Sussex,2025-03-22,East Grinstead,Cobham,21,43
 1136526,2024-2025,Counties 1 Surrey/Sussex,2025-03-22,Eastbourne,Old Haileyburians,77,21
 1136529,2024-2025,Counties 1 Surrey/Sussex,2025-03-22,Hove,Old Rutlishians,19,61
+1155443,2024-2025,Counties 3 Sussex,2025-03-22,Haywards Heath II,Royals RFC,22,26
+1155444,2024-2025,Counties 3 Sussex,2025-03-22,Burgess Hill,Barns Green,13,3
+1155441,2024-2025,Counties 3 Sussex,2025-03-22,Midhurst,Eastbourne II,3,43
+1166163,2024-2025,Counties 3 Sussex,2025-03-22,East Grinstead II,Horsham Barbarians,54,14
+1155440,2024-2025,Counties 3 Sussex,2025-03-22,Shoreham II,Newick,WO,
 1196079,2024-2025,Counties 1 Surrey/Sussex,2025-03-28,KCS Old Boys,London Cornish,46,24
+1155408,2024-2025,Counties 3 Sussex,2025-03-29,Royals RFC,Burgess Hill,20,10
 1136533,2024-2025,Counties 1 Surrey/Sussex,2025-04-05,Old Haileyburians,Trinity,12,26
 1136530,2024-2025,Counties 1 Surrey/Sussex,2025-04-05,Hove,Twickenham,10,57
 1148913,2024-2025,Counties 1 Surrey/Sussex,2025-04-05,Old Rutlishians,Cobham,24,38
 1136531,2024-2025,Counties 1 Surrey/Sussex,2025-04-05,Weybridge Vandals,KCS Old Boys,88,0
 1136534,2024-2025,Counties 1 Surrey/Sussex,2025-04-05,London Cornish,East Grinstead,21,21
 1136532,2024-2025,Counties 1 Surrey/Sussex,2025-04-05,Haywards Heath,Eastbourne,5,22
+1178625,2024-2025,Counties 3 Sussex,2025-04-05,Haywards Heath II,East Grinstead II,41,44
+1159735,2024-2025,Counties 3 Sussex,2025-04-05,Horsham Barbarians,Eastbourne II,0,19
+1155451,2024-2025,Counties 3 Sussex,2025-04-05,Burgess Hill,Shoreham II,42,21
+1155446,2024-2025,Counties 3 Sussex,2025-04-05,Royals RFC,Barns Green,47,26
+1155449,2024-2025,Counties 3 Sussex,2025-04-05,Newick,Midhurst,,WO
 1237832,2025-2026,Counties 2 Sussex,2025-10-04,Ditchling,Brighton II,19,48
 1220043,2025-2026,Counties 2 Sussex,2025-10-04,Crawley,Lewes,0,36
 1220042,2025-2026,Counties 2 Sussex,2025-10-04,Pulborough,Eastbourne II,39,10
 1220044,2025-2026,Counties 2 Sussex,2025-10-04,Royals RFC,Shoreham,10,34
 1220040,2025-2026,Counties 2 Sussex,2025-10-04,Seaford,East Grinstead,10,27
-1232369,2025-2026,Harvey's Brewery Counties 3 Sussex,2025-10-04,Haywards Heath II,Worthing III,54,24
-1232371,2025-2026,Harvey's Brewery Counties 3 Sussex,2025-10-04,East Grinstead II,Horsham Barbarians,29,5
-1254977,2025-2026,Harvey's Brewery Counties 3 Sussex,2025-10-04,Shoreham II,Uckfield,17,26
-1232368,2025-2026,Harvey's Brewery Counties 3 Sussex,2025-10-04,Hellingly,Hove II,17,36
-1232370,2025-2026,Harvey's Brewery Counties 3 Sussex,2025-10-04,Crowborough II,Burgess Hill,24,32
+1232369,2025-2026,Counties 3 Sussex,2025-10-04,Haywards Heath II,Worthing III,54,24
+1232371,2025-2026,Counties 3 Sussex,2025-10-04,East Grinstead II,Horsham Barbarians,29,5
+1254977,2025-2026,Counties 3 Sussex,2025-10-04,Shoreham II,Uckfield,17,26
+1232368,2025-2026,Counties 3 Sussex,2025-10-04,Hellingly,Hove II,17,36
+1232370,2025-2026,Counties 3 Sussex,2025-10-04,Crowborough II,Burgess Hill,24,32
 1220045,2025-2026,Counties 2 Sussex,2025-10-11,Seaford,Brighton II,57,19
 1220046,2025-2026,Counties 2 Sussex,2025-10-11,Lewes,Royals RFC,26,7
 1220047,2025-2026,Counties 2 Sussex,2025-10-11,Eastbourne II,Crawley,77,0
 1220048,2025-2026,Counties 2 Sussex,2025-10-11,Ditchling,Pulborough,17,17
 1220049,2025-2026,Counties 2 Sussex,2025-10-11,East Grinstead,Shoreham,69,12
-1232375,2025-2026,Harvey's Brewery Counties 3 Sussex,2025-10-11,Hove II,Haywards Heath II,44,5
-1232373,2025-2026,Harvey's Brewery Counties 3 Sussex,2025-10-11,Burgess Hill,East Grinstead II,24,12
-1232374,2025-2026,Harvey's Brewery Counties 3 Sussex,2025-10-11,Worthing III,Crowborough II,25,7
-1232372,2025-2026,Harvey's Brewery Counties 3 Sussex,2025-10-11,Shoreham II,Hellingly,13,53
-1254982,2025-2026,Harvey's Brewery Counties 3 Sussex,2025-10-11,Uckfield,Horsham Barbarians,39,24
+1232375,2025-2026,Counties 3 Sussex,2025-10-11,Hove II,Haywards Heath II,44,5
+1232373,2025-2026,Counties 3 Sussex,2025-10-11,Burgess Hill,East Grinstead II,24,12
+1232374,2025-2026,Counties 3 Sussex,2025-10-11,Worthing III,Crowborough II,25,7
+1232372,2025-2026,Counties 3 Sussex,2025-10-11,Shoreham II,Hellingly,13,53
+1254982,2025-2026,Counties 3 Sussex,2025-10-11,Uckfield,Horsham Barbarians,39,24
 1220054,2025-2026,Counties 2 Sussex,2025-10-18,Shoreham,Lewes,33,51
 1220053,2025-2026,Counties 2 Sussex,2025-10-18,Royals RFC,Eastbourne II,34,36
 1220051,2025-2026,Counties 2 Sussex,2025-10-18,Pulborough,Seaford,51,3
 1220050,2025-2026,Counties 2 Sussex,2025-10-18,Brighton II,East Grinstead,21,61
 1220052,2025-2026,Counties 2 Sussex,2025-10-18,Crawley,Ditchling,7,97
-1232381,2025-2026,Harvey's Brewery Counties 3 Sussex,2025-10-18,Horsham Barbarians,Burgess Hill,5,45
-1232379,2025-2026,Harvey's Brewery Counties 3 Sussex,2025-10-18,Crowborough II,Hove II,15,46
-1254988,2025-2026,Harvey's Brewery Counties 3 Sussex,2025-10-18,Hellingly,Uckfield,19,45
+1232381,2025-2026,Counties 3 Sussex,2025-10-18,Horsham Barbarians,Burgess Hill,5,45
+1232379,2025-2026,Counties 3 Sussex,2025-10-18,Crowborough II,Hove II,15,46
+1254988,2025-2026,Counties 3 Sussex,2025-10-18,Hellingly,Uckfield,19,45
+1232380,2025-2026,Counties 3 Sussex,2025-10-18,East Grinstead II,Worthing III,WO,
+1232378,2025-2026,Counties 3 Sussex,2025-10-18,Haywards Heath II,Shoreham II,WO,
 1220055,2025-2026,Counties 2 Sussex,2025-11-08,Seaford,Crawley,45,3
 1220058,2025-2026,Counties 2 Sussex,2025-11-08,Ditchling,Royals RFC,85,0
 1220059,2025-2026,Counties 2 Sussex,2025-11-08,East Grinstead,Lewes,43,14
 1220056,2025-2026,Counties 2 Sussex,2025-11-08,Brighton II,Pulborough,19,50
 1220057,2025-2026,Counties 2 Sussex,2025-11-08,Eastbourne II,Shoreham,22,50
-1232385,2025-2026,Harvey's Brewery Counties 3 Sussex,2025-11-08,Hellingly,Haywards Heath II,5,45
-1232388,2025-2026,Harvey's Brewery Counties 3 Sussex,2025-11-08,Hove II,East Grinstead II,59,19
-1254989,2025-2026,Harvey's Brewery Counties 3 Sussex,2025-11-08,Uckfield,Burgess Hill,5,29
-1232383,2025-2026,Harvey's Brewery Counties 3 Sussex,2025-11-08,Shoreham II,Crowborough II,27,27
-1232386,2025-2026,Harvey's Brewery Counties 3 Sussex,2025-11-08,Worthing III,Horsham Barbarians,17,20
+1232385,2025-2026,Counties 3 Sussex,2025-11-08,Hellingly,Haywards Heath II,5,45
+1232388,2025-2026,Counties 3 Sussex,2025-11-08,Hove II,East Grinstead II,59,19
+1254989,2025-2026,Counties 3 Sussex,2025-11-08,Uckfield,Burgess Hill,5,29
+1232383,2025-2026,Counties 3 Sussex,2025-11-08,Shoreham II,Crowborough II,27,27
+1232386,2025-2026,Counties 3 Sussex,2025-11-08,Worthing III,Horsham Barbarians,17,20
 1220062,2025-2026,Counties 2 Sussex,2025-11-22,Royals RFC,Seaford,13,36
 1220061,2025-2026,Counties 2 Sussex,2025-11-22,Crawley,Brighton II,7,46
 1220063,2025-2026,Counties 2 Sussex,2025-11-22,Shoreham,Ditchling,10,29
 1220064,2025-2026,Counties 2 Sussex,2025-11-22,Lewes,Eastbourne II,24,3
 1220060,2025-2026,Counties 2 Sussex,2025-11-22,Pulborough,East Grinstead,12,5
-1232393,2025-2026,Harvey's Brewery Counties 3 Sussex,2025-11-22,Horsham Barbarians,Hove II,19,38
-1254991,2025-2026,Harvey's Brewery Counties 3 Sussex,2025-11-22,Haywards Heath II,Uckfield,41,19
-1232391,2025-2026,Harvey's Brewery Counties 3 Sussex,2025-11-22,Crowborough II,Hellingly,34,19
-1232394,2025-2026,Harvey's Brewery Counties 3 Sussex,2025-11-22,Burgess Hill,Worthing III,40,0
+1232393,2025-2026,Counties 3 Sussex,2025-11-22,Horsham Barbarians,Hove II,19,38
+1254991,2025-2026,Counties 3 Sussex,2025-11-22,Haywards Heath II,Uckfield,41,19
+1232391,2025-2026,Counties 3 Sussex,2025-11-22,Crowborough II,Hellingly,34,19
+1232394,2025-2026,Counties 3 Sussex,2025-11-22,Burgess Hill,Worthing III,40,0
+1232392,2025-2026,Counties 3 Sussex,2025-11-22,East Grinstead II,Shoreham II,WO,
 1220065,2025-2026,Counties 2 Sussex,2025-11-29,Seaford,Shoreham,43,14
 1220069,2025-2026,Counties 2 Sussex,2025-11-29,East Grinstead,Eastbourne II,56,0
 1220068,2025-2026,Counties 2 Sussex,2025-11-29,Ditchling,Lewes,31,19
 1220067,2025-2026,Counties 2 Sussex,2025-11-29,Pulborough,Crawley,86,5
 1220066,2025-2026,Counties 2 Sussex,2025-11-29,Brighton II,Royals RFC,29,17
-1232397,2025-2026,Harvey's Brewery Counties 3 Sussex,2025-11-29,Haywards Heath II,Crowborough II,29,45
-1232398,2025-2026,Harvey's Brewery Counties 3 Sussex,2025-11-29,Hove II,Burgess Hill,16,20
-1232395,2025-2026,Harvey's Brewery Counties 3 Sussex,2025-11-29,Shoreham II,Horsham Barbarians,24,40
-1255716,2025-2026,Harvey's Brewery Counties 3 Sussex,2025-11-29,Worthing III,Uckfield,26,14
+1232397,2025-2026,Counties 3 Sussex,2025-11-29,Haywards Heath II,Crowborough II,29,45
+1232398,2025-2026,Counties 3 Sussex,2025-11-29,Hove II,Burgess Hill,16,20
+1232395,2025-2026,Counties 3 Sussex,2025-11-29,Shoreham II,Horsham Barbarians,24,40
+1255716,2025-2026,Counties 3 Sussex,2025-11-29,Worthing III,Uckfield,26,14
+1232396,2025-2026,Counties 3 Sussex,2025-11-29,Hellingly,East Grinstead II,WO,
 1220073,2025-2026,Counties 2 Sussex,2025-12-13,Lewes,Seaford,8,43
 1220070,2025-2026,Counties 2 Sussex,2025-12-13,Crawley,East Grinstead,0,58
 1220072,2025-2026,Counties 2 Sussex,2025-12-13,Shoreham,Brighton II,36,50
 1220071,2025-2026,Counties 2 Sussex,2025-12-13,Royals RFC,Pulborough,0,91
 1220074,2025-2026,Counties 2 Sussex,2025-12-13,Eastbourne II,Ditchling,22,47
-1255030,2025-2026,Harvey's Brewery Counties 3 Sussex,2025-12-13,Crowborough II,Uckfield,22,7
-1232402,2025-2026,Harvey's Brewery Counties 3 Sussex,2025-12-13,Horsham Barbarians,Hellingly,33,7
-1232404,2025-2026,Harvey's Brewery Counties 3 Sussex,2025-12-13,Worthing III,Hove II,17,42
+1255030,2025-2026,Counties 3 Sussex,2025-12-13,Crowborough II,Uckfield,22,7
+1232402,2025-2026,Counties 3 Sussex,2025-12-13,Horsham Barbarians,Hellingly,33,7
+1232404,2025-2026,Counties 3 Sussex,2025-12-13,Worthing III,Hove II,17,42
+1232403,2025-2026,Counties 3 Sussex,2025-12-13,Burgess Hill,Shoreham II,WO,
+1232401,2025-2026,Counties 3 Sussex,2025-12-13,East Grinstead II,Haywards Heath II,,WO
 1220076,2025-2026,Counties 2 Sussex,2025-12-20,Brighton II,Lewes,43,33
 1220079,2025-2026,Counties 2 Sussex,2025-12-20,East Grinstead,Ditchling,29,17
 1220077,2025-2026,Counties 2 Sussex,2025-12-20,Pulborough,Shoreham,24,14
 1220078,2025-2026,Counties 2 Sussex,2025-12-20,Crawley,Royals RFC,10,37
 1220075,2025-2026,Counties 2 Sussex,2025-12-20,Seaford,Eastbourne II,29,25
-1232406,2025-2026,Harvey's Brewery Counties 3 Sussex,2025-12-20,Hellingly,Burgess Hill,7,47
-1232407,2025-2026,Harvey's Brewery Counties 3 Sussex,2025-12-20,Haywards Heath II,Horsham Barbarians,12,15
-1255033,2025-2026,Harvey's Brewery Counties 3 Sussex,2025-12-20,Uckfield,Hove II,22,12
+1232406,2025-2026,Counties 3 Sussex,2025-12-20,Hellingly,Burgess Hill,7,47
+1232407,2025-2026,Counties 3 Sussex,2025-12-20,Haywards Heath II,Horsham Barbarians,12,15
+1255033,2025-2026,Counties 3 Sussex,2025-12-20,Uckfield,Hove II,22,12
+1232408,2025-2026,Counties 3 Sussex,2025-12-20,Crowborough II,East Grinstead II,WO,
+1232405,2025-2026,Counties 3 Sussex,2025-12-20,Shoreham II,Worthing III,,WO
 1261764,2025-2026,Counties 2 Sussex,2026-01-10,East Grinstead,Royals RFC,49,5
 1220081,2025-2026,Counties 2 Sussex,2026-01-10,Shoreham,Crawley,37,24
 1220084,2025-2026,Counties 2 Sussex,2026-01-10,Ditchling,Seaford,31,26
 1220082,2025-2026,Counties 2 Sussex,2026-01-10,Lewes,Pulborough,6,47
 1220083,2025-2026,Counties 2 Sussex,2026-01-10,Eastbourne II,Brighton II,26,45
-1233132,2025-2026,Harvey's Brewery Counties 3 Sussex,2026-01-10,Hove II,Shoreham II,45,5
-1233130,2025-2026,Harvey's Brewery Counties 3 Sussex,2026-01-10,Burgess Hill,Haywards Heath II,30,24
-1255040,2025-2026,Harvey's Brewery Counties 3 Sussex,2026-01-10,East Grinstead II,Uckfield,28,21
-1233129,2025-2026,Harvey's Brewery Counties 3 Sussex,2026-01-10,Horsham Barbarians,Crowborough II,35,0
-1233131,2025-2026,Harvey's Brewery Counties 3 Sussex,2026-01-10,Worthing III,Hellingly,33,24
+1233132,2025-2026,Counties 3 Sussex,2026-01-10,Hove II,Shoreham II,45,5
+1233130,2025-2026,Counties 3 Sussex,2026-01-10,Burgess Hill,Haywards Heath II,30,24
+1255040,2025-2026,Counties 3 Sussex,2026-01-10,East Grinstead II,Uckfield,28,21
+1233129,2025-2026,Counties 3 Sussex,2026-01-10,Horsham Barbarians,Crowborough II,35,0
+1233131,2025-2026,Counties 3 Sussex,2026-01-10,Worthing III,Hellingly,33,24
 1220088,2025-2026,Counties 2 Sussex,2026-01-17,Royals RFC,Lewes,24,31
 1220087,2025-2026,Counties 2 Sussex,2026-01-17,Crawley,Eastbourne II,83,10
 1220089,2025-2026,Counties 2 Sussex,2026-01-17,Shoreham,East Grinstead,14,38
 1220086,2025-2026,Counties 2 Sussex,2026-01-17,Pulborough,Ditchling,36,14
 1220085,2025-2026,Counties 2 Sussex,2026-01-17,Brighton II,Seaford,33,12
-1255046,2025-2026,Harvey's Brewery Counties 3 Sussex,2026-01-17,Horsham Barbarians,Uckfield,7,39
-1233135,2025-2026,Harvey's Brewery Counties 3 Sussex,2026-01-17,Crowborough II,Worthing III,40,0
-1233134,2025-2026,Harvey's Brewery Counties 3 Sussex,2026-01-17,Haywards Heath II,Hove II,19,41
-1233136,2025-2026,Harvey's Brewery Counties 3 Sussex,2026-01-17,East Grinstead II,Burgess Hill,5,13
+1255046,2025-2026,Counties 3 Sussex,2026-01-17,Horsham Barbarians,Uckfield,7,39
+1233135,2025-2026,Counties 3 Sussex,2026-01-17,Crowborough II,Worthing III,40,0
+1233134,2025-2026,Counties 3 Sussex,2026-01-17,Haywards Heath II,Hove II,19,41
+1233136,2025-2026,Counties 3 Sussex,2026-01-17,East Grinstead II,Burgess Hill,5,13
+1233133,2025-2026,Counties 3 Sussex,2026-01-17,Hellingly,Shoreham II,WO,
 1220091,2025-2026,Counties 2 Sussex,2026-01-24,Lewes,Shoreham,17,5
 1220094,2025-2026,Counties 2 Sussex,2026-01-24,East Grinstead,Brighton II,0,50
 1220090,2025-2026,Counties 2 Sussex,2026-01-24,Seaford,Pulborough,10,29
 1220092,2025-2026,Counties 2 Sussex,2026-01-24,Eastbourne II,Royals RFC,38,5
-1233140,2025-2026,Harvey's Brewery Counties 3 Sussex,2026-01-24,Worthing III,East Grinstead II,12,31
-1255048,2025-2026,Harvey's Brewery Counties 3 Sussex,2026-01-24,Uckfield,Hellingly,45,5
-1233141,2025-2026,Harvey's Brewery Counties 3 Sussex,2026-01-24,Hove II,Crowborough II,28,17
-1233139,2025-2026,Harvey's Brewery Counties 3 Sussex,2026-01-24,Burgess Hill,Horsham Barbarians,46,21
+1233140,2025-2026,Counties 3 Sussex,2026-01-24,Worthing III,East Grinstead II,12,31
+1255048,2025-2026,Counties 3 Sussex,2026-01-24,Uckfield,Hellingly,45,5
+1233141,2025-2026,Counties 3 Sussex,2026-01-24,Hove II,Crowborough II,28,17
+1233139,2025-2026,Counties 3 Sussex,2026-01-24,Burgess Hill,Horsham Barbarians,46,21
+1233138,2025-2026,Counties 3 Sussex,2026-01-24,Shoreham II,Haywards Heath II,,WO
+1233164,2025-2026,Counties 3 Sussex,2026-01-31,Horsham Barbarians,Haywards Heath II,WO,
 1220095,2025-2026,Counties 2 Sussex,2026-02-14,Pulborough,Brighton II,43,32
 1220099,2025-2026,Counties 2 Sussex,2026-02-14,Lewes,East Grinstead,22,39
 1220096,2025-2026,Counties 2 Sussex,2026-02-14,Crawley,Seaford,19,34
 1220097,2025-2026,Counties 2 Sussex,2026-02-14,Royals RFC,Ditchling,10,22
 1220098,2025-2026,Counties 2 Sussex,2026-02-14,Shoreham,Eastbourne II,41,33
+1233145,2025-2026,Counties 3 Sussex,2026-02-14,East Grinstead II,Hove II,7,47
+1255050,2025-2026,Counties 3 Sussex,2026-02-14,Burgess Hill,Uckfield,41,14
+1233146,2025-2026,Counties 3 Sussex,2026-02-14,Horsham Barbarians,Worthing III,,WO
+1233144,2025-2026,Counties 3 Sussex,2026-02-14,Crowborough II,Shoreham II,57,17
+1233143,2025-2026,Counties 3 Sussex,2026-02-14,Haywards Heath II,Hellingly,40,0
 1220104,2025-2026,Counties 2 Sussex,2026-02-28,East Grinstead,Pulborough,14,13
 1220100,2025-2026,Counties 2 Sussex,2026-02-28,Seaford,Royals RFC,33,3
 1220103,2025-2026,Counties 2 Sussex,2026-02-28,Ditchling,Shoreham,40,7
 1220101,2025-2026,Counties 2 Sussex,2026-02-28,Brighton II,Crawley,27,12
 1220102,2025-2026,Counties 2 Sussex,2026-02-28,Eastbourne II,Lewes,24,49
+1255053,2025-2026,Counties 3 Sussex,2026-02-28,Uckfield,Haywards Heath II,24,20
+1233151,2025-2026,Counties 3 Sussex,2026-02-28,Hove II,Horsham Barbarians,42,7
+1233150,2025-2026,Counties 3 Sussex,2026-02-28,Worthing III,Burgess Hill,12,52
+1233148,2025-2026,Counties 3 Sussex,2026-02-28,Shoreham II,East Grinstead II,13,15
+1233149,2025-2026,Counties 3 Sussex,2026-02-28,Hellingly,Crowborough II,WO,
 1220108,2025-2026,Counties 2 Sussex,2026-03-07,Eastbourne II,East Grinstead,0,29
 1220105,2025-2026,Counties 2 Sussex,2026-03-07,Crawley,Pulborough,7,74
 1220109,2025-2026,Counties 2 Sussex,2026-03-07,Lewes,Ditchling,15,7
 1220107,2025-2026,Counties 2 Sussex,2026-03-07,Shoreham,Seaford,14,59
 1220106,2025-2026,Counties 2 Sussex,2026-03-07,Royals RFC,Brighton II,21,29
+1255717,2025-2026,Counties 3 Sussex,2026-03-07,Uckfield,Worthing III,53,31
+1233154,2025-2026,Counties 3 Sussex,2026-03-07,East Grinstead II,Hellingly,31,5
+1233157,2025-2026,Counties 3 Sussex,2026-03-07,Burgess Hill,Hove II,18,12
+1233153,2025-2026,Counties 3 Sussex,2026-03-07,Crowborough II,Haywards Heath II,41,7
+1233155,2025-2026,Counties 3 Sussex,2026-03-07,Horsham Barbarians,Shoreham II,WO,

@@ -1,0 +1,1332 @@
+[
+    {
+        "match_id": "1232368",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2025-10-04",
+        "teams": [
+            "Hellingly",
+            "Hove II"
+        ],
+        "score": [
+            36,
+            17
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1232370",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2025-10-04",
+        "teams": [
+            "Crowborough II",
+            "Burgess Hill"
+        ],
+        "score": [
+            32,
+            24
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1254977",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2025-10-04",
+        "teams": [
+            "Shoreham II",
+            "Uckfield"
+        ],
+        "score": [
+            26,
+            17
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1232369",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2025-10-04",
+        "teams": [
+            "Haywards Heath II",
+            "Worthing III"
+        ],
+        "score": [
+            54,
+            24
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1232371",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2025-10-04",
+        "teams": [
+            "East Grinstead II",
+            "Horsham Barbarians"
+        ],
+        "score": [
+            29,
+            5
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1232372",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2025-10-11",
+        "teams": [
+            "Shoreham II",
+            "Hellingly"
+        ],
+        "score": [
+            53,
+            13
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1232375",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2025-10-11",
+        "teams": [
+            "Hove II",
+            "Haywards Heath II"
+        ],
+        "score": [
+            44,
+            5
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1232373",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2025-10-11",
+        "teams": [
+            "Burgess Hill",
+            "East Grinstead II"
+        ],
+        "score": [
+            24,
+            12
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1254982",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2025-10-11",
+        "teams": [
+            "Uckfield",
+            "Horsham Barbarians"
+        ],
+        "score": [
+            39,
+            24
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1232374",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2025-10-11",
+        "teams": [
+            "Worthing III",
+            "Crowborough II"
+        ],
+        "score": [
+            25,
+            7
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1232380",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2025-10-18",
+        "teams": [
+            "East Grinstead II",
+            "Worthing III"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1232379",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2025-10-18",
+        "teams": [
+            "Crowborough II",
+            "Hove II"
+        ],
+        "score": [
+            46,
+            15
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1232381",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2025-10-18",
+        "teams": [
+            "Horsham Barbarians",
+            "Burgess Hill"
+        ],
+        "score": [
+            45,
+            5
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1254988",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2025-10-18",
+        "teams": [
+            "Hellingly",
+            "Uckfield"
+        ],
+        "score": [
+            45,
+            19
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1232378",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2025-10-18",
+        "teams": [
+            "Haywards Heath II",
+            "Shoreham II"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1254989",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2025-11-08",
+        "teams": [
+            "Uckfield",
+            "Burgess Hill"
+        ],
+        "score": [
+            29,
+            5
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1232385",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2025-11-08",
+        "teams": [
+            "Hellingly",
+            "Haywards Heath II"
+        ],
+        "score": [
+            45,
+            5
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1232386",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2025-11-08",
+        "teams": [
+            "Worthing III",
+            "Horsham Barbarians"
+        ],
+        "score": [
+            20,
+            17
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1232388",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2025-11-08",
+        "teams": [
+            "Hove II",
+            "East Grinstead II"
+        ],
+        "score": [
+            59,
+            19
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1232391",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2025-11-22",
+        "teams": [
+            "Crowborough II",
+            "Hellingly"
+        ],
+        "score": [
+            34,
+            19
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1232394",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2025-11-22",
+        "teams": [
+            "Burgess Hill",
+            "Worthing III"
+        ],
+        "score": [
+            40,
+            0
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1232393",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2025-11-22",
+        "teams": [
+            "Horsham Barbarians",
+            "Hove II"
+        ],
+        "score": [
+            38,
+            19
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1254991",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2025-11-22",
+        "teams": [
+            "Haywards Heath II",
+            "Uckfield"
+        ],
+        "score": [
+            41,
+            19
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1232392",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2025-11-22",
+        "teams": [
+            "East Grinstead II",
+            "Shoreham II"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1255716",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2025-11-29",
+        "teams": [
+            "Worthing III",
+            "Uckfield"
+        ],
+        "score": [
+            26,
+            14
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1232398",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2025-11-29",
+        "teams": [
+            "Hove II",
+            "Burgess Hill"
+        ],
+        "score": [
+            20,
+            16
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1232396",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2025-11-29",
+        "teams": [
+            "Hellingly",
+            "East Grinstead II"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1232395",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2025-11-29",
+        "teams": [
+            "Shoreham II",
+            "Horsham Barbarians"
+        ],
+        "score": [
+            40,
+            24
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1232397",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2025-11-29",
+        "teams": [
+            "Haywards Heath II",
+            "Crowborough II"
+        ],
+        "score": [
+            45,
+            29
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1232401",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2025-12-13",
+        "teams": [
+            "East Grinstead II",
+            "Haywards Heath II"
+        ],
+        "score": [
+            "",
+            "WO"
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1232402",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2025-12-13",
+        "teams": [
+            "Horsham Barbarians",
+            "Hellingly"
+        ],
+        "score": [
+            33,
+            7
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1232404",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2025-12-13",
+        "teams": [
+            "Worthing III",
+            "Hove II"
+        ],
+        "score": [
+            42,
+            17
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1232403",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2025-12-13",
+        "teams": [
+            "Burgess Hill",
+            "Shoreham II"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1255030",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2025-12-13",
+        "teams": [
+            "Crowborough II",
+            "Uckfield"
+        ],
+        "score": [
+            22,
+            7
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1232408",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2025-12-20",
+        "teams": [
+            "Crowborough II",
+            "East Grinstead II"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1232405",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2025-12-20",
+        "teams": [
+            "Shoreham II",
+            "Worthing III"
+        ],
+        "score": [
+            "",
+            "WO"
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1255033",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2025-12-20",
+        "teams": [
+            "Uckfield",
+            "Hove II"
+        ],
+        "score": [
+            22,
+            12
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1232406",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2025-12-20",
+        "teams": [
+            "Hellingly",
+            "Burgess Hill"
+        ],
+        "score": [
+            47,
+            7
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1232407",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2025-12-20",
+        "teams": [
+            "Haywards Heath II",
+            "Horsham Barbarians"
+        ],
+        "score": [
+            15,
+            12
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1233132",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2026-01-10",
+        "teams": [
+            "Hove II",
+            "Shoreham II"
+        ],
+        "score": [
+            45,
+            5
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1233129",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2026-01-10",
+        "teams": [
+            "Horsham Barbarians",
+            "Crowborough II"
+        ],
+        "score": [
+            35,
+            0
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1233131",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2026-01-10",
+        "teams": [
+            "Worthing III",
+            "Hellingly"
+        ],
+        "score": [
+            33,
+            24
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1233130",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2026-01-10",
+        "teams": [
+            "Burgess Hill",
+            "Haywards Heath II"
+        ],
+        "score": [
+            30,
+            24
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1255040",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2026-01-10",
+        "teams": [
+            "East Grinstead II",
+            "Uckfield"
+        ],
+        "score": [
+            28,
+            21
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1233134",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2026-01-17",
+        "teams": [
+            "Haywards Heath II",
+            "Hove II"
+        ],
+        "score": [
+            41,
+            19
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1255046",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2026-01-17",
+        "teams": [
+            "Horsham Barbarians",
+            "Uckfield"
+        ],
+        "score": [
+            39,
+            7
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1233135",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2026-01-17",
+        "teams": [
+            "Crowborough II",
+            "Worthing III"
+        ],
+        "score": [
+            40,
+            0
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1233133",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2026-01-17",
+        "teams": [
+            "Hellingly",
+            "Shoreham II"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1233136",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2026-01-17",
+        "teams": [
+            "East Grinstead II",
+            "Burgess Hill"
+        ],
+        "score": [
+            13,
+            5
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1233141",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2026-01-24",
+        "teams": [
+            "Hove II",
+            "Crowborough II"
+        ],
+        "score": [
+            28,
+            17
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1233139",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2026-01-24",
+        "teams": [
+            "Burgess Hill",
+            "Horsham Barbarians"
+        ],
+        "score": [
+            46,
+            21
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1233138",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2026-01-24",
+        "teams": [
+            "Shoreham II",
+            "Haywards Heath II"
+        ],
+        "score": [
+            "",
+            "WO"
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1233140",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2026-01-24",
+        "teams": [
+            "Worthing III",
+            "East Grinstead II"
+        ],
+        "score": [
+            31,
+            12
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1255048",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2026-01-24",
+        "teams": [
+            "Uckfield",
+            "Hellingly"
+        ],
+        "score": [
+            45,
+            5
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1233164",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2026-01-31",
+        "teams": [
+            "Horsham Barbarians",
+            "Haywards Heath II"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1233146",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2026-02-14",
+        "teams": [
+            "Horsham Barbarians",
+            "Worthing III"
+        ],
+        "score": [
+            "",
+            "WO"
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1233145",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2026-02-14",
+        "teams": [
+            "East Grinstead II",
+            "Hove II"
+        ],
+        "score": [
+            47,
+            7
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1255050",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2026-02-14",
+        "teams": [
+            "Burgess Hill",
+            "Uckfield"
+        ],
+        "score": [
+            41,
+            14
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1233143",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2026-02-14",
+        "teams": [
+            "Haywards Heath II",
+            "Hellingly"
+        ],
+        "score": [
+            40,
+            0
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1233144",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2026-02-14",
+        "teams": [
+            "Crowborough II",
+            "Shoreham II"
+        ],
+        "score": [
+            57,
+            17
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1233149",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2026-02-28",
+        "teams": [
+            "Hellingly",
+            "Crowborough II"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1233148",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2026-02-28",
+        "teams": [
+            "Shoreham II",
+            "East Grinstead II"
+        ],
+        "score": [
+            15,
+            13
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1233151",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2026-02-28",
+        "teams": [
+            "Hove II",
+            "Horsham Barbarians"
+        ],
+        "score": [
+            42,
+            7
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1233150",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2026-02-28",
+        "teams": [
+            "Worthing III",
+            "Burgess Hill"
+        ],
+        "score": [
+            52,
+            12
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1255053",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2026-02-28",
+        "teams": [
+            "Uckfield",
+            "Haywards Heath II"
+        ],
+        "score": [
+            24,
+            20
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1255717",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2026-03-07",
+        "teams": [
+            "Uckfield",
+            "Worthing III"
+        ],
+        "score": [
+            53,
+            31
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1233155",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2026-03-07",
+        "teams": [
+            "Horsham Barbarians",
+            "Shoreham II"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1233154",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2026-03-07",
+        "teams": [
+            "East Grinstead II",
+            "Hellingly"
+        ],
+        "score": [
+            31,
+            5
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1233157",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2026-03-07",
+        "teams": [
+            "Burgess Hill",
+            "Hove II"
+        ],
+        "score": [
+            18,
+            12
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1233153",
+        "season": "2025-2026",
+        "league": "Counties 3 Sussex",
+        "date": "2026-03-07",
+        "teams": [
+            "Crowborough II",
+            "Haywards Heath II"
+        ],
+        "score": [
+            41,
+            7
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    }
+]
