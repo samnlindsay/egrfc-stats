@@ -219,21 +219,26 @@ const Charts = {
     return sortedSeasons[0];
   },
 
+  getSelectedLeagueSquad() {
+    const selectedSquad = document.querySelector('input[name="squadRadio"]:checked')?.value;
+    return selectedSquad === "2nd" ? "2nd" : "1st";
+  },
+
   getLeagueResultsFile(squad, season) {
-    return "Charts/league/results_1s_combined.html";
+    return "Charts/league/results.html";
   },
 
   getLeagueTableFile(squad, season) {
-    return "Charts/league/table_1s_combined.html";
+    return "Charts/league/table.html";
   },
 
-  isLeagueResultsSeasonAvailable(season) {
-    const availableSeasons = new Set([
-      "2022/23",
-      "2023/24",
-      "2024/25",
-      "2025/26",
-    ]);
+  isLeagueResultsSeasonAvailable(season, squad = "1st") {
+    const availableBySquad = {
+      "1st": new Set(["2022/23", "2023/24", "2024/25", "2025/26"]),
+      "2nd": new Set(["2024/25", "2025/26"]),
+    };
+
+    const availableSeasons = availableBySquad[squad] || availableBySquad["1st"];
 
     return availableSeasons.has(season);
   },
@@ -247,7 +252,7 @@ const Charts = {
     return `${startYear}-20${endShort}`;
   },
 
-  buildLeagueResultsUrl(baseFile, season, includeCompetition = true) {
+  buildLeagueResultsUrl(baseFile, season, includeCompetition = true, squad = null) {
     if (!baseFile) {
       return null;
     }
@@ -261,6 +266,11 @@ const Charts = {
 
     if (leagueSeason) {
       url.searchParams.set("season", leagueSeason);
+    }
+
+    if (squad) {
+      const squadValue = squad === "2nd" ? "2" : "1";
+      url.searchParams.set("squad", squadValue);
     }
 
     if (includeCompetition && selectedTypes.length > 0) {
@@ -356,8 +366,11 @@ const Charts = {
         const bodyHeight = doc.body ? doc.body.scrollHeight : 0;
         const htmlHeight = doc.documentElement ? doc.documentElement.scrollHeight : 0;
 
-        const measuredHeight =
-          contentHeight > 0 ? contentHeight + 8 : Math.max(bodyHeight, htmlHeight);
+        const measuredHeight = Math.max(
+          contentHeight > 0 ? contentHeight + 8 : 0,
+          bodyHeight,
+          htmlHeight
+        );
         const visibleHeight = measuredHeight * scaleY;
         const nextHeight = Math.max(Math.ceil(visibleHeight), minHeight);
 
@@ -398,12 +411,9 @@ const Charts = {
         const tableIframe = this.createAutoHeightLeagueIframe(
           tableHtmlFile,
           "league-table-iframe",
-          280
+          420
         );
-        const tableShell = document.createElement("div");
-        tableShell.className = "league-table-shell";
-        tableShell.appendChild(tableIframe);
-        panel.appendChild(tableShell);
+        panel.appendChild(tableIframe);
       }
 
       return panel;
@@ -438,25 +448,34 @@ const Charts = {
 
     if (currentLeagueType === "league-results") {
       const selectedSeason = this.getPrimarySelectedSeason();
+      const squad = this.getSelectedLeagueSquad();
+      const squadLabel = squad === "2nd" ? "2nd XV" : "1st XV";
+      const seasonOptions =
+        squad === "2nd"
+          ? "2024/25, 2025/26"
+          : "2022/23, 2023/24, 2024/25, 2025/26";
 
       const grid = document.createElement("div");
       grid.className = "league-results-grid";
 
-      if (!this.isLeagueResultsSeasonAvailable(selectedSeason)) {
+      if (!this.isLeagueResultsSeasonAvailable(selectedSeason, squad)) {
         const panel = this.createLeagueResultsPanel(
           null,
-          `No 1st XV league results data is available for ${selectedSeason}. Please select one of: 2022/23, 2023/24, 2024/25, 2025/26.`
+          `No ${squadLabel} league results data is available for ${selectedSeason}. Please select one of: ${seasonOptions}.`
         );
         grid.appendChild(panel);
         newContainer.appendChild(grid);
         return;
       }
 
-      const squad = "1st";
       const baseFile = this.getLeagueResultsFile(squad, selectedSeason);
-      const resultsHtmlFile = this.buildLeagueResultsUrl(baseFile, selectedSeason);
-      const tableBaseFile = this.getLeagueTableFile(squad, selectedSeason);
-      const tableHtmlFile = this.buildLeagueResultsUrl(tableBaseFile, selectedSeason);
+      const resultsHtmlFile = this.buildLeagueResultsUrl(baseFile, selectedSeason, true, squad);
+      const tableHtmlFile = this.buildLeagueResultsUrl(
+        this.getLeagueTableFile(squad, selectedSeason),
+        selectedSeason,
+        true,
+        squad
+      );
       const panel = this.createLeagueResultsPanel(resultsHtmlFile, tableHtmlFile);
       grid.appendChild(panel);
 
@@ -476,12 +495,15 @@ const Charts = {
 
     if (currentLeagueType === "league-analysis") {
       const selectedSeason = this.getPrimarySelectedSeason();
+      const squad = "1st";
+      const squadLabel = "1st XV";
+      const seasonOptions = "2022/23, 2023/24, 2024/25, 2025/26";
 
-      if (!this.isLeagueResultsSeasonAvailable(selectedSeason)) {
+      if (!this.isLeagueResultsSeasonAvailable(selectedSeason, squad)) {
         const panel = this.createLeagueResultsPanel(
           null,
           null,
-          `No 1st XV squad analysis data is available for ${selectedSeason}. Please select one of: 2022/23, 2023/24, 2024/25, 2025/26.`
+          `No ${squadLabel} squad analysis data is available for ${selectedSeason}. Please select one of: ${seasonOptions}.`
         );
         newContainer.appendChild(panel);
         return;
