@@ -109,9 +109,25 @@ def hack_params_css(file, overlay=False, params=True):
   # Append the new CSS to the <style> tag
   style_tag.append(css_to_add)
 
-  # Add google fonts
-  soup.head.append(soup.new_tag("link", rel="stylesheet", href="https://fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700"))
-  soup.head.append(soup.new_tag("link", rel="stylesheet", href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900"))     
+  # Preconnect hints for faster font loading on mobile
+  preconnect1 = soup.new_tag("link", rel="preconnect", href="https://fonts.googleapis.com")
+  preconnect2 = soup.new_tag("link", rel="preconnect", href="https://fonts.gstatic.com")
+  preconnect2['crossorigin'] = ''
+  soup.head.insert(0, preconnect2)
+  soup.head.insert(0, preconnect1)
+
+  # CSS2 API with display=swap ensures font-display: swap and faster mobile loading
+  soup.head.append(soup.new_tag("link", rel="stylesheet", href="https://fonts.googleapis.com/css2?family=PT+Sans+Narrow:wght@400;700&display=swap"))
+  soup.head.append(soup.new_tag("link", rel="stylesheet", href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&display=swap"))
+
+  # Vega renders SVG text synchronously - wrap vegaEmbed in document.fonts.ready
+  # so chart text nodes are painted only after PT Sans Narrow is confirmed loaded.
+  for sc in soup.find_all('script'):
+      if sc.string and 'vegaEmbed' in sc.string:
+          original = sc.string.strip()
+          sc.clear()
+          sc.append(f'document.fonts.load("400 1em \'PT Sans Narrow\'").then(function() {{\n{original}\n}});')
+          break
 
   script_reload = """
     document.addEventListener("DOMContentLoaded", function () {
@@ -119,7 +135,7 @@ def hack_params_css(file, overlay=False, params=True):
         window.dispatchEvent(new Event('resize'));
       }, 100);
     });
-  """     
+  """
   # Add script_reload to the last script tag in document
   script_tag = soup.find_all('script')[-1]
   script_tag.append(script_reload)
