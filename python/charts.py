@@ -10,7 +10,7 @@ import json
 import altair as alt
 import pandas as pd
 from python.data_prep import *
-from python.chart_helpers import hack_params_css, alt_theme
+from python.chart_helpers import hack_params_css, alt_theme, get_embed_options
 from copy import deepcopy
 import os
 from bs4 import BeautifulSoup
@@ -124,7 +124,7 @@ def plot_starts_by_position(df=None, min=0, file=None):
         )
     )
     if file:
-        chart.save(file, embed_options={'renderer':'svg', 'actions': {'export': True, 'source':False, 'editor':True, 'compiled':False} })
+        chart.save(file, embed_options=get_embed_options())
         if str(file).lower().endswith('.html'):
             hack_params_css(file)
 
@@ -202,7 +202,7 @@ def plot_games_by_player(min=5, df=None, file=None):
         )
     )
     if file:
-        chart.save(file, embed_options={'renderer':'svg', 'actions': {'export': True, 'source':False, 'editor':True, 'compiled':False} })
+        chart.save(file, embed_options=get_embed_options())
         if str(file).lower().endswith('.html'):
             hack_params_css(file)
 
@@ -398,7 +398,7 @@ def lineout_success(types=types, df=None, file=None):
         )
     )
     if file:
-        chart.save(file, embed_options={'renderer':'svg', 'actions': {'export': True, 'source':False, 'editor':True, 'compiled':False} })
+        chart.save(file, embed_options=get_embed_options())
         if str(file).lower().endswith('.html'):
             hack_params_css(file)
     return chart
@@ -546,7 +546,7 @@ def lineout_success_by_zone(df=None, squad="1st", min_total=20, file=None):
     )
 
     if file:
-        chart.save(file, embed_options={'renderer':'svg', 'actions': {'export': True, 'source':False, 'editor':True, 'compiled':False} })
+        chart.save(file, embed_options=get_embed_options())
         if str(file).lower().endswith('.html'):
             hack_params_css(file)
 
@@ -661,7 +661,7 @@ def points_scorers_chart(df=None, file=None):
     )
 
     if file:
-        chart.save(file, embed_options={'renderer':'svg', 'actions': {'export': True, 'source':False, 'editor':True, 'compiled':False} })
+        chart.save(file, embed_options=get_embed_options())
         hack_params_css(file, params=True)
 
     return chart
@@ -718,7 +718,7 @@ def captains_chart(df=None, file=None):
         .resolve_scale(x="shared", y="independent", opacity="shared")
     )
     if file:
-        chart.save(file, embed_options={'renderer':'svg', 'actions': {'export': True, 'source':False, 'editor':True, 'compiled':False} })
+        chart.save(file, embed_options=get_embed_options())
         hack_params_css(file)
 
     return chart
@@ -816,7 +816,7 @@ def results_chart(df=None, file=None):
     )
 
     if file:
-        chart.save(file, embed_options={'renderer':'svg', 'actions': {'export': True, 'source':False, 'editor':True, 'compiled':False} })
+        chart.save(file, embed_options=get_embed_options())
         hack_params_css(file)
     
     return chart
@@ -963,7 +963,7 @@ def set_piece_h2h_chart(df=None, file=None):
     )
 
     if file:
-        chart.save(file, embed_options={'renderer':'svg', 'actions': {'export': True, 'source':False, 'editor':True, 'compiled':False} })
+        chart.save(file, embed_options=get_embed_options())
         hack_params_css(file)
 
     return chart

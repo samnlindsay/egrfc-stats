@@ -25,7 +25,7 @@ project_root = Path(__file__).parent.parent
 if str(project_root) not in sys.path:
     sys.path.insert(0, str(project_root))
 
-from python.chart_helpers import hack_params_css, alt_theme
+from python.chart_helpers import hack_params_css, alt_theme, get_embed_options, ensure_actions_menu_inside_chart
 
 
 # Division definitions
@@ -676,11 +676,9 @@ def league_results_chart(matches_json, squad_number, season, table_order=False):
     filename = output_dir / f"results_{squad_number}s_{target_season}.html"
     final_chart.save(
         str(filename),
-        embed_options={
-            "renderer": "svg",
-            "actions": False,
-        },
+        embed_options=get_embed_options(),
     )
+    ensure_actions_menu_inside_chart(str(filename))
 
     logging.info(f"Saved squad {squad_number} results chart to {filename}")
     return final_chart
@@ -1682,11 +1680,9 @@ def create_combined_league_charts(squad=1):
     filename = output_dir / f"squad_analysis_{squad}s.html"
     final_chart.save(
         str(filename),
-        embed_options={
-            'renderer': 'svg',
-            'actions': False,
-        },
+        embed_options=get_embed_options(),
     )
+    ensure_actions_menu_inside_chart(str(filename))
     hack_params_css(str(filename), params=True)
     
     logging.info(f"Saved combined squad {squad} charts to {filename}")

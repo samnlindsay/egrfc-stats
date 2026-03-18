@@ -27,14 +27,15 @@
 }
 
 .vega-embed {
+    display: block !important;
     width: fit-content !important;
     height: fit-content !important;
     transform-origin: top left;
+    position: relative;
 }
 
-.vega-embed svg {
-    width: auto !important;
-    height: auto !important;
+.vega-embed.has-actions {
+    padding: 0 !important;
 }
 
 #results-vis,

@@ -1,149 +1,272 @@
 import altair as alt
 from bs4 import BeautifulSoup
 
+VEGA_ACTIONS = {
+    "export": True,
+    "source": False,
+    "compiled": False,
+    "editor": False,
+}
+
+VEGA_ACTIONS_MENU_CSS = '''
+
+      .vega-embed {
+          display: block !important;
+          position: relative;
+      }
+
+      .vega-embed.has-actions {
+          padding: 0 !important;
+      }
+
+      #vis.vega-embed {
+          display: block !important;
+      }
+
+      .vega-embed > details,
+      .vega-embed details[title="Click to view actions"] {
+          position: absolute !important;
+          top: 8px;
+          right: 8px;
+          left: auto !important;
+          margin: 0;
+          float: none !important;
+          z-index: 10;
+      }
+
+      .vega-embed > details > summary,
+      .vega-embed details[title="Click to view actions"] > summary {
+          position: absolute !important;
+          top: 0;
+          right: 50px !important;
+          left: auto !important;
+      }
+
+      .vega-embed > details > .vega-actions,
+      .vega-embed details[title="Click to view actions"] > .vega-actions {
+          position: absolute !important;
+          top: 100%;
+          right: 0;
+          left: auto !important;
+          z-index: 11;
+      }
+
+            .vega-embed details[title="Click to view actions"] > summary svg {
+                    width: 16px !important;
+                    height: 16px !important;
+            }
+'''
+
+VEGA_ACTIONS_MENU_JS = '''
+        (function() {
+            function pinVegaActions() {
+                document.querySelectorAll('.vega-embed').forEach((embed) => {
+                    embed.style.display = 'block';
+                    embed.style.position = 'relative';
+
+                    const details = embed.querySelector('details[title="Click to view actions"], details');
+                    if (!details) {
+                        return;
+                    }
+
+                    details.style.position = 'absolute';
+                    details.style.top = '8px';
+                    details.style.right = '8px';
+                    details.style.left = 'auto';
+                    details.style.margin = '0';
+                    details.style.float = 'none';
+                    details.style.zIndex = '10';
+
+                    const actions = details.querySelector('.vega-actions');
+                    if (actions) {
+                        actions.style.position = 'absolute';
+                        actions.style.top = '100%';
+                        actions.style.right = '0';
+                        actions.style.left = 'auto';
+                        actions.style.zIndex = '11';
+                    }
+                });
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', pinVegaActions);
+            } else {
+                pinVegaActions();
+            }
+
+            [50, 150, 400, 900].forEach((delay) => setTimeout(pinVegaActions, delay));
+        })();
+'''
+
+
+def get_embed_options(renderer="svg"):
+    return {
+        "renderer": renderer,
+        "actions": dict(VEGA_ACTIONS),
+    }
+
+
+def ensure_actions_menu_inside_chart(file):
+  with open(file, 'r', encoding='utf-8') as f:
+    soup = BeautifulSoup(f, 'html.parser')
+
+  style_tag = soup.find('style')
+  if not style_tag:
+      style_tag = soup.new_tag('style')
+      soup.head.append(style_tag)
+
+  existing_css = style_tag.string or style_tag.get_text() or ''
+  if '.vega-embed > details {' not in existing_css:
+      style_tag.append(VEGA_ACTIONS_MENU_CSS)
+
+  has_pin_script = any(
+      script.string and 'pinVegaActions' in script.string
+      for script in soup.find_all('script')
+  )
+  if not has_pin_script:
+      script_tag = soup.new_tag('script')
+      script_tag.string = VEGA_ACTIONS_MENU_JS
+      if soup.body:
+          soup.body.append(script_tag)
+      else:
+          soup.append(script_tag)
+
+  with open(file, 'w', encoding='utf-8') as f:
+      f.write(str(soup))
+
 seasons = ["2021/22", "2022/23", "2023/24", "2024/25", "2025/26"]
 seasons_hist = ["2016/17", "2017/18", "2018/19", "2019/20"]
 
 pitchero_caveat = f"Using Pitchero data from 2017 to 2019/20. Manually updated records from 2021 onwards"
 
 def hack_params_css(file, overlay=False, params=True):
+        css_to_add = f'''
 
-  # Define the CSS to be added
-  css_to_add = f'''
-
-      body {{
-          margin: 0;
-      }}
+            body {{
+                    margin: 0;
+            }}
   
-      /* Default size for larger screens */
-      .vega-embed {{
-          width: 100%;
-          height: 100%;
-          transform-origin: top left;
-      }}
+            .vega-embed {{
+                    width: 100%;
+                    height: 100%;
+                    transform-origin: top left;
+            }}
 
-      /* Scale for tablet devices */
-      @media (max-width: 768px) {{
-          .vega-embed {{
-              transform: scale(0.75);
-              width: 100%;
-              height: 100%;
-          }}
-      }}
+            @media (max-width: 768px) {{
+                    .vega-embed {{
+                            transform: scale(0.75);
+                            width: 100%;
+                            height: 100%;
+                    }}
+            }}
 
-      /* Scale for mobile devices */
-      @media (max-width: 480px) {{
-          .vega-embed {{
-              transform: scale(0.5);
-              width: 100%;
-              height: 100%;
-          }}
-      }}
+            @media (max-width: 480px) {{
+                    .vega-embed {{
+                            transform: scale(0.5);
+                            width: 100%;
+                            height: 100%;
+                    }}
+            }}
 
-      .chart-wrapper {{
-          display: grid;
-          grid-template-columns: 1fr 1fr; /* Chart takes 3x space, form takes 1x */
-      }}
+            .chart-wrapper {{
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+            }}
 
-      .vega-bind {{
-        font-family: 'Lato', sans-serif !important;
-        padding: 10px;
-        padding-top: 5px;
-        width: min-content;
-      }}
+            .vega-bind {{
+                font-family: 'Lato', sans-serif !important;
+                padding: 10px;
+                padding-top: 5px;
+                width: min-content;
+            }}
             
-      .vega-bind-name {{
-        font-family: 'Lato', sans-serif !important;
-        font-weight: bold;
-        font-size: larger;
-        color: #202946; 
-      }}
+            .vega-bind-name {{
+                font-family: 'Lato', sans-serif !important;
+                font-weight: bold;
+                font-size: larger;
+                color: #202946; 
+            }}
 
-      .vega-bind-radio input {{
-        width: 1rem;
-        height: 1rem;
-      }}
+            .vega-bind-radio input {{
+                width: 1rem;
+                height: 1rem;
+            }}
 
-      .vega-bind-radio label {{
-        font-family: 'Lato', sans-serif;
-        display: flex;
-        padding: 0.1rem;
-        cursor: pointer;
-        transition: all 0.3s;
-        font-size: medium;
-      }}
+            .vega-bind-radio label {{
+                font-family: 'Lato', sans-serif;
+                display: flex;
+                padding: 0.1rem;
+                cursor: pointer;
+                transition: all 0.3s;
+                font-size: medium;
+            }}
 
-      .vega-bind-radio input:checked+label {{
-        background-color: #202946;
-        color: #e5e4e7;
-    }}
+            .vega-bind-radio input:checked+label {{
+                background-color: #202946;
+                color: #e5e4e7;
+            }}
+
+            {VEGA_ACTIONS_MENU_CSS}
+        '''
+
+        if params:
+                css_to_add += f'''
+            .vega-bindings {{
+            border: 2px solid black;
+            background-color: #e5e4e7;
+            color: #202946;
+            width: fit-content;
+            height: fit-content;
+            position: {"static" if not overlay else "fixed; top: 1rem; right: 1rem"};
+            display: "block";
+            justify-content: center;
+            gap: 20px;
+            padding: 10px;
+            font-size: large;
+        }}
     '''
 
-  if params:
-      css_to_add += f'''
-      .vega-bindings {{
-      border: 2px solid black;
-      background-color: #e5e4e7;
-      color: #202946;
-      width: fit-content;
-      height: fit-content;
-      position: {"static" if not overlay else "fixed; top: 1rem; right: 1rem"};
-      display: "block";
-      justify-content: center;
-      gap: 20px;
-      padding: 10px;
-      font-size: large;
-    }}
-  '''
+        with open(file, 'r', encoding='utf-8') as f:
+                soup = BeautifulSoup(f, 'html.parser')
 
-  # Read the file content using BeautifulSoup
-  with open(file, 'r', encoding='utf-8') as f:
-    soup = BeautifulSoup(f, 'html.parser')
+        style_tag = soup.find('style')
+        if not style_tag:
+                style_tag = soup.new_tag('style')
+                soup.head.append(style_tag)
 
-  # Find the <style> tag or create it if it doesn't exist
-  style_tag = soup.find('style')
-  if not style_tag:
-      style_tag = soup.new_tag('style')
-      soup.head.append(style_tag)
+        style_tag.append(css_to_add)
 
-  # Append the new CSS to the <style> tag
-  style_tag.append(css_to_add)
+        preconnect1 = soup.new_tag("link", rel="preconnect", href="https://fonts.googleapis.com")
+        preconnect2 = soup.new_tag("link", rel="preconnect", href="https://fonts.gstatic.com")
+        preconnect2['crossorigin'] = ''
+        soup.head.insert(0, preconnect2)
+        soup.head.insert(0, preconnect1)
 
-  # Preconnect hints for faster font loading on mobile
-  preconnect1 = soup.new_tag("link", rel="preconnect", href="https://fonts.googleapis.com")
-  preconnect2 = soup.new_tag("link", rel="preconnect", href="https://fonts.gstatic.com")
-  preconnect2['crossorigin'] = ''
-  soup.head.insert(0, preconnect2)
-  soup.head.insert(0, preconnect1)
+        soup.head.append(soup.new_tag("link", rel="stylesheet", href="https://fonts.googleapis.com/css2?family=PT+Sans+Narrow:wght@400;700&display=swap"))
+        soup.head.append(soup.new_tag("link", rel="stylesheet", href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&display=swap"))
 
-  # CSS2 API with display=swap ensures font-display: swap and faster mobile loading
-  soup.head.append(soup.new_tag("link", rel="stylesheet", href="https://fonts.googleapis.com/css2?family=PT+Sans+Narrow:wght@400;700&display=swap"))
-  soup.head.append(soup.new_tag("link", rel="stylesheet", href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&display=swap"))
+        for script in soup.find_all('script'):
+                if script.string and 'vegaEmbed' in script.string:
+                        original = script.string.strip()
+                        script.clear()
+                        script.append(f'document.fonts.load("400 1em \'PT Sans Narrow\'").then(function() {{\n{original}\n}});')
+                        break
 
-  # Vega renders SVG text synchronously - wrap vegaEmbed in document.fonts.ready
-  # so chart text nodes are painted only after PT Sans Narrow is confirmed loaded.
-  for sc in soup.find_all('script'):
-      if sc.string and 'vegaEmbed' in sc.string:
-          original = sc.string.strip()
-          sc.clear()
-          sc.append(f'document.fonts.load("400 1em \'PT Sans Narrow\'").then(function() {{\n{original}\n}});')
-          break
+        script_reload = """
+        document.addEventListener("DOMContentLoaded", function () {
+            setTimeout(() => {
+                window.dispatchEvent(new Event('resize'));
+            }, 100);
+        });
+    """
+        script_reload += VEGA_ACTIONS_MENU_JS
 
-  script_reload = """
-    document.addEventListener("DOMContentLoaded", function () {
-      setTimeout(() => {
-        window.dispatchEvent(new Event('resize'));
-      }, 100);
-    });
-  """
-  # Add script_reload to the last script tag in document
-  script_tag = soup.find_all('script')[-1]
-  script_tag.append(script_reload)
-  
-  # Write the modified HTML back to the file
-  with open(file, 'w', encoding='utf-8') as f:
-      f.write(str(soup))
-  print(f"Updated {file}")
+        script_tag = soup.find_all('script')[-1]
+        script_tag.append(script_reload)
+
+        with open(file, 'w', encoding='utf-8') as f:
+                f.write(str(soup))
+        print(f"Updated {file}")
 
 
 # Set the default configuration for altair

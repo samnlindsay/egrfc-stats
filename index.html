@@ -517,6 +517,7 @@
         let squadMetricsData = null;
         let squadSizeTrendTemplateSpec = null;
         let squadContinuityTrendTemplateSpec = null;
+        const VEGA_EMBED_ACTIONS = { export: true, source: false, compiled: false, editor: false };
         let availableSeasons = ['2025/26', '2024/25', '2023/24', '2022/23', '2021/22', '2019/20', '2018/19', '2017/18', '2016/17'];
         let squadMetricsControlsInitialised = false;
 
@@ -852,6 +853,44 @@
             return `${startYear}/${endSuffix}`;
         }
 
+        function pinVegaActionsInElement(rootElement) {
+            if (!rootElement) {
+                return;
+            }
+
+            const run = () => {
+                rootElement.querySelectorAll('.vega-embed').forEach(embed => {
+                    embed.style.display = 'block';
+                    embed.style.position = 'relative';
+
+                    const details = embed.querySelector('details[title="Click to view actions"], details');
+                    if (!details) {
+                        return;
+                    }
+
+                    details.style.position = 'absolute';
+                    details.style.top = '8px';
+                    details.style.right = '8px';
+                    details.style.left = 'auto';
+                    details.style.margin = '0';
+                    details.style.float = 'none';
+                    details.style.zIndex = '10';
+
+                    const actions = details.querySelector('.vega-actions');
+                    if (actions) {
+                        actions.style.position = 'absolute';
+                        actions.style.top = '100%';
+                        actions.style.right = '0';
+                        actions.style.left = 'auto';
+                        actions.style.zIndex = '11';
+                    }
+                });
+            };
+
+            run();
+            [50, 150, 400, 900].forEach(delay => window.setTimeout(run, delay));
+        }
+
         function getSquadMetricsSeasonOptions() {
             const seasonSet = new Set();
 
@@ -1065,7 +1104,12 @@
                 delete spec.datasets;
             }
 
-            vegaEmbed('#squadSizeTrendChart', spec, { actions: false, renderer: 'svg' }).catch(error => {
+            vegaEmbed('#squadSizeTrendChart', spec, {
+                actions: VEGA_EMBED_ACTIONS,
+                renderer: 'svg'
+            }).then(() => {
+                pinVegaActionsInElement(container);
+            }).catch(error => {
                 console.error('Error rendering squad size trend chart:', error);
                 container.innerHTML = '<div class="text-center text-danger py-4">Unable to render squad size trend chart.</div>';
             });
@@ -1244,7 +1288,12 @@
                 delete spec.datasets;
             }
 
-            vegaEmbed('#squadContinuityTrendChart', spec, { actions: false, renderer: 'svg' }).catch(error => {
+            vegaEmbed('#squadContinuityTrendChart', spec, {
+                actions: VEGA_EMBED_ACTIONS,
+                renderer: 'svg'
+            }).then(() => {
+                pinVegaActionsInElement(container);
+            }).catch(error => {
                 console.error('Error rendering continuity trend chart:', error);
                 container.innerHTML = '<div class="text-center text-danger py-4">Unable to render continuity trend chart.</div>';
             });

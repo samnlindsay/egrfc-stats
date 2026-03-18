@@ -1,4 +1,11 @@
 // Chart rendering functions (extracted from test.html)
+const VEGA_EMBED_ACTIONS = {
+  export: true,
+  source: false,
+  compiled: false,
+  editor: false,
+};
+
 const Charts = {
   // Embed chart with responsive scaling
   embedChart(selector, spec, customOptions = {}) {
@@ -17,7 +24,7 @@ const Charts = {
     }
 
     const defaultOptions = {
-      actions: true,
+      actions: VEGA_EMBED_ACTIONS,
       renderer: "svg",
       scaleFactor: 1,
       config: {

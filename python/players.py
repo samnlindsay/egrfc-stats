@@ -1,6 +1,7 @@
 from data_prep import *
 import altair as alt
 from charts import *
+from chart_helpers import get_embed_options
 
 # Total tries per player (current season)
 def totals(df):
@@ -359,7 +360,7 @@ def player_profile_charts(player=None, df=None, df_agg=None, position_field="Pos
         .properties(background="transparent")
     )
 
-    chart.save('Charts/player_appearances.html')
+    chart.save('Charts/player_appearances.html', embed_options=get_embed_options())
 
     hack_params_css('Charts/player_appearances.html', params=False)
 
