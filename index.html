@@ -73,18 +73,18 @@
                 
                 <div class="row" style="margin-bottom: 2rem;">
                     <div class="col-md-6 col-lg-3 mb-3">
-                        <div class="card" style="border-top: 4px solid var(--primary-color); cursor: pointer;" onclick="navigateTo('league-tables')">
+                        <div class="card" style="border-top: 4px solid var(--primary-color); cursor: pointer;" onclick="navigateTo('season-summary')">
                             <div class="card-body">
-                                <h5 class="card-title">League Tables</h5>
-                                <p class="card-text">Current season standings for 1st and 2nd teams</p>
+                                <h5 class="card-title">Season Summary</h5>
+                                <p class="card-text">Key statistics and overview of the season's performance.</p>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-3 mb-3">
-                        <div class="card" style="border-top: 4px solid var(--accent-color); cursor: pointer;" onclick="navigateTo('season-results')">
+                        <div class="card" style="border-top: 4px solid var(--accent-color); cursor: pointer;" onclick="navigateTo('league-tables')">
                             <div class="card-body">
-                                <h5 class="card-title">Season Results</h5>
-                                <p class="card-text">Game results and performance metrics</p>
+                                <h5 class="card-title">League Tables</h5>
+                                <p class="card-text">1st and 2nd XV league tables and visualisation of all league results.</p>
                             </div>
                         </div>
                     </div>
@@ -92,7 +92,7 @@
                         <div class="card" style="border-top: 4px solid var(--green-color); cursor: pointer;" onclick="navigateTo('squad-metrics')">
                             <div class="card-body">
                                 <h5 class="card-title">Squad Metrics</h5>
-                                <p class="card-text">Player counts, positions, and squad analysis</p>
+                                <p class="card-text">Summary of squad sizes and continuity between match day squads.</p>
                             </div>
                         </div>
                     </div>
@@ -223,6 +223,7 @@
                         </div>
                     </div>
                 </div>
+                <h1 style="color: var(--primary-color); margin-bottom: 1rem; font-weight: 900;">Squad Size</h1>
                 <div class="row mb-4" id="squadMetricsCards">
                     <div class="col-md-4 mb-3">
                         <div class="card squad-metric-card squad-metric-card-1st">
@@ -253,7 +254,6 @@
                     </div>
                 </div>
 
-                <h3 class="squad-metrics-table-title">Squad Size</h3>
                 <p id="squadMetricsTableSubtitle" class="squad-metrics-table-subtitle"></p>
 
                 <div class="table-responsive squad-metrics-table-wrap">
@@ -284,11 +284,51 @@
                         </tbody>
                     </table>
                 </div>
-                
-                <!-- PLACEHOLDER FOR ADDITIONAL CONTENT -->
-                <h3>Squad Size & Continuity</h3>
-                <div id="squadSizeContinuityPlaceholder" style="background: white; padding: 2rem; border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); text-align: center; color: #999; margin-top: 1rem;">
-                    Analysis of squad size trends and player retention (in squads from game to game) over time - see continuity.html
+
+                <h1 style="font-weight:900; color: var(--primary-color); margin-top: 2rem; margin-bottom: 1rem;">Squad Trends</h1>
+                <div style="display: flex; flex-direction: row; flex-wrap: wrap; gap: 1rem; align-items: flex-start;">
+                    <!-- Squad Size Collapsible Section -->
+                    <div class="chart-panel chart-panel--inline">
+                        <button
+                            type="button"
+                            class="chart-panel-toggle chart-panel-toggle--primary"
+                            data-target="squad-size-panel"
+                            aria-expanded="true"
+                            aria-controls="squad-size-panel">
+                            <span class="chart-panel-toggle-text">
+                                <span class="chart-panel-toggle-title">Squad Size</span>
+                                <span class="chart-panel-toggle-hint">Click to expand/collapse</span>
+                            </span>
+                            <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
+                        </button>
+                        <div id="squad-size-panel" class="chart-panel-content">
+                            <div class="chart-panel-card">
+                                <div id="squadSizeTrendChart" style="overflow: visible;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Squad Continuity Collapsible Section -->
+                    <div class="chart-panel chart-panel--inline">
+                        <button
+                            type="button"
+                            class="chart-panel-toggle chart-panel-toggle--primary"
+                            data-target="squad-continuity-panel"
+                            aria-expanded="true"
+                            aria-controls="squad-continuity-panel">
+                            <span class="chart-panel-toggle-text">
+                                <span class="chart-panel-toggle-title">Squad Continuity</span>
+                                <span class="chart-panel-toggle-hint">Click to expand/collapse</span>
+                            </span>
+                            <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
+                        </button>
+                        <div id="squad-continuity-panel" class="chart-panel-content">
+                            <div class="chart-panel-card">
+                                <div id="squadContinuityTrendChart" style="overflow: visible;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 </div>
 
             </div>
@@ -475,7 +515,9 @@
         let playerAppearancesData = null;
         let gamesData = null;
         let squadMetricsData = null;
-        let availableSeasons = ['2025/26', '2024/25', '2023/24', '2022/23', '2021/22'];
+        let squadSizeTrendTemplateSpec = null;
+        let squadContinuityTrendTemplateSpec = null;
+        let availableSeasons = ['2025/26', '2024/25', '2023/24', '2022/23', '2021/22', '2019/20', '2018/19', '2017/18', '2016/17'];
         let squadMetricsControlsInitialised = false;
 
         function getCurrentSeasonLabel() {
@@ -570,6 +612,28 @@
 
             playerAppearancesData = await appearancesResponse.json();
             gamesData = await gamesResponse.json();
+
+            if (!squadSizeTrendTemplateSpec) {
+                try {
+                    const trendTemplateResponse = await fetch('data/charts/squad_size_trend.json');
+                    if (trendTemplateResponse.ok) {
+                        squadSizeTrendTemplateSpec = await trendTemplateResponse.json();
+                    }
+                } catch (error) {
+                    console.warn('Unable to load squad size trend template spec:', error);
+                }
+            }
+
+            if (!squadContinuityTrendTemplateSpec) {
+                try {
+                    const continuityTemplateResponse = await fetch('data/charts/squad_continuity_average.json');
+                    if (continuityTemplateResponse.ok) {
+                        squadContinuityTrendTemplateSpec = await continuityTemplateResponse.json();
+                    }
+                } catch (error) {
+                    console.warn('Unable to load squad continuity trend template spec:', error);
+                }
+            }
         }
 
         function buildSquadMetricsData(rows) {
@@ -691,6 +755,16 @@
                 const tbody = document.getElementById('squadMetricsTableBody');
                 if (tbody) {
                     tbody.innerHTML = '<tr><td colspan="10" class="text-center text-danger py-3">Unable to load squad metrics data.</td></tr>';
+                }
+
+                const sizeTrend = document.getElementById('squadSizeTrendChart');
+                if (sizeTrend) {
+                    sizeTrend.innerHTML = '<div class="text-center text-danger py-4">Unable to load squad size trend chart.</div>';
+                }
+
+                const continuityTrend = document.getElementById('squadContinuityTrendChart');
+                if (continuityTrend) {
+                    continuityTrend.innerHTML = '<div class="text-center text-danger py-4">Unable to load continuity chart.</div>';
                 }
             }
         }
@@ -920,6 +994,267 @@
             }).join('');
         }
 
+        function buildSquadSizeTrendRows(selectedSeason, minimumAppearances) {
+            const seasons = getSortedSquadMetricSeasons(squadMetricsData).slice().reverse();
+            const rows = [];
+            const toTrendValue = value => (value === 0 ? null : value);
+
+            seasons.forEach(season => {
+                const seasonData = squadMetricsData?.[season];
+                if (!seasonData) {
+                    return;
+                }
+
+                ['1st', '2nd'].forEach(squadKey => {
+                    const bucket = seasonData[squadKey];
+                    if (!bucket) {
+                        return;
+                    }
+
+                    const isSelected = season === selectedSeason;
+
+                    rows.push({
+                        season,
+                        squad: squadKey,
+                        unit: 'Total',
+                        players: toTrendValue(getSquadMetricValue('Total', bucket, minimumAppearances)),
+                        isSelected
+                    });
+                    rows.push({
+                        season,
+                        squad: squadKey,
+                        unit: 'Forwards',
+                        players: toTrendValue(getSquadMetricValue('Forwards', bucket, minimumAppearances)),
+                        isSelected
+                    });
+                    rows.push({
+                        season,
+                        squad: squadKey,
+                        unit: 'Backs',
+                        players: toTrendValue(getSquadMetricValue('Backs', bucket, minimumAppearances)),
+                        isSelected
+                    });
+                });
+            });
+
+            return rows;
+        }
+
+        function renderSquadSizeTrendChart(selectedSeason, minimumAppearances) {
+            const container = document.getElementById('squadSizeTrendChart');
+            if (!container) {
+                return;
+            }
+
+            if (!squadSizeTrendTemplateSpec) {
+                container.innerHTML = '<div class="text-center text-muted py-4">Squad size trend template not available. Run <code>python update.py</code> to generate charts.</div>';
+                return;
+            }
+
+            const values = buildSquadSizeTrendRows(selectedSeason, minimumAppearances);
+            if (!values.length) {
+                container.innerHTML = '<div class="text-center text-muted py-4">No squad size trend data available for the selected filters.</div>';
+                return;
+            }
+
+            container.innerHTML = '';
+
+            const spec = JSON.parse(JSON.stringify(squadSizeTrendTemplateSpec));
+            spec.data = { values };
+            if (spec.datasets) {
+                delete spec.datasets;
+            }
+
+            vegaEmbed('#squadSizeTrendChart', spec, { actions: false, renderer: 'svg' }).catch(error => {
+                console.error('Error rendering squad size trend chart:', error);
+                container.innerHTML = '<div class="text-center text-danger py-4">Unable to render squad size trend chart.</div>';
+            });
+        }
+
+        function buildContinuityAverageTrendRows() {
+            if (!playerAppearancesData) {
+                return [];
+            }
+
+            const allowedGameTypes = getAllowedGameTypes(getSquadMetricsGameTypeMode());
+            const gameInfoById = new Map((gamesData || []).map(game => [game.game_id, game]));
+            
+            // Group games by squad/season and sort chronologically
+            const gamesBySquadSeason = {};
+            
+            (playerAppearancesData || []).forEach(row => {
+                const season = normalizeSeasonLabel(row.season);
+                const squad = row.squad;
+                const gameId = row.game_id;
+                const gameInfo = gameInfoById.get(gameId);
+                const gameType = row.game_type || gameInfo?.game_type;
+
+                if (!season || (squad !== '1st' && squad !== '2nd')) {
+                    return;
+                }
+
+                if (allowedGameTypes && !allowedGameTypes.has(gameType)) {
+                    return;
+                }
+
+                const key = `${squad}::${season}`;
+                if (!gamesBySquadSeason[key]) {
+                    gamesBySquadSeason[key] = {
+                        squad,
+                        season,
+                        games: []
+                    };
+                }
+
+                // Add game if not already tracked
+                const gameList = gamesBySquadSeason[key].games;
+                if (!gameList.find(g => g.gameId === gameId)) {
+                    gameList.push({
+                        gameId,
+                        date: row.date || gameInfo?.date || null,
+                        starters: new Set()
+                    });
+                }
+            });
+
+            // Populate starters for each game
+            (playerAppearancesData || []).forEach(row => {
+                const season = normalizeSeasonLabel(row.season);
+                const squad = row.squad;
+                const gameId = row.game_id;
+                const unit = row.unit;
+                const gameType = row.game_type || gameInfoById.get(gameId)?.game_type;
+
+                if (!season || (squad !== '1st' && squad !== '2nd')) {
+                    return;
+                }
+
+                if (allowedGameTypes && !allowedGameTypes.has(gameType)) {
+                    return;
+                }
+
+                if (row.is_starter !== true) {
+                    return;
+                }
+
+                const player = String(row.player || '').trim();
+                const key = `${squad}::${season}`;
+                const squadSeasonData = gamesBySquadSeason[key];
+
+                if (squadSeasonData) {
+                    squadSeasonData.games.forEach(game => {
+                        if (game.gameId === gameId) {
+                            game.starters.add(player);
+                            if (!game.byUnit) {
+                                game.byUnit = {};
+                            }
+                            if (!game.byUnit[unit]) {
+                                game.byUnit[unit] = new Set();
+                            }
+                            game.byUnit[unit].add(player);
+                        }
+                    });
+                }
+            });
+
+            // Calculate average retention per season/squad/unit
+            const rows = [];
+
+            Object.values(gamesBySquadSeason).forEach(squadSeasonData => {
+                const games = squadSeasonData.games.sort((a, b) => {
+                    const dateA = a.date ? new Date(a.date).getTime() : 0;
+                    const dateB = b.date ? new Date(b.date).getTime() : 0;
+                    if (dateA !== dateB) {
+                        return dateA - dateB;
+                    }
+                    return String(a.gameId).localeCompare(String(b.gameId));
+                });
+
+                if (games.length < 2) {
+                    return; // Need at least 2 games to calculate retention
+                }
+
+                const retentionsByUnit = {
+                    'Total': [],
+                    'Forwards': [],
+                    'Backs': []
+                };
+
+                // Calculate retention for each consecutive pair
+                for (let i = 1; i < games.length; i++) {
+                    const prevGame = games[i - 1];
+                    const currGame = games[i];
+
+                    // Total retention
+                    const totalRetained = [...currGame.starters].filter(p => prevGame.starters.has(p)).length;
+                    retentionsByUnit['Total'].push(totalRetained);
+
+                    // Forwards retention
+                    const prevForwards = prevGame.byUnit?.['Forwards'] || new Set();
+                    const currForwards = currGame.byUnit?.['Forwards'] || new Set();
+                    const forwardsRetained = [...currForwards].filter(p => prevForwards.has(p)).length;
+                    retentionsByUnit['Forwards'].push(forwardsRetained);
+
+                    // Backs retention
+                    const prevBacks = prevGame.byUnit?.['Backs'] || new Set();
+                    const currBacks = currGame.byUnit?.['Backs'] || new Set();
+                    const backsRetained = [...currBacks].filter(p => prevBacks.has(p)).length;
+                    retentionsByUnit['Backs'].push(backsRetained);
+                }
+
+                // Average the retention values
+                ['Total', 'Forwards', 'Backs'].forEach(unit => {
+                    if (retentionsByUnit[unit].length > 0) {
+                        const avgRetention = retentionsByUnit[unit].reduce((a, b) => a + b, 0) / retentionsByUnit[unit].length;
+                        rows.push({
+                            season: squadSeasonData.season,
+                            squad: squadSeasonData.squad,
+                            unit,
+                            retained: avgRetention
+                        });
+                    }
+                });
+            });
+
+            return rows;
+        }
+
+        function renderSquadContinuityTrendChart(selectedSeason) {
+            const container = document.getElementById('squadContinuityTrendChart');
+            if (!container) {
+                return;
+            }
+
+            if (!squadContinuityTrendTemplateSpec) {
+                container.innerHTML = '<div class="text-center text-muted py-4">Squad continuity trend template not available. Run <code>python update.py</code> to generate charts.</div>';
+                return;
+            }
+
+            const values = buildContinuityAverageTrendRows();
+            if (!values.length) {
+                container.innerHTML = '<div class="text-center text-muted py-4">No continuity data available for the selected filters.</div>';
+                return;
+            }
+
+            container.innerHTML = '';
+
+            const spec = JSON.parse(JSON.stringify(squadContinuityTrendTemplateSpec));
+            spec.data = { values };
+            if (spec.datasets) {
+                delete spec.datasets;
+            }
+
+            vegaEmbed('#squadContinuityTrendChart', spec, { actions: false, renderer: 'svg' }).catch(error => {
+                console.error('Error rendering continuity trend chart:', error);
+                container.innerHTML = '<div class="text-center text-danger py-4">Unable to render continuity trend chart.</div>';
+            });
+        }
+
+        function renderSquadMetricsCharts(selectedSeason, minimumAppearances) {
+            renderSquadSizeTrendChart(selectedSeason, minimumAppearances);
+            renderSquadContinuityTrendChart(selectedSeason);
+        }
+
         function renderSquadMetricsPage() {
             if (!playerAppearancesData) {
                 return;
@@ -930,8 +1265,10 @@
             const seasons = getSortedSquadMetricSeasons(squadMetricsData);
             if (seasons.length === 0) {
                 const minimumAppearances = getSquadMetricsMinimumAppearances();
-                renderSquadMetricCards(getCurrentSeasonLabel(), minimumAppearances);
+                const fallbackSeason = getCurrentSeasonLabel();
+                renderSquadMetricCards(fallbackSeason, minimumAppearances);
                 renderSquadMetricsTable(minimumAppearances);
+                renderSquadMetricsCharts(fallbackSeason, minimumAppearances);
                 return;
             }
 
@@ -952,6 +1289,8 @@
 
             renderSquadMetricCards(selectedSeason, minimumAppearances);
             renderSquadMetricsTable(minimumAppearances);
+            renderSquadMetricsCharts(selectedSeason, minimumAppearances);
+            initialiseChartPanelToggles();
         }
 
         function initialiseSquadMetricsControlsOnce() {
@@ -1174,7 +1513,7 @@
                     iframe.style.minHeight = '0';
                 }
 
-                const wrapper = iframe.closest('.league-results-card');
+                const wrapper = iframe.closest('.chart-panel-card');
                 if (wrapper) {
                     wrapper.style.minHeight = '0';
                 }
@@ -1183,8 +1522,10 @@
             }
         }
 
-        function initialiseLeagueResultsPanels() {
-            document.querySelectorAll('.league-results-toggle').forEach(toggle => {
+        function initialiseChartPanelToggles() {
+            document.querySelectorAll('.chart-panel-toggle').forEach(toggle => {
+                if (toggle.__chartPanelInitialised) return;
+                toggle.__chartPanelInitialised = true;
                 toggle.addEventListener('click', function() {
                     const targetId = this.getAttribute('data-target');
                     const panel = targetId ? document.getElementById(targetId) : null;
@@ -1214,33 +1555,33 @@
                 });
             });
 
-            if (!window.__leagueResultsResizeBound) {
+            if (!window.__chartPanelResizeBound) {
                 window.addEventListener('resize', () => {
                     document.querySelectorAll('.league-results-frame').forEach(iframe => {
                         updateLeagueResultsIframeHeight(iframe);
                     });
                 });
-                window.__leagueResultsResizeBound = true;
+                window.__chartPanelResizeBound = true;
             }
         }
 
-        function createLeagueResultsPanel(panelId, src, title, titleClass) {
+        function createLeagueResultsPanel(panelId, src, title, colorModifier) {
             return `
-                <div class="league-results-section">
+                <div class="chart-panel">
                     <button
                         type="button"
-                        class="league-team-title league-results-toggle ${titleClass}"
+                        class="chart-panel-toggle ${colorModifier}"
                         data-target="${panelId}"
                         aria-expanded="false"
                         aria-controls="${panelId}">
-                        <span class="league-results-toggle-text">
-                            <span class="league-results-toggle-title">${title}</span>
-                            <span class="league-results-toggle-hint">Click to expand/collapse</span>
+                        <span class="chart-panel-toggle-text">
+                            <span class="chart-panel-toggle-title">${title}</span>
+                            <span class="chart-panel-toggle-hint">Click to expand/collapse</span>
                         </span>
-                        <span class="league-results-toggle-icon" aria-hidden="true"></span>
+                        <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
                     </button>
-                    <div id="${panelId}" class="league-results-content" hidden>
-                        <div class="league-results-card">
+                    <div id="${panelId}" class="chart-panel-content" hidden>
+                        <div class="chart-panel-card">
                             <iframe
                                 src="${src}"
                                 class="league-results-frame"
@@ -1320,7 +1661,7 @@
                                 'league-results-panel-1',
                                 `Charts/league/results.html?season=${encodeURIComponent(leagueSeason)}&squad=1`,
                                 '1st XV Results',
-                                'league-team-title-1st'
+                                'chart-panel-toggle--primary'
                             )}
                         </div>
                     </div>
@@ -1383,7 +1724,7 @@
                                 'league-results-panel-2',
                                 `Charts/league/results.html?season=${encodeURIComponent(leagueSeason)}&squad=2`,
                                 '2nd XV Results',
-                                'league-team-title-2nd'
+                                'chart-panel-toggle--accent'
                             )}
                         </div>
                     </div>
@@ -1391,7 +1732,7 @@
             }
             
             container.innerHTML = html;
-            initialiseLeagueResultsPanels();
+            initialiseChartPanelToggles();
         }
 
         // Setup top navigation links

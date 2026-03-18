@@ -10,6 +10,7 @@ if str(project_root) not in sys.path:
 from python.backend import BackendConfig, BackendDatabase
 from python.data import *
 from python.charts import lineout_success_by_zone as plot_lineout_success_by_zone
+from python.charts import squad_size_trend_chart, squad_continuity_average_chart
 import altair as alt
 from python.chart_helpers import *
 import pandas as pd
@@ -1224,7 +1225,9 @@ def main(refresh_pitchero=False, backend_mode="canonical", backend_db_path="data
     set_piece_chart(set_piece_df, s="Scrum")
     set_piece_chart(set_piece_df, s="Lineout")
     lineout_success_by_zone_chart(db)
-    
+    squad_size_trend_chart(db)
+    squad_continuity_average_chart(db)
+
     # New league charts
     # league_results_chart(db)
     # league_squad_analysis_chart(db)

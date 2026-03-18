@@ -245,8 +245,38 @@ table tbody tr:hover {
     color: var(--accent-color);
 }
 
-.league-results-toggle {
-    width: 100%;
+/* ===== COLLAPSIBLE CHART PANELS =====
+ * Reusable pattern for collapsible chart containers.
+ *
+ * HTML structure:
+ *   <div class="chart-panel">                      (block, full width)
+ *   <div class="chart-panel chart-panel--inline">  (inline, shrinks to chart width)
+ *     <button class="chart-panel-toggle chart-panel-toggle--primary"
+ *             data-target="panel-id" aria-expanded="true">
+ *       <span class="chart-panel-toggle-text">
+ *         <span class="chart-panel-toggle-title">Title</span>
+ *         <span class="chart-panel-toggle-hint">Click to expand/collapse</span>
+ *       </span>
+ *       <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
+ *     </button>
+ *     <div id="panel-id" class="chart-panel-content">
+ *       <div class="chart-panel-card">...content...</div>
+ *     </div>
+ *   </div>
+ *
+ * Color modifiers (.chart-panel-toggle--*):
+ *   --primary  dark navy header (1st XV / default)
+ *   --accent   light blue header (2nd XV)
+ * ===== */
+
+.chart-panel--inline {
+    display: inline-flex;
+    flex-direction: column;
+}
+
+.chart-panel-toggle {
+    min-width: 100%;
+    width: fit-content;
     border: none;
     display: flex;
     align-items: center;
@@ -256,22 +286,43 @@ table tbody tr:hover {
     font-weight: 500;
     cursor: pointer;
     margin: 0;
+    padding: 0;
     border-radius: 0.5rem 0.5rem 0 0;
 }
 
-.league-results-toggle-text {
+.chart-panel-toggle--primary {
+    background: var(--primary-color);
+    color: var(--light-color);
+}
+
+.chart-panel-toggle--accent {
+    background: var(--accent-color);
+    color: var(--primary-color);
+}
+
+.chart-panel-toggle[aria-expanded="false"] {
+    border-radius: 0.5rem;
+}
+
+.chart-panel-toggle:focus-visible {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 2px;
+}
+
+.chart-panel-toggle-text {
     display: flex;
     flex-direction: column;
     gap: 0.1rem;
+    padding: 1rem;
 }
 
-.league-results-toggle-title {
+.chart-panel-toggle-title {
     font-size: 1.02rem;
     font-weight: 500;
     line-height: 1.2;
 }
 
-.league-results-toggle-hint {
+.chart-panel-toggle-hint {
     font-family: "Lato", sans-serif;
     font-size: 0.72rem;
     font-weight: 400;
@@ -279,34 +330,29 @@ table tbody tr:hover {
     line-height: 1.1;
 }
 
-.league-results-toggle[aria-expanded="false"] {
-    border-radius: 0.5rem;
+.chart-panel-toggle-icon {
+    padding: 1rem;
 }
 
-.league-results-toggle:focus-visible {
-    outline: 2px solid var(--accent-color);
-    outline-offset: 2px;
-}
-
-.league-results-toggle-icon::before {
+.chart-panel-toggle-icon::before {
     content: "▾";
     display: inline-block;
     transition: transform 0.2s ease;
 }
 
-.league-results-toggle[aria-expanded="false"] .league-results-toggle-icon::before {
+.chart-panel-toggle[aria-expanded="false"] .chart-panel-toggle-icon::before {
     transform: rotate(-90deg);
 }
 
-.league-results-content[hidden] {
+.chart-panel-content[hidden] {
     display: none !important;
 }
 
-.league-results-content {
+.chart-panel-content {
     margin: 0;
 }
 
-.league-results-card {
+.chart-panel-card {
     background: white;
     padding: 0;
     border-radius: 0 0 0.5rem 0.5rem;

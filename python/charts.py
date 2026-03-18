@@ -969,133 +969,292 @@ def set_piece_h2h_chart(df=None, file=None):
     return chart
 
 def squad_continuity_chart(df=None, file=None):
-    season_selection = alt.selection_point(on="mouseover", name="Season", fields=["Season"], empty=True)
+    """Legacy continuity chart - kept for compatibility."""
+    pass
 
-    base = (
-        alt.Chart(df if df is not None else {"name":"df", "url":'https://raw.githubusercontent.com/samnlindsay/egrfc-stats/main/data/game.json',"format":{'type':"json"}})
-        .mark_bar(stroke="black", strokeWidth=1, strokeOpacity=0.5, size=20)
-        .transform_calculate(Starters_retained="toNumber(datum.Starters_retained)")
-        .transform_filter(season_selection)
-        .transform_filter("datum.Starters_retained > 0")
-        .properties(width=200, height=400)
-    )
+# Text labels anchored per-facet at the maximum point of each line.
+def _unit_label(base, unit, color, value_field):
+    label_dy = {
+        "Total": -20,
+        "Forwards": -12,
+        "Backs": -4,
+    }
+    label_dx = {
+        "Total": -8,
+        "Forwards": 0,
+        "Backs": 8,
+    }
 
-    b1 = (
-        base.transform_filter("datum.Squad == '1st'")
+    return (
+        base.transform_filter(alt.datum.unit == unit)
+        .transform_calculate(season_order="toNumber(split(datum.season, '/')[0])")
+        .transform_joinaggregate(max_value=f"max({value_field})", groupby=["squad"])
+        .transform_filter(f"datum.{value_field} == datum.max_value")
+        .transform_window(
+            rank="row_number()",
+            groupby=["squad"],
+            sort=[alt.SortField("season_order", order="descending")],
+        )
+        .transform_filter("datum.rank == 1")
+        .mark_text(
+            align="center",
+            baseline="bottom",
+            dy=label_dy.get(unit, -8),
+            dx=label_dx.get(unit, 0),
+            fontSize=14 if unit == "Total" else 12,
+            color=color,
+            fontWeight="bold" if unit == "Total" else "normal",
+        )
         .encode(
-            y=alt.Y(
-                "Starters_retained:O",
-                axis=alt.Axis(title=None, orient="right", ticks=False, labelAlign="center", labelPadding=10),
-                scale=alt.Scale(domain=list(range(1, 16)), reverse=True),
-            ),
-            x=alt.X("count()", axis=alt.Axis(title="Games", grid=False, tickMinStep=1.0), scale=alt.Scale(reverse=True)),
-            color=alt.Color(
-                "Starters_retained:Q",
-                scale=alt.Scale(scheme="blues"), 
-                legend=None
-            )
-        )
-        .properties(title=alt.Title(text="1st XV", anchor="middle", fontSize=36, color=squad_scale.range[0]))
-    )
-
-    b2 = (
-        base.transform_filter("datum.Squad == '2nd'")
-        .transform_filter(season_selection)
-        .encode(
-            y=alt.Y(
-                "Starters_retained:O",
-                axis=alt.Axis(title=None, orient="left", grid=False, ticks=False, labelAlign="center", labelPadding=10, tickMinStep=1.0),
-                scale=alt.Scale(domain=list(range(1, 16)), reverse=True),
-            ),
-            x=alt.X("count()", axis=alt.Axis(title="Games", grid=False)),
-            color=alt.Color(
-                "Starters_retained:Q",
-                scale=alt.Scale(scheme="greens"), 
-                legend=None
-            )
-        )
-        .properties(title=alt.Title(text="2nd XV", anchor="middle", fontSize=36, color=squad_scale.range[1]))
-    )
-
-    trend = (
-        alt.Chart(df if df is not None else {"name":"df", "url":'https://raw.githubusercontent.com/samnlindsay/egrfc-stats/main/data/game.json',"format":{'type':"json"}})
-        .transform_aggregate(
-            Starters="mean(Starters_retained)", 
-            Forwards="mean(Forwards_retained)",
-            Backs="mean(Backs_retained)",
-            groupby=["Squad", "Season"]
-        )
-        .transform_fold(["Starters", "Forwards", "Backs"], as_=["Type", "Retained"])
-        .encode(
-            x=alt.X("Season:O", axis=alt.Axis(title="Season", labelExpr="substring(datum.label, 2, 7)")),
-            y=alt.Y("Retained:Q", title=None, scale=alt.Scale(domain=[0.5, 15.5]), axis=alt.Axis(labels=False, ticks=False)),
-            color=alt.Color(
-                "Squad:N", 
-                scale=squad_scale,
-                legend=alt.Legend(orient="top-left", labelExpr="datum.label + ' XV'", title=None, direction="horizontal")
-            ),
-            opacity=alt.condition(season_selection, alt.value(1), alt.value(0.1)),
-            tooltip=[
-                alt.Tooltip("Season:O", title="Season"),
-                alt.Tooltip("Squad:N", title="Squad"),
-                alt.Tooltip("Starters:Q", title="Starters retained", format=".1f"),
-                alt.Tooltip("Forwards:Q", title="Forwards retained", format=".1f"),
-                alt.Tooltip("Backs:Q", title="Backs retained", format=".1f"),
-            ]
-        )
-        .properties(
-            width=200, height=400,
-            title=alt.Title(
-                text="Average by Season", 
-                fontSize=24, 
-                anchor="middle", 
-                subtitle="Hover over a season to filter",
-                subtitlePadding=5,
-                offset=5
-            )
+            x=alt.X("season:O"),
+            y=alt.Y(f"{value_field}:Q"),
+            text=alt.value(unit),
         )
     )
 
-    line = trend.mark_line(point=False).encode(
-        strokeDash=alt.StrokeDash(
-            "Type:N", 
-            scale=alt.Scale(
-                domain=["Starters", "Forwards", "Backs"], 
-                range=[[0, 0], [15, 5], [2, 2]]
-            ), 
-            legend=None
+def squad_continuity_average_chart(db, output_file='data/charts/squad_continuity_average.json'):
+    """Generate squad continuity average chart (avg players retained per season) from canonical backend data."""
+
+    # Get all player appearances ordered by game date
+    appearances_df = db.con.execute(
+        """
+        SELECT 
+            pa.game_id,
+            pa.player,
+            pa.squad,
+            pa.unit,
+            g.date,
+            g.season
+        FROM player_appearances pa
+        JOIN games g ON pa.game_id = g.game_id
+        WHERE pa.is_starter = TRUE
+        ORDER BY pa.squad, g.season, g.date, g.game_id
+        """
+    ).df()
+
+    if appearances_df.empty:
+        print("No starter appearance data found for continuity chart.")
+        return None
+
+    # Calculate retention for each consecutive game pair
+    retention_records = []
+    
+    for squad in ['1st', '2nd']:
+        squad_data = appearances_df[appearances_df['squad'] == squad].copy()
+        
+        # Group by season and game
+        for season in squad_data['season'].unique():
+            season_data = squad_data[squad_data['season'] == season]
+            games = season_data.groupby('game_id')
+            game_list = list(games)
+            
+            if len(game_list) < 2:
+                continue
+            
+            # Calculate retention between consecutive games
+            retentions_by_unit = {'Total': [], 'Forwards': [], 'Backs': []}
+            
+            for i in range(1, len(game_list)):
+                prev_game_id, prev_game_data = game_list[i - 1]
+                curr_game_id, curr_game_data = game_list[i]
+                
+                # Get players from each game by unit
+                prev_players = {
+                    'Total': set(prev_game_data['player'].unique()),
+                    'Forwards': set(prev_game_data[prev_game_data['unit'] == 'Forwards']['player'].unique()),
+                    'Backs': set(prev_game_data[prev_game_data['unit'] == 'Backs']['player'].unique()),
+                }
+                
+                curr_players = {
+                    'Total': set(curr_game_data['player'].unique()),
+                    'Forwards': set(curr_game_data[curr_game_data['unit'] == 'Forwards']['player'].unique()),
+                    'Backs': set(curr_game_data[curr_game_data['unit'] == 'Backs']['player'].unique()),
+                }
+                
+                # Count retained players
+                for unit in ['Total', 'Forwards', 'Backs']:
+                    if len(prev_players[unit]) > 0:
+                        retained = len(prev_players[unit] & curr_players[unit])
+                        retentions_by_unit[unit].append(retained)
+            
+            # Average retention for the season
+            for unit in ['Total', 'Forwards', 'Backs']:
+                if retentions_by_unit[unit]:
+                    avg_retention = sum(retentions_by_unit[unit]) / len(retentions_by_unit[unit])
+                    retention_records.append({
+                        'season': season,
+                        'squad': squad,
+                        'unit': unit,
+                        'retained': avg_retention
+                    })
+    
+    df = pd.DataFrame(retention_records)
+    
+    if df.empty:
+        print("No continuity data calculated.")
+        return None
+
+    base = alt.Chart(df).encode(
+        x=alt.X(
+            "season:O",
+            sort=alt.SortOrder("ascending"),
+            title="Season",
+            axis=alt.Axis(
+                labelAngle=0,
+                labelOverlap="parity"
+            )
         ),
-        opacity=alt.Opacity("Type:N", scale=alt.Scale(domain=["Starters", "Forwards", "Backs"], range=[1, 0.5])),
+        y=alt.Y(
+            "retained:Q",
+            title="Average Players Retained",
+            scale=alt.Scale(zero=True),
+            axis=alt.Axis(tickMinStep=1),
+        ),
+        detail=[alt.Detail("unit:N")],
+        tooltip=[
+            alt.Tooltip("season:O", title="Season"),
+            alt.Tooltip("squad:N", title="Squad"),
+            alt.Tooltip("unit:N", title="Unit"),
+            alt.Tooltip("retained:Q", title="Avg Retained", format=".1f"),
+        ],
     )
-    point = (
-        trend.mark_point(filled=True, size=100)
-        .add_params(season_selection)
-        .transform_filter("datum.Type == 'Starters'")
-    )
-    text = (
-        trend.mark_text(dy=-15, fontSize=13)
-        .encode(text=alt.Text("Starters:Q", format=".1f"))
-        .transform_filter("datum.Type == 'Starters'")
-    )
-    trends = alt.layer(line, point, text)
 
+    total_line = (
+        base.transform_filter(alt.datum.unit == "Total")
+        .mark_line(opacity=0.8, color="#202946", point={"filled": True, "color": "#7d96e8", "stroke":"#202946", "size": 75, "strokeWidth":2}, strokeWidth=3)
+    )
+
+    forwards_line = (
+        base.transform_filter(alt.datum.unit == "Forwards")
+        .mark_line(opacity=0.8, color="blue", point={"filled": True, "color": "blue", "stroke":"darkblue", "size": 50, "strokeWidth":2}, strokeWidth=2)
+    )
+
+    backs_line = (
+        base.transform_filter(alt.datum.unit == "Backs")
+        .mark_line(opacity=0.8, color="black", point={"filled": True, "color": "white", "stroke": "black", "size": 50, "strokeWidth": 2}, strokeWidth=2)
+    )
+
+    label_total    = _unit_label(base, "Total", "#202946", "retained")
+    label_forwards = _unit_label(base, "Forwards", "darkblue", "retained")
+    label_backs    = _unit_label(base, "Backs", "black", "retained")
 
     chart = (
-        alt.hconcat(b1, trends, b2, spacing=0)
-        .resolve_scale(y="shared")
+        alt.layer(total_line, forwards_line, backs_line, label_total, label_forwards, label_backs)
+        .properties(width=200, height=400)
+        .facet(
+            column=alt.Column(
+                "squad:N",
+                sort=["1st", "2nd"],
+                title=None,
+                header=alt.Header(
+                    labelFontSize=24,
+                    labelExpr="datum.value + ' XV'",
+                ),
+            ),
+            spacing=30
+        )
         .properties(
             title=alt.Title(
-                text="Squad Continuity", 
-                subtitle=[
-                    "Number of players in the starting XV retained from the previous game", 
-                    "Dashed lines (forwards) and dotted lines (backs) show average by season"
-                ]
+                text="Squad Continuity",
+                subtitle=["Average number of players retained from game to game."],
             )
         )
     )
 
-    if file:
-        chart.save(file, embed_options={'renderer':'svg', 'actions': {'export': True, 'source':False, 'editor':True, 'compiled':False} })
-        hack_params_css(file, params=False)
+    chart.save(output_file)
+    return chart
 
+
+def squad_size_trend_chart(db, output_file='data/charts/squad_size_trend.json'):
+    """Generate squad size trend chart template from canonical backend data."""
+
+    df = db.con.execute(
+        """
+        SELECT season, squad, unit, COUNT(DISTINCT player) AS players
+        FROM player_appearances
+        WHERE unit IN ('Forwards', 'Backs')
+        GROUP BY season, squad, unit
+
+        UNION ALL
+
+        SELECT season, squad, 'Total' AS unit, COUNT(DISTINCT player) AS players
+        FROM player_appearances
+        GROUP BY season, squad
+
+        ORDER BY season, squad, unit
+        """
+    ).df()
+
+    if df.empty:
+        print("No player appearance data found for squad size trend chart.")
+        return None
+
+    base = alt.Chart(df).encode(
+        x=alt.X(
+            "season:O",
+            sort=alt.SortOrder("ascending"),
+            title="Season",
+            axis=alt.Axis(
+                labelAngle=0,
+                labelOverlap="parity"
+            )
+        ),
+        y=alt.Y(
+            "players:Q",
+            title="Players",
+            scale=alt.Scale(zero=True),
+            axis=alt.Axis(tickMinStep=1),
+        ),
+        detail=[alt.Detail("unit:N")],
+        tooltip=[
+            alt.Tooltip("season:O", title="Season"),
+            alt.Tooltip("squad:N", title="Squad"),
+            alt.Tooltip("unit:N", title="Unit"),
+            alt.Tooltip("players:Q", title="Players"),
+        ],
+    )
+
+    total_line = (
+        base.transform_filter(alt.datum.unit == "Total")
+        .mark_line(opacity=0.8,color="#202946", point={"filled": True, "color": "#7d96e8", "stroke":"#202946", "size": 75, "strokeWidth":2}, strokeWidth=3)
+    )
+
+    forwards_line = (
+        base.transform_filter(alt.datum.unit == "Forwards")
+        .mark_line(opacity=0.8, color="blue", point={"filled": True, "color": "blue", "stroke":"darkblue", "size": 50, "strokeWidth":2}, strokeWidth=2)
+    )
+
+    backs_line = (
+        base.transform_filter(alt.datum.unit == "Backs")
+        .mark_line(opacity=0.8, color="black",point={"filled": True, "color":"white", "stroke": "black", "size": 50, "strokeWidth": 2}, strokeWidth=2)
+    )
+
+    label_total    = _unit_label(base, "Total", "#202946", "players")
+    label_forwards = _unit_label(base, "Forwards", "darkblue", "players")
+    label_backs    = _unit_label(base, "Backs", "black", "players")
+
+    chart = (
+        alt.layer(total_line, forwards_line, backs_line, label_total, label_forwards, label_backs)
+        .properties(width=200, height=400)
+        .facet(
+            column=alt.Column(
+                "squad:N",
+                sort=["1st", "2nd"],
+                title=None,
+                header=alt.Header(
+                    labelFontSize=24,
+                    labelExpr="datum.value + ' XV'",
+                ),
+            ),
+            spacing=30
+        )
+        .properties(
+            title=alt.Title(
+                text="Squad Size",
+                subtitle=["Total, forwards and backs representing each squad each season.", "Select Game Type or Min Apps to filter which games count towards the totals."],
+            )
+        )
+    )
+
+    chart.save(output_file)
     return chart

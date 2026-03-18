@@ -27,8 +27,7 @@
 }
 
 .vega-embed {
-    min-width: 600px;
-    width: auto !important;
+    width: fit-content !important;
     height: fit-content !important;
     transform-origin: top left;
 }
