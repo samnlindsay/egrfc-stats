@@ -17,7 +17,7 @@ body {
     flex-direction: column;
     overflow-x: hidden;
     overflow-y: auto;
-    padding-bottom: var(--filter-panel-collapsed-height);
+    padding-bottom: 0;
 }
 
 .navbar {

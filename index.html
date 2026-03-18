@@ -62,25 +62,6 @@
         </div>
     </nav>
 
-    <!-- BOTTOM FILTER PANEL (shared across all pages) -->
-    <div id="filterPanel" class="filter-panel">
-        <div class="filter-panel-header" id="filterPanelToggle">
-            <button class="filter-panel-toggle" type="button">
-                <i class="bi bi-chevron-up"></i>
-                <span class="filter-panel-title">Filters</span>
-            </button>
-        </div>
-    
-        <div class="filter-panel-content">
-            <div class="filters-container" id="filtersContainer">
-                <!-- Filters will be dynamically populated based on current page -->
-            </div>
-        </div>
-    </div>
-    
-    <!-- Filter Panel Backdrop (for mobile) -->
-    <div id="filterPanelBackdrop" class="filter-panel-backdrop"></div>
-
     <!-- MAIN CONTENT AREA -->
     <div class="main-content">
 
@@ -213,54 +194,95 @@
         <!-- ========== SQUAD METRICS PAGE ========== -->
         <div id="page-squad-metrics" class="page-content">
             <div style="padding: 2rem 1rem; max-width: 1200px; margin: 0 auto;">
-                <h1 style="color: var(--primary-color); margin-bottom: 1rem;">Squad Metrics</h1>
-                
-                <div class="row mb-4">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+                    <h1 style="color: var(--primary-color); margin: 0;">Squad Metrics</h1>
+                    <div class="squad-metrics-top-filters" style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
+                        <div class="filter-item league-season-picker" style="margin-bottom: 0;">
+                            <div class="input-group">
+                                <span class="input-group-text">Season</span>
+                                <select id="squadMetricsSeasonSelect" class="selectpicker form-control flex-fill" data-size="8">
+                                    <!-- Options populated dynamically by JavaScript -->
+                                </select>
+                            </div>
+                        </div>
+                        <div class="filter-item league-season-picker" style="margin-bottom: 0;">
+                            <div class="input-group">
+                                <span class="input-group-text">Game Type</span>
+                                <select id="squadMetricsGameTypeSelect" class="selectpicker form-control flex-fill" data-size="8">
+                                    <option value="All games">All games</option>
+                                    <option value="League + Cup">League + Cup</option>
+                                    <option value="League only">League only</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="filter-item league-season-picker" style="margin-bottom: 0;">
+                            <div class="input-group">
+                                <span class="input-group-text">Min Apps</span>
+                                <input id="squadMetricsMinAppearancesInput" class="form-control flex-fill" type="number" min="0" step="1" value="0" inputmode="numeric" aria-label="Minimum appearances" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-4" id="squadMetricsCards">
                     <div class="col-md-4 mb-3">
-                        <div class="card">
+                        <div class="card squad-metric-card squad-metric-card-1st">
+                            <div class="card-header squad-metric-card-header squad-metric-card-header-1st league-team-title-1st">1st XV</div>
                             <div class="card-body text-center">
-                                <h3 style="color: var(--primary-color);">23</h3>
-                                <p class="card-text">1st XV Players (2025/26)</p>
+                                <h3 id="squadMetricValue1st" class="squad-metric-value">0</h3>
+                                <p id="squadMetricLabel1st" class="card-text mb-0">Players used</p>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-4 mb-3">
-                        <div class="card">
+                        <div class="card squad-metric-card squad-metric-card-2nd">
+                            <div class="card-header squad-metric-card-header squad-metric-card-header-2nd league-team-title-2nd">2nd XV</div>
                             <div class="card-body text-center">
-                                <h3 style="color: var(--primary-color);">20</h3>
-                                <p class="card-text">2nd XV Players (2025/26)</p>
+                                <h3 id="squadMetricValue2nd" class="squad-metric-value">0</h3>
+                                <p id="squadMetricLabel2nd" class="card-text mb-0">Players used</p>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-4 mb-3">
-                        <div class="card">
+                        <div class="card squad-metric-card squad-metric-card-total">
+                            <div class="card-header squad-metric-card-header">Total</div>
                             <div class="card-body text-center">
-                                <h3 style="color: var(--primary-color);">8</h3>
-                                <p class="card-text">Squad Positions</p>
+                                <h3 id="squadMetricValueTotal" class="squad-metric-value">0</h3>
+                                <p id="squadMetricLabelTotal" class="card-text mb-0">Players used</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-lg-6 mb-4">
-                        <h3>Position Distribution (1st XV)</h3>
-                        <div style="background: white; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                            <p style="color: #666;"><strong>Forwards (1-8):</strong> 13 players</p>
-                            <p style="color: #666;"><strong>Backs (9-15):</strong> 10 players</p>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 mb-4">
-                        <h3>Position Distribution (2nd XV)</h3>
-                        <div style="background: white; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                            <p style="color: #666;"><strong>Forwards (1-8):</strong> 11 players</p>
-                            <p style="color: #666;"><strong>Backs (9-15):</strong> 9 players</p>
-                        </div>
-                    </div>
-                </div>
+                <h3 class="squad-metrics-table-title">Squad Size</h3>
+                <p id="squadMetricsTableSubtitle" class="squad-metrics-table-subtitle"></p>
 
-                <div id="squad-metrics-placeholder" style="background: white; padding: 2rem; border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); text-align: center; color: #999; margin-top: 2rem;">
-                    Squad composition charts and trends over time will be displayed here
+                <div class="table-responsive squad-metrics-table-wrap">
+                    <table class="table table-sm mb-0 squad-metrics-table" id="squadMetricsTable">
+                        <thead>
+                            <tr>
+                                <th rowspan="2">Season</th>
+                                <th colspan="3" class="squad-group-header-1st">1st XV</th>
+                                <th colspan="3" class="squad-group-header-2nd">2nd XV</th>
+                                <th colspan="3" class="squad-group-header-total">Total</th>
+                            </tr>
+                            <tr>
+                                <th class="squad-group-subheader-1st squad-subheader-fwds">Fwds</th>
+                                <th class="squad-group-subheader-1st squad-subheader-backs">Backs</th>
+                                <th class="squad-group-subheader-1st squad-subheader-total">Total</th>
+                                <th class="squad-group-subheader-2nd squad-subheader-fwds">Fwds</th>
+                                <th class="squad-group-subheader-2nd squad-subheader-backs">Backs</th>
+                                <th class="squad-group-subheader-2nd squad-subheader-total">Total</th>
+                                <th class="squad-group-subheader-total squad-subheader-fwds">Fwds</th>
+                                <th class="squad-group-subheader-total squad-subheader-backs">Backs</th>
+                                <th class="squad-group-subheader-total squad-subheader-total">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody id="squadMetricsTableBody">
+                            <tr>
+                                <td colspan="10" class="text-center text-muted py-3">Loading squad metrics...</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -443,7 +465,11 @@
         let currentPage = 'home';
         let currentFilters = {};
         let leagueTablesData = null;
+        let playerAppearancesData = null;
+        let gamesData = null;
+        let squadMetricsData = null;
         let availableSeasons = ['2025/26', '2024/25', '2023/24', '2022/23', '2021/22'];
+        let squadMetricsControlsInitialised = false;
 
         function getCurrentSeasonLabel() {
             const now = new Date();
@@ -489,20 +515,15 @@
                 pageEl.style.display = 'block';
                 currentPage = page;
                 
-                // Hide/show filter panel based on page
-                const filterPanel = document.getElementById('filterPanel');
-                if (page === 'league-tables') {
-                    filterPanel.style.display = 'none';
-                } else {
-                    filterPanel.style.display = 'flex';
-                    updateFiltersForPage(page);
-                }
-                
                 window.scrollTo(0, 0);
                 
                 // Load page-specific content
                 if (page === 'league-tables') {
                     loadLeagueTablePage();
+                }
+
+                if (page === 'squad-metrics') {
+                    loadSquadMetricsPage();
                 }
             }
         }
@@ -520,6 +541,493 @@
             }
             
             renderLeagueTables();
+        }
+
+        async function loadSquadMetricsCanonicalData() {
+            if (playerAppearancesData && gamesData) {
+                return;
+            }
+
+            const [appearancesResponse, gamesResponse] = await Promise.all([
+                fetch('data/backend/player_appearances.json'),
+                fetch('data/backend/games.json')
+            ]);
+
+            if (!appearancesResponse.ok) {
+                throw new Error(`Failed to fetch canonical player appearances (${appearancesResponse.status})`);
+            }
+
+            if (!gamesResponse.ok) {
+                throw new Error(`Failed to fetch canonical games (${gamesResponse.status})`);
+            }
+
+            playerAppearancesData = await appearancesResponse.json();
+            gamesData = await gamesResponse.json();
+        }
+
+        function buildSquadMetricsData(rows) {
+            const bySeason = {};
+
+            rows.forEach(row => {
+                const season = row.Season;
+                const squad = row.Squad;
+                const player = String(row.Player || '').trim();
+                const positionType = row.PositionType;
+
+                if (!season || !player || (squad !== '1st' && squad !== '2nd')) {
+                    return;
+                }
+
+                if (!bySeason[season]) {
+                    bySeason[season] = {
+                        '1st': { players: new Set(), forwards: new Set(), backs: new Set() },
+                        '2nd': { players: new Set(), forwards: new Set(), backs: new Set() },
+                        'Total': { players: new Set(), forwards: new Set(), backs: new Set() }
+                    };
+                }
+
+                const seasonBucket = bySeason[season];
+                seasonBucket[squad].players.add(player);
+                seasonBucket.Total.players.add(player);
+
+                if (positionType === 'Forwards') {
+                    seasonBucket[squad].forwards.add(player);
+                    seasonBucket.Total.forwards.add(player);
+                } else if (positionType === 'Backs') {
+                    seasonBucket[squad].backs.add(player);
+                    seasonBucket.Total.backs.add(player);
+                }
+            });
+
+            return bySeason;
+        }
+
+        function buildSquadMetricsDataFromCanonical(appearances, gameTypeMode) {
+            const bySeason = {};
+            const gameTypeByGameId = new Map((gamesData || []).map(game => [game.game_id, game.game_type]));
+            const allowedGameTypes = getAllowedGameTypes(gameTypeMode);
+
+            const createMetricBucket = () => ({
+                players: new Map(),
+                forwards: new Map(),
+                backs: new Map()
+            });
+
+            const createSeasonBucket = () => ({
+                '1st': createMetricBucket(),
+                '2nd': createMetricBucket(),
+                'Total': createMetricBucket()
+            });
+
+            const incrementPlayerCount = (countMap, player) => {
+                countMap.set(player, (countMap.get(player) || 0) + 1);
+            };
+
+            appearances.forEach(row => {
+                const season = row.season;
+                const squad = row.squad;
+                const player = String(row.player || '').trim();
+                const unit = row.unit;
+                const gameType = gameTypeByGameId.get(row.game_id);
+
+                if (!season || !player || (squad !== '1st' && squad !== '2nd')) {
+                    return;
+                }
+
+                if (allowedGameTypes && !allowedGameTypes.has(gameType)) {
+                    return;
+                }
+
+                if (!bySeason[season]) {
+                    bySeason[season] = createSeasonBucket();
+                }
+
+                const seasonBucket = bySeason[season];
+                incrementPlayerCount(seasonBucket[squad].players, player);
+                incrementPlayerCount(seasonBucket.Total.players, player);
+
+                if (unit === 'Forwards') {
+                    incrementPlayerCount(seasonBucket[squad].forwards, player);
+                    incrementPlayerCount(seasonBucket.Total.forwards, player);
+                } else if (unit === 'Backs') {
+                    incrementPlayerCount(seasonBucket[squad].backs, player);
+                    incrementPlayerCount(seasonBucket.Total.backs, player);
+                }
+            });
+
+            return bySeason;
+        }
+
+        function getSortedSquadMetricSeasons(dataBySeason) {
+            const seasons = Object.keys(dataBySeason || {});
+            if (seasons.length === 0) {
+                return [];
+            }
+
+            return seasons.sort((a, b) => {
+                const startA = parseInt(String(a).split('/')[0], 10);
+                const startB = parseInt(String(b).split('/')[0], 10);
+                if (!Number.isFinite(startA) || !Number.isFinite(startB)) {
+                    return String(b).localeCompare(String(a));
+                }
+                return startB - startA;
+            });
+        }
+
+        async function loadSquadMetricsPage() {
+            try {
+                await loadSquadMetricsCanonicalData();
+                initialiseSquadMetricsControlsOnce();
+                renderSquadMetricsPage();
+            } catch (err) {
+                console.error('Error loading squad metrics data:', err);
+                const tbody = document.getElementById('squadMetricsTableBody');
+                if (tbody) {
+                    tbody.innerHTML = '<tr><td colspan="10" class="text-center text-danger py-3">Unable to load squad metrics data.</td></tr>';
+                }
+            }
+        }
+
+        function getSquadMetricValue(unit, bucket, minimumAppearances = 0) {
+            if (!bucket) {
+                return 0;
+            }
+
+            const threshold = Math.max(0, Number(minimumAppearances) || 0);
+            const countPlayersAboveThreshold = countMap => {
+                if (!(countMap instanceof Map)) {
+                    return 0;
+                }
+
+                if (threshold <= 0) {
+                    return countMap.size;
+                }
+
+                let count = 0;
+                countMap.forEach(value => {
+                    if (value >= threshold) {
+                        count += 1;
+                    }
+                });
+                return count;
+            };
+
+            if (unit === 'Forwards') {
+                return countPlayersAboveThreshold(bucket.forwards);
+            }
+
+            if (unit === 'Backs') {
+                return countPlayersAboveThreshold(bucket.backs);
+            }
+
+            return countPlayersAboveThreshold(bucket.players);
+        }
+
+        function getSquadMetricCardLabel(minimumAppearances) {
+            if (minimumAppearances > 1) {
+                return `Players with ${minimumAppearances} or more games`;
+            }
+            return 'Players used';
+        }
+
+        function getAllowedGameTypes(mode) {
+            if (mode === 'League + Cup') {
+                return new Set(['League', 'Cup']);
+            }
+            if (mode === 'League only') {
+                return new Set(['League']);
+            }
+            return null;
+        }
+
+        function getSquadMetricsGameTypeMode() {
+            const gameTypeSelect = document.getElementById('squadMetricsGameTypeSelect');
+            return gameTypeSelect?.value || 'All games';
+        }
+
+        function getSquadMetricsMinimumAppearances() {
+            const minAppearancesInput = document.getElementById('squadMetricsMinAppearancesInput');
+            const value = Number(minAppearancesInput?.value ?? 0);
+            if (!Number.isFinite(value)) {
+                return 0;
+            }
+            return Math.max(0, Math.floor(value));
+        }
+
+        function normalizeSeasonLabel(value) {
+            if (!value) {
+                return null;
+            }
+
+            const season = String(value).trim().replace('-', '/');
+            const match = season.match(/^(\d{4})\/(\d{2}|\d{4})$/);
+            if (!match) {
+                return null;
+            }
+
+            const startYear = match[1];
+            const endPart = match[2];
+            const endSuffix = endPart.length === 4 ? endPart.slice(-2) : endPart;
+            return `${startYear}/${endSuffix}`;
+        }
+
+        function getSquadMetricsSeasonOptions() {
+            const seasonSet = new Set();
+
+            const addSeason = season => {
+                const normalized = normalizeSeasonLabel(season);
+                if (normalized) {
+                    seasonSet.add(normalized);
+                }
+            };
+
+            (availableSeasons || []).forEach(addSeason);
+            (playerAppearancesData || []).forEach(row => addSeason(row.season));
+            addSeason(getCurrentSeasonLabel());
+
+            return getSortedSquadMetricSeasons(
+                Object.fromEntries(Array.from(seasonSet).map(season => [season, true]))
+            );
+        }
+
+        function populateSquadMetricsSeasonDropdownOptions(seasonSelect) {
+            if (!seasonSelect) {
+                return [];
+            }
+
+            const seasons = getSquadMetricsSeasonOptions();
+            const finalSeasons = seasons.length > 0 ? seasons : [getCurrentSeasonLabel()];
+
+            seasonSelect.innerHTML = '';
+            finalSeasons.forEach(season => {
+                const option = document.createElement('option');
+                option.value = season;
+                option.textContent = season;
+                seasonSelect.appendChild(option);
+            });
+
+            return finalSeasons;
+        }
+
+        function refreshSquadMetricsData() {
+            if (!playerAppearancesData) {
+                squadMetricsData = {};
+                return;
+            }
+
+            const mode = getSquadMetricsGameTypeMode();
+            squadMetricsData = buildSquadMetricsDataFromCanonical(playerAppearancesData, mode);
+        }
+
+        function renderSquadMetricCards(season, minimumAppearances) {
+            const seasonData = squadMetricsData?.[season] || {
+                '1st': { players: new Map(), forwards: new Map(), backs: new Map() },
+                '2nd': { players: new Map(), forwards: new Map(), backs: new Map() },
+                'Total': { players: new Map(), forwards: new Map(), backs: new Map() }
+            };
+
+            const labelText = getSquadMetricCardLabel(minimumAppearances);
+
+            const value1st = document.getElementById('squadMetricValue1st');
+            const value2nd = document.getElementById('squadMetricValue2nd');
+            const valueTotal = document.getElementById('squadMetricValueTotal');
+
+            const label1st = document.getElementById('squadMetricLabel1st');
+            const label2nd = document.getElementById('squadMetricLabel2nd');
+            const labelTotal = document.getElementById('squadMetricLabelTotal');
+
+            if (value1st) value1st.textContent = getSquadMetricValue('Total', seasonData['1st'], minimumAppearances);
+            if (value2nd) value2nd.textContent = getSquadMetricValue('Total', seasonData['2nd'], minimumAppearances);
+            if (valueTotal) valueTotal.textContent = getSquadMetricValue('Total', seasonData['Total'], minimumAppearances);
+
+            if (label1st) label1st.textContent = labelText;
+            if (label2nd) label2nd.textContent = labelText;
+            if (labelTotal) labelTotal.textContent = labelText;
+        }
+
+        function renderSquadMetricsTable(minimumAppearances) {
+            const tbody = document.getElementById('squadMetricsTableBody');
+            if (!tbody) {
+                return;
+            }
+
+            const subtitle = document.getElementById('squadMetricsTableSubtitle');
+            if (subtitle) {
+                if (minimumAppearances > 1) {
+                    subtitle.textContent = `Players with ${minimumAppearances} or more appearances`;
+                    subtitle.style.display = 'block';
+                } else {
+                    subtitle.textContent = '';
+                    subtitle.style.display = 'none';
+                }
+            }
+
+            const seasonSelect = document.getElementById('squadMetricsSeasonSelect');
+            const selectedSeason = seasonSelect?.value || getCurrentSeasonLabel();
+
+            const seasonSet = new Set();
+            const addSeason = season => {
+                const normalized = normalizeSeasonLabel(season);
+                if (normalized) {
+                    seasonSet.add(normalized);
+                }
+            };
+
+            (availableSeasons || []).forEach(addSeason);
+            Object.keys(squadMetricsData || {}).forEach(addSeason);
+            addSeason(selectedSeason);
+            addSeason(getCurrentSeasonLabel());
+
+            const seasons = getSortedSquadMetricSeasons(Object.fromEntries(Array.from(seasonSet).map(season => [season, true])));
+
+            if (seasons.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="10" class="text-center text-muted py-3">No squad metrics available.</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = seasons.map(season => {
+                const seasonData = squadMetricsData?.[season] || {
+                    '1st': { players: new Map(), forwards: new Map(), backs: new Map() },
+                    '2nd': { players: new Map(), forwards: new Map(), backs: new Map() },
+                    'Total': { players: new Map(), forwards: new Map(), backs: new Map() }
+                };
+                const squad1 = seasonData['1st'];
+                const squad2 = seasonData['2nd'];
+                const total = seasonData['Total'];
+                const rowClass = season === selectedSeason ? 'squad-metrics-current-season' : '';
+
+                return `
+                    <tr class="${rowClass}">
+                        <td>${season}</td>
+                        <td class="squad-group-cell-1st squad-cell-fwds">${getSquadMetricValue('Forwards', squad1, minimumAppearances)}</td>
+                        <td class="squad-group-cell-1st squad-cell-backs">${getSquadMetricValue('Backs', squad1, minimumAppearances)}</td>
+                        <td class="squad-group-cell-1st squad-cell-total">${getSquadMetricValue('Total', squad1, minimumAppearances)}</td>
+                        <td class="squad-group-cell-2nd squad-cell-fwds">${getSquadMetricValue('Forwards', squad2, minimumAppearances)}</td>
+                        <td class="squad-group-cell-2nd squad-cell-backs">${getSquadMetricValue('Backs', squad2, minimumAppearances)}</td>
+                        <td class="squad-group-cell-2nd squad-cell-total">${getSquadMetricValue('Total', squad2, minimumAppearances)}</td>
+                        <td class="squad-group-cell-total squad-cell-fwds">${getSquadMetricValue('Forwards', total, minimumAppearances)}</td>
+                        <td class="squad-group-cell-total squad-cell-backs">${getSquadMetricValue('Backs', total, minimumAppearances)}</td>
+                        <td class="squad-group-cell-total squad-cell-total">${getSquadMetricValue('Total', total, minimumAppearances)}</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function renderSquadMetricsPage() {
+            if (!playerAppearancesData) {
+                return;
+            }
+
+            refreshSquadMetricsData();
+
+            const seasons = getSortedSquadMetricSeasons(squadMetricsData);
+            if (seasons.length === 0) {
+                const minimumAppearances = getSquadMetricsMinimumAppearances();
+                renderSquadMetricCards(getCurrentSeasonLabel(), minimumAppearances);
+                renderSquadMetricsTable(minimumAppearances);
+                return;
+            }
+
+            const seasonSelect = document.getElementById('squadMetricsSeasonSelect');
+
+            const selectedSeason = seasonSelect?.value
+                || (seasons.includes(getCurrentSeasonLabel()) ? getCurrentSeasonLabel() : seasons[0]);
+            const minimumAppearances = getSquadMetricsMinimumAppearances();
+
+            if (seasonSelect && seasonSelect.value !== selectedSeason) {
+                const $seasonSelect = $('#squadMetricsSeasonSelect');
+                if ($seasonSelect.data('selectpicker')) {
+                    $seasonSelect.selectpicker('val', selectedSeason);
+                } else {
+                    seasonSelect.value = selectedSeason;
+                }
+            }
+
+            renderSquadMetricCards(selectedSeason, minimumAppearances);
+            renderSquadMetricsTable(minimumAppearances);
+        }
+
+        function initialiseSquadMetricsControlsOnce() {
+            if (squadMetricsControlsInitialised) {
+                return;
+            }
+
+            const seasonSelect = document.getElementById('squadMetricsSeasonSelect');
+            const gameTypeSelect = document.getElementById('squadMetricsGameTypeSelect');
+            const minAppearancesInput = document.getElementById('squadMetricsMinAppearancesInput');
+
+            if (!seasonSelect || !gameTypeSelect || !minAppearancesInput) {
+                return;
+            }
+
+            const $seasonSelect = $('#squadMetricsSeasonSelect');
+            const $gameTypeSelect = $('#squadMetricsGameTypeSelect');
+
+            $seasonSelect.selectpicker();
+
+            const seasons = populateSquadMetricsSeasonDropdownOptions(seasonSelect);
+            const currentSeason = getCurrentSeasonLabel();
+            if (seasons.includes(currentSeason)) {
+                seasonSelect.value = currentSeason;
+            } else {
+                seasonSelect.value = seasons[0];
+            }
+
+            $seasonSelect.selectpicker('refresh');
+            $gameTypeSelect.selectpicker();
+
+            gameTypeSelect.value = 'All games';
+            minAppearancesInput.value = '0';
+
+            $gameTypeSelect.selectpicker('val', 'All games');
+
+            $seasonSelect.on('changed.bs.select', function() {
+                if (currentPage === 'squad-metrics') {
+                    renderSquadMetricsPage();
+                }
+            });
+
+            $gameTypeSelect.on('changed.bs.select', function() {
+                if (currentPage === 'squad-metrics') {
+                    renderSquadMetricsPage();
+                }
+            });
+
+            minAppearancesInput.addEventListener('input', function() {
+                const parsed = Number(this.value);
+                if (!Number.isFinite(parsed)) {
+                    return;
+                }
+                if (parsed < 0) {
+                    this.value = '0';
+                } else if (!Number.isInteger(parsed)) {
+                    this.value = String(Math.floor(parsed));
+                }
+                if (currentPage === 'squad-metrics') {
+                    renderSquadMetricsPage();
+                }
+            });
+
+            minAppearancesInput.addEventListener('change', function() {
+                if (this.value === '' || Number(this.value) < 0 || !Number.isFinite(Number(this.value))) {
+                    this.value = '0';
+                }
+                if (currentPage === 'squad-metrics') {
+                    renderSquadMetricsPage();
+                }
+            });
+
+            minAppearancesInput.addEventListener('blur', function() {
+                if (this.value === '' || Number(this.value) < 0 || !Number.isFinite(Number(this.value))) {
+                    this.value = '0';
+                }
+                this.value = String(Math.floor(Number(this.value)));
+                if (currentPage === 'squad-metrics') {
+                    renderSquadMetricsPage();
+                }
+            });
+
+            squadMetricsControlsInitialised = true;
         }
 
         function toLeagueSeasonFormat(season) {
@@ -879,134 +1387,6 @@
             initialiseLeagueResultsPanels();
         }
 
-        // Update filters based on current page
-        function updateFiltersForPage(page) {
-            const filtersContainer = document.getElementById('filtersContainer');
-            filtersContainer.innerHTML = '';
-
-            // Define filters for each page (using availableSeasons dynamically)
-            const filterConfigs = {
-                'home': [],
-                'season-results': [
-                    { type: 'radio', label: 'Squad', id: 'squadRadio', options: ['All', '1st', '2nd'] },
-                    { type: 'checkbox', label: 'Competition', id: 'gameTypeCheck', options: ['League', 'Cup', 'Friendly'] },
-                    { type: 'select', label: 'Season', id: 'seasonSelect', options: availableSeasons }
-                ],
-                'squad-metrics': [
-                    { type: 'radio', label: 'Squad', id: 'squadRadio', options: ['All', '1st', '2nd'] },
-                    { type: 'select', label: 'Season', id: 'seasonSelect', options: availableSeasons },
-                    { type: 'select', label: 'Position', id: 'positionSelect', options: ['All', 'Forwards', 'Backs'] }
-                ],
-                'player-profiles': [
-                    { type: 'radio', label: 'Squad', id: 'squadRadio', options: ['All', '1st', '2nd'] },
-                    { type: 'select', label: 'Position', id: 'positionSelect', options: ['All', 'Forwards', 'Backs', 'Prop', 'Hooker', 'Lock', 'Flanker', 'Number 8', 'Scrum Half', 'Fly Half', 'Centre', 'Wing', 'Full Back'] }
-                ],
-                'league-graphics': [
-                    { type: 'select', label: 'Season', id: 'seasonSelect', options: availableSeasons }
-                ],
-                'squad-graphics': [
-                    { type: 'radio', label: 'Squad', id: 'squadRadio', options: ['All', '1st', '2nd'] },
-                    { type: 'checkbox', label: 'Competition', id: 'gameTypeCheck', options: ['League', 'Cup', 'Friendly'] },
-                    { type: 'select', label: 'Season', id: 'seasonSelect', options: availableSeasons }
-                ],
-                'video-analysis': [
-                    { type: 'radio', label: 'Squad', id: 'squadRadio', options: ['1st', '2nd'] },
-                    { type: 'select', label: 'Season', id: 'seasonSelect', options: availableSeasons }
-                ]
-            };
-
-            const filters = filterConfigs[page] || [];
-
-            filters.forEach(filter => {
-                const filterItem = document.createElement('div');
-                filterItem.className = 'filter-item';
-
-                if (filter.type === 'radio') {
-                    const inputGroup = document.createElement('div');
-                    inputGroup.className = 'input-group';
-                    inputGroup.innerHTML = `<span class="input-group-text">${filter.label}</span>`;
-
-                    const btnGroup = document.createElement('div');
-                    btnGroup.className = 'btn-group flex-fill';
-                    btnGroup.setAttribute('role', 'group');
-
-                    filter.options.forEach((option, idx) => {
-                        const inputId = `${filter.id}_${idx}`;
-                        const input = document.createElement('input');
-                        input.type = 'radio';
-                        input.className = 'btn-check';
-                        input.name = filter.id;
-                        input.id = inputId;
-                        input.value = option;
-                        if (option === 'All' || option === '1st') input.checked = true;
-
-                        const label = document.createElement('label');
-                        label.className = 'btn btn-outline-primary';
-                        label.htmlFor = inputId;
-                        label.textContent = option;
-
-                        btnGroup.appendChild(input);
-                        btnGroup.appendChild(label);
-                    });
-
-                    inputGroup.appendChild(btnGroup);
-                    filterItem.appendChild(inputGroup);
-
-                } else if (filter.type === 'checkbox') {
-                    const inputGroup = document.createElement('div');
-                    inputGroup.className = 'input-group';
-                    inputGroup.innerHTML = `<span class="input-group-text">${filter.label}</span>`;
-
-                    const btnGroup = document.createElement('div');
-                    btnGroup.className = 'btn-group flex-fill';
-                    btnGroup.setAttribute('role', 'group');
-
-                    filter.options.forEach((option, idx) => {
-                        const inputId = `${filter.id}_${idx}`;
-                        const input = document.createElement('input');
-                        input.type = 'checkbox';
-                        input.className = 'btn-check';
-                        input.name = filter.id;
-                        input.id = inputId;
-                        input.value = option;
-                        input.checked = true;
-
-                        const label = document.createElement('label');
-                        label.className = 'btn btn-outline-primary';
-                        label.htmlFor = inputId;
-                        label.textContent = option;
-
-                        btnGroup.appendChild(input);
-                        btnGroup.appendChild(label);
-                    });
-
-                    inputGroup.appendChild(btnGroup);
-                    filterItem.appendChild(inputGroup);
-
-                } else if (filter.type === 'select') {
-                    const inputGroup = document.createElement('div');
-                    inputGroup.className = 'input-group';
-                    inputGroup.innerHTML = `<span class="input-group-text">${filter.label}</span>`;
-
-                    const select = document.createElement('select');
-                    select.className = 'form-control flex-fill';
-                    select.id = filter.id;
-
-                    filter.options.forEach(option => {
-                        const optionEl = document.createElement('option');
-                        optionEl.value = option;
-                        optionEl.textContent = option;
-                        select.appendChild(optionEl);
-                    });
-
-                    inputGroup.appendChild(select);
-                    filterItem.appendChild(inputGroup);
-                }
-
-                filtersContainer.appendChild(filterItem);
-            });
-        }
-
         // Setup top navigation links
         document.addEventListener('DOMContentLoaded', async function() {
             // Load available seasons first
@@ -1062,21 +1442,6 @@
                     }
                 });
             }
-
-            // Filter panel toggle
-            const filterPanelToggle = document.getElementById('filterPanelToggle');
-            const filterPanel = document.getElementById('filterPanel');
-            const filterPanelBackdrop = document.getElementById('filterPanelBackdrop');
-
-            filterPanelToggle.addEventListener('click', function() {
-                filterPanel.classList.toggle('expanded');
-                filterPanelBackdrop.classList.toggle('show');
-            });
-
-            filterPanelBackdrop.addEventListener('click', function() {
-                filterPanel.classList.remove('expanded');
-                filterPanelBackdrop.classList.remove('show');
-            });
 
             // Initialize home page
             navigateTo('home');
