@@ -254,35 +254,99 @@
                     </div>
                 </div>
 
-                <p id="squadMetricsTableSubtitle" class="squad-metrics-table-subtitle"></p>
+                <div class="squad-metrics-breakdown-panels" style="display: flex; flex-direction: row; flex-wrap: wrap; gap: 1rem; align-items: flex-start; margin-bottom: 1.25rem;">
+                    <div class="chart-panel chart-panel--inline squad-position-panel">
+                        <button
+                            type="button"
+                            class="chart-panel-toggle chart-panel-toggle--primary"
+                            data-target="squad-position-1st-panel"
+                            data-accordion-group="squad-metrics-breakdown"
+                            aria-expanded="false"
+                            aria-controls="squad-position-1st-panel">
+                            <span class="chart-panel-toggle-text">
+                                <span class="chart-panel-toggle-title">1st XV by Position</span>
+                                <span class="chart-panel-toggle-hint">Click to expand/collapse</span>
+                            </span>
+                            <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
+                        </button>
+                        <div id="squad-position-1st-panel" class="chart-panel-content" hidden>
+                            <div class="chart-panel-card squad-position-panel-card squad-position-panel-card-1st">
+                                <p id="squadPositionSubtitle1st" class="squad-position-panel-subtitle"></p>
+                                <div id="squadPositionCards1st" class="squad-position-cards-wrap"></div>
+                            </div>
+                        </div>
+                    </div>
 
-                <div class="table-responsive squad-metrics-table-wrap">
-                    <table class="table table-sm mb-0 squad-metrics-table" id="squadMetricsTable">
-                        <thead>
-                            <tr>
-                                <th rowspan="2">Season</th>
-                                <th colspan="3" class="squad-group-header-1st">1st XV</th>
-                                <th colspan="3" class="squad-group-header-2nd">2nd XV</th>
-                                <th colspan="3" class="squad-group-header-total">Total</th>
-                            </tr>
-                            <tr>
-                                <th class="squad-group-subheader-1st squad-subheader-fwds">Fwds</th>
-                                <th class="squad-group-subheader-1st squad-subheader-backs">Backs</th>
-                                <th class="squad-group-subheader-1st squad-subheader-total">Total</th>
-                                <th class="squad-group-subheader-2nd squad-subheader-fwds">Fwds</th>
-                                <th class="squad-group-subheader-2nd squad-subheader-backs">Backs</th>
-                                <th class="squad-group-subheader-2nd squad-subheader-total">Total</th>
-                                <th class="squad-group-subheader-total squad-subheader-fwds">Fwds</th>
-                                <th class="squad-group-subheader-total squad-subheader-backs">Backs</th>
-                                <th class="squad-group-subheader-total squad-subheader-total">Total</th>
-                            </tr>
-                        </thead>
-                        <tbody id="squadMetricsTableBody">
-                            <tr>
-                                <td colspan="10" class="text-center text-muted py-3">Loading squad metrics...</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="chart-panel chart-panel--inline squad-position-panel">
+                        <button
+                            type="button"
+                            class="chart-panel-toggle chart-panel-toggle--accent"
+                            data-target="squad-position-2nd-panel"
+                            data-accordion-group="squad-metrics-breakdown"
+                            aria-expanded="false"
+                            aria-controls="squad-position-2nd-panel">
+                            <span class="chart-panel-toggle-text">
+                                <span class="chart-panel-toggle-title">2nd XV by Position</span>
+                                <span class="chart-panel-toggle-hint">Click to expand/collapse</span>
+                            </span>
+                            <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
+                        </button>
+                        <div id="squad-position-2nd-panel" class="chart-panel-content" hidden>
+                            <div class="chart-panel-card squad-position-panel-card squad-position-panel-card-2nd">
+                                <p id="squadPositionSubtitle2nd" class="squad-position-panel-subtitle"></p>
+                                <div id="squadPositionCards2nd" class="squad-position-cards-wrap"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chart-panel chart-panel--inline squad-position-panel">
+                        <button
+                            type="button"
+                            class="chart-panel-toggle chart-panel-toggle--black"
+                            data-target="squad-size-table-panel"
+                            data-accordion-group="squad-metrics-breakdown"
+                            aria-expanded="false"
+                            aria-controls="squad-size-table-panel">
+                            <span class="chart-panel-toggle-text">
+                                <span class="chart-panel-toggle-title">Squad Size Table</span>
+                                <span class="chart-panel-toggle-hint">Click to expand/collapse</span>
+                            </span>
+                            <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
+                        </button>
+                        <div id="squad-size-table-panel" class="chart-panel-content" hidden>
+                            <div class="chart-panel-card" style="padding: 1rem;">
+                                <p id="squadMetricsTableSubtitle" class="squad-metrics-table-subtitle"></p>
+
+                                <div class="table-responsive squad-metrics-table-wrap">
+                                    <table class="table table-sm mb-0 squad-metrics-table" id="squadMetricsTable">
+                                        <thead>
+                                            <tr>
+                                                <th rowspan="2">Season</th>
+                                                <th colspan="3" class="squad-group-header-1st">1st XV</th>
+                                                <th colspan="3" class="squad-group-header-2nd">2nd XV</th>
+                                                <th colspan="3" class="squad-group-header-total">Total</th>
+                                            </tr>
+                                            <tr>
+                                                <th class="squad-group-subheader-1st squad-subheader-fwds">Fwds</th>
+                                                <th class="squad-group-subheader-1st squad-subheader-backs">Backs</th>
+                                                <th class="squad-group-subheader-1st squad-subheader-total">Total</th>
+                                                <th class="squad-group-subheader-2nd squad-subheader-fwds">Fwds</th>
+                                                <th class="squad-group-subheader-2nd squad-subheader-backs">Backs</th>
+                                                <th class="squad-group-subheader-2nd squad-subheader-total">Total</th>
+                                                <th class="squad-group-subheader-total squad-subheader-fwds">Fwds</th>
+                                                <th class="squad-group-subheader-total squad-subheader-backs">Backs</th>
+                                                <th class="squad-group-subheader-total squad-subheader-total">Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="squadMetricsTableBody">
+                                            <tr>
+                                                <td colspan="10" class="text-center text-muted py-3">Loading squad metrics...</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <h1 style="font-weight:900; color: var(--primary-color); margin-top: 2rem; margin-bottom: 1rem;">Squad Trends</h1>
@@ -518,6 +582,9 @@
         let squadSizeTrendTemplateSpec = null;
         let squadContinuityTrendTemplateSpec = null;
         const VEGA_EMBED_ACTIONS = { export: true, source: false, compiled: false, editor: false };
+        const FORWARD_POSITIONS = ['Prop', 'Hooker', 'Second Row', 'Flanker', 'Number 8'];
+        const BACK_POSITIONS = ['Scrum Half', 'Fly Half', 'Centre', 'Wing', 'Full Back'];
+        const SQUAD_POSITION_ORDER = [...FORWARD_POSITIONS, ...BACK_POSITIONS];
         let availableSeasons = ['2025/26', '2024/25', '2023/24', '2022/23', '2021/22', '2019/20', '2018/19', '2017/18', '2016/17'];
         let squadMetricsControlsInitialised = false;
 
@@ -767,6 +834,186 @@
                 if (continuityTrend) {
                     continuityTrend.innerHTML = '<div class="text-center text-danger py-4">Unable to load continuity chart.</div>';
                 }
+
+                const positionCards1st = document.getElementById('squadPositionCards1st');
+                const positionCards2nd = document.getElementById('squadPositionCards2nd');
+                if (positionCards1st) {
+                    positionCards1st.innerHTML = '<div class="text-center text-danger py-3">Unable to load position data.</div>';
+                }
+                if (positionCards2nd) {
+                    positionCards2nd.innerHTML = '<div class="text-center text-danger py-3">Unable to load position data.</div>';
+                }
+            }
+        }
+
+        function resolveCanonicalPosition(number, position) {
+            const shirtNumber = Number(number);
+            if (Number.isFinite(shirtNumber)) {
+                if (shirtNumber === 1 || shirtNumber === 3) return 'Prop';
+                if (shirtNumber === 2) return 'Hooker';
+                if (shirtNumber === 4 || shirtNumber === 5) return 'Second Row';
+                if (shirtNumber === 6 || shirtNumber === 7) return 'Flanker';
+                if (shirtNumber === 8) return 'Number 8';
+                if (shirtNumber === 9) return 'Scrum Half';
+                if (shirtNumber === 10) return 'Fly Half';
+                if (shirtNumber === 12 || shirtNumber === 13) return 'Centre';
+                if (shirtNumber === 11 || shirtNumber === 14) return 'Wing';
+                if (shirtNumber === 15) return 'Full Back';
+            }
+
+            const normalizedPosition = String(position || '').trim().toLowerCase();
+            const aliases = {
+                prop: 'Prop',
+                hooker: 'Hooker',
+                'second row': 'Second Row',
+                flanker: 'Flanker',
+                'number 8': 'Number 8',
+                'scrum half': 'Scrum Half',
+                'fly half': 'Fly Half',
+                centre: 'Centre',
+                wing: 'Wing',
+                'full back': 'Full Back',
+                fullback: 'Full Back'
+            };
+
+            return aliases[normalizedPosition] || null;
+        }
+
+        function getEmptySquadPositionCounts() {
+            const createPositionCounts = () => {
+                const counts = {};
+                SQUAD_POSITION_ORDER.forEach(position => {
+                    counts[position] = 0;
+                });
+                return counts;
+            };
+
+            return {
+                '1st': createPositionCounts(),
+                '2nd': createPositionCounts()
+            };
+        }
+
+        function buildSquadPositionCounts(selectedSeason, minimumAppearances) {
+            const counts = getEmptySquadPositionCounts();
+            if (!playerAppearancesData || !selectedSeason) {
+                return counts;
+            }
+
+            const allowedGameTypes = getAllowedGameTypes(getSquadMetricsGameTypeMode());
+            const gameTypeByGameId = new Map((gamesData || []).map(game => [game.game_id, game.game_type]));
+            const threshold = Math.max(0, Number(minimumAppearances) || 0);
+
+            const makePlayerMapForPositions = () => {
+                const byPosition = {};
+                SQUAD_POSITION_ORDER.forEach(position => {
+                    byPosition[position] = new Map();
+                });
+                return byPosition;
+            };
+
+            const bySquadPositionPlayerCounts = {
+                '1st': makePlayerMapForPositions(),
+                '2nd': makePlayerMapForPositions()
+            };
+
+            (playerAppearancesData || []).forEach(row => {
+                const season = normalizeSeasonLabel(row.season);
+                const squad = row.squad;
+                const player = String(row.player || '').trim();
+                const gameType = gameTypeByGameId.get(row.game_id);
+
+                if (season !== selectedSeason || !player || (squad !== '1st' && squad !== '2nd')) {
+                    return;
+                }
+
+                if (allowedGameTypes && !allowedGameTypes.has(gameType)) {
+                    return;
+                }
+
+                const canonicalPosition = resolveCanonicalPosition(row.number, row.position);
+                if (!canonicalPosition || !SQUAD_POSITION_ORDER.includes(canonicalPosition)) {
+                    return;
+                }
+
+                const playerCountMap = bySquadPositionPlayerCounts[squad][canonicalPosition];
+                playerCountMap.set(player, (playerCountMap.get(player) || 0) + 1);
+            });
+
+            ['1st', '2nd'].forEach(squad => {
+                SQUAD_POSITION_ORDER.forEach(position => {
+                    const playerMap = bySquadPositionPlayerCounts[squad][position];
+                    if (!(playerMap instanceof Map)) {
+                        return;
+                    }
+
+                    if (threshold <= 0) {
+                        counts[squad][position] = playerMap.size;
+                        return;
+                    }
+
+                    let playerCount = 0;
+                    playerMap.forEach(value => {
+                        if (value >= threshold) {
+                            playerCount += 1;
+                        }
+                    });
+                    counts[squad][position] = playerCount;
+                });
+            });
+
+            return counts;
+        }
+
+        function buildPositionCardsMarkup(positionCounts) {
+            const renderCard = (position, value, section) => `
+                <div class="squad-position-card squad-position-card--${section}">
+                    <div class="squad-position-card-title squad-position-card-title--${section}">${position}</div>
+                    <div class="squad-position-card-value squad-position-card-value--${section}">${value}</div>
+                </div>
+            `;
+
+            const forwardsRow = FORWARD_POSITIONS
+                .map(position => renderCard(position, positionCounts[position] || 0, 'forwards'))
+                .join('');
+
+            const backsRow = BACK_POSITIONS
+                .map(position => renderCard(position, positionCounts[position] || 0, 'backs'))
+                .join('');
+
+            return `
+                <div class="squad-position-cards-grid">
+                    <div class="squad-position-cards-row">${forwardsRow}</div>
+                    <div class="squad-position-cards-row">${backsRow}</div>
+                </div>
+            `;
+        }
+
+        function renderSquadPositionPanels(selectedSeason, minimumAppearances) {
+            const counts = buildSquadPositionCounts(selectedSeason, minimumAppearances);
+            const cards1st = document.getElementById('squadPositionCards1st');
+            const cards2nd = document.getElementById('squadPositionCards2nd');
+            const subtitle1st = document.getElementById('squadPositionSubtitle1st');
+            const subtitle2nd = document.getElementById('squadPositionSubtitle2nd');
+
+            const subtitleText = minimumAppearances > 1
+                ? `Players with ${minimumAppearances}+ appearances in position`
+                : 'Players used in each position';
+
+            if (subtitle1st) {
+                subtitle1st.textContent = subtitleText;
+            }
+
+            if (subtitle2nd) {
+                subtitle2nd.textContent = subtitleText;
+            }
+
+            if (cards1st) {
+                cards1st.innerHTML = buildPositionCardsMarkup(counts['1st']);
+            }
+
+            if (cards2nd) {
+                cards2nd.innerHTML = buildPositionCardsMarkup(counts['2nd']);
             }
         }
 
@@ -1337,6 +1584,7 @@
             }
 
             renderSquadMetricCards(selectedSeason, minimumAppearances);
+            renderSquadPositionPanels(selectedSeason, minimumAppearances);
             renderSquadMetricsTable(minimumAppearances);
             renderSquadMetricsCharts(selectedSeason, minimumAppearances);
             initialiseChartPanelToggles();
@@ -1582,9 +1830,25 @@
                         return;
                     }
 
+                    const accordionGroup = this.getAttribute('data-accordion-group');
                     const isExpanded = this.getAttribute('aria-expanded') !== 'false';
                     this.setAttribute('aria-expanded', String(!isExpanded));
                     panel.hidden = isExpanded;
+
+                    if (accordionGroup && isExpanded === false) {
+                        document.querySelectorAll(`.chart-panel-toggle[data-accordion-group="${accordionGroup}"]`).forEach(otherToggle => {
+                            if (otherToggle === this) {
+                                return;
+                            }
+
+                            const otherTargetId = otherToggle.getAttribute('data-target');
+                            const otherPanel = otherTargetId ? document.getElementById(otherTargetId) : null;
+                            otherToggle.setAttribute('aria-expanded', 'false');
+                            if (otherPanel) {
+                                otherPanel.hidden = true;
+                            }
+                        });
+                    }
 
                     if (!isExpanded) {
                         const iframe = panel.querySelector('.league-results-frame');

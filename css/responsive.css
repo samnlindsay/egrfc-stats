@@ -14,11 +14,11 @@
     /* Compact Squad Metrics cards */
     .squad-metric-card .card-header {
         font-size: 1rem;
-        padding: 0.4rem 0.25rem;
+        padding: 0.25rem 0.2rem;
     }
 
     .squad-metric-card .card-body {
-        padding: 0.4rem 0.25rem;
+        padding: 0.25rem 0.2rem;
     }
 
     .squad-metric-value {
@@ -29,6 +29,26 @@
     .squad-metric-card .card-text {
         font-size: 0.72rem;
         min-height: 2em;
+    }
+
+    .squad-position-panel {
+        min-width: 100%;
+        flex-basis: 100%;
+    }
+
+    .squad-position-cards-row {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 0.4rem;
+    }
+
+    .squad-position-card-title {
+        font-size: 0.72rem;
+        padding: 0.3rem 0.2rem;
+    }
+
+    .squad-position-card-value {
+        font-size: 1.2rem;
+        padding: 0.4rem 0.15rem;
     }
 
     .squad-metrics-table-title {
@@ -169,6 +189,10 @@
         font-size: 0.65rem;
     }
 
+    .squad-position-cards-row {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
     h2 {
         font-size: 1.25rem;
     }
@@ -178,7 +202,7 @@
     }
 
     .card-body {
-        padding: 0.75rem;
+        padding: 0.25rem;
     }
 
     table {

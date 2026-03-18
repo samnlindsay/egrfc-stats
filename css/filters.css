@@ -100,7 +100,9 @@
 }
 
 .input-group {
-    min-width: 300px;
+    min-width: 0;
+    width: fit-content;
+    max-width: 100%;
     display: flex !important;
     flex-wrap: nowrap !important;
     align-items: stretch !important;
@@ -108,9 +110,11 @@
 
 .input-group-text {
     font-family: 'PT Sans Narrow', sans-serif;
-    min-width: 100px;
-    width: 100px;
-    flex: 0 0 100px;
+    width: max-content;
+    min-width: max-content;
+    flex: 0 0 auto;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
     text-align: center;
     background-color: var(--primary-color);
     border: none;
@@ -149,14 +153,26 @@
 
 /* ===== BOOTSTRAP SELECT STYLES ===== */
 .bootstrap-select {
-    width: 100% !important;
-    flex: 1 1 auto !important;
+    width: auto !important;
+    max-width: 100% !important;
+    flex: 0 1 auto !important;
     display: block !important;
 }
 
 .input-group .bootstrap-select {
-    flex: 1 1 auto !important;
-    width: 1% !important;
+    flex: 0 1 auto !important;
+    width: auto !important;
+    max-width: 100% !important;
+}
+
+.input-group > .form-control,
+.input-group > .form-select,
+.input-group > .form-control.flex-fill,
+.input-group > .form-select.flex-fill,
+.input-group input.form-control {
+    width: auto;
+    max-width: 100%;
+    flex: 0 1 auto;
 }
 
 .bootstrap-select .dropdown-toggle {

@@ -300,6 +300,11 @@ table tbody tr:hover {
     color: var(--primary-color);
 }
 
+.chart-panel-toggle--black {
+    background: #000;
+    color: #fff;
+}
+
 .chart-panel-toggle[aria-expanded="false"] {
     border-radius: 0.5rem;
 }
@@ -435,9 +440,9 @@ table tbody tr:hover {
 }
 
 .squad-metric-value {
-    font-size: 2.5rem;
+    font-size: 4rem;
     font-weight: 800;
-    margin-bottom: 0.35rem;
+    margin: 0;
 }
 
 .squad-metric-card .card-text {
@@ -471,6 +476,116 @@ table tbody tr:hover {
     max-width: 7rem;
 }
 
+.squad-position-panel {
+    min-width: 0;
+    flex: 0 0 auto;
+    width: fit-content;
+    max-width: 100%;
+}
+
+.squad-position-panel .chart-panel-toggle {
+    min-width: 300px;
+}
+
+.squad-metrics-breakdown-panels .squad-position-panel {
+    flex: 1 1 0;
+    min-width: 240px;
+}
+
+.squad-metrics-breakdown-panels .squad-position-panel .chart-panel-toggle {
+    width: 100%;
+    min-width: 0;
+}
+
+.squad-position-panel:has(.chart-panel-toggle[aria-expanded="true"]) {
+    flex: 1 1 100%;
+    width: 100%;
+}
+
+.squad-position-panel:has(.chart-panel-toggle[aria-expanded="true"]) .chart-panel-toggle,
+.squad-position-panel:has(.chart-panel-toggle[aria-expanded="true"]) .chart-panel-card {
+    width: 100%;
+}
+
+.squad-position-panel-card {
+    padding: 0 0.8rem 0.8rem 0.8rem;
+}
+
+.squad-position-panel-card-1st {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.squad-position-panel-card-2nd {
+    background-color: var(--accent-color);
+}
+
+.squad-position-panel-subtitle {
+    margin: 0 0 0.25rem 0;
+    color: var(--primary-color);
+    font-size: 0.9rem;
+    min-height: 1.2em;
+    color: white;
+}
+
+.squad-position-cards-wrap {
+    width: 100%;
+}
+
+.squad-position-cards-grid {
+    display: grid;
+    gap: 0.55rem;
+}
+
+.squad-position-cards-row {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 0.55rem;
+}
+
+.squad-position-card {
+    border: 1px solid rgba(32, 41, 70, 0.15);
+    border-radius: 0.5rem;
+    overflow: hidden;
+    background: #fff;
+}
+
+.squad-position-card-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-align: center;
+    color: #fff;
+    padding: 0.35rem 0.3rem;
+    line-height: 1.2;
+}
+
+.squad-position-card-title--forwards {
+    background: darkblue;
+}
+
+.squad-position-card-title--backs {
+    background: #000;
+}
+
+.squad-position-card-value {
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--primary-color);
+    padding: 0.5rem 0.25rem;
+    line-height: 1;
+}
+
+.squad-position-card-value--forwards {
+    color: white;
+    background-color: blue;
+}
+
+.squad-position-card-value--backs {
+    color: black;
+    background-color: white;
+}
+
 .squad-metric-card-total {
     background: #000;
     border-top: 4px solid #000;
@@ -484,6 +599,10 @@ table tbody tr:hover {
 .squad-metric-card-total .card-body {
     background: #000;
     color: #fff;
+}
+
+.squad-metric-card > .card-body {
+    padding: 0.125rem 0.15rem;
 }
 
 .squad-metric-card-total .squad-metric-value,
