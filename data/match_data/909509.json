@@ -1,0 +1,59 @@
+{
+    "match_id": "909509",
+    "season": "2021-2022",
+    "league": "Harvey\u2019s Brewery Sussex 1",
+    "date": "2021-09-25",
+    "teams": [
+        "East Grinstead",
+        "Eastbourne"
+    ],
+    "score": [
+        47,
+        0
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7134.png",
+        "https://images.englandrugby.com/club_images/7209.png"
+    ],
+    "players": [
+        {
+            "15": "Samuel Spriddell",
+            "14": "Alistair Moffatt",
+            "13": "Max Crawley-Moore",
+            "12": "Jack Andrews",
+            "10": "Daniel Poulton",
+            "9": "Thomas Hicks",
+            "8": "Archie Vickers",
+            "7": "Gus Nye",
+            "6": "Daniel Billin",
+            "5": "John Peaty",
+            "4": "Samuel Lindsay-McCall",
+            "3": "James Funnell",
+            "2": "Benjamin Tottman",
+            "1": "Devon Frost",
+            "S1": "Joshua Brimecombe",
+            "S2": "Sean Morgan",
+            "S3": "Ryan Morlen"
+        },
+        {
+            "15": "Carl Slaughter",
+            "14": "Reece Negus",
+            "13": "Ethan Quin",
+            "12": "Ben Perrott",
+            "11": "Kyle Hastilow",
+            "10": "Jake Howe",
+            "9": "Name withheld",
+            "8": "Ryan Shields",
+            "7": "Stefan Cousins",
+            "6": "Jack Hopkins",
+            "5": "Joshua Buckwell",
+            "4": "Konrad O'Neill",
+            "3": "Toby Slaughter",
+            "2": "Joseph Bettles",
+            "1": "Daniel Keen",
+            "S1": "William Bath",
+            "S2": "Pedro Sousa",
+            "S3": "Charlie Di Lieto"
+        }
+    ]
+}

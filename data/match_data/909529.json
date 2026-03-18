@@ -1,0 +1,60 @@
+{
+    "match_id": "909529",
+    "season": "2021-2022",
+    "league": "Harvey\u2019s Brewery Sussex 1",
+    "date": "2021-11-13",
+    "teams": [
+        "East Grinstead",
+        "Uckfield"
+    ],
+    "score": [
+        43,
+        0
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7134.png",
+        "https://images.englandrugby.com/club_images/23445.png"
+    ],
+    "players": [
+        {
+            "15": "Fergus Wood",
+            "14": "Jack Skipworth",
+            "13": "Max Crawley-Moore",
+            "12": "Ryan Morlen",
+            "11": "Jake Radcliffe",
+            "10": "Daniel Poulton",
+            "9": "George Johnson",
+            "8": "Alexander Jackson",
+            "7": "Daniel Billin",
+            "6": "Daniel Arnold",
+            "5": "David Bridges",
+            "4": "John Peaty",
+            "3": "Sean Morgan",
+            "2": "Benjamin Tottman",
+            "1": "James Funnell",
+            "S1": "Joshua Brimecombe",
+            "S2": "Connor Leggat",
+            "S3": "Oliver Billin"
+        },
+        {
+            "15": "Name withheld",
+            "14": "Kian Saunders",
+            "13": "Joel Andrews",
+            "12": "Luke Yaafe",
+            "11": "Callum Harvey",
+            "10": "Charlie Buckland",
+            "9": "Jordon Southgate",
+            "8": "Luke Austin",
+            "7": "Matthew Evans",
+            "6": "Joseph Pratt",
+            "5": "Terry Funnell",
+            "4": "Stephen Hartfield",
+            "3": "Jack Harvey",
+            "2": "Alfie Richardson",
+            "1": "David Guyton",
+            "S1": "Harry Smith",
+            "S2": "Richard Haynes",
+            "S3": "Kane Drummond"
+        }
+    ]
+}

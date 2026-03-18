@@ -1,0 +1,59 @@
+{
+    "match_id": "909558",
+    "season": "2021-2022",
+    "league": "Harvey\u2019s Brewery Sussex 1",
+    "date": "2022-02-12",
+    "teams": [
+        "Lewes",
+        "Uckfield"
+    ],
+    "score": [
+        17,
+        26
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/12206.png",
+        "https://images.englandrugby.com/club_images/23445.png"
+    ],
+    "players": [
+        {
+            "15": "Thomas Awdry",
+            "14": "Declan Over",
+            "13": "Andy Carmichael",
+            "12": "Elliot Moule",
+            "11": "Joe Reid",
+            "10": "Ben Poole",
+            "9": "Angus Taylor",
+            "8": "Dominic Lunniss",
+            "7": "George Gribble",
+            "6": "Harry Weston",
+            "5": "Ethan Edwards",
+            "4": "James Sale",
+            "3": "Sean Sayers",
+            "2": "Benjamin Bishop",
+            "1": "Charlie Moran",
+            "S1": "Simon Coe",
+            "S2": "Damian Pye",
+            "S3": "James Shafi"
+        },
+        {
+            "15": "Kian Saunders",
+            "14": "Kane Drummond",
+            "13": "Matthew Spencer",
+            "12": "Abraham Bredin",
+            "11": "Joel Andrews",
+            "10": "Luke Yaafe",
+            "9": "Charlie Buckland",
+            "8": "Jack Harvey",
+            "7": "Matthew Evans",
+            "6": "Name withheld",
+            "5": "Rob Mayer",
+            "4": "Jake Siggs",
+            "3": "Davy Armstrong",
+            "2": "Alfie Richardson",
+            "1": "Max Currums",
+            "S1": "Ryan Bate",
+            "S2": "Adam Palmer"
+        }
+    ]
+}

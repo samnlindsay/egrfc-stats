@@ -22,7 +22,8 @@ con = duckdb.connect()
 # Google Sheets setup
 scope = ['https://spreadsheets.google.com/feeds',
          'https://www.googleapis.com/auth/drive']
-creds = Credentials.from_service_account_file('client_secret.json', scopes=scope)
+credentials_path = Path(__file__).resolve().parent / 'client_secret.json'
+creds = Credentials.from_service_account_file(str(credentials_path), scopes=scope)
 client = gspread.authorize(creds)
 
 # Use the optimized sheets

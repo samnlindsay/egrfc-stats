@@ -1,0 +1,59 @@
+{
+    "match_id": "909528",
+    "season": "2021-2022",
+    "league": "Harvey\u2019s Brewery Sussex 1",
+    "date": "2021-11-13",
+    "teams": [
+        "Hove II",
+        "Seaford"
+    ],
+    "score": [
+        81,
+        17
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/10504.png",
+        "https://images.englandrugby.com/club_images/18868.png"
+    ],
+    "players": [
+        {
+            "15": "Archie Davies",
+            "14": "Sean Shepherd",
+            "13": "Giles Emmerson",
+            "12": "Stephen Marsh",
+            "11": "Alex Parker",
+            "10": "Jerome Pye",
+            "9": "Leo Jouves",
+            "8": "Ben Stephens",
+            "7": "Benjamin Ridley",
+            "6": "James Watson",
+            "5": "James Duckett",
+            "4": "George Brown",
+            "3": "Name withheld",
+            "2": "Tyler Hooper",
+            "1": "Steve Klein",
+            "S1": "Joel Perry",
+            "S2": "Bryn Garrish",
+            "S3": "Charlie Crossgrove"
+        },
+        {
+            "15": "Stuart Cotter",
+            "14": "Corey Digby-Clarke",
+            "13": "Jason Staples",
+            "12": "Oscar Weisz",
+            "11": "Rhys Jones",
+            "10": "Dominic Joy",
+            "9": "Andrew Fry",
+            "8": "Paddy Powney",
+            "7": "Andrew Salter",
+            "6": "Sam Diplock",
+            "5": "Matt Read",
+            "4": "Luke Read",
+            "3": "Piers Culshaw",
+            "2": "Lee Furminger",
+            "1": "Michael Upton",
+            "S1": "Rhys Jones",
+            "S2": "Josh Hennessy"
+        }
+    ]
+}

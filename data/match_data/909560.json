@@ -1,0 +1,59 @@
+{
+    "match_id": "909560",
+    "season": "2021-2022",
+    "league": "Harvey\u2019s Brewery Sussex 1",
+    "date": "2022-02-19",
+    "teams": [
+        "Eastbourne",
+        "East Grinstead"
+    ],
+    "score": [
+        3,
+        36
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7209.png",
+        "https://images.englandrugby.com/club_images/7134.png"
+    ],
+    "players": [
+        {
+            "15": "Sebastian Gleave",
+            "14": "Dylan Becker",
+            "13": "Jake Howe",
+            "12": "Ben Perrott",
+            "11": "Oliver Horley",
+            "10": "Martial Chaput",
+            "9": "Harrison Gibbons",
+            "8": "Tom Redman",
+            "7": "Carl Slaughter",
+            "6": "Ryan Shields",
+            "5": "Joshua Buckwell",
+            "4": "Luke Thomas",
+            "3": "Toby Slaughter",
+            "2": "Joseph Bettles",
+            "1": "Name withheld",
+            "S1": "Jacob Thompson",
+            "S2": "Jeremy Montes",
+            "S3": "Callum Dell"
+        },
+        {
+            "15": "Fergus Wood",
+            "14": "Jack Skipworth",
+            "13": "Max Crawley-Moore",
+            "12": "Ryan Morlen",
+            "11": "Jake Radcliffe",
+            "10": "Daniel Poulton",
+            "9": "George Johnson",
+            "8": "Connor Leggat",
+            "7": "Archie Vickers",
+            "6": "Nicholas Carter",
+            "5": "John Peaty",
+            "4": "Samuel Lindsay-McCall",
+            "3": "Devon Frost",
+            "2": "Benjamin Tottman",
+            "1": "James Funnell",
+            "S1": "Sean Morgan",
+            "S2": "Oliver Billin"
+        }
+    ]
+}

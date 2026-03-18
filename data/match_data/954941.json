@@ -1,0 +1,60 @@
+{
+    "match_id": "954941",
+    "season": "2021-2022",
+    "league": "Harvey\u2019s Brewery Sussex 1",
+    "date": "2022-02-26",
+    "teams": [
+        "Burgess Hill",
+        "East Grinstead"
+    ],
+    "score": [
+        30,
+        64
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/3659.png",
+        "https://images.englandrugby.com/club_images/7134.png"
+    ],
+    "players": [
+        {
+            "15": "Ollie Lewis",
+            "14": "Matheus Gava",
+            "13": "Sailosi Masiwale",
+            "12": "Jim Waqanibau",
+            "11": "Tomer Teichman",
+            "10": "Archie Anscombe",
+            "9": "Massimo Hiller",
+            "8": "Name withheld",
+            "7": "Ben Mclaren",
+            "6": "Benjamin Dewey",
+            "5": "Timothy Daniel",
+            "4": "Charlie Lewis",
+            "3": "Kyle Tucker",
+            "2": "Andrew Mackay",
+            "1": "Robert Blake",
+            "S1": "Lee Collingbourne",
+            "S2": "Benjamin Dronfield",
+            "S3": "Joseph Schofield"
+        },
+        {
+            "15": "Fergus Wood",
+            "14": "Jack Skipworth",
+            "13": "Max Crawley-Moore",
+            "12": "Ryan Morlen",
+            "11": "Jake Radcliffe",
+            "10": "Daniel Poulton",
+            "9": "George Johnson",
+            "8": "Connor Leggat",
+            "7": "Archie Vickers",
+            "6": "Nicholas Carter",
+            "5": "John Peaty",
+            "4": "Samuel Lindsay-McCall",
+            "3": "Devon Frost",
+            "2": "Benjamin Tottman",
+            "1": "Sean Morgan",
+            "S1": "James Funnell",
+            "S2": "Daniel Billin",
+            "S3": "Alistair Moffatt"
+        }
+    ]
+}

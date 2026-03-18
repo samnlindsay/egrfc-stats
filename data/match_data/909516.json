@@ -1,0 +1,59 @@
+{
+    "match_id": "909516",
+    "season": "2021-2022",
+    "league": "Harvey\u2019s Brewery Sussex 1",
+    "date": "2021-10-16",
+    "teams": [
+        "East Grinstead",
+        "Burgess Hill"
+    ],
+    "score": [
+        64,
+        15
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7134.png",
+        "https://images.englandrugby.com/club_images/3659.png"
+    ],
+    "players": [
+        {
+            "15": "Samuel Spriddell",
+            "14": "Fergus Wood",
+            "13": "Max Crawley-Moore",
+            "12": "Jack Andrews",
+            "10": "Daniel Poulton",
+            "9": "George Johnson",
+            "8": "Daniel Billin",
+            "7": "Archie Vickers",
+            "6": "Liam Casey",
+            "5": "John Peaty",
+            "4": "Samuel Lindsay-McCall",
+            "3": "Devon Frost",
+            "2": "Benjamin Tottman",
+            "1": "James Funnell",
+            "S1": "Sean Morgan",
+            "S2": "Daniel Arnold",
+            "S3": "Ryan Morlen"
+        },
+        {
+            "15": "Neori Motoiula",
+            "14": "Matheus Gava",
+            "13": "Jim Waqanibau",
+            "12": "George Yeates",
+            "11": "Issoa Tadrau",
+            "10": "Oliver Lewis",
+            "9": "Massimo Hiller",
+            "8": "David Wattam",
+            "7": "Adam Rezazadeh",
+            "6": "Christian Jones",
+            "5": "Kyle Tucker",
+            "4": "Harvey Hays",
+            "3": "Paul Hasib",
+            "2": "Lewis Strong",
+            "1": "Lee Collingbourne",
+            "S1": "Rory Shillaker",
+            "S2": "Benjamin Dronfield",
+            "S3": "Joseph Schofield"
+        }
+    ]
+}

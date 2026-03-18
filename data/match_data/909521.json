@@ -1,0 +1,60 @@
+{
+    "match_id": "909521",
+    "season": "2021-2022",
+    "league": "Harvey\u2019s Brewery Sussex 1",
+    "date": "2021-10-23",
+    "teams": [
+        "Hellingly",
+        "Seaford"
+    ],
+    "score": [
+        10,
+        13
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/9891.png",
+        "https://images.englandrugby.com/club_images/18868.png"
+    ],
+    "players": [
+        {
+            "15": "Name withheld",
+            "14": "Aaron Kirk",
+            "13": "James Grey",
+            "12": "Jack Cowell",
+            "11": "Billy Cleaver",
+            "10": "Huw Jones",
+            "9": "David Searle",
+            "8": "Connor Hesling",
+            "7": "Mark Harris",
+            "6": "Robert Vint",
+            "5": "Jack Smith",
+            "4": "Lewis Ather",
+            "3": "Paul Smith",
+            "2": "Michael Whiteman",
+            "1": "Alexander Hawkins",
+            "S1": "Charlie Milner",
+            "S2": "James Streeter",
+            "S3": "Aaron Hossack"
+        },
+        {
+            "15": "Luke Taylor",
+            "14": "Stuart Cotter",
+            "13": "Paddy Powney",
+            "12": "Corey Digby-Clarke",
+            "11": "Jason Staples",
+            "10": "Oscar Weisz",
+            "9": "Andrew Fry",
+            "8": "Dominic Joy",
+            "7": "Andrew Salter",
+            "6": "Michael Upton",
+            "5": "Sam Diplock",
+            "4": "Shaun Brewer",
+            "3": "Josh Hennessy",
+            "2": "Luke Read",
+            "1": "Philip Innis",
+            "S1": "Lee Furminger",
+            "S2": "Charlie Guest",
+            "S3": "Rhys Roberts"
+        }
+    ]
+}

@@ -1,0 +1,59 @@
+{
+    "match_id": "909554",
+    "season": "2021-2022",
+    "league": "Harvey\u2019s Brewery Sussex 1",
+    "date": "2022-01-29",
+    "teams": [
+        "Hellingly",
+        "Lewes"
+    ],
+    "score": [
+        0,
+        54
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/9891.png",
+        "https://images.englandrugby.com/club_images/12206.png"
+    ],
+    "players": [
+        {
+            "15": "Daniel Puttick",
+            "14": "Giles Hook",
+            "13": "Jordan Widdop",
+            "12": "Alex Bray",
+            "11": "William Wigman",
+            "10": "Huw Jones",
+            "9": "David Searle",
+            "8": "Thomas Shuttleworth",
+            "7": "Scott Monk",
+            "6": "Robert Vint",
+            "5": "Charles Courtney",
+            "4": "Lewis Ather",
+            "3": "Sebastian Molina Chocron",
+            "2": "Craig Benson",
+            "1": "James Maunder",
+            "S1": "Michael Dale",
+            "S2": "Name withheld"
+        },
+        {
+            "15": "Ben Poole",
+            "14": "Thomas Awdry",
+            "13": "William Shiell",
+            "12": "Elliot Moule",
+            "11": "Joe Reid",
+            "10": "Angelo Errigo",
+            "9": "Angus Taylor",
+            "8": "Dominic Lunniss",
+            "7": "Benjamin Bishop",
+            "6": "Harry Weston",
+            "5": "Ethan Edwards",
+            "4": "James Sale",
+            "3": "Charlie Moran",
+            "2": "Damian Pye",
+            "1": "Kane Dadswell",
+            "S1": "Alexander Audsley-Mckenna",
+            "S2": "Andy Carmichael",
+            "S3": "Oliver Bowry"
+        }
+    ]
+}

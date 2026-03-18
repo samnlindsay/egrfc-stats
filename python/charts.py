@@ -125,7 +125,8 @@ def plot_starts_by_position(df=None, min=0, file=None):
     )
     if file:
         chart.save(file, embed_options={'renderer':'svg', 'actions': {'export': True, 'source':False, 'editor':True, 'compiled':False} })
-        hack_params_css(file)
+        if str(file).lower().endswith('.html'):
+            hack_params_css(file)
 
     return chart  
 
@@ -202,93 +203,10 @@ def plot_games_by_player(min=5, df=None, file=None):
     )
     if file:
         chart.save(file, embed_options={'renderer':'svg', 'actions': {'export': True, 'source':False, 'editor':True, 'compiled':False} })
-        hack_params_css(file)
+        if str(file).lower().endswith('.html'):
+            hack_params_css(file)
 
     return chart
-
-def team_sheet_chart(
-        squad=1, 
-        names=None, 
-        captain=None, 
-        vc=None, 
-        opposition=None, 
-        home=True, 
-        competition="Counties 1 Sussex",
-        season="2024/25"
-    ):
-
-    if names is None:
-        df = team_sheets(squad=1) 
-
-        # Last row as dict
-        team = df.iloc[-1].to_dict()
-
-
-        label = f'{"1st" if squad==1 else "2nd"} XV vs {team["Opposition"]}({team["Home/Away"]})'
-        captain = team["Captain"]
-        vc = team["VC"]
-        season = team["Season"]
-        competition = team["Competition"]
-
-        # Keep keys that can be converted to integers
-        team = {int(k): v for k, v in team.items() if k.isnumeric() and v}
-
-        # Convert team to dataframe with Number and Player columns
-        team = pd.DataFrame(team.items(), columns=["Number", "Player"])
-
-    else:
-        label = f'{"1st" if squad==1 else "2nd"} XV vs {opposition} ({"H" if home else "A"})'
-
-        # Convert names to Player column of a dataframe with Number column (1-len(names))
-        team = pd.DataFrame({"Player": names, "Number": range(1, len(names)+1)})
-
-    coords = pd.DataFrame([
-                {"n": 1, "x": 10, "y": 81},
-                {"n": 2, "x": 25, "y": 81},
-                {"n": 3, "x": 40, "y": 81},
-                {"n": 4, "x": 18, "y": 69},
-                {"n": 5, "x": 32, "y": 69},
-                {"n": 6, "x": 6, "y": 61},
-                {"n": 7, "x": 44, "y": 61},
-                {"n": 8, "x": 25, "y": 56},
-                {"n": 9, "x": 20, "y": 42},
-                {"n": 10, "x": 38, "y": 36},
-                {"n": 11, "x": 8, "y": 18},
-                {"n": 12, "x": 56, "y": 30},
-                {"n": 13, "x": 74, "y": 24},
-                {"n": 14, "x": 92, "y": 18},
-                {"n": 15, "x": 50, "y": 10},
-                {"n": 16, "x": 80, "y": 82},
-                {"n": 17, "x": 80, "y": 74},
-                {"n": 18, "x": 80, "y": 66},
-                {"n": 19, "x": 80, "y": 58},
-                {"n": 20, "x": 80, "y": 50},
-                {"n": 21, "x": 80, "y": 42},
-                {"n": 22, "x": 80, "y": 34},
-                {"n": 23, "x": 80, "y": 26},
-            ])
-    team = team.merge(coords, left_on="Number", right_on="n", how="inner").drop(columns="n")
-
-    # Add captain (C) and vice captain (VC) else None
-    team["Captain"] = team["Player"].apply(lambda x: "C" if x == captain else "VC" if x == vc else None)
-
-    team["Player"] = team["Player"].str.split(" ")
-
-    team.to_dict(orient="records")
-
-    with open("team-sheet-lineup.json") as f:
-        chart = json.load(f)
-    chart["data"]["values"] = team.to_dict(orient="records")
-    chart["title"]["text"] = label
-    chart["title"]["subtitle"] = f"{season} - {competition}"
-
-    n_replacements = len(team) - 15
-    
-    y = 126 + (n_replacements * 64)
-    chart["layer"][0]["mark"]["y2"] = y
-    # return chart
-    return alt.Chart.from_dict(chart)
-
 
 # LINEOUTS
 
@@ -481,7 +399,157 @@ def lineout_success(types=types, df=None, file=None):
     )
     if file:
         chart.save(file, embed_options={'renderer':'svg', 'actions': {'export': True, 'source':False, 'editor':True, 'compiled':False} })
-        hack_params_css(file)
+        if str(file).lower().endswith('.html'):
+            hack_params_css(file)
+    return chart
+
+
+def lineout_success_by_zone(df=None, squad="1st", min_total=20, file=None):
+    if df is None:
+        df = load_lineouts()
+
+    if df is None or len(df) == 0:
+        return alt.Chart(pd.DataFrame({"x": [], "y": []})).mark_point()
+
+    data = df.copy()
+
+    rename_map = {
+        "area": "Area",
+        "won": "Won",
+        "squad": "Squad",
+        "jumper": "Jumper",
+        "hooker": "Hooker",
+        "thrower": "Hooker",
+    }
+    for src, dst in rename_map.items():
+        if src in data.columns and dst not in data.columns:
+            data[dst] = data[src]
+
+    required = ["Area", "Won", "Squad", "Jumper", "Hooker"]
+    missing = [col for col in required if col not in data.columns]
+    if missing:
+        raise ValueError(f"lineout_success_by_zone missing columns: {missing}")
+
+    zone_map = {"Front": 1, "Middle": 2, "Back": 3}
+
+    data = data.copy()
+    data["Area"] = data["Area"].astype(str).str.strip().str.title()
+    data = data[data["Squad"].astype(str).str.strip() == str(squad)]
+    data = data[data["Area"].isin(zone_map.keys())].copy()
+    data["zone"] = data["Area"].map(zone_map)
+    data["Won"] = data["Won"].fillna(False).astype(bool)
+
+    if data.empty:
+        return alt.Chart(pd.DataFrame({"x": [], "y": []})).mark_point()
+
+    zone = (
+        data.groupby("zone", as_index=False)
+        .agg(total=("Won", "size"), won=("Won", "sum"))
+    )
+    zone["pct_won"] = zone["won"] / zone["total"]
+
+    def _player_agg(frame, column, player_type):
+        out = (
+            frame.dropna(subset=[column])
+            .groupby(column, as_index=False)
+            .agg(
+                total=("Won", "size"),
+                won=("Won", "sum"),
+                zone_sum=("zone", "sum"),
+            )
+            .rename(columns={column: "player"})
+        )
+        out = out[out["total"] >= min_total].copy()
+        out["player_type"] = player_type
+        out["pct_won"] = out["won"] / out["total"]
+        out["error_margin"] = ((out["pct_won"] * (1 - out["pct_won"])) / out["total"]).pow(0.5)
+        out["avg_zone"] = out["zone_sum"] / out["total"]
+        return out[["player_type", "player", "total", "won", "pct_won", "error_margin", "avg_zone"]]
+
+    jumpers = _player_agg(data, "Jumper", "Jumper")
+    throwers = _player_agg(data, "Hooker", "Thrower")
+    players = pd.concat([jumpers, throwers], ignore_index=True)
+
+    size_scale = alt.Scale(domain=[10, 1000], range=[10, 400])
+
+    base = alt.Chart(zone).encode(
+        x=alt.X(
+            "zone:Q",
+            title="Average Lineout Zone",
+            axis=alt.Axis(
+                tickCount=3,
+                values=[1, 2, 3],
+                labelExpr="datum.value == 1 ? 'Front' : datum.value == 2 ? 'Middle' : 'Back'",
+                grid=False,
+                ticks=False,
+                labelFontSize=16,
+            ),
+            scale=alt.Scale(domain=[0.75, 3.25], nice=False),
+        ),
+        y=alt.Y(
+            "pct_won:Q",
+            title="Success Rate",
+            scale=alt.Scale(domain=[0.5, 1.0]),
+            axis=alt.Axis(format="%", tickCount=5),
+        ),
+    )
+
+    avg_points = base.encode(size=alt.Size("total:Q", legend=None, scale=size_scale)).mark_point(color="#991515", fill="red", fillOpacity=0.9)
+    avg_line = base.mark_line(color="#991515")
+    avg_total_labels = avg_points.encode(text="total:Q", size=alt.value(12)).mark_text(align="right", dx=-10, dy=5, opacity=0.5, color="#991515")
+
+    points = alt.Chart(players).encode(
+        x=alt.X("avg_zone:Q", title="Average Lineout Zone"),
+        y=alt.Y("pct_won:Q", title="Success Rate"),
+        size=alt.Size("total:Q", legend=None, scale=size_scale),
+        color=alt.Color(
+            "player_type:N",
+            scale=alt.Scale(domain=["Thrower", "Jumper"], range=["#146f14", "#202946"]),
+            title=None,
+            legend=alt.Legend(orient="top-right"),
+        ),
+        tooltip=["player_type", "player", "total", "won", alt.Tooltip("pct_won:Q", format=".1%"), "avg_zone"],
+    )
+
+    errorbars = points.mark_errorbar(opacity=0.5).encode(
+        x="avg_zone:Q",
+        y=alt.Y("ymin:Q", scale=alt.Scale(clamp=True), title="Success Rate"),
+        y2=alt.Y2("ymax:Q", title=None),
+    ).transform_calculate(
+        ymin="datum.pct_won - datum.error_margin",
+        ymax="datum.pct_won + datum.error_margin",
+    )
+
+    labels = points.encode(text="player:N", size=alt.value(12)).mark_text(align="left", dx=10)
+    total_labels = points.encode(text="total:Q", size=alt.value(12), color=alt.value("black")).mark_text(align="right", dx=-10, opacity=0.5)
+
+    chart = (
+        avg_line
+        + avg_points
+        + avg_total_labels
+        + errorbars
+        + points.mark_circle(size=100, opacity=1.0, fillOpacity=0.9)
+        + labels
+        + total_labels
+    ).resolve_scale(
+        y="shared", x="shared"
+    ).properties(
+        title=alt.Title(
+            text="Lineout Success by Zone",
+            subtitle=[
+                f"{squad} XV average success rate by zone (red), with individual players by their average zone.",
+                "Size and numbers indicate total lineouts taken. Error bars show uncertainty based on sample size.",
+            ],
+        ),
+        width=500,
+        height=600,
+    )
+
+    if file:
+        chart.save(file, embed_options={'renderer':'svg', 'actions': {'export': True, 'source':False, 'editor':True, 'compiled':False} })
+        if str(file).lower().endswith('.html'):
+            hack_params_css(file)
+
     return chart
 
 
@@ -598,76 +666,7 @@ def points_scorers_chart(df=None, file=None):
 
     return chart
 
-def card_chart(df=None, file=None):
-
-    season_selection = alt.param(
-        bind=alt.binding_select(options=["All", *seasons[::-1], *seasons_hist[::-1]], name="Season"), 
-        value="2024/25",
-        name="seasonSelection"
-    )
-
-    squad_selection = alt.param(
-        bind=alt.binding_radio(options=["1st", "2nd", "Both"], name="Squad"),
-        value="Both",
-        name="squadSelection"
-    )
-
-    chart = (
-        alt.Chart(df if df is not None else {"name": "df", "url":'https://raw.githubusercontent.com/samnlindsay/egrfc-stats/main/data/players_agg.json',"format":{'type':"json"}})
-        .transform_calculate(Cards="datum.YC + datum.RC")
-        .add_params(season_selection, squad_selection)
-        .transform_filter(f"datum.Season == {season_selection.name} | {season_selection.name} == 'All'")
-        .transform_filter(f"datum.Squad == {squad_selection.name} | {squad_selection.name} == 'Both'")
-        .transform_fold(["YC", "RC"], as_=["key", "value"])
-        .transform_aggregate(
-            A="sum(A)", 
-            value="sum(value)",
-            groupby=["Player", "key"]
-        )
-        .transform_joinaggregate(
-            Total="sum(value)",
-            groupby=["Player"]
-        )
-        .transform_calculate(
-            GPC="datum.A / datum.Total"
-        )
-        .transform_filter("datum.value > 0")
-        .mark_bar(stroke="black", strokeOpacity=0.2).encode(
-            y=alt.Y("Player:N", title=None, sort="-x"),
-            x=alt.X("value:Q", title=None, axis=alt.Axis(format="d", orient="top")),        
-            color=alt.Color(
-                "key:N", 
-                title=None, 
-                legend=alt.Legend(orient="bottom")
-            ).scale(domain=["YC", "RC"], range=["#e6c719", "#981515"]),
-            tooltip=[
-                "Player:N", 
-                alt.Tooltip("A:Q", title="Appearances"),
-                alt.Tooltip("key:N", title="Card Type"),
-                alt.Tooltip("value:Q", title="Cards"),
-                alt.Tooltip("GPC:Q", title="Games per card", format=".2f")
-            ],
-        )
-        .resolve_scale(y="independent")
-        .properties(
-            title=alt.Title(
-                text="Cards",
-                fontSize=48, 
-                subtitle=[
-                    "According to Pitchero data.", 
-                    "2 YC leading to a RC in a game is shown as 1 YC + 1 RC (2 cards total)"
-                ]
-            ),
-            width=300,
-        )
-    )
-    if file:
-        chart.save(file, embed_options={'renderer':'svg', 'actions': {'export': True, 'source':False, 'editor':True, 'compiled':False}})
-        hack_params_css(file, params=True)
-
-    return chart
-
-def     _chart(df=None, file=None):
+def captains_chart(df=None, file=None):
 
     selection = alt.selection_point(fields=['Role'], bind='legend')
 

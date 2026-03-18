@@ -329,15 +329,33 @@ const Charts = {
           }
         }
 
-        const contentHeight = primaryContent
-          ? Math.max(
-              primaryContent.scrollHeight || 0,
-              primaryContent.offsetHeight || 0,
-              primaryContent.getBoundingClientRect
-                ? primaryContent.getBoundingClientRect().height
-                : 0
-            )
+        const contentHeight = primaryContent?.getBoundingClientRect
+          ? primaryContent.getBoundingClientRect().height
           : 0;
+
+        const svg = doc.querySelector("#vis svg, .vega-embed svg, svg");
+        const bindings = doc.querySelector(".vega-bindings");
+        const svgRect = svg?.getBoundingClientRect ? svg.getBoundingClientRect() : null;
+        const bindingsRect = bindings?.getBoundingClientRect
+          ? bindings.getBoundingClientRect()
+          : null;
+
+        const visualTop = Math.min(
+          Number.isFinite(svgRect?.top) ? svgRect.top : Number.POSITIVE_INFINITY,
+          Number.isFinite(bindingsRect?.top)
+            ? bindingsRect.top
+            : Number.POSITIVE_INFINITY
+        );
+
+        const visualBottom = Math.max(
+          Number.isFinite(svgRect?.bottom) ? svgRect.bottom : 0,
+          Number.isFinite(bindingsRect?.bottom) ? bindingsRect.bottom : 0
+        );
+
+        const visualHeight =
+          Number.isFinite(visualTop) && visualBottom > visualTop
+            ? visualBottom - visualTop
+            : 0;
 
         let scaleY = 1;
         const transformTarget = primaryContent || doc.body;
@@ -366,15 +384,17 @@ const Charts = {
         const bodyHeight = doc.body ? doc.body.scrollHeight : 0;
         const htmlHeight = doc.documentElement ? doc.documentElement.scrollHeight : 0;
 
-        const measuredHeight = Math.max(
-          contentHeight > 0 ? contentHeight + 8 : 0,
-          bodyHeight,
-          htmlHeight
-        );
-        const visibleHeight = measuredHeight * scaleY;
-        const nextHeight = Math.max(Math.ceil(visibleHeight), minHeight);
+        const measuredHeight =
+          visualHeight > 0
+            ? visualHeight + 4
+            : contentHeight > 0
+            ? contentHeight * scaleY + 4
+            : Math.max(bodyHeight, htmlHeight);
 
-        iframe.style.height = `${nextHeight}px`;
+        const nextHeight = Math.ceil(measuredHeight);
+        if (nextHeight > 0) {
+          iframe.style.height = `${nextHeight}px`;
+        }
       } catch (error) {
         // Silent fail: keep fallback height
       }

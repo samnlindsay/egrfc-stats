@@ -1,0 +1,57 @@
+{
+    "match_id": "909526",
+    "season": "2021-2022",
+    "league": "Harvey\u2019s Brewery Sussex 1",
+    "date": "2021-10-30",
+    "teams": [
+        "Eastbourne",
+        "Hellingly"
+    ],
+    "score": [
+        19,
+        12
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7209.png",
+        "https://images.englandrugby.com/club_images/9891.png"
+    ],
+    "players": [
+        {
+            "15": "Oliver Horley",
+            "14": "Sebastian Gleave",
+            "13": "Martial Chaput",
+            "12": "Ben Perrott",
+            "11": "Dylan Becker",
+            "10": "Jake Howe",
+            "9": "Samuel Wilkinson",
+            "8": "Tom Redman",
+            "7": "Stefan Cousins",
+            "6": "William Bath",
+            "5": "Joshua Buckwell",
+            "4": "Konrad O'Neill",
+            "3": "Toby Slaughter",
+            "2": "Joseph Bettles",
+            "1": "Christopher Hosking",
+            "S1": "Pedro Sousa",
+            "S2": "Jack Hopkins",
+            "S3": "Kyle Hastilow"
+        },
+        {
+            "15": "Name withheld",
+            "14": "Aaron Kirk",
+            "13": "Alex Bray",
+            "12": "Jack Cowell",
+            "11": "Harvey Warren",
+            "10": "David Searle",
+            "9": "Paul Smith",
+            "8": "Harry Honeyball",
+            "7": "Simon Bray",
+            "6": "Charles Courtney",
+            "5": "Lewis Ather",
+            "4": "Sebastian Molina Chocron",
+            "3": "Michael Whiteman",
+            "2": "James Maunder",
+            "1": "Alexander Hawkins"
+        }
+    ]
+}

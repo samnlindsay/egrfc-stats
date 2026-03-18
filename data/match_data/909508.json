@@ -1,0 +1,59 @@
+{
+    "match_id": "909508",
+    "season": "2021-2022",
+    "league": "Harvey\u2019s Brewery Sussex 1",
+    "date": "2021-09-25",
+    "teams": [
+        "Hove II",
+        "Hellingly"
+    ],
+    "score": [
+        39,
+        18
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/10504.png",
+        "https://images.englandrugby.com/club_images/9891.png"
+    ],
+    "players": [
+        {
+            "15": "Name withheld",
+            "14": "Sean Shepherd",
+            "13": "Giles Emmerson",
+            "12": "Harry Carton",
+            "11": "Darren Locke",
+            "10": "Jerome Pye",
+            "9": "Danny O'Conner",
+            "8": "Ben Stephens",
+            "7": "Timothy Barnett",
+            "6": "James Watson",
+            "5": "Joshua Morgan",
+            "4": "Reuben Atken-Till",
+            "3": "Lennon Packwood",
+            "2": "Benjamin Ridley",
+            "1": "Steve Klein",
+            "S1": "Matthew Finney",
+            "S2": "Irinnaios Pavlides",
+            "S3": "Jacob Pavlides"
+        },
+        {
+            "15": "Aaron Kirk",
+            "14": "David Sands",
+            "13": "Huw Jones",
+            "12": "Thomas Stone",
+            "11": "Aaron Hossack",
+            "10": "David Searle",
+            "9": "James Grey",
+            "8": "Mark Harris",
+            "7": "Craig Benson",
+            "6": "Jack Cowell",
+            "5": "Lewis Ather",
+            "4": "Alexander Hawkins",
+            "3": "Michael Whiteman",
+            "2": "James Maunder",
+            "1": "Benjamin Trevorrow",
+            "S1": "Daniel Puttick",
+            "S2": "Alex Bray"
+        }
+    ]
+}

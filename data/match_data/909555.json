@@ -1,0 +1,58 @@
+{
+    "match_id": "909555",
+    "season": "2021-2022",
+    "league": "Harvey\u2019s Brewery Sussex 1",
+    "date": "2022-02-12",
+    "teams": [
+        "Burgess Hill",
+        "Hellingly"
+    ],
+    "score": [
+        48,
+        24
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/3659.png",
+        "https://images.englandrugby.com/club_images/9891.png"
+    ],
+    "players": [
+        {
+            "15": "George Fisher",
+            "14": "Tomer Teichman",
+            "13": "Ben Mclaren",
+            "12": "George Yeates",
+            "11": "Matheus Gava",
+            "10": "Ollie Lewis",
+            "9": "Massimo Hiller",
+            "8": "Benjamin Dewey",
+            "7": "Lou Jones",
+            "6": "Benjamin Dronfield",
+            "5": "Kyle Tucker",
+            "4": "Harvey Hays",
+            "3": "Martyn Woodhead",
+            "2": "Andrew Mackay",
+            "1": "Robert Blake",
+            "S1": "Name withheld",
+            "S2": "Timothy Daniel",
+            "S3": "Flavian Obiero"
+        },
+        {
+            "15": "Alex Bray",
+            "14": "Matthew Dawber",
+            "13": "Aaron Kirk",
+            "12": "Aaron Hossack",
+            "11": "David Searle",
+            "10": "Scott Monk",
+            "9": "Giles Hook",
+            "8": "Robert Vint",
+            "7": "Charles Courtney",
+            "6": "Lewis Ather",
+            "5": "Paul Smith",
+            "4": "Michael Whiteman",
+            "3": "James Maunder",
+            "2": "Samuel Stenning",
+            "1": "Nathan Rainsley",
+            "S1": "William Wigman"
+        }
+    ]
+}

@@ -1,0 +1,58 @@
+{
+    "match_id": "909511",
+    "season": "2021-2022",
+    "league": "Harvey\u2019s Brewery Sussex 1",
+    "date": "2021-10-02",
+    "teams": [
+        "Burgess Hill",
+        "Hove II"
+    ],
+    "score": [
+        51,
+        14
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/3659.png",
+        "https://images.englandrugby.com/club_images/10504.png"
+    ],
+    "players": [
+        {
+            "15": "Ollie Lewis",
+            "14": "Matheus Gava",
+            "13": "Albert Roko",
+            "11": "Flavian Obiero",
+            "10": "Archie Anscombe",
+            "9": "Massimo Hiller",
+            "8": "David Wattam",
+            "7": "Adam Rezazadeh",
+            "6": "Christian Jones",
+            "5": "Charlie Lewis",
+            "4": "Harvey Hays",
+            "3": "Paul Hasib",
+            "2": "Lewis Strong",
+            "1": "Lee Collingbourne",
+            "S1": "Kyle Tucker",
+            "S2": "Tomer Teichman",
+            "S3": "Simon Eyre"
+        },
+        {
+            "15": "Max Marshall",
+            "14": "Sean Shepherd",
+            "13": "Jake Lytle",
+            "12": "Ashley Parker",
+            "11": "Darren Locke",
+            "10": "Harry Carton",
+            "9": "Name withheld",
+            "8": "Chris Knott",
+            "7": "Ollie Noel",
+            "6": "Thomas Baker",
+            "5": "James Duckett",
+            "4": "Joshua Morgan",
+            "3": "Lennon Packwood",
+            "2": "Jacob Pavlides",
+            "1": "Timothy Barnett",
+            "S1": "Alejo Parraga",
+            "S2": "Philip Ward"
+        }
+    ]
+}

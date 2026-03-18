@@ -1,0 +1,59 @@
+{
+    "match_id": "909550",
+    "season": "2021-2022",
+    "league": "Harvey\u2019s Brewery Sussex 1",
+    "date": "2022-01-22",
+    "teams": [
+        "Lewes",
+        "East Grinstead"
+    ],
+    "score": [
+        12,
+        36
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/12206.png",
+        "https://images.englandrugby.com/club_images/7134.png"
+    ],
+    "players": [
+        {
+            "15": "Ben Poole",
+            "14": "Joe Reid",
+            "13": "Andy Carmichael",
+            "12": "Elliot Moule",
+            "11": "Nick Evans",
+            "10": "Angelo Errigo",
+            "9": "Cian Furlong",
+            "8": "Harry Weston",
+            "7": "Lewis Evans",
+            "6": "Lewis Austin",
+            "5": "Chris Gorbell",
+            "4": "James Sale",
+            "3": "Charlie Moran",
+            "2": "Oliver Bowry",
+            "1": "Ethan Edwards",
+            "S1": "Alexander Audsley-Mckenna",
+            "S2": "Stewart Dickens",
+            "S3": "Harry Carr"
+        },
+        {
+            "15": "Samuel Spriddell",
+            "14": "Fergus Wood",
+            "13": "Max Crawley-Moore",
+            "12": "Richard Dodgson",
+            "11": "Jack Skipworth",
+            "10": "Daniel Poulton",
+            "9": "George Johnson",
+            "8": "Daniel Billin",
+            "6": "Liam Casey",
+            "5": "Peter Morley",
+            "4": "Samuel Lindsay-McCall",
+            "3": "Devon Frost",
+            "2": "Benjamin Tottman",
+            "1": "Joshua Brimecombe",
+            "S1": "Connor Leggat",
+            "S2": "Archie Vickers",
+            "S3": "Ryan Morlen"
+        }
+    ]
+}

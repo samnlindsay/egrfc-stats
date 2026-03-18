@@ -1,0 +1,59 @@
+{
+    "match_id": "909551",
+    "season": "2021-2022",
+    "league": "Harvey\u2019s Brewery Sussex 1",
+    "date": "2022-01-29",
+    "teams": [
+        "Uckfield",
+        "East Grinstead"
+    ],
+    "score": [
+        19,
+        21
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/23445.png",
+        "https://images.englandrugby.com/club_images/7134.png"
+    ],
+    "players": [
+        {
+            "15": "Kian Saunders",
+            "14": "Joel Andrews",
+            "13": "Name withheld",
+            "12": "Joseph Pratt",
+            "11": "Callum Harvey",
+            "10": "Luke Yaafe",
+            "9": "Charlie Buckland",
+            "8": "Craig Marshall",
+            "7": "Matthew Evans",
+            "6": "Rob Mayer",
+            "5": "Terry Funnell",
+            "4": "Stephen Hartfield",
+            "3": "Jack Harvey",
+            "2": "Alfie Richardson",
+            "1": "Davy Armstrong",
+            "S1": "Adam Palmer",
+            "S2": "Matthew Spencer",
+            "S3": "Fergus Wood"
+        },
+        {
+            "15": "Alistair Moffatt",
+            "14": "Max Crawley-Moore",
+            "13": "Ryan Morlen",
+            "12": "Jake Radcliffe",
+            "11": "Daniel Poulton",
+            "10": "George Johnson",
+            "9": "Connor Leggat",
+            "8": "Thomas Byron",
+            "7": "Archie Vickers",
+            "6": "Nicholas Carter",
+            "5": "Samuel Lindsay-McCall",
+            "4": "Devon Frost",
+            "3": "Joshua Brimecombe",
+            "2": "Sean Morgan",
+            "1": "James Funnell",
+            "S1": "Benjamin Tottman",
+            "S2": "Oliver Billin"
+        }
+    ]
+}

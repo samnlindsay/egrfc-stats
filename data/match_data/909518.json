@@ -1,0 +1,60 @@
+{
+    "match_id": "909518",
+    "season": "2021-2022",
+    "league": "Harvey\u2019s Brewery Sussex 1",
+    "date": "2021-10-16",
+    "teams": [
+        "Seaford",
+        "Eastbourne"
+    ],
+    "score": [
+        32,
+        71
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/18868.png",
+        "https://images.englandrugby.com/club_images/7209.png"
+    ],
+    "players": [
+        {
+            "15": "Charlie Crossgrove",
+            "14": "Rhys Roberts",
+            "13": "Stuart Cotter",
+            "12": "Corey Digby-Clarke",
+            "11": "Jason Staples",
+            "10": "Oscar Weisz",
+            "9": "Simon Baker",
+            "8": "Sam Diplock",
+            "7": "Andrew Fry",
+            "6": "Name withheld",
+            "5": "Shaun Brewer",
+            "4": "Lee Furminger",
+            "3": "Matt Read",
+            "2": "Luke Read",
+            "1": "Andrew Salter",
+            "S1": "Tom Peissel",
+            "S2": "Charlie Guest",
+            "S3": "Dominic Joy"
+        },
+        {
+            "15": "Oliver Horley",
+            "14": "Sebastian Gleave",
+            "13": "Martial Chaput",
+            "12": "Ben Perrott",
+            "11": "Kyle Hastilow",
+            "10": "Jake Howe",
+            "9": "Pedro Sousa",
+            "8": "Konrad O'Neill",
+            "7": "Stefan Cousins",
+            "6": "William Bath",
+            "5": "Joshua Buckwell",
+            "4": "Luke Thomas",
+            "3": "Toby Slaughter",
+            "2": "Joseph Bettles",
+            "1": "Christopher Hosking",
+            "S1": "Carl Slaughter",
+            "S2": "Alun Cranch",
+            "S3": "Louis Paal"
+        }
+    ]
+}

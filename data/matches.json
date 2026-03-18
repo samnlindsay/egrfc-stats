@@ -1,5 +1,3347 @@
 [
     {
+        "match_id": "931679",
+        "season": "2021-2022",
+        "league": "Harvey\u2019s Brewery Sussex 1",
+        "date": "2021-09-18",
+        "teams": [
+            "Seaford",
+            "Burgess Hill"
+        ],
+        "score": [
+            28,
+            24
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/18868.png",
+            "https://images.englandrugby.com/club_images/3659.png"
+        ],
+        "players": [
+            {
+                "15": "Oscar Weisz",
+                "14": "Name withheld",
+                "13": "Charlie Crossgrove",
+                "12": "Corey Digby-Clarke",
+                "11": "Jason Staples",
+                "10": "Rhys Jones",
+                "9": "Luke Taylor",
+                "8": "Andrew Fry",
+                "7": "Paddy Powney",
+                "6": "Sam Diplock",
+                "5": "Michael Upton",
+                "4": "Dominic Joy",
+                "3": "Kaya Tyack",
+                "2": "Luke Read",
+                "1": "Philip Innis",
+                "S1": "Rhys Roberts",
+                "S2": "Daniel Newby",
+                "S3": "Lee Furminger"
+            },
+            {
+                "15": "Ollie Lewis",
+                "14": "Rory Shillaker",
+                "13": "George Yeates",
+                "12": "Flavian Obiero",
+                "11": "Archie Anscombe",
+                "10": "Jon Maple",
+                "9": "David Wattam",
+                "8": "Adam Rezazadeh",
+                "7": "Kyle Tucker",
+                "6": "Harvey Hays",
+                "5": "Charlie Lewis",
+                "4": "Paul Hasib",
+                "3": "David Mccomiskey",
+                "2": "Lee Collingbourne",
+                "1": "Simon Eyre",
+                "S1": "Lee Hubble",
+                "S2": "Joseph Brown"
+            }
+        ]
+    },
+    {
+        "match_id": "909509",
+        "season": "2021-2022",
+        "league": "Harvey\u2019s Brewery Sussex 1",
+        "date": "2021-09-25",
+        "teams": [
+            "East Grinstead",
+            "Eastbourne"
+        ],
+        "score": [
+            47,
+            0
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/7134.png",
+            "https://images.englandrugby.com/club_images/7209.png"
+        ],
+        "players": [
+            {
+                "15": "Samuel Spriddell",
+                "14": "Alistair Moffatt",
+                "13": "Max Crawley-Moore",
+                "12": "Jack Andrews",
+                "10": "Daniel Poulton",
+                "9": "Thomas Hicks",
+                "8": "Archie Vickers",
+                "7": "Gus Nye",
+                "6": "Daniel Billin",
+                "5": "John Peaty",
+                "4": "Samuel Lindsay-McCall",
+                "3": "James Funnell",
+                "2": "Benjamin Tottman",
+                "1": "Devon Frost",
+                "S1": "Joshua Brimecombe",
+                "S2": "Sean Morgan",
+                "S3": "Ryan Morlen"
+            },
+            {
+                "15": "Carl Slaughter",
+                "14": "Reece Negus",
+                "13": "Ethan Quin",
+                "12": "Ben Perrott",
+                "11": "Kyle Hastilow",
+                "10": "Jake Howe",
+                "9": "Name withheld",
+                "8": "Ryan Shields",
+                "7": "Stefan Cousins",
+                "6": "Jack Hopkins",
+                "5": "Joshua Buckwell",
+                "4": "Konrad O'Neill",
+                "3": "Toby Slaughter",
+                "2": "Joseph Bettles",
+                "1": "Daniel Keen",
+                "S1": "William Bath",
+                "S2": "Pedro Sousa",
+                "S3": "Charlie Di Lieto"
+            }
+        ]
+    },
+    {
+        "match_id": "909507",
+        "season": "2021-2022",
+        "league": "Harvey\u2019s Brewery Sussex 1",
+        "date": "2021-09-25",
+        "teams": [
+            "Burgess Hill",
+            "Lewes"
+        ],
+        "score": [
+            35,
+            7
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/3659.png",
+            "https://images.englandrugby.com/club_images/12206.png"
+        ],
+        "players": [
+            {
+                "15": "Ollie Lewis",
+                "14": "Flavian Obiero",
+                "13": "Napolioni Cerevuso",
+                "12": "Jim Waqanibau",
+                "11": "Matheus Gava",
+                "10": "Archie Anscombe",
+                "9": "Massimo Hiller",
+                "8": "David Wattam",
+                "7": "Name withheld",
+                "6": "Christian Jones",
+                "5": "Charlie Lewis",
+                "4": "Harvey Hays",
+                "3": "Paul Hasib",
+                "2": "David Mccomiskey",
+                "1": "Lee Collingbourne",
+                "S1": "Tomer Teichman",
+                "S2": "Benjamin Dronfield",
+                "S3": "Isoa Tadrau"
+            },
+            {
+                "15": "Thomas Awdry",
+                "14": "Joe Reid",
+                "13": "Kieran Morris",
+                "12": "Dominic Lunniss",
+                "11": "Harry Weston",
+                "10": "Andy Carmichael",
+                "9": "Benjamin Bishop",
+                "8": "Lewis Evans",
+                "7": "George Gribble",
+                "6": "Stewart Dickens",
+                "5": "Chris Gorbell",
+                "4": "James Sale",
+                "3": "Ethan Edwards",
+                "2": "Oliver Bowry",
+                "1": "Fearghus Gage",
+                "S1": "Kane Dadswell",
+                "S2": "Tom Bates",
+                "S3": "Claudio Cosimetti"
+            }
+        ]
+    },
+    {
+        "match_id": "909508",
+        "season": "2021-2022",
+        "league": "Harvey\u2019s Brewery Sussex 1",
+        "date": "2021-09-25",
+        "teams": [
+            "Hove II",
+            "Hellingly"
+        ],
+        "score": [
+            39,
+            18
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/10504.png",
+            "https://images.englandrugby.com/club_images/9891.png"
+        ],
+        "players": [
+            {
+                "15": "Name withheld",
+                "14": "Sean Shepherd",
+                "13": "Giles Emmerson",
+                "12": "Harry Carton",
+                "11": "Darren Locke",
+                "10": "Jerome Pye",
+                "9": "Danny O'Conner",
+                "8": "Ben Stephens",
+                "7": "Timothy Barnett",
+                "6": "James Watson",
+                "5": "Joshua Morgan",
+                "4": "Reuben Atken-Till",
+                "3": "Lennon Packwood",
+                "2": "Benjamin Ridley",
+                "1": "Steve Klein",
+                "S1": "Matthew Finney",
+                "S2": "Irinnaios Pavlides",
+                "S3": "Jacob Pavlides"
+            },
+            {
+                "15": "Aaron Kirk",
+                "14": "David Sands",
+                "13": "Huw Jones",
+                "12": "Thomas Stone",
+                "11": "Aaron Hossack",
+                "10": "David Searle",
+                "9": "James Grey",
+                "8": "Mark Harris",
+                "7": "Craig Benson",
+                "6": "Jack Cowell",
+                "5": "Lewis Ather",
+                "4": "Alexander Hawkins",
+                "3": "Michael Whiteman",
+                "2": "James Maunder",
+                "1": "Benjamin Trevorrow",
+                "S1": "Daniel Puttick",
+                "S2": "Alex Bray"
+            }
+        ]
+    },
+    {
+        "match_id": "909514",
+        "season": "2021-2022",
+        "league": "Harvey\u2019s Brewery Sussex 1",
+        "date": "2021-10-02",
+        "teams": [
+            "Lewes",
+            "Seaford"
+        ],
+        "score": [
+            7,
+            6
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/12206.png",
+            "https://images.englandrugby.com/club_images/18868.png"
+        ],
+        "players": [
+            {
+                "15": "Daniel Basquill",
+                "14": "Joe Reid",
+                "13": "Andy Carmichael",
+                "12": "Elliot Moule",
+                "11": "Thomas Awdry",
+                "10": "Angelo Errigo",
+                "9": "Angus Taylor",
+                "8": "Kieran Morris",
+                "7": "Dominic Lunniss",
+                "6": "George Gribble",
+                "5": "James Sale",
+                "4": "Lewis Evans",
+                "3": "Kane Dadswell",
+                "2": "Oliver Bowry",
+                "1": "Fearghus Gage",
+                "S1": "Mouhammed Bacha",
+                "S2": "Lewis Austin",
+                "S3": "William Shiell"
+            },
+            {
+                "15": "Alexander Tattam",
+                "14": "Stuart Cotter",
+                "13": "Oscar Weisz",
+                "12": "Corey Digby-Clarke",
+                "11": "Charlie Crossgrove",
+                "10": "Rhys Jones",
+                "9": "Luke Taylor",
+                "8": "Andrew Salter",
+                "7": "Paddy Powney",
+                "6": "Sam Diplock",
+                "5": "Shaun Brewer",
+                "4": "Dominic Joy",
+                "3": "Kaya Tyack",
+                "2": "Andrew Fry",
+                "1": "Piers Culshaw",
+                "S1": "Name withheld",
+                "S2": "Lee Furminger",
+                "S3": "Michael Upton"
+            }
+        ]
+    },
+    {
+        "match_id": "909513",
+        "season": "2021-2022",
+        "league": "Harvey\u2019s Brewery Sussex 1",
+        "date": "2021-10-02",
+        "teams": [
+            "Hellingly",
+            "East Grinstead"
+        ],
+        "score": [
+            12,
+            27
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/9891.png",
+            "https://images.englandrugby.com/club_images/7134.png"
+        ],
+        "players": [
+            {
+                "15": "Name withheld",
+                "14": "Sam Cosham",
+                "13": "Billy Cleaver",
+                "12": "Harvey Warren",
+                "11": "Thomas Stone",
+                "10": "Huw Jones",
+                "9": "David Sands",
+                "8": "James Grey",
+                "7": "Mark Harris",
+                "6": "Simon Bray",
+                "5": "Matthew Blakiston",
+                "4": "Lewis Ather",
+                "3": "Paul Smith",
+                "2": "Michael Whiteman",
+                "1": "James Maunder",
+                "S1": "Robert Vint",
+                "S2": "Jack Smith",
+                "S3": "Alex Bray"
+            },
+            {
+                "15": "Samuel Spriddell",
+                "14": "Alistair Moffatt",
+                "13": "Max Crawley-Moore",
+                "12": "Jack Andrews",
+                "11": "Fergus Wood",
+                "10": "Daniel Poulton",
+                "9": "Thomas Hicks",
+                "8": "Daniel Billin",
+                "7": "Liam Casey",
+                "6": "John Peaty",
+                "5": "Samuel Lindsay-McCall",
+                "4": "Tao Benn",
+                "3": "Sean Morgan",
+                "2": "Benjamin Tottman",
+                "1": "James Funnell",
+                "S1": "Devon Frost",
+                "S2": "Daniel Arnold",
+                "S3": "Ryan Morlen"
+            }
+        ]
+    },
+    {
+        "match_id": "909511",
+        "season": "2021-2022",
+        "league": "Harvey\u2019s Brewery Sussex 1",
+        "date": "2021-10-02",
+        "teams": [
+            "Burgess Hill",
+            "Hove II"
+        ],
+        "score": [
+            51,
+            14
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/3659.png",
+            "https://images.englandrugby.com/club_images/10504.png"
+        ],
+        "players": [
+            {
+                "15": "Ollie Lewis",
+                "14": "Matheus Gava",
+                "13": "Albert Roko",
+                "11": "Flavian Obiero",
+                "10": "Archie Anscombe",
+                "9": "Massimo Hiller",
+                "8": "David Wattam",
+                "7": "Adam Rezazadeh",
+                "6": "Christian Jones",
+                "5": "Charlie Lewis",
+                "4": "Harvey Hays",
+                "3": "Paul Hasib",
+                "2": "Lewis Strong",
+                "1": "Lee Collingbourne",
+                "S1": "Kyle Tucker",
+                "S2": "Tomer Teichman",
+                "S3": "Simon Eyre"
+            },
+            {
+                "15": "Max Marshall",
+                "14": "Sean Shepherd",
+                "13": "Jake Lytle",
+                "12": "Ashley Parker",
+                "11": "Darren Locke",
+                "10": "Harry Carton",
+                "9": "Name withheld",
+                "8": "Chris Knott",
+                "7": "Ollie Noel",
+                "6": "Thomas Baker",
+                "5": "James Duckett",
+                "4": "Joshua Morgan",
+                "3": "Lennon Packwood",
+                "2": "Jacob Pavlides",
+                "1": "Timothy Barnett",
+                "S1": "Alejo Parraga",
+                "S2": "Philip Ward"
+            }
+        ]
+    },
+    {
+        "match_id": "909512",
+        "season": "2021-2022",
+        "league": "Harvey\u2019s Brewery Sussex 1",
+        "date": "2021-10-02",
+        "teams": [
+            "Eastbourne",
+            "Uckfield"
+        ],
+        "score": [
+            5,
+            29
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/7209.png",
+            "https://images.englandrugby.com/club_images/23445.png"
+        ],
+        "players": [
+            {
+                "15": "Oliver Horley",
+                "14": "Reece Negus",
+                "13": "Martial Chaput",
+                "12": "Ben Perrott",
+                "11": "Kyle Hastilow",
+                "10": "Jake Howe",
+                "9": "Pedro Sousa",
+                "8": "Konrad O'Neill",
+                "7": "Stefan Cousins",
+                "6": "Joshua Imich",
+                "5": "Charlie Milner",
+                "4": "Luke Thomas",
+                "3": "Joseph Bettles",
+                "2": "Jack Hopkins",
+                "1": "Daniel Keen",
+                "S1": "Christopher Hosking",
+                "S2": "Cameron Thomson",
+                "S3": "Lewis De La Mare"
+            },
+            {
+                "15": "Name withheld",
+                "14": "Ian Page mitchell",
+                "13": "Joel Andrews",
+                "12": "Joseph Pratt",
+                "11": "Kian Saunders",
+                "10": "Kieron Martin",
+                "9": "Charlie Buckland",
+                "8": "Jack Harvey",
+                "7": "Matthew Evans",
+                "6": "Harvey Stonebridge",
+                "5": "Stephen Hartfield",
+                "4": "Guy Cornick",
+                "3": "Davy Armstrong",
+                "2": "Alfie Richardson",
+                "1": "Steven Andre",
+                "S1": "Tristan Sturt",
+                "S2": "Harry Smith",
+                "S3": "Joel Forward"
+            }
+        ]
+    },
+    {
+        "match_id": "909518",
+        "season": "2021-2022",
+        "league": "Harvey\u2019s Brewery Sussex 1",
+        "date": "2021-10-16",
+        "teams": [
+            "Seaford",
+            "Eastbourne"
+        ],
+        "score": [
+            32,
+            71
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/18868.png",
+            "https://images.englandrugby.com/club_images/7209.png"
+        ],
+        "players": [
+            {
+                "15": "Charlie Crossgrove",
+                "14": "Rhys Roberts",
+                "13": "Stuart Cotter",
+                "12": "Corey Digby-Clarke",
+                "11": "Jason Staples",
+                "10": "Oscar Weisz",
+                "9": "Simon Baker",
+                "8": "Sam Diplock",
+                "7": "Andrew Fry",
+                "6": "Name withheld",
+                "5": "Shaun Brewer",
+                "4": "Lee Furminger",
+                "3": "Matt Read",
+                "2": "Luke Read",
+                "1": "Andrew Salter",
+                "S1": "Tom Peissel",
+                "S2": "Charlie Guest",
+                "S3": "Dominic Joy"
+            },
+            {
+                "15": "Oliver Horley",
+                "14": "Sebastian Gleave",
+                "13": "Martial Chaput",
+                "12": "Ben Perrott",
+                "11": "Kyle Hastilow",
+                "10": "Jake Howe",
+                "9": "Pedro Sousa",
+                "8": "Konrad O'Neill",
+                "7": "Stefan Cousins",
+                "6": "William Bath",
+                "5": "Joshua Buckwell",
+                "4": "Luke Thomas",
+                "3": "Toby Slaughter",
+                "2": "Joseph Bettles",
+                "1": "Christopher Hosking",
+                "S1": "Carl Slaughter",
+                "S2": "Alun Cranch",
+                "S3": "Louis Paal"
+            }
+        ]
+    },
+    {
+        "match_id": "909517",
+        "season": "2021-2022",
+        "league": "Harvey\u2019s Brewery Sussex 1",
+        "date": "2021-10-16",
+        "teams": [
+            "Uckfield",
+            "Hellingly"
+        ],
+        "score": [
+            55,
+            15
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/23445.png",
+            "https://images.englandrugby.com/club_images/9891.png"
+        ],
+        "players": [
+            {
+                "15": "Kian Saunders",
+                "14": "Ian Page mitchell",
+                "13": "Joel Andrews",
+                "12": "Joseph Pratt",
+                "11": "Callum Harvey",
+                "10": "Kieron Martin",
+                "9": "Name withheld",
+                "8": "Luke Austin",
+                "7": "Matthew Evans",
+                "6": "Jack Harvey",
+                "5": "Stephen Hartfield",
+                "4": "Tristan Sturt",
+                "3": "Davy Armstrong",
+                "2": "Alfie Richardson",
+                "1": "David Guyton",
+                "S1": "Max Currums",
+                "S2": "Joel Forward",
+                "S3": "Abraham Bredin"
+            },
+            {
+                "15": "Aaron Kirk",
+                "14": "Alex Bray",
+                "13": "Matthew Dawber",
+                "12": "Harvey Warren",
+                "11": "David Searle",
+                "10": "Mark Harris",
+                "9": "Connor Hesling",
+                "8": "Robert Vint",
+                "7": "Jack Smith",
+                "6": "Paul Smith",
+                "5": "James Maunder",
+                "4": "Alexander Hawkins",
+                "3": "Sebastian Molina Chocron",
+                "2": "Lewis Ather"
+            }
+        ]
+    },
+    {
+        "match_id": "909515",
+        "season": "2021-2022",
+        "league": "Harvey\u2019s Brewery Sussex 1",
+        "date": "2021-10-16",
+        "teams": [
+            "Hove II",
+            "Lewes"
+        ],
+        "score": [
+            19,
+            41
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/10504.png",
+            "https://images.englandrugby.com/club_images/12206.png"
+        ],
+        "players": [
+            {
+                "15": "Sean Shepherd",
+                "14": "Joel Perry",
+                "13": "Jake Lytle",
+                "12": "Ashley Parker",
+                "11": "Darren Locke",
+                "10": "Carlos Casanova",
+                "9": "Jerome Pye",
+                "8": "Ben Stephens",
+                "7": "Ben Anderson",
+                "6": "James Watson",
+                "5": "Ian Saunders",
+                "4": "Reuben Atken-Till",
+                "3": "Tyler Hooper",
+                "2": "Jacob Pavlides",
+                "1": "Steve Klein",
+                "S1": "Ollie Noel",
+                "S2": "James Duckett",
+                "S3": "Danny O'Conner"
+            },
+            {
+                "15": "Thomas Awdry",
+                "14": "Joe Reid",
+                "13": "Andy Carmichael",
+                "12": "Elliot Moule",
+                "11": "Rafferty Green",
+                "10": "Angelo Errigo",
+                "9": "Angus Taylor",
+                "8": "Kieran Morris",
+                "7": "Dominic Lunniss",
+                "6": "Stewart Dickens",
+                "5": "James Sale",
+                "4": "Tom Bates",
+                "3": "Kane Dadswell",
+                "2": "Oliver Bowry",
+                "1": "Mouhammed Bacha",
+                "S1": "Jordan Whiting",
+                "S2": "Lewis Austin",
+                "S3": "William Shiell"
+            }
+        ]
+    },
+    {
+        "match_id": "909516",
+        "season": "2021-2022",
+        "league": "Harvey\u2019s Brewery Sussex 1",
+        "date": "2021-10-16",
+        "teams": [
+            "East Grinstead",
+            "Burgess Hill"
+        ],
+        "score": [
+            64,
+            15
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/7134.png",
+            "https://images.englandrugby.com/club_images/3659.png"
+        ],
+        "players": [
+            {
+                "15": "Samuel Spriddell",
+                "14": "Fergus Wood",
+                "13": "Max Crawley-Moore",
+                "12": "Jack Andrews",
+                "10": "Daniel Poulton",
+                "9": "George Johnson",
+                "8": "Daniel Billin",
+                "7": "Archie Vickers",
+                "6": "Liam Casey",
+                "5": "John Peaty",
+                "4": "Samuel Lindsay-McCall",
+                "3": "Devon Frost",
+                "2": "Benjamin Tottman",
+                "1": "James Funnell",
+                "S1": "Sean Morgan",
+                "S2": "Daniel Arnold",
+                "S3": "Ryan Morlen"
+            },
+            {
+                "15": "Neori Motoiula",
+                "14": "Matheus Gava",
+                "13": "Jim Waqanibau",
+                "12": "George Yeates",
+                "11": "Issoa Tadrau",
+                "10": "Oliver Lewis",
+                "9": "Massimo Hiller",
+                "8": "David Wattam",
+                "7": "Adam Rezazadeh",
+                "6": "Christian Jones",
+                "5": "Kyle Tucker",
+                "4": "Harvey Hays",
+                "3": "Paul Hasib",
+                "2": "Lewis Strong",
+                "1": "Lee Collingbourne",
+                "S1": "Rory Shillaker",
+                "S2": "Benjamin Dronfield",
+                "S3": "Joseph Schofield"
+            }
+        ]
+    },
+    {
+        "match_id": "909522",
+        "season": "2021-2022",
+        "league": "Harvey\u2019s Brewery Sussex 1",
+        "date": "2021-10-23",
+        "teams": [
+            "Lewes",
+            "Eastbourne"
+        ],
+        "score": [
+            22,
+            29
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/12206.png",
+            "https://images.englandrugby.com/club_images/7209.png"
+        ],
+        "players": [
+            {
+                "15": "Thomas Awdry",
+                "14": "Joe Reid",
+                "13": "Andy Carmichael",
+                "12": "William Shiell",
+                "11": "Rafferty Green",
+                "10": "Angelo Errigo",
+                "9": "Angus Taylor",
+                "8": "Kieran Morris",
+                "7": "Stewart Dickens",
+                "6": "Dominic Lunniss",
+                "5": "Lewis Evans",
+                "4": "James Sale",
+                "3": "Mouhammed Bacha",
+                "2": "Benjamin Bishop",
+                "1": "Fearghus Gage",
+                "S1": "Tom Bates",
+                "S2": "Chris Gorbell",
+                "S3": "James Shafi"
+            },
+            {
+                "15": "Oliver Horley",
+                "14": "Sebastian Gleave",
+                "13": "Martial Chaput",
+                "12": "Ben Perrott",
+                "11": "Reece Negus",
+                "10": "Jake Howe",
+                "9": "Pedro Sousa",
+                "8": "Konrad O'Neill",
+                "7": "Tom Redman",
+                "6": "Stefan Cousins",
+                "5": "Joshua Buckwell",
+                "4": "Luke Thomas",
+                "3": "Toby Slaughter",
+                "2": "Joseph Bettles",
+                "1": "Christopher Hosking",
+                "S1": "William Bath",
+                "S2": "Jack Hopkins",
+                "S3": "Dylan Becker"
+            }
+        ]
+    },
+    {
+        "match_id": "909521",
+        "season": "2021-2022",
+        "league": "Harvey\u2019s Brewery Sussex 1",
+        "date": "2021-10-23",
+        "teams": [
+            "Hellingly",
+            "Seaford"
+        ],
+        "score": [
+            10,
+            13
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/9891.png",
+            "https://images.englandrugby.com/club_images/18868.png"
+        ],
+        "players": [
+            {
+                "15": "Name withheld",
+                "14": "Aaron Kirk",
+                "13": "James Grey",
+                "12": "Jack Cowell",
+                "11": "Billy Cleaver",
+                "10": "Huw Jones",
+                "9": "David Searle",
+                "8": "Connor Hesling",
+                "7": "Mark Harris",
+                "6": "Robert Vint",
+                "5": "Jack Smith",
+                "4": "Lewis Ather",
+                "3": "Paul Smith",
+                "2": "Michael Whiteman",
+                "1": "Alexander Hawkins",
+                "S1": "Charlie Milner",
+                "S2": "James Streeter",
+                "S3": "Aaron Hossack"
+            },
+            {
+                "15": "Luke Taylor",
+                "14": "Stuart Cotter",
+                "13": "Paddy Powney",
+                "12": "Corey Digby-Clarke",
+                "11": "Jason Staples",
+                "10": "Oscar Weisz",
+                "9": "Andrew Fry",
+                "8": "Dominic Joy",
+                "7": "Andrew Salter",
+                "6": "Michael Upton",
+                "5": "Sam Diplock",
+                "4": "Shaun Brewer",
+                "3": "Josh Hennessy",
+                "2": "Luke Read",
+                "1": "Philip Innis",
+                "S1": "Lee Furminger",
+                "S2": "Charlie Guest",
+                "S3": "Rhys Roberts"
+            }
+        ]
+    },
+    {
+        "match_id": "909519",
+        "season": "2021-2022",
+        "league": "Harvey\u2019s Brewery Sussex 1",
+        "date": "2021-10-23",
+        "teams": [
+            "Burgess Hill",
+            "Uckfield"
+        ],
+        "score": [
+            10,
+            10
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/3659.png",
+            "https://images.englandrugby.com/club_images/23445.png"
+        ],
+        "players": [
+            {
+                "15": "George Yeates",
+                "14": "Tomer Teichman",
+                "13": "Albert Roko",
+                "12": "Jim Waqanibau",
+                "11": "Matheus Gava",
+                "10": "Archie Anscombe",
+                "9": "Oliver Lewis",
+                "8": "David Wattam",
+                "7": "Benjamin Dronfield",
+                "6": "Martin Woodhead",
+                "5": "Kyle Tucker",
+                "4": "Harvey Hays",
+                "3": "Lee Collingbourne",
+                "2": "Benjamin Dewey",
+                "1": "Joshua Wren",
+                "S1": "Joseph Schofield",
+                "S2": "James Brown",
+                "S3": "Jese Waqanibau"
+            },
+            {
+                "15": "Abraham Bredin",
+                "14": "Kian Saunders",
+                "13": "Joel Andrews",
+                "12": "Joel Forward",
+                "11": "Callum Harvey",
+                "10": "Name withheld",
+                "9": "Charlie Buckland",
+                "8": "Joseph Pratt",
+                "7": "Matthew Evans",
+                "6": "Jos Sumpter",
+                "5": "Luke Austin",
+                "4": "Jake Siggs",
+                "3": "Davy Armstrong",
+                "2": "Alfie Richardson",
+                "1": "Jack Harvey",
+                "S1": "Max Currums",
+                "S2": "Kane Drummond",
+                "S3": "Christopher Watts"
+            }
+        ]
+    },
+    {
+        "match_id": "909523",
+        "season": "2021-2022",
+        "league": "Harvey\u2019s Brewery Sussex 1",
+        "date": "2021-10-30",
+        "teams": [
+            "East Grinstead",
+            "Lewes"
+        ],
+        "score": [
+            87,
+            10
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/7134.png",
+            "https://images.englandrugby.com/club_images/12206.png"
+        ],
+        "players": [
+            {
+                "15": "Fergus Wood",
+                "14": "Jack Skipworth",
+                "13": "Max Crawley-Moore",
+                "12": "Ryan Morlen",
+                "11": "Jake Radcliffe",
+                "10": "Daniel Poulton",
+                "9": "George Johnson",
+                "8": "Alexander Jackson",
+                "7": "Liam Casey",
+                "6": "Daniel Billin",
+                "5": "Ryan McGealy",
+                "4": "John Peaty",
+                "3": "Devon Frost",
+                "2": "Benjamin Tottman",
+                "1": "Sean Morgan",
+                "S1": "Joshua Brimecombe",
+                "S2": "Connor Leggat",
+                "S3": "Oliver Billin"
+            },
+            {
+                "15": "Rafferty Green",
+                "14": "Lewis Austin",
+                "13": "Andy Carmichael",
+                "12": "Kieran Morris",
+                "11": "Joe Reid",
+                "10": "Oliver Graham",
+                "9": "Elliot Moule",
+                "8": "Lewis Evans",
+                "7": "Stewart Dickens",
+                "6": "Dominic Lunniss",
+                "5": "James Sale",
+                "4": "Chris Gorbell",
+                "3": "Mouhammed Bacha",
+                "2": "Oliver Bowry",
+                "1": "Fearghus Gage",
+                "S1": "Kane Dadswell",
+                "S2": "Robert Williams",
+                "S3": "Benjamin Bishop"
+            }
+        ]
+    },
+    {
+        "match_id": "909526",
+        "season": "2021-2022",
+        "league": "Harvey\u2019s Brewery Sussex 1",
+        "date": "2021-10-30",
+        "teams": [
+            "Eastbourne",
+            "Hellingly"
+        ],
+        "score": [
+            19,
+            12
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/7209.png",
+            "https://images.englandrugby.com/club_images/9891.png"
+        ],
+        "players": [
+            {
+                "15": "Oliver Horley",
+                "14": "Sebastian Gleave",
+                "13": "Martial Chaput",
+                "12": "Ben Perrott",
+                "11": "Dylan Becker",
+                "10": "Jake Howe",
+                "9": "Samuel Wilkinson",
+                "8": "Tom Redman",
+                "7": "Stefan Cousins",
+                "6": "William Bath",
+                "5": "Joshua Buckwell",
+                "4": "Konrad O'Neill",
+                "3": "Toby Slaughter",
+                "2": "Joseph Bettles",
+                "1": "Christopher Hosking",
+                "S1": "Pedro Sousa",
+                "S2": "Jack Hopkins",
+                "S3": "Kyle Hastilow"
+            },
+            {
+                "15": "Name withheld",
+                "14": "Aaron Kirk",
+                "13": "Alex Bray",
+                "12": "Jack Cowell",
+                "11": "Harvey Warren",
+                "10": "David Searle",
+                "9": "Paul Smith",
+                "8": "Harry Honeyball",
+                "7": "Simon Bray",
+                "6": "Charles Courtney",
+                "5": "Lewis Ather",
+                "4": "Sebastian Molina Chocron",
+                "3": "Michael Whiteman",
+                "2": "James Maunder",
+                "1": "Alexander Hawkins"
+            }
+        ]
+    },
+    {
+        "match_id": "909527",
+        "season": "2021-2022",
+        "league": "Harvey\u2019s Brewery Sussex 1",
+        "date": "2021-11-13",
+        "teams": [
+            "Burgess Hill",
+            "Eastbourne"
+        ],
+        "score": [
+            10,
+            52
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/3659.png",
+            "https://images.englandrugby.com/club_images/7209.png"
+        ],
+        "players": [
+            {
+                "15": "Ollie Lewis",
+                "14": "Matheus Gava",
+                "13": "George Yeates",
+                "12": "Ben Mclaren",
+                "11": "Tomer Teichman",
+                "10": "Archie Anscombe",
+                "9": "Massimo Hiller",
+                "8": "David Wattam",
+                "7": "Name withheld",
+                "6": "Benjamin Dronfield",
+                "5": "Kyle Tucker",
+                "4": "Harvey Hays",
+                "3": "Paul Hasib",
+                "2": "Andrew Mackay",
+                "1": "Timothy Daniel",
+                "S1": "Joseph Schofield",
+                "S2": "Flavian Obiero",
+                "S3": "Oliver Horley"
+            },
+            {
+                "15": "Dylan Becker",
+                "14": "Jake Howe",
+                "13": "Ben Perrott",
+                "12": "Sebastian Gleave",
+                "11": "Martial Chaput",
+                "10": "Pedro Sousa",
+                "9": "Konrad O'Neill",
+                "8": "Ryan Shields",
+                "7": "James Smith",
+                "6": "Luke Thomas",
+                "5": "Joshua Buckwell",
+                "4": "Toby Slaughter",
+                "3": "Joseph Bettles",
+                "2": "Christopher Hosking",
+                "1": "Joshua Imich",
+                "S1": "Reece Negus",
+                "S2": "Callum Dell"
+            }
+        ]
+    },
+    {
+        "match_id": "909530",
+        "season": "2021-2022",
+        "league": "Harvey\u2019s Brewery Sussex 1",
+        "date": "2021-11-13",
+        "teams": [
+            "Lewes",
+            "Hellingly"
+        ],
+        "score": [
+            10,
+            26
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/12206.png",
+            "https://images.englandrugby.com/club_images/9891.png"
+        ],
+        "players": [
+            {
+                "15": "Cian Furlong",
+                "14": "Rafferty Green",
+                "13": "Ben Poole",
+                "12": "William Shiell",
+                "11": "Joe Reid",
+                "10": "Angelo Errigo",
+                "9": "Angus Taylor",
+                "8": "Kieran Morris",
+                "7": "Elliot Moule",
+                "6": "Lewis Austin",
+                "5": "James Sale",
+                "4": "Lewis Evans",
+                "3": "Jurgen Forster",
+                "2": "Fearghus Gage",
+                "1": "Ethan Edwards",
+                "S1": "Kane Dadswell",
+                "S2": "George Gribble",
+                "S3": "Thomas Petty"
+            },
+            {
+                "15": "Name withheld",
+                "14": "Alex Bray",
+                "13": "Harvey Warren",
+                "12": "Jack Cowell",
+                "11": "Thomas Stone",
+                "10": "Aaron Hossack",
+                "9": "David Searle",
+                "8": "James Grey",
+                "7": "Scott Monk",
+                "6": "Mark Harris",
+                "5": "Toby Streeter",
+                "4": "Lewis Ather",
+                "3": "Paul Smith",
+                "2": "Michael Whiteman",
+                "1": "James Maunder",
+                "S1": "Charles Courtney",
+                "S2": "Connor Hesling",
+                "S3": "Billy Cleaver"
+            }
+        ]
+    },
+    {
+        "match_id": "909528",
+        "season": "2021-2022",
+        "league": "Harvey\u2019s Brewery Sussex 1",
+        "date": "2021-11-13",
+        "teams": [
+            "Hove II",
+            "Seaford"
+        ],
+        "score": [
+            81,
+            17
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/10504.png",
+            "https://images.englandrugby.com/club_images/18868.png"
+        ],
+        "players": [
+            {
+                "15": "Archie Davies",
+                "14": "Sean Shepherd",
+                "13": "Giles Emmerson",
+                "12": "Stephen Marsh",
+                "11": "Alex Parker",
+                "10": "Jerome Pye",
+                "9": "Leo Jouves",
+                "8": "Ben Stephens",
+                "7": "Benjamin Ridley",
+                "6": "James Watson",
+                "5": "James Duckett",
+                "4": "George Brown",
+                "3": "Name withheld",
+                "2": "Tyler Hooper",
+                "1": "Steve Klein",
+                "S1": "Joel Perry",
+                "S2": "Bryn Garrish",
+                "S3": "Charlie Crossgrove"
+            },
+            {
+                "15": "Stuart Cotter",
+                "14": "Corey Digby-Clarke",
+                "13": "Jason Staples",
+                "12": "Oscar Weisz",
+                "11": "Rhys Jones",
+                "10": "Dominic Joy",
+                "9": "Andrew Fry",
+                "8": "Paddy Powney",
+                "7": "Andrew Salter",
+                "6": "Sam Diplock",
+                "5": "Matt Read",
+                "4": "Luke Read",
+                "3": "Piers Culshaw",
+                "2": "Lee Furminger",
+                "1": "Michael Upton",
+                "S1": "Rhys Jones",
+                "S2": "Josh Hennessy"
+            }
+        ]
+    },
+    {
+        "match_id": "909529",
+        "season": "2021-2022",
+        "league": "Harvey\u2019s Brewery Sussex 1",
+        "date": "2021-11-13",
+        "teams": [
+            "East Grinstead",
+            "Uckfield"
+        ],
+        "score": [
+            43,
+            0
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/7134.png",
+            "https://images.englandrugby.com/club_images/23445.png"
+        ],
+        "players": [
+            {
+                "15": "Fergus Wood",
+                "14": "Jack Skipworth",
+                "13": "Max Crawley-Moore",
+                "12": "Ryan Morlen",
+                "11": "Jake Radcliffe",
+                "10": "Daniel Poulton",
+                "9": "George Johnson",
+                "8": "Alexander Jackson",
+                "7": "Daniel Billin",
+                "6": "Daniel Arnold",
+                "5": "David Bridges",
+                "4": "John Peaty",
+                "3": "Sean Morgan",
+                "2": "Benjamin Tottman",
+                "1": "James Funnell",
+                "S1": "Joshua Brimecombe",
+                "S2": "Connor Leggat",
+                "S3": "Oliver Billin"
+            },
+            {
+                "15": "Name withheld",
+                "14": "Kian Saunders",
+                "13": "Joel Andrews",
+                "12": "Luke Yaafe",
+                "11": "Callum Harvey",
+                "10": "Charlie Buckland",
+                "9": "Jordon Southgate",
+                "8": "Luke Austin",
+                "7": "Matthew Evans",
+                "6": "Joseph Pratt",
+                "5": "Terry Funnell",
+                "4": "Stephen Hartfield",
+                "3": "Jack Harvey",
+                "2": "Alfie Richardson",
+                "1": "David Guyton",
+                "S1": "Harry Smith",
+                "S2": "Richard Haynes",
+                "S3": "Kane Drummond"
+            }
+        ]
+    },
+    {
+        "match_id": "909531",
+        "season": "2021-2022",
+        "league": "Harvey\u2019s Brewery Sussex 1",
+        "date": "2021-11-27",
+        "teams": [
+            "Uckfield",
+            "Lewes"
+        ],
+        "score": [
+            50,
+            10
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/23445.png",
+            "https://images.englandrugby.com/club_images/12206.png"
+        ],
+        "players": [
+            {
+                "15": "Kian Saunders",
+                "14": "Joel Andrews",
+                "13": "Matthew Spencer",
+                "12": "Joel Forward",
+                "11": "Callum Harvey",
+                "10": "Name withheld",
+                "9": "Jordon Southgate",
+                "8": "Terry Funnell",
+                "7": "Matthew Evans",
+                "6": "Rob Mayer",
+                "5": "Charles Rumary",
+                "4": "Tristan Sturt",
+                "3": "Jack Harvey",
+                "2": "Alfie Richardson",
+                "1": "Adam Palmer",
+                "S1": "Davy Armstrong",
+                "S2": "Thomas Awdry"
+            },
+            {
+                "15": "Oliver Graham",
+                "14": "Andy Carmichael",
+                "13": "Rafferty Green",
+                "12": "Joe Reid",
+                "11": "William Shiell",
+                "10": "Ben Poole",
+                "9": "Kieran Morris",
+                "8": "Benjamin Bishop",
+                "7": "George Gribble",
+                "6": "Ben Edmonds",
+                "5": "James Sale",
+                "4": "Fearghus Gage",
+                "3": "Mouhammed Bacha",
+                "2": "Kane Dadswell",
+                "1": "Lewis Evans",
+                "S1": "Stewart Dickens",
+                "S2": "Robert Williams"
+            }
+        ]
+    },
+    {
+        "match_id": "909533",
+        "season": "2021-2022",
+        "league": "Harvey\u2019s Brewery Sussex 1",
+        "date": "2021-11-27",
+        "teams": [
+            "Eastbourne",
+            "Hove II"
+        ],
+        "score": [
+            15,
+            17
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/7209.png",
+            "https://images.englandrugby.com/club_images/10504.png"
+        ],
+        "players": [
+            {
+                "15": "Sebastian Gleave",
+                "14": "Dylan Becker",
+                "13": "Jake Howe",
+                "12": "Ben Perrott",
+                "11": "Oliver Horley",
+                "10": "Martial Chaput",
+                "9": "Pedro Sousa",
+                "8": "Konrad O'Neill",
+                "7": "Louis Paal",
+                "6": "Stefan Cousins",
+                "5": "Joshua Buckwell",
+                "4": "Luke Thomas",
+                "3": "Toby Slaughter",
+                "2": "Joseph Bettles",
+                "1": "Christopher Hosking",
+                "S1": "William Bettles",
+                "S2": "Callum Dell",
+                "S3": "Joshua Imich"
+            },
+            {
+                "15": "Name withheld",
+                "14": "Sean Shepherd",
+                "13": "Bryn Garrish",
+                "12": "Stephen Marsh",
+                "11": "Thomas Butler",
+                "10": "Jerome Pye",
+                "9": "Danny O'Conner",
+                "8": "Ben Anderson",
+                "6": "James Watson",
+                "5": "James Duckett",
+                "4": "Ben Stephens",
+                "3": "Lennon Packwood",
+                "2": "Tyler Hooper",
+                "1": "Alex Maguire",
+                "S1": "Ashley Parker",
+                "S3": "Philip Ward"
+            }
+        ]
+    },
+    {
+        "match_id": "909532",
+        "season": "2021-2022",
+        "league": "Harvey\u2019s Brewery Sussex 1",
+        "date": "2021-11-27",
+        "teams": [
+            "Seaford",
+            "East Grinstead"
+        ],
+        "score": [
+            21,
+            36
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/18868.png",
+            "https://images.englandrugby.com/club_images/7134.png"
+        ],
+        "players": [
+            {
+                "15": "Name withheld",
+                "14": "Charlie Crossgrove",
+                "13": "Paddy Powney",
+                "12": "Rhys Jones",
+                "11": "Rhys Roberts",
+                "10": "Corey Digby-Clarke",
+                "9": "Andrew Fry",
+                "8": "Bradley Newby",
+                "7": "Daniel Newby",
+                "6": "Andrew Salter",
+                "5": "Dominic Joy",
+                "4": "Lee Furminger",
+                "3": "Kaya Tyack",
+                "2": "Luke Read",
+                "1": "Matt Read",
+                "S1": "Jason Pheasant",
+                "S2": "Philip Innis",
+                "S3": "Gregory Cole"
+            },
+            {
+                "15": "Samuel Montagu-Dodd",
+                "14": "Jack Skipworth",
+                "13": "Max Crawley-Moore",
+                "12": "Fergus Wood",
+                "11": "Jake Radcliffe",
+                "10": "Oliver Billin",
+                "9": "Samuel Spriddell",
+                "8": "Connor Leggat",
+                "7": "Daniel Billin",
+                "6": "John Peaty",
+                "5": "Samuel Lindsay-McCall",
+                "4": "Devon Frost",
+                "3": "Joshua Brimecombe",
+                "2": "Sean Morgan",
+                "1": "James Funnell",
+                "S1": "Alistair Moffatt"
+            }
+        ]
+    },
+    {
+        "match_id": "909537",
+        "season": "2021-2022",
+        "league": "Harvey\u2019s Brewery Sussex 1",
+        "date": "2021-12-04",
+        "teams": [
+            "Uckfield",
+            "Eastbourne"
+        ],
+        "score": [
+            29,
+            21
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/23445.png",
+            "https://images.englandrugby.com/club_images/7209.png"
+        ],
+        "players": [
+            {
+                "15": "Kian Saunders",
+                "14": "Joel Andrews",
+                "13": "Name withheld",
+                "12": "Joel Forward",
+                "11": "Callum Harvey",
+                "10": "Charlie Buckland",
+                "9": "Jordon Southgate",
+                "8": "Joseph Pratt",
+                "7": "Matthew Evans",
+                "6": "Terry Funnell",
+                "5": "Charles Rumary",
+                "4": "Stephen Hartfield",
+                "3": "Jack Harvey",
+                "2": "Alfie Richardson",
+                "1": "Max Currums",
+                "S1": "Kieron Martin",
+                "S2": "Harry Smith",
+                "S3": "Matthew Spencer"
+            },
+            {
+                "15": "Sebastian Gleave",
+                "14": "Pedro Sousa",
+                "13": "Jake Howe",
+                "12": "Ben Perrott",
+                "11": "Dylan Becker",
+                "10": "Martial Chaput",
+                "9": "Samuel Wilkinson",
+                "8": "Konrad O'Neill",
+                "7": "Louis Paal",
+                "6": "Stefan Cousins",
+                "5": "Joshua Buckwell",
+                "4": "Luke Thomas",
+                "3": "Joseph Bettles",
+                "2": "Christopher Hosking",
+                "1": "Jeremy Montes",
+                "S1": "Alun Cranch",
+                "S2": "Jonathan Tutty"
+            }
+        ]
+    },
+    {
+        "match_id": "909535",
+        "season": "2021-2022",
+        "league": "Harvey\u2019s Brewery Sussex 1",
+        "date": "2021-12-04",
+        "teams": [
+            "Hove II",
+            "Burgess Hill"
+        ],
+        "score": [
+            7,
+            31
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/10504.png",
+            "https://images.englandrugby.com/club_images/3659.png"
+        ],
+        "players": [
+            {
+                "15": "Philippe Joffe",
+                "14": "Joel Perry",
+                "13": "Max Marshall",
+                "12": "Ashley Parker",
+                "11": "Sebastian Taylor-Haw",
+                "10": "Jerome Pye",
+                "9": "Sean Shepherd",
+                "8": "Ben Anderson",
+                "7": "Ben Stephens",
+                "6": "Antoine Berthillot",
+                "5": "George Brown",
+                "4": "James Duckett",
+                "3": "Steve Klein",
+                "2": "Tyler Hooper",
+                "1": "Alex Maguire",
+                "S1": "Kevin Zaghetto",
+                "S2": "George Elliott",
+                "S3": "Thomas Butler"
+            },
+            {
+                "15": "Tomer Teichman",
+                "14": "Matheus Gava",
+                "13": "Albert Roko",
+                "12": "Jim Waqanibau",
+                "11": "Issoa Tadrau",
+                "10": "Ollie Lewis",
+                "9": "Neori Motoiula",
+                "8": "Joseph Schofield",
+                "7": "Apporosa Naisake",
+                "6": "Benjamin Dronfield",
+                "5": "Kyle Tucker",
+                "4": "Harvey Hays",
+                "3": "Lee Collingbourne",
+                "2": "David Mccomiskey",
+                "1": "Andrew Mackay",
+                "S1": "Timothy Daniel",
+                "S2": "Name withheld",
+                "S3": "Ben Mclaren"
+            }
+        ]
+    },
+    {
+        "match_id": "909538",
+        "season": "2021-2022",
+        "league": "Harvey\u2019s Brewery Sussex 1",
+        "date": "2021-12-04",
+        "teams": [
+            "Seaford",
+            "Lewes"
+        ],
+        "score": [
+            7,
+            34
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/18868.png",
+            "https://images.englandrugby.com/club_images/12206.png"
+        ],
+        "players": [
+            {
+                "15": "Name withheld",
+                "14": "Charlie Crossgrove",
+                "13": "Paddy Powney",
+                "12": "Corey Digby-Clarke",
+                "11": "Jason Staples",
+                "10": "Oscar Weisz",
+                "9": "Andrew Fry",
+                "8": "Andrew Salter",
+                "7": "Sam Diplock",
+                "6": "Daniel Newby",
+                "5": "Lee Furminger",
+                "4": "Luke Read",
+                "3": "Matt Read",
+                "2": "Jason Pheasant",
+                "1": "Piers Culshaw",
+                "S1": "Charlie Guest",
+                "S2": "Mark Tait",
+                "S3": "Samuel Lipscombe"
+            },
+            {
+                "15": "Ben Poole",
+                "14": "Cian Furlong",
+                "13": "Elliot Moule",
+                "12": "Andy Carmichael",
+                "11": "Joe Reid",
+                "10": "Angelo Errigo",
+                "9": "Angus Taylor",
+                "8": "George Gribble",
+                "7": "Lewis Austin",
+                "6": "Ben Edmonds",
+                "5": "Lewis Evans",
+                "4": "James Sale",
+                "3": "Kane Dadswell",
+                "2": "Kris Moloney",
+                "1": "Sean Sayers",
+                "S1": "Charlie Moran",
+                "S2": "Stewart Dickens",
+                "S3": "Harry Carr"
+            }
+        ]
+    },
+    {
+        "match_id": "952676",
+        "season": "2021-2022",
+        "league": "Sussex 3 Premier",
+        "date": "2021-12-11",
+        "teams": [
+            "Crawley II",
+            "Rye"
+        ],
+        "score": [
+            "",
+            "WO"
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "952677",
+        "season": "2021-2022",
+        "league": "Sussex 3 Premier",
+        "date": "2021-12-11",
+        "teams": [
+            "Crowborough II",
+            "East Grinstead II"
+        ],
+        "score": [
+            25,
+            5
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "952675",
+        "season": "2021-2022",
+        "league": "Sussex 3 Premier",
+        "date": "2021-12-11",
+        "teams": [
+            "Horsham III (Casuals)",
+            "Midhurst"
+        ],
+        "score": [
+            49,
+            0
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "952678",
+        "season": "2021-2022",
+        "league": "Sussex 3 Premier",
+        "date": "2021-12-18",
+        "teams": [
+            "Horsham III (Casuals)",
+            "Crawley II"
+        ],
+        "score": [
+            31,
+            3
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "955168",
+        "season": "2021-2022",
+        "league": "Sussex 3 Premier",
+        "date": "2022-01-08",
+        "teams": [
+            "Midhurst",
+            "East Grinstead II"
+        ],
+        "score": [
+            29,
+            0
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "954942",
+        "season": "2021-2022",
+        "league": "Harvey\u2019s Brewery Sussex 1",
+        "date": "2022-01-08",
+        "teams": [
+            "Hellingly",
+            "Uckfield"
+        ],
+        "score": [
+            12,
+            28
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/9891.png",
+            "https://images.englandrugby.com/club_images/23445.png"
+        ],
+        "players": [
+            {
+                "15": "Name withheld",
+                "14": "Harvey Warren",
+                "13": "Jack Cowell",
+                "12": "Charlie Milner",
+                "11": "Aaron Hossack",
+                "10": "Billy Cleaver",
+                "9": "James Grey",
+                "8": "Scott Monk",
+                "7": "Fraser Francis",
+                "6": "Mark Harris",
+                "5": "Lewis Ather",
+                "4": "Paul Smith",
+                "3": "Michael Whiteman",
+                "2": "Alexander Hawkins",
+                "1": "Craig Latimer",
+                "S1": "Robert Vint",
+                "S2": "Craig Benson",
+                "S3": "Joel Andrews"
+            },
+            {
+                "15": "Matthew Spencer",
+                "14": "Luke Yaafe",
+                "13": "Callum Harvey",
+                "12": "Charlie Buckland",
+                "11": "Jordon Southgate",
+                "10": "Joseph Pratt",
+                "9": "Matthew Evans",
+                "8": "Luke Austin",
+                "7": "Rob Mayer",
+                "6": "Craig Marshall",
+                "5": "Jack Harvey",
+                "4": "Alfie Richardson",
+                "3": "Archie Bell",
+                "2": "Davy Armstrong",
+                "1": "Abraham Bredin",
+                "S1": "Joel Forward"
+            }
+        ]
+    },
+    {
+        "match_id": "952681",
+        "season": "2021-2022",
+        "league": "Sussex 3 Premier",
+        "date": "2022-01-15",
+        "teams": [
+            "Crawley II",
+            "Midhurst"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "952683",
+        "season": "2021-2022",
+        "league": "Sussex 3 Premier",
+        "date": "2022-01-15",
+        "teams": [
+            "East Grinstead II",
+            "Rye"
+        ],
+        "score": [
+            20,
+            12
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "953050",
+        "season": "2021-2022",
+        "league": "Sussex 3 Premier",
+        "date": "2022-01-15",
+        "teams": [
+            "Horsham III (Casuals)",
+            "Crowborough II"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "909545",
+        "season": "2021-2022",
+        "league": "Harvey\u2019s Brewery Sussex 1",
+        "date": "2022-01-15",
+        "teams": [
+            "Seaford",
+            "Hellingly"
+        ],
+        "score": [
+            24,
+            33
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/18868.png",
+            "https://images.englandrugby.com/club_images/9891.png"
+        ],
+        "players": [
+            {
+                "15": "Oscar Weisz",
+                "14": "Charlie Crossgrove",
+                "13": "Paddy Powney",
+                "12": "Corey Digby-Clarke",
+                "11": "Name withheld",
+                "10": "Rhys Jones",
+                "9": "Luke Taylor",
+                "8": "Bradley Newby",
+                "7": "Sam Diplock",
+                "6": "Andrew Salter",
+                "5": "Dominic Joy",
+                "4": "Lee Furminger",
+                "3": "Matt Read",
+                "2": "Luke Read",
+                "1": "Philip Innis",
+                "S1": "Stuart Cotter",
+                "S2": "Michael Upton",
+                "S3": "Samuel Lipscombe"
+            },
+            {
+                "15": "Benjamin Trevorrow",
+                "14": "Thomas Stone",
+                "13": "Harvey Warren",
+                "12": "Jack Cowell",
+                "11": "Billy Cleaver",
+                "10": "Aaron Hossack",
+                "9": "David Searle",
+                "8": "James Grey",
+                "7": "Scott Monk",
+                "6": "Jordan Widdop",
+                "5": "Mark Harris",
+                "4": "Charles Courtney",
+                "3": "Paul Smith",
+                "2": "Michael Whiteman",
+                "1": "Craig Latimer",
+                "S1": "Thomas Shuttleworth",
+                "S2": "Gerald Davis",
+                "S3": "Jordan Widdop"
+            }
+        ]
+    },
+    {
+        "match_id": "909544",
+        "season": "2021-2022",
+        "league": "Harvey\u2019s Brewery Sussex 1",
+        "date": "2022-01-15",
+        "teams": [
+            "Uckfield",
+            "Burgess Hill"
+        ],
+        "score": [
+            40,
+            5
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/23445.png",
+            "https://images.englandrugby.com/club_images/3659.png"
+        ],
+        "players": [
+            {
+                "15": "Kian Saunders",
+                "14": "Joel Andrews",
+                "13": "Name withheld",
+                "12": "Joseph Pratt",
+                "11": "Callum Harvey",
+                "10": "Luke Yaafe",
+                "9": "Charlie Buckland",
+                "8": "Craig Marshall",
+                "7": "Matthew Evans",
+                "6": "Rob Mayer",
+                "5": "Stephen Hartfield",
+                "4": "Terry Funnell",
+                "3": "Davy Armstrong",
+                "2": "Alfie Richardson",
+                "1": "Max Currums",
+                "S1": "Harry Smith",
+                "S2": "Joel Forward",
+                "S3": "Kane Drummond"
+            },
+            {
+                "15": "Albert Roko",
+                "14": "George Yeates",
+                "13": "Atama Raura",
+                "12": "Jim Waqanibau",
+                "11": "Ben Mclaren",
+                "10": "Ollie Lewis",
+                "9": "Massimo Hiller",
+                "8": "David Wattam",
+                "7": "Timothy Daniel",
+                "6": "Benjamin Dronfield",
+                "5": "Kyle Tucker",
+                "4": "Harvey Hays",
+                "3": "Lee Collingbourne",
+                "2": "Andrew Mackay",
+                "1": "Robert Blake",
+                "S1": "Joseph Brown",
+                "S2": "Joseph Schofield",
+                "S3": "Eparama Tuvuki"
+            }
+        ]
+    },
+    {
+        "match_id": "909546",
+        "season": "2021-2022",
+        "league": "Harvey\u2019s Brewery Sussex 1",
+        "date": "2022-01-15",
+        "teams": [
+            "Eastbourne",
+            "Lewes"
+        ],
+        "score": [
+            34,
+            7
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/7209.png",
+            "https://images.englandrugby.com/club_images/12206.png"
+        ],
+        "players": [
+            {
+                "15": "Oliver Horley",
+                "14": "Dylan Becker",
+                "13": "Jake Howe",
+                "12": "Ben Perrott",
+                "11": "Sebastian Gleave",
+                "10": "Martial Chaput",
+                "9": "Samuel Wilkinson",
+                "8": "Jeremy Montes",
+                "7": "Ryan Shields",
+                "6": "Stefan Cousins",
+                "5": "Luke Thomas",
+                "4": "Joshua Buckwell",
+                "3": "Toby Slaughter",
+                "2": "Joseph Bettles",
+                "1": "Joshua Imich",
+                "S1": "Jeremy Montes",
+                "S2": "Callum Dell",
+                "S3": "Gianluca Bianchi"
+            },
+            {
+                "15": "Matthew Henshaw",
+                "14": "Thomas Awdry",
+                "13": "Andy Carmichael",
+                "12": "Elliot Moule",
+                "11": "Joe Reid",
+                "10": "Angelo Errigo",
+                "9": "Angus Taylor",
+                "8": "George Gribble",
+                "7": "Benjamin Bishop",
+                "6": "Lewis Austin",
+                "5": "Lewis Evans",
+                "4": "James Sale",
+                "3": "Oliver Bowry",
+                "2": "Damian Pye",
+                "1": "Charlie Moran",
+                "S1": "Ethan Edwards",
+                "S2": "Harry Weston",
+                "S3": "William Shiell"
+            }
+        ]
+    },
+    {
+        "match_id": "952685",
+        "season": "2021-2022",
+        "league": "Sussex 3 Premier",
+        "date": "2022-01-22",
+        "teams": [
+            "Crawley II",
+            "Crowborough II"
+        ],
+        "score": [
+            22,
+            10
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "952684",
+        "season": "2021-2022",
+        "league": "Sussex 3 Premier",
+        "date": "2022-01-22",
+        "teams": [
+            "Horsham III (Casuals)",
+            "East Grinstead II"
+        ],
+        "score": [
+            22,
+            15
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "952686",
+        "season": "2021-2022",
+        "league": "Sussex 3 Premier",
+        "date": "2022-01-22",
+        "teams": [
+            "Midhurst",
+            "Rye"
+        ],
+        "score": [
+            31,
+            10
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "909550",
+        "season": "2021-2022",
+        "league": "Harvey\u2019s Brewery Sussex 1",
+        "date": "2022-01-22",
+        "teams": [
+            "Lewes",
+            "East Grinstead"
+        ],
+        "score": [
+            12,
+            36
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/12206.png",
+            "https://images.englandrugby.com/club_images/7134.png"
+        ],
+        "players": [
+            {
+                "15": "Ben Poole",
+                "14": "Joe Reid",
+                "13": "Andy Carmichael",
+                "12": "Elliot Moule",
+                "11": "Nick Evans",
+                "10": "Angelo Errigo",
+                "9": "Cian Furlong",
+                "8": "Harry Weston",
+                "7": "Lewis Evans",
+                "6": "Lewis Austin",
+                "5": "Chris Gorbell",
+                "4": "James Sale",
+                "3": "Charlie Moran",
+                "2": "Oliver Bowry",
+                "1": "Ethan Edwards",
+                "S1": "Alexander Audsley-Mckenna",
+                "S2": "Stewart Dickens",
+                "S3": "Harry Carr"
+            },
+            {
+                "15": "Samuel Spriddell",
+                "14": "Fergus Wood",
+                "13": "Max Crawley-Moore",
+                "12": "Richard Dodgson",
+                "11": "Jack Skipworth",
+                "10": "Daniel Poulton",
+                "9": "George Johnson",
+                "8": "Daniel Billin",
+                "6": "Liam Casey",
+                "5": "Peter Morley",
+                "4": "Samuel Lindsay-McCall",
+                "3": "Devon Frost",
+                "2": "Benjamin Tottman",
+                "1": "Joshua Brimecombe",
+                "S1": "Connor Leggat",
+                "S2": "Archie Vickers",
+                "S3": "Ryan Morlen"
+            }
+        ]
+    },
+    {
+        "match_id": "909549",
+        "season": "2021-2022",
+        "league": "Harvey\u2019s Brewery Sussex 1",
+        "date": "2022-01-22",
+        "teams": [
+            "Hellingly",
+            "Eastbourne"
+        ],
+        "score": [
+            19,
+            27
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/9891.png",
+            "https://images.englandrugby.com/club_images/7209.png"
+        ],
+        "players": [
+            {
+                "15": "Name withheld",
+                "14": "Thomas Stone",
+                "13": "James Grey",
+                "12": "Jack Cowell",
+                "11": "Alex Bray",
+                "10": "Aaron Hossack",
+                "9": "David Searle",
+                "8": "Mark Harris",
+                "7": "Scott Monk",
+                "6": "Thomas Shuttleworth",
+                "5": "Lewis Ather",
+                "4": "Charles Courtney",
+                "3": "Paul Smith",
+                "2": "Michael Whiteman",
+                "1": "Sebastian Molina Chocron",
+                "S2": "James Streeter",
+                "S3": "Jordan Widdop"
+            },
+            {
+                "15": "Oliver Horley",
+                "14": "Jeremy Montes",
+                "13": "Dylan Becker",
+                "12": "Ben Perrott",
+                "11": "Gianluca Bianchi",
+                "10": "Sebastian Gleave",
+                "9": "Harrison Gibbons",
+                "8": "Stefan Cousins",
+                "7": "Carl Slaughter",
+                "6": "Joshua Buckwell",
+                "5": "Luke Thomas",
+                "4": "Toby Slaughter",
+                "3": "Joseph Bettles",
+                "2": "Alun Cranch",
+                "1": "Pedro Sousa",
+                "S1": "Mason Dowle",
+                "S2": "Nathan Ring"
+            }
+        ]
+    },
+    {
+        "match_id": "909547",
+        "season": "2021-2022",
+        "league": "Harvey\u2019s Brewery Sussex 1",
+        "date": "2022-01-22",
+        "teams": [
+            "Burgess Hill",
+            "Seaford"
+        ],
+        "score": [
+            7,
+            8
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/3659.png",
+            "https://images.englandrugby.com/club_images/18868.png"
+        ],
+        "players": [
+            {
+                "15": "Tomer Teichman",
+                "14": "Matheus Gava",
+                "13": "Atama Raura",
+                "12": "Jim Waqanibau",
+                "11": "Alifereti Naitaka",
+                "10": "Archie Anscombe",
+                "9": "Ollie Lewis",
+                "8": "David Wattam",
+                "7": "Joseph Schofield",
+                "6": "Benjamin Dronfield",
+                "5": "Harvey Hays",
+                "4": "Kyle Tucker",
+                "3": "Lee Collingbourne",
+                "2": "Andrew Mackay",
+                "1": "Robert Blake",
+                "S1": "Joseph Brown",
+                "S2": "Ropate Ralawa",
+                "S3": "Uraia Wacokecokee"
+            },
+            {
+                "15": "Charlie Crossgrove",
+                "14": "Stuart Cotter",
+                "13": "Paddy Powney",
+                "12": "Corey Digby-Clarke",
+                "11": "Jason Staples",
+                "10": "Oscar Weisz",
+                "9": "Luke Taylor",
+                "8": "Daniel Newby",
+                "7": "Sam Diplock",
+                "6": "Name withheld",
+                "5": "Dominic Joy",
+                "4": "Lee Furminger",
+                "3": "Matt Read",
+                "2": "Luke Read",
+                "1": "Piers Culshaw",
+                "S1": "Rhys Roberts",
+                "S2": "Charlie Guest",
+                "S3": "Brendan Strick"
+            }
+        ]
+    },
+    {
+        "match_id": "952687",
+        "season": "2021-2022",
+        "league": "Sussex 3 Premier",
+        "date": "2022-01-29",
+        "teams": [
+            "Crowborough II",
+            "Midhurst"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "952688",
+        "season": "2021-2022",
+        "league": "Sussex 3 Premier",
+        "date": "2022-01-29",
+        "teams": [
+            "East Grinstead II",
+            "Crawley II"
+        ],
+        "score": [
+            23,
+            13
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "952689",
+        "season": "2021-2022",
+        "league": "Sussex 3 Premier",
+        "date": "2022-01-29",
+        "teams": [
+            "Rye",
+            "Horsham III (Casuals)"
+        ],
+        "score": [
+            28,
+            10
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "909554",
+        "season": "2021-2022",
+        "league": "Harvey\u2019s Brewery Sussex 1",
+        "date": "2022-01-29",
+        "teams": [
+            "Hellingly",
+            "Lewes"
+        ],
+        "score": [
+            0,
+            54
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/9891.png",
+            "https://images.englandrugby.com/club_images/12206.png"
+        ],
+        "players": [
+            {
+                "15": "Daniel Puttick",
+                "14": "Giles Hook",
+                "13": "Jordan Widdop",
+                "12": "Alex Bray",
+                "11": "William Wigman",
+                "10": "Huw Jones",
+                "9": "David Searle",
+                "8": "Thomas Shuttleworth",
+                "7": "Scott Monk",
+                "6": "Robert Vint",
+                "5": "Charles Courtney",
+                "4": "Lewis Ather",
+                "3": "Sebastian Molina Chocron",
+                "2": "Craig Benson",
+                "1": "James Maunder",
+                "S1": "Michael Dale",
+                "S2": "Name withheld"
+            },
+            {
+                "15": "Ben Poole",
+                "14": "Thomas Awdry",
+                "13": "William Shiell",
+                "12": "Elliot Moule",
+                "11": "Joe Reid",
+                "10": "Angelo Errigo",
+                "9": "Angus Taylor",
+                "8": "Dominic Lunniss",
+                "7": "Benjamin Bishop",
+                "6": "Harry Weston",
+                "5": "Ethan Edwards",
+                "4": "James Sale",
+                "3": "Charlie Moran",
+                "2": "Damian Pye",
+                "1": "Kane Dadswell",
+                "S1": "Alexander Audsley-Mckenna",
+                "S2": "Andy Carmichael",
+                "S3": "Oliver Bowry"
+            }
+        ]
+    },
+    {
+        "match_id": "909553",
+        "season": "2021-2022",
+        "league": "Harvey\u2019s Brewery Sussex 1",
+        "date": "2022-01-29",
+        "teams": [
+            "Eastbourne",
+            "Burgess Hill"
+        ],
+        "score": [
+            32,
+            23
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/7209.png",
+            "https://images.englandrugby.com/club_images/3659.png"
+        ],
+        "players": [
+            {
+                "15": "Sebastian Gleave",
+                "14": "Oliver Horley",
+                "13": "Dylan Becker",
+                "12": "Ben Perrott",
+                "11": "Mason Dowle",
+                "10": "Jake Howe",
+                "9": "Harrison Gibbons",
+                "8": "Tom Redman",
+                "7": "Carl Slaughter",
+                "6": "Stefan Cousins",
+                "5": "Joshua Buckwell",
+                "4": "Luke Thomas",
+                "3": "Toby Slaughter",
+                "2": "Joseph Bettles",
+                "1": "Callum Dell",
+                "S1": "Joshua Imich",
+                "S2": "Gianluca Bianchi",
+                "S3": "Ryan Shields"
+            },
+            {
+                "15": "Ollie Lewis",
+                "14": "Matheus Gava",
+                "13": "Albert Roko",
+                "12": "Luke Rokosauu",
+                "11": "Tomer Teichman",
+                "10": "Archie Anscombe",
+                "9": "Ropate Ralawa",
+                "8": "Joseph Schofield",
+                "7": "Joseph Brown",
+                "6": "Uraia Wacokecokee",
+                "5": "Benjamin Dronfield",
+                "4": "Harvey Hays",
+                "3": "Timothy Daniel",
+                "2": "Andrew Mackay",
+                "1": "Kyle Tucker",
+                "S1": "Name withheld",
+                "S2": "Neori Motoiula",
+                "S3": "Viliame Moceilagi"
+            }
+        ]
+    },
+    {
+        "match_id": "909551",
+        "season": "2021-2022",
+        "league": "Harvey\u2019s Brewery Sussex 1",
+        "date": "2022-01-29",
+        "teams": [
+            "Uckfield",
+            "East Grinstead"
+        ],
+        "score": [
+            19,
+            21
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/23445.png",
+            "https://images.englandrugby.com/club_images/7134.png"
+        ],
+        "players": [
+            {
+                "15": "Kian Saunders",
+                "14": "Joel Andrews",
+                "13": "Name withheld",
+                "12": "Joseph Pratt",
+                "11": "Callum Harvey",
+                "10": "Luke Yaafe",
+                "9": "Charlie Buckland",
+                "8": "Craig Marshall",
+                "7": "Matthew Evans",
+                "6": "Rob Mayer",
+                "5": "Terry Funnell",
+                "4": "Stephen Hartfield",
+                "3": "Jack Harvey",
+                "2": "Alfie Richardson",
+                "1": "Davy Armstrong",
+                "S1": "Adam Palmer",
+                "S2": "Matthew Spencer",
+                "S3": "Fergus Wood"
+            },
+            {
+                "15": "Alistair Moffatt",
+                "14": "Max Crawley-Moore",
+                "13": "Ryan Morlen",
+                "12": "Jake Radcliffe",
+                "11": "Daniel Poulton",
+                "10": "George Johnson",
+                "9": "Connor Leggat",
+                "8": "Thomas Byron",
+                "7": "Archie Vickers",
+                "6": "Nicholas Carter",
+                "5": "Samuel Lindsay-McCall",
+                "4": "Devon Frost",
+                "3": "Joshua Brimecombe",
+                "2": "Sean Morgan",
+                "1": "James Funnell",
+                "S1": "Benjamin Tottman",
+                "S2": "Oliver Billin"
+            }
+        ]
+    },
+    {
+        "match_id": "955082",
+        "season": "2021-2022",
+        "league": "Sussex 3 Premier",
+        "date": "2022-02-05",
+        "teams": [
+            "Rye",
+            "Crowborough II"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "954943",
+        "season": "2021-2022",
+        "league": "Harvey\u2019s Brewery Sussex 1",
+        "date": "2022-02-05",
+        "teams": [
+            "Eastbourne",
+            "Seaford"
+        ],
+        "score": [
+            60,
+            18
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/7209.png",
+            "https://images.englandrugby.com/club_images/18868.png"
+        ],
+        "players": [
+            {
+                "15": "Sebastian Gleave",
+                "14": "Gianluca Bianchi",
+                "13": "Dylan Becker",
+                "12": "Ben Perrott",
+                "11": "Mason Dowle",
+                "10": "Jake Howe",
+                "9": "Harrison Gibbons",
+                "8": "Tom Redman",
+                "7": "Carl Slaughter",
+                "6": "Stefan Cousins",
+                "5": "Joshua Buckwell",
+                "4": "Luke Thomas",
+                "3": "Toby Slaughter",
+                "2": "Joseph Bettles",
+                "1": "Callum Dell",
+                "S1": "Daniel Keen",
+                "S2": "Martial Chaput",
+                "S3": "Jeremy Montes"
+            },
+            {
+                "15": "Charlie Crossgrove",
+                "14": "Rhys Roberts",
+                "13": "Paddy Powney",
+                "12": "Corey Digby-Clarke",
+                "11": "Stuart Cotter",
+                "10": "Oscar Weisz",
+                "9": "Luke Taylor",
+                "8": "Bradley Newby",
+                "7": "Sam Diplock",
+                "6": "Name withheld",
+                "5": "Dominic Joy",
+                "4": "Lee Furminger",
+                "3": "Matt Read",
+                "2": "Luke Read",
+                "1": "Piers Culshaw",
+                "S1": "Daniel Newby",
+                "S2": "Brendan Strick",
+                "S3": "Tom Peissel"
+            }
+        ]
+    },
+    {
+        "match_id": "953129",
+        "season": "2021-2022",
+        "league": "Harvey\u2019s Brewery Sussex 1",
+        "date": "2022-02-05",
+        "teams": [
+            "Hellingly",
+            "Burgess Hill"
+        ],
+        "score": [
+            15,
+            22
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/9891.png",
+            "https://images.englandrugby.com/club_images/3659.png"
+        ],
+        "players": [
+            {
+                "15": "Name withheld",
+                "14": "Charlie Milner",
+                "13": "Jack Cowell",
+                "12": "Jordan Widdop",
+                "11": "Aaron Kirk",
+                "10": "Huw Jones",
+                "9": "David Searle",
+                "8": "Toby Streeter",
+                "7": "Nathan Rainsley",
+                "6": "Charles Courtney",
+                "5": "Craig Benson",
+                "4": "Paul Smith",
+                "3": "Michael Whiteman",
+                "2": "James Maunder",
+                "1": "Gerald Davis",
+                "S1": "Billy Cleaver",
+                "S2": "William Wigman",
+                "S3": "Ollie Lewis"
+            },
+            {
+                "15": "Matheus Gava",
+                "14": "Meli Rakackiaci",
+                "13": "Nasilasila Maleli",
+                "12": "Tomer Teichman",
+                "11": "Archie Anscombe",
+                "10": "Alifereti Naitaka",
+                "9": "David Wattam",
+                "8": "Joseph Schofield",
+                "7": "Ben Mclaren",
+                "6": "Benjamin Dronfield",
+                "5": "Harvey Hays",
+                "4": "Kyle Tucker",
+                "3": "Andrew Mackay",
+                "2": "Robert Blake"
+            }
+        ]
+    },
+    {
+        "match_id": "952691",
+        "season": "2021-2022",
+        "league": "Sussex 3 Premier",
+        "date": "2022-02-12",
+        "teams": [
+            "Crawley II",
+            "Horsham III (Casuals)"
+        ],
+        "score": [
+            52,
+            0
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "952690",
+        "season": "2021-2022",
+        "league": "Sussex 3 Premier",
+        "date": "2022-02-12",
+        "teams": [
+            "Crowborough II",
+            "Rye"
+        ],
+        "score": [
+            50,
+            5
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "952692",
+        "season": "2021-2022",
+        "league": "Sussex 3 Premier",
+        "date": "2022-02-12",
+        "teams": [
+            "East Grinstead II",
+            "Midhurst"
+        ],
+        "score": [
+            24,
+            5
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "909555",
+        "season": "2021-2022",
+        "league": "Harvey\u2019s Brewery Sussex 1",
+        "date": "2022-02-12",
+        "teams": [
+            "Burgess Hill",
+            "Hellingly"
+        ],
+        "score": [
+            48,
+            24
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/3659.png",
+            "https://images.englandrugby.com/club_images/9891.png"
+        ],
+        "players": [
+            {
+                "15": "George Fisher",
+                "14": "Tomer Teichman",
+                "13": "Ben Mclaren",
+                "12": "George Yeates",
+                "11": "Matheus Gava",
+                "10": "Ollie Lewis",
+                "9": "Massimo Hiller",
+                "8": "Benjamin Dewey",
+                "7": "Lou Jones",
+                "6": "Benjamin Dronfield",
+                "5": "Kyle Tucker",
+                "4": "Harvey Hays",
+                "3": "Martyn Woodhead",
+                "2": "Andrew Mackay",
+                "1": "Robert Blake",
+                "S1": "Name withheld",
+                "S2": "Timothy Daniel",
+                "S3": "Flavian Obiero"
+            },
+            {
+                "15": "Alex Bray",
+                "14": "Matthew Dawber",
+                "13": "Aaron Kirk",
+                "12": "Aaron Hossack",
+                "11": "David Searle",
+                "10": "Scott Monk",
+                "9": "Giles Hook",
+                "8": "Robert Vint",
+                "7": "Charles Courtney",
+                "6": "Lewis Ather",
+                "5": "Paul Smith",
+                "4": "Michael Whiteman",
+                "3": "James Maunder",
+                "2": "Samuel Stenning",
+                "1": "Nathan Rainsley",
+                "S1": "William Wigman"
+            }
+        ]
+    },
+    {
+        "match_id": "909557",
+        "season": "2021-2022",
+        "league": "Harvey\u2019s Brewery Sussex 1",
+        "date": "2022-02-12",
+        "teams": [
+            "East Grinstead",
+            "Seaford"
+        ],
+        "score": [
+            67,
+            5
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/7134.png",
+            "https://images.englandrugby.com/club_images/18868.png"
+        ],
+        "players": [
+            {
+                "15": "Fergus Wood",
+                "14": "Jack Skipworth",
+                "13": "Max Crawley-Moore",
+                "12": "Ryan Morlen",
+                "11": "Archie Neill",
+                "10": "Daniel Poulton",
+                "9": "George Johnson",
+                "8": "Connor Leggat",
+                "7": "Archie Vickers",
+                "6": "Nicholas Carter",
+                "5": "John Peaty",
+                "4": "Samuel Lindsay-McCall",
+                "3": "James Funnell",
+                "2": "Benjamin Tottman",
+                "1": "Devon Frost",
+                "S1": "Sean Morgan",
+                "S2": "Liam Casey",
+                "S3": "Samuel Spriddell"
+            },
+            {
+                "15": "Name withheld",
+                "14": "Rhys Roberts",
+                "13": "Charlie Crossgrove",
+                "12": "Corey Digby-Clarke",
+                "11": "Stuart Cotter",
+                "10": "Oscar Weisz",
+                "9": "Luke Taylor",
+                "8": "Bradley Newby",
+                "7": "Charlie Guest",
+                "6": "Paddy Powney",
+                "5": "Sam Diplock",
+                "4": "Dominic Joy",
+                "3": "Luke Read",
+                "2": "KEVIN LEWIS",
+                "1": "Andrew Salter",
+                "S1": "Brendan Strick",
+                "S2": "Ben Higgin",
+                "S3": "Chris Burns"
+            }
+        ]
+    },
+    {
+        "match_id": "909558",
+        "season": "2021-2022",
+        "league": "Harvey\u2019s Brewery Sussex 1",
+        "date": "2022-02-12",
+        "teams": [
+            "Lewes",
+            "Uckfield"
+        ],
+        "score": [
+            17,
+            26
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/12206.png",
+            "https://images.englandrugby.com/club_images/23445.png"
+        ],
+        "players": [
+            {
+                "15": "Thomas Awdry",
+                "14": "Declan Over",
+                "13": "Andy Carmichael",
+                "12": "Elliot Moule",
+                "11": "Joe Reid",
+                "10": "Ben Poole",
+                "9": "Angus Taylor",
+                "8": "Dominic Lunniss",
+                "7": "George Gribble",
+                "6": "Harry Weston",
+                "5": "Ethan Edwards",
+                "4": "James Sale",
+                "3": "Sean Sayers",
+                "2": "Benjamin Bishop",
+                "1": "Charlie Moran",
+                "S1": "Simon Coe",
+                "S2": "Damian Pye",
+                "S3": "James Shafi"
+            },
+            {
+                "15": "Kian Saunders",
+                "14": "Kane Drummond",
+                "13": "Matthew Spencer",
+                "12": "Abraham Bredin",
+                "11": "Joel Andrews",
+                "10": "Luke Yaafe",
+                "9": "Charlie Buckland",
+                "8": "Jack Harvey",
+                "7": "Matthew Evans",
+                "6": "Name withheld",
+                "5": "Rob Mayer",
+                "4": "Jake Siggs",
+                "3": "Davy Armstrong",
+                "2": "Alfie Richardson",
+                "1": "Max Currums",
+                "S1": "Ryan Bate",
+                "S2": "Adam Palmer"
+            }
+        ]
+    },
+    {
+        "match_id": "957345",
+        "season": "2021-2022",
+        "league": "Sussex 3 Premier",
+        "date": "2022-02-19",
+        "teams": [
+            "Crawley II",
+            "Midhurst"
+        ],
+        "score": [
+            22,
+            17
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "957346",
+        "season": "2021-2022",
+        "league": "Sussex 3 Premier",
+        "date": "2022-02-19",
+        "teams": [
+            "Horsham III (Casuals)",
+            "Crowborough II"
+        ],
+        "score": [
+            31,
+            5
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "909559",
+        "season": "2021-2022",
+        "league": "Harvey\u2019s Brewery Sussex 1",
+        "date": "2022-02-19",
+        "teams": [
+            "Seaford",
+            "Uckfield"
+        ],
+        "score": [
+            0,
+            10
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/18868.png",
+            "https://images.englandrugby.com/club_images/23445.png"
+        ],
+        "players": [
+            {
+                "15": "Name withheld",
+                "14": "Jason Staples",
+                "13": "Charlie Crossgrove",
+                "12": "Josh Hennessy",
+                "11": "Stuart Cotter",
+                "10": "Oscar Weisz",
+                "9": "Luke Taylor",
+                "8": "Bradley Newby",
+                "7": "Paddy Powney",
+                "6": "Daniel Newby",
+                "5": "Dominic Joy",
+                "4": "Sam Diplock",
+                "3": "Andrew Salter",
+                "2": "Philip Innis",
+                "1": "Piers Culshaw",
+                "S1": "Jason Dubas-Fisher",
+                "S2": "Rhys Roberts",
+                "S3": "Brendan Strick"
+            },
+            {
+                "15": "Abraham Bredin",
+                "14": "Kian Saunders",
+                "13": "Joel Andrews",
+                "12": "Joseph Pratt",
+                "11": "Callum Harvey",
+                "10": "Charlie Buckland",
+                "9": "Sean Bate",
+                "8": "Craig Marshall",
+                "7": "Matthew Evans",
+                "6": "Jake Siggs",
+                "5": "Stephen Hartfield",
+                "4": "Jack Harvey",
+                "3": "Alfie Richardson",
+                "2": "Davy Armstrong",
+                "1": "Max Currums"
+            }
+        ]
+    },
+    {
+        "match_id": "909562",
+        "season": "2021-2022",
+        "league": "Harvey\u2019s Brewery Sussex 1",
+        "date": "2022-02-19",
+        "teams": [
+            "Lewes",
+            "Burgess Hill"
+        ],
+        "score": [
+            8,
+            15
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/12206.png",
+            "https://images.englandrugby.com/club_images/3659.png"
+        ],
+        "players": [
+            {
+                "15": "Thomas Awdry",
+                "14": "Joe Reid",
+                "13": "Andy Carmichael",
+                "12": "Elliot Moule",
+                "11": "Zachary Battle-Welch",
+                "10": "William Shiell",
+                "9": "Angus Taylor",
+                "8": "Stewart Dickens",
+                "7": "Lewis Austin",
+                "6": "Lewis Evans",
+                "5": "James Sale",
+                "4": "Edward King",
+                "3": "Fearghus Gage",
+                "2": "Benjamin Bishop",
+                "1": "Charlie Moran",
+                "S1": "Kane Dadswell",
+                "S2": "Oliver Bowry",
+                "S3": "Rafferty Green"
+            },
+            {
+                "15": "Archie Anscombe",
+                "14": "Matheus Gava",
+                "13": "Sailosi Masiwale",
+                "12": "Jim Waqanibau",
+                "11": "Tomer Teichman",
+                "10": "Ollie Lewis",
+                "9": "Massimo Hiller",
+                "8": "David Wattam",
+                "7": "Benjamin Dewey",
+                "6": "Joseph Brown",
+                "5": "Charlie Lewis",
+                "4": "Benjamin Dronfield",
+                "3": "Robert Blake",
+                "2": "Andrew Mackay",
+                "1": "Lou Jones",
+                "S1": "Kyle Tucker",
+                "S2": "Joseph Schofield",
+                "S3": "Alfred Naiitaka"
+            }
+        ]
+    },
+    {
+        "match_id": "909561",
+        "season": "2021-2022",
+        "league": "Harvey\u2019s Brewery Sussex 1",
+        "date": "2022-02-19",
+        "teams": [
+            "Hellingly",
+            "Hove II"
+        ],
+        "score": [
+            14,
+            26
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/9891.png",
+            "https://images.englandrugby.com/club_images/10504.png"
+        ],
+        "players": [
+            {
+                "15": "Name withheld",
+                "14": "Thomas Shuttleworth",
+                "13": "Billy Cleaver",
+                "12": "Harvey Warren",
+                "11": "Aaron Kirk",
+                "10": "Aaron Hossack",
+                "9": "Alex Bray",
+                "8": "Giles Hook",
+                "6": "Robert Vint",
+                "5": "Charles Courtney",
+                "4": "Lewis Ather",
+                "3": "Paul Smith",
+                "2": "Michael Whiteman"
+            },
+            {
+                "15": "Lloyd Tullett",
+                "13": "Thomas Butler",
+                "12": "Ashley Parker",
+                "11": "Joel Perry",
+                "10": "Archie Davies",
+                "9": "Danny O'Conner",
+                "8": "Ben Anderson",
+                "7": "Martin Macdonald",
+                "6": "Ben Stephens",
+                "5": "Antoine Berthillot",
+                "4": "Tyler Hooper",
+                "3": "Timothy Barnett",
+                "2": "Adrian Shergold",
+                "1": "George Brown",
+                "S1": "Sebastian Taylor-Haw"
+            }
+        ]
+    },
+    {
+        "match_id": "909560",
+        "season": "2021-2022",
+        "league": "Harvey\u2019s Brewery Sussex 1",
+        "date": "2022-02-19",
+        "teams": [
+            "Eastbourne",
+            "East Grinstead"
+        ],
+        "score": [
+            3,
+            36
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/7209.png",
+            "https://images.englandrugby.com/club_images/7134.png"
+        ],
+        "players": [
+            {
+                "15": "Sebastian Gleave",
+                "14": "Dylan Becker",
+                "13": "Jake Howe",
+                "12": "Ben Perrott",
+                "11": "Oliver Horley",
+                "10": "Martial Chaput",
+                "9": "Harrison Gibbons",
+                "8": "Tom Redman",
+                "7": "Carl Slaughter",
+                "6": "Ryan Shields",
+                "5": "Joshua Buckwell",
+                "4": "Luke Thomas",
+                "3": "Toby Slaughter",
+                "2": "Joseph Bettles",
+                "1": "Name withheld",
+                "S1": "Jacob Thompson",
+                "S2": "Jeremy Montes",
+                "S3": "Callum Dell"
+            },
+            {
+                "15": "Fergus Wood",
+                "14": "Jack Skipworth",
+                "13": "Max Crawley-Moore",
+                "12": "Ryan Morlen",
+                "11": "Jake Radcliffe",
+                "10": "Daniel Poulton",
+                "9": "George Johnson",
+                "8": "Connor Leggat",
+                "7": "Archie Vickers",
+                "6": "Nicholas Carter",
+                "5": "John Peaty",
+                "4": "Samuel Lindsay-McCall",
+                "3": "Devon Frost",
+                "2": "Benjamin Tottman",
+                "1": "James Funnell",
+                "S1": "Sean Morgan",
+                "S2": "Oliver Billin"
+            }
+        ]
+    },
+    {
+        "match_id": "954941",
+        "season": "2021-2022",
+        "league": "Harvey\u2019s Brewery Sussex 1",
+        "date": "2022-02-26",
+        "teams": [
+            "Burgess Hill",
+            "East Grinstead"
+        ],
+        "score": [
+            30,
+            64
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/3659.png",
+            "https://images.englandrugby.com/club_images/7134.png"
+        ],
+        "players": [
+            {
+                "15": "Ollie Lewis",
+                "14": "Matheus Gava",
+                "13": "Sailosi Masiwale",
+                "12": "Jim Waqanibau",
+                "11": "Tomer Teichman",
+                "10": "Archie Anscombe",
+                "9": "Massimo Hiller",
+                "8": "Name withheld",
+                "7": "Ben Mclaren",
+                "6": "Benjamin Dewey",
+                "5": "Timothy Daniel",
+                "4": "Charlie Lewis",
+                "3": "Kyle Tucker",
+                "2": "Andrew Mackay",
+                "1": "Robert Blake",
+                "S1": "Lee Collingbourne",
+                "S2": "Benjamin Dronfield",
+                "S3": "Joseph Schofield"
+            },
+            {
+                "15": "Fergus Wood",
+                "14": "Jack Skipworth",
+                "13": "Max Crawley-Moore",
+                "12": "Ryan Morlen",
+                "11": "Jake Radcliffe",
+                "10": "Daniel Poulton",
+                "9": "George Johnson",
+                "8": "Connor Leggat",
+                "7": "Archie Vickers",
+                "6": "Nicholas Carter",
+                "5": "John Peaty",
+                "4": "Samuel Lindsay-McCall",
+                "3": "Devon Frost",
+                "2": "Benjamin Tottman",
+                "1": "Sean Morgan",
+                "S1": "James Funnell",
+                "S2": "Daniel Billin",
+                "S3": "Alistair Moffatt"
+            }
+        ]
+    },
+    {
+        "match_id": "952697",
+        "season": "2021-2022",
+        "league": "Sussex 3 Premier",
+        "date": "2022-03-05",
+        "teams": [
+            "Crowborough II",
+            "Crawley II"
+        ],
+        "score": [
+            10,
+            0
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "952698",
+        "season": "2021-2022",
+        "league": "Sussex 3 Premier",
+        "date": "2022-03-05",
+        "teams": [
+            "East Grinstead II",
+            "Horsham III (Casuals)"
+        ],
+        "score": [
+            22,
+            0
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "952696",
+        "season": "2021-2022",
+        "league": "Sussex 3 Premier",
+        "date": "2022-03-05",
+        "teams": [
+            "Rye",
+            "Midhurst"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "959356",
+        "season": "2021-2022",
+        "league": "Sussex 3 Premier",
+        "date": "2022-03-12",
+        "teams": [
+            "Rye",
+            "East Grinstead II"
+        ],
+        "score": [
+            32,
+            10
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "952700",
+        "season": "2021-2022",
+        "league": "Sussex 3 Premier",
+        "date": "2022-03-19",
+        "teams": [
+            "Horsham III (Casuals)",
+            "Rye"
+        ],
+        "score": [
+            34,
+            29
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "952701",
+        "season": "2021-2022",
+        "league": "Sussex 3 Premier",
+        "date": "2022-03-26",
+        "teams": [
+            "Crawley II",
+            "East Grinstead II"
+        ],
+        "score": [
+            38,
+            20
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "957845",
+        "season": "2021-2022",
+        "league": "Sussex 3 Premier",
+        "date": "2022-03-26",
+        "teams": [
+            "Crowborough II",
+            "Midhurst"
+        ],
+        "score": [
+            42,
+            7
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "952704",
+        "season": "2021-2022",
+        "league": "Sussex 3 Premier",
+        "date": "2022-04-02",
+        "teams": [
+            "East Grinstead II",
+            "Crowborough II"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "952702",
+        "season": "2021-2022",
+        "league": "Sussex 3 Premier",
+        "date": "2022-04-02",
+        "teams": [
+            "Midhurst",
+            "Horsham III (Casuals)"
+        ],
+        "score": [
+            29,
+            20
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "952703",
+        "season": "2021-2022",
+        "league": "Sussex 3 Premier",
+        "date": "2022-04-02",
+        "teams": [
+            "Rye",
+            "Crawley II"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
         "match_id": "981958",
         "season": "2022-2023",
         "league": "Counties 2 Sussex",
@@ -530,6 +3872,63 @@
         ]
     },
     {
+        "match_id": "995321",
+        "season": "2022-2023",
+        "league": "Counties 4 Sussex",
+        "date": "2022-09-24",
+        "teams": [
+            "Crawley II",
+            "Hove III"
+        ],
+        "score": [
+            60,
+            5
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "995319",
+        "season": "2022-2023",
+        "league": "Counties 4 Sussex",
+        "date": "2022-09-24",
+        "teams": [
+            "Heathfield & Waldron II",
+            "Eastbourne II"
+        ],
+        "score": [
+            13,
+            5
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "995320",
+        "season": "2022-2023",
+        "league": "Counties 4 Sussex",
+        "date": "2022-09-24",
+        "teams": [
+            "Uckfield II",
+            "St Francis"
+        ],
+        "score": [
+            55,
+            7
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
         "match_id": "981969",
         "season": "2022-2023",
         "league": "Counties 2 Sussex",
@@ -823,6 +4222,63 @@
                 "S2": "Jonathan Scrase",
                 "S3": "Oliver Burnett"
             }
+        ]
+    },
+    {
+        "match_id": "995325",
+        "season": "2022-2023",
+        "league": "Counties 4 Sussex",
+        "date": "2022-10-01",
+        "teams": [
+            "Crawley II",
+            "East Grinstead II"
+        ],
+        "score": [
+            "",
+            "WO"
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "995323",
+        "season": "2022-2023",
+        "league": "Counties 4 Sussex",
+        "date": "2022-10-01",
+        "teams": [
+            "Hove III",
+            "Uckfield II"
+        ],
+        "score": [
+            46,
+            5
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "995324",
+        "season": "2022-2023",
+        "league": "Counties 4 Sussex",
+        "date": "2022-10-01",
+        "teams": [
+            "St Francis",
+            "Heathfield & Waldron II"
+        ],
+        "score": [
+            45,
+            24
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
         ]
     },
     {
@@ -1121,6 +4577,63 @@
         ]
     },
     {
+        "match_id": "995326",
+        "season": "2022-2023",
+        "league": "Counties 4 Sussex",
+        "date": "2022-10-15",
+        "teams": [
+            "East Grinstead II",
+            "Eastbourne II"
+        ],
+        "score": [
+            25,
+            23
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "995328",
+        "season": "2022-2023",
+        "league": "Counties 4 Sussex",
+        "date": "2022-10-15",
+        "teams": [
+            "Heathfield & Waldron II",
+            "Hove III"
+        ],
+        "score": [
+            14,
+            12
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "995329",
+        "season": "2022-2023",
+        "league": "Counties 4 Sussex",
+        "date": "2022-10-15",
+        "teams": [
+            "Uckfield II",
+            "Crawley II"
+        ],
+        "score": [
+            55,
+            15
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
         "match_id": "981981",
         "season": "2022-2023",
         "league": "Counties 2 Sussex",
@@ -1350,6 +4863,63 @@
                 "S1": "Sean Morgan",
                 "S3": "Benjamin Beard"
             }
+        ]
+    },
+    {
+        "match_id": "995332",
+        "season": "2022-2023",
+        "league": "Counties 4 Sussex",
+        "date": "2022-10-22",
+        "teams": [
+            "Crawley II",
+            "Heathfield & Waldron II"
+        ],
+        "score": [
+            79,
+            5
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "995331",
+        "season": "2022-2023",
+        "league": "Counties 4 Sussex",
+        "date": "2022-10-22",
+        "teams": [
+            "St Francis",
+            "Eastbourne II"
+        ],
+        "score": [
+            26,
+            12
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "995333",
+        "season": "2022-2023",
+        "league": "Counties 4 Sussex",
+        "date": "2022-10-22",
+        "teams": [
+            "Uckfield II",
+            "East Grinstead II"
+        ],
+        "score": [
+            21,
+            17
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
         ]
     },
     {
@@ -1644,6 +5214,63 @@
                 "2": "Henry Dickson",
                 "1": "Samuela Bulitokaivale-Lancaster"
             }
+        ]
+    },
+    {
+        "match_id": "995334",
+        "season": "2022-2023",
+        "league": "Counties 4 Sussex",
+        "date": "2022-10-29",
+        "teams": [
+            "East Grinstead II",
+            "St Francis"
+        ],
+        "score": [
+            17,
+            17
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "995335",
+        "season": "2022-2023",
+        "league": "Counties 4 Sussex",
+        "date": "2022-10-29",
+        "teams": [
+            "Eastbourne II",
+            "Hove III"
+        ],
+        "score": [
+            29,
+            10
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "995337",
+        "season": "2022-2023",
+        "league": "Counties 4 Sussex",
+        "date": "2022-10-29",
+        "teams": [
+            "Heathfield & Waldron II",
+            "Uckfield II"
+        ],
+        "score": [
+            41,
+            0
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
         ]
     },
     {
@@ -2119,6 +5746,63 @@
         ]
     },
     {
+        "match_id": "995339",
+        "season": "2022-2023",
+        "league": "Counties 4 Sussex",
+        "date": "2022-11-12",
+        "teams": [
+            "Crawley II",
+            "Eastbourne II"
+        ],
+        "score": [
+            "",
+            "WO"
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "995341",
+        "season": "2022-2023",
+        "league": "Counties 4 Sussex",
+        "date": "2022-11-12",
+        "teams": [
+            "Heathfield & Waldron II",
+            "East Grinstead II"
+        ],
+        "score": [
+            22,
+            7
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "995340",
+        "season": "2022-2023",
+        "league": "Counties 4 Sussex",
+        "date": "2022-11-12",
+        "teams": [
+            "Hove III",
+            "St Francis"
+        ],
+        "score": [
+            27,
+            7
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
         "match_id": "981998",
         "season": "2022-2023",
         "league": "Counties 2 Sussex",
@@ -2334,6 +6018,44 @@
                 "S2": "Gareth Scaife",
                 "S3": "Joseph Brown"
             }
+        ]
+    },
+    {
+        "match_id": "995344",
+        "season": "2022-2023",
+        "league": "Counties 4 Sussex",
+        "date": "2022-11-26",
+        "teams": [
+            "Eastbourne II",
+            "Uckfield II"
+        ],
+        "score": [
+            33,
+            5
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "995343",
+        "season": "2022-2023",
+        "league": "Counties 4 Sussex",
+        "date": "2022-11-26",
+        "teams": [
+            "St Francis",
+            "Crawley II"
+        ],
+        "score": [
+            41,
+            0
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
         ]
     },
     {
@@ -2574,6 +6296,63 @@
         ]
     },
     {
+        "match_id": "995349",
+        "season": "2022-2023",
+        "league": "Counties 4 Sussex",
+        "date": "2022-12-03",
+        "teams": [
+            "East Grinstead II",
+            "Crawley II"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "995347",
+        "season": "2022-2023",
+        "league": "Counties 4 Sussex",
+        "date": "2022-12-03",
+        "teams": [
+            "Heathfield & Waldron II",
+            "St Francis"
+        ],
+        "score": [
+            17,
+            14
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "995348",
+        "season": "2022-2023",
+        "league": "Counties 4 Sussex",
+        "date": "2022-12-03",
+        "teams": [
+            "Uckfield II",
+            "Hove III"
+        ],
+        "score": [
+            74,
+            5
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
         "match_id": "982010",
         "season": "2022-2023",
         "league": "Counties 2 Sussex",
@@ -2684,6 +6463,44 @@
                 "S1": "Andrew Fry",
                 "S2": "Charlie Crossgrove"
             }
+        ]
+    },
+    {
+        "match_id": "995351",
+        "season": "2022-2023",
+        "league": "Counties 4 Sussex",
+        "date": "2022-12-10",
+        "teams": [
+            "Crawley II",
+            "Uckfield II"
+        ],
+        "score": [
+            "",
+            "WO"
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "995352",
+        "season": "2022-2023",
+        "league": "Counties 4 Sussex",
+        "date": "2022-12-10",
+        "teams": [
+            "Hove III",
+            "Heathfield & Waldron II"
+        ],
+        "score": [
+            53,
+            9
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
         ]
     },
     {
@@ -2801,6 +6618,25 @@
                 "S2": "Nathan Roberts",
                 "S3": "Declan Over"
             }
+        ]
+    },
+    {
+        "match_id": "1032189",
+        "season": "2022-2023",
+        "league": "Counties 4 Sussex",
+        "date": "2023-01-07",
+        "teams": [
+            "East Grinstead II",
+            "Hove III"
+        ],
+        "score": [
+            43,
+            19
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
         ]
     },
     {
@@ -3218,6 +7054,25 @@
         ]
     },
     {
+        "match_id": "1032182",
+        "season": "2022-2023",
+        "league": "Counties 4 Sussex",
+        "date": "2023-01-21",
+        "teams": [
+            "Eastbourne II",
+            "East Grinstead II"
+        ],
+        "score": [
+            39,
+            24
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
         "match_id": "982027",
         "season": "2022-2023",
         "league": "Counties 2 Sussex",
@@ -3511,6 +7366,63 @@
                 "S2": "Joe Johnson",
                 "S3": "Simon Burfiend"
             }
+        ]
+    },
+    {
+        "match_id": "995359",
+        "season": "2022-2023",
+        "league": "Counties 4 Sussex",
+        "date": "2023-01-28",
+        "teams": [
+            "Hove III",
+            "Eastbourne II"
+        ],
+        "score": [
+            39,
+            36
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "995361",
+        "season": "2022-2023",
+        "league": "Counties 4 Sussex",
+        "date": "2023-01-28",
+        "teams": [
+            "St Francis",
+            "East Grinstead II"
+        ],
+        "score": [
+            38,
+            19
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "995360",
+        "season": "2022-2023",
+        "league": "Counties 4 Sussex",
+        "date": "2023-01-28",
+        "teams": [
+            "Uckfield II",
+            "Heathfield & Waldron II"
+        ],
+        "score": [
+            24,
+            5
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
         ]
     },
     {
@@ -3925,6 +7837,44 @@
         ]
     },
     {
+        "match_id": "1034960",
+        "season": "2022-2023",
+        "league": "Counties 4 Sussex",
+        "date": "2023-02-11",
+        "teams": [
+            "East Grinstead II",
+            "Uckfield II"
+        ],
+        "score": [
+            56,
+            10
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1034971",
+        "season": "2022-2023",
+        "league": "Counties 4 Sussex",
+        "date": "2023-02-11",
+        "teams": [
+            "Heathfield & Waldron II",
+            "Crawley II"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
         "match_id": "982036",
         "season": "2022-2023",
         "league": "Counties 2 Sussex",
@@ -4156,6 +8106,63 @@
         ]
     },
     {
+        "match_id": "995365",
+        "season": "2022-2023",
+        "league": "Counties 4 Sussex",
+        "date": "2023-02-18",
+        "teams": [
+            "East Grinstead II",
+            "Heathfield & Waldron II"
+        ],
+        "score": [
+            32,
+            17
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "995363",
+        "season": "2022-2023",
+        "league": "Counties 4 Sussex",
+        "date": "2023-02-18",
+        "teams": [
+            "Eastbourne II",
+            "Crawley II"
+        ],
+        "score": [
+            106,
+            5
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "995362",
+        "season": "2022-2023",
+        "league": "Counties 4 Sussex",
+        "date": "2023-02-18",
+        "teams": [
+            "St Francis",
+            "Hove III"
+        ],
+        "score": [
+            26,
+            24
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
         "match_id": "1034989",
         "season": "2022-2023",
         "league": "Counties 2 Sussex",
@@ -4265,6 +8272,25 @@
                 "S2": "Vincent Morse",
                 "S3": "Pedro Sousa"
             }
+        ]
+    },
+    {
+        "match_id": "1036256",
+        "season": "2022-2023",
+        "league": "Counties 4 Sussex",
+        "date": "2023-02-25",
+        "teams": [
+            "Eastbourne II",
+            "St Francis"
+        ],
+        "score": [
+            94,
+            0
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
         ]
     },
     {
@@ -4497,6 +8523,63 @@
                 "S1": "Daniel Keen",
                 "S2": "Aaron Hossack"
             }
+        ]
+    },
+    {
+        "match_id": "995368",
+        "season": "2022-2023",
+        "league": "Counties 4 Sussex",
+        "date": "2023-03-04",
+        "teams": [
+            "Crawley II",
+            "St Francis"
+        ],
+        "score": [
+            96,
+            13
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "995369",
+        "season": "2022-2023",
+        "league": "Counties 4 Sussex",
+        "date": "2023-03-04",
+        "teams": [
+            "Hove III",
+            "East Grinstead II"
+        ],
+        "score": [
+            57,
+            24
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "995367",
+        "season": "2022-2023",
+        "league": "Counties 4 Sussex",
+        "date": "2023-03-04",
+        "teams": [
+            "Uckfield II",
+            "Eastbourne II"
+        ],
+        "score": [
+            49,
+            0
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
         ]
     },
     {
@@ -4734,6 +8817,44 @@
         ]
     },
     {
+        "match_id": "995372",
+        "season": "2022-2023",
+        "league": "Counties 4 Sussex",
+        "date": "2023-03-11",
+        "teams": [
+            "Eastbourne II",
+            "Heathfield & Waldron II"
+        ],
+        "score": [
+            43,
+            17
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "995370",
+        "season": "2022-2023",
+        "league": "Counties 4 Sussex",
+        "date": "2023-03-11",
+        "teams": [
+            "Hove III",
+            "Crawley II"
+        ],
+        "score": [
+            64,
+            0
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
         "match_id": "1036127",
         "season": "2022-2023",
         "league": "Counties 2 Sussex",
@@ -4790,6 +8911,25 @@
                 "S1": "Adam Harman",
                 "S2": "Timothy Daniel"
             }
+        ]
+    },
+    {
+        "match_id": "1038916",
+        "season": "2022-2023",
+        "league": "Counties 4 Sussex",
+        "date": "2023-03-18",
+        "teams": [
+            "St Francis",
+            "Uckfield II"
+        ],
+        "score": [
+            24,
+            19
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
         ]
     },
     {
@@ -6850,6 +10990,44 @@
         ]
     },
     {
+        "match_id": "1083337",
+        "season": "2023-2024",
+        "league": "Counties 4 Sussex",
+        "date": "2023-10-21",
+        "teams": [
+            "Hellingly",
+            "Crowborough II"
+        ],
+        "score": [
+            29,
+            32
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1083338",
+        "season": "2023-2024",
+        "league": "Counties 4 Sussex",
+        "date": "2023-10-21",
+        "teams": [
+            "Newick",
+            "East Grinstead II"
+        ],
+        "score": [
+            10,
+            25
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
         "match_id": "1057479",
         "season": "2023-2024",
         "league": "Counties 1 Surrey/Sussex",
@@ -7437,6 +11615,44 @@
         ]
     },
     {
+        "match_id": "1083344",
+        "season": "2023-2024",
+        "league": "Counties 4 Sussex",
+        "date": "2023-11-11",
+        "teams": [
+            "Heathfield & Waldron II",
+            "Hellingly"
+        ],
+        "score": [
+            7,
+            22
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1083343",
+        "season": "2023-2024",
+        "league": "Counties 4 Sussex",
+        "date": "2023-11-11",
+        "teams": [
+            "Newick",
+            "Crowborough II"
+        ],
+        "score": [
+            50,
+            10
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
         "match_id": "1057492",
         "season": "2023-2024",
         "league": "Counties 1 Surrey/Sussex",
@@ -7786,6 +12002,44 @@
                 "S2": "Charlie Wilson",
                 "S3": "Jochem Oostenbroek"
             }
+        ]
+    },
+    {
+        "match_id": "1083348",
+        "season": "2023-2024",
+        "league": "Counties 4 Sussex",
+        "date": "2023-11-18",
+        "teams": [
+            "Crowborough II",
+            "East Grinstead II"
+        ],
+        "score": [
+            "",
+            "WO"
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1083347",
+        "season": "2023-2024",
+        "league": "Counties 4 Sussex",
+        "date": "2023-11-18",
+        "teams": [
+            "Newick",
+            "Heathfield & Waldron II"
+        ],
+        "score": [
+            38,
+            3
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
         ]
     },
     {
@@ -8197,6 +12451,44 @@
         ]
     },
     {
+        "match_id": "1083351",
+        "season": "2023-2024",
+        "league": "Counties 4 Sussex",
+        "date": "2023-12-02",
+        "teams": [
+            "East Grinstead II",
+            "Hellingly"
+        ],
+        "score": [
+            34,
+            0
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1083349",
+        "season": "2023-2024",
+        "league": "Counties 4 Sussex",
+        "date": "2023-12-02",
+        "teams": [
+            "Heathfield & Waldron II",
+            "Crowborough II"
+        ],
+        "score": [
+            10,
+            31
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
         "match_id": "1057507",
         "season": "2023-2024",
         "league": "Counties 1 Surrey/Sussex",
@@ -8490,6 +12782,25 @@
         ]
     },
     {
+        "match_id": "1105112",
+        "season": "2023-2024",
+        "league": "Counties 4 Sussex",
+        "date": "2023-12-09",
+        "teams": [
+            "East Grinstead II",
+            "Heathfield & Waldron II"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
         "match_id": "1057511",
         "season": "2023-2024",
         "league": "Counties 1 Surrey/Sussex",
@@ -8721,6 +13032,25 @@
                 "1": "Timothy Baker",
                 "S1": "Andrew Blackburn"
             }
+        ]
+    },
+    {
+        "match_id": "1105247",
+        "season": "2023-2024",
+        "league": "Counties 4 Sussex",
+        "date": "2023-12-16",
+        "teams": [
+            "Hellingly",
+            "Newick"
+        ],
+        "score": [
+            0,
+            40
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
         ]
     },
     {
@@ -9418,6 +13748,25 @@
         ]
     },
     {
+        "match_id": "1111548",
+        "season": "2023-2024",
+        "league": "Counties 4 Sussex",
+        "date": "2024-01-20",
+        "teams": [
+            "East Grinstead II",
+            "Heathfield & Waldron II"
+        ],
+        "score": [
+            20,
+            10
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
         "match_id": "1057532",
         "season": "2023-2024",
         "league": "Counties 1 Surrey/Sussex",
@@ -9769,6 +14118,44 @@
         ]
     },
     {
+        "match_id": "1083357",
+        "season": "2023-2024",
+        "league": "Counties 4 Sussex",
+        "date": "2024-01-27",
+        "teams": [
+            "Crowborough II",
+            "Newick"
+        ],
+        "score": [
+            0,
+            40
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1083356",
+        "season": "2023-2024",
+        "league": "Counties 4 Sussex",
+        "date": "2024-01-27",
+        "teams": [
+            "Hellingly",
+            "Heathfield & Waldron II"
+        ],
+        "score": [
+            26,
+            5
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
         "match_id": "1097838",
         "season": "2023-2024",
         "league": "Counties 1 Surrey/Sussex",
@@ -10058,6 +14445,44 @@
                 "2": "Charlie Butcher",
                 "1": "Ryan Storer"
             }
+        ]
+    },
+    {
+        "match_id": "1083358",
+        "season": "2023-2024",
+        "league": "Counties 4 Sussex",
+        "date": "2024-02-03",
+        "teams": [
+            "East Grinstead II",
+            "Crowborough II"
+        ],
+        "score": [
+            10,
+            7
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1083359",
+        "season": "2023-2024",
+        "league": "Counties 4 Sussex",
+        "date": "2024-02-03",
+        "teams": [
+            "Heathfield & Waldron II",
+            "Newick"
+        ],
+        "score": [
+            3,
+            43
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
         ]
     },
     {
@@ -10588,6 +15013,44 @@
         ]
     },
     {
+        "match_id": "1083361",
+        "season": "2023-2024",
+        "league": "Counties 4 Sussex",
+        "date": "2024-02-17",
+        "teams": [
+            "Crowborough II",
+            "Heathfield & Waldron II"
+        ],
+        "score": [
+            36,
+            12
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1083362",
+        "season": "2023-2024",
+        "league": "Counties 4 Sussex",
+        "date": "2024-02-17",
+        "teams": [
+            "Hellingly",
+            "East Grinstead II"
+        ],
+        "score": [
+            14,
+            48
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
         "match_id": "1113118",
         "season": "2023-2024",
         "league": "Counties 1 Surrey/Sussex",
@@ -10827,6 +15290,25 @@
         ]
     },
     {
+        "match_id": "1083365",
+        "season": "2023-2024",
+        "league": "Counties 4 Sussex",
+        "date": "2024-03-02",
+        "teams": [
+            "East Grinstead II",
+            "Newick"
+        ],
+        "score": [
+            31,
+            7
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
         "match_id": "1115518",
         "season": "2023-2024",
         "league": "Counties 1 Surrey/Sussex",
@@ -10942,6 +15424,25 @@
                 "S2": "Samuel Cockroft",
                 "S3": "William Hellel"
             }
+        ]
+    },
+    {
+        "match_id": "1115487",
+        "season": "2023-2024",
+        "league": "Counties 4 Sussex",
+        "date": "2024-03-09",
+        "teams": [
+            "Crowborough II",
+            "Hellingly"
+        ],
+        "score": [
+            5,
+            45
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
         ]
     },
     {
@@ -11942,6 +16443,25 @@
                 "1": "Timothy Baker",
                 "S1": "Andrew Blackburn"
             }
+        ]
+    },
+    {
+        "match_id": "1115967",
+        "season": "2023-2024",
+        "league": "Counties 4 Sussex",
+        "date": "2024-04-20",
+        "teams": [
+            "Newick",
+            "Hellingly"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
         ]
     },
     {
@@ -13013,8 +17533,8 @@
             "Newick"
         ],
         "score": [
-            7,
-            12
+            12,
+            7
         ],
         "logos": [],
         "players": [
@@ -13032,8 +17552,8 @@
             "Royals RFC"
         ],
         "score": [
-            10,
-            21
+            21,
+            10
         ],
         "logos": [],
         "players": [
@@ -13465,8 +17985,8 @@
             "Barns Green"
         ],
         "score": [
-            24,
-            31
+            31,
+            24
         ],
         "logos": [],
         "players": [
@@ -13877,8 +18397,8 @@
             "Burgess Hill"
         ],
         "score": [
-            8,
-            24
+            24,
+            8
         ],
         "logos": [],
         "players": [
@@ -14344,8 +18864,8 @@
             "Horsham Barbarians"
         ],
         "score": [
-            17,
-            57
+            57,
+            17
         ],
         "logos": [],
         "players": [
@@ -14382,8 +18902,8 @@
             "Barns Green"
         ],
         "score": [
-            0,
-            14
+            14,
+            0
         ],
         "logos": [],
         "players": [
@@ -14775,8 +19295,8 @@
             "Burgess Hill"
         ],
         "score": [
-            3,
-            18
+            18,
+            3
         ],
         "logos": [],
         "players": [
@@ -15245,8 +19765,8 @@
             "Royals RFC"
         ],
         "score": [
-            12,
-            41
+            41,
+            12
         ],
         "logos": [],
         "players": [
@@ -15283,8 +19803,8 @@
             "Eastbourne II"
         ],
         "score": [
-            23,
-            24
+            24,
+            23
         ],
         "logos": [],
         "players": [
@@ -15656,8 +20176,8 @@
             "Barns Green"
         ],
         "score": [
-            19,
-            48
+            48,
+            19
         ],
         "logos": [],
         "players": [
@@ -15675,8 +20195,8 @@
             "Burgess Hill"
         ],
         "score": [
-            5,
-            20
+            20,
+            5
         ],
         "logos": [],
         "players": [
@@ -16144,8 +20664,8 @@
             "Eastbourne II"
         ],
         "score": [
-            12,
-            20
+            20,
+            12
         ],
         "logos": [],
         "players": [
@@ -16182,8 +20702,8 @@
             "East Grinstead II"
         ],
         "score": [
-            10,
-            27
+            27,
+            10
         ],
         "logos": [],
         "players": [
@@ -16988,8 +21508,8 @@
             "Haywards Heath II"
         ],
         "score": [
-            22,
-            24
+            24,
+            22
         ],
         "logos": [],
         "players": [
@@ -18087,8 +22607,8 @@
             "Eastbourne II"
         ],
         "score": [
-            18,
-            19
+            19,
+            18
         ],
         "logos": [],
         "players": [
@@ -18729,8 +23249,8 @@
             "Royals RFC"
         ],
         "score": [
-            0,
-            29
+            29,
+            0
         ],
         "logos": [],
         "players": [
@@ -18748,8 +23268,8 @@
             "Haywards Heath II"
         ],
         "score": [
-            12,
-            52
+            52,
+            12
         ],
         "logos": [],
         "players": [
@@ -18767,8 +23287,8 @@
             "Horsham Barbarians"
         ],
         "score": [
-            14,
-            26
+            26,
+            14
         ],
         "logos": [],
         "players": [
@@ -19523,8 +24043,8 @@
             "Horsham Barbarians"
         ],
         "score": [
-            17,
-            34
+            34,
+            17
         ],
         "logos": [],
         "players": [
@@ -19854,8 +24374,8 @@
             "Haywards Heath II"
         ],
         "score": [
-            0,
-            28
+            28,
+            0
         ],
         "logos": [],
         "players": [
@@ -19873,8 +24393,8 @@
             "Royals RFC"
         ],
         "score": [
-            10,
-            30
+            30,
+            10
         ],
         "logos": [],
         "players": [
@@ -20303,8 +24823,8 @@
             "Burgess Hill"
         ],
         "score": [
-            21,
-            61
+            61,
+            21
         ],
         "logos": [],
         "players": [
@@ -20735,8 +25255,8 @@
             "Royals RFC"
         ],
         "score": [
-            22,
-            26
+            26,
+            22
         ],
         "logos": [],
         "players": [
@@ -20773,8 +25293,8 @@
             "Eastbourne II"
         ],
         "score": [
-            3,
-            43
+            43,
+            3
         ],
         "logos": [],
         "players": [
@@ -21243,8 +25763,8 @@
             "East Grinstead II"
         ],
         "score": [
-            41,
-            44
+            44,
+            41
         ],
         "logos": [],
         "players": [
@@ -21262,8 +25782,8 @@
             "Eastbourne II"
         ],
         "score": [
-            0,
-            19
+            19,
+            0
         ],
         "logos": [],
         "players": [
@@ -21671,8 +26191,8 @@
             "Uckfield"
         ],
         "score": [
-            17,
-            26
+            26,
+            17
         ],
         "logos": [],
         "players": [
@@ -21690,8 +26210,8 @@
             "Hove II"
         ],
         "score": [
-            17,
-            36
+            36,
+            17
         ],
         "logos": [],
         "players": [
@@ -21709,8 +26229,8 @@
             "Burgess Hill"
         ],
         "score": [
-            24,
-            32
+            32,
+            24
         ],
         "logos": [],
         "players": [
@@ -22076,8 +26596,8 @@
             "Hellingly"
         ],
         "score": [
-            13,
-            53
+            53,
+            13
         ],
         "logos": [],
         "players": [
@@ -22406,8 +26926,8 @@
             "Burgess Hill"
         ],
         "score": [
-            5,
-            45
+            45,
+            5
         ],
         "logos": [],
         "players": [
@@ -22425,8 +26945,8 @@
             "Hove II"
         ],
         "score": [
-            15,
-            46
+            46,
+            15
         ],
         "logos": [],
         "players": [
@@ -22444,8 +26964,8 @@
             "Uckfield"
         ],
         "score": [
-            19,
-            45
+            45,
+            19
         ],
         "logos": [],
         "players": [
@@ -22793,8 +27313,8 @@
             "Haywards Heath II"
         ],
         "score": [
-            5,
-            45
+            45,
+            5
         ],
         "logos": [],
         "players": [
@@ -22831,8 +27351,8 @@
             "Burgess Hill"
         ],
         "score": [
-            5,
-            29
+            29,
+            5
         ],
         "logos": [],
         "players": [
@@ -22869,8 +27389,8 @@
             "Horsham Barbarians"
         ],
         "score": [
-            17,
-            20
+            20,
+            17
         ],
         "logos": [],
         "players": [
@@ -23176,8 +27696,8 @@
             "Hove II"
         ],
         "score": [
-            19,
-            38
+            38,
+            19
         ],
         "logos": [],
         "players": [
@@ -23559,8 +28079,8 @@
             "Crowborough II"
         ],
         "score": [
-            29,
-            45
+            45,
+            29
         ],
         "logos": [],
         "players": [
@@ -23578,8 +28098,8 @@
             "Burgess Hill"
         ],
         "score": [
-            16,
-            20
+            20,
+            16
         ],
         "logos": [],
         "players": [
@@ -23597,8 +28117,8 @@
             "Horsham Barbarians"
         ],
         "score": [
-            24,
-            40
+            40,
+            24
         ],
         "logos": [],
         "players": [
@@ -23982,8 +28502,8 @@
             "Hove II"
         ],
         "score": [
-            17,
-            42
+            42,
+            17
         ],
         "logos": [],
         "players": [
@@ -24327,8 +28847,8 @@
             "Burgess Hill"
         ],
         "score": [
-            7,
-            47
+            47,
+            7
         ],
         "logos": [],
         "players": [
@@ -24346,8 +28866,8 @@
             "Horsham Barbarians"
         ],
         "score": [
-            12,
-            15
+            15,
+            12
         ],
         "logos": [],
         "players": [
@@ -25099,8 +29619,8 @@
             "Uckfield"
         ],
         "score": [
-            7,
-            39
+            39,
+            7
         ],
         "logos": [],
         "players": [
@@ -25137,8 +29657,8 @@
             "Hove II"
         ],
         "score": [
-            19,
-            41
+            41,
+            19
         ],
         "logos": [],
         "players": [
@@ -25156,8 +29676,8 @@
             "Burgess Hill"
         ],
         "score": [
-            5,
-            13
+            13,
+            5
         ],
         "logos": [],
         "players": [
@@ -25424,8 +29944,8 @@
             "East Grinstead II"
         ],
         "score": [
-            12,
-            31
+            31,
+            12
         ],
         "logos": [],
         "players": [
@@ -25824,8 +30344,8 @@
             "Hove II"
         ],
         "score": [
-            7,
-            47
+            47,
+            7
         ],
         "logos": [],
         "players": [
@@ -26247,8 +30767,8 @@
             "Burgess Hill"
         ],
         "score": [
-            12,
-            52
+            52,
+            12
         ],
         "logos": [],
         "players": [
@@ -26266,8 +30786,8 @@
             "East Grinstead II"
         ],
         "score": [
-            13,
-            15
+            15,
+            13
         ],
         "logos": [],
         "players": [

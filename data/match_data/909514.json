@@ -1,0 +1,60 @@
+{
+    "match_id": "909514",
+    "season": "2021-2022",
+    "league": "Harvey\u2019s Brewery Sussex 1",
+    "date": "2021-10-02",
+    "teams": [
+        "Lewes",
+        "Seaford"
+    ],
+    "score": [
+        7,
+        6
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/12206.png",
+        "https://images.englandrugby.com/club_images/18868.png"
+    ],
+    "players": [
+        {
+            "15": "Daniel Basquill",
+            "14": "Joe Reid",
+            "13": "Andy Carmichael",
+            "12": "Elliot Moule",
+            "11": "Thomas Awdry",
+            "10": "Angelo Errigo",
+            "9": "Angus Taylor",
+            "8": "Kieran Morris",
+            "7": "Dominic Lunniss",
+            "6": "George Gribble",
+            "5": "James Sale",
+            "4": "Lewis Evans",
+            "3": "Kane Dadswell",
+            "2": "Oliver Bowry",
+            "1": "Fearghus Gage",
+            "S1": "Mouhammed Bacha",
+            "S2": "Lewis Austin",
+            "S3": "William Shiell"
+        },
+        {
+            "15": "Alexander Tattam",
+            "14": "Stuart Cotter",
+            "13": "Oscar Weisz",
+            "12": "Corey Digby-Clarke",
+            "11": "Charlie Crossgrove",
+            "10": "Rhys Jones",
+            "9": "Luke Taylor",
+            "8": "Andrew Salter",
+            "7": "Paddy Powney",
+            "6": "Sam Diplock",
+            "5": "Shaun Brewer",
+            "4": "Dominic Joy",
+            "3": "Kaya Tyack",
+            "2": "Andrew Fry",
+            "1": "Piers Culshaw",
+            "S1": "Name withheld",
+            "S2": "Lee Furminger",
+            "S3": "Michael Upton"
+        }
+    ]
+}

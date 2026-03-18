@@ -1,0 +1,58 @@
+{
+    "match_id": "909533",
+    "season": "2021-2022",
+    "league": "Harvey\u2019s Brewery Sussex 1",
+    "date": "2021-11-27",
+    "teams": [
+        "Eastbourne",
+        "Hove II"
+    ],
+    "score": [
+        15,
+        17
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7209.png",
+        "https://images.englandrugby.com/club_images/10504.png"
+    ],
+    "players": [
+        {
+            "15": "Sebastian Gleave",
+            "14": "Dylan Becker",
+            "13": "Jake Howe",
+            "12": "Ben Perrott",
+            "11": "Oliver Horley",
+            "10": "Martial Chaput",
+            "9": "Pedro Sousa",
+            "8": "Konrad O'Neill",
+            "7": "Louis Paal",
+            "6": "Stefan Cousins",
+            "5": "Joshua Buckwell",
+            "4": "Luke Thomas",
+            "3": "Toby Slaughter",
+            "2": "Joseph Bettles",
+            "1": "Christopher Hosking",
+            "S1": "William Bettles",
+            "S2": "Callum Dell",
+            "S3": "Joshua Imich"
+        },
+        {
+            "15": "Name withheld",
+            "14": "Sean Shepherd",
+            "13": "Bryn Garrish",
+            "12": "Stephen Marsh",
+            "11": "Thomas Butler",
+            "10": "Jerome Pye",
+            "9": "Danny O'Conner",
+            "8": "Ben Anderson",
+            "6": "James Watson",
+            "5": "James Duckett",
+            "4": "Ben Stephens",
+            "3": "Lennon Packwood",
+            "2": "Tyler Hooper",
+            "1": "Alex Maguire",
+            "S1": "Ashley Parker",
+            "S3": "Philip Ward"
+        }
+    ]
+}

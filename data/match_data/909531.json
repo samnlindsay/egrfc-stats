@@ -1,0 +1,58 @@
+{
+    "match_id": "909531",
+    "season": "2021-2022",
+    "league": "Harvey\u2019s Brewery Sussex 1",
+    "date": "2021-11-27",
+    "teams": [
+        "Uckfield",
+        "Lewes"
+    ],
+    "score": [
+        50,
+        10
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/23445.png",
+        "https://images.englandrugby.com/club_images/12206.png"
+    ],
+    "players": [
+        {
+            "15": "Kian Saunders",
+            "14": "Joel Andrews",
+            "13": "Matthew Spencer",
+            "12": "Joel Forward",
+            "11": "Callum Harvey",
+            "10": "Name withheld",
+            "9": "Jordon Southgate",
+            "8": "Terry Funnell",
+            "7": "Matthew Evans",
+            "6": "Rob Mayer",
+            "5": "Charles Rumary",
+            "4": "Tristan Sturt",
+            "3": "Jack Harvey",
+            "2": "Alfie Richardson",
+            "1": "Adam Palmer",
+            "S1": "Davy Armstrong",
+            "S2": "Thomas Awdry"
+        },
+        {
+            "15": "Oliver Graham",
+            "14": "Andy Carmichael",
+            "13": "Rafferty Green",
+            "12": "Joe Reid",
+            "11": "William Shiell",
+            "10": "Ben Poole",
+            "9": "Kieran Morris",
+            "8": "Benjamin Bishop",
+            "7": "George Gribble",
+            "6": "Ben Edmonds",
+            "5": "James Sale",
+            "4": "Fearghus Gage",
+            "3": "Mouhammed Bacha",
+            "2": "Kane Dadswell",
+            "1": "Lewis Evans",
+            "S1": "Stewart Dickens",
+            "S2": "Robert Williams"
+        }
+    ]
+}

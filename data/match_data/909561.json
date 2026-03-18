@@ -1,0 +1,52 @@
+{
+    "match_id": "909561",
+    "season": "2021-2022",
+    "league": "Harvey\u2019s Brewery Sussex 1",
+    "date": "2022-02-19",
+    "teams": [
+        "Hellingly",
+        "Hove II"
+    ],
+    "score": [
+        14,
+        26
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/9891.png",
+        "https://images.englandrugby.com/club_images/10504.png"
+    ],
+    "players": [
+        {
+            "15": "Name withheld",
+            "14": "Thomas Shuttleworth",
+            "13": "Billy Cleaver",
+            "12": "Harvey Warren",
+            "11": "Aaron Kirk",
+            "10": "Aaron Hossack",
+            "9": "Alex Bray",
+            "8": "Giles Hook",
+            "6": "Robert Vint",
+            "5": "Charles Courtney",
+            "4": "Lewis Ather",
+            "3": "Paul Smith",
+            "2": "Michael Whiteman"
+        },
+        {
+            "15": "Lloyd Tullett",
+            "13": "Thomas Butler",
+            "12": "Ashley Parker",
+            "11": "Joel Perry",
+            "10": "Archie Davies",
+            "9": "Danny O'Conner",
+            "8": "Ben Anderson",
+            "7": "Martin Macdonald",
+            "6": "Ben Stephens",
+            "5": "Antoine Berthillot",
+            "4": "Tyler Hooper",
+            "3": "Timothy Barnett",
+            "2": "Adrian Shergold",
+            "1": "George Brown",
+            "S1": "Sebastian Taylor-Haw"
+        }
+    ]
+}

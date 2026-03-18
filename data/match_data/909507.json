@@ -1,0 +1,60 @@
+{
+    "match_id": "909507",
+    "season": "2021-2022",
+    "league": "Harvey\u2019s Brewery Sussex 1",
+    "date": "2021-09-25",
+    "teams": [
+        "Burgess Hill",
+        "Lewes"
+    ],
+    "score": [
+        35,
+        7
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/3659.png",
+        "https://images.englandrugby.com/club_images/12206.png"
+    ],
+    "players": [
+        {
+            "15": "Ollie Lewis",
+            "14": "Flavian Obiero",
+            "13": "Napolioni Cerevuso",
+            "12": "Jim Waqanibau",
+            "11": "Matheus Gava",
+            "10": "Archie Anscombe",
+            "9": "Massimo Hiller",
+            "8": "David Wattam",
+            "7": "Name withheld",
+            "6": "Christian Jones",
+            "5": "Charlie Lewis",
+            "4": "Harvey Hays",
+            "3": "Paul Hasib",
+            "2": "David Mccomiskey",
+            "1": "Lee Collingbourne",
+            "S1": "Tomer Teichman",
+            "S2": "Benjamin Dronfield",
+            "S3": "Isoa Tadrau"
+        },
+        {
+            "15": "Thomas Awdry",
+            "14": "Joe Reid",
+            "13": "Kieran Morris",
+            "12": "Dominic Lunniss",
+            "11": "Harry Weston",
+            "10": "Andy Carmichael",
+            "9": "Benjamin Bishop",
+            "8": "Lewis Evans",
+            "7": "George Gribble",
+            "6": "Stewart Dickens",
+            "5": "Chris Gorbell",
+            "4": "James Sale",
+            "3": "Ethan Edwards",
+            "2": "Oliver Bowry",
+            "1": "Fearghus Gage",
+            "S1": "Kane Dadswell",
+            "S2": "Tom Bates",
+            "S3": "Claudio Cosimetti"
+        }
+    ]
+}

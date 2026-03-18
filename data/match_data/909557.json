@@ -1,0 +1,60 @@
+{
+    "match_id": "909557",
+    "season": "2021-2022",
+    "league": "Harvey\u2019s Brewery Sussex 1",
+    "date": "2022-02-12",
+    "teams": [
+        "East Grinstead",
+        "Seaford"
+    ],
+    "score": [
+        67,
+        5
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7134.png",
+        "https://images.englandrugby.com/club_images/18868.png"
+    ],
+    "players": [
+        {
+            "15": "Fergus Wood",
+            "14": "Jack Skipworth",
+            "13": "Max Crawley-Moore",
+            "12": "Ryan Morlen",
+            "11": "Archie Neill",
+            "10": "Daniel Poulton",
+            "9": "George Johnson",
+            "8": "Connor Leggat",
+            "7": "Archie Vickers",
+            "6": "Nicholas Carter",
+            "5": "John Peaty",
+            "4": "Samuel Lindsay-McCall",
+            "3": "James Funnell",
+            "2": "Benjamin Tottman",
+            "1": "Devon Frost",
+            "S1": "Sean Morgan",
+            "S2": "Liam Casey",
+            "S3": "Samuel Spriddell"
+        },
+        {
+            "15": "Name withheld",
+            "14": "Rhys Roberts",
+            "13": "Charlie Crossgrove",
+            "12": "Corey Digby-Clarke",
+            "11": "Stuart Cotter",
+            "10": "Oscar Weisz",
+            "9": "Luke Taylor",
+            "8": "Bradley Newby",
+            "7": "Charlie Guest",
+            "6": "Paddy Powney",
+            "5": "Sam Diplock",
+            "4": "Dominic Joy",
+            "3": "Luke Read",
+            "2": "KEVIN LEWIS",
+            "1": "Andrew Salter",
+            "S1": "Brendan Strick",
+            "S2": "Ben Higgin",
+            "S3": "Chris Burns"
+        }
+    ]
+}

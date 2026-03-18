@@ -1,0 +1,60 @@
+{
+    "match_id": "909512",
+    "season": "2021-2022",
+    "league": "Harvey\u2019s Brewery Sussex 1",
+    "date": "2021-10-02",
+    "teams": [
+        "Eastbourne",
+        "Uckfield"
+    ],
+    "score": [
+        5,
+        29
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7209.png",
+        "https://images.englandrugby.com/club_images/23445.png"
+    ],
+    "players": [
+        {
+            "15": "Oliver Horley",
+            "14": "Reece Negus",
+            "13": "Martial Chaput",
+            "12": "Ben Perrott",
+            "11": "Kyle Hastilow",
+            "10": "Jake Howe",
+            "9": "Pedro Sousa",
+            "8": "Konrad O'Neill",
+            "7": "Stefan Cousins",
+            "6": "Joshua Imich",
+            "5": "Charlie Milner",
+            "4": "Luke Thomas",
+            "3": "Joseph Bettles",
+            "2": "Jack Hopkins",
+            "1": "Daniel Keen",
+            "S1": "Christopher Hosking",
+            "S2": "Cameron Thomson",
+            "S3": "Lewis De La Mare"
+        },
+        {
+            "15": "Name withheld",
+            "14": "Ian Page mitchell",
+            "13": "Joel Andrews",
+            "12": "Joseph Pratt",
+            "11": "Kian Saunders",
+            "10": "Kieron Martin",
+            "9": "Charlie Buckland",
+            "8": "Jack Harvey",
+            "7": "Matthew Evans",
+            "6": "Harvey Stonebridge",
+            "5": "Stephen Hartfield",
+            "4": "Guy Cornick",
+            "3": "Davy Armstrong",
+            "2": "Alfie Richardson",
+            "1": "Steven Andre",
+            "S1": "Tristan Sturt",
+            "S2": "Harry Smith",
+            "S3": "Joel Forward"
+        }
+    ]
+}

@@ -1,0 +1,58 @@
+{
+    "match_id": "909549",
+    "season": "2021-2022",
+    "league": "Harvey\u2019s Brewery Sussex 1",
+    "date": "2022-01-22",
+    "teams": [
+        "Hellingly",
+        "Eastbourne"
+    ],
+    "score": [
+        19,
+        27
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/9891.png",
+        "https://images.englandrugby.com/club_images/7209.png"
+    ],
+    "players": [
+        {
+            "15": "Name withheld",
+            "14": "Thomas Stone",
+            "13": "James Grey",
+            "12": "Jack Cowell",
+            "11": "Alex Bray",
+            "10": "Aaron Hossack",
+            "9": "David Searle",
+            "8": "Mark Harris",
+            "7": "Scott Monk",
+            "6": "Thomas Shuttleworth",
+            "5": "Lewis Ather",
+            "4": "Charles Courtney",
+            "3": "Paul Smith",
+            "2": "Michael Whiteman",
+            "1": "Sebastian Molina Chocron",
+            "S2": "James Streeter",
+            "S3": "Jordan Widdop"
+        },
+        {
+            "15": "Oliver Horley",
+            "14": "Jeremy Montes",
+            "13": "Dylan Becker",
+            "12": "Ben Perrott",
+            "11": "Gianluca Bianchi",
+            "10": "Sebastian Gleave",
+            "9": "Harrison Gibbons",
+            "8": "Stefan Cousins",
+            "7": "Carl Slaughter",
+            "6": "Joshua Buckwell",
+            "5": "Luke Thomas",
+            "4": "Toby Slaughter",
+            "3": "Joseph Bettles",
+            "2": "Alun Cranch",
+            "1": "Pedro Sousa",
+            "S1": "Mason Dowle",
+            "S2": "Nathan Ring"
+        }
+    ]
+}

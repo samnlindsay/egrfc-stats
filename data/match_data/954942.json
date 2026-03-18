@@ -1,0 +1,58 @@
+{
+    "match_id": "954942",
+    "season": "2021-2022",
+    "league": "Harvey\u2019s Brewery Sussex 1",
+    "date": "2022-01-08",
+    "teams": [
+        "Hellingly",
+        "Uckfield"
+    ],
+    "score": [
+        12,
+        28
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/9891.png",
+        "https://images.englandrugby.com/club_images/23445.png"
+    ],
+    "players": [
+        {
+            "15": "Name withheld",
+            "14": "Harvey Warren",
+            "13": "Jack Cowell",
+            "12": "Charlie Milner",
+            "11": "Aaron Hossack",
+            "10": "Billy Cleaver",
+            "9": "James Grey",
+            "8": "Scott Monk",
+            "7": "Fraser Francis",
+            "6": "Mark Harris",
+            "5": "Lewis Ather",
+            "4": "Paul Smith",
+            "3": "Michael Whiteman",
+            "2": "Alexander Hawkins",
+            "1": "Craig Latimer",
+            "S1": "Robert Vint",
+            "S2": "Craig Benson",
+            "S3": "Joel Andrews"
+        },
+        {
+            "15": "Matthew Spencer",
+            "14": "Luke Yaafe",
+            "13": "Callum Harvey",
+            "12": "Charlie Buckland",
+            "11": "Jordon Southgate",
+            "10": "Joseph Pratt",
+            "9": "Matthew Evans",
+            "8": "Luke Austin",
+            "7": "Rob Mayer",
+            "6": "Craig Marshall",
+            "5": "Jack Harvey",
+            "4": "Alfie Richardson",
+            "3": "Archie Bell",
+            "2": "Davy Armstrong",
+            "1": "Abraham Bredin",
+            "S1": "Joel Forward"
+        }
+    ]
+}

@@ -9,6 +9,7 @@ from bs4 import BeautifulSoup
 import time
 import random
 import re
+from datetime import datetime
 from urllib.parse import parse_qs, urlparse
 
 # Configure logging
@@ -38,6 +39,16 @@ division_ids = {
     "Counties 3 Sussex": {
         "2025-2026": 70706,
         "2024-2025": 57767,
+    },
+    "Counties 4 Sussex": {
+        "2023-2024": 56757,
+        "2022-2023": 39812,
+    },
+    "Sussex 1": {
+        "2021-2022": 31791,
+    },
+    "Sussex 3 Premier": {
+        "2021-2022": 37770,
     }
 }
 
@@ -46,11 +57,15 @@ divisions = {
         "2025/26": "Counties 2 Sussex",
         "2024/25": "Counties 1 Surrey/Sussex",
         "2023/24": "Counties 1 Surrey/Sussex",
-        "2022/23": "Counties 2 Sussex"
+        "2022/23": "Counties 2 Sussex",
+        "2021/22": "Sussex 1"
     },
     2: {
         "2025/26": "Counties 3 Sussex",
         "2024/25": "Counties 3 Sussex",
+        "2023/24": "Counties 4 Sussex",
+        "2022/23": "Counties 4 Sussex",
+        "2021/22": "Sussex 3 Premier"
     }
 }    
 
@@ -65,7 +80,7 @@ def get_url(squad=1, season="2025/26"):
         season_str = season.replace("/", "-20")
         division_id = division_ids[division][season_str]
 
-        if division in ["Counties 3 Sussex"]:
+        if division in ["Counties 3 Sussex", "Counties 4 Sussex", "Sussex 3 Premier"]:
             competition_id = competition_ids["Harvey's Brewery Sussex Leagues"]
         else:
             competition_id = competition_ids["London & SE Division"]
@@ -168,21 +183,39 @@ def _parse_results_card_score(score_box):
     if not score_box:
         return [None, None]
 
-    walkover_node = score_box.find('span', string=re.compile(r'^(HWO|AWO)$'))
-    if walkover_node:
-        return _parse_score_text(walkover_node.get_text(strip=True))
-
-    raw_score_text = score_box.get_text(" ", strip=True)
-    parsed_raw_score = _parse_score_text(raw_score_text)
-    if parsed_raw_score != [None, None]:
-        return parsed_raw_score
-
     home_score_node = score_box.select_one('a.coh-style-numeric-score')
     away_score_node = score_box.select_one('a.coh-style-numeric-right')
     if home_score_node and away_score_node:
-        return _parse_score_text(
-            f"{home_score_node.get_text(strip=True)} - {away_score_node.get_text(strip=True)}"
-        )
+        home_text = home_score_node.get_text(strip=True)
+        away_text = away_score_node.get_text(strip=True)
+
+        # Numeric score first (normal played fixture)
+        parsed_pair = _parse_score_text(f"{home_text} - {away_text}")
+        if parsed_pair != [None, None]:
+            return parsed_pair
+
+        # Explicit walkover encoding only (HWO/AWO) from visible score cells
+        home_token = re.sub(r"[^A-Z0-9]", "", home_text.upper())
+        away_token = re.sub(r"[^A-Z0-9]", "", away_text.upper())
+        if home_token in {"HWO", "AWO"}:
+            return _parse_score_text(home_token)
+        if away_token in {"HWO", "AWO"}:
+            return _parse_score_text(away_token)
+
+        # Support historic visible WO cell format ['', 'WO'] / ['WO', '']
+        if home_token in {"WO", "WO"} and not away_token:
+            return ["WO", ""]
+        if away_token in {"WO", "WO"} and not home_token:
+            return ["", "WO"]
+
+    raw_score_text = score_box.get_text(" ", strip=True)
+    raw_token = re.sub(r"[^A-Z0-9]", "", raw_score_text.upper())
+    if raw_token in {"HWO", "AWO"}:
+        return _parse_score_text(raw_token)
+
+    parsed_raw_score = _parse_score_text(raw_score_text)
+    if parsed_raw_score != [None, None]:
+        return parsed_raw_score
 
     return [None, None]
 
@@ -722,15 +755,23 @@ def update_league_data(squad=1, season="2025/26", consolidated_file="data/matche
 def update_multiple_seasons_and_squads(seasons=None, squads=None, consolidated_file="data/matches.json"):
     """Update data for multiple seasons and squads."""
     
-    if seasons is None:
-        seasons = ["2024/25", "2025/26"]
     if squads is None:
         squads = [1, 2]
+    if seasons is None:
+        # Derive all seasons that have at least one squad defined
+        all_seasons = set()
+        for squad_seasons in divisions.values():
+            all_seasons.update(squad_seasons.keys())
+        seasons = sorted(all_seasons)
     
     total_new_matches = 0
     
     for season in seasons:
         for squad in squads:
+            # Skip combinations not defined in the divisions mapping
+            if season not in divisions.get(squad, {}):
+                logging.debug(f"Skipping {season} squad {squad} - not in divisions mapping")
+                continue
             try:
                 logging.info(f"\n=== Updating {season} Squad {squad} ===")
                 all_matches, new_matches = update_league_data(
@@ -743,6 +784,9 @@ def update_multiple_seasons_and_squads(seasons=None, squads=None, consolidated_f
             except Exception as e:
                 logging.error(f"Error updating {season} squad {squad}: {e}")
     
+    # Generate frontend-ready league tables JSON after all updates
+    build_league_tables_json(output_file="data/league_tables.json")
+    
     # Final summary
     final_matches = load_consolidated_matches(consolidated_file)
     logging.info(f"\n=== SUMMARY ===")
@@ -750,6 +794,83 @@ def update_multiple_seasons_and_squads(seasons=None, squads=None, consolidated_f
     logging.info(f"Total matches in consolidated file: {len(final_matches)}")
     
     return final_matches
+
+def get_current_season_label():
+    """Return current season label in YYYY/YY format (season starts in July)."""
+    now = datetime.now()
+    start_year = now.year if now.month >= 7 else now.year - 1
+    return f"{start_year}/{str((start_year + 1) % 100).zfill(2)}"
+
+def normalize_season_arg(season):
+    """Normalize CLI season argument to configured YYYY/YY labels (e.g., 2025/26)."""
+    if not season:
+        return None
+
+    season = season.strip()
+
+    if re.match(r"^\d{4}/\d{2}$", season):
+        return season
+
+    dash_match = re.match(r"^(\d{4})-(\d{4})$", season)
+    if dash_match:
+        start_year = int(dash_match.group(1))
+        end_year = int(dash_match.group(2))
+        if end_year == start_year + 1:
+            return f"{start_year}/{str(end_year % 100).zfill(2)}"
+
+    return season
+
+
+def get_configured_seasons(squads=None):
+    """Return sorted configured seasons, optionally constrained to specific squads."""
+    if squads is None:
+        squads = divisions.keys()
+
+    configured = set()
+    for squad in squads:
+        configured.update(divisions.get(squad, {}).keys())
+    return sorted(configured)
+
+def ensure_historical_league_table_cache(current_season=None):
+    """Ensure historical league table CSVs exist; fetch only missing historical files."""
+    if current_season is None:
+        current_season = get_current_season_label()
+
+    for squad, squad_seasons in divisions.items():
+        for season in sorted(squad_seasons.keys()):
+            if season == current_season:
+                continue
+
+            csv_file = f"data/league_table_{season.replace('/', '_')}_squad_{squad}.csv"
+            if os.path.exists(csv_file):
+                continue
+
+            try:
+                logging.info(f"Caching historical league table for {season} squad {squad}")
+                table = fetch_league_table(squad=squad, season=season)
+                if table is not None:
+                    os.makedirs("data", exist_ok=True)
+                    table.to_csv(csv_file, index=False)
+                    logging.info(f"Cached historical table: {csv_file}")
+                else:
+                    logging.warning(f"No historical table data returned for {season} squad {squad}")
+            except Exception as e:
+                logging.error(f"Error caching historical table for {season} squad {squad}: {e}")
+
+def update_current_season_with_historical_cache(squads=None, consolidated_file="data/matches.json"):
+    """Cache historical league tables once, then update current season only."""
+    if squads is None:
+        squads = [1, 2]
+
+    current_season = get_current_season_label()
+    logging.info(f"Current season resolved as {current_season}")
+
+    ensure_historical_league_table_cache(current_season=current_season)
+    return update_multiple_seasons_and_squads(
+        seasons=[current_season],
+        squads=squads,
+        consolidated_file=consolidated_file,
+    )
 
 def generate_data_report(consolidated_file="data/matches.json"):
     """Generate a report of data completeness."""
@@ -822,35 +943,161 @@ def save_summary_match_data(matches, output_file="data/matches_summary.csv"):
     print(f'Saved to {output_file}')
     print(f'League table data available separately in data/league_table_*.csv files')
 
+def build_league_tables_json(output_file="data/league_tables.json"):
+    """Build league_tables.json from CSV league table files for frontend display."""
+    
+    import glob
+    
+    # Find all league table CSV files
+    csv_pattern = "data/league_table_*.csv"
+    csv_files = sorted(glob.glob(csv_pattern))
+    
+    if not csv_files:
+        logging.warning(f"No league table CSV files found matching {csv_pattern}")
+        return {}
+    
+    # Dictionary to build JSON structure
+    league_data = {"seasons": []}
+    
+    # Parse each CSV file
+    for csv_file in csv_files:
+        try:
+            # Extract season and squad from filename
+            # Format: data/league_table_YYYY_YY_squad_N.csv
+            filename = os.path.basename(csv_file)
+            parts = filename.replace('league_table_', '').replace('.csv', '').split('_')
+            
+            if len(parts) < 4:
+                logging.warning(f"Skipping file with unexpected format: {filename}")
+                continue
+            
+            # Reconstruct season string (e.g., 2025_26 -> 2025/26)
+            season_str = f"{parts[0]}/{parts[1]}"
+            
+            # Get squad number (last part after 'squad')
+            squad = parts[-1]
+            
+            # Read CSV
+            df = pd.read_csv(csv_file)
+            
+            # Get division info from the divisions mapping
+            squad_int = int(squad)
+            division = divisions.get(squad_int, {}).get(season_str, "Unknown")
+            
+            # Map to squad name
+            squad_name = f"{'1st' if squad_int == 1 else '2nd'} Team"
+            
+            # Convert DataFrame rows to dictionaries
+            tables = []
+            for _, row in df.iterrows():
+                tb = int(row.get('TB', 0)) if pd.notna(row.get('TB')) else 0
+                lb = int(row.get('LB', 0)) if pd.notna(row.get('LB')) else 0
+                table_entry = {
+                    "position": int(row.get('#', 0)) if pd.notna(row.get('#')) else 0,
+                    "team": row.get('TEAM', ''),
+                    "played": int(row.get('P', 0)) if pd.notna(row.get('P')) else 0,
+                    "won": int(row.get('W', 0)) if pd.notna(row.get('W')) else 0,
+                    "drawn": int(row.get('D', 0)) if pd.notna(row.get('D')) else 0,
+                    "lost": int(row.get('L', 0)) if pd.notna(row.get('L')) else 0,
+                    "pointsFor": int(row.get('PF', 0)) if pd.notna(row.get('PF')) else 0,
+                    "pointsAgainst": int(row.get('PA', 0)) if pd.notna(row.get('PA')) else 0,
+                    "pointsDifference": int(row.get('PD', 0)) if pd.notna(row.get('PD')) else 0,
+                    "triesBefore": tb,
+                    "triesLost": lb,
+                    "bonusPoints": tb + lb,
+                    "points": int(row.get('Pts', 0)) if pd.notna(row.get('Pts')) else 0,
+                }
+                tables.append(table_entry)
+            
+            # Initialize season if needed
+            if season_str not in league_data:
+                league_data[season_str] = {}
+                league_data["seasons"].append(season_str)
+            
+            # Add squad data
+            league_data[season_str][squad] = {
+                "squad": squad_name,
+                "division": division,
+                "tables": tables
+            }
+            
+            logging.info(f"Loaded {len(tables)} teams from {filename}")
+            
+        except Exception as e:
+            logging.error(f"Error processing {csv_file}: {e}")
+            continue
+    
+    # Sort seasons in descending order (newer first)
+    league_data["seasons"] = sorted(league_data["seasons"], reverse=True)
+    
+    # Save to JSON
+    try:
+        os.makedirs(os.path.dirname(output_file) or ".", exist_ok=True)
+        with open(output_file, 'w') as f:
+            json.dump(league_data, f, indent=2)
+        logging.info(f"Successfully generated {output_file} with {len(league_data['seasons'])} seasons")
+        print(f"Generated {output_file}")
+        return league_data
+    except Exception as e:
+        logging.error(f"Error saving {output_file}: {e}")
+        return {}
+
 def main():
     """Main function to fetch and save match data."""
     parser = argparse.ArgumentParser(description="Scrape England Rugby match data.")
     parser.add_argument("--squad", required=False, help="Squad (1 or 2)", default=None, type=int)
     parser.add_argument("--season", required=False, help="Season (e.g., 2025/26)", default=None)
     parser.add_argument("--file", required=False, help="Consolidated match data file", default="data/matches.json")
-    parser.add_argument("--all", action="store_true", help="Update all seasons and squads")
+    parser.add_argument("--all", action="store_true", help="Full refresh for all configured seasons and squads")
 
     args = parser.parse_args()
 
+    if args.squad is not None and args.squad not in divisions:
+        parser.error(f"Invalid --squad value '{args.squad}'. Valid options: {sorted(divisions.keys())}")
+
+    normalized_season = normalize_season_arg(args.season)
+
+    if normalized_season:
+        valid_seasons = get_configured_seasons([args.squad] if args.squad else None)
+        if normalized_season not in valid_seasons:
+            parser.error(
+                f"Invalid --season value '{args.season}'. "
+                f"Valid options: {', '.join(valid_seasons)}"
+            )
+
     if args.all:
-        # Update all seasons and squads
+        # Full refresh for all seasons and squads
         update_multiple_seasons_and_squads(consolidated_file=args.file)
-    elif args.squad and args.season:
+    elif args.squad is not None and normalized_season:
         # Update specific squad and season
         all_matches, new_matches = update_league_data(
             squad=args.squad, 
-            season=args.season, 
+            season=normalized_season,
             consolidated_file=args.file
         )
         logging.info(f"Update complete: {len(new_matches)} new matches added")
-    else:
-        # Default: update current season for both squads
-        current_season = "2025/26"
-        logging.info(f"No specific squad/season specified. Updating {current_season} for both squads...")
+    elif normalized_season:
+        # Update all squads configured for a specific season
+        logging.info(f"Updating all configured squads for season {normalized_season}")
         update_multiple_seasons_and_squads(
-            seasons=[current_season], 
-            squads=[1], 
-            consolidated_file=args.file
+            seasons=[normalized_season],
+            squads=None,
+            consolidated_file=args.file,
+        )
+    elif args.squad is not None:
+        # Update all seasons configured for a specific squad
+        logging.info(f"Updating all configured seasons for squad {args.squad}")
+        update_multiple_seasons_and_squads(
+            seasons=None,
+            squads=[args.squad],
+            consolidated_file=args.file,
+        )
+    else:
+        # Default: cache historical seasons once, then update current season only
+        logging.info("No specific squad/season specified. Caching historical league tables and updating current season...")
+        update_current_season_with_historical_cache(
+            squads=[1, 2],
+            consolidated_file=args.file,
         )
 
     # Generate data quality report
@@ -860,6 +1107,12 @@ def main():
     
     # Save summary CSV
     save_summary_match_data(load_consolidated_matches(args.file), output_file="data/matches_summary.csv")
+    
+    # Generate frontend-ready league tables JSON
+    print("="*50)
+    print("Generating frontend league tables JSON...")
+    build_league_tables_json(output_file="data/league_tables.json")
+    print("="*50 + "\n")
 
 if __name__ == "__main__":
     main()

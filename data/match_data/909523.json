@@ -1,0 +1,60 @@
+{
+    "match_id": "909523",
+    "season": "2021-2022",
+    "league": "Harvey\u2019s Brewery Sussex 1",
+    "date": "2021-10-30",
+    "teams": [
+        "East Grinstead",
+        "Lewes"
+    ],
+    "score": [
+        87,
+        10
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7134.png",
+        "https://images.englandrugby.com/club_images/12206.png"
+    ],
+    "players": [
+        {
+            "15": "Fergus Wood",
+            "14": "Jack Skipworth",
+            "13": "Max Crawley-Moore",
+            "12": "Ryan Morlen",
+            "11": "Jake Radcliffe",
+            "10": "Daniel Poulton",
+            "9": "George Johnson",
+            "8": "Alexander Jackson",
+            "7": "Liam Casey",
+            "6": "Daniel Billin",
+            "5": "Ryan McGealy",
+            "4": "John Peaty",
+            "3": "Devon Frost",
+            "2": "Benjamin Tottman",
+            "1": "Sean Morgan",
+            "S1": "Joshua Brimecombe",
+            "S2": "Connor Leggat",
+            "S3": "Oliver Billin"
+        },
+        {
+            "15": "Rafferty Green",
+            "14": "Lewis Austin",
+            "13": "Andy Carmichael",
+            "12": "Kieran Morris",
+            "11": "Joe Reid",
+            "10": "Oliver Graham",
+            "9": "Elliot Moule",
+            "8": "Lewis Evans",
+            "7": "Stewart Dickens",
+            "6": "Dominic Lunniss",
+            "5": "James Sale",
+            "4": "Chris Gorbell",
+            "3": "Mouhammed Bacha",
+            "2": "Oliver Bowry",
+            "1": "Fearghus Gage",
+            "S1": "Kane Dadswell",
+            "S2": "Robert Williams",
+            "S3": "Benjamin Bishop"
+        }
+    ]
+}

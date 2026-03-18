@@ -1,0 +1,60 @@
+{
+    "match_id": "909515",
+    "season": "2021-2022",
+    "league": "Harvey\u2019s Brewery Sussex 1",
+    "date": "2021-10-16",
+    "teams": [
+        "Hove II",
+        "Lewes"
+    ],
+    "score": [
+        19,
+        41
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/10504.png",
+        "https://images.englandrugby.com/club_images/12206.png"
+    ],
+    "players": [
+        {
+            "15": "Sean Shepherd",
+            "14": "Joel Perry",
+            "13": "Jake Lytle",
+            "12": "Ashley Parker",
+            "11": "Darren Locke",
+            "10": "Carlos Casanova",
+            "9": "Jerome Pye",
+            "8": "Ben Stephens",
+            "7": "Ben Anderson",
+            "6": "James Watson",
+            "5": "Ian Saunders",
+            "4": "Reuben Atken-Till",
+            "3": "Tyler Hooper",
+            "2": "Jacob Pavlides",
+            "1": "Steve Klein",
+            "S1": "Ollie Noel",
+            "S2": "James Duckett",
+            "S3": "Danny O'Conner"
+        },
+        {
+            "15": "Thomas Awdry",
+            "14": "Joe Reid",
+            "13": "Andy Carmichael",
+            "12": "Elliot Moule",
+            "11": "Rafferty Green",
+            "10": "Angelo Errigo",
+            "9": "Angus Taylor",
+            "8": "Kieran Morris",
+            "7": "Dominic Lunniss",
+            "6": "Stewart Dickens",
+            "5": "James Sale",
+            "4": "Tom Bates",
+            "3": "Kane Dadswell",
+            "2": "Oliver Bowry",
+            "1": "Mouhammed Bacha",
+            "S1": "Jordan Whiting",
+            "S2": "Lewis Austin",
+            "S3": "William Shiell"
+        }
+    ]
+}

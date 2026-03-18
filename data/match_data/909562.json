@@ -1,0 +1,60 @@
+{
+    "match_id": "909562",
+    "season": "2021-2022",
+    "league": "Harvey\u2019s Brewery Sussex 1",
+    "date": "2022-02-19",
+    "teams": [
+        "Lewes",
+        "Burgess Hill"
+    ],
+    "score": [
+        8,
+        15
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/12206.png",
+        "https://images.englandrugby.com/club_images/3659.png"
+    ],
+    "players": [
+        {
+            "15": "Thomas Awdry",
+            "14": "Joe Reid",
+            "13": "Andy Carmichael",
+            "12": "Elliot Moule",
+            "11": "Zachary Battle-Welch",
+            "10": "William Shiell",
+            "9": "Angus Taylor",
+            "8": "Stewart Dickens",
+            "7": "Lewis Austin",
+            "6": "Lewis Evans",
+            "5": "James Sale",
+            "4": "Edward King",
+            "3": "Fearghus Gage",
+            "2": "Benjamin Bishop",
+            "1": "Charlie Moran",
+            "S1": "Kane Dadswell",
+            "S2": "Oliver Bowry",
+            "S3": "Rafferty Green"
+        },
+        {
+            "15": "Archie Anscombe",
+            "14": "Matheus Gava",
+            "13": "Sailosi Masiwale",
+            "12": "Jim Waqanibau",
+            "11": "Tomer Teichman",
+            "10": "Ollie Lewis",
+            "9": "Massimo Hiller",
+            "8": "David Wattam",
+            "7": "Benjamin Dewey",
+            "6": "Joseph Brown",
+            "5": "Charlie Lewis",
+            "4": "Benjamin Dronfield",
+            "3": "Robert Blake",
+            "2": "Andrew Mackay",
+            "1": "Lou Jones",
+            "S1": "Kyle Tucker",
+            "S2": "Joseph Schofield",
+            "S3": "Alfred Naiitaka"
+        }
+    ]
+}

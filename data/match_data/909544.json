@@ -1,0 +1,60 @@
+{
+    "match_id": "909544",
+    "season": "2021-2022",
+    "league": "Harvey\u2019s Brewery Sussex 1",
+    "date": "2022-01-15",
+    "teams": [
+        "Uckfield",
+        "Burgess Hill"
+    ],
+    "score": [
+        40,
+        5
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/23445.png",
+        "https://images.englandrugby.com/club_images/3659.png"
+    ],
+    "players": [
+        {
+            "15": "Kian Saunders",
+            "14": "Joel Andrews",
+            "13": "Name withheld",
+            "12": "Joseph Pratt",
+            "11": "Callum Harvey",
+            "10": "Luke Yaafe",
+            "9": "Charlie Buckland",
+            "8": "Craig Marshall",
+            "7": "Matthew Evans",
+            "6": "Rob Mayer",
+            "5": "Stephen Hartfield",
+            "4": "Terry Funnell",
+            "3": "Davy Armstrong",
+            "2": "Alfie Richardson",
+            "1": "Max Currums",
+            "S1": "Harry Smith",
+            "S2": "Joel Forward",
+            "S3": "Kane Drummond"
+        },
+        {
+            "15": "Albert Roko",
+            "14": "George Yeates",
+            "13": "Atama Raura",
+            "12": "Jim Waqanibau",
+            "11": "Ben Mclaren",
+            "10": "Ollie Lewis",
+            "9": "Massimo Hiller",
+            "8": "David Wattam",
+            "7": "Timothy Daniel",
+            "6": "Benjamin Dronfield",
+            "5": "Kyle Tucker",
+            "4": "Harvey Hays",
+            "3": "Lee Collingbourne",
+            "2": "Andrew Mackay",
+            "1": "Robert Blake",
+            "S1": "Joseph Brown",
+            "S2": "Joseph Schofield",
+            "S3": "Eparama Tuvuki"
+        }
+    ]
+}

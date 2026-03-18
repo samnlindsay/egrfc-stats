@@ -1,11 +1,6 @@
 /* ===== MOBILE RESPONSIVE ===== */
 @media (max-width: 768px) {
 
-    .tab-pane {
-        min-width: 500px;
-        /* Adjust container to accommodate scaled content */
-    }
-
     .filters-container {
         grid-template-columns: 1fr;
         gap: 0.75rem;
@@ -13,12 +8,19 @@
 
     .input-group {
         min-width: 100%;
+        flex-direction: column;
     }
 
     .input-group-text {
         min-width: 80px;
         flex: 0 0 80px;
         font-size: 0.8rem;
+        width: 100%;
+        border-radius: 0.375rem 0.375rem 0 0 !important;
+    }
+
+    .btn-group {
+        width: 100%;
     }
 
     .btn-group .btn {
@@ -29,6 +31,8 @@
     .bootstrap-select .dropdown-toggle {
         font-size: 0.8rem !important;
         padding: 0.3rem 0.5rem !important;
+        border-radius: 0 0 0.375rem 0.375rem !important;
+        border-left: 1px solid #ced4da !important;
     }
 
     .filter-panel.expanded~.filter-panel-backdrop {
@@ -36,47 +40,110 @@
         visibility: visible;
     }
 
-    /* Mobile dropdown adjustments */
-    .nav-tabs .dropdown-menu {
-        font-size: 1rem !important;
-        /* Smaller font on mobile */
-        min-width: 100px !important;
-        /* Smaller minimum width */
-        max-width: calc(100vw - 40px) !important;
-        /* Prevent overflow */
+    .league-season-picker .input-group {
+        flex-direction: row;
+        min-width: 0;
     }
 
-    .nav-tabs .dropdown-item {
-        padding: 0.3rem 0.6rem !important;
-        /* Smaller padding on mobile */
-        font-size: 1rem !important;
-        /* Smaller font */
+    .league-season-picker .input-group-text {
+        width: auto;
+        min-width: 72px;
+        border-radius: 0.375rem 0 0 0.375rem !important;
     }
 
+    .league-season-picker .bootstrap-select .dropdown-toggle {
+        border-radius: 0 0.375rem 0.375rem 0 !important;
+        border-left: none !important;
+        min-height: 34px;
+        line-height: 1.1;
+        white-space: nowrap !important;
+    }
+
+    /* Page styling for mobile */
+    .page-content {
+        padding-bottom: 1rem;
+    }
+
+    .row {
+        margin-left: -0.5rem;
+        margin-right: -0.5rem;
+    }
+
+    .col-md-4, .col-md-6, .col-lg-3, .col-lg-4, .col-lg-6 {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
+
+    .card {
+        margin-bottom: 0.5rem;
+    }
+
+    table {
+        font-size: 0.8rem;
+    }
+
+    /* Navbar adjustments */
+    .navbar {
+        padding: 0.5rem 0.75rem !important;
+    }
+
+    .navbar-brand {
+        font-size: 1.1rem;
+    }
+
+    .navbar-nav .nav-link {
+        font-size: 0.95rem;
+        padding: 0.5rem !important;
+    }
 }
 
 /* Very narrow screens */
 @media (max-width: 480px) {
 
-    .tab-pane {
-        min-width: 400px;
+    .navbar-brand {
+        font-size: 1rem;
     }
 
-    .nav-tabs .dropdown-menu {
-        position: fixed !important;
-        /* Use fixed positioning */
-        z-index: 9999 !important;
-        min-width: 90px !important;
-        /* Even smaller minimum */
-        max-width: calc(100vw - 20px) !important;
-        /* Allow some margin */
-        font-size: 0.9rem !important;
-        /* Even smaller font */
-        /* Remove left/right positioning - let JavaScript handle it */
+    .navbar-nav .nav-link {
+        font-size: 0.85rem;
+        padding: 0.25rem !important;
     }
 
-    .nav-tabs .dropdown-item {
-        padding: 0.25rem 0.5rem !important;
+    .page-content {
+        padding: 1rem 0.5rem;
     }
 
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    h2 {
+        font-size: 1.25rem;
+    }
+
+    h3 {
+        font-size: 1.1rem;
+    }
+
+    .card-body {
+        padding: 0.75rem;
+    }
+
+    table {
+        font-size: 0.75rem;
+    }
+
+    .input-group-text {
+        font-size: 0.7rem;
+    }
+
+    .btn-group .btn {
+        font-size: 0.7rem;
+        padding: 0.25rem 0.1rem;
+    }
+
+    .league-season-picker {
+        min-width: 180px !important;
+        max-width: 240px !important;
+    }
 }

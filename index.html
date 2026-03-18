@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EGRFC Player Stats</title>
+    <title>EGRFC Statistics</title>
 
     <!-- External Dependencies -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -31,7 +31,38 @@
 </head>
 
 <body>
-    <!-- Bottom Filter Panel -->
+    <!-- TOP NAVIGATION BAR -->
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: var(--primary-color); padding: 0.75rem 1.5rem;">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#" data-page="home">
+                <strong>EGRFC Statistics</strong>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#" data-page="home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" data-page="league-tables">League Tables</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" data-page="season-results">Season Results</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" data-page="squad-metrics">Squad Metrics</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" data-page="player-profiles">Player Profiles</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="graphicsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Graphics
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="graphicsDropdown">
+                            <li><a class="dropdown-item" href="#" data-page="league-graphics">League Analysis</a></li>
+                            <li><a class="dropdown-item" href="#" data-page="squad-graphics">Squad Graphics</a></li>
+                            <li><a class="dropdown-item" href="#" data-page="video-analysis">Video Analysis</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- BOTTOM FILTER PANEL (shared across all pages) -->
     <div id="filterPanel" class="filter-panel">
         <div class="filter-panel-header" id="filterPanelToggle">
             <button class="filter-panel-toggle" type="button">
@@ -41,98 +72,8 @@
         </div>
     
         <div class="filter-panel-content">
-            <div class="filters-container">
-                <!-- SQUAD -->
-                <div class="filter-item">
-                    <div class="input-group">
-                        <span class="input-group-text">Squad</span>
-                        <div class="btn-group flex-fill" role="group">
-                            <input type="radio" class="btn-check" name="squadRadio" id="squadAll" value="" checked>
-                            <label class="btn btn-outline-dark" for="squadAll">All</label>
-    
-                            <input type="radio" class="btn-check" name="squadRadio" id="squad1st" value="1st">
-                            <label class="btn btn-outline-primary" for="squad1st">1st</label>
-    
-                            <input type="radio" class="btn-check" name="squadRadio" id="squad2nd" value="2nd">
-                            <label class="btn btn-outline-secondary" for="squad2nd">2nd</label>
-                        </div>
-                    </div>
-                </div>
-    
-                <!-- COMPETITION -->
-                <div class="filter-item">
-                    <div class="input-group">
-                        <span class="input-group-text">Competition</span>
-                        <div class="btn-group flex-fill" role="group">
-                            <input type="checkbox" class="btn-check" name="gameTypeCheck" id="gameTypeLeague" value="League"
-                                checked>
-                            <label class="btn btn-outline-primary" for="gameTypeLeague">League</label>
-    
-                            <input type="checkbox" class="btn-check" name="gameTypeCheck" id="gameTypeCup" value="Cup"
-                                checked>
-                            <label class="btn btn-outline-danger" for="gameTypeCup">Cup</label>
-    
-                            <input type="checkbox" class="btn-check" name="gameTypeCheck" id="gameTypeFriendly"
-                                value="Friendly" checked>
-                            <label class="btn btn-outline-success" for="gameTypeFriendly">Friendly</label>
-                        </div>
-                    </div>
-                </div>
-    
-                <!-- SEASON (Multi-select) -->
-                <div class="filter-item">
-                    <div class="input-group">
-                        <span class="input-group-text">Season</span>
-                        <select id="seasonSelect" class="selectpicker form-control flex-fill" multiple
-                            title="Select seasons" data-actions-box="true" data-selected-text-format="count > 2">
-                            <option value="2025/26">2025/26</option>
-                            <option value="2024/25">2024/25</option>
-                            <option value="2023/24">2023/24</option>
-                            <option value="2022/23">2022/23</option>
-                            <option value="2021/22">2021/22</option>
-                            <option value="2020/21" data-subtext="COVID" disabled>2020/21</option>
-                            <option value="2019/20" data-subtext="Limited data">2019/20</option>
-                            <option value="2018/19" data-subtext="Limited data">2018/19</option>
-                            <option value="2017/18" data-subtext="Limited data">2017/18</option>
-                            <option value="2016/17" data-subtext="Limited data">2016/17</option>
-                        </select>
-                    </div>
-                </div>
-    
-                <!-- POSITIONS (Multi-select) -->
-                <div class="filter-item">
-                    <div class="input-group">
-                        <span class="input-group-text">Position</span>
-                        <select id="positionSelect" class="selectpicker form-control flex-fill" multiple
-                            title="Select positions" data-actions-box="true" data-selected-text-format="count > 2">
-                            <option value="Prop">Prop</option>
-                            <option value="Hooker">Hooker</option>
-                            <option value="Second Row">Second Row</option>
-                            <option value="Flanker">Flanker</option>
-                            <option value="Number 8">Number 8</option>
-                            <option data-divider="true"></option>
-    
-                            <option value="Scrum Half">Scrum Half</option>
-                            <option value="Fly Half">Fly Half</option>
-                            <option value="Centre">Centre</option>
-                            <option value="Wing">Wing</option>
-                            <option value="Full Back">Full Back</option>
-                            <option data-divider="true"></option>
-                            <option value="Bench">Bench</option>
-                        </select>
-                    </div>
-                </div>
-    
-                <!-- INCLUDE BENCH TOGGLE -->
-                <div class="filter-item">
-                    <div class="input-group mt-2">
-                        <label class="form-check-label ms-2 mb-2" for="includeBenchSwitch">Include bench</label>
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" id="includeBenchSwitch" checked
-                                style="margin: 0;">
-                        </div>
-                    </div>
-                </div>
+            <div class="filters-container" id="filtersContainer">
+                <!-- Filters will be dynamically populated based on current page -->
             </div>
         </div>
     </div>
@@ -140,82 +81,355 @@
     <!-- Filter Panel Backdrop (for mobile) -->
     <div id="filterPanelBackdrop" class="filter-panel-backdrop"></div>
 
-    <!-- Main content area -->
-    <div id="mainContent" class="main-content">
-        <!-- Tabs navigation -->
-        <ul class="nav nav-tabs" id="chartTabs" role="tablist">
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="results-tab" data-bs-toggle="tab" data-bs-target="#results-content"
-                    type="button" role="tab">
-                    Results
-                </button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="team-sheets-tab" data-bs-toggle="tab" data-bs-target="#team-sheets-content"
-                    type="button" role="tab">
-                    Team Sheets
-                </button>
-            </li>
-            <li class="nav-item dropdown" role="presentation">
-                <button class="nav-link dropdown-toggle active" id="player-stats-dropdown" data-bs-toggle="dropdown"
-                    type="button" role="button" aria-expanded="false">
-                    Player Stats
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#" data-chart-type="appearances"
-                            data-bs-target="#player-stats-content">Appearances</a></li>
-                    <li><a class="dropdown-item" href="#" data-chart-type="captains"
-                            data-bs-target="#player-stats-content">Captains</a></li>
-                    <li><a class="dropdown-item" href="#" data-chart-type="point-scorers"
-                            data-bs-target="#player-stats-content">Scorers</a></li>
-                    <li><a class="dropdown-item" href="#" data-chart-type="cards"
-                            data-bs-target="#player-stats-content">Cards</a></li>
-                </ul>
-            </li>
-            <li class="nav-item dropdown" role="presentation">
-                <button class="nav-link dropdown-toggle" id="set-piece-dropdown" data-bs-toggle="dropdown" type="button"
-                    role="button" aria-expanded="false">
-                    Set Piece
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#" data-chart-type="lineout"
-                            data-bs-target="#set-piece-content">Lineout</a>
-                    </li>
-                    <li><a class="dropdown-item" href="#" data-chart-type="scrum"
-                            data-bs-target="#set-piece-content">Scrum</a>
-                    </li>
-                </ul>
-            </li>
-            <li class="nav-item dropdown">
-                <button class="nav-link dropdown-toggle" id="league-dropdown" data-bs-toggle="dropdown" type="button"
-                    role="button">League</button>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#" data-chart-type="league-results"
-                        data-bs-target="#league-content">League Results</a></li>
-                    <li><a class="dropdown-item" href="#" data-chart-type="league-analysis" data-bs-target="#league-content">
-                        1st XV Squad Analysis</a></li>
-                </ul>
-            </li>
-        </ul>
-    
-        <!-- Tabs content -->
-        <div class="tab-content" id="chartTabsContent">
-            <div class="tab-pane fade" id="results-content" role="tabpanel">
-                <div id="results-vis"></div>
-            </div>
-            <div class="tab-pane fade" id="team-sheets-content" role="tabpanel">
-                <div id="team-sheets-vis"></div>
-            </div>
-            <div class="tab-pane fade show active" id="player-stats-content" role="tabpanel">
-                <div id="player-stats-vis"></div>
-            </div>
-            <div class="tab-pane fade" id="set-piece-content" role="tabpanel">
-                <div id="set-piece-vis"></div>
-            </div>
-            <div class="tab-pane fade" id="league-content" role="tabpanel">
-                <div id="league-vis"></div>
+    <!-- MAIN CONTENT AREA -->
+    <div class="main-content">
+
+        <!-- ========== HOME PAGE ========== -->
+        <div id="page-home" class="page-content active">
+            <div style="padding: 2rem 1rem; max-width: 1200px; margin: 0 auto;">
+                <h1 style="color: var(--primary-color); margin-bottom: 1rem;">East Grinstead RFC Statistics</h1>
+                <p style="font-size: 1.1rem; margin-bottom: 2rem;">Welcome to the EGRFC Statistics portal. Explore team performance, player stats, and league standings.</p>
+                
+                <div class="row" style="margin-bottom: 2rem;">
+                    <div class="col-md-6 col-lg-3 mb-3">
+                        <div class="card" style="border-top: 4px solid var(--primary-color); cursor: pointer;" onclick="navigateTo('league-tables')">
+                            <div class="card-body">
+                                <h5 class="card-title">League Tables</h5>
+                                <p class="card-text">Current season standings for 1st and 2nd teams</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3 mb-3">
+                        <div class="card" style="border-top: 4px solid var(--accent-color); cursor: pointer;" onclick="navigateTo('season-results')">
+                            <div class="card-body">
+                                <h5 class="card-title">Season Results</h5>
+                                <p class="card-text">Game results and performance metrics</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3 mb-3">
+                        <div class="card" style="border-top: 4px solid var(--green-color); cursor: pointer;" onclick="navigateTo('squad-metrics')">
+                            <div class="card-body">
+                                <h5 class="card-title">Squad Metrics</h5>
+                                <p class="card-text">Player counts, positions, and squad analysis</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3 mb-3">
+                        <div class="card" style="border-top: 4px solid var(--red-color); cursor: pointer;" onclick="navigateTo('player-profiles')">
+                            <div class="card-body">
+                                <h5 class="card-title">Player Profiles</h5>
+                                <p class="card-text">Individual player stats and information</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h2 style="color: var(--primary-color); margin-top: 2rem; margin-bottom: 1rem;">Recent Highlights</h2>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h6 class="card-subtitle mb-2 text-muted">1st XV Key Stats</h6>
+                                <p class="card-text"><strong>Games Played:</strong> 18 | <strong>Wins:</strong> 12 | <strong>Losses:</strong> 6</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h6 class="card-subtitle mb-2 text-muted">2nd XV Key Stats</h6>
+                                <p class="card-text"><strong>Games Played:</strong> 16 | <strong>Wins:</strong> 10 | <strong>Losses:</strong> 6</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+
+        <!-- ========== LEAGUE TABLES PAGE ========== -->
+        <div id="page-league-tables" class="page-content">
+            <div style="padding: 2rem 1rem; max-width: 1200px; margin: 0 auto;">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+                    <h1 style="color: var(--primary-color); margin: 0;">League Tables</h1>
+                    <div class="filter-item league-season-picker" style="min-width: 220px; max-width: 320px; margin-bottom: 0;">
+                        <div class="input-group">
+                            <span class="input-group-text">Season</span>
+                            <select id="leagueTableSeasonSelect" class="selectpicker form-control flex-fill" data-size="8">
+                                <!-- Options populated dynamically by JavaScript -->
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row" id="leagueTablesContainer">
+                    <!-- Tables will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== SEASON RESULTS PAGE ========== -->
+        <div id="page-season-results" class="page-content">
+            <div style="padding: 2rem 1rem; max-width: 1200px; margin: 0 auto;">
+                <h1 style="color: var(--primary-color); margin-bottom: 1rem;">Season Results</h1>
+                
+                <div class="row mb-4">
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="card-header" style="background: var(--primary-color); color: white;">
+                                <strong>1st XV - 2025/26</strong>
+                            </div>
+                            <div class="card-body">
+                                <p><strong>Overall:</strong> 12 Wins, 0 Draws, 6 Losses</p>
+                                <p><strong>Home:</strong> 7 Wins, 0 Draws, 2 Losses</p>
+                                <p><strong>Away:</strong> 5 Wins, 0 Draws, 4 Losses</p>
+                                <p><strong>Average Points For:</strong> 23.3</p>
+                                <p><strong>Average Points Against:</strong> 17.2</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="card-header" style="background: var(--primary-color); color: white;">
+                                <strong>2nd XV - 2025/26</strong>
+                            </div>
+                            <div class="card-body">
+                                <p><strong>Overall:</strong> 10 Wins, 0 Draws, 6 Losses</p>
+                                <p><strong>Home:</strong> 6 Wins, 0 Draws, 2 Losses</p>
+                                <p><strong>Away:</strong> 4 Wins, 0 Draws, 4 Losses</p>
+                                <p><strong>Average Points For:</strong> 23.8</p>
+                                <p><strong>Average Points Against:</strong> 18.1</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="season-results-placeholder" style="background: white; padding: 2rem; border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); text-align: center; color: #999; margin-top: 2rem;">
+                    Results timeline and trend charts will be displayed here
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== SQUAD METRICS PAGE ========== -->
+        <div id="page-squad-metrics" class="page-content">
+            <div style="padding: 2rem 1rem; max-width: 1200px; margin: 0 auto;">
+                <h1 style="color: var(--primary-color); margin-bottom: 1rem;">Squad Metrics</h1>
+                
+                <div class="row mb-4">
+                    <div class="col-md-4 mb-3">
+                        <div class="card">
+                            <div class="card-body text-center">
+                                <h3 style="color: var(--primary-color);">23</h3>
+                                <p class="card-text">1st XV Players (2025/26)</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card">
+                            <div class="card-body text-center">
+                                <h3 style="color: var(--primary-color);">20</h3>
+                                <p class="card-text">2nd XV Players (2025/26)</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card">
+                            <div class="card-body text-center">
+                                <h3 style="color: var(--primary-color);">8</h3>
+                                <p class="card-text">Squad Positions</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-6 mb-4">
+                        <h3>Position Distribution (1st XV)</h3>
+                        <div style="background: white; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                            <p style="color: #666;"><strong>Forwards (1-8):</strong> 13 players</p>
+                            <p style="color: #666;"><strong>Backs (9-15):</strong> 10 players</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-4">
+                        <h3>Position Distribution (2nd XV)</h3>
+                        <div style="background: white; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                            <p style="color: #666;"><strong>Forwards (1-8):</strong> 11 players</p>
+                            <p style="color: #666;"><strong>Backs (9-15):</strong> 9 players</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="squad-metrics-placeholder" style="background: white; padding: 2rem; border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); text-align: center; color: #999; margin-top: 2rem;">
+                    Squad composition charts and trends over time will be displayed here
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== PLAYER PROFILES PAGE ========== -->
+        <div id="page-player-profiles" class="page-content">
+            <div style="padding: 2rem 1rem; max-width: 1200px; margin: 0 auto;">
+                <h1 style="color: var(--primary-color); margin-bottom: 1rem;">Player Profiles</h1>
+                
+                <div style="margin-bottom: 2rem;">
+                    <input type="text" class="form-control" placeholder="Search player by name..." style="max-width: 300px;">
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card">
+                            <div style="background: var(--light-color); padding: 1rem; text-align: center;">
+                                <div style="width: 100px; height: 100px; background: var(--primary-color); border-radius: 50%; margin: 0 auto; color: white; display: flex; align-items: center; justify-content: center; font-size: 3rem;">
+                                    <i class="bi bi-person"></i>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Player Name</h5>
+                                <p class="card-text">
+                                    <strong>Position:</strong> Prop<br/>
+                                    <strong>Squad:</strong> 1st XV<br/>
+                                    <strong>Total Appearances:</strong> 15<br/>
+                                    <strong>First Appearance:</strong> 2024/25
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card">
+                            <div style="background: var(--light-color); padding: 1rem; text-align: center;">
+                                <div style="width: 100px; height: 100px; background: var(--primary-color); border-radius: 50%; margin: 0 auto; color: white; display: flex; align-items: center; justify-content: center; font-size: 3rem;">
+                                    <i class="bi bi-person"></i>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Another Player</h5>
+                                <p class="card-text">
+                                    <strong>Position:</strong> Fly Half<br/>
+                                    <strong>Squad:</strong> 1st XV<br/>
+                                    <strong>Total Appearances:</strong> 18<br/>
+                                    <strong>First Appearance:</strong> 2024/25
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card">
+                            <div style="background: var(--light-color); padding: 1rem; text-align: center;">
+                                <div style="width: 100px; height: 100px; background: var(--primary-color); border-radius: 50%; margin: 0 auto; color: white; display: flex; align-items: center; justify-content: center; font-size: 3rem;">
+                                    <i class="bi bi-person"></i>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Third Player</h5>
+                                <p class="card-text">
+                                    <strong>Position:</strong> Lock<br/>
+                                    <strong>Squad:</strong> 2nd XV<br/>
+                                    <strong>Total Appearances:</strong> 12<br/>
+                                    <strong>First Appearance:</strong> 2023/24
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="player-profiles-placeholder" style="background: white; padding: 2rem; border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); text-align: center; color: #999; margin-top: 2rem;">
+                    Full player directory with searchable profiles and detailed statistics
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== LEAGUE GRAPHICS PAGE ========== -->
+        <div id="page-league-graphics" class="page-content">
+            <div style="padding: 2rem 1rem; max-width: 1200px; margin: 0 auto;">
+                <h1 style="color: var(--primary-color); margin-bottom: 1rem;">League Analysis</h1>
+                
+                <div class="row">
+                    <div class="col-lg-6 mb-4">
+                        <h3>League Position Over Time</h3>
+                        <div id="league-position-chart" style="background: white; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); min-height: 300px; display: flex; align-items: center; justify-content: center; color: #999;">
+                            Chart showing league position progression for 1st and 2nd teams
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-4">
+                        <h3>League Results Grid</h3>
+                        <div id="league-results-grid" style="background: white; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); min-height: 300px; display: flex; align-items: center; justify-content: center; color: #999;">
+                            Grid showing all team results (W/D/L) by opponent and round
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Squad Analysis</h3>
+                <div id="squad-analysis-chart" style="background: white; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); min-height: 300px; display: flex; align-items: center; justify-content: center; color: #999;">
+                    Squad retention and size comparison across league teams
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== SQUAD GRAPHICS PAGE ========== -->
+        <div id="page-squad-graphics" class="page-content">
+            <div style="padding: 2rem 1rem; max-width: 1200px; margin: 0 auto;">
+                <h1 style="color: var(--primary-color); margin-bottom: 1rem;">Squad Performance Graphics</h1>
+                
+                <div class="row">
+                    <div class="col-lg-6 mb-4">
+                        <h3>Results Over Time</h3>
+                        <div id="results-timeline" style="background: white; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); min-height: 300px; display: flex; align-items: center; justify-content: center; color: #999;">
+                            Chart showing game outcomes and point differentials over time
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-4">
+                        <h3>Player Appearances</h3>
+                        <div id="player-appearances-chart" style="background: white; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); min-height: 300px; display: flex; align-items: center; justify-content: center; color: #999;">
+                            Bar chart of player appearances by season and squad
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Team Sheets Archive</h3>
+                <div id="team-sheets-archive" style="background: white; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); min-height: 300px; display: flex; align-items: center; justify-content: center; color: #999;">
+                    Searchable archive of team sheets with player positions and squads
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== VIDEO ANALYSIS PAGE ========== -->
+        <div id="page-video-analysis" class="page-content">
+            <div style="padding: 2rem 1rem; max-width: 1200px; margin: 0 auto;">
+                <h1 style="color: var(--primary-color); margin-bottom: 1rem;">Video Analysis</h1>
+                
+                <div class="row">
+                    <div class="col-lg-6 mb-4">
+                        <h3>Set Piece Performance (Per Game)</h3>
+                        <div id="setpiece-per-game" style="background: white; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); min-height: 300px; display: flex; align-items: center; justify-content: center; color: #999;">
+                            Chart showing lineouts and scrums won/lost per game
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-4">
+                        <h3>Average Set Piece Performance (Season)</h3>
+                        <div id="setpiece-season-avg" style="background: white; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); min-height: 300px; display: flex; align-items: center; justify-content: center; color: #999;">
+                            Trend line showing average set piece success over season
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-6 mb-4">
+                        <h3>Red Zone Efficiency</h3>
+                        <div id="red-zone-efficiency" style="background: white; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); min-height: 300px; display: flex; align-items: center; justify-content: center; color: #999;">
+                            Points per red zone entry and comparison with opposition
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-4">
+                        <h3>Lineout Analysis by Zone</h3>
+                        <div id="lineout-by-zone" style="background: white; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); min-height: 300px; display: flex; align-items: center; justify-content: center; color: #999;">
+                            Detailed lineout breakdown by area, thrower, and jumper
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <!-- External Dependencies -->
@@ -223,13 +437,652 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/js/bootstrap-select.min.js"></script>
 
-    <!-- Custom Scripts -->
-    <script src="js/config.js"></script>
-    <script src="js/utils.js"></script>
-    <script src="js/filters.js"></script>
-    <script src="js/charts.js"></script>
-    <script src="js/navigation.js"></script>
-    <script src="js/main.js"></script>
+    <!-- Modular Page Navigation Script -->
+    <script>
+        // Store current page state
+        let currentPage = 'home';
+        let currentFilters = {};
+        let leagueTablesData = null;
+        let availableSeasons = ['2025/26', '2024/25', '2023/24', '2022/23', '2021/22'];
+
+        function getCurrentSeasonLabel() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = now.getMonth() + 1;
+            const startYear = month >= 7 ? year : year - 1;
+            const endSuffix = String((startYear + 1) % 100).padStart(2, '0');
+            return `${startYear}/${endSuffix}`;
+        }
+
+        // Load available seasons from league_tables.json
+        async function loadAvailableSeasons() {
+            try {
+                const response = await fetch('data/league_tables.json');
+                if (!response.ok) {
+                    console.warn(`Failed to fetch league_tables.json (${response.status}), using default seasons`);
+                    return;
+                }
+                const data = await response.json();
+                if (data.seasons && Array.isArray(data.seasons) && data.seasons.length > 0) {
+                    availableSeasons = data.seasons;
+                    console.log('Loaded available seasons from league_tables.json:', availableSeasons);
+                } else {
+                    console.warn('league_tables.json has no seasons array or is empty');
+                }
+            } catch (err) {
+                console.error('Failed to load seasons from league_tables.json:', err.message);
+            }
+        }
+
+        // Navigate to a page
+        function navigateTo(page) {
+            // Hide all pages
+            document.querySelectorAll('.page-content').forEach(el => {
+                el.classList.remove('active');
+                el.style.display = 'none';
+            });
+
+            // Show the requested page
+            const pageEl = document.getElementById(`page-${page}`);
+            if (pageEl) {
+                pageEl.classList.add('active');
+                pageEl.style.display = 'block';
+                currentPage = page;
+                
+                // Hide/show filter panel based on page
+                const filterPanel = document.getElementById('filterPanel');
+                if (page === 'league-tables') {
+                    filterPanel.style.display = 'none';
+                } else {
+                    filterPanel.style.display = 'flex';
+                    updateFiltersForPage(page);
+                }
+                
+                window.scrollTo(0, 0);
+                
+                // Load page-specific content
+                if (page === 'league-tables') {
+                    loadLeagueTablePage();
+                }
+            }
+        }
+
+        // Load league table page
+        async function loadLeagueTablePage() {
+            if (!leagueTablesData) {
+                try {
+                    const response = await fetch('data/league_tables.json');
+                    leagueTablesData = await response.json();
+                } catch (err) {
+                    console.error('Error loading league tables data:', err);
+                    return;
+                }
+            }
+            
+            renderLeagueTables();
+        }
+
+        function toLeagueSeasonFormat(season) {
+            if (!season || !season.includes('/')) {
+                return season;
+            }
+
+            const [startYear, endShort] = String(season).split('/');
+            return `${startYear}-20${endShort}`;
+        }
+
+        function updateLeagueResultsIframeHeight(iframe) {
+            if (!iframe) {
+                return;
+            }
+
+            try {
+                const doc = iframe.contentDocument || iframe.contentWindow?.document;
+                if (!doc) {
+                    return;
+                }
+
+                const primaryContent =
+                    doc.querySelector('#vis') ||
+                    doc.querySelector('.vega-embed') ||
+                    doc.querySelector('main') ||
+                    doc.body;
+
+                const svg = doc.querySelector('#vis svg, .vega-embed svg, svg');
+
+                if (doc.body) {
+                    doc.body.style.overflowX = 'hidden';
+                    doc.body.style.margin = '0';
+                    doc.body.style.padding = '0';
+                }
+                if (doc.documentElement) {
+                    doc.documentElement.style.overflowX = 'hidden';
+                    doc.documentElement.style.margin = '0';
+                    doc.documentElement.style.padding = '0';
+                }
+
+                if (primaryContent) {
+                    primaryContent.style.transformOrigin = 'top left';
+                    primaryContent.style.transform = 'none';
+                    primaryContent.style.width = 'auto';
+                }
+
+                if (svg) {
+                    svg.style.display = 'block';
+                    svg.style.width = '100%';
+                    svg.style.height = 'auto';
+                    svg.style.maxWidth = '100%';
+                    svg.style.margin = '0';
+                }
+
+                const contentWidth = Math.max(
+                    svg?.getBoundingClientRect ? svg.getBoundingClientRect().width : 0,
+                    primaryContent?.scrollWidth || 0,
+                    primaryContent?.offsetWidth || 0,
+                    primaryContent?.getBoundingClientRect
+                        ? primaryContent.getBoundingClientRect().width
+                        : 0
+                );
+
+                const availableWidth = Math.max(
+                    iframe.clientWidth || 0,
+                    iframe.getBoundingClientRect ? iframe.getBoundingClientRect().width : 0
+                );
+
+                const scale = contentWidth > 0 && availableWidth > 0
+                    ? Math.min(1, availableWidth / contentWidth)
+                    : 1;
+
+                let svgDrawHeight = 0;
+                if (svg?.getBoundingClientRect) {
+                    svgDrawHeight = Math.ceil(svg.getBoundingClientRect().height || 0);
+                }
+                if (svg && typeof svg.getBBox === 'function') {
+                    try {
+                        const bbox = svg.getBBox();
+                        if (bbox && bbox.height > 0) {
+                            const bboxBottom = Math.ceil((bbox.y || 0) + bbox.height);
+                            svgDrawHeight = Math.max(svgDrawHeight, bboxBottom);
+                        }
+                    } catch (error) {
+                        // Ignore SVG bbox errors and continue with fallback sizing.
+                    }
+                }
+
+                const intrinsicContentHeight = Math.max(
+                    svgDrawHeight,
+                    primaryContent?.getBoundingClientRect
+                        ? Math.ceil(primaryContent.getBoundingClientRect().height || 0)
+                        : 0,
+                    primaryContent?.scrollHeight || 0,
+                    primaryContent?.offsetHeight || 0
+                );
+
+                const fallbackDocumentHeight = Math.max(
+                    doc.body?.scrollHeight || 0,
+                    doc.documentElement?.scrollHeight || 0
+                );
+
+                const bindings = doc.querySelector('.vega-bindings');
+                const svgRect = svg?.getBoundingClientRect ? svg.getBoundingClientRect() : null;
+                const bindingsRect = bindings?.getBoundingClientRect ? bindings.getBoundingClientRect() : null;
+                const visualTop = Math.min(
+                    Number.isFinite(svgRect?.top) ? svgRect.top : Number.POSITIVE_INFINITY,
+                    Number.isFinite(bindingsRect?.top) ? bindingsRect.top : Number.POSITIVE_INFINITY
+                );
+
+                const visualBottom = Math.max(
+                    Number.isFinite(svgRect?.bottom) ? svgRect.bottom : 0,
+                    Number.isFinite(bindingsRect?.bottom) ? bindingsRect.bottom : 0
+                );
+
+                const visualContentHeight = Number.isFinite(visualTop) && visualBottom > visualTop
+                    ? Math.ceil(visualBottom - visualTop)
+                    : 0;
+
+                let contentHeight = 0;
+                if (visualContentHeight > 0) {
+                    contentHeight = visualContentHeight;
+                } else if (svgDrawHeight > 0) {
+                    contentHeight = svgDrawHeight;
+                } else if (intrinsicContentHeight > 0) {
+                    contentHeight = intrinsicContentHeight;
+                } else {
+                    contentHeight = fallbackDocumentHeight;
+                }
+
+                const visibleHeight = contentHeight * scale;
+                const bottomSafetyPadding = 2;
+                const nextHeight = Math.ceil(visibleHeight + bottomSafetyPadding);
+                if (nextHeight > 0) {
+                    iframe.style.height = `${nextHeight}px`;
+                    iframe.style.minHeight = '0';
+                }
+
+                const wrapper = iframe.closest('.league-results-card');
+                if (wrapper) {
+                    wrapper.style.minHeight = '0';
+                }
+            } catch (error) {
+                // Keep fallback height if iframe content cannot be measured.
+            }
+        }
+
+        function initialiseLeagueResultsPanels() {
+            document.querySelectorAll('.league-results-toggle').forEach(toggle => {
+                toggle.addEventListener('click', function() {
+                    const targetId = this.getAttribute('data-target');
+                    const panel = targetId ? document.getElementById(targetId) : null;
+                    if (!panel) {
+                        return;
+                    }
+
+                    const isExpanded = this.getAttribute('aria-expanded') !== 'false';
+                    this.setAttribute('aria-expanded', String(!isExpanded));
+                    panel.hidden = isExpanded;
+
+                    if (!isExpanded) {
+                        const iframe = panel.querySelector('.league-results-frame');
+                        if (iframe) {
+                            window.setTimeout(() => updateLeagueResultsIframeHeight(iframe), 50);
+                        }
+                    }
+                });
+            });
+
+            document.querySelectorAll('.league-results-frame').forEach(iframe => {
+                iframe.addEventListener('load', () => {
+                    updateLeagueResultsIframeHeight(iframe);
+                    [150, 500, 1000, 1800].forEach(delay => {
+                        window.setTimeout(() => updateLeagueResultsIframeHeight(iframe), delay);
+                    });
+                });
+            });
+
+            if (!window.__leagueResultsResizeBound) {
+                window.addEventListener('resize', () => {
+                    document.querySelectorAll('.league-results-frame').forEach(iframe => {
+                        updateLeagueResultsIframeHeight(iframe);
+                    });
+                });
+                window.__leagueResultsResizeBound = true;
+            }
+        }
+
+        function createLeagueResultsPanel(panelId, src, title, titleClass) {
+            return `
+                <div class="league-results-section">
+                    <button
+                        type="button"
+                        class="league-team-title league-results-toggle ${titleClass}"
+                        data-target="${panelId}"
+                        aria-expanded="false"
+                        aria-controls="${panelId}">
+                        <span class="league-results-toggle-text">
+                            <span class="league-results-toggle-title">${title}</span>
+                            <span class="league-results-toggle-hint">Click to expand/collapse</span>
+                        </span>
+                        <span class="league-results-toggle-icon" aria-hidden="true"></span>
+                    </button>
+                    <div id="${panelId}" class="league-results-content" hidden>
+                        <div class="league-results-card">
+                            <iframe
+                                src="${src}"
+                                class="league-results-frame"
+                                title="${title} chart"
+                                loading="lazy">
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Render league tables
+        function renderLeagueTables() {
+            const season = document.getElementById('leagueTableSeasonSelect').value;
+            const container = document.getElementById('leagueTablesContainer');
+            
+            if (!leagueTablesData || !leagueTablesData[season]) {
+                container.innerHTML = '<p>No data available for this season.</p>';
+                return;
+            }
+            
+            const seasonData = leagueTablesData[season];
+            const leagueSeason = toLeagueSeasonFormat(season);
+            let html = '';
+            
+            // Render 1st team
+            if (seasonData['1']) {
+                const squad1 = seasonData['1'];
+                html += `
+                    <div class="col-lg-6 mb-4">
+                        <h3 class="league-team-title league-section-title league-team-title-1st">1st XV</h3>
+                        <p class="league-division-title league-division-title-1st">${squad1.division}</p>
+                        <div style="background: white; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); overflow-x: auto;">
+                            <table class="table table-sm mb-0">
+                                <thead>
+                                    <tr style="background: #e5e4e7;">
+                                        <th style="text-align: center;">#</th>
+                                        <th>Team</th>
+                                        <th style="text-align: center;">P</th>
+                                        <th style="text-align: center;">W</th>
+                                        <th style="text-align: center;">D</th>
+                                        <th style="text-align: center;">L</th>
+                                        <th style="text-align: center;">PF</th>
+                                        <th style="text-align: center;">PA</th>
+                                        <th style="text-align: center;">PD</th>
+                                        <th style="text-align: center;">BP</th>
+                                        <th style="text-align: center;">Pts</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${squad1.tables.map(row => {
+                                        const isEGRFC = row.team.toLowerCase().includes('east grinstead') && !row.team.toLowerCase().includes('ii');
+                                        const rowClass = isEGRFC ? 'league-highlight-row league-highlight-row-1st' : '';
+                                        const bonusPoints = row.bonusPoints ?? ((row.triesBefore || 0) + (row.triesLost || 0));
+                                        return `
+                                            <tr class="${rowClass}">
+                                                <td style="text-align: center;">${row.position}</td>
+                                                <td>${row.team}</td>
+                                                <td style="text-align: center;">${row.played}</td>
+                                                <td style="text-align: center;">${row.won}</td>
+                                                <td style="text-align: center;">${row.drawn}</td>
+                                                <td style="text-align: center;">${row.lost}</td>
+                                                <td style="text-align: center;">${row.pointsFor}</td>
+                                                <td style="text-align: center;">${row.pointsAgainst}</td>
+                                                <td style="text-align: center;">${row.pointsDifference}</td>
+                                                <td style="text-align: center;">${bonusPoints}</td>
+                                                <td style="text-align: center;">${row.points}</td>
+                                            </tr>
+                                        `;
+                                    }).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div style="margin-top: 0.5rem;">
+                            ${createLeagueResultsPanel(
+                                'league-results-panel-1',
+                                `Charts/league/results.html?season=${encodeURIComponent(leagueSeason)}&squad=1`,
+                                '1st XV Results',
+                                'league-team-title-1st'
+                            )}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Render 2nd team
+            if (seasonData['2']) {
+                const squad2 = seasonData['2'];
+                html += `
+                    <div class="col-12 d-lg-none">
+                        <hr class="league-squad-divider">
+                    </div>
+                    <div class="col-lg-6 mb-4">
+                        <h3 class="league-team-title league-section-title league-team-title-2nd">2nd XV</h3>
+                        <p class="league-division-title league-division-title-2nd">${squad2.division}</p>
+                        <div style="background: white; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); overflow-x: auto;">
+                            <table class="table table-sm mb-0">
+                                <thead>
+                                    <tr style="background: #e5e4e7;">
+                                        <th style="text-align: center;">#</th>
+                                        <th>Team</th>
+                                        <th style="text-align: center;">P</th>
+                                        <th style="text-align: center;">W</th>
+                                        <th style="text-align: center;">D</th>
+                                        <th style="text-align: center;">L</th>
+                                        <th style="text-align: center;">PF</th>
+                                        <th style="text-align: center;">PA</th>
+                                        <th style="text-align: center;">PD</th>
+                                        <th style="text-align: center;">BP</th>
+                                        <th style="text-align: center;">Pts</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${squad2.tables.map(row => {
+                                        const isEGRFC = row.team.toLowerCase().includes('east grinstead');
+                                        const rowClass = isEGRFC ? 'league-highlight-row league-highlight-row-2nd' : '';
+                                        const bonusPoints = row.bonusPoints ?? ((row.triesBefore || 0) + (row.triesLost || 0));
+                                        return `
+                                            <tr class="${rowClass}">
+                                                <td style="text-align: center;">${row.position}</td>
+                                                <td>${row.team}</td>
+                                                <td style="text-align: center;">${row.played}</td>
+                                                <td style="text-align: center;">${row.won}</td>
+                                                <td style="text-align: center;">${row.drawn}</td>
+                                                <td style="text-align: center;">${row.lost}</td>
+                                                <td style="text-align: center;">${row.pointsFor}</td>
+                                                <td style="text-align: center;">${row.pointsAgainst}</td>
+                                                <td style="text-align: center;">${row.pointsDifference}</td>
+                                                <td style="text-align: center;">${bonusPoints}</td>
+                                                <td style="text-align: center;">${row.points}</td>
+                                            </tr>
+                                        `;
+                                    }).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div style="margin-top: 0.5rem;">
+                            ${createLeagueResultsPanel(
+                                'league-results-panel-2',
+                                `Charts/league/results.html?season=${encodeURIComponent(leagueSeason)}&squad=2`,
+                                '2nd XV Results',
+                                'league-team-title-2nd'
+                            )}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            container.innerHTML = html;
+            initialiseLeagueResultsPanels();
+        }
+
+        // Update filters based on current page
+        function updateFiltersForPage(page) {
+            const filtersContainer = document.getElementById('filtersContainer');
+            filtersContainer.innerHTML = '';
+
+            // Define filters for each page (using availableSeasons dynamically)
+            const filterConfigs = {
+                'home': [],
+                'season-results': [
+                    { type: 'radio', label: 'Squad', id: 'squadRadio', options: ['All', '1st', '2nd'] },
+                    { type: 'checkbox', label: 'Competition', id: 'gameTypeCheck', options: ['League', 'Cup', 'Friendly'] },
+                    { type: 'select', label: 'Season', id: 'seasonSelect', options: availableSeasons }
+                ],
+                'squad-metrics': [
+                    { type: 'radio', label: 'Squad', id: 'squadRadio', options: ['All', '1st', '2nd'] },
+                    { type: 'select', label: 'Season', id: 'seasonSelect', options: availableSeasons },
+                    { type: 'select', label: 'Position', id: 'positionSelect', options: ['All', 'Forwards', 'Backs'] }
+                ],
+                'player-profiles': [
+                    { type: 'radio', label: 'Squad', id: 'squadRadio', options: ['All', '1st', '2nd'] },
+                    { type: 'select', label: 'Position', id: 'positionSelect', options: ['All', 'Forwards', 'Backs', 'Prop', 'Hooker', 'Lock', 'Flanker', 'Number 8', 'Scrum Half', 'Fly Half', 'Centre', 'Wing', 'Full Back'] }
+                ],
+                'league-graphics': [
+                    { type: 'select', label: 'Season', id: 'seasonSelect', options: availableSeasons }
+                ],
+                'squad-graphics': [
+                    { type: 'radio', label: 'Squad', id: 'squadRadio', options: ['All', '1st', '2nd'] },
+                    { type: 'checkbox', label: 'Competition', id: 'gameTypeCheck', options: ['League', 'Cup', 'Friendly'] },
+                    { type: 'select', label: 'Season', id: 'seasonSelect', options: availableSeasons }
+                ],
+                'video-analysis': [
+                    { type: 'radio', label: 'Squad', id: 'squadRadio', options: ['1st', '2nd'] },
+                    { type: 'select', label: 'Season', id: 'seasonSelect', options: availableSeasons }
+                ]
+            };
+
+            const filters = filterConfigs[page] || [];
+
+            filters.forEach(filter => {
+                const filterItem = document.createElement('div');
+                filterItem.className = 'filter-item';
+
+                if (filter.type === 'radio') {
+                    const inputGroup = document.createElement('div');
+                    inputGroup.className = 'input-group';
+                    inputGroup.innerHTML = `<span class="input-group-text">${filter.label}</span>`;
+
+                    const btnGroup = document.createElement('div');
+                    btnGroup.className = 'btn-group flex-fill';
+                    btnGroup.setAttribute('role', 'group');
+
+                    filter.options.forEach((option, idx) => {
+                        const inputId = `${filter.id}_${idx}`;
+                        const input = document.createElement('input');
+                        input.type = 'radio';
+                        input.className = 'btn-check';
+                        input.name = filter.id;
+                        input.id = inputId;
+                        input.value = option;
+                        if (option === 'All' || option === '1st') input.checked = true;
+
+                        const label = document.createElement('label');
+                        label.className = 'btn btn-outline-primary';
+                        label.htmlFor = inputId;
+                        label.textContent = option;
+
+                        btnGroup.appendChild(input);
+                        btnGroup.appendChild(label);
+                    });
+
+                    inputGroup.appendChild(btnGroup);
+                    filterItem.appendChild(inputGroup);
+
+                } else if (filter.type === 'checkbox') {
+                    const inputGroup = document.createElement('div');
+                    inputGroup.className = 'input-group';
+                    inputGroup.innerHTML = `<span class="input-group-text">${filter.label}</span>`;
+
+                    const btnGroup = document.createElement('div');
+                    btnGroup.className = 'btn-group flex-fill';
+                    btnGroup.setAttribute('role', 'group');
+
+                    filter.options.forEach((option, idx) => {
+                        const inputId = `${filter.id}_${idx}`;
+                        const input = document.createElement('input');
+                        input.type = 'checkbox';
+                        input.className = 'btn-check';
+                        input.name = filter.id;
+                        input.id = inputId;
+                        input.value = option;
+                        input.checked = true;
+
+                        const label = document.createElement('label');
+                        label.className = 'btn btn-outline-primary';
+                        label.htmlFor = inputId;
+                        label.textContent = option;
+
+                        btnGroup.appendChild(input);
+                        btnGroup.appendChild(label);
+                    });
+
+                    inputGroup.appendChild(btnGroup);
+                    filterItem.appendChild(inputGroup);
+
+                } else if (filter.type === 'select') {
+                    const inputGroup = document.createElement('div');
+                    inputGroup.className = 'input-group';
+                    inputGroup.innerHTML = `<span class="input-group-text">${filter.label}</span>`;
+
+                    const select = document.createElement('select');
+                    select.className = 'form-control flex-fill';
+                    select.id = filter.id;
+
+                    filter.options.forEach(option => {
+                        const optionEl = document.createElement('option');
+                        optionEl.value = option;
+                        optionEl.textContent = option;
+                        select.appendChild(optionEl);
+                    });
+
+                    inputGroup.appendChild(select);
+                    filterItem.appendChild(inputGroup);
+                }
+
+                filtersContainer.appendChild(filterItem);
+            });
+        }
+
+        // Setup top navigation links
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Load available seasons first
+            await loadAvailableSeasons();
+
+            // Navigation links in navbar
+            document.querySelectorAll('[data-page]').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const page = this.getAttribute('data-page');
+                    navigateTo(page);
+                    
+                    // Close mobile navbar if open
+                    const navbar = document.querySelector('.navbar-collapse');
+                    if (navbar && navbar.classList.contains('show')) {
+                        const toggler = document.querySelector('.navbar-toggler');
+                        toggler.click();
+                    }
+                });
+            });
+
+            // League tables season dropdown
+            const seasonSelect = document.getElementById('leagueTableSeasonSelect');
+            if (seasonSelect) {
+                // Initialize selectpicker first (empty state)
+                const $seasonSelect = $('#leagueTableSeasonSelect');
+                $seasonSelect.selectpicker();
+
+                // Populate dropdown with available seasons
+                seasonSelect.innerHTML = '';
+                availableSeasons.forEach(season => {
+                    const option = document.createElement('option');
+                    option.value = season;
+                    option.textContent = season;
+                    seasonSelect.appendChild(option);
+                });
+
+                // Set to current season if available
+                const currentSeason = getCurrentSeasonLabel();
+                if (availableSeasons.includes(currentSeason)) {
+                    seasonSelect.value = currentSeason;
+                } else if (availableSeasons.length > 0) {
+                    seasonSelect.value = availableSeasons[0];
+                }
+
+                // Refresh selectpicker to update UI with new options
+                $seasonSelect.selectpicker('refresh');
+
+                // Listen for changes (on the bootstrap-selectpicker change event)
+                $seasonSelect.on('change', function() {
+                    if (currentPage === 'league-tables') {
+                        renderLeagueTables();
+                    }
+                });
+            }
+
+            // Filter panel toggle
+            const filterPanelToggle = document.getElementById('filterPanelToggle');
+            const filterPanel = document.getElementById('filterPanel');
+            const filterPanelBackdrop = document.getElementById('filterPanelBackdrop');
+
+            filterPanelToggle.addEventListener('click', function() {
+                filterPanel.classList.toggle('expanded');
+                filterPanelBackdrop.classList.toggle('show');
+            });
+
+            filterPanelBackdrop.addEventListener('click', function() {
+                filterPanel.classList.remove('expanded');
+                filterPanelBackdrop.classList.remove('show');
+            });
+
+            // Initialize home page
+            navigateTo('home');
+        });
+    </script>
+
 </body>
 
 </html>

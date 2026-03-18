@@ -19,7 +19,6 @@ import argparse
 import logging
 import re
 from pathlib import Path
-from bs4 import BeautifulSoup
 
 # Add project root to Python path
 project_root = Path(__file__).parent.parent
@@ -42,6 +41,152 @@ divisions = {
         "2024/25": "Counties 3 Sussex",
     }
 }
+
+
+def _normalize_season_label(season_value):
+    """Normalize season labels to YYYY-YYYY format."""
+    if season_value is None:
+        return ""
+
+    season_str = str(season_value).strip()
+    if not season_str:
+        return ""
+
+    match = re.match(r"^(\d{4})[\-/](\d{2}|\d{4})$", season_str)
+    if match:
+        start_year = int(match.group(1))
+        end_raw = match.group(2)
+        if len(end_raw) == 2:
+            end_year = int(f"{start_year // 100}{end_raw}")
+            if end_year < start_year:
+                end_year += 100
+        else:
+            end_year = int(end_raw)
+        return f"{start_year:04d}-{end_year:04d}"
+
+    return season_str
+
+
+def _parse_result_score_parts(score_value):
+    """Parse a score string and return numeric/label components used in charts."""
+    def _token(value):
+        if value is None:
+            return ""
+        try:
+            if pd.isna(value):
+                return ""
+        except (TypeError, ValueError):
+            pass
+        return re.sub(r"[^A-Z0-9]", "", str(value).upper())
+
+    if score_value is None:
+        return (None, None, "", "", "", "")
+
+    try:
+        if pd.isna(score_value):
+            return (None, None, "", "", "", "")
+    except (TypeError, ValueError):
+        pass
+
+    if isinstance(score_value, (list, tuple)):
+        if len(score_value) >= 2:
+            left_token = _token(score_value[0])
+            right_token = _token(score_value[1])
+
+            if "HWO" in {left_token, right_token}:
+                return (None, None, "WO", "", "HWO", "HWO")
+            if "AWO" in {left_token, right_token}:
+                return (None, None, "", "WO", "AWO", "AWO")
+
+            # Historic/results-page walkover representation
+            if left_token == "WO" and right_token == "":
+                return (None, None, "WO", "", "HWO", "HWO")
+            if right_token == "WO" and left_token == "":
+                return (None, None, "", "WO", "AWO", "AWO")
+
+            pf = pd.to_numeric(score_value[0], errors="coerce")
+            pa = pd.to_numeric(score_value[1], errors="coerce")
+            if pd.notna(pf) and pd.notna(pa):
+                pf = int(pf)
+                pa = int(pa)
+                return (pf, pa, str(pf), str(pa), "", f"{pf}-{pa}")
+        return (None, None, "", "", "", "")
+
+    if isinstance(score_value, dict):
+        candidate_pairs = [
+            (score_value.get("home"), score_value.get("away")),
+            (score_value.get("home_score"), score_value.get("away_score")),
+            (score_value.get("pf"), score_value.get("pa")),
+            (score_value.get("for"), score_value.get("against")),
+        ]
+        for raw_pf, raw_pa in candidate_pairs:
+            pf = pd.to_numeric(raw_pf, errors="coerce")
+            pa = pd.to_numeric(raw_pa, errors="coerce")
+            if pd.notna(pf) and pd.notna(pa):
+                pf = int(pf)
+                pa = int(pa)
+                return (pf, pa, str(pf), str(pa), "", f"{pf}-{pa}")
+        return (None, None, "", "", "", "")
+
+    if isinstance(score_value, set):
+        return (None, None, "", "", "", "")
+
+    raw_score = str(score_value).strip()
+    if not raw_score:
+        return (None, None, "", "", "", "")
+
+    raw_token = _token(raw_score)
+    if raw_token == "HWO":
+        return (None, None, "WO", "", "HWO", "HWO")
+    if raw_token == "AWO":
+        return (None, None, "", "WO", "AWO", "AWO")
+    if raw_token in {"WO", "WALKOVER"}:
+        return (None, None, "WO", "", "HWO", "HWO")
+
+    match = re.match(r"^\s*(\d+)\s*[-:]\s*(\d+)\s*$", raw_score)
+    if match:
+        pf = int(match.group(1))
+        pa = int(match.group(2))
+        return (pf, pa, str(pf), str(pa), "", f"{pf}-{pa}")
+
+    return (None, None, "", "", "", raw_score)
+
+
+def _derive_result(row):
+    """Derive categorical result for heatmap cell coloring."""
+    home = row.get("Home")
+    away = row.get("Away")
+    if home == away:
+        return "N/A"
+
+    wo_raw = row.get("WO_Result")
+    if wo_raw is None:
+        wo_value = ""
+    else:
+        try:
+            wo_value = "" if pd.isna(wo_raw) else re.sub(r"[^A-Z0-9]", "", str(wo_raw).upper())
+        except (TypeError, ValueError):
+            wo_value = re.sub(r"[^A-Z0-9]", "", str(wo_raw).upper())
+
+    if wo_value:
+        if wo_value.startswith("H"):
+            return "Home Win"
+        if wo_value.startswith("A"):
+            return "Away Win"
+        return "To be played"
+
+    pf = row.get("PF_num")
+    pa = row.get("PA_num")
+    if pf is None or pa is None or pd.isna(pf) or pd.isna(pa):
+        return "To be played"
+
+    pdiff = int(pf) - int(pa)
+    if pdiff > 0:
+        return "Home Win (LBP)" if pdiff <= 7 else "Home Win"
+    if pdiff < 0:
+        return "Away Win (LBP)" if abs(pdiff) <= 7 else "Away Win"
+    return "Draw"
+
 
 def squad_lookup(season, league):
     """Return the squad number based on season and league"""
@@ -78,6 +223,7 @@ def load_match_data():
         logging.info(f"Loaded {len(matches_json)} matches from {MATCHES_JSON}")
 
     return df_summary, matches_json
+
 
 def get_available_seasons_and_squads(df_players):
     """Get list of available seasons and squads from player data."""
@@ -189,14 +335,13 @@ def create_squad_charts(df, squad_number, season_filter=None):
             return None, None
     
     logging.info(f"Creating charts for Squad {squad_number} with {len(squad_df)} player records")
-    
     # Summary Statistics for this squad
     appearance_count = (
         squad_df.groupby(["Season", "Team", "Color1", "Color2", "Player"]).size()
         .reset_index(name="Appearances")
         .sort_values("Appearances", ascending=False)
     )
-    
+
     players_per_team = (
         squad_df.groupby(["Season", "Team", "Color1", "Color2", "Player"])["Unit"]
         .agg(lambda x: "Forwards" if "Forwards" in x.values else "Backs" if "Backs" in x.values else "Bench")
@@ -219,17 +364,16 @@ def create_squad_charts(df, squad_number, season_filter=None):
         prev_squad = set()
         prev_forwards = set()
         prev_backs = set()
-        
+
         for match_id, match in matches.groupby("Match ID"):
             current_squad = set(match[match["Unit"] != "Bench"]["Player"])
             forwards = set(match[match["Unit"] == "Forwards"]["Player"])
             backs = set(match[match["Unit"] == "Backs"]["Player"])
-            
-            # Find opposition team - get all teams in this match that aren't the current team
+
             all_teams_in_match = squad_df[squad_df["Match ID"] == match_id]["Team"].unique()
             opposition = [t for t in all_teams_in_match if t != team]
             opposition_name = opposition[0] if opposition else "Unknown"
-            
+
             if prev_squad:
                 retained = len(current_squad & prev_squad)
                 retained_forwards = len(forwards & prev_forwards)
@@ -251,14 +395,13 @@ def create_squad_charts(df, squad_number, season_filter=None):
                 "Color1": match["Color1"].iloc[0],
                 "Color2": match["Color2"].iloc[0]
             })
-            
+
             prev_squad = current_squad
             prev_forwards = forwards
             prev_backs = backs
 
     retention_df = pd.DataFrame(retention_data).dropna()
 
-    # Average squad retention per team
     average_retention = (
         retention_df
         .groupby(["Season", "Team", "Color1", "Color2"])
@@ -268,40 +411,17 @@ def create_squad_charts(df, squad_number, season_filter=None):
     )
     average_retention["Unit"] = average_retention["Unit"].str.replace(" Retained", "").replace("Players", "Total")
 
-    ##############
-    ### CHARTS ###
-    ##############
-
-    # Unit selection (Total/Forwards/Backs)
-    unit_radio = alt.binding_radio(
-        options=["Total", "Forwards", "Backs"], 
-        name="Unit"
-    )
+    unit_radio = alt.binding_radio(options=["Total", "Forwards", "Backs"], name="Unit")
     unit_select = alt.selection_point(fields=["Unit"], bind=unit_radio, value="Total")
 
-    team_dropdown = alt.binding_select(
-        options=[None] + sorted(squad_df["Team"].unique().tolist()), 
-        name="Highlighted Team",
-        labels=["All"] + sorted(squad_df["Team"].unique())
-    )
-    team_select = alt.selection_point(fields=["Team"], bind=team_dropdown, value="East Grinstead")
-
-    # Radio button season selection
-    # Note: We'll use the first season as default to avoid filter issues with "All Seasons"
     season_options = sorted(squad_df["Season"].unique().tolist())
     season_labels = [f"{s[:4]}/{s[7:]}" for s in sorted(squad_df["Season"].unique())]
-    season_radio = alt.binding_radio(
-        options=season_options, 
-        name="Season", 
-        labels=season_labels
-    )
-    # Set default to the most recent season
+    season_radio = alt.binding_radio(options=season_options, name="Season", labels=season_labels)
     default_season = sorted(squad_df["Season"].unique().tolist())[-1]
     season_select = alt.selection_point(fields=["Season"], bind=season_radio, value=default_season)
 
-    # Players per team chart
     squad_label = f"{squad_number}st XV" if squad_number == 1 else f"{squad_number}nd XV"
-    
+
     players_per_team_chart = (
         alt.Chart(players_per_team)
         .mark_bar(strokeWidth=2)
@@ -313,36 +433,29 @@ def create_squad_charts(df, squad_number, season_filter=None):
             tooltip=["Team", "Unit", "Total Players"],
         )
         .properties(
-            title=alt.Title(
-                text=f"Squad Size - {squad_label}", 
-                subtitle="Total players representing each team across the season."
-            ),
-            width=500, height=300
+            title=alt.Title(text=f"Squad Size - {squad_label}", subtitle="Total players representing each team across the season."),
+            width=500,
+            height=300,
         )
         .add_params(season_select, unit_select)
         .transform_filter(season_select)
         .transform_filter(unit_select)
     )
 
-    # Reshape retention data for unit selection
     retention_long = retention_df.melt(
         id_vars=["Match ID", "Season", "Date", "Team", "Opposition", "Color1", "Color2"],
         value_vars=["Players Retained", "Forwards Retained", "Backs Retained"],
         var_name="Unit",
-        value_name="Retained"
+        value_name="Retained",
     )
     retention_long["Unit"] = retention_long["Unit"].str.replace(" Retained", "").replace("Players", "Total")
 
-    # Retention chart
     retention_chart = (
         alt.Chart(retention_long)
         .mark_line(point={"size": 50})
         .encode(
             x=alt.X("Date:T", title="Match Date"),
-            y=alt.Y(
-                "Retained:Q", 
-                title="Players Retained", 
-            ),
+            y=alt.Y("Retained:Q", title="Players Retained"),
             color=alt.Color("Color1:N", scale=None, legend=None),
             detail="Team:N",
             tooltip=[
@@ -350,23 +463,22 @@ def create_squad_charts(df, squad_number, season_filter=None):
                 alt.Tooltip("Opposition:N", title="Opposition"),
                 alt.Tooltip("Date:T", title="Date", format="%d %b %Y"),
                 alt.Tooltip("Unit:N", title="Unit"),
-                alt.Tooltip("Retained:Q", title="Players Retained")
+                alt.Tooltip("Retained:Q", title="Players Retained"),
             ],
         )
         .properties(
             title=alt.Title(
                 text=f"Squad Retention Over Time - {squad_label}",
-                subtitle="Number of players retained in the starting XV from the previous match."
+                subtitle="Number of players retained in the starting XV from the previous match.",
             ),
             width=1000,
-            height=400
+            height=400,
         )
         .add_params(season_select, unit_select)
         .transform_filter(season_select)
         .transform_filter(unit_select)
     )
 
-    # Average retention chart
     average_retention_chart = (
         alt.Chart(average_retention)
         .mark_bar()
@@ -378,70 +490,58 @@ def create_squad_charts(df, squad_number, season_filter=None):
             tooltip=["Team", "Unit:N", alt.Tooltip("Average Retention:Q", format=".2f")],
         )
         .properties(
-            title=alt.Title(
-                text=f"Average Squad Retention - {squad_label}",
-                subtitle="Average players retained from the starting XV."
-            ), 
-            width=500, height=300
+            title=alt.Title(text=f"Average Squad Retention - {squad_label}", subtitle="Average players retained from the starting XV."),
+            width=500,
+            height=300,
         )
         .add_params(season_select, unit_select)
         .transform_filter(season_select)
         .transform_filter(unit_select)
     )
 
-    # Return individual chart components for combining later
     return {
-        'players_per_team': players_per_team_chart,
-        'average_retention': average_retention_chart,
-        'retention': retention_chart,
-        'squad_df': squad_df
+        "players_per_team": players_per_team_chart,
+        "average_retention": average_retention_chart,
+        "retention": retention_chart,
+        "squad_df": squad_df,
     }
 
+
 def league_results_chart(matches_json, squad_number, season, table_order=False):
-    """Create league results chart for a specific squad and season showing ALL teams in that league."""
+    """Create league results chart for a specific squad and season showing all teams."""
     target_season = _normalize_season_label(season)
-    
-    # Filter matches for this squad and season
+
     squad_matches = []
     for match in matches_json:
         match_squad = squad_lookup(match["season"], match["league"])
-        
         if match_squad == squad_number and _normalize_season_label(match["season"]) == target_season:
             squad_matches.append(match)
-    
+
     if not squad_matches:
         logging.warning(f"No data found for squad {squad_number} in season {season}")
         return None
-    
-    # Create results dataframe
+
     df_results = pd.DataFrame(squad_matches)
     df_results = df_results[["season", "league", "date", "teams", "score"]]
-    
     df_results["Home"] = df_results["teams"].apply(lambda x: x[0])
     df_results["Away"] = df_results["teams"].apply(lambda x: x[1])
 
     parsed_scores = df_results["score"].apply(_parse_result_score_parts)
-    df_results[["PF_num", "PA_num", "PF", "PA", "WO_Result", "score_str"]] = pd.DataFrame(
-        parsed_scores.tolist(), index=df_results.index
-    )
+    df_results[["PF_num", "PA_num", "PF", "PA", "WO_Result", "score_str"]] = pd.DataFrame(parsed_scores.tolist(), index=df_results.index)
     df_results["PD"] = df_results["PF_num"] - df_results["PA_num"]
     df_results["score"] = df_results["score_str"]
 
-    # Get all teams in this league
     teams = list(set(df_results["Home"].unique()) | set(df_results["Away"].unique()))
-    
-    # Calculate points difference for each team BEFORE filling missing combinations
+
     pd_data = []
     for team in teams:
         home_games = df_results[(df_results["Home"] == team) & (~df_results["PD"].isna())]
         away_games = df_results[(df_results["Away"] == team) & (~df_results["PD"].isna())]
-        
         home_pd = home_games["PD"].sum()
-        away_pd = -away_games["PD"].sum()  # Flip sign for away games
+        away_pd = -away_games["PD"].sum()
         total_pd = home_pd + away_pd
-        
         pd_data.append([team, total_pd])
-        
+
     pd_df = (
         pd.DataFrame(pd_data, columns=["Team", "PD"])
         .sort_values("PD", ascending=False)
@@ -449,514 +549,174 @@ def league_results_chart(matches_json, squad_number, season, table_order=False):
         .reset_index()
         .rename(columns={"index": "Rank"})
     )
-    
-    # Fill in missing combinations of teams (create complete matrix)
+
+    df_results = df_results.drop_duplicates(subset=["Home", "Away"], keep="last")
     all_combinations = pd.MultiIndex.from_product([teams, teams], names=["Home", "Away"])
     df_results = df_results.set_index(["Home", "Away"]).reindex(all_combinations).reset_index()
-    
+
     df_results["Result"] = df_results.apply(_derive_result, axis=1)
     df_results["color_R"] = df_results.apply(
-        lambda x: "black" if x["Home"] == x["Away"] 
-        else "#146f14" if x["Result"] == "Home Win" 
-        else "#991515" if x["Result"] == "Away Win" 
-        else "gray" if x["Result"] == "Draw" 
-        else "white", axis=1
+        lambda x: "black" if x["Home"] == x["Away"]
+        else "#146f14" if x["Result"] == "Home Win"
+        else "#991515" if x["Result"] == "Away Win"
+        else "gray" if x["Result"] == "Draw"
+        else "white",
+        axis=1,
     )
-    
+
     df_results["score"] = df_results["score"].fillna("")
     df_results["PF"] = df_results["PF"].fillna("")
     df_results["PA"] = df_results["PA"].fillna("")
 
-    # Try to use league table order if available
+    team_order = None
     if table_order:
-        # Season is in format "2025-2026", table file uses same format
-        table_file = project_root / "Charts" / "league" / f"table_{squad_number}s_{season}.html"
-        if table_file.exists():
-            try:
-                table_df = pd.read_html(str(table_file))[0]
-                teams = table_df["TEAM"].tolist()
-            except:
-                teams = pd_df["Team"].tolist()
-        else:
-            teams = pd_df["Team"].tolist()
-    else:
-        teams = pd_df["Team"].tolist()
+        rankings_df = _extract_team_rankings_by_season(squad_number)
+        if not rankings_df.empty:
+            season_rankings = rankings_df[rankings_df["Season"] == target_season][["Team", "Rank"]]
+            if not season_rankings.empty:
+                rank_map = {row["Team"]: row["Rank"] for _, row in season_rankings.iterrows()}
+                team_order = sorted(teams, key=lambda team: rank_map.get(team, 999))
 
-    # Color scale
+    if not team_order:
+        team_order = pd_df["Team"].tolist()
+
     color_scale = alt.Scale(
-        domain=['Home Win', 'Home Win (LBP)', 'Away Win', 'Away Win (LBP)', 'Draw', 'To be played', 'N/A'],
-        range=['#146f14', '#146f14a0', '#991515', '#991515a0', 'goldenrod', 'white', 'black']
+        domain=["Home Win", "Home Win (LBP)", "Away Win", "Away Win (LBP)", "Draw", "To be played", "N/A"],
+        range=["#146f14", "#146f14a0", "#991515", "#991515a0", "goldenrod", "white", "black"],
     )
 
-    # Highlight selection
-    highlight = alt.selection_point(on='click', fields=['Home', 'Away'], empty='none', nearest=True, value=None)
-    predicate = f"datum.Home == {highlight.name}['Home'] | datum.Away == {highlight.name}['Home']"
-    text_color = alt.condition(f"{predicate} | !isValid({highlight.name}['Home'])", alt.value('white'), alt.value('black'))
+    preferred_eg_team = "East Grinstead II" if squad_number == 2 else "East Grinstead"
+    default_eg_team = preferred_eg_team if preferred_eg_team in team_order else next(
+        (team for team in team_order if str(team).startswith("East Grinstead")),
+        None,
+    )
+    default_highlight = [{"Home": default_eg_team}] if default_eg_team else None
 
-    # Heatmap
-    heatmap = alt.Chart(df_results).mark_rect().encode(
-        x=alt.X('Away:N', title="Away Team", sort=teams[::-1],
-             axis=alt.Axis(ticks=False, domain=False, labelAngle=30, orient="top")),
-        y=alt.Y('Home:N', title="Home Team", sort=teams,
-             axis=alt.Axis(ticks=False, domain=False, labelAngle=0)),
-        tooltip=['Home:N', 'Away:N', alt.Tooltip('score:N', title="Score"), alt.Tooltip('date:T', title="Date", format="%d %b %Y")],
+    highlight = alt.selection_point(on="click", fields=["Home"], empty="none", value=default_highlight)
+    predicate = f"datum.Home == {highlight.name}['Home'] | datum.Away == {highlight.name}['Home']"
+    text_color = alt.condition(f"{predicate} | !isValid({highlight.name}['Home'])", alt.value("white"), alt.value("black"))
+
+    result_legend = alt.Legend(
+        orient="bottom",
+        direction="horizontal",
+        columns=4,
+        symbolStrokeColor="black",
+        symbolStrokeWidth=1,
+        values=["Home Win", "Away Win", "Draw", "To be played"],
+        offset=16,
+        labelLimit=200,
+    )
+
+    x_axis = alt.X("Away:N", title="Away Team", sort=team_order[::-1], axis=alt.Axis(ticks=False, domain=False, labelAngle=30, orient="top"))
+    y_axis = alt.Y("Home:N", title="Home Team", sort=team_order, axis=alt.Axis(ticks=False, domain=False, labelAngle=0))
+
+    base = alt.Chart(df_results).encode(x=x_axis, y=y_axis)
+
+    heatmap = base.mark_rect().encode(
+        tooltip=["Home:N", "Away:N", alt.Tooltip("score:N", title="Score"), alt.Tooltip("date:T", title="Date", format="%d %b %Y")],
         opacity=alt.condition(f"{predicate} | !isValid({highlight.name}['Home'])", alt.value(1.0), alt.value(0.2)),
-        color=alt.Color('Result:N', scale=color_scale, title="Result", 
-                       legend=alt.Legend(orient="none", direction="horizontal", titleOrient="left",
-                                       legendX=50, legendY=430, symbolStrokeColor="black", symbolStrokeWidth=1,
-                                       values=['Home Win', 'Away Win', 'Draw', 'To be played'])),
+        color=alt.Color(
+            "Result:N",
+            scale=color_scale,
+            title="Result",
+            legend=result_legend,
+        ),
     ).properties(width=alt.Step(50), height=alt.Step(35))
 
-    # Text annotations for scores
-    textH = alt.Chart(df_results).mark_text(size=15, xOffset=-10, yOffset=5, fontWeight="bold").encode(
-        x=alt.X('Away:N', title=None, sort=teams[::-1], axis=alt.Axis(ticks=False, domain=False, labels=False)),
-        y=alt.Y('Home:N', title=None, sort=teams, axis=alt.Axis(ticks=False, domain=False, labels=False)),
-        text=alt.Text('PF:N'), color=text_color,
+    textH_regular = base.transform_filter("datum.PF != 'WO'").mark_text(size=15, xOffset=-10, yOffset=5, fontWeight="bold").encode(
+        text=alt.Text("PF:N"),
+        color=text_color,
         opacity=alt.condition(f"{predicate} | !isValid({highlight.name}['Home'])", alt.value(1.0), alt.value(0.5)),
     )
-    
-    textA = alt.Chart(df_results).mark_text(size=14, xOffset=10, yOffset=-5, fontStyle="italic").encode(
-        x=alt.X('Away:N', title=None, sort=teams[::-1], axis=alt.Axis(ticks=False, domain=False, labels=False)),
-        y=alt.Y('Home:N', title=None, sort=teams, axis=alt.Axis(ticks=False, domain=False, labels=False)),
-        text=alt.Text('PA:N'), color=text_color,
+
+    textH_wo = base.transform_filter("datum.PF == 'WO'").mark_text(size=12, xOffset=-10, yOffset=5).encode(
+        text=alt.Text("PF:N"),
+        color=text_color,
+        opacity=alt.condition(f"{predicate} | !isValid({highlight.name}['Home'])", alt.value(1.0), alt.value(0.5)),
+    )
+
+    textA_regular = base.transform_filter("datum.PA != 'WO'").mark_text(size=14, xOffset=10, yOffset=-5, fontStyle="italic").encode(
+        text=alt.Text("PA:N"),
+        color=text_color,
         opacity=alt.condition(f"{predicate} | !isValid({highlight.name}['Home'])", alt.value(0.8), alt.value(0.4)),
     )
 
-    # Points difference on diagonal
-    textPD = alt.Chart(pd_df).mark_text(size=16, color="white", fontWeight="bold").encode(
-        x=alt.X('Team:N', title=None, sort=teams[::-1], axis=alt.Axis(ticks=False, domain=False, labels=False)),
-        y=alt.Y('Team:N', title=None, sort=teams, axis=alt.Axis(ticks=False, domain=False, labels=False)),
-        text=alt.Text('PD:N', format="+d"),
-        tooltip=[alt.Tooltip('Team:N', title="Team"), alt.Tooltip('PD:Q', title="Points Difference", format="+d")]
+    textA_wo = base.transform_filter("datum.PA == 'WO'").mark_text(size=12, xOffset=10, yOffset=-5).encode(
+        text=alt.Text("PA:N"),
+        color=text_color,
+        opacity=alt.condition(f"{predicate} | !isValid({highlight.name}['Home'])", alt.value(0.8), alt.value(0.4)),
     )
 
-    # Final chart
-    season_short = season.replace('-20', '/')  # Convert 2025-2026 to 2025/26
-    league_name = divisions.get(squad_number, {}).get(season_short, f"Squad {squad_number}")
-    
-    final_chart = (
-        (heatmap + textA + textH + textPD)
-        .add_params(highlight)
-        .resolve_scale(color="independent", x="independent", y="independent", opacity="independent")
-        .properties(
-            title=alt.Title(
-                text=f"{league_name} Results", 
-                subtitle=[
-                    "Diagonal shows total points difference for each team.",
-                    "Lighter shaded results were within 7 points (losing bonus point).",
-                    "Click on a cell to highlight all of the home team's results. (Double click to reset)",
-                ],
-            )
-        )
+    pd_map = pd_df.set_index("Team")["PD"].to_dict()
+    diagonal_df = df_results[df_results["Home"] == df_results["Away"]].copy()
+    diagonal_df["PD"] = diagonal_df["Home"].map(pd_map)
+
+    textPD = alt.Chart(diagonal_df).encode(x=x_axis, y=y_axis).mark_text(size=16, color="white", fontWeight="bold").encode(
+        text=alt.Text("PD:N", format="+d"),
+        tooltip=[alt.Tooltip("Home:N", title="Team"), alt.Tooltip("PD:Q", title="Points Difference", format="+d")],
     )
-    
+
+    season_short = target_season.replace("-20", "/")
+    league_name = divisions.get(squad_number, {}).get(season_short, f"Squad {squad_number}")
+
+    final_chart = alt.layer(heatmap, textA_regular, textA_wo, textH_regular, textH_wo, textPD).add_params(highlight).properties(
+        title=alt.Title(
+            text=f"{league_name} Results",
+            subtitle=[
+                "Diagonal shows total points difference for each team.",
+                "Lighter shaded results were within 7 points (losing bonus point).",
+                "Click on a cell to highlight all of the home team's results. (Double click to reset)",
+            ],
+        ),
+        padding={"left": 20, "top": 20, "right": 40, "bottom": 120},
+    ).configure_view(stroke=None)
+
     output_dir = project_root / "Charts" / "league"
     output_dir.mkdir(parents=True, exist_ok=True)
-    filename = output_dir / f"results_{squad_number}s_{season}.html"
-    final_chart.save(str(filename), embed_options={'renderer':'svg', 'actions': False})
-    hack_params_css(str(filename), params=False)
-    
+    filename = output_dir / f"results_{squad_number}s_{target_season}.html"
+    final_chart.save(
+        str(filename),
+        embed_options={
+            "renderer": "svg",
+            "actions": False,
+        },
+    )
+
     logging.info(f"Saved squad {squad_number} results chart to {filename}")
     return final_chart
 
 
-def _tight_layout_runtime_js(style_id):
-    """Return shared JS utilities to shrink iframe body to chart height."""
-    return f"""
-            const ensureTightLayout = () => {{
-                if (document.getElementById('{style_id}')) {{
-                    return;
-                }}
-
-                const styleEl = document.createElement('style');
-                styleEl.id = '{style_id}';
-                styleEl.textContent = `
-                    html, body {{
-                        margin: 0 !important;
-                        padding: 0 !important;
-                        overflow: hidden !important;
-                        height: auto !important;
-                        min-height: 0 !important;
-                    }}
-
-                    #vis, #vis.vega-embed, .vega-embed {{
-                        height: auto !important;
-                        min-height: 0 !important;
-                    }}
-                `;
-
-                document.head.appendChild(styleEl);
-            }};
-
-            const trimBodyToVis = () => {{
-                const visEl = document.getElementById('vis');
-                if (!visEl) {{
-                    return;
-                }}
-
-                const visRect = visEl.getBoundingClientRect();
-                const visHeight = Math.ceil(visRect.height || 0);
-                if (visHeight <= 0) {{
-                    return;
-                }}
-
-                const targetHeight = visHeight + 4;
-                document.body.style.height = `${{targetHeight}}px`;
-                document.documentElement.style.height = `${{targetHeight}}px`;
-                document.body.style.overflow = 'hidden';
-                document.documentElement.style.overflow = 'hidden';
-            }};
-    """
-
-
-def _inject_runtime_script(file_path, start_marker, end_marker, runtime_injection):
-    """Insert runtime JS snippet into the final script block of an exported chart HTML file."""
-    with open(file_path, "r", encoding="utf-8") as file_handle:
-        soup = BeautifulSoup(file_handle, "html.parser")
-
-    script_tags = soup.find_all("script")
-    if not script_tags:
-        return
-
-    runtime_script = script_tags[-1]
-    script_content = runtime_script.string or ""
-
-    if start_marker in script_content and end_marker in script_content:
-        before_marker = script_content.split(start_marker)[0]
-        after_marker = script_content.split(end_marker)[-1]
-        script_content = f"{before_marker}{after_marker}"
-
-    insertion_anchor = "const el = document.getElementById('vis');"
-    if insertion_anchor in script_content:
-        runtime_script.string = script_content.replace(insertion_anchor, f"{runtime_injection}\n\n      {insertion_anchor}")
-    else:
-        runtime_script.string = script_content + runtime_injection
-
-    with open(file_path, "w", encoding="utf-8") as file_handle:
-        file_handle.write(str(soup))
-
-
-def patch_combined_results_html(file_path, squad):
-    """Inject runtime season filtering and title updates into combined results HTML."""
-    start_marker = "/* league_results_runtime_start */"
-    end_marker = "/* league_results_runtime_end */"
-
-    squad_label = f"{squad}st XV" if squad == 1 else f"{squad}nd XV"
-
-    runtime_injection = f"""
-
-            {start_marker}
-            const queryParams = new URLSearchParams(window.location.search);
-            const selectedSeason = queryParams.get('season');
-{_tight_layout_runtime_js("league-results-tight-layout")}
-
-            const formatSeasonLabel = (seasonValue) => {{
-                if (!seasonValue || !seasonValue.includes('-')) {{
-                    return seasonValue;
-                }}
-
-                const [startYear, endYear] = seasonValue.split('-');
-                return `${{startYear}}/${{String(endYear).slice(-2)}}`;
-            }};
-
-            const applySeasonFilter = (targetSpec, seasonValue) => {{
-                const seasonFilter = `datum.Season == '${{seasonValue}}' || datum.season == '${{seasonValue}}'`;
-
-                if (Array.isArray(targetSpec.layer)) {{
-                    targetSpec.layer.forEach((layer) => {{
-                        layer.transform = layer.transform || [];
-                        layer.transform = layer.transform.filter((transform) => {{
-                            if (!transform || !transform.filter) {{
-                                return true;
-                            }}
-                            if (typeof transform.filter === 'object' && transform.filter.param) {{
-                                return false;
-                            }}
-                            if (typeof transform.filter === 'string' && transform.filter.includes('datum.Season')) {{
-                                return false;
-                            }}
-                            return true;
-                        }});
-                        layer.transform.push({{ filter: seasonFilter }});
-                    }});
-                    return;
-                }}
-
-                targetSpec.transform = targetSpec.transform || [];
-                targetSpec.transform = targetSpec.transform.filter((transform) => {{
-                    if (!transform || !transform.filter) {{
-                        return true;
-                    }}
-                    if (typeof transform.filter === 'object' && transform.filter.param) {{
-                        return false;
-                    }}
-                    if (typeof transform.filter === 'string' && transform.filter.includes('datum.Season')) {{
-                        return false;
-                    }}
-                    return true;
-                }});
-                targetSpec.transform.push({{ filter: seasonFilter }});
-            }};
-
-            if (selectedSeason) {{
-                applySeasonFilter(spec, selectedSeason);
-
-                const seasonLabel = formatSeasonLabel(selectedSeason);
-                if (spec.title && seasonLabel) {{
-                    spec.title.text = '{squad_label} League Results ' + seasonLabel;
-                }}
-            }}
-
-            ensureTightLayout();
-            [120, 350, 800, 1400, 2200].forEach((delay) => {{
-                window.setTimeout(trimBodyToVis, delay);
-            }});
-            {end_marker}
-    """
-    _inject_runtime_script(file_path, start_marker, end_marker, runtime_injection)
-
-
-def patch_combined_squad_analysis_html(file_path):
-    """Inject runtime season filtering and layout tightening into combined squad analysis HTML."""
-    start_marker = "/* league_analysis_runtime_start */"
-    end_marker = "/* league_analysis_runtime_end */"
-
-    runtime_injection = f"""
-
-            {start_marker}
-            const queryParams = new URLSearchParams(window.location.search);
-            const selectedSeason = queryParams.get('season');
-{_tight_layout_runtime_js("league-analysis-tight-layout")}
-
-            const findSeasonParam = (targetSpec) => {{
-                if (!targetSpec || !Array.isArray(targetSpec.params)) {{
-                    return null;
-                }}
-
-                return targetSpec.params.find((paramDef) =>
-                    paramDef
-                    && paramDef.bind
-                    && typeof paramDef.bind.name === 'string'
-                    && paramDef.bind.name.toLowerCase().includes('season')
-                ) || null;
-            }};
-
-            if (selectedSeason) {{
-                const seasonParam = findSeasonParam(spec);
-                if (seasonParam) {{
-                    seasonParam.value = {{ Season: selectedSeason }};
-                    delete seasonParam.bind;
-                }}
-            }}
-
-            ensureTightLayout();
-            [120, 350, 800, 1400, 2200].forEach((delay) => {{
-                window.setTimeout(trimBodyToVis, delay);
-            }});
-            {end_marker}
-    """
-    _inject_runtime_script(file_path, start_marker, end_marker, runtime_injection)
-
-def create_combined_results_chart(squad=1):
-    """Create a combined results chart for all available seasons."""
-    
-    # Load match data
+def create_season_results_charts(squad=1):
+    """Generate season-specific results charts for a squad."""
     _, matches_json = load_match_data()
-    
-    # Find all seasons for this squad
-    squad_seasons = []
-    for match in matches_json:
-        match_squad = squad_lookup(match["season"], match["league"])
-        match_season = _normalize_season_label(match["season"])
-        if match_squad == squad and match_season not in squad_seasons:
-            squad_seasons.append(match_season)
-    
-    squad_seasons = sorted(squad_seasons)
-    
+
+    squad_seasons = sorted({
+        _normalize_season_label(match.get("season"))
+        for match in matches_json
+        if squad_lookup(match.get("season"), match.get("league")) == squad
+        and _normalize_season_label(match.get("season"))
+    })
+
     if not squad_seasons:
         logging.warning(f"No seasons found for squad {squad}")
-        return None
-    
-    logging.info(f"Creating combined results chart for squad {squad} with {len(squad_seasons)} seasons")
-    
-    # Combine all results data from all seasons
-    all_results = []
-    all_pd_data = []
-    
-    for season in squad_seasons:
-        squad_matches = []
-        for match in matches_json:
-            match_squad = squad_lookup(match["season"], match["league"])
-            match_season = _normalize_season_label(match["season"])
-            if match_squad == squad and match_season == season:
-                squad_matches.append(match)
-        
-        if not squad_matches:
-            continue
-        
-        # Create results dataframe for this season
-        df_results = pd.DataFrame(squad_matches)
-        df_results = df_results[["season", "league", "date", "teams", "score"]]
-        df_results["season"] = df_results["season"].apply(_normalize_season_label)
-        
-        df_results["Home"] = df_results["teams"].apply(lambda x: x[0])
-        df_results["Away"] = df_results["teams"].apply(lambda x: x[1])
+        return []
 
-        parsed_scores = df_results["score"].apply(_parse_result_score_parts)
-        df_results[["PF_num", "PA_num", "PF", "PA", "WO_Result", "score_str"]] = pd.DataFrame(
-            parsed_scores.tolist(), index=df_results.index
-        )
-        df_results["PD"] = df_results["PF_num"] - df_results["PA_num"]
-        
-        # Get all teams in this league/season
-        teams = list(set(df_results["Home"].unique()) | set(df_results["Away"].unique()))
-        
-        # Calculate points difference for each team
-        for team in teams:
-            home_games = df_results[(df_results["Home"] == team) & (~df_results["PD"].isna())]
-            away_games = df_results[(df_results["Away"] == team) & (~df_results["PD"].isna())]
-            
-            home_pd = home_games["PD"].sum()
-            away_pd = -away_games["PD"].sum()
-            total_pd = home_pd + away_pd
-            
-            all_pd_data.append({"Season": season, "Team": team, "PD": total_pd})
-        
-        # Fill in missing combinations
-        all_combinations = pd.MultiIndex.from_product([teams, teams], names=["Home", "Away"])
-        df_season = df_results.drop_duplicates(subset=["Home", "Away"]).set_index(["Home", "Away"]).reindex(all_combinations).reset_index()
-        df_season["Season"] = season
-        
-        # Preserve score data from original df_results
-        if "score_str" not in df_season.columns:
-            df_season["score_str"] = ""
-        if "PF" not in df_season.columns:
-            df_season["PF"] = ""
-        if "PA" not in df_season.columns:
-            df_season["PA"] = ""
-        if "PD" not in df_season.columns:
-            df_season["PD"] = None
-        if "date" not in df_season.columns:
-            df_season["date"] = None
-            
-        df_season["score_str"] = df_season["score_str"].fillna("")
-        df_season["PF"] = df_season["PF"].fillna("")
-        df_season["PA"] = df_season["PA"].fillna("")
-        
-        all_results.append(df_season)
-    
-    # Combine all seasons
-    combined_df = pd.concat(all_results, ignore_index=True)
-    pd_df = pd.DataFrame(all_pd_data)
-
-    # Prefer league table rank for sorting, with PD fallback when rank is unavailable
-    rank_df = _extract_team_rankings_by_season(squad)
-    if not rank_df.empty:
-        pd_df = pd_df.merge(rank_df, on=["Season", "Team"], how="left")
-    else:
-        pd_df["Rank"] = None
-
-    pd_df["SortRank"] = pd_df["Rank"]
-
-    for season_value in pd_df["Season"].dropna().unique():
-        season_mask = pd_df["Season"] == season_value
-        season_frame = pd_df.loc[season_mask]
-
-        fallback_ranks = season_frame["PD"].rank(method="dense", ascending=False)
-        pd_df.loc[season_mask, "SortRank"] = pd_df.loc[season_mask, "SortRank"].fillna(fallback_ranks)
-    
-    combined_df["Result"] = combined_df.apply(_derive_result, axis=1)
-    
-    # Color scale
-    color_scale = alt.Scale(
-        domain=['Home Win', 'Home Win (LBP)', 'Away Win', 'Away Win (LBP)', 'Draw', 'To be played', 'N/A'],
-        range=['#146f14', '#146f14a0', '#991515', '#991515a0', 'goldenrod', 'white', 'black']
-    )
-    
-    # Highlight selection
-    highlight = alt.selection_point(on='click', fields=['Home', 'Away'], empty='none', nearest=True, value=None)
-    predicate = f"datum.Home == {highlight.name}['Home'] | datum.Away == {highlight.name}['Home']"
-    text_color = alt.condition(f"{predicate} | !isValid({highlight.name}['Home'])", alt.value('white'), alt.value('black'))
-    
-    # Add rank/PD data to combined_df for sorting and diagonal text
-    pd_df_home = pd_df[['Season', 'Team', 'PD', 'SortRank']].rename(columns={'Team': 'Home', 'PD': 'Home_PD', 'SortRank': 'Home_Rank'})
-    pd_df_away = pd_df[['Season', 'Team', 'PD', 'SortRank']].rename(columns={'Team': 'Away', 'PD': 'Away_PD', 'SortRank': 'Away_Rank'})
-    combined_df = combined_df.merge(pd_df_home, on=['Season', 'Home'], how='left')
-    combined_df = combined_df.merge(pd_df_away, on=['Season', 'Away'], how='left')
-    
-    # Heatmap - y by league position, x reversed so 1st appears on the right
-    heatmap = alt.Chart(combined_df).mark_rect().encode(
-        x=alt.X('Away:N', title="Away Team", sort=alt.EncodingSortField(field='Away_Rank', op='max', order='descending'),
-             axis=alt.Axis(ticks=False, domain=False, labelAngle=30, orient="top")),
-        y=alt.Y('Home:N', title="Home Team", sort=alt.EncodingSortField(field='Home_Rank', op='max', order='ascending'),
-             axis=alt.Axis(ticks=False, domain=False, labelAngle=0)),
-        tooltip=['Home:N', 'Away:N', alt.Tooltip('score_str:N', title="Score"), alt.Tooltip('date:T', title="Date", format="%d %b %Y")],
-        opacity=alt.condition(f"{predicate} | !isValid({highlight.name}['Home'])", alt.value(1.0), alt.value(0.2)),
-        color=alt.Color('Result:N', scale=color_scale, title="Result",
-                       legend=alt.Legend(orient="none", direction="horizontal", titleOrient="left",
-                                       legendX=50, legendY=430, symbolStrokeColor="black", symbolStrokeWidth=1,
-                                       values=['Home Win', 'Away Win', 'Draw', 'To be played'])),
-    ).properties(width=alt.Step(50), height=alt.Step(35))
-    
-    # Text annotations
-    textH = alt.Chart(combined_df).mark_text(size=15, xOffset=-10, yOffset=5, fontWeight="bold").encode(
-        x=alt.X('Away:N', title=None, sort=alt.EncodingSortField(field='Away_Rank', op='max', order='descending'),
-                axis=alt.Axis(ticks=False, domain=False, labels=False)),
-        y=alt.Y('Home:N', title=None, sort=alt.EncodingSortField(field='Home_Rank', op='max', order='ascending'),
-                axis=alt.Axis(ticks=False, domain=False, labels=False)),
-        text=alt.Text('PF:N'), color=text_color,
-        opacity=alt.condition(f"{predicate} | !isValid({highlight.name}['Home'])", alt.value(1.0), alt.value(0.5)),
-    )
-    
-    textA = alt.Chart(combined_df).mark_text(size=14, xOffset=10, yOffset=-5, fontStyle="italic").encode(
-        x=alt.X('Away:N', title=None, sort=alt.EncodingSortField(field='Away_Rank', op='max', order='descending'),
-                axis=alt.Axis(ticks=False, domain=False, labels=False)),
-        y=alt.Y('Home:N', title=None, sort=alt.EncodingSortField(field='Home_Rank', op='max', order='ascending'),
-                axis=alt.Axis(ticks=False, domain=False, labels=False)),
-        text=alt.Text('PA:N'), color=text_color,
-        opacity=alt.condition(f"{predicate} | !isValid({highlight.name}['Home'])", alt.value(0.8), alt.value(0.4)),
-    )
-    
-    # Points difference on diagonal
-    textPD = alt.Chart(pd_df).mark_text(size=16, color="white", fontWeight="bold").encode(
-        x=alt.X('Team:N', title=None, sort=alt.EncodingSortField(field='SortRank', op='max', order='descending'),
-                axis=alt.Axis(ticks=False, domain=False, labels=False)),
-        y=alt.Y('Team:N', title=None, sort=alt.EncodingSortField(field='SortRank', op='max', order='ascending'),
-                axis=alt.Axis(ticks=False, domain=False, labels=False)),
-        text=alt.Text('PD:N', format="+d"),
-        tooltip=[alt.Tooltip('Team:N', title="Team"), alt.Tooltip('PD:Q', title="Points Difference", format="+d")]
-    )
-    
-    # Final chart
-    squad_label = f"{squad}st XV" if squad == 1 else f"{squad}nd XV"
-    
-    final_chart = (
-        (heatmap + textA + textH + textPD)
-        .add_params(highlight)
-        .resolve_scale(color="independent", x="independent", y="independent", opacity="independent")
-        .properties(
-            title=alt.Title(
-                text=f"{squad_label} League Results",
-                subtitle=[
-                    "Diagonal shows total points difference for each team.",
-                    "Lighter shaded results were within 7 points (losing bonus point).",
-                    "Click on a cell to highlight all of the home team's results. (Double click to reset)",
-                ],
-            ),
-            padding={"left": 20, "top": 20, "right": 50, "bottom": 20}
-        )
-    )
-    
-    # Save chart
     output_dir = project_root / "Charts" / "league"
-    output_dir.mkdir(parents=True, exist_ok=True)
-    filename = output_dir / f"results_{squad}s_combined.html"
-    final_chart.save(str(filename), embed_options={'renderer':'svg', 'actions': False})
-    hack_params_css(str(filename), params=False)
-    patch_combined_results_html(str(filename), squad)
-    
-    logging.info(f"Saved combined results chart for squad {squad} to {filename}")
-    return final_chart
+    generated_files = []
+
+    for season in squad_seasons:
+        chart = league_results_chart(matches_json, squad, season, table_order=True)
+        if chart is None:
+            continue
+
+        file_path = output_dir / f"results_{squad}s_{season}.html"
+        if file_path.exists():
+            generated_files.append(str(file_path))
+
+    logging.info(
+        f"Generated {len(generated_files)} season-specific results charts for squad {squad}"
+    )
+    return generated_files
 
 
 def _season_dash_to_slash_short(season_dash):
@@ -1253,6 +1013,17 @@ def create_unified_league_dispatch_html():
     output_dir = project_root / "Charts" / "league"
     output_dir.mkdir(parents=True, exist_ok=True)
 
+    season_results_map = {"1": {}, "2": {}}
+    for squad in [1, 2]:
+        pattern = f"results_{squad}s_*.html"
+        for chart_file in sorted(output_dir.glob(pattern)):
+            if chart_file.name.endswith("_combined.html"):
+                continue
+            season_dash = chart_file.stem.replace(f"results_{squad}s_", "")
+            if "-" not in season_dash:
+                continue
+            season_results_map[str(squad)][season_dash] = f"./{chart_file.name}"
+
     results_dispatch_html = """<!DOCTYPE html>
 <html>
 <head>
@@ -1262,13 +1033,36 @@ def create_unified_league_dispatch_html():
 </head>
 <body>
     <script>
+        const seasonFileMap = __SEASON_MAP__;
         const queryParams = new URLSearchParams(window.location.search);
         const squadParam = (queryParams.get('squad') || '1').toLowerCase();
-        const isSecondSquad = squadParam === '2' || squadParam === '2nd';
-        const targetFile = isSecondSquad ? './results_2s_combined.html' : './results_1s_combined.html';
+        const selectedSeason = queryParams.get('season');
+        const squadKey = (squadParam === '2' || squadParam === '2nd') ? '2' : '1';
+        const squadSeasonMap = seasonFileMap[squadKey] || {};
+        const availableSeasons = Object.keys(squadSeasonMap).sort();
+
+        let targetFile = null;
+        if (selectedSeason && squadSeasonMap[selectedSeason]) {
+            targetFile = squadSeasonMap[selectedSeason];
+        } else if (availableSeasons.length > 0) {
+            targetFile = squadSeasonMap[availableSeasons[availableSeasons.length - 1]];
+        }
+
+        if (!targetFile) {
+            const fallbackSquadMap = seasonFileMap['1'] || {};
+            const fallbackSeasons = Object.keys(fallbackSquadMap).sort();
+            if (fallbackSeasons.length > 0) {
+                targetFile = fallbackSquadMap[fallbackSeasons[fallbackSeasons.length - 1]];
+            }
+        }
+
+        if (!targetFile) {
+            document.body.textContent = 'No season results charts available.';
+            throw new Error('No season results charts available.');
+        }
 
         const targetUrl = new URL(targetFile, window.location.href);
-        ['season', 'competition'].forEach((param) => {
+        ['competition'].forEach((param) => {
             const value = queryParams.get(param);
             if (value) {
                 targetUrl.searchParams.set(param, value);
@@ -1280,6 +1074,7 @@ def create_unified_league_dispatch_html():
 </body>
 </html>
 """
+    results_dispatch_html = results_dispatch_html.replace("__SEASON_MAP__", json.dumps(season_results_map))
 
     table_dispatch_html = """<!DOCTYPE html>
 <html>
@@ -1883,9 +1678,14 @@ def create_combined_league_charts(squad=1):
     output_dir = project_root / "Charts" / "league"
     output_dir.mkdir(parents=True, exist_ok=True)
     filename = output_dir / f"squad_analysis_{squad}s.html"
-    final_chart.save(str(filename), embed_options={'renderer':'svg', 'actions': False})
+    final_chart.save(
+        str(filename),
+        embed_options={
+            'renderer': 'svg',
+            'actions': False,
+        },
+    )
     hack_params_css(str(filename), params=True)
-    patch_combined_squad_analysis_html(str(filename))
     
     logging.info(f"Saved combined squad {squad} charts to {filename}")
     
@@ -2082,20 +1882,19 @@ def main():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  python league_stats.py                      # Default: combined charts for squad 1
-  python league_stats.py --squad 2            # Combined charts for squad 2
-  python league_stats.py --all                # Combined charts for all squads
+    python league_stats.py                      # Default: generate squad 1 outputs
+    python league_stats.py --squad 2            # Generate squad 2 outputs
+    python league_stats.py --all                # Generate outputs for all squads
         """
     )
     parser.add_argument("--squad", type=int, default=None, help="Squad number (1 or 2)")
-    parser.add_argument("--all", action="store_true", help="Generate combined charts for all available squads")
-    parser.add_argument("--combined", action="store_true", default=True, help="Generate combined charts with all seasons (default)")
+    parser.add_argument("--all", action="store_true", help="Generate charts for all available squads")
     
     args = parser.parse_args()
     
     if args.all:
-        # Generate combined charts for all squads
-        logging.info("Generating combined charts for all squads")
+        # Generate charts for all squads
+        logging.info("Generating charts for all squads")
         
         df_summary, matches_json = load_match_data()
         df_players = prepare_player_data(matches_json)
@@ -2105,10 +1904,10 @@ Examples:
             
             for squad in available_squads:
                 try:
-                    logging.info(f"\n=== Generating combined charts for Squad {squad} ===")
+                    logging.info(f"\n=== Generating charts for Squad {squad} ===")
                     if squad == 1:
                         create_combined_league_charts(squad=squad)
-                    create_combined_results_chart(squad=squad)
+                    create_season_results_charts(squad=squad)
                     create_combined_league_table_html(squad=squad)
                     
                 except Exception as e:
@@ -2119,14 +1918,14 @@ Examples:
             logging.error("No player data available")
     
     else:
-        # Default: generate combined charts for specified or default squad
+        # Default: generate charts for specified or default squad
         squad = args.squad if args.squad else 1
-        logging.info(f"Generating combined charts for Squad {squad}")
+        logging.info(f"Generating charts for Squad {squad}")
         
         # Generate combined squad analysis
         if squad == 1:
             create_combined_league_charts(squad=squad)
-        create_combined_results_chart(squad=squad)
+        create_season_results_charts(squad=squad)
         create_combined_league_table_html(squad=squad)
         create_unified_league_dispatch_html()
         

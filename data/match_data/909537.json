@@ -1,0 +1,59 @@
+{
+    "match_id": "909537",
+    "season": "2021-2022",
+    "league": "Harvey\u2019s Brewery Sussex 1",
+    "date": "2021-12-04",
+    "teams": [
+        "Uckfield",
+        "Eastbourne"
+    ],
+    "score": [
+        29,
+        21
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/23445.png",
+        "https://images.englandrugby.com/club_images/7209.png"
+    ],
+    "players": [
+        {
+            "15": "Kian Saunders",
+            "14": "Joel Andrews",
+            "13": "Name withheld",
+            "12": "Joel Forward",
+            "11": "Callum Harvey",
+            "10": "Charlie Buckland",
+            "9": "Jordon Southgate",
+            "8": "Joseph Pratt",
+            "7": "Matthew Evans",
+            "6": "Terry Funnell",
+            "5": "Charles Rumary",
+            "4": "Stephen Hartfield",
+            "3": "Jack Harvey",
+            "2": "Alfie Richardson",
+            "1": "Max Currums",
+            "S1": "Kieron Martin",
+            "S2": "Harry Smith",
+            "S3": "Matthew Spencer"
+        },
+        {
+            "15": "Sebastian Gleave",
+            "14": "Pedro Sousa",
+            "13": "Jake Howe",
+            "12": "Ben Perrott",
+            "11": "Dylan Becker",
+            "10": "Martial Chaput",
+            "9": "Samuel Wilkinson",
+            "8": "Konrad O'Neill",
+            "7": "Louis Paal",
+            "6": "Stefan Cousins",
+            "5": "Joshua Buckwell",
+            "4": "Luke Thomas",
+            "3": "Joseph Bettles",
+            "2": "Christopher Hosking",
+            "1": "Jeremy Montes",
+            "S1": "Alun Cranch",
+            "S2": "Jonathan Tutty"
+        }
+    ]
+}

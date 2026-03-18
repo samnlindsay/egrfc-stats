@@ -1,0 +1,60 @@
+{
+    "match_id": "909519",
+    "season": "2021-2022",
+    "league": "Harvey\u2019s Brewery Sussex 1",
+    "date": "2021-10-23",
+    "teams": [
+        "Burgess Hill",
+        "Uckfield"
+    ],
+    "score": [
+        10,
+        10
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/3659.png",
+        "https://images.englandrugby.com/club_images/23445.png"
+    ],
+    "players": [
+        {
+            "15": "George Yeates",
+            "14": "Tomer Teichman",
+            "13": "Albert Roko",
+            "12": "Jim Waqanibau",
+            "11": "Matheus Gava",
+            "10": "Archie Anscombe",
+            "9": "Oliver Lewis",
+            "8": "David Wattam",
+            "7": "Benjamin Dronfield",
+            "6": "Martin Woodhead",
+            "5": "Kyle Tucker",
+            "4": "Harvey Hays",
+            "3": "Lee Collingbourne",
+            "2": "Benjamin Dewey",
+            "1": "Joshua Wren",
+            "S1": "Joseph Schofield",
+            "S2": "James Brown",
+            "S3": "Jese Waqanibau"
+        },
+        {
+            "15": "Abraham Bredin",
+            "14": "Kian Saunders",
+            "13": "Joel Andrews",
+            "12": "Joel Forward",
+            "11": "Callum Harvey",
+            "10": "Name withheld",
+            "9": "Charlie Buckland",
+            "8": "Joseph Pratt",
+            "7": "Matthew Evans",
+            "6": "Jos Sumpter",
+            "5": "Luke Austin",
+            "4": "Jake Siggs",
+            "3": "Davy Armstrong",
+            "2": "Alfie Richardson",
+            "1": "Jack Harvey",
+            "S1": "Max Currums",
+            "S2": "Kane Drummond",
+            "S3": "Christopher Watts"
+        }
+    ]
+}

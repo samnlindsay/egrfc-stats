@@ -1,0 +1,60 @@
+{
+    "match_id": "909535",
+    "season": "2021-2022",
+    "league": "Harvey\u2019s Brewery Sussex 1",
+    "date": "2021-12-04",
+    "teams": [
+        "Hove II",
+        "Burgess Hill"
+    ],
+    "score": [
+        7,
+        31
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/10504.png",
+        "https://images.englandrugby.com/club_images/3659.png"
+    ],
+    "players": [
+        {
+            "15": "Philippe Joffe",
+            "14": "Joel Perry",
+            "13": "Max Marshall",
+            "12": "Ashley Parker",
+            "11": "Sebastian Taylor-Haw",
+            "10": "Jerome Pye",
+            "9": "Sean Shepherd",
+            "8": "Ben Anderson",
+            "7": "Ben Stephens",
+            "6": "Antoine Berthillot",
+            "5": "George Brown",
+            "4": "James Duckett",
+            "3": "Steve Klein",
+            "2": "Tyler Hooper",
+            "1": "Alex Maguire",
+            "S1": "Kevin Zaghetto",
+            "S2": "George Elliott",
+            "S3": "Thomas Butler"
+        },
+        {
+            "15": "Tomer Teichman",
+            "14": "Matheus Gava",
+            "13": "Albert Roko",
+            "12": "Jim Waqanibau",
+            "11": "Issoa Tadrau",
+            "10": "Ollie Lewis",
+            "9": "Neori Motoiula",
+            "8": "Joseph Schofield",
+            "7": "Apporosa Naisake",
+            "6": "Benjamin Dronfield",
+            "5": "Kyle Tucker",
+            "4": "Harvey Hays",
+            "3": "Lee Collingbourne",
+            "2": "David Mccomiskey",
+            "1": "Andrew Mackay",
+            "S1": "Timothy Daniel",
+            "S2": "Name withheld",
+            "S3": "Ben Mclaren"
+        }
+    ]
+}

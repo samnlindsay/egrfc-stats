@@ -1,0 +1,60 @@
+{
+    "match_id": "909546",
+    "season": "2021-2022",
+    "league": "Harvey\u2019s Brewery Sussex 1",
+    "date": "2022-01-15",
+    "teams": [
+        "Eastbourne",
+        "Lewes"
+    ],
+    "score": [
+        34,
+        7
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7209.png",
+        "https://images.englandrugby.com/club_images/12206.png"
+    ],
+    "players": [
+        {
+            "15": "Oliver Horley",
+            "14": "Dylan Becker",
+            "13": "Jake Howe",
+            "12": "Ben Perrott",
+            "11": "Sebastian Gleave",
+            "10": "Martial Chaput",
+            "9": "Samuel Wilkinson",
+            "8": "Jeremy Montes",
+            "7": "Ryan Shields",
+            "6": "Stefan Cousins",
+            "5": "Luke Thomas",
+            "4": "Joshua Buckwell",
+            "3": "Toby Slaughter",
+            "2": "Joseph Bettles",
+            "1": "Joshua Imich",
+            "S1": "Jeremy Montes",
+            "S2": "Callum Dell",
+            "S3": "Gianluca Bianchi"
+        },
+        {
+            "15": "Matthew Henshaw",
+            "14": "Thomas Awdry",
+            "13": "Andy Carmichael",
+            "12": "Elliot Moule",
+            "11": "Joe Reid",
+            "10": "Angelo Errigo",
+            "9": "Angus Taylor",
+            "8": "George Gribble",
+            "7": "Benjamin Bishop",
+            "6": "Lewis Austin",
+            "5": "Lewis Evans",
+            "4": "James Sale",
+            "3": "Oliver Bowry",
+            "2": "Damian Pye",
+            "1": "Charlie Moran",
+            "S1": "Ethan Edwards",
+            "S2": "Harry Weston",
+            "S3": "William Shiell"
+        }
+    ]
+}

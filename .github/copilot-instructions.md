@@ -15,8 +15,9 @@ This is a rugby club statistics tracking system for East Grinstead RFC that pull
 ### Key Python Scripts (located in `python/`)
 
 **Data extraction & updates:**
-- `update.py` - **PRIMARY UPDATE SCRIPT** - Generates all charts using `DatabaseManager`
-- `database.py` - Defines schema and `DatabaseManager` class with DuckDB queries
+- `update.py` - **PRIMARY UPDATE SCRIPT** - Generates all charts using canonical backend tables
+- `backend.py` - Canonical backend schema + build pipeline (`BackendDatabase`)
+- `build_backend.py` - CLI entrypoint to build canonical backend DB and exports
 - `new_data.py` - `DataExtractor` class pulls from Google Sheets, normalizes data
 - `data_prep.py` - Legacy loader (being deprecated in favor of `new_data.py`)
 
@@ -29,9 +30,9 @@ This is a rugby club statistics tracking system for East Grinstead RFC that pull
 - `league_data.py` - Scrapes match data from Pitchero website
 - `league_stats.py` - Generates league-specific charts (results matrix, squad analysis)
 
-### Database Schema (DuckDB in-memory)
+### Database Schema (canonical DuckDB backend)
 
-Core tables defined in `database.py`:
+Core tables defined in `backend.py`:
 ```python
 games                # One row per match (game_id, date, season, squad, opposition, pf, pa, result)
 player_appearances   # One row per player per game (appearance_id, game_id, player, position, shirt_number, is_starter, is_captain)
@@ -49,7 +50,7 @@ python update.py  # Runs main() function - extracts data, generates all charts
 ```
 
 This script:
-1. Instantiates `DatabaseManager` and loads data from Google Sheets via `DataExtractor`
+1. Builds/loads canonical backend tables via `BackendDatabase`
 2. Creates database tables and loads data
 3. Generates charts: `appearance_chart()`, `captains_chart()`, `results_chart()`, `team_sheets_chart()`, etc.
 4. Saves output to `../data/charts/*.json`
@@ -153,7 +154,7 @@ data/pitchero.json          # Historical Pitchero stats
 
 ## Key Files to Reference
 
-- Schema definitions: [database.py](python/database.py#L10-L100)
+- Schema definitions: [backend.py](python/backend.py)
 - Chart generation patterns: [update.py](python/update.py#L50-L400)
 - Frontend state management: [js/main.js](js/main.js)
 - CSS variables and theme: [css/variables.css](css/variables.css)

@@ -1,0 +1,60 @@
+{
+    "match_id": "909513",
+    "season": "2021-2022",
+    "league": "Harvey\u2019s Brewery Sussex 1",
+    "date": "2021-10-02",
+    "teams": [
+        "Hellingly",
+        "East Grinstead"
+    ],
+    "score": [
+        12,
+        27
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/9891.png",
+        "https://images.englandrugby.com/club_images/7134.png"
+    ],
+    "players": [
+        {
+            "15": "Name withheld",
+            "14": "Sam Cosham",
+            "13": "Billy Cleaver",
+            "12": "Harvey Warren",
+            "11": "Thomas Stone",
+            "10": "Huw Jones",
+            "9": "David Sands",
+            "8": "James Grey",
+            "7": "Mark Harris",
+            "6": "Simon Bray",
+            "5": "Matthew Blakiston",
+            "4": "Lewis Ather",
+            "3": "Paul Smith",
+            "2": "Michael Whiteman",
+            "1": "James Maunder",
+            "S1": "Robert Vint",
+            "S2": "Jack Smith",
+            "S3": "Alex Bray"
+        },
+        {
+            "15": "Samuel Spriddell",
+            "14": "Alistair Moffatt",
+            "13": "Max Crawley-Moore",
+            "12": "Jack Andrews",
+            "11": "Fergus Wood",
+            "10": "Daniel Poulton",
+            "9": "Thomas Hicks",
+            "8": "Daniel Billin",
+            "7": "Liam Casey",
+            "6": "John Peaty",
+            "5": "Samuel Lindsay-McCall",
+            "4": "Tao Benn",
+            "3": "Sean Morgan",
+            "2": "Benjamin Tottman",
+            "1": "James Funnell",
+            "S1": "Devon Frost",
+            "S2": "Daniel Arnold",
+            "S3": "Ryan Morlen"
+        }
+    ]
+}

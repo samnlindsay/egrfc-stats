@@ -1,0 +1,59 @@
+{
+    "match_id": "909527",
+    "season": "2021-2022",
+    "league": "Harvey\u2019s Brewery Sussex 1",
+    "date": "2021-11-13",
+    "teams": [
+        "Burgess Hill",
+        "Eastbourne"
+    ],
+    "score": [
+        10,
+        52
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/3659.png",
+        "https://images.englandrugby.com/club_images/7209.png"
+    ],
+    "players": [
+        {
+            "15": "Ollie Lewis",
+            "14": "Matheus Gava",
+            "13": "George Yeates",
+            "12": "Ben Mclaren",
+            "11": "Tomer Teichman",
+            "10": "Archie Anscombe",
+            "9": "Massimo Hiller",
+            "8": "David Wattam",
+            "7": "Name withheld",
+            "6": "Benjamin Dronfield",
+            "5": "Kyle Tucker",
+            "4": "Harvey Hays",
+            "3": "Paul Hasib",
+            "2": "Andrew Mackay",
+            "1": "Timothy Daniel",
+            "S1": "Joseph Schofield",
+            "S2": "Flavian Obiero",
+            "S3": "Oliver Horley"
+        },
+        {
+            "15": "Dylan Becker",
+            "14": "Jake Howe",
+            "13": "Ben Perrott",
+            "12": "Sebastian Gleave",
+            "11": "Martial Chaput",
+            "10": "Pedro Sousa",
+            "9": "Konrad O'Neill",
+            "8": "Ryan Shields",
+            "7": "James Smith",
+            "6": "Luke Thomas",
+            "5": "Joshua Buckwell",
+            "4": "Toby Slaughter",
+            "3": "Joseph Bettles",
+            "2": "Christopher Hosking",
+            "1": "Joshua Imich",
+            "S1": "Reece Negus",
+            "S2": "Callum Dell"
+        }
+    ]
+}

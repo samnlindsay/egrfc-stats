@@ -1,0 +1,59 @@
+{
+    "match_id": "931679",
+    "season": "2021-2022",
+    "league": "Harvey\u2019s Brewery Sussex 1",
+    "date": "2021-09-18",
+    "teams": [
+        "Seaford",
+        "Burgess Hill"
+    ],
+    "score": [
+        28,
+        24
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/18868.png",
+        "https://images.englandrugby.com/club_images/3659.png"
+    ],
+    "players": [
+        {
+            "15": "Oscar Weisz",
+            "14": "Name withheld",
+            "13": "Charlie Crossgrove",
+            "12": "Corey Digby-Clarke",
+            "11": "Jason Staples",
+            "10": "Rhys Jones",
+            "9": "Luke Taylor",
+            "8": "Andrew Fry",
+            "7": "Paddy Powney",
+            "6": "Sam Diplock",
+            "5": "Michael Upton",
+            "4": "Dominic Joy",
+            "3": "Kaya Tyack",
+            "2": "Luke Read",
+            "1": "Philip Innis",
+            "S1": "Rhys Roberts",
+            "S2": "Daniel Newby",
+            "S3": "Lee Furminger"
+        },
+        {
+            "15": "Ollie Lewis",
+            "14": "Rory Shillaker",
+            "13": "George Yeates",
+            "12": "Flavian Obiero",
+            "11": "Archie Anscombe",
+            "10": "Jon Maple",
+            "9": "David Wattam",
+            "8": "Adam Rezazadeh",
+            "7": "Kyle Tucker",
+            "6": "Harvey Hays",
+            "5": "Charlie Lewis",
+            "4": "Paul Hasib",
+            "3": "David Mccomiskey",
+            "2": "Lee Collingbourne",
+            "1": "Simon Eyre",
+            "S1": "Lee Hubble",
+            "S2": "Joseph Brown"
+        }
+    ]
+}

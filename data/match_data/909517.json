@@ -1,0 +1,56 @@
+{
+    "match_id": "909517",
+    "season": "2021-2022",
+    "league": "Harvey\u2019s Brewery Sussex 1",
+    "date": "2021-10-16",
+    "teams": [
+        "Uckfield",
+        "Hellingly"
+    ],
+    "score": [
+        55,
+        15
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/23445.png",
+        "https://images.englandrugby.com/club_images/9891.png"
+    ],
+    "players": [
+        {
+            "15": "Kian Saunders",
+            "14": "Ian Page mitchell",
+            "13": "Joel Andrews",
+            "12": "Joseph Pratt",
+            "11": "Callum Harvey",
+            "10": "Kieron Martin",
+            "9": "Name withheld",
+            "8": "Luke Austin",
+            "7": "Matthew Evans",
+            "6": "Jack Harvey",
+            "5": "Stephen Hartfield",
+            "4": "Tristan Sturt",
+            "3": "Davy Armstrong",
+            "2": "Alfie Richardson",
+            "1": "David Guyton",
+            "S1": "Max Currums",
+            "S2": "Joel Forward",
+            "S3": "Abraham Bredin"
+        },
+        {
+            "15": "Aaron Kirk",
+            "14": "Alex Bray",
+            "13": "Matthew Dawber",
+            "12": "Harvey Warren",
+            "11": "David Searle",
+            "10": "Mark Harris",
+            "9": "Connor Hesling",
+            "8": "Robert Vint",
+            "7": "Jack Smith",
+            "6": "Paul Smith",
+            "5": "James Maunder",
+            "4": "Alexander Hawkins",
+            "3": "Sebastian Molina Chocron",
+            "2": "Lewis Ather"
+        }
+    ]
+}

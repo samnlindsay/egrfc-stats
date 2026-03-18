@@ -1,0 +1,60 @@
+{
+    "match_id": "909553",
+    "season": "2021-2022",
+    "league": "Harvey\u2019s Brewery Sussex 1",
+    "date": "2022-01-29",
+    "teams": [
+        "Eastbourne",
+        "Burgess Hill"
+    ],
+    "score": [
+        32,
+        23
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7209.png",
+        "https://images.englandrugby.com/club_images/3659.png"
+    ],
+    "players": [
+        {
+            "15": "Sebastian Gleave",
+            "14": "Oliver Horley",
+            "13": "Dylan Becker",
+            "12": "Ben Perrott",
+            "11": "Mason Dowle",
+            "10": "Jake Howe",
+            "9": "Harrison Gibbons",
+            "8": "Tom Redman",
+            "7": "Carl Slaughter",
+            "6": "Stefan Cousins",
+            "5": "Joshua Buckwell",
+            "4": "Luke Thomas",
+            "3": "Toby Slaughter",
+            "2": "Joseph Bettles",
+            "1": "Callum Dell",
+            "S1": "Joshua Imich",
+            "S2": "Gianluca Bianchi",
+            "S3": "Ryan Shields"
+        },
+        {
+            "15": "Ollie Lewis",
+            "14": "Matheus Gava",
+            "13": "Albert Roko",
+            "12": "Luke Rokosauu",
+            "11": "Tomer Teichman",
+            "10": "Archie Anscombe",
+            "9": "Ropate Ralawa",
+            "8": "Joseph Schofield",
+            "7": "Joseph Brown",
+            "6": "Uraia Wacokecokee",
+            "5": "Benjamin Dronfield",
+            "4": "Harvey Hays",
+            "3": "Timothy Daniel",
+            "2": "Andrew Mackay",
+            "1": "Kyle Tucker",
+            "S1": "Name withheld",
+            "S2": "Neori Motoiula",
+            "S3": "Viliame Moceilagi"
+        }
+    ]
+}
