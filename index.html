@@ -43,8 +43,8 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="#" data-page="home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" data-page="season-results">Season Summary</a></li>
                     <li class="nav-item"><a class="nav-link" href="#" data-page="league-tables">League Tables</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#" data-page="season-results">Season Results</a></li>
                     <li class="nav-item"><a class="nav-link" href="#" data-page="squad-metrics">Squad Metrics</a></li>
                     <li class="nav-item"><a class="nav-link" href="#" data-page="player-profiles">Player Profiles</a></li>
                     <li class="nav-item dropdown">
@@ -105,25 +105,242 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
 
-                <h2 style="color: var(--primary-color); margin-top: 2rem; margin-bottom: 1rem;">Recent Highlights</h2>
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <div class="card">
-                            <div class="card-body">
-                                <h6 class="card-subtitle mb-2 text-muted">1st XV Key Stats</h6>
-                                <p class="card-text"><strong>Games Played:</strong> 18 | <strong>Wins:</strong> 12 | <strong>Losses:</strong> 6</p>
+        <!-- ========== SEASON SUMMARY PAGE ========== -->
+        <div id="page-season-summary" class="page-content">
+            <div style="padding: 2rem 1rem; max-width: 1400px; margin: 0 auto;">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+                    <h1 style="color: var(--primary-color); margin: 0;">Season Summary</h1>
+                    <div class="squad-metrics-top-filters" style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
+                        <div class="filter-item league-season-picker" style="margin-bottom: 0;">
+                            <div class="input-group">
+                                <span class="input-group-text">Season</span>
+                                <select id="seasonSummarySeasonSelect" class="selectpicker form-control flex-fill" data-size="8">
+                                    <!-- Options populated dynamically by JavaScript -->
+                                </select>
+                            </div>
+                        </div>
+                        <div class="filter-item league-season-picker" style="margin-bottom: 0;">
+                            <div class="input-group">
+                                <span class="input-group-text">Game Type</span>
+                                <select id="seasonSummaryGameTypeSelect" class="selectpicker form-control flex-fill" data-size="8">
+                                    <option value="All games">All games</option>
+                                    <option value="League + Cup">League + Cup</option>
+                                    <option value="League only">League only</option>
+                                </select>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6 mb-3">
-                        <div class="card">
-                            <div class="card-body">
-                                <h6 class="card-subtitle mb-2 text-muted">2nd XV Key Stats</h6>
-                                <p class="card-text"><strong>Games Played:</strong> 16 | <strong>Wins:</strong> 10 | <strong>Losses:</strong> 6</p>
+                </div>
+
+                <div class="row g-4">
+                <div class="col-md-6">
+                <!-- 1st XV Section -->
+                <div>
+                    <h3 class="league-team-title league-section-title league-team-title-1st">1st XV</h3>
+                    
+                    <!-- Results Cards -->
+                    <div style="margin-bottom: 2rem;">
+                        <div class="row px-2" style="margin-bottom: 1.5rem;" id="seasonSummary1stResults">
+                            <div class="col-3 mb-3 px-1">
+                                <div class="card squad-metric-card season-result-card--won">
+                                    <div class="card-header squad-metric-card-header squad-metric-card-header-1st">W</div>
+                                    <div class="card-body text-center">
+                                        <h3 id="season-summary-1st-won" class="squad-metric-value">-</h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-3 mb-3 px-1">
+                                <div class="card squad-metric-card season-result-card--drawn">
+                                    <div class="card-header squad-metric-card-header squad-metric-card-header-1st">D</div>
+                                    <div class="card-body text-center">
+                                        <h3 id="season-summary-1st-drawn" class="squad-metric-value">-</h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-3 mb-3 px-1">
+                                <div class="card squad-metric-card season-result-card--lost">
+                                    <div class="card-header squad-metric-card-header squad-metric-card-header-1st">L</div>
+                                    <div class="card-body text-center">
+                                        <h3 id="season-summary-1st-lost" class="squad-metric-value">-</h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-3 mb-3 px-1">
+                                <div class="card squad-metric-card season-result-card--played">
+                                    <div class="card-header squad-metric-card-header squad-metric-card-header-1st">P</div>
+                                    <div class="card-body text-center">
+                                        <h3 id="season-summary-1st-played" class="squad-metric-value">-</h3>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
+
+                    <!-- Top Scorers -->
+                    <div style="margin-bottom: 2rem;">
+                        <div class="row">
+                            <div class="col-12 mb-3" id="seasonSummary1stTopPointScorer">
+                                <div class="card squad-metric-card squad-metric-card-1st">
+                                    <div class="card-header squad-metric-card-header squad-metric-card-header-1st">Top Point Scorer</div>
+                                    <div class="card-body text-center">
+                                        <h3 id="season-summary-1st-top-point-value" class="squad-metric-value">-</h3>
+                                        <p id="season-summary-1st-top-point-player" class="card-text mb-0">-</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 mb-3" id="seasonSummary1stTopTryScorer">
+                                <div class="card squad-metric-card squad-metric-card-1st">
+                                    <div class="card-header squad-metric-card-header squad-metric-card-header-1st">Top Try Scorer</div>
+                                    <div class="card-body text-center">
+                                        <h3 id="season-summary-1st-top-try-value" class="squad-metric-value">-</h3>
+                                        <p id="season-summary-1st-top-try-player" class="card-text mb-0">-</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 mb-3" id="seasonSummary1stMostAppearances">
+                                <div class="card squad-metric-card squad-metric-card-1st">
+                                    <div class="card-header squad-metric-card-header squad-metric-card-header-1st">Most Appearances</div>
+                                    <div class="card-body text-center">
+                                        <h3 id="season-summary-1st-most-appearances-value" class="squad-metric-value">-</h3>
+                                        <p id="season-summary-1st-most-appearances-player" class="card-text mb-0">-</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Set Piece Stats -->
+                    <div class="card" style="margin-bottom: 2rem;">
+                        <div class="card-header" style="background: #f5f5f5; font-weight: bold;">Average Set Piece Stats</div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <p style="margin-bottom: 0.5rem;"><strong>Lineout Success Rate:</strong></p>
+                                    <p style="margin-bottom: 0;"><span id="season-summary-1st-lineout-sr">-</span></p>
+                                </div>
+                                <div class="col-md-3">
+                                    <p style="margin-bottom: 0.5rem;"><strong>Scrum Success Rate:</strong></p>
+                                    <p style="margin-bottom: 0;"><span id="season-summary-1st-scrum-sr">-</span></p>
+                                </div>
+                                <div class="col-md-3">
+                                    <p style="margin-bottom: 0.5rem;"><strong>Points per 22m Entry:</strong></p>
+                                    <p style="margin-bottom: 0;"><span id="season-summary-1st-points-22m">-</span></p>
+                                </div>
+                                <div class="col-md-3">
+                                    <p style="margin-bottom: 0.5rem;"><strong>Tries per 22m Entry:</strong></p>
+                                    <p style="margin-bottom: 0;"><span id="season-summary-1st-tries-22m">-</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+
+                <div class="col-md-6">
+                <!-- 2nd XV Section -->
+                <div>
+                    <h3 class="league-team-title league-section-title league-team-title-2nd">2nd XV</h3>
+                    
+                    <!-- Results Cards -->
+                    <div style="margin-bottom: 2rem;">
+                        <div class="row px-2" style="margin-bottom: 1.5rem;" id="seasonSummary2ndResults">
+                            <div class="col-3 mb-3 px-1">
+                                <div class="card squad-metric-card season-result-card--won">
+                                    <div class="card-header squad-metric-card-header squad-metric-card-header-2nd">W</div>
+                                    <div class="card-body text-center">
+                                        <h3 id="season-summary-2nd-won" class="squad-metric-value">-</h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-3 mb-3 px-1">
+                                <div class="card squad-metric-card season-result-card--drawn">
+                                    <div class="card-header squad-metric-card-header squad-metric-card-header-2nd">D</div>
+                                    <div class="card-body text-center">
+                                        <h3 id="season-summary-2nd-drawn" class="squad-metric-value">-</h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-3 mb-3 px-1">
+                                <div class="card squad-metric-card season-result-card--lost">
+                                    <div class="card-header squad-metric-card-header squad-metric-card-header-2nd">L</div>
+                                    <div class="card-body text-center">
+                                        <h3 id="season-summary-2nd-lost" class="squad-metric-value">-</h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-3 mb-3 px-1">
+                                <div class="card squad-metric-card season-result-card--played">
+                                    <div class="card-header squad-metric-card-header squad-metric-card-header-2nd">P</div>
+                                    <div class="card-body text-center">
+                                        <h3 id="season-summary-2nd-played" class="squad-metric-value">-</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Top Scorers -->
+                    <div style="margin-bottom: 2rem;">
+                        <div class="row">
+                            <div class="col-12 mb-3" id="seasonSummary2ndTopPointScorer">
+                                <div class="card squad-metric-card squad-metric-card-2nd">
+                                    <div class="card-header squad-metric-card-header squad-metric-card-header-2nd">Top Point Scorer</div>
+                                    <div class="card-body text-center">
+                                        <h3 id="season-summary-2nd-top-point-value" class="squad-metric-value">-</h3>
+                                        <p id="season-summary-2nd-top-point-player" class="card-text mb-0">-</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 mb-3" id="seasonSummary2ndTopTryScorer">
+                                <div class="card squad-metric-card squad-metric-card-2nd">
+                                    <div class="card-header squad-metric-card-header squad-metric-card-header-2nd">Top Try Scorer</div>
+                                    <div class="card-body text-center">
+                                        <h3 id="season-summary-2nd-top-try-value" class="squad-metric-value">-</h3>
+                                        <p id="season-summary-2nd-top-try-player" class="card-text mb-0">-</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 mb-3" id="seasonSummary2ndMostAppearances">
+                                <div class="card squad-metric-card squad-metric-card-2nd">
+                                    <div class="card-header squad-metric-card-header squad-metric-card-header-2nd">Most Appearances</div>
+                                    <div class="card-body text-center">
+                                        <h3 id="season-summary-2nd-most-appearances-value" class="squad-metric-value">-</h3>
+                                        <p id="season-summary-2nd-most-appearances-player" class="card-text mb-0">-</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Set Piece Stats -->
+                    <div class="card">
+                        <div class="card-header" style="background: #f5f5f5; font-weight: bold;">Average Set Piece Stats</div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <p style="margin-bottom: 0.5rem;"><strong>Lineout Success Rate:</strong></p>
+                                    <p style="margin-bottom: 0;"><span id="season-summary-2nd-lineout-sr">-</span></p>
+                                </div>
+                                <div class="col-md-3">
+                                    <p style="margin-bottom: 0.5rem;"><strong>Scrum Success Rate:</strong></p>
+                                    <p style="margin-bottom: 0;"><span id="season-summary-2nd-scrum-sr">-</span></p>
+                                </div>
+                                <div class="col-md-3">
+                                    <p style="margin-bottom: 0.5rem;"><strong>Points per 22m Entry:</strong></p>
+                                    <p style="margin-bottom: 0;"><span id="season-summary-2nd-points-22m">-</span></p>
+                                </div>
+                                <div class="col-md-3">
+                                    <p style="margin-bottom: 0.5rem;"><strong>Tries per 22m Entry:</strong></p>
+                                    <p style="margin-bottom: 0;"><span id="season-summary-2nd-tries-22m">-</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
                 </div>
             </div>
         </div>
@@ -569,6 +786,9 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/js/bootstrap-select.min.js"></script>
+
+    <!-- Application Scripts -->
+    <script src="js/season-summary.js"></script>
 
     <!-- Modular Page Navigation Script -->
     <script>

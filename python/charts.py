@@ -977,19 +977,27 @@ def _unit_label(base, unit, color, value_field):
     label_dy = {
         "Total": -20,
         "Forwards": -12,
-        "Backs": -4,
+        "Backs": 10,
     }
     label_dx = {
-        "Total": -8,
+        "Total": 0,
         "Forwards": 0,
-        "Backs": 8,
+        "Backs": 0,
     }
+
+    aggregate_field = "min_value" if unit == "Backs" else "max_value"
+    baseline = "top" if unit == "Backs" else "bottom"
 
     return (
         base.transform_filter(alt.datum.unit == unit)
         .transform_calculate(season_order="toNumber(split(datum.season, '/')[0])")
-        .transform_joinaggregate(max_value=f"max({value_field})", groupby=["squad"])
-        .transform_filter(f"datum.{value_field} == datum.max_value")
+        .transform_joinaggregate(
+            max_value=f"max({value_field})",
+            min_value=f"min({value_field})",
+            groupby=["squad"],
+        )
+        .transform_filter(f"datum.{value_field} > 0")
+        .transform_filter(f"datum.{value_field} == datum.{aggregate_field}")
         .transform_window(
             rank="row_number()",
             groupby=["squad"],
@@ -998,7 +1006,7 @@ def _unit_label(base, unit, color, value_field):
         .transform_filter("datum.rank == 1")
         .mark_text(
             align="center",
-            baseline="bottom",
+            baseline=baseline,
             dy=label_dy.get(unit, -8),
             dx=label_dx.get(unit, 0),
             fontSize=14 if unit == "Total" else 12,

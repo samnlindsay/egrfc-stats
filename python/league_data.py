@@ -9,6 +9,7 @@ from bs4 import BeautifulSoup
 import time
 import random
 import re
+import glob
 from datetime import datetime
 from urllib.parse import parse_qs, urlparse
 
@@ -619,21 +620,25 @@ def fetch_match_data(match_id):
 
 def _get_match_sources(squad=1, season="2025/26"):
     """Return match ids and optional prefetched match dict for a squad/season."""
+    all_match_ids = fetch_match_ids(squad=squad, season=season)
+
+    # Squad 2 historically used results-page summaries because lineups are not required.
+    # Keep those summaries as fallback only; match-centre remains the authoritative source
+    # for home/away score orientation.
     if squad == 2:
         results_page_matches = fetch_matches_from_results_page(squad=squad, season=season)
-        if not results_page_matches:
-            return [], {}
+        results_by_id = {match["match_id"]: match for match in results_page_matches}
+        return all_match_ids, results_by_id
 
-        all_match_ids = [match["match_id"] for match in results_page_matches]
-        return all_match_ids, {match["match_id"]: match for match in results_page_matches}
-
-    return fetch_match_ids(squad=squad, season=season), {}
+    return all_match_ids, {}
 
 
 def _fetch_match_for_squad(match_id, squad, results_by_id):
     """Fetch or retrieve a single match based on squad strategy."""
     if squad == 2:
-        return results_by_id.get(match_id)
+        # Use match-centre parsing only to keep score order aligned with teams.
+        # If unavailable, skip update and retain any existing consolidated record.
+        return fetch_match_data(match_id)
     return fetch_match_data(match_id)
 
 def fetch_new_matches_only(squad=1, season="2025/26", consolidated_file="data/matches.json"):
@@ -731,6 +736,53 @@ def update_consolidated_file(new_matches, consolidated_file="data/matches.json")
     
     return all_matches
 
+
+def reconcile_consolidated_from_match_cache(consolidated_file="data/matches.json", cache_dir="data/match_data"):
+    """Reconcile consolidated matches using authoritative cached match-centre files."""
+    existing_matches = load_consolidated_matches(consolidated_file)
+    if not existing_matches:
+        return 0
+
+    matches_by_id = {str(match.get("match_id")): match for match in existing_matches if match.get("match_id")}
+    cache_files = glob.glob(os.path.join(cache_dir, "*.json"))
+
+    updates = 0
+    for cache_file in cache_files:
+        try:
+            with open(cache_file, "r") as f:
+                cached_match = json.load(f)
+        except Exception:
+            continue
+
+        match_id = str(cached_match.get("match_id", ""))
+        if not match_id or match_id not in matches_by_id:
+            continue
+
+        target = matches_by_id[match_id]
+
+        if cached_match.get("teams") and target.get("teams") and cached_match.get("teams") != target.get("teams"):
+            continue
+
+        cached_score = cached_match.get("score")
+        if not cached_score or len(cached_score) < 2:
+            continue
+
+        if target.get("score") != cached_score:
+            target["score"] = cached_score
+            if cached_match.get("league"):
+                target["league"] = cached_match["league"]
+            if cached_match.get("date"):
+                target["date"] = cached_match["date"]
+            if cached_match.get("logos"):
+                target["logos"] = cached_match["logos"]
+            updates += 1
+
+    if updates > 0:
+        save_consolidated_matches(list(matches_by_id.values()), consolidated_file)
+        logging.info(f"Reconciled {updates} consolidated matches from cached match-centre files")
+
+    return updates
+
 def update_league_data(squad=1, season="2025/26", consolidated_file="data/matches.json"):
     """Complete workflow: fetch new matches and update consolidated file."""
     
@@ -739,6 +791,9 @@ def update_league_data(squad=1, season="2025/26", consolidated_file="data/matche
     
     # Step 2: Update consolidated file with new matches
     all_matches = update_consolidated_file(new_matches, consolidated_file)
+
+    # Step 2b: Reconcile cached match-centre files into consolidated scores
+    reconcile_consolidated_from_match_cache(consolidated_file=consolidated_file)
     
     # Step 3: Also fetch/update league table
     try:

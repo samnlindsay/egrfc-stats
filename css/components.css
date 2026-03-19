@@ -456,6 +456,89 @@ table tbody tr:hover {
     text-align: center;
 }
 
+.season-result-card--won {
+    border-top: 4px solid var(--green-color);
+}
+
+.season-result-card--won .squad-metric-card-header {
+    background: var(--green-color);
+    color: #fff;
+}
+
+.season-result-card--won .squad-metric-value {
+    color: var(--green-color);
+}
+
+.season-result-card--drawn {
+    border-top: 4px solid var(--amber-color);
+}
+
+.season-result-card--drawn .squad-metric-card-header {
+    background: var(--amber-color);
+    color: #fff;
+}
+
+.season-result-card--drawn .squad-metric-value {
+    color: var(--amber-color);
+}
+
+.season-result-card--lost {
+    border-top: 4px solid var(--red-color);
+}
+
+.season-result-card--lost .squad-metric-card-header {
+    background: var(--red-color);
+    color: #fff;
+}
+
+.season-result-card--lost .squad-metric-value {
+    color: var(--red-color);
+}
+
+.season-result-card--played {
+    border-top: 4px solid var(--dark-color);
+}
+
+.season-result-card--played .squad-metric-card-header {
+    background: var(--dark-color);
+    color: #fff;
+}
+
+.season-result-card--played .squad-metric-value {
+    color: var(--dark-color);
+}
+
+/* Season Summary player stat cards */
+#seasonSummary1stTopPointScorer .card-body,
+#seasonSummary1stTopTryScorer .card-body,
+#seasonSummary1stMostAppearances .card-body,
+#seasonSummary2ndTopPointScorer .card-body,
+#seasonSummary2ndTopTryScorer .card-body,
+#seasonSummary2ndMostAppearances .card-body {
+    padding: 0.25rem 0.25rem;
+    margin:0;
+}
+
+#seasonSummary1stTopPointScorer .squad-metric-value,
+#seasonSummary1stTopTryScorer .squad-metric-value,
+#seasonSummary1stMostAppearances .squad-metric-value,
+#seasonSummary2ndTopPointScorer .squad-metric-value,
+#seasonSummary2ndTopTryScorer .squad-metric-value,
+#seasonSummary2ndMostAppearances .squad-metric-value {
+    font-size: 4rem;
+    margin: 0;
+}
+
+#seasonSummary1stTopPointScorer .card-text,
+#seasonSummary1stTopTryScorer .card-text,
+#seasonSummary1stMostAppearances .card-text,
+#seasonSummary2ndTopPointScorer .card-text,
+#seasonSummary2ndTopTryScorer .card-text,
+#seasonSummary2ndMostAppearances .card-text {
+    font-size: 1.5rem;
+    margin-bottom: 0;
+}
+
 .squad-metrics-top-filters .filter-item {
     width: auto;
     flex: 0 0 auto;

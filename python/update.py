@@ -1188,6 +1188,139 @@ def league_squad_analysis_chart(db, season="2024-2025", league="Counties 1 Surre
     chart.save(output_file)
     return chart
 
+def season_summary_data(db, output_file='data/season_summary.json'):
+    """Generate comprehensive season summary statistics for all seasons, squads, and game types."""
+    
+    # Get games results data (wins/losses/draws)
+    results_data = db.con.execute(
+        """
+        SELECT
+            season,
+            squad,
+            game_type,
+            COUNT(*) as games_played,
+            SUM(CASE WHEN result = 'W' THEN 1 ELSE 0 END) as games_won,
+            SUM(CASE WHEN result = 'L' THEN 1 ELSE 0 END) as games_lost,
+            SUM(CASE WHEN result = 'D' THEN 1 ELSE 0 END) as games_drawn,
+            ROUND(AVG(CASE WHEN home_away = 'H' THEN score_for ELSE NULL END), 2) as avg_pf_home,
+            ROUND(AVG(CASE WHEN home_away = 'H' THEN score_against ELSE NULL END), 2) as avg_pa_home,
+            ROUND(AVG(CASE WHEN home_away = 'A' THEN score_for ELSE NULL END), 2) as avg_pf_away,
+            ROUND(AVG(CASE WHEN home_away = 'A' THEN score_against ELSE NULL END), 2) as avg_pa_away,
+            ROUND(AVG(score_for), 2) as avg_pf_overall,
+            ROUND(AVG(score_against), 2) as avg_pa_overall,
+            SUM(CASE WHEN home_away = 'H' THEN 1 ELSE 0 END) as home_games,
+            SUM(CASE WHEN home_away = 'A' THEN 1 ELSE 0 END) as away_games
+        FROM games
+        GROUP BY season, squad, game_type
+        ORDER BY season DESC, squad, game_type
+        """
+    ).df()
+    
+    # Get top point scorers per season/squad
+    point_scorers = db.con.execute(
+        """
+        SELECT
+            s.season,
+            s.squad,
+            s.player,
+            s.points,
+            s.tries,
+            s.conversions,
+            s.penalties,
+            s.drop_goals,
+            ROW_NUMBER() OVER (PARTITION BY s.season, s.squad ORDER BY s.points DESC) as rank
+        FROM season_scorers s
+        WHERE points > 0
+        ORDER BY s.season DESC, s.squad, s.points DESC
+        """
+    ).df()
+    
+    # Get top try scorers per season/squad
+    try_scorers = db.con.execute(
+        """
+        SELECT
+            s.season,
+            s.squad,
+            s.player,
+            s.tries,
+            s.points,
+            ROW_NUMBER() OVER (PARTITION BY s.season, s.squad ORDER BY s.tries DESC) as rank
+        FROM season_scorers s
+        WHERE tries > 0
+        ORDER BY s.season DESC, s.squad, s.tries DESC
+        """
+    ).df()
+    
+    # Get most appearances per season/squad/game_type
+    appearances = db.con.execute(
+        """
+        SELECT
+            g.season,
+            g.squad,
+            g.game_type,
+            p.player,
+            COUNT(*) as appearances,
+            SUM(CASE WHEN p.is_starter = TRUE THEN 1 ELSE 0 END) as starts,
+            ROW_NUMBER() OVER (PARTITION BY g.season, g.squad, g.game_type ORDER BY COUNT(*) DESC) as rank
+        FROM player_appearances p
+        JOIN games g ON p.game_id = g.game_id
+        GROUP BY g.season, g.squad, g.game_type, p.player
+        ORDER BY g.season DESC, g.squad, g.game_type, appearances DESC
+        """
+    ).df()
+    
+    # Get average set piece stats per season/squad
+    set_piece_stats = db.con.execute(
+        """
+        SELECT
+            g.season,
+            g.squad,
+            ROUND(AVG(s.lineouts_success_rate), 3) as avg_lineout_success_rate,
+            ROUND(AVG(s.scrums_success_rate), 3) as avg_scrum_success_rate,
+            ROUND(AVG(s.points_per_22m_entry), 2) as avg_points_per_22m_entry,
+            ROUND(AVG(s.tries_per_22m_entry), 2) as avg_tries_per_22m_entry,
+            COUNT(*) as games_with_set_piece_data
+        FROM set_piece s
+        JOIN games g ON s.game_id = g.game_id
+        WHERE s.team = 'EGRFC'
+        GROUP BY g.season, g.squad
+        ORDER BY g.season DESC, g.squad
+        """
+    ).df()
+    
+    # Convert DataFrames to dictionaries, replacing NaN with None
+    def df_to_records(df):
+        """Convert DataFrame to records, replacing NaN with None."""
+        records = []
+        for _, row in df.iterrows():
+            record = {}
+            for col in df.columns:
+                val = row[col]
+                if pd.isna(val):
+                    record[col] = None
+                else:
+                    record[col] = val
+            records.append(record)
+        return records
+    
+    # Build output dictionary
+    summary = {
+        "games_results": df_to_records(results_data),
+        "top_point_scorers": df_to_records(point_scorers),
+        "top_try_scorers": df_to_records(try_scorers),
+        "most_appearances": df_to_records(appearances),
+        "set_piece_stats": df_to_records(set_piece_stats)
+    }
+    
+    # Save to JSON
+    output_path = Path(output_file)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    with output_path.open('w') as f:
+        json.dump(summary, f, indent=2)
+    
+    print(f"Season summary data saved to {output_file}")
+    return summary
+
 # Update the main() function
 def main(refresh_pitchero=False, backend_mode="canonical", backend_db_path="data/egrfc_backend.duckdb"):
     """Main update function using optimized data"""
@@ -1211,7 +1344,10 @@ def main(refresh_pitchero=False, backend_mode="canonical", backend_db_path="data
     print("Loading league data...")
     # db.load_league_data(season="2024-2025", league="Counties 1 Surrey/Sussex")
     
-    print("Generating charts...")
+    print("Generating charts and data...")
+    
+    # Generate season summary data
+    season_summary_data(db)
     
     # Existing charts
     appearance_chart(db)
@@ -1232,7 +1368,7 @@ def main(refresh_pitchero=False, backend_mode="canonical", backend_db_path="data
     # league_results_chart(db)
     # league_squad_analysis_chart(db)
 
-    print("All charts generated.")
+    print("All charts and data generated.")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Update EGRFC stats and regenerate chart outputs")

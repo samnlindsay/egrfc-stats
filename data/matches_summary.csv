@@ -28,8 +28,8 @@ match_id,season,league,date,home_team,away_team,home_score,away_score
 909538,2021-2022,Harvey’s Brewery Sussex 1,2021-12-04,Seaford,Lewes,7,34
 952676,2021-2022,Sussex 3 Premier,2021-12-11,Crawley II,Rye,,WO
 952677,2021-2022,Sussex 3 Premier,2021-12-11,Crowborough II,East Grinstead II,25,5
-952675,2021-2022,Sussex 3 Premier,2021-12-11,Horsham III (Casuals),Midhurst,49,0
-952678,2021-2022,Sussex 3 Premier,2021-12-18,Horsham III (Casuals),Crawley II,31,3
+952675,2021-2022,Harvey's Olympia Sussex 3 Premier,2021-12-11,Horsham III (Casuals),Midhurst,49,0
+952678,2021-2022,Harvey's Olympia Sussex 3 Premier,2021-12-18,Horsham III (Casuals),Crawley II,31,3
 955168,2021-2022,Sussex 3 Premier,2022-01-08,Midhurst,East Grinstead II,29,0
 954942,2021-2022,Harvey’s Brewery Sussex 1,2022-01-08,Hellingly,Uckfield,12,28
 952681,2021-2022,Sussex 3 Premier,2022-01-15,Crawley II,Midhurst,WO,
@@ -38,43 +38,43 @@ match_id,season,league,date,home_team,away_team,home_score,away_score
 909545,2021-2022,Harvey’s Brewery Sussex 1,2022-01-15,Seaford,Hellingly,24,33
 909544,2021-2022,Harvey’s Brewery Sussex 1,2022-01-15,Uckfield,Burgess Hill,40,5
 909546,2021-2022,Harvey’s Brewery Sussex 1,2022-01-15,Eastbourne,Lewes,34,7
-952685,2021-2022,Sussex 3 Premier,2022-01-22,Crawley II,Crowborough II,22,10
+952685,2021-2022,Harvey's Olympia Sussex 3 Premier,2022-01-22,Crawley II,Crowborough II,22,10
 952684,2021-2022,Sussex 3 Premier,2022-01-22,Horsham III (Casuals),East Grinstead II,22,15
-952686,2021-2022,Sussex 3 Premier,2022-01-22,Midhurst,Rye,31,10
+952686,2021-2022,Harvey's Olympia Sussex 3 Premier,2022-01-22,Midhurst,Rye,10,31
 909550,2021-2022,Harvey’s Brewery Sussex 1,2022-01-22,Lewes,East Grinstead,12,36
 909549,2021-2022,Harvey’s Brewery Sussex 1,2022-01-22,Hellingly,Eastbourne,19,27
 909547,2021-2022,Harvey’s Brewery Sussex 1,2022-01-22,Burgess Hill,Seaford,7,8
 952687,2021-2022,Sussex 3 Premier,2022-01-29,Crowborough II,Midhurst,WO,
 952688,2021-2022,Sussex 3 Premier,2022-01-29,East Grinstead II,Crawley II,23,13
-952689,2021-2022,Sussex 3 Premier,2022-01-29,Rye,Horsham III (Casuals),28,10
+952689,2021-2022,Harvey's Olympia Sussex 3 Premier,2022-01-29,Rye,Horsham III (Casuals),10,28
 909554,2021-2022,Harvey’s Brewery Sussex 1,2022-01-29,Hellingly,Lewes,0,54
 909553,2021-2022,Harvey’s Brewery Sussex 1,2022-01-29,Eastbourne,Burgess Hill,32,23
 909551,2021-2022,Harvey’s Brewery Sussex 1,2022-01-29,Uckfield,East Grinstead,19,21
 955082,2021-2022,Sussex 3 Premier,2022-02-05,Rye,Crowborough II,WO,
 954943,2021-2022,Harvey’s Brewery Sussex 1,2022-02-05,Eastbourne,Seaford,60,18
 953129,2021-2022,Harvey’s Brewery Sussex 1,2022-02-05,Hellingly,Burgess Hill,15,22
-952691,2021-2022,Sussex 3 Premier,2022-02-12,Crawley II,Horsham III (Casuals),52,0
-952690,2021-2022,Sussex 3 Premier,2022-02-12,Crowborough II,Rye,50,5
+952691,2021-2022,Harvey's Olympia Sussex 3 Premier,2022-02-12,Crawley II,Horsham III (Casuals),0,52
+952690,2021-2022,Harvey's Olympia Sussex 3 Premier,2022-02-12,Crowborough II,Rye,5,50
 952692,2021-2022,Sussex 3 Premier,2022-02-12,East Grinstead II,Midhurst,24,5
 909555,2021-2022,Harvey’s Brewery Sussex 1,2022-02-12,Burgess Hill,Hellingly,48,24
 909557,2021-2022,Harvey’s Brewery Sussex 1,2022-02-12,East Grinstead,Seaford,67,5
 909558,2021-2022,Harvey’s Brewery Sussex 1,2022-02-12,Lewes,Uckfield,17,26
-957345,2021-2022,Sussex 3 Premier,2022-02-19,Crawley II,Midhurst,22,17
-957346,2021-2022,Sussex 3 Premier,2022-02-19,Horsham III (Casuals),Crowborough II,31,5
+957345,2021-2022,Harvey's Olympia Sussex 3 Premier,2022-02-19,Crawley II,Midhurst,17,22
+957346,2021-2022,Harvey's Olympia Sussex 3 Premier,2022-02-19,Horsham III (Casuals),Crowborough II,31,5
 909559,2021-2022,Harvey’s Brewery Sussex 1,2022-02-19,Seaford,Uckfield,0,10
 909562,2021-2022,Harvey’s Brewery Sussex 1,2022-02-19,Lewes,Burgess Hill,8,15
 909561,2021-2022,Harvey’s Brewery Sussex 1,2022-02-19,Hellingly,Hove II,14,26
 909560,2021-2022,Harvey’s Brewery Sussex 1,2022-02-19,Eastbourne,East Grinstead,3,36
 954941,2021-2022,Harvey’s Brewery Sussex 1,2022-02-26,Burgess Hill,East Grinstead,30,64
-952697,2021-2022,Sussex 3 Premier,2022-03-05,Crowborough II,Crawley II,10,0
+952697,2021-2022,Harvey's Olympia Sussex 3 Premier,2022-03-05,Crowborough II,Crawley II,0,10
 952698,2021-2022,Sussex 3 Premier,2022-03-05,East Grinstead II,Horsham III (Casuals),22,0
 952696,2021-2022,Sussex 3 Premier,2022-03-05,Rye,Midhurst,WO,
 959356,2021-2022,Sussex 3 Premier,2022-03-12,Rye,East Grinstead II,32,10
-952700,2021-2022,Sussex 3 Premier,2022-03-19,Horsham III (Casuals),Rye,34,29
+952700,2021-2022,Harvey's Olympia Sussex 3 Premier,2022-03-19,Horsham III (Casuals),Rye,34,29
 952701,2021-2022,Sussex 3 Premier,2022-03-26,Crawley II,East Grinstead II,38,20
-957845,2021-2022,Sussex 3 Premier,2022-03-26,Crowborough II,Midhurst,42,7
+957845,2021-2022,Harvey's Olympia Sussex 3 Premier,2022-03-26,Crowborough II,Midhurst,42,7
 952704,2021-2022,Sussex 3 Premier,2022-04-02,East Grinstead II,Crowborough II,WO,
-952702,2021-2022,Sussex 3 Premier,2022-04-02,Midhurst,Horsham III (Casuals),29,20
+952702,2021-2022,Harvey's Olympia Sussex 3 Premier,2022-04-02,Midhurst,Horsham III (Casuals),20,29
 952703,2021-2022,Sussex 3 Premier,2022-04-02,Rye,Crawley II,WO,
 981958,2022-2023,Counties 2 Sussex,2022-09-17,Haywards Heath,Seaford,39,18
 981959,2022-2023,Counties 2 Sussex,2022-09-17,Shoreham,Burgess Hill,101,35
@@ -85,25 +85,25 @@ match_id,season,league,date,home_team,away_team,home_score,away_score
 981964,2022-2023,Counties 2 Sussex,2022-09-24,East Grinstead,Uckfield,58,3
 981966,2022-2023,Counties 2 Sussex,2022-09-24,Eastbourne,Shoreham,77,12
 981963,2022-2023,Counties 2 Sussex,2022-09-24,Burgess Hill,Seaford,31,7
-995321,2022-2023,Counties 4 Sussex,2022-09-24,Crawley II,Hove III,60,5
-995319,2022-2023,Counties 4 Sussex,2022-09-24,Heathfield & Waldron II,Eastbourne II,13,5
-995320,2022-2023,Counties 4 Sussex,2022-09-24,Uckfield II,St Francis,55,7
+995321,2022-2023,Harvey's Wharf IPA Counties 4 Sussex,2022-09-24,Crawley II,Hove III,5,60
+995319,2022-2023,Harvey's Wharf IPA Counties 4 Sussex,2022-09-24,Heathfield & Waldron II,Eastbourne II,13,5
+995320,2022-2023,Harvey's Wharf IPA Counties 4 Sussex,2022-09-24,Uckfield II,St Francis,7,55
 981969,2022-2023,Counties 2 Sussex,2022-10-01,Seaford,Eastbourne,7,26
 981971,2022-2023,Counties 2 Sussex,2022-10-01,Crawley,East Grinstead,36,39
 981972,2022-2023,Counties 2 Sussex,2022-10-01,Uckfield,Lewes,33,24
 981968,2022-2023,Counties 2 Sussex,2022-10-01,Haywards Heath,Burgess Hill,47,24
 981970,2022-2023,Counties 2 Sussex,2022-10-01,Shoreham,Pulborough,31,37
 995325,2022-2023,Counties 4 Sussex,2022-10-01,Crawley II,East Grinstead II,,WO
-995323,2022-2023,Counties 4 Sussex,2022-10-01,Hove III,Uckfield II,46,5
-995324,2022-2023,Counties 4 Sussex,2022-10-01,St Francis,Heathfield & Waldron II,45,24
+995323,2022-2023,Harvey's Wharf IPA Counties 4 Sussex,2022-10-01,Hove III,Uckfield II,46,5
+995324,2022-2023,Harvey's Wharf IPA Counties 4 Sussex,2022-10-01,St Francis,Heathfield & Waldron II,45,24
 981973,2022-2023,Counties 2 Sussex,2022-10-15,Pulborough,Seaford,40,21
 981977,2022-2023,Counties 2 Sussex,2022-10-15,Uckfield,Haywards Heath,15,7
 981976,2022-2023,Counties 2 Sussex,2022-10-15,East Grinstead,Shoreham,72,11
 981974,2022-2023,Counties 2 Sussex,2022-10-15,Eastbourne,Burgess Hill,70,3
 981975,2022-2023,Counties 2 Sussex,2022-10-15,Lewes,Crawley,5,44
 995326,2022-2023,Counties 4 Sussex,2022-10-15,East Grinstead II,Eastbourne II,25,23
-995328,2022-2023,Counties 4 Sussex,2022-10-15,Heathfield & Waldron II,Hove III,14,12
-995329,2022-2023,Counties 4 Sussex,2022-10-15,Uckfield II,Crawley II,55,15
+995328,2022-2023,Harvey's Wharf IPA Counties 4 Sussex,2022-10-15,Heathfield & Waldron II,Hove III,14,12
+995329,2022-2023,Harvey's Wharf IPA Counties 4 Sussex,2022-10-15,Uckfield II,Crawley II,55,15
 981981,2022-2023,Counties 2 Sussex,2022-10-22,Shoreham,Lewes,71,5
 981979,2022-2023,Counties 2 Sussex,2022-10-22,Burgess Hill,Pulborough,3,36
 981978,2022-2023,Counties 2 Sussex,2022-10-22,Haywards Heath,Eastbourne,10,32
@@ -117,8 +117,8 @@ match_id,season,league,date,home_team,away_team,home_score,away_score
 981983,2022-2023,Counties 2 Sussex,2022-10-29,Lewes,Seaford,17,41
 981987,2022-2023,Counties 2 Sussex,2022-10-29,Crawley,Haywards Heath,18,41
 995334,2022-2023,Counties 4 Sussex,2022-10-29,East Grinstead II,St Francis,17,17
-995335,2022-2023,Counties 4 Sussex,2022-10-29,Eastbourne II,Hove III,29,10
-995337,2022-2023,Counties 4 Sussex,2022-10-29,Heathfield & Waldron II,Uckfield II,41,0
+995335,2022-2023,Harvey's Wharf IPA Counties 4 Sussex,2022-10-29,Eastbourne II,Hove III,10,29
+995337,2022-2023,Harvey's Wharf IPA Counties 4 Sussex,2022-10-29,Heathfield & Waldron II,Uckfield II,41,0
 981991,2022-2023,Counties 2 Sussex,2022-11-05,Seaford,Uckfield,12,19
 981992,2022-2023,Counties 2 Sussex,2022-11-05,Shoreham,Crawley,24,20
 981989,2022-2023,Counties 2 Sussex,2022-11-05,Eastbourne,East Grinstead,29,15
@@ -129,24 +129,24 @@ match_id,season,league,date,home_team,away_team,home_score,away_score
 981993,2022-2023,Counties 2 Sussex,2022-11-12,Crawley,Seaford,33,10
 995339,2022-2023,Counties 4 Sussex,2022-11-12,Crawley II,Eastbourne II,,WO
 995341,2022-2023,Counties 4 Sussex,2022-11-12,Heathfield & Waldron II,East Grinstead II,22,7
-995340,2022-2023,Counties 4 Sussex,2022-11-12,Hove III,St Francis,27,7
+995340,2022-2023,Harvey's Wharf IPA Counties 4 Sussex,2022-11-12,Hove III,St Francis,27,7
 981998,2022-2023,Counties 2 Sussex,2022-11-26,Haywards Heath,East Grinstead,17,35
 982000,2022-2023,Counties 2 Sussex,2022-11-26,Eastbourne,Uckfield,55,14
 982002,2022-2023,Counties 2 Sussex,2022-11-26,Seaford,Shoreham,23,11
 982001,2022-2023,Counties 2 Sussex,2022-11-26,Burgess Hill,Crawley,24,17
 995344,2022-2023,Counties 4 Sussex,2022-11-26,Eastbourne II,Uckfield II,33,5
-995343,2022-2023,Counties 4 Sussex,2022-11-26,St Francis,Crawley II,41,0
+995343,2022-2023,Harvey's Wharf IPA Counties 4 Sussex,2022-11-26,St Francis,Crawley II,41,0
 982003,2022-2023,Counties 2 Sussex,2022-12-03,Seaford,Burgess Hill,32,12
 982004,2022-2023,Counties 2 Sussex,2022-12-03,Shoreham,Eastbourne,17,57
 982006,2022-2023,Counties 2 Sussex,2022-12-03,Uckfield,East Grinstead,13,22
 982005,2022-2023,Counties 2 Sussex,2022-12-03,Crawley,Pulborough,10,41
 995349,2022-2023,Counties 4 Sussex,2022-12-03,East Grinstead II,Crawley II,WO,
-995347,2022-2023,Counties 4 Sussex,2022-12-03,Heathfield & Waldron II,St Francis,17,14
-995348,2022-2023,Counties 4 Sussex,2022-12-03,Uckfield II,Hove III,74,5
+995347,2022-2023,Harvey's Wharf IPA Counties 4 Sussex,2022-12-03,Heathfield & Waldron II,St Francis,17,14
+995348,2022-2023,Harvey's Wharf IPA Counties 4 Sussex,2022-12-03,Uckfield II,Hove III,5,74
 982010,2022-2023,Counties 2 Sussex,2022-12-10,East Grinstead,Crawley,75,12
 982008,2022-2023,Counties 2 Sussex,2022-12-10,Eastbourne,Seaford,47,19
 995351,2022-2023,Counties 4 Sussex,2022-12-10,Crawley II,Uckfield II,,WO
-995352,2022-2023,Counties 4 Sussex,2022-12-10,Hove III,Heathfield & Waldron II,53,9
+995352,2022-2023,Harvey's Wharf IPA Counties 4 Sussex,2022-12-10,Hove III,Heathfield & Waldron II,53,9
 1032287,2022-2023,Counties 2 Sussex,2023-01-07,Crawley,Uckfield,25,26
 1028714,2022-2023,Counties 2 Sussex,2023-01-07,Burgess Hill,Lewes,24,10
 1032189,2022-2023,Counties 4 Sussex,2023-01-07,East Grinstead II,Hove III,43,19
@@ -163,7 +163,7 @@ match_id,season,league,date,home_team,away_team,home_score,away_score
 982025,2022-2023,Counties 2 Sussex,2023-01-28,Seaford,Lewes,36,12
 1036370,2022-2023,Counties 2 Sussex,2023-01-28,Crawley,Haywards Heath,24,27
 982023,2022-2023,Counties 2 Sussex,2023-01-28,Eastbourne,Pulborough,27,24
-995359,2022-2023,Counties 4 Sussex,2023-01-28,Hove III,Eastbourne II,39,36
+995359,2022-2023,Harvey's Wharf IPA Counties 4 Sussex,2023-01-28,Hove III,Eastbourne II,39,36
 995361,2022-2023,Counties 4 Sussex,2023-01-28,St Francis,East Grinstead II,38,19
 995360,2022-2023,Counties 4 Sussex,2023-01-28,Uckfield II,Heathfield & Waldron II,24,5
 1031320,2022-2023,Counties 2 Sussex,2023-02-04,Lewes,Uckfield,17,33
@@ -180,26 +180,26 @@ match_id,season,league,date,home_team,away_team,home_score,away_score
 982033,2022-2023,Counties 2 Sussex,2023-02-18,Pulborough,East Grinstead,14,35
 982035,2022-2023,Counties 2 Sussex,2023-02-18,Burgess Hill,Uckfield,24,27
 995365,2022-2023,Counties 4 Sussex,2023-02-18,East Grinstead II,Heathfield & Waldron II,32,17
-995363,2022-2023,Counties 4 Sussex,2023-02-18,Eastbourne II,Crawley II,106,5
-995362,2022-2023,Counties 4 Sussex,2023-02-18,St Francis,Hove III,26,24
+995363,2022-2023,Harvey's Wharf IPA Counties 4 Sussex,2023-02-18,Eastbourne II,Crawley II,106,5
+995362,2022-2023,Harvey's Wharf IPA Counties 4 Sussex,2023-02-18,St Francis,Hove III,24,26
 1034989,2022-2023,Counties 2 Sussex,2023-02-25,Haywards Heath,Uckfield,31,29
 1034988,2022-2023,Counties 2 Sussex,2023-02-25,Burgess Hill,Eastbourne,0,57
-1036256,2022-2023,Counties 4 Sussex,2023-02-25,Eastbourne II,St Francis,94,0
+1036256,2022-2023,Harvey's Wharf IPA Counties 4 Sussex,2023-02-25,Eastbourne II,St Francis,94,0
 982042,2022-2023,Counties 2 Sussex,2023-03-04,East Grinstead,Haywards Heath,54,17
 982039,2022-2023,Counties 2 Sussex,2023-03-04,Crawley,Burgess Hill,14,36
 982038,2022-2023,Counties 2 Sussex,2023-03-04,Shoreham,Seaford,29,19
 982040,2022-2023,Counties 2 Sussex,2023-03-04,Uckfield,Eastbourne,0,43
-995368,2022-2023,Counties 4 Sussex,2023-03-04,Crawley II,St Francis,96,13
+995368,2022-2023,Harvey's Wharf IPA Counties 4 Sussex,2023-03-04,Crawley II,St Francis,13,96
 995369,2022-2023,Counties 4 Sussex,2023-03-04,Hove III,East Grinstead II,57,24
-995367,2022-2023,Counties 4 Sussex,2023-03-04,Uckfield II,Eastbourne II,49,0
+995367,2022-2023,Harvey's Wharf IPA Counties 4 Sussex,2023-03-04,Uckfield II,Eastbourne II,0,49
 982044,2022-2023,Counties 2 Sussex,2023-03-11,Pulborough,Uckfield,49,19
 982047,2022-2023,Counties 2 Sussex,2023-03-11,Seaford,Haywards Heath,12,27
 982046,2022-2023,Counties 2 Sussex,2023-03-11,Burgess Hill,Shoreham,24,10
 982045,2022-2023,Counties 2 Sussex,2023-03-11,Eastbourne,Crawley,67,7
-995372,2022-2023,Counties 4 Sussex,2023-03-11,Eastbourne II,Heathfield & Waldron II,43,17
+995372,2022-2023,Harvey's Wharf IPA Counties 4 Sussex,2023-03-11,Eastbourne II,Heathfield & Waldron II,43,17
 995370,2022-2023,Counties 4 Sussex,2023-03-11,Hove III,Crawley II,64,0
 1036127,2022-2023,Counties 2 Sussex,2023-03-18,Pulborough,Burgess Hill,69,5
-1038916,2022-2023,Counties 4 Sussex,2023-03-18,St Francis,Uckfield II,24,19
+1038916,2022-2023,Harvey's Wharf IPA Counties 4 Sussex,2023-03-18,St Francis,Uckfield II,24,19
 1057446,2023-2024,Counties 1 Surrey/Sussex,2023-09-16,Teddington,Hove,72,17
 1057443,2023-2024,Counties 1 Surrey/Sussex,2023-09-16,Kingston,KCS Old Boys,17,39
 1057445,2023-2024,Counties 1 Surrey/Sussex,2023-09-16,East Grinstead,Twickenham,8,48

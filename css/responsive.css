@@ -113,6 +113,31 @@
         white-space: nowrap !important;
     }
 
+    /* Compact W/D/L/P cards on Season Summary while keeping one-row layout */
+    #seasonSummary1stResults .col-3,
+    #seasonSummary2ndResults .col-3 {
+        padding-left: 0.25rem;
+        padding-right: 0.25rem;
+    }
+
+    #seasonSummary1stResults .squad-metric-card .card-header,
+    #seasonSummary2ndResults .squad-metric-card .card-header {
+        font-size: 0.75rem;
+        padding: 0.2rem 0.1rem;
+        line-height: 1.1;
+    }
+
+    #seasonSummary1stResults .squad-metric-card .card-body,
+    #seasonSummary2ndResults .squad-metric-card .card-body {
+        padding: 0.25rem 0.1rem;
+    }
+
+    #seasonSummary1stResults .squad-metric-value,
+    #seasonSummary2ndResults .squad-metric-value {
+        font-size: 1.15rem;
+        line-height: 1;
+    }
+
     /* Page styling for mobile */
     .page-content {
         padding-bottom: 1rem;
@@ -221,5 +246,16 @@
     .league-season-picker {
         min-width: 180px !important;
         max-width: 240px !important;
+    }
+
+    #seasonSummary1stResults .squad-metric-card .card-header,
+    #seasonSummary2ndResults .squad-metric-card .card-header {
+        font-size: 0.65rem;
+        padding: 0.15rem 0.05rem;
+    }
+
+    #seasonSummary1stResults .squad-metric-value,
+    #seasonSummary2ndResults .squad-metric-value {
+        font-size: 1rem;
     }
 }
