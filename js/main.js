@@ -72,9 +72,6 @@ function initializeComponents() {
   // Bind filter events
   bindFilterEvents();
 
-  // Initialize filter panel
-  initializeFilterPanel();
-
   // Handle touch optimization
   handleTouchOptimization();
 
@@ -124,60 +121,6 @@ function bindFilterEvents() {
     });
 
   console.log("✅ Filter events bound");
-}
-
-// Initialize filter panel (from test.html)
-function initializeFilterPanel() {
-  console.log("🔧 Initializing filter panel...");
-
-  const $filterPanelToggle = $("#filterPanelToggle");
-  const $filterPanel = $("#filterPanel");
-  const $backdrop = $("#filterPanelBackdrop");
-
-  function toggleFilterPanel(e) {
-    e.preventDefault();
-    e.stopPropagation();
-
-    const isCurrentlyExpanded = $filterPanel.hasClass("expanded");
-
-    if (isCurrentlyExpanded) {
-      $filterPanel.removeClass("expanded");
-      $backdrop.removeClass("show");
-    } else {
-      $filterPanel.addClass("expanded");
-      if (window.innerWidth <= 768) {
-        $backdrop.addClass("show");
-      }
-    }
-
-    localStorage.setItem(
-      "filterPanelExpanded",
-      $filterPanel.hasClass("expanded")
-    );
-  }
-
-  $filterPanelToggle.on("click", toggleFilterPanel);
-  $backdrop.on("click", function () {
-    $filterPanel.removeClass("expanded");
-    $backdrop.removeClass("show");
-    localStorage.setItem("filterPanelExpanded", false);
-  });
-
-  // Restore panel state
-  if (localStorage.getItem("filterPanelExpanded") === "true") {
-    $filterPanel.addClass("expanded");
-  }
-
-  // Handle window resize
-  window.addEventListener("resize", function () {
-    if (window.innerWidth > 768) {
-      $backdrop.removeClass("show");
-    } else if ($filterPanel.hasClass("expanded")) {
-      $backdrop.addClass("show");
-    }
-  });
-
-  console.log("✅ Filter panel initialized");
 }
 
 // Handle touch optimization (from test.html)

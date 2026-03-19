@@ -25,7 +25,6 @@
     border-bottom-right-radius: 0.375rem;
 }
 
-
 /* ===== BOOTSTRAP SELECT STYLES ===== */
 .bootstrap-select {
     width: 100% !important;
@@ -46,9 +45,8 @@
     border-radius: 0 0.375rem 0.375rem 0 !important;
     border-left: none !important;
     height: auto !important;
-    padding: 0.4rem 0.75rem !important;
-    font-size: 0.9rem !important;
-    font-weight: 600 !important;
+    font-size: 1rem !important;
+    /* font-weight: 600 !important; */
     text-align: left !important;
     white-space: nowrap !important;
     overflow: hidden !important;
@@ -245,6 +243,290 @@ table tbody tr:hover {
     color: var(--accent-color);
 }
 
+/* ===== DATABASE EXPLORER ===== */
+.database-page-shell {
+    padding: 2rem 1rem;
+    max-width: 1500px;
+    margin: 0 auto;
+}
+
+.database-page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.database-page-title {
+    color: var(--primary-color);
+    margin: 0 0 0.5rem 0;
+}
+
+.database-page-subtitle {
+    margin: 0;
+    max-width: 70rem;
+    font-size: 1.02rem;
+    color: #44506b;
+}
+
+.database-explorer-panel {
+    background: #fff;
+    border-radius: 0.75rem;
+    box-shadow: 0 10px 28px rgba(32, 41, 70, 0.08);
+    padding: 1.25rem;
+    margin-bottom: 1.25rem;
+}
+
+.database-filter-grid {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 0.85rem;
+    margin-bottom: 1rem;
+}
+
+.database-filter-grid .filter-item {
+    width: auto;
+    flex: 0 0 auto;
+}
+
+.database-filter-grid .input-group {
+    width: auto;
+}
+
+.database-filter-grid .bootstrap-select {
+    width: auto !important;
+    max-width: 100% !important;
+    flex: 0 1 auto !important;
+}
+
+.database-search-item {
+    min-width: 280px;
+}
+
+.database-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+}
+
+.database-toolbar-group {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+}
+
+.database-toolbar-actions {
+    margin-left: 0;
+    justify-content: flex-start;
+}
+
+.database-two-column-grid {
+    display: grid;
+    grid-template-columns: minmax(280px, 0.85fr) minmax(520px, 1.65fr);
+    gap: 1.25rem;
+    align-items: start;
+}
+
+.database-two-column-grid--guide-collapsed {
+    grid-template-columns: minmax(220px, 0.5fr) minmax(620px, 1.5fr);
+}
+
+.database-stack {
+    min-width: 0;
+}
+
+.database-section-heading-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0.85rem;
+    flex-wrap: wrap;
+}
+
+.database-section-heading-wrap--compact {
+    margin-bottom: 0.55rem;
+}
+
+.database-column-guide-toggle {
+    white-space: nowrap;
+}
+
+.database-section-heading {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 2rem;
+}
+
+.database-doc-card {
+    border: 1px solid rgba(32, 41, 70, 0.08);
+    border-radius: 0.7rem;
+    padding: 0.95rem 1rem;
+    background: #fafbfd;
+}
+
+.database-doc-card h3 {
+    margin: 0 0 0.35rem 0;
+    color: var(--primary-color);
+    font-size: 1rem;
+}
+
+.database-doc-card p {
+    margin: 0;
+    color: #46526d;
+}
+
+.database-columns-summary,
+.database-table-meta,
+.database-pagination-summary,
+.database-page-indicator {
+    color: #586482;
+    font-size: 0.94rem;
+}
+
+.database-columns-table td,
+.database-columns-table th,
+.database-data-table td,
+.database-data-table th {
+    vertical-align: middle;
+}
+
+.database-columns-table td:nth-child(2),
+.database-data-table td {
+    white-space: nowrap;
+}
+
+.database-columns-table {
+    table-layout: fixed;
+    width: 100%;
+}
+
+.database-columns-table th,
+.database-columns-table td {
+    white-space: normal;
+    word-break: break-word;
+}
+
+.database-columns-table th:nth-child(1),
+.database-columns-table td:nth-child(1) {
+    width: 30%;
+}
+
+.database-columns-table th:nth-child(2),
+.database-columns-table td:nth-child(2) {
+    width: 22%;
+}
+
+.database-columns-table th:nth-child(3),
+.database-columns-table td:nth-child(3) {
+    width: 48%;
+}
+
+.database-data-table td {
+    max-width: 240px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.database-data-table th {
+    white-space: nowrap;
+}
+
+.database-sort-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    border: none;
+    background: transparent;
+    padding: 0;
+    font: inherit;
+    color: var(--primary-color);
+    font-weight: 700;
+}
+
+.database-sort-button:hover {
+    color: var(--accent-color);
+}
+
+.database-sort-indicator {
+    color: #7a86a1;
+    font-size: 0.8rem;
+}
+
+.database-table-responsive {
+    min-height: 20rem;
+}
+
+.database-empty-state {
+    padding: 2rem 1rem;
+    text-align: center;
+    color: #68748f;
+}
+
+.database-pagination-bar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    margin-top: 0.9rem;
+    flex-wrap: wrap;
+}
+
+.database-muted {
+    color: #7a86a1;
+}
+
+@media (max-width: 1100px) {
+    .database-two-column-grid {
+        grid-template-columns: minmax(240px, 0.8fr) minmax(0, 1.2fr);
+    }
+
+    .database-two-column-grid--guide-collapsed {
+        grid-template-columns: minmax(190px, 0.45fr) minmax(0, 1.55fr);
+    }
+}
+
+@media (max-width: 900px) {
+    .database-two-column-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .database-page-shell {
+        padding: 1.25rem 0.75rem;
+    }
+
+    .database-toolbar-actions {
+        margin-left: 0;
+    }
+
+    .database-data-table td,
+    .database-columns-table td {
+        white-space: normal;
+    }
+}
+
+@media (max-width: 576px) {
+    .database-toolbar {
+        align-items: stretch;
+    }
+
+    .database-toolbar-group {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .database-toolbar-actions {
+        justify-content: flex-start;
+    }
+}
+
 /* ===== COLLAPSIBLE CHART PANELS =====
  * Reusable pattern for collapsible chart containers.
  *
@@ -377,14 +659,46 @@ table tbody tr:hover {
     border-top: 1px solid rgba(32, 41, 70, 0.2);
 }
 
+/* Shared team colour tokens mapped onto existing classes */
+.league-team-title-1st,
+.league-highlight-row-1st,
+.squad-metric-card-1st,
+.squad-metric-card-header-1st,
+.squad-position-panel-card-1st,
+.squad-group-header-1st,
+.squad-group-subheader-1st,
+.squad-metrics-table td.squad-group-cell-1st {
+    --team-bg: var(--primary-color);
+    --team-fg: var(--light-color);
+}
+
+.league-team-title-2nd,
+.league-highlight-row-2nd,
+.squad-metric-card-2nd,
+.squad-metric-card-header-2nd,
+.squad-position-panel-card-2nd,
+.squad-group-header-2nd,
+.squad-group-subheader-2nd,
+.squad-metrics-table td.squad-group-cell-2nd {
+    --team-bg: var(--accent-color);
+    --team-fg: var(--primary-color);
+}
+
+.squad-metric-card-total,
+.squad-group-header-total,
+.squad-group-subheader-total {
+    --team-bg: #000;
+    --team-fg: #fff;
+}
+
 .league-team-title-1st {
-    background: var(--primary-color);
-    color: var(--light-color);
+    background: var(--team-bg);
+    color: var(--team-fg);
 }
 
 .league-team-title-2nd {
-    background: var(--accent-color);
-    color: var(--primary-color);
+    background: var(--team-bg);
+    color: var(--team-fg);
 }
 
 .league-highlight-row {
@@ -392,13 +706,13 @@ table tbody tr:hover {
 }
 
 .league-highlight-row-1st td {
-    background: var(--primary-color) !important;
-    color: var(--light-color) !important;
+    background: var(--team-bg) !important;
+    color: var(--team-fg) !important;
 }
 
 .league-highlight-row-2nd td {
-    background: var(--accent-color) !important;
-    color: var(--primary-color) !important;
+    background: var(--team-bg) !important;
+    color: var(--team-fg) !important;
 }
 
 .squad-metric-card {
@@ -414,29 +728,29 @@ table tbody tr:hover {
 }
 
 .squad-metric-card-1st {
-    border-top: 4px solid var(--primary-color);
+    border-top: 4px solid var(--team-bg);
 }
 
 .squad-metric-card-2nd {
-    border-top: 4px solid var(--accent-color);
+    border-top: 4px solid var(--team-bg);
 }
 
 .squad-metric-card-header-1st {
-    background: var(--primary-color);
-    color: var(--light-color);
+    background: var(--team-bg);
+    color: var(--team-fg);
 }
 
 .squad-metric-card-header-2nd {
-    background: var(--accent-color);
-    color: var(--primary-color);
+    background: var(--team-bg);
+    color: var(--team-fg);
 }
 
 .squad-metric-card-1st .squad-metric-value {
-    color: var(--primary-color);
+    color: var(--team-bg);
 }
 
 .squad-metric-card-2nd .squad-metric-value {
-    color: var(--accent-color);
+    color: var(--team-bg);
 }
 
 .squad-metric-value {
@@ -554,9 +868,8 @@ table tbody tr:hover {
 }
 
 .squad-metrics-top-filters #squadMetricsMinAppearancesInput {
-    min-width: 3rem;
-    max-width: 4rem;
-    width: 3rem;
+    min-width: 4rem;
+    max-width: 5rem;
     flex: 0 0 auto;
 }
 
@@ -595,18 +908,14 @@ table tbody tr:hover {
     padding: 0 0.8rem 0.8rem 0.8rem;
 }
 
-.squad-position-panel-card-1st {
-    background-color: var(--primary-color);
-    color: white;
-}
-
+.squad-position-panel-card-1st,
 .squad-position-panel-card-2nd {
-    background-color: var(--accent-color);
+    background-color: var(--team-bg);
+    color: var(--team-fg);
 }
 
 .squad-position-panel-subtitle {
     margin: 0 0 0.25rem 0;
-    color: var(--primary-color);
     font-size: 0.9rem;
     min-height: 1.2em;
     color: white;
@@ -661,28 +970,28 @@ table tbody tr:hover {
 }
 
 .squad-position-card-value--forwards {
-    color: white;
-    background-color: blue;
+    color: #fff;
+    background-color: blue
 }
 
 .squad-position-card-value--backs {
-    color: black;
-    background-color: white;
+    color: #000;
+    background-color: #fff;
 }
 
 .squad-metric-card-total {
-    background: #000;
-    border-top: 4px solid #000;
+    background: var(--team-bg);
+    border-top: 4px solid var(--team-bg);
 }
 
 .squad-metric-card-total .squad-metric-card-header {
-    background: #000;
-    color: #fff;
+    background: var(--team-bg);
+    color: var(--team-fg);
 }
 
 .squad-metric-card-total .card-body {
-    background: #000;
-    color: #fff;
+    background: var(--team-bg);
+    color: var(--team-fg);
 }
 
 .squad-metric-card > .card-body {
@@ -691,7 +1000,7 @@ table tbody tr:hover {
 
 .squad-metric-card-total .squad-metric-value,
 .squad-metric-card-total .card-text {
-    color: #fff;
+    color: var(--team-fg);
 }
 
 .squad-metrics-table-wrap {
@@ -726,36 +1035,36 @@ table tbody tr:hover {
 }
 
 .squad-group-header-1st {
-    background: var(--primary-color) !important;
-    color: var(--light-color) !important;
+    background: var(--team-bg) !important;
+    color: var(--team-fg) !important;
     font-size: 2rem !important;
 }
 
 .squad-group-header-2nd {
-    background: var(--accent-color) !important;
-    color: var(--primary-color) !important;
+    background: var(--team-bg) !important;
+    color: var(--team-fg) !important;
     font-size: 2rem !important;
 }
 
 .squad-group-header-total {
-    background: #000 !important;
-    color: #fff !important;
+    background: var(--team-bg) !important;
+    color: var(--team-fg) !important;
     font-size: 2rem !important;
 }
 
 .squad-group-subheader-1st {
-    background: var(--primary-color) !important;
-    color: var(--light-color) !important;
+    background: var(--team-bg) !important;
+    color: var(--team-fg) !important;
 }
 
 .squad-group-subheader-2nd {
-    background: var(--accent-color) !important;
-    color: var(--primary-color) !important;
+    background: var(--team-bg) !important;
+    color: var(--team-fg) !important;
 }
 
 .squad-group-subheader-total {
-    background: #000 !important;
-    color: #fff !important;
+    background: var(--team-bg) !important;
+    color: var(--team-fg) !important;
 }
 
 .squad-metrics-table th,
@@ -779,11 +1088,11 @@ table tbody tr:hover {
 }
 
 .squad-metrics-table td.squad-group-cell-1st {
-    color: var(--primary-color);
+    color: var(--team-bg);
 }
 
 .squad-metrics-table td.squad-group-cell-2nd {
-    color: var(--accent-color);
+    color: var(--team-bg);
 }
 
 .squad-metrics-table th:first-child,
@@ -792,22 +1101,25 @@ table tbody tr:hover {
     white-space: nowrap;
 }
 
-.squad-metrics-table tbody td:nth-child(2),
-.squad-metrics-table thead tr:first-child .squad-group-header-1st,
-.squad-metrics-table thead tr:nth-child(2) .squad-group-subheader-1st.squad-subheader-fwds{
+.squad-metrics-table tbody td:nth-child(2) {
     border-left: 2px solid var(--primary-color) !important;
 }
 
-.squad-metrics-table tbody td:nth-child(5),
-.squad-metrics-table thead tr:first-child .squad-group-header-2nd,
-.squad-metrics-table thead tr:nth-child(2) .squad-group-subheader-2nd.squad-subheader-fwds {
+.squad-metrics-table tbody td:nth-child(5) {
     border-left: 2px solid var(--accent-color) !important;
 }
 
-.squad-metrics-table tbody td:nth-child(8),
-.squad-metrics-table thead tr:first-child .squad-group-header-total,
-.squad-metrics-table thead tr:nth-child(2) .squad-group-subheader-total.squad-subheader-fwds {
+.squad-metrics-table tbody td:nth-child(8) {
     border-left: 2px solid black !important;
+}
+
+.squad-metrics-table thead tr:first-child .squad-group-header-total,
+.squad-metrics-table thead tr:first-child .squad-group-header-1st,
+.squad-metrics-table thead tr:first-child .squad-group-header-2nd,
+.squad-metrics-table thead tr:nth-child(2) .squad-group-subheader-total.squad-subheader-fwds,
+.squad-metrics-table thead tr:nth-child(2) .squad-group-subheader-1st.squad-subheader-fwds,
+.squad-metrics-table thead tr:nth-child(2) .squad-group-subheader-2nd.squad-subheader-fwds {
+    border-left: 2px solid var(--team-bg) !important;
 }
 
 .squad-metrics-current-season td {

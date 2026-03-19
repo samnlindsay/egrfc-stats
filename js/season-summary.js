@@ -41,9 +41,13 @@ const SeasonSummary = (() => {
                 option.textContent = season.replace('/', '-');
                 seasonSelect.appendChild(option);
             });
-            // Initialize selectpicker if available
+            // Rebuild selectpicker after replacing options to avoid duplicate render state
             if ($.fn.selectpicker) {
-                $(seasonSelect).selectpicker('refresh');
+                const $seasonSelect = $(seasonSelect);
+                const selectedSeason = seasons[0];
+                $seasonSelect.selectpicker('destroy');
+                $seasonSelect.selectpicker();
+                $seasonSelect.selectpicker('val', selectedSeason);
             }
             currentSeason = seasons[0];
         }

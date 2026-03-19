@@ -47,6 +47,7 @@
                     <li class="nav-item"><a class="nav-link" href="#" data-page="league-tables">League Tables</a></li>
                     <li class="nav-item"><a class="nav-link" href="#" data-page="squad-metrics">Squad Stats</a></li>
                     <li class="nav-item"><a class="nav-link" href="#" data-page="player-profiles">Player Stats</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#" data-page="database">Data</a></li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="graphicsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Graphics
@@ -100,7 +101,15 @@
                         <div class="card" style="border-top: 4px solid var(--red-color); cursor: pointer;" onclick="navigateTo('player-profiles')">
                             <div class="card-body">
                                 <h5 class="card-title">Player Stats</h5>
-                                <p class="card-text">Individual player stats and information</p>
+                                <p class="card-text">Individual player stats and information.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3 mb-3">
+                        <div class="card" style="border-top: 4px solid var(--dark-color); cursor: pointer;" onclick="navigateTo('database')">
+                            <div class="card-body">
+                                <h5 class="card-title">Data</h5>
+                                <p class="card-text">Browse (and download) the backend data tables that power this site.</p>
                             </div>
                         </div>
                     </div>
@@ -742,6 +751,106 @@
             </div>
         </div>
 
+        <!-- ========== DATA PAGE ========== -->
+        <div id="page-database" class="page-content">
+            <div class="database-page-shell">
+                <div class="database-page-header">
+                    <div>
+                        <h1 class="database-page-title">Data</h1>
+                        <p class="database-page-subtitle">View the underlying data tables that power the content of this site. Explore, filter, and download the data for your own analysis.</p>
+                    </div>
+                </div>
+
+                    <div class="database-filter-grid">
+                        <div class="filter-item">
+                            <div class="input-group">
+                                <span class="input-group-text">Table</span>
+                                <select id="databaseTableSelect" class="selectpicker form-control flex-fill" data-live-search="true" data-size="10"></select>
+                            </div>
+                        </div>
+                        <div class="filter-item">
+                            <div class="input-group">
+                                <span class="input-group-text">Season</span>
+                                <select id="databaseSeasonFilter" class="selectpicker form-control flex-fill" data-size="10"></select>
+                            </div>
+                        </div>
+                        <div class="filter-item">
+                            <div class="input-group">
+                                <span class="input-group-text">Squad</span>
+                                <select id="databaseSquadFilter" class="selectpicker form-control flex-fill" data-size="8"></select>
+                            </div>
+                        </div>
+                        <div class="filter-item">
+                            <div class="input-group">
+                                <span class="input-group-text">Game Type</span>
+                                <select id="databaseGameTypeFilter" class="selectpicker form-control flex-fill" data-size="8"></select>
+                            </div>
+                        </div>
+                        <div class="filter-item database-search-item">
+                            <div class="input-group">
+                                <span class="input-group-text">Search</span>
+                                <input id="databaseSearchInput" type="search" class="form-control" placeholder="Search within the current table">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="database-toolbar">
+                        <div class="database-toolbar-group database-toolbar-actions">
+                            <button id="databaseResetFilters" type="button" class="btn btn-outline-secondary btn-sm">Reset Filters</button>
+                            <button id="databaseDownloadFiltered" type="button" class="btn btn-outline-primary btn-sm">Download Filtered CSV</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="database-two-column-grid">
+                    <div class="database-stack">
+                        <div class="database-explorer-panel">
+                            <div class="database-section-heading-wrap database-section-heading-wrap--compact">
+                                <h2 class="database-section-heading">Column Guide</h2>
+                                <button id="databaseColumnGuideToggle" type="button" class="btn btn-outline-secondary btn-sm database-column-guide-toggle" aria-expanded="false" aria-controls="databaseColumnGuideContent">Show Guide</button>
+                            </div>
+                            <div id="databaseColumnGuideContent" hidden>
+                                <div id="databaseColumnsSummary" class="database-columns-summary"></div>
+                                <div class="table-responsive">
+                                    <table class="table table-sm align-middle database-columns-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Column</th>
+                                                <th>Completeness</th>
+                                                <th>Example</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="databaseColumnsTableBody"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="database-stack">
+                        <div class="database-explorer-panel">
+                            <div class="database-section-heading-wrap">
+                                <h2 id="databaseTableHeading" class="database-section-heading">Data Table</h2>
+                                <div id="databasePaginationSummary" class="database-pagination-summary"></div>
+                            </div>
+                            <div id="databaseTableMeta" class="database-table-meta"></div>
+                            <div class="table-responsive database-table-responsive">
+                                <table class="table table-striped table-hover align-middle database-data-table">
+                                    <thead id="databaseTableHead"></thead>
+                                    <tbody id="databaseTableBody"></tbody>
+                                </table>
+                            </div>
+                            <div class="database-pagination-bar">
+                                <button id="databasePrevPage" type="button" class="btn btn-outline-secondary btn-sm">Previous</button>
+                                <span id="databasePageIndicator" class="database-page-indicator"></span>
+                                <button id="databaseNextPage" type="button" class="btn btn-outline-secondary btn-sm">Next</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- ========== VIDEO ANALYSIS PAGE ========== -->
         <div id="page-video-analysis" class="page-content">
             <div style="padding: 2rem 1rem; max-width: 1200px; margin: 0 auto;">
@@ -787,6 +896,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/js/bootstrap-select.min.js"></script>
 
     <!-- Application Scripts -->
+    <script src="js/database-explorer.js"></script>
     <script src="js/season-summary.js"></script>
 
     <!-- Modular Page Navigation Script -->
@@ -860,6 +970,10 @@
 
                 if (page === 'squad-metrics') {
                     loadSquadMetricsPage();
+                }
+
+                if (page === 'database' && window.DatabaseExplorer) {
+                    window.DatabaseExplorer.load();
                 }
             }
         }
@@ -1835,7 +1949,10 @@
                 seasonSelect.value = seasons[0];
             }
 
-            $seasonSelect.selectpicker('refresh');
+            const selectedSquadSeason = seasonSelect.value;
+            $seasonSelect.selectpicker('destroy');
+            $seasonSelect.selectpicker();
+            $seasonSelect.selectpicker('val', selectedSquadSeason);
             $gameTypeSelect.selectpicker();
 
             gameTypeSelect.value = 'All games';
@@ -2312,8 +2429,11 @@
                     seasonSelect.value = availableSeasons[0];
                 }
 
-                // Refresh selectpicker to update UI with new options
-                $seasonSelect.selectpicker('refresh');
+                // Rebuild selectpicker to update UI with new options and avoid duplicate render state
+                const selectedLeagueSeason = seasonSelect.value;
+                $seasonSelect.selectpicker('destroy');
+                $seasonSelect.selectpicker();
+                $seasonSelect.selectpicker('val', selectedLeagueSeason);
 
                 // Listen for changes (on the bootstrap-selectpicker change event)
                 $seasonSelect.on('change', function() {
