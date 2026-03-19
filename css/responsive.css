@@ -11,6 +11,36 @@
         gap: 0.4rem;
     }
 
+    /* Squad Metrics top filters: shrink to content width on mobile */
+    .squad-metrics-top-filters .input-group-text {
+        width: auto !important;
+        min-width: 0 !important;
+        flex: 0 0 auto !important;
+        padding-left: 0.4rem !important;
+        padding-right: 0.4rem !important;
+        font-size: 0.75rem !important;
+    }
+
+    .squad-metrics-top-filters .bootstrap-select {
+        min-width: 0 !important;
+        width: fit-content !important;
+    }
+
+    .squad-metrics-top-filters .bootstrap-select .dropdown-toggle {
+        min-width: 0 !important;
+        padding: 0.3rem 0.4rem !important;
+        font-size: 0.8rem !important;
+    }
+
+    .squad-metrics-top-filters #squadMetricsMinAppearancesInput {
+        min-width: 2rem !important;
+        max-width: 3rem !important;
+        width: 3rem !important;
+        flex: 0 0 3rem !important;
+        font-size: 0.8rem;
+        padding: 0.3rem 0.4rem;
+    }
+
     /* Compact Squad Metrics cards */
     .squad-metric-card .card-header {
         line-height: 1.15;
@@ -137,6 +167,11 @@
     }
 
     .col-md-4, .col-md-6, .col-lg-3, .col-lg-4, .col-lg-6 {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
+
+    #squadMetricsCards .col-4 {
         padding-left: 0.5rem;
         padding-right: 0.5rem;
     }

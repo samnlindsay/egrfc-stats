@@ -44,9 +44,9 @@
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="#" data-page="home">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="#" data-page="season-summary">Season Summary</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#" data-page="league-tables">League</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#" data-page="squad-metrics">Squad</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#" data-page="player-profiles">Player</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" data-page="league-tables">League Tables</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" data-page="squad-metrics">Squad Stats</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" data-page="player-profiles">Player Stats</a></li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="graphicsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Graphics
@@ -91,7 +91,7 @@
                     <div class="col-md-6 col-lg-3 mb-3">
                         <div class="card" style="border-top: 4px solid var(--green-color); cursor: pointer;" onclick="navigateTo('squad-metrics')">
                             <div class="card-body">
-                                <h5 class="card-title">Squad Metrics</h5>
+                                <h5 class="card-title">Squad Stats</h5>
                                 <p class="card-text">Summary of squad sizes and continuity between match day squads.</p>
                             </div>
                         </div>
@@ -99,7 +99,7 @@
                     <div class="col-md-6 col-lg-3 mb-3">
                         <div class="card" style="border-top: 4px solid var(--red-color); cursor: pointer;" onclick="navigateTo('player-profiles')">
                             <div class="card-body">
-                                <h5 class="card-title">Player Profiles</h5>
+                                <h5 class="card-title">Player Stats</h5>
                                 <p class="card-text">Individual player stats and information</p>
                             </div>
                         </div>
@@ -434,14 +434,14 @@
                         <div class="filter-item league-season-picker" style="margin-bottom: 0;">
                             <div class="input-group">
                                 <span class="input-group-text">Min Apps</span>
-                                <input id="squadMetricsMinAppearancesInput" class="form-control flex-fill" type="number" min="0" step="1" value="0" inputmode="numeric" aria-label="Minimum appearances" />
+                                <input id="squadMetricsMinAppearancesInput" class="form-control" type="number" min="0" step="1" value="0" inputmode="numeric" aria-label="Minimum appearances" />
                             </div>
                         </div>
                     </div>
                 </div>
                 <h1 style="color: var(--primary-color); margin-bottom: 1rem; font-weight: 900;">Squad Size</h1>
                 <div class="row mb-4" id="squadMetricsCards">
-                    <div class="col-md-4 mb-3">
+                    <div class="col-4 mb-3">
                         <div class="card squad-metric-card squad-metric-card-1st">
                             <div class="card-header squad-metric-card-header squad-metric-card-header-1st league-team-title-1st">1st XV</div>
                             <div class="card-body text-center">
@@ -450,7 +450,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4 mb-3">
+                    <div class="col-4 mb-3">
                         <div class="card squad-metric-card squad-metric-card-2nd">
                             <div class="card-header squad-metric-card-header squad-metric-card-header-2nd league-team-title-2nd">2nd XV</div>
                             <div class="card-body text-center">
@@ -459,7 +459,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4 mb-3">
+                    <div class="col-4 mb-3">
                         <div class="card squad-metric-card squad-metric-card-total">
                             <div class="card-header squad-metric-card-header">Total</div>
                             <div class="card-body text-center">
@@ -573,7 +573,7 @@
                             type="button"
                             class="chart-panel-toggle chart-panel-toggle--primary"
                             data-target="squad-size-panel"
-                            aria-expanded="true"
+                            aria-expanded="false"
                             aria-controls="squad-size-panel">
                             <span class="chart-panel-toggle-text">
                                 <span class="chart-panel-toggle-title">Squad Size</span>
@@ -581,7 +581,7 @@
                             </span>
                             <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
                         </button>
-                        <div id="squad-size-panel" class="chart-panel-content">
+                        <div id="squad-size-panel" class="chart-panel-content" hidden>
                             <div class="chart-panel-card">
                                 <div id="squadSizeTrendChart" style="overflow: visible;"></div>
                             </div>
@@ -594,7 +594,7 @@
                             type="button"
                             class="chart-panel-toggle chart-panel-toggle--primary"
                             data-target="squad-continuity-panel"
-                            aria-expanded="true"
+                            aria-expanded="false"
                             aria-controls="squad-continuity-panel">
                             <span class="chart-panel-toggle-text">
                                 <span class="chart-panel-toggle-title">Squad Continuity</span>
@@ -602,7 +602,7 @@
                             </span>
                             <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
                         </button>
-                        <div id="squad-continuity-panel" class="chart-panel-content">
+                        <div id="squad-continuity-panel" class="chart-panel-content" hidden>
                             <div class="chart-panel-card">
                                 <div id="squadContinuityTrendChart" style="overflow: visible;"></div>
                             </div>

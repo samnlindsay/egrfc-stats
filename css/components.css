@@ -554,8 +554,10 @@ table tbody tr:hover {
 }
 
 .squad-metrics-top-filters #squadMetricsMinAppearancesInput {
-    min-width: 5.5rem;
-    max-width: 7rem;
+    min-width: 3rem;
+    max-width: 4rem;
+    width: 3rem;
+    flex: 0 0 auto;
 }
 
 .squad-position-panel {
