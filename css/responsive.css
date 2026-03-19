@@ -77,14 +77,19 @@
 
     .input-group {
         min-width: 100%;
-        flex-direction: column;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-items: stretch;
     }
 
     .input-group-text {
-        min-width: 80px;
-        flex: 0 0 80px;
-        width: 100%;
-        border-radius: 0.375rem 0.375rem 0 0 !important;
+        min-width: 72px;
+        flex: 0 0 auto;
+        width: auto;
+        padding-top: 0.2rem;
+        padding-bottom: 0.2rem;
+        line-height: 1.2;
+        border-radius: 0.375rem 0 0 0.375rem !important;
     }
 
     .btn-group {
@@ -99,8 +104,8 @@
     .bootstrap-select .dropdown-toggle {
         font-size: 0.8rem !important;
         padding: 0.3rem 0.5rem !important;
-        border-radius: 0 0 0.375rem 0.375rem !important;
-        border-left: 1px solid #ced4da !important;
+        border-radius: 0 0.375rem 0.375rem 0 !important;
+        border-left: none !important;
     }
 
     .league-season-picker .input-group {
