@@ -443,6 +443,7 @@ table tbody tr:hover {
     font-size: 4rem;
     font-weight: 800;
     margin: 0;
+    padding: 0;
 }
 
 .squad-metric-card .card-text {
@@ -516,7 +517,6 @@ table tbody tr:hover {
 #seasonSummary2ndTopTryScorer .card-body,
 #seasonSummary2ndMostAppearances .card-body {
     padding: 0.25rem 0.25rem;
-    margin:0;
 }
 
 #seasonSummary1stTopPointScorer .squad-metric-value,
@@ -525,8 +525,7 @@ table tbody tr:hover {
 #seasonSummary2ndTopPointScorer .squad-metric-value,
 #seasonSummary2ndTopTryScorer .squad-metric-value,
 #seasonSummary2ndMostAppearances .squad-metric-value {
-    font-size: 4rem;
-    margin: 0;
+    font-size: 3.5rem;
 }
 
 #seasonSummary1stTopPointScorer .card-text,
@@ -535,7 +534,7 @@ table tbody tr:hover {
 #seasonSummary2ndTopPointScorer .card-text,
 #seasonSummary2ndTopTryScorer .card-text,
 #seasonSummary2ndMostAppearances .card-text {
-    font-size: 1.5rem;
+    font-size: 1.1rem;
     margin-bottom: 0;
 }
 
