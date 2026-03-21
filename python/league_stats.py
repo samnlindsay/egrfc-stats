@@ -18,6 +18,7 @@ import altair as alt
 import argparse
 import logging
 import re
+import duckdb
 from pathlib import Path
 
 # Add project root to Python path
@@ -1112,729 +1113,313 @@ def create_unified_league_dispatch_html():
 
     return results_file, table_file
 
-def create_combined_league_charts(squad=1):
-    """Create combined league charts for all available seasons for a given squad."""
-    
-    # Load all data
-    df_summary, matches_json = load_match_data()
-    df_players = prepare_player_data(matches_json)
-    
-    if df_players.empty:
-        logging.error("No player data available")
-        return None
-    
-    # Filter for this squad
-    squad_df = df_players[df_players["Squad"] == squad].copy()
-    
-    if squad_df.empty:
-        logging.error(f"No data found for squad {squad}")
-        return None
-    
-    # Get available seasons for this squad
-    available_seasons = sorted(squad_df["Season"].unique())
-    
-    if not available_seasons:
-        logging.error(f"No seasons found for squad {squad}")
-        return None
-    
-    logging.info(f"Creating combined charts for squad {squad} with {len(available_seasons)} seasons")
-    
-    # Add unit classification
-    squad_df["Unit"] = squad_df["Position"].apply(classify_unit)
-    
-    # Prepare all data for charts
-    
-    players_per_team = (
-        squad_df.groupby(["Season", "Team", "Color1", "Color2", "Player"])["Unit"]
-        .agg(lambda x: "Forwards" if "Forwards" in x.values else "Backs" if "Backs" in x.values else "Bench")
-        .reset_index()
-        .groupby(["Season", "Team", "Color1", "Color2", "Unit"])
-        .size()
-        .reset_index()
-        .rename(columns={0: "Total Players"})
-    )
-
-    total_players_per_team = squad_df.groupby(["Season", "Team", "Color1", "Color2"])["Player"].nunique().reset_index()
-    total_players_per_team.columns = ["Season", "Team", "Color1", "Color2", "Total Players"]
-    total_players_per_team["Unit"] = "Total"
-
-    players_per_team = pd.concat([players_per_team, total_players_per_team], ignore_index=True)
-
-    # Retention data
-    retention_data = []
-    for (team, season), matches in squad_df.sort_values("Date", ascending=True).groupby(["Team", "Season"]):
-        prev_squad = set()
-        prev_forwards = set()
-        prev_backs = set()
-        
-        for match_id, match in matches.groupby("Match ID"):
-            current_squad = set(match[match["Unit"] != "Bench"]["Player"])
-            forwards = set(match[match["Unit"] == "Forwards"]["Player"])
-            backs = set(match[match["Unit"] == "Backs"]["Player"])
-            
-            # Find opposition team - get all teams in this match that aren't the current team
-            all_teams_in_match = squad_df[squad_df["Match ID"] == match_id]["Team"].unique()
-            opposition = [t for t in all_teams_in_match if t != team]
-            opposition_name = opposition[0] if opposition else "Unknown"
-            
-            if prev_squad:
-                retained = len(current_squad & prev_squad)
-                retained_forwards = len(forwards & prev_forwards)
-                retained_backs = len(backs & prev_backs)
-            else:
-                retained = None
-                retained_forwards = None
-                retained_backs = None
-
-            retention_data.append({
-                "Match ID": match_id,
-                "Season": season,
-                "Date": match["Date"].iloc[0],
-                "Team": team,
-                "Opposition": opposition_name,
-                "Players Retained": retained,
-                "Forwards Retained": retained_forwards,
-                "Backs Retained": retained_backs,
-                "Color1": match["Color1"].iloc[0],
-                "Color2": match["Color2"].iloc[0]
-            })
-            
-            prev_squad = current_squad
-            prev_forwards = forwards
-            prev_backs = backs
-
-    retention_df = pd.DataFrame(retention_data).dropna()
-
-    # Average squad retention per team
-    average_retention = (
-        retention_df
-        .groupby(["Season", "Team", "Color1", "Color2"])
-        .agg({"Players Retained": "mean", "Forwards Retained": "mean", "Backs Retained": "mean"})
-        .reset_index()
-        .melt(["Season", "Team", "Color1", "Color2"], var_name="Unit", value_name="Average Retention")
-    )
-    average_retention["Unit"] = average_retention["Unit"].str.replace(" Retained", "").replace("Players", "Total")
-    # Sort so East Grinstead appears last (plotted on top)
-    average_retention = average_retention.sort_values('Team', key=lambda x: x == 'East Grinstead')
-
-    # Create interactive selectors
-    # Unit selection (Total/Forwards/Backs)
-    unit_radio = alt.binding_radio(
-        options=["Total", "Forwards", "Backs"], 
-        name="Unit"
-    )
-    unit_select = alt.selection_point(fields=["Unit"], bind=unit_radio, value="Total")
-
-    # Season selection - default to most recent season
-    season_options = sorted(squad_df["Season"].unique().tolist())
-    season_labels = [f"{s[:4]}/{s[7:]}" for s in sorted(squad_df["Season"].unique())]
-    season_radio = alt.binding_radio(
-        options=season_options, 
-        name="Season", 
-        labels=season_labels
-    )
-    default_season = sorted(squad_df["Season"].unique().tolist())[-1]
-    season_select = alt.selection_point(fields=["Season"], bind=season_radio, value=default_season)
-
-    # Create charts
-    squad_label = f"{squad}st XV" if squad == 1 else f"{squad}nd XV"
-    
-    # Squad size chart with league average
-    players_bars = (
-        alt.Chart(players_per_team)
-        .mark_bar(strokeWidth=2)
-        .encode(
-            x=alt.X("Total Players:Q", title="Total Players"),
-            y=alt.Y("Team:N", sort="-x", title=None, axis=alt.Axis(labelPadding=10, labelLimit=200)),
-            color=alt.Color("Color1:N", scale=None, legend=None),
-            stroke=alt.Stroke("Color2:N", scale=None, legend=None),
-            tooltip=["Team", "Unit", "Total Players"],
-        )
-    )
-    
-    players_average = (
-        alt.Chart(players_per_team)
-        .mark_rule(color='gray', strokeDash=[5, 5], strokeWidth=2)
-        .encode(
-            x=alt.X("mean(Total Players):Q"),
-            tooltip=[alt.Tooltip("mean(Total Players):Q", title="League Average", format=".1f")]
-        )
-    )
-    
-    players_per_team_chart = (
-        (players_bars + players_average)
-        .properties(
-            title=alt.Title(
-                text=f"Squad Size", 
-                subtitle="Total players representing each team across the season."
-            ),
-            width=250, height=300
-        )
-        .add_params(season_select, unit_select)
-        .transform_filter(season_select)
-        .transform_filter(unit_select)
-    )
-
-    # Reshape retention data for unit selection
-    retention_long = retention_df.melt(
-        id_vars=["Match ID", "Season", "Date", "Team", "Opposition", "Color1", "Color2"],
-        value_vars=["Players Retained", "Forwards Retained", "Backs Retained"],
-        var_name="Unit",
-        value_name="Retained"
-    )
-    retention_long["Unit"] = retention_long["Unit"].str.replace(" Retained", "").replace("Players", "Total")
-    # Sort so East Grinstead appears last (plotted on top)
-    retention_long = retention_long.sort_values('Team', key=lambda x: x == 'East Grinstead')
-
-    retention_chart = (
-        alt.Chart(retention_long)
-        .mark_line(point={"size": 50})
-        .encode(
-            x=alt.X("Date:T", title="Match Date"),
-            y=alt.Y(
-                "Retained:Q", 
-                title="Players Retained", 
-            ),
-            color=alt.Color("Color1:N", scale=None, legend=None),
-            detail="Team:N",
-            tooltip=[
-                alt.Tooltip("Team:N", title="Team"),
-                alt.Tooltip("Opposition:N", title="Opposition"),
-                alt.Tooltip("Date:T", title="Date", format="%d %b %Y"),
-                alt.Tooltip("Unit:N", title="Unit"),
-                alt.Tooltip("Retained:Q", title="Players Retained")
-            ],
-        )
-        .properties(
-            title=alt.Title(
-                text=f"Squad Retention by Game",
-                subtitle="Number of players retained in the starting XV from the previous match.",
-            ),
-            width=900,
-            height=400
-        )
-        .add_params(season_select, unit_select)
-        .transform_filter(season_select)
-        .transform_filter(unit_select)
-    )
-
-    # Average retention chart with league average
-    retention_bars = (
-        alt.Chart(average_retention)
-        .mark_bar(strokeWidth=2)
-        .encode(
-            x=alt.X("Average Retention:Q", title="Average Players Retained"),
-            y=alt.Y("Team:N", sort="-x", title=None, axis=alt.Axis(ticks=False, domain=False, labelPadding=10, labelLimit=200)),
-            color=alt.Color("Color1:N", scale=None, legend=None),
-            stroke=alt.Stroke("Color2:N", scale=None, legend=None),
-            tooltip=["Team", "Unit:N", alt.Tooltip("Average Retention:Q", format=".2f")],
-        )
-    )
-    
-    retention_average = (
-        alt.Chart(average_retention)
-        .mark_rule(color='gray', strokeDash=[5, 5], strokeWidth=2)
-        .encode(
-            x=alt.X("mean(Average Retention):Q"),
-            tooltip=[alt.Tooltip("mean(Average Retention):Q", title="League Average", format=".2f")]
-        )
-    )
-    
-    average_retention_chart = (
-        (retention_bars + retention_average)
-        .properties(
-            title=alt.Title(
-                text=f"Squad Retention",
-                subtitle="Average players retained from the starting XV."
-            ), 
-            width=250, height=300
-        )
-        .add_params(season_select, unit_select)
-        .transform_filter(season_select)
-        .transform_filter(unit_select)
-    )
-
-    # Create season-to-league mapping for info panel
-    season_league_map = []
-    for season in season_options:
-        season_display = f"{season[:4]}/{season[7:]}"
-        league = divisions.get(squad, {}).get(season_display, "Unknown League")
-        season_league_map.append({
-            "Season": season,
-            "SeasonDisplay": season_display,
-            "League": league,
-            "Squad": squad_label,
-            "Unit": "Total"  # Will be used for filtering
-        })
-    
-    # Add unit options to data for dynamic title
-    unit_data = []
-    for item in season_league_map:
-        for unit in ["Total", "Forwards", "Backs"]:
-            unit_item = item.copy()
-            unit_item["Unit"] = unit
-            unit_data.append(unit_item)
-    
-    # Create info panel with three text rows
-    info_data = pd.DataFrame(unit_data)
-    
-    # Background rectangle for the info panel
-    info_bg = (
-        alt.Chart(pd.DataFrame({'x': [0]}))
-        .mark_rect(
-            color=EG_ACCENT,
-            stroke=EG_PRIMARY,
-            strokeWidth=2,
-            cornerRadius=4
-        )
-        .encode(
-            x=alt.value(-50),
-            y=alt.value(-50),
-            x2=alt.value(150),
-            y2=alt.value(400)
-        )
-    )
-    
-    # Squad label (always displays "1st XV" or "2nd XV")
-    squad_text = (
-        alt.Chart(info_data)
-        .mark_text(
-            align='left',
-            baseline='bottom',
-            fontSize=60,
-            fontWeight='bold',
-            font='PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif',
-            color=EG_PRIMARY,
-            dx=-80,
-            dy=10
-        )
-        .encode(text='Squad:N')
-        .transform_filter(season_select)
-        .transform_filter(unit_select)
-    )
-    
-    # Unit label (displays "Squad", "Forwards", or "Backs")
-    unit_text = (
-        alt.Chart(info_data)
-        .mark_text(
-            align='left',
-            baseline='bottom',
-            fontSize=48,
-            fontWeight='bold',
-            font='PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif',
-            color=EG_PRIMARY,
-            dx=-80,
-            dy=50
-        )
-        .encode(text='UnitLabel:N')
-        .transform_filter(season_select)
-        .transform_filter(unit_select)
-        .transform_calculate(
-            UnitLabel="datum.Unit == 'Total' ? 'Squad' : datum.Unit"
-        )
-    )
-    
-    # Season label
-    season_text = (
-        alt.Chart(info_data)
-        .mark_text(
-            align='left',
-            baseline='top',
-            fontSize=32,
-            font='PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif',
-            color=EG_PRIMARY,
-            dx=-80,
-            dy=80
-        )
-        .encode(text='SeasonDisplay:N')
-        .transform_filter(season_select)
-        .transform_filter(unit_select)
-    )
-    
-    # League label
-    league_text = (
-        alt.Chart(info_data)
-        .mark_text(
-            align='left',
-            baseline='top',
-            fontSize=20,
-            font='PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif',
-            color='white',
-            dx=-80,
-            dy=130
-        )
-        .encode(text='League:N')
-        .transform_filter(season_select)
-        .transform_filter(unit_select)
-    )
-    
-    # Combine info panel elements
-    info_panel = (info_bg + squad_text + unit_text + season_text + league_text).properties(
-        width=100,
-        height=100
-    )
-    
-    # Create trend charts for squad size and retention over seasons
-    # Merge squad size and retention data
-    trend_data = players_per_team.merge(
-        average_retention,
-        on=["Season", "Team", "Color1", "Color2", "Unit"],
-        how="inner"
-    )
-    
-    # Calculate league statistics per season
-    league_stats_size = (
-        trend_data.groupby(["Season", "Unit"])["Total Players"]
-        .agg(["min", "max", "mean"])
-        .reset_index()
-    )
-    
-    league_stats_retention = (
-        trend_data.groupby(["Season", "Unit"])["Average Retention"]
-        .agg(["min", "max", "mean"])
-        .reset_index()
-    )
-    
-    # East Grinstead data
-    eg_data = trend_data[trend_data["Team"] == "East Grinstead"].copy()
-    
-    # Squad Size Over Time Chart
-    # Min/Max range band
-    size_band = (
-        alt.Chart(league_stats_size)
-        .mark_area(opacity=0.2, color="gray")
-        .encode(
-            x=alt.X("SeasonDisplay:N", title="Season"),
-            y=alt.Y("min:Q", title="Squad Size"),
-            y2=alt.Y2("max:Q"),
-            tooltip=[
-                alt.Tooltip("SeasonDisplay:N", title="Season"),
-                alt.Tooltip("min:Q", title="League Min", format=".0f"),
-                alt.Tooltip("max:Q", title="League Max", format=".0f"),
-                alt.Tooltip("mean:Q", title="League Average", format=".1f")
-            ]
-        )
-        .transform_calculate(
-            SeasonDisplay="substring(datum.Season, 2, 4) + '/' + substring(datum.Season, 7, 9)"
-        )
-        .transform_filter(unit_select)
-    )
-    
-    # League average line
-    size_avg = (
-        alt.Chart(league_stats_size)
-        .mark_line(color="gray", strokeDash=[5, 5], strokeWidth=2)
-        .encode(
-            x=alt.X("SeasonDisplay:N"),
-            y=alt.Y("mean:Q", axis=alt.Axis(orient="right")),
-            tooltip=[
-                alt.Tooltip("SeasonDisplay:N", title="Season"),
-                alt.Tooltip("mean:Q", title="League Average", format=".1f")
-            ]
-        )
-        .transform_calculate(
-            SeasonDisplay="substring(datum.Season, 2, 4) + '/' + substring(datum.Season, 7, 9)"
-        )
-        .transform_filter(unit_select)
-    )
-    
-    # East Grinstead line
-    size_eg = (
-        alt.Chart(eg_data)
-        .mark_line(point={"size": 100}, strokeWidth=3)
-        .encode(
-            x=alt.X("SeasonDisplay:N"),
-            y=alt.Y("Total Players:Q"),
-            color=alt.Color("Color1:N", scale=None, legend=None),
-            tooltip=[
-                alt.Tooltip("SeasonDisplay:N", title="Season"),
-                alt.Tooltip("Team:N", title="Team"),
-                alt.Tooltip("Unit:N", title="Unit"),
-                alt.Tooltip("Total Players:Q", title="Squad Size")
-            ]
-        )
-        .transform_calculate(
-            SeasonDisplay="substring(datum.Season, 2, 4) + '/' + substring(datum.Season, 7, 9)"
-        )
-        .transform_filter(unit_select)
-    )
-    
-    squad_size_trend = (
-        (size_band + size_avg + size_eg)
-        .properties(
-            title=alt.Title(
-                text="by Season",
-                subtitle="EG compared to league average/min/max"
-            ),
-            width=200,
-            height=300
-        )
-        .add_params(unit_select)
-        .transform_filter(unit_select)
-    )
-    
-    # Squad Retention Over Time Chart
-    # Min/Max range band
-    retention_band = (
-        alt.Chart(league_stats_retention)
-        .mark_area(opacity=0.2, color="gray")
-        .encode(
-            x=alt.X("SeasonDisplay:N", title="Season"),
-            y=alt.Y("min:Q", title="Average Retention"),
-            y2=alt.Y2("max:Q"),
-            tooltip=[
-                alt.Tooltip("SeasonDisplay:N", title="Season"),
-                alt.Tooltip("min:Q", title="League Min", format=".2f"),
-                alt.Tooltip("max:Q", title="League Max", format=".2f"),
-                alt.Tooltip("mean:Q", title="League Average", format=".2f")
-            ]
-        )
-        .transform_calculate(
-            SeasonDisplay="substring(datum.Season, 2, 4) + '/' + substring(datum.Season, 7, 9)"
-        )
-        .transform_filter(unit_select)
-    )
-    
-    # League average line
-    retention_avg = (
-        alt.Chart(league_stats_retention)
-        .mark_line(color="gray", strokeDash=[5, 5], strokeWidth=2)
-        .encode(
-            x=alt.X("SeasonDisplay:N"),
-            y=alt.Y("mean:Q", axis=alt.Axis(orient="right")),
-            tooltip=[
-                alt.Tooltip("SeasonDisplay:N", title="Season"),
-                alt.Tooltip("mean:Q", title="League Average", format=".2f")
-            ]
-        )
-        .transform_calculate(
-            SeasonDisplay="substring(datum.Season, 2, 4) + '/' + substring(datum.Season, 7, 9)"
-        )
-        .transform_filter(unit_select)
-    )
-    
-    # East Grinstead line
-    retention_eg = (
-        alt.Chart(eg_data)
-        .mark_line(point={"size": 100}, strokeWidth=3)
-        .encode(
-            x=alt.X("SeasonDisplay:N"),
-            y=alt.Y("Average Retention:Q"),
-            color=alt.Color("Color1:N", scale=None, legend=None),
-            tooltip=[
-                alt.Tooltip("SeasonDisplay:N", title="Season"),
-                alt.Tooltip("Team:N", title="Team"),
-                alt.Tooltip("Unit:N", title="Unit"),
-                alt.Tooltip("Average Retention:Q", title="Avg Retention", format=".2f")
-            ]
-        )
-        .transform_calculate(
-            SeasonDisplay="substring(datum.Season, 2, 4) + '/' + substring(datum.Season, 7, 9)"
-        )
-        .transform_filter(unit_select)
-    )
-    
-    squad_retention_trend = (
-        (retention_band + retention_avg + retention_eg)
-        .properties(
-            title=alt.Title(
-                text="by Season",
-                subtitle="EG compared to league average/min/max"
-            ),
-            width=200,
-            height=300
-        )
-        .add_params(unit_select)
-        .transform_filter(unit_select)
-    )
-    
-    # Combine all charts in new layout
-    final_chart = (
-        alt.vconcat(
-            alt.hconcat(
-                info_panel,
-                retention_chart,
-                spacing=20,
-            ),
-            alt.hconcat(
-                alt.hconcat(
-                    players_per_team_chart,
-                    squad_size_trend,
-                    spacing=0
-                ),
-                alt.hconcat(
-                    average_retention_chart,
-                    squad_retention_trend,
-                    spacing=0
-                ),
-                spacing=25
-            ),
-            spacing=15
-        )
-        .configure_scale(bandPaddingInner=0.1).resolve_scale(color="shared")
-    )
-
-    # Save combined chart
-    output_dir = project_root / "Charts" / "league"
-    output_dir.mkdir(parents=True, exist_ok=True)
-    filename = output_dir / f"squad_analysis_{squad}s.html"
-    final_chart.save(
-        str(filename),
-        embed_options=get_embed_options(),
-    )
-    ensure_actions_menu_inside_chart(str(filename))
-    hack_params_css(str(filename), params=True)
-    
-    logging.info(f"Saved combined squad {squad} charts to {filename}")
-    
-    return final_chart
-
-def export_web_charts(squad=1):
-    """Export chart specifications as JSON for web integration (matching existing chart approach)."""
+def export_web_charts(squad=1, db=None):
+    """Export league chart specifications sourced from backend RFU tables/views."""
     logging.info(f"Exporting web charts for Squad {squad}")
-    
-    # Load data
-    df_summary, matches_json = load_match_data()
-    df_players = prepare_player_data(matches_json)
-    
-    if df_players.empty:
-        logging.error("No player data available")
+
+    squad_label = "1st" if squad == 1 else "2nd"
+    backend_path = project_root / "data" / "egrfc_backend.duckdb"
+    close_connection = False
+
+    if db is not None:
+        con = db.con
+    else:
+        if not backend_path.exists():
+            raise FileNotFoundError(
+                f"Backend database '{backend_path}' not found. Build the backend before exporting league charts."
+            )
+        con = duckdb.connect(str(backend_path), read_only=True)
+        close_connection = True
+
+    try:
+        players_per_team = con.execute(
+            """
+            SELECT
+                season AS Season,
+                team AS Team,
+                unit AS Unit,
+                players AS "Total Players"
+            FROM v_rfu_squad_size
+            WHERE squad = ?
+            ORDER BY season, team, unit
+            """,
+            [squad_label],
+        ).df()
+
+        average_retention = con.execute(
+            """
+            SELECT
+                season AS Season,
+                team AS Team,
+                unit AS Unit,
+                average_retention AS "Average Retention"
+            FROM v_rfu_average_retention
+            WHERE squad = ?
+            ORDER BY season, team, unit
+            """,
+            [squad_label],
+        ).df()
+
+        retention_long = con.execute(
+            """
+            SELECT
+                match_id AS "Match ID",
+                season AS Season,
+                date AS Date,
+                team AS Team,
+                opposition AS Opposition,
+                unit AS Unit,
+                retained AS Retained
+            FROM v_rfu_match_retention
+            WHERE squad = ?
+              AND previous_lineup_available = 1
+            ORDER BY season, team, date, match_id, unit
+            """,
+            [squad_label],
+        ).df()
+    finally:
+        if close_connection:
+            con.close()
+
+    if players_per_team.empty:
+        logging.error(f"No RFU squad size data found for squad {squad}")
         return
-    
-    # Filter for this squad
-    squad_df = df_players[df_players["Squad"] == squad].copy()
-    
-    if squad_df.empty:
-        logging.error(f"No data found for squad {squad}")
-        return
-    
-    available_seasons = sorted(squad_df["Season"].dropna().unique())
-    
-    if not available_seasons:
-        logging.error(f"No seasons found for squad {squad}")
-        return
-    
-    logging.info(f"Creating web charts for squad {squad} with {len(available_seasons)} seasons")
-    
-    # Add unit classification
-    squad_df["Unit"] = squad_df["Position"].apply(classify_unit)
-    
-    # Prepare all data for charts (same as combined charts but without filtering)
-    players_per_team = (
-        squad_df.groupby(["Season", "Team", "Color1", "Color2", "Player"])["Unit"]
-        .agg(lambda x: "Forwards" if "Forwards" in x.values else "Backs" if "Backs" in x.values else "Bench")
-        .reset_index()
-        .groupby(["Season", "Team", "Color1", "Color2", "Unit"])
-        .size()
-        .reset_index()
-        .rename(columns={0: "Total Players"})
+
+    players_per_team[["Color1", "Color2"]] = players_per_team["Team"].apply(
+        lambda team: pd.Series(get_team_colors(team))
+    )
+    average_retention[["Color1", "Color2"]] = average_retention["Team"].apply(
+        lambda team: pd.Series(get_team_colors(team))
+    )
+    if not retention_long.empty:
+        retention_long[["Color1", "Color2"]] = retention_long["Team"].apply(
+            lambda team: pd.Series(get_team_colors(team))
+        )
+    else:
+        retention_long["Color1"] = pd.Series(dtype=str)
+        retention_long["Color2"] = pd.Series(dtype=str)
+
+    players_per_team = players_per_team.sort_values("Team", key=lambda x: x == "East Grinstead")
+    average_retention = average_retention.sort_values("Team", key=lambda x: x == "East Grinstead")
+    retention_long = retention_long.sort_values("Team", key=lambda x: x == "East Grinstead")
+
+    squad_size_trend = (
+        players_per_team
+        .groupby(["Season", "Unit"], as_index=False)
+        .agg(
+            **{
+                "League Min": ("Total Players", "min"),
+                "League Max": ("Total Players", "max"),
+                "League Average": ("Total Players", "mean"),
+            }
+        )
+        .merge(
+            players_per_team[players_per_team["Team"] == "East Grinstead"],
+            on=["Season", "Unit"],
+            how="inner",
+        )
     )
 
-    total_players_per_team = squad_df.groupby(["Season", "Team", "Color1", "Color2"])["Player"].nunique().reset_index()
-    total_players_per_team.columns = ["Season", "Team", "Color1", "Color2", "Total Players"]
-    total_players_per_team["Unit"] = "Total"
-
-    players_per_team = pd.concat([players_per_team, total_players_per_team], ignore_index=True)
-
-    # Retention data
-    retention_data = []
-    for (team, season), matches in squad_df.sort_values("Date", ascending=True).groupby(["Team", "Season"]):
-        prev_squad = set()
-        prev_forwards = set()
-        prev_backs = set()
-        
-        for match_id, match in matches.groupby("Match ID"):
-            current_squad = set(match[match["Unit"] != "Bench"]["Player"])
-            forwards = set(match[match["Unit"] == "Forwards"]["Player"])
-            backs = set(match[match["Unit"] == "Backs"]["Player"])
-            
-            all_teams_in_match = squad_df[squad_df["Match ID"] == match_id]["Team"].unique()
-            opposition = [t for t in all_teams_in_match if t != team]
-            opposition_name = opposition[0] if opposition else "Unknown"
-            
-            if prev_squad:
-                retained = len(current_squad & prev_squad)
-                retained_forwards = len(forwards & prev_forwards)
-                retained_backs = len(backs & prev_backs)
-            else:
-                retained = None
-                retained_forwards = None
-                retained_backs = None
-
-            retention_data.append({
-                "Match ID": match_id,
-                "Season": season,
-                "Date": match["Date"].iloc[0],
-                "Team": team,
-                "Opposition": opposition_name,
-                "Players Retained": retained,
-                "Forwards Retained": retained_forwards,
-                "Backs Retained": retained_backs,
-                "Color1": match["Color1"].iloc[0],
-                "Color2": match["Color2"].iloc[0]
-            })
-            
-            prev_squad = current_squad
-            prev_forwards = forwards
-            prev_backs = backs
-
-    retention_df = pd.DataFrame(retention_data).dropna()
-
-    # Average squad retention per team
-    average_retention = (
-        retention_df
-        .groupby(["Season", "Team", "Color1", "Color2"])
-        .agg({"Players Retained": "mean", "Forwards Retained": "mean", "Backs Retained": "mean"})
-        .reset_index()
-        .melt(["Season", "Team", "Color1", "Color2"], var_name="Unit", value_name="Average Retention")
+    continuity_trend = (
+        average_retention
+        .groupby(["Season", "Unit"], as_index=False)
+        .agg(
+            **{
+                "League Min": ("Average Retention", "min"),
+                "League Max": ("Average Retention", "max"),
+                "League Average": ("Average Retention", "mean"),
+            }
+        )
+        .merge(
+            average_retention[average_retention["Team"] == "East Grinstead"],
+            on=["Season", "Unit"],
+            how="inner",
+        )
     )
-    average_retention["Unit"] = average_retention["Unit"].str.replace(" Retained", "").replace("Players", "Total")
-    average_retention = average_retention.sort_values('Team', key=lambda x: x == 'East Grinstead')
-
-    # Reshape retention data
-    retention_long = retention_df.melt(
-        id_vars=["Match ID", "Season", "Date", "Team", "Opposition", "Color1", "Color2"],
-        value_vars=["Players Retained", "Forwards Retained", "Backs Retained"],
-        var_name="Unit",
-        value_name="Retained"
-    )
-    retention_long["Unit"] = retention_long["Unit"].str.replace(" Retained", "").replace("Players", "Total")
-    retention_long = retention_long.sort_values('Team', key=lambda x: x == 'East Grinstead')
     
     # Create Altair charts WITHOUT parameters (data will be filtered in JS)
+    squad_size_y = alt.Y(
+        "Team:N",
+        sort=alt.SortField(field="Total Players", order="descending"),
+        title=None,
+        axis=alt.Axis(labels=False, ticks=False, domain=False),
+    )
+
+    continuity_y = alt.Y(
+        "Team:N",
+        sort=alt.SortField(field="Average Retention", order="descending"),
+        title=None,
+        axis=alt.Axis(labels=False, ticks=False, domain=False),
+    )
+
     # Squad Size Chart
-    squad_size_chart = (
+    squad_size_chart = alt.layer(
         alt.Chart(players_per_team)
         .mark_bar(strokeWidth=2)
         .encode(
             x=alt.X("Total Players:Q", title="Squad Size"),
-            y=alt.Y("Team:N", sort="-x", title=None, axis=alt.Axis(labelPadding=10, labelLimit=200)),
+            y=squad_size_y,
             color=alt.Color("Color1:N", scale=None, legend=None),
             stroke=alt.Stroke("Color2:N", scale=None, legend=None),
             tooltip=["Team", "Season", "Unit", "Total Players"],
-        )
-        .properties(
-            title="Squad Size",
-            width=420,
-            height=alt.Step(25)
-        )
+        ),
+        alt.Chart(players_per_team)
+        .mark_text(align="left", baseline="middle", dx=6, fontSize=13)
+        .encode(
+            x=alt.XDatum(0),
+            y=squad_size_y,
+            text="Team:N",
+            color=alt.condition(
+                alt.datum.Team == "East Grinstead",
+                alt.value("white"),
+                alt.value("black"),
+            ),
+        ),
+    ).properties(
+        title=alt.Title(text="Squad Size", subtitle="Total players used."),
+        width=200,
+        height=400,
     )
     
     # Average Retention Chart
-    avg_retention_chart = (
+    avg_retention_chart = alt.layer(
         alt.Chart(average_retention)
         .mark_bar(strokeWidth=2)
         .encode(
-            x=alt.X("Average Retention:Q", title="Average Retention"),
-            y=alt.Y("Team:N", sort="-x", title=None, axis=alt.Axis(labelPadding=10, labelLimit=200)),
+            x=alt.X("Average Retention:Q", title="Average Continuity"),
+            y=continuity_y,
             color=alt.Color("Color1:N", scale=None, legend=None),
             stroke=alt.Stroke("Color2:N", scale=None, legend=None),
-            tooltip=["Team", "Season", "Unit:N", alt.Tooltip("Average Retention:Q", format=".2f")],
+            tooltip=[
+                "Team",
+                "Season",
+                "Unit:N",
+                alt.Tooltip("Average Retention:Q", title="Average Players Retained", format=".2f"),
+            ],
+        ),
+        alt.Chart(average_retention)
+        .mark_text(align="left", baseline="middle", dx=6, fontSize=13)
+        .encode(
+            x=alt.XDatum(0),
+            y=continuity_y,
+            text="Team:N",
+            color=alt.condition(
+                alt.datum.Team == "East Grinstead",
+                alt.value("white"),
+                alt.value("black"),
+            ),
+        ),
+    ).properties(
+        title=alt.Title(text="Squad Continuity", subtitle="Average number of players retained."),
+        width=250,
+        height=400,
+    )
+
+    squad_size_trend_chart = alt.layer(
+        alt.Chart(squad_size_trend)
+        .mark_area(color="gray", opacity=0.2)
+        .encode(
+            x=alt.X("Season:N", title="Season"),
+            y=alt.Y("League Min:Q", title="Squad Size"),
+            y2="League Max:Q",
+            tooltip=[
+                alt.Tooltip("Season:N", title="Season"),
+                alt.Tooltip("League Min:Q", title="League Min", format=".0f"),
+                alt.Tooltip("League Max:Q", title="League Max", format=".0f"),
+                alt.Tooltip("League Average:Q", title="League Average", format=".1f"),
+            ],
+        ),
+        alt.Chart(squad_size_trend)
+        .mark_line(color="gray", strokeDash=[5, 5], strokeWidth=2)
+        .encode(
+            x=alt.X("Season:N"),
+            y=alt.Y("League Average:Q", axis=alt.Axis(orient="right")),
+            tooltip=[
+                alt.Tooltip("Season:N", title="Season"),
+                alt.Tooltip("League Average:Q", title="League Average", format=".1f"),
+            ],
+        ),
+        alt.Chart(squad_size_trend)
+        .mark_line(point={"size": 100}, strokeWidth=3)
+        .encode(
+            x=alt.X("Season:N"),
+            y=alt.Y("Total Players:Q"),
+            color=alt.Color("Color1:N", scale=None, legend=None),
+            tooltip=[
+                alt.Tooltip("Season:N", title="Season"),
+                alt.Tooltip("Team:N", title="Team"),
+                alt.Tooltip("Unit:N", title="Unit"),
+                alt.Tooltip("Total Players:Q", title="Squad Size"),
+            ],
+        ),
+    ).properties(
+        title=alt.Title(text="Squad Size Trend", subtitle="EG compared to the league average, min and max."),
+        width=300,
+        height=400,
+    )
+
+    continuity_trend_chart = alt.layer(
+        alt.Chart(continuity_trend)
+        .mark_area(color="gray", opacity=0.2)
+        .encode(
+            x=alt.X("Season:N", title="Season"),
+            y=alt.Y("League Min:Q", title="Average Continuity"),
+            y2="League Max:Q",
+            tooltip=[
+                alt.Tooltip("Season:N", title="Season"),
+                alt.Tooltip("League Min:Q", title="League Min", format=".2f"),
+                alt.Tooltip("League Max:Q", title="League Max", format=".2f"),
+                alt.Tooltip("League Average:Q", title="League Average", format=".2f"),
+            ],
+        ),
+        alt.Chart(continuity_trend)
+        .mark_line(color="gray", strokeDash=[5, 5], strokeWidth=2)
+        .encode(
+            x=alt.X("Season:N"),
+            y=alt.Y("League Average:Q", axis=alt.Axis(orient="right")),
+            tooltip=[
+                alt.Tooltip("Season:N", title="Season"),
+                alt.Tooltip("League Average:Q", title="League Average", format=".2f"),
+            ],
+        ),
+        alt.Chart(continuity_trend)
+        .mark_line(point={"size": 100}, strokeWidth=3)
+        .encode(
+            x=alt.X("Season:N"),
+            y=alt.Y("Average Retention:Q"),
+            color=alt.Color("Color1:N", scale=None, legend=None),
+            tooltip=[
+                alt.Tooltip("Season:N", title="Season"),
+                alt.Tooltip("Team:N", title="Team"),
+                alt.Tooltip("Unit:N", title="Unit"),
+                alt.Tooltip("Average Retention:Q", title="Average Players Retained", format=".2f"),
+            ],
+        ),
+    ).properties(
+        title=alt.Title(text="Continuity Trend", subtitle="EG compared to the league average, min and max."),
+        width=300,
+        height=400,
+    )
+
+    squad_size_context_chart = alt.hconcat(
+        squad_size_chart.properties(title="", width=240, height=400),
+        squad_size_trend_chart.properties(title="", width=300, height=400),
+        spacing=18,
+    ).resolve_scale(y="independent").properties(
+        title=alt.Title(
+            text="League Squad Size",
+            subtitle="Comparison for the selected season alongside the EG trend by unit.",
         )
-        .properties(
-            title="Average Retention",
-            width=420,
-            height=alt.Step(25)
+    )
+
+    continuity_context_chart = alt.hconcat(
+        avg_retention_chart.properties(title="", width=240, height=400),
+        continuity_trend_chart.properties(title="", width=300, height=400),
+        spacing=18,
+    ).resolve_scale(y="independent").properties(
+        title=alt.Title(
+            text="League Squad Continuity",
+            subtitle="Comparison for the selected season alongside the EG trend by unit.",
         )
     )
     
@@ -1857,7 +1442,7 @@ def export_web_charts(squad=1):
             ],
         )
         .properties(
-            title="Squad Retention Over Time",
+            title=alt.Title(text="Squad Retention Over Time", subtitle="Number of players retained by each team across the season."),
             width=900,
             height=400
         )
@@ -1869,6 +1454,10 @@ def export_web_charts(squad=1):
     
     squad_size_chart.save(str(output_dir / f"league_squad_size_{squad}s.json"))
     avg_retention_chart.save(str(output_dir / f"league_avg_retention_{squad}s.json"))
+    squad_size_trend_chart.save(str(output_dir / f"league_squad_size_trend_{squad}s.json"))
+    continuity_trend_chart.save(str(output_dir / f"league_avg_retention_trend_{squad}s.json"))
+    squad_size_context_chart.save(str(output_dir / f"league_squad_size_context_{squad}s.json"))
+    continuity_context_chart.save(str(output_dir / f"league_continuity_context_{squad}s.json"))
     retention_timeline_chart.save(str(output_dir / f"league_retention_timeline_{squad}s.json"))
     
     logging.info(f"Exported web chart specs for squad {squad} to {output_dir}")
@@ -1903,8 +1492,6 @@ Examples:
             for squad in available_squads:
                 try:
                     logging.info(f"\n=== Generating charts for Squad {squad} ===")
-                    if squad == 1:
-                        create_combined_league_charts(squad=squad)
                     create_season_results_charts(squad=squad)
                     create_combined_league_table_html(squad=squad)
                     
@@ -1921,8 +1508,6 @@ Examples:
         logging.info(f"Generating charts for Squad {squad}")
         
         # Generate combined squad analysis
-        if squad == 1:
-            create_combined_league_charts(squad=squad)
         create_season_results_charts(squad=squad)
         create_combined_league_table_html(squad=squad)
         create_unified_league_dispatch_html()

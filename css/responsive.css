@@ -7,12 +7,12 @@
     }
 
     /* Compact Squad Metrics header row */
-    #page-squad-metrics .squad-metrics-top-filters {
+    #page-squad-stats .squad-stats-top-filters {
         gap: 0.4rem;
     }
 
     /* Squad Metrics top filters: shrink to content width on mobile */
-    .squad-metrics-top-filters .input-group-text {
+    .squad-stats-top-filters .input-group-text {
         width: auto !important;
         min-width: 0 !important;
         flex: 0 0 auto !important;
@@ -21,18 +21,18 @@
         font-size: 0.75rem !important;
     }
 
-    .squad-metrics-top-filters .bootstrap-select {
+    .squad-stats-top-filters .bootstrap-select {
         min-width: 0 !important;
         width: fit-content !important;
     }
 
-    .squad-metrics-top-filters .bootstrap-select .dropdown-toggle {
+    .squad-stats-top-filters .bootstrap-select .dropdown-toggle {
         min-width: 0 !important;
         padding: 0.3rem 0.4rem !important;
         font-size: 0.8rem !important;
     }
 
-    .squad-metrics-top-filters #squadMetricsMinAppearancesInput {
+    .squad-stats-top-filters #squadStatsMinAppearancesInput {
         min-width: 2rem !important;
         max-width: 3rem !important;
         width: 3rem !important;
@@ -165,7 +165,7 @@
         padding-right: 0.5rem;
     }
 
-    #squadMetricsCards .col-4 {
+    #squadStatsCards .col-4 {
         padding-left: 0.5rem;
         padding-right: 0.5rem;
     }

@@ -11,6 +11,7 @@ from python.backend import BackendConfig, BackendDatabase
 from python.data import *
 from python.charts import lineout_success_by_zone as plot_lineout_success_by_zone
 from python.charts import squad_size_trend_chart, squad_continuity_average_chart
+from python.league_stats import export_web_charts as export_league_web_charts
 import altair as alt
 from python.chart_helpers import *
 import pandas as pd
@@ -1363,6 +1364,11 @@ def main(refresh_pitchero=False, backend_mode="canonical", backend_db_path="data
     lineout_success_by_zone_chart(db)
     squad_size_trend_chart(db)
     squad_continuity_average_chart(db)
+
+    try:
+        export_league_web_charts(squad=1, db=db)
+    except FileNotFoundError as exc:
+        print(f"Warning: League RFU chart export skipped - {exc}")
 
     # New league charts
     # league_results_chart(db)

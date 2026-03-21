@@ -45,8 +45,9 @@
                     <li class="nav-item"><a class="nav-link" href="#" data-page="home">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="#" data-page="season-summary">Season Summary</a></li>
                     <li class="nav-item"><a class="nav-link" href="#" data-page="league-tables">League Tables</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#" data-page="squad-metrics">Squad Stats</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" data-page="squad-stats">Squad Stats</a></li>
                     <li class="nav-item"><a class="nav-link" href="#" data-page="player-profiles">Player Stats</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" data-page="team-sheets">Team Sheets</a></li>
                         <li class="nav-item"><a class="nav-link" href="#" data-page="database">Data</a></li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="graphicsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -90,7 +91,7 @@
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-3 mb-3">
-                        <div class="card" style="border-top: 4px solid var(--green-color); cursor: pointer;" onclick="navigateTo('squad-metrics')">
+                        <div class="card" style="border-top: 4px solid var(--green-color); cursor: pointer;" onclick="navigateTo('squad-stats')">
                             <div class="card-body">
                                 <h5 class="card-title">Squad Stats</h5>
                                 <p class="card-text">Summary of squad sizes and continuity between match day squads.</p>
@@ -102,6 +103,14 @@
                             <div class="card-body">
                                 <h5 class="card-title">Player Stats</h5>
                                 <p class="card-text">Individual player stats and information.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3 mb-3">
+                        <div class="card" style="border-top: 4px solid #8B7355; cursor: pointer;" onclick="navigateTo('team-sheets')">
+                            <div class="card-body">
+                                <h5 class="card-title">Team Sheets</h5>
+                                <p class="card-text">Team sheets showing player appearances by position and match.</p>
                             </div>
                         </div>
                     </div>
@@ -122,7 +131,7 @@
             <div style="padding: 2rem 1rem; max-width: 1400px; margin: 0 auto;">
                 <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
                     <h1 style="color: var(--primary-color); margin: 0;">Season Summary</h1>
-                    <div class="squad-metrics-top-filters" style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
+                    <div class="squad-stats-top-filters" style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
                         <div class="filter-item league-season-picker" style="margin-bottom: 0;">
                             <div class="input-group">
                                 <span class="input-group-text">Season</span>
@@ -416,16 +425,16 @@
             </div>
         </div>
 
-        <!-- ========== SQUAD METRICS PAGE ========== -->
-        <div id="page-squad-metrics" class="page-content">
+        <!-- ========== SQUAD STATS PAGE ========== -->
+        <div id="page-squad-stats" class="page-content">
             <div style="padding: 2rem 1rem; max-width: 1200px; margin: 0 auto;">
                 <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
-                    <h1 style="color: var(--primary-color); margin: 0;">Squad Metrics</h1>
-                    <div class="squad-metrics-top-filters" style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
+                    <h1 style="color: var(--primary-color); margin: 0;">Squad Stats</h1>
+                    <div class="squad-stats-top-filters" style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
                         <div class="filter-item league-season-picker" style="margin-bottom: 0;">
                             <div class="input-group">
                                 <span class="input-group-text">Season</span>
-                                <select id="squadMetricsSeasonSelect" class="selectpicker form-control flex-fill" data-size="8">
+                                <select id="squadStatsSeasonSelect" class="selectpicker form-control flex-fill" data-size="8">
                                     <!-- Options populated dynamically by JavaScript -->
                                 </select>
                             </div>
@@ -433,7 +442,7 @@
                         <div class="filter-item league-season-picker" style="margin-bottom: 0;">
                             <div class="input-group">
                                 <span class="input-group-text">Game Type</span>
-                                <select id="squadMetricsGameTypeSelect" class="selectpicker form-control flex-fill" data-size="8">
+                                <select id="squadStatsGameTypeSelect" class="selectpicker form-control flex-fill" data-size="8">
                                     <option value="All games">All games</option>
                                     <option value="League + Cup">League + Cup</option>
                                     <option value="League only">League only</option>
@@ -443,13 +452,13 @@
                         <div class="filter-item league-season-picker" style="margin-bottom: 0;">
                             <div class="input-group">
                                 <span class="input-group-text">Min Apps</span>
-                                <input id="squadMetricsMinAppearancesInput" class="form-control" type="number" min="0" step="1" value="0" inputmode="numeric" aria-label="Minimum appearances" />
+                                <input id="squadStatsMinAppearancesInput" class="form-control" type="number" min="0" step="1" value="0" inputmode="numeric" aria-label="Minimum appearances" />
                             </div>
                         </div>
                     </div>
                 </div>
                 <h1 style="color: var(--primary-color); margin-bottom: 1rem; font-weight: 900;">Squad Size</h1>
-                <div class="row mb-4" id="squadMetricsCards">
+                <div class="row mb-4" id="squadStatsCards">
                     <div class="col-4 mb-3">
                         <div class="card squad-metric-card squad-metric-card-1st">
                             <div class="card-header squad-metric-card-header squad-metric-card-header-1st league-team-title-1st">1st XV</div>
@@ -479,13 +488,13 @@
                     </div>
                 </div>
 
-                <div class="squad-metrics-breakdown-panels" style="display: flex; flex-direction: row; flex-wrap: wrap; gap: 1rem; align-items: flex-start; margin-bottom: 1.25rem;">
+                <div class="squad-stats-breakdown-panels" style="display: flex; flex-direction: row; flex-wrap: wrap; gap: 1rem; align-items: flex-start; margin-bottom: 1.25rem;">
                     <div class="chart-panel chart-panel--inline squad-position-panel">
                         <button
                             type="button"
                             class="chart-panel-toggle chart-panel-toggle--primary"
                             data-target="squad-position-1st-panel"
-                            data-accordion-group="squad-metrics-breakdown"
+                            data-accordion-group="squad-stats-breakdown"
                             aria-expanded="false"
                             aria-controls="squad-position-1st-panel">
                             <span class="chart-panel-toggle-text">
@@ -507,7 +516,7 @@
                             type="button"
                             class="chart-panel-toggle chart-panel-toggle--accent"
                             data-target="squad-position-2nd-panel"
-                            data-accordion-group="squad-metrics-breakdown"
+                            data-accordion-group="squad-stats-breakdown"
                             aria-expanded="false"
                             aria-controls="squad-position-2nd-panel">
                             <span class="chart-panel-toggle-text">
@@ -528,7 +537,7 @@
                             type="button"
                             class="chart-panel-toggle chart-panel-toggle--black"
                             data-target="squad-size-table-panel"
-                            data-accordion-group="squad-metrics-breakdown"
+                            data-accordion-group="squad-stats-breakdown"
                             aria-expanded="false"
                             aria-controls="squad-size-table-panel">
                             <span class="chart-panel-toggle-text">
@@ -539,10 +548,10 @@
                         </button>
                         <div id="squad-size-table-panel" class="chart-panel-content" hidden>
                             <div class="chart-panel-card" style="padding: 1rem;">
-                                <p id="squadMetricsTableSubtitle" class="squad-metrics-table-subtitle"></p>
+                                <p id="squadStatsTableSubtitle" class="squad-stats-table-subtitle"></p>
 
-                                <div class="table-responsive squad-metrics-table-wrap">
-                                    <table class="table table-sm mb-0 squad-metrics-table" id="squadMetricsTable">
+                                <div class="table-responsive squad-stats-table-wrap">
+                                    <table class="table table-sm mb-0 squad-stats-table" id="squadStatsTable">
                                         <thead>
                                             <tr>
                                                 <th rowspan="2">Season</th>
@@ -562,7 +571,7 @@
                                                 <th class="squad-group-subheader-total squad-subheader-total">Total</th>
                                             </tr>
                                         </thead>
-                                        <tbody id="squadMetricsTableBody">
+                                        <tbody id="squadStatsTableBody">
                                             <tr>
                                                 <td colspan="10" class="text-center text-muted py-3">Loading squad metrics...</td>
                                             </tr>
@@ -614,6 +623,65 @@
                         <div id="squad-continuity-panel" class="chart-panel-content" hidden>
                             <div class="chart-panel-card">
                                 <div id="squadContinuityTrendChart" style="overflow: visible;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-top: 2rem; margin-bottom: 1rem;">
+                    <h1 style="font-weight:900; color: var(--primary-color); margin: 0;">1st XV League Context</h1>
+                    <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
+                        <div class="filter-item league-season-picker" style="margin-bottom: 0;">
+                            <div class="input-group">
+                                <span class="input-group-text">Unit</span>
+                                <select id="leagueContextUnitSelect" class="selectpicker form-control flex-fill" data-size="4">
+                                    <option value="Total">Total</option>
+                                    <option value="Forwards">Forwards</option>
+                                    <option value="Backs">Backs</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="league-context-panels" style="display: flex; flex-direction: row; flex-wrap: wrap; gap: 1rem; align-items: flex-start;">
+                    <div class="chart-panel chart-panel--inline league-context-panel">
+                        <button
+                            type="button"
+                            class="chart-panel-toggle chart-panel-toggle--primary"
+                            data-target="league-squad-size-panel"
+                            data-accordion-group="league-squad-context"
+                            aria-expanded="false"
+                            aria-controls="league-squad-size-panel">
+                            <span class="chart-panel-toggle-text">
+                                <span class="chart-panel-toggle-title">League Squad Size (&amp; Trend)</span>
+                                <span class="chart-panel-toggle-hint">Click to expand/collapse</span>
+                            </span>
+                            <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
+                        </button>
+                        <div id="league-squad-size-panel" class="chart-panel-content" hidden>
+                            <div class="chart-panel-card">
+                                <div id="leagueSquadSizeContextChart" style="overflow: visible;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chart-panel chart-panel--inline league-context-panel">
+                        <button
+                            type="button"
+                            class="chart-panel-toggle chart-panel-toggle--primary"
+                            data-target="league-retention-average-panel"
+                            data-accordion-group="league-squad-context"
+                            aria-expanded="false"
+                            aria-controls="league-retention-average-panel">
+                            <span class="chart-panel-toggle-text">
+                                <span class="chart-panel-toggle-title">League Squad Continuity (&amp; Trend)</span>
+                                <span class="chart-panel-toggle-hint">Click to expand/collapse</span>
+                            </span>
+                            <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
+                        </button>
+                        <div id="league-retention-average-panel" class="chart-panel-content" hidden>
+                            <div class="chart-panel-card">
+                                <div id="leagueContinuityContextChart" style="overflow: visible;"></div>
                             </div>
                         </div>
                     </div>
@@ -888,6 +956,65 @@
             </div>
         </div>
 
+        <!-- ========== TEAM SHEETS PAGE ========== -->
+        <div id="page-team-sheets" class="page-content">
+            <div style="padding: 2rem 1rem; max-width: 1400px; margin: 0 auto;">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+                    <h1 style="color: var(--primary-color); margin: 0;">Team Sheets</h1>
+                    <div class="squad-stats-top-filters team-sheets-filters" style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
+                        <div class="filter-item league-season-picker" style="margin-bottom: 0;">
+                            <div class="input-group">
+                                <span class="input-group-text">Season</span>
+                                <select id="teamSheetsSeasonSelect" class="selectpicker form-control flex-fill" multiple data-actions-box="true" data-size="8" title="All seasons">
+                                    <!-- Options populated dynamically by JavaScript -->
+                                </select>
+                            </div>
+                        </div>
+                        <div class="filter-item league-season-picker" style="margin-bottom: 0;">
+                            <div class="input-group">
+                                <span class="input-group-text">Squad</span>
+                                <select id="teamSheetsSquadSelect" class="selectpicker form-control flex-fill" data-size="3">
+                                    <option value="All">All squads</option>
+                                    <option value="1st">1st XV</option>
+                                    <option value="2nd">2nd XV</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="filter-item league-season-picker" style="margin-bottom: 0;">
+                            <div class="input-group">
+                                <span class="input-group-text">Game Type</span>
+                                <select id="teamSheetsGameTypeSelect" class="selectpicker form-control flex-fill" data-size="5">
+                                    <option value="All games">All games</option>
+                                    <option value="League + Cup">League + Cup</option>
+                                    <option value="League only">League only</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="filter-item league-season-picker" style="margin-bottom: 0;">
+                            <div class="input-group">
+                                <span class="input-group-text">Position</span>
+                                <select id="teamSheetsPositionSelect" class="selectpicker form-control flex-fill" multiple data-size="8" title="All positions">
+                                    <option value="Prop">Prop</option>
+                                    <option value="Hooker">Hooker</option>
+                                    <option value="Second Row">Second Row</option>
+                                    <option value="Flanker">Flanker</option>
+                                    <option value="Number 8">Number 8</option>
+                                    <option value="Scrum Half">Scrum Half</option>
+                                    <option value="Fly Half">Fly Half</option>
+                                    <option value="Centre">Centre</option>
+                                    <option value="Wing">Wing</option>
+                                    <option value="Full Back">Full Back</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="teamSheetsChart" style="background: white; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); min-height: 500px; color: #999; overflow-x: auto; overflow-y: hidden;">
+                    Loading team sheets chart...
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <!-- External Dependencies -->
@@ -907,15 +1034,17 @@
         let leagueTablesData = null;
         let playerAppearancesData = null;
         let gamesData = null;
-        let squadMetricsData = null;
+        let squadStatsData = null;
         let squadSizeTrendTemplateSpec = null;
         let squadContinuityTrendTemplateSpec = null;
+        const chartSpecCache = new Map();
         const VEGA_EMBED_ACTIONS = { export: true, source: false, compiled: false, editor: false };
         const FORWARD_POSITIONS = ['Prop', 'Hooker', 'Second Row', 'Flanker', 'Number 8'];
         const BACK_POSITIONS = ['Scrum Half', 'Fly Half', 'Centre', 'Wing', 'Full Back'];
         const SQUAD_POSITION_ORDER = [...FORWARD_POSITIONS, ...BACK_POSITIONS];
         let availableSeasons = ['2025/26', '2024/25', '2023/24', '2022/23', '2021/22', '2019/20', '2018/19', '2017/18', '2016/17'];
-        let squadMetricsControlsInitialised = false;
+        let squadStatsControlsInitialised = false;
+        let teamSheetsControlsInitialised = false;
 
         function getCurrentSeasonLabel() {
             const now = new Date();
@@ -968,8 +1097,13 @@
                     loadLeagueTablePage();
                 }
 
-                if (page === 'squad-metrics') {
-                    loadSquadMetricsPage();
+                if (page === 'squad-stats') {
+                    loadSquadStatsPage();
+                }
+
+                if (page === 'team-sheets') {
+                    initialiseTeamSheetsControls();
+                    renderTeamSheetsPage();
                 }
 
                 if (page === 'database' && window.DatabaseExplorer) {
@@ -993,7 +1127,7 @@
             renderLeagueTables();
         }
 
-        async function loadSquadMetricsCanonicalData() {
+        async function loadSquadStatsCanonicalData() {
             if (playerAppearancesData && gamesData) {
                 return;
             }
@@ -1037,7 +1171,7 @@
             }
         }
 
-        function buildSquadMetricsData(rows) {
+        function buildSquadStatsData(rows) {
             const bySeason = {};
 
             rows.forEach(row => {
@@ -1074,7 +1208,7 @@
             return bySeason;
         }
 
-        function buildSquadMetricsDataFromCanonical(appearances, gameTypeMode) {
+        function buildSquadStatsDataFromCanonical(appearances, gameTypeMode) {
             const bySeason = {};
             const gameTypeByGameId = new Map((gamesData || []).map(game => [game.game_id, game.game_type]));
             const allowedGameTypes = getAllowedGameTypes(gameTypeMode);
@@ -1130,7 +1264,7 @@
             return bySeason;
         }
 
-        function getSortedSquadMetricSeasons(dataBySeason) {
+        function getSortedSquadStatsSeasons(dataBySeason) {
             const seasons = Object.keys(dataBySeason || {});
             if (seasons.length === 0) {
                 return [];
@@ -1146,14 +1280,14 @@
             });
         }
 
-        async function loadSquadMetricsPage() {
+        async function loadSquadStatsPage() {
             try {
-                await loadSquadMetricsCanonicalData();
-                initialiseSquadMetricsControlsOnce();
-                renderSquadMetricsPage();
+                await loadSquadStatsCanonicalData();
+                initialiseSquadStatsControlsOnce();
+                renderSquadStatsPage();
             } catch (err) {
                 console.error('Error loading squad metrics data:', err);
-                const tbody = document.getElementById('squadMetricsTableBody');
+                const tbody = document.getElementById('squadStatsTableBody');
                 if (tbody) {
                     tbody.innerHTML = '<tr><td colspan="10" class="text-center text-danger py-3">Unable to load squad metrics data.</td></tr>';
                 }
@@ -1167,6 +1301,16 @@
                 if (continuityTrend) {
                     continuityTrend.innerHTML = '<div class="text-center text-danger py-4">Unable to load continuity chart.</div>';
                 }
+
+                [
+                    'leagueSquadSizeContextChart',
+                    'leagueContinuityContextChart'
+                ].forEach(id => {
+                    const element = document.getElementById(id);
+                    if (element) {
+                        element.innerHTML = '<div class="text-center text-danger py-4">Unable to load league comparison chart.</div>';
+                    }
+                });
 
                 const positionCards1st = document.getElementById('squadPositionCards1st');
                 const positionCards2nd = document.getElementById('squadPositionCards2nd');
@@ -1233,7 +1377,7 @@
                 return counts;
             }
 
-            const allowedGameTypes = getAllowedGameTypes(getSquadMetricsGameTypeMode());
+            const allowedGameTypes = getAllowedGameTypes(getSquadStatsGameTypeMode());
             const gameTypeByGameId = new Map((gamesData || []).map(game => [game.game_id, game.game_type]));
             const threshold = Math.max(0, Number(minimumAppearances) || 0);
 
@@ -1402,13 +1546,13 @@
             return null;
         }
 
-        function getSquadMetricsGameTypeMode() {
-            const gameTypeSelect = document.getElementById('squadMetricsGameTypeSelect');
+        function getSquadStatsGameTypeMode() {
+            const gameTypeSelect = document.getElementById('squadStatsGameTypeSelect');
             return gameTypeSelect?.value || 'All games';
         }
 
-        function getSquadMetricsMinimumAppearances() {
-            const minAppearancesInput = document.getElementById('squadMetricsMinAppearancesInput');
+        function getSquadStatsMinimumAppearances() {
+            const minAppearancesInput = document.getElementById('squadStatsMinAppearancesInput');
             const value = Number(minAppearancesInput?.value ?? 0);
             if (!Number.isFinite(value)) {
                 return 0;
@@ -1471,7 +1615,7 @@
             [50, 150, 400, 900].forEach(delay => window.setTimeout(run, delay));
         }
 
-        function getSquadMetricsSeasonOptions() {
+        function getSquadStatsSeasonOptions() {
             const seasonSet = new Set();
 
             const addSeason = season => {
@@ -1485,17 +1629,17 @@
             (playerAppearancesData || []).forEach(row => addSeason(row.season));
             addSeason(getCurrentSeasonLabel());
 
-            return getSortedSquadMetricSeasons(
+            return getSortedSquadStatsSeasons(
                 Object.fromEntries(Array.from(seasonSet).map(season => [season, true]))
             );
         }
 
-        function populateSquadMetricsSeasonDropdownOptions(seasonSelect) {
+        function populateSquadStatsSeasonDropdownOptions(seasonSelect) {
             if (!seasonSelect) {
                 return [];
             }
 
-            const seasons = getSquadMetricsSeasonOptions();
+            const seasons = getSquadStatsSeasonOptions();
             const finalSeasons = seasons.length > 0 ? seasons : [getCurrentSeasonLabel()];
 
             seasonSelect.innerHTML = '';
@@ -1509,18 +1653,18 @@
             return finalSeasons;
         }
 
-        function refreshSquadMetricsData() {
+        function refreshSquadStatsData() {
             if (!playerAppearancesData) {
-                squadMetricsData = {};
+                squadStatsData = {};
                 return;
             }
 
-            const mode = getSquadMetricsGameTypeMode();
-            squadMetricsData = buildSquadMetricsDataFromCanonical(playerAppearancesData, mode);
+            const mode = getSquadStatsGameTypeMode();
+            squadStatsData = buildSquadStatsDataFromCanonical(playerAppearancesData, mode);
         }
 
         function renderSquadMetricCards(season, minimumAppearances) {
-            const seasonData = squadMetricsData?.[season] || {
+            const seasonData = squadStatsData?.[season] || {
                 '1st': { players: new Map(), forwards: new Map(), backs: new Map() },
                 '2nd': { players: new Map(), forwards: new Map(), backs: new Map() },
                 'Total': { players: new Map(), forwards: new Map(), backs: new Map() }
@@ -1545,13 +1689,13 @@
             if (labelTotal) labelTotal.textContent = labelText;
         }
 
-        function renderSquadMetricsTable(minimumAppearances) {
-            const tbody = document.getElementById('squadMetricsTableBody');
+        function renderSquadStatsTable(minimumAppearances) {
+            const tbody = document.getElementById('squadStatsTableBody');
             if (!tbody) {
                 return;
             }
 
-            const subtitle = document.getElementById('squadMetricsTableSubtitle');
+            const subtitle = document.getElementById('squadStatsTableSubtitle');
             if (subtitle) {
                 if (minimumAppearances > 1) {
                     subtitle.textContent = `Players with ${minimumAppearances} or more appearances`;
@@ -1562,7 +1706,7 @@
                 }
             }
 
-            const seasonSelect = document.getElementById('squadMetricsSeasonSelect');
+            const seasonSelect = document.getElementById('squadStatsSeasonSelect');
             const selectedSeason = seasonSelect?.value || getCurrentSeasonLabel();
 
             const seasonSet = new Set();
@@ -1574,11 +1718,11 @@
             };
 
             (availableSeasons || []).forEach(addSeason);
-            Object.keys(squadMetricsData || {}).forEach(addSeason);
+            Object.keys(squadStatsData || {}).forEach(addSeason);
             addSeason(selectedSeason);
             addSeason(getCurrentSeasonLabel());
 
-            const seasons = getSortedSquadMetricSeasons(Object.fromEntries(Array.from(seasonSet).map(season => [season, true])));
+            const seasons = getSortedSquadStatsSeasons(Object.fromEntries(Array.from(seasonSet).map(season => [season, true])));
 
             if (seasons.length === 0) {
                 tbody.innerHTML = '<tr><td colspan="10" class="text-center text-muted py-3">No squad metrics available.</td></tr>';
@@ -1586,7 +1730,7 @@
             }
 
             tbody.innerHTML = seasons.map(season => {
-                const seasonData = squadMetricsData?.[season] || {
+                const seasonData = squadStatsData?.[season] || {
                     '1st': { players: new Map(), forwards: new Map(), backs: new Map() },
                     '2nd': { players: new Map(), forwards: new Map(), backs: new Map() },
                     'Total': { players: new Map(), forwards: new Map(), backs: new Map() }
@@ -1594,7 +1738,7 @@
                 const squad1 = seasonData['1st'];
                 const squad2 = seasonData['2nd'];
                 const total = seasonData['Total'];
-                const rowClass = season === selectedSeason ? 'squad-metrics-current-season' : '';
+                const rowClass = season === selectedSeason ? 'squad-stats-current-season' : '';
 
                 return `
                     <tr class="${rowClass}">
@@ -1614,12 +1758,12 @@
         }
 
         function buildSquadSizeTrendRows(selectedSeason, minimumAppearances) {
-            const seasons = getSortedSquadMetricSeasons(squadMetricsData).slice().reverse();
+            const seasons = getSortedSquadStatsSeasons(squadStatsData).slice().reverse();
             const rows = [];
             const toTrendValue = value => (value === 0 ? null : value);
 
             seasons.forEach(season => {
-                const seasonData = squadMetricsData?.[season];
+                const seasonData = squadStatsData?.[season];
                 if (!seasonData) {
                     return;
                 }
@@ -1700,7 +1844,7 @@
                 return [];
             }
 
-            const allowedGameTypes = getAllowedGameTypes(getSquadMetricsGameTypeMode());
+            const allowedGameTypes = getAllowedGameTypes(getSquadStatsGameTypeMode());
             const gameInfoById = new Map((gamesData || []).map(game => [game.game_id, game]));
             
             // Group games by squad/season and sort chronologically
@@ -1879,36 +2023,240 @@
             });
         }
 
-        function renderSquadMetricsCharts(selectedSeason, minimumAppearances) {
+        function renderSquadStatsCharts(selectedSeason, minimumAppearances) {
             renderSquadSizeTrendChart(selectedSeason, minimumAppearances);
             renderSquadContinuityTrendChart(selectedSeason);
+            renderLeagueContextCharts();
         }
 
-        function renderSquadMetricsPage() {
+        function getLeagueContextUnit() {
+            const select = document.getElementById('leagueContextUnitSelect');
+            return select?.value || 'Total';
+        }
+
+        async function loadChartSpec(path) {
+            if (chartSpecCache.has(path)) {
+                return chartSpecCache.get(path);
+            }
+
+            const response = await fetch(path);
+            if (!response.ok) {
+                throw new Error(`Failed to fetch ${path} (${response.status})`);
+            }
+
+            const spec = await response.json();
+            chartSpecCache.set(path, spec);
+            return spec;
+        }
+
+        function filterChartSpecDataset(spec, predicate) {
+            const clonedSpec = JSON.parse(JSON.stringify(spec));
+
+            if (clonedSpec.datasets) {
+                Object.keys(clonedSpec.datasets).forEach(key => {
+                    const rows = clonedSpec.datasets[key];
+                    if (Array.isArray(rows)) {
+                        clonedSpec.datasets[key] = rows.filter(predicate);
+                    }
+                });
+            }
+
+            if (clonedSpec.data && Array.isArray(clonedSpec.data.values)) {
+                clonedSpec.data.values = clonedSpec.data.values.filter(predicate);
+            }
+
+            return clonedSpec;
+        }
+
+        function collectChartDatasetNames(spec, datasetNames = new Set()) {
+            if (!spec || typeof spec !== 'object') {
+                return datasetNames;
+            }
+
+            if (spec.data && typeof spec.data.name === 'string') {
+                datasetNames.add(spec.data.name);
+            }
+
+            ['layer', 'hconcat', 'vconcat', 'concat'].forEach(key => {
+                const childSpecs = spec[key];
+                if (Array.isArray(childSpecs)) {
+                    childSpecs.forEach(child => collectChartDatasetNames(child, datasetNames));
+                }
+            });
+
+            if (spec.spec) {
+                collectChartDatasetNames(spec.spec, datasetNames);
+            }
+
+            return datasetNames;
+        }
+
+        function filterNamedDatasetsInSpec(spec, datasetNames, predicate) {
+            if (!spec || typeof spec !== 'object') {
+                return spec;
+            }
+
+            if (spec.datasets) {
+                datasetNames.forEach(name => {
+                    const rows = spec.datasets[name];
+                    if (Array.isArray(rows)) {
+                        spec.datasets[name] = rows.filter(predicate);
+                    }
+                });
+            }
+
+            return spec;
+        }
+
+        function filterLeagueContextCombinedSpec(spec, comparisonPredicate, trendPredicate) {
+            const clonedSpec = JSON.parse(JSON.stringify(spec));
+            const combinedCharts = Array.isArray(clonedSpec.hconcat) ? clonedSpec.hconcat : null;
+
+            if (!combinedCharts || combinedCharts.length < 2) {
+                return filterChartSpecDataset(clonedSpec, comparisonPredicate);
+            }
+
+            const comparisonDatasetNames = collectChartDatasetNames(combinedCharts[0]);
+            const trendDatasetNames = collectChartDatasetNames(combinedCharts[1]);
+
+            filterNamedDatasetsInSpec(clonedSpec, comparisonDatasetNames, comparisonPredicate);
+            filterNamedDatasetsInSpec(clonedSpec, trendDatasetNames, trendPredicate);
+
+            return clonedSpec;
+        }
+
+        function chartSpecHasRows(spec) {
+            if (!spec) {
+                return false;
+            }
+
+            if (spec.datasets) {
+                return Object.values(spec.datasets).some(rows => Array.isArray(rows) && rows.length > 0);
+            }
+
+            if (spec.data && Array.isArray(spec.data.values)) {
+                return spec.data.values.length > 0;
+            }
+
+            return true;
+        }
+
+        function renderStaticSpecChart(containerId, spec, emptyMessage) {
+            const container = document.getElementById(containerId);
+            if (!container) {
+                return;
+            }
+
+            if (!spec || !chartSpecHasRows(spec)) {
+                container.innerHTML = `<div class="text-center text-muted py-4">${emptyMessage}</div>`;
+                return;
+            }
+
+            container.innerHTML = '';
+            const embedTarget = `#${containerId}`;
+            vegaEmbed(embedTarget, spec, {
+                actions: VEGA_EMBED_ACTIONS,
+                renderer: 'svg'
+            }).then(() => {
+                pinVegaActionsInElement(container);
+            }).catch(error => {
+                console.error(`Error rendering ${containerId}:`, error);
+                container.innerHTML = '<div class="text-center text-danger py-4">Unable to render chart.</div>';
+            });
+        }
+
+        async function renderLeagueContextCharts() {
+            const selectedSeason = document.getElementById('squadStatsSeasonSelect')?.value || getCurrentSeasonLabel();
+            const selectedUnit = getLeagueContextUnit();
+            const charts = [
+                {
+                    containerId: 'leagueSquadSizeContextChart',
+                    path: 'data/charts/league_squad_size_context_1s.json',
+                    emptyMessage: `No league squad size data available for ${selectedSeason} (${selectedUnit}).`,
+                    filterSpec: spec => filterLeagueContextCombinedSpec(
+                        spec,
+                        row => row?.Season === selectedSeason && row?.Unit === selectedUnit,
+                        row => row?.Unit === selectedUnit
+                    )
+                },
+                {
+                    containerId: 'leagueContinuityContextChart',
+                    path: 'data/charts/league_continuity_context_1s.json',
+                    emptyMessage: `No league squad continuity data available for ${selectedSeason} (${selectedUnit}).`,
+                    filterSpec: spec => filterLeagueContextCombinedSpec(
+                        spec,
+                        row => row?.Season === selectedSeason && row?.Unit === selectedUnit,
+                        row => row?.Unit === selectedUnit
+                    )
+                }
+            ];
+
+            await Promise.all(charts.map(async chart => {
+                try {
+                    const spec = await loadChartSpec(chart.path);
+                    const filteredSpec = chart.filterSpec ? chart.filterSpec(spec) : spec;
+                    renderStaticSpecChart(chart.containerId, filteredSpec, chart.emptyMessage);
+                } catch (error) {
+                    console.warn(`Unable to load ${chart.path}:`, error);
+                    renderStaticSpecChart(chart.containerId, null, chart.emptyMessage);
+                }
+            }));
+        }
+
+        async function renderTeamSheetsPage() {
+            const selectedSeasons = $('#teamSheetsSeasonSelect').val() || [];
+            const selectedSquad = document.getElementById('teamSheetsSquadSelect')?.value || 'All';
+            const selectedGameType = document.getElementById('teamSheetsGameTypeSelect')?.value || 'All games';
+            const selectedPositions = $('#teamSheetsPositionSelect').val() || [];
+
+            try {
+                const spec = await loadChartSpec('data/charts/team_sheets.json');
+                const filteredSpec = filterTeamSheetSpec(spec, selectedSeasons, selectedSquad, selectedGameType, selectedPositions);
+                renderStaticSpecChart('teamSheetsChart', filteredSpec, 'No team sheet data available for the selected filters.');
+            } catch (error) {
+                console.warn('Unable to load team sheets chart:', error);
+                renderStaticSpecChart('teamSheetsChart', null, 'Unable to load team sheets chart.');
+            }
+        }
+
+        function filterTeamSheetSpec(spec, seasons, squad, gameType, positions) {
+            const clonedSpec = JSON.parse(JSON.stringify(spec));
+            const predicate = row => {
+                if (Array.isArray(seasons) && seasons.length > 0 && !seasons.includes(row?.season)) return false;
+                if (squad !== 'All' && row?.squad !== squad) return false;
+                if (gameType === 'League only' && row?.game_type !== 'League') return false;
+                if (gameType === 'League + Cup' && !['League', 'Cup'].includes(row?.game_type)) return false;
+                if (positions.length > 0 && !positions.includes(row?.position)) return false;
+                return true;
+            };
+            return filterChartSpecDataset(clonedSpec, predicate);
+        }
+
+        function renderSquadStatsPage() {
             if (!playerAppearancesData) {
                 return;
             }
 
-            refreshSquadMetricsData();
+            refreshSquadStatsData();
 
-            const seasons = getSortedSquadMetricSeasons(squadMetricsData);
+            const seasons = getSortedSquadStatsSeasons(squadStatsData);
             if (seasons.length === 0) {
-                const minimumAppearances = getSquadMetricsMinimumAppearances();
+                const minimumAppearances = getSquadStatsMinimumAppearances();
                 const fallbackSeason = getCurrentSeasonLabel();
                 renderSquadMetricCards(fallbackSeason, minimumAppearances);
-                renderSquadMetricsTable(minimumAppearances);
-                renderSquadMetricsCharts(fallbackSeason, minimumAppearances);
+                renderSquadStatsTable(minimumAppearances);
+                renderSquadStatsCharts(fallbackSeason, minimumAppearances);
                 return;
             }
 
-            const seasonSelect = document.getElementById('squadMetricsSeasonSelect');
+            const seasonSelect = document.getElementById('squadStatsSeasonSelect');
 
             const selectedSeason = seasonSelect?.value
                 || (seasons.includes(getCurrentSeasonLabel()) ? getCurrentSeasonLabel() : seasons[0]);
-            const minimumAppearances = getSquadMetricsMinimumAppearances();
+            const minimumAppearances = getSquadStatsMinimumAppearances();
 
             if (seasonSelect && seasonSelect.value !== selectedSeason) {
-                const $seasonSelect = $('#squadMetricsSeasonSelect');
+                const $seasonSelect = $('#squadStatsSeasonSelect');
                 if ($seasonSelect.data('selectpicker')) {
                     $seasonSelect.selectpicker('val', selectedSeason);
                 } else {
@@ -1918,30 +2266,32 @@
 
             renderSquadMetricCards(selectedSeason, minimumAppearances);
             renderSquadPositionPanels(selectedSeason, minimumAppearances);
-            renderSquadMetricsTable(minimumAppearances);
-            renderSquadMetricsCharts(selectedSeason, minimumAppearances);
+            renderSquadStatsTable(minimumAppearances);
+            renderSquadStatsCharts(selectedSeason, minimumAppearances);
             initialiseChartPanelToggles();
         }
 
-        function initialiseSquadMetricsControlsOnce() {
-            if (squadMetricsControlsInitialised) {
+        function initialiseSquadStatsControlsOnce() {
+            if (squadStatsControlsInitialised) {
                 return;
             }
 
-            const seasonSelect = document.getElementById('squadMetricsSeasonSelect');
-            const gameTypeSelect = document.getElementById('squadMetricsGameTypeSelect');
-            const minAppearancesInput = document.getElementById('squadMetricsMinAppearancesInput');
+            const seasonSelect = document.getElementById('squadStatsSeasonSelect');
+            const gameTypeSelect = document.getElementById('squadStatsGameTypeSelect');
+            const minAppearancesInput = document.getElementById('squadStatsMinAppearancesInput');
+            const leagueContextUnitSelect = document.getElementById('leagueContextUnitSelect');
 
-            if (!seasonSelect || !gameTypeSelect || !minAppearancesInput) {
+            if (!seasonSelect || !gameTypeSelect || !minAppearancesInput || !leagueContextUnitSelect) {
                 return;
             }
 
-            const $seasonSelect = $('#squadMetricsSeasonSelect');
-            const $gameTypeSelect = $('#squadMetricsGameTypeSelect');
+            const $seasonSelect = $('#squadStatsSeasonSelect');
+            const $gameTypeSelect = $('#squadStatsGameTypeSelect');
+            const $leagueContextUnitSelect = $('#leagueContextUnitSelect');
 
             $seasonSelect.selectpicker();
 
-            const seasons = populateSquadMetricsSeasonDropdownOptions(seasonSelect);
+            const seasons = populateSquadStatsSeasonDropdownOptions(seasonSelect);
             const currentSeason = getCurrentSeasonLabel();
             if (seasons.includes(currentSeason)) {
                 seasonSelect.value = currentSeason;
@@ -1954,21 +2304,30 @@
             $seasonSelect.selectpicker();
             $seasonSelect.selectpicker('val', selectedSquadSeason);
             $gameTypeSelect.selectpicker();
+            $leagueContextUnitSelect.selectpicker();
 
             gameTypeSelect.value = 'All games';
             minAppearancesInput.value = '0';
+            leagueContextUnitSelect.value = 'Total';
 
             $gameTypeSelect.selectpicker('val', 'All games');
+            $leagueContextUnitSelect.selectpicker('val', 'Total');
 
             $seasonSelect.on('changed.bs.select', function() {
-                if (currentPage === 'squad-metrics') {
-                    renderSquadMetricsPage();
+                if (currentPage === 'squad-stats') {
+                    renderSquadStatsPage();
                 }
             });
 
             $gameTypeSelect.on('changed.bs.select', function() {
-                if (currentPage === 'squad-metrics') {
-                    renderSquadMetricsPage();
+                if (currentPage === 'squad-stats') {
+                    renderSquadStatsPage();
+                }
+            });
+
+            $leagueContextUnitSelect.on('changed.bs.select', function() {
+                if (currentPage === 'squad-stats') {
+                    renderLeagueContextCharts();
                 }
             });
 
@@ -1982,8 +2341,8 @@
                 } else if (!Number.isInteger(parsed)) {
                     this.value = String(Math.floor(parsed));
                 }
-                if (currentPage === 'squad-metrics') {
-                    renderSquadMetricsPage();
+                if (currentPage === 'squad-stats') {
+                    renderSquadStatsPage();
                 }
             });
 
@@ -1991,8 +2350,8 @@
                 if (this.value === '' || Number(this.value) < 0 || !Number.isFinite(Number(this.value))) {
                     this.value = '0';
                 }
-                if (currentPage === 'squad-metrics') {
-                    renderSquadMetricsPage();
+                if (currentPage === 'squad-stats') {
+                    renderSquadStatsPage();
                 }
             });
 
@@ -2001,12 +2360,101 @@
                     this.value = '0';
                 }
                 this.value = String(Math.floor(Number(this.value)));
-                if (currentPage === 'squad-metrics') {
-                    renderSquadMetricsPage();
+                if (currentPage === 'squad-stats') {
+                    renderSquadStatsPage();
                 }
             });
 
-            squadMetricsControlsInitialised = true;
+            squadStatsControlsInitialised = true;
+        }
+
+        function initialiseTeamSheetsControls() {
+            if (teamSheetsControlsInitialised) {
+                return;
+            }
+
+            const seasonSelect = document.getElementById('teamSheetsSeasonSelect');
+            const squadSelect = document.getElementById('teamSheetsSquadSelect');
+            const gameTypeSelect = document.getElementById('teamSheetsGameTypeSelect');
+            const positionSelect = document.getElementById('teamSheetsPositionSelect');
+
+            if (!seasonSelect || !squadSelect || !gameTypeSelect || !positionSelect) {
+                return;
+            }
+
+            // Populate seasons
+            const seasons = Array.from(new Set((availableSeasons || []).filter(Boolean)));
+            const currentSeason = getCurrentSeasonLabel();
+            if (seasons.length === 0) {
+                seasons.push(currentSeason);
+            }
+
+            seasonSelect.innerHTML = '';
+            seasons.forEach(season => {
+                const option = document.createElement('option');
+                option.value = season;
+                option.textContent = season;
+                option.selected = season === currentSeason;
+                seasonSelect.appendChild(option);
+            });
+
+            const $seasonSelect = $('#teamSheetsSeasonSelect');
+            const $squadSelect = $('#teamSheetsSquadSelect');
+            const $gameTypeSelect = $('#teamSheetsGameTypeSelect');
+            const $positionSelect = $('#teamSheetsPositionSelect');
+
+            if ($seasonSelect.data('selectpicker')) {
+                $seasonSelect.selectpicker('destroy');
+            }
+            if ($squadSelect.data('selectpicker')) {
+                $squadSelect.selectpicker('destroy');
+            }
+            if ($gameTypeSelect.data('selectpicker')) {
+                $gameTypeSelect.selectpicker('destroy');
+            }
+            if ($positionSelect.data('selectpicker')) {
+                $positionSelect.selectpicker('destroy');
+            }
+
+            $seasonSelect.selectpicker();
+            $squadSelect.selectpicker();
+            $gameTypeSelect.selectpicker();
+            $positionSelect.selectpicker();
+
+            const selectedSeasons = seasons.includes(currentSeason)
+                ? [currentSeason]
+                : [seasons[0]];
+
+            $seasonSelect.selectpicker('val', selectedSeasons);
+            $squadSelect.selectpicker('val', 'All');
+            $gameTypeSelect.selectpicker('val', 'All games');
+            $positionSelect.selectpicker('deselectAll');
+
+            $seasonSelect.on('changed.bs.select', function() {
+                if (currentPage === 'team-sheets') {
+                    renderTeamSheetsPage();
+                }
+            });
+
+            $squadSelect.on('changed.bs.select', function() {
+                if (currentPage === 'team-sheets') {
+                    renderTeamSheetsPage();
+                }
+            });
+
+            $gameTypeSelect.on('changed.bs.select', function() {
+                if (currentPage === 'team-sheets') {
+                    renderTeamSheetsPage();
+                }
+            });
+
+            $positionSelect.on('changed.bs.select', function() {
+                if (currentPage === 'team-sheets') {
+                    renderTeamSheetsPage();
+                }
+            });
+
+            teamSheetsControlsInitialised = true;
         }
 
         function toLeagueSeasonFormat(season) {

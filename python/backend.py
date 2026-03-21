@@ -14,6 +14,11 @@ import duckdb
 import pandas as pd
 
 from python.data import HISTORIC_PITCHERO_SEASON_IDS, DataExtractor, clean_name
+from python.league_data import (
+    build_rfu_games_dataframe,
+    build_rfu_player_appearances_dataframe,
+    load_consolidated_matches,
+)
 
 
 PITCHERO_TO_GOOGLE_CANONICAL_NAMES = {
@@ -98,6 +103,7 @@ class BackendConfig:
     pitchero_cache_path: str = "data/pitchero_stats_cache.json"
     historic_pitchero_cache_path: str = "data/pitchero_historic_team_sheets_cache.json"
     credentials_path: str = "client_secret.json"
+    rfu_matches_path: str = "data/matches.json"
 
 
 class BackendDatabase:
@@ -108,6 +114,7 @@ class BackendDatabase:
         self.export_root = self.project_root / self.config.export_dir
         self.pitchero_cache_file = self.project_root / self.config.pitchero_cache_path
         self.historic_pitchero_cache_file = self.project_root / self.config.historic_pitchero_cache_path
+        self.rfu_matches_file = self.project_root / self.config.rfu_matches_path
         try:
             self.con = duckdb.connect(str(self.db_file))
         except duckdb.IOException as exc:
@@ -129,13 +136,20 @@ class BackendDatabase:
         self.con.execute("DROP VIEW IF EXISTS v_lineout_summary")
         self.con.execute("DROP VIEW IF EXISTS v_set_piece_summary")
         self.con.execute("DROP VIEW IF EXISTS v_season_results")
+        self.con.execute("DROP VIEW IF EXISTS v_rfu_lineup_coverage")
+        self.con.execute("DROP VIEW IF EXISTS v_rfu_average_retention")
+        self.con.execute("DROP VIEW IF EXISTS v_rfu_match_retention")
+        self.con.execute("DROP VIEW IF EXISTS v_rfu_squad_size")
+        self.con.execute("DROP VIEW IF EXISTS v_rfu_team_games")
         self.con.execute("DROP TABLE IF EXISTS pitchero_appearance_backfill")
         self.con.execute("DROP TABLE IF EXISTS pitchero_appearance_reconciliation")
+        self.con.execute("DROP TABLE IF EXISTS player_appearances_rfu")
         self.con.execute("DROP TABLE IF EXISTS players")
         self.con.execute("DROP TABLE IF EXISTS season_scorers")
         self.con.execute("DROP TABLE IF EXISTS lineouts")
         self.con.execute("DROP TABLE IF EXISTS set_piece")
         self.con.execute("DROP TABLE IF EXISTS player_appearances")
+        self.con.execute("DROP TABLE IF EXISTS games_rfu")
         self.con.execute("DROP TABLE IF EXISTS games")
 
         self.con.execute(
@@ -176,6 +190,49 @@ class BackendDatabase:
                 game_type TEXT,
                 is_starter BOOLEAN,
                 PRIMARY KEY(squad, date, player)
+            )
+            """
+        )
+
+        self.con.execute(
+            """
+            CREATE TABLE games_rfu (
+                match_id TEXT PRIMARY KEY,
+                season TEXT NOT NULL,
+                league TEXT,
+                tracked_squad TEXT,
+                date DATE NOT NULL,
+                home_team TEXT NOT NULL,
+                away_team TEXT NOT NULL,
+                home_score INTEGER,
+                away_score INTEGER,
+                home_walkover BOOLEAN,
+                away_walkover BOOLEAN,
+                lineup_available_home BOOLEAN,
+                lineup_available_away BOOLEAN
+            )
+            """
+        )
+
+        self.con.execute(
+            """
+            CREATE TABLE player_appearances_rfu (
+                match_id TEXT NOT NULL,
+                season TEXT NOT NULL,
+                league TEXT,
+                tracked_squad TEXT,
+                date DATE NOT NULL,
+                team TEXT NOT NULL,
+                opposition TEXT,
+                home_away TEXT,
+                player TEXT NOT NULL,
+                shirt_number INTEGER,
+                position TEXT,
+                unit TEXT,
+                is_starter BOOLEAN,
+                previous_match_id TEXT,
+                played_previous_game BOOLEAN,
+                PRIMARY KEY(match_id, team, player)
             )
             """
         )
@@ -322,6 +379,7 @@ class BackendDatabase:
         set_piece_raw = extractor.extract_set_piece_stats()
         pitchero_raw = self._load_pitchero(extractor, refresh_pitchero)
         scorers_2526_raw = self._extract_2526_scorers(extractor)
+        rfu_matches_raw = load_consolidated_matches(self.rfu_matches_file.as_posix())
 
         games = self._build_games(games_raw, appearances_raw)
         appearances = self._build_player_appearances(appearances_raw, games)
@@ -330,9 +388,20 @@ class BackendDatabase:
         season_scorers = self._build_season_scorers(scorers_2526_raw, pitchero_raw, appearances)
         reconciliation, backfill = self._build_pitchero_appearance_reconciliation(pitchero_raw, appearances)
         players = self._build_players(appearances, games, lineouts, season_scorers, reconciliation)
+        games_rfu = build_rfu_games_dataframe(
+            matches=rfu_matches_raw,
+            consolidated_file=self.rfu_matches_file.as_posix(),
+        )
+        appearances_rfu = build_rfu_player_appearances_dataframe(
+            matches=rfu_matches_raw,
+            consolidated_file=self.rfu_matches_file.as_posix(),
+            games_df=games_rfu,
+        )
 
         self._insert("games", games)
         self._insert("player_appearances", appearances)
+        self._insert("games_rfu", games_rfu)
+        self._insert("player_appearances_rfu", appearances_rfu)
         self._insert("lineouts", lineouts)
         self._insert("set_piece", set_piece)
         self._insert("season_scorers", season_scorers)
@@ -431,6 +500,182 @@ class BackendDatabase:
 
         self.con.execute(
             """
+            CREATE VIEW v_rfu_team_games AS
+            WITH team_games AS (
+                SELECT
+                    match_id,
+                    season,
+                    league,
+                    tracked_squad AS squad,
+                    date,
+                    home_team AS team,
+                    away_team AS opposition,
+                    'H' AS home_away,
+                    home_score AS score_for,
+                    away_score AS score_against,
+                    home_walkover AS team_walkover,
+                    away_walkover AS opposition_walkover,
+                    lineup_available_home AS lineup_available
+                FROM games_rfu
+
+                UNION ALL
+
+                SELECT
+                    match_id,
+                    season,
+                    league,
+                    tracked_squad AS squad,
+                    date,
+                    away_team AS team,
+                    home_team AS opposition,
+                    'A' AS home_away,
+                    away_score AS score_for,
+                    home_score AS score_against,
+                    away_walkover AS team_walkover,
+                    home_walkover AS opposition_walkover,
+                    lineup_available_away AS lineup_available
+                FROM games_rfu
+            )
+            SELECT
+                *,
+                LAG(match_id) OVER (PARTITION BY season, team ORDER BY date, match_id) AS previous_match_id
+            FROM team_games
+            """
+        )
+
+        self.con.execute(
+            """
+            CREATE VIEW v_rfu_squad_size AS
+            WITH player_units AS (
+                SELECT
+                    season,
+                    league,
+                    tracked_squad AS squad,
+                    team,
+                    player,
+                    CASE
+                        WHEN MAX(CASE WHEN unit = 'Forwards' THEN 1 ELSE 0 END) = 1 THEN 'Forwards'
+                        WHEN MAX(CASE WHEN unit = 'Backs' THEN 1 ELSE 0 END) = 1 THEN 'Backs'
+                        ELSE 'Bench'
+                    END AS unit
+                FROM player_appearances_rfu
+                GROUP BY season, league, tracked_squad, team, player
+            )
+            SELECT season, league, squad, team, unit, COUNT(*) AS players
+            FROM player_units
+            WHERE unit IN ('Forwards', 'Backs')
+            GROUP BY season, league, squad, team, unit
+
+            UNION ALL
+
+            SELECT season, league, squad, team, 'Total' AS unit, COUNT(*) AS players
+            FROM player_units
+            GROUP BY season, league, squad, team
+            """
+        )
+
+        self.con.execute(
+            """
+            CREATE VIEW v_rfu_match_retention AS
+            WITH starters AS (
+                SELECT
+                    match_id,
+                    previous_match_id,
+                    season,
+                    league,
+                    tracked_squad AS squad,
+                    date,
+                    team,
+                    opposition,
+                    player,
+                    unit
+                FROM player_appearances_rfu
+                WHERE is_starter = TRUE
+            ),
+            starter_units AS (
+                SELECT match_id, previous_match_id, season, league, squad, date, team, opposition, player, 'Total' AS unit
+                FROM starters
+
+                UNION ALL
+
+                SELECT match_id, previous_match_id, season, league, squad, date, team, opposition, player, unit
+                FROM starters
+                WHERE unit IN ('Forwards', 'Backs')
+            ),
+            lineup_flags AS (
+                SELECT match_id, team, COUNT(*) > 0 AS lineup_available
+                FROM starters
+                GROUP BY match_id, team
+            )
+            SELECT
+                curr.season,
+                curr.league,
+                curr.squad,
+                curr.team,
+                curr.opposition,
+                curr.date,
+                curr.match_id,
+                curr.previous_match_id,
+                curr.unit,
+                COALESCE(MAX(CASE WHEN prev_lineup.lineup_available THEN 1 ELSE 0 END), 0) AS previous_lineup_available,
+                COUNT(DISTINCT CASE WHEN prev.player IS NOT NULL THEN curr.player END) AS retained
+            FROM starter_units curr
+            LEFT JOIN lineup_flags prev_lineup
+                ON prev_lineup.match_id = curr.previous_match_id
+                AND prev_lineup.team = curr.team
+            LEFT JOIN starter_units prev
+                ON prev.match_id = curr.previous_match_id
+                AND prev.team = curr.team
+                AND prev.unit = curr.unit
+                AND prev.player = curr.player
+            GROUP BY
+                curr.season,
+                curr.league,
+                curr.squad,
+                curr.team,
+                curr.opposition,
+                curr.date,
+                curr.match_id,
+                curr.previous_match_id,
+                curr.unit
+            """
+        )
+
+        self.con.execute(
+            """
+            CREATE VIEW v_rfu_average_retention AS
+            SELECT
+                season,
+                league,
+                squad,
+                team,
+                unit,
+                AVG(retained) AS average_retention,
+                COUNT(*) AS game_pairs
+            FROM v_rfu_match_retention
+            WHERE previous_match_id IS NOT NULL
+              AND previous_lineup_available = 1
+            GROUP BY season, league, squad, team, unit
+            """
+        )
+
+        self.con.execute(
+            """
+            CREATE VIEW v_rfu_lineup_coverage AS
+            SELECT
+                season,
+                league,
+                squad,
+                team,
+                COUNT(*) AS total_games,
+                SUM(CASE WHEN lineup_available THEN 1 ELSE 0 END) AS games_with_lineups
+            FROM v_rfu_team_games
+            GROUP BY season, league, squad, team
+            """
+        )
+
+        self.con.execute(
+            """
             CREATE VIEW v_pitchero_appearance_mismatches AS
             SELECT *
             FROM pitchero_appearance_reconciliation
@@ -486,7 +731,9 @@ class BackendDatabase:
         self.export_root.mkdir(parents=True, exist_ok=True)
         table_names = [
             "games",
+            "games_rfu",
             "player_appearances",
+            "player_appearances_rfu",
             "lineouts",
             "set_piece",
             "season_scorers",
@@ -502,6 +749,11 @@ class BackendDatabase:
             "v_pitchero_appearance_mismatches",
             "v_season_player_appearances_reconciled",
             "v_player_appearance_discrepancy_summary",
+            "v_rfu_team_games",
+            "v_rfu_squad_size",
+            "v_rfu_match_retention",
+            "v_rfu_average_retention",
+            "v_rfu_lineup_coverage",
         ]
 
         for name in table_names + view_names:

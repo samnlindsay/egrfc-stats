@@ -70,6 +70,13 @@ divisions = {
     }
 }    
 
+RFU_LEAGUE_PREFIXES = (
+    "Harvey’s Brewery ",
+    "Harvey's Brewery ",
+    "Harvey’s Olympia ",
+    "Harvey's Olympia ",
+)
+
 base_url = 'https://www.englandrugby.com/fixtures-and-results/'
 
 def get_url(squad=1, season="2025/26"):
@@ -105,10 +112,307 @@ headers = {
     'Cache-Control': 'max-age=0'
 }
 
+
+def normalize_league_name(league):
+    """Normalize RFU league names to the division labels used in this project."""
+    if league is None:
+        return ""
+
+    league_name = " ".join(str(league).strip().split())
+    for prefix in RFU_LEAGUE_PREFIXES:
+        if league_name.startswith(prefix):
+            return league_name[len(prefix):].strip()
+    return league_name
+
+
+def season_to_short_label(season):
+    """Convert season labels to canonical YYYY/YY format."""
+    season_dash = _normalize_season(season)
+    if not season_dash or "-" not in season_dash:
+        return season_dash
+
+    start_year, end_year = season_dash.split("-", 1)
+    return f"{start_year}/{end_year[-2:]}"
+
+
+def _parse_lineup_shirt_number(raw_number):
+    """Convert RFU lineup keys like 15 or S1 into shirt numbers."""
+    if raw_number is None:
+        return None
+
+    value = str(raw_number).strip().upper()
+    if not value:
+        return None
+
+    if value.isdigit():
+        return int(value)
+
+    sub_match = re.match(r"^S(\d+)$", value)
+    if sub_match:
+        return 15 + int(sub_match.group(1))
+
+    return None
+
+
+def _rfu_position_from_shirt_number(shirt_number):
+    """Map shirt numbers to canonical positions."""
+    position_map = {
+        1: "Prop",
+        2: "Hooker",
+        3: "Prop",
+        4: "Second Row",
+        5: "Second Row",
+        6: "Flanker",
+        7: "Flanker",
+        8: "Number 8",
+        9: "Scrum Half",
+        10: "Fly Half",
+        11: "Wing",
+        12: "Centre",
+        13: "Centre",
+        14: "Wing",
+        15: "Full Back",
+    }
+    return position_map.get(shirt_number, "Bench")
+
+
+def _rfu_unit_from_shirt_number(shirt_number):
+    """Map shirt numbers to canonical units."""
+    if shirt_number is None:
+        return None
+    if shirt_number <= 8:
+        return "Forwards"
+    if shirt_number <= 15:
+        return "Backs"
+    return "Bench"
+
+
+def _coerce_rfu_score_value(value):
+    """Return numeric score and walkover flag from consolidated RFU score values."""
+    if value is None:
+        return pd.NA, False
+
+    text = str(value).strip().upper()
+    if not text:
+        return pd.NA, False
+    if text == "WO":
+        return pd.NA, True
+
+    numeric_value = pd.to_numeric(value, errors="coerce")
+    if pd.notna(numeric_value):
+        return int(numeric_value), False
+
+    return pd.NA, False
+
+
+def build_rfu_games_dataframe(matches=None, consolidated_file="data/matches.json"):
+    """Build a normalized RFU games dataframe from consolidated scrape output."""
+    if matches is None:
+        matches = load_consolidated_matches(consolidated_file)
+
+    rows = []
+    for match in matches:
+        match_id = str(match.get("match_id", "")).strip()
+        teams = match.get("teams", []) or []
+        if not match_id or len(teams) < 2:
+            continue
+
+        season = season_to_short_label(match.get("season"))
+        league = normalize_league_name(match.get("league"))
+        date_value = pd.to_datetime(match.get("date"), errors="coerce")
+        if not season or pd.isna(date_value):
+            continue
+
+        score = match.get("score", []) or []
+        home_score, home_walkover = _coerce_rfu_score_value(score[0] if len(score) > 0 else None)
+        away_score, away_walkover = _coerce_rfu_score_value(score[1] if len(score) > 1 else None)
+
+        players = match.get("players", []) or []
+        home_players = players[0] if len(players) > 0 and isinstance(players[0], dict) else {}
+        away_players = players[1] if len(players) > 1 and isinstance(players[1], dict) else {}
+
+        tracked_squad = squad_lookup(season, league) if league else None
+        tracked_squad_label = f"{tracked_squad}st" if tracked_squad == 1 else f"{tracked_squad}nd" if tracked_squad else None
+
+        rows.append(
+            {
+                "match_id": match_id,
+                "season": season,
+                "league": league,
+                "tracked_squad": tracked_squad_label,
+                "date": date_value.date(),
+                "home_team": str(teams[0]).strip(),
+                "away_team": str(teams[1]).strip(),
+                "home_score": home_score,
+                "away_score": away_score,
+                "home_walkover": bool(home_walkover),
+                "away_walkover": bool(away_walkover),
+                "lineup_available_home": bool(home_players),
+                "lineup_available_away": bool(away_players),
+            }
+        )
+
+    columns = [
+        "match_id",
+        "season",
+        "league",
+        "tracked_squad",
+        "date",
+        "home_team",
+        "away_team",
+        "home_score",
+        "away_score",
+        "home_walkover",
+        "away_walkover",
+        "lineup_available_home",
+        "lineup_available_away",
+    ]
+    if not rows:
+        return pd.DataFrame(columns=columns)
+
+    df = pd.DataFrame(rows, columns=columns).drop_duplicates(subset=["match_id"]).sort_values(["season", "date", "match_id"])
+    df["home_score"] = pd.to_numeric(df["home_score"], errors="coerce").astype("Int64")
+    df["away_score"] = pd.to_numeric(df["away_score"], errors="coerce").astype("Int64")
+    return df
+
+
+def build_rfu_player_appearances_dataframe(matches=None, consolidated_file="data/matches.json", games_df=None):
+    """Build normalized RFU player appearance rows from consolidated scrape output."""
+    if matches is None:
+        matches = load_consolidated_matches(consolidated_file)
+    if games_df is None:
+        games_df = build_rfu_games_dataframe(matches=matches, consolidated_file=consolidated_file)
+
+    game_lookup = {}
+    for game in games_df.to_dict("records"):
+        game_lookup[str(game["match_id"])] = game
+
+    rows = []
+    for match in matches:
+        match_id = str(match.get("match_id", "")).strip()
+        game = game_lookup.get(match_id)
+        teams = match.get("teams", []) or []
+        players = match.get("players", []) or []
+        if game is None or len(teams) < 2 or len(players) < 2:
+            continue
+
+        for team_index, home_away in enumerate(["H", "A"]):
+            lineup = players[team_index] if isinstance(players[team_index], dict) else {}
+            if not lineup:
+                continue
+
+            team = str(teams[team_index]).strip()
+            opposition = str(teams[1 - team_index]).strip()
+            sorted_lineup = sorted(
+                lineup.items(),
+                key=lambda item: (_parse_lineup_shirt_number(item[0]) is None, _parse_lineup_shirt_number(item[0]) or 999, str(item[0])),
+            )
+
+            for raw_number, raw_player in sorted_lineup:
+                player = " ".join(str(raw_player).split()).strip()
+                shirt_number = _parse_lineup_shirt_number(raw_number)
+                if not player or shirt_number is None:
+                    continue
+
+                rows.append(
+                    {
+                        "match_id": match_id,
+                        "season": game["season"],
+                        "league": game["league"],
+                        "tracked_squad": game["tracked_squad"],
+                        "date": game["date"],
+                        "team": team,
+                        "opposition": opposition,
+                        "home_away": home_away,
+                        "player": player,
+                        "shirt_number": shirt_number,
+                        "position": _rfu_position_from_shirt_number(shirt_number),
+                        "unit": _rfu_unit_from_shirt_number(shirt_number),
+                        "is_starter": shirt_number <= 15,
+                    }
+                )
+
+    columns = [
+        "match_id",
+        "season",
+        "league",
+        "tracked_squad",
+        "date",
+        "team",
+        "opposition",
+        "home_away",
+        "player",
+        "shirt_number",
+        "position",
+        "unit",
+        "is_starter",
+        "previous_match_id",
+        "played_previous_game",
+    ]
+    if not rows:
+        return pd.DataFrame(columns=columns)
+
+    appearances_df = pd.DataFrame(rows)
+
+    team_games = pd.concat(
+        [
+            games_df[["match_id", "season", "date", "home_team", "away_team", "lineup_available_home"]].rename(
+                columns={
+                    "home_team": "team",
+                    "away_team": "opposition",
+                    "lineup_available_home": "lineup_available",
+                }
+            ).assign(home_away="H"),
+            games_df[["match_id", "season", "date", "home_team", "away_team", "lineup_available_away"]].rename(
+                columns={
+                    "away_team": "team",
+                    "home_team": "opposition",
+                    "lineup_available_away": "lineup_available",
+                }
+            ).assign(home_away="A"),
+        ],
+        ignore_index=True,
+    ).sort_values(["season", "team", "date", "match_id"])
+
+    team_games["previous_match_id"] = team_games.groupby(["season", "team"])["match_id"].shift(1)
+    previous_lineups = team_games[["season", "team", "match_id", "lineup_available"]].rename(
+        columns={
+            "match_id": "previous_match_id",
+            "lineup_available": "previous_lineup_available",
+        }
+    )
+    team_games = team_games.merge(previous_lineups, on=["season", "team", "previous_match_id"], how="left")
+
+    appearances_df = appearances_df.merge(
+        team_games[["match_id", "season", "team", "previous_match_id", "previous_lineup_available"]],
+        on=["match_id", "season", "team"],
+        how="left",
+    )
+
+    previous_player_keys = {
+        (row.match_id, row.team, row.player)
+        for row in appearances_df[["match_id", "team", "player"]].itertuples(index=False)
+    }
+
+    def _played_previous_game(row):
+        previous_match_id = row["previous_match_id"]
+        if pd.isna(previous_match_id):
+            return pd.NA
+        if not bool(row.get("previous_lineup_available")):
+            return pd.NA
+        return (previous_match_id, row["team"], row["player"]) in previous_player_keys
+
+    appearances_df["played_previous_game"] = appearances_df.apply(_played_previous_game, axis=1)
+    appearances_df["shirt_number"] = pd.to_numeric(appearances_df["shirt_number"], errors="coerce").astype("Int64")
+
+    return appearances_df[columns].drop_duplicates(subset=["match_id", "team", "player"]).sort_values(
+        ["season", "team", "date", "match_id", "shirt_number", "player"]
+    )
+
 def squad_lookup(season, league):
     """Return the squad number based on season and league."""
-    season_key = season.replace('-20', '/')  # Convert 2024-2025 to 2024/25
-    league_normalized = (league or "").replace("Harvey's Brewery ", "").strip()
+    season_key = season_to_short_label(season)
+    league_normalized = normalize_league_name(league)
     for div, seasons in divisions.items():
         expected_league = seasons.get(season_key)
         if league_normalized == expected_league:

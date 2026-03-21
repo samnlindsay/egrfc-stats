@@ -9,12 +9,28 @@ const DatabaseExplorer = (() => {
             sourceNote: 'Defined in backend.py and built from Google Sheets team sheets plus historical Pitchero reconciliation.'
         },
         {
+            key: 'games_rfu',
+            label: 'games_rfu',
+            path: 'data/backend/games_rfu.json',
+            grain: 'One row per RFU match',
+            description: 'RFU league match register with season, division, tracked squad, teams, date, scores, walkovers, and lineup coverage flags.',
+            sourceNote: 'Defined in backend.py and derived from the consolidated RFU scrape in data/matches.json.'
+        },
+        {
             key: 'player_appearances',
             label: 'player_appearances',
             path: 'data/backend/player_appearances.json',
             grain: 'One row per player per game',
             description: 'Canonical appearance table with shirt number, position, unit, starter flag, and captaincy metadata.',
             sourceNote: 'Defined in backend.py and derived from canonical selections linked back to games.'
+        },
+        {
+            key: 'player_appearances_rfu',
+            label: 'player_appearances_rfu',
+            path: 'data/backend/player_appearances_rfu.json',
+            grain: 'One row per player per RFU match',
+            description: 'RFU lineup table with shirt number, derived position and unit, starter flag, previous match id, and previous-game continuity flag.',
+            sourceNote: 'Defined in backend.py and derived from RFU lineup data in the consolidated scrape.'
         },
         {
             key: 'lineouts',
@@ -48,7 +64,53 @@ const DatabaseExplorer = (() => {
             description: 'Player master table with roster metadata, first appearance context, totals, sponsor, and photo fields.',
             sourceNote: 'Defined in backend.py and assembled from appearances, games, lineouts, scorers, and reconciliation outputs.'
         },
+        {
+            key: 'v_rfu_team_games',
+            label: 'v_rfu_team_games',
+            path: 'data/backend/v_rfu_team_games.json',
+            grain: 'One row per team per RFU match',
+            description: 'Derived RFU team-game view with home/away perspective, opposition, scoreline, lineup coverage, and previous match linkage.',
+            sourceNote: 'Defined in backend.py as a derived RFU view over games_rfu.'
+        },
+        {
+            key: 'v_rfu_squad_size',
+            label: 'v_rfu_squad_size',
+            path: 'data/backend/v_rfu_squad_size.json',
+            grain: 'One row per season-team-unit',
+            description: 'Derived RFU squad-size view counting players used by team, season, and unit, including total squad size.',
+            sourceNote: 'Defined in backend.py as a derived RFU view over player_appearances_rfu.'
+        },
+        {
+            key: 'v_rfu_match_retention',
+            label: 'v_rfu_match_retention',
+            path: 'data/backend/v_rfu_match_retention.json',
+            grain: 'One row per team-match-unit',
+            description: 'Derived RFU continuity view measuring how many starters were retained from the previous match for total, forwards, and backs.',
+            sourceNote: 'Defined in backend.py as a derived RFU view over player_appearances_rfu and previous-match lineage.'
+        },
+        {
+            key: 'v_rfu_average_retention',
+            label: 'v_rfu_average_retention',
+            path: 'data/backend/v_rfu_average_retention.json',
+            grain: 'One row per season-team-unit',
+            description: 'Derived RFU summary view averaging match-to-match retention where previous lineup data exists.',
+            sourceNote: 'Defined in backend.py as a derived RFU summary view over v_rfu_match_retention.'
+        },
+        {
+            key: 'v_rfu_lineup_coverage',
+            label: 'v_rfu_lineup_coverage',
+            path: 'data/backend/v_rfu_lineup_coverage.json',
+            grain: 'One row per season-team',
+            description: 'Derived RFU coverage view summarising how many matches have lineup data for each team and season.',
+            sourceNote: 'Defined in backend.py as a derived RFU summary view over v_rfu_team_games.'
+        },
     ];
+
+    const FILTER_COLUMN_ALIASES = {
+        season: ['season'],
+        squad: ['squad', 'tracked_squad'],
+        gameType: ['game_type']
+    };
 
     const state = {
         initialized: false,
@@ -279,7 +341,7 @@ const DatabaseExplorer = (() => {
 
         populateFilterSelect(elements.seasonFilter, getOptionsForColumn(rows, 'season'), state.filters.season, 'All seasons');
         populateFilterSelect(elements.squadFilter, getOptionsForColumn(rows, 'squad'), state.filters.squad, 'All squads');
-        populateFilterSelect(elements.gameTypeFilter, getOptionsForColumn(rows, 'game_type'), state.filters.gameType, 'All game types');
+        populateFilterSelect(elements.gameTypeFilter, getOptionsForColumn(rows, 'gameType'), state.filters.gameType, 'All game types');
 
         elements.searchInput.value = state.filters.search;
         setSelectpickerValue(elements.tableSelect, state.currentTableKey);
@@ -315,13 +377,24 @@ const DatabaseExplorer = (() => {
 
     function getOptionsForColumn(rows, column) {
         const values = rows
-            .map(row => row?.[column])
+            .map(row => getFilterValue(row, column))
             .filter(value => value !== null && value !== undefined && String(value).trim() !== '')
             .map(value => String(value));
 
         const uniqueValues = Array.from(new Set(values));
         const direction = column === 'season' || column === 'date' ? 'desc' : 'asc';
         return uniqueValues.sort((left, right) => compareValues(left, right, direction));
+    }
+
+    function getFilterValue(row, filterKey) {
+        const aliases = FILTER_COLUMN_ALIASES[filterKey] || [filterKey];
+        for (const alias of aliases) {
+            const value = row?.[alias];
+            if (value !== null && value !== undefined && String(value).trim() !== '') {
+                return value;
+            }
+        }
+        return null;
     }
 
     function render() {
@@ -477,15 +550,15 @@ const DatabaseExplorer = (() => {
         const query = state.filters.search.toLowerCase();
 
         return rows.filter(row => {
-            if (state.filters.season !== 'All' && String(row?.season ?? '') !== state.filters.season) {
+            if (state.filters.season !== 'All' && String(getFilterValue(row, 'season') ?? '') !== state.filters.season) {
                 return false;
             }
 
-            if (state.filters.squad !== 'All' && String(row?.squad ?? '') !== state.filters.squad) {
+            if (state.filters.squad !== 'All' && String(getFilterValue(row, 'squad') ?? '') !== state.filters.squad) {
                 return false;
             }
 
-            if (state.filters.gameType !== 'All' && String(row?.game_type ?? '') !== state.filters.gameType) {
+            if (state.filters.gameType !== 'All' && String(getFilterValue(row, 'gameType') ?? '') !== state.filters.gameType) {
                 return false;
             }
 

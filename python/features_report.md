@@ -94,7 +94,7 @@ Rendered league assets (`python/league_stats.py`):
   - Dedicated explicit table view for W/L/D + home/away summary is not yet exposed.
 - **Squad metrics (players per squad each season, by unit/position)**: **Partial**
   - League squad analysis contains squad-size/retention metrics (league context).
-  - A dedicated non-league tabular squad-metrics table is not in the main UI.
+  - A dedicated non-league tabular squad-stats table is not in the main UI.
 - **Player profiles page**: **Partial/Legacy**
   - `players.html` exists with photo + basic profile table.
   - Not integrated into `index.html` navigation shell.

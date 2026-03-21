@@ -667,7 +667,7 @@ table tbody tr:hover {
 .squad-position-panel-card-1st,
 .squad-group-header-1st,
 .squad-group-subheader-1st,
-.squad-metrics-table td.squad-group-cell-1st {
+.squad-stats-table td.squad-group-cell-1st {
     --team-bg: var(--primary-color);
     --team-fg: var(--light-color);
 }
@@ -679,7 +679,7 @@ table tbody tr:hover {
 .squad-position-panel-card-2nd,
 .squad-group-header-2nd,
 .squad-group-subheader-2nd,
-.squad-metrics-table td.squad-group-cell-2nd {
+.squad-stats-table td.squad-group-cell-2nd {
     --team-bg: var(--accent-color);
     --team-fg: var(--primary-color);
 }
@@ -852,22 +852,22 @@ table tbody tr:hover {
     margin-bottom: 0;
 }
 
-.squad-metrics-top-filters .filter-item {
+.squad-stats-top-filters .filter-item {
     width: auto;
     flex: 0 0 auto;
 }
 
-.squad-metrics-top-filters .input-group {
+.squad-stats-top-filters .input-group {
     min-width: 0;
     width: auto;
 }
 
-.squad-metrics-top-filters .bootstrap-select {
+.squad-stats-top-filters .bootstrap-select {
     width: auto !important;
     min-width: 8rem;
 }
 
-.squad-metrics-top-filters #squadMetricsMinAppearancesInput {
+.squad-stats-top-filters #squadStatsMinAppearancesInput {
     min-width: 4rem;
     max-width: 5rem;
     flex: 0 0 auto;
@@ -884,12 +884,12 @@ table tbody tr:hover {
     min-width: 300px;
 }
 
-.squad-metrics-breakdown-panels .squad-position-panel {
+.squad-stats-breakdown-panels .squad-position-panel {
     flex: 1 1 0;
     min-width: 240px;
 }
 
-.squad-metrics-breakdown-panels .squad-position-panel .chart-panel-toggle {
+.squad-stats-breakdown-panels .squad-position-panel .chart-panel-toggle {
     width: 100%;
     min-width: 0;
 }
@@ -902,6 +902,28 @@ table tbody tr:hover {
 .squad-position-panel:has(.chart-panel-toggle[aria-expanded="true"]) .chart-panel-toggle,
 .squad-position-panel:has(.chart-panel-toggle[aria-expanded="true"]) .chart-panel-card {
     width: 100%;
+}
+
+.league-context-panel {
+    min-width: 0;
+    flex: 0 0 auto;
+    width: fit-content;
+    max-width: 100%;
+}
+
+.league-context-panel .chart-panel-toggle {
+    min-width: 300px;
+}
+
+.league-context-panels .league-context-panel {
+    flex: 0 0 auto;
+    min-width: 0;
+    width: fit-content;
+}
+
+.league-context-panels .league-context-panel .chart-panel-toggle {
+    width: fit-content;
+    min-width: 300px;
 }
 
 .squad-position-panel-card {
@@ -1003,33 +1025,33 @@ table tbody tr:hover {
     color: var(--team-fg);
 }
 
-.squad-metrics-table-wrap {
+.squad-stats-table-wrap {
     background: white;
     border-radius: 0.5rem;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     overflow-x: auto;
 }
 
-.squad-metrics-table-title {
+.squad-stats-table-title {
     color: var(--primary-color);
     font-size: 2rem;
     font-weight: 800;
     margin: 0 0 0.5rem 0.65rem;
 }
 
-.squad-metrics-table-subtitle {
+.squad-stats-table-subtitle {
     color: var(--primary-color);
     font-size: 0.95rem;
     margin: 0 0 0.65rem 0.65rem;
     min-height: 1.2em;
 }
 
-.squad-metrics-table thead tr:first-child {
+.squad-stats-table thead tr:first-child {
     background: var(--primary-color);
     color: var(--light-color);
 }
 
-.squad-metrics-table thead tr:nth-child(2) {
+.squad-stats-table thead tr:nth-child(2) {
     background: var(--light-color);
     color: var(--primary-color);
 }
@@ -1067,62 +1089,62 @@ table tbody tr:hover {
     color: var(--team-fg) !important;
 }
 
-.squad-metrics-table th,
-.squad-metrics-table td {
+.squad-stats-table th,
+.squad-stats-table td {
     text-align: center;
     vertical-align: middle;
 }
 
-.squad-metrics-table .squad-subheader-fwds,
-.squad-metrics-table .squad-subheader-backs,
-.squad-metrics-table .squad-cell-fwds,
-.squad-metrics-table .squad-cell-backs {
+.squad-stats-table .squad-subheader-fwds,
+.squad-stats-table .squad-subheader-backs,
+.squad-stats-table .squad-cell-fwds,
+.squad-stats-table .squad-cell-backs {
     font-size: 0.86rem;
     font-weight: 600;
 }
 
-.squad-metrics-table .squad-subheader-total,
-.squad-metrics-table .squad-cell-total {
+.squad-stats-table .squad-subheader-total,
+.squad-stats-table .squad-cell-total {
     font-size: 1rem;
     font-weight: 800;
 }
 
-.squad-metrics-table td.squad-group-cell-1st {
+.squad-stats-table td.squad-group-cell-1st {
     color: var(--team-bg);
 }
 
-.squad-metrics-table td.squad-group-cell-2nd {
+.squad-stats-table td.squad-group-cell-2nd {
     color: var(--team-bg);
 }
 
-.squad-metrics-table th:first-child,
-.squad-metrics-table td:first-child {
+.squad-stats-table th:first-child,
+.squad-stats-table td:first-child {
     text-align: center;
     white-space: nowrap;
 }
 
-.squad-metrics-table tbody td:nth-child(2) {
+.squad-stats-table tbody td:nth-child(2) {
     border-left: 2px solid var(--primary-color) !important;
 }
 
-.squad-metrics-table tbody td:nth-child(5) {
+.squad-stats-table tbody td:nth-child(5) {
     border-left: 2px solid var(--accent-color) !important;
 }
 
-.squad-metrics-table tbody td:nth-child(8) {
+.squad-stats-table tbody td:nth-child(8) {
     border-left: 2px solid black !important;
 }
 
-.squad-metrics-table thead tr:first-child .squad-group-header-total,
-.squad-metrics-table thead tr:first-child .squad-group-header-1st,
-.squad-metrics-table thead tr:first-child .squad-group-header-2nd,
-.squad-metrics-table thead tr:nth-child(2) .squad-group-subheader-total.squad-subheader-fwds,
-.squad-metrics-table thead tr:nth-child(2) .squad-group-subheader-1st.squad-subheader-fwds,
-.squad-metrics-table thead tr:nth-child(2) .squad-group-subheader-2nd.squad-subheader-fwds {
+.squad-stats-table thead tr:first-child .squad-group-header-total,
+.squad-stats-table thead tr:first-child .squad-group-header-1st,
+.squad-stats-table thead tr:first-child .squad-group-header-2nd,
+.squad-stats-table thead tr:nth-child(2) .squad-group-subheader-total.squad-subheader-fwds,
+.squad-stats-table thead tr:nth-child(2) .squad-group-subheader-1st.squad-subheader-fwds,
+.squad-stats-table thead tr:nth-child(2) .squad-group-subheader-2nd.squad-subheader-fwds {
     border-left: 2px solid var(--team-bg) !important;
 }
 
-.squad-metrics-current-season td {
+.squad-stats-current-season td {
     background: var(--primary-color) !important;
     color: var(--light-color) !important;
     font-weight: 800;
