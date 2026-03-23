@@ -1,0 +1,60 @@
+{
+    "match_id": "1220112",
+    "season": "2025-2026",
+    "league": "Counties 2 Sussex",
+    "date": "2026-03-21",
+    "teams": [
+        "Pulborough",
+        "Royals RFC"
+    ],
+    "score": [
+        48,
+        0
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/17255.png",
+        "https://images.englandrugby.com/club_images/94051.png"
+    ],
+    "players": [
+        {
+            "15": "George Rydon",
+            "14": "William Scrase",
+            "13": "Ralph Robson",
+            "12": "Henry Lee",
+            "11": "Ewan Callaway",
+            "10": "Kieron Martin",
+            "9": "Archie Sadler",
+            "8": "Joseph Serna",
+            "7": "Benjamin Monsey",
+            "6": "George Harwood",
+            "5": "Carl Brewster",
+            "4": "Alfred Reeves",
+            "3": "Douglas Ludlow-monk",
+            "2": "Jake Parker",
+            "1": "Thomas Brackley",
+            "S1": "Reuben Joyce",
+            "S2": "Dylan Townsend",
+            "S3": "Ben Roberts"
+        },
+        {
+            "15": "Jean-Jacques Le Bihan",
+            "14": "William Dawson",
+            "13": "Jenson Holmes",
+            "12": "Jake Bates",
+            "11": "Hugo Reid",
+            "10": "Ben Pearson",
+            "9": "Pearse Moloney",
+            "8": "Cameron Queree",
+            "7": "Brodie Sutton",
+            "6": "Oliver Walker",
+            "5": "Lewis Ham-Howes",
+            "4": "Will Michel",
+            "3": "Jake Dillon",
+            "2": "Tristan Burns",
+            "1": "Name withheld",
+            "S1": "Patrick Crossley",
+            "S2": "John James Le Feuvre",
+            "S3": "Corne Visagie"
+        }
+    ]
+}

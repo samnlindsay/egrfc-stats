@@ -1,0 +1,58 @@
+{
+    "match_id": "1220111",
+    "season": "2025-2026",
+    "league": "Counties 2 Sussex",
+    "date": "2026-03-21",
+    "teams": [
+        "Brighton II",
+        "Shoreham"
+    ],
+    "score": [
+        57,
+        28
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/3218.png",
+        "https://images.englandrugby.com/club_images/19257.png"
+    ],
+    "players": [
+        {
+            "15": "Charlie Maskrey",
+            "14": "Andre Syred",
+            "13": "Zane Hanna",
+            "12": "Name withheld",
+            "11": "Pete Carter",
+            "10": "Simon Lilley",
+            "9": "Max Suttner",
+            "8": "Riley Ashby",
+            "7": "Zak Ellenger",
+            "6": "Frederick Tilley",
+            "5": "Dillon Stingemore",
+            "4": "Daniel Grant",
+            "3": "Andrew Forrester",
+            "2": "Luke Booth",
+            "1": "Artur Scrivener",
+            "S1": "McCauley Medhurst",
+            "S2": "Josefata Naga",
+            "S3": "David Ayres"
+        },
+        {
+            "15": "Nathan Funnell",
+            "14": "Darren Locke",
+            "13": "Steven Goater",
+            "12": "Toby Reed",
+            "11": "Adam Fear",
+            "10": "Archie Winter",
+            "9": "Gavin Cox",
+            "8": "Alex Hall",
+            "7": "Finnbar Broxup",
+            "6": "Harry Rae",
+            "5": "Andrew Mamoany",
+            "4": "Mark Lavery",
+            "3": "Daryn Clarke",
+            "2": "Jack Portman",
+            "1": "Ryan Morlen",
+            "S1": "Alfie Cawkwell"
+        }
+    ]
+}

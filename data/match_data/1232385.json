@@ -17,23 +17,6 @@
     ],
     "players": [
         {},
-        {
-            "15": "No lineup to show.",
-            "13": "Name withheld",
-            "12": "Joshua Mann",
-            "11": "Che Stokes",
-            "10": "Christopher Neill",
-            "9": "Thomas Thurloway",
-            "8": "Patrick Stedman",
-            "7": "Karl Wicking",
-            "6": "Gareth Fergusson",
-            "5": "Henry Dickson",
-            "4": "Martin Mcdonagh",
-            "3": "Marcus Pemberton",
-            "2": "Elliott Higgin",
-            "1": "Zack Davies",
-            "S1": "Harry Crosta",
-            "S2": "Stanley Bradford"
-        }
+        {}
     ]
 }

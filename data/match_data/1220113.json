@@ -1,0 +1,55 @@
+{
+    "match_id": "1220113",
+    "season": "2025-2026",
+    "league": "Counties 2 Sussex",
+    "date": "2026-03-21",
+    "teams": [
+        "Ditchling",
+        "Eastbourne II"
+    ],
+    "score": [
+        62,
+        7
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/6541.png",
+        "https://images.englandrugby.com/club_images/7213.png"
+    ],
+    "players": [
+        {
+            "15": "Nick Whitley-Jones",
+            "14": "Jarrell Bobo",
+            "13": "James Turner",
+            "12": "Sonny Smyth",
+            "11": "Luke Dobson",
+            "10": "Name withheld",
+            "9": "Jamie Hutchings",
+            "8": "Alex Taylor",
+            "7": "Ollie Van Hoeken",
+            "6": "Bill Sibun",
+            "5": "Gordon Costick",
+            "4": "Samuel Lodge",
+            "3": "Murray Jardine",
+            "2": "James Hill",
+            "1": "Elliott Matthews",
+            "S1": "Carl Slaughter",
+            "S2": "Maximus Smith",
+            "S3": "Thomas Snell"
+        },
+        {
+            "15": "Joseph Long",
+            "14": "Louis Nicholls",
+            "13": "Glen Smith",
+            "12": "Morgan Treacher",
+            "11": "Sebastian Wardle",
+            "10": "Toby Wise",
+            "9": "Michael Morehen",
+            "8": "Daniel Keen",
+            "7": "Toby Slaughter",
+            "6": "Alun Cranch",
+            "5": "Stuart Sorrell",
+            "4": "Kai Walker",
+            "3": "Miguel Lopez"
+        }
+    ]
+}
