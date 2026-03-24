@@ -32,12 +32,14 @@
 
 <body>
     <!-- TOP NAVIGATION BAR -->
-    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: var(--primary-color); padding: 0.75rem 1.5rem;">
+    <nav class="navbar navbar-expand-lg navbar-dark app-top-navbar"
+        style="background-color: var(--primary-color); padding: 0.75rem 1.5rem;">
         <div class="container-fluid">
             <a class="navbar-brand" href="#" data-page="home">
                 <strong>EGRFC Statistics</strong>
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -46,19 +48,10 @@
                     <li class="nav-item"><a class="nav-link" href="#" data-page="season-summary">Season Summary</a></li>
                     <li class="nav-item"><a class="nav-link" href="#" data-page="league-tables">League Tables</a></li>
                     <li class="nav-item"><a class="nav-link" href="#" data-page="squad-stats">Squad Stats</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#" data-page="player-profiles">Player Stats</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" data-page="player-profiles">Player Profiles</a></li>
                     <li class="nav-item"><a class="nav-link" href="#" data-page="team-sheets">Team Sheets</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#" data-page="database">Data</a></li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="graphicsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Graphics
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="graphicsDropdown">
-                            <li><a class="dropdown-item" href="#" data-page="league-graphics">League Analysis</a></li>
-                            <li><a class="dropdown-item" href="#" data-page="squad-graphics">Squad Graphics</a></li>
-                            <li><a class="dropdown-item" href="#" data-page="video-analysis">Video Analysis</a></li>
-                        </ul>
-                    </li>
+                    <li class="nav-item"><a class="nav-link" href="#" data-page="database">Data</a></li>
+
                 </ul>
             </div>
         </div>
@@ -71,11 +64,13 @@
         <div id="page-home" class="page-content active">
             <div style="padding: 2rem 1rem; max-width: 1200px; margin: 0 auto;">
                 <h1 style="color: var(--primary-color); margin-bottom: 1rem;">East Grinstead RFC Statistics</h1>
-                <p style="font-size: 1.1rem; margin-bottom: 2rem;">Welcome to the EGRFC Statistics portal. Explore team performance, player stats, and league standings.</p>
-                
+                <p style="font-size: 1.1rem; margin-bottom: 2rem;">Welcome to the EGRFC Statistics portal. Explore team
+                    performance, player stats, and league standings.</p>
+
                 <div class="row" style="margin-bottom: 2rem;">
                     <div class="col-md-6 col-lg-3 mb-3">
-                        <div class="card" style="border-top: 4px solid var(--primary-color); cursor: pointer;" onclick="navigateTo('season-summary')">
+                        <div class="card" style="border-top: 4px solid var(--primary-color); cursor: pointer;"
+                            onclick="navigateTo('season-summary')">
                             <div class="card-body">
                                 <h5 class="card-title">Season Summary</h5>
                                 <p class="card-text">Key statistics and overview of the season's performance.</p>
@@ -83,31 +78,36 @@
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-3 mb-3">
-                        <div class="card" style="border-top: 4px solid var(--accent-color); cursor: pointer;" onclick="navigateTo('league-tables')">
+                        <div class="card" style="border-top: 4px solid var(--accent-color); cursor: pointer;"
+                            onclick="navigateTo('league-tables')">
                             <div class="card-body">
                                 <h5 class="card-title">League Tables</h5>
-                                <p class="card-text">1st and 2nd XV league tables and visualisation of all league results.</p>
+                                <p class="card-text">1st and 2nd XV league tables and visualisation of all league
+                                    results.</p>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-3 mb-3">
-                        <div class="card" style="border-top: 4px solid var(--green-color); cursor: pointer;" onclick="navigateTo('squad-stats')">
+                        <div class="card" style="border-top: 4px solid var(--green-color); cursor: pointer;"
+                            onclick="navigateTo('squad-stats')">
                             <div class="card-body">
                                 <h5 class="card-title">Squad Stats</h5>
-                                <p class="card-text">Summary of squad sizes and continuity between match day squads.</p>
+                                <p class="card-text">Summary of squad sizes and continuity between match day squads, and individual player statistics.</p>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-3 mb-3">
-                        <div class="card" style="border-top: 4px solid var(--red-color); cursor: pointer;" onclick="navigateTo('player-profiles')">
+                        <div class="card" style="border-top: 4px solid var(--red-color); cursor: pointer;"
+                            onclick="navigateTo('player-profiles')">
                             <div class="card-body">
-                                <h5 class="card-title">Player Stats</h5>
-                                <p class="card-text">Individual player stats and information.</p>
+                                <h5 class="card-title">Player Profiles</h5>
+                                <p class="card-text">Summary of all available data for each individual player.</p>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-3 mb-3">
-                        <div class="card" style="border-top: 4px solid #8B7355; cursor: pointer;" onclick="navigateTo('team-sheets')">
+                        <div class="card" style="border-top: 4px solid #8B7355; cursor: pointer;"
+                            onclick="navigateTo('team-sheets')">
                             <div class="card-body">
                                 <h5 class="card-title">Team Sheets</h5>
                                 <p class="card-text">Team sheets showing player appearances by position and match.</p>
@@ -115,10 +115,12 @@
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-3 mb-3">
-                        <div class="card" style="border-top: 4px solid var(--dark-color); cursor: pointer;" onclick="navigateTo('database')">
+                        <div class="card" style="border-top: 4px solid var(--dark-color); cursor: pointer;"
+                            onclick="navigateTo('database')">
                             <div class="card-body">
                                 <h5 class="card-title">Data</h5>
-                                <p class="card-text">Browse (and download) the backend data tables that power this site.</p>
+                                <p class="card-text">Browse (and download) the backend data tables that power this site.
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -129,13 +131,17 @@
         <!-- ========== SEASON SUMMARY PAGE ========== -->
         <div id="page-season-summary" class="page-content">
             <div style="padding: 2rem 1rem; max-width: 1400px; margin: 0 auto;">
-                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
-                    <h1 style="color: var(--primary-color); margin: 0;">Season Summary</h1>
-                    <div class="squad-stats-top-filters" style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
+                <div class="page-header">
+                    <div class="page-header-text">
+                        <h1>Season Summary</h1>
+                        <p>Key statistics and overview of the season's performance.</p>
+                    </div>
+                    <div class="page-header-filters squad-stats-top-filters">
                         <div class="filter-item league-season-picker" style="margin-bottom: 0;">
                             <div class="input-group">
                                 <span class="input-group-text">Season</span>
-                                <select id="seasonSummarySeasonSelect" class="selectpicker form-control flex-fill" data-size="8">
+                                <select id="seasonSummarySeasonSelect" class="selectpicker form-control flex-fill"
+                                    data-size="8">
                                     <!-- Options populated dynamically by JavaScript -->
                                 </select>
                             </div>
@@ -143,7 +149,8 @@
                         <div class="filter-item league-season-picker" style="margin-bottom: 0;">
                             <div class="input-group">
                                 <span class="input-group-text">Game Type</span>
-                                <select id="seasonSummaryGameTypeSelect" class="selectpicker form-control flex-fill" data-size="8">
+                                <select id="seasonSummaryGameTypeSelect" class="selectpicker form-control flex-fill"
+                                    data-size="8">
                                     <option value="All games">All games</option>
                                     <option value="League + Cup">League + Cup</option>
                                     <option value="League only">League only</option>
@@ -154,210 +161,234 @@
                 </div>
 
                 <div class="row g-4">
-                <div class="col-md-6">
-                <!-- 1st XV Section -->
-                <div>
-                    <h3 class="league-team-title league-section-title league-team-title-1st">1st XV</h3>
-                    
-                    <!-- Results Cards -->
-                    <div style="margin-bottom: 1rem;">
-                        <div class="row px-2" id="seasonSummary1stResults">
-                            <div class="col-3 mb-3 px-1">
-                                <div class="card squad-metric-card season-result-card--won">
-                                    <div class="card-header squad-metric-card-header squad-metric-card-header-1st">W</div>
-                                    <div class="card-body text-center">
-                                        <h3 id="season-summary-1st-won" class="squad-metric-value">-</h3>
+                    <div class="col-md-6">
+                        <!-- 1st XV Section -->
+                        <div>
+                            <h1 style="text-align: center; font-size: 4rem; font-weight:900; color: var(--primary-color); text-shadow: 1px 1px 2px var(--accent-color);">1st XV</h1>
+
+                            <!-- Results Cards -->
+                            <div class="card squad-metric-card squad-metric-card-1st" style="margin-bottom: 1rem;">
+                                <div class="card-header squad-metric-card-header squad-metric-card-header-1st">
+                                    Season Record
+                                </div>
+                                <div class="card-body p-0">
+                                    <div class="season-results-row" id="seasonSummary1stResults">
+                                        <div class="season-result-cell season-result-card--won">
+                                            <div class="squad-metric-card-header">W</div>
+                                            <div class="season-result-cell-body">
+                                                <h3 id="season-summary-1st-won" class="squad-metric-value">-</h3>
+                                            </div>
+                                        </div>
+                                        <div class="season-result-cell season-result-card--drawn">
+                                            <div class="squad-metric-card-header">D</div>
+                                            <div class="season-result-cell-body">
+                                                <h3 id="season-summary-1st-drawn" class="squad-metric-value">-</h3>
+                                            </div>
+                                        </div>
+                                        <div class="season-result-cell season-result-card--lost">
+                                            <div class="squad-metric-card-header">L</div>
+                                            <div class="season-result-cell-body">
+                                                <h3 id="season-summary-1st-lost" class="squad-metric-value">-</h3>
+                                            </div>
+                                        </div>
+                                        <div class="season-result-cell season-result-card--played">
+                                            <div class="squad-metric-card-header">P</div>
+                                            <div class="season-result-cell-body">
+                                                <h3 id="season-summary-1st-played" class="squad-metric-value">-</h3>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-3 mb-3 px-1">
-                                <div class="card squad-metric-card season-result-card--drawn">
-                                    <div class="card-header squad-metric-card-header squad-metric-card-header-1st">D</div>
-                                    <div class="card-body text-center">
-                                        <h3 id="season-summary-1st-drawn" class="squad-metric-value">-</h3>
+                            <!-- Top Scorers -->
+                            <div style="margin-bottom: 2rem;">
+                                <div class="row">
+                                    <div class="col-12 mb-3" id="seasonSummary1stTopPointScorer">
+                                        <div class="card squad-metric-card squad-metric-card-1st">
+                                            <div
+                                                class="card-header squad-metric-card-header squad-metric-card-header-1st">
+                                                Top Point Scorer</div>
+                                            <div class="card-body text-center">
+                                                <h3 id="season-summary-1st-top-point-value" class="squad-metric-value">-
+                                                </h3>
+                                                <p id="season-summary-1st-top-point-player" class="card-text mb-0">-</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 mb-3" id="seasonSummary1stTopTryScorer">
+                                        <div class="card squad-metric-card squad-metric-card-1st">
+                                            <div
+                                                class="card-header squad-metric-card-header squad-metric-card-header-1st">
+                                                Top Try Scorer</div>
+                                            <div class="card-body text-center">
+                                                <h3 id="season-summary-1st-top-try-value" class="squad-metric-value">-
+                                                </h3>
+                                                <p id="season-summary-1st-top-try-player" class="card-text mb-0">-</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 mb-3" id="seasonSummary1stMostAppearances">
+                                        <div class="card squad-metric-card squad-metric-card-1st">
+                                            <div
+                                                class="card-header squad-metric-card-header squad-metric-card-header-1st">
+                                                Most Appearances</div>
+                                            <div class="card-body text-center">
+                                                <h3 id="season-summary-1st-most-appearances-value"
+                                                    class="squad-metric-value">-</h3>
+                                                <p id="season-summary-1st-most-appearances-player"
+                                                    class="card-text mb-0">-</p>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-3 mb-3 px-1">
-                                <div class="card squad-metric-card season-result-card--lost">
-                                    <div class="card-header squad-metric-card-header squad-metric-card-header-1st">L</div>
-                                    <div class="card-body text-center">
-                                        <h3 id="season-summary-1st-lost" class="squad-metric-value">-</h3>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-3 mb-3 px-1">
-                                <div class="card squad-metric-card season-result-card--played">
-                                    <div class="card-header squad-metric-card-header squad-metric-card-header-1st">P</div>
-                                    <div class="card-body text-center">
-                                        <h3 id="season-summary-1st-played" class="squad-metric-value">-</h3>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Top Scorers -->
-                    <div style="margin-bottom: 2rem;">
-                        <div class="row">
-                            <div class="col-12 mb-3" id="seasonSummary1stTopPointScorer">
-                                <div class="card squad-metric-card squad-metric-card-1st">
-                                    <div class="card-header squad-metric-card-header squad-metric-card-header-1st">Top Point Scorer</div>
-                                    <div class="card-body text-center">
-                                        <h3 id="season-summary-1st-top-point-value" class="squad-metric-value">-</h3>
-                                        <p id="season-summary-1st-top-point-player" class="card-text mb-0">-</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 mb-3" id="seasonSummary1stTopTryScorer">
-                                <div class="card squad-metric-card squad-metric-card-1st">
-                                    <div class="card-header squad-metric-card-header squad-metric-card-header-1st">Top Try Scorer</div>
-                                    <div class="card-body text-center">
-                                        <h3 id="season-summary-1st-top-try-value" class="squad-metric-value">-</h3>
-                                        <p id="season-summary-1st-top-try-player" class="card-text mb-0">-</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 mb-3" id="seasonSummary1stMostAppearances">
-                                <div class="card squad-metric-card squad-metric-card-1st">
-                                    <div class="card-header squad-metric-card-header squad-metric-card-header-1st">Most Appearances</div>
-                                    <div class="card-body text-center">
-                                        <h3 id="season-summary-1st-most-appearances-value" class="squad-metric-value">-</h3>
-                                        <p id="season-summary-1st-most-appearances-player" class="card-text mb-0">-</p>
+
+                            <!-- Set Piece Stats -->
+                            <div class="card" style="margin-bottom: 2rem;">
+                                <div class="card-header" style="background: #f5f5f5; font-weight: bold;">Average Set
+                                    Piece Stats</div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <p style="margin-bottom: 0.5rem;"><strong>Lineout Success Rate:</strong></p>
+                                            <p style="margin-bottom: 0;"><span
+                                                    id="season-summary-1st-lineout-sr">-</span></p>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <p style="margin-bottom: 0.5rem;"><strong>Scrum Success Rate:</strong></p>
+                                            <p style="margin-bottom: 0;"><span id="season-summary-1st-scrum-sr">-</span>
+                                            </p>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <p style="margin-bottom: 0.5rem;"><strong>Points per 22m Entry:</strong></p>
+                                            <p style="margin-bottom: 0;"><span
+                                                    id="season-summary-1st-points-22m">-</span></p>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <p style="margin-bottom: 0.5rem;"><strong>Tries per 22m Entry:</strong></p>
+                                            <p style="margin-bottom: 0;"><span
+                                                    id="season-summary-1st-tries-22m">-</span></p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Set Piece Stats -->
-                    <div class="card" style="margin-bottom: 2rem;">
-                        <div class="card-header" style="background: #f5f5f5; font-weight: bold;">Average Set Piece Stats</div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <p style="margin-bottom: 0.5rem;"><strong>Lineout Success Rate:</strong></p>
-                                    <p style="margin-bottom: 0;"><span id="season-summary-1st-lineout-sr">-</span></p>
-                                </div>
-                                <div class="col-md-3">
-                                    <p style="margin-bottom: 0.5rem;"><strong>Scrum Success Rate:</strong></p>
-                                    <p style="margin-bottom: 0;"><span id="season-summary-1st-scrum-sr">-</span></p>
-                                </div>
-                                <div class="col-md-3">
-                                    <p style="margin-bottom: 0.5rem;"><strong>Points per 22m Entry:</strong></p>
-                                    <p style="margin-bottom: 0;"><span id="season-summary-1st-points-22m">-</span></p>
-                                </div>
-                                <div class="col-md-3">
-                                    <p style="margin-bottom: 0.5rem;"><strong>Tries per 22m Entry:</strong></p>
-                                    <p style="margin-bottom: 0;"><span id="season-summary-1st-tries-22m">-</span></p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                </div>
+                    <div class="col-md-6">
+                        <!-- 2nd XV Section -->
+                        <div>
+                            <h1 style="text-align: center; font-size: 4rem; font-weight:900; color: var(--accent-color); text-shadow: 1px 1px 2px var(--primary-color);">2nd XV</h1>
 
-                <div class="col-md-6">
-                <!-- 2nd XV Section -->
-                <div>
-                    <h3 class="league-team-title league-section-title league-team-title-2nd">2nd XV</h3>
-                    
-                    <!-- Results Cards -->
-                    <div style="margin-bottom: 1rem;">
-                        <div class="row px-2" id="seasonSummary2ndResults">
-                            <div class="col-3 mb-3 px-1">
-                                <div class="card squad-metric-card season-result-card--won">
-                                    <div class="card-header squad-metric-card-header squad-metric-card-header-2nd">W</div>
-                                    <div class="card-body text-center">
-                                        <h3 id="season-summary-2nd-won" class="squad-metric-value">-</h3>
+                            <!-- Results Cards -->
+                            <div class="card squad-metric-card squad-metric-card-2nd" style="margin-bottom: 1rem;">
+                                <div class="card-header squad-metric-card-header squad-metric-card-header-2nd">
+                                    Season Record
+                                </div>
+                                <div class="card-body p-0">
+                                    <div class="season-results-row" id="seasonSummary2ndResults">
+                                        <div class="season-result-cell season-result-card--won">
+                                            <div class="squad-metric-card-header">W</div>
+                                            <div class="season-result-cell-body">
+                                                <h3 id="season-summary-2nd-won" class="squad-metric-value">-</h3>
+                                            </div>
+                                        </div>
+                                        <div class="season-result-cell season-result-card--drawn">
+                                            <div class="squad-metric-card-header">D</div>
+                                            <div class="season-result-cell-body">
+                                                <h3 id="season-summary-2nd-drawn" class="squad-metric-value">-</h3>
+                                            </div>
+                                        </div>
+                                        <div class="season-result-cell season-result-card--lost">
+                                            <div class="squad-metric-card-header">L</div>
+                                            <div class="season-result-cell-body">
+                                                <h3 id="season-summary-2nd-lost" class="squad-metric-value">-</h3>
+                                            </div>
+                                        </div>
+                                        <div class="season-result-cell season-result-card--played">
+                                            <div class="squad-metric-card-header">P</div>
+                                            <div class="season-result-cell-body">
+                                                <h3 id="season-summary-2nd-played" class="squad-metric-value">-</h3>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-3 mb-3 px-1">
-                                <div class="card squad-metric-card season-result-card--drawn">
-                                    <div class="card-header squad-metric-card-header squad-metric-card-header-2nd">D</div>
-                                    <div class="card-body text-center">
-                                        <h3 id="season-summary-2nd-drawn" class="squad-metric-value">-</h3>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-3 mb-3 px-1">
-                                <div class="card squad-metric-card season-result-card--lost">
-                                    <div class="card-header squad-metric-card-header squad-metric-card-header-2nd">L</div>
-                                    <div class="card-body text-center">
-                                        <h3 id="season-summary-2nd-lost" class="squad-metric-value">-</h3>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-3 mb-3 px-1">
-                                <div class="card squad-metric-card season-result-card--played">
-                                    <div class="card-header squad-metric-card-header squad-metric-card-header-2nd">P</div>
-                                    <div class="card-body text-center">
-                                        <h3 id="season-summary-2nd-played" class="squad-metric-value">-</h3>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
-                    <!-- Top Scorers -->
-                    <div style="margin-bottom: 2rem;">
-                        <div class="row">
-                            <div class="col-12 mb-3" id="seasonSummary2ndTopPointScorer">
-                                <div class="card squad-metric-card squad-metric-card-2nd">
-                                    <div class="card-header squad-metric-card-header squad-metric-card-header-2nd">Top Point Scorer</div>
-                                    <div class="card-body text-center">
-                                        <h3 id="season-summary-2nd-top-point-value" class="squad-metric-value">-</h3>
-                                        <p id="season-summary-2nd-top-point-player" class="card-text mb-0">-</p>
+                            <!-- Top Scorers -->
+                            <div style="margin-bottom: 2rem;">
+                                <div class="row">
+                                    <div class="col-12 mb-3" id="seasonSummary2ndTopPointScorer">
+                                        <div class="card squad-metric-card squad-metric-card-2nd">
+                                            <div
+                                                class="card-header squad-metric-card-header squad-metric-card-header-2nd">
+                                                Top Point Scorer</div>
+                                            <div class="card-body text-center">
+                                                <h3 id="season-summary-2nd-top-point-value" class="squad-metric-value">-
+                                                </h3>
+                                                <p id="season-summary-2nd-top-point-player" class="card-text mb-0">-</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 mb-3" id="seasonSummary2ndTopTryScorer">
+                                        <div class="card squad-metric-card squad-metric-card-2nd">
+                                            <div
+                                                class="card-header squad-metric-card-header squad-metric-card-header-2nd">
+                                                Top Try Scorer</div>
+                                            <div class="card-body text-center">
+                                                <h3 id="season-summary-2nd-top-try-value" class="squad-metric-value">-
+                                                </h3>
+                                                <p id="season-summary-2nd-top-try-player" class="card-text mb-0">-</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 mb-3" id="seasonSummary2ndMostAppearances">
+                                        <div class="card squad-metric-card squad-metric-card-2nd">
+                                            <div
+                                                class="card-header squad-metric-card-header squad-metric-card-header-2nd">
+                                                Most Appearances</div>
+                                            <div class="card-body text-center">
+                                                <h3 id="season-summary-2nd-most-appearances-value"
+                                                    class="squad-metric-value">-</h3>
+                                                <p id="season-summary-2nd-most-appearances-player"
+                                                    class="card-text mb-0">-</p>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12 mb-3" id="seasonSummary2ndTopTryScorer">
-                                <div class="card squad-metric-card squad-metric-card-2nd">
-                                    <div class="card-header squad-metric-card-header squad-metric-card-header-2nd">Top Try Scorer</div>
-                                    <div class="card-body text-center">
-                                        <h3 id="season-summary-2nd-top-try-value" class="squad-metric-value">-</h3>
-                                        <p id="season-summary-2nd-top-try-player" class="card-text mb-0">-</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 mb-3" id="seasonSummary2ndMostAppearances">
-                                <div class="card squad-metric-card squad-metric-card-2nd">
-                                    <div class="card-header squad-metric-card-header squad-metric-card-header-2nd">Most Appearances</div>
-                                    <div class="card-body text-center">
-                                        <h3 id="season-summary-2nd-most-appearances-value" class="squad-metric-value">-</h3>
-                                        <p id="season-summary-2nd-most-appearances-player" class="card-text mb-0">-</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
-                    <!-- Set Piece Stats -->
-                    <div class="card">
-                        <div class="card-header" style="background: #f5f5f5; font-weight: bold;">Average Set Piece Stats</div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <p style="margin-bottom: 0.5rem;"><strong>Lineout Success Rate:</strong></p>
-                                    <p style="margin-bottom: 0;"><span id="season-summary-2nd-lineout-sr">-</span></p>
-                                </div>
-                                <div class="col-md-3">
-                                    <p style="margin-bottom: 0.5rem;"><strong>Scrum Success Rate:</strong></p>
-                                    <p style="margin-bottom: 0;"><span id="season-summary-2nd-scrum-sr">-</span></p>
-                                </div>
-                                <div class="col-md-3">
-                                    <p style="margin-bottom: 0.5rem;"><strong>Points per 22m Entry:</strong></p>
-                                    <p style="margin-bottom: 0;"><span id="season-summary-2nd-points-22m">-</span></p>
-                                </div>
-                                <div class="col-md-3">
-                                    <p style="margin-bottom: 0.5rem;"><strong>Tries per 22m Entry:</strong></p>
-                                    <p style="margin-bottom: 0;"><span id="season-summary-2nd-tries-22m">-</span></p>
+                            <!-- Set Piece Stats -->
+                            <div class="card">
+                                <div class="card-header" style="background: #f5f5f5; font-weight: bold;">Average Set
+                                    Piece Stats</div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <p style="margin-bottom: 0.5rem;"><strong>Lineout Success Rate:</strong></p>
+                                            <p style="margin-bottom: 0;"><span
+                                                    id="season-summary-2nd-lineout-sr">-</span></p>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <p style="margin-bottom: 0.5rem;"><strong>Scrum Success Rate:</strong></p>
+                                            <p style="margin-bottom: 0;"><span id="season-summary-2nd-scrum-sr">-</span>
+                                            </p>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <p style="margin-bottom: 0.5rem;"><strong>Points per 22m Entry:</strong></p>
+                                            <p style="margin-bottom: 0;"><span
+                                                    id="season-summary-2nd-points-22m">-</span></p>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <p style="margin-bottom: 0.5rem;"><strong>Tries per 22m Entry:</strong></p>
+                                            <p style="margin-bottom: 0;"><span
+                                                    id="season-summary-2nd-tries-22m">-</span></p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                </div>
                 </div>
             </div>
         </div>
@@ -365,18 +396,24 @@
         <!-- ========== LEAGUE TABLES PAGE ========== -->
         <div id="page-league-tables" class="page-content">
             <div style="padding: 2rem 1rem; max-width: 1200px; margin: 0 auto;">
-                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
-                    <h1 style="color: var(--primary-color); margin: 0;">League Tables</h1>
-                    <div class="filter-item league-season-picker" style="min-width: 220px; max-width: 320px; margin-bottom: 0;">
-                        <div class="input-group">
-                            <span class="input-group-text">Season</span>
-                            <select id="leagueTableSeasonSelect" class="selectpicker form-control flex-fill" data-size="8">
-                                <!-- Options populated dynamically by JavaScript -->
-                            </select>
+                <div class="page-header">
+                    <div class="page-header-text">
+                        <h1>League Tables</h1>
+                        <p>1st and 2nd XV league tables and visualisation of all league results.</p>
+                    </div>
+                    <div class="page-header-filters">
+                        <div class="filter-item league-season-picker" style="margin-bottom: 0;">
+                            <div class="input-group">
+                                <span class="input-group-text">Season</span>
+                                <select id="leagueTableSeasonSelect" class="selectpicker form-control flex-fill"
+                                    data-size="8">
+                                    <!-- Options populated dynamically by JavaScript -->
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="row" id="leagueTablesContainer">
                     <!-- Tables will be populated by JavaScript -->
                 </div>
@@ -386,8 +423,9 @@
         <!-- ========== SEASON RESULTS PAGE ========== -->
         <div id="page-season-results" class="page-content">
             <div style="padding: 2rem 1rem; max-width: 1200px; margin: 0 auto;">
-                <h1 style="color: var(--primary-color); margin-bottom: 1rem;">Season Results</h1>
-                
+                <h1 style="color: var(--primary-color); margin-bottom: 0.5rem;">Season Results</h1>
+                <p style="margin-bottom: 1.5rem; color: #666; font-size: 0.95rem;">Detailed match results and performance summary for both squads.</p>
+
                 <div class="row mb-4">
                     <div class="col-lg-6">
                         <div class="card">
@@ -419,22 +457,28 @@
                     </div>
                 </div>
 
-                <div id="season-results-placeholder" style="background: white; padding: 2rem; border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); text-align: center; color: #999; margin-top: 2rem;">
+                <div id="season-results-placeholder"
+                    style="background: white; padding: 2rem; border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); text-align: center; color: #999; margin-top: 2rem;">
                     Results timeline and trend charts will be displayed here
                 </div>
             </div>
         </div>
 
-        <!-- ========== SQUAD STATS PAGE ========== -->
+        <!-- ========== SQUAD STATS PAGE (merged Squad Stats + Player Stats) ========== -->
         <div id="page-squad-stats" class="page-content">
             <div style="padding: 2rem 1rem; max-width: 1200px; margin: 0 auto;">
-                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
-                    <h1 style="color: var(--primary-color); margin: 0;">Squad Stats</h1>
-                    <div class="squad-stats-top-filters" style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
+                <!-- PAGE HEADER WITH FILTERS -->
+                <div class="page-header">
+                    <div class="page-header-text">
+                        <h1>Squad Stats</h1>
+                        <p>Summary of squad sizes and continuity between match day squads.</p>
+                    </div>
+                    <div class="page-header-filters squad-stats-top-filters">
                         <div class="filter-item league-season-picker" style="margin-bottom: 0;">
                             <div class="input-group">
                                 <span class="input-group-text">Season</span>
-                                <select id="squadStatsSeasonSelect" class="selectpicker form-control flex-fill" data-size="8">
+                                <select id="squadStatsSeasonSelect" class="selectpicker form-control flex-fill"
+                                    data-size="8">
                                     <!-- Options populated dynamically by JavaScript -->
                                 </select>
                             </div>
@@ -442,26 +486,32 @@
                         <div class="filter-item league-season-picker" style="margin-bottom: 0;">
                             <div class="input-group">
                                 <span class="input-group-text">Game Type</span>
-                                <select id="squadStatsGameTypeSelect" class="selectpicker form-control flex-fill" data-size="8">
+                                <select id="squadStatsGameTypeSelect" class="selectpicker form-control flex-fill"
+                                    data-size="8">
                                     <option value="All games">All games</option>
                                     <option value="League + Cup">League + Cup</option>
                                     <option value="League only">League only</option>
                                 </select>
                             </div>
                         </div>
-                        <div class="filter-item league-season-picker" style="margin-bottom: 0;">
+                        <div class="filter-item" style="margin-bottom: 0;">
                             <div class="input-group">
                                 <span class="input-group-text">Min Apps</span>
-                                <input id="squadStatsMinAppearancesInput" class="form-control" type="number" min="0" step="1" value="0" inputmode="numeric" aria-label="Minimum appearances" />
+                                <input id="squadStatsMinAppsSelect" type="number" class="form-control" min="0" step="1" value="0" style="width: 4rem; min-width: 4rem; flex: 0 0 auto;">
                             </div>
                         </div>
                     </div>
                 </div>
-                <h1 style="color: var(--primary-color); margin-bottom: 1rem; font-weight: 900;">Squad Size</h1>
+
+                <!-- ===== SECTION 1: SQUAD SIZE ===== -->
+                <h2 style="color: var(--primary-color); margin-bottom: 0.5rem; font-weight: 900;">Squad Size</h2>
+                <p style="margin-bottom: 1rem; color: #666; font-size: 0.9rem;">Overview of total players used across both squads, tracked by position and appearance in league and cup matches.</p>
                 <div class="row mb-4" id="squadStatsCards">
                     <div class="col-4 mb-3">
                         <div class="card squad-metric-card squad-metric-card-1st">
-                            <div class="card-header squad-metric-card-header squad-metric-card-header-1st league-team-title-1st">1st XV</div>
+                            <div
+                                class="card-header squad-metric-card-header squad-metric-card-header-1st league-team-title-1st">
+                                1st XV</div>
                             <div class="card-body text-center">
                                 <h3 id="squadMetricValue1st" class="squad-metric-value">0</h3>
                                 <p id="squadMetricLabel1st" class="card-text mb-0">Players used</p>
@@ -470,7 +520,9 @@
                     </div>
                     <div class="col-4 mb-3">
                         <div class="card squad-metric-card squad-metric-card-2nd">
-                            <div class="card-header squad-metric-card-header squad-metric-card-header-2nd league-team-title-2nd">2nd XV</div>
+                            <div
+                                class="card-header squad-metric-card-header squad-metric-card-header-2nd league-team-title-2nd">
+                                2nd XV</div>
                             <div class="card-body text-center">
                                 <h3 id="squadMetricValue2nd" class="squad-metric-value">0</h3>
                                 <p id="squadMetricLabel2nd" class="card-text mb-0">Players used</p>
@@ -488,18 +540,16 @@
                     </div>
                 </div>
 
-                <div class="squad-stats-breakdown-panels" style="display: flex; flex-direction: row; flex-wrap: wrap; gap: 1rem; align-items: flex-start; margin-bottom: 1.25rem;">
+                <div class="squad-stats-breakdown-panels"
+                    style="display: flex; flex-direction: row; flex-wrap: wrap; gap: 1rem; align-items: flex-start; margin-bottom: 1.25rem;">
+                    <!-- 1st XV by Position - Primary (1st XV only) -->
                     <div class="chart-panel chart-panel--inline squad-position-panel">
-                        <button
-                            type="button"
-                            class="chart-panel-toggle chart-panel-toggle--primary"
-                            data-target="squad-position-1st-panel"
-                            data-accordion-group="squad-stats-breakdown"
-                            aria-expanded="false"
-                            aria-controls="squad-position-1st-panel">
+                        <button type="button" class="chart-panel-toggle chart-panel-toggle--primary"
+                            data-target="squad-position-1st-panel" data-accordion-group="squad-stats-breakdown"
+                            aria-expanded="false" aria-controls="squad-position-1st-panel">
                             <span class="chart-panel-toggle-text">
                                 <span class="chart-panel-toggle-title">1st XV by Position</span>
-                                <span class="chart-panel-toggle-hint">Click to expand/collapse</span>
+                                <span class="chart-panel-toggle-hint">Position breakdown for 1st XV squad</span>
                             </span>
                             <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
                         </button>
@@ -511,17 +561,14 @@
                         </div>
                     </div>
 
+                    <!-- 2nd XV by Position - Accent (2nd XV only) -->
                     <div class="chart-panel chart-panel--inline squad-position-panel">
-                        <button
-                            type="button"
-                            class="chart-panel-toggle chart-panel-toggle--accent"
-                            data-target="squad-position-2nd-panel"
-                            data-accordion-group="squad-stats-breakdown"
-                            aria-expanded="false"
-                            aria-controls="squad-position-2nd-panel">
+                        <button type="button" class="chart-panel-toggle chart-panel-toggle--accent"
+                            data-target="squad-position-2nd-panel" data-accordion-group="squad-stats-breakdown"
+                            aria-expanded="false" aria-controls="squad-position-2nd-panel">
                             <span class="chart-panel-toggle-text">
                                 <span class="chart-panel-toggle-title">2nd XV by Position</span>
-                                <span class="chart-panel-toggle-hint">Click to expand/collapse</span>
+                                <span class="chart-panel-toggle-hint">Position breakdown for 2nd XV squad</span>
                             </span>
                             <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
                         </button>
@@ -532,17 +579,15 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- Squad Size Table - Black (both) -->
                     <div class="chart-panel chart-panel--inline squad-position-panel">
-                        <button
-                            type="button"
-                            class="chart-panel-toggle chart-panel-toggle--black"
-                            data-target="squad-size-table-panel"
-                            data-accordion-group="squad-stats-breakdown"
-                            aria-expanded="false"
-                            aria-controls="squad-size-table-panel">
+                        <button type="button" class="chart-panel-toggle chart-panel-toggle--black"
+                            data-target="squad-size-table-panel" data-accordion-group="squad-stats-breakdown"
+                            aria-expanded="false" aria-controls="squad-size-table-panel">
                             <span class="chart-panel-toggle-text">
                                 <span class="chart-panel-toggle-title">Squad Size Table</span>
-                                <span class="chart-panel-toggle-hint">Click to expand/collapse</span>
+                                <span class="chart-panel-toggle-hint">Detailed squad numbers by position</span>
                             </span>
                             <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
                         </button>
@@ -573,7 +618,8 @@
                                         </thead>
                                         <tbody id="squadStatsTableBody">
                                             <tr>
-                                                <td colspan="10" class="text-center text-muted py-3">Loading squad metrics...</td>
+                                                <td colspan="10" class="text-center text-muted py-3">Loading squad
+                                                    metrics...</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -583,19 +629,17 @@
                     </div>
                 </div>
 
-                <h1 style="font-weight:900; color: var(--primary-color); margin-top: 2rem; margin-bottom: 1rem;">Squad Trends</h1>
+                <!-- ===== SECTION 2: SQUAD CONTINUITY ===== -->
+                <h2 style="font-weight:900; color: var(--primary-color); margin-top: 2rem; margin-bottom: 0.5rem;">Squad Continuity</h2>
+                <p style="margin-bottom: 1rem; color: #666; font-size: 0.9rem;">Analysis of player retention and squad stability between matches, showing how squad composition evolves through a season.</p>
                 <div style="display: flex; flex-direction: row; flex-wrap: wrap; gap: 1rem; align-items: flex-start;">
-                    <!-- Squad Size Collapsible Section -->
+                    <!-- Squad Size Trend - Black (both) -->
                     <div class="chart-panel chart-panel--inline">
-                        <button
-                            type="button"
-                            class="chart-panel-toggle chart-panel-toggle--primary"
-                            data-target="squad-size-panel"
-                            aria-expanded="false"
-                            aria-controls="squad-size-panel">
+                        <button type="button" class="chart-panel-toggle chart-panel-toggle--black"
+                            data-target="squad-size-panel" data-accordion-group="squad-continuity-section" aria-expanded="false" aria-controls="squad-size-panel">
                             <span class="chart-panel-toggle-text">
                                 <span class="chart-panel-toggle-title">Squad Size</span>
-                                <span class="chart-panel-toggle-hint">Click to expand/collapse</span>
+                                <span class="chart-panel-toggle-hint">Squad size by season (forwards and backs)</span>
                             </span>
                             <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
                         </button>
@@ -606,17 +650,14 @@
                         </div>
                     </div>
 
-                    <!-- Squad Continuity Collapsible Section -->
+                    <!-- Squad Continuity Trend - Black (both) -->
                     <div class="chart-panel chart-panel--inline">
-                        <button
-                            type="button"
-                            class="chart-panel-toggle chart-panel-toggle--primary"
-                            data-target="squad-continuity-panel"
-                            aria-expanded="false"
+                        <button type="button" class="chart-panel-toggle chart-panel-toggle--black"
+                            data-target="squad-continuity-panel" data-accordion-group="squad-continuity-section" aria-expanded="false"
                             aria-controls="squad-continuity-panel">
                             <span class="chart-panel-toggle-text">
                                 <span class="chart-panel-toggle-title">Squad Continuity</span>
-                                <span class="chart-panel-toggle-hint">Click to expand/collapse</span>
+                                <span class="chart-panel-toggle-hint">Player retention from game to game</span>
                             </span>
                             <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
                         </button>
@@ -628,290 +669,174 @@
                     </div>
                 </div>
 
-                <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-top: 2rem; margin-bottom: 1rem;">
-                    <h1 style="font-weight:900; color: var(--primary-color); margin: 0;">1st XV League Context</h1>
-                    <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
-                        <div class="filter-item league-season-picker" style="margin-bottom: 0;">
-                            <div class="input-group">
-                                <span class="input-group-text">Unit</span>
-                                <select id="leagueContextUnitSelect" class="selectpicker form-control flex-fill" data-size="4">
-                                    <option value="Total">Total</option>
-                                    <option value="Forwards">Forwards</option>
-                                    <option value="Backs">Backs</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="league-context-panels" style="display: flex; flex-direction: row; flex-wrap: wrap; gap: 1rem; align-items: flex-start;">
+                <!-- 1st XV League Context - Primary (1st XV only) -->
+                <h2 style="font-weight:900; color: var(--primary-color); margin-top: 2rem; margin-bottom: 0.5rem;">1st XV League Context</h2>
+                <p style="margin-bottom: 1rem; color: #666; font-size: 0.9rem;">Squad stats for the 1st XV compared to the rest of their league.</p>
+                <div class="league-context-panels"
+                    style="display: flex; flex-direction: row; flex-wrap: wrap; gap: 1rem; align-items: flex-start; margin-bottom: 2rem;">
+                    <!-- League Squad Size - Primary (1st XV only) -->
                     <div class="chart-panel chart-panel--inline league-context-panel">
-                        <button
-                            type="button"
-                            class="chart-panel-toggle chart-panel-toggle--primary"
-                            data-target="league-squad-size-panel"
-                            data-accordion-group="league-squad-context"
-                            aria-expanded="false"
-                            aria-controls="league-squad-size-panel">
+                        <button type="button" class="chart-panel-toggle chart-panel-toggle--primary"
+                            data-target="league-squad-size-panel" data-accordion-group="league-squad-context"
+                            aria-expanded="false" aria-controls="league-squad-size-panel">
                             <span class="chart-panel-toggle-text">
                                 <span class="chart-panel-toggle-title">League Squad Size (&amp; Trend)</span>
-                                <span class="chart-panel-toggle-hint">Click to expand/collapse</span>
+                                <span class="chart-panel-toggle-hint">Squad size compared to league averages</span>
                             </span>
                             <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
                         </button>
                         <div id="league-squad-size-panel" class="chart-panel-content" hidden>
                             <div class="chart-panel-card">
+                                <div class="chart-panel-filters">
+                                    <div class="filter-item league-season-picker">
+                                        <div class="input-group">
+                                            <span class="input-group-text">Unit</span>
+                                            <select id="leagueContextUnitSelect" class="selectpicker form-control flex-fill"
+                                                data-size="4">
+                                                <option value="Total">Total</option>
+                                                <option value="Forwards">Forwards</option>
+                                                <option value="Backs">Backs</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div id="leagueSquadSizeContextChart" style="overflow: visible;"></div>
                             </div>
                         </div>
                     </div>
 
+                    <!-- League Squad Continuity - Primary (1st XV only) -->
                     <div class="chart-panel chart-panel--inline league-context-panel">
-                        <button
-                            type="button"
-                            class="chart-panel-toggle chart-panel-toggle--primary"
-                            data-target="league-retention-average-panel"
-                            data-accordion-group="league-squad-context"
-                            aria-expanded="false"
-                            aria-controls="league-retention-average-panel">
+                        <button type="button" class="chart-panel-toggle chart-panel-toggle--primary"
+                            data-target="league-retention-average-panel" data-accordion-group="league-squad-context"
+                            aria-expanded="false" aria-controls="league-retention-average-panel">
                             <span class="chart-panel-toggle-text">
                                 <span class="chart-panel-toggle-title">League Squad Continuity (&amp; Trend)</span>
-                                <span class="chart-panel-toggle-hint">Click to expand/collapse</span>
+                                <span class="chart-panel-toggle-hint">Retention rates compared to league averages</span>
                             </span>
                             <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
                         </button>
                         <div id="league-retention-average-panel" class="chart-panel-content" hidden>
                             <div class="chart-panel-card">
+                                <div class="chart-panel-filters">
+                                    <div class="filter-item league-season-picker">
+                                        <div class="input-group">
+                                            <span class="input-group-text">Unit</span>
+                                            <select id="leagueContextUnitSelectAlt" class="selectpicker form-control flex-fill"
+                                                data-size="4">
+                                                <option value="Total">Total</option>
+                                                <option value="Forwards">Forwards</option>
+                                                <option value="Backs">Backs</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div id="leagueContinuityContextChart" style="overflow: visible;"></div>
                             </div>
                         </div>
                     </div>
                 </div>
-                </div>
 
-            </div>
-        </div>
+                <!-- ===== SECTION 3: PLAYER STATS ===== -->
+                <h2 style="font-weight:900; color: var(--primary-color); margin-bottom: 0.5rem;">Player Stats</h2>
+                <p style="margin-bottom: 1rem; color: #666; font-size: 0.9rem;">Individual player statistics including captaincy records, total appearances, and point-scoring contributions.</p>
 
-        <!-- ========== PLAYER PROFILES PAGE ========== -->
-        <div id="page-player-profiles" class="page-content">
-            <div style="padding: 2rem 1rem; max-width: 1200px; margin: 0 auto;">
-                <h1 style="color: var(--primary-color); margin-bottom: 1rem;">Player Profiles</h1>
-                
-                <div style="margin-bottom: 2rem;">
-                    <input type="text" class="form-control" placeholder="Search player by name..." style="max-width: 300px;">
-                </div>
-
-                <div class="row">
-                    <div class="col-md-6 col-lg-4 mb-4">
-                        <div class="card">
-                            <div style="background: var(--light-color); padding: 1rem; text-align: center;">
-                                <div style="width: 100px; height: 100px; background: var(--primary-color); border-radius: 50%; margin: 0 auto; color: white; display: flex; align-items: center; justify-content: center; font-size: 3rem;">
-                                    <i class="bi bi-person"></i>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <h5 class="card-title">Player Name</h5>
-                                <p class="card-text">
-                                    <strong>Position:</strong> Prop<br/>
-                                    <strong>Squad:</strong> 1st XV<br/>
-                                    <strong>Total Appearances:</strong> 15<br/>
-                                    <strong>First Appearance:</strong> 2024/25
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6 col-lg-4 mb-4">
-                        <div class="card">
-                            <div style="background: var(--light-color); padding: 1rem; text-align: center;">
-                                <div style="width: 100px; height: 100px; background: var(--primary-color); border-radius: 50%; margin: 0 auto; color: white; display: flex; align-items: center; justify-content: center; font-size: 3rem;">
-                                    <i class="bi bi-person"></i>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <h5 class="card-title">Another Player</h5>
-                                <p class="card-text">
-                                    <strong>Position:</strong> Fly Half<br/>
-                                    <strong>Squad:</strong> 1st XV<br/>
-                                    <strong>Total Appearances:</strong> 18<br/>
-                                    <strong>First Appearance:</strong> 2024/25
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6 col-lg-4 mb-4">
-                        <div class="card">
-                            <div style="background: var(--light-color); padding: 1rem; text-align: center;">
-                                <div style="width: 100px; height: 100px; background: var(--primary-color); border-radius: 50%; margin: 0 auto; color: white; display: flex; align-items: center; justify-content: center; font-size: 3rem;">
-                                    <i class="bi bi-person"></i>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <h5 class="card-title">Third Player</h5>
-                                <p class="card-text">
-                                    <strong>Position:</strong> Lock<br/>
-                                    <strong>Squad:</strong> 2nd XV<br/>
-                                    <strong>Total Appearances:</strong> 12<br/>
-                                    <strong>First Appearance:</strong> 2023/24
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="player-profiles-placeholder" style="background: white; padding: 2rem; border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); text-align: center; color: #999; margin-top: 2rem;">
-                    Full player directory with searchable profiles and detailed statistics
-                </div>
-            </div>
-        </div>
-
-        <!-- ========== LEAGUE GRAPHICS PAGE ========== -->
-        <div id="page-league-graphics" class="page-content">
-            <div style="padding: 2rem 1rem; max-width: 1200px; margin: 0 auto;">
-                <h1 style="color: var(--primary-color); margin-bottom: 1rem;">League Analysis</h1>
-                
-                <div class="row">
-                    <div class="col-lg-6 mb-4">
-                        <h3>League Position Over Time</h3>
-                        <div id="league-position-chart" style="background: white; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); min-height: 300px; display: flex; align-items: center; justify-content: center; color: #999;">
-                            Chart showing league position progression for 1st and 2nd teams
-                        </div>
-                    </div>
-                    <div class="col-lg-6 mb-4">
-                        <h3>League Results Grid</h3>
-                        <div id="league-results-grid" style="background: white; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); min-height: 300px; display: flex; align-items: center; justify-content: center; color: #999;">
-                            Grid showing all team results (W/D/L) by opponent and round
-                        </div>
-                    </div>
-                </div>
-
-                <h3>Squad Analysis</h3>
-                <div id="squad-analysis-chart" style="background: white; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); min-height: 300px; display: flex; align-items: center; justify-content: center; color: #999;">
-                    Squad retention and size comparison across league teams
-                </div>
-            </div>
-        </div>
-
-        <!-- ========== SQUAD GRAPHICS PAGE ========== -->
-        <div id="page-squad-graphics" class="page-content">
-            <div style="padding: 2rem 1rem; max-width: 1200px; margin: 0 auto;">
-                <h1 style="color: var(--primary-color); margin-bottom: 1rem;">Squad Performance Graphics</h1>
-                
-                <div class="row">
-                    <div class="col-lg-6 mb-4">
-                        <h3>Results Over Time</h3>
-                        <div id="results-timeline" style="background: white; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); min-height: 300px; display: flex; align-items: center; justify-content: center; color: #999;">
-                            Chart showing game outcomes and point differentials over time
-                        </div>
-                    </div>
-                    <div class="col-lg-6 mb-4">
-                        <h3>Player Appearances</h3>
-                        <div id="player-appearances-chart" style="background: white; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); min-height: 300px; display: flex; align-items: center; justify-content: center; color: #999;">
-                            Bar chart of player appearances by season and squad
-                        </div>
-                    </div>
-                </div>
-
-                <h3>Team Sheets Archive</h3>
-                <div id="team-sheets-archive" style="background: white; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); min-height: 300px; display: flex; align-items: center; justify-content: center; color: #999;">
-                    Searchable archive of team sheets with player positions and squads
-                </div>
-            </div>
-        </div>
-
-        <!-- ========== DATA PAGE ========== -->
-        <div id="page-database" class="page-content">
-            <div class="database-page-shell">
-                <div class="database-page-header">
-                    <div>
-                        <h1 class="database-page-title">Data</h1>
-                        <p class="database-page-subtitle">View the underlying data tables that power the content of this site. Explore, filter, and download the data for your own analysis.</p>
-                    </div>
-                </div>
-
-                    <div class="database-filter-grid">
-                        <div class="filter-item">
-                            <div class="input-group">
-                                <span class="input-group-text">Table</span>
-                                <select id="databaseTableSelect" class="selectpicker form-control flex-fill" data-live-search="true" data-size="10"></select>
-                            </div>
-                        </div>
-                        <div class="filter-item">
-                            <div class="input-group">
-                                <span class="input-group-text">Season</span>
-                                <select id="databaseSeasonFilter" class="selectpicker form-control flex-fill" data-size="10"></select>
-                            </div>
-                        </div>
-                        <div class="filter-item">
-                            <div class="input-group">
-                                <span class="input-group-text">Squad</span>
-                                <select id="databaseSquadFilter" class="selectpicker form-control flex-fill" data-size="8"></select>
-                            </div>
-                        </div>
-                        <div class="filter-item">
-                            <div class="input-group">
-                                <span class="input-group-text">Game Type</span>
-                                <select id="databaseGameTypeFilter" class="selectpicker form-control flex-fill" data-size="8"></select>
-                            </div>
-                        </div>
-                        <div class="filter-item database-search-item">
-                            <div class="input-group">
-                                <span class="input-group-text">Search</span>
-                                <input id="databaseSearchInput" type="search" class="form-control" placeholder="Search within the current table">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="database-toolbar">
-                        <div class="database-toolbar-group database-toolbar-actions">
-                            <button id="databaseResetFilters" type="button" class="btn btn-outline-secondary btn-sm">Reset Filters</button>
-                            <button id="databaseDownloadFiltered" type="button" class="btn btn-outline-primary btn-sm">Download Filtered CSV</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="database-two-column-grid">
-                    <div class="database-stack">
-                        <div class="database-explorer-panel">
-                            <div class="database-section-heading-wrap database-section-heading-wrap--compact">
-                                <h2 class="database-section-heading">Column Guide</h2>
-                                <button id="databaseColumnGuideToggle" type="button" class="btn btn-outline-secondary btn-sm database-column-guide-toggle" aria-expanded="false" aria-controls="databaseColumnGuideContent">Show Guide</button>
-                            </div>
-                            <div id="databaseColumnGuideContent" hidden>
-                                <div id="databaseColumnsSummary" class="database-columns-summary"></div>
-                                <div class="table-responsive">
-                                    <table class="table table-sm align-middle database-columns-table">
-                                        <thead>
-                                            <tr>
-                                                <th>Column</th>
-                                                <th>Completeness</th>
-                                                <th>Example</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="databaseColumnsTableBody"></tbody>
-                                    </table>
+                <div class="player-stats-panels">
+                    <!-- Match Day Captains - Black (both) -->
+                    <div class="chart-panel chart-panel--inline player-stats-panel">
+                        <button type="button" class="chart-panel-toggle chart-panel-toggle--black"
+                            data-target="player-stats-captains-panel" data-accordion-group="player-stats-panels"
+                            aria-expanded="false" aria-controls="player-stats-captains-panel">
+                            <span class="chart-panel-toggle-text">
+                                <span class="chart-panel-toggle-title">Match Day Captains</span>
+                                <span class="chart-panel-toggle-hint">1st XV & 2nd XV Captains and Vice-Captains</span>
+                            </span>
+                            <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
+                        </button>
+                        <div id="player-stats-captains-panel" class="chart-panel-content" hidden>
+                            <div class="chart-panel-card">
+                                <div id="playerStatsCaptainsChart" class="player-stats-chart-container">
+                                    Loading captains chart...
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="database-stack">
-                        <div class="database-explorer-panel">
-                            <div class="database-section-heading-wrap">
-                                <h2 id="databaseTableHeading" class="database-section-heading">Data Table</h2>
-                                <div id="databasePaginationSummary" class="database-pagination-summary"></div>
+                    <!-- Total Appearances - Black (both) -->
+                    <div class="chart-panel chart-panel--inline player-stats-panel">
+                        <button type="button" class="chart-panel-toggle chart-panel-toggle--black"
+                            data-target="player-stats-appearances-panel" data-accordion-group="player-stats-panels"
+                            aria-expanded="false" aria-controls="player-stats-appearances-panel">
+                            <span class="chart-panel-toggle-text">
+                                <span class="chart-panel-toggle-title">Total Appearances</span>
+                                <span class="chart-panel-toggle-hint">Player appearance counts by squad and position</span>
+                            </span>
+                            <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
+                        </button>
+                        <div id="player-stats-appearances-panel" class="chart-panel-content" hidden>
+                            <div class="chart-panel-card">
+                                <div class="chart-panel-filters">
+                                    <div class="filter-item league-season-picker">
+                                        <div class="input-group">
+                                            <span class="input-group-text">Position</span>
+                                            <select id="playerStatsPositionSelect" class="selectpicker form-control flex-fill" multiple data-actions-box="true" data-size="8" title="All positions">
+                                                <option value="Prop">Prop</option>
+                                                <option value="Hooker">Hooker</option>
+                                                <option value="Second Row">Second Row</option>
+                                                <option value="Flanker">Flanker</option>
+                                                <option value="Number 8">Number 8</option>
+                                                <option value="Scrum Half">Scrum Half</option>
+                                                <option value="Fly Half">Fly Half</option>
+                                                <option value="Centre">Centre</option>
+                                                <option value="Wing">Wing</option>
+                                                <option value="Full Back">Full Back</option>
+                                                <option value="Unknown">Unknown</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="filter-item league-season-picker">
+                                        <div class="input-group">
+                                            <span class="input-group-text">Min Apps</span>
+                                            <input id="playerStatsMinAppearancesInput" class="form-control" type="number" min="0" step="1" value="5"
+                                                inputmode="numeric" aria-label="Minimum appearances" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="playerStatsAppearancesChart" class="player-stats-chart-container">
+                                    Loading appearances chart...
+                                </div>
                             </div>
-                            <div id="databaseTableMeta" class="database-table-meta"></div>
-                            <div class="table-responsive database-table-responsive">
-                                <table class="table table-striped table-hover align-middle database-data-table">
-                                    <thead id="databaseTableHead"></thead>
-                                    <tbody id="databaseTableBody"></tbody>
-                                </table>
-                            </div>
-                            <div class="database-pagination-bar">
-                                <button id="databasePrevPage" type="button" class="btn btn-outline-secondary btn-sm">Previous</button>
-                                <span id="databasePageIndicator" class="database-page-indicator"></span>
-                                <button id="databaseNextPage" type="button" class="btn btn-outline-secondary btn-sm">Next</button>
+                        </div>
+                    </div>
+
+                    <!-- Point Scorers - Black (both) -->
+                    <div class="chart-panel chart-panel--inline player-stats-panel">
+                        <button type="button" class="chart-panel-toggle chart-panel-toggle--black"
+                            data-target="player-stats-points-panel" data-accordion-group="player-stats-panels"
+                            aria-expanded="false" aria-controls="player-stats-points-panel">
+                            <span class="chart-panel-toggle-text">
+                                <span class="chart-panel-toggle-title">Point Scorers</span>
+                                <span class="chart-panel-toggle-hint">Points scored by player and type</span>
+                            </span>
+                            <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
+                        </button>
+                        <div id="player-stats-points-panel" class="chart-panel-content" hidden>
+                            <div class="chart-panel-card">
+                                <div class="chart-panel-filters">
+                                    <div class="filter-item league-season-picker">
+                                        <div class="input-group">
+                                            <span class="input-group-text">Score Type</span>
+                                            <select id="playerStatsScoreTypeSelect" class="selectpicker form-control flex-fill" data-size="4">
+                                                <option value="Total">Total</option>
+                                                <option value="Tries">Tries</option>
+                                                <option value="Kicks">Kicks</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="playerStatsPointsChart" class="player-stats-chart-container">
+                                    Loading point scorers chart...
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -919,101 +844,371 @@
             </div>
         </div>
 
-        <!-- ========== VIDEO ANALYSIS PAGE ========== -->
-        <div id="page-video-analysis" class="page-content">
-            <div style="padding: 2rem 1rem; max-width: 1200px; margin: 0 auto;">
-                <h1 style="color: var(--primary-color); margin-bottom: 1rem;">Video Analysis</h1>
-                
-                <div class="row">
-                    <div class="col-lg-6 mb-4">
-                        <h3>Set Piece Performance (Per Game)</h3>
-                        <div id="setpiece-per-game" style="background: white; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); min-height: 300px; display: flex; align-items: center; justify-content: center; color: #999;">
-                            Chart showing lineouts and scrums won/lost per game
+    <!-- ========== PLAYER PROFILES PAGE ========== -->
+    <div id="page-player-profiles" class="page-content">
+        <div style="padding: 2rem 1rem; max-width: 1200px; margin: 0 auto;">
+            <h1 style="color: var(--primary-color); margin-bottom: 0.5rem;">Player Profiles</h1>
+            <p style="margin-bottom: 1.5rem; color: #666; font-size: 0.95rem;">Data summary cards and profile-style views for individual players.</p>
+
+            <div style="margin-bottom: 2rem;">
+                <input type="text" class="form-control" placeholder="Search player by name..."
+                    style="max-width: 300px;">
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card">
+                        <div style="background: var(--light-color); padding: 1rem; text-align: center;">
+                            <div
+                                style="width: 100px; height: 100px; background: var(--primary-color); border-radius: 50%; margin: 0 auto; color: white; display: flex; align-items: center; justify-content: center; font-size: 3rem;">
+                                <i class="bi bi-person"></i>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-lg-6 mb-4">
-                        <h3>Average Set Piece Performance (Season)</h3>
-                        <div id="setpiece-season-avg" style="background: white; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); min-height: 300px; display: flex; align-items: center; justify-content: center; color: #999;">
-                            Trend line showing average set piece success over season
+                        <div class="card-body">
+                            <h5 class="card-title">Player Name</h5>
+                            <p class="card-text">
+                                <strong>Position:</strong> Prop<br />
+                                <strong>Squad:</strong> 1st XV<br />
+                                <strong>Total Appearances:</strong> 15<br />
+                                <strong>First Appearance:</strong> 2024/25
+                            </p>
                         </div>
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-lg-6 mb-4">
-                        <h3>Red Zone Efficiency</h3>
-                        <div id="red-zone-efficiency" style="background: white; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); min-height: 300px; display: flex; align-items: center; justify-content: center; color: #999;">
-                            Points per red zone entry and comparison with opposition
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card">
+                        <div style="background: var(--light-color); padding: 1rem; text-align: center;">
+                            <div
+                                style="width: 100px; height: 100px; background: var(--primary-color); border-radius: 50%; margin: 0 auto; color: white; display: flex; align-items: center; justify-content: center; font-size: 3rem;">
+                                <i class="bi bi-person"></i>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">Another Player</h5>
+                            <p class="card-text">
+                                <strong>Position:</strong> Fly Half<br />
+                                <strong>Squad:</strong> 1st XV<br />
+                                <strong>Total Appearances:</strong> 18<br />
+                                <strong>First Appearance:</strong> 2024/25
+                            </p>
                         </div>
                     </div>
-                    <div class="col-lg-6 mb-4">
-                        <h3>Lineout Analysis by Zone</h3>
-                        <div id="lineout-by-zone" style="background: white; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); min-height: 300px; display: flex; align-items: center; justify-content: center; color: #999;">
-                            Detailed lineout breakdown by area, thrower, and jumper
+                </div>
+
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card">
+                        <div style="background: var(--light-color); padding: 1rem; text-align: center;">
+                            <div
+                                style="width: 100px; height: 100px; background: var(--primary-color); border-radius: 50%; margin: 0 auto; color: white; display: flex; align-items: center; justify-content: center; font-size: 3rem;">
+                                <i class="bi bi-person"></i>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">Third Player</h5>
+                            <p class="card-text">
+                                <strong>Position:</strong> Lock<br />
+                                <strong>Squad:</strong> 2nd XV<br />
+                                <strong>Total Appearances:</strong> 12<br />
+                                <strong>First Appearance:</strong> 2023/24
+                            </p>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <div id="player-profiles-placeholder"
+                style="background: white; padding: 2rem; border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); text-align: center; color: #999; margin-top: 2rem;">
+                Full player directory with searchable profiles and detailed statistics
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== PLAYER STATS PAGE (MERGED INTO SQUAD STATS) ========== -->
+
+    <!-- ========== LEAGUE GRAPHICS PAGE ========== -->
+    <div id="page-league-graphics" class="page-content">
+        <div style="padding: 2rem 1rem; max-width: 1200px; margin: 0 auto;">
+            <h1 style="color: var(--primary-color); margin-bottom: 0.5rem;">League Analysis</h1>
+            <p style="margin-bottom: 1.5rem; color: #666; font-size: 0.95rem;">Detailed visual analysis of league performance, competition standings, and squad analysis across divisions.</p>
+
+            <div class="row">
+                <div class="col-lg-6 mb-4">
+                    <h3>League Position Over Time</h3>
+                    <div id="league-position-chart"
+                        style="background: white; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); min-height: 300px; display: flex; align-items: center; justify-content: center; color: #999;">
+                        Chart showing league position progression for 1st and 2nd teams
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-4">
+                    <h3>League Results Grid</h3>
+                    <div id="league-results-grid"
+                        style="background: white; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); min-height: 300px; display: flex; align-items: center; justify-content: center; color: #999;">
+                        Grid showing all team results (W/D/L) by opponent and round
+                    </div>
+                </div>
+            </div>
+
+            <h3>Squad Analysis</h3>
+            <div id="squad-analysis-chart"
+                style="background: white; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); min-height: 300px; display: flex; align-items: center; justify-content: center; color: #999;">
+                Squad retention and size comparison across league teams
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== SQUAD GRAPHICS PAGE ========== -->
+    <div id="page-squad-graphics" class="page-content">
+        <div style="padding: 2rem 1rem; max-width: 1200px; margin: 0 auto;">
+            <h1 style="color: var(--primary-color); margin-bottom: 0.5rem;">Squad Performance Graphics</h1>
+            <p style="margin-bottom: 1.5rem; color: #666; font-size: 0.95rem;">Comprehensive visual analysis of squad performance, including results timelines, player appearances, and team composition trends.</p>
+
+            <div class="row">
+                <div class="col-lg-6 mb-4">
+                    <h3>Results Over Time</h3>
+                    <div id="results-timeline"
+                        style="background: white; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); min-height: 300px; display: flex; align-items: center; justify-content: center; color: #999;">
+                        Chart showing game outcomes and point differentials over time
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-4">
+                    <h3>Player Appearances</h3>
+                    <div id="player-appearances-chart"
+                        style="background: white; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); min-height: 300px; display: flex; align-items: center; justify-content: center; color: #999;">
+                        Bar chart of player appearances by season and squad
+                    </div>
+                </div>
+            </div>
+
+            <h3>Team Sheets Archive</h3>
+            <div id="team-sheets-archive"
+                style="background: white; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); min-height: 300px; display: flex; align-items: center; justify-content: center; color: #999;">
+                Searchable archive of team sheets with player positions and squads
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== DATA PAGE ========== -->
+    <div id="page-database" class="page-content">
+        <div class="database-page-shell">
+            <div class="database-page-header">
+                <div>
+                    <h1 class="database-page-title">Data</h1>
+                    <p class="database-page-subtitle">View the underlying data tables that power the content of this
+                        site. Explore, filter, and download the data for your own analysis.</p>
+                </div>
+            </div>
+
+            <div class="database-filter-grid">
+                <div class="filter-item">
+                    <div class="input-group">
+                        <span class="input-group-text">Table</span>
+                        <select id="databaseTableSelect" class="selectpicker form-control flex-fill"
+                            data-live-search="true" data-size="10"></select>
+                    </div>
+                </div>
+                <div class="filter-item">
+                    <div class="input-group">
+                        <span class="input-group-text">Season</span>
+                        <select id="databaseSeasonFilter" class="selectpicker form-control flex-fill"
+                            data-size="10"></select>
+                    </div>
+                </div>
+                <div class="filter-item">
+                    <div class="input-group">
+                        <span class="input-group-text">Squad</span>
+                        <select id="databaseSquadFilter" class="selectpicker form-control flex-fill"
+                            data-size="8"></select>
+                    </div>
+                </div>
+                <div class="filter-item">
+                    <div class="input-group">
+                        <span class="input-group-text">Game Type</span>
+                        <select id="databaseGameTypeFilter" class="selectpicker form-control flex-fill"
+                            data-size="8"></select>
+                    </div>
+                </div>
+                <div class="filter-item database-search-item">
+                    <div class="input-group">
+                        <span class="input-group-text">Search</span>
+                        <input id="databaseSearchInput" type="search" class="form-control"
+                            placeholder="Search within the current table">
+                    </div>
+                </div>
+            </div>
+
+            <div class="database-toolbar">
+                <div class="database-toolbar-group database-toolbar-actions">
+                    <button id="databaseResetFilters" type="button" class="btn btn-outline-secondary btn-sm">Reset
+                        Filters</button>
+                    <button id="databaseDownloadFiltered" type="button" class="btn btn-outline-primary btn-sm">Download
+                        Filtered CSV</button>
                 </div>
             </div>
         </div>
 
-        <!-- ========== TEAM SHEETS PAGE ========== -->
-        <div id="page-team-sheets" class="page-content">
-            <div style="padding: 2rem 1rem; max-width: 1400px; margin: 0 auto;">
-                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
-                    <h1 style="color: var(--primary-color); margin: 0;">Team Sheets</h1>
-                    <div class="squad-stats-top-filters team-sheets-filters" style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
-                        <div class="filter-item league-season-picker" style="margin-bottom: 0;">
-                            <div class="input-group">
-                                <span class="input-group-text">Season</span>
-                                <select id="teamSheetsSeasonSelect" class="selectpicker form-control flex-fill" multiple data-actions-box="true" data-size="8" title="All seasons">
-                                    <!-- Options populated dynamically by JavaScript -->
-                                </select>
-                            </div>
-                        </div>
-                        <div class="filter-item league-season-picker" style="margin-bottom: 0;">
-                            <div class="input-group">
-                                <span class="input-group-text">Squad</span>
-                                <select id="teamSheetsSquadSelect" class="selectpicker form-control flex-fill" data-size="3">
-                                    <option value="All">All squads</option>
-                                    <option value="1st">1st XV</option>
-                                    <option value="2nd">2nd XV</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="filter-item league-season-picker" style="margin-bottom: 0;">
-                            <div class="input-group">
-                                <span class="input-group-text">Game Type</span>
-                                <select id="teamSheetsGameTypeSelect" class="selectpicker form-control flex-fill" data-size="5">
-                                    <option value="All games">All games</option>
-                                    <option value="League + Cup">League + Cup</option>
-                                    <option value="League only">League only</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="filter-item league-season-picker" style="margin-bottom: 0;">
-                            <div class="input-group">
-                                <span class="input-group-text">Position</span>
-                                <select id="teamSheetsPositionSelect" class="selectpicker form-control flex-fill" multiple data-size="8" title="All positions">
-                                    <option value="Prop">Prop</option>
-                                    <option value="Hooker">Hooker</option>
-                                    <option value="Second Row">Second Row</option>
-                                    <option value="Flanker">Flanker</option>
-                                    <option value="Number 8">Number 8</option>
-                                    <option value="Scrum Half">Scrum Half</option>
-                                    <option value="Fly Half">Fly Half</option>
-                                    <option value="Centre">Centre</option>
-                                    <option value="Wing">Wing</option>
-                                    <option value="Full Back">Full Back</option>
-                                </select>
-                            </div>
+        <div class="database-two-column-grid">
+            <div class="database-stack">
+                <div class="database-explorer-panel">
+                    <div class="database-section-heading-wrap database-section-heading-wrap--compact">
+                        <h2 class="database-section-heading">Column Guide</h2>
+                        <button id="databaseColumnGuideToggle" type="button"
+                            class="btn btn-outline-secondary btn-sm database-column-guide-toggle" aria-expanded="false"
+                            aria-controls="databaseColumnGuideContent">Show Guide</button>
+                    </div>
+                    <div id="databaseColumnGuideContent" hidden>
+                        <div id="databaseColumnsSummary" class="database-columns-summary"></div>
+                        <div class="table-responsive">
+                            <table class="table table-sm align-middle database-columns-table">
+                                <thead>
+                                    <tr>
+                                        <th>Column</th>
+                                        <th>Completeness</th>
+                                        <th>Example</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="databaseColumnsTableBody"></tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
-                <div id="teamSheetsChart" style="background: white; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); min-height: 500px; color: #999; overflow-x: auto; overflow-y: hidden;">
-                    Loading team sheets chart...
+            </div>
+
+            <div class="database-stack">
+                <div class="database-explorer-panel">
+                    <div class="database-section-heading-wrap">
+                        <h2 id="databaseTableHeading" class="database-section-heading">Data Table</h2>
+                        <div id="databasePaginationSummary" class="database-pagination-summary"></div>
+                    </div>
+                    <div id="databaseTableMeta" class="database-table-meta"></div>
+                    <div class="table-responsive database-table-responsive">
+                        <table class="table table-striped table-hover align-middle database-data-table">
+                            <thead id="databaseTableHead"></thead>
+                            <tbody id="databaseTableBody"></tbody>
+                        </table>
+                    </div>
+                    <div class="database-pagination-bar">
+                        <button id="databasePrevPage" type="button"
+                            class="btn btn-outline-secondary btn-sm">Previous</button>
+                        <span id="databasePageIndicator" class="database-page-indicator"></span>
+                        <button id="databaseNextPage" type="button"
+                            class="btn btn-outline-secondary btn-sm">Next</button>
+                    </div>
                 </div>
             </div>
         </div>
+    </div>
+
+    <!-- ========== VIDEO ANALYSIS PAGE ========== -->
+    <div id="page-video-analysis" class="page-content">
+        <div style="padding: 2rem 1rem; max-width: 1200px; margin: 0 auto;">
+            <h1 style="color: var(--primary-color); margin-bottom: 0.5rem;">Video Analysis</h1>
+            <p style="margin-bottom: 1.5rem; color: #666; font-size: 0.95rem;">Video analysis and set piece statistics including lineout performance, scrum data, and red zone efficiency.</p>
+
+            <div class="row">
+                <div class="col-lg-6 mb-4">
+                    <h3>Set Piece Performance (Per Game)</h3>
+                    <div id="setpiece-per-game"
+                        style="background: white; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); min-height: 300px; display: flex; align-items: center; justify-content: center; color: #999;">
+                        Chart showing lineouts and scrums won/lost per game
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-4">
+                    <h3>Average Set Piece Performance (Season)</h3>
+                    <div id="setpiece-season-avg"
+                        style="background: white; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); min-height: 300px; display: flex; align-items: center; justify-content: center; color: #999;">
+                        Trend line showing average set piece success over season
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-6 mb-4">
+                    <h3>Red Zone Efficiency</h3>
+                    <div id="red-zone-efficiency"
+                        style="background: white; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); min-height: 300px; display: flex; align-items: center; justify-content: center; color: #999;">
+                        Points per red zone entry and comparison with opposition
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-4">
+                    <h3>Lineout Analysis by Zone</h3>
+                    <div id="lineout-by-zone"
+                        style="background: white; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); min-height: 300px; display: flex; align-items: center; justify-content: center; color: #999;">
+                        Detailed lineout breakdown by area, thrower, and jumper
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== TEAM SHEETS PAGE ========== -->
+    <div id="page-team-sheets" class="page-content">
+        <div class="team-sheets-page-shell" style="padding: 2rem 1rem; max-width: 1400px; margin: 0 auto;">
+            <div class="page-header">
+                <div class="page-header-text">
+                    <h1>Team Sheets</h1>
+                    <p>Team sheets showing player appearances by position and match.</p>
+                </div>
+                <div class="page-header-filters squad-stats-top-filters team-sheets-filters">
+                    <div class="filter-item league-season-picker" style="margin-bottom: 0;">
+                        <div class="input-group">
+                            <span class="input-group-text">Season</span>
+                            <select id="teamSheetsSeasonSelect" class="selectpicker form-control flex-fill" multiple
+                                data-actions-box="true" data-size="8" title="All seasons">
+                                <!-- Options populated dynamically by JavaScript -->
+                            </select>
+                        </div>
+                    </div>
+                    <div class="filter-item league-season-picker" style="margin-bottom: 0;">
+                        <div class="input-group">
+                            <span class="input-group-text">Squad</span>
+                            <select id="teamSheetsSquadSelect" class="selectpicker form-control flex-fill"
+                                data-size="3">
+                                <option value="All">All squads</option>
+                                <option value="1st">1st XV</option>
+                                <option value="2nd">2nd XV</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="filter-item league-season-picker" style="margin-bottom: 0;">
+                        <div class="input-group">
+                            <span class="input-group-text">Game Type</span>
+                            <select id="teamSheetsGameTypeSelect" class="selectpicker form-control flex-fill"
+                                data-size="5">
+                                <option value="All games">All games</option>
+                                <option value="League + Cup">League + Cup</option>
+                                <option value="League only">League only</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="filter-item league-season-picker" style="margin-bottom: 0;">
+                        <div class="input-group">
+                            <span class="input-group-text">Position</span>
+                            <select id="teamSheetsPositionSelect" class="selectpicker form-control flex-fill" multiple
+                                data-size="8" title="All positions">
+                                <option value="Prop">Prop</option>
+                                <option value="Hooker">Hooker</option>
+                                <option value="Second Row">Second Row</option>
+                                <option value="Flanker">Flanker</option>
+                                <option value="Number 8">Number 8</option>
+                                <option value="Scrum Half">Scrum Half</option>
+                                <option value="Fly Half">Fly Half</option>
+                                <option value="Centre">Centre</option>
+                                <option value="Wing">Wing</option>
+                                <option value="Full Back">Full Back</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <p style="margin: 0; color: #666;">Selection for every match in reverse chronological order (most recent game at the
+                    top).</p>
+            </div>
+            <div id="teamSheetsChart" class="team-sheets-chart-shell"
+                style="background: white; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); color: #999; overflow-x: auto; overflow-y: hidden;">
+                Loading team sheets chart...
+            </div>
+        </div>
+    </div>
 
     </div>
 
@@ -1045,6 +1240,7 @@
         let availableSeasons = ['2025/26', '2024/25', '2023/24', '2022/23', '2021/22', '2019/20', '2018/19', '2017/18', '2016/17'];
         let squadStatsControlsInitialised = false;
         let teamSheetsControlsInitialised = false;
+        let playerStatsControlsInitialised = false;
 
         function getCurrentSeasonLabel() {
             const now = new Date();
@@ -1089,9 +1285,13 @@
                 pageEl.classList.add('active');
                 pageEl.style.display = 'block';
                 currentPage = page;
-                
-                window.scrollTo(0, 0);
-                
+
+                // Reset scroll position for both window and body-as-container
+                // (body.scrollTop covers Safari where body is the scroll container)
+                try { document.documentElement.scrollTop = 0; } catch(e) {}
+                try { document.body.scrollTop = 0; } catch(e) {}
+                window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+
                 // Load page-specific content
                 if (page === 'league-tables') {
                     loadLeagueTablePage();
@@ -1099,6 +1299,9 @@
 
                 if (page === 'squad-stats') {
                     loadSquadStatsPage();
+                    // Also initialize player stats controls since they're now part of this page
+                    initialisePlayerStatsControls();
+                    renderPlayerStatsPage();
                 }
 
                 if (page === 'team-sheets') {
@@ -1106,9 +1309,14 @@
                     renderTeamSheetsPage();
                 }
 
+                // Note: player-stats page has been merged into squad-stats, so no separate handler needed
+
                 if (page === 'database' && window.DatabaseExplorer) {
                     window.DatabaseExplorer.load();
                 }
+
+                // Ensure static collapsible panels on any page always have click handlers.
+                initialiseChartPanelToggles();
             }
         }
 
@@ -1123,7 +1331,7 @@
                     return;
                 }
             }
-            
+
             renderLeagueTables();
         }
 
@@ -1552,8 +1760,8 @@
         }
 
         function getSquadStatsMinimumAppearances() {
-            const minAppearancesInput = document.getElementById('squadStatsMinAppearancesInput');
-            const value = Number(minAppearancesInput?.value ?? 0);
+            const minAppsSelect = document.getElementById('squadStatsMinAppsSelect');
+            const value = Number(minAppsSelect?.value ?? 0);
             if (!Number.isFinite(value)) {
                 return 0;
             }
@@ -1846,10 +2054,10 @@
 
             const allowedGameTypes = getAllowedGameTypes(getSquadStatsGameTypeMode());
             const gameInfoById = new Map((gamesData || []).map(game => [game.game_id, game]));
-            
+
             // Group games by squad/season and sort chronologically
             const gamesBySquadSeason = {};
-            
+
             (playerAppearancesData || []).forEach(row => {
                 const season = normalizeSeasonLabel(row.season);
                 const squad = row.squad;
@@ -2153,8 +2361,14 @@
             }
 
             container.innerHTML = '';
-            const embedTarget = `#${containerId}`;
-            vegaEmbed(embedTarget, spec, {
+            const embedHost = document.createElement('div');
+            embedHost.className = 'chart-embed-host';
+            if (containerId === 'teamSheetsChart') {
+                embedHost.classList.add('chart-embed-host--team-sheets');
+            }
+            container.appendChild(embedHost);
+
+            vegaEmbed(embedHost, spec, {
                 actions: VEGA_EMBED_ACTIONS,
                 renderer: 'svg'
             }).then(() => {
@@ -2232,6 +2446,282 @@
             return filterChartSpecDataset(clonedSpec, predicate);
         }
 
+        function getPlayerStatsSeasonOptions() {
+            const seasons = Array.from(new Set((availableSeasons || []).filter(Boolean))).sort((a, b) => {
+                const aYear = Number(String(a).split('/')[0]) || 0;
+                const bYear = Number(String(b).split('/')[0]) || 0;
+                return bYear - aYear;
+            });
+            return ['All', ...seasons];
+        }
+
+        function getPlayerStatsSquadColors() {
+            const rootStyle = getComputedStyle(document.documentElement);
+            const primary = (rootStyle.getPropertyValue('--primary-color') || '').trim() || '#202946';
+            const accent = (rootStyle.getPropertyValue('--accent-color') || '').trim() || '#7d96e8';
+            return [primary, accent];
+        }
+
+        function getPlayerStatsMinimumAppearances() {
+            const minAppearancesInput = document.getElementById('playerStatsMinAppearancesInput');
+            const value = Number(minAppearancesInput?.value ?? 5);
+            if (!Number.isFinite(value)) {
+                return 5;
+            }
+            return Math.max(0, Math.floor(value));
+        }
+
+        function initialisePlayerStatsControls() {
+            if (playerStatsControlsInitialised) {
+                return;
+            }
+
+            const seasonSelect = document.getElementById('playerStatsSeasonSelect');
+            const gameTypeSelect = document.getElementById('playerStatsGameTypeSelect');
+            const squadSelect = document.getElementById('playerStatsSquadSelect');
+            const positionSelect = document.getElementById('playerStatsPositionSelect');
+            const scoreTypeSelect = document.getElementById('playerStatsScoreTypeSelect');
+            const minAppearancesInput = document.getElementById('playerStatsMinAppearancesInput');
+
+            if (!seasonSelect || !gameTypeSelect || !squadSelect || !positionSelect || !scoreTypeSelect || !minAppearancesInput) {
+                return;
+            }
+
+            const seasons = getPlayerStatsSeasonOptions();
+            const currentSeason = getCurrentSeasonLabel();
+
+            seasonSelect.innerHTML = '';
+            seasons.forEach(season => {
+                const option = document.createElement('option');
+                option.value = season;
+                option.textContent = season;
+                seasonSelect.appendChild(option);
+            });
+
+            const $seasonSelect = $('#playerStatsSeasonSelect');
+            const $gameTypeSelect = $('#playerStatsGameTypeSelect');
+            const $squadSelect = $('#playerStatsSquadSelect');
+            const $positionSelect = $('#playerStatsPositionSelect');
+            const $scoreTypeSelect = $('#playerStatsScoreTypeSelect');
+            const $minAppsSelect = $('#playerStatsMinAppearancesInput');
+
+            if ($seasonSelect.data('selectpicker')) {
+                $seasonSelect.selectpicker('destroy');
+            }
+            if ($gameTypeSelect.data('selectpicker')) {
+                $gameTypeSelect.selectpicker('destroy');
+            }
+            if ($squadSelect.data('selectpicker')) {
+                $squadSelect.selectpicker('destroy');
+            }
+            if ($positionSelect.data('selectpicker')) {
+                $positionSelect.selectpicker('destroy');
+            }
+            if ($scoreTypeSelect.data('selectpicker')) {
+                $scoreTypeSelect.selectpicker('destroy');
+            }
+            if ($minAppsSelect.data('selectpicker')) {
+                $minAppsSelect.selectpicker('destroy');
+            }
+
+            $seasonSelect.selectpicker();
+            $gameTypeSelect.selectpicker();
+            $squadSelect.selectpicker();
+            $positionSelect.selectpicker();
+            $scoreTypeSelect.selectpicker();
+            $minAppsSelect.selectpicker();
+
+            const defaultSeason = 'All';
+            $seasonSelect.selectpicker('val', defaultSeason);
+            $gameTypeSelect.selectpicker('val', 'All games');
+            $squadSelect.selectpicker('val', 'All');
+            $positionSelect.selectpicker('deselectAll');
+            $scoreTypeSelect.selectpicker('val', 'Total');
+            $minAppsSelect.selectpicker('val', '5');
+
+            $seasonSelect.on('changed.bs.select', function () {
+                if (currentPage === 'player-stats') {
+                    renderPlayerStatsPage();
+                }
+            });
+            $gameTypeSelect.on('changed.bs.select', function () {
+                if (currentPage === 'player-stats') {
+                    renderPlayerStatsPage();
+                }
+            });
+            $squadSelect.on('changed.bs.select', function () {
+                if (currentPage === 'player-stats') {
+                    renderPlayerStatsPage();
+                }
+            });
+            $positionSelect.on('changed.bs.select', function () {
+                if (currentPage === 'player-stats') {
+                    renderPlayerStatsPage();
+                }
+            });
+            $scoreTypeSelect.on('changed.bs.select', function () {
+                if (currentPage === 'player-stats') {
+                    renderPlayerStatsPage();
+                }
+            });
+            $minAppsSelect.on('changed.bs.select', function () {
+                if (currentPage === 'player-stats') {
+                    renderPlayerStatsPage();
+                }
+            });
+
+            playerStatsControlsInitialised = true;
+        }
+
+        function filterPlayerStatsCaptainsSpec(spec, selectedSeasons, gameTypeMode, selectedSquad) {
+            const clonedSpec = JSON.parse(JSON.stringify(spec));
+            const allowedGameTypes = getAllowedGameTypes(gameTypeMode);
+            const squadColors = getPlayerStatsSquadColors();
+
+            if (Array.isArray(clonedSpec?.spec?.layer)) {
+                clonedSpec.spec.layer.forEach(layer => {
+                    if (layer?.encoding?.color?.scale) {
+                        layer.encoding.color.scale.range = squadColors;
+                    }
+                });
+            }
+
+            const predicate = row => {
+                const seasons = Array.isArray(selectedSeasons) ? selectedSeasons : [];
+                if (seasons.length === 0) {
+                    if (row?.season !== 'Total') return false;
+                } else if (row?.season === 'Total' || !seasons.includes(row?.season)) {
+                    return false;
+                }
+
+                if (allowedGameTypes && !allowedGameTypes.has(row?.game_type)) return false;
+                if (selectedSquad !== 'All' && row?.squad !== selectedSquad) return false;
+
+                return true;
+            };
+            return filterChartSpecDataset(clonedSpec, predicate);
+        }
+
+        function filterPlayerStatsAppearancesSpec(spec, selectedSeasons, gameTypeMode, selectedSquad, positions, minimumAppearances) {
+            const clonedSpec = JSON.parse(JSON.stringify(spec));
+            const squadColors = getPlayerStatsSquadColors();
+
+            // Update squad color scale in bar layer.
+            if (Array.isArray(clonedSpec?.layer)) {
+                clonedSpec.layer.forEach(layer => {
+                    if (layer?.encoding?.color?.scale) {
+                        layer.encoding.color.scale.range = squadColors;
+                    }
+                });
+            }
+
+            // Map UI selections to Vega param values.
+            // Empty season list means include all seasons.
+            const seasonValue = Array.isArray(selectedSeasons) ? selectedSeasons : [];
+
+            const allowedGameTypes = getAllowedGameTypes(gameTypeMode);
+            const gameTypesValue = allowedGameTypes ? Array.from(allowedGameTypes) : [];
+
+            const positionsValue = Array.isArray(positions) && positions.length > 0 ? positions : [];
+
+            const threshold = Number.isFinite(minimumAppearances) ? Math.max(0, Math.floor(minimumAppearances)) : 5;
+
+            // Inject values into the spec params; Vega uses these as initial signal values,
+            // so transform_filter and sort:'-x' are resolved after filtering.
+            if (Array.isArray(clonedSpec.params)) {
+                clonedSpec.params.forEach(param => {
+                    switch (param.name) {
+                        case 'seasonParam':    param.value = seasonValue;    break;
+                        case 'gameTypesParam': param.value = gameTypesValue; break;
+                        case 'squadParam':     param.value = selectedSquad;  break;
+                        case 'positionsParam': param.value = positionsValue; break;
+                        case 'minAppsParam':   param.value = threshold;      break;
+                    }
+                });
+            }
+
+            return clonedSpec;
+        }
+
+        function filterPlayerStatsPointsSpec(spec, selectedSeasons, selectedSquad, scoreType) {
+            const clonedSpec = JSON.parse(JSON.stringify(spec));
+            const seasonValue = Array.isArray(selectedSeasons) ? selectedSeasons : [];
+            const nextScoreType = scoreType || 'Total';
+            const valueAxisTitle = nextScoreType === 'Tries' ? 'Tries' : 'Points';
+
+            if (Array.isArray(clonedSpec.params)) {
+                clonedSpec.params.forEach(param => {
+                    switch (param.name) {
+                        case 'seasonParam':
+                            param.value = seasonValue;
+                            break;
+                        case 'squadParam':
+                            param.value = selectedSquad;
+                            break;
+                        case 'scoreTypeParam':
+                            param.value = nextScoreType;
+                            break;
+                    }
+                });
+            }
+
+            if (Array.isArray(clonedSpec.layer)) {
+                clonedSpec.layer.forEach(layer => {
+                    if (layer?.encoding?.x) {
+                        layer.encoding.x.axis = layer.encoding.x.axis || {};
+                        layer.encoding.x.axis.title = valueAxisTitle;
+                    }
+                });
+            }
+
+            return clonedSpec;
+        }
+
+        async function renderPlayerStatsPage() {
+            const selectedSeasonValues = $('#playerStatsSeasonSelect').val();
+            const selectedSeasons = Array.isArray(selectedSeasonValues)
+                ? selectedSeasonValues.filter(value => value && value !== 'All')
+                : [];
+            const selectedGameType = document.getElementById('playerStatsGameTypeSelect')?.value || 'All games';
+            const selectedSquad = document.getElementById('playerStatsSquadSelect')?.value || 'All';
+            const selectedPositions = $('#playerStatsPositionSelect').val() || [];
+            const selectedScoreType = document.getElementById('playerStatsScoreTypeSelect')?.value || 'Total';
+            const minimumAppearances = getPlayerStatsMinimumAppearances();
+
+            try {
+                const [captainsSpec, appearancesSpec, pointsSpec] = await Promise.all([
+                    loadChartSpec('data/charts/player_stats_captains.json'),
+                    loadChartSpec('data/charts/player_stats_appearances.json'),
+                    loadChartSpec('data/charts/point_scorers.json')
+                ]);
+
+                const filteredCaptains = filterPlayerStatsCaptainsSpec(captainsSpec, selectedSeasons, selectedGameType, selectedSquad);
+                const filteredAppearances = filterPlayerStatsAppearancesSpec(
+                    appearancesSpec,
+                    selectedSeasons,
+                    selectedGameType,
+                    selectedSquad,
+                    selectedPositions,
+                    minimumAppearances
+                );
+                const filteredPoints = filterPlayerStatsPointsSpec(
+                    pointsSpec,
+                    selectedSeasons,
+                    selectedSquad,
+                    selectedScoreType
+                );
+
+                renderStaticSpecChart('playerStatsCaptainsChart', filteredCaptains, 'No captains or vice-captains data available for the selected season.');
+                renderStaticSpecChart('playerStatsAppearancesChart', filteredAppearances, 'No player appearances available for the selected filters.');
+                renderStaticSpecChart('playerStatsPointsChart', filteredPoints, 'No point scorers available for the selected filters.');
+            } catch (error) {
+                console.warn('Unable to load Player Stats charts:', error);
+                renderStaticSpecChart('playerStatsCaptainsChart', null, 'Unable to load captains chart.');
+                renderStaticSpecChart('playerStatsAppearancesChart', null, 'Unable to load appearances chart.');
+                renderStaticSpecChart('playerStatsPointsChart', null, 'Unable to load point scorers chart.');
+            }
+        }
+
         function renderSquadStatsPage() {
             if (!playerAppearancesData) {
                 return;
@@ -2278,10 +2768,10 @@
 
             const seasonSelect = document.getElementById('squadStatsSeasonSelect');
             const gameTypeSelect = document.getElementById('squadStatsGameTypeSelect');
-            const minAppearancesInput = document.getElementById('squadStatsMinAppearancesInput');
+            const minAppsInput = document.getElementById('squadStatsMinAppsSelect');
             const leagueContextUnitSelect = document.getElementById('leagueContextUnitSelect');
 
-            if (!seasonSelect || !gameTypeSelect || !minAppearancesInput || !leagueContextUnitSelect) {
+            if (!seasonSelect || !gameTypeSelect || !minAppsInput || !leagueContextUnitSelect) {
                 return;
             }
 
@@ -2307,61 +2797,40 @@
             $leagueContextUnitSelect.selectpicker();
 
             gameTypeSelect.value = 'All games';
-            minAppearancesInput.value = '0';
+            minAppsInput.value = '0';
             leagueContextUnitSelect.value = 'Total';
 
             $gameTypeSelect.selectpicker('val', 'All games');
             $leagueContextUnitSelect.selectpicker('val', 'Total');
 
-            $seasonSelect.on('changed.bs.select', function() {
+            $seasonSelect.on('changed.bs.select', function () {
                 if (currentPage === 'squad-stats') {
                     renderSquadStatsPage();
                 }
             });
 
-            $gameTypeSelect.on('changed.bs.select', function() {
+            $gameTypeSelect.on('changed.bs.select', function () {
                 if (currentPage === 'squad-stats') {
                     renderSquadStatsPage();
                 }
             });
 
-            $leagueContextUnitSelect.on('changed.bs.select', function() {
+            minAppsInput.addEventListener('input', function () {
+                let v = parseInt(this.value, 10);
+                if (isNaN(v) || v < 0) v = 0;
+                this.value = String(Math.floor(v));
+                if (currentPage === 'squad-stats') renderSquadStatsPage();
+            });
+            minAppsInput.addEventListener('change', function () {
+                let v = parseInt(this.value, 10);
+                if (isNaN(v) || v < 0) v = 0;
+                this.value = String(v);
+                if (currentPage === 'squad-stats') renderSquadStatsPage();
+            });
+
+            $leagueContextUnitSelect.on('changed.bs.select', function () {
                 if (currentPage === 'squad-stats') {
                     renderLeagueContextCharts();
-                }
-            });
-
-            minAppearancesInput.addEventListener('input', function() {
-                const parsed = Number(this.value);
-                if (!Number.isFinite(parsed)) {
-                    return;
-                }
-                if (parsed < 0) {
-                    this.value = '0';
-                } else if (!Number.isInteger(parsed)) {
-                    this.value = String(Math.floor(parsed));
-                }
-                if (currentPage === 'squad-stats') {
-                    renderSquadStatsPage();
-                }
-            });
-
-            minAppearancesInput.addEventListener('change', function() {
-                if (this.value === '' || Number(this.value) < 0 || !Number.isFinite(Number(this.value))) {
-                    this.value = '0';
-                }
-                if (currentPage === 'squad-stats') {
-                    renderSquadStatsPage();
-                }
-            });
-
-            minAppearancesInput.addEventListener('blur', function() {
-                if (this.value === '' || Number(this.value) < 0 || !Number.isFinite(Number(this.value))) {
-                    this.value = '0';
-                }
-                this.value = String(Math.floor(Number(this.value)));
-                if (currentPage === 'squad-stats') {
-                    renderSquadStatsPage();
                 }
             });
 
@@ -2430,25 +2899,25 @@
             $gameTypeSelect.selectpicker('val', 'All games');
             $positionSelect.selectpicker('deselectAll');
 
-            $seasonSelect.on('changed.bs.select', function() {
+            $seasonSelect.on('changed.bs.select', function () {
                 if (currentPage === 'team-sheets') {
                     renderTeamSheetsPage();
                 }
             });
 
-            $squadSelect.on('changed.bs.select', function() {
+            $squadSelect.on('changed.bs.select', function () {
                 if (currentPage === 'team-sheets') {
                     renderTeamSheetsPage();
                 }
             });
 
-            $gameTypeSelect.on('changed.bs.select', function() {
+            $gameTypeSelect.on('changed.bs.select', function () {
                 if (currentPage === 'team-sheets') {
                     renderTeamSheetsPage();
                 }
             });
 
-            $positionSelect.on('changed.bs.select', function() {
+            $positionSelect.on('changed.bs.select', function () {
                 if (currentPage === 'team-sheets') {
                     renderTeamSheetsPage();
                 }
@@ -2607,7 +3076,7 @@
             document.querySelectorAll('.chart-panel-toggle').forEach(toggle => {
                 if (toggle.__chartPanelInitialised) return;
                 toggle.__chartPanelInitialised = true;
-                toggle.addEventListener('click', function() {
+                toggle.addEventListener('click', function () {
                     const targetId = this.getAttribute('data-target');
                     const panel = targetId ? document.getElementById(targetId) : null;
                     if (!panel) {
@@ -2673,7 +3142,7 @@
                         aria-controls="${panelId}">
                         <span class="chart-panel-toggle-text">
                             <span class="chart-panel-toggle-title">${title}</span>
-                            <span class="chart-panel-toggle-hint">Click to expand/collapse</span>
+                            <span class="chart-panel-toggle-hint">League match results</span>
                         </span>
                         <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
                     </button>
@@ -2695,16 +3164,16 @@
         function renderLeagueTables() {
             const season = document.getElementById('leagueTableSeasonSelect').value;
             const container = document.getElementById('leagueTablesContainer');
-            
+
             if (!leagueTablesData || !leagueTablesData[season]) {
                 container.innerHTML = '<p>No data available for this season.</p>';
                 return;
             }
-            
+
             const seasonData = leagueTablesData[season];
             const leagueSeason = toLeagueSeasonFormat(season);
             let html = '';
-            
+
             // Render 1st team
             if (seasonData['1']) {
                 const squad1 = seasonData['1'];
@@ -2731,10 +3200,10 @@
                                 </thead>
                                 <tbody>
                                     ${squad1.tables.map(row => {
-                                        const isEGRFC = row.team.toLowerCase().includes('east grinstead') && !row.team.toLowerCase().includes('ii');
-                                        const rowClass = isEGRFC ? 'league-highlight-row league-highlight-row-1st' : '';
-                                        const bonusPoints = row.bonusPoints ?? ((row.triesBefore || 0) + (row.triesLost || 0));
-                                        return `
+                    const isEGRFC = row.team.toLowerCase().includes('east grinstead') && !row.team.toLowerCase().includes('ii');
+                    const rowClass = isEGRFC ? 'league-highlight-row league-highlight-row-1st' : '';
+                    const bonusPoints = row.bonusPoints ?? ((row.triesBefore || 0) + (row.triesLost || 0));
+                    return `
                                             <tr class="${rowClass}">
                                                 <td style="text-align: center;">${row.position}</td>
                                                 <td>${row.team}</td>
@@ -2749,22 +3218,22 @@
                                                 <td style="text-align: center;">${row.points}</td>
                                             </tr>
                                         `;
-                                    }).join('')}
+                }).join('')}
                                 </tbody>
                             </table>
                         </div>
                         <div style="margin-top: 0.5rem;">
                             ${createLeagueResultsPanel(
-                                'league-results-panel-1',
-                                `Charts/league/results.html?season=${encodeURIComponent(leagueSeason)}&squad=1`,
-                                '1st XV Results',
-                                'chart-panel-toggle--primary'
-                            )}
+                    'league-results-panel-1',
+                    `Charts/league/results.html?season=${encodeURIComponent(leagueSeason)}&squad=1`,
+                    '1st XV Results',
+                    'chart-panel-toggle--primary'
+                )}
                         </div>
                     </div>
                 `;
             }
-            
+
             // Render 2nd team
             if (seasonData['2']) {
                 const squad2 = seasonData['2'];
@@ -2794,10 +3263,10 @@
                                 </thead>
                                 <tbody>
                                     ${squad2.tables.map(row => {
-                                        const isEGRFC = row.team.toLowerCase().includes('east grinstead');
-                                        const rowClass = isEGRFC ? 'league-highlight-row league-highlight-row-2nd' : '';
-                                        const bonusPoints = row.bonusPoints ?? ((row.triesBefore || 0) + (row.triesLost || 0));
-                                        return `
+                    const isEGRFC = row.team.toLowerCase().includes('east grinstead');
+                    const rowClass = isEGRFC ? 'league-highlight-row league-highlight-row-2nd' : '';
+                    const bonusPoints = row.bonusPoints ?? ((row.triesBefore || 0) + (row.triesLost || 0));
+                    return `
                                             <tr class="${rowClass}">
                                                 <td style="text-align: center;">${row.position}</td>
                                                 <td>${row.team}</td>
@@ -2812,38 +3281,38 @@
                                                 <td style="text-align: center;">${row.points}</td>
                                             </tr>
                                         `;
-                                    }).join('')}
+                }).join('')}
                                 </tbody>
                             </table>
                         </div>
                         <div style="margin-top: 0.5rem;">
                             ${createLeagueResultsPanel(
-                                'league-results-panel-2',
-                                `Charts/league/results.html?season=${encodeURIComponent(leagueSeason)}&squad=2`,
-                                '2nd XV Results',
-                                'chart-panel-toggle--accent'
-                            )}
+                    'league-results-panel-2',
+                    `Charts/league/results.html?season=${encodeURIComponent(leagueSeason)}&squad=2`,
+                    '2nd XV Results',
+                    'chart-panel-toggle--accent'
+                )}
                         </div>
                     </div>
                 `;
             }
-            
+
             container.innerHTML = html;
             initialiseChartPanelToggles();
         }
 
         // Setup top navigation links
-        document.addEventListener('DOMContentLoaded', async function() {
+        document.addEventListener('DOMContentLoaded', async function () {
             // Load available seasons first
             await loadAvailableSeasons();
 
             // Navigation links in navbar
             document.querySelectorAll('[data-page]').forEach(link => {
-                link.addEventListener('click', function(e) {
+                link.addEventListener('click', function (e) {
                     e.preventDefault();
                     const page = this.getAttribute('data-page');
                     navigateTo(page);
-                    
+
                     // Close mobile navbar if open
                     const navbar = document.querySelector('.navbar-collapse');
                     if (navbar && navbar.classList.contains('show')) {
@@ -2884,7 +3353,7 @@
                 $seasonSelect.selectpicker('val', selectedLeagueSeason);
 
                 // Listen for changes (on the bootstrap-selectpicker change event)
-                $seasonSelect.on('change', function() {
+                $seasonSelect.on('change', function () {
                     if (currentPage === 'league-tables') {
                         renderLeagueTables();
                     }

@@ -19,7 +19,7 @@
     width: 100% !important;
     min-width: 0 !important;
     align-items: stretch;
-    background: var(--light-color);
+    background: var(--chart-surface-color);
 }
 
 #team-sheets-content {
@@ -38,6 +38,25 @@
     padding: 0 !important;
 }
 
+.chart-embed-host {
+    display: inline-block;
+    width: auto;
+    min-width: 100%;
+}
+
+.chart-embed-host--team-sheets {
+    min-width: max-content;
+}
+
+.player-stats-chart-container {
+    display: inline-block;
+    min-height: 320px;
+    width: fit-content;
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
 #results-vis,
 #team-sheets-vis,
 #player-stats-vis,
@@ -49,7 +68,7 @@
 #league-vis {
     min-width: 0;
     width: 100%;
-    background: var(--light-color);
+    background: var(--chart-surface-color);
 }
 
 .league-results-grid {
@@ -73,7 +92,7 @@
     width: 100%;
     min-height: 320px;
     border: none;
-    background: var(--light-color);
+    background: var(--chart-surface-color);
     display: block;
     margin: 0;
 }
@@ -83,7 +102,7 @@
     max-width: 700px;
     min-height: 280px;
     border: none;
-    background: var(--light-color);
+    background: var(--chart-surface-color);
     display: block;
     margin: 0;
 }
@@ -94,9 +113,45 @@
     align-items: center;
     justify-content: center;
     color: var(--dark-color);
-    border: 1px solid var(--light-color);
-    background: var(--light-color);
+    border: 1px solid var(--chart-surface-color);
+    background: var(--chart-surface-color);
     padding: 1rem;
+}
+
+.team-sheets-page-shell {
+    padding-top: 1.25rem !important;
+}
+
+.team-sheets-header {
+    margin-bottom: 0.9rem !important;
+}
+
+.team-sheets-chart-shell {
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    -webkit-overflow-scrolling: touch;
+    min-height: 0 !important;
+    padding: 0 !important;
+}
+
+#teamSheetsChart .vega-embed,
+#teamSheetsChart .vega-embed > div {
+    width: max-content !important;
+    min-width: max-content !important;
+}
+
+#teamSheetsChart .vega-embed {
+    margin: 0 !important;
+}
+
+#teamSheetsChart .vega-bindings {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
+
+#teamSheetsChart svg,
+#teamSheetsChart canvas {
+    display: block;
 }
 
 /* ===== OPT-IN MOBILE SCALE UTILITIES =====
@@ -123,6 +178,14 @@
     .tab-pane {
         min-width: 500px;
         /* Adjust container to accommodate scaled content */
+    }
+
+    .team-sheets-page-shell {
+        padding-top: 0.85rem !important;
+    }
+
+    .team-sheets-header {
+        margin-bottom: 0.65rem !important;
     }
 }
 

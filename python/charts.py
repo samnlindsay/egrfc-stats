@@ -554,173 +554,438 @@ def lineout_success_by_zone(df=None, squad="1st", min_total=20, file=None):
 
 
 
-def points_scorers_chart(df=None, file=None):
+def points_scorers_chart(db, output_file='data/charts/point_scorers.json'):
+    """Canonical Player Stats scoring chart.
 
-    selection = alt.selection_point(fields=['Type'], bind='legend')
+    Supported filters in the generated Vega spec:
+        seasonParam     – [] (all seasons) or an array of season labels
+        squadParam      – 'All', '1st', or '2nd'
+        scoreTypeParam  – 'Total', 'Tries', or 'Kicks'
 
-    squad_selection = alt.param(
-        bind=alt.binding_radio(options=["1st", "2nd", "Total"], name="Squad"),
-        value="Total",
-        name="squadSelection"
+    Game type and position are not available from the season_scorers source, so those
+    UI filters are intentionally not applied to this chart.
+    """
+
+    base_df = db.con.execute(
+        """
+        SELECT
+            squad,
+            season,
+            player,
+            COALESCE(tries, 0) AS tries,
+            COALESCE(conversions, 0) AS conversions,
+            COALESCE(penalties, 0) AS penalties,
+            COALESCE(drop_goals, 0) AS drop_goals,
+            COALESCE(points, 0) AS total_points
+        FROM season_scorers
+        """
+    ).df()
+
+    if base_df.empty:
+        base_df = pd.DataFrame(
+            columns=['player', 'squad', 'season', 'score_type', 'component', 'value', 'component_order']
+        )
+
+    total_rows = pd.concat([
+        base_df.assign(
+            score_type='Total',
+            component='Tries',
+            value=base_df['tries'] * 5,
+            component_order=1,
+        ),
+        base_df.assign(
+            score_type='Total',
+            component='Conversions',
+            value=base_df['conversions'] * 2,
+            component_order=2,
+        ),
+        base_df.assign(
+            score_type='Total',
+            component='Penalties',
+            value=base_df['penalties'] * 3,
+            component_order=3,
+        ),
+        base_df.assign(
+            score_type='Total',
+            component='Drop Goals',
+            value=base_df['drop_goals'] * 3,
+            component_order=4,
+        ),
+    ], ignore_index=True)
+
+    tries_rows = base_df.assign(
+        score_type='Tries',
+        component='Tries',
+        value=base_df['tries'],
+        component_order=1,
     )
 
-    season_selection = alt.param(
-        bind=alt.binding_select(options=["All", *seasons[::-1], *seasons_hist[::-1]], name="Season"), 
-        value="2024/25",
-        name="seasonSelection"
+    kicks_rows = pd.concat([
+        base_df.assign(
+            score_type='Kicks',
+            component='Conversions',
+            value=base_df['conversions'] * 2,
+            component_order=2,
+        ),
+        base_df.assign(
+            score_type='Kicks',
+            component='Penalties',
+            value=base_df['penalties'] * 3,
+            component_order=3,
+        ),
+        base_df.assign(
+            score_type='Kicks',
+            component='Drop Goals',
+            value=base_df['drop_goals'] * 3,
+            component_order=4,
+        ),
+    ], ignore_index=True)
+
+    df = pd.concat([total_rows, tries_rows, kicks_rows], ignore_index=True)
+    df = df[df['value'] > 0].copy()
+
+    season_param = alt.param(name='seasonParam', value=[])
+    squad_param = alt.param(name='squadParam', value='All')
+    score_type_param = alt.param(name='scoreTypeParam', value='Total')
+
+    value_axis = alt.Axis(orient='top', title='Points')
+
+    color_scale = alt.Scale(
+        domain=['Tries', 'Conversions', 'Penalties', 'Drop Goals'],
+        range=[ '#981515', '#202946', '#7d96e8', '#4b5563']
     )
 
-    base = (
-        alt.Chart(df if df is not None else {"name": "df", "url":'https://raw.githubusercontent.com/samnlindsay/egrfc-stats/main/data/players_agg.json',"format":{'type':"json"}})
-        .transform_filter("datum.Points > 0")
-        .transform_filter(f"datum.Season == {season_selection.name} | {season_selection.name} == 'All'")
-        .transform_filter(f"datum.Squad == {squad_selection.name} | {squad_selection.name} == 'Total'")
-        .transform_aggregate(
-            Games="sum(A)",
-            T="sum(T)",
-            PK="sum(PK)",
-            Con="sum(Con)",
-            Tries="sum(Tries)",
-            Pens="sum(Pens)",
-            Cons="sum(Cons)",
-            Points="sum(Points)",
-            groupby=["Player"]
-        )
-        .transform_fold(["Tries", "Pens", "Cons"], as_=["Type", "Points"])
-        .transform_filter(selection)
-        .transform_calculate(
-            label="if(datum.T>0, datum.T + 'T ','') + if(datum.PK>0, datum.PK + 'P ', '') + if(datum.Con>0, datum.Con + 'C ', '')"
-        )
-        .transform_joinaggregate(
-            label="max(label)",
-            totalpoints="sum(Points)",
-            groupby=["Player"]
-        )
-        .transform_calculate(
-            PPG="datum.totalpoints / datum.Games"
-        )
-        .transform_filter("datum.totalpoints > 0")
-        .encode(
-            order=alt.Order("Type:N", sort="descending"),
-            y=alt.Y("Player:N", sort="-x", title=None),
-            text=alt.Text("label:N")
-        )
+    bars = alt.Chart(df).mark_bar().encode(
+        x=alt.X('sum(value):Q', axis=value_axis),
+        y=alt.Y(
+            'player:N',
+            sort=alt.EncodingSortField(field='player_total', order='descending', op='max'),
+            title=None,
+        ),
+        color=alt.Color(
+            'component:N',
+            scale=color_scale,
+            legend=alt.Legend(title=None, orient='bottom-right')
+        ),
+        order=alt.Order('component_order:Q', sort='ascending'),
+        tooltip=[
+            alt.Tooltip('player:N', title='Player'),
+            alt.Tooltip('component:N', title='Score Type'),
+            alt.Tooltip('sum(value):Q', title='Value'),
+            alt.Tooltip('max(player_total):Q', title='Total'),
+        ]
     )
 
-    bar = (
-        base.mark_bar()
-        .encode(
-            x=alt.X("sum(Points):Q", axis=alt.Axis(orient="top", title="Points")),
-            color=alt.Color(
-                "Type:N", 
-                legend=alt.Legend(
-                    title="Click to filter",
-                    titleOrient="top",
-                    orient="none",
-                    legendX=300,
-                    legendY=100
-                ), 
-                scale=alt.Scale(domain=['Tries', 'Pens', 'Cons'], range=["#202947", "#981515", "#146f14"])
-            ),
-            tooltip=[
-                alt.Tooltip("Player:N", title=" "), 
-                alt.Tooltip("label:N", title="Scores"),
-                alt.Tooltip("Type:N", title=None),
-                alt.Tooltip("Points:Q", title="Points"),
-                alt.Tooltip("Games:Q", title="Games"),
-                alt.Tooltip("totalpoints:Q", title="Total Points"),
-                alt.Tooltip("PPG:Q", title="Points per game", format=".2f")
-            ],
-        )
-        .properties(width=400, height=alt.Step(16))
-    )
-    
-    text = (
-        base
-        .transform_aggregate(
-            totalpoints="max(totalpoints)",
-            label="max(label)",
-            groupby=["Player"]
-        )
-        .mark_text(align="left", dx=5, color="black")
-        .encode(
-            y=alt.Y(
-                "Player:N", 
-                sort="-x",
-                title=None,
-                axis=None
-            ),
-            x=alt.X("totalpoints:Q")
-        )
+    total_labels = alt.Chart(df).transform_aggregate(
+        total_value='sum(value)',
+        player_total='max(player_total)',
+        groupby=['player']
+    ).mark_text(
+        align='left',
+        baseline='middle',
+        dx=4,
+        fontSize=11,
+        color='black'
+    ).encode(
+        x=alt.X('total_value:Q', axis=value_axis),
+        y=alt.Y(
+            'player:N',
+            sort=alt.EncodingSortField(field='player_total', order='descending', op='max'),
+            title=None,
+        ),
+        text=alt.Text('total_value:Q', format='.0f')
     )
 
     chart = (
-        (bar + text).resolve_scale(x="shared", y="independent")
-        .add_params(selection, season_selection, squad_selection)
-        .properties(title=alt.Title(text="Points Scorers", subtitle="According to Pitchero data"))
+        alt.layer(bars, total_labels)
+        .transform_filter('length(seasonParam) === 0 || indexof(seasonParam, datum.season) >= 0')
+        .transform_filter('squadParam === "All" || datum.squad === squadParam')
+        .transform_filter('scoreTypeParam === datum.score_type')
+        .transform_joinaggregate(player_total='sum(value)', groupby=['player'])
+        .transform_filter('datum.player_total > 0')
+        .add_params(season_param, squad_param, score_type_param)
+        .properties(
+            title=alt.Title(
+                'Top Scorers'
+            ),
+            width=400,
+            height=alt.Step(15)
+        )
     )
 
-    if file:
-        chart.save(file, embed_options=get_embed_options())
-        hack_params_css(file, params=True)
-
+    chart.save(output_file)
     return chart
 
-def captains_chart(df=None, file=None):
+def captains_chart(db, output_file='data/charts/player_stats_captains.json'):
+    """Captains and vice-captains, faceted by squad. Captain=full opacity, VC=reduced opacity."""
 
-    selection = alt.selection_point(fields=['Role'], bind='legend')
+    df = db.con.execute(
+        """
+        WITH base AS (
+            SELECT
+                P.player,
+                G.squad,
+                G.season,
+                G.game_type,
+                CASE
+                    WHEN P.is_captain THEN 'Captain'
+                    ELSE 'Vice Captain'
+                END AS role,
+                COUNT(*) AS games
+            FROM player_appearances P
+            LEFT JOIN games G USING (game_id)
+            WHERE P.is_captain OR P.is_vice_captain
+            GROUP BY P.player, G.squad, G.season, G.game_type, role
+        )
+        SELECT player, squad, season, game_type, role, games
+        FROM base
 
-    season_selection = alt.param(
-        bind=alt.binding_select(options=["All", *seasons[::-1]], name="Season"), 
-        value="All",
-        name="seasonSelection"
+        UNION ALL
+
+        SELECT
+            player,
+            squad,
+            'Total' AS season,
+            game_type,
+            role,
+            SUM(games) AS games
+        FROM base
+        GROUP BY player, squad, game_type, role
+        """
+    ).df()
+
+    # Sort within each facet panel by that squad's total (so 1st XV and 2nd XV rank independently).
+    sort_totals = (
+        df[df['season'] == 'Total']
+        .groupby(['player', 'squad'])['games']
+        .sum()
+        .rename('sort_total')
+        .reset_index()
+    )
+    df = df.merge(sort_totals, on=['player', 'squad'], how='left')
+    df['sort_total'] = df['sort_total'].fillna(0)
+
+    role_order = {'Captain': 1, 'Vice Captain': 2}
+    df['stack_order'] = df['role'].map(role_order).fillna(99)
+
+    color_enc = alt.Color(
+        'squad:N',
+        sort=['1st', '2nd'],
+        scale=alt.Scale(domain=['1st', '2nd'], range=['#202946', '#7d96e8']),
+        legend=None
+    )
+    y_enc = alt.Y(
+        'player:N',
+        sort=alt.SortField(field='sort_total', order='descending'),
+        title=None,
+    )
+    tooltip = [
+        alt.Tooltip('player:N', title='Player'),
+        alt.Tooltip('squad:N', title='Squad'),
+        alt.Tooltip('role:N', title='Role'),
+        alt.Tooltip('games_agg:Q', title='Games'),
+    ]
+
+    bars = (
+        alt.Chart(df)
+        .transform_aggregate(
+            games_agg='sum(games)',
+            sort_total='max(sort_total)',
+            groupby=['player', 'squad', 'role', 'stack_order']
+        )
+        .transform_window(
+            x2='sum(games_agg)',
+            groupby=['player', 'squad'],
+            sort=[alt.SortField(field='stack_order', order='ascending')],
+            frame=[None, 0]
+        )
+        .transform_calculate(x0='datum.x2 - datum.games_agg')
+        .mark_bar()
+        .encode(
+            x=alt.X('x0:Q', axis=alt.Axis(title=None, orient='top')),
+            x2=alt.X2('x2:Q'),
+            y=y_enc,
+            color=color_enc,
+            opacity=alt.Opacity(
+                'role:N',
+                sort=['Captain', 'Vice Captain'],
+                scale=alt.Scale(domain=['Captain', 'Vice Captain'], range=[1.0, 0.45]),
+                legend=alt.Legend(title=None, orient='none', legendX=250, legendY=100)
+            ),
+            order=alt.Order('stack_order:Q', sort='ascending'),
+            tooltip=tooltip,
+        )
     )
 
-    squad_selection = alt.param(
-        bind=alt.binding_radio(options=["1st", "2nd", "Both"], name="Squad"),
-        value="Both",
-        name="squadSelection"
+    totals = (
+        alt.Chart(df)
+        .transform_aggregate(
+            total_games='sum(games)',
+            sort_total='max(sort_total)',
+            groupby=['player', 'squad']
+        )
+        .mark_text(align='left', baseline='middle', dx=4, fontSize=11, color='black')
+        .encode(
+            x=alt.X('total_games:Q', axis=alt.Axis(title=None, orient='top')),
+            y=alt.Y(
+                'player:N',
+                sort=alt.SortField(field='sort_total', order='descending'),
+                title=None,
+            ),
+            text=alt.Text('total_games:Q', format='.0f')
+        )
     )
 
     chart = (
-       alt.Chart(df if df is not None else {"name": "df", "url":'https://raw.githubusercontent.com/samnlindsay/egrfc-stats/main/data/game.json',"format":{'type':"json"}})
-        .transform_fold(["Captain", "VC1", "VC2"], as_=["Role", "Player"])
-        .transform_calculate(Role="datum.Role == 'Captain' ? 'Captain' : 'VC'")
-        .transform_filter("datum.Player != null && datum.Player != ''")
-        .mark_bar()
-        .encode(
-            y=alt.X("Player:N", title=None, sort="-x"),
-            x=alt.X("count()", title="Games", sort=alt.EncodingSortField(field="Role", order="descending"), axis=alt.Axis(orient="top")),
-            color=alt.Color("Role:N",
-                scale=alt.Scale(domain=["Captain", "VC"], range=["#202947", "#146f14"]),
-                legend=alt.Legend(title=None, direction="horizontal", orient="bottom")
-            ), 
-            row=alt.Row("Squad:N", header=alt.Header(title=None, labelFontSize=36, labelExpr="datum.value + ' XV'"), spacing=50),
-            order=alt.Order("order:N", sort="ascending"),
-            opacity=alt.condition("datum.GameType == 'Friendly'", alt.value(0.5), alt.value(1)),
-            tooltip=[
-                alt.Tooltip("Player:N", title="Player"),
-                alt.Tooltip("count()", title="Games"),
-                alt.Tooltip("Role:N", title="Role"),
-                alt.Tooltip("GameType:N", title="Game Type"),
-            ]
+        alt.layer(bars, totals)
+        .properties(width=400, height=alt.Step(15))
+        .facet(
+            row=alt.Row(
+                'squad:N',
+                sort=['1st', '2nd'],
+                title=None,
+                header=alt.Header(title=None, labelFontSize=30, labelExpr="datum.value + ' XV'")
+            )
         )
-        .transform_calculate(order = "(datum.Role=='Captain' ? 'a' : 'b') + (datum.GameType == 'Friendly' ? 'b' : 'a')")
-        .add_params(season_selection, squad_selection, selection)
-        .transform_filter(selection)
-        .transform_filter(f"datum.Season == {season_selection.name} | {season_selection.name} == 'All'")
-        .transform_filter(f"datum.Squad == {squad_selection.name} | {squad_selection.name} == 'Both'")
+        .resolve_scale(y='independent')
         .properties(
-            title=alt.Title("Match Day Captains", subtitle="Captains and Vice-Captains (if named). Friendly games are shaded lighter."),
-            width=350,
-            height=alt.Step(16)
+            title=alt.Title(
+                'Captains and Vice-Captains',
+                subtitle='Named captains and vice-captains, since Pitchero records began in 2016/17.',
+            )
         )
-        .resolve_scale(x="shared", y="independent", opacity="shared")
     )
-    if file:
-        chart.save(file, embed_options=get_embed_options())
-        hack_params_css(file)
 
+    chart.save(output_file)
+    return chart
+
+def player_stats_appearances_chart(db, output_file='data/charts/player_stats_appearances.json'):
+    """Player appearances split by start/bench for each squad.
+
+    Filtering and sort-order are computed entirely within Vega-Lite using params and transforms,
+    so the JS only needs to set param values before calling vegaEmbed — no manual dataset
+    manipulation required.  The five params are:
+        seasonParam     – [] (all seasons) or an array of season labels
+        gameTypesParam  – [] (all) or an array of allowed game_type strings
+        squadParam      – 'All', '1st', or '2nd'
+        positionsParam  – [] (all) or an array of position strings
+        minAppsParam    – minimum total appearances threshold (integer)
+    """
+    df = db.con.execute(
+        """
+        WITH base AS (
+            SELECT
+                P.player,
+                G.squad,
+                G.season,
+                G.game_type,
+                COALESCE(P.position, 'Unknown') AS position,
+                CASE
+                    WHEN P.is_starter THEN 'Start'
+                    WHEN NOT P.is_starter THEN 'Bench'
+                    ELSE 'Unknown'
+                END AS start,
+                COUNT(*) AS games
+            FROM player_appearances P
+            LEFT JOIN games G USING (game_id)
+            GROUP BY P.player, G.squad, G.season, G.game_type, position, start
+        )
+        SELECT player, squad, season, game_type, position, start, games
+        FROM base
+        """
+    ).df()
+
+    stack_order_map = {
+        ('1st', 'Start'): 1,
+        ('1st', 'Bench'): 2,
+        ('1st', 'Unknown'): 3,
+        ('2nd', 'Start'): 4,
+        ('2nd', 'Bench'): 5,
+        ('2nd', 'Unknown'): 6,
+    }
+    df['stack_order'] = df.apply(
+        lambda row: stack_order_map.get((row['squad'], row['start']), 99),
+        axis=1
+    )
+
+    # Vega-Lite params — JS updates `.value` on these before calling vegaEmbed.
+    season_param = alt.param(name='seasonParam', value=[])
+    game_types_param = alt.param(name='gameTypesParam', value=[])
+    squad_param = alt.param(name='squadParam', value='All')
+    positions_param = alt.param(name='positionsParam', value=[])
+    min_apps_param = alt.param(name='minAppsParam', value=5)
+
+    bars = alt.Chart(df).mark_bar().encode(
+        x=alt.X('sum(games):Q', axis=alt.Axis(title=None, orient='top')),
+        y=alt.Y(
+            'player:N',
+            sort=alt.EncodingSortField(field='player_total', order='descending', op='max'),
+            title=None,
+        ),
+        color=alt.Color(
+            'squad:N',
+            sort=['1st', '2nd'],
+            scale=alt.Scale(domain=['1st', '2nd'], range=['#202946', '#7d96e8']),
+            legend=alt.Legend(title='Squad', orient='top', labelExpr="datum.value + ' XV'", titleOrient='left')
+        ),
+        opacity=alt.Opacity(
+            'start:N',
+            sort=['Start', 'Bench', 'Unknown'],
+            scale=alt.Scale(domain=['Start', 'Bench', 'Unknown'], range=[1.0, 0.35, 0.2]),
+            legend=alt.Legend(title='Selection', orient='bottom')
+        ),
+        order=alt.Order('stack_order:Q', sort='ascending'),
+        tooltip=[
+            alt.Tooltip('player:N', title='Player'),
+            alt.Tooltip('squad:N', title='Squad'),
+            alt.Tooltip('start:N', title='Selection'),
+            alt.Tooltip('sum(games):Q', title='Games'),
+            alt.Tooltip('max(player_total):Q', title='Total'),
+        ]
+    ).properties(
+        width=400,
+        height=alt.Step(15)
+    )
+
+    # One row per player after per-layer aggregate; sort matches bars layer.
+    total_labels = alt.Chart(df).transform_aggregate(
+        total_games='sum(games)',
+        player_total='max(player_total)',
+        groupby=['player']
+    ).mark_text(
+        align='left',
+        baseline='middle',
+        dx=4,
+        fontSize=11,
+        color='black'
+    ).encode(
+        x=alt.X('total_games:Q', axis=alt.Axis(title=None, orient='top')),
+        y=alt.Y(
+            'player:N',
+            sort=alt.EncodingSortField(field='player_total', order='descending', op='max'),
+            title=None,
+        ),
+        text=alt.Text('total_games:Q', format='.0f')
+    )
+
+    # Top-level transforms run before any layer-level transforms.
+    # Vega therefore filters → joins → filters again, then both layers sort by the
+    # explicit post-filter player_total field.
+    chart = (
+        alt.layer(bars, total_labels)
+        .transform_filter('length(seasonParam) === 0 || indexof(seasonParam, datum.season) >= 0')
+        .transform_filter('length(gameTypesParam) === 0 || indexof(gameTypesParam, datum.game_type) >= 0')
+        .transform_filter('squadParam === "All" || datum.squad === squadParam')
+        .transform_filter('length(positionsParam) === 0 || indexof(positionsParam, datum.position) >= 0')
+        .transform_joinaggregate(player_total='sum(games)', groupby=['player'])
+        .transform_filter('datum.player_total >= minAppsParam')
+        .add_params(season_param, game_types_param, squad_param, positions_param, min_apps_param)
+        .properties(
+            title=alt.Title('Total Appearances', subtitle='Since Pitchero data began in 2016/17 season')
+        )
+    )
+
+    chart.save(output_file)
     return chart
 
 def results_chart(df=None, file=None):

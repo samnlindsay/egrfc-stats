@@ -241,10 +241,14 @@ const SeasonSummary = (() => {
         const playedElement = document.getElementById(`${prefix}-played`);
 
         if (resultData && resultData.games_played) {
-            if (wonElement) wonElement.textContent = Math.round(resultData.games_won || 0);
-            if (lostElement) lostElement.textContent = Math.round(resultData.games_lost || 0);
-            if (drawnElement) drawnElement.textContent = Math.round(resultData.games_drawn || 0);
-            if (playedElement) playedElement.textContent = Math.round(resultData.games_played || 0);
+            const w = Math.round(resultData.games_won || 0);
+            const d = Math.round(resultData.games_drawn || 0);
+            const l = Math.round(resultData.games_lost || 0);
+            const p = Math.round(resultData.games_played || 0);
+            if (wonElement) wonElement.textContent = w;
+            if (lostElement) lostElement.textContent = l;
+            if (drawnElement) drawnElement.textContent = d;
+            if (playedElement) playedElement.textContent = p;
         } else {
             if (wonElement) wonElement.textContent = '-';
             if (lostElement) lostElement.textContent = '-';

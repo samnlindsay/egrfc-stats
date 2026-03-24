@@ -1,6 +1,17 @@
 /* ===== MOBILE RESPONSIVE ===== */
 @media (max-width: 768px) {
 
+    /* Page header: stack title/desc above filters on narrow screens */
+    .page-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .page-header-filters {
+        padding-top: 0;
+    }
+
+
     /* Tighter page container padding on mobile */
     .page-content > div {
         padding: 1rem 0.75rem !important;
@@ -32,7 +43,40 @@
         font-size: 0.8rem !important;
     }
 
-    .squad-stats-top-filters #squadStatsMinAppearancesInput {
+    .squad-stats-top-filters #squadStatsMinAppsSelect {
+        min-width: 2rem !important;
+        max-width: 3rem !important;
+        width: 3rem !important;
+        flex: 0 0 3rem !important;
+        font-size: 0.8rem;
+    }
+
+    .chart-panel-filters {
+        gap: 0.4rem;
+        padding: 0.75rem 0.75rem 0.5rem 0.75rem;
+    }
+
+    .chart-panel-filters .input-group-text {
+        width: auto !important;
+        min-width: 0 !important;
+        flex: 0 0 auto !important;
+        padding-left: 0.4rem !important;
+        padding-right: 0.4rem !important;
+        font-size: 0.75rem !important;
+    }
+
+    .chart-panel-filters .bootstrap-select {
+        min-width: 0 !important;
+        width: fit-content !important;
+    }
+
+    .chart-panel-filters .bootstrap-select .dropdown-toggle {
+        min-width: 0 !important;
+        padding: 0.3rem 0.4rem !important;
+        font-size: 0.8rem !important;
+    }
+
+    .chart-panel-filters input.form-control {
         min-width: 2rem !important;
         max-width: 3rem !important;
         width: 3rem !important;
@@ -127,21 +171,15 @@
         white-space: nowrap !important;
     }
 
-    /* Compact W/D/L/P cards on Season Summary while keeping one-row layout */
-    #seasonSummary1stResults .col-3,
-    #seasonSummary2ndResults .col-3 {
-        padding-left: 0.25rem;
-        padding-right: 0.25rem;
-    }
-
-    #seasonSummary1stResults .squad-metric-card .card-header,
-    #seasonSummary2ndResults .squad-metric-card .card-header {
+    /* Compact W/D/L/P cells on Season Summary while keeping one-row layout */
+    #seasonSummary1stResults .squad-metric-card-header,
+    #seasonSummary2ndResults .squad-metric-card-header {
         padding: 0.2rem 0.1rem;
         line-height: 1.1;
     }
 
-    #seasonSummary1stResults .squad-metric-card .card-body,
-    #seasonSummary2ndResults .squad-metric-card .card-body {
+    #seasonSummary1stResults .season-result-cell-body,
+    #seasonSummary2ndResults .season-result-cell-body {
         padding: 0.2rem 0.1rem;
     }
 
@@ -289,8 +327,8 @@
         max-width: 240px !important;
     }
 
-    #seasonSummary1stResults .squad-metric-card .card-header,
-    #seasonSummary2ndResults .squad-metric-card .card-header {
+    #seasonSummary1stResults .squad-metric-card-header,
+    #seasonSummary2ndResults .squad-metric-card-header {
         font-size: 0.9rem;
         padding: 0.15rem 0.05rem;
         line-height: 1.05;

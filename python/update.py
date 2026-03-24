@@ -1,16 +1,20 @@
 import sys
 from pathlib import Path
 import argparse
+import os
 
 # Add project root to Python path
-project_root = Path(__file__).parent.parent
+project_root = Path(__file__).resolve().parent.parent
 if str(project_root) not in sys.path:
     sys.path.insert(0, str(project_root))
+
+# Always resolve relative paths from the project root, regardless of cwd
+os.chdir(project_root)
 
 from python.backend import BackendConfig, BackendDatabase
 from python.data import *
 from python.charts import lineout_success_by_zone as plot_lineout_success_by_zone
-from python.charts import squad_size_trend_chart, squad_continuity_average_chart
+from python.charts import squad_size_trend_chart, squad_continuity_average_chart, captains_chart, player_stats_appearances_chart, points_scorers_chart
 from python.league_stats import (
     export_web_charts as export_league_web_charts,
     create_season_results_charts,
@@ -82,308 +86,6 @@ def _table_exists(con, table_name: str) -> bool:
 def _using_canonical_backend(db) -> bool:
     con = db.con
     return _table_exists(con, "season_scorers") and _table_exists(con, "players")
-
-def appearance_chart(db, output_file='data/charts/player_appearances.json'):
-    if _using_canonical_backend(db):
-        historic_seasons = sorted(HISTORIC_PITCHERO_SEASON_IDS.keys())
-        season_list_sql = ", ".join([f"'{season}'" for season in historic_seasons])
-
-        df_modern = db.con.execute(
-            """
-        SELECT
-            player,
-            squad,
-            season,
-            game_type,
-            position,
-            unit,
-            is_starter,
-            CASE
-                WHEN is_starter THEN 'Start'
-                WHEN NOT is_starter THEN 'Bench'
-                ELSE 'Unknown'
-            END AS start,
-            COUNT(*) AS games
-        FROM player_appearances
-        WHERE season NOT IN (""" + season_list_sql + """)
-        GROUP BY player, squad, season, game_type, position, unit, is_starter
-        ORDER BY games DESC
-        """
-        ).df()
-
-        df_historic = db.con.execute(
-            """
-            SELECT
-                player,
-                squad,
-                season,
-                NULL AS game_type,
-                'Unknown' AS position,
-                'Unknown' AS unit,
-                NULL::BOOLEAN AS is_starter,
-                'Unknown' AS start,
-                CASE
-                    WHEN pitchero_appearances > 0 THEN pitchero_appearances
-                    ELSE scraped_appearances
-                END AS games
-            FROM v_season_player_appearances_reconciled
-            WHERE season IN (""" + season_list_sql + """)
-            """
-        ).df()
-
-        df = pd.concat([df_modern, df_historic], ignore_index=True)
-        df["games"] = pd.to_numeric(df["games"], errors="coerce").fillna(0).astype(int)
-        df = df[df["games"] > 0]
-    else:
-        df = db.con.execute(
-            """
-        SELECT
-            P.player,
-            G.squad,
-            G.season,
-            G.game_type,
-            P.position,
-            P.unit,
-            P.is_starter,
-            IF(P.is_starter, 'Start', IF(NOT(P.is_starter), 'Bench', 'Unknown')) AS start,
-            COUNT(*) AS games
-        FROM player_appearances P
-        LEFT JOIN games G USING (game_id)
-        GROUP BY P.player, G.squad, G.season, G.game_type, P.position, P.unit, P.is_starter
-        ORDER BY games DESC
-        """
-        ).df()
-
-        df_pitchero_historic = db.con.execute(
-            """
-        SELECT
-            player_join,
-            squad,
-            season,
-            MAX(A) AS games,
-            NULL AS game_type,
-            NULL AS position,
-            NULL AS unit,
-            'Unknown' AS start
-        FROM pitchero_stats
-        WHERE season < '2020/21'
-        GROUP BY player_join, squad, season
-        """
-        ).df()
-
-        df['player_join'] = df['player'].apply(clean_name)
-
-        name_lookup = df.set_index('player_join')['player'].to_dict()
-        name_lookup.update(other_names)
-
-        df.drop(columns=['player_join'], inplace=True)
-
-        df_pitchero_historic['player_join'] = df_pitchero_historic['player_join'].map(lambda x: name_lookup[x] if x in name_lookup else x)
-        df_pitchero_historic.rename(columns={'player_join': 'player'}, inplace=True)
-
-        df = pd.concat([df, df_pitchero_historic], ignore_index=True)
-
-    # Add text mark showing total games per player, calculated dynamically in the chart spec
-    text = alt.Chart(df).mark_text(
-        align='left',
-        baseline='middle',
-        dx=3,
-        fontSize=12
-    ).encode(
-        y=alt.Y('player:N', sort="-x"),
-        x=alt.X('sum(games):Q'),
-        text=alt.Text('sum(games):Q')
-    )
-
-    chart = alt.Chart(df).mark_bar().encode(
-        x=alt.X("sum(games):Q", axis=alt.Axis(title=None, orient="top")),
-        y=alt.Y("player:N", sort="-x", title=None),
-        color=alt.Color('squad:N', title='Squad', scale=squad_scale, legend=alt.Legend(orient="right")),
-        opacity=alt.Opacity(
-            'start:N',
-            scale=alt.Scale(
-                domain=['Start', 'Bench', 'Unknown'],
-                range=[1.0, 0.7, 0.4]
-            ),
-            legend=None
-        ),
-        order=alt.Order('squad:Q', sort='ascending'),
-        tooltip=[
-            alt.Tooltip('player:N', title='Player'),
-            alt.Tooltip('squad:N', title='Squad'),
-            alt.Tooltip('sum(games):Q', title='Games'),
-            alt.Tooltip('start:N', title='Started?'),
-        ]
-    ).properties(
-        width=400,
-        height=alt.Step(15),
-        title=alt.Title(text='Player Appearances', subtitle='Historic seasons use Pitchero season tables; modern seasons use team sheets. Positions are unknown for historic aggregate rows.')
-    ) + text
-
-    chart.save(output_file)
-
-    return chart
-
-
-def captains_chart(db, output_file='data/charts/captains.json'):
-    vc_col = "is_vice_captain" if _using_canonical_backend(db) else "is_vc"
-    df = db.con.execute(
-        f"""
-        SELECT
-            P.player,
-            G.squad,
-            G.season,
-            G.game_type,
-            P.is_captain,
-            COUNT(*) AS games
-        FROM player_appearances P
-        LEFT JOIN games G USING (game_id)
-        WHERE P.is_captain OR P.{vc_col}
-        GROUP BY P.player, G.squad, G.season, G.game_type, P.is_captain
-        ORDER BY games DESC
-        """
-    ).df()
-
-    chart = alt.Chart(df).mark_bar().encode(
-        x=alt.X("sum(games):Q", axis=alt.Axis(title=None, orient="top")),
-        y=alt.Y("player:N", sort="-x", title=None),
-        color=alt.Color("is_captain:N",
-            scale=alt.Scale(domain=[True, False], range=["#202946", "#7d96e8"]),
-            legend=alt.Legend(title=None, orient="none", legendX=300, legendY=50, labelExpr="datum.value ? 'Captain' : 'VC'"),
-        ),
-        order=alt.Order('is_captain:N', sort='descending'),
-        row=alt.Row('squad:N', title=None, header=alt.Header(title=None, labelFontSize=36, labelExpr="datum.value + ' XV'"), spacing=50),
-        tooltip=['player', 'squad', 'sum(games)', 'is_captain']
-    ).resolve_scale(
-        y='independent'
-    ).properties(
-        title=alt.Title("Match Day Captains", subtitle="Captains and Vice-Captains (if named)."),
-        width=350,
-        height=alt.Step(15)
-    )
-
-    chart.save(output_file)
-
-    return chart
-
-def point_scorers_chart(db, output_file='data/charts/point_scorers.json'):
-    if _using_canonical_backend(db):
-        df = db.con.execute(
-            """
-            WITH appearance_lookup AS (
-                SELECT
-                    squad,
-                    season,
-                    player,
-                    effective_appearances AS A
-                FROM v_season_player_appearances_reconciled
-            )
-
-            SELECT
-                S.player,
-                S.squad,
-                S.season,
-                'Try' AS event,
-                S.tries AS count,
-                S.tries * 5 AS Points,
-                COALESCE(A.A, 0) AS A
-            FROM season_scorers S
-            LEFT JOIN appearance_lookup A USING (squad, season, player)
-            WHERE S.tries > 0
-
-            UNION ALL
-
-            SELECT
-                S.player,
-                S.squad,
-                S.season,
-                'Con' AS event,
-                S.conversions AS count,
-                S.conversions * 2 AS Points,
-                COALESCE(A.A, 0) AS A
-            FROM season_scorers S
-            LEFT JOIN appearance_lookup A USING (squad, season, player)
-            WHERE S.conversions > 0
-
-            UNION ALL
-
-            SELECT
-                S.player,
-                S.squad,
-                S.season,
-                'Pen' AS event,
-                S.penalties AS count,
-                S.penalties * 3 AS Points,
-                COALESCE(A.A, 0) AS A
-            FROM season_scorers S
-            LEFT JOIN appearance_lookup A USING (squad, season, player)
-            WHERE S.penalties > 0
-
-            UNION ALL
-
-            SELECT
-                S.player,
-                S.squad,
-                S.season,
-                'DG' AS event,
-                S.drop_goals AS count,
-                S.drop_goals * 3 AS Points,
-                COALESCE(A.A, 0) AS A
-            FROM season_scorers S
-            LEFT JOIN appearance_lookup A USING (squad, season, player)
-            WHERE S.drop_goals > 0
-            """
-        ).df()
-    else:
-        df = db.con.execute(
-            """
-            SELECT
-                A.player,
-                P.*
-            FROM pitchero_stats P
-            LEFT JOIN (SELECT DISTINCT player, player_join FROM player_appearances) A
-            ON A.player_join = P.player_join
-            WHERE A.player IS NOT NULL
-            AND count > 0
-            AND event IN ('T', 'Con', 'PK', 'DG')
-            """
-        ).df()
-
-        df["Points"] = df.apply(lambda x: x["count"] * (5 if x["event"] == "T" else 2 if x["event"] == "Con" else 3 if x["event"] in ["PK", "DG"] else 0), axis=1)
-        df["event"] = df["event"].map(lambda x: "Try" if x == "T" else "Pen" if x == "PK" else x)
-
-    score_selection = alt.selection_point(fields=['event'], bind='legend')
-
-    chart = alt.Chart(df).mark_bar().encode(
-        x=alt.X("sum(Points):Q", axis=alt.Axis(title="Points", orient="top")),
-        y=alt.Y("player:N", sort="-x", title=None),
-        color=alt.Color(
-            'event:N', 
-            scale=alt.Scale(
-                domain=["Try", "Con", "Pen", "DG"],
-                range=["#202946", "#7d96e8", "#d62728", "#9467bd"]
-            ),
-            legend=alt.Legend(title='Click to filter', orient="none", legendX=300, legendY=100)
-        ),
-        order=alt.Order('event_sort:Q', sort='ascending'),
-        tooltip=[
-            alt.Tooltip('player:N', title='Player'),
-            alt.Tooltip('event:N', title='Type'),
-            alt.Tooltip('sum(count):Q', title='Count'),
-            alt.Tooltip('sum(Points):Q', title='Points'),
-            alt.Tooltip('sum(A):Q', title='Games'),
-        ]   
-    ).add_params(score_selection).transform_filter(score_selection).transform_calculate(
-        event_sort = "datum.event == 'Try' ? 1 : datum.event == 'Con' ? 2 : datum.event == 'Pen' ? 3 : datum.event == 'DG' ? 4 : 5"
-    ).properties(
-        width=400,
-        height=alt.Step(15),
-        title=alt.Title(text='Point Scorers', subtitle='Based on available Pitchero data. Click on legend to filter by score type.')
-    )
-
-    chart.save(output_file)
-
-    return chart
 
 def cards_chart(db, output_file='data/charts/cards.json'):
     if _using_canonical_backend(db):
@@ -598,9 +300,7 @@ def team_sheets_chart(db, output_file='data/charts/team_sheets.json'):
         row=alt.Row('season:N', title=None, sort=alt.EncodingSortField(field='season', order='descending')),
         column=alt.Column('squad:N', title=None, header=alt.Header(title=None, labelFontSize=36, labelExpr="datum.value + ' XV'", labelAnchor="start")),
         spacing=10
-    ).resolve_scale(y='independent', x='independent').properties(
-        title=alt.Title("Team Sheets", subtitle="Player appearances by shirt number. Click on a player to highlight their appearances.")
-    ).configure_view(strokeWidth=0)
+    ).resolve_scale(y='independent', x='independent').configure_view(strokeWidth=0)
 
     team_sheets.save(output_file)
 
@@ -1356,9 +1056,9 @@ def main(refresh_pitchero=False, backend_mode="canonical", backend_db_path="data
     season_summary_data(db)
     
     # Existing charts
-    appearance_chart(db)
     captains_chart(db)
-    point_scorers_chart(db)
+    player_stats_appearances_chart(db)
+    points_scorers_chart(db)
     cards_chart(db)
     team_sheets_chart(db)
     results_chart(db)

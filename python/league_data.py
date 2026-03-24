@@ -12,12 +12,14 @@ import re
 import glob
 from datetime import datetime
 from urllib.parse import parse_qs, urlparse
+from pathlib import Path
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
-# Create directories if they don't exist
-os.makedirs("data/match_data", exist_ok=True)
+# Use __file__-relative path so this works regardless of working directory
+_DATA_DIR = Path(__file__).resolve().parent.parent / "data"
+os.makedirs(_DATA_DIR / "match_data", exist_ok=True)
 
 competition_ids = {
     "London & SE Division": 261,
@@ -205,7 +207,9 @@ def _coerce_rfu_score_value(value):
     return pd.NA, False
 
 
-def build_rfu_games_dataframe(matches=None, consolidated_file="data/matches.json"):
+def build_rfu_games_dataframe(matches=None, consolidated_file=None):
+    if consolidated_file is None:
+        consolidated_file = str(_DATA_DIR / "matches.json")
     """Build a normalized RFU games dataframe from consolidated scrape output."""
     if matches is None:
         matches = load_consolidated_matches(consolidated_file)
@@ -276,7 +280,9 @@ def build_rfu_games_dataframe(matches=None, consolidated_file="data/matches.json
     return df
 
 
-def build_rfu_player_appearances_dataframe(matches=None, consolidated_file="data/matches.json", games_df=None):
+def build_rfu_player_appearances_dataframe(matches=None, consolidated_file=None, games_df=None):
+    if consolidated_file is None:
+        consolidated_file = str(_DATA_DIR / "matches.json")
     """Build normalized RFU player appearance rows from consolidated scrape output."""
     if matches is None:
         matches = load_consolidated_matches(consolidated_file)
@@ -568,7 +574,9 @@ def is_match_complete(match_data):
 
     return True
 
-def get_existing_match_ids_from_consolidated(consolidated_file="data/matches.json"):
+def get_existing_match_ids_from_consolidated(consolidated_file=None):
+    if consolidated_file is None:
+        consolidated_file = str(_DATA_DIR / "matches.json")
     """Get set of match IDs from the consolidated matches.json file."""
     existing_ids = set()
     
@@ -591,7 +599,9 @@ def get_existing_match_ids_from_consolidated(consolidated_file="data/matches.jso
         logging.error(f"Error reading consolidated file: {e}")
         return existing_ids
 
-def load_consolidated_matches(consolidated_file="data/matches.json"):
+def load_consolidated_matches(consolidated_file=None):
+    if consolidated_file is None:
+        consolidated_file = str(_DATA_DIR / "matches.json")
     """Load all matches from consolidated file."""
     if not os.path.exists(consolidated_file):
         logging.info(f"Consolidated file {consolidated_file} doesn't exist yet")
@@ -606,7 +616,9 @@ def load_consolidated_matches(consolidated_file="data/matches.json"):
         logging.error(f"Error loading consolidated file: {e}")
         return []
 
-def get_incomplete_match_ids(consolidated_file="data/matches.json"):
+def get_incomplete_match_ids(consolidated_file=None):
+    if consolidated_file is None:
+        consolidated_file = str(_DATA_DIR / "matches.json")
     """Get match IDs that exist but have incomplete data."""
     incomplete_ids = []
     
@@ -618,7 +630,9 @@ def get_incomplete_match_ids(consolidated_file="data/matches.json"):
     logging.info(f"Found {len(incomplete_ids)} matches with incomplete data")
     return incomplete_ids
 
-def save_consolidated_matches(matches, consolidated_file="data/matches.json"):
+def save_consolidated_matches(matches, consolidated_file=None):
+    if consolidated_file is None:
+        consolidated_file = str(_DATA_DIR / "matches.json")
     """Save matches to consolidated file, sorted by date."""
     try:
         # Sort by date for consistency
@@ -911,7 +925,7 @@ def fetch_match_data(match_id):
     }
 
     # Save individual match file as backup
-    match_file = f"data/match_data/{match_id}.json"
+    match_file = str(_DATA_DIR / "match_data" / f"{match_id}.json")
     try:
         with open(match_file, "w") as f:
             json.dump(match_data, f, indent=4)
@@ -945,7 +959,9 @@ def _fetch_match_for_squad(match_id, squad, results_by_id):
         return fetch_match_data(match_id)
     return fetch_match_data(match_id)
 
-def fetch_new_matches_only(squad=1, season="2025/26", consolidated_file="data/matches.json"):
+def fetch_new_matches_only(squad=1, season="2025/26", consolidated_file=None):
+    if consolidated_file is None:
+        consolidated_file = str(_DATA_DIR / "matches.json")
     """Fetch new matches AND re-fetch incomplete ones."""
     all_match_ids, results_by_id = _get_match_sources(squad=squad, season=season)
     
@@ -1001,7 +1017,9 @@ def fetch_new_matches_only(squad=1, season="2025/26", consolidated_file="data/ma
     logging.info(f"Successfully fetched {len(fetched_matches)} matches ({len(fetched_matches)} complete)")
     return fetched_matches
 
-def update_consolidated_file(new_matches, consolidated_file="data/matches.json"):
+def update_consolidated_file(new_matches, consolidated_file=None):
+    if consolidated_file is None:
+        consolidated_file = str(_DATA_DIR / "matches.json")
     """Add new matches or update existing ones in the consolidated file."""
     
     # Load existing matches
@@ -1041,7 +1059,11 @@ def update_consolidated_file(new_matches, consolidated_file="data/matches.json")
     return all_matches
 
 
-def reconcile_consolidated_from_match_cache(consolidated_file="data/matches.json", cache_dir="data/match_data"):
+def reconcile_consolidated_from_match_cache(consolidated_file=None, cache_dir=None):
+    if consolidated_file is None:
+        consolidated_file = str(_DATA_DIR / "matches.json")
+    if cache_dir is None:
+        cache_dir = str(_DATA_DIR / "match_data")
     """Reconcile consolidated matches using authoritative cached match-centre files."""
     existing_matches = load_consolidated_matches(consolidated_file)
     if not existing_matches:
@@ -1087,7 +1109,9 @@ def reconcile_consolidated_from_match_cache(consolidated_file="data/matches.json
 
     return updates
 
-def update_league_data(squad=1, season="2025/26", consolidated_file="data/matches.json"):
+def update_league_data(squad=1, season="2025/26", consolidated_file=None):
+    if consolidated_file is None:
+        consolidated_file = str(_DATA_DIR / "matches.json")
     """Complete workflow: fetch new matches and update consolidated file."""
     
     # Step 1: Fetch only new matches
@@ -1103,16 +1127,17 @@ def update_league_data(squad=1, season="2025/26", consolidated_file="data/matche
     try:
         table = fetch_league_table(squad=squad, season=season)
         if table is not None:
-            os.makedirs("data", exist_ok=True)
-            table.to_csv(f"data/league_table_{season.replace('/', '_')}_squad_{squad}.csv", index=False)
+            table.to_csv(str(_DATA_DIR / f"league_table_{season.replace('/', '_')}_squad_{squad}.csv"), index=False)
             logging.info(f"Saved league table for {season} squad {squad}")
     except Exception as e:
         logging.error(f"Error fetching league table: {e}")
     
     return all_matches, new_matches
 
-def update_multiple_seasons_and_squads(seasons=None, squads=None, consolidated_file="data/matches.json"):
+def update_multiple_seasons_and_squads(seasons=None, squads=None, consolidated_file=None):
     """Update data for multiple seasons and squads."""
+    if consolidated_file is None:
+        consolidated_file = str(_DATA_DIR / "matches.json")
     
     if squads is None:
         squads = [1, 2]
@@ -1144,7 +1169,7 @@ def update_multiple_seasons_and_squads(seasons=None, squads=None, consolidated_f
                 logging.error(f"Error updating {season} squad {squad}: {e}")
     
     # Generate frontend-ready league tables JSON after all updates
-    build_league_tables_json(output_file="data/league_tables.json")
+    build_league_tables_json(output_file=str(_DATA_DIR / "league_tables.json"))
     
     # Final summary
     final_matches = load_consolidated_matches(consolidated_file)
@@ -1200,7 +1225,7 @@ def ensure_historical_league_table_cache(current_season=None):
             if season == current_season:
                 continue
 
-            csv_file = f"data/league_table_{season.replace('/', '_')}_squad_{squad}.csv"
+            csv_file = str(_DATA_DIR / f"league_table_{season.replace('/', '_')}_squad_{squad}.csv")
             if os.path.exists(csv_file):
                 continue
 
@@ -1208,7 +1233,7 @@ def ensure_historical_league_table_cache(current_season=None):
                 logging.info(f"Caching historical league table for {season} squad {squad}")
                 table = fetch_league_table(squad=squad, season=season)
                 if table is not None:
-                    os.makedirs("data", exist_ok=True)
+                    os.makedirs(str(_DATA_DIR), exist_ok=True)
                     table.to_csv(csv_file, index=False)
                     logging.info(f"Cached historical table: {csv_file}")
                 else:
@@ -1216,8 +1241,10 @@ def ensure_historical_league_table_cache(current_season=None):
             except Exception as e:
                 logging.error(f"Error caching historical table for {season} squad {squad}: {e}")
 
-def update_current_season_with_historical_cache(squads=None, consolidated_file="data/matches.json"):
+def update_current_season_with_historical_cache(squads=None, consolidated_file=None):
     """Cache historical league tables once, then update current season only."""
+    if consolidated_file is None:
+        consolidated_file = str(_DATA_DIR / "matches.json")
     if squads is None:
         squads = [1, 2]
 
@@ -1231,7 +1258,9 @@ def update_current_season_with_historical_cache(squads=None, consolidated_file="
         consolidated_file=consolidated_file,
     )
 
-def generate_data_report(consolidated_file="data/matches.json"):
+def generate_data_report(consolidated_file=None):
+    if consolidated_file is None:
+        consolidated_file = str(_DATA_DIR / "matches.json")
     """Generate a report of data completeness."""
     matches = load_consolidated_matches(consolidated_file)
     
@@ -1276,7 +1305,9 @@ def generate_data_report(consolidated_file="data/matches.json"):
     
     return by_league
 
-def save_summary_match_data(matches, output_file="data/matches_summary.csv"):
+def save_summary_match_data(matches, output_file=None):
+    if output_file is None:
+        output_file = str(_DATA_DIR / "matches_summary.csv")
     """Save CSV summary with match results (without temporal league table data)."""
     
     rows = []
@@ -1302,7 +1333,9 @@ def save_summary_match_data(matches, output_file="data/matches_summary.csv"):
     print(f'Saved to {output_file}')
     print(f'League table data available separately in data/league_table_*.csv files')
 
-def build_league_tables_json(output_file="data/league_tables.json"):
+def build_league_tables_json(output_file=None):
+    if output_file is None:
+        output_file = str(_DATA_DIR / "league_tables.json")
     """Build league_tables.json from CSV league table files for frontend display."""
     
     import glob
@@ -1406,7 +1439,7 @@ def main():
     parser = argparse.ArgumentParser(description="Scrape England Rugby match data.")
     parser.add_argument("--squad", required=False, help="Squad (1 or 2)", default=None, type=int)
     parser.add_argument("--season", required=False, help="Season (e.g., 2025/26)", default=None)
-    parser.add_argument("--file", required=False, help="Consolidated match data file", default="data/matches.json")
+    parser.add_argument("--file", required=False, help="Consolidated match data file", default=str(_DATA_DIR / "matches.json"))
     parser.add_argument("--all", action="store_true", help="Full refresh for all configured seasons and squads")
 
     args = parser.parse_args()
@@ -1465,12 +1498,12 @@ def main():
     print("="*50 + "\n")
     
     # Save summary CSV
-    save_summary_match_data(load_consolidated_matches(args.file), output_file="data/matches_summary.csv")
+    save_summary_match_data(load_consolidated_matches(args.file), output_file=str(_DATA_DIR / "matches_summary.csv"))
     
     # Generate frontend-ready league tables JSON
     print("="*50)
     print("Generating frontend league tables JSON...")
-    build_league_tables_json(output_file="data/league_tables.json")
+    build_league_tables_json(output_file=str(_DATA_DIR / "league_tables.json"))
     print("="*50 + "\n")
 
 if __name__ == "__main__":

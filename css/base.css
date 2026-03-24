@@ -3,10 +3,6 @@
     box-sizing: border-box;
 }
 
-html, body {
-    height: 100%;
-}
-
 body {
     font-family: 'PT Sans Narrow', sans-serif;
     margin: 0;
@@ -15,13 +11,19 @@ body {
     color: var(--dark-color);
     display: flex;
     flex-direction: column;
+    min-height: 100vh;
     overflow-x: hidden;
-    overflow-y: auto;
     padding-bottom: 0;
 }
 
 .navbar {
     flex-shrink: 0;
+}
+
+.app-top-navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1100;
 }
 
 .main-content {
