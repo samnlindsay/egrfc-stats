@@ -14,6 +14,7 @@ body {
     min-height: 100vh;
     overflow-x: hidden;
     padding-bottom: 0;
+    padding-top: var(--nav-offset, 74px);
 }
 
 .navbar {
@@ -21,9 +22,18 @@ body {
 }
 
 .app-top-navbar {
-    position: sticky;
+    position: fixed;
     top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: clip;
     z-index: 1100;
+}
+
+.app-top-navbar .container-fluid {
+    max-width: 100%;
 }
 
 .main-content {
@@ -34,4 +44,10 @@ body {
     overflow: visible !important;
     display: flex;
     flex-direction: column;
+}
+
+@media (max-width: 768px) {
+    body {
+        padding-top: var(--nav-offset, 66px);
+    }
 }
