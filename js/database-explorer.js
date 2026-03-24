@@ -705,10 +705,31 @@ const DatabaseExplorer = (() => {
         if (typeof value === 'boolean') {
             return value ? 'true' : 'false';
         }
+        const dateOnlyValue = toDateOnlyDisplay(value);
+        if (dateOnlyValue !== null) {
+            return dateOnlyValue;
+        }
         if (typeof value === 'object') {
             return JSON.stringify(value);
         }
         return String(value);
+    }
+
+    function toDateOnlyDisplay(value) {
+        if (typeof value === 'string') {
+            const trimmed = value.trim();
+            const isoLike = trimmed.match(/^(\d{4}-\d{2}-\d{2})(?:[T\s].*)?$/);
+            if (isoLike) {
+                return isoLike[1];
+            }
+            return null;
+        }
+
+        if (value instanceof Date && !Number.isNaN(value.getTime())) {
+            return value.toISOString().slice(0, 10);
+        }
+
+        return null;
     }
 
     function formatNumber(value) {

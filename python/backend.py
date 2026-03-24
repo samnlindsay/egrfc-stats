@@ -6,6 +6,7 @@ from __future__ import annotations
 import json
 import os
 import re
+from datetime import date, datetime
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -73,6 +74,33 @@ def _safe_date(series: pd.Series) -> pd.Series:
     if missing.any():
         parsed.loc[missing] = pd.to_datetime(series.loc[missing], errors="coerce", dayfirst=True)
     return parsed.dt.date
+
+
+def _normalise_dates_for_json(df: pd.DataFrame) -> pd.DataFrame:
+    """Render all date-like values as YYYY-MM-DD strings for JSON exports."""
+    if df.empty:
+        return df
+
+    normalized = df.copy()
+    for column in normalized.columns:
+        series = normalized[column]
+
+        if pd.api.types.is_datetime64_any_dtype(series):
+            normalized[column] = series.dt.strftime("%Y-%m-%d").where(series.notna(), None)
+            continue
+
+        if series.dtype == "object":
+            # Handle Python date/datetime objects and ISO datetime strings in object columns.
+            if series.map(lambda value: isinstance(value, (date, datetime))).any():
+                normalized[column] = series.map(
+                    lambda value: value.strftime("%Y-%m-%d") if isinstance(value, (date, datetime)) else value
+                )
+            elif str(column).lower() == "date" or str(column).lower().endswith("_date"):
+                parsed = pd.to_datetime(series, errors="coerce")
+                if parsed.notna().any():
+                    normalized[column] = parsed.dt.strftime("%Y-%m-%d").where(parsed.notna(), series)
+
+    return normalized
 
 
 def _yes_no_to_bool(series: pd.Series) -> pd.Series:
@@ -758,7 +786,8 @@ class BackendDatabase:
 
         for name in table_names + view_names:
             df = self.con.execute(f"SELECT * FROM {name}").df()
-            df.to_json(self.export_root / f"{name}.json", orient="records", date_format="iso")
+            export_df = _normalise_dates_for_json(df)
+            export_df.to_json(self.export_root / f"{name}.json", orient="records")
             self.con.execute(
                 f"COPY (SELECT * FROM {name}) TO '{(self.export_root / f'{name}.parquet').as_posix()}' (FORMAT PARQUET)"
             )

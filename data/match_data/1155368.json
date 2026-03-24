@@ -17,25 +17,6 @@
     ],
     "players": [
         {},
-        {
-            "15": "No lineup to show.",
-            "14": "Jack Bowman",
-            "13": "Patrick McCarthy",
-            "12": "Paul Mamoany",
-            "11": "Toby Reed",
-            "10": "David Ayres",
-            "9": "Adam Fear",
-            "8": "William Midwinter",
-            "7": "Alexander Hall",
-            "6": "Finnbar Broxup",
-            "5": "Harry Cracknell",
-            "4": "Ted Baynham",
-            "3": "Nathan Funnell",
-            "2": "Harry Rae-Clarke",
-            "1": "James Hannah",
-            "S1": "Sam Etherton",
-            "S2": "Tom Chapman",
-            "S3": "Jonathan Lewis"
-        }
+        {}
     ]
 }
