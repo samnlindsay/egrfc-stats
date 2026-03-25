@@ -4,15 +4,12 @@
 }
 
 /*
- * overflow-x is set on html, not body.
- * If set on body, browsers propagate it to the viewport and make body the
- * scroll root, which breaks position:fixed (the navbar would scroll with
- * horizontal page content).  Setting it on html keeps position:fixed truly
- * viewport-relative while still allowing pages to scroll horizontally when
- * their content is wider than the viewport.
+ * Keep viewport-level horizontal overflow disabled so fixed elements remain
+ * anchored to the visual viewport on mobile. Horizontal overflow is handled
+ * by .main-content instead.
  */
 html {
-    overflow-x: auto;
+    overflow-x: hidden;
 }
 
 body {
@@ -26,6 +23,7 @@ body {
     min-height: 100vh;
     padding-bottom: 0;
     padding-top: var(--nav-offset, 74px);
+    overflow-x: hidden;
 }
 
 .navbar {
@@ -36,10 +34,12 @@ body {
     position: fixed;
     top: 0;
     left: 0;
-    /* vw units are always viewport-relative regardless of scroll container */
-    width: 100vw;
-    max-width: 100vw;
-    overflow-x: clip;
+    right: 0;
+    width: 100%;
+    max-width: none;
+    overflow-x: hidden;
+    transform: translateZ(0);
+    backface-visibility: hidden;
     z-index: 1100;
 }
 
@@ -52,7 +52,9 @@ body {
     margin-left: 0;
     width: 100%;
     position: relative;
-    overflow: visible !important;
+    overflow-x: auto;
+    overflow-y: visible !important;
+    -webkit-overflow-scrolling: touch;
     display: flex;
     flex-direction: column;
 }
