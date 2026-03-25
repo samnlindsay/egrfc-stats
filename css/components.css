@@ -208,6 +208,27 @@
     align-items: flex-start;
 }
 
+.player-profiles-position-sections {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.player-profiles-position-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.player-profiles-position-section-title {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 2.5rem;
+    font-weight: 900;
+    border-bottom: 2px solid #d9deef;
+    padding-bottom: 0.2rem;
+}
+
 .player-profile-grid-item {
     flex: 0 0 var(--player-profile-card-width, 280px);
     width: var(--player-profile-card-width, 280px);
@@ -1142,6 +1163,34 @@ table tbody tr:hover {
     flex-wrap: wrap;
     align-self: flex-start;
     padding-top: 0.35rem; /* optical align with h1 baseline */
+}
+
+.player-profiles-controls-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0.9rem 1.25rem;
+    flex-wrap: wrap;
+}
+
+.player-profiles-filters {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.player-profiles-sort-action {
+    flex: 0 0 auto;
+    min-width: 13rem;
+}
+
+.player-profiles-sort-action .input-group {
+    flex-wrap: nowrap;
+}
+
+.player-profiles-sort-action .input-group-text {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
 }
 
 /* ===== END PAGE HEADER LAYOUT ===== */

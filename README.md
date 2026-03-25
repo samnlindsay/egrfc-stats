@@ -54,30 +54,29 @@ Backend schema and usage notes:
 
 ## Operational workflow
 
-### 1) Update database (no Pitchero web)
-
-```bash
-./env/bin/python python/build_backend.py
-```
-
-Use this for normal updates. This is the default path.
-
-### 2) Regenerate charts from the database
+### 1) Regular update (single entry point)
 
 ```bash
 ./env/bin/python python/update.py --backend-mode canonical
 ```
 
-This regenerates chart specs from canonical DB tables/views and does not require Pitchero web refresh.
+This one command now runs the canonical backend build/export, syncs and recrops headshots as needed, and regenerates chart specs.
 
-### 3) Optional: refresh Pitchero caches only when needed
+### 2) Optional: refresh Pitchero caches only when needed
 
 ```bash
-./env/bin/python python/build_backend.py --refresh-pitchero
-./env/bin/python python/update.py --backend-mode canonical
+./env/bin/python python/update.py --backend-mode canonical --refresh-pitchero
 ```
 
 Use this only when intentionally changing Pitchero-derived inputs (or after scraper changes).
+
+### 3) Optional: run headshot sync only
+
+```bash
+sync-headshots --write
+```
+
+Use this for quick headshot-only maintenance without a full data/chart rebuild.
 
 ## Tests and CI
 

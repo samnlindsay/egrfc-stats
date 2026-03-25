@@ -9526,6 +9526,15 @@
       "season": "2025/26",
       "squad": "1st",
       "game_type": "League",
+      "player": "Will Roberts",
+      "appearances": 11.0,
+      "starts": 11.0,
+      "rank": 11
+    },
+    {
+      "season": "2025/26",
+      "squad": "1st",
+      "game_type": "League",
       "player": "Mark Oliver",
       "appearances": 11.0,
       "starts": 4.0,
@@ -9557,15 +9566,6 @@
       "appearances": 11.0,
       "starts": 10.0,
       "rank": 7
-    },
-    {
-      "season": "2025/26",
-      "squad": "1st",
-      "game_type": "League",
-      "player": "Will Roberts",
-      "appearances": 11.0,
-      "starts": 11.0,
-      "rank": 11
     },
     {
       "season": "2025/26",
@@ -9760,15 +9760,6 @@
       "season": "2025/26",
       "squad": "1st",
       "game_type": "League",
-      "player": "George Beet",
-      "appearances": 2.0,
-      "starts": 0.0,
-      "rank": 34
-    },
-    {
-      "season": "2025/26",
-      "squad": "1st",
-      "game_type": "League",
       "player": "Ryland Thomas",
       "appearances": 2.0,
       "starts": 1.0,
@@ -9809,6 +9800,15 @@
       "appearances": 2.0,
       "starts": 2.0,
       "rank": 33
+    },
+    {
+      "season": "2025/26",
+      "squad": "1st",
+      "game_type": "League",
+      "player": "George Beet",
+      "appearances": 2.0,
+      "starts": 0.0,
+      "rank": 34
     },
     {
       "season": "2025/26",
@@ -10228,10 +10228,10 @@
       "season": "2025/26",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Reggie Harris",
+      "player": "Oliver Roberts",
       "appearances": 6.0,
       "starts": 5.0,
-      "rank": 13
+      "rank": 12
     },
     {
       "season": "2025/26",
@@ -10246,10 +10246,10 @@
       "season": "2025/26",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Oliver Roberts",
+      "player": "Reggie Harris",
       "appearances": 6.0,
       "starts": 5.0,
-      "rank": 12
+      "rank": 13
     },
     {
       "season": "2025/26",
@@ -10273,6 +10273,15 @@
       "season": "2025/26",
       "squad": "2nd",
       "game_type": "League",
+      "player": "Frankie Harris",
+      "appearances": 5.0,
+      "starts": 2.0,
+      "rank": 15
+    },
+    {
+      "season": "2025/26",
+      "squad": "2nd",
+      "game_type": "League",
       "player": "Tim Morris",
       "appearances": 5.0,
       "starts": 5.0,
@@ -10282,10 +10291,10 @@
       "season": "2025/26",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Frankie Harris",
-      "appearances": 5.0,
-      "starts": 2.0,
-      "rank": 15
+      "player": "Aaron Carstens",
+      "appearances": 4.0,
+      "starts": 4.0,
+      "rank": 17
     },
     {
       "season": "2025/26",
@@ -10322,15 +10331,6 @@
       "appearances": 4.0,
       "starts": 2.0,
       "rank": 18
-    },
-    {
-      "season": "2025/26",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "Aaron Carstens",
-      "appearances": 4.0,
-      "starts": 4.0,
-      "rank": 17
     },
     {
       "season": "2025/26",
@@ -10453,10 +10453,28 @@
       "season": "2025/26",
       "squad": "2nd",
       "game_type": "League",
+      "player": "Josh Brimecombe",
+      "appearances": 1.0,
+      "starts": 1.0,
+      "rank": 45
+    },
+    {
+      "season": "2025/26",
+      "squad": "2nd",
+      "game_type": "League",
       "player": "Tom Saunders",
       "appearances": 1.0,
       "starts": 0.0,
       "rank": 54
+    },
+    {
+      "season": "2025/26",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Tom Kennedy",
+      "appearances": 1.0,
+      "starts": 1.0,
+      "rank": 53
     },
     {
       "season": "2025/26",
@@ -10507,28 +10525,10 @@
       "season": "2025/26",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Ky Oliveira",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 47
-    },
-    {
-      "season": "2025/26",
-      "squad": "2nd",
-      "game_type": "League",
       "player": "Josh Weaver",
       "appearances": 1.0,
       "starts": 1.0,
       "rank": 46
-    },
-    {
-      "season": "2025/26",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "Josh Brimecombe",
-      "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 45
     },
     {
       "season": "2025/26",
@@ -10561,10 +10561,10 @@
       "season": "2025/26",
       "squad": "2nd",
       "game_type": "League",
-      "player": "James Funnell",
+      "player": "Jack Billin",
       "appearances": 1.0,
       "starts": 1.0,
-      "rank": 41
+      "rank": 40
     },
     {
       "season": "2025/26",
@@ -10615,19 +10615,19 @@
       "season": "2025/26",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Tom Kennedy",
+      "player": "James Funnell",
       "appearances": 1.0,
       "starts": 1.0,
-      "rank": 53
+      "rank": 41
     },
     {
       "season": "2025/26",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Jack Billin",
+      "player": "Ky Oliveira",
       "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 40
+      "starts": 0.0,
+      "rank": 47
     },
     {
       "season": "2024/25",
@@ -10822,6 +10822,15 @@
       "season": "2024/25",
       "squad": "1st",
       "game_type": "Cup",
+      "player": "John Peaty",
+      "appearances": 1.0,
+      "starts": 1.0,
+      "rank": 19
+    },
+    {
+      "season": "2024/25",
+      "squad": "1st",
+      "game_type": "Cup",
       "player": "Freddie Mitchell",
       "appearances": 1.0,
       "starts": 1.0,
@@ -10835,15 +10844,6 @@
       "appearances": 1.0,
       "starts": 1.0,
       "rank": 17
-    },
-    {
-      "season": "2024/25",
-      "squad": "1st",
-      "game_type": "Cup",
-      "player": "John Peaty",
-      "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 19
     },
     {
       "season": "2024/25",
@@ -11326,10 +11326,10 @@
       "season": "2024/25",
       "squad": "2nd",
       "game_type": "Cup",
-      "player": "Ali Moffatt",
+      "player": "Nathan Oliver",
       "appearances": 1.0,
       "starts": 1.0,
-      "rank": 1
+      "rank": 15
     },
     {
       "season": "2024/25",
@@ -11389,109 +11389,19 @@
       "season": "2024/25",
       "squad": "2nd",
       "game_type": "Cup",
-      "player": "Nathan Oliver",
+      "player": "Ali Moffatt",
       "appearances": 1.0,
       "starts": 1.0,
-      "rank": 15
+      "rank": 1
     },
     {
       "season": "2024/25",
       "squad": "2nd",
       "game_type": "Cup",
-      "player": "Michael Presland",
+      "player": "Ben Marelli",
       "appearances": 1.0,
       "starts": 1.0,
-      "rank": 14
-    },
-    {
-      "season": "2024/25",
-      "squad": "2nd",
-      "game_type": "Cup",
-      "player": "Mark Oliver",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 13
-    },
-    {
-      "season": "2024/25",
-      "squad": "2nd",
-      "game_type": "Cup",
-      "player": "Luke Maker",
-      "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 12
-    },
-    {
-      "season": "2024/25",
-      "squad": "2nd",
-      "game_type": "Cup",
-      "player": "Jonny Martin",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 11
-    },
-    {
-      "season": "2024/25",
-      "squad": "2nd",
-      "game_type": "Cup",
-      "player": "Jack Billin",
-      "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 10
-    },
-    {
-      "season": "2024/25",
-      "squad": "2nd",
-      "game_type": "Cup",
-      "player": "Harrison Berry",
-      "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 9
-    },
-    {
-      "season": "2024/25",
-      "squad": "2nd",
-      "game_type": "Cup",
-      "player": "Greg Brack",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 8
-    },
-    {
-      "season": "2024/25",
-      "squad": "2nd",
-      "game_type": "Cup",
-      "player": "George Jones",
-      "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 7
-    },
-    {
-      "season": "2024/25",
-      "squad": "2nd",
-      "game_type": "Cup",
-      "player": "George Beet",
-      "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 6
-    },
-    {
-      "season": "2024/25",
-      "squad": "2nd",
-      "game_type": "Cup",
-      "player": "Dylan Hammocks",
-      "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 5
-    },
-    {
-      "season": "2024/25",
-      "squad": "2nd",
-      "game_type": "Cup",
-      "player": "Dillan Bowe",
-      "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 4
+      "rank": 2
     },
     {
       "season": "2024/25",
@@ -11506,10 +11416,100 @@
       "season": "2024/25",
       "squad": "2nd",
       "game_type": "Cup",
-      "player": "Ben Marelli",
+      "player": "Dillan Bowe",
       "appearances": 1.0,
       "starts": 1.0,
-      "rank": 2
+      "rank": 4
+    },
+    {
+      "season": "2024/25",
+      "squad": "2nd",
+      "game_type": "Cup",
+      "player": "Dylan Hammocks",
+      "appearances": 1.0,
+      "starts": 1.0,
+      "rank": 5
+    },
+    {
+      "season": "2024/25",
+      "squad": "2nd",
+      "game_type": "Cup",
+      "player": "George Beet",
+      "appearances": 1.0,
+      "starts": 1.0,
+      "rank": 6
+    },
+    {
+      "season": "2024/25",
+      "squad": "2nd",
+      "game_type": "Cup",
+      "player": "George Jones",
+      "appearances": 1.0,
+      "starts": 1.0,
+      "rank": 7
+    },
+    {
+      "season": "2024/25",
+      "squad": "2nd",
+      "game_type": "Cup",
+      "player": "Greg Brack",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 8
+    },
+    {
+      "season": "2024/25",
+      "squad": "2nd",
+      "game_type": "Cup",
+      "player": "Harrison Berry",
+      "appearances": 1.0,
+      "starts": 1.0,
+      "rank": 9
+    },
+    {
+      "season": "2024/25",
+      "squad": "2nd",
+      "game_type": "Cup",
+      "player": "Jack Billin",
+      "appearances": 1.0,
+      "starts": 1.0,
+      "rank": 10
+    },
+    {
+      "season": "2024/25",
+      "squad": "2nd",
+      "game_type": "Cup",
+      "player": "Jonny Martin",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 11
+    },
+    {
+      "season": "2024/25",
+      "squad": "2nd",
+      "game_type": "Cup",
+      "player": "Luke Maker",
+      "appearances": 1.0,
+      "starts": 1.0,
+      "rank": 12
+    },
+    {
+      "season": "2024/25",
+      "squad": "2nd",
+      "game_type": "Cup",
+      "player": "Mark Oliver",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 13
+    },
+    {
+      "season": "2024/25",
+      "squad": "2nd",
+      "game_type": "Cup",
+      "player": "Michael Presland",
+      "appearances": 1.0,
+      "starts": 1.0,
+      "rank": 14
     },
     {
       "season": "2024/25",
@@ -11519,15 +11519,6 @@
       "appearances": 6.0,
       "starts": 6.0,
       "rank": 1
-    },
-    {
-      "season": "2024/25",
-      "squad": "2nd",
-      "game_type": "Friendly",
-      "player": "Rory Evans",
-      "appearances": 5.0,
-      "starts": 4.0,
-      "rank": 4
     },
     {
       "season": "2024/25",
@@ -11546,6 +11537,15 @@
       "appearances": 5.0,
       "starts": 3.0,
       "rank": 2
+    },
+    {
+      "season": "2024/25",
+      "squad": "2nd",
+      "game_type": "Friendly",
+      "player": "Rory Evans",
+      "appearances": 5.0,
+      "starts": 4.0,
+      "rank": 4
     },
     {
       "season": "2024/25",
@@ -11785,15 +11785,6 @@
       "season": "2024/25",
       "squad": "2nd",
       "game_type": "Friendly",
-      "player": "Chris Taylor",
-      "appearances": 2.0,
-      "starts": 2.0,
-      "rank": 18
-    },
-    {
-      "season": "2024/25",
-      "squad": "2nd",
-      "game_type": "Friendly",
       "player": "Ben Watkinson",
       "appearances": 2.0,
       "starts": 0.0,
@@ -11812,6 +11803,24 @@
       "season": "2024/25",
       "squad": "2nd",
       "game_type": "Friendly",
+      "player": "Chris Taylor",
+      "appearances": 2.0,
+      "starts": 2.0,
+      "rank": 18
+    },
+    {
+      "season": "2024/25",
+      "squad": "2nd",
+      "game_type": "Friendly",
+      "player": "John Lear",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 48
+    },
+    {
+      "season": "2024/25",
+      "squad": "2nd",
+      "game_type": "Friendly",
       "player": "Will Bramwell",
       "appearances": 1.0,
       "starts": 1.0,
@@ -11821,10 +11830,10 @@
       "season": "2024/25",
       "squad": "2nd",
       "game_type": "Friendly",
-      "player": "Aaron Boczek",
+      "player": "Tim Morris",
       "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 34
+      "starts": 1.0,
+      "rank": 60
     },
     {
       "season": "2024/25",
@@ -11929,15 +11938,6 @@
       "season": "2024/25",
       "squad": "2nd",
       "game_type": "Friendly",
-      "player": "John Lear",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 48
-    },
-    {
-      "season": "2024/25",
-      "squad": "2nd",
-      "game_type": "Friendly",
       "player": "James Jenkins",
       "appearances": 1.0,
       "starts": 1.0,
@@ -11951,6 +11951,15 @@
       "appearances": 1.0,
       "starts": 0.0,
       "rank": 46
+    },
+    {
+      "season": "2024/25",
+      "squad": "2nd",
+      "game_type": "Friendly",
+      "player": "Jack Jacobs",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 45
     },
     {
       "season": "2024/25",
@@ -12046,19 +12055,10 @@
       "season": "2024/25",
       "squad": "2nd",
       "game_type": "Friendly",
-      "player": "Tim Morris",
-      "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 60
-    },
-    {
-      "season": "2024/25",
-      "squad": "2nd",
-      "game_type": "Friendly",
-      "player": "Jack Jacobs",
+      "player": "Aaron Boczek",
       "appearances": 1.0,
       "starts": 0.0,
-      "rank": 45
+      "rank": 34
     },
     {
       "season": "2024/25",
@@ -12172,15 +12172,6 @@
       "season": "2024/25",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Nathan Oliver",
-      "appearances": 6.0,
-      "starts": 5.0,
-      "rank": 14
-    },
-    {
-      "season": "2024/25",
-      "squad": "2nd",
-      "game_type": "League",
       "player": "George Jones",
       "appearances": 6.0,
       "starts": 4.0,
@@ -12199,10 +12190,10 @@
       "season": "2024/25",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Greg Brack",
-      "appearances": 5.0,
-      "starts": 2.0,
-      "rank": 19
+      "player": "Nathan Oliver",
+      "appearances": 6.0,
+      "starts": 5.0,
+      "rank": 14
     },
     {
       "season": "2024/25",
@@ -12221,6 +12212,15 @@
       "appearances": 5.0,
       "starts": 0.0,
       "rank": 20
+    },
+    {
+      "season": "2024/25",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Greg Brack",
+      "appearances": 5.0,
+      "starts": 2.0,
+      "rank": 19
     },
     {
       "season": "2024/25",
@@ -12253,19 +12253,10 @@
       "season": "2024/25",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Ryan Morlen",
-      "appearances": 4.0,
-      "starts": 2.0,
-      "rank": 28
-    },
-    {
-      "season": "2024/25",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "Rhys Skinner",
+      "player": "Patrick Thomson",
       "appearances": 4.0,
       "starts": 4.0,
-      "rank": 27
+      "rank": 25
     },
     {
       "season": "2024/25",
@@ -12280,19 +12271,19 @@
       "season": "2024/25",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Patrick Thomson",
+      "player": "Rhys Skinner",
       "appearances": 4.0,
       "starts": 4.0,
-      "rank": 25
+      "rank": 27
     },
     {
       "season": "2024/25",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Jack Jacobs",
+      "player": "Ryan Morlen",
       "appearances": 4.0,
-      "starts": 3.0,
-      "rank": 24
+      "starts": 2.0,
+      "rank": 28
     },
     {
       "season": "2024/25",
@@ -12316,82 +12307,10 @@
       "season": "2024/25",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Will Roberts",
-      "appearances": 3.0,
+      "player": "Jack Jacobs",
+      "appearances": 4.0,
       "starts": 3.0,
-      "rank": 38
-    },
-    {
-      "season": "2024/25",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "Tim Morris",
-      "appearances": 3.0,
-      "starts": 3.0,
-      "rank": 37
-    },
-    {
-      "season": "2024/25",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "Sam Johnston",
-      "appearances": 3.0,
-      "starts": 3.0,
-      "rank": 36
-    },
-    {
-      "season": "2024/25",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "Ryan Foster",
-      "appearances": 3.0,
-      "starts": 3.0,
-      "rank": 35
-    },
-    {
-      "season": "2024/25",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "Rob Salvi",
-      "appearances": 3.0,
-      "starts": 1.0,
-      "rank": 34
-    },
-    {
-      "season": "2024/25",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "Oscar Staples",
-      "appearances": 3.0,
-      "starts": 3.0,
-      "rank": 33
-    },
-    {
-      "season": "2024/25",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "Ollie Johnston",
-      "appearances": 3.0,
-      "starts": 2.0,
-      "rank": 32
-    },
-    {
-      "season": "2024/25",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "Max Crawley-Moore",
-      "appearances": 3.0,
-      "starts": 3.0,
-      "rank": 31
-    },
-    {
-      "season": "2024/25",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "Mark Lewis",
-      "appearances": 3.0,
-      "starts": 3.0,
-      "rank": 30
+      "rank": 24
     },
     {
       "season": "2024/25",
@@ -12406,136 +12325,82 @@
       "season": "2024/25",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Oli Hodge",
-      "appearances": 2.0,
+      "player": "Mark Lewis",
+      "appearances": 3.0,
+      "starts": 3.0,
+      "rank": 30
+    },
+    {
+      "season": "2024/25",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Max Crawley-Moore",
+      "appearances": 3.0,
+      "starts": 3.0,
+      "rank": 31
+    },
+    {
+      "season": "2024/25",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Ollie Johnston",
+      "appearances": 3.0,
+      "starts": 2.0,
+      "rank": 32
+    },
+    {
+      "season": "2024/25",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Oscar Staples",
+      "appearances": 3.0,
+      "starts": 3.0,
+      "rank": 33
+    },
+    {
+      "season": "2024/25",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Rob Salvi",
+      "appearances": 3.0,
       "starts": 1.0,
-      "rank": 51
+      "rank": 34
     },
     {
       "season": "2024/25",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Sachio Shimizu",
-      "appearances": 2.0,
-      "starts": 0.0,
-      "rank": 54
+      "player": "Ryan Foster",
+      "appearances": 3.0,
+      "starts": 3.0,
+      "rank": 35
     },
     {
       "season": "2024/25",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Paddy Shepherd",
-      "appearances": 2.0,
-      "starts": 2.0,
-      "rank": 53
+      "player": "Sam Johnston",
+      "appearances": 3.0,
+      "starts": 3.0,
+      "rank": 36
     },
     {
       "season": "2024/25",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Owen Jones",
-      "appearances": 2.0,
-      "starts": 1.0,
-      "rank": 52
+      "player": "Tim Morris",
+      "appearances": 3.0,
+      "starts": 3.0,
+      "rank": 37
     },
     {
       "season": "2024/25",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Noah Roberts",
-      "appearances": 2.0,
-      "starts": 2.0,
-      "rank": 50
-    },
-    {
-      "season": "2024/25",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "Jules Jardim",
-      "appearances": 2.0,
-      "starts": 1.0,
-      "rank": 49
-    },
-    {
-      "season": "2024/25",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "Josh Weaver",
-      "appearances": 2.0,
-      "starts": 2.0,
-      "rank": 48
-    },
-    {
-      "season": "2024/25",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "James Jenkins",
-      "appearances": 2.0,
-      "starts": 2.0,
-      "rank": 47
-    },
-    {
-      "season": "2024/25",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "Dougie Anson-Gates",
-      "appearances": 2.0,
-      "starts": 2.0,
-      "rank": 46
-    },
-    {
-      "season": "2024/25",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "Dave Bridges",
-      "appearances": 2.0,
-      "starts": 2.0,
-      "rank": 45
-    },
-    {
-      "season": "2024/25",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "Daan Hulst",
-      "appearances": 2.0,
-      "starts": 2.0,
-      "rank": 44
-    },
-    {
-      "season": "2024/25",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "Chris Taylor",
-      "appearances": 2.0,
-      "starts": 2.0,
-      "rank": 43
-    },
-    {
-      "season": "2024/25",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "Billy Davis",
-      "appearances": 2.0,
-      "starts": 0.0,
-      "rank": 42
-    },
-    {
-      "season": "2024/25",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "Ben Gray",
-      "appearances": 2.0,
-      "starts": 2.0,
-      "rank": 41
-    },
-    {
-      "season": "2024/25",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "Ben Beard",
-      "appearances": 2.0,
-      "starts": 2.0,
-      "rank": 40
+      "player": "Will Roberts",
+      "appearances": 3.0,
+      "starts": 3.0,
+      "rank": 38
     },
     {
       "season": "2024/25",
@@ -12550,55 +12415,163 @@
       "season": "2024/25",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Will Bramwell",
-      "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 80
+      "player": "Ben Beard",
+      "appearances": 2.0,
+      "starts": 2.0,
+      "rank": 40
     },
     {
       "season": "2024/25",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Tom Mooney",
-      "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 78
+      "player": "Ben Gray",
+      "appearances": 2.0,
+      "starts": 2.0,
+      "rank": 41
     },
     {
       "season": "2024/25",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Tom Kiernan",
-      "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 77
+      "player": "Billy Davis",
+      "appearances": 2.0,
+      "starts": 0.0,
+      "rank": 42
     },
     {
       "season": "2024/25",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Stanley Kennett",
-      "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 76
+      "player": "Chris Taylor",
+      "appearances": 2.0,
+      "starts": 2.0,
+      "rank": 43
     },
     {
       "season": "2024/25",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Sean Morgan",
+      "player": "Daan Hulst",
+      "appearances": 2.0,
+      "starts": 2.0,
+      "rank": 44
+    },
+    {
+      "season": "2024/25",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Dave Bridges",
+      "appearances": 2.0,
+      "starts": 2.0,
+      "rank": 45
+    },
+    {
+      "season": "2024/25",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Dougie Anson-Gates",
+      "appearances": 2.0,
+      "starts": 2.0,
+      "rank": 46
+    },
+    {
+      "season": "2024/25",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "James Jenkins",
+      "appearances": 2.0,
+      "starts": 2.0,
+      "rank": 47
+    },
+    {
+      "season": "2024/25",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Josh Weaver",
+      "appearances": 2.0,
+      "starts": 2.0,
+      "rank": 48
+    },
+    {
+      "season": "2024/25",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Jules Jardim",
+      "appearances": 2.0,
+      "starts": 1.0,
+      "rank": 49
+    },
+    {
+      "season": "2024/25",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Noah Roberts",
+      "appearances": 2.0,
+      "starts": 2.0,
+      "rank": 50
+    },
+    {
+      "season": "2024/25",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Oli Hodge",
+      "appearances": 2.0,
+      "starts": 1.0,
+      "rank": 51
+    },
+    {
+      "season": "2024/25",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Owen Jones",
+      "appearances": 2.0,
+      "starts": 1.0,
+      "rank": 52
+    },
+    {
+      "season": "2024/25",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Paddy Shepherd",
+      "appearances": 2.0,
+      "starts": 2.0,
+      "rank": 53
+    },
+    {
+      "season": "2024/25",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Sachio Shimizu",
+      "appearances": 2.0,
+      "starts": 0.0,
+      "rank": 54
+    },
+    {
+      "season": "2024/25",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Barley O'Conor",
       "appearances": 1.0,
       "starts": 0.0,
-      "rank": 75
+      "rank": 55
     },
     {
       "season": "2024/25",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Sam Spriddell",
+      "player": "Fin Fisher",
       "appearances": 1.0,
       "starts": 1.0,
-      "rank": 74
+      "rank": 62
+    },
+    {
+      "season": "2024/25",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Max Morgan",
+      "appearances": 1.0,
+      "starts": 1.0,
+      "rank": 72
     },
     {
       "season": "2024/25",
@@ -12613,10 +12586,73 @@
       "season": "2024/25",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Max Morgan",
+      "player": "Ben Marelli",
       "appearances": 1.0,
       "starts": 1.0,
-      "rank": 72
+      "rank": 56
+    },
+    {
+      "season": "2024/25",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Connor Williams",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 58
+    },
+    {
+      "season": "2024/25",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Dante Maynard",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 59
+    },
+    {
+      "season": "2024/25",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Digby Blake",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 60
+    },
+    {
+      "season": "2024/25",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Ed Arundell",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 61
+    },
+    {
+      "season": "2024/25",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Gareth Arthur",
+      "appearances": 1.0,
+      "starts": 1.0,
+      "rank": 63
+    },
+    {
+      "season": "2024/25",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "James Funnell",
+      "appearances": 1.0,
+      "starts": 1.0,
+      "rank": 64
+    },
+    {
+      "season": "2024/25",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "James Griffiths",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 65
     },
     {
       "season": "2024/25",
@@ -12676,69 +12712,6 @@
       "season": "2024/25",
       "squad": "2nd",
       "game_type": "League",
-      "player": "James Griffiths",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 65
-    },
-    {
-      "season": "2024/25",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "James Funnell",
-      "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 64
-    },
-    {
-      "season": "2024/25",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "Gareth Arthur",
-      "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 63
-    },
-    {
-      "season": "2024/25",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "Fin Fisher",
-      "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 62
-    },
-    {
-      "season": "2024/25",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "Ed Arundell",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 61
-    },
-    {
-      "season": "2024/25",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "Dante Maynard",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 59
-    },
-    {
-      "season": "2024/25",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "Connor Williams",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 58
-    },
-    {
-      "season": "2024/25",
-      "squad": "2nd",
-      "game_type": "League",
       "player": "Ben Slingsby",
       "appearances": 1.0,
       "starts": 1.0,
@@ -12748,19 +12721,10 @@
       "season": "2024/25",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Ben Marelli",
+      "player": "Will Bramwell",
       "appearances": 1.0,
       "starts": 1.0,
-      "rank": 56
-    },
-    {
-      "season": "2024/25",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "Barley O'Conor",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 55
+      "rank": 80
     },
     {
       "season": "2024/25",
@@ -12775,10 +12739,46 @@
       "season": "2024/25",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Digby Blake",
+      "player": "Tom Mooney",
+      "appearances": 1.0,
+      "starts": 1.0,
+      "rank": 78
+    },
+    {
+      "season": "2024/25",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Tom Kiernan",
+      "appearances": 1.0,
+      "starts": 1.0,
+      "rank": 77
+    },
+    {
+      "season": "2024/25",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Stanley Kennett",
+      "appearances": 1.0,
+      "starts": 1.0,
+      "rank": 76
+    },
+    {
+      "season": "2024/25",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Sean Morgan",
       "appearances": 1.0,
       "starts": 0.0,
-      "rank": 60
+      "rank": 75
+    },
+    {
+      "season": "2024/25",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Sam Spriddell",
+      "appearances": 1.0,
+      "starts": 1.0,
+      "rank": 74
     },
     {
       "season": "2023/24",
@@ -13135,15 +13135,6 @@
       "season": "2023/24",
       "squad": "1st",
       "game_type": "Friendly",
-      "player": "Ali Moffatt",
-      "appearances": 2.0,
-      "starts": 2.0,
-      "rank": 1
-    },
-    {
-      "season": "2023/24",
-      "squad": "1st",
-      "game_type": "Friendly",
       "player": "Stanley Kennett",
       "appearances": 2.0,
       "starts": 1.0,
@@ -13153,10 +13144,10 @@
       "season": "2023/24",
       "squad": "1st",
       "game_type": "Friendly",
-      "player": "Sam Spriddell",
+      "player": "Oli Billin",
       "appearances": 2.0,
-      "starts": 1.0,
-      "rank": 14
+      "starts": 2.0,
+      "rank": 11
     },
     {
       "season": "2023/24",
@@ -13180,15 +13171,6 @@
       "season": "2023/24",
       "squad": "1st",
       "game_type": "Friendly",
-      "player": "Oli Billin",
-      "appearances": 2.0,
-      "starts": 2.0,
-      "rank": 11
-    },
-    {
-      "season": "2023/24",
-      "squad": "1st",
-      "game_type": "Friendly",
       "player": "Noah Roberts",
       "appearances": 2.0,
       "starts": 1.0,
@@ -13202,6 +13184,15 @@
       "appearances": 2.0,
       "starts": 0.0,
       "rank": 9
+    },
+    {
+      "season": "2023/24",
+      "squad": "1st",
+      "game_type": "Friendly",
+      "player": "Jack Billin",
+      "appearances": 2.0,
+      "starts": 1.0,
+      "rank": 8
     },
     {
       "season": "2023/24",
@@ -13252,6 +13243,15 @@
       "season": "2023/24",
       "squad": "1st",
       "game_type": "Friendly",
+      "player": "Ali Moffatt",
+      "appearances": 2.0,
+      "starts": 2.0,
+      "rank": 1
+    },
+    {
+      "season": "2023/24",
+      "squad": "1st",
+      "game_type": "Friendly",
       "player": "Ben Tottman",
       "appearances": 2.0,
       "starts": 2.0,
@@ -13261,118 +13261,10 @@
       "season": "2023/24",
       "squad": "1st",
       "game_type": "Friendly",
-      "player": "Jack Billin",
+      "player": "Sam Spriddell",
       "appearances": 2.0,
       "starts": 1.0,
-      "rank": 8
-    },
-    {
-      "season": "2023/24",
-      "squad": "1st",
-      "game_type": "Friendly",
-      "player": "Will Roberts",
-      "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 35
-    },
-    {
-      "season": "2023/24",
-      "squad": "1st",
-      "game_type": "Friendly",
-      "player": "John Peaty",
-      "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 26
-    },
-    {
-      "season": "2023/24",
-      "squad": "1st",
-      "game_type": "Friendly",
-      "player": "Rory Evans",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 33
-    },
-    {
-      "season": "2023/24",
-      "squad": "1st",
-      "game_type": "Friendly",
-      "player": "Pete Morley",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 32
-    },
-    {
-      "season": "2023/24",
-      "squad": "1st",
-      "game_type": "Friendly",
-      "player": "Max Crawley-Moore",
-      "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 31
-    },
-    {
-      "season": "2023/24",
-      "squad": "1st",
-      "game_type": "Friendly",
-      "player": "Mark Oliver",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 30
-    },
-    {
-      "season": "2023/24",
-      "squad": "1st",
-      "game_type": "Friendly",
-      "player": "Luke Maker",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 29
-    },
-    {
-      "season": "2023/24",
-      "squad": "1st",
-      "game_type": "Friendly",
-      "player": "Josh Brimecombe",
-      "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 27
-    },
-    {
-      "season": "2023/24",
-      "squad": "1st",
-      "game_type": "Friendly",
-      "player": "Jules Jardim",
-      "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 28
-    },
-    {
-      "season": "2023/24",
-      "squad": "1st",
-      "game_type": "Friendly",
-      "player": "Jake Radcliffe",
-      "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 25
-    },
-    {
-      "season": "2023/24",
-      "squad": "1st",
-      "game_type": "Friendly",
-      "player": "Harrison Griffiths",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 24
-    },
-    {
-      "season": "2023/24",
-      "squad": "1st",
-      "game_type": "Friendly",
-      "player": "Harrison Berry",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 23
+      "rank": 14
     },
     {
       "season": "2023/24",
@@ -13382,6 +13274,15 @@
       "appearances": 1.0,
       "starts": 1.0,
       "rank": 22
+    },
+    {
+      "season": "2023/24",
+      "squad": "1st",
+      "game_type": "Friendly",
+      "player": "Tom Mooney",
+      "appearances": 1.0,
+      "starts": 1.0,
+      "rank": 34
     },
     {
       "season": "2023/24",
@@ -13441,19 +13342,109 @@
       "season": "2023/24",
       "squad": "1st",
       "game_type": "Friendly",
-      "player": "Tom Mooney",
+      "player": "Josh Brimecombe",
       "appearances": 1.0,
       "starts": 1.0,
-      "rank": 34
+      "rank": 27
     },
     {
       "season": "2023/24",
       "squad": "1st",
-      "game_type": "League",
-      "player": "Ben Tottman",
-      "appearances": 20.0,
-      "starts": 20.0,
-      "rank": 1
+      "game_type": "Friendly",
+      "player": "Jake Radcliffe",
+      "appearances": 1.0,
+      "starts": 1.0,
+      "rank": 25
+    },
+    {
+      "season": "2023/24",
+      "squad": "1st",
+      "game_type": "Friendly",
+      "player": "John Peaty",
+      "appearances": 1.0,
+      "starts": 1.0,
+      "rank": 26
+    },
+    {
+      "season": "2023/24",
+      "squad": "1st",
+      "game_type": "Friendly",
+      "player": "Max Crawley-Moore",
+      "appearances": 1.0,
+      "starts": 1.0,
+      "rank": 31
+    },
+    {
+      "season": "2023/24",
+      "squad": "1st",
+      "game_type": "Friendly",
+      "player": "Pete Morley",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 32
+    },
+    {
+      "season": "2023/24",
+      "squad": "1st",
+      "game_type": "Friendly",
+      "player": "Harrison Griffiths",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 24
+    },
+    {
+      "season": "2023/24",
+      "squad": "1st",
+      "game_type": "Friendly",
+      "player": "Rory Evans",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 33
+    },
+    {
+      "season": "2023/24",
+      "squad": "1st",
+      "game_type": "Friendly",
+      "player": "Harrison Berry",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 23
+    },
+    {
+      "season": "2023/24",
+      "squad": "1st",
+      "game_type": "Friendly",
+      "player": "Will Roberts",
+      "appearances": 1.0,
+      "starts": 1.0,
+      "rank": 35
+    },
+    {
+      "season": "2023/24",
+      "squad": "1st",
+      "game_type": "Friendly",
+      "player": "Mark Oliver",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 30
+    },
+    {
+      "season": "2023/24",
+      "squad": "1st",
+      "game_type": "Friendly",
+      "player": "Luke Maker",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 29
+    },
+    {
+      "season": "2023/24",
+      "squad": "1st",
+      "game_type": "Friendly",
+      "player": "Jules Jardim",
+      "appearances": 1.0,
+      "starts": 1.0,
+      "rank": 28
     },
     {
       "season": "2023/24",
@@ -13463,6 +13454,15 @@
       "appearances": 20.0,
       "starts": 20.0,
       "rank": 2
+    },
+    {
+      "season": "2023/24",
+      "squad": "1st",
+      "game_type": "League",
+      "player": "Ben Tottman",
+      "appearances": 20.0,
+      "starts": 20.0,
+      "rank": 1
     },
     {
       "season": "2023/24",
@@ -13504,19 +13504,19 @@
       "season": "2023/24",
       "squad": "1st",
       "game_type": "League",
-      "player": "Connor Leggat",
+      "player": "Ali Moffatt",
       "appearances": 16.0,
-      "starts": 12.0,
-      "rank": 9
+      "starts": 9.0,
+      "rank": 8
     },
     {
       "season": "2023/24",
       "squad": "1st",
       "game_type": "League",
-      "player": "Ali Moffatt",
+      "player": "Connor Leggat",
       "appearances": 16.0,
-      "starts": 9.0,
-      "rank": 8
+      "starts": 12.0,
+      "rank": 9
     },
     {
       "season": "2023/24",
@@ -13675,15 +13675,6 @@
       "season": "2023/24",
       "squad": "1st",
       "game_type": "League",
-      "player": "Charlie Pullen",
-      "appearances": 3.0,
-      "starts": 1.0,
-      "rank": 26
-    },
-    {
-      "season": "2023/24",
-      "squad": "1st",
-      "game_type": "League",
       "player": "Rory Evans",
       "appearances": 3.0,
       "starts": 2.0,
@@ -13729,28 +13720,10 @@
       "season": "2023/24",
       "squad": "1st",
       "game_type": "League",
-      "player": "Elliott Martin-Drew",
-      "appearances": 2.0,
-      "starts": 0.0,
-      "rank": 35
-    },
-    {
-      "season": "2023/24",
-      "squad": "1st",
-      "game_type": "League",
-      "player": "Tom Mooney",
-      "appearances": 2.0,
+      "player": "Charlie Pullen",
+      "appearances": 3.0,
       "starts": 1.0,
-      "rank": 42
-    },
-    {
-      "season": "2023/24",
-      "squad": "1st",
-      "game_type": "League",
-      "player": "Tom Marr",
-      "appearances": 2.0,
-      "starts": 1.0,
-      "rank": 41
+      "rank": 26
     },
     {
       "season": "2023/24",
@@ -13765,19 +13738,19 @@
       "season": "2023/24",
       "squad": "1st",
       "game_type": "League",
-      "player": "Sean Morgan",
+      "player": "Oscar Staples",
       "appearances": 2.0,
       "starts": 2.0,
-      "rank": 39
+      "rank": 38
     },
     {
       "season": "2023/24",
       "squad": "1st",
       "game_type": "League",
-      "player": "Oscar Staples",
+      "player": "Sean Morgan",
       "appearances": 2.0,
       "starts": 2.0,
-      "rank": 38
+      "rank": 39
     },
     {
       "season": "2023/24",
@@ -13796,6 +13769,15 @@
       "appearances": 2.0,
       "starts": 2.0,
       "rank": 36
+    },
+    {
+      "season": "2023/24",
+      "squad": "1st",
+      "game_type": "League",
+      "player": "Elliott Martin-Drew",
+      "appearances": 2.0,
+      "starts": 0.0,
+      "rank": 35
     },
     {
       "season": "2023/24",
@@ -13828,10 +13810,37 @@
       "season": "2023/24",
       "squad": "1st",
       "game_type": "League",
+      "player": "Tom Mooney",
+      "appearances": 2.0,
+      "starts": 1.0,
+      "rank": 42
+    },
+    {
+      "season": "2023/24",
+      "squad": "1st",
+      "game_type": "League",
+      "player": "Tom Marr",
+      "appearances": 2.0,
+      "starts": 1.0,
+      "rank": 41
+    },
+    {
+      "season": "2023/24",
+      "squad": "1st",
+      "game_type": "League",
       "player": "Rhys Skinner",
       "appearances": 1.0,
       "starts": 0.0,
       "rank": 47
+    },
+    {
+      "season": "2023/24",
+      "squad": "1st",
+      "game_type": "League",
+      "player": "James Funnell",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 46
     },
     {
       "season": "2023/24",
@@ -13859,15 +13868,6 @@
       "appearances": 1.0,
       "starts": 0.0,
       "rank": 43
-    },
-    {
-      "season": "2023/24",
-      "squad": "1st",
-      "game_type": "League",
-      "player": "James Funnell",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 46
     },
     {
       "season": "2023/24",
@@ -14449,19 +14449,19 @@
       "season": "2023/24",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Stanley Kennett",
+      "player": "Pete Morley",
       "appearances": 9.0,
-      "starts": 8.0,
-      "rank": 10
+      "starts": 9.0,
+      "rank": 9
     },
     {
       "season": "2023/24",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Pete Morley",
+      "player": "Stanley Kennett",
       "appearances": 9.0,
-      "starts": 9.0,
-      "rank": 9
+      "starts": 8.0,
+      "rank": 10
     },
     {
       "season": "2023/24",
@@ -14476,19 +14476,10 @@
       "season": "2023/24",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Scott Devlin",
+      "player": "Charlie Pullen",
       "appearances": 8.0,
-      "starts": 3.0,
-      "rank": 14
-    },
-    {
-      "season": "2023/24",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "Rob Salvi",
-      "appearances": 8.0,
-      "starts": 2.0,
-      "rank": 13
+      "starts": 6.0,
+      "rank": 11
     },
     {
       "season": "2023/24",
@@ -14503,10 +14494,19 @@
       "season": "2023/24",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Charlie Pullen",
+      "player": "Rob Salvi",
       "appearances": 8.0,
-      "starts": 6.0,
-      "rank": 11
+      "starts": 2.0,
+      "rank": 13
+    },
+    {
+      "season": "2023/24",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Scott Devlin",
+      "appearances": 8.0,
+      "starts": 3.0,
+      "rank": 14
     },
     {
       "season": "2023/24",
@@ -14521,19 +14521,19 @@
       "season": "2023/24",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Luke Maker",
+      "player": "Jack Andrews",
       "appearances": 7.0,
-      "starts": 7.0,
-      "rank": 17
+      "starts": 5.0,
+      "rank": 16
     },
     {
       "season": "2023/24",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Jack Andrews",
+      "player": "Luke Maker",
       "appearances": 7.0,
-      "starts": 5.0,
-      "rank": 16
+      "starts": 7.0,
+      "rank": 17
     },
     {
       "season": "2023/24",
@@ -14575,10 +14575,10 @@
       "season": "2023/24",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Will Bramwell",
+      "player": "Harrison Lock",
       "appearances": 4.0,
       "starts": 3.0,
-      "rank": 25
+      "rank": 23
     },
     {
       "season": "2023/24",
@@ -14593,10 +14593,10 @@
       "season": "2023/24",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Harrison Lock",
+      "player": "Will Bramwell",
       "appearances": 4.0,
       "starts": 3.0,
-      "rank": 23
+      "rank": 25
     },
     {
       "season": "2023/24",
@@ -14606,6 +14606,24 @@
       "appearances": 4.0,
       "starts": 4.0,
       "rank": 22
+    },
+    {
+      "season": "2023/24",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Harrison Griffiths",
+      "appearances": 3.0,
+      "starts": 1.0,
+      "rank": 29
+    },
+    {
+      "season": "2023/24",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Ben Pellett",
+      "appearances": 3.0,
+      "starts": 1.0,
+      "rank": 26
     },
     {
       "season": "2023/24",
@@ -14638,15 +14656,6 @@
       "season": "2023/24",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Harrison Griffiths",
-      "appearances": 3.0,
-      "starts": 1.0,
-      "rank": 29
-    },
-    {
-      "season": "2023/24",
-      "squad": "2nd",
-      "game_type": "League",
       "player": "Fin Fisher",
       "appearances": 3.0,
       "starts": 3.0,
@@ -14665,19 +14674,19 @@
       "season": "2023/24",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Ben Pellett",
-      "appearances": 3.0,
-      "starts": 1.0,
-      "rank": 26
+      "player": "Jules Jardim",
+      "appearances": 2.0,
+      "starts": 0.0,
+      "rank": 40
     },
     {
       "season": "2023/24",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Morgan Burger",
+      "player": "Chris May-Miller",
       "appearances": 2.0,
-      "starts": 1.0,
-      "rank": 42
+      "starts": 2.0,
+      "rank": 35
     },
     {
       "season": "2023/24",
@@ -14701,37 +14710,19 @@
       "season": "2023/24",
       "squad": "2nd",
       "game_type": "League",
+      "player": "Morgan Burger",
+      "appearances": 2.0,
+      "starts": 1.0,
+      "rank": 42
+    },
+    {
+      "season": "2023/24",
+      "squad": "2nd",
+      "game_type": "League",
       "player": "Max Morgan",
       "appearances": 2.0,
       "starts": 0.0,
       "rank": 41
-    },
-    {
-      "season": "2023/24",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "Jules Jardim",
-      "appearances": 2.0,
-      "starts": 0.0,
-      "rank": 40
-    },
-    {
-      "season": "2023/24",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "Josh Weaver",
-      "appearances": 2.0,
-      "starts": 1.0,
-      "rank": 39
-    },
-    {
-      "season": "2023/24",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "James Griffiths",
-      "appearances": 2.0,
-      "starts": 1.0,
-      "rank": 38
     },
     {
       "season": "2023/24",
@@ -14755,15 +14746,6 @@
       "season": "2023/24",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Chris May-Miller",
-      "appearances": 2.0,
-      "starts": 2.0,
-      "rank": 35
-    },
-    {
-      "season": "2023/24",
-      "squad": "2nd",
-      "game_type": "League",
       "player": "Alister Yaffa",
       "appearances": 2.0,
       "starts": 2.0,
@@ -14782,64 +14764,37 @@
       "season": "2023/24",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Ryan Foster",
+      "player": "James Griffiths",
+      "appearances": 2.0,
+      "starts": 1.0,
+      "rank": 38
+    },
+    {
+      "season": "2023/24",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Josh Weaver",
+      "appearances": 2.0,
+      "starts": 1.0,
+      "rank": 39
+    },
+    {
+      "season": "2023/24",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Alfie Fuller",
       "appearances": 1.0,
       "starts": 0.0,
-      "rank": 57
+      "rank": 45
     },
     {
       "season": "2023/24",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Jordan Hollis",
+      "player": "Zack Bradbury",
       "appearances": 1.0,
       "starts": 1.0,
-      "rank": 53
-    },
-    {
-      "season": "2023/24",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "Kit Clarke",
-      "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 54
-    },
-    {
-      "season": "2023/24",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "Noah Roberts",
-      "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 55
-    },
-    {
-      "season": "2023/24",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "Oscar Read",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 56
-    },
-    {
-      "season": "2023/24",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "Ryan Morlen",
-      "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 58
-    },
-    {
-      "season": "2023/24",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "Ted Hardisty",
-      "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 59
+      "rank": 61
     },
     {
       "season": "2023/24",
@@ -14854,10 +14809,64 @@
       "season": "2023/24",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Zack Bradbury",
+      "player": "Ted Hardisty",
       "appearances": 1.0,
       "starts": 1.0,
-      "rank": 61
+      "rank": 59
+    },
+    {
+      "season": "2023/24",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Ryan Morlen",
+      "appearances": 1.0,
+      "starts": 1.0,
+      "rank": 58
+    },
+    {
+      "season": "2023/24",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Ryan Foster",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 57
+    },
+    {
+      "season": "2023/24",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Oscar Read",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 56
+    },
+    {
+      "season": "2023/24",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Noah Roberts",
+      "appearances": 1.0,
+      "starts": 1.0,
+      "rank": 55
+    },
+    {
+      "season": "2023/24",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Kit Clarke",
+      "appearances": 1.0,
+      "starts": 1.0,
+      "rank": 54
+    },
+    {
+      "season": "2023/24",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Jordan Hollis",
+      "appearances": 1.0,
+      "starts": 1.0,
+      "rank": 53
     },
     {
       "season": "2023/24",
@@ -14912,15 +14921,6 @@
       "appearances": 1.0,
       "starts": 0.0,
       "rank": 47
-    },
-    {
-      "season": "2023/24",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "Alfie Fuller",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 45
     },
     {
       "season": "2023/24",
@@ -15178,6 +15178,15 @@
       "season": "2022/23",
       "squad": "1st",
       "game_type": "League",
+      "player": "Guy Collins",
+      "appearances": 15.0,
+      "starts": 8.0,
+      "rank": 2
+    },
+    {
+      "season": "2022/23",
+      "squad": "1st",
+      "game_type": "League",
       "player": "Max Crawley-Moore",
       "appearances": 15.0,
       "starts": 15.0,
@@ -15191,15 +15200,6 @@
       "appearances": 15.0,
       "starts": 15.0,
       "rank": 3
-    },
-    {
-      "season": "2022/23",
-      "squad": "1st",
-      "game_type": "League",
-      "player": "Guy Collins",
-      "appearances": 15.0,
-      "starts": 8.0,
-      "rank": 2
     },
     {
       "season": "2022/23",
@@ -15259,10 +15259,10 @@
       "season": "2022/23",
       "squad": "1st",
       "game_type": "League",
-      "player": "Pete Morley",
+      "player": "Josh Brimecombe",
       "appearances": 12.0,
-      "starts": 11.0,
-      "rank": 12
+      "starts": 12.0,
+      "rank": 11
     },
     {
       "season": "2022/23",
@@ -15277,10 +15277,10 @@
       "season": "2022/23",
       "squad": "1st",
       "game_type": "League",
-      "player": "Josh Brimecombe",
+      "player": "Pete Morley",
       "appearances": 12.0,
-      "starts": 12.0,
-      "rank": 11
+      "starts": 11.0,
+      "rank": 12
     },
     {
       "season": "2022/23",
@@ -15412,6 +15412,15 @@
       "season": "2022/23",
       "squad": "1st",
       "game_type": "League",
+      "player": "James Funnell",
+      "appearances": 3.0,
+      "starts": 0.0,
+      "rank": 29
+    },
+    {
+      "season": "2022/23",
+      "squad": "1st",
+      "game_type": "League",
       "player": "Chris Taylor",
       "appearances": 3.0,
       "starts": 3.0,
@@ -15425,15 +15434,6 @@
       "appearances": 3.0,
       "starts": 1.0,
       "rank": 27
-    },
-    {
-      "season": "2022/23",
-      "squad": "1st",
-      "game_type": "League",
-      "player": "James Funnell",
-      "appearances": 3.0,
-      "starts": 0.0,
-      "rank": 29
     },
     {
       "season": "2022/23",
@@ -15457,15 +15457,6 @@
       "season": "2022/23",
       "squad": "1st",
       "game_type": "League",
-      "player": "Ben Beard",
-      "appearances": 2.0,
-      "starts": 1.0,
-      "rank": 31
-    },
-    {
-      "season": "2022/23",
-      "squad": "1st",
-      "game_type": "League",
       "player": "Ollie Adams",
       "appearances": 2.0,
       "starts": 2.0,
@@ -15475,10 +15466,10 @@
       "season": "2022/23",
       "squad": "1st",
       "game_type": "League",
-      "player": "Will Roberts",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 41
+      "player": "Ben Beard",
+      "appearances": 2.0,
+      "starts": 1.0,
+      "rank": 31
     },
     {
       "season": "2022/23",
@@ -15533,6 +15524,15 @@
       "appearances": 1.0,
       "starts": 1.0,
       "rank": 35
+    },
+    {
+      "season": "2022/23",
+      "squad": "1st",
+      "game_type": "League",
+      "player": "Will Roberts",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 41
     },
     {
       "season": "2022/23",
@@ -15718,37 +15718,10 @@
       "season": "2022/23",
       "squad": "2nd",
       "game_type": "Friendly",
-      "player": "Ben Watkinson",
-      "appearances": 2.0,
-      "starts": 1.0,
-      "rank": 2
-    },
-    {
-      "season": "2022/23",
-      "squad": "2nd",
-      "game_type": "Friendly",
-      "player": "Blake English",
-      "appearances": 2.0,
-      "starts": 0.0,
-      "rank": 3
-    },
-    {
-      "season": "2022/23",
-      "squad": "2nd",
-      "game_type": "Friendly",
-      "player": "Jacob Davidson",
+      "player": "Ben Pellett",
       "appearances": 2.0,
       "starts": 2.0,
-      "rank": 10
-    },
-    {
-      "season": "2022/23",
-      "squad": "2nd",
-      "game_type": "Friendly",
-      "player": "Scott Devlin",
-      "appearances": 2.0,
-      "starts": 1.0,
-      "rank": 12
+      "rank": 1
     },
     {
       "season": "2022/23",
@@ -15758,6 +15731,15 @@
       "appearances": 2.0,
       "starts": 2.0,
       "rank": 11
+    },
+    {
+      "season": "2022/23",
+      "squad": "2nd",
+      "game_type": "Friendly",
+      "player": "Jacob Davidson",
+      "appearances": 2.0,
+      "starts": 2.0,
+      "rank": 10
     },
     {
       "season": "2022/23",
@@ -15817,136 +15799,28 @@
       "season": "2022/23",
       "squad": "2nd",
       "game_type": "Friendly",
-      "player": "Ben Pellett",
+      "player": "Blake English",
       "appearances": 2.0,
-      "starts": 2.0,
-      "rank": 1
-    },
-    {
-      "season": "2022/23",
-      "squad": "2nd",
-      "game_type": "Friendly",
-      "player": "Tom Halligey",
-      "appearances": 1.0,
       "starts": 0.0,
-      "rank": 34
+      "rank": 3
     },
     {
       "season": "2022/23",
       "squad": "2nd",
       "game_type": "Friendly",
-      "player": "Tom Byron",
-      "appearances": 1.0,
+      "player": "Ben Watkinson",
+      "appearances": 2.0,
       "starts": 1.0,
-      "rank": 33
+      "rank": 2
     },
     {
       "season": "2022/23",
       "squad": "2nd",
       "game_type": "Friendly",
-      "player": "Stanley Kennett",
-      "appearances": 1.0,
+      "player": "Scott Devlin",
+      "appearances": 2.0,
       "starts": 1.0,
-      "rank": 32
-    },
-    {
-      "season": "2022/23",
-      "squad": "2nd",
-      "game_type": "Friendly",
-      "player": "Sean Taylor",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 31
-    },
-    {
-      "season": "2022/23",
-      "squad": "2nd",
-      "game_type": "Friendly",
-      "player": "Sean Morgan",
-      "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 30
-    },
-    {
-      "season": "2022/23",
-      "squad": "2nd",
-      "game_type": "Friendly",
-      "player": "Sean Madden",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 29
-    },
-    {
-      "season": "2022/23",
-      "squad": "2nd",
-      "game_type": "Friendly",
-      "player": "Sam Spriddell",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 28
-    },
-    {
-      "season": "2022/23",
-      "squad": "2nd",
-      "game_type": "Friendly",
-      "player": "Rory Evans",
-      "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 26
-    },
-    {
-      "season": "2022/23",
-      "squad": "2nd",
-      "game_type": "Friendly",
-      "player": "Richard Dodgson",
-      "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 25
-    },
-    {
-      "season": "2022/23",
-      "squad": "2nd",
-      "game_type": "Friendly",
-      "player": "Or Shay",
-      "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 24
-    },
-    {
-      "season": "2022/23",
-      "squad": "2nd",
-      "game_type": "Friendly",
-      "player": "Oliver Roberts",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 23
-    },
-    {
-      "season": "2022/23",
-      "squad": "2nd",
-      "game_type": "Friendly",
-      "player": "Max Morgan",
-      "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 22
-    },
-    {
-      "season": "2022/23",
-      "squad": "2nd",
-      "game_type": "Friendly",
-      "player": "Max English",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 21
-    },
-    {
-      "season": "2022/23",
-      "squad": "2nd",
-      "game_type": "Friendly",
-      "player": "Mark Oliver",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 20
+      "rank": 12
     },
     {
       "season": "2022/23",
@@ -15965,6 +15839,15 @@
       "appearances": 1.0,
       "starts": 1.0,
       "rank": 18
+    },
+    {
+      "season": "2022/23",
+      "squad": "2nd",
+      "game_type": "Friendly",
+      "player": "Mark Oliver",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 20
     },
     {
       "season": "2022/23",
@@ -16023,6 +15906,123 @@
     {
       "season": "2022/23",
       "squad": "2nd",
+      "game_type": "Friendly",
+      "player": "Max English",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 21
+    },
+    {
+      "season": "2022/23",
+      "squad": "2nd",
+      "game_type": "Friendly",
+      "player": "Max Morgan",
+      "appearances": 1.0,
+      "starts": 1.0,
+      "rank": 22
+    },
+    {
+      "season": "2022/23",
+      "squad": "2nd",
+      "game_type": "Friendly",
+      "player": "Oliver Roberts",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 23
+    },
+    {
+      "season": "2022/23",
+      "squad": "2nd",
+      "game_type": "Friendly",
+      "player": "Or Shay",
+      "appearances": 1.0,
+      "starts": 1.0,
+      "rank": 24
+    },
+    {
+      "season": "2022/23",
+      "squad": "2nd",
+      "game_type": "Friendly",
+      "player": "Richard Dodgson",
+      "appearances": 1.0,
+      "starts": 1.0,
+      "rank": 25
+    },
+    {
+      "season": "2022/23",
+      "squad": "2nd",
+      "game_type": "Friendly",
+      "player": "Rory Evans",
+      "appearances": 1.0,
+      "starts": 1.0,
+      "rank": 26
+    },
+    {
+      "season": "2022/23",
+      "squad": "2nd",
+      "game_type": "Friendly",
+      "player": "Tom Halligey",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 34
+    },
+    {
+      "season": "2022/23",
+      "squad": "2nd",
+      "game_type": "Friendly",
+      "player": "Sam Spriddell",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 28
+    },
+    {
+      "season": "2022/23",
+      "squad": "2nd",
+      "game_type": "Friendly",
+      "player": "Tom Byron",
+      "appearances": 1.0,
+      "starts": 1.0,
+      "rank": 33
+    },
+    {
+      "season": "2022/23",
+      "squad": "2nd",
+      "game_type": "Friendly",
+      "player": "Stanley Kennett",
+      "appearances": 1.0,
+      "starts": 1.0,
+      "rank": 32
+    },
+    {
+      "season": "2022/23",
+      "squad": "2nd",
+      "game_type": "Friendly",
+      "player": "Sean Taylor",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 31
+    },
+    {
+      "season": "2022/23",
+      "squad": "2nd",
+      "game_type": "Friendly",
+      "player": "Sean Morgan",
+      "appearances": 1.0,
+      "starts": 1.0,
+      "rank": 30
+    },
+    {
+      "season": "2022/23",
+      "squad": "2nd",
+      "game_type": "Friendly",
+      "player": "Sean Madden",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 29
+    },
+    {
+      "season": "2022/23",
+      "squad": "2nd",
       "game_type": "League",
       "player": "Ben Watkinson",
       "appearances": 10.0,
@@ -16060,6 +16060,15 @@
       "season": "2022/23",
       "squad": "2nd",
       "game_type": "League",
+      "player": "James Jenkins",
+      "appearances": 8.0,
+      "starts": 8.0,
+      "rank": 7
+    },
+    {
+      "season": "2022/23",
+      "squad": "2nd",
+      "game_type": "League",
       "player": "Chris Taylor",
       "appearances": 8.0,
       "starts": 8.0,
@@ -16073,15 +16082,6 @@
       "appearances": 8.0,
       "starts": 8.0,
       "rank": 6
-    },
-    {
-      "season": "2022/23",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "James Jenkins",
-      "appearances": 8.0,
-      "starts": 8.0,
-      "rank": 7
     },
     {
       "season": "2022/23",
@@ -16132,15 +16132,6 @@
       "season": "2022/23",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Morgan Burger",
-      "appearances": 5.0,
-      "starts": 2.0,
-      "rank": 15
-    },
-    {
-      "season": "2022/23",
-      "squad": "2nd",
-      "game_type": "League",
       "player": "Sean Morgan",
       "appearances": 5.0,
       "starts": 5.0,
@@ -16177,6 +16168,15 @@
       "season": "2022/23",
       "squad": "2nd",
       "game_type": "League",
+      "player": "Morgan Burger",
+      "appearances": 5.0,
+      "starts": 2.0,
+      "rank": 15
+    },
+    {
+      "season": "2022/23",
+      "squad": "2nd",
+      "game_type": "League",
       "player": "Oliver Roberts",
       "appearances": 4.0,
       "starts": 0.0,
@@ -16195,19 +16195,19 @@
       "season": "2022/23",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Stanley Kennett",
+      "player": "Sean Taylor",
       "appearances": 3.0,
-      "starts": 2.0,
-      "rank": 25
+      "starts": 1.0,
+      "rank": 24
     },
     {
       "season": "2022/23",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Sean Taylor",
+      "player": "Stanley Kennett",
       "appearances": 3.0,
-      "starts": 1.0,
-      "rank": 24
+      "starts": 2.0,
+      "rank": 25
     },
     {
       "season": "2022/23",
@@ -16244,6 +16244,42 @@
       "appearances": 3.0,
       "starts": 1.0,
       "rank": 20
+    },
+    {
+      "season": "2022/23",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Joe Terry",
+      "appearances": 2.0,
+      "starts": 2.0,
+      "rank": 34
+    },
+    {
+      "season": "2022/23",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Joe Boczek",
+      "appearances": 2.0,
+      "starts": 1.0,
+      "rank": 33
+    },
+    {
+      "season": "2022/23",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Jacob James",
+      "appearances": 2.0,
+      "starts": 1.0,
+      "rank": 32
+    },
+    {
+      "season": "2022/23",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Jacob Davidson",
+      "appearances": 2.0,
+      "starts": 2.0,
+      "rank": 31
     },
     {
       "season": "2022/23",
@@ -16294,55 +16330,10 @@
       "season": "2022/23",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Jacob James",
-      "appearances": 2.0,
-      "starts": 1.0,
-      "rank": 32
-    },
-    {
-      "season": "2022/23",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "Joe Boczek",
-      "appearances": 2.0,
-      "starts": 1.0,
-      "rank": 33
-    },
-    {
-      "season": "2022/23",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "Rory Evans",
-      "appearances": 2.0,
-      "starts": 2.0,
-      "rank": 40
-    },
-    {
-      "season": "2022/23",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "Josh Brimecombe",
-      "appearances": 2.0,
-      "starts": 2.0,
-      "rank": 35
-    },
-    {
-      "season": "2022/23",
-      "squad": "2nd",
-      "game_type": "League",
       "player": "Ky Oliveira",
       "appearances": 2.0,
       "starts": 2.0,
       "rank": 36
-    },
-    {
-      "season": "2022/23",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "Lukis Waite",
-      "appearances": 2.0,
-      "starts": 0.0,
-      "rank": 37
     },
     {
       "season": "2022/23",
@@ -16357,15 +16348,6 @@
       "season": "2022/23",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Sam Ashley-Williams",
-      "appearances": 2.0,
-      "starts": 0.0,
-      "rank": 42
-    },
-    {
-      "season": "2022/23",
-      "squad": "2nd",
-      "game_type": "League",
       "player": "Rory Duncanson",
       "appearances": 2.0,
       "starts": 0.0,
@@ -16375,10 +16357,10 @@
       "season": "2022/23",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Jacob Davidson",
+      "player": "Rory Evans",
       "appearances": 2.0,
       "starts": 2.0,
-      "rank": 31
+      "rank": 40
     },
     {
       "season": "2022/23",
@@ -16393,28 +16375,37 @@
       "season": "2022/23",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Joe Terry",
+      "player": "Sam Ashley-Williams",
+      "appearances": 2.0,
+      "starts": 0.0,
+      "rank": 42
+    },
+    {
+      "season": "2022/23",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Josh Brimecombe",
       "appearances": 2.0,
       "starts": 2.0,
-      "rank": 34
+      "rank": 35
     },
     {
       "season": "2022/23",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Bertie Beanland",
-      "appearances": 1.0,
+      "player": "Lukis Waite",
+      "appearances": 2.0,
       "starts": 0.0,
-      "rank": 48
+      "rank": 37
     },
     {
       "season": "2022/23",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Tom Byron",
+      "player": "Zack Bradbury",
       "appearances": 1.0,
       "starts": 0.0,
-      "rank": 72
+      "rank": 73
     },
     {
       "season": "2022/23",
@@ -16460,6 +16451,15 @@
       "appearances": 1.0,
       "starts": 1.0,
       "rank": 47
+    },
+    {
+      "season": "2022/23",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Bertie Beanland",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 48
     },
     {
       "season": "2022/23",
@@ -16672,10 +16672,55 @@
       "season": "2022/23",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Zack Bradbury",
+      "player": "Tom Byron",
       "appearances": 1.0,
       "starts": 0.0,
-      "rank": 73
+      "rank": 72
+    },
+    {
+      "season": "2021/22",
+      "squad": "1st",
+      "game_type": "Cup",
+      "player": "Eoin O'Donoghue",
+      "appearances": 2.0,
+      "starts": 2.0,
+      "rank": 5
+    },
+    {
+      "season": "2021/22",
+      "squad": "1st",
+      "game_type": "Cup",
+      "player": "Ali Moffatt",
+      "appearances": 2.0,
+      "starts": 2.0,
+      "rank": 1
+    },
+    {
+      "season": "2021/22",
+      "squad": "1st",
+      "game_type": "Cup",
+      "player": "Ben Tottman",
+      "appearances": 2.0,
+      "starts": 2.0,
+      "rank": 2
+    },
+    {
+      "season": "2021/22",
+      "squad": "1st",
+      "game_type": "Cup",
+      "player": "Devon Frost",
+      "appearances": 2.0,
+      "starts": 1.0,
+      "rank": 4
+    },
+    {
+      "season": "2021/22",
+      "squad": "1st",
+      "game_type": "Cup",
+      "player": "Dave Bridges",
+      "appearances": 2.0,
+      "starts": 2.0,
+      "rank": 3
     },
     {
       "season": "2021/22",
@@ -16762,46 +16807,28 @@
       "season": "2021/22",
       "squad": "1st",
       "game_type": "Cup",
-      "player": "Eoin O'Donoghue",
-      "appearances": 2.0,
-      "starts": 2.0,
-      "rank": 5
-    },
-    {
-      "season": "2021/22",
-      "squad": "1st",
-      "game_type": "Cup",
-      "player": "Devon Frost",
-      "appearances": 2.0,
+      "player": "Dan Poulton",
+      "appearances": 1.0,
       "starts": 1.0,
-      "rank": 4
+      "rank": 18
     },
     {
       "season": "2021/22",
       "squad": "1st",
       "game_type": "Cup",
-      "player": "Dave Bridges",
-      "appearances": 2.0,
-      "starts": 2.0,
-      "rank": 3
+      "player": "Dan Billin",
+      "appearances": 1.0,
+      "starts": 1.0,
+      "rank": 17
     },
     {
       "season": "2021/22",
       "squad": "1st",
       "game_type": "Cup",
-      "player": "Ben Tottman",
-      "appearances": 2.0,
-      "starts": 2.0,
-      "rank": 2
-    },
-    {
-      "season": "2021/22",
-      "squad": "1st",
-      "game_type": "Cup",
-      "player": "Ali Moffatt",
-      "appearances": 2.0,
-      "starts": 2.0,
-      "rank": 1
+      "player": "Josh Brimecombe",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 19
     },
     {
       "season": "2021/22",
@@ -16843,33 +16870,6 @@
       "season": "2021/22",
       "squad": "1st",
       "game_type": "Cup",
-      "player": "Josh Brimecombe",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 19
-    },
-    {
-      "season": "2021/22",
-      "squad": "1st",
-      "game_type": "Cup",
-      "player": "Dan Poulton",
-      "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 18
-    },
-    {
-      "season": "2021/22",
-      "squad": "1st",
-      "game_type": "Cup",
-      "player": "Dan Billin",
-      "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 17
-    },
-    {
-      "season": "2021/22",
-      "squad": "1st",
-      "game_type": "Cup",
       "player": "Connor Leggat",
       "appearances": 1.0,
       "starts": 1.0,
@@ -16888,28 +16888,19 @@
       "season": "2021/22",
       "squad": "1st",
       "game_type": "Friendly",
-      "player": "Dan Poulton",
-      "appearances": 7.0,
-      "starts": 7.0,
-      "rank": 1
-    },
-    {
-      "season": "2021/22",
-      "squad": "1st",
-      "game_type": "Friendly",
-      "player": "Sam Lindsay-McCall",
-      "appearances": 7.0,
-      "starts": 7.0,
-      "rank": 3
-    },
-    {
-      "season": "2021/22",
-      "squad": "1st",
-      "game_type": "Friendly",
       "player": "Sam Spriddell",
       "appearances": 7.0,
       "starts": 6.0,
       "rank": 4
+    },
+    {
+      "season": "2021/22",
+      "squad": "1st",
+      "game_type": "Friendly",
+      "player": "Dan Poulton",
+      "appearances": 7.0,
+      "starts": 7.0,
+      "rank": 1
     },
     {
       "season": "2021/22",
@@ -16924,10 +16915,10 @@
       "season": "2021/22",
       "squad": "1st",
       "game_type": "Friendly",
-      "player": "Max Crawley-Moore",
-      "appearances": 6.0,
-      "starts": 6.0,
-      "rank": 7
+      "player": "Sam Lindsay-McCall",
+      "appearances": 7.0,
+      "starts": 7.0,
+      "rank": 3
     },
     {
       "season": "2021/22",
@@ -16942,10 +16933,73 @@
       "season": "2021/22",
       "squad": "1st",
       "game_type": "Friendly",
+      "player": "Max Crawley-Moore",
+      "appearances": 6.0,
+      "starts": 6.0,
+      "rank": 7
+    },
+    {
+      "season": "2021/22",
+      "squad": "1st",
+      "game_type": "Friendly",
       "player": "Ben Tottman",
       "appearances": 6.0,
       "starts": 6.0,
       "rank": 5
+    },
+    {
+      "season": "2021/22",
+      "squad": "1st",
+      "game_type": "Friendly",
+      "player": "Chris Taylor",
+      "appearances": 5.0,
+      "starts": 2.0,
+      "rank": 8
+    },
+    {
+      "season": "2021/22",
+      "squad": "1st",
+      "game_type": "Friendly",
+      "player": "Gus Nye",
+      "appearances": 5.0,
+      "starts": 5.0,
+      "rank": 9
+    },
+    {
+      "season": "2021/22",
+      "squad": "1st",
+      "game_type": "Friendly",
+      "player": "Jake Radcliffe",
+      "appearances": 5.0,
+      "starts": 4.0,
+      "rank": 10
+    },
+    {
+      "season": "2021/22",
+      "squad": "1st",
+      "game_type": "Friendly",
+      "player": "James Funnell",
+      "appearances": 5.0,
+      "starts": 5.0,
+      "rank": 11
+    },
+    {
+      "season": "2021/22",
+      "squad": "1st",
+      "game_type": "Friendly",
+      "player": "Pete Morley",
+      "appearances": 5.0,
+      "starts": 5.0,
+      "rank": 13
+    },
+    {
+      "season": "2021/22",
+      "squad": "1st",
+      "game_type": "Friendly",
+      "player": "Tim Morris",
+      "appearances": 5.0,
+      "starts": 3.0,
+      "rank": 14
     },
     {
       "season": "2021/22",
@@ -16969,24 +17023,6 @@
       "season": "2021/22",
       "squad": "1st",
       "game_type": "Friendly",
-      "player": "Tim Morris",
-      "appearances": 5.0,
-      "starts": 3.0,
-      "rank": 14
-    },
-    {
-      "season": "2021/22",
-      "squad": "1st",
-      "game_type": "Friendly",
-      "player": "Pete Morley",
-      "appearances": 5.0,
-      "starts": 5.0,
-      "rank": 13
-    },
-    {
-      "season": "2021/22",
-      "squad": "1st",
-      "game_type": "Friendly",
       "player": "Josh Brimecombe",
       "appearances": 5.0,
       "starts": 5.0,
@@ -16996,73 +17032,10 @@
       "season": "2021/22",
       "squad": "1st",
       "game_type": "Friendly",
-      "player": "James Funnell",
-      "appearances": 5.0,
-      "starts": 5.0,
-      "rank": 11
-    },
-    {
-      "season": "2021/22",
-      "squad": "1st",
-      "game_type": "Friendly",
-      "player": "Jake Radcliffe",
-      "appearances": 5.0,
-      "starts": 4.0,
-      "rank": 10
-    },
-    {
-      "season": "2021/22",
-      "squad": "1st",
-      "game_type": "Friendly",
-      "player": "Gus Nye",
-      "appearances": 5.0,
-      "starts": 5.0,
-      "rank": 9
-    },
-    {
-      "season": "2021/22",
-      "squad": "1st",
-      "game_type": "Friendly",
-      "player": "Chris Taylor",
-      "appearances": 5.0,
-      "starts": 2.0,
-      "rank": 8
-    },
-    {
-      "season": "2021/22",
-      "squad": "1st",
-      "game_type": "Friendly",
-      "player": "Tao Benn",
+      "player": "Ali Moffatt",
       "appearances": 4.0,
-      "starts": 1.0,
-      "rank": 22
-    },
-    {
-      "season": "2021/22",
-      "squad": "1st",
-      "game_type": "Friendly",
-      "player": "Rory Evans",
-      "appearances": 4.0,
-      "starts": 1.0,
-      "rank": 21
-    },
-    {
-      "season": "2021/22",
-      "squad": "1st",
-      "game_type": "Friendly",
-      "player": "Oli Billin",
-      "appearances": 4.0,
-      "starts": 1.0,
-      "rank": 20
-    },
-    {
-      "season": "2021/22",
-      "squad": "1st",
-      "game_type": "Friendly",
-      "player": "George Beet",
-      "appearances": 4.0,
-      "starts": 1.0,
-      "rank": 19
+      "starts": 3.0,
+      "rank": 17
     },
     {
       "season": "2021/22",
@@ -17077,10 +17050,37 @@
       "season": "2021/22",
       "squad": "1st",
       "game_type": "Friendly",
-      "player": "Ali Moffatt",
+      "player": "George Beet",
       "appearances": 4.0,
-      "starts": 3.0,
-      "rank": 17
+      "starts": 1.0,
+      "rank": 19
+    },
+    {
+      "season": "2021/22",
+      "squad": "1st",
+      "game_type": "Friendly",
+      "player": "Oli Billin",
+      "appearances": 4.0,
+      "starts": 1.0,
+      "rank": 20
+    },
+    {
+      "season": "2021/22",
+      "squad": "1st",
+      "game_type": "Friendly",
+      "player": "Rory Evans",
+      "appearances": 4.0,
+      "starts": 1.0,
+      "rank": 21
+    },
+    {
+      "season": "2021/22",
+      "squad": "1st",
+      "game_type": "Friendly",
+      "player": "Tao Benn",
+      "appearances": 4.0,
+      "starts": 1.0,
+      "rank": 22
     },
     {
       "season": "2021/22",
@@ -17117,6 +17117,15 @@
       "appearances": 3.0,
       "starts": 2.0,
       "rank": 26
+    },
+    {
+      "season": "2021/22",
+      "squad": "1st",
+      "game_type": "Friendly",
+      "player": "Tom Poynder",
+      "appearances": 2.0,
+      "starts": 0.0,
+      "rank": 36
     },
     {
       "season": "2021/22",
@@ -17203,10 +17212,64 @@
       "season": "2021/22",
       "squad": "1st",
       "game_type": "Friendly",
-      "player": "Tom Poynder",
-      "appearances": 2.0,
+      "player": "Tom Mooney",
+      "appearances": 1.0,
       "starts": 0.0,
-      "rank": 36
+      "rank": 53
+    },
+    {
+      "season": "2021/22",
+      "squad": "1st",
+      "game_type": "Friendly",
+      "player": "Tom Byron",
+      "appearances": 1.0,
+      "starts": 1.0,
+      "rank": 52
+    },
+    {
+      "season": "2021/22",
+      "squad": "1st",
+      "game_type": "Friendly",
+      "player": "Sam Lindsay",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 51
+    },
+    {
+      "season": "2021/22",
+      "squad": "1st",
+      "game_type": "Friendly",
+      "player": "Rory Duncanson",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 50
+    },
+    {
+      "season": "2021/22",
+      "squad": "1st",
+      "game_type": "Friendly",
+      "player": "Richard Dodgson",
+      "appearances": 1.0,
+      "starts": 1.0,
+      "rank": 49
+    },
+    {
+      "season": "2021/22",
+      "squad": "1st",
+      "game_type": "Friendly",
+      "player": "Owen Peel",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 48
+    },
+    {
+      "season": "2021/22",
+      "squad": "1st",
+      "game_type": "Friendly",
+      "player": "Ollie Adams",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 47
     },
     {
       "season": "2021/22",
@@ -17297,69 +17360,6 @@
       "appearances": 1.0,
       "starts": 0.0,
       "rank": 46
-    },
-    {
-      "season": "2021/22",
-      "squad": "1st",
-      "game_type": "Friendly",
-      "player": "Ollie Adams",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 47
-    },
-    {
-      "season": "2021/22",
-      "squad": "1st",
-      "game_type": "Friendly",
-      "player": "Owen Peel",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 48
-    },
-    {
-      "season": "2021/22",
-      "squad": "1st",
-      "game_type": "Friendly",
-      "player": "Richard Dodgson",
-      "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 49
-    },
-    {
-      "season": "2021/22",
-      "squad": "1st",
-      "game_type": "Friendly",
-      "player": "Rory Duncanson",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 50
-    },
-    {
-      "season": "2021/22",
-      "squad": "1st",
-      "game_type": "Friendly",
-      "player": "Sam Lindsay",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 51
-    },
-    {
-      "season": "2021/22",
-      "squad": "1st",
-      "game_type": "Friendly",
-      "player": "Tom Byron",
-      "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 52
-    },
-    {
-      "season": "2021/22",
-      "squad": "1st",
-      "game_type": "Friendly",
-      "player": "Tom Mooney",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 53
     },
     {
       "season": "2021/22",
@@ -17725,24 +17725,6 @@
       "season": "2021/22",
       "squad": "2nd",
       "game_type": "Cup",
-      "player": "Toby Rowe",
-      "appearances": 2.0,
-      "starts": 2.0,
-      "rank": 13
-    },
-    {
-      "season": "2021/22",
-      "squad": "2nd",
-      "game_type": "Cup",
-      "player": "Scott Devlin",
-      "appearances": 2.0,
-      "starts": 2.0,
-      "rank": 12
-    },
-    {
-      "season": "2021/22",
-      "squad": "2nd",
-      "game_type": "Cup",
       "player": "Rory Evans",
       "appearances": 2.0,
       "starts": 2.0,
@@ -17752,28 +17734,10 @@
       "season": "2021/22",
       "squad": "2nd",
       "game_type": "Cup",
-      "player": "Jules Jardim",
-      "appearances": 2.0,
-      "starts": 1.0,
-      "rank": 10
-    },
-    {
-      "season": "2021/22",
-      "squad": "2nd",
-      "game_type": "Cup",
-      "player": "Joe Terry",
+      "player": "Ethan Carrick",
       "appearances": 2.0,
       "starts": 2.0,
-      "rank": 9
-    },
-    {
-      "season": "2021/22",
-      "squad": "2nd",
-      "game_type": "Cup",
-      "player": "Harrison Berry",
-      "appearances": 2.0,
-      "starts": 2.0,
-      "rank": 8
+      "rank": 6
     },
     {
       "season": "2021/22",
@@ -17788,10 +17752,55 @@
       "season": "2021/22",
       "squad": "2nd",
       "game_type": "Cup",
+      "player": "Harrison Berry",
+      "appearances": 2.0,
+      "starts": 2.0,
+      "rank": 8
+    },
+    {
+      "season": "2021/22",
+      "squad": "2nd",
+      "game_type": "Cup",
+      "player": "Joe Terry",
+      "appearances": 2.0,
+      "starts": 2.0,
+      "rank": 9
+    },
+    {
+      "season": "2021/22",
+      "squad": "2nd",
+      "game_type": "Cup",
+      "player": "Jules Jardim",
+      "appearances": 2.0,
+      "starts": 1.0,
+      "rank": 10
+    },
+    {
+      "season": "2021/22",
+      "squad": "2nd",
+      "game_type": "Cup",
       "player": "Eoin O'Donoghue",
       "appearances": 2.0,
       "starts": 1.0,
       "rank": 5
+    },
+    {
+      "season": "2021/22",
+      "squad": "2nd",
+      "game_type": "Cup",
+      "player": "Scott Devlin",
+      "appearances": 2.0,
+      "starts": 2.0,
+      "rank": 12
+    },
+    {
+      "season": "2021/22",
+      "squad": "2nd",
+      "game_type": "Cup",
+      "player": "Toby Rowe",
+      "appearances": 2.0,
+      "starts": 2.0,
+      "rank": 13
     },
     {
       "season": "2021/22",
@@ -17824,109 +17833,10 @@
       "season": "2021/22",
       "squad": "2nd",
       "game_type": "Cup",
-      "player": "Ethan Carrick",
-      "appearances": 2.0,
-      "starts": 2.0,
-      "rank": 6
-    },
-    {
-      "season": "2021/22",
-      "squad": "2nd",
-      "game_type": "Cup",
-      "player": "Sean Morgan",
+      "player": "Ali Moffatt",
       "appearances": 1.0,
       "starts": 1.0,
-      "rank": 27
-    },
-    {
-      "season": "2021/22",
-      "squad": "2nd",
-      "game_type": "Cup",
-      "player": "Mark Oliver",
-      "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 20
-    },
-    {
-      "season": "2021/22",
-      "squad": "2nd",
-      "game_type": "Cup",
-      "player": "Sam Montagu",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 25
-    },
-    {
-      "season": "2021/22",
-      "squad": "2nd",
-      "game_type": "Cup",
-      "player": "Sam Lindsay-McCall",
-      "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 24
-    },
-    {
-      "season": "2021/22",
-      "squad": "2nd",
-      "game_type": "Cup",
-      "player": "Robert Poole",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 23
-    },
-    {
-      "season": "2021/22",
-      "squad": "2nd",
-      "game_type": "Cup",
-      "player": "Pete Morley",
-      "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 22
-    },
-    {
-      "season": "2021/22",
-      "squad": "2nd",
-      "game_type": "Cup",
-      "player": "Owen Peel",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 21
-    },
-    {
-      "season": "2021/22",
-      "squad": "2nd",
-      "game_type": "Cup",
-      "player": "Josh Brimecombe",
-      "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 19
-    },
-    {
-      "season": "2021/22",
-      "squad": "2nd",
-      "game_type": "Cup",
-      "player": "Jacob Davidson",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 18
-    },
-    {
-      "season": "2021/22",
-      "squad": "2nd",
-      "game_type": "Cup",
-      "player": "Darren Gwynn",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 17
-    },
-    {
-      "season": "2021/22",
-      "squad": "2nd",
-      "game_type": "Cup",
-      "player": "Ben Watkinson",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 16
+      "rank": 14
     },
     {
       "season": "2021/22",
@@ -17941,10 +17851,82 @@
       "season": "2021/22",
       "squad": "2nd",
       "game_type": "Cup",
-      "player": "Ali Moffatt",
+      "player": "Ben Watkinson",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 16
+    },
+    {
+      "season": "2021/22",
+      "squad": "2nd",
+      "game_type": "Cup",
+      "player": "Darren Gwynn",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 17
+    },
+    {
+      "season": "2021/22",
+      "squad": "2nd",
+      "game_type": "Cup",
+      "player": "Jacob Davidson",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 18
+    },
+    {
+      "season": "2021/22",
+      "squad": "2nd",
+      "game_type": "Cup",
+      "player": "Josh Brimecombe",
       "appearances": 1.0,
       "starts": 1.0,
-      "rank": 14
+      "rank": 19
+    },
+    {
+      "season": "2021/22",
+      "squad": "2nd",
+      "game_type": "Cup",
+      "player": "Mark Oliver",
+      "appearances": 1.0,
+      "starts": 1.0,
+      "rank": 20
+    },
+    {
+      "season": "2021/22",
+      "squad": "2nd",
+      "game_type": "Cup",
+      "player": "Owen Peel",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 21
+    },
+    {
+      "season": "2021/22",
+      "squad": "2nd",
+      "game_type": "Cup",
+      "player": "Pete Morley",
+      "appearances": 1.0,
+      "starts": 1.0,
+      "rank": 22
+    },
+    {
+      "season": "2021/22",
+      "squad": "2nd",
+      "game_type": "Cup",
+      "player": "Robert Poole",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 23
+    },
+    {
+      "season": "2021/22",
+      "squad": "2nd",
+      "game_type": "Cup",
+      "player": "Sam Lindsay-McCall",
+      "appearances": 1.0,
+      "starts": 1.0,
+      "rank": 24
     },
     {
       "season": "2021/22",
@@ -17954,6 +17936,24 @@
       "appearances": 1.0,
       "starts": 1.0,
       "rank": 26
+    },
+    {
+      "season": "2021/22",
+      "squad": "2nd",
+      "game_type": "Cup",
+      "player": "Sean Morgan",
+      "appearances": 1.0,
+      "starts": 1.0,
+      "rank": 27
+    },
+    {
+      "season": "2021/22",
+      "squad": "2nd",
+      "game_type": "Cup",
+      "player": "Sam Montagu",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 25
     },
     {
       "season": "2021/22",
@@ -17977,10 +17977,10 @@
       "season": "2021/22",
       "squad": "2nd",
       "game_type": "Friendly",
-      "player": "Alex Leadbeater",
+      "player": "Scott Devlin",
       "appearances": 3.0,
       "starts": 3.0,
-      "rank": 3
+      "rank": 9
     },
     {
       "season": "2021/22",
@@ -17990,15 +17990,6 @@
       "appearances": 3.0,
       "starts": 2.0,
       "rank": 10
-    },
-    {
-      "season": "2021/22",
-      "squad": "2nd",
-      "game_type": "Friendly",
-      "player": "Scott Devlin",
-      "appearances": 3.0,
-      "starts": 3.0,
-      "rank": 9
     },
     {
       "season": "2021/22",
@@ -18049,10 +18040,10 @@
       "season": "2021/22",
       "squad": "2nd",
       "game_type": "Friendly",
-      "player": "Guy Phillips",
-      "appearances": 2.0,
-      "starts": 1.0,
-      "rank": 13
+      "player": "Alex Leadbeater",
+      "appearances": 3.0,
+      "starts": 3.0,
+      "rank": 3
     },
     {
       "season": "2021/22",
@@ -18062,6 +18053,15 @@
       "appearances": 2.0,
       "starts": 1.0,
       "rank": 20
+    },
+    {
+      "season": "2021/22",
+      "squad": "2nd",
+      "game_type": "Friendly",
+      "player": "Dave Bridges",
+      "appearances": 2.0,
+      "starts": 1.0,
+      "rank": 12
     },
     {
       "season": "2021/22",
@@ -18121,10 +18121,10 @@
       "season": "2021/22",
       "squad": "2nd",
       "game_type": "Friendly",
-      "player": "Dave Bridges",
+      "player": "Guy Phillips",
       "appearances": 2.0,
       "starts": 1.0,
-      "rank": 12
+      "rank": 13
     },
     {
       "season": "2021/22",
@@ -18139,19 +18139,19 @@
       "season": "2021/22",
       "squad": "2nd",
       "game_type": "Friendly",
-      "player": "Sam Lindsay-McCall",
+      "player": "Sachio Shimizu",
       "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 49
+      "starts": 0.0,
+      "rank": 47
     },
     {
       "season": "2021/22",
       "squad": "2nd",
       "game_type": "Friendly",
-      "player": "Sam Lindsay",
+      "player": "Sam Lindsay-McCall",
       "appearances": 1.0,
       "starts": 1.0,
-      "rank": 48
+      "rank": 49
     },
     {
       "season": "2021/22",
@@ -18170,24 +18170,6 @@
       "appearances": 1.0,
       "starts": 1.0,
       "rank": 51
-    },
-    {
-      "season": "2021/22",
-      "squad": "2nd",
-      "game_type": "Friendly",
-      "player": "Sachio Shimizu",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 47
-    },
-    {
-      "season": "2021/22",
-      "squad": "2nd",
-      "game_type": "Friendly",
-      "player": "Ryan Morlen",
-      "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 46
     },
     {
       "season": "2021/22",
@@ -18247,19 +18229,19 @@
       "season": "2021/22",
       "squad": "2nd",
       "game_type": "Friendly",
-      "player": "Lukis Waite",
+      "player": "Matthew Robotham",
       "appearances": 1.0,
       "starts": 1.0,
-      "rank": 38
+      "rank": 39
     },
     {
       "season": "2021/22",
       "squad": "2nd",
       "game_type": "Friendly",
-      "player": "Jules Jardim",
+      "player": "Lukis Waite",
       "appearances": 1.0,
       "starts": 1.0,
-      "rank": 37
+      "rank": 38
     },
     {
       "season": "2021/22",
@@ -18373,6 +18355,15 @@
       "season": "2021/22",
       "squad": "2nd",
       "game_type": "Friendly",
+      "player": "Ryan Morlen",
+      "appearances": 1.0,
+      "starts": 1.0,
+      "rank": 46
+    },
+    {
+      "season": "2021/22",
+      "squad": "2nd",
+      "game_type": "Friendly",
       "player": "Ben Hogan",
       "appearances": 1.0,
       "starts": 1.0,
@@ -18409,10 +18400,19 @@
       "season": "2021/22",
       "squad": "2nd",
       "game_type": "Friendly",
-      "player": "Matthew Robotham",
+      "player": "Jules Jardim",
       "appearances": 1.0,
       "starts": 1.0,
-      "rank": 39
+      "rank": 37
+    },
+    {
+      "season": "2021/22",
+      "squad": "2nd",
+      "game_type": "Friendly",
+      "player": "Sam Lindsay",
+      "appearances": 1.0,
+      "starts": 1.0,
+      "rank": 48
     },
     {
       "season": "2021/22",
@@ -19237,15 +19237,6 @@
       "season": "2019/20",
       "squad": "1st",
       "game_type": "League",
-      "player": "Tom Halligey",
-      "appearances": 7.0,
-      "starts": 6.0,
-      "rank": 17
-    },
-    {
-      "season": "2019/20",
-      "squad": "1st",
-      "game_type": "League",
       "player": "Alex Maynard",
       "appearances": 7.0,
       "starts": 6.0,
@@ -19268,6 +19259,15 @@
       "appearances": 7.0,
       "starts": 6.0,
       "rank": 16
+    },
+    {
+      "season": "2019/20",
+      "squad": "1st",
+      "game_type": "League",
+      "player": "Tom Halligey",
+      "appearances": 7.0,
+      "starts": 6.0,
+      "rank": 17
     },
     {
       "season": "2019/20",
@@ -19300,19 +19300,19 @@
       "season": "2019/20",
       "squad": "1st",
       "game_type": "League",
-      "player": "Callum Champain",
+      "player": "Gus Nye",
       "appearances": 5.0,
-      "starts": 2.0,
-      "rank": 21
+      "starts": 3.0,
+      "rank": 22
     },
     {
       "season": "2019/20",
       "squad": "1st",
       "game_type": "League",
-      "player": "Gus Nye",
+      "player": "Callum Champain",
       "appearances": 5.0,
-      "starts": 3.0,
-      "rank": 22
+      "starts": 2.0,
+      "rank": 21
     },
     {
       "season": "2019/20",
@@ -19381,15 +19381,6 @@
       "season": "2019/20",
       "squad": "1st",
       "game_type": "League",
-      "player": "Lukis Waite",
-      "appearances": 3.0,
-      "starts": 3.0,
-      "rank": 32
-    },
-    {
-      "season": "2019/20",
-      "squad": "1st",
-      "game_type": "League",
       "player": "Tom Mooney",
       "appearances": 3.0,
       "starts": 0.0,
@@ -19408,6 +19399,15 @@
       "season": "2019/20",
       "squad": "1st",
       "game_type": "League",
+      "player": "Lukis Waite",
+      "appearances": 3.0,
+      "starts": 3.0,
+      "rank": 32
+    },
+    {
+      "season": "2019/20",
+      "squad": "1st",
+      "game_type": "League",
       "player": "Ben Meyerratken",
       "appearances": 3.0,
       "starts": 2.0,
@@ -19421,15 +19421,6 @@
       "appearances": 3.0,
       "starts": 3.0,
       "rank": 30
-    },
-    {
-      "season": "2019/20",
-      "squad": "1st",
-      "game_type": "League",
-      "player": "Amro Hammer",
-      "appearances": 2.0,
-      "starts": 2.0,
-      "rank": 35
     },
     {
       "season": "2019/20",
@@ -19466,6 +19457,15 @@
       "appearances": 2.0,
       "starts": 2.0,
       "rank": 37
+    },
+    {
+      "season": "2019/20",
+      "squad": "1st",
+      "game_type": "League",
+      "player": "Amro Hammer",
+      "appearances": 2.0,
+      "starts": 2.0,
+      "rank": 35
     },
     {
       "season": "2019/20",
@@ -19552,19 +19552,10 @@
       "season": "2019/20",
       "squad": "1st",
       "game_type": "Unknown",
-      "player": "Tom Mooney",
+      "player": "Ben Hogan",
       "appearances": 1.0,
       "starts": 0.0,
-      "rank": 20
-    },
-    {
-      "season": "2019/20",
-      "squad": "1st",
-      "game_type": "Unknown",
-      "player": "Richard Dodgson",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 18
+      "rank": 2
     },
     {
       "season": "2019/20",
@@ -19579,136 +19570,10 @@
       "season": "2019/20",
       "squad": "1st",
       "game_type": "Unknown",
-      "player": "Ben Hogan",
+      "player": "Tom Mooney",
       "appearances": 1.0,
       "starts": 0.0,
-      "rank": 2
-    },
-    {
-      "season": "2019/20",
-      "squad": "1st",
-      "game_type": "Unknown",
-      "player": "Ben Meyerratken",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 3
-    },
-    {
-      "season": "2019/20",
-      "squad": "1st",
-      "game_type": "Unknown",
-      "player": "Ben Tottman",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 4
-    },
-    {
-      "season": "2019/20",
-      "squad": "1st",
-      "game_type": "Unknown",
-      "player": "Daan Hulst",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 6
-    },
-    {
-      "season": "2019/20",
-      "squad": "1st",
-      "game_type": "Unknown",
-      "player": "Dan Arnold",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 7
-    },
-    {
-      "season": "2019/20",
-      "squad": "1st",
-      "game_type": "Unknown",
-      "player": "Devon Frost",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 8
-    },
-    {
-      "season": "2019/20",
-      "squad": "1st",
-      "game_type": "Unknown",
-      "player": "Jake Radcliffe",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 9
-    },
-    {
-      "season": "2019/20",
-      "squad": "1st",
-      "game_type": "Unknown",
-      "player": "James Busby",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 10
-    },
-    {
-      "season": "2019/20",
-      "squad": "1st",
-      "game_type": "Unknown",
-      "player": "James Funnell",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 11
-    },
-    {
-      "season": "2019/20",
-      "squad": "1st",
-      "game_type": "Unknown",
-      "player": "Lukis Waite",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 12
-    },
-    {
-      "season": "2019/20",
-      "squad": "1st",
-      "game_type": "Unknown",
-      "player": "Matthew Tomkinson",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 13
-    },
-    {
-      "season": "2019/20",
-      "squad": "1st",
-      "game_type": "Unknown",
-      "player": "Max Crawley-Moore",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 14
-    },
-    {
-      "season": "2019/20",
-      "squad": "1st",
-      "game_type": "Unknown",
-      "player": "Oli Billin",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 15
-    },
-    {
-      "season": "2019/20",
-      "squad": "1st",
-      "game_type": "Unknown",
-      "player": "Oliver Roberts",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 16
-    },
-    {
-      "season": "2019/20",
-      "squad": "1st",
-      "game_type": "Unknown",
-      "player": "Ollie Adams",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 17
+      "rank": 20
     },
     {
       "season": "2019/20",
@@ -19723,10 +19588,145 @@
       "season": "2019/20",
       "squad": "1st",
       "game_type": "Unknown",
+      "player": "Richard Dodgson",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 18
+    },
+    {
+      "season": "2019/20",
+      "squad": "1st",
+      "game_type": "Unknown",
+      "player": "Ollie Adams",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 17
+    },
+    {
+      "season": "2019/20",
+      "squad": "1st",
+      "game_type": "Unknown",
+      "player": "Oliver Roberts",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 16
+    },
+    {
+      "season": "2019/20",
+      "squad": "1st",
+      "game_type": "Unknown",
+      "player": "Oli Billin",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 15
+    },
+    {
+      "season": "2019/20",
+      "squad": "1st",
+      "game_type": "Unknown",
+      "player": "Max Crawley-Moore",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 14
+    },
+    {
+      "season": "2019/20",
+      "squad": "1st",
+      "game_type": "Unknown",
+      "player": "Matthew Tomkinson",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 13
+    },
+    {
+      "season": "2019/20",
+      "squad": "1st",
+      "game_type": "Unknown",
+      "player": "Lukis Waite",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 12
+    },
+    {
+      "season": "2019/20",
+      "squad": "1st",
+      "game_type": "Unknown",
+      "player": "James Funnell",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 11
+    },
+    {
+      "season": "2019/20",
+      "squad": "1st",
+      "game_type": "Unknown",
+      "player": "James Busby",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 10
+    },
+    {
+      "season": "2019/20",
+      "squad": "1st",
+      "game_type": "Unknown",
+      "player": "Jake Radcliffe",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 9
+    },
+    {
+      "season": "2019/20",
+      "squad": "1st",
+      "game_type": "Unknown",
+      "player": "Devon Frost",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 8
+    },
+    {
+      "season": "2019/20",
+      "squad": "1st",
+      "game_type": "Unknown",
+      "player": "Dan Arnold",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 7
+    },
+    {
+      "season": "2019/20",
+      "squad": "1st",
+      "game_type": "Unknown",
+      "player": "Daan Hulst",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 6
+    },
+    {
+      "season": "2019/20",
+      "squad": "1st",
+      "game_type": "Unknown",
       "player": "Chris Pentney",
       "appearances": 1.0,
       "starts": 0.0,
       "rank": 5
+    },
+    {
+      "season": "2019/20",
+      "squad": "1st",
+      "game_type": "Unknown",
+      "player": "Ben Tottman",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 4
+    },
+    {
+      "season": "2019/20",
+      "squad": "1st",
+      "game_type": "Unknown",
+      "player": "Ben Meyerratken",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 3
     },
     {
       "season": "2019/20",
@@ -19750,19 +19750,19 @@
       "season": "2019/20",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Lukis Waite",
+      "player": "Ben Gray",
       "appearances": 4.0,
       "starts": 4.0,
-      "rank": 4
+      "rank": 3
     },
     {
       "season": "2019/20",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Ben Gray",
+      "player": "Lukis Waite",
       "appearances": 4.0,
       "starts": 4.0,
-      "rank": 3
+      "rank": 4
     },
     {
       "season": "2019/20",
@@ -19786,15 +19786,6 @@
       "season": "2019/20",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Jamie Gache",
-      "appearances": 3.0,
-      "starts": 0.0,
-      "rank": 7
-    },
-    {
-      "season": "2019/20",
-      "squad": "2nd",
-      "game_type": "League",
       "player": "Matt Brooke",
       "appearances": 3.0,
       "starts": 3.0,
@@ -19808,6 +19799,24 @@
       "appearances": 3.0,
       "starts": 3.0,
       "rank": 9
+    },
+    {
+      "season": "2019/20",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Jamie Gache",
+      "appearances": 3.0,
+      "starts": 0.0,
+      "rank": 7
+    },
+    {
+      "season": "2019/20",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Liam Casey",
+      "appearances": 2.0,
+      "starts": 2.0,
+      "rank": 16
     },
     {
       "season": "2019/20",
@@ -19867,24 +19876,6 @@
       "season": "2019/20",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Oli Brown",
-      "appearances": 2.0,
-      "starts": 2.0,
-      "rank": 19
-    },
-    {
-      "season": "2019/20",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "Liam Casey",
-      "appearances": 2.0,
-      "starts": 2.0,
-      "rank": 16
-    },
-    {
-      "season": "2019/20",
-      "squad": "2nd",
-      "game_type": "League",
       "player": "Mikey Redmond",
       "appearances": 2.0,
       "starts": 2.0,
@@ -19898,6 +19889,15 @@
       "appearances": 2.0,
       "starts": 2.0,
       "rank": 18
+    },
+    {
+      "season": "2019/20",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Oli Brown",
+      "appearances": 2.0,
+      "starts": 2.0,
+      "rank": 19
     },
     {
       "season": "2019/20",
@@ -19921,19 +19921,46 @@
       "season": "2019/20",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Robert Poole",
+      "player": "Callum Macintyre",
       "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 42
+      "starts": 1.0,
+      "rank": 25
     },
     {
       "season": "2019/20",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Erik Buren",
+      "player": "Jaron Winter - tear",
+      "appearances": 1.0,
+      "starts": 1.0,
+      "rank": 36
+    },
+    {
+      "season": "2019/20",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Michael Simmonds",
+      "appearances": 1.0,
+      "starts": 1.0,
+      "rank": 40
+    },
+    {
+      "season": "2019/20",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Jon Seal",
       "appearances": 1.0,
       "starts": 0.0,
-      "rank": 29
+      "rank": 38
+    },
+    {
+      "season": "2019/20",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Oliver Roberts",
+      "appearances": 1.0,
+      "starts": 1.0,
+      "rank": 41
     },
     {
       "season": "2019/20",
@@ -19948,15 +19975,6 @@
       "season": "2019/20",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Tom Byron",
-      "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 46
-    },
-    {
-      "season": "2019/20",
-      "squad": "2nd",
-      "game_type": "League",
       "player": "Sachio Shimizu",
       "appearances": 1.0,
       "starts": 1.0,
@@ -19966,10 +19984,28 @@
       "season": "2019/20",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Oliver Roberts",
+      "player": "Robert Poole",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 42
+    },
+    {
+      "season": "2019/20",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Mark Fulham",
       "appearances": 1.0,
       "starts": 1.0,
-      "rank": 41
+      "rank": 39
+    },
+    {
+      "season": "2019/20",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Tom Byron",
+      "appearances": 1.0,
+      "starts": 1.0,
+      "rank": 46
     },
     {
       "season": "2019/20",
@@ -20002,42 +20038,6 @@
       "season": "2019/20",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Callum Macintyre",
-      "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 25
-    },
-    {
-      "season": "2019/20",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "Chris Pentney",
-      "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 26
-    },
-    {
-      "season": "2019/20",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "Dan Arnold",
-      "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 27
-    },
-    {
-      "season": "2019/20",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "David Wilkinson",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 28
-    },
-    {
-      "season": "2019/20",
-      "squad": "2nd",
-      "game_type": "League",
       "player": "Zach Roberts",
       "appearances": 1.0,
       "starts": 1.0,
@@ -20065,33 +20065,6 @@
       "season": "2019/20",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Michael Simmonds",
-      "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 40
-    },
-    {
-      "season": "2019/20",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "Mark Fulham",
-      "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 39
-    },
-    {
-      "season": "2019/20",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "Jon Seal",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 38
-    },
-    {
-      "season": "2019/20",
-      "squad": "2nd",
-      "game_type": "League",
       "player": "Joey Marriott",
       "appearances": 1.0,
       "starts": 0.0,
@@ -20101,10 +20074,10 @@
       "season": "2019/20",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Jaron Winter - tear",
+      "player": "Chris Pentney",
       "appearances": 1.0,
       "starts": 1.0,
-      "rank": 36
+      "rank": 26
     },
     {
       "season": "2019/20",
@@ -20163,6 +20136,33 @@
     {
       "season": "2019/20",
       "squad": "2nd",
+      "game_type": "League",
+      "player": "Erik Buren",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 29
+    },
+    {
+      "season": "2019/20",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "David Wilkinson",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 28
+    },
+    {
+      "season": "2019/20",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Dan Arnold",
+      "appearances": 1.0,
+      "starts": 1.0,
+      "rank": 27
+    },
+    {
+      "season": "2019/20",
+      "squad": "2nd",
       "game_type": "Unknown",
       "player": "Guy Phillips",
       "appearances": 3.0,
@@ -20177,6 +20177,15 @@
       "appearances": 3.0,
       "starts": 0.0,
       "rank": 2
+    },
+    {
+      "season": "2019/20",
+      "squad": "2nd",
+      "game_type": "Unknown",
+      "player": "George Beet",
+      "appearances": 2.0,
+      "starts": 0.0,
+      "rank": 6
     },
     {
       "season": "2019/20",
@@ -20209,28 +20218,10 @@
       "season": "2019/20",
       "squad": "2nd",
       "game_type": "Unknown",
-      "player": "George Beet",
-      "appearances": 2.0,
-      "starts": 0.0,
-      "rank": 6
-    },
-    {
-      "season": "2019/20",
-      "squad": "2nd",
-      "game_type": "Unknown",
       "player": "Jack Skipworth",
       "appearances": 2.0,
       "starts": 0.0,
       "rank": 7
-    },
-    {
-      "season": "2019/20",
-      "squad": "2nd",
-      "game_type": "Unknown",
-      "player": "Michael Simmonds",
-      "appearances": 2.0,
-      "starts": 0.0,
-      "rank": 9
     },
     {
       "season": "2019/20",
@@ -20245,10 +20236,10 @@
       "season": "2019/20",
       "squad": "2nd",
       "game_type": "Unknown",
-      "player": "Ross Perry",
-      "appearances": 1.0,
+      "player": "Michael Simmonds",
+      "appearances": 2.0,
       "starts": 0.0,
-      "rank": 22
+      "rank": 9
     },
     {
       "season": "2019/20",
@@ -20362,10 +20353,10 @@
       "season": "2019/20",
       "squad": "2nd",
       "game_type": "Unknown",
-      "player": "Tom Kiernan",
+      "player": "Ross Perry",
       "appearances": 1.0,
       "starts": 0.0,
-      "rank": 27
+      "rank": 22
     },
     {
       "season": "2019/20",
@@ -20398,6 +20389,15 @@
       "season": "2019/20",
       "squad": "2nd",
       "game_type": "Unknown",
+      "player": "Tom Kiernan",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 27
+    },
+    {
+      "season": "2019/20",
+      "squad": "2nd",
+      "game_type": "Unknown",
       "player": "Tom Halligey",
       "appearances": 1.0,
       "starts": 0.0,
@@ -20416,19 +20416,19 @@
       "season": "2018/19",
       "squad": "1st",
       "game_type": "League",
-      "player": "John Peaty",
+      "player": "Sean Morgan",
       "appearances": 15.0,
-      "starts": 15.0,
-      "rank": 3
+      "starts": 12.0,
+      "rank": 4
     },
     {
       "season": "2018/19",
       "squad": "1st",
       "game_type": "League",
-      "player": "Sean Morgan",
+      "player": "John Peaty",
       "appearances": 15.0,
-      "starts": 12.0,
-      "rank": 4
+      "starts": 15.0,
+      "rank": 3
     },
     {
       "season": "2018/19",
@@ -20443,19 +20443,19 @@
       "season": "2018/19",
       "squad": "1st",
       "game_type": "League",
-      "player": "Ben Gray",
+      "player": "Dan Arnold",
       "appearances": 14.0,
       "starts": 13.0,
-      "rank": 5
+      "rank": 6
     },
     {
       "season": "2018/19",
       "squad": "1st",
       "game_type": "League",
-      "player": "Dan Arnold",
+      "player": "Ben Gray",
       "appearances": 14.0,
       "starts": 13.0,
-      "rank": 6
+      "rank": 5
     },
     {
       "season": "2018/19",
@@ -20479,10 +20479,10 @@
       "season": "2018/19",
       "squad": "1st",
       "game_type": "League",
-      "player": "Ben Tottman",
+      "player": "Max Dewing",
       "appearances": 12.0,
       "starts": 12.0,
-      "rank": 9
+      "rank": 11
     },
     {
       "season": "2018/19",
@@ -20497,10 +20497,10 @@
       "season": "2018/19",
       "squad": "1st",
       "game_type": "League",
-      "player": "Max Dewing",
+      "player": "Ben Tottman",
       "appearances": 12.0,
       "starts": 12.0,
-      "rank": 11
+      "rank": 9
     },
     {
       "season": "2018/19",
@@ -20542,15 +20542,6 @@
       "season": "2018/19",
       "squad": "1st",
       "game_type": "League",
-      "player": "Ryland Thomas",
-      "appearances": 9.0,
-      "starts": 8.0,
-      "rank": 16
-    },
-    {
-      "season": "2018/19",
-      "squad": "1st",
-      "game_type": "League",
       "player": "Steven Cooke",
       "appearances": 9.0,
       "starts": 8.0,
@@ -20564,6 +20555,15 @@
       "appearances": 9.0,
       "starts": 8.0,
       "rank": 18
+    },
+    {
+      "season": "2018/19",
+      "squad": "1st",
+      "game_type": "League",
+      "player": "Ryland Thomas",
+      "appearances": 9.0,
+      "starts": 8.0,
+      "rank": 16
     },
     {
       "season": "2018/19",
@@ -20596,15 +20596,6 @@
       "season": "2018/19",
       "squad": "1st",
       "game_type": "League",
-      "player": "Mark Oliver",
-      "appearances": 6.0,
-      "starts": 6.0,
-      "rank": 23
-    },
-    {
-      "season": "2018/19",
-      "squad": "1st",
-      "game_type": "League",
       "player": "James Funnell",
       "appearances": 6.0,
       "starts": 5.0,
@@ -20614,10 +20605,10 @@
       "season": "2018/19",
       "squad": "1st",
       "game_type": "League",
-      "player": "Bertie Beanland",
-      "appearances": 5.0,
-      "starts": 4.0,
-      "rank": 24
+      "player": "Mark Oliver",
+      "appearances": 6.0,
+      "starts": 6.0,
+      "rank": 23
     },
     {
       "season": "2018/19",
@@ -20632,19 +20623,10 @@
       "season": "2018/19",
       "squad": "1st",
       "game_type": "League",
-      "player": "Jack Andrews",
-      "appearances": 4.0,
+      "player": "Bertie Beanland",
+      "appearances": 5.0,
       "starts": 4.0,
-      "rank": 26
-    },
-    {
-      "season": "2018/19",
-      "squad": "1st",
-      "game_type": "League",
-      "player": "Morgan Burger",
-      "appearances": 4.0,
-      "starts": 4.0,
-      "rank": 27
+      "rank": 24
     },
     {
       "season": "2018/19",
@@ -20659,37 +20641,19 @@
       "season": "2018/19",
       "squad": "1st",
       "game_type": "League",
-      "player": "Brad Taylor",
-      "appearances": 3.0,
-      "starts": 3.0,
-      "rank": 29
+      "player": "Morgan Burger",
+      "appearances": 4.0,
+      "starts": 4.0,
+      "rank": 27
     },
     {
       "season": "2018/19",
       "squad": "1st",
       "game_type": "League",
-      "player": "Callum Champain",
-      "appearances": 3.0,
-      "starts": 3.0,
-      "rank": 30
-    },
-    {
-      "season": "2018/19",
-      "squad": "1st",
-      "game_type": "League",
-      "player": "Drew King",
-      "appearances": 3.0,
-      "starts": 3.0,
-      "rank": 31
-    },
-    {
-      "season": "2018/19",
-      "squad": "1st",
-      "game_type": "League",
-      "player": "Max Crawley-Moore",
-      "appearances": 3.0,
-      "starts": 3.0,
-      "rank": 32
+      "player": "Jack Andrews",
+      "appearances": 4.0,
+      "starts": 4.0,
+      "rank": 26
     },
     {
       "season": "2018/19",
@@ -20704,19 +20668,37 @@
       "season": "2018/19",
       "squad": "1st",
       "game_type": "League",
-      "player": "Ben Meyerratken",
-      "appearances": 2.0,
-      "starts": 2.0,
-      "rank": 34
+      "player": "Max Crawley-Moore",
+      "appearances": 3.0,
+      "starts": 3.0,
+      "rank": 32
     },
     {
       "season": "2018/19",
       "squad": "1st",
       "game_type": "League",
-      "player": "Charlie Lear",
-      "appearances": 2.0,
-      "starts": 1.0,
-      "rank": 35
+      "player": "Drew King",
+      "appearances": 3.0,
+      "starts": 3.0,
+      "rank": 31
+    },
+    {
+      "season": "2018/19",
+      "squad": "1st",
+      "game_type": "League",
+      "player": "Callum Champain",
+      "appearances": 3.0,
+      "starts": 3.0,
+      "rank": 30
+    },
+    {
+      "season": "2018/19",
+      "squad": "1st",
+      "game_type": "League",
+      "player": "Brad Taylor",
+      "appearances": 3.0,
+      "starts": 3.0,
+      "rank": 29
     },
     {
       "season": "2018/19",
@@ -20731,64 +20713,10 @@
       "season": "2018/19",
       "squad": "1st",
       "game_type": "League",
-      "player": "Guy Cook",
-      "appearances": 2.0,
-      "starts": 2.0,
-      "rank": 37
-    },
-    {
-      "season": "2018/19",
-      "squad": "1st",
-      "game_type": "League",
-      "player": "Jack Miller",
+      "player": "Steve Lampkin",
       "appearances": 2.0,
       "starts": 0.0,
-      "rank": 38
-    },
-    {
-      "season": "2018/19",
-      "squad": "1st",
-      "game_type": "League",
-      "player": "Jake Radcliffe",
-      "appearances": 2.0,
-      "starts": 1.0,
-      "rank": 39
-    },
-    {
-      "season": "2018/19",
-      "squad": "1st",
-      "game_type": "League",
-      "player": "James Stokes",
-      "appearances": 2.0,
-      "starts": 2.0,
-      "rank": 40
-    },
-    {
-      "season": "2018/19",
-      "squad": "1st",
-      "game_type": "League",
-      "player": "Jonny Gibbs",
-      "appearances": 2.0,
-      "starts": 2.0,
-      "rank": 41
-    },
-    {
-      "season": "2018/19",
-      "squad": "1st",
-      "game_type": "League",
-      "player": "Jordan Tucker",
-      "appearances": 2.0,
-      "starts": 2.0,
-      "rank": 42
-    },
-    {
-      "season": "2018/19",
-      "squad": "1st",
-      "game_type": "League",
-      "player": "Mark Taylor",
-      "appearances": 2.0,
-      "starts": 2.0,
-      "rank": 43
+      "rank": 45
     },
     {
       "season": "2018/19",
@@ -20803,10 +20731,82 @@
       "season": "2018/19",
       "squad": "1st",
       "game_type": "League",
-      "player": "Steve Lampkin",
+      "player": "Mark Taylor",
+      "appearances": 2.0,
+      "starts": 2.0,
+      "rank": 43
+    },
+    {
+      "season": "2018/19",
+      "squad": "1st",
+      "game_type": "League",
+      "player": "Jordan Tucker",
+      "appearances": 2.0,
+      "starts": 2.0,
+      "rank": 42
+    },
+    {
+      "season": "2018/19",
+      "squad": "1st",
+      "game_type": "League",
+      "player": "Jonny Gibbs",
+      "appearances": 2.0,
+      "starts": 2.0,
+      "rank": 41
+    },
+    {
+      "season": "2018/19",
+      "squad": "1st",
+      "game_type": "League",
+      "player": "James Stokes",
+      "appearances": 2.0,
+      "starts": 2.0,
+      "rank": 40
+    },
+    {
+      "season": "2018/19",
+      "squad": "1st",
+      "game_type": "League",
+      "player": "Jake Radcliffe",
+      "appearances": 2.0,
+      "starts": 1.0,
+      "rank": 39
+    },
+    {
+      "season": "2018/19",
+      "squad": "1st",
+      "game_type": "League",
+      "player": "Jack Miller",
       "appearances": 2.0,
       "starts": 0.0,
-      "rank": 45
+      "rank": 38
+    },
+    {
+      "season": "2018/19",
+      "squad": "1st",
+      "game_type": "League",
+      "player": "Guy Cook",
+      "appearances": 2.0,
+      "starts": 2.0,
+      "rank": 37
+    },
+    {
+      "season": "2018/19",
+      "squad": "1st",
+      "game_type": "League",
+      "player": "Charlie Lear",
+      "appearances": 2.0,
+      "starts": 1.0,
+      "rank": 35
+    },
+    {
+      "season": "2018/19",
+      "squad": "1st",
+      "game_type": "League",
+      "player": "Ben Meyerratken",
+      "appearances": 2.0,
+      "starts": 2.0,
+      "rank": 34
     },
     {
       "season": "2018/19",
@@ -20821,91 +20821,10 @@
       "season": "2018/19",
       "squad": "1st",
       "game_type": "League",
-      "player": "Ashley Kauffman",
+      "player": "Rhodri Lewis",
       "appearances": 1.0,
       "starts": 1.0,
-      "rank": 46
-    },
-    {
-      "season": "2018/19",
-      "squad": "1st",
-      "game_type": "League",
-      "player": "Dom Tuvey",
-      "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 47
-    },
-    {
-      "season": "2018/19",
-      "squad": "1st",
-      "game_type": "League",
-      "player": "Josh Carr",
-      "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 48
-    },
-    {
-      "season": "2018/19",
-      "squad": "1st",
-      "game_type": "League",
-      "player": "Liam Casey",
-      "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 49
-    },
-    {
-      "season": "2018/19",
-      "squad": "1st",
-      "game_type": "League",
-      "player": "Martyn Ansboro",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 50
-    },
-    {
-      "season": "2018/19",
-      "squad": "1st",
-      "game_type": "League",
-      "player": "Matt Marriott",
-      "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 51
-    },
-    {
-      "season": "2018/19",
-      "squad": "1st",
-      "game_type": "League",
-      "player": "Matthew Tomkinson",
-      "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 52
-    },
-    {
-      "season": "2018/19",
-      "squad": "1st",
-      "game_type": "League",
-      "player": "Max Evans",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 53
-    },
-    {
-      "season": "2018/19",
-      "squad": "1st",
-      "game_type": "League",
-      "player": "Oli Brown",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 54
-    },
-    {
-      "season": "2018/19",
-      "squad": "1st",
-      "game_type": "League",
-      "player": "Ollie Adams",
-      "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 55
+      "rank": 57
     },
     {
       "season": "2018/19",
@@ -20920,19 +20839,91 @@
       "season": "2018/19",
       "squad": "1st",
       "game_type": "League",
-      "player": "Rhodri Lewis",
+      "player": "Ollie Adams",
       "appearances": 1.0,
       "starts": 1.0,
-      "rank": 57
+      "rank": 55
     },
     {
       "season": "2018/19",
       "squad": "1st",
-      "game_type": "Unknown",
-      "player": "Ben Gray",
-      "appearances": 2.0,
+      "game_type": "League",
+      "player": "Oli Brown",
+      "appearances": 1.0,
       "starts": 0.0,
-      "rank": 1
+      "rank": 54
+    },
+    {
+      "season": "2018/19",
+      "squad": "1st",
+      "game_type": "League",
+      "player": "Max Evans",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 53
+    },
+    {
+      "season": "2018/19",
+      "squad": "1st",
+      "game_type": "League",
+      "player": "Matthew Tomkinson",
+      "appearances": 1.0,
+      "starts": 1.0,
+      "rank": 52
+    },
+    {
+      "season": "2018/19",
+      "squad": "1st",
+      "game_type": "League",
+      "player": "Matt Marriott",
+      "appearances": 1.0,
+      "starts": 1.0,
+      "rank": 51
+    },
+    {
+      "season": "2018/19",
+      "squad": "1st",
+      "game_type": "League",
+      "player": "Martyn Ansboro",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 50
+    },
+    {
+      "season": "2018/19",
+      "squad": "1st",
+      "game_type": "League",
+      "player": "Liam Casey",
+      "appearances": 1.0,
+      "starts": 1.0,
+      "rank": 49
+    },
+    {
+      "season": "2018/19",
+      "squad": "1st",
+      "game_type": "League",
+      "player": "Josh Carr",
+      "appearances": 1.0,
+      "starts": 1.0,
+      "rank": 48
+    },
+    {
+      "season": "2018/19",
+      "squad": "1st",
+      "game_type": "League",
+      "player": "Dom Tuvey",
+      "appearances": 1.0,
+      "starts": 1.0,
+      "rank": 47
+    },
+    {
+      "season": "2018/19",
+      "squad": "1st",
+      "game_type": "League",
+      "player": "Ashley Kauffman",
+      "appearances": 1.0,
+      "starts": 1.0,
+      "rank": 46
     },
     {
       "season": "2018/19",
@@ -20956,15 +20947,6 @@
       "season": "2018/19",
       "squad": "1st",
       "game_type": "Unknown",
-      "player": "Richard Dodgson",
-      "appearances": 2.0,
-      "starts": 0.0,
-      "rank": 5
-    },
-    {
-      "season": "2018/19",
-      "squad": "1st",
-      "game_type": "Unknown",
       "player": "Fin Edwards",
       "appearances": 2.0,
       "starts": 0.0,
@@ -20974,10 +20956,55 @@
       "season": "2018/19",
       "squad": "1st",
       "game_type": "Unknown",
+      "player": "Richard Dodgson",
+      "appearances": 2.0,
+      "starts": 0.0,
+      "rank": 5
+    },
+    {
+      "season": "2018/19",
+      "squad": "1st",
+      "game_type": "Unknown",
+      "player": "Ben Gray",
+      "appearances": 2.0,
+      "starts": 0.0,
+      "rank": 1
+    },
+    {
+      "season": "2018/19",
+      "squad": "1st",
+      "game_type": "Unknown",
       "player": "Tom Halligey",
       "appearances": 1.0,
       "starts": 0.0,
       "rank": 23
+    },
+    {
+      "season": "2018/19",
+      "squad": "1st",
+      "game_type": "Unknown",
+      "player": "Sam Montagu",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 22
+    },
+    {
+      "season": "2018/19",
+      "squad": "1st",
+      "game_type": "Unknown",
+      "player": "Ryland Thomas",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 21
+    },
+    {
+      "season": "2018/19",
+      "squad": "1st",
+      "game_type": "Unknown",
+      "player": "Max Dewing",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 19
     },
     {
       "season": "2018/19",
@@ -21100,37 +21127,10 @@
       "season": "2018/19",
       "squad": "1st",
       "game_type": "Unknown",
-      "player": "Max Dewing",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 19
-    },
-    {
-      "season": "2018/19",
-      "squad": "1st",
-      "game_type": "Unknown",
       "player": "Ross Perry",
       "appearances": 1.0,
       "starts": 0.0,
       "rank": 20
-    },
-    {
-      "season": "2018/19",
-      "squad": "1st",
-      "game_type": "Unknown",
-      "player": "Ryland Thomas",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 21
-    },
-    {
-      "season": "2018/19",
-      "squad": "1st",
-      "game_type": "Unknown",
-      "player": "Sam Montagu",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 22
     },
     {
       "season": "2018/19",
@@ -21199,46 +21199,10 @@
       "season": "2018/19",
       "squad": "2nd",
       "game_type": "Unknown",
-      "player": "Dom Tuvey",
+      "player": "Zach Roberts",
       "appearances": 7.0,
       "starts": 0.0,
-      "rank": 8
-    },
-    {
-      "season": "2018/19",
-      "squad": "2nd",
-      "game_type": "Unknown",
-      "player": "Guy Phillips",
-      "appearances": 7.0,
-      "starts": 0.0,
-      "rank": 9
-    },
-    {
-      "season": "2018/19",
-      "squad": "2nd",
-      "game_type": "Unknown",
-      "player": "James Hogbin",
-      "appearances": 7.0,
-      "starts": 0.0,
-      "rank": 10
-    },
-    {
-      "season": "2018/19",
-      "squad": "2nd",
-      "game_type": "Unknown",
-      "player": "Lukis Waite",
-      "appearances": 7.0,
-      "starts": 0.0,
-      "rank": 11
-    },
-    {
-      "season": "2018/19",
-      "squad": "2nd",
-      "game_type": "Unknown",
-      "player": "Matt Brooke",
-      "appearances": 7.0,
-      "starts": 0.0,
-      "rank": 12
+      "rank": 14
     },
     {
       "season": "2018/19",
@@ -21253,55 +21217,46 @@
       "season": "2018/19",
       "squad": "2nd",
       "game_type": "Unknown",
-      "player": "Zach Roberts",
+      "player": "Matt Brooke",
       "appearances": 7.0,
       "starts": 0.0,
-      "rank": 14
+      "rank": 12
     },
     {
       "season": "2018/19",
       "squad": "2nd",
       "game_type": "Unknown",
-      "player": "Ross Perry",
-      "appearances": 6.0,
+      "player": "Lukis Waite",
+      "appearances": 7.0,
       "starts": 0.0,
-      "rank": 20
+      "rank": 11
     },
     {
       "season": "2018/19",
       "squad": "2nd",
       "game_type": "Unknown",
-      "player": "Aaron Gee",
-      "appearances": 6.0,
+      "player": "James Hogbin",
+      "appearances": 7.0,
       "starts": 0.0,
-      "rank": 15
+      "rank": 10
     },
     {
       "season": "2018/19",
       "squad": "2nd",
       "game_type": "Unknown",
-      "player": "Darren Gwynn",
-      "appearances": 6.0,
+      "player": "Guy Phillips",
+      "appearances": 7.0,
       "starts": 0.0,
-      "rank": 16
+      "rank": 9
     },
     {
       "season": "2018/19",
       "squad": "2nd",
       "game_type": "Unknown",
-      "player": "Jonny Gibbs",
-      "appearances": 6.0,
+      "player": "Dom Tuvey",
+      "appearances": 7.0,
       "starts": 0.0,
-      "rank": 17
-    },
-    {
-      "season": "2018/19",
-      "squad": "2nd",
-      "game_type": "Unknown",
-      "player": "Max Evans",
-      "appearances": 6.0,
-      "starts": 0.0,
-      "rank": 18
+      "rank": 8
     },
     {
       "season": "2018/19",
@@ -21316,46 +21271,46 @@
       "season": "2018/19",
       "squad": "2nd",
       "game_type": "Unknown",
-      "player": "Danny Baptist",
-      "appearances": 5.0,
+      "player": "Ross Perry",
+      "appearances": 6.0,
       "starts": 0.0,
-      "rank": 21
+      "rank": 20
     },
     {
       "season": "2018/19",
       "squad": "2nd",
       "game_type": "Unknown",
-      "player": "Joey Marriott",
-      "appearances": 5.0,
+      "player": "Max Evans",
+      "appearances": 6.0,
       "starts": 0.0,
-      "rank": 22
+      "rank": 18
     },
     {
       "season": "2018/19",
       "squad": "2nd",
       "game_type": "Unknown",
-      "player": "Lee Sands",
-      "appearances": 5.0,
+      "player": "Jonny Gibbs",
+      "appearances": 6.0,
       "starts": 0.0,
-      "rank": 23
+      "rank": 17
     },
     {
       "season": "2018/19",
       "squad": "2nd",
       "game_type": "Unknown",
-      "player": "Mark Taylor",
-      "appearances": 5.0,
+      "player": "Darren Gwynn",
+      "appearances": 6.0,
       "starts": 0.0,
-      "rank": 24
+      "rank": 16
     },
     {
       "season": "2018/19",
       "squad": "2nd",
       "game_type": "Unknown",
-      "player": "Matthew Robotham",
-      "appearances": 5.0,
+      "player": "Aaron Gee",
+      "appearances": 6.0,
       "starts": 0.0,
-      "rank": 25
+      "rank": 15
     },
     {
       "season": "2018/19",
@@ -21370,10 +21325,46 @@
       "season": "2018/19",
       "squad": "2nd",
       "game_type": "Unknown",
-      "player": "Jack Miller",
-      "appearances": 4.0,
+      "player": "Matthew Robotham",
+      "appearances": 5.0,
       "starts": 0.0,
-      "rank": 27
+      "rank": 25
+    },
+    {
+      "season": "2018/19",
+      "squad": "2nd",
+      "game_type": "Unknown",
+      "player": "Mark Taylor",
+      "appearances": 5.0,
+      "starts": 0.0,
+      "rank": 24
+    },
+    {
+      "season": "2018/19",
+      "squad": "2nd",
+      "game_type": "Unknown",
+      "player": "Lee Sands",
+      "appearances": 5.0,
+      "starts": 0.0,
+      "rank": 23
+    },
+    {
+      "season": "2018/19",
+      "squad": "2nd",
+      "game_type": "Unknown",
+      "player": "Joey Marriott",
+      "appearances": 5.0,
+      "starts": 0.0,
+      "rank": 22
+    },
+    {
+      "season": "2018/19",
+      "squad": "2nd",
+      "game_type": "Unknown",
+      "player": "Danny Baptist",
+      "appearances": 5.0,
+      "starts": 0.0,
+      "rank": 21
     },
     {
       "season": "2018/19",
@@ -21388,100 +21379,10 @@
       "season": "2018/19",
       "squad": "2nd",
       "game_type": "Unknown",
-      "player": "Ben Watkinson",
-      "appearances": 3.0,
+      "player": "Jack Miller",
+      "appearances": 4.0,
       "starts": 0.0,
-      "rank": 29
-    },
-    {
-      "season": "2018/19",
-      "squad": "2nd",
-      "game_type": "Unknown",
-      "player": "Bertie Beanland",
-      "appearances": 3.0,
-      "starts": 0.0,
-      "rank": 30
-    },
-    {
-      "season": "2018/19",
-      "squad": "2nd",
-      "game_type": "Unknown",
-      "player": "Fin Edwards",
-      "appearances": 3.0,
-      "starts": 0.0,
-      "rank": 31
-    },
-    {
-      "season": "2018/19",
-      "squad": "2nd",
-      "game_type": "Unknown",
-      "player": "George Beet",
-      "appearances": 3.0,
-      "starts": 0.0,
-      "rank": 32
-    },
-    {
-      "season": "2018/19",
-      "squad": "2nd",
-      "game_type": "Unknown",
-      "player": "J Weeden",
-      "appearances": 3.0,
-      "starts": 0.0,
-      "rank": 33
-    },
-    {
-      "season": "2018/19",
-      "squad": "2nd",
-      "game_type": "Unknown",
-      "player": "Jamie Gache",
-      "appearances": 3.0,
-      "starts": 0.0,
-      "rank": 34
-    },
-    {
-      "season": "2018/19",
-      "squad": "2nd",
-      "game_type": "Unknown",
-      "player": "O Leggat",
-      "appearances": 3.0,
-      "starts": 0.0,
-      "rank": 35
-    },
-    {
-      "season": "2018/19",
-      "squad": "2nd",
-      "game_type": "Unknown",
-      "player": "Richard Dodgson",
-      "appearances": 3.0,
-      "starts": 0.0,
-      "rank": 36
-    },
-    {
-      "season": "2018/19",
-      "squad": "2nd",
-      "game_type": "Unknown",
-      "player": "Ryland Thomas",
-      "appearances": 3.0,
-      "starts": 0.0,
-      "rank": 37
-    },
-    {
-      "season": "2018/19",
-      "squad": "2nd",
-      "game_type": "Unknown",
-      "player": "Steven Cooke",
-      "appearances": 3.0,
-      "starts": 0.0,
-      "rank": 38
-    },
-    {
-      "season": "2018/19",
-      "squad": "2nd",
-      "game_type": "Unknown",
-      "player": "Tom Kiernan",
-      "appearances": 3.0,
-      "starts": 0.0,
-      "rank": 39
+      "rank": 27
     },
     {
       "season": "2018/19",
@@ -21496,127 +21397,100 @@
       "season": "2018/19",
       "squad": "2nd",
       "game_type": "Unknown",
-      "player": "Ali Moffatt",
-      "appearances": 2.0,
+      "player": "Tom Kiernan",
+      "appearances": 3.0,
       "starts": 0.0,
-      "rank": 41
+      "rank": 39
     },
     {
       "season": "2018/19",
       "squad": "2nd",
       "game_type": "Unknown",
-      "player": "Ashley Kauffman",
-      "appearances": 2.0,
+      "player": "Steven Cooke",
+      "appearances": 3.0,
       "starts": 0.0,
-      "rank": 42
+      "rank": 38
     },
     {
       "season": "2018/19",
       "squad": "2nd",
       "game_type": "Unknown",
-      "player": "Ben Tottman",
-      "appearances": 2.0,
+      "player": "Ryland Thomas",
+      "appearances": 3.0,
       "starts": 0.0,
-      "rank": 43
+      "rank": 37
     },
     {
       "season": "2018/19",
       "squad": "2nd",
       "game_type": "Unknown",
-      "player": "Chris Franklin",
-      "appearances": 2.0,
+      "player": "Richard Dodgson",
+      "appearances": 3.0,
       "starts": 0.0,
-      "rank": 44
+      "rank": 36
     },
     {
       "season": "2018/19",
       "squad": "2nd",
       "game_type": "Unknown",
-      "player": "D Ward",
-      "appearances": 2.0,
+      "player": "O Leggat",
+      "appearances": 3.0,
       "starts": 0.0,
-      "rank": 45
+      "rank": 35
     },
     {
       "season": "2018/19",
       "squad": "2nd",
       "game_type": "Unknown",
-      "player": "Gus Nye",
-      "appearances": 2.0,
+      "player": "Jamie Gache",
+      "appearances": 3.0,
       "starts": 0.0,
-      "rank": 46
+      "rank": 34
     },
     {
       "season": "2018/19",
       "squad": "2nd",
       "game_type": "Unknown",
-      "player": "Henry Aronson",
-      "appearances": 2.0,
+      "player": "J Weeden",
+      "appearances": 3.0,
       "starts": 0.0,
-      "rank": 47
+      "rank": 33
     },
     {
       "season": "2018/19",
       "squad": "2nd",
       "game_type": "Unknown",
-      "player": "J Eduardo Fernandez-Oliva Fernandez",
-      "appearances": 2.0,
+      "player": "George Beet",
+      "appearances": 3.0,
       "starts": 0.0,
-      "rank": 48
+      "rank": 32
     },
     {
       "season": "2018/19",
       "squad": "2nd",
       "game_type": "Unknown",
-      "player": "Mark Oliver",
-      "appearances": 2.0,
+      "player": "Fin Edwards",
+      "appearances": 3.0,
       "starts": 0.0,
-      "rank": 49
+      "rank": 31
     },
     {
       "season": "2018/19",
       "squad": "2nd",
       "game_type": "Unknown",
-      "player": "Martyn Ansboro",
-      "appearances": 2.0,
+      "player": "Bertie Beanland",
+      "appearances": 3.0,
       "starts": 0.0,
-      "rank": 50
+      "rank": 30
     },
     {
       "season": "2018/19",
       "squad": "2nd",
       "game_type": "Unknown",
-      "player": "Max Crawley-Moore",
-      "appearances": 2.0,
+      "player": "Ben Watkinson",
+      "appearances": 3.0,
       "starts": 0.0,
-      "rank": 51
-    },
-    {
-      "season": "2018/19",
-      "squad": "2nd",
-      "game_type": "Unknown",
-      "player": "Ollie Adams",
-      "appearances": 2.0,
-      "starts": 0.0,
-      "rank": 52
-    },
-    {
-      "season": "2018/19",
-      "squad": "2nd",
-      "game_type": "Unknown",
-      "player": "Rhodri Lewis",
-      "appearances": 2.0,
-      "starts": 0.0,
-      "rank": 53
-    },
-    {
-      "season": "2018/19",
-      "squad": "2nd",
-      "game_type": "Unknown",
-      "player": "Richard Darch",
-      "appearances": 2.0,
-      "starts": 0.0,
-      "rank": 54
+      "rank": 29
     },
     {
       "season": "2018/19",
@@ -21631,10 +21505,280 @@
       "season": "2018/19",
       "squad": "2nd",
       "game_type": "Unknown",
+      "player": "Richard Darch",
+      "appearances": 2.0,
+      "starts": 0.0,
+      "rank": 54
+    },
+    {
+      "season": "2018/19",
+      "squad": "2nd",
+      "game_type": "Unknown",
+      "player": "Rhodri Lewis",
+      "appearances": 2.0,
+      "starts": 0.0,
+      "rank": 53
+    },
+    {
+      "season": "2018/19",
+      "squad": "2nd",
+      "game_type": "Unknown",
+      "player": "Ollie Adams",
+      "appearances": 2.0,
+      "starts": 0.0,
+      "rank": 52
+    },
+    {
+      "season": "2018/19",
+      "squad": "2nd",
+      "game_type": "Unknown",
+      "player": "Max Crawley-Moore",
+      "appearances": 2.0,
+      "starts": 0.0,
+      "rank": 51
+    },
+    {
+      "season": "2018/19",
+      "squad": "2nd",
+      "game_type": "Unknown",
+      "player": "Martyn Ansboro",
+      "appearances": 2.0,
+      "starts": 0.0,
+      "rank": 50
+    },
+    {
+      "season": "2018/19",
+      "squad": "2nd",
+      "game_type": "Unknown",
+      "player": "Mark Oliver",
+      "appearances": 2.0,
+      "starts": 0.0,
+      "rank": 49
+    },
+    {
+      "season": "2018/19",
+      "squad": "2nd",
+      "game_type": "Unknown",
+      "player": "J Eduardo Fernandez-Oliva Fernandez",
+      "appearances": 2.0,
+      "starts": 0.0,
+      "rank": 48
+    },
+    {
+      "season": "2018/19",
+      "squad": "2nd",
+      "game_type": "Unknown",
+      "player": "Henry Aronson",
+      "appearances": 2.0,
+      "starts": 0.0,
+      "rank": 47
+    },
+    {
+      "season": "2018/19",
+      "squad": "2nd",
+      "game_type": "Unknown",
+      "player": "Gus Nye",
+      "appearances": 2.0,
+      "starts": 0.0,
+      "rank": 46
+    },
+    {
+      "season": "2018/19",
+      "squad": "2nd",
+      "game_type": "Unknown",
+      "player": "D Ward",
+      "appearances": 2.0,
+      "starts": 0.0,
+      "rank": 45
+    },
+    {
+      "season": "2018/19",
+      "squad": "2nd",
+      "game_type": "Unknown",
+      "player": "Chris Franklin",
+      "appearances": 2.0,
+      "starts": 0.0,
+      "rank": 44
+    },
+    {
+      "season": "2018/19",
+      "squad": "2nd",
+      "game_type": "Unknown",
+      "player": "Ben Tottman",
+      "appearances": 2.0,
+      "starts": 0.0,
+      "rank": 43
+    },
+    {
+      "season": "2018/19",
+      "squad": "2nd",
+      "game_type": "Unknown",
+      "player": "Ashley Kauffman",
+      "appearances": 2.0,
+      "starts": 0.0,
+      "rank": 42
+    },
+    {
+      "season": "2018/19",
+      "squad": "2nd",
+      "game_type": "Unknown",
+      "player": "Ali Moffatt",
+      "appearances": 2.0,
+      "starts": 0.0,
+      "rank": 41
+    },
+    {
+      "season": "2018/19",
+      "squad": "2nd",
+      "game_type": "Unknown",
       "player": "Tom Sandys",
       "appearances": 1.0,
       "starts": 0.0,
       "rank": 75
+    },
+    {
+      "season": "2018/19",
+      "squad": "2nd",
+      "game_type": "Unknown",
+      "player": "Tim Morris",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 73
+    },
+    {
+      "season": "2018/19",
+      "squad": "2nd",
+      "game_type": "Unknown",
+      "player": "Simon Elliott",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 72
+    },
+    {
+      "season": "2018/19",
+      "squad": "2nd",
+      "game_type": "Unknown",
+      "player": "Owen Jones",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 71
+    },
+    {
+      "season": "2018/19",
+      "squad": "2nd",
+      "game_type": "Unknown",
+      "player": "Josh Carr",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 70
+    },
+    {
+      "season": "2018/19",
+      "squad": "2nd",
+      "game_type": "Unknown",
+      "player": "Jordan Tucker",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 69
+    },
+    {
+      "season": "2018/19",
+      "squad": "2nd",
+      "game_type": "Unknown",
+      "player": "James Stokes",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 68
+    },
+    {
+      "season": "2018/19",
+      "squad": "2nd",
+      "game_type": "Unknown",
+      "player": "James Funnell",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 67
+    },
+    {
+      "season": "2018/19",
+      "squad": "2nd",
+      "game_type": "Unknown",
+      "player": "Jake Radcliffe",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 66
+    },
+    {
+      "season": "2018/19",
+      "squad": "2nd",
+      "game_type": "Unknown",
+      "player": "Jack Andrews",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 65
+    },
+    {
+      "season": "2018/19",
+      "squad": "2nd",
+      "game_type": "Unknown",
+      "player": "Dan Arnold",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 64
+    },
+    {
+      "season": "2018/19",
+      "squad": "2nd",
+      "game_type": "Unknown",
+      "player": "D Stewart",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 63
+    },
+    {
+      "season": "2018/19",
+      "squad": "2nd",
+      "game_type": "Unknown",
+      "player": "Cormac Devery",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 62
+    },
+    {
+      "season": "2018/19",
+      "squad": "2nd",
+      "game_type": "Unknown",
+      "player": "Charlie Lear",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 61
+    },
+    {
+      "season": "2018/19",
+      "squad": "2nd",
+      "game_type": "Unknown",
+      "player": "Brad Taylor",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 60
+    },
+    {
+      "season": "2018/19",
+      "squad": "2nd",
+      "game_type": "Unknown",
+      "player": "Ben Meyerratken",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 59
+    },
+    {
+      "season": "2018/19",
+      "squad": "2nd",
+      "game_type": "Unknown",
+      "player": "Ben Gray",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 58
     },
     {
       "season": "2018/19",
@@ -21658,154 +21802,10 @@
       "season": "2018/19",
       "squad": "2nd",
       "game_type": "Unknown",
-      "player": "Ben Meyerratken",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 59
-    },
-    {
-      "season": "2018/19",
-      "squad": "2nd",
-      "game_type": "Unknown",
-      "player": "Brad Taylor",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 60
-    },
-    {
-      "season": "2018/19",
-      "squad": "2nd",
-      "game_type": "Unknown",
-      "player": "Charlie Lear",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 61
-    },
-    {
-      "season": "2018/19",
-      "squad": "2nd",
-      "game_type": "Unknown",
-      "player": "Cormac Devery",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 62
-    },
-    {
-      "season": "2018/19",
-      "squad": "2nd",
-      "game_type": "Unknown",
-      "player": "D Stewart",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 63
-    },
-    {
-      "season": "2018/19",
-      "squad": "2nd",
-      "game_type": "Unknown",
-      "player": "Dan Arnold",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 64
-    },
-    {
-      "season": "2018/19",
-      "squad": "2nd",
-      "game_type": "Unknown",
-      "player": "Jack Andrews",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 65
-    },
-    {
-      "season": "2018/19",
-      "squad": "2nd",
-      "game_type": "Unknown",
-      "player": "Jake Radcliffe",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 66
-    },
-    {
-      "season": "2018/19",
-      "squad": "2nd",
-      "game_type": "Unknown",
-      "player": "James Funnell",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 67
-    },
-    {
-      "season": "2018/19",
-      "squad": "2nd",
-      "game_type": "Unknown",
-      "player": "James Stokes",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 68
-    },
-    {
-      "season": "2018/19",
-      "squad": "2nd",
-      "game_type": "Unknown",
-      "player": "Jordan Tucker",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 69
-    },
-    {
-      "season": "2018/19",
-      "squad": "2nd",
-      "game_type": "Unknown",
-      "player": "Josh Carr",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 70
-    },
-    {
-      "season": "2018/19",
-      "squad": "2nd",
-      "game_type": "Unknown",
-      "player": "Owen Jones",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 71
-    },
-    {
-      "season": "2018/19",
-      "squad": "2nd",
-      "game_type": "Unknown",
-      "player": "Simon Elliott",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 72
-    },
-    {
-      "season": "2018/19",
-      "squad": "2nd",
-      "game_type": "Unknown",
-      "player": "Tim Morris",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 73
-    },
-    {
-      "season": "2018/19",
-      "squad": "2nd",
-      "game_type": "Unknown",
       "player": "Titch Mitchell",
       "appearances": 1.0,
       "starts": 0.0,
       "rank": 74
-    },
-    {
-      "season": "2018/19",
-      "squad": "2nd",
-      "game_type": "Unknown",
-      "player": "Ben Gray",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 58
     },
     {
       "season": "2017/18",
@@ -21829,19 +21829,19 @@
       "season": "2017/18",
       "squad": "1st",
       "game_type": "League",
-      "player": "Bertie Beanland",
+      "player": "Dave Bridges",
       "appearances": 14.0,
-      "starts": 12.0,
-      "rank": 3
+      "starts": 13.0,
+      "rank": 4
     },
     {
       "season": "2017/18",
       "squad": "1st",
       "game_type": "League",
-      "player": "Dave Bridges",
+      "player": "Bertie Beanland",
       "appearances": 14.0,
-      "starts": 13.0,
-      "rank": 4
+      "starts": 12.0,
+      "rank": 3
     },
     {
       "season": "2017/18",
@@ -21946,19 +21946,19 @@
       "season": "2017/18",
       "squad": "1st",
       "game_type": "League",
-      "player": "Josh Carr",
+      "player": "Jack Skipworth",
       "appearances": 8.0,
       "starts": 7.0,
-      "rank": 17
+      "rank": 16
     },
     {
       "season": "2017/18",
       "squad": "1st",
       "game_type": "League",
-      "player": "Jack Skipworth",
+      "player": "Josh Carr",
       "appearances": 8.0,
       "starts": 7.0,
-      "rank": 16
+      "rank": 17
     },
     {
       "season": "2017/18",
@@ -21982,28 +21982,19 @@
       "season": "2017/18",
       "squad": "1st",
       "game_type": "League",
-      "player": "Oscar Waite",
-      "appearances": 7.0,
-      "starts": 7.0,
-      "rank": 22
-    },
-    {
-      "season": "2017/18",
-      "squad": "1st",
-      "game_type": "League",
-      "player": "Jake Radcliffe",
-      "appearances": 7.0,
-      "starts": 4.0,
-      "rank": 20
-    },
-    {
-      "season": "2017/18",
-      "squad": "1st",
-      "game_type": "League",
       "player": "Martyn Ansboro",
       "appearances": 7.0,
       "starts": 1.0,
       "rank": 21
+    },
+    {
+      "season": "2017/18",
+      "squad": "1st",
+      "game_type": "League",
+      "player": "Oscar Waite",
+      "appearances": 7.0,
+      "starts": 7.0,
+      "rank": 22
     },
     {
       "season": "2017/18",
@@ -22018,19 +22009,10 @@
       "season": "2017/18",
       "squad": "1st",
       "game_type": "League",
-      "player": "Scott Anderson",
-      "appearances": 6.0,
-      "starts": 6.0,
-      "rank": 26
-    },
-    {
-      "season": "2017/18",
-      "squad": "1st",
-      "game_type": "League",
-      "player": "Richard Dodgson",
-      "appearances": 6.0,
-      "starts": 5.0,
-      "rank": 25
+      "player": "Jake Radcliffe",
+      "appearances": 7.0,
+      "starts": 4.0,
+      "rank": 20
     },
     {
       "season": "2017/18",
@@ -22045,28 +22027,19 @@
       "season": "2017/18",
       "squad": "1st",
       "game_type": "League",
-      "player": "Tom Sandys",
-      "appearances": 5.0,
-      "starts": 2.0,
-      "rank": 30
-    },
-    {
-      "season": "2017/18",
-      "squad": "1st",
-      "game_type": "League",
-      "player": "Pete Morley",
-      "appearances": 5.0,
-      "starts": 4.0,
-      "rank": 29
-    },
-    {
-      "season": "2017/18",
-      "squad": "1st",
-      "game_type": "League",
-      "player": "Mark Taylor",
-      "appearances": 5.0,
+      "player": "Richard Dodgson",
+      "appearances": 6.0,
       "starts": 5.0,
-      "rank": 28
+      "rank": 25
+    },
+    {
+      "season": "2017/18",
+      "squad": "1st",
+      "game_type": "League",
+      "player": "Scott Anderson",
+      "appearances": 6.0,
+      "starts": 6.0,
+      "rank": 26
     },
     {
       "season": "2017/18",
@@ -22081,73 +22054,37 @@
       "season": "2017/18",
       "squad": "1st",
       "game_type": "League",
+      "player": "Mark Taylor",
+      "appearances": 5.0,
+      "starts": 5.0,
+      "rank": 28
+    },
+    {
+      "season": "2017/18",
+      "squad": "1st",
+      "game_type": "League",
+      "player": "Pete Morley",
+      "appearances": 5.0,
+      "starts": 4.0,
+      "rank": 29
+    },
+    {
+      "season": "2017/18",
+      "squad": "1st",
+      "game_type": "League",
+      "player": "Tom Sandys",
+      "appearances": 5.0,
+      "starts": 2.0,
+      "rank": 30
+    },
+    {
+      "season": "2017/18",
+      "squad": "1st",
+      "game_type": "League",
       "player": "Kris Ailes",
       "appearances": 4.0,
       "starts": 4.0,
       "rank": 31
-    },
-    {
-      "season": "2017/18",
-      "squad": "1st",
-      "game_type": "League",
-      "player": "Ben Whiteman",
-      "appearances": 3.0,
-      "starts": 3.0,
-      "rank": 33
-    },
-    {
-      "season": "2017/18",
-      "squad": "1st",
-      "game_type": "League",
-      "player": "Tommy Bowden",
-      "appearances": 3.0,
-      "starts": 2.0,
-      "rank": 39
-    },
-    {
-      "season": "2017/18",
-      "squad": "1st",
-      "game_type": "League",
-      "player": "Tom Kiernan",
-      "appearances": 3.0,
-      "starts": 2.0,
-      "rank": 38
-    },
-    {
-      "season": "2017/18",
-      "squad": "1st",
-      "game_type": "League",
-      "player": "Tim Morris",
-      "appearances": 3.0,
-      "starts": 0.0,
-      "rank": 37
-    },
-    {
-      "season": "2017/18",
-      "squad": "1st",
-      "game_type": "League",
-      "player": "Ryland Thomas",
-      "appearances": 3.0,
-      "starts": 3.0,
-      "rank": 36
-    },
-    {
-      "season": "2017/18",
-      "squad": "1st",
-      "game_type": "League",
-      "player": "Ryan Foster",
-      "appearances": 3.0,
-      "starts": 3.0,
-      "rank": 35
-    },
-    {
-      "season": "2017/18",
-      "squad": "1st",
-      "game_type": "League",
-      "player": "Ollie Toogood",
-      "appearances": 3.0,
-      "starts": 2.0,
-      "rank": 34
     },
     {
       "season": "2017/18",
@@ -22162,28 +22099,64 @@
       "season": "2017/18",
       "squad": "1st",
       "game_type": "League",
-      "player": "Max Evans",
-      "appearances": 2.0,
-      "starts": 0.0,
-      "rank": 43
+      "player": "Ben Whiteman",
+      "appearances": 3.0,
+      "starts": 3.0,
+      "rank": 33
     },
     {
       "season": "2017/18",
       "squad": "1st",
       "game_type": "League",
-      "player": "Max Dewing",
-      "appearances": 2.0,
-      "starts": 0.0,
-      "rank": 42
-    },
-    {
-      "season": "2017/18",
-      "squad": "1st",
-      "game_type": "League",
-      "player": "Ben Gray",
-      "appearances": 2.0,
+      "player": "Ollie Toogood",
+      "appearances": 3.0,
       "starts": 2.0,
-      "rank": 41
+      "rank": 34
+    },
+    {
+      "season": "2017/18",
+      "squad": "1st",
+      "game_type": "League",
+      "player": "Ryan Foster",
+      "appearances": 3.0,
+      "starts": 3.0,
+      "rank": 35
+    },
+    {
+      "season": "2017/18",
+      "squad": "1st",
+      "game_type": "League",
+      "player": "Ryland Thomas",
+      "appearances": 3.0,
+      "starts": 3.0,
+      "rank": 36
+    },
+    {
+      "season": "2017/18",
+      "squad": "1st",
+      "game_type": "League",
+      "player": "Tim Morris",
+      "appearances": 3.0,
+      "starts": 0.0,
+      "rank": 37
+    },
+    {
+      "season": "2017/18",
+      "squad": "1st",
+      "game_type": "League",
+      "player": "Tom Kiernan",
+      "appearances": 3.0,
+      "starts": 2.0,
+      "rank": 38
+    },
+    {
+      "season": "2017/18",
+      "squad": "1st",
+      "game_type": "League",
+      "player": "Tommy Bowden",
+      "appearances": 3.0,
+      "starts": 2.0,
+      "rank": 39
     },
     {
       "season": "2017/18",
@@ -22198,10 +22171,37 @@
       "season": "2017/18",
       "squad": "1st",
       "game_type": "League",
-      "player": "Titch Mitchell",
+      "player": "Ben Gray",
+      "appearances": 2.0,
+      "starts": 2.0,
+      "rank": 41
+    },
+    {
+      "season": "2017/18",
+      "squad": "1st",
+      "game_type": "League",
+      "player": "Max Dewing",
+      "appearances": 2.0,
+      "starts": 0.0,
+      "rank": 42
+    },
+    {
+      "season": "2017/18",
+      "squad": "1st",
+      "game_type": "League",
+      "player": "Max Evans",
+      "appearances": 2.0,
+      "starts": 0.0,
+      "rank": 43
+    },
+    {
+      "season": "2017/18",
+      "squad": "1st",
+      "game_type": "League",
+      "player": "Connor Leggat",
       "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 46
+      "starts": 0.0,
+      "rank": 44
     },
     {
       "season": "2017/18",
@@ -22216,28 +22216,10 @@
       "season": "2017/18",
       "squad": "1st",
       "game_type": "League",
-      "player": "Connor Leggat",
+      "player": "Titch Mitchell",
       "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 44
-    },
-    {
-      "season": "2017/18",
-      "squad": "1st",
-      "game_type": "Unknown",
-      "player": "Ben Gray",
-      "appearances": 2.0,
-      "starts": 0.0,
-      "rank": 1
-    },
-    {
-      "season": "2017/18",
-      "squad": "1st",
-      "game_type": "Unknown",
-      "player": "Bertie Beanland",
-      "appearances": 2.0,
-      "starts": 0.0,
-      "rank": 2
+      "starts": 1.0,
+      "rank": 46
     },
     {
       "season": "2017/18",
@@ -22297,15 +22279,6 @@
       "season": "2017/18",
       "squad": "1st",
       "game_type": "Unknown",
-      "player": "Max Crawley-Moore",
-      "appearances": 2.0,
-      "starts": 0.0,
-      "rank": 9
-    },
-    {
-      "season": "2017/18",
-      "squad": "1st",
-      "game_type": "Unknown",
       "player": "Ruari Andrews",
       "appearances": 2.0,
       "starts": 0.0,
@@ -22333,19 +22306,37 @@
       "season": "2017/18",
       "squad": "1st",
       "game_type": "Unknown",
-      "player": "Tom Kiernan",
-      "appearances": 1.0,
+      "player": "Bertie Beanland",
+      "appearances": 2.0,
       "starts": 0.0,
-      "rank": 22
+      "rank": 2
     },
     {
       "season": "2017/18",
       "squad": "1st",
       "game_type": "Unknown",
-      "player": "Ryland Thomas",
+      "player": "Ben Gray",
+      "appearances": 2.0,
+      "starts": 0.0,
+      "rank": 1
+    },
+    {
+      "season": "2017/18",
+      "squad": "1st",
+      "game_type": "Unknown",
+      "player": "Max Crawley-Moore",
+      "appearances": 2.0,
+      "starts": 0.0,
+      "rank": 9
+    },
+    {
+      "season": "2017/18",
+      "squad": "1st",
+      "game_type": "Unknown",
+      "player": "Tom Kiernan",
       "appearances": 1.0,
       "starts": 0.0,
-      "rank": 19
+      "rank": 22
     },
     {
       "season": "2017/18",
@@ -22405,6 +22396,15 @@
       "season": "2017/18",
       "squad": "1st",
       "game_type": "Unknown",
+      "player": "Ryland Thomas",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 19
+    },
+    {
+      "season": "2017/18",
+      "squad": "1st",
+      "game_type": "Unknown",
       "player": "Sean Morgan",
       "appearances": 1.0,
       "starts": 0.0,
@@ -22441,19 +22441,19 @@
       "season": "2017/18",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Ben Gray",
+      "player": "Steve Lampkin",
       "appearances": 10.0,
       "starts": 10.0,
-      "rank": 3
+      "rank": 4
     },
     {
       "season": "2017/18",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Steve Lampkin",
+      "player": "Ben Gray",
       "appearances": 10.0,
       "starts": 10.0,
-      "rank": 4
+      "rank": 3
     },
     {
       "season": "2017/18",
@@ -22468,28 +22468,10 @@
       "season": "2017/18",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Jonny Gibbs",
+      "player": "Tom Keeley",
       "appearances": 6.0,
       "starts": 6.0,
-      "rank": 6
-    },
-    {
-      "season": "2017/18",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "Liam Casey",
-      "appearances": 6.0,
-      "starts": 4.0,
-      "rank": 7
-    },
-    {
-      "season": "2017/18",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "Max Crawley-Moore",
-      "appearances": 6.0,
-      "starts": 6.0,
-      "rank": 8
+      "rank": 10
     },
     {
       "season": "2017/18",
@@ -22504,19 +22486,28 @@
       "season": "2017/18",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Tom Keeley",
+      "player": "Max Crawley-Moore",
       "appearances": 6.0,
       "starts": 6.0,
-      "rank": 10
+      "rank": 8
     },
     {
       "season": "2017/18",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Sean Morgan",
-      "appearances": 5.0,
-      "starts": 5.0,
-      "rank": 17
+      "player": "Liam Casey",
+      "appearances": 6.0,
+      "starts": 4.0,
+      "rank": 7
+    },
+    {
+      "season": "2017/18",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Jonny Gibbs",
+      "appearances": 6.0,
+      "starts": 6.0,
+      "rank": 6
     },
     {
       "season": "2017/18",
@@ -22540,19 +22531,19 @@
       "season": "2017/18",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Joey Marriott",
+      "player": "Lee Sands",
       "appearances": 5.0,
-      "starts": 2.0,
-      "rank": 13
+      "starts": 5.0,
+      "rank": 14
     },
     {
       "season": "2017/18",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Lee Sands",
+      "player": "Joey Marriott",
       "appearances": 5.0,
-      "starts": 5.0,
-      "rank": 14
+      "starts": 2.0,
+      "rank": 13
     },
     {
       "season": "2017/18",
@@ -22576,28 +22567,19 @@
       "season": "2017/18",
       "squad": "2nd",
       "game_type": "League",
+      "player": "Sean Morgan",
+      "appearances": 5.0,
+      "starts": 5.0,
+      "rank": 17
+    },
+    {
+      "season": "2017/18",
+      "squad": "2nd",
+      "game_type": "League",
       "player": "Will Blackledge",
       "appearances": 5.0,
       "starts": 5.0,
       "rank": 18
-    },
-    {
-      "season": "2017/18",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "James Stokes",
-      "appearances": 4.0,
-      "starts": 4.0,
-      "rank": 20
-    },
-    {
-      "season": "2017/18",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "Will de la Haye",
-      "appearances": 4.0,
-      "starts": 4.0,
-      "rank": 25
     },
     {
       "season": "2017/18",
@@ -22612,28 +22594,19 @@
       "season": "2017/18",
       "squad": "2nd",
       "game_type": "League",
+      "player": "Will de la Haye",
+      "appearances": 4.0,
+      "starts": 4.0,
+      "rank": 25
+    },
+    {
+      "season": "2017/18",
+      "squad": "2nd",
+      "game_type": "League",
       "player": "Pete Morley",
       "appearances": 4.0,
       "starts": 4.0,
       "rank": 23
-    },
-    {
-      "season": "2017/18",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "Max Evans",
-      "appearances": 4.0,
-      "starts": 3.0,
-      "rank": 22
-    },
-    {
-      "season": "2017/18",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "Jamie Gache",
-      "appearances": 4.0,
-      "starts": 3.0,
-      "rank": 21
     },
     {
       "season": "2017/18",
@@ -22648,19 +22621,28 @@
       "season": "2017/18",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Steven Cooke",
-      "appearances": 3.0,
-      "starts": 3.0,
-      "rank": 28
+      "player": "James Stokes",
+      "appearances": 4.0,
+      "starts": 4.0,
+      "rank": 20
     },
     {
       "season": "2017/18",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Callum Champain",
-      "appearances": 3.0,
+      "player": "Jamie Gache",
+      "appearances": 4.0,
       "starts": 3.0,
-      "rank": 27
+      "rank": 21
+    },
+    {
+      "season": "2017/18",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Max Evans",
+      "appearances": 4.0,
+      "starts": 3.0,
+      "rank": 22
     },
     {
       "season": "2017/18",
@@ -22675,73 +22657,19 @@
       "season": "2017/18",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Tom Sandys",
-      "appearances": 2.0,
-      "starts": 2.0,
-      "rank": 37
+      "player": "Callum Champain",
+      "appearances": 3.0,
+      "starts": 3.0,
+      "rank": 27
     },
     {
       "season": "2017/18",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Sachio Shimizu",
-      "appearances": 2.0,
-      "starts": 1.0,
-      "rank": 36
-    },
-    {
-      "season": "2017/18",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "Oscar Waite",
-      "appearances": 2.0,
-      "starts": 2.0,
-      "rank": 35
-    },
-    {
-      "season": "2017/18",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "Matthew Robotham",
-      "appearances": 2.0,
-      "starts": 2.0,
-      "rank": 34
-    },
-    {
-      "season": "2017/18",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "Martyn Ansboro",
-      "appearances": 2.0,
-      "starts": 0.0,
-      "rank": 33
-    },
-    {
-      "season": "2017/18",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "Lukis Waite",
-      "appearances": 2.0,
-      "starts": 1.0,
-      "rank": 32
-    },
-    {
-      "season": "2017/18",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "Kris Ailes",
-      "appearances": 2.0,
-      "starts": 2.0,
-      "rank": 31
-    },
-    {
-      "season": "2017/18",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "Jack Miller",
-      "appearances": 2.0,
-      "starts": 2.0,
-      "rank": 30
+      "player": "Steven Cooke",
+      "appearances": 3.0,
+      "starts": 3.0,
+      "rank": 28
     },
     {
       "season": "2017/18",
@@ -22756,46 +22684,82 @@
       "season": "2017/18",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Oli Brown",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 60
+      "player": "Jack Miller",
+      "appearances": 2.0,
+      "starts": 2.0,
+      "rank": 30
     },
     {
       "season": "2017/18",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Sam Spriddell",
+      "player": "Kris Ailes",
+      "appearances": 2.0,
+      "starts": 2.0,
+      "rank": 31
+    },
+    {
+      "season": "2017/18",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Lukis Waite",
+      "appearances": 2.0,
+      "starts": 1.0,
+      "rank": 32
+    },
+    {
+      "season": "2017/18",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Martyn Ansboro",
+      "appearances": 2.0,
+      "starts": 0.0,
+      "rank": 33
+    },
+    {
+      "season": "2017/18",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Matthew Robotham",
+      "appearances": 2.0,
+      "starts": 2.0,
+      "rank": 34
+    },
+    {
+      "season": "2017/18",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Oscar Waite",
+      "appearances": 2.0,
+      "starts": 2.0,
+      "rank": 35
+    },
+    {
+      "season": "2017/18",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Sachio Shimizu",
+      "appearances": 2.0,
+      "starts": 1.0,
+      "rank": 36
+    },
+    {
+      "season": "2017/18",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Tom Sandys",
+      "appearances": 2.0,
+      "starts": 2.0,
+      "rank": 37
+    },
+    {
+      "season": "2017/18",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "George Jacobs",
       "appearances": 1.0,
       "starts": 1.0,
-      "rank": 65
-    },
-    {
-      "season": "2017/18",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "Sam Montagu",
-      "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 64
-    },
-    {
-      "season": "2017/18",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "Sam Lindsay",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 63
-    },
-    {
-      "season": "2017/18",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "Peter Spencer",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 62
+      "rank": 46
     },
     {
       "season": "2017/18",
@@ -22805,6 +22769,15 @@
       "appearances": 1.0,
       "starts": 1.0,
       "rank": 61
+    },
+    {
+      "season": "2017/18",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Oli Brown",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 60
     },
     {
       "season": "2017/18",
@@ -22855,6 +22828,15 @@
       "season": "2017/18",
       "squad": "2nd",
       "game_type": "League",
+      "player": "Cormac Devery",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 43
+    },
+    {
+      "season": "2017/18",
+      "squad": "2nd",
+      "game_type": "League",
       "player": "Liam King",
       "appearances": 1.0,
       "starts": 0.0,
@@ -22900,6 +22882,33 @@
       "season": "2017/18",
       "squad": "2nd",
       "game_type": "League",
+      "player": "Sam Spriddell",
+      "appearances": 1.0,
+      "starts": 1.0,
+      "rank": 65
+    },
+    {
+      "season": "2017/18",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Sam Montagu",
+      "appearances": 1.0,
+      "starts": 1.0,
+      "rank": 64
+    },
+    {
+      "season": "2017/18",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Sam Lindsay",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 63
+    },
+    {
+      "season": "2017/18",
+      "squad": "2nd",
+      "game_type": "League",
       "player": "Jack Skipworth",
       "appearances": 1.0,
       "starts": 1.0,
@@ -22918,73 +22927,10 @@
       "season": "2017/18",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Giles Harden",
+      "player": "Aaron Borrow",
       "appearances": 1.0,
       "starts": 0.0,
-      "rank": 47
-    },
-    {
-      "season": "2017/18",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "George Jacobs",
-      "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 46
-    },
-    {
-      "season": "2017/18",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "Gary Kellas",
-      "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 45
-    },
-    {
-      "season": "2017/18",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "Danny Baptist",
-      "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 44
-    },
-    {
-      "season": "2017/18",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "Cormac Devery",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 43
-    },
-    {
-      "season": "2017/18",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "Colin Mackay",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 42
-    },
-    {
-      "season": "2017/18",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "Chris Franklin",
-      "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 41
-    },
-    {
-      "season": "2017/18",
-      "squad": "2nd",
-      "game_type": "League",
-      "player": "Ben Watkinson",
-      "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 40
+      "rank": 38
     },
     {
       "season": "2017/18",
@@ -22999,10 +22945,64 @@
       "season": "2017/18",
       "squad": "2nd",
       "game_type": "League",
-      "player": "Aaron Borrow",
+      "player": "Ben Watkinson",
+      "appearances": 1.0,
+      "starts": 1.0,
+      "rank": 40
+    },
+    {
+      "season": "2017/18",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Chris Franklin",
+      "appearances": 1.0,
+      "starts": 1.0,
+      "rank": 41
+    },
+    {
+      "season": "2017/18",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Colin Mackay",
       "appearances": 1.0,
       "starts": 0.0,
-      "rank": 38
+      "rank": 42
+    },
+    {
+      "season": "2017/18",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Giles Harden",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 47
+    },
+    {
+      "season": "2017/18",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Danny Baptist",
+      "appearances": 1.0,
+      "starts": 1.0,
+      "rank": 44
+    },
+    {
+      "season": "2017/18",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Gary Kellas",
+      "appearances": 1.0,
+      "starts": 1.0,
+      "rank": 45
+    },
+    {
+      "season": "2017/18",
+      "squad": "2nd",
+      "game_type": "League",
+      "player": "Peter Spencer",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 62
     },
     {
       "season": "2017/18",
@@ -23017,10 +23017,19 @@
       "season": "2017/18",
       "squad": "2nd",
       "game_type": "Unknown",
-      "player": "Owen Jones",
+      "player": "Lee Sands",
       "appearances": 1.0,
       "starts": 0.0,
-      "rank": 10
+      "rank": 6
+    },
+    {
+      "season": "2017/18",
+      "squad": "2nd",
+      "game_type": "Unknown",
+      "player": "Tom Halligey",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 14
     },
     {
       "season": "2017/18",
@@ -23044,6 +23053,15 @@
       "season": "2017/18",
       "squad": "2nd",
       "game_type": "Unknown",
+      "player": "George Mercer",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 4
+    },
+    {
+      "season": "2017/18",
+      "squad": "2nd",
+      "game_type": "Unknown",
       "player": "Guy Phillips",
       "appearances": 1.0,
       "starts": 0.0,
@@ -23053,10 +23071,10 @@
       "season": "2017/18",
       "squad": "2nd",
       "game_type": "Unknown",
-      "player": "Lee Sands",
+      "player": "Will de la Haye",
       "appearances": 1.0,
       "starts": 0.0,
-      "rank": 6
+      "rank": 16
     },
     {
       "season": "2017/18",
@@ -23089,10 +23107,10 @@
       "season": "2017/18",
       "squad": "2nd",
       "game_type": "Unknown",
-      "player": "George Mercer",
+      "player": "Owen Jones",
       "appearances": 1.0,
       "starts": 0.0,
-      "rank": 4
+      "rank": 10
     },
     {
       "season": "2017/18",
@@ -23125,91 +23143,82 @@
       "season": "2017/18",
       "squad": "2nd",
       "game_type": "Unknown",
-      "player": "Tom Halligey",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 14
-    },
-    {
-      "season": "2017/18",
-      "squad": "2nd",
-      "game_type": "Unknown",
       "player": "Tom Kiernan",
       "appearances": 1.0,
       "starts": 0.0,
       "rank": 15
     },
     {
-      "season": "2017/18",
-      "squad": "2nd",
-      "game_type": "Unknown",
-      "player": "Will de la Haye",
+      "season": "2016/17",
+      "squad": "1st",
+      "game_type": "League",
+      "player": "Tom Sandys",
       "appearances": 1.0,
       "starts": 0.0,
+      "rank": 19
+    },
+    {
+      "season": "2016/17",
+      "squad": "1st",
+      "game_type": "League",
+      "player": "Steven Cooke",
+      "appearances": 1.0,
+      "starts": 1.0,
+      "rank": 18
+    },
+    {
+      "season": "2016/17",
+      "squad": "1st",
+      "game_type": "League",
+      "player": "Scott Anderson",
+      "appearances": 1.0,
+      "starts": 1.0,
+      "rank": 17
+    },
+    {
+      "season": "2016/17",
+      "squad": "1st",
+      "game_type": "League",
+      "player": "Sam Montagu",
+      "appearances": 1.0,
+      "starts": 1.0,
       "rank": 16
     },
     {
       "season": "2016/17",
       "squad": "1st",
       "game_type": "League",
-      "player": "Ben Swadling",
+      "player": "Ryan Foster",
       "appearances": 1.0,
       "starts": 1.0,
-      "rank": 1
+      "rank": 15
     },
     {
       "season": "2016/17",
       "squad": "1st",
       "game_type": "League",
-      "player": "Bertie Beanland",
+      "player": "Ross Perry",
       "appearances": 1.0,
       "starts": 1.0,
-      "rank": 2
+      "rank": 14
     },
     {
       "season": "2016/17",
       "squad": "1st",
       "game_type": "League",
-      "player": "Connor Leggat",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 3
-    },
-    {
-      "season": "2016/17",
-      "squad": "1st",
-      "game_type": "League",
-      "player": "Daan Hulst",
+      "player": "Morgan Burger",
       "appearances": 1.0,
       "starts": 1.0,
-      "rank": 4
+      "rank": 13
     },
     {
       "season": "2016/17",
       "squad": "1st",
       "game_type": "League",
-      "player": "Dan Arnold",
+      "player": "John Peaty",
       "appearances": 1.0,
       "starts": 1.0,
-      "rank": 5
-    },
-    {
-      "season": "2016/17",
-      "squad": "1st",
-      "game_type": "League",
-      "player": "Dave Bridges",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 6
-    },
-    {
-      "season": "2016/17",
-      "squad": "1st",
-      "game_type": "League",
-      "player": "Frank Robinson",
-      "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 7
+      "rank": 9
     },
     {
       "season": "2016/17",
@@ -23224,10 +23233,73 @@
       "season": "2016/17",
       "squad": "1st",
       "game_type": "League",
-      "player": "John Peaty",
+      "player": "Frank Robinson",
       "appearances": 1.0,
       "starts": 1.0,
-      "rank": 9
+      "rank": 7
+    },
+    {
+      "season": "2016/17",
+      "squad": "1st",
+      "game_type": "League",
+      "player": "Dave Bridges",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 6
+    },
+    {
+      "season": "2016/17",
+      "squad": "1st",
+      "game_type": "League",
+      "player": "Dan Arnold",
+      "appearances": 1.0,
+      "starts": 1.0,
+      "rank": 5
+    },
+    {
+      "season": "2016/17",
+      "squad": "1st",
+      "game_type": "League",
+      "player": "Daan Hulst",
+      "appearances": 1.0,
+      "starts": 1.0,
+      "rank": 4
+    },
+    {
+      "season": "2016/17",
+      "squad": "1st",
+      "game_type": "League",
+      "player": "Connor Leggat",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 3
+    },
+    {
+      "season": "2016/17",
+      "squad": "1st",
+      "game_type": "League",
+      "player": "Bertie Beanland",
+      "appearances": 1.0,
+      "starts": 1.0,
+      "rank": 2
+    },
+    {
+      "season": "2016/17",
+      "squad": "1st",
+      "game_type": "League",
+      "player": "Ben Swadling",
+      "appearances": 1.0,
+      "starts": 1.0,
+      "rank": 1
+    },
+    {
+      "season": "2016/17",
+      "squad": "1st",
+      "game_type": "League",
+      "player": "Mark Taylor",
+      "appearances": 1.0,
+      "starts": 0.0,
+      "rank": 12
     },
     {
       "season": "2016/17",
@@ -23246,78 +23318,6 @@
       "appearances": 1.0,
       "starts": 1.0,
       "rank": 11
-    },
-    {
-      "season": "2016/17",
-      "squad": "1st",
-      "game_type": "League",
-      "player": "Mark Taylor",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 12
-    },
-    {
-      "season": "2016/17",
-      "squad": "1st",
-      "game_type": "League",
-      "player": "Morgan Burger",
-      "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 13
-    },
-    {
-      "season": "2016/17",
-      "squad": "1st",
-      "game_type": "League",
-      "player": "Ross Perry",
-      "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 14
-    },
-    {
-      "season": "2016/17",
-      "squad": "1st",
-      "game_type": "League",
-      "player": "Ryan Foster",
-      "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 15
-    },
-    {
-      "season": "2016/17",
-      "squad": "1st",
-      "game_type": "League",
-      "player": "Sam Montagu",
-      "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 16
-    },
-    {
-      "season": "2016/17",
-      "squad": "1st",
-      "game_type": "League",
-      "player": "Scott Anderson",
-      "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 17
-    },
-    {
-      "season": "2016/17",
-      "squad": "1st",
-      "game_type": "League",
-      "player": "Steven Cooke",
-      "appearances": 1.0,
-      "starts": 1.0,
-      "rank": 18
-    },
-    {
-      "season": "2016/17",
-      "squad": "1st",
-      "game_type": "League",
-      "player": "Tom Sandys",
-      "appearances": 1.0,
-      "starts": 0.0,
-      "rank": 19
     },
     {
       "season": "2016/17",

@@ -23,6 +23,7 @@ from python.league_stats import (
     create_combined_league_table_html,
     create_unified_league_dispatch_html,
 )
+from python.sync_headshots import run_sync, HEADSHOTS_DIR, TARGET_FILES
 import altair as alt
 from python.chart_helpers import *
 import pandas as pd
@@ -1307,6 +1308,22 @@ def main(refresh_pitchero=False, backend_mode="canonical", backend_db_path="data
         else:
             raise
     db.build(refresh_pitchero=refresh_pitchero, export=True)
+
+    # Keep backend player exports aligned with current headshot files and crop rules.
+    recrop_result, sync_results, sync_total_updates = run_sync(
+        write=True,
+        headshots_dir=HEADSHOTS_DIR,
+        targets=TARGET_FILES,
+    )
+    print(
+        "Headshot sync: "
+        f"checked={recrop_result.checked}, "
+        f"needs_recrop={recrop_result.needs_recrop}, "
+        f"recropped={recrop_result.recropped}, "
+        f"updates={sync_total_updates}"
+    )
+    for result in sync_results:
+        print(f"  - {result.path.relative_to(project_root)}: updates={result.updated_rows}")
     
     # Load league data
     print("Loading league data...")

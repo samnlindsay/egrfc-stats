@@ -1,4 +1,5 @@
 let playerProfilesData = [];
+let playerProfilesControlsInitialised = false;
 
 const THIRTEEN_MONTHS_MS = 365 * 24 * 60 * 60 * 1000;
 
@@ -29,12 +30,133 @@ function surnamePart(name) {
     return tokens.length ? tokens[tokens.length - 1].toLowerCase() : '';
 }
 
+function firstNamePart(name) {
+    const tokens = String(name || '')
+        .trim()
+        .split(/\s+/)
+        .filter(Boolean);
+    return tokens.length ? tokens[0].toLowerCase() : '';
+}
+
+const POSITION_SORT_ORDER = [
+    ['loosehead prop', 1],
+    ['tighthead prop', 2],
+    ['prop', 3],
+    ['hooker', 4],
+    ['lock', 5],
+    ['second row', 6],
+    ['blindside flanker', 7],
+    ['openside flanker', 8],
+    ['flanker', 9],
+    ['number 8', 10],
+    ['scrum half', 11],
+    ['fly half', 12],
+    ['centre', 13],
+    ['back three', 14],
+    ['wing', 15],
+    ['full back', 16],
+    ['bench', 99]
+];
+
+const POSITION_SECTION_ORDER = [
+    'Prop',
+    'Hooker',
+    'Second Row',
+    'Flanker',
+    'Number 8',
+    'Scrum Half',
+    'Fly Half',
+    'Centre',
+    'Wing',
+    'Full Back',
+    'Bench',
+    'Other'
+];
+
+function positionRank(position) {
+    const normalized = String(position || '').trim().toLowerCase();
+    if (!normalized) return 999;
+
+    for (const [pattern, rank] of POSITION_SORT_ORDER) {
+        if (normalized.includes(pattern)) return rank;
+    }
+
+    return 500;
+}
+
+function positionSectionTitle(position) {
+    const normalized = String(position || '').trim().toLowerCase();
+    if (!normalized) return 'Other';
+
+    if (normalized.includes('prop')) return 'Prop';
+    if (normalized.includes('hooker')) return 'Hooker';
+    if (normalized.includes('lock') || normalized.includes('second row')) return 'Second Row';
+    if (normalized.includes('flanker')) return 'Flanker';
+    if (normalized.includes('number 8')) return 'Number 8';
+    if (normalized.includes('scrum half')) return 'Scrum Half';
+    if (normalized.includes('fly half')) return 'Fly Half';
+    if (normalized.includes('centre')) return 'Centre';
+    if (normalized.includes('wing') || normalized.includes('back three')) return 'Wing';
+    if (normalized.includes('full back') || normalized.includes('fullback')) return 'Full Back';
+    if (normalized.includes('bench')) return 'Bench';
+
+    return 'Other';
+}
+
+function positionSectionRank(sectionTitle) {
+    const index = POSITION_SECTION_ORDER.indexOf(sectionTitle);
+    if (index === -1) return 999;
+    return index + 1;
+}
+
 function compareBySurnameThenName(a, b) {
     const aSurname = surnamePart(a?.name);
     const bSurname = surnamePart(b?.name);
     const bySurname = aSurname.localeCompare(bSurname);
     if (bySurname !== 0) return bySurname;
     return String(a?.name || '').localeCompare(String(b?.name || ''));
+}
+
+function compareByFirstNameThenSurname(a, b) {
+    const aFirstName = firstNamePart(a?.name);
+    const bFirstName = firstNamePart(b?.name);
+    const byFirstName = aFirstName.localeCompare(bFirstName);
+    if (byFirstName !== 0) return byFirstName;
+    return compareBySurnameThenName(a, b);
+}
+
+function compareByPositionThenName(a, b) {
+    const byPosition = positionRank(a?.position) - positionRank(b?.position);
+    if (byPosition !== 0) return byPosition;
+
+    const byPositionName = String(a?.position || '').localeCompare(String(b?.position || ''));
+    if (byPositionName !== 0) return byPositionName;
+
+    return compareBySurnameThenName(a, b);
+}
+
+function compareByAppearancesDesc(a, b) {
+    const byAppearances = Number(b?.totalAppearances || 0) - Number(a?.totalAppearances || 0);
+    if (byAppearances !== 0) return byAppearances;
+    return compareBySurnameThenName(a, b);
+}
+
+function sortedProfiles(rows, sortMode) {
+    const copy = [...rows];
+
+    if (sortMode === 'firstName') {
+        return copy.sort(compareByFirstNameThenSurname);
+    }
+
+    if (sortMode === 'position') {
+        return copy.sort(compareByPositionThenName);
+    }
+
+    if (sortMode === 'appearances') {
+        return copy.sort(compareByAppearancesDesc);
+    }
+
+    return copy.sort(compareBySurnameThenName);
 }
 
 function escapeHtml(value) {
@@ -326,12 +448,82 @@ function cardDetailsMarkup(profile) {
     return lines.join('');
 }
 
+function profileCardMarkup(profile) {
+    const displayName = escapeHtml(profile.name || 'Unknown player');
+    const displayPosition = escapeHtml(profile.position || 'Unknown');
+    const activeTag = profile.isActive
+        ? '<span class="player-profile-active-tag">Active</span>'
+        : '';
+    const avatarMarkup = createAvatarMarkup(profile);
+    const squadClass = String(profile.squad || '').trim().toLowerCase() === '2nd' ? '2nd' : '1st';
+
+    return `
+        <div class="player-profile-grid-item">
+            <article class="card player-profile-card player-profile-card-${squadClass} squad-metric-card-${squadClass}" data-profile-card>
+                <div class="player-profile-headshot-wrap ${headshotBackgroundClass(profile)}">
+                    ${avatarMarkup}
+                    ${activeTag ? `<span class="player-profile-active-tag player-profile-active-tag-headshot">Active</span>` : ''}
+                </div>
+                <button
+                    type="button"
+                    class="player-profile-summary player-profile-summary-${squadClass} league-team-title-${squadClass}"
+                    data-profile-toggle
+                    aria-expanded="false"
+                >
+                    <div class="player-profile-summary-left">
+                        <div class="player-profile-summary-name">${displayName}</div>
+                        <div class="player-profile-summary-subtitle">${displayPosition}</div>
+                    </div>
+                    <div class="player-profile-summary-right">
+                        <div class="player-profile-summary-meta-row">
+                            <span class="player-profile-summary-count">${profile.totalAppearances}</span>
+                        </div>
+                        <span class="player-profile-summary-label">apps</span>
+                        <i class="bi bi-chevron-down player-profile-chevron" aria-hidden="true"></i>
+                    </div>
+                </button>
+                <div class="player-profile-details" hidden>
+                    ${cardDetailsMarkup(profile)}
+                </div>
+            </article>
+        </div>
+    `;
+}
+
+function renderGroupedByPosition(profiles) {
+    const groups = new Map();
+
+    profiles.forEach(profile => {
+        const sectionTitle = positionSectionTitle(profile?.position);
+        if (!groups.has(sectionTitle)) groups.set(sectionTitle, []);
+        groups.get(sectionTitle).push(profile);
+    });
+
+    return Array.from(groups.entries())
+        .sort((a, b) => {
+            const byRank = positionSectionRank(a[0]) - positionSectionRank(b[0]);
+            if (byRank !== 0) return byRank;
+            return String(a[0]).localeCompare(String(b[0]));
+        })
+        .map(([sectionTitle, groupProfiles]) => {
+            const cards = groupProfiles.map(profileCardMarkup).join('');
+            return `
+                <section class="player-profiles-position-section">
+                    <h2 class="player-profiles-position-section-title">${escapeHtml(sectionTitle)}</h2>
+                    <div class="player-profiles-grid">${cards}</div>
+                </section>
+            `;
+        })
+        .join('');
+}
+
 function renderPlayerProfiles() {
     const grid = document.getElementById('playerProfilesGrid');
     const emptyState = document.getElementById('playerProfilesEmptyState');
     const playerSelect = document.getElementById('playerProfileNameFilter');
     const squadSelect = document.getElementById('playerProfileSquadFilter');
     const positionSelect = document.getElementById('playerProfilePositionFilter');
+    const sortSelect = document.getElementById('playerProfileSortFilter');
     const activeOnlyToggle = document.getElementById('playerProfileActiveOnly');
 
     if (!grid || !emptyState) return;
@@ -343,9 +535,10 @@ function renderPlayerProfiles() {
     );
     const squadFilter = String(squadSelect?.value || 'All');
     const positionFilter = String(positionSelect?.value || 'All');
+    const sortMode = String(sortSelect?.value || 'surname');
     const activeOnly = Boolean(activeOnlyToggle?.checked);
 
-    const filtered = playerProfilesData
+    const filteredBase = playerProfilesData
         .filter(profile => {
             const name = String(profile.name || '');
             const position = String(profile.position || 'Unknown');
@@ -356,8 +549,9 @@ function renderPlayerProfiles() {
             if (positionFilter !== 'All' && position !== positionFilter) return false;
             if (activeOnly && !profile.isActive) return false;
             return true;
-        })
-        .sort(compareBySurnameThenName);
+        });
+
+    const filtered = sortedProfiles(filteredBase, sortMode);
 
     if (filtered.length === 0) {
         grid.innerHTML = '';
@@ -367,61 +561,37 @@ function renderPlayerProfiles() {
 
     emptyState.classList.add('d-none');
 
-    grid.innerHTML = filtered.map(profile => {
-        const displayName = escapeHtml(profile.name || 'Unknown player');
-        const displayPosition = escapeHtml(profile.position || 'Unknown');
-        const activeTag = profile.isActive
-            ? '<span class="player-profile-active-tag">Active</span>'
-            : '';
-        const avatarMarkup = createAvatarMarkup(profile);
-        const squadClass = String(profile.squad || '').trim().toLowerCase() === '2nd' ? '2nd' : '1st';
+    if (sortMode === 'position') {
+        grid.innerHTML = `<div class="player-profiles-position-sections">${renderGroupedByPosition(filtered)}</div>`;
+        return;
+    }
 
-        return `
-            <div class="player-profile-grid-item">
-                <article class="card player-profile-card player-profile-card-${squadClass} squad-metric-card-${squadClass}" data-profile-card>
-                    <div class="player-profile-headshot-wrap ${headshotBackgroundClass(profile)}">
-                        ${avatarMarkup}
-                        ${activeTag ? `<span class="player-profile-active-tag player-profile-active-tag-headshot">Active</span>` : ''}
-                    </div>
-                    <button
-                        type="button"
-                        class="player-profile-summary player-profile-summary-${squadClass} league-team-title-${squadClass}"
-                        data-profile-toggle
-                        aria-expanded="false"
-                    >
-                        <div class="player-profile-summary-left">
-                            <div class="player-profile-summary-name">${displayName}</div>
-                            <div class="player-profile-summary-subtitle">${displayPosition}</div>
-                        </div>
-                        <div class="player-profile-summary-right">
-                            <div class="player-profile-summary-meta-row">
-                                <span class="player-profile-summary-count">${profile.totalAppearances}</span>
-                            </div>
-                            <span class="player-profile-summary-label">apps</span>
-                            <i class="bi bi-chevron-down player-profile-chevron" aria-hidden="true"></i>
-                        </div>
-                    </button>
-                    <div class="player-profile-details" hidden>
-                        ${cardDetailsMarkup(profile)}
-                    </div>
-                </article>
-            </div>
-        `;
-    }).join('');
+    grid.innerHTML = filtered.map(profileCardMarkup).join('');
 }
 
 function populateFilters() {
     const playerSelect = document.getElementById('playerProfileNameFilter');
     const squadSelect = document.getElementById('playerProfileSquadFilter');
     const positionSelect = document.getElementById('playerProfilePositionFilter');
+    const sortSelect = document.getElementById('playerProfileSortFilter');
     if (!playerSelect || !squadSelect || !positionSelect) return;
 
     const playerNames = playerProfilesData
         .map(row => String(row.name || '').trim())
         .filter(Boolean)
         .sort((a, b) => a.localeCompare(b));
-    const squads = Array.from(new Set(playerProfilesData.map(row => String(row.squad || 'Unknown')))).sort();
-    const positions = Array.from(new Set(playerProfilesData.map(row => String(row.position || 'Unknown')))).sort();
+    const squads = Array.from(new Set(playerProfilesData.map(row => String(row.squad || 'Unknown'))))
+        .filter(squad => {
+            const normalized = String(squad || '').trim().toLowerCase();
+            return normalized !== 'all' && normalized !== 'all squads';
+        })
+        .sort();
+    const positions = Array.from(new Set(playerProfilesData.map(row => String(row.position || 'Unknown'))))
+        .filter(position => {
+            const normalized = String(position || '').trim().toLowerCase();
+            return normalized !== 'all' && normalized !== 'all positions';
+        })
+        .sort();
 
     playerSelect.innerHTML = playerNames
         .map(name => `<option value="${escapeHtml(name)}">${escapeHtml(name)}</option>`)
@@ -432,8 +602,61 @@ function populateFilters() {
         positions.map(position => `<option value="${escapeHtml(position)}">${escapeHtml(position)}</option>`).join('');
 
     if (window.jQuery && window.jQuery.fn && window.jQuery.fn.selectpicker) {
-        window.jQuery(playerSelect).selectpicker('refresh');
+        const $playerSelect = window.jQuery(playerSelect);
+        const $squadSelect = window.jQuery(squadSelect);
+        const $positionSelect = window.jQuery(positionSelect);
+        const selectedSort = String(sortSelect?.value || 'surname');
+
+        [$playerSelect, $squadSelect, $positionSelect].forEach($el => {
+            if ($el.data('selectpicker')) $el.selectpicker('destroy');
+            $el.selectpicker();
+            $el.off('changed.bs.select.playerProfiles').on('changed.bs.select.playerProfiles', renderPlayerProfiles);
+        });
+        $playerSelect.selectpicker('deselectAll');
+        $squadSelect.selectpicker('val', 'All');
+        $positionSelect.selectpicker('val', 'All');
+
+        if (sortSelect) {
+            const $sortSelect = window.jQuery(sortSelect);
+            if ($sortSelect.data('selectpicker')) $sortSelect.selectpicker('destroy');
+            $sortSelect.selectpicker();
+            $sortSelect.selectpicker('val', selectedSort);
+            $sortSelect.off('changed.bs.select.playerProfiles').on('changed.bs.select.playerProfiles', renderPlayerProfiles);
+        }
     }
+}
+
+function initialisePlayerProfilesControls() {
+    if (playerProfilesControlsInitialised) return;
+
+    const playerSelect = document.getElementById('playerProfileNameFilter');
+    const squadSelect = document.getElementById('playerProfileSquadFilter');
+    const positionSelect = document.getElementById('playerProfilePositionFilter');
+    const sortSelect = document.getElementById('playerProfileSortFilter');
+    const activeOnlyToggle = document.getElementById('playerProfileActiveOnly');
+
+    if (!playerSelect || !squadSelect || !positionSelect || !sortSelect) return;
+
+    if (window.jQuery && window.jQuery.fn && window.jQuery.fn.selectpicker) {
+        const $playerSelect = window.jQuery(playerSelect);
+        const $squadSelect = window.jQuery(squadSelect);
+        const $positionSelect = window.jQuery(positionSelect);
+        const $sortSelect = window.jQuery(sortSelect);
+
+        [$playerSelect, $squadSelect, $positionSelect, $sortSelect].forEach($el => {
+            if ($el.data('selectpicker')) $el.selectpicker('destroy');
+            $el.selectpicker();
+            $el.off('changed.bs.select.playerProfiles').on('changed.bs.select.playerProfiles', renderPlayerProfiles);
+        });
+    } else {
+        playerSelect.addEventListener('change', renderPlayerProfiles);
+        squadSelect.addEventListener('change', renderPlayerProfiles);
+        positionSelect.addEventListener('change', renderPlayerProfiles);
+        sortSelect.addEventListener('change', renderPlayerProfiles);
+    }
+
+    activeOnlyToggle?.addEventListener('change', renderPlayerProfiles);
+    playerProfilesControlsInitialised = true;
 }
 
 function bindCardToggle() {
@@ -498,19 +721,7 @@ async function loadPlayerProfilesPage() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    const playerSelect = document.getElementById('playerProfileNameFilter');
-    const squadSelect = document.getElementById('playerProfileSquadFilter');
-    const positionSelect = document.getElementById('playerProfilePositionFilter');
-    const activeOnlyToggle = document.getElementById('playerProfileActiveOnly');
-
-    playerSelect?.addEventListener('change', renderPlayerProfiles);
-    if (window.jQuery) {
-        window.jQuery(playerSelect).on('changed.bs.select', renderPlayerProfiles);
-    }
-    squadSelect?.addEventListener('change', renderPlayerProfiles);
-    positionSelect?.addEventListener('change', renderPlayerProfiles);
-    activeOnlyToggle?.addEventListener('change', renderPlayerProfiles);
-
+    initialisePlayerProfilesControls();
     bindCardToggle();
     loadPlayerProfilesPage();
 });

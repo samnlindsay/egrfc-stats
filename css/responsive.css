@@ -11,6 +11,16 @@
         padding-top: 0;
     }
 
+    .player-profiles-controls-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .player-profiles-sort-action {
+        width: 100%;
+        min-width: 0;
+    }
+
 
     /* Tighter page container padding on mobile */
     .page-content > div {

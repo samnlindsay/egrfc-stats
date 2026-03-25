@@ -50,43 +50,69 @@
             <h1 style="color: var(--primary-color); margin-bottom: 0.5rem;">Player Profiles</h1>
             <p style="margin-bottom: 1.5rem; color: #666; font-size: 0.95rem;">Search and filter player profile cards generated from canonical backend data.</p>
 
-            <div class="page-header-filters" style="margin-bottom: 1.5rem;">
-                <div class="filter-item">
+            <div class="player-profiles-controls-row" style="margin-bottom: 1.5rem;">
+                <div class="page-header-filters player-profiles-filters">
+                    <div class="filter-item">
+                        <div class="input-group">
+                            <span class="input-group-text">Player</span>
+                            <select
+                                id="playerProfileNameFilter"
+                                class="selectpicker form-control flex-fill"
+                                multiple
+                                data-live-search="true"
+                                data-actions-box="true"
+                                data-selected-text-format="count > 2"
+                                title="Filter players..."
+                            ></select>
+                        </div>
+                    </div>
+                    <div class="filter-item">
+                        <div class="input-group">
+                            <span class="input-group-text">Squad</span>
+                            <select
+                                id="playerProfileSquadFilter"
+                                class="selectpicker form-control flex-fill"
+                                data-size="4"
+                            >
+                                <option value="All">All squads</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="filter-item">
+                        <div class="input-group">
+                            <span class="input-group-text">Position</span>
+                            <select
+                                id="playerProfilePositionFilter"
+                                class="selectpicker form-control flex-fill"
+                                data-size="8"
+                            >
+                                <option value="All">All positions</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="filter-item">
+                        <div class="form-check player-profiles-active-toggle">
+                            <input class="form-check-input player-profiles-active-toggle-input" type="checkbox" value="1" id="playerProfileActiveOnly" checked>
+                            <label class="form-check-label" for="playerProfileActiveOnly">
+                                Active only (last 12 months)
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="player-profiles-sort-action" role="group" aria-label="Sort controls">
                     <div class="input-group">
-                        <span class="input-group-text">Player</span>
+                        <span class="input-group-text"><i class="bi bi-sort-down" aria-hidden="true"></i><span>Sort by</span></span>
                         <select
-                            id="playerProfileNameFilter"
+                            id="playerProfileSortFilter"
                             class="selectpicker form-control flex-fill"
-                            multiple
-                            data-live-search="true"
-                            data-actions-box="true"
-                            data-selected-text-format="count > 2"
-                            title="Filter players..."
-                        ></select>
-                    </div>
-                </div>
-                <div class="filter-item">
-                    <div class="input-group">
-                        <span class="input-group-text">Squad</span>
-                        <select id="playerProfileSquadFilter" class="form-select">
-                            <option value="All">All squads</option>
+                            data-size="6"
+                        >
+                            <option value="surname" selected>Surname</option>
+                            <option value="firstName">First name</option>
+                            <option value="position">Position</option>
+                            <option value="appearances">Appearances</option>
                         </select>
-                    </div>
-                </div>
-                <div class="filter-item">
-                    <div class="input-group">
-                        <span class="input-group-text">Position</span>
-                        <select id="playerProfilePositionFilter" class="form-select">
-                            <option value="All">All positions</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="filter-item">
-                    <div class="form-check player-profiles-active-toggle">
-                        <input class="form-check-input player-profiles-active-toggle-input" type="checkbox" value="1" id="playerProfileActiveOnly" checked>
-                        <label class="form-check-label" for="playerProfileActiveOnly">
-                            Active only (last 12 months)
-                        </label>
                     </div>
                 </div>
             </div>
