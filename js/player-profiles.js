@@ -359,11 +359,13 @@ function enrichProfile(profile, context) {
         points: Number(profile?.latest_season_points || 0)
     };
 
-    const positions = Array.from(new Set(
-        rows
-            .map(row => String(row?.position || '').trim())
-            .filter(Boolean)
-    ));
+    const positionCounts = new Map();
+    rows
+        .map(row => String(row?.position || '').trim())
+        .filter(Boolean)
+        .forEach(position => {
+            positionCounts.set(position, (positionCounts.get(position) || 0) + 1);
+        });
     const startingPositionCounts = new Map();
     rows
         .filter(row => Boolean(row?.is_starter))
@@ -384,7 +386,10 @@ function enrichProfile(profile, context) {
         primaryPosition = sortedStartingPositions[0][0];
     }
 
-    const otherPositions = positions.filter(position => position !== primaryPosition && position !== 'Bench');
+    const otherPositions = Array.from(positionCounts.entries())
+        .filter(([position, count]) => position !== primaryPosition && position !== 'Bench' && count > 1)
+        .map(([position]) => position)
+        .sort((a, b) => a.localeCompare(b));
 
     const lastAppearanceDate = parseIsoDate(lastRow?.date);
     const isActive = Boolean(lastAppearanceDate && (Date.now() - lastAppearanceDate.getTime()) <= THIRTEEN_MONTHS_MS);
@@ -418,6 +423,12 @@ function cardDetailsMarkup(profile) {
     const hasKickedPoints = conversions > 0 || penalties > 0 || dropGoals > 0;
 
     const lines = [];
+    const sponsor = String(profile?.sponsor || '').trim();
+    const hasCurrentSeasonSponsor = sponsor && Number(profile?.seasonAppearances || 0) > 0;
+
+    if (hasCurrentSeasonSponsor) {
+        lines.push(`<p class="player-profile-detail-line player-profile-detail-sponsor">sponsored by ${escapeHtml(sponsor)}</p>`);
+    }
 
     if (profile.otherPositions.length > 0) {
         lines.push(`<p class="player-profile-detail-line"><strong>Other positions:</strong> ${escapeHtml(profile.otherPositions.join(', '))}</p>`);
@@ -535,7 +546,7 @@ function renderPlayerProfiles() {
     );
     const squadFilter = String(squadSelect?.value || 'All');
     const positionFilter = String(positionSelect?.value || 'All');
-    const sortMode = String(sortSelect?.value || 'surname');
+    const sortMode = String(sortSelect?.value || 'firstName');
     const activeOnly = Boolean(activeOnlyToggle?.checked);
 
     const filteredBase = playerProfilesData
@@ -605,7 +616,7 @@ function populateFilters() {
         const $playerSelect = window.jQuery(playerSelect);
         const $squadSelect = window.jQuery(squadSelect);
         const $positionSelect = window.jQuery(positionSelect);
-        const selectedSort = String(sortSelect?.value || 'surname');
+        const selectedSort = String(sortSelect?.value || 'firstName');
 
         [$playerSelect, $squadSelect, $positionSelect].forEach($el => {
             if ($el.data('selectpicker')) $el.selectpicker('destroy');

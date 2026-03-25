@@ -738,6 +738,91 @@ class DataExtractor:
         
         return df_merged
     
+    def extract_red_zone_data(self):
+        """Extract red zone data"""
+        ss = self.client.open_by_url(self.sheet_url)
+        
+        headers = [
+            "", "Season", "Date", "Opposition", "H/A", "F", "A", "PD",
+            # Lineouts
+            'Won', 'Total', 'Success rate',
+            'Won', 'Total', 'Success rate',
+            'Total', 'Net gain',
+            # Scrums
+            'Won', 'Total', 'Success rate',
+            'Won', 'Total', 'Success rate',
+            'Total', 'Net gain',
+            # Red Zone
+            "22m Entries", "Pts per visit", "Tries", "Try rate",
+            "22m Entries", "Pts per visit", "Tries", "Try rate",
+            "22m Entries", "Pts per visit"
+        ]
+
+        red_zone_data = []
+
+        for squad_name, sheet_name in [("1st", "1st XV Set piece"), ("2nd", "2nd XV Set piece")]:
+            try:
+                sheet = ss.worksheet(sheet_name)
+                # Extract data from given range (A5:AH)
+                data = sheet.get("A5:AH")
+                
+                for row in data:
+                    if len(row) <= 2 or not row[1]: # Skip if no season
+                        continue
+
+                    eg_entries = self._safe_int(row[24] if len(row) > 24 else None)
+                    eg_points_per_visit = self._safe_float(row[25] if len(row) > 25 else None)
+                    eg_tries = self._safe_int(row[26] if len(row) > 26 else None)
+                    opp_entries = self._safe_int(row[28] if len(row) > 28 else None)
+                    opp_points_per_visit = self._safe_float(row[29] if len(row) > 29 else None)
+                    opp_tries = self._safe_int(row[30] if len(row) > 30 else None)
+
+                    if not any(value is not None for value in [
+                        eg_entries,
+                        eg_points_per_visit,
+                        eg_tries,
+                        opp_entries,
+                        opp_points_per_visit,
+                        opp_tries,
+                    ]):
+                        continue
+
+                    game_data = {
+                        'team': ['EG', 'Opp'],
+                        'entries': [eg_entries, opp_entries],
+                        'tries': [eg_tries, opp_tries],
+                        'points_per_visit': [eg_points_per_visit, opp_points_per_visit],
+                    }
+
+                    for team, entries, tries, points_per_visit in zip(game_data['team'], game_data['entries'], game_data['tries'], game_data['points_per_visit']):
+                        red_zone_data.append({
+                            'date': self._parse_date(row[2]),
+                            'squad': squad_name,
+                            'team': team,
+                            'entries': entries,
+                            'tries': tries,
+                            'points_per_visit': points_per_visit,
+                            })
+            except Exception as e:
+                print(f"Error extracting red zone data for {squad_name}: {e}")
+
+        # Join to games to get game_id
+        if not red_zone_data:
+            # Return empty DataFrame with correct structure
+            return pd.DataFrame(columns=['game_id', 'team', 'entries', 'tries', 'points_per_visit'])
+        
+        df_red_zone = pd.DataFrame(red_zone_data)
+        df_games = self.extract_games_data()[['game_id', 'date', 'squad']]
+        df_red_zone['date'] = pd.to_datetime(df_red_zone['date'])
+        df_games['date'] = pd.to_datetime(df_games['date'])
+        # Merge on date and squad
+        df_merged = pd.merge(df_red_zone, df_games, on=['date', 'squad'], how='left')
+        df_merged.drop(columns=['date', 'squad'], inplace=True) # drop date and squad columns
+        df_merged = df_merged[['game_id', 'team', 'entries', 'tries', 'points_per_visit']]
+        df_merged = df_merged[df_merged['game_id'].notnull()] # keep only rows with game_id
+        
+        return df_merged
+    
     def extract_league_data(self, season="2024-2025", league="Counties 1 Surrey/Sussex", comp="London & SE Division"):
         """Extract league data using league_data functions"""
         import sys
@@ -863,6 +948,13 @@ class DataExtractor:
         """Safely convert to int"""
         try:
             return int(value) if value else None
+        except:
+            return None
+
+    def _safe_float(self, value):
+        """Safely convert to float"""
+        try:
+            return float(value) if value not in (None, "") else None
         except:
             return None
        

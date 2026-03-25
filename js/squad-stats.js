@@ -622,7 +622,7 @@ function initialisePlayerStatsControls() {
     seasons.forEach(season => {
         const option = document.createElement('option');
         option.value = season;
-        option.textContent = season;
+        option.textContent = season === 'All' ? 'All seasons' : season;
         seasonSelect.appendChild(option);
     });
     const $seasonSelect = $('#playerStatsSeasonSelect');
@@ -722,9 +722,9 @@ function filterPlayerStatsPointsSpec(spec, selectedSeasons, selectedSquad, score
 }
 
 async function renderPlayerStatsPage() {
-    const selectedSeasonValues = $('#playerStatsSeasonSelect').val();
-    const selectedSeasons = Array.isArray(selectedSeasonValues)
-        ? selectedSeasonValues.filter(value => value && value !== 'All')
+    const selectedSeasonValue = document.getElementById('playerStatsSeasonSelect')?.value;
+    const selectedSeasons = (selectedSeasonValue && selectedSeasonValue !== 'All')
+        ? [selectedSeasonValue]
         : [];
     const selectedGameType = document.getElementById('playerStatsGameTypeSelect')?.value || 'All games';
     const selectedSquad = document.getElementById('playerStatsSquadSelect')?.value || 'All';

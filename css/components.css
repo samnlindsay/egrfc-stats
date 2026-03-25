@@ -51,6 +51,7 @@
     white-space: nowrap !important;
     overflow: hidden !important;
     text-overflow: ellipsis !important;
+    padding-right: 1.2rem !important;
 }
 
 .bootstrap-select .dropdown-menu {
@@ -421,6 +422,23 @@
     color: #2a3555;
     font-size: 0.9rem;
     line-height: 1.3;
+}
+
+.player-profile-detail-sponsor {
+    font-style: italic;
+    font-weight: 300;
+    text-align: center;
+    display: block;
+    width: fit-content;
+    margin: 0 auto 0.75rem;
+    padding: 0.22rem 0.7rem;
+    border-radius: 999px;
+    color: #202946;
+    background: linear-gradient(135deg, #fff6d6 0%, #ffe082 100%);
+    border: 1px solid #d5b54a;
+    box-shadow: 0 1px 4px rgba(32, 41, 70, 0.16);
+    letter-spacing: 0.01em;
+    opacity: 1;
 }
 
 .player-profile-detail-line:last-child {

@@ -41,6 +41,7 @@
                     <li class="nav-item"><a class="nav-link" href="season-summary.html">Season Summary</a></li>
                     <li class="nav-item"><a class="nav-link" href="league-tables.html">League Tables</a></li>
                     <li class="nav-item"><a class="nav-link active" href="squad-stats.html">Squad Stats</a></li>
+                    <li class="nav-item"><a class="nav-link" href="performance-stats.html">Performance Stats</a></li>
                     <li class="nav-item"><a class="nav-link" href="player-profiles.html">Player Profiles</a></li>
                     <li class="nav-item"><a class="nav-link" href="team-sheets.html">Team Sheets</a></li>
                     <li class="nav-item"><a class="nav-link" href="database.html">Data</a></li>
@@ -306,8 +307,31 @@
                 </div>
             </div>
 
+            <hr style="margin-top: 2.5rem; margin-bottom: 2.5rem;">
+
             <!-- ===== SECTION 3: PLAYER STATS ===== -->
-            <h2 style="font-weight:900; color: var(--primary-color); margin-bottom: 0.5rem;">Player Stats</h2>
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem; margin-bottom: 0.5rem;">
+                <h2 style="font-weight:900; color: var(--primary-color); margin-bottom: 0;">Player Stats</h2>
+                <div class="page-header-filters" style="margin: 0; padding: 0; flex-wrap: wrap;">
+                    <div class="filter-item league-season-picker" style="margin-bottom: 0;">
+                        <div class="input-group">
+                            <span class="input-group-text">Season</span>
+                            <select id="playerStatsSeasonSelect" class="selectpicker form-control flex-fill" data-size="8">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="filter-item league-season-picker" style="margin-bottom: 0;">
+                        <div class="input-group">
+                            <span class="input-group-text">Game Type</span>
+                            <select id="playerStatsGameTypeSelect" class="selectpicker form-control flex-fill" data-size="4">
+                                <option value="All games">All games</option>
+                                <option value="League + Cup">League + Cup</option>
+                                <option value="League only">League only</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <p style="margin-bottom: 1rem; color: #666; font-size: 0.9rem;">Individual player statistics including captaincy records, total appearances, and point-scoring contributions.</p>
 
             <div class="player-stats-panels">
@@ -317,7 +341,7 @@
                         aria-expanded="false" aria-controls="player-stats-captains-panel">
                         <span class="chart-panel-toggle-text">
                             <span class="chart-panel-toggle-title">Match Day Captains</span>
-                            <span class="chart-panel-toggle-hint">1st XV &amp; 2nd XV Captains and Vice-Captains</span>
+                            <span class="chart-panel-toggle-hint">1st XV &amp; 2nd XV Captains and Vice Captains</span>
                         </span>
                         <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
                     </button>
@@ -335,8 +359,8 @@
                         data-target="player-stats-appearances-panel" data-accordion-group="player-stats-panels"
                         aria-expanded="false" aria-controls="player-stats-appearances-panel">
                         <span class="chart-panel-toggle-text">
-                            <span class="chart-panel-toggle-title">Total Appearances</span>
-                            <span class="chart-panel-toggle-hint">Player appearance counts by squad and position</span>
+                            <span class="chart-panel-toggle-title">Appearances</span>
+                            <span class="chart-panel-toggle-hint">Player appearances by squad and position</span>
                         </span>
                         <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
                     </button>
@@ -408,14 +432,8 @@
                 </div>
             </div>
 
-            <!-- Player Stats shared filters (season, game type, squad) rendered as hidden selects for filter JS -->
+            <!-- Player Stats hidden selects -->
             <div style="display: none;">
-                <select id="playerStatsSeasonSelect" class="selectpicker" multiple></select>
-                <select id="playerStatsGameTypeSelect" class="selectpicker">
-                    <option value="All games">All games</option>
-                    <option value="League + Cup">League + Cup</option>
-                    <option value="League only">League only</option>
-                </select>
                 <select id="playerStatsSquadSelect" class="selectpicker">
                     <option value="All">All</option>
                     <option value="1st">1st XV</option>

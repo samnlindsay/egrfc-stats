@@ -150,8 +150,6 @@ Key columns:
 
 Generated views for frontend consumption:
 - `v_season_results`
-- `v_set_piece_summary`
-- `v_lineout_summary`
 - `v_player_profiles`
 - `v_pitchero_appearance_mismatches`
 - `v_season_player_appearances_reconciled`

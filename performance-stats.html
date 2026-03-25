@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EGRFC Statistics - Performance Stats</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=PT+Sans+Narrow:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/navigation.css">
+    <link rel="stylesheet" href="css/charts.css">
+    <link rel="stylesheet" href="css/responsive.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark app-top-navbar"
+        style="background-color: var(--primary-color); padding: 0.75rem 1.5rem;">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html"><strong>EGRFC Statistics</strong></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="season-summary.html">Season Summary</a></li>
+                    <li class="nav-item"><a class="nav-link" href="league-tables.html">League Tables</a></li>
+                    <li class="nav-item"><a class="nav-link" href="squad-stats.html">Squad Stats</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="performance-stats.html">Performance Stats</a></li>
+                    <li class="nav-item"><a class="nav-link" href="player-profiles.html">Player Profiles</a></li>
+                    <li class="nav-item"><a class="nav-link" href="team-sheets.html">Team Sheets</a></li>
+                    <li class="nav-item"><a class="nav-link" href="database.html">Data</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <div style="padding: 2rem 1rem; max-width: 1200px; margin: 0 auto;">
+            <div class="page-header">
+                <div class="page-header-text">
+                    <h1>Performance Stats</h1>
+                    <p>Focused performance trends for set piece outcomes and red-zone efficiency.</p>
+                </div>
+            </div>
+
+            <!-- ===== RED ZONE SECTION ===== -->
+            <h2 style="color: var(--primary-color); margin-bottom: 0.5rem; font-weight: 900;">Red Zone</h2>
+            <p style="margin-bottom: 1rem; color: #666; font-size: 0.9rem;">Scoring efficiency when entering the opposition's 22-meter zone.</p>
+            <div style="display: flex; flex-direction: row; flex-wrap: wrap; gap: 1rem; align-items: flex-start; margin-bottom: 2rem;">
+                <div class="chart-panel chart-panel--inline">
+                    <button type="button" class="chart-panel-toggle chart-panel-toggle--black"
+                        data-target="red-zone-panel" data-accordion-group="red-zone-section"
+                        aria-expanded="false" aria-controls="red-zone-panel">
+                        <span class="chart-panel-toggle-text">
+                            <span class="chart-panel-toggle-title">1st XV Red Zone Efficiency</span>
+                            <span class="chart-panel-toggle-hint">Points and tries per 22m entry</span>
+                        </span>
+                        <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
+                    </button>
+                    <div id="red-zone-panel" class="chart-panel-content" hidden>
+                        <div class="chart-panel-card">
+                            <div id="redZone1stChart" style="overflow: visible;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== LINEOUT SECTION ===== -->
+            <h2 style="color: var(--primary-color); margin-bottom: 0.5rem; font-weight: 900;">Lineout</h2>
+            <p style="margin-bottom: 1rem; color: #666; font-size: 0.9rem;">Lineout success trends over time for both squads.</p>
+            <div style="display: flex; flex-direction: row; flex-wrap: wrap; gap: 1rem; align-items: flex-start; margin-bottom: 2rem;">
+                <div class="chart-panel chart-panel--inline">
+                    <button type="button" class="chart-panel-toggle chart-panel-toggle--primary"
+                        data-target="lineout-1st-panel" data-accordion-group="lineout-section"
+                        aria-expanded="false" aria-controls="lineout-1st-panel">
+                        <span class="chart-panel-toggle-text">
+                            <span class="chart-panel-toggle-title">1st XV Success Trend</span>
+                            <span class="chart-panel-toggle-hint">Lineout success percentage over time</span>
+                        </span>
+                        <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
+                    </button>
+                    <div id="lineout-1st-panel" class="chart-panel-content" hidden>
+                        <div class="chart-panel-card">
+                            <div id="setPiece1stLineoutChart" style="overflow: visible;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chart-panel chart-panel--inline">
+                    <button type="button" class="chart-panel-toggle chart-panel-toggle--accent"
+                        data-target="lineout-2nd-panel" data-accordion-group="lineout-section"
+                        aria-expanded="false" aria-controls="lineout-2nd-panel">
+                        <span class="chart-panel-toggle-text">
+                            <span class="chart-panel-toggle-title">2nd XV Success Trend</span>
+                            <span class="chart-panel-toggle-hint">Lineout success percentage over time</span>
+                        </span>
+                        <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
+                    </button>
+                    <div id="lineout-2nd-panel" class="chart-panel-content" hidden>
+                        <div class="chart-panel-card">
+                            <div id="setPiece2ndLineoutChart" style="overflow: visible;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+                <!-- ===== LINEOUT ZONE ANALYSIS SECTION ===== -->
+                <h3 style="color: var(--primary-color); margin-bottom: 0.5rem; margin-top: 1rem; font-weight: 700; font-size: 1.2rem;">Lineout Zone Analysis</h3>
+                <p style="margin-bottom: 1rem; color: #666; font-size: 0.9rem;">Detailed breakdown of lineout success by zone for individual players.</p>
+                <div style="display: flex; flex-direction: row; flex-wrap: wrap; gap: 1rem; align-items: flex-start; margin-bottom: 2rem;">
+                    <div class="chart-panel chart-panel--inline">
+                        <button type="button" class="chart-panel-toggle chart-panel-toggle--primary"
+                            data-target="lineout-zone-panel" data-accordion-group="lineout-zone-section"
+                            aria-expanded="false" aria-controls="lineout-zone-panel">
+                            <span class="chart-panel-toggle-text">
+                                <span class="chart-panel-toggle-title">1st XV Zone Analysis</span>
+                                <span class="chart-panel-toggle-hint">Success by zone for individual players</span>
+                            </span>
+                            <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
+                        </button>
+                        <div id="lineout-zone-panel" class="chart-panel-content" hidden>
+                            <div class="chart-panel-card">
+                                <div id="lineoutZoneChart" style="overflow: visible;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <!-- ===== SCRUM SECTION ===== -->
+            <h2 style="color: var(--primary-color); margin-bottom: 0.5rem; font-weight: 900;">Scrum</h2>
+            <p style="margin-bottom: 1rem; color: #666; font-size: 0.9rem;">Scrum success trends over time for both squads.</p>
+            <div style="display: flex; flex-direction: row; flex-wrap: wrap; gap: 1rem; align-items: flex-start; margin-bottom: 2rem;">
+                <div class="chart-panel chart-panel--inline">
+                    <button type="button" class="chart-panel-toggle chart-panel-toggle--primary"
+                        data-target="scrum-1st-panel" data-accordion-group="scrum-section"
+                        aria-expanded="false" aria-controls="scrum-1st-panel">
+                        <span class="chart-panel-toggle-text">
+                            <span class="chart-panel-toggle-title">1st XV Success Trend</span>
+                            <span class="chart-panel-toggle-hint">Scrum success percentage over time</span>
+                        </span>
+                        <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
+                    </button>
+                    <div id="scrum-1st-panel" class="chart-panel-content" hidden>
+                        <div class="chart-panel-card">
+                            <div id="setPiece1stScrumChart" style="overflow: visible;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chart-panel chart-panel--inline">
+                    <button type="button" class="chart-panel-toggle chart-panel-toggle--accent"
+                        data-target="scrum-2nd-panel" data-accordion-group="scrum-section"
+                        aria-expanded="false" aria-controls="scrum-2nd-panel">
+                        <span class="chart-panel-toggle-text">
+                            <span class="chart-panel-toggle-title">2nd XV Success Trend</span>
+                            <span class="chart-panel-toggle-hint">Scrum success percentage over time</span>
+                        </span>
+                        <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
+                    </button>
+                    <div id="scrum-2nd-panel" class="chart-panel-content" hidden>
+                        <div class="chart-panel-card">
+                            <div id="setPiece2ndScrumChart" style="overflow: visible;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/nav-layout.js"></script>
+    <script src="js/shared.js"></script>
+    <script src="js/performance-stats.js"></script>
+</body>
+
+</html>

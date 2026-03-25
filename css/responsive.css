@@ -296,7 +296,7 @@
     }
 
     .squad-metric-value {
-        font-size: 1.2rem;
+        font-size: 2rem;
     }
 
     .squad-metric-card .card-text {
@@ -339,13 +339,13 @@
 
     #seasonSummary1stResults .squad-metric-card-header,
     #seasonSummary2ndResults .squad-metric-card-header {
-        font-size: 0.9rem;
+        font-size: 1.5rem;
         padding: 0.15rem 0.05rem;
         line-height: 1.05;
     }
 
     #seasonSummary1stResults .squad-metric-value,
     #seasonSummary2ndResults .squad-metric-value {
-        font-size: 1rem;
+        font-size: 2rem;
     }
 }
