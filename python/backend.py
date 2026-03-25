@@ -31,6 +31,8 @@ PITCHERO_TO_GOOGLE_CANONICAL_NAMES = {
     "Peter Morley": "Pete Morley",
     "Thomas Byron": "Tom Byron",
     "Thomas Halligey": "Tom Halligey",
+    "Alistair Moffatt": "Ali Moffatt",
+    "Bertram Beanland": "Bertie Beanland",
 }
 
 PITCHERO_OPPOSITION_CANONICAL_NAMES = {
@@ -109,6 +111,14 @@ def _yes_no_to_bool(series: pd.Series) -> pd.Series:
 
 def _normalise_key(name: str) -> str:
     return re.sub(r"[^a-z0-9]", "", name.lower())
+
+
+def _season_sort_key(season: Any) -> tuple[int, str]:
+    season_text = str(season or "").strip()
+    match = re.match(r"^(\d{4})-(\d{4})$", season_text)
+    if match:
+        return (int(match.group(1)), season_text)
+    return (-1, season_text)
 
 
 def _canonical_player_name(name: Any) -> Any:
@@ -1412,15 +1422,57 @@ class BackendDatabase:
             }
         )
 
+        preferred_squad = pd.DataFrame(columns=["name", "squad"])
+        season_values = [
+            str(season).strip()
+            for season in appearances.get("season", pd.Series(dtype="object")).dropna().unique().tolist()
+            if str(season).strip()
+        ]
+        if season_values:
+            ordered_seasons = sorted(set(season_values), key=_season_sort_key)
+            current_season = ordered_seasons[-1]
+            previous_season = ordered_seasons[-2] if len(ordered_seasons) > 1 else None
+
+            squad_counts = (
+                base.groupby(["player", "squad"], as_index=False)
+                .agg(
+                    current_season_apps=(
+                        "season",
+                        lambda s: int((s.astype(str).str.strip() == current_season).sum()),
+                    ),
+                    previous_season_apps=(
+                        "season",
+                        lambda s: int((s.astype(str).str.strip() == previous_season).sum()) if previous_season else 0,
+                    ),
+                    total_apps=("game_id", "count"),
+                    latest_date=("date", "max"),
+                )
+                .sort_values(
+                    ["player", "current_season_apps", "previous_season_apps", "total_apps", "latest_date", "squad"],
+                    ascending=[True, False, False, False, False, True],
+                )
+            )
+
+            preferred_squad = squad_counts.drop_duplicates(subset=["player"]).rename(
+                columns={"player": "name"}
+            )[["name", "squad"]]
+
         agg = base.groupby("player", as_index=False).agg(
             short_name=("player", lambda s: str(s.iloc[0]).replace(" ", " ", 1)),
             position=("position", _mode_or_none),
-            squad=("squad", lambda s: _mode_or_none(s) if s.nunique() == 1 else "Both"),
             total_appearances=("game_id", "count"),
             total_starts=("is_starter", "sum"),
             total_captaincies=("is_captain", "sum"),
             total_vc_appointments=("is_vice_captain", "sum"),
         ).rename(columns={"player": "name"})
+
+        if not preferred_squad.empty:
+            agg = agg.merge(preferred_squad, on="name", how="left")
+        else:
+            fallback_squad = base.groupby("player", as_index=False).first()[["player", "squad"]].rename(
+                columns={"player": "name"}
+            )
+            agg = agg.merge(fallback_squad, on="name", how="left")
 
         jumper = lineouts.groupby("jumper", as_index=False).agg(
             total_lineouts_jumped=("won", "count"),

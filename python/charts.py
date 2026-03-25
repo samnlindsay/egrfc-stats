@@ -873,7 +873,7 @@ def player_stats_appearances_chart(db, output_file='data/charts/player_stats_app
     """
     df = db.con.execute(
         """
-        WITH base AS (
+        WITH base_raw AS (
             SELECT
                 P.player,
                 G.squad,
@@ -889,6 +889,86 @@ def player_stats_appearances_chart(db, output_file='data/charts/player_stats_app
             FROM player_appearances P
             LEFT JOIN games G USING (game_id)
             GROUP BY P.player, G.squad, G.season, G.game_type, position, start
+        ),
+        raw_totals AS (
+            SELECT
+                player,
+                squad,
+                season,
+                SUM(games) AS scraped_appearances
+            FROM base_raw
+            GROUP BY player, squad, season
+        ),
+        reconciled_totals AS (
+            SELECT
+                player,
+                squad,
+                season,
+                CASE
+                    WHEN COALESCE(pitchero_appearances, 0) > 0 THEN COALESCE(pitchero_appearances, 0)
+                    ELSE COALESCE(scraped_appearances, 0)
+                END AS effective_appearances
+            FROM pitchero_appearance_reconciliation
+        ),
+        adjustments AS (
+            SELECT
+                r.player,
+                r.squad,
+                r.season,
+                (r.effective_appearances - COALESCE(t.scraped_appearances, 0)) AS appearance_adjustment
+            FROM reconciled_totals r
+            LEFT JOIN raw_totals t
+              ON r.player = t.player
+             AND r.squad = t.squad
+             AND r.season = t.season
+            WHERE (r.effective_appearances - COALESCE(t.scraped_appearances, 0)) <> 0
+        ),
+        ranked_raw AS (
+            SELECT
+                b.*,
+                ROW_NUMBER() OVER (
+                    PARTITION BY b.player, b.squad, b.season
+                    ORDER BY b.games DESC, b.game_type, b.position, b.start
+                ) AS category_rank
+            FROM base_raw b
+        ),
+        adjusted_raw AS (
+            SELECT
+                r.player,
+                r.squad,
+                r.season,
+                r.game_type,
+                r.position,
+                r.start,
+                CASE
+                    WHEN a.appearance_adjustment < 0 AND r.category_rank = 1
+                        THEN GREATEST(r.games + a.appearance_adjustment, 0)
+                    ELSE r.games
+                END AS games
+            FROM ranked_raw r
+            LEFT JOIN adjustments a
+              ON r.player = a.player
+             AND r.squad = a.squad
+             AND r.season = a.season
+        ),
+        backfill_rows AS (
+            SELECT
+                player,
+                squad,
+                season,
+                'Unknown' AS game_type,
+                'Unknown' AS position,
+                'Unknown' AS start,
+                appearance_adjustment AS games
+            FROM adjustments
+            WHERE appearance_adjustment > 0
+        ),
+        base AS (
+            SELECT player, squad, season, game_type, position, start, games
+            FROM adjusted_raw
+            WHERE games > 0
+            UNION ALL
+            SELECT * FROM backfill_rows
         )
         SELECT player, squad, season, game_type, position, start, games
         FROM base
@@ -1450,8 +1530,23 @@ def squad_size_trend_chart(db, output_file='data/charts/squad_size_trend.json'):
 
         UNION ALL
 
-        SELECT season, squad, 'Total' AS unit, COUNT(DISTINCT player) AS players
-        FROM player_appearances
+        SELECT
+            season,
+            squad,
+            'Total' AS unit,
+            COUNT(DISTINCT player) AS players
+        FROM (
+            SELECT
+                season,
+                squad,
+                player,
+                CASE
+                    WHEN COALESCE(pitchero_appearances, 0) > 0 THEN COALESCE(pitchero_appearances, 0)
+                    ELSE COALESCE(scraped_appearances, 0)
+                END AS effective_appearances
+            FROM pitchero_appearance_reconciliation
+        ) reconciled
+        WHERE effective_appearances > 0
         GROUP BY season, squad
 
         ORDER BY season, squad, unit

@@ -200,6 +200,220 @@
     font-weight: bold;
 }
 
+/* Player profiles */
+.player-profiles-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: flex-start;
+}
+
+.player-profile-grid-item {
+    flex: 0 0 var(--player-profile-card-width, 280px);
+    width: var(--player-profile-card-width, 280px);
+}
+
+.player-profile-card {
+    width: var(--player-profile-card-width, 280px);
+    overflow: hidden;
+    border: 1px solid #d9deef;
+    box-shadow: 0 1px 4px rgba(32, 41, 70, 0.12);
+}
+
+.player-profile-card-1st {
+    border-color: rgba(32, 41, 70, 0.35);
+}
+
+.player-profile-card-2nd {
+    border-color: rgba(125, 150, 232, 0.6);
+}
+
+.player-profile-headshot-wrap {
+    background-size: cover;
+    background-position: center top;
+    padding: 0.25rem 0.5rem 0;
+    text-align: center;
+    min-height: 150px;
+    height: max-content;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    position: relative;
+    z-index: 0;
+}
+
+.player-profile-headshot-wrap-1st {
+    background-image: url("../img/EGRFC%20Background.png");
+}
+
+.player-profile-headshot-wrap-2nd {
+    background-image: url("../img/EGRFC%20Background2.png");
+}
+
+.player-profile-avatar {
+    width: 100%;
+    max-width: 150px;
+    height: auto;
+    object-fit: contain;
+    object-position: center top;
+    border: none;
+    background: transparent;
+    position: relative;
+    z-index: 1;
+    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.6)) drop-shadow(0 6px 10px rgba(10, 18, 38, 0.35));
+}
+
+.player-profile-avatar-placeholder {
+    width: 84px;
+    height: 84px;
+    border-radius: 50%;
+    margin: 0 auto;
+    color: var(--light-color);
+    background: var(--primary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.45), 0 6px 12px rgba(10, 18, 38, 0.3);
+}
+
+.player-profile-summary {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.85rem;
+    text-align: left;
+    border: none;
+    background: #ffffff;
+    padding: 0.75rem 0.85rem;
+    cursor: pointer;
+    position: relative;
+    z-index: 2;
+    margin-top: -12px;
+}
+
+.player-profile-summary-1st,
+.player-profile-summary-2nd {
+    border-radius: 0;
+    margin: 0;
+}
+
+.player-profile-summary-left {
+    min-width: 0;
+    flex: 1 1 auto;
+}
+
+.player-profile-summary-name {
+    font-weight: 700;
+    color: inherit;
+    line-height: 1.2;
+    margin-bottom: 0.15rem;
+    font-size: 1.5rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.player-profile-summary-subtitle {
+    color: inherit;
+    font-size: 1.2rem;
+    /* opacity: 0.9; */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.player-profile-active-tag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.1rem 0.48rem;
+    border-radius: 999px;
+    margin-right: 0.35rem;
+    font-size: 0.74rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    color: #125e12;
+    background: #dff5df;
+    border: 1px solid #b7e0b7;
+    vertical-align: middle;
+}
+
+.player-profile-active-tag-headshot {
+    position: absolute;
+    right: 0.5rem;
+    bottom: 0.45rem;
+    margin-right: 0;
+    font-size: 0.78rem;
+    padding: 0.12rem 0.52rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.player-profile-summary-right {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    line-height: 1.05;
+}
+
+.player-profile-summary-meta-row {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.player-profile-summary-count {
+    font-size: 2rem;
+    font-weight: 800;
+    color: inherit;
+}
+
+.player-profile-summary-label {
+    font-size: 0.82rem;
+    color: inherit;
+    opacity: 0.88;
+    margin-top: -0.05rem;
+}
+
+.player-profile-chevron {
+    margin-top: 0.2rem;
+    font-size: 0.78rem;
+    color: inherit;
+    opacity: 0.9;
+    transition: transform 0.15s ease;
+}
+
+.player-profile-card.is-expanded .player-profile-chevron {
+    transform: rotate(180deg);
+}
+
+.player-profile-details {
+    border-top: 1px solid #e4e9f7;
+    background: #f9fbff;
+    padding: 0.7rem 0.85rem;
+}
+
+.player-profile-detail-line {
+    margin: 0 0 0.45rem;
+    color: #2a3555;
+    font-size: 0.9rem;
+    line-height: 1.3;
+}
+
+.player-profile-detail-line:last-child {
+    margin-bottom: 0;
+}
+
+@media (max-width: 360px) {
+    .player-profile-grid-item,
+    .player-profile-card {
+        width: 100%;
+        flex: 1 1 100%;
+    }
+}
+
 /* Table styling */
 table {
     font-size: 0.95rem;

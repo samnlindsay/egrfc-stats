@@ -2,6 +2,8 @@ import sys
 from pathlib import Path
 import argparse
 import os
+from collections import defaultdict
+import json
 
 # Add project root to Python path
 project_root = Path(__file__).resolve().parent.parent
@@ -31,6 +33,8 @@ import pandas as pd
 ############################
 
 other_names = {
+    "A Moffatt": "Ali Moffatt",
+    "B Beanland": "Bertie Beanland",
     "S Cooke": "Steve Cooke",
     "R Andrews": "Ruari Andrews",
     "R Perry": "Ross Perry",
@@ -958,20 +962,112 @@ def season_summary_data(db, output_file='data/season_summary.json'):
     ).df()
     
     # Get most appearances per season/squad/game_type
+    # Reconciliation backfill rows are emitted as game_type='Unknown' with starts=0.
     appearances = db.con.execute(
         """
+        WITH base_raw AS (
+            SELECT
+                g.season,
+                g.squad,
+                g.game_type,
+                p.player,
+                COUNT(*) AS appearances,
+                SUM(CASE WHEN p.is_starter = TRUE THEN 1 ELSE 0 END) AS starts
+            FROM player_appearances p
+            JOIN games g ON p.game_id = g.game_id
+            GROUP BY g.season, g.squad, g.game_type, p.player
+        ),
+        raw_totals AS (
+            SELECT
+                season,
+                squad,
+                player,
+                SUM(appearances) AS scraped_appearances
+            FROM base_raw
+            GROUP BY season, squad, player
+        ),
+        reconciled_totals AS (
+            SELECT
+                season,
+                squad,
+                player,
+                CASE
+                    WHEN COALESCE(pitchero_appearances, 0) > 0 THEN COALESCE(pitchero_appearances, 0)
+                    ELSE COALESCE(scraped_appearances, 0)
+                END AS effective_appearances
+            FROM pitchero_appearance_reconciliation
+        ),
+        adjustments AS (
+            SELECT
+                r.season,
+                r.squad,
+                r.player,
+                (r.effective_appearances - COALESCE(t.scraped_appearances, 0)) AS appearance_adjustment
+            FROM reconciled_totals r
+            LEFT JOIN raw_totals t
+              ON r.season = t.season
+             AND r.squad = t.squad
+             AND r.player = t.player
+            WHERE (r.effective_appearances - COALESCE(t.scraped_appearances, 0)) <> 0
+        ),
+        ranked_raw AS (
+            SELECT
+                b.*,
+                ROW_NUMBER() OVER (
+                    PARTITION BY b.season, b.squad, b.player
+                    ORDER BY b.appearances DESC, b.game_type
+                ) AS category_rank
+            FROM base_raw b
+        ),
+        adjusted_raw AS (
+            SELECT
+                r.season,
+                r.squad,
+                r.game_type,
+                r.player,
+                CASE
+                    WHEN a.appearance_adjustment < 0 AND r.category_rank = 1
+                        THEN GREATEST(r.appearances + a.appearance_adjustment, 0)
+                    ELSE r.appearances
+                END AS appearances,
+                r.starts
+            FROM ranked_raw r
+            LEFT JOIN adjustments a
+              ON r.season = a.season
+             AND r.squad = a.squad
+             AND r.player = a.player
+        ),
+        backfill AS (
+            SELECT
+                season,
+                squad,
+                'Unknown' AS game_type,
+                player,
+                appearance_adjustment AS appearances,
+                0 AS starts
+            FROM adjustments
+            WHERE appearance_adjustment > 0
+        ),
+        base AS (
+            SELECT season, squad, game_type, player, appearances, starts
+            FROM adjusted_raw
+            WHERE appearances > 0
+            UNION ALL
+            SELECT * FROM backfill
+        )
         SELECT
-            g.season,
-            g.squad,
-            g.game_type,
-            p.player,
-            COUNT(*) as appearances,
-            SUM(CASE WHEN p.is_starter = TRUE THEN 1 ELSE 0 END) as starts,
-            ROW_NUMBER() OVER (PARTITION BY g.season, g.squad, g.game_type ORDER BY COUNT(*) DESC) as rank
-        FROM player_appearances p
-        JOIN games g ON p.game_id = g.game_id
-        GROUP BY g.season, g.squad, g.game_type, p.player
-        ORDER BY g.season DESC, g.squad, g.game_type, appearances DESC
+            season,
+            squad,
+            game_type,
+            player,
+            appearances,
+            starts,
+            ROW_NUMBER() OVER (
+                PARTITION BY season, squad, game_type
+                ORDER BY appearances DESC, player ASC
+            ) AS rank
+        FROM base
+        ORDER BY season DESC, squad, game_type, appearances DESC
         """
     ).df()
     
@@ -1026,6 +1122,172 @@ def season_summary_data(db, output_file='data/season_summary.json'):
     
     print(f"Season summary data saved to {output_file}")
     return summary
+
+
+def player_profiles_data(db, output_file='data/player_profiles.json'):
+    """Build frontend-ready player profile data from canonical backend tables."""
+    profiles_df = db.con.execute(
+        """
+        SELECT
+            name,
+            short_name,
+            position,
+            squad,
+            first_appearance_date,
+            first_appearance_squad,
+            first_appearance_opposition,
+            photo_url,
+            sponsor,
+            total_appearances,
+            total_starts,
+            total_captaincies,
+            total_vc_appointments,
+            total_lineouts_jumped,
+            lineouts_won_as_jumper,
+            career_points,
+            latest_season_points,
+            latest_season_tries,
+            latest_season_conversions,
+            latest_season_penalties
+        FROM v_player_profiles
+        ORDER BY total_appearances DESC, name ASC
+        """
+    ).df()
+
+    season_apps_df = db.con.execute(
+        """
+        SELECT
+            player AS name,
+            season,
+            squad,
+            COUNT(*) AS appearances,
+            SUM(CASE WHEN is_starter THEN 1 ELSE 0 END) AS starts
+        FROM player_appearances
+        GROUP BY player, season, squad
+        ORDER BY season DESC, squad ASC
+        """
+    ).df()
+
+    season_points_df = db.con.execute(
+        """
+        SELECT
+            player AS name,
+            season,
+            squad,
+            COALESCE(points, 0) AS points,
+            COALESCE(tries, 0) AS tries,
+            COALESCE(conversions, 0) AS conversions,
+            COALESCE(penalties, 0) AS penalties,
+            COALESCE(drop_goals, 0) AS drop_goals
+        FROM season_scorers
+        ORDER BY season DESC, squad ASC
+        """
+    ).df()
+
+    def _clean_int(value):
+        if pd.isna(value):
+            return 0
+        return int(value)
+
+    def _clean_text(value):
+        if pd.isna(value):
+            return None
+        cleaned = str(value).strip()
+        return cleaned if cleaned else None
+
+    def _normalise_date(value):
+        if pd.isna(value):
+            return None
+        try:
+            return pd.to_datetime(value).strftime("%Y-%m-%d")
+        except Exception:
+            return str(value)
+
+    # De-duplicate by player name while preserving strongest aggregate totals.
+    deduped = {}
+    for _, row in profiles_df.iterrows():
+        name = _clean_text(row.get("name"))
+        if not name:
+            continue
+
+        candidate = {
+            "name": name,
+            "short_name": _clean_text(row.get("short_name")),
+            "position": _clean_text(row.get("position")) or "Unknown",
+            "squad": _clean_text(row.get("squad")) or "Unknown",
+            "first_appearance_date": _normalise_date(row.get("first_appearance_date")),
+            "first_appearance_squad": _clean_text(row.get("first_appearance_squad")),
+            "first_appearance_opposition": _clean_text(row.get("first_appearance_opposition")),
+            "photo_url": _clean_text(row.get("photo_url")),
+            "sponsor": _clean_text(row.get("sponsor")),
+            "total_appearances": _clean_int(row.get("total_appearances")),
+            "total_starts": _clean_int(row.get("total_starts")),
+            "total_captaincies": _clean_int(row.get("total_captaincies")),
+            "total_vc_appointments": _clean_int(row.get("total_vc_appointments")),
+            "total_lineouts_jumped": _clean_int(row.get("total_lineouts_jumped")),
+            "lineouts_won_as_jumper": _clean_int(row.get("lineouts_won_as_jumper")),
+            "career_points": _clean_int(row.get("career_points")),
+            "latest_season_points": _clean_int(row.get("latest_season_points")),
+            "latest_season_tries": _clean_int(row.get("latest_season_tries")),
+            "latest_season_conversions": _clean_int(row.get("latest_season_conversions")),
+            "latest_season_penalties": _clean_int(row.get("latest_season_penalties")),
+        }
+
+        existing = deduped.get(name)
+        if not existing or candidate["total_appearances"] > existing["total_appearances"]:
+            deduped[name] = candidate
+
+    appearances_by_player = defaultdict(list)
+    for _, row in season_apps_df.iterrows():
+        name = _clean_text(row.get("name"))
+        season = _clean_text(row.get("season"))
+        squad = _clean_text(row.get("squad"))
+        if not name or not season:
+            continue
+        appearances_by_player[name].append(
+            {
+                "season": season,
+                "squad": squad,
+                "appearances": _clean_int(row.get("appearances")),
+                "starts": _clean_int(row.get("starts")),
+            }
+        )
+
+    points_by_player = defaultdict(list)
+    for _, row in season_points_df.iterrows():
+        name = _clean_text(row.get("name"))
+        season = _clean_text(row.get("season"))
+        squad = _clean_text(row.get("squad"))
+        if not name or not season:
+            continue
+        points_by_player[name].append(
+            {
+                "season": season,
+                "squad": squad,
+                "points": _clean_int(row.get("points")),
+                "tries": _clean_int(row.get("tries")),
+                "conversions": _clean_int(row.get("conversions")),
+                "penalties": _clean_int(row.get("penalties")),
+                "drop_goals": _clean_int(row.get("drop_goals")),
+            }
+        )
+
+    profiles = []
+    for profile in deduped.values():
+        name = profile["name"]
+        profile["season_appearances"] = appearances_by_player.get(name, [])
+        profile["season_points"] = points_by_player.get(name, [])
+        profiles.append(profile)
+
+    profiles.sort(key=lambda row: (-row["total_appearances"], row["name"]))
+
+    output_path = Path(output_file)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    with output_path.open("w", encoding="utf-8") as handle:
+        json.dump(profiles, handle, indent=2)
+
+    print(f"Player profiles data saved to {output_file} ({len(profiles)} players)")
+    return profiles
 
 # Update the main() function
 def main(refresh_pitchero=False, backend_mode="canonical", backend_db_path="data/egrfc_backend.duckdb"):

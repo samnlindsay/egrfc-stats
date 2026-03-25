@@ -1,6 +1,7 @@
 // Squad Stats + Player Stats page logic
 
 let playerAppearancesData = null;
+let appearanceReconciliationData = null;
 let gamesData = null;
 let squadStatsData = null;
 let squadSizeTrendTemplateSpec = null;
@@ -9,17 +10,20 @@ let squadStatsControlsInitialised = false;
 let playerStatsControlsInitialised = false;
 
 async function loadSquadStatsCanonicalData() {
-    if (playerAppearancesData && gamesData) return;
+    if (playerAppearancesData && appearanceReconciliationData && gamesData) return;
 
-    const [appearancesResponse, gamesResponse] = await Promise.all([
+    const [appearancesResponse, reconciliationResponse, gamesResponse] = await Promise.all([
         fetch('data/backend/player_appearances.json'),
+        fetch('data/backend/pitchero_appearance_reconciliation.json'),
         fetch('data/backend/games.json')
     ]);
 
     if (!appearancesResponse.ok) throw new Error(`Failed to fetch canonical player appearances (${appearancesResponse.status})`);
+    if (!reconciliationResponse.ok) throw new Error(`Failed to fetch appearance reconciliation (${reconciliationResponse.status})`);
     if (!gamesResponse.ok) throw new Error(`Failed to fetch canonical games (${gamesResponse.status})`);
 
     playerAppearancesData = await appearancesResponse.json();
+    appearanceReconciliationData = await reconciliationResponse.json();
     gamesData = await gamesResponse.json();
 
     if (!squadSizeTrendTemplateSpec) {
@@ -37,14 +41,15 @@ async function loadSquadStatsCanonicalData() {
     }
 }
 
-function buildSquadStatsDataFromCanonical(appearances, gameTypeMode) {
+function buildSquadStatsDataFromCanonical(appearances, appearanceReconciliation, gameTypeMode) {
     const bySeason = {};
     const gameTypeByGameId = new Map((gamesData || []).map(game => [game.game_id, game.game_type]));
     const allowedGameTypes = getAllowedGameTypes(gameTypeMode);
     const createMetricBucket = () => ({ players: new Map(), forwards: new Map(), backs: new Map() });
     const createSeasonBucket = () => ({ '1st': createMetricBucket(), '2nd': createMetricBucket(), 'Total': createMetricBucket() });
-    const incrementPlayerCount = (countMap, player) => countMap.set(player, (countMap.get(player) || 0) + 1);
+    const incrementPlayerCount = (countMap, player, amount = 1) => countMap.set(player, (countMap.get(player) || 0) + amount);
 
+    // Position/unit breakdown still comes from raw appearance rows.
     appearances.forEach(row => {
         const season = row.season;
         const squad = row.squad;
@@ -55,8 +60,7 @@ function buildSquadStatsDataFromCanonical(appearances, gameTypeMode) {
         if (allowedGameTypes && !allowedGameTypes.has(gameType)) return;
         if (!bySeason[season]) bySeason[season] = createSeasonBucket();
         const seasonBucket = bySeason[season];
-        incrementPlayerCount(seasonBucket[squad].players, player);
-        incrementPlayerCount(seasonBucket.Total.players, player);
+
         if (unit === 'Forwards') {
             incrementPlayerCount(seasonBucket[squad].forwards, player);
             incrementPlayerCount(seasonBucket.Total.forwards, player);
@@ -65,6 +69,37 @@ function buildSquadStatsDataFromCanonical(appearances, gameTypeMode) {
             incrementPlayerCount(seasonBucket.Total.backs, player);
         }
     });
+
+    // Total player-usage counts use the strict final reconciliation rule when no game-type filter is applied.
+    if (!allowedGameTypes) {
+        (Array.isArray(appearanceReconciliation) ? appearanceReconciliation : []).forEach(row => {
+            const season = String(row.season || '').trim();
+            const squad = String(row.squad || '').trim();
+            const player = String(row.player || '').trim();
+            const scrapedAppearances = Number(row.scraped_appearances || 0);
+            const pitcheroAppearances = Number(row.pitchero_appearances || 0);
+            const effectiveAppearances = pitcheroAppearances > 0 ? pitcheroAppearances : scrapedAppearances;
+            if (!season || !player || (squad !== '1st' && squad !== '2nd') || effectiveAppearances <= 0) return;
+            if (!bySeason[season]) bySeason[season] = createSeasonBucket();
+            const seasonBucket = bySeason[season];
+            incrementPlayerCount(seasonBucket[squad].players, player, effectiveAppearances);
+            incrementPlayerCount(seasonBucket.Total.players, player, effectiveAppearances);
+        });
+    } else {
+        appearances.forEach(row => {
+            const season = row.season;
+            const squad = row.squad;
+            const player = String(row.player || '').trim();
+            const gameType = gameTypeByGameId.get(row.game_id);
+            if (!season || !player || (squad !== '1st' && squad !== '2nd')) return;
+            if (!allowedGameTypes.has(gameType)) return;
+            if (!bySeason[season]) bySeason[season] = createSeasonBucket();
+            const seasonBucket = bySeason[season];
+            incrementPlayerCount(seasonBucket[squad].players, player);
+            incrementPlayerCount(seasonBucket.Total.players, player);
+        });
+    }
+
     return bySeason;
 }
 
@@ -245,7 +280,7 @@ function populateSquadStatsSeasonDropdownOptions(seasonSelect) {
 function refreshSquadStatsData() {
     if (!playerAppearancesData) { squadStatsData = {}; return; }
     const mode = getSquadStatsGameTypeMode();
-    squadStatsData = buildSquadStatsDataFromCanonical(playerAppearancesData, mode);
+    squadStatsData = buildSquadStatsDataFromCanonical(playerAppearancesData, appearanceReconciliationData, mode);
 }
 
 function renderSquadMetricCards(season, minimumAppearances) {
