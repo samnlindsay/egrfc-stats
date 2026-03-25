@@ -679,6 +679,7 @@ def league_results_chart(matches_json, squad_number, season, table_order=False):
         str(filename),
         embed_options=get_embed_options(),
     )
+    hack_params_css(str(filename))
     ensure_actions_menu_inside_chart(str(filename))
 
     logging.info(f"Saved squad {squad_number} results chart to {filename}")
