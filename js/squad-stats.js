@@ -1,7 +1,6 @@
 // Squad Stats + Player Stats page logic
 
 let playerAppearancesData = null;
-let appearanceReconciliationData = null;
 let gamesData = null;
 let squadStatsData = null;
 let squadSizeTrendTemplateSpec = null;
@@ -10,20 +9,17 @@ let squadStatsControlsInitialised = false;
 let playerStatsControlsInitialised = false;
 
 async function loadSquadStatsCanonicalData() {
-    if (playerAppearancesData && appearanceReconciliationData && gamesData) return;
+    if (playerAppearancesData && gamesData) return;
 
-    const [appearancesResponse, reconciliationResponse, gamesResponse] = await Promise.all([
+    const [appearancesResponse, gamesResponse] = await Promise.all([
         fetch('data/backend/player_appearances.json'),
-        fetch('data/backend/pitchero_appearance_reconciliation.json'),
         fetch('data/backend/games.json')
     ]);
 
     if (!appearancesResponse.ok) throw new Error(`Failed to fetch canonical player appearances (${appearancesResponse.status})`);
-    if (!reconciliationResponse.ok) throw new Error(`Failed to fetch appearance reconciliation (${reconciliationResponse.status})`);
     if (!gamesResponse.ok) throw new Error(`Failed to fetch canonical games (${gamesResponse.status})`);
 
     playerAppearancesData = await appearancesResponse.json();
-    appearanceReconciliationData = await reconciliationResponse.json();
     gamesData = await gamesResponse.json();
 
     if (!squadSizeTrendTemplateSpec) {
@@ -41,7 +37,7 @@ async function loadSquadStatsCanonicalData() {
     }
 }
 
-function buildSquadStatsDataFromCanonical(appearances, appearanceReconciliation, gameTypeMode) {
+function buildSquadStatsDataFromCanonical(appearances, gameTypeMode) {
     const bySeason = {};
     const gameTypeByGameId = new Map((gamesData || []).map(game => [game.game_id, game.game_type]));
     const allowedGameTypes = getAllowedGameTypes(gameTypeMode);
@@ -70,35 +66,22 @@ function buildSquadStatsDataFromCanonical(appearances, appearanceReconciliation,
         }
     });
 
-    // Total player-usage counts use the strict final reconciliation rule when no game-type filter is applied.
-    if (!allowedGameTypes) {
-        (Array.isArray(appearanceReconciliation) ? appearanceReconciliation : []).forEach(row => {
-            const season = String(row.season || '').trim();
-            const squad = String(row.squad || '').trim();
-            const player = String(row.player || '').trim();
-            const scrapedAppearances = Number(row.scraped_appearances || 0);
-            const pitcheroAppearances = Number(row.pitchero_appearances || 0);
-            const effectiveAppearances = pitcheroAppearances > 0 ? pitcheroAppearances : scrapedAppearances;
-            if (!season || !player || (squad !== '1st' && squad !== '2nd') || effectiveAppearances <= 0) return;
-            if (!bySeason[season]) bySeason[season] = createSeasonBucket();
-            const seasonBucket = bySeason[season];
-            incrementPlayerCount(seasonBucket[squad].players, player, effectiveAppearances);
-            incrementPlayerCount(seasonBucket.Total.players, player, effectiveAppearances);
-        });
-    } else {
-        appearances.forEach(row => {
-            const season = row.season;
-            const squad = row.squad;
-            const player = String(row.player || '').trim();
-            const gameType = gameTypeByGameId.get(row.game_id);
-            if (!season || !player || (squad !== '1st' && squad !== '2nd')) return;
-            if (!allowedGameTypes.has(gameType)) return;
-            if (!bySeason[season]) bySeason[season] = createSeasonBucket();
-            const seasonBucket = bySeason[season];
-            incrementPlayerCount(seasonBucket[squad].players, player);
-            incrementPlayerCount(seasonBucket.Total.players, player);
-        });
-    }
+    // Total player-usage counts: use appearance rows directly for all seasons. For historic
+    // Pitchero seasons where reconciliation data exists and shows a higher count (i.e. Pitchero
+    // recorded more appearances than were scraped), bump the player's count up so they continue
+    // to be counted when a minimum-appearances threshold is applied.
+    appearances.forEach(row => {
+        const season = row.season;
+        const squad = row.squad;
+        const player = String(row.player || '').trim();
+        const gameType = gameTypeByGameId.get(row.game_id);
+        if (!season || !player || (squad !== '1st' && squad !== '2nd')) return;
+        if (allowedGameTypes && !allowedGameTypes.has(gameType)) return;
+        if (!bySeason[season]) bySeason[season] = createSeasonBucket();
+        const seasonBucket = bySeason[season];
+        incrementPlayerCount(seasonBucket[squad].players, player);
+        incrementPlayerCount(seasonBucket.Total.players, player);
+    });
 
     return bySeason;
 }
@@ -280,7 +263,7 @@ function populateSquadStatsSeasonDropdownOptions(seasonSelect) {
 function refreshSquadStatsData() {
     if (!playerAppearancesData) { squadStatsData = {}; return; }
     const mode = getSquadStatsGameTypeMode();
-    squadStatsData = buildSquadStatsDataFromCanonical(playerAppearancesData, appearanceReconciliationData, mode);
+    squadStatsData = buildSquadStatsDataFromCanonical(playerAppearancesData, mode);
 }
 
 function renderSquadMetricCards(season, minimumAppearances) {

@@ -37,19 +37,26 @@ PITCHERO_TO_GOOGLE_CANONICAL_NAMES = {
 
 PITCHERO_OPPOSITION_CANONICAL_NAMES = {
     "brighton3": "Brighton III",
-    "burgesshill2": "Burgess Hill",
+    "bognor2": "Bognor II",
+    "burgesshill2": "Burgess Hill II",
+    "burgesshill": "Burgess Hill",
     "crawleycupfinal": "Crawley",
     "crawley2s3s": "Crawley II",
     "ditchlingrfc": "Ditchling",
+    "ditchling": "Ditchling",
     "eastbourneiirfc": "Eastbourne II",
     "eastbourne2": "Eastbourne II",
     "eastbourne2s": "Eastbourne II",
+    "eastbourneiirfc": "Eastbourne II",
     "haywardsheath2xv": "Haywards Heath II",
+    "haywardsheath2xy": "Haywards Heath II",
+    "heathfield2": "Heathfield II",
     "heathfield3s": "Heathfield III",
     "heathfieldwaldron3": "Heathfield & Waldron III",
     "hellingly2": "Hellingly II",
     "hove2": "Hove II",
     "hove2xv": "Hove II",
+    "hove2xy": "Hove II",
     "hove3": "Hove III",
     "pulborough2": "Pulborough II",
     "pulborough3": "Pulborough III",
@@ -227,6 +234,7 @@ class BackendDatabase:
                 season TEXT,
                 game_type TEXT,
                 is_starter BOOLEAN,
+                is_backfill BOOLEAN DEFAULT FALSE,
                 PRIMARY KEY(squad, date, player)
             )
             """
@@ -426,7 +434,8 @@ class BackendDatabase:
         set_piece = self._build_set_piece(set_piece_raw, red_zone_raw, games)
         season_scorers = self._build_season_scorers(scorers_2526_raw, pitchero_raw, appearances)
         reconciliation, backfill = self._build_pitchero_appearance_reconciliation(pitchero_raw, appearances)
-        players = self._build_players(appearances, games, lineouts, season_scorers, reconciliation)
+        appearances = self._apply_backfill_to_appearances(appearances, backfill)
+        players = self._build_players(appearances, games, lineouts, season_scorers)
         games_rfu = build_rfu_games_dataframe(
             matches=rfu_matches_raw,
             consolidated_file=self.rfu_matches_file.as_posix(),
@@ -1075,6 +1084,7 @@ class BackendDatabase:
                     "season",
                     "game_type",
                     "is_starter",
+                    "is_backfill",
                 ]
             )
 
@@ -1086,6 +1096,7 @@ class BackendDatabase:
         df["is_captain"] = df["is_captain"].fillna(False).astype(bool)
         df["is_vc"] = df["is_vc"].fillna(False).astype(bool)
         df["is_starter"] = df["is_starter"].fillna(False).astype(bool)
+        df["is_backfill"] = False
         df = df.dropna(subset=["squad", "date", "player"]).drop_duplicates(subset=["squad", "date", "player"])
         return df[
             [
@@ -1101,8 +1112,77 @@ class BackendDatabase:
                 "season",
                 "game_type",
                 "is_starter",
+                "is_backfill",
             ]
         ].rename(columns={"shirt_number": "number", "is_vc": "is_vice_captain"})
+
+    def _apply_backfill_to_appearances(
+        self,
+        appearances: pd.DataFrame,
+        backfill: pd.DataFrame,
+    ) -> pd.DataFrame:
+        """Inject synthetic appearance rows for historic seasons where Pitchero recorded
+        more games than were scraped.  Each synthetic row has is_backfill=True and no
+        game_id/position/unit so it cannot distort per-game analysis, but it makes
+        COUNT(*) on player_appearances return the correct authoritative total for every
+        player and season without any downstream reconciliation CTE.
+        """
+        if backfill.empty:
+            return appearances
+
+        existing_cols = list(appearances.columns)
+        synthetic_rows = []
+        used_dates_by_key: dict[tuple[str, str], set[str]] = {}
+        next_offset_by_key: dict[tuple[str, str], int] = {}
+
+        for (squad_value, player_value), group in appearances.groupby(["squad", "player"]):
+            key = (str(squad_value), str(player_value))
+            used_dates_by_key[key] = set(group["date"].astype(str))
+            next_offset_by_key[key] = 0
+
+        for _, row in backfill.iterrows():
+            squad = row["squad"]
+            season = row["season"]
+            player = row["player"]
+            missing = int(row["missing_appearances"])
+            if missing <= 0 or not player:
+                continue
+            key = (str(squad), str(player))
+            used_dates = used_dates_by_key.setdefault(key, set())
+            sentinel_offset = next_offset_by_key.setdefault(key, 0)
+            # Use sentinel dates (1900-01-01 + index) that cannot clash with real dates.
+            # The PK is (squad, date, player) so we must use unique dates per row.
+            added = 0
+            while added < missing:
+                sentinel_date = pd.Timestamp("1900-01-01") + pd.Timedelta(days=sentinel_offset)
+                sentinel_str = sentinel_date.date()
+                date_key = str(sentinel_str)
+                if date_key not in used_dates:
+                    synthetic_rows.append({
+                        "squad": squad,
+                        "date": sentinel_str,
+                        "player": player,
+                        "number": None,
+                        "position": None,
+                        "unit": None,
+                        "is_captain": False,
+                        "is_vice_captain": False,
+                        "game_id": None,
+                        "season": season,
+                        "game_type": None,
+                        "is_starter": False,
+                        "is_backfill": True,
+                    })
+                    used_dates.add(date_key)
+                    added += 1
+                sentinel_offset += 1
+            next_offset_by_key[key] = sentinel_offset
+
+        if not synthetic_rows:
+            return appearances
+
+        synthetic_df = pd.DataFrame(synthetic_rows)[existing_cols]
+        return pd.concat([appearances, synthetic_df], ignore_index=True)
 
     def _build_lineouts(self, lineouts_raw: pd.DataFrame, games: pd.DataFrame) -> pd.DataFrame:
         if lineouts_raw.empty:
@@ -1366,7 +1446,6 @@ class BackendDatabase:
         games: pd.DataFrame,
         lineouts: pd.DataFrame,
         season_scorers: pd.DataFrame,
-        reconciliation: pd.DataFrame | None = None,
     ) -> pd.DataFrame:
         if appearances.empty:
             return pd.DataFrame(
@@ -1464,46 +1543,6 @@ class BackendDatabase:
         points = season_scorers.groupby("player", as_index=False).agg(career_points=("points", "sum")).rename(columns={"player": "name"})
 
         players = agg.merge(first, on="name", how="left").merge(jumper, on="name", how="left").merge(points, on="name", how="left")
-
-        if reconciliation is not None and not reconciliation.empty:
-            historic_seasons = set(HISTORIC_PITCHERO_SEASON_IDS.keys())
-
-            modern_apps = appearances[~appearances["season"].isin(historic_seasons)].copy()
-            modern_apps = (
-                modern_apps.groupby("player", as_index=False)
-                .agg(modern_appearances=("game_id", "count"))
-                .rename(columns={"player": "name"})
-            )
-
-            historic = reconciliation[reconciliation["season"].isin(historic_seasons)].copy()
-            historic["effective_appearances"] = historic.apply(
-                lambda row: row["pitchero_appearances"] if row["pitchero_appearances"] > 0 else row["scraped_appearances"],
-                axis=1,
-            )
-            historic_apps = (
-                historic.groupby("player", as_index=False)
-                .agg(historic_appearances=("effective_appearances", "sum"))
-                .rename(columns={"player": "name"})
-            )
-
-            corrected_apps = modern_apps.merge(historic_apps, on="name", how="outer")
-            corrected_apps["modern_appearances"] = pd.to_numeric(
-                corrected_apps["modern_appearances"], errors="coerce"
-            ).fillna(0)
-            corrected_apps["historic_appearances"] = pd.to_numeric(
-                corrected_apps["historic_appearances"], errors="coerce"
-            ).fillna(0)
-            corrected_apps["corrected_total_appearances"] = (
-                corrected_apps["modern_appearances"] + corrected_apps["historic_appearances"]
-            ).astype(int)
-
-            players = players.merge(
-                corrected_apps[["name", "corrected_total_appearances"]],
-                on="name",
-                how="left",
-            )
-            players["total_appearances"] = players["corrected_total_appearances"].fillna(players["total_appearances"]).astype(int)
-            players = players.drop(columns=["corrected_total_appearances"])
 
         players["short_name"] = players["name"].map(self._short_name)
         players["photo_url"] = players["name"].map(self._photo_for_player)

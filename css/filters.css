@@ -56,6 +56,12 @@
 .page-header-filters .player-profiles-active-toggle {
     background-color: #f1f4fc;
     border-color: #c5cde6;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.page-header-filters .player-profiles-active-toggle:has(:checked) {
+    background-color: #dff5df;
+    border-color: #b7e0b7;
 }
 
 .page-header-filters .player-profiles-active-toggle .form-check-label {
@@ -63,6 +69,11 @@
     color: var(--primary-color);
     font-size: 0.95rem;
     line-height: 1;
+    transition: color 0.2s ease;
+}
+
+.page-header-filters .player-profiles-active-toggle:has(:checked) .form-check-label {
+    color: #125e12;
 }
 
 .page-header-filters .player-profiles-active-toggle-input {
@@ -95,8 +106,8 @@
 }
 
 .page-header-filters .player-profiles-active-toggle-input:checked {
-    background-color: var(--accent-color);
-    border-color: var(--primary-color);
+    background-color: #3a9c3a;
+    border-color: #125e12;
 }
 
 .page-header-filters .player-profiles-active-toggle-input:checked::before {

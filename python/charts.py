@@ -873,105 +873,27 @@ def player_stats_appearances_chart(db, output_file='data/charts/player_stats_app
     """
     df = db.con.execute(
         """
-        WITH base_raw AS (
-            SELECT
-                P.player,
-                G.squad,
-                G.season,
-                G.game_type,
-                COALESCE(P.position, 'Unknown') AS position,
-                CASE
-                    WHEN P.is_starter THEN 'Start'
-                    WHEN NOT P.is_starter THEN 'Bench'
-                    ELSE 'Unknown'
-                END AS start,
-                COUNT(*) AS games
-            FROM player_appearances P
-            LEFT JOIN games G USING (game_id)
-            GROUP BY P.player, G.squad, G.season, G.game_type, position, start
-        ),
-        raw_totals AS (
-            SELECT
-                player,
-                squad,
-                season,
-                SUM(games) AS scraped_appearances
-            FROM base_raw
-            GROUP BY player, squad, season
-        ),
-        reconciled_totals AS (
-            SELECT
-                player,
-                squad,
-                season,
-                CASE
-                    WHEN COALESCE(pitchero_appearances, 0) > 0 THEN COALESCE(pitchero_appearances, 0)
-                    ELSE COALESCE(scraped_appearances, 0)
-                END AS effective_appearances
-            FROM pitchero_appearance_reconciliation
-        ),
-        adjustments AS (
-            SELECT
-                r.player,
-                r.squad,
-                r.season,
-                (r.effective_appearances - COALESCE(t.scraped_appearances, 0)) AS appearance_adjustment
-            FROM reconciled_totals r
-            LEFT JOIN raw_totals t
-              ON r.player = t.player
-             AND r.squad = t.squad
-             AND r.season = t.season
-            WHERE (r.effective_appearances - COALESCE(t.scraped_appearances, 0)) <> 0
-        ),
-        ranked_raw AS (
-            SELECT
-                b.*,
-                ROW_NUMBER() OVER (
-                    PARTITION BY b.player, b.squad, b.season
-                    ORDER BY b.games DESC, b.game_type, b.position, b.start
-                ) AS category_rank
-            FROM base_raw b
-        ),
-        adjusted_raw AS (
-            SELECT
-                r.player,
-                r.squad,
-                r.season,
-                r.game_type,
-                r.position,
-                r.start,
-                CASE
-                    WHEN a.appearance_adjustment < 0 AND r.category_rank = 1
-                        THEN GREATEST(r.games + a.appearance_adjustment, 0)
-                    ELSE r.games
-                END AS games
-            FROM ranked_raw r
-            LEFT JOIN adjustments a
-              ON r.player = a.player
-             AND r.squad = a.squad
-             AND r.season = a.season
-        ),
-        backfill_rows AS (
-            SELECT
-                player,
-                squad,
-                season,
-                'Unknown' AS game_type,
-                'Unknown' AS position,
-                'Unknown' AS start,
-                appearance_adjustment AS games
-            FROM adjustments
-            WHERE appearance_adjustment > 0
-        ),
-        base AS (
-            SELECT player, squad, season, game_type, position, start, games
-            FROM adjusted_raw
-            WHERE games > 0
-            UNION ALL
-            SELECT * FROM backfill_rows
-        )
-        SELECT player, squad, season, game_type, position, start, games
-        FROM base
+        SELECT
+            P.player,
+            COALESCE(G.squad, P.squad) AS squad,
+            COALESCE(G.season, P.season) AS season,
+            CASE WHEN P.is_backfill THEN 'Unknown' ELSE G.game_type END AS game_type,
+            CASE WHEN P.is_backfill THEN 'Unknown' ELSE COALESCE(P.position, 'Unknown') END AS position,
+            CASE
+                WHEN P.is_backfill THEN 'Unknown'
+                WHEN P.is_starter THEN 'Start'
+                ELSE 'Bench'
+            END AS start,
+            COUNT(*) AS games
+        FROM player_appearances P
+        LEFT JOIN games G USING (game_id)
+        GROUP BY
+            P.player,
+            COALESCE(G.squad, P.squad),
+            COALESCE(G.season, P.season),
+            CASE WHEN P.is_backfill THEN 'Unknown' ELSE G.game_type END,
+            CASE WHEN P.is_backfill THEN 'Unknown' ELSE COALESCE(P.position, 'Unknown') END,
+            CASE WHEN P.is_backfill THEN 'Unknown' WHEN P.is_starter THEN 'Start' ELSE 'Bench' END
         """
     ).df()
 
@@ -1061,7 +983,7 @@ def player_stats_appearances_chart(db, output_file='data/charts/player_stats_app
         .transform_filter('datum.player_total >= minAppsParam')
         .add_params(season_param, game_types_param, squad_param, positions_param, min_apps_param)
         .properties(
-            title=alt.Title('Total Appearances', subtitle='Since Pitchero data began in 2016/17 season')
+            title=alt.Title('Appearances', subtitle='Since Pitchero data began in 2016/17 season')
         )
     )
 
@@ -1530,23 +1452,8 @@ def squad_size_trend_chart(db, output_file='data/charts/squad_size_trend.json'):
 
         UNION ALL
 
-        SELECT
-            season,
-            squad,
-            'Total' AS unit,
-            COUNT(DISTINCT player) AS players
-        FROM (
-            SELECT
-                season,
-                squad,
-                player,
-                CASE
-                    WHEN COALESCE(pitchero_appearances, 0) > 0 THEN COALESCE(pitchero_appearances, 0)
-                    ELSE COALESCE(scraped_appearances, 0)
-                END AS effective_appearances
-            FROM pitchero_appearance_reconciliation
-        ) reconciled
-        WHERE effective_appearances > 0
+        SELECT season, squad, 'Total' AS unit, COUNT(DISTINCT player) AS players
+        FROM player_appearances
         GROUP BY season, squad
 
         ORDER BY season, squad, unit
@@ -1782,7 +1689,7 @@ def team_sheets_chart(db, output_file='data/charts/team_sheets.json'):
                 G.game_type,
                 G.squad,
                 G.home_away,
-                REPLACE(CONCAT_WS(' ', G.game_id, CONCAT('(', G.home_away, ')')), '_', ' ') AS game_label,
+                strftime(G.date, '%Y %m %d') || ' ' || G.squad || ' ' || G.opposition || ' (' || G.home_away || ')' AS game_label,
                 CONCAT_WS(' ', G.opposition, CONCAT('(', G.home_away, ')')) AS game_label_short,
                 CONCAT_WS(' ', P.position, CONCAT('(', P.number, ')')) AS position_label,
                 CONCAT_WS(
@@ -1810,7 +1717,7 @@ def team_sheets_chart(db, output_file='data/charts/team_sheets.json'):
                 G.game_type,
                 G.squad,
                 G.home_away,
-                REPLACE(CONCAT_WS(' ', G.game_id, CONCAT('(', G.home_away, ')')), '_', ' ') AS game_label,
+                strftime(G.date, '%Y %m %d') || ' ' || G.squad || ' ' || G.opposition || ' (' || G.home_away || ')' AS game_label,
                 CONCAT_WS(' ', G.opposition, CONCAT('(', G.home_away, ')')) AS game_label_short,
                 CONCAT_WS(' ', P.position, CONCAT('(', P.shirt_number, ')')) AS position_label,
                 CONCAT_WS(
@@ -2843,111 +2750,37 @@ def season_summary_data(db, output_file='data/season_summary.json'):
     # Get most appearances per season/squad/game_type
     # Reconciliation backfill rows are emitted as game_type='Unknown' with starts=0.
     appearances = db.con.execute(
-        """
-        WITH base_raw AS (
-            SELECT
-                g.season,
-                g.squad,
-                g.game_type,
-                p.player,
-                COUNT(*) AS appearances,
-                SUM(CASE WHEN p.is_starter = TRUE THEN 1 ELSE 0 END) AS starts
-            FROM player_appearances p
-            JOIN games g ON p.game_id = g.game_id
-            GROUP BY g.season, g.squad, g.game_type, p.player
-        ),
-        raw_totals AS (
-            SELECT
-                season,
-                squad,
-                player,
-                SUM(appearances) AS scraped_appearances
-            FROM base_raw
-            GROUP BY season, squad, player
-        ),
-        reconciled_totals AS (
+            """
+            WITH base AS (
+                SELECT
+                    COALESCE(G.season, P.season) AS season,
+                    COALESCE(G.squad, P.squad) AS squad,
+                    CASE WHEN P.is_backfill THEN 'Unknown' ELSE G.game_type END AS game_type,
+                    P.player,
+                    COUNT(*) AS appearances,
+                    SUM(CASE WHEN P.is_backfill = FALSE AND P.is_starter = TRUE THEN 1 ELSE 0 END) AS starts
+                FROM player_appearances P
+                LEFT JOIN games G USING (game_id)
+                GROUP BY
+                    COALESCE(G.season, P.season),
+                    COALESCE(G.squad, P.squad),
+                    CASE WHEN P.is_backfill THEN 'Unknown' ELSE G.game_type END,
+                    P.player
+            )
             SELECT
                 season,
                 squad,
+                game_type,
                 player,
-                CASE
-                    WHEN COALESCE(pitchero_appearances, 0) > 0 THEN COALESCE(pitchero_appearances, 0)
-                    ELSE COALESCE(scraped_appearances, 0)
-                END AS effective_appearances
-            FROM pitchero_appearance_reconciliation
-        ),
-        adjustments AS (
-            SELECT
-                r.season,
-                r.squad,
-                r.player,
-                (r.effective_appearances - COALESCE(t.scraped_appearances, 0)) AS appearance_adjustment
-            FROM reconciled_totals r
-            LEFT JOIN raw_totals t
-              ON r.season = t.season
-             AND r.squad = t.squad
-             AND r.player = t.player
-            WHERE (r.effective_appearances - COALESCE(t.scraped_appearances, 0)) <> 0
-        ),
-        ranked_raw AS (
-            SELECT
-                b.*,
+                appearances,
+                starts,
                 ROW_NUMBER() OVER (
-                    PARTITION BY b.season, b.squad, b.player
-                    ORDER BY b.appearances DESC, b.game_type
-                ) AS category_rank
-            FROM base_raw b
-        ),
-        adjusted_raw AS (
-            SELECT
-                r.season,
-                r.squad,
-                r.game_type,
-                r.player,
-                CASE
-                    WHEN a.appearance_adjustment < 0 AND r.category_rank = 1
-                        THEN GREATEST(r.appearances + a.appearance_adjustment, 0)
-                    ELSE r.appearances
-                END AS appearances,
-                r.starts
-            FROM ranked_raw r
-            LEFT JOIN adjustments a
-              ON r.season = a.season
-             AND r.squad = a.squad
-             AND r.player = a.player
-        ),
-        backfill AS (
-            SELECT
-                season,
-                squad,
-                'Unknown' AS game_type,
-                player,
-                appearance_adjustment AS appearances,
-                0 AS starts
-            FROM adjustments
-            WHERE appearance_adjustment > 0
-        ),
-        base AS (
-            SELECT season, squad, game_type, player, appearances, starts
-            FROM adjusted_raw
-            WHERE appearances > 0
-            UNION ALL
-            SELECT * FROM backfill
-        )
-        SELECT
-            season,
-            squad,
-            game_type,
-            player,
-            appearances,
-            starts,
-            ROW_NUMBER() OVER (
-                PARTITION BY season, squad, game_type
-                ORDER BY appearances DESC, player ASC
-            ) AS rank
-        FROM base
-        ORDER BY season DESC, squad, game_type, appearances DESC
-        """
+                    PARTITION BY season, squad, game_type
+                    ORDER BY appearances DESC, player ASC
+                ) AS rank
+            FROM base
+            ORDER BY season DESC, squad, game_type, appearances DESC
+            """
     ).df()
     
     # Get average set piece stats per season/squad

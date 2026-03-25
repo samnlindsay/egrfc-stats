@@ -1,6 +1,19 @@
 // Team Sheets page logic
 
 let teamSheetsControlsInitialised = false;
+let teamSheetsSpec = null;
+
+function extractSeasonsFromSpec(spec) {
+    if (!spec) return [];
+    const datasets = spec.datasets || {};
+    const rows = Object.values(datasets).find(v => Array.isArray(v)) || [];
+    const seasons = Array.from(new Set(rows.map(r => r?.season).filter(Boolean)));
+    return seasons.sort((a, b) => {
+        const startA = parseInt(String(a).split('/')[0], 10);
+        const startB = parseInt(String(b).split('/')[0], 10);
+        return startB - startA;
+    });
+}
 
 function filterTeamSheetSpec(spec, seasons, squad, gameType, positions) {
     const clonedSpec = JSON.parse(JSON.stringify(spec));
@@ -21,7 +34,7 @@ async function renderTeamSheetsPage() {
     const selectedGameType = document.getElementById('teamSheetsGameTypeSelect')?.value || 'All games';
     const selectedPositions = $('#teamSheetsPositionSelect').val() || [];
     try {
-        const spec = await loadChartSpec('data/charts/team_sheets.json');
+        const spec = teamSheetsSpec || await loadChartSpec('data/charts/team_sheets.json');
         const filteredSpec = filterTeamSheetSpec(spec, selectedSeasons, selectedSquad, selectedGameType, selectedPositions);
         renderStaticSpecChart('teamSheetsChart', filteredSpec, 'No team sheet data available for the selected filters.');
     } catch (error) {
@@ -30,16 +43,15 @@ async function renderTeamSheetsPage() {
     }
 }
 
-function initialiseTeamSheetsControls() {
+function initialiseTeamSheetsControls(seasons) {
     if (teamSheetsControlsInitialised) return;
     const seasonSelect = document.getElementById('teamSheetsSeasonSelect');
     const squadSelect = document.getElementById('teamSheetsSquadSelect');
     const gameTypeSelect = document.getElementById('teamSheetsGameTypeSelect');
     const positionSelect = document.getElementById('teamSheetsPositionSelect');
     if (!seasonSelect || !squadSelect || !gameTypeSelect || !positionSelect) return;
-    const seasons = Array.from(new Set((availableSeasons || []).filter(Boolean)));
+    if (!seasons || seasons.length === 0) seasons = availableSeasons || [];
     const currentSeason = getCurrentSeasonLabel();
-    if (seasons.length === 0) seasons.push(currentSeason);
     seasonSelect.innerHTML = '';
     seasons.forEach(season => {
         const option = document.createElement('option');
@@ -69,7 +81,12 @@ function initialiseTeamSheetsControls() {
 }
 
 document.addEventListener('DOMContentLoaded', async function () {
-    await loadAvailableSeasons();
-    initialiseTeamSheetsControls();
+    try {
+        teamSheetsSpec = await loadChartSpec('data/charts/team_sheets.json');
+    } catch (e) {
+        console.warn('Unable to pre-load team sheets spec:', e);
+    }
+    const seasons = extractSeasonsFromSpec(teamSheetsSpec);
+    initialiseTeamSheetsControls(seasons);
     renderTeamSheetsPage();
 });

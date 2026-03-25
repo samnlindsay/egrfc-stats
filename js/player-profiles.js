@@ -1,7 +1,7 @@
 let playerProfilesData = [];
 let playerProfilesControlsInitialised = false;
 
-const THIRTEEN_MONTHS_MS = 365 * 24 * 60 * 60 * 1000;
+const SIX_MONTHS_MS = 182 * 24 * 60 * 60 * 1000;
 
 function dedupeProfilesByName(rows) {
     const byName = new Map();
@@ -233,7 +233,7 @@ function formatPointsSummary(points, tries, conversions, penalties, dropGoals) {
     return `${totalPoints} (${components.join(', ')})`;
 }
 
-function buildPlayerContext(appearances, games, seasonScorers, appearanceReconciliation) {
+function buildPlayerContext(appearances, games, seasonScorers) {
     const appearancesByPlayer = new Map();
     (Array.isArray(appearances) ? appearances : []).forEach(row => {
         const player = String(row?.player || '').trim();
@@ -291,23 +291,6 @@ function buildPlayerContext(appearances, games, seasonScorers, appearanceReconci
         }
     });
 
-    const reconciledByPlayerSeason = new Map();
-    const reconciledByPlayerSquad = new Map();
-    (Array.isArray(appearanceReconciliation) ? appearanceReconciliation : []).forEach(row => {
-        const player = String(row?.player || '').trim();
-        const season = String(row?.season || '').trim();
-        const squad = String(row?.squad || '').trim();
-        const pitchero = Number(row?.pitchero_appearances || 0);
-        const scraped = Number(row?.scraped_appearances || 0);
-        const effective = pitchero > 0 ? pitchero : scraped;
-        if (!player || !season || !squad || !effective) return;
-
-        const seasonKey = `${player}::${season}`;
-        const squadKey = `${player}::${squad}`;
-        reconciledByPlayerSeason.set(seasonKey, (reconciledByPlayerSeason.get(seasonKey) || 0) + effective);
-        reconciledByPlayerSquad.set(squadKey, (reconciledByPlayerSquad.get(squadKey) || 0) + effective);
-    });
-
     return {
         appearancesByPlayer,
         gamesById,
@@ -315,8 +298,6 @@ function buildPlayerContext(appearances, games, seasonScorers, appearanceReconci
         scoringByPlayerCareer,
         currentSeason,
         latestGameDate,
-        reconciledByPlayerSeason,
-        reconciledByPlayerSquad
     };
 }
 
@@ -331,16 +312,12 @@ function enrichProfile(profile, context) {
     const totalStarts = rows.reduce((acc, row) => acc + (row?.is_starter ? 1 : 0), 0) || Number(profile?.total_starts || 0);
 
     const firstXVRows = rows.filter(row => String(row?.squad || '') === '1st');
-    const firstXVAppearances = Number(
-        context.reconciledByPlayerSquad.get(`${playerName}::1st`) || firstXVRows.length || 0
-    );
+    const firstXVAppearances = firstXVRows.length;
     const firstXVStarts = firstXVRows.reduce((acc, row) => acc + (row?.is_starter ? 1 : 0), 0);
 
     const currentSeason = context.currentSeason;
     const seasonRows = rows.filter(row => String(row?.season || '') === currentSeason);
-    const seasonAppearances = Number(
-        context.reconciledByPlayerSeason.get(`${playerName}::${currentSeason}`) || seasonRows.length || 0
-    );
+    const seasonAppearances = seasonRows.length;
     const seasonStarts = seasonRows.reduce((acc, row) => acc + (row?.is_starter ? 1 : 0), 0);
 
     const scoringCareer = context.scoringByPlayerCareer.get(playerName) || {
@@ -352,11 +329,11 @@ function enrichProfile(profile, context) {
     };
 
     const scoringThisSeason = context.scoringByPlayerAndSeason.get(`${playerName}::${currentSeason}`) || {
-        tries: Number(profile?.latest_season_tries || 0),
-        conversions: Number(profile?.latest_season_conversions || 0),
-        penalties: Number(profile?.latest_season_penalties || 0),
+        tries: 0,
+        conversions: 0,
+        penalties: 0,
         drop_goals: 0,
-        points: Number(profile?.latest_season_points || 0)
+        points: 0
     };
 
     const positionCounts = new Map();
@@ -392,7 +369,8 @@ function enrichProfile(profile, context) {
         .sort((a, b) => a.localeCompare(b));
 
     const lastAppearanceDate = parseIsoDate(lastRow?.date);
-    const isActive = Boolean(lastAppearanceDate && (Date.now() - lastAppearanceDate.getTime()) <= THIRTEEN_MONTHS_MS);
+    const playedThisSeason = seasonRows.length > 0;
+    const isActive = playedThisSeason || Boolean(lastAppearanceDate && (Date.now() - lastAppearanceDate.getTime()) <= SIX_MONTHS_MS);
 
     return {
         ...profile,
@@ -693,27 +671,25 @@ async function loadPlayerProfilesPage() {
     const errorState = document.getElementById('playerProfilesErrorState');
 
     try {
-        const [profilesRes, appearancesRes, gamesRes, scorersRes, reconciledRes] = await Promise.all([
+            const [profilesRes, appearancesRes, gamesRes, scorersRes] = await Promise.all([
             fetch('data/backend/v_player_profiles.json'),
             fetch('data/backend/player_appearances.json'),
             fetch('data/backend/games.json'),
-            fetch('data/backend/season_scorers.json'),
-            fetch('data/backend/pitchero_appearance_reconciliation.json')
+                fetch('data/backend/season_scorers.json')
         ]);
 
-        if (!profilesRes.ok || !appearancesRes.ok || !gamesRes.ok || !scorersRes.ok || !reconciledRes.ok) {
+            if (!profilesRes.ok || !appearancesRes.ok || !gamesRes.ok || !scorersRes.ok) {
             throw new Error('One or more profile datasets failed to load');
         }
 
-        const [rawProfiles, rawAppearances, rawGames, rawScorers, rawReconciled] = await Promise.all([
+            const [rawProfiles, rawAppearances, rawGames, rawScorers] = await Promise.all([
             profilesRes.json(),
             appearancesRes.json(),
             gamesRes.json(),
-            scorersRes.json(),
-            reconciledRes.json()
+                scorersRes.json()
         ]);
 
-        const context = buildPlayerContext(rawAppearances, rawGames, rawScorers, rawReconciled);
+            const context = buildPlayerContext(rawAppearances, rawGames, rawScorers);
         playerProfilesData = dedupeProfilesByName(rawProfiles).map(profile => enrichProfile(profile, context));
 
         populateFilters();
