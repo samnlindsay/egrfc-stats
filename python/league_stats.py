@@ -1453,13 +1453,9 @@ def export_web_charts(squad=1, db=None):
     output_dir = project_root / "data" / "charts"
     output_dir.mkdir(parents=True, exist_ok=True)
     
-    squad_size_chart.save(str(output_dir / f"league_squad_size_{squad}s.json"))
-    avg_retention_chart.save(str(output_dir / f"league_avg_retention_{squad}s.json"))
-    squad_size_trend_chart.save(str(output_dir / f"league_squad_size_trend_{squad}s.json"))
-    continuity_trend_chart.save(str(output_dir / f"league_avg_retention_trend_{squad}s.json"))
+    # Only export the context charts that are actually used in squad-stats.html
     squad_size_context_chart.save(str(output_dir / f"league_squad_size_context_{squad}s.json"))
     continuity_context_chart.save(str(output_dir / f"league_continuity_context_{squad}s.json"))
-    retention_timeline_chart.save(str(output_dir / f"league_retention_timeline_{squad}s.json"))
     
     logging.info(f"Exported web chart specs for squad {squad} to {output_dir}")
 
