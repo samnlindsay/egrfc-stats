@@ -1874,7 +1874,7 @@ def results_chart(db, output_file='data/charts/results.json'):
         ).df()
 
     team_filter = alt.selection_point(fields=["opposition"], on="hover", clear="mouseout", empty="all")
-    selection = alt.selection_point(fields=['result'], bind='legend')
+    selection = alt.selection_point(fields=['result'], empty='all')
 
     base = alt.Chart(df).encode(
         y=alt.Y(
@@ -2487,6 +2487,64 @@ def lineout_success_by_zone_chart(db, output_file='data/charts/lineout_success_b
         ).df()
 
     return lineout_success_by_zone(df=df, file=output_file)
+
+
+def lineout_breakdown_chart(db, squad="1st", output_file=None):
+    """Lineout success rate broken down by numbers configuration and area.
+
+    Outputs a single chart (vconcat of two grouped-bar rows) for the given squad.
+    Default output paths: data/charts/lineout_breakdown_1st.json or 2nd.json
+    """
+    if output_file is None:
+        output_file = f"data/charts/lineout_breakdown_{squad}.json"
+
+    df = db.con.execute(
+        """
+        SELECT season, numbers, area, won FROM lineouts
+        WHERE squad = ?
+          AND numbers IS NOT NULL AND numbers != ''
+          AND area IS NOT NULL AND area NOT IN ('', 'Unknown')
+        """,
+        [squad],
+    ).df()
+
+    if df.empty:
+        return None
+
+    seasons = sorted(df["season"].astype(str).unique())
+    
+    # Numbers breakdown
+    df_num = df.groupby(["season", "numbers"]).agg(total=("won", "count"), won=("won", "sum")).reset_index()
+    df_num["success_rate"] = df_num["won"] / df_num["total"]
+    df_num["season"] = df_num["season"].astype(str)
+    
+    numbers_chart = alt.Chart(df_num).mark_bar().encode(
+        x=alt.X("season:N", sort=seasons, title=None, axis=alt.Axis(labelAngle=-30)),
+        xOffset=alt.XOffset("numbers:N", sort=["4", "5", "6", "7"]),
+        y=alt.Y("success_rate:Q", title="Success Rate", scale=alt.Scale(domain=[0, 1]), axis=alt.Axis(format="%")),
+        color=alt.Color("numbers:N", sort=["4", "5", "6", "7"], scale=alt.Scale(domain=["4", "5", "6", "7"], range=["#ca0020", "#f4a582", "#92c5de", "#0571b0"]), legend=alt.Legend(title="Numbers")),
+        tooltip=[alt.Tooltip("season:N", title="Season"), alt.Tooltip("numbers:N", title="Numbers"), alt.Tooltip("won:Q", title="Won"), alt.Tooltip("total:Q", title="Total"), alt.Tooltip("success_rate:Q", title="Success Rate", format=".0%")],
+    ).properties(width=alt.Step(14), height=220, title=alt.Title(text="By Numbers", subtitle="4/5/6/7 man lineout"))
+    
+    # Area breakdown
+    df_area = df.groupby(["season", "area"]).agg(total=("won", "count"), won=("won", "sum")).reset_index()
+    df_area["success_rate"] = df_area["won"] / df_area["total"]
+    df_area["season"] = df_area["season"].astype(str)
+    
+    area_chart = alt.Chart(df_area).mark_bar().encode(
+        x=alt.X("season:N", sort=seasons, title="Season", axis=alt.Axis(labelAngle=-30)),
+        xOffset=alt.XOffset("area:N", sort=["Front", "Middle", "Back"]),
+        y=alt.Y("success_rate:Q", title="Success Rate", scale=alt.Scale(domain=[0, 1]), axis=alt.Axis(format="%")),
+        color=alt.Color("area:N", sort=["Front", "Middle", "Back"], scale=alt.Scale(domain=["Front", "Middle", "Back"], range=["#981515", "#e8983e", "#146f14"]), legend=alt.Legend(title="Area")),
+        tooltip=[alt.Tooltip("season:N", title="Season"), alt.Tooltip("area:N", title="Area"), alt.Tooltip("won:Q", title="Won"), alt.Tooltip("total:Q", title="Total"), alt.Tooltip("success_rate:Q", title="Success Rate", format=".0%")],
+    ).properties(width=alt.Step(14), height=220, title=alt.Title(text="By Area", subtitle="Front/Middle/Back"))
+    
+    chart = alt.vconcat(numbers_chart, area_chart, spacing=24).properties(
+        title=alt.Title(text=f"{squad} XV Lineout Breakdown", subtitle="Success rate by numbers and throw area.")
+    )
+    chart.save(output_file)
+    return chart
+
 
 #################################
 # League Analysis Charts

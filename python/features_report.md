@@ -4,26 +4,26 @@ This report maps your feature vision in `python/features.md` against the current
 
 ## 1) Current Site Surface (what the live `index.html` exposes)
 
-Current tabs/dropdowns in `index.html` and `js/charts.js`:
+Current pages and their JS modules:
 
 - **Results**
   - Vega-Lite JSON: `data/charts/results.json`
 - **Team Sheets**
   - Vega-Lite JSON: `data/charts/team_sheets.json`
-- **Player Stats**
-  - Appearances: `data/charts/player_appearances.json`
-  - Captains: `data/charts/captains.json`
+- **Squad Stats / Player Stats** (`squad-stats.html` + `js/squad-stats.js`)
+  - Appearances: `data/charts/player_stats_appearances.json`
+  - Captains: `data/charts/player_stats_captains.json`
   - Scorers: `data/charts/point_scorers.json`
   - Cards: `data/charts/cards.json`
-- **Set Piece**
-  - Lineout: `data/charts/lineout_success.json`
-  - Scrum: `data/charts/scrum_success.json`
+- **Set Piece** (`performance-stats.html`)
+  - Lineout by zone: `data/charts/lineout_success_by_zone.json`
+  - Seasonal set-piece: `data/charts/set_piece_success_{1st|2nd}_{lineout|scrum}.json`
 - **League**
   - League Results (HTML iframe dispatch): `Charts/league/results.html`
-  - League table (paired under results): `Charts/league/table.html`
-  - 1st XV League Squad Analysis (HTML iframe): `Charts/league/squad_analysis_1s.html`
+  - League table: `Charts/league/table.html`
+  - Squad Analysis (HTML): `Charts/league/squad_analysis_1s.html`
 
-Filter model is shared across tabs (squad, competition, season, position, include bench), with tab-specific enable/disable behavior in `js/filters.js`.
+Each page has a dedicated JS module; `js/shared.js` provides shared utilities (chart loading, filtering, panel toggles).
 
 ---
 
@@ -172,7 +172,7 @@ Rendered league assets (`python/league_stats.py`):
   - `?view=results&squad=1st&season=2025/26&competition=League`
   - `?view=league-results&squad=2nd&season=2025/26`
   - `?view=player&name=Sam%20Lindsay-McCall`
-- Extend `js/navigation.js` + `js/charts.js` to hydrate filters/state from URL on load.
+- Extend per-page JS modules to hydrate filters/state from URL on load.
 
 ---
 
@@ -181,18 +181,17 @@ Rendered league assets (`python/league_stats.py`):
 ## A) Add a new Vega-Lite chart to main app
 
 1. Generate output JSON from Python into `data/charts/<new_chart>.json`.
-2. Add file in `js/config.js` under `CONFIG.dataFiles`.
-3. Load it in `js/main.js` Promise list.
-4. Add nav item in `index.html` with `data-chart-type="..."`.
-5. Add render branch in `js/charts.js`.
-6. Ensure source fields align with filter system if needed:
+2. Load it in the relevant page JS module via `loadChartSpec()`.
+3. Add nav item or panel in the appropriate HTML file.
+4. Render via `renderStaticSpecChart()` from `js/shared.js`.
+5. Ensure source fields align with filter system if needed:
    - `squad`, `season`, `game_type`, `position`, `is_starter`.
 
 ## B) Add a new League HTML artifact (iframe style)
 
 1. Generate HTML under `Charts/league/` from `python/league_stats.py`.
 2. Ensure embed options and CSS patching are applied (`hack_params_css`, patch helper).
-3. Route from `js/charts.js` using query params for season/squad.
+3. Route from `js/league-tables.js` using query params for season/squad.
 4. Use `createAutoHeightLeagueIframe(...)` for consistent sizing behavior.
 
 ## C) Add a new table-first page

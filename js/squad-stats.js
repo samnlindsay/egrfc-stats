@@ -1,7 +1,8 @@
 // Squad Stats + Player Stats page logic
 
-let playerAppearancesData = null;
-let gamesData = null;
+let squadStatsWithThresholdsEnrichedData = null;
+let squadPositionProfilesEnrichedData = null;
+let squadContinuityEnrichedData = null;
 let squadStatsData = null;
 let squadSizeTrendTemplateSpec = null;
 let squadContinuityTrendTemplateSpec = null;
@@ -9,18 +10,21 @@ let squadStatsControlsInitialised = false;
 let playerStatsControlsInitialised = false;
 
 async function loadSquadStatsCanonicalData() {
-    if (playerAppearancesData && gamesData) return;
+    if (squadStatsWithThresholdsEnrichedData && squadPositionProfilesEnrichedData && squadContinuityEnrichedData) return;
 
-    const [appearancesResponse, gamesResponse] = await Promise.all([
-        fetch('data/backend/player_appearances.json'),
-        fetch('data/backend/games.json')
+    const [statsResponse, positionsResponse, continuityResponse] = await Promise.all([
+        fetch('data/backend/squad_stats_with_thresholds_enriched.json'),
+        fetch('data/backend/squad_position_profiles_enriched.json'),
+        fetch('data/backend/squad_continuity_enriched.json')
     ]);
 
-    if (!appearancesResponse.ok) throw new Error(`Failed to fetch canonical player appearances (${appearancesResponse.status})`);
-    if (!gamesResponse.ok) throw new Error(`Failed to fetch canonical games (${gamesResponse.status})`);
+    if (!statsResponse.ok) throw new Error(`Failed to fetch squad stats export (${statsResponse.status})`);
+    if (!positionsResponse.ok) throw new Error(`Failed to fetch squad position profiles export (${positionsResponse.status})`);
+    if (!continuityResponse.ok) throw new Error(`Failed to fetch squad continuity export (${continuityResponse.status})`);
 
-    playerAppearancesData = await appearancesResponse.json();
-    gamesData = await gamesResponse.json();
+    squadStatsWithThresholdsEnrichedData = await statsResponse.json();
+    squadPositionProfilesEnrichedData = await positionsResponse.json();
+    squadContinuityEnrichedData = await continuityResponse.json();
 
     if (!squadSizeTrendTemplateSpec) {
         try {
@@ -37,50 +41,48 @@ async function loadSquadStatsCanonicalData() {
     }
 }
 
-function buildSquadStatsDataFromCanonical(appearances, gameTypeMode) {
-    const bySeason = {};
-    const gameTypeByGameId = new Map((gamesData || []).map(game => [game.game_id, game.game_type]));
-    const allowedGameTypes = getAllowedGameTypes(gameTypeMode);
-    const createMetricBucket = () => ({ players: new Map(), forwards: new Map(), backs: new Map() });
-    const createSeasonBucket = () => ({ '1st': createMetricBucket(), '2nd': createMetricBucket(), 'Total': createMetricBucket() });
-    const incrementPlayerCount = (countMap, player, amount = 1) => countMap.set(player, (countMap.get(player) || 0) + amount);
+function createSquadMetricBucket() {
+    return { playersByThreshold: {}, forwardsByThreshold: {}, backsByThreshold: {} };
+}
 
-    // Position/unit breakdown still comes from raw appearance rows.
-    appearances.forEach(row => {
-        const season = row.season;
-        const squad = row.squad;
-        const player = String(row.player || '').trim();
-        const unit = row.unit;
-        const gameType = gameTypeByGameId.get(row.game_id);
-        if (!season || !player || (squad !== '1st' && squad !== '2nd')) return;
-        if (allowedGameTypes && !allowedGameTypes.has(gameType)) return;
-        if (!bySeason[season]) bySeason[season] = createSeasonBucket();
-        const seasonBucket = bySeason[season];
+function createSquadSeasonBucket() {
+    return { '1st': createSquadMetricBucket(), '2nd': createSquadMetricBucket(), 'Total': createSquadMetricBucket() };
+}
 
-        if (unit === 'Forwards') {
-            incrementPlayerCount(seasonBucket[squad].forwards, player);
-            incrementPlayerCount(seasonBucket.Total.forwards, player);
-        } else if (unit === 'Backs') {
-            incrementPlayerCount(seasonBucket[squad].backs, player);
-            incrementPlayerCount(seasonBucket.Total.backs, player);
+function parsePlayerCountsMap(value) {
+    if (value instanceof Map) return new Map(value);
+    if (value && typeof value === 'object' && !Array.isArray(value)) {
+        return new Map(Object.entries(value).map(([player, count]) => [player, Number(count) || 0]));
+    }
+    if (typeof value === 'string' && value.trim()) {
+        try {
+            const parsed = JSON.parse(value);
+            if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) {
+                return new Map(Object.entries(parsed).map(([player, count]) => [player, Number(count) || 0]));
+            }
+        } catch (error) {
+            console.warn('Unable to parse playerCounts payload:', error);
         }
-    });
+    }
+    return new Map();
+}
 
-    // Total player-usage counts: use appearance rows directly for all seasons. For historic
-    // Pitchero seasons where reconciliation data exists and shows a higher count (i.e. Pitchero
-    // recorded more appearances than were scraped), bump the player's count up so they continue
-    // to be counted when a minimum-appearances threshold is applied.
-    appearances.forEach(row => {
-        const season = row.season;
-        const squad = row.squad;
-        const player = String(row.player || '').trim();
-        const gameType = gameTypeByGameId.get(row.game_id);
-        if (!season || !player || (squad !== '1st' && squad !== '2nd')) return;
-        if (allowedGameTypes && !allowedGameTypes.has(gameType)) return;
-        if (!bySeason[season]) bySeason[season] = createSeasonBucket();
-        const seasonBucket = bySeason[season];
-        incrementPlayerCount(seasonBucket[squad].players, player);
-        incrementPlayerCount(seasonBucket.Total.players, player);
+function buildSquadStatsDataFromThresholds(rows, gameTypeMode) {
+    const bySeason = {};
+    (rows || []).forEach(row => {
+        const season = normalizeSeasonLabel(row?.season);
+        const squad = row?.squad;
+        const unit = row?.unit;
+        const minimumAppearances = Math.max(0, Number(row?.minimumAppearances) || 0);
+        const playerCount = Number(row?.playerCount) || 0;
+        if (!season || row?.gameTypeMode !== gameTypeMode) return;
+        if (!['1st', '2nd', 'Total'].includes(squad)) return;
+        if (!['Total', 'Forwards', 'Backs'].includes(unit)) return;
+        if (!bySeason[season]) bySeason[season] = createSquadSeasonBucket();
+        const bucket = bySeason[season][squad];
+        if (unit === 'Total') bucket.playersByThreshold[minimumAppearances] = playerCount;
+        if (unit === 'Forwards') bucket.forwardsByThreshold[minimumAppearances] = playerCount;
+        if (unit === 'Backs') bucket.backsByThreshold[minimumAppearances] = playerCount;
     });
 
     return bySeason;
@@ -106,29 +108,6 @@ async function loadSquadStatsPage() {
     }
 }
 
-function resolveCanonicalPosition(number, position) {
-    const shirtNumber = Number(number);
-    if (Number.isFinite(shirtNumber)) {
-        if (shirtNumber === 1 || shirtNumber === 3) return 'Prop';
-        if (shirtNumber === 2) return 'Hooker';
-        if (shirtNumber === 4 || shirtNumber === 5) return 'Second Row';
-        if (shirtNumber === 6 || shirtNumber === 7) return 'Flanker';
-        if (shirtNumber === 8) return 'Number 8';
-        if (shirtNumber === 9) return 'Scrum Half';
-        if (shirtNumber === 10) return 'Fly Half';
-        if (shirtNumber === 12 || shirtNumber === 13) return 'Centre';
-        if (shirtNumber === 11 || shirtNumber === 14) return 'Wing';
-        if (shirtNumber === 15) return 'Full Back';
-    }
-    const normalizedPosition = String(position || '').trim().toLowerCase();
-    const aliases = {
-        prop: 'Prop', hooker: 'Hooker', 'second row': 'Second Row', flanker: 'Flanker',
-        'number 8': 'Number 8', 'scrum half': 'Scrum Half', 'fly half': 'Fly Half',
-        centre: 'Centre', wing: 'Wing', 'full back': 'Full Back', fullback: 'Full Back'
-    };
-    return aliases[normalizedPosition] || null;
-}
-
 function getEmptySquadPositionCounts() {
     const createPositionCounts = () => {
         const counts = {};
@@ -140,37 +119,24 @@ function getEmptySquadPositionCounts() {
 
 function buildSquadPositionCounts(selectedSeason, minimumAppearances) {
     const counts = getEmptySquadPositionCounts();
-    if (!playerAppearancesData || !selectedSeason) return counts;
-    const allowedGameTypes = getAllowedGameTypes(getSquadStatsGameTypeMode());
-    const gameTypeByGameId = new Map((gamesData || []).map(game => [game.game_id, game.game_type]));
+    if (!squadPositionProfilesEnrichedData || !selectedSeason) return counts;
+    const mode = getSquadStatsGameTypeMode();
     const threshold = Math.max(0, Number(minimumAppearances) || 0);
-    const makePlayerMapForPositions = () => {
-        const byPosition = {};
-        SQUAD_POSITION_ORDER.forEach(position => { byPosition[position] = new Map(); });
-        return byPosition;
-    };
-    const bySquadPositionPlayerCounts = { '1st': makePlayerMapForPositions(), '2nd': makePlayerMapForPositions() };
-    (playerAppearancesData || []).forEach(row => {
-        const season = normalizeSeasonLabel(row.season);
-        const squad = row.squad;
-        const player = String(row.player || '').trim();
-        const gameType = gameTypeByGameId.get(row.game_id);
-        if (season !== selectedSeason || !player || (squad !== '1st' && squad !== '2nd')) return;
-        if (allowedGameTypes && !allowedGameTypes.has(gameType)) return;
-        const canonicalPosition = resolveCanonicalPosition(row.number, row.position);
-        if (!canonicalPosition || !SQUAD_POSITION_ORDER.includes(canonicalPosition)) return;
-        const playerCountMap = bySquadPositionPlayerCounts[squad][canonicalPosition];
-        playerCountMap.set(player, (playerCountMap.get(player) || 0) + 1);
-    });
-    ['1st', '2nd'].forEach(squad => {
-        SQUAD_POSITION_ORDER.forEach(position => {
-            const playerMap = bySquadPositionPlayerCounts[squad][position];
-            if (!(playerMap instanceof Map)) return;
-            if (threshold <= 0) { counts[squad][position] = playerMap.size; return; }
-            let playerCount = 0;
-            playerMap.forEach(value => { if (value >= threshold) playerCount += 1; });
-            counts[squad][position] = playerCount;
-        });
+    (squadPositionProfilesEnrichedData || []).forEach(row => {
+        const season = normalizeSeasonLabel(row?.season);
+        const squad = row?.squad;
+        const position = row?.position;
+        if (season !== selectedSeason || row?.gameTypeMode !== mode) return;
+        if (!['1st', '2nd'].includes(squad)) return;
+        if (!SQUAD_POSITION_ORDER.includes(position)) return;
+        const playerMap = parsePlayerCountsMap(row?.playerCounts);
+        if (threshold <= 0) {
+            counts[squad][position] = playerMap.size;
+            return;
+        }
+        let playerCount = 0;
+        playerMap.forEach(value => { if (value >= threshold) playerCount += 1; });
+        counts[squad][position] = playerCount;
     });
     return counts;
 }
@@ -208,16 +174,10 @@ function renderSquadPositionPanels(selectedSeason, minimumAppearances) {
 function getSquadMetricValue(unit, bucket, minimumAppearances = 0) {
     if (!bucket) return 0;
     const threshold = Math.max(0, Number(minimumAppearances) || 0);
-    const countPlayersAboveThreshold = countMap => {
-        if (!(countMap instanceof Map)) return 0;
-        if (threshold <= 0) return countMap.size;
-        let count = 0;
-        countMap.forEach(value => { if (value >= threshold) count += 1; });
-        return count;
-    };
-    if (unit === 'Forwards') return countPlayersAboveThreshold(bucket.forwards);
-    if (unit === 'Backs') return countPlayersAboveThreshold(bucket.backs);
-    return countPlayersAboveThreshold(bucket.players);
+    const getValueAtThreshold = thresholdMap => Number(thresholdMap?.[threshold]) || 0;
+    if (unit === 'Forwards') return getValueAtThreshold(bucket.forwardsByThreshold);
+    if (unit === 'Backs') return getValueAtThreshold(bucket.backsByThreshold);
+    return getValueAtThreshold(bucket.playersByThreshold);
 }
 
 function getSquadMetricCardLabel(minimumAppearances) {
@@ -241,7 +201,7 @@ function getSquadStatsSeasonOptions() {
     const seasonSet = new Set();
     const addSeason = season => { const normalized = normalizeSeasonLabel(season); if (normalized) seasonSet.add(normalized); };
     (availableSeasons || []).forEach(addSeason);
-    (playerAppearancesData || []).forEach(row => addSeason(row.season));
+    (squadStatsWithThresholdsEnrichedData || []).forEach(row => addSeason(row?.season));
     addSeason(getCurrentSeasonLabel());
     return getSortedSquadStatsSeasons(Object.fromEntries(Array.from(seasonSet).map(s => [s, true])));
 }
@@ -261,14 +221,13 @@ function populateSquadStatsSeasonDropdownOptions(seasonSelect) {
 }
 
 function refreshSquadStatsData() {
-    if (!playerAppearancesData) { squadStatsData = {}; return; }
+    if (!squadStatsWithThresholdsEnrichedData) { squadStatsData = {}; return; }
     const mode = getSquadStatsGameTypeMode();
-    squadStatsData = buildSquadStatsDataFromCanonical(playerAppearancesData, mode);
+    squadStatsData = buildSquadStatsDataFromThresholds(squadStatsWithThresholdsEnrichedData, mode);
 }
 
 function renderSquadMetricCards(season, minimumAppearances) {
-    const emptyBucket = () => ({ players: new Map(), forwards: new Map(), backs: new Map() });
-    const seasonData = squadStatsData?.[season] || { '1st': emptyBucket(), '2nd': emptyBucket(), 'Total': emptyBucket() };
+    const seasonData = squadStatsData?.[season] || createSquadSeasonBucket();
     const labelText = getSquadMetricCardLabel(minimumAppearances);
     const value1st = document.getElementById('squadMetricValue1st');
     const value2nd = document.getElementById('squadMetricValue2nd');
@@ -302,9 +261,8 @@ function renderSquadStatsTable(minimumAppearances) {
     addSeason(getCurrentSeasonLabel());
     const seasons = getSortedSquadStatsSeasons(Object.fromEntries(Array.from(seasonSet).map(s => [s, true])));
     if (seasons.length === 0) { tbody.innerHTML = '<tr><td colspan="10" class="text-center text-muted py-3">No squad metrics available.</td></tr>'; return; }
-    const emptyBucket = () => ({ players: new Map(), forwards: new Map(), backs: new Map() });
     tbody.innerHTML = seasons.map(season => {
-        const seasonData = squadStatsData?.[season] || { '1st': emptyBucket(), '2nd': emptyBucket(), 'Total': emptyBucket() };
+        const seasonData = squadStatsData?.[season] || createSquadSeasonBucket();
         const squad1 = seasonData['1st'];
         const squad2 = seasonData['2nd'];
         const total = seasonData['Total'];
@@ -361,77 +319,15 @@ function renderSquadSizeTrendChart(selectedSeason, minimumAppearances) {
 }
 
 function buildContinuityAverageTrendRows() {
-    if (!playerAppearancesData) return [];
-    const allowedGameTypes = getAllowedGameTypes(getSquadStatsGameTypeMode());
-    const gameInfoById = new Map((gamesData || []).map(game => [game.game_id, game]));
-    const gamesBySquadSeason = {};
-    (playerAppearancesData || []).forEach(row => {
-        const season = normalizeSeasonLabel(row.season);
-        const squad = row.squad;
-        const gameId = row.game_id;
-        const gameInfo = gameInfoById.get(gameId);
-        const gameType = row.game_type || gameInfo?.game_type;
-        if (!season || (squad !== '1st' && squad !== '2nd')) return;
-        if (allowedGameTypes && !allowedGameTypes.has(gameType)) return;
-        const key = `${squad}::${season}`;
-        if (!gamesBySquadSeason[key]) gamesBySquadSeason[key] = { squad, season, games: [] };
-        const gameList = gamesBySquadSeason[key].games;
-        if (!gameList.find(g => g.gameId === gameId)) {
-            gameList.push({ gameId, date: row.date || gameInfo?.date || null, starters: new Set() });
-        }
-    });
-    (playerAppearancesData || []).forEach(row => {
-        const season = normalizeSeasonLabel(row.season);
-        const squad = row.squad;
-        const gameId = row.game_id;
-        const unit = row.unit;
-        const gameType = row.game_type || gameInfoById.get(gameId)?.game_type;
-        if (!season || (squad !== '1st' && squad !== '2nd')) return;
-        if (allowedGameTypes && !allowedGameTypes.has(gameType)) return;
-        if (row.is_starter !== true) return;
-        const player = String(row.player || '').trim();
-        const key = `${squad}::${season}`;
-        const squadSeasonData = gamesBySquadSeason[key];
-        if (squadSeasonData) {
-            squadSeasonData.games.forEach(game => {
-                if (game.gameId === gameId) {
-                    game.starters.add(player);
-                    if (!game.byUnit) game.byUnit = {};
-                    if (!game.byUnit[unit]) game.byUnit[unit] = new Set();
-                    game.byUnit[unit].add(player);
-                }
-            });
-        }
-    });
-    const rows = [];
-    Object.values(gamesBySquadSeason).forEach(squadSeasonData => {
-        const games = squadSeasonData.games.sort((a, b) => {
-            const dateA = a.date ? new Date(a.date).getTime() : 0;
-            const dateB = b.date ? new Date(b.date).getTime() : 0;
-            return dateA !== dateB ? dateA - dateB : String(a.gameId).localeCompare(String(b.gameId));
-        });
-        if (games.length < 2) return;
-        const retentionsByUnit = { 'Total': [], 'Forwards': [], 'Backs': [] };
-        for (let i = 1; i < games.length; i++) {
-            const prevGame = games[i - 1];
-            const currGame = games[i];
-            const totalRetained = [...currGame.starters].filter(p => prevGame.starters.has(p)).length;
-            retentionsByUnit['Total'].push(totalRetained);
-            const prevForwards = prevGame.byUnit?.['Forwards'] || new Set();
-            const currForwards = currGame.byUnit?.['Forwards'] || new Set();
-            retentionsByUnit['Forwards'].push([...currForwards].filter(p => prevForwards.has(p)).length);
-            const prevBacks = prevGame.byUnit?.['Backs'] || new Set();
-            const currBacks = currGame.byUnit?.['Backs'] || new Set();
-            retentionsByUnit['Backs'].push([...currBacks].filter(p => prevBacks.has(p)).length);
-        }
-        ['Total', 'Forwards', 'Backs'].forEach(unit => {
-            if (retentionsByUnit[unit].length > 0) {
-                const avgRetention = retentionsByUnit[unit].reduce((a, b) => a + b, 0) / retentionsByUnit[unit].length;
-                rows.push({ season: squadSeasonData.season, squad: squadSeasonData.squad, unit, retained: avgRetention });
-            }
-        });
-    });
-    return rows;
+    const mode = getSquadStatsGameTypeMode();
+    return (squadContinuityEnrichedData || [])
+        .filter(row => row?.gameTypeMode === mode && ['1st', '2nd'].includes(row?.squad) && ['Total', 'Forwards', 'Backs'].includes(row?.unit))
+        .map(row => ({
+            season: normalizeSeasonLabel(row?.season),
+            squad: row?.squad,
+            unit: row?.unit,
+            retained: Number(row?.retained) || 0
+        }));
 }
 
 function renderSquadContinuityTrendChart(selectedSeason) {
@@ -451,7 +347,9 @@ function renderSquadContinuityTrendChart(selectedSeason) {
 
 function getLeagueContextUnit() {
     const select = document.getElementById('leagueContextUnitSelect');
-    return select?.value || 'Total';
+    if (select?.value) return select.value;
+    const selectAlt = document.getElementById('leagueContextUnitSelectAlt');
+    return selectAlt?.value || 'Total';
 }
 
 async function renderLeagueContextCharts() {
@@ -498,7 +396,7 @@ function renderSquadStatsCharts(selectedSeason, minimumAppearances) {
 }
 
 function renderSquadStatsPage() {
-    if (!playerAppearancesData) return;
+    if (!squadStatsWithThresholdsEnrichedData) return;
     refreshSquadStatsData();
     const seasons = getSortedSquadStatsSeasons(squadStatsData);
     if (seasons.length === 0) {
@@ -530,10 +428,12 @@ function initialiseSquadStatsControlsOnce() {
     const gameTypeSelect = document.getElementById('squadStatsGameTypeSelect');
     const minAppsInput = document.getElementById('squadStatsMinAppsSelect');
     const leagueContextUnitSelect = document.getElementById('leagueContextUnitSelect');
-    if (!seasonSelect || !gameTypeSelect || !minAppsInput || !leagueContextUnitSelect) return;
+    const leagueContextUnitSelectAlt = document.getElementById('leagueContextUnitSelectAlt');
+    if (!seasonSelect || !gameTypeSelect || !minAppsInput || !leagueContextUnitSelect || !leagueContextUnitSelectAlt) return;
     const $seasonSelect = $('#squadStatsSeasonSelect');
     const $gameTypeSelect = $('#squadStatsGameTypeSelect');
     const $leagueContextUnitSelect = $('#leagueContextUnitSelect');
+    const $leagueContextUnitSelectAlt = $('#leagueContextUnitSelectAlt');
     $seasonSelect.selectpicker();
     const seasons = populateSquadStatsSeasonDropdownOptions(seasonSelect);
     const currentSeason = getCurrentSeasonLabel();
@@ -544,11 +444,14 @@ function initialiseSquadStatsControlsOnce() {
     $seasonSelect.selectpicker('val', selectedSquadSeason);
     $gameTypeSelect.selectpicker();
     $leagueContextUnitSelect.selectpicker();
+    $leagueContextUnitSelectAlt.selectpicker();
     gameTypeSelect.value = 'All games';
     minAppsInput.value = '0';
     leagueContextUnitSelect.value = 'Total';
+    leagueContextUnitSelectAlt.value = 'Total';
     $gameTypeSelect.selectpicker('val', 'All games');
     $leagueContextUnitSelect.selectpicker('val', 'Total');
+    $leagueContextUnitSelectAlt.selectpicker('val', 'Total');
     $seasonSelect.on('changed.bs.select', renderSquadStatsPage);
     $gameTypeSelect.on('changed.bs.select', renderSquadStatsPage);
     minAppsInput.addEventListener('input', function () {
@@ -563,7 +466,20 @@ function initialiseSquadStatsControlsOnce() {
         this.value = String(v);
         renderSquadStatsPage();
     });
-    $leagueContextUnitSelect.on('changed.bs.select', renderLeagueContextCharts);
+    $leagueContextUnitSelect.on('changed.bs.select', function () {
+        const value = this.value || 'Total';
+        if (leagueContextUnitSelectAlt.value !== value) {
+            $leagueContextUnitSelectAlt.selectpicker('val', value);
+        }
+        renderLeagueContextCharts();
+    });
+    $leagueContextUnitSelectAlt.on('changed.bs.select', function () {
+        const value = this.value || 'Total';
+        if (leagueContextUnitSelect.value !== value) {
+            $leagueContextUnitSelect.selectpicker('val', value);
+        }
+        renderLeagueContextCharts();
+    });
     squadStatsControlsInitialised = true;
 }
 

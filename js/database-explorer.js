@@ -21,8 +21,8 @@ const DatabaseExplorer = (() => {
             label: 'player_appearances',
             path: 'data/backend/player_appearances.json',
             grain: 'One row per player per game',
-            description: 'Canonical appearance table with shirt number, position, unit, starter flag, and captaincy metadata.',
-            sourceNote: 'Defined in backend.py and derived from canonical selections linked back to games.'
+            description: 'Canonical appearance table with shirt number, position, unit, starter flag, captaincy metadata, and reconciliation backfill rows where historic Pitchero totals exceed scraped selections.',
+            sourceNote: 'Defined in backend.py and derived from canonical selections linked back to games, then adjusted with Pitchero reconciliation.'
         },
         {
             key: 'player_appearances_rfu',
@@ -61,8 +61,104 @@ const DatabaseExplorer = (() => {
             label: 'players',
             path: 'data/backend/players.json',
             grain: 'One row per player',
-            description: 'Player master table with roster metadata, first appearance context, totals, sponsor, and photo fields.',
-            sourceNote: 'Defined in backend.py and assembled from appearances, games, lineouts, scorers, and reconciliation outputs.'
+            description: 'Player master table with roster metadata, preferred squad, first appearance context, totals, sponsor, and photo fields.',
+            sourceNote: 'Defined in backend.py and assembled from canonical appearances, games, lineouts, scorers, and reconciliation-adjusted totals.'
+        },
+        {
+            key: 'season_summary_enriched',
+            label: 'season_summary_enriched',
+            path: 'data/backend/season_summary_enriched.json',
+            grain: 'One row per season-game type mode-squad',
+            description: 'Frontend-ready season summary table with backend-owned results totals, tied leader arrays, appearance leaders, and season-level set-piece metrics.',
+            sourceNote: 'Defined in backend.py as the backend-owned replacement for JS-side season summary aggregation and tie handling.'
+        },
+        {
+            key: 'squad_stats_enriched',
+            label: 'squad_stats_enriched',
+            path: 'data/backend/squad_stats_enriched.json',
+            grain: 'One row per season-game type mode-squad-unit',
+            description: 'Frontend-ready squad usage table with backend-derived player appearance count maps for total, forwards, and backs across all game-type modes.',
+            sourceNote: 'Defined in backend.py as the backend-owned replacement for JS-side squad size aggregation and threshold filtering.'
+        },
+        {
+            key: 'squad_position_profiles_enriched',
+            label: 'squad_position_profiles_enriched',
+            path: 'data/backend/squad_position_profiles_enriched.json',
+            grain: 'One row per season-game type mode-squad-position',
+            description: 'Frontend-ready squad position table with backend-derived starter appearance count maps by canonical position.',
+            sourceNote: 'Defined in backend.py as the backend-owned replacement for JS-side shirt-number to position mapping and position usage aggregation.'
+        },
+        {
+            key: 'squad_continuity_enriched',
+            label: 'squad_continuity_enriched',
+            path: 'data/backend/squad_continuity_enriched.json',
+            grain: 'One row per season-game type mode-squad-unit',
+            description: 'Frontend-ready squad continuity table with backend-calculated average retained starters and contributing game-pair counts.',
+            sourceNote: 'Defined in backend.py as the backend-owned replacement for JS-side continuity trend calculation.'
+        },
+        {
+            key: 'squad_stats_with_thresholds_enriched',
+            label: 'squad_stats_with_thresholds_enriched',
+            path: 'data/backend/squad_stats_with_thresholds_enriched.json',
+            grain: 'One row per season-game type mode-squad-unit-threshold',
+            description: 'Frontend-ready squad usage table precomputing player counts at each minimum appearance threshold (0-20).',
+            sourceNote: 'Defined in backend.py to remove JS-side threshold recalculation for squad-size views.'
+        },
+        {
+            key: 'player_profiles_canonical',
+            label: 'player_profiles_canonical',
+            path: 'data/backend/player_profiles_canonical.json',
+            grain: 'One row per player name (deduplicated)',
+            description: 'Canonical deduplicated player-profile table with full profile payload used by the player profile frontend (appearance/start counters, debut labels, scoring objects, active flags).',
+            sourceNote: 'Defined in backend.py as the backend-owned player profile source replacing JS-side deduplication and profile shaping.'
+        },
+        {
+            key: 'pitchero_appearance_reconciliation',
+            label: 'pitchero_appearance_reconciliation',
+            path: 'data/backend/pitchero_appearance_reconciliation.json',
+            grain: 'One row per historic player-season-squad',
+            description: 'Historic comparison between Pitchero appearance totals and scraped team-sheet totals, including deltas and fix strategy.',
+            sourceNote: 'Defined in backend.py and used to reconcile 2016/17 to 2019/20 appearance totals.'
+        },
+        {
+            key: 'pitchero_appearance_backfill',
+            label: 'pitchero_appearance_backfill',
+            path: 'data/backend/pitchero_appearance_backfill.json',
+            grain: 'One row per historic player-season-squad needing backfill',
+            description: 'Subset of reconciliation rows where synthetic appearance rows are injected to align canonical totals with Pitchero.',
+            sourceNote: 'Defined in backend.py as the positive-delta action log for appearance backfill.'
+        },
+        {
+            key: 'v_season_results',
+            label: 'v_season_results',
+            path: 'data/backend/v_season_results.json',
+            grain: 'One row per season-squad-game type',
+            description: 'Derived season results summary by squad and game type, including match counts and points for/against.',
+            sourceNote: 'Defined in backend.py as a summary view over canonical games.'
+        },
+        {
+            key: 'v_pitchero_appearance_mismatches',
+            label: 'v_pitchero_appearance_mismatches',
+            path: 'data/backend/v_pitchero_appearance_mismatches.json',
+            grain: 'One row per historic player-season-squad mismatch',
+            description: 'Derived view of reconciliation rows where Pitchero and scraped appearance counts disagree.',
+            sourceNote: 'Defined in backend.py as a filtered mismatch view over pitchero_appearance_reconciliation.'
+        },
+        {
+            key: 'v_season_player_appearances_reconciled',
+            label: 'v_season_player_appearances_reconciled',
+            path: 'data/backend/v_season_player_appearances_reconciled.json',
+            grain: 'One row per historic player-season-squad',
+            description: 'Derived reconciled historic appearance totals showing scraped, Pitchero, and effective counts side by side.',
+            sourceNote: 'Defined in backend.py as a reconciliation summary view over historic appearance mismatches.'
+        },
+        {
+            key: 'v_player_appearance_discrepancy_summary',
+            label: 'v_player_appearance_discrepancy_summary',
+            path: 'data/backend/v_player_appearance_discrepancy_summary.json',
+            grain: 'One row per historic player with any mismatch',
+            description: 'Derived player-level summary of historic reconciliation discrepancies across all affected seasons.',
+            sourceNote: 'Defined in backend.py as a player-level aggregate over pitchero_appearance_reconciliation.'
         },
         {
             key: 'v_rfu_team_games',
@@ -139,6 +235,12 @@ const DatabaseExplorer = (() => {
         width: '100%',
         maxOptions: false
     };
+
+    const TABLE_DROPDOWN_GROUPS = [
+        { key: 'core', label: 'Core Canonical Tables' },
+        { key: 'enriched', label: 'Enriched Tables' },
+        { key: 'views', label: 'Derived Views' }
+    ];
 
     function init() {
         if (state.initialized) {
@@ -275,11 +377,38 @@ const DatabaseExplorer = (() => {
     }
 
     function populateTableSelect() {
-        elements.tableSelect.innerHTML = TABLE_DEFINITIONS.map(def => (
-            `<option value="${escapeHtml(def.key)}">${escapeHtml(def.label)}</option>`
-        )).join('');
+        const groupedOptions = TABLE_DROPDOWN_GROUPS.map(group => {
+            const options = TABLE_DEFINITIONS
+                .filter(def => getDefinitionGroup(def) === group.key)
+                .map(def => `<option value="${escapeHtml(def.key)}">${escapeHtml(def.label)}</option>`)
+                .join('');
+
+            if (!options) {
+                return '';
+            }
+
+            return `<optgroup label="${escapeHtml(group.label)}">${options}</optgroup>`;
+        }).join('');
+
+        elements.tableSelect.innerHTML = groupedOptions;
         elements.tableSelect.value = state.currentTableKey;
         rebuildSelectpicker(elements.tableSelect);
+    }
+
+    function getDefinitionGroup(definition) {
+        if (!definition || !definition.key) {
+            return 'core';
+        }
+
+        if (definition.key.startsWith('v_')) {
+            return 'views';
+        }
+
+        if (definition.key.endsWith('_enriched')) {
+            return 'enriched';
+        }
+
+        return 'core';
     }
 
     async function loadCurrentTable() {

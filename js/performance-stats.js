@@ -110,14 +110,20 @@
         }
 
         try {
-            const response = await fetch('data/season_summary.json');
+            const response = await fetch('data/backend/season_summary_enriched.json');
             if (!response.ok) {
                 throw new Error(`Failed to fetch season summary (${response.status})`);
             }
 
             const summary = await response.json();
-            const rows = (Array.isArray(summary.set_piece_stats) ? summary.set_piece_stats : [])
-                .filter((row) => row && row.squad === '1st');
+            const rows = (Array.isArray(summary) ? summary : [])
+                .filter((row) => row && row.squad === '1st' && row.gameTypeMode === 'All games')
+                .map((row) => ({
+                    season: row.season,
+                    squad: row.squad,
+                    avg_points_per_22m_entry: row.avgPointsPer22mEntry,
+                    avg_tries_per_22m_entry: row.avgTriesPer22mEntry,
+                }));
             if (rows.length === 0) {
                 container.innerHTML = '<div class="text-center text-muted py-4">No red-zone data available.</div>';
                 return;
@@ -141,6 +147,8 @@
             renderChartSpec('setPiece2ndLineoutChart', 'data/charts/set_piece_success_2nd_lineout.json', '2nd XV lineout chart unavailable.'),
             renderRedZoneChart(),
                 renderChartSpec('lineoutZoneChart', 'data/charts/lineout_success_by_zone.json', '1st XV lineout zone chart unavailable.'),
+            renderChartSpec('lineoutBreakdown1stChart', 'data/charts/lineout_breakdown_1st.json', '1st XV lineout breakdown unavailable.'),
+            renderChartSpec('lineoutBreakdown2ndChart', 'data/charts/lineout_breakdown_2nd.json', '2nd XV lineout breakdown unavailable.'),
             ]);
         initialiseChartPanelToggles();
     });

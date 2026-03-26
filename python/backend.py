@@ -186,8 +186,15 @@ class BackendDatabase:
         self.con.execute("DROP VIEW IF EXISTS v_rfu_match_retention")
         self.con.execute("DROP VIEW IF EXISTS v_rfu_squad_size")
         self.con.execute("DROP VIEW IF EXISTS v_rfu_team_games")
+        self.con.execute("DROP TABLE IF EXISTS squad_continuity_enriched")
+        self.con.execute("DROP TABLE IF EXISTS squad_position_profiles_enriched")
+        self.con.execute("DROP TABLE IF EXISTS squad_stats_enriched")
+        self.con.execute("DROP TABLE IF EXISTS squad_stats_with_thresholds_enriched")
+        self.con.execute("DROP TABLE IF EXISTS season_summary_enriched")
+        self.con.execute("DROP TABLE IF EXISTS player_profiles_canonical")
         self.con.execute("DROP TABLE IF EXISTS pitchero_appearance_backfill")
         self.con.execute("DROP TABLE IF EXISTS pitchero_appearance_reconciliation")
+        self.con.execute("DROP TABLE IF EXISTS player_profiles_enriched")
         self.con.execute("DROP TABLE IF EXISTS player_appearances_rfu")
         self.con.execute("DROP TABLE IF EXISTS players")
         self.con.execute("DROP TABLE IF EXISTS season_scorers")
@@ -405,6 +412,124 @@ class BackendDatabase:
             """
         )
 
+        self.con.execute(
+            """
+            CREATE TABLE squad_stats_enriched (
+                season TEXT NOT NULL,
+                gameTypeMode TEXT NOT NULL,
+                squad TEXT NOT NULL,
+                unit TEXT NOT NULL,
+                playerCounts TEXT,
+                playersUsed INTEGER,
+                PRIMARY KEY(season, gameTypeMode, squad, unit)
+            )
+            """
+        )
+
+        self.con.execute(
+            """
+            CREATE TABLE squad_position_profiles_enriched (
+                season TEXT NOT NULL,
+                gameTypeMode TEXT NOT NULL,
+                squad TEXT NOT NULL,
+                position TEXT NOT NULL,
+                playerCounts TEXT,
+                playersUsed INTEGER,
+                PRIMARY KEY(season, gameTypeMode, squad, position)
+            )
+            """
+        )
+
+        self.con.execute(
+            """
+            CREATE TABLE squad_continuity_enriched (
+                season TEXT NOT NULL,
+                gameTypeMode TEXT NOT NULL,
+                squad TEXT NOT NULL,
+                unit TEXT NOT NULL,
+                retained DOUBLE,
+                gamePairs INTEGER,
+                PRIMARY KEY(season, gameTypeMode, squad, unit)
+            )
+            """
+        )
+
+        self.con.execute(
+            """
+            CREATE TABLE squad_stats_with_thresholds_enriched (
+                season TEXT NOT NULL,
+                gameTypeMode TEXT NOT NULL,
+                squad TEXT NOT NULL,
+                unit TEXT NOT NULL,
+                minimumAppearances INTEGER NOT NULL,
+                playerCount INTEGER,
+                totalPlayed INTEGER,
+                PRIMARY KEY(season, gameTypeMode, squad, unit, minimumAppearances)
+            )
+            """
+        )
+
+        self.con.execute(
+            """
+            CREATE TABLE player_profiles_canonical (
+                name TEXT PRIMARY KEY,
+                short_name TEXT,
+                squad TEXT,
+                position TEXT,
+                photo_url TEXT,
+                sponsor TEXT,
+                totalAppearances INTEGER,
+                totalStarts INTEGER,
+                firstXVAppearances INTEGER,
+                firstXVStarts INTEGER,
+                seasonAppearances INTEGER,
+                seasonStarts INTEGER,
+                seasonCompetitiveAppearances INTEGER,
+                scoringCareer TEXT,
+                scoringThisSeason TEXT,
+                debutOverall TEXT,
+                debutFirstXV TEXT,
+                hasDifferentFirstXVDebut BOOLEAN,
+                otherPositions TEXT,
+                isActive BOOLEAN,
+                lastAppearanceDate DATE
+            )
+            """
+        )
+
+        self.con.execute(
+            """
+            CREATE TABLE season_summary_enriched (
+                season TEXT NOT NULL,
+                gameTypeMode TEXT NOT NULL,
+                squad TEXT NOT NULL,
+                gamesPlayed INTEGER,
+                gamesWon INTEGER,
+                gamesLost INTEGER,
+                gamesDrawn INTEGER,
+                avgPointsForHome DOUBLE,
+                avgPointsAgainstHome DOUBLE,
+                avgPointsForAway DOUBLE,
+                avgPointsAgainstAway DOUBLE,
+                avgPointsForOverall DOUBLE,
+                avgPointsAgainstOverall DOUBLE,
+                topPointScorerValue BIGINT,
+                topPointScorerPlayers TEXT,
+                topTryScorerValue BIGINT,
+                topTryScorerPlayers TEXT,
+                topAppearanceValue INTEGER,
+                topAppearancePlayers TEXT,
+                avgLineoutSuccessRate DOUBLE,
+                avgScrumSuccessRate DOUBLE,
+                avgPointsPer22mEntry DOUBLE,
+                avgTriesPer22mEntry DOUBLE,
+                gamesWithSetPieceData INTEGER,
+                PRIMARY KEY(season, gameTypeMode, squad)
+            )
+            """
+        )
+
+
     def build(self, refresh_pitchero: bool = False, export: bool = True) -> None:
         self.reset_schema()
         extractor = DataExtractor(credentials_path=self.config.credentials_path)
@@ -434,8 +559,15 @@ class BackendDatabase:
         set_piece = self._build_set_piece(set_piece_raw, red_zone_raw, games)
         season_scorers = self._build_season_scorers(scorers_2526_raw, pitchero_raw, appearances)
         reconciliation, backfill = self._build_pitchero_appearance_reconciliation(pitchero_raw, appearances)
-        appearances = self._apply_backfill_to_appearances(appearances, backfill)
+        appearances = self._apply_backfill_to_appearances(appearances, backfill, reconciliation)
         players = self._build_players(appearances, games, lineouts, season_scorers)
+        player_profiles_base = self._build_player_profiles_base(players, appearances, games, season_scorers)
+        squad_stats_enriched = self._build_squad_stats(appearances, games)
+        squad_position_profiles_enriched = self._build_squad_position_profiles(appearances, games)
+        squad_continuity_enriched = self._build_squad_continuity(appearances, games)
+        squad_stats_with_thresholds_enriched = self._build_squad_stats_with_thresholds(appearances, games)
+        player_profiles_canonical = self._build_player_profiles_canonical(player_profiles_base)
+        season_summary_enriched = self._build_season_summary(games, appearances, season_scorers, set_piece)
         games_rfu = build_rfu_games_dataframe(
             matches=rfu_matches_raw,
             consolidated_file=self.rfu_matches_file.as_posix(),
@@ -454,6 +586,12 @@ class BackendDatabase:
         self._insert("set_piece", set_piece)
         self._insert("season_scorers", season_scorers)
         self._insert("players", players)
+        self._insert("squad_stats_enriched", squad_stats_enriched)
+        self._insert("squad_position_profiles_enriched", squad_position_profiles_enriched)
+        self._insert("squad_continuity_enriched", squad_continuity_enriched)
+        self._insert("squad_stats_with_thresholds_enriched", squad_stats_with_thresholds_enriched)
+        self._insert("player_profiles_canonical", player_profiles_canonical)
+        self._insert("season_summary_enriched", season_summary_enriched)
         self._insert("pitchero_appearance_reconciliation", reconciliation)
         self._insert("pitchero_appearance_backfill", backfill)
 
@@ -478,36 +616,6 @@ class BackendDatabase:
                 SUM(score_against) AS points_against
             FROM games
             GROUP BY season, squad, game_type
-            """
-        )
-
-        self.con.execute(
-            """
-            CREATE VIEW v_player_profiles AS
-            SELECT
-                p.*,
-                COALESCE(ss.points, 0) AS latest_season_points,
-                COALESCE(ss.tries, 0) AS latest_season_tries,
-                COALESCE(ss.conversions, 0) AS latest_season_conversions,
-                COALESCE(ss.penalties, 0) AS latest_season_penalties
-            FROM players p
-            LEFT JOIN (
-                SELECT
-                    x.player,
-                    x.points,
-                    x.tries,
-                    x.conversions,
-                    x.penalties,
-                    x.season
-                FROM season_scorers x
-                INNER JOIN (
-                    SELECT player, MAX(season) AS season
-                    FROM season_scorers
-                    GROUP BY player
-                ) y
-                ON x.player = y.player AND x.season = y.season
-            ) ss
-            ON p.name = ss.player
             """
         )
 
@@ -742,6 +850,32 @@ class BackendDatabase:
 
     def export_tables(self) -> None:
         self.export_root.mkdir(parents=True, exist_ok=True)
+        
+        # Map of table/view names to their JSON columns and default values
+        # Schema: {table_name: {column_name: default_value_type}}
+        # - default_value_type: 'object' ({}) or 'array' ([])
+        json_columns_map = {
+            "squad_stats_enriched": {
+                "playerCounts": "object",
+            },
+            "squad_position_profiles_enriched": {
+                "playerCounts": "object",
+            },
+            "squad_continuity_enriched": {
+                # Add any JSON columns here in future
+            },
+            "player_profiles_canonical": {
+                "scoringCareer": "object",
+                "scoringThisSeason": "object",
+                "otherPositions": "array",
+            },
+            "season_summary_enriched": {
+                "topPointScorerPlayers": "array",
+                "topTryScorerPlayers": "array",
+                "topAppearancePlayers": "array",
+            },
+        }
+        
         table_names = [
             "games",
             "games_rfu",
@@ -751,12 +885,17 @@ class BackendDatabase:
             "set_piece",
             "season_scorers",
             "players",
+            "season_summary_enriched",
+            "squad_stats_enriched",
+            "squad_position_profiles_enriched",
+            "squad_continuity_enriched",
+            "squad_stats_with_thresholds_enriched",
+            "player_profiles_canonical",
             "pitchero_appearance_reconciliation",
             "pitchero_appearance_backfill",
         ]
         view_names = [
             "v_season_results",
-            "v_player_profiles",
             "v_pitchero_appearance_mismatches",
             "v_season_player_appearances_reconciled",
             "v_player_appearance_discrepancy_summary",
@@ -770,6 +909,16 @@ class BackendDatabase:
         for name in table_names + view_names:
             df = self.con.execute(f"SELECT * FROM {name}").df()
             export_df = _normalise_dates_for_json(df)
+            
+            # Deserialize JSON columns if this table has any registered
+            if name in json_columns_map and not export_df.empty:
+                for col, default_type in json_columns_map[name].items():
+                    if col in export_df.columns:
+                        default_value = [] if default_type == "array" else {}
+                        export_df[col] = export_df[col].apply(
+                            lambda value: json.loads(value) if isinstance(value, str) and value.strip() else default_value
+                        )
+            
             export_df.to_json(self.export_root / f"{name}.json", orient="records")
             self.con.execute(
                 f"COPY (SELECT * FROM {name}) TO '{(self.export_root / f'{name}.parquet').as_posix()}' (FORMAT PARQUET)"
@@ -1120,6 +1269,7 @@ class BackendDatabase:
         self,
         appearances: pd.DataFrame,
         backfill: pd.DataFrame,
+        reconciliation: pd.DataFrame | None = None,
     ) -> pd.DataFrame:
         """Inject synthetic appearance rows for historic seasons where Pitchero recorded
         more games than were scraped.  Each synthetic row has is_backfill=True and no
@@ -1127,15 +1277,39 @@ class BackendDatabase:
         COUNT(*) on player_appearances return the correct authoritative total for every
         player and season without any downstream reconciliation CTE.
         """
-        if backfill.empty:
-            return appearances
+        adjusted = appearances.copy()
 
-        existing_cols = list(appearances.columns)
+        # Apply negative reconciliation deltas first by removing surplus scraped rows
+        # for the same player/squad/season so totals align with effective Pitchero counts.
+        if reconciliation is not None and not reconciliation.empty:
+            for _, row in reconciliation.iterrows():
+                delta = int(row.get("delta", 0) or 0)
+                if delta >= 0:
+                    continue
+                remove_count = abs(delta)
+                player = row.get("player")
+                squad = row.get("squad")
+                season = row.get("season")
+                mask = (
+                    (adjusted["player"] == player)
+                    & (adjusted["squad"] == squad)
+                    & (adjusted["season"] == season)
+                    & (adjusted["is_backfill"] == False)
+                )
+                candidates = adjusted.loc[mask].sort_values("date", ascending=False)
+                if candidates.empty:
+                    continue
+                adjusted = adjusted.drop(index=candidates.index[:remove_count])
+
+        if backfill.empty:
+            return adjusted
+
+        existing_cols = list(adjusted.columns)
         synthetic_rows = []
         used_dates_by_key: dict[tuple[str, str], set[str]] = {}
         next_offset_by_key: dict[tuple[str, str], int] = {}
 
-        for (squad_value, player_value), group in appearances.groupby(["squad", "player"]):
+        for (squad_value, player_value), group in adjusted.groupby(["squad", "player"]):
             key = (str(squad_value), str(player_value))
             used_dates_by_key[key] = set(group["date"].astype(str))
             next_offset_by_key[key] = 0
@@ -1179,10 +1353,10 @@ class BackendDatabase:
             next_offset_by_key[key] = sentinel_offset
 
         if not synthetic_rows:
-            return appearances
+            return adjusted
 
         synthetic_df = pd.DataFrame(synthetic_rows)[existing_cols]
-        return pd.concat([appearances, synthetic_df], ignore_index=True)
+        return pd.concat([adjusted, synthetic_df], ignore_index=True)
 
     def _build_lineouts(self, lineouts_raw: pd.DataFrame, games: pd.DataFrame) -> pd.DataFrame:
         if lineouts_raw.empty:
@@ -1494,24 +1668,33 @@ class BackendDatabase:
             current_season = ordered_seasons[-1]
             previous_season = ordered_seasons[-2] if len(ordered_seasons) > 1 else None
 
+            _competitive = {"League", "Cup"}
+            competitive_base = base[base["game_type"].isin(_competitive)]
+
+            _cur = (
+                competitive_base[competitive_base["season"].astype(str).str.strip() == current_season]
+                .groupby(["player", "squad"], as_index=False)["game_id"]
+                .count()
+                .rename(columns={"game_id": "current_season_apps"})
+            )
+            _prev = (
+                competitive_base[competitive_base["season"].astype(str).str.strip() == (previous_season or "")]
+                .groupby(["player", "squad"], as_index=False)["game_id"]
+                .count()
+                .rename(columns={"game_id": "previous_season_apps"})
+            ) if previous_season else pd.DataFrame(columns=["player", "squad", "previous_season_apps"])
+
             squad_counts = (
                 base.groupby(["player", "squad"], as_index=False)
-                .agg(
-                    current_season_apps=(
-                        "season",
-                        lambda s: int((s.astype(str).str.strip() == current_season).sum()),
-                    ),
-                    previous_season_apps=(
-                        "season",
-                        lambda s: int((s.astype(str).str.strip() == previous_season).sum()) if previous_season else 0,
-                    ),
-                    total_apps=("game_id", "count"),
-                    latest_date=("date", "max"),
-                )
-                .sort_values(
-                    ["player", "current_season_apps", "previous_season_apps", "total_apps", "latest_date", "squad"],
-                    ascending=[True, False, False, False, False, True],
-                )
+                .agg(total_apps=("game_id", lambda s: int(s.shape[0])), latest_date=("date", "max"))
+                .merge(_cur, on=["player", "squad"], how="left")
+                .merge(_prev, on=["player", "squad"], how="left")
+            )
+            squad_counts["current_season_apps"] = squad_counts["current_season_apps"].fillna(0).astype(int)
+            squad_counts["previous_season_apps"] = squad_counts["previous_season_apps"].fillna(0).astype(int)
+            squad_counts = squad_counts.sort_values(
+                ["player", "current_season_apps", "previous_season_apps", "total_apps", "latest_date", "squad"],
+                ascending=[True, False, False, False, False, True],
             )
 
             preferred_squad = squad_counts.drop_duplicates(subset=["player"]).rename(
@@ -1521,7 +1704,7 @@ class BackendDatabase:
         agg = base.groupby("player", as_index=False).agg(
             short_name=("player", lambda s: str(s.iloc[0]).replace(" ", " ", 1)),
             position=("position", _mode_or_none),
-            total_appearances=("game_id", "count"),
+            total_appearances=("game_id", lambda s: int(s.shape[0])),
             total_starts=("is_starter", "sum"),
             total_captaincies=("is_captain", "sum"),
             total_vc_appointments=("is_vice_captain", "sum"),
@@ -1570,6 +1753,728 @@ class BackendDatabase:
                 "career_points",
             ]
         ].drop_duplicates(subset=["name"])
+
+    @staticmethod
+    def _format_debut_date(value: Any) -> str:
+        if value is None or (isinstance(value, float) and pd.isna(value)):
+            return "-"
+        if isinstance(value, pd.Timestamp):
+            d = value.date()
+        elif isinstance(value, datetime):
+            d = value.date()
+        elif isinstance(value, date):
+            d = value
+        else:
+            parsed = pd.to_datetime(value, errors="coerce")
+            if pd.isna(parsed):
+                return "-"
+            d = parsed.date()
+
+        day = d.day
+        if day % 10 == 1 and day % 100 != 11:
+            suffix = "st"
+        elif day % 10 == 2 and day % 100 != 12:
+            suffix = "nd"
+        elif day % 10 == 3 and day % 100 != 13:
+            suffix = "rd"
+        else:
+            suffix = "th"
+        return f"{day}{suffix} {d.strftime('%b %Y')}"
+
+    def _format_debut_label(self, appearance_row: pd.Series | None, games_by_id: dict[str, dict[str, Any]]) -> str:
+        if appearance_row is None:
+            return "-"
+        game_id = str(appearance_row.get("game_id") or "")
+        game = games_by_id.get(game_id, {}) if game_id else {}
+        opposition = str(game.get("opposition") or appearance_row.get("opposition") or "Unknown")
+        home_away = str(game.get("home_away") or "?")
+        return f"{self._format_debut_date(appearance_row.get('date'))} v {opposition} ({home_away})"
+
+    _GAME_TYPE_MODES = ["All games", "League + Cup", "League only"]
+
+    @staticmethod
+    def _get_allowed_game_types(mode: str) -> set | None:
+        if mode == "League + Cup":
+            return {"League", "Cup"}
+        if mode == "League only":
+            return {"League"}
+        return None
+
+    @staticmethod
+    def _resolve_starter_position(shirt_number) -> str | None:
+        try:
+            n = int(float(shirt_number))
+        except (TypeError, ValueError):
+            return None
+        if n in (1, 3): return "Prop"
+        if n == 2: return "Hooker"
+        if n in (4, 5): return "Second Row"
+        if n in (6, 7): return "Flanker"
+        if n == 8: return "Number 8"
+        if n == 9: return "Scrum Half"
+        if n == 10: return "Fly Half"
+        if n in (12, 13): return "Centre"
+        if n in (11, 14): return "Wing"
+        if n == 15: return "Full Back"
+        return None
+
+    def _build_squad_stats(self, appearances: pd.DataFrame, games: pd.DataFrame) -> pd.DataFrame:
+        columns = ["season", "gameTypeMode", "squad", "unit", "playerCounts", "playersUsed"]
+        if appearances.empty:
+            return pd.DataFrame(columns=columns)
+
+        df = appearances[
+            appearances["squad"].isin(["1st", "2nd"]) &
+            appearances["game_id"].notna() &
+            appearances["player"].notna()
+        ].copy()
+        df["player"] = df["player"].astype(str).str.strip()
+        df = df[df["player"] != ""]
+
+        gt = games.set_index("game_id")["game_type"].to_dict()
+        df["game_type"] = df["game_type"].where(
+            df["game_type"].notna(), df["game_id"].map(gt)
+        )
+
+        rows = []
+        for mode in self._GAME_TYPE_MODES:
+            allowed = self._get_allowed_game_types(mode)
+            filtered = df[df["game_type"].isin(allowed)] if allowed is not None else df
+
+            for squad in ["1st", "2nd"]:
+                squad_df = filtered[filtered["squad"] == squad]
+                for season, grp in squad_df.groupby("season"):
+                    for unit_label, unit_df in [
+                        ("Total", grp),
+                        ("Forwards", grp[grp["unit"] == "Forwards"]),
+                        ("Backs", grp[grp["unit"] == "Backs"]),
+                    ]:
+                        pc = unit_df.groupby("player").size().to_dict()
+                        rows.append({"season": season, "gameTypeMode": mode, "squad": squad, "unit": unit_label, "playerCounts": json.dumps(pc), "playersUsed": len(pc)})
+
+            for season, grp in filtered.groupby("season"):
+                for unit_label, unit_df in [
+                    ("Total", grp),
+                    ("Forwards", grp[grp["unit"] == "Forwards"]),
+                    ("Backs", grp[grp["unit"] == "Backs"]),
+                ]:
+                    pc = unit_df.groupby("player").size().to_dict()
+                    rows.append({"season": season, "gameTypeMode": mode, "squad": "Total", "unit": unit_label, "playerCounts": json.dumps(pc), "playersUsed": len(pc)})
+
+        return pd.DataFrame(rows, columns=columns)
+
+    def _build_squad_position_profiles(self, appearances: pd.DataFrame, games: pd.DataFrame) -> pd.DataFrame:
+        columns = ["season", "gameTypeMode", "squad", "position", "playerCounts", "playersUsed"]
+        if appearances.empty:
+            return pd.DataFrame(columns=columns)
+
+        df = appearances[
+            appearances["squad"].isin(["1st", "2nd"]) &
+            appearances["game_id"].notna() &
+            appearances["player"].notna() &
+            (appearances["is_starter"] == True)
+        ].copy()
+        df["player"] = df["player"].astype(str).str.strip()
+        df = df[df["player"] != ""]
+        df["canonical_position"] = df["number"].apply(self._resolve_starter_position)
+        df = df[df["canonical_position"].notna()]
+
+        gt = games.set_index("game_id")["game_type"].to_dict()
+        df["game_type"] = df["game_type"].where(
+            df["game_type"].notna(), df["game_id"].map(gt)
+        )
+
+        rows = []
+        for mode in self._GAME_TYPE_MODES:
+            allowed = self._get_allowed_game_types(mode)
+            filtered = df[df["game_type"].isin(allowed)] if allowed is not None else df
+
+            for (season, squad, position), grp in filtered.groupby(["season", "squad", "canonical_position"]):
+                pc = grp.groupby("player").size().to_dict()
+                rows.append({"season": season, "gameTypeMode": mode, "squad": squad, "position": position, "playerCounts": json.dumps(pc), "playersUsed": len(pc)})
+
+        return pd.DataFrame(rows, columns=columns)
+
+    def _build_squad_continuity(self, appearances: pd.DataFrame, games: pd.DataFrame) -> pd.DataFrame:
+        columns = ["season", "gameTypeMode", "squad", "unit", "retained", "gamePairs"]
+        if appearances.empty:
+            return pd.DataFrame(columns=columns)
+
+        df = appearances[
+            appearances["squad"].isin(["1st", "2nd"]) &
+            appearances["game_id"].notna() &
+            appearances["player"].notna() &
+            (appearances["is_starter"] == True)
+        ].copy()
+        df["player"] = df["player"].astype(str).str.strip()
+        df = df[df["player"] != ""]
+
+        games_indexed = games.set_index("game_id")
+        gt = games_indexed["game_type"].to_dict()
+        dates = games_indexed["date"].to_dict()
+        df["game_type"] = df["game_type"].where(
+            df["game_type"].notna(), df["game_id"].map(gt)
+        )
+        df["date_resolved"] = pd.to_datetime(
+            df["date"].where(df["date"].notna(), df["game_id"].map(dates)), errors="coerce"
+        )
+
+        rows = []
+        for mode in self._GAME_TYPE_MODES:
+            allowed = self._get_allowed_game_types(mode)
+            filtered = df[df["game_type"].isin(allowed)] if allowed is not None else df
+
+            for (season, squad), grp in filtered.groupby(["season", "squad"]):
+                game_dates = grp.groupby("game_id")["date_resolved"].first().reset_index()
+                game_dates = game_dates.sort_values("date_resolved")
+                game_ids_sorted = game_dates["game_id"].tolist()
+                if len(game_ids_sorted) < 2:
+                    continue
+
+                by_game: dict[str, dict[str, set]] = {}
+                for _, row in grp.iterrows():
+                    gid = row["game_id"]
+                    player = row["player"]
+                    unit = row.get("unit")
+                    if gid not in by_game:
+                        by_game[gid] = {"Total": set(), "Forwards": set(), "Backs": set()}
+                    by_game[gid]["Total"].add(player)
+                    if unit in ("Forwards", "Backs"):
+                        by_game[gid][unit].add(player)
+
+                retentions: dict[str, list[int]] = {"Total": [], "Forwards": [], "Backs": []}
+                for i in range(1, len(game_ids_sorted)):
+                    prev_id = game_ids_sorted[i - 1]
+                    curr_id = game_ids_sorted[i]
+                    if prev_id not in by_game or curr_id not in by_game:
+                        continue
+                    for unit in ["Total", "Forwards", "Backs"]:
+                        prev_set = by_game[prev_id].get(unit, set())
+                        curr_set = by_game[curr_id].get(unit, set())
+                        retentions[unit].append(len(curr_set & prev_set))
+
+                for unit in ["Total", "Forwards", "Backs"]:
+                    if not retentions[unit]:
+                        continue
+                    avg = sum(retentions[unit]) / len(retentions[unit])
+                    rows.append({"season": season, "gameTypeMode": mode, "squad": squad, "unit": unit, "retained": round(avg, 4), "gamePairs": len(retentions[unit])})
+
+        return pd.DataFrame(rows, columns=columns)
+
+    def _build_season_summary(
+        self,
+        games: pd.DataFrame,
+        appearances: pd.DataFrame,
+        season_scorers: pd.DataFrame,
+        set_piece: pd.DataFrame,
+    ) -> pd.DataFrame:
+        columns = [
+            "season",
+            "gameTypeMode",
+            "squad",
+            "gamesPlayed",
+            "gamesWon",
+            "gamesLost",
+            "gamesDrawn",
+            "avgPointsForHome",
+            "avgPointsAgainstHome",
+            "avgPointsForAway",
+            "avgPointsAgainstAway",
+            "avgPointsForOverall",
+            "avgPointsAgainstOverall",
+            "topPointScorerValue",
+            "topPointScorerPlayers",
+            "topTryScorerValue",
+            "topTryScorerPlayers",
+            "topAppearanceValue",
+            "topAppearancePlayers",
+            "avgLineoutSuccessRate",
+            "avgScrumSuccessRate",
+            "avgPointsPer22mEntry",
+            "avgTriesPer22mEntry",
+            "gamesWithSetPieceData",
+        ]
+        if games.empty:
+            return pd.DataFrame(columns=columns)
+
+        games_df = games[games["squad"].isin(["1st", "2nd"])].copy()
+        appearances_df = appearances[appearances["squad"].isin(["1st", "2nd"])].copy()
+        scorers_df = season_scorers[season_scorers["squad"].isin(["1st", "2nd"])].copy()
+        set_piece_df = set_piece.copy()
+
+        game_type_by_id = games_df.set_index("game_id")["game_type"].to_dict()
+        appearances_df["resolved_game_type"] = appearances_df.apply(
+            lambda row: "Unknown" if bool(row.get("is_backfill")) else (row.get("game_type") or game_type_by_id.get(row.get("game_id"))),
+            axis=1,
+        )
+
+        def round_or_none(value: float | int | None, digits: int = 2) -> float | None:
+            if value is None or pd.isna(value):
+                return None
+            return round(float(value), digits)
+
+        def build_top_summary(df: pd.DataFrame, value_col: str) -> tuple[int | None, str]:
+            if df.empty or value_col not in df.columns:
+                return None, json.dumps([])
+            working = df[["player", value_col]].copy()
+            working["player"] = working["player"].astype(str).str.strip()
+            working = working[(working["player"] != "") & working[value_col].notna()]
+            if working.empty:
+                return None, json.dumps([])
+            working[value_col] = pd.to_numeric(working[value_col], errors="coerce")
+            working = working[working[value_col].notna()]
+            if working.empty:
+                return None, json.dumps([])
+            max_value = int(working[value_col].max())
+            players = sorted(working.loc[working[value_col] == max_value, "player"].dropna().unique().tolist())
+            return max_value, json.dumps(players)
+
+        def build_appearance_leaders(df: pd.DataFrame) -> dict[tuple[str, str], tuple[int | None, str]]:
+            if df.empty:
+                return {}
+            grouped = df.groupby(["season", "squad", "player"]).size().reset_index(name="appearances")
+            leaders: dict[tuple[str, str], tuple[int | None, str]] = {}
+            for (season, squad), group in grouped.groupby(["season", "squad"]):
+                max_value = int(group["appearances"].max())
+                players = sorted(group.loc[group["appearances"] == max_value, "player"].dropna().unique().tolist())
+                leaders[(season, squad)] = (max_value, json.dumps(players))
+            return leaders
+
+        scorer_lookup: dict[tuple[str, str], dict[str, Any]] = {}
+        for (season, squad), group in scorers_df.groupby(["season", "squad"]):
+            point_value, point_players = build_top_summary(group, "points")
+            try_value, try_players = build_top_summary(group, "tries")
+            scorer_lookup[(season, squad)] = {
+                "topPointScorerValue": point_value,
+                "topPointScorerPlayers": point_players,
+                "topTryScorerValue": try_value,
+                "topTryScorerPlayers": try_players,
+            }
+
+        set_piece_lookup: dict[tuple[str, str], dict[str, Any]] = {}
+        if not set_piece_df.empty and "team" in set_piece_df.columns:
+            set_piece_df = set_piece_df[set_piece_df["team"] == "EGRFC"].copy()
+            if not set_piece_df.empty:
+                set_piece_df = set_piece_df.merge(
+                    games_df[["game_id", "season", "squad"]],
+                    on="game_id",
+                    how="left",
+                    suffixes=("", "_game"),
+                )
+                if "season_game" in set_piece_df.columns:
+                    set_piece_df["season"] = set_piece_df["season_game"].where(set_piece_df["season_game"].notna(), set_piece_df.get("season"))
+                if "squad_game" in set_piece_df.columns:
+                    set_piece_df["squad"] = set_piece_df["squad_game"].where(set_piece_df["squad_game"].notna(), set_piece_df.get("squad"))
+                for (season, squad), group in set_piece_df.groupby(["season", "squad"]):
+                    set_piece_lookup[(season, squad)] = {
+                        "avgLineoutSuccessRate": round_or_none(group["lineouts_success_rate"].dropna().mean(), 3),
+                        "avgScrumSuccessRate": round_or_none(group["scrums_success_rate"].dropna().mean(), 3),
+                        "avgPointsPer22mEntry": round_or_none(group["points_per_22m_entry"].dropna().mean(), 2),
+                        "avgTriesPer22mEntry": round_or_none(group["tries_per_22m_entry"].dropna().mean(), 2),
+                        "gamesWithSetPieceData": int(group["game_id"].dropna().nunique()),
+                    }
+
+        rows: list[dict[str, Any]] = []
+        for mode in self._GAME_TYPE_MODES:
+            allowed = self._get_allowed_game_types(mode)
+            filtered_games = games_df[games_df["game_type"].isin(allowed)] if allowed is not None else games_df
+            filtered_apps = appearances_df[appearances_df["resolved_game_type"].isin(allowed)] if allowed is not None else appearances_df
+            appearance_lookup = build_appearance_leaders(filtered_apps)
+
+            for (season, squad), group in filtered_games.groupby(["season", "squad"]):
+                scorer_data = scorer_lookup.get((season, squad), {})
+                set_piece_data = set_piece_lookup.get((season, squad), {})
+                top_appearance_value, top_appearance_players = appearance_lookup.get((season, squad), (None, json.dumps([])))
+                rows.append(
+                    {
+                        "season": season,
+                        "gameTypeMode": mode,
+                        "squad": squad,
+                        "gamesPlayed": int(len(group)),
+                        "gamesWon": int((group["result"] == "W").sum()),
+                        "gamesLost": int((group["result"] == "L").sum()),
+                        "gamesDrawn": int((group["result"] == "D").sum()),
+                        "avgPointsForHome": round_or_none(group.loc[group["home_away"] == "H", "score_for"].mean(), 2),
+                        "avgPointsAgainstHome": round_or_none(group.loc[group["home_away"] == "H", "score_against"].mean(), 2),
+                        "avgPointsForAway": round_or_none(group.loc[group["home_away"] == "A", "score_for"].mean(), 2),
+                        "avgPointsAgainstAway": round_or_none(group.loc[group["home_away"] == "A", "score_against"].mean(), 2),
+                        "avgPointsForOverall": round_or_none(group["score_for"].mean(), 2),
+                        "avgPointsAgainstOverall": round_or_none(group["score_against"].mean(), 2),
+                        "topPointScorerValue": scorer_data.get("topPointScorerValue"),
+                        "topPointScorerPlayers": scorer_data.get("topPointScorerPlayers", json.dumps([])),
+                        "topTryScorerValue": scorer_data.get("topTryScorerValue"),
+                        "topTryScorerPlayers": scorer_data.get("topTryScorerPlayers", json.dumps([])),
+                        "topAppearanceValue": top_appearance_value,
+                        "topAppearancePlayers": top_appearance_players,
+                        "avgLineoutSuccessRate": set_piece_data.get("avgLineoutSuccessRate"),
+                        "avgScrumSuccessRate": set_piece_data.get("avgScrumSuccessRate"),
+                        "avgPointsPer22mEntry": set_piece_data.get("avgPointsPer22mEntry"),
+                        "avgTriesPer22mEntry": set_piece_data.get("avgTriesPer22mEntry"),
+                        "gamesWithSetPieceData": set_piece_data.get("gamesWithSetPieceData"),
+                    }
+                )
+
+        return pd.DataFrame(rows, columns=columns)
+
+    def _build_player_profiles_base(
+        self,
+        players: pd.DataFrame,
+        appearances: pd.DataFrame,
+        games: pd.DataFrame,
+        season_scorers: pd.DataFrame,
+    ) -> pd.DataFrame:
+        columns = [
+            "name",
+            "short_name",
+            "squad",
+            "position",
+            "photo_url",
+            "sponsor",
+            "totalAppearances",
+            "totalStarts",
+            "firstXVAppearances",
+            "firstXVStarts",
+            "seasonAppearances",
+            "seasonStarts",
+            "seasonCompetitiveAppearances",
+            "scoringCareer",
+            "scoringThisSeason",
+            "debutOverall",
+            "debutFirstXV",
+            "hasDifferentFirstXVDebut",
+            "otherPositions",
+            "isActive",
+            "lastAppearanceDate",
+        ]
+        if players.empty:
+            return pd.DataFrame(columns=columns)
+
+        games_for_season = games.copy()
+        games_for_season["date"] = pd.to_datetime(games_for_season["date"], errors="coerce")
+        if games_for_season.empty or games_for_season["date"].isna().all():
+            current_season = ""
+        else:
+            latest_idx = games_for_season["date"].idxmax()
+            current_season = str(games_for_season.loc[latest_idx, "season"] or "")
+
+        scoring = season_scorers.copy()
+        for col in ["tries", "conversions", "penalties", "drop_goals", "points"]:
+            scoring[col] = pd.to_numeric(scoring.get(col), errors="coerce").fillna(0).astype(int)
+
+        career_scoring = {}
+        season_scoring = {}
+        if not scoring.empty:
+            career_df = scoring.groupby("player", as_index=False).agg(
+                careerTries=("tries", "sum"),
+                careerConversions=("conversions", "sum"),
+                careerPenalties=("penalties", "sum"),
+                careerDropGoals=("drop_goals", "sum"),
+                careerPoints=("points", "sum"),
+            )
+            career_scoring = {
+                str(row["player"]): {
+                    "careerTries": int(row["careerTries"]),
+                    "careerConversions": int(row["careerConversions"]),
+                    "careerPenalties": int(row["careerPenalties"]),
+                    "careerDropGoals": int(row["careerDropGoals"]),
+                    "careerPoints": int(row["careerPoints"]),
+                }
+                for _, row in career_df.iterrows()
+            }
+
+            season_df = scoring[scoring["season"].astype(str).str.strip() == current_season]
+            if not season_df.empty:
+                season_df = season_df.groupby("player", as_index=False).agg(
+                    seasonTries=("tries", "sum"),
+                    seasonConversions=("conversions", "sum"),
+                    seasonPenalties=("penalties", "sum"),
+                    seasonDropGoals=("drop_goals", "sum"),
+                    seasonPoints=("points", "sum"),
+                )
+                season_scoring = {
+                    str(row["player"]): {
+                        "seasonTries": int(row["seasonTries"]),
+                        "seasonConversions": int(row["seasonConversions"]),
+                        "seasonPenalties": int(row["seasonPenalties"]),
+                        "seasonDropGoals": int(row["seasonDropGoals"]),
+                        "seasonPoints": int(row["seasonPoints"]),
+                    }
+                    for _, row in season_df.iterrows()
+                }
+
+        games_by_id = {}
+        if not games.empty:
+            games_by_id = {
+                str(row["game_id"]): {
+                    "opposition": row.get("opposition"),
+                    "home_away": row.get("home_away"),
+                }
+                for _, row in games.iterrows()
+            }
+
+        apps = appearances.copy()
+        apps["date"] = pd.to_datetime(apps["date"], errors="coerce")
+        if "is_backfill" not in apps.columns:
+            apps["is_backfill"] = False
+
+        rows = []
+        today = pd.Timestamp.today().normalize()
+        competitive_types = {"League", "Cup"}
+
+        for _, p in players.iterrows():
+            name = str(p.get("name") or "").strip()
+            if not name:
+                continue
+
+            player_apps = apps[apps["player"] == name].copy().sort_values("date")
+            real_apps = player_apps[player_apps["is_backfill"] == False].copy()
+
+            first_overall = real_apps.iloc[0] if not real_apps.empty else None
+            first_1st = real_apps[real_apps["squad"] == "1st"]
+            first_1st_row = first_1st.iloc[0] if not first_1st.empty else None
+            last_real = real_apps.iloc[-1] if not real_apps.empty else None
+
+            first_xv_apps = player_apps[player_apps["squad"] == "1st"]
+            first_xv_appearances = int(len(first_xv_apps))
+            first_xv_starts = int(pd.to_numeric(first_xv_apps.get("is_starter"), errors="coerce").fillna(0).astype(int).sum()) if not first_xv_apps.empty else 0
+
+            season_apps = player_apps[player_apps["season"].astype(str).str.strip() == current_season]
+            season_appearances = int(len(season_apps))
+            season_starts = int(pd.to_numeric(season_apps.get("is_starter"), errors="coerce").fillna(0).astype(int).sum()) if not season_apps.empty else 0
+            season_competitive_apps = int(len(season_apps[season_apps["game_type"].isin(competitive_types)])) if not season_apps.empty else 0
+
+            starting_positions = real_apps[(real_apps["is_starter"] == True) & (real_apps["position"].notna())]
+            starting_positions = starting_positions[starting_positions["position"].astype(str).str.strip() != "Bench"]
+            if not starting_positions.empty:
+                primary_position = (
+                    starting_positions.groupby("position", as_index=False)
+                    .size()
+                    .sort_values(["size", "position"], ascending=[False, True])
+                    .iloc[0]["position"]
+                )
+            else:
+                primary_position = p.get("position") or "Unknown"
+
+            other_positions_df = (
+                real_apps[real_apps["position"].notna()]
+                .assign(position=lambda df: df["position"].astype(str).str.strip())
+            )
+            other_positions_df = other_positions_df[(other_positions_df["position"] != "") & (other_positions_df["position"] != "Bench")]
+            other_positions = []
+            if not other_positions_df.empty:
+                other_counts = other_positions_df.groupby("position", as_index=False).size()
+                other_positions = sorted([
+                    str(pos)
+                    for pos, count in zip(other_counts["position"], other_counts["size"])
+                    if str(pos) != str(primary_position) and int(count) > 1
+                ])
+
+            last_date = pd.to_datetime(last_real.get("date"), errors="coerce") if last_real is not None else pd.NaT
+            within_six_months = False
+            if pd.notna(last_date):
+                within_six_months = (today - last_date.normalize()).days <= 182
+            is_active = bool(season_competitive_apps > 0 or within_six_months)
+
+            career = career_scoring.get(name, {
+                "careerTries": 0,
+                "careerConversions": 0,
+                "careerPenalties": 0,
+                "careerDropGoals": 0,
+                "careerPoints": int(p.get("career_points") or 0),
+            })
+            season_now = season_scoring.get(name, {
+                "seasonTries": 0,
+                "seasonConversions": 0,
+                "seasonPenalties": 0,
+                "seasonDropGoals": 0,
+                "seasonPoints": 0,
+            })
+
+            scoring_career_payload = {
+                "tries": int(career["careerTries"]),
+                "conversions": int(career["careerConversions"]),
+                "penalties": int(career["careerPenalties"]),
+                "drop_goals": int(career["careerDropGoals"]),
+                "points": int(career["careerPoints"]),
+            }
+            scoring_season_payload = {
+                "tries": int(season_now["seasonTries"]),
+                "conversions": int(season_now["seasonConversions"]),
+                "penalties": int(season_now["seasonPenalties"]),
+                "drop_goals": int(season_now["seasonDropGoals"]),
+                "points": int(season_now["seasonPoints"]),
+            }
+
+            first_overall_label = self._format_debut_label(first_overall, games_by_id)
+            first_xv_label = self._format_debut_label(first_1st_row, games_by_id)
+            has_diff_1st = bool(
+                first_overall is not None
+                and first_1st_row is not None
+                and str(first_overall.get("game_id") or "") != str(first_1st_row.get("game_id") or "")
+            )
+
+            rows.append({
+                "name": name,
+                "short_name": p.get("short_name"),
+                "squad": p.get("squad"),
+                "position": primary_position,
+                "photo_url": p.get("photo_url"),
+                "sponsor": p.get("sponsor"),
+                "totalAppearances": int(p.get("total_appearances") or 0),
+                "totalStarts": int(p.get("total_starts") or 0),
+                "firstXVAppearances": first_xv_appearances,
+                "firstXVStarts": first_xv_starts,
+                "seasonAppearances": season_appearances,
+                "seasonStarts": season_starts,
+                "seasonCompetitiveAppearances": season_competitive_apps,
+                "scoringCareer": json.dumps(scoring_career_payload),
+                "scoringThisSeason": json.dumps(scoring_season_payload),
+                "debutOverall": first_overall_label,
+                "debutFirstXV": first_xv_label,
+                "hasDifferentFirstXVDebut": has_diff_1st,
+                "otherPositions": json.dumps(other_positions),
+                "isActive": is_active,
+                "lastAppearanceDate": last_date.date() if pd.notna(last_date) else None,
+            })
+
+        return pd.DataFrame(rows, columns=columns)
+
+    def _build_squad_stats_with_thresholds(self, appearances: pd.DataFrame, games: pd.DataFrame) -> pd.DataFrame:
+        """
+        Pre-compute player counts at different appearance thresholds (0-20).
+        Eliminates need for client-side recalculation of threshold filtering.
+        """
+        columns = ["season", "gameTypeMode", "squad", "unit", "minimumAppearances", "playerCount", "totalPlayed"]
+        if appearances.empty:
+            return pd.DataFrame(columns=columns)
+
+        df = appearances[
+            appearances["squad"].isin(["1st", "2nd"]) &
+            appearances["game_id"].notna() &
+            appearances["player"].notna()
+        ].copy()
+        df["player"] = df["player"].astype(str).str.strip()
+        df = df[df["player"] != ""]
+
+        gt = games.set_index("game_id")["game_type"].to_dict()
+        df["game_type"] = df["game_type"].where(
+            df["game_type"].notna(), df["game_id"].map(gt)
+        )
+
+        rows = []
+        for mode in self._GAME_TYPE_MODES:
+            allowed = self._get_allowed_game_types(mode)
+            filtered = df[df["game_type"].isin(allowed)] if allowed is not None else df
+
+            for squad in ["1st", "2nd"]:
+                squad_df = filtered[filtered["squad"] == squad]
+                for season, season_grp in squad_df.groupby("season"):
+                    for unit_label, unit_df in [
+                        ("Total", season_grp),
+                        ("Forwards", season_grp[season_grp["unit"] == "Forwards"]),
+                        ("Backs", season_grp[season_grp["unit"] == "Backs"]),
+                    ]:
+                        # Count appearances per player
+                        player_counts = unit_df.groupby("player").size()
+                        
+                        # For each threshold 0-20, count players with >= that many appearances
+                        for threshold in range(21):
+                            player_count = (player_counts >= threshold).sum() if threshold > 0 else len(player_counts)
+                            rows.append({
+                                "season": season,
+                                "gameTypeMode": mode,
+                                "squad": squad,
+                                "unit": unit_label,
+                                "minimumAppearances": threshold,
+                                "playerCount": int(player_count),
+                                "totalPlayed": int(unit_df["game_id"].nunique()),
+                            })
+
+            # Total squad aggregates
+            for season, season_grp in filtered.groupby("season"):
+                for unit_label, unit_df in [
+                    ("Total", season_grp),
+                    ("Forwards", season_grp[season_grp["unit"] == "Forwards"]),
+                    ("Backs", season_grp[season_grp["unit"] == "Backs"]),
+                ]:
+                    player_counts = unit_df.groupby("player").size()
+                    for threshold in range(21):
+                        player_count = (player_counts >= threshold).sum() if threshold > 0 else len(player_counts)
+                        rows.append({
+                            "season": season,
+                            "gameTypeMode": mode,
+                            "squad": "Total",
+                            "unit": unit_label,
+                            "minimumAppearances": threshold,
+                            "playerCount": int(player_count),
+                            "totalPlayed": int(season_grp["game_id"].nunique()),
+                        })
+
+        return pd.DataFrame(rows, columns=columns)
+
+    def _build_player_profiles_canonical(self, player_profiles_base: pd.DataFrame) -> pd.DataFrame:
+        """
+        Deduplicate base player profile rows by selecting the record with most appearances
+        when a player appears in both 1st and 2nd XV.
+        """
+        columns = [
+            "name",
+            "short_name",
+            "squad",
+            "position",
+            "photo_url",
+            "sponsor",
+            "totalAppearances",
+            "totalStarts",
+            "firstXVAppearances",
+            "firstXVStarts",
+            "seasonAppearances",
+            "seasonStarts",
+            "seasonCompetitiveAppearances",
+            "scoringCareer",
+            "scoringThisSeason",
+            "debutOverall",
+            "debutFirstXV",
+            "hasDifferentFirstXVDebut",
+            "otherPositions",
+            "isActive",
+            "lastAppearanceDate",
+        ]
+        if player_profiles_base.empty:
+            return pd.DataFrame(columns=columns)
+
+        # Group by player name, select record with most total appearances
+        df = player_profiles_base.copy()
+        df_sorted = df.sort_values("totalAppearances", ascending=False)
+        df_dedup = df_sorted.drop_duplicates(subset=["name"], keep="first")
+
+        rows = []
+        for _, row in df_dedup.iterrows():
+            rows.append({
+                "name": row.get("name"),
+                "short_name": row.get("short_name"),
+                "squad": row.get("squad"),
+                "position": row.get("position"),
+                "photo_url": row.get("photo_url"),
+                "sponsor": row.get("sponsor"),
+                "totalAppearances": row.get("totalAppearances"),
+                "totalStarts": row.get("totalStarts"),
+                "firstXVAppearances": row.get("firstXVAppearances"),
+                "firstXVStarts": row.get("firstXVStarts"),
+                "seasonAppearances": row.get("seasonAppearances"),
+                "seasonStarts": row.get("seasonStarts"),
+                "seasonCompetitiveAppearances": row.get("seasonCompetitiveAppearances"),
+                "scoringCareer": row.get("scoringCareer"),
+                "scoringThisSeason": row.get("scoringThisSeason"),
+                "debutOverall": row.get("debutOverall"),
+                "debutFirstXV": row.get("debutFirstXV"),
+                "hasDifferentFirstXVDebut": row.get("hasDifferentFirstXVDebut"),
+                "otherPositions": row.get("otherPositions"),
+                "isActive": row.get("isActive"),
+                "lastAppearanceDate": row.get("lastAppearanceDate"),
+            })
+
+        return pd.DataFrame(rows, columns=columns)
 
     def _build_pitchero_appearance_reconciliation(
         self,

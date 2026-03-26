@@ -16,7 +16,6 @@ os.chdir(project_root)
 from python.backend import BackendConfig, BackendDatabase
 from python.data import *
 from python.charts import (
-    lineout_success_by_zone as plot_lineout_success_by_zone,
     squad_size_trend_chart,
     squad_continuity_average_chart,
     captains_chart,
@@ -25,14 +24,9 @@ from python.charts import (
     cards_chart,
     team_sheets_chart,
     results_chart,
-    set_piece_data,
-    set_piece_chart,
     set_piece_success_by_season_chart,
     lineout_success_by_zone_chart,
-    league_results_chart,
-    league_squad_analysis_chart,
-    season_summary_data,
-    player_profiles_data,
+    lineout_breakdown_chart,
 )
 from python.league_stats import (
     export_web_charts as export_league_web_charts,
@@ -90,9 +84,6 @@ def main(refresh_pitchero=False, backend_mode="canonical", backend_db_path="data
     
     print("Generating charts and data...")
     
-    # Generate season summary data
-    season_summary_data(db)
-    
     # Existing charts
     captains_chart(db)
     player_stats_appearances_chart(db)
@@ -101,11 +92,10 @@ def main(refresh_pitchero=False, backend_mode="canonical", backend_db_path="data
     team_sheets_chart(db)
     results_chart(db)
 
-    set_piece_df = set_piece_data(db)
-    set_piece_chart(set_piece_df, s="Scrum")
-    set_piece_chart(set_piece_df, s="Lineout")
     set_piece_success_by_season_chart(db, layout="separate")
     lineout_success_by_zone_chart(db)
+    lineout_breakdown_chart(db, squad="1st")
+    lineout_breakdown_chart(db, squad="2nd")
     squad_size_trend_chart(db)
     squad_continuity_average_chart(db)
 

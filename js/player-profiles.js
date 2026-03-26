@@ -3,25 +3,6 @@ let playerProfilesControlsInitialised = false;
 
 const SIX_MONTHS_MS = 182 * 24 * 60 * 60 * 1000;
 
-function dedupeProfilesByName(rows) {
-    const byName = new Map();
-
-    (Array.isArray(rows) ? rows : []).forEach(row => {
-        const name = String(row?.name || '').trim();
-        if (!name) return;
-
-        const current = byName.get(name);
-        const candidateAppearances = Number(row?.total_appearances || 0);
-        const currentAppearances = Number(current?.total_appearances || 0);
-
-        if (!current || candidateAppearances > currentAppearances) {
-            byName.set(name, row);
-        }
-    });
-
-    return Array.from(byName.values()).sort(compareBySurnameThenName);
-}
-
 function surnamePart(name) {
     const tokens = String(name || '')
         .trim()
@@ -114,7 +95,7 @@ function compareBySurnameThenName(a, b) {
     const bSurname = surnamePart(b?.name);
     const bySurname = aSurname.localeCompare(bSurname);
     if (bySurname !== 0) return bySurname;
-    return String(a?.name || '').localeCompare(String(b?.name || ''));
+    return firstNamePart(a?.name).localeCompare(firstNamePart(b?.name));
 }
 
 function compareByFirstNameThenSurname(a, b) {
@@ -131,6 +112,9 @@ function compareByPositionThenName(a, b) {
 
     const byPositionName = String(a?.position || '').localeCompare(String(b?.position || ''));
     if (byPositionName !== 0) return byPositionName;
+
+    const bySquad = String(a?.squad || '').localeCompare(String(b?.squad || ''));
+    if (bySquad !== 0) return bySquad;
 
     return compareBySurnameThenName(a, b);
 }
@@ -186,38 +170,6 @@ function headshotBackgroundClass(profile) {
         : 'player-profile-headshot-wrap-1st';
 }
 
-function parseIsoDate(dateValue) {
-    if (!dateValue) return null;
-    const parsed = new Date(dateValue);
-    return Number.isNaN(parsed.getTime()) ? null : parsed;
-}
-
-function ordinal(day) {
-    const mod10 = day % 10;
-    const mod100 = day % 100;
-    if (mod10 === 1 && mod100 !== 11) return `${day}st`;
-    if (mod10 === 2 && mod100 !== 12) return `${day}nd`;
-    if (mod10 === 3 && mod100 !== 13) return `${day}rd`;
-    return `${day}th`;
-}
-
-function formatDateForDebut(dateValue) {
-    const parsed = parseIsoDate(dateValue);
-    if (!parsed) return '-';
-    const day = ordinal(parsed.getDate());
-    const month = parsed.toLocaleString('en-GB', { month: 'short' });
-    const year = parsed.getFullYear();
-    return `${day} ${month} ${year}`;
-}
-
-function formatDebutLabel(appearanceRow, gamesById) {
-    if (!appearanceRow) return '-';
-    const game = gamesById.get(String(appearanceRow.game_id || ''));
-    const opposition = game?.opposition || appearanceRow?.opposition || 'Unknown';
-    const homeAway = game?.home_away || '?';
-    return `${formatDateForDebut(appearanceRow.date)} v ${opposition} (${homeAway})`;
-}
-
 function formatPointsSummary(points, tries, conversions, penalties, dropGoals) {
     const totalPoints = Number(points || 0);
     const totalTries = Number(tries || 0);
@@ -233,171 +185,57 @@ function formatPointsSummary(points, tries, conversions, penalties, dropGoals) {
     return `${totalPoints} (${components.join(', ')})`;
 }
 
-function buildPlayerContext(appearances, games, seasonScorers) {
-    const appearancesByPlayer = new Map();
-    (Array.isArray(appearances) ? appearances : []).forEach(row => {
-        const player = String(row?.player || '').trim();
-        if (!player) return;
-        if (!appearancesByPlayer.has(player)) appearancesByPlayer.set(player, []);
-        appearancesByPlayer.get(player).push(row);
-    });
-
-    appearancesByPlayer.forEach(rows => {
-        rows.sort((a, b) => String(a?.date || '').localeCompare(String(b?.date || '')));
-    });
-
-    const gamesById = new Map();
-    (Array.isArray(games) ? games : []).forEach(game => {
-        gamesById.set(String(game?.game_id || ''), game);
-    });
-
-    const scoringByPlayerAndSeason = new Map();
-    const scoringByPlayerCareer = new Map();
-    (Array.isArray(seasonScorers) ? seasonScorers : []).forEach(row => {
-        const player = String(row?.player || '').trim();
-        const season = String(row?.season || '').trim();
-        if (!player || !season) return;
-
-        const key = `${player}::${season}`;
-        if (!scoringByPlayerAndSeason.has(key)) {
-            scoringByPlayerAndSeason.set(key, { tries: 0, conversions: 0, penalties: 0, drop_goals: 0, points: 0 });
+function parseOtherPositions(value) {
+    if (Array.isArray(value)) return value.filter(Boolean).map(String);
+    const raw = String(value || '').trim();
+    if (!raw) return [];
+    if (raw.startsWith('[')) {
+        try {
+            const parsed = JSON.parse(raw);
+            return Array.isArray(parsed) ? parsed.filter(Boolean).map(String) : [];
+        } catch {
+            return [];
         }
-        const seasonBucket = scoringByPlayerAndSeason.get(key);
-        seasonBucket.tries += Number(row?.tries || 0);
-        seasonBucket.conversions += Number(row?.conversions || 0);
-        seasonBucket.penalties += Number(row?.penalties || 0);
-        seasonBucket.drop_goals += Number(row?.drop_goals || 0);
-        seasonBucket.points += Number(row?.points || 0);
-
-        if (!scoringByPlayerCareer.has(player)) {
-            scoringByPlayerCareer.set(player, { tries: 0, conversions: 0, penalties: 0, drop_goals: 0, points: 0 });
-        }
-        const careerBucket = scoringByPlayerCareer.get(player);
-        careerBucket.tries += Number(row?.tries || 0);
-        careerBucket.conversions += Number(row?.conversions || 0);
-        careerBucket.penalties += Number(row?.penalties || 0);
-        careerBucket.drop_goals += Number(row?.drop_goals || 0);
-        careerBucket.points += Number(row?.points || 0);
-    });
-
-    let currentSeason = '';
-    let latestGameDate = null;
-    (Array.isArray(games) ? games : []).forEach(game => {
-        const parsed = parseIsoDate(game?.date);
-        if (!parsed) return;
-        if (!latestGameDate || parsed > latestGameDate) {
-            latestGameDate = parsed;
-            currentSeason = String(game?.season || '');
-        }
-    });
-
-    return {
-        appearancesByPlayer,
-        gamesById,
-        scoringByPlayerAndSeason,
-        scoringByPlayerCareer,
-        currentSeason,
-        latestGameDate,
-    };
+    }
+    return raw.split('|').map(s => String(s || '').trim()).filter(Boolean);
 }
 
-function enrichProfile(profile, context) {
-    const playerName = String(profile?.name || '').trim();
-    const rows = context.appearancesByPlayer.get(playerName) || [];
-    const firstRow = rows.length ? rows[0] : null;
-    const first1stRow = rows.find(row => String(row?.squad || '') === '1st') || null;
-    const lastRow = rows.length ? rows[rows.length - 1] : null;
-
-    const totalAppearances = Number(profile?.total_appearances || rows.length || 0);
-    const totalStarts = rows.reduce((acc, row) => acc + (row?.is_starter ? 1 : 0), 0) || Number(profile?.total_starts || 0);
-
-    const firstXVRows = rows.filter(row => String(row?.squad || '') === '1st');
-    const firstXVAppearances = firstXVRows.length;
-    const firstXVStarts = firstXVRows.reduce((acc, row) => acc + (row?.is_starter ? 1 : 0), 0);
-
-    const currentSeason = context.currentSeason;
-    const seasonRows = rows.filter(row => String(row?.season || '') === currentSeason);
-    const seasonAppearances = seasonRows.length;
-    const seasonStarts = seasonRows.reduce((acc, row) => acc + (row?.is_starter ? 1 : 0), 0);
-
-    const scoringCareer = context.scoringByPlayerCareer.get(playerName) || {
-        tries: Number(profile?.career_points || 0) / 5,
-        conversions: 0,
-        penalties: 0,
-        drop_goals: 0,
-        points: Number(profile?.career_points || 0)
-    };
-
-    const scoringThisSeason = context.scoringByPlayerAndSeason.get(`${playerName}::${currentSeason}`) || {
-        tries: 0,
-        conversions: 0,
-        penalties: 0,
-        drop_goals: 0,
-        points: 0
-    };
-
-    const positionCounts = new Map();
-    rows
-        .map(row => String(row?.position || '').trim())
-        .filter(Boolean)
-        .forEach(position => {
-            positionCounts.set(position, (positionCounts.get(position) || 0) + 1);
-        });
-    const startingPositionCounts = new Map();
-    rows
-        .filter(row => Boolean(row?.is_starter))
-        .map(row => String(row?.position || '').trim())
-        .filter(position => position && position !== 'Bench')
-        .forEach(position => {
-            startingPositionCounts.set(position, (startingPositionCounts.get(position) || 0) + 1);
-        });
-
-    let primaryPosition = String(profile?.position || 'Unknown');
-    if (startingPositionCounts.size > 0) {
-        const sortedStartingPositions = Array.from(startingPositionCounts.entries())
-            .sort((a, b) => {
-                const byCount = b[1] - a[1];
-                if (byCount !== 0) return byCount;
-                return a[0].localeCompare(b[0]);
-            });
-        primaryPosition = sortedStartingPositions[0][0];
+function parseScoringPayload(value) {
+    if (value && typeof value === 'object' && !Array.isArray(value)) {
+        return {
+            tries: Number(value.tries || 0),
+            conversions: Number(value.conversions || 0),
+            penalties: Number(value.penalties || 0),
+            drop_goals: Number(value.drop_goals || 0),
+            points: Number(value.points || 0)
+        };
     }
-
-    const otherPositions = Array.from(positionCounts.entries())
-        .filter(([position, count]) => position !== primaryPosition && position !== 'Bench' && count > 1)
-        .map(([position]) => position)
-        .sort((a, b) => a.localeCompare(b));
-
-    const lastAppearanceDate = parseIsoDate(lastRow?.date);
-    const playedThisSeason = seasonRows.length > 0;
-    const isActive = playedThisSeason || Boolean(lastAppearanceDate && (Date.now() - lastAppearanceDate.getTime()) <= SIX_MONTHS_MS);
-
-    return {
-        ...profile,
-        position: primaryPosition,
-        totalAppearances,
-        totalStarts,
-        firstXVAppearances,
-        firstXVStarts,
-        seasonAppearances,
-        seasonStarts,
-        scoringCareer,
-        scoringThisSeason,
-        debutOverall: formatDebutLabel(firstRow, context.gamesById),
-        debutFirstXV: formatDebutLabel(first1stRow, context.gamesById),
-        hasDifferentFirstXVDebut: Boolean(firstRow && first1stRow && firstRow.game_id !== first1stRow.game_id),
-        otherPositions,
-        isActive,
-        lastAppearanceDate
-    };
+    const raw = String(value || '').trim();
+    if (!raw) {
+        return { tries: 0, conversions: 0, penalties: 0, drop_goals: 0, points: 0 };
+    }
+    try {
+        const parsed = JSON.parse(raw);
+        return {
+            tries: Number(parsed?.tries || 0),
+            conversions: Number(parsed?.conversions || 0),
+            penalties: Number(parsed?.penalties || 0),
+            drop_goals: Number(parsed?.drop_goals || 0),
+            points: Number(parsed?.points || 0)
+        };
+    } catch {
+        return { tries: 0, conversions: 0, penalties: 0, drop_goals: 0, points: 0 };
+    }
 }
 
 function cardDetailsMarkup(profile) {
-    const totalTries = Number(profile?.scoringCareer?.tries || 0);
-    const totalPoints = Number(profile?.scoringCareer?.points || 0);
-    const conversions = Number(profile?.scoringCareer?.conversions || 0);
-    const penalties = Number(profile?.scoringCareer?.penalties || 0);
-    const dropGoals = Number(profile?.scoringCareer?.drop_goals || 0);
+    const careerScoring = parseScoringPayload(profile?.scoringCareer);
+    const seasonScoring = parseScoringPayload(profile?.scoringThisSeason);
+    const totalTries = Number(careerScoring.tries || 0);
+    const totalPoints = Number(careerScoring.points || 0);
+    const conversions = Number(careerScoring.conversions || 0);
+    const penalties = Number(careerScoring.penalties || 0);
+    const dropGoals = Number(careerScoring.drop_goals || 0);
     const hasKickedPoints = conversions > 0 || penalties > 0 || dropGoals > 0;
 
     const lines = [];
@@ -408,8 +246,9 @@ function cardDetailsMarkup(profile) {
         lines.push(`<p class="player-profile-detail-line player-profile-detail-sponsor">sponsored by ${escapeHtml(sponsor)}</p>`);
     }
 
-    if (profile.otherPositions.length > 0) {
-        lines.push(`<p class="player-profile-detail-line"><strong>Other positions:</strong> ${escapeHtml(profile.otherPositions.join(', '))}</p>`);
+    const otherPositions = parseOtherPositions(profile?.otherPositions);
+    if (otherPositions.length > 0) {
+        lines.push(`<p class="player-profile-detail-line"><strong>Other positions:</strong> ${escapeHtml(otherPositions.join(', '))}</p>`);
     }
 
     lines.push(`<p class="player-profile-detail-line"><strong>Total appearances:</strong> ${profile.totalAppearances} (${profile.totalStarts} starts)</p>`);
@@ -431,8 +270,13 @@ function cardDetailsMarkup(profile) {
     }
 
     lines.push(
-        `<p class="player-profile-detail-line"><strong>This season:</strong> ${profile.seasonAppearances} appearances (${profile.seasonStarts} starts), ${Number(profile.scoringThisSeason.tries || 0)} tries</p>`
+        `<p class="player-profile-detail-line"><strong>This season:</strong> ${profile.seasonAppearances} appearances (${profile.seasonStarts} starts, ${profile.seasonCompetitiveAppearances} competitive), ${Number(seasonScoring.tries || 0)} tries</p>`
     );
+
+    const lastAppearanceDate = String(profile?.lastAppearanceDate || '').trim();
+    if (lastAppearanceDate) {
+        lines.push(`<p class="player-profile-detail-line"><strong>Last appearance:</strong> ${escapeHtml(lastAppearanceDate)}</p>`);
+    }
 
     return lines.join('');
 }
@@ -671,26 +515,16 @@ async function loadPlayerProfilesPage() {
     const errorState = document.getElementById('playerProfilesErrorState');
 
     try {
-            const [profilesRes, appearancesRes, gamesRes, scorersRes] = await Promise.all([
-            fetch('data/backend/v_player_profiles.json'),
-            fetch('data/backend/player_appearances.json'),
-            fetch('data/backend/games.json'),
-                fetch('data/backend/season_scorers.json')
-        ]);
+        const profilesRes = await fetch('data/backend/player_profiles_canonical.json');
 
-            if (!profilesRes.ok || !appearancesRes.ok || !gamesRes.ok || !scorersRes.ok) {
+        if (!profilesRes.ok) {
             throw new Error('One or more profile datasets failed to load');
         }
 
-            const [rawProfiles, rawAppearances, rawGames, rawScorers] = await Promise.all([
-            profilesRes.json(),
-            appearancesRes.json(),
-            gamesRes.json(),
-                scorersRes.json()
-        ]);
-
-            const context = buildPlayerContext(rawAppearances, rawGames, rawScorers);
-        playerProfilesData = dedupeProfilesByName(rawProfiles).map(profile => enrichProfile(profile, context));
+        const rawProfiles = await profilesRes.json();
+        playerProfilesData = (Array.isArray(rawProfiles) ? rawProfiles : [])
+            .filter(row => String(row?.name || '').trim())
+            .sort(compareBySurnameThenName);
 
         populateFilters();
         renderPlayerProfiles();

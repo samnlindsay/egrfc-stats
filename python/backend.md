@@ -62,110 +62,156 @@ Outputs:
 - Database: `data/egrfc_backend.duckdb`
 - Exports: `data/backend/*.json` and `data/backend/*.parquet`
 
-## Canonical tables
+## Live backend table contract
+
+This section is the living source of truth for backend datasets.
+For each dataset, it captures:
+- grain
+- derivation
+- key contents
+- downstream usage
+
+### Core canonical tables
 
 ### `games`
-One row per EGRFC game.
-
-Includes:
-- Google Sheets games (canonical from 2021/22 onwards)
-- Historic Pitchero fixture+result rows (2016/17 to 2019/20)
-
-Key columns:
-- `game_id`, `squad`, `date`, `season`, `competition`, `game_type`, `opposition`, `home_away`
-- `score_for`, `score_against`, `result`
-- `captain`, `vice_captain_1`, `vice_captain_2`
+- Grain: one row per EGRFC game.
+- Derived from: Google Sheets game sheets + historic Pitchero fixtures/results.
+- Key contents: game metadata, scoreline, result, leadership fields.
+- Downstream: joins for most other tables, season summary enrichment, chart generation.
 
 ### `player_appearances`
-One row per player per game appearance.
-
-Includes:
-- Google Sheets team sheets (canonical from 2021/22 onwards)
-- Historic Pitchero lineup scrape (2016/17 to 2019/20)
-
-Key columns:
-- `squad`, `date`, `player`, `number`, `position`, `unit`
-- `is_captain`, `is_vice_captain`, `is_starter`
-- `game_id`, `season`, `game_type`
+- Grain: one row per player per game.
+- Derived from: canonical team sheets + historic Pitchero lineups + reconciliation backfill rows.
+- Key contents: shirt number, position/unit, starter/captain flags, season and game type.
+- Downstream: players table, profile enrichment, squad enrichment, season summary appearance leaders.
 
 ### `lineouts`
-One row per attacking lineout event.
-
-Key columns:
-- `squad`, `date`, `seq_id`
-- `numbers`, `call`, `call_type`, `dummy`, `area`
-- `drive`, `crusaders`, `transfer`, `flyby`
-- `thrower`, `jumper`, `won`
-- `game_id`, `season`, `opposition`
+- Grain: one row per attacking lineout event.
+- Derived from: lineout coding sheets with normalization/mapping.
+- Key contents: call/call type, area, setup flags, thrower/jumper, outcome.
+- Downstream: lineout charts and lineout-related analysis.
 
 ### `set_piece`
-One row per game/team with lineout+scrum summary.
-
-Key columns:
-- `squad`, `date`, `team`
-- `lineouts_won`, `lineouts_total`, `lineouts_success_rate`
-- `scrums_won`, `scrums_total`, `scrums_success_rate`
-- `entries_22m`, `points_per_22m_entry`, `tries_per_22m_entry`
-- `game_id`, `season`, `opposition`
+- Grain: one row per team per game.
+- Derived from: set piece sheets plus red zone inputs when present.
+- Key contents: lineout/scrum totals and rates, 22m entry efficiency metrics.
+- Downstream: set piece charts and season summary enrichment.
 
 ### `season_scorers`
-One row per player per season scoring summary.
-
-Sources:
-- `google_2526` for 2025/26 scorer sheet
-- `pitchero` for historical seasons
-
-Key columns:
-- `squad`, `season`, `player`
-- `tries`, `conversions`, `penalties`, `drop_goals`, `points`, `source`
+- Grain: one row per squad/season/player.
+- Derived from: 25/26 scorer sheet plus historic Pitchero scorer aggregates.
+- Key contents: tries, conversions, penalties, drop goals, points, source tag.
+- Downstream: player profiles, season summary leaders, scorer charts.
 
 ### `players`
-One summary row per player profile.
+- Grain: one row per player.
+- Derived from: appearances, games, lineouts, scorers.
+- Key contents: player bio/profile metadata and career aggregates.
+- Downstream: profile UIs and compatibility views.
 
-Key columns:
-- `name`, `short_name`, `position`, `squad`
-- `first_appearance_date`, `first_appearance_squad`, `first_appearance_opposition`
-- `photo_url`, `sponsor`
-- `total_appearances`, `total_starts`, `total_captaincies`, `total_vc_appointments`
-- `total_lineouts_jumped`, `lineouts_won_as_jumper`, `career_points`
+### RFU canonical tables
+
+### `games_rfu`
+- Grain: one row per RFU match.
+- Derived from: consolidated RFU scrape in data/matches.json.
+- Key contents: league, teams, scoreline, walkover and lineup-availability flags.
+- Downstream: RFU views for squad size and retention context charts.
+
+### `player_appearances_rfu`
+- Grain: one row per player per RFU match.
+- Derived from: RFU lineups linked to RFU match register.
+- Key contents: shirt number, derived position/unit, starter flag, previous match continuity marker.
+- Downstream: RFU continuity and squad-size views.
+
+### Reconciliation tables
 
 ### `pitchero_appearance_reconciliation`
-Season-level QA reconciliation between Pitchero aggregate appearances (`A`) and
-scraped lineup-derived appearances for historic supplemented seasons.
-
-Key columns:
-- `squad`, `season`, `player_join`, `player`
-- `pitchero_appearances`, `scraped_appearances`, `delta`, `abs_delta`
-- `status`, `fix_type`
+- Grain: one row per historic squad/season/player_join.
+- Derived from: comparison between Pitchero appearances and scraped lineup counts.
+- Key contents: pitchero count, scraped count, delta, status, fix type.
+- Downstream: QA/diagnostic views and discrepancy analysis.
 
 ### `pitchero_appearance_backfill`
-Safe season-count backfill rows where Pitchero shows more appearances than were
-recovered from scraped lineups.
+- Grain: one row per positive-delta historic squad/season/player_join.
+- Derived from: reconciliation rows requiring synthetic appearance backfill.
+- Key contents: missing_appearances, applied_fix.
+- Downstream: audit trail for injected backfill rows.
 
-Key columns:
-- `squad`, `season`, `player_join`, `player`
-- `missing_appearances`, `applied_fix`
+### Frontend enriched tables
 
-## Query views
+### `squad_stats_enriched`
+- Grain: one row per season/gameTypeMode/squad/unit.
+- Derived from: appearances filtered by game type mode.
+- Key contents: playerCounts map and playersUsed totals for Total/Forwards/Backs.
+- Downstream: squad stats page squad-size cards/table and threshold filtering.
 
-Generated views for frontend consumption:
-- `v_season_results`
-- `v_player_profiles`
-- `v_pitchero_appearance_mismatches`
-- `v_season_player_appearances_reconciled`
-- `v_player_appearance_discrepancy_summary`
+### `squad_position_profiles_enriched`
+- Grain: one row per season/gameTypeMode/squad/position.
+- Derived from: starter appearances mapped to canonical positions.
+- Key contents: playerCounts map and playersUsed by position.
+- Downstream: squad stats page position cards and minimum-appearance filtering.
 
-`v_season_player_appearances_reconciled` applies a season-level fix by using
-Pitchero `A` as the effective count when scraped lineup data is under-counted
-(`delta > 0`).
+### `squad_continuity_enriched`
+- Grain: one row per season/gameTypeMode/squad/unit.
+- Derived from: match-to-match retained starters in appearances.
+- Key contents: retained average and contributing gamePairs.
+- Downstream: squad stats continuity cards and trend charts.
 
-`v_player_appearance_discrepancy_summary` aggregates mismatch risk per player
-across historic supplemented seasons so large net/absolute deltas are visible
-in one place.
+### `season_summary_enriched`
+- Grain: one row per season/gameTypeMode/squad.
+- Derived from: games + appearances + season_scorers + set_piece.
+- Key contents: W/L/D totals, home/away and overall averages, tied top-scorer arrays, top appearances, set-piece seasonal means.
+- Downstream: season summary page and performance stats red-zone line chart input.
+
+### `squad_stats_with_thresholds_enriched`
+- Grain: one row per season/gameTypeMode/squad/unit/minimumAppearances.
+- Derived from: appearances filtered by unit and game type, with distinct player count grouped by appearance threshold (0-20).
+- Key contents: minimumAppearances, playerCount, totalPlayed.
+- Downstream: squad stats page appearance threshold filtering (eliminated need for client-side recalculation).
+- **Status:** ✅ Implemented & exported (4,914 rows)
+
+### `player_profiles_canonical`
+- Grain: one row per player (deduplicated across squads).
+- Derived from: canonical players + appearances + games + season_scorers, then deduplicated when a player appears in both 1st/2nd XV by selecting the record with most total appearances.
+- Key contents: full profile-card payload (name, squad, position, starts/appearances, season counters, debut labels, scoring objects, otherPositions array, active status, lastAppearanceDate).
+- Downstream: player profiles page canonical data source.
+- **Status:** ✅ Implemented & exported (283 canonical records)
+
+## Derived views
+
+### Core views
+- `v_season_results`: season/squad/game type result aggregates.
+- `v_pitchero_appearance_mismatches`: reconciliation rows where delta != 0.
+- `v_season_player_appearances_reconciled`: reconciled effective historic season appearances.
+- `v_player_appearance_discrepancy_summary`: player-level mismatch totals across seasons.
+
+### RFU views
+- `v_rfu_team_games`: team-perspective rows from each RFU match.
+- `v_rfu_squad_size`: player usage totals by unit and team.
+- `v_rfu_match_retention`: per-match retained-starter counts by unit.
+- `v_rfu_average_retention`: averaged retained-starter counts by season/team/unit.
+- `v_rfu_lineup_coverage`: lineup coverage summary by season/team.
+
+## Downstream consumer map
+
+- player-profiles page: data/backend/player_profiles_canonical.json (active; dedupe + profile payload owned by backend).
+- squad-stats page: data/backend/squad_stats_enriched.json, data/backend/squad_position_profiles_enriched.json, data/backend/squad_continuity_enriched.json (active).
+- squad-stats page: data/backend/squad_stats_with_thresholds_enriched.json (active for threshold filtering; eliminates client-side recalculation).
+- season-summary page: data/backend/season_summary_enriched.json (active).
+- performance-stats red-zone chart: data/backend/season_summary_enriched.json (1st XV, All games rows) (active).
+- database explorer page: all exported tables and views in data/backend/*.json.
+
+## Maintenance checklist for this live document
+
+- If a table/view is added or removed in backend.py reset_schema/create_views, update this file in the same change.
+- If export_tables adds/removes exported datasets, update downstream consumer map and dataset sections.
+- If a frontend page switches data source, update the relevant downstream bullets.
+- Keep gameTypeMode semantics aligned across enriched tables: All games, League + Cup, League only.
 
 ## Maintenance principles
 
 - Keep extraction and modeling separate.
 - Keep table names stable so frontend queries stay stable.
 - Add new metrics as nullable columns first, then backfill.
-- Preserve existing keys (`squad`, `date`, `season`, `player`) across tables.
+- Preserve existing keys (squad, date, season, player) across related tables.
+- **JSON columns deserialization**: Enriched tables may contain nested JSON objects/arrays stored as TEXT. Add any new JSON columns to `json_columns_map` in `export_tables()` to ensure they're properly deserialized during export. This keeps the exported JSON clean and avoids double-serialization in the frontend.

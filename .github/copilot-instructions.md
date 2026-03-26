@@ -63,7 +63,7 @@ This script:
 ### Testing frontend changes
 1. Open `index.html` in browser (static file, no build step)
 2. Uses Bootstrap 5, jQuery, and Vega-Embed CDN libraries
-3. Main app: `js/main.js` - initializes charts, filters, navigation
+3. Per-page JS modules in `js/` — each HTML page loads its own script
 4. Chart specs loaded from `data/charts/*.json` via fetch API
 
 ## Project-Specific Conventions
@@ -113,7 +113,7 @@ Filters in `index.html` use Bootstrap button groups:
 - Game Type: League / Cup / Friendly / All
 - Player: Autocomplete select
 
-JavaScript in `js/filters.js` applies filters by:
+Each page's JS module applies filters by:
 1. Reading filter state from DOM
 2. Transforming Vega spec data with filter predicates
 3. Re-rendering charts via `vegaEmbed()`
@@ -156,5 +156,5 @@ data/pitchero.json          # Historical Pitchero stats
 
 - Schema definitions: [backend.py](python/backend.py)
 - Chart generation patterns: [update.py](python/update.py#L50-L400)
-- Frontend state management: [js/main.js](js/main.js)
+- Shared frontend utilities: [js/shared.js](js/shared.js)
 - CSS variables and theme: [css/variables.css](css/variables.css)

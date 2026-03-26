@@ -139,6 +139,45 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- ===== LINEOUT BREAKDOWN SECTION ===== -->
+                <h3 style="color: var(--primary-color); margin-bottom: 0.5rem; margin-top: 1rem; font-weight: 700; font-size: 1.2rem;">Lineout Breakdown Analysis</h3>
+                <p style="margin-bottom: 1rem; color: #666; font-size: 0.9rem;">Lineout success rates by jumper numbers and zone position.</p>
+                <div style="display: flex; flex-direction: row; flex-wrap: wrap; gap: 1rem; align-items: flex-start; margin-bottom: 2rem;">
+                    <div class="chart-panel chart-panel--inline">
+                        <button type="button" class="chart-panel-toggle chart-panel-toggle--primary"
+                            data-target="lineout-breakdown-1st-panel" data-accordion-group="lineout-breakdown-section"
+                            aria-expanded="false" aria-controls="lineout-breakdown-1st-panel">
+                            <span class="chart-panel-toggle-text">
+                                <span class="chart-panel-toggle-title">1st XV Lineout Breakdown</span>
+                                <span class="chart-panel-toggle-hint">Success by numbers and area</span>
+                            </span>
+                            <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
+                        </button>
+                        <div id="lineout-breakdown-1st-panel" class="chart-panel-content" hidden>
+                            <div class="chart-panel-card">
+                                <div id="lineoutBreakdown1stChart" style="overflow: visible;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chart-panel chart-panel--inline">
+                        <button type="button" class="chart-panel-toggle chart-panel-toggle--accent"
+                            data-target="lineout-breakdown-2nd-panel" data-accordion-group="lineout-breakdown-section"
+                            aria-expanded="false" aria-controls="lineout-breakdown-2nd-panel">
+                            <span class="chart-panel-toggle-text">
+                                <span class="chart-panel-toggle-title">2nd XV Lineout Breakdown</span>
+                                <span class="chart-panel-toggle-hint">Success by numbers and area</span>
+                            </span>
+                            <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
+                        </button>
+                        <div id="lineout-breakdown-2nd-panel" class="chart-panel-content" hidden>
+                            <div class="chart-panel-card">
+                                <div id="lineoutBreakdown2ndChart" style="overflow: visible;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             <!-- ===== SCRUM SECTION ===== -->
             <h2 style="color: var(--primary-color); margin-bottom: 0.5rem; font-weight: 900;">Scrum</h2>
             <p style="margin-bottom: 1rem; color: #666; font-size: 0.9rem;">Scrum success trends over time for both squads.</p>

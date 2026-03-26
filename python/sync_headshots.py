@@ -15,7 +15,7 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 HEADSHOTS_DIR = PROJECT_ROOT / "img" / "headshots"
 TARGET_FILES = [
     PROJECT_ROOT / "data" / "backend" / "players.json",
-    PROJECT_ROOT / "data" / "backend" / "v_player_profiles.json",
+    PROJECT_ROOT / "data" / "backend" / "player_profiles_canonical.json",
 ]
 HEADSHOT_EXTENSIONS = {".png", ".jpg", ".jpeg"}
 RECROP_TOLERANCE_PX = 2
