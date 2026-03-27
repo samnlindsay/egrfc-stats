@@ -82,3 +82,14 @@
     background-color: var(--accent-color);
     color: white;
 }
+
+.app-top-navbar,
+.app-top-navbar .navbar-collapse,
+.app-top-navbar .navbar-nav,
+.app-top-navbar .nav-item.dropdown {
+    overflow: visible !important;
+}
+
+.app-top-navbar .dropdown-menu {
+    z-index: 1201;
+}

@@ -37,7 +37,7 @@ body {
     right: 0;
     width: 100%;
     max-width: none;
-    overflow-x: hidden;
+    overflow: visible;
     transform: translateZ(0);
     backface-visibility: hidden;
     z-index: 1100;

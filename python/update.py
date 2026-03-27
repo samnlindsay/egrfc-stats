@@ -27,6 +27,9 @@ from python.charts import (
     set_piece_success_by_season_chart,
     lineout_success_by_zone_chart,
     lineout_breakdown_chart,
+    set_piece_h2h_chart_backend,
+    lineout_analysis_chart_suite,
+    lineout_analysis_panel_chart_suite,
 )
 from python.league_stats import (
     export_web_charts as export_league_web_charts,
@@ -93,9 +96,13 @@ def main(refresh_pitchero=False, backend_mode="canonical", backend_db_path="data
     results_chart(db)
 
     set_piece_success_by_season_chart(db, layout="separate")
+    set_piece_h2h_chart_backend(db, set_piece="Lineout", output_file="data/charts/lineout_h2h.json", bind_params=False)
+    set_piece_h2h_chart_backend(db, set_piece="Scrum", output_file="data/charts/scrum_h2h.json", bind_params=False)
     lineout_success_by_zone_chart(db)
     lineout_breakdown_chart(db, squad="1st")
     lineout_breakdown_chart(db, squad="2nd")
+    lineout_analysis_chart_suite(db)
+    lineout_analysis_panel_chart_suite(db)
     squad_size_trend_chart(db)
     squad_continuity_average_chart(db)
 

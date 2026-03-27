@@ -7,6 +7,7 @@ if str(project_root) not in sys.path:
     sys.path.insert(0, str(project_root))
 
 import json
+from collections import defaultdict
 import altair as alt
 import pandas as pd
 from python.data_prep import *
@@ -207,202 +208,6 @@ def plot_games_by_player(min=5, df=None, file=None):
             hack_params_css(file)
 
     return chart
-
-# LINEOUTS
-
-calls4 = ["Yes", "No", "Snap"]
-cols4 = ["#146f14", "#981515", "#981515"]
-calls7 = ["A*", "C*", "A1", "H1", "C1", "W1", "A2", "H2", "C2", "W2", "A3", "H3", "C3", "W3"]
-cols7 = 2*["orange"] + 4*["#146f14"] + 4*["#981515"] + 4*["orange"]
-calls = ["Matlow", "Red", "Orange", "Plus", "Even +", "RD", "Even", "Odd", "Odd +", "Green +", "", "Green"]
-cols = 5*["#981515"] + 6*["orange"] + ["#146f14"]
-
-sort_orders = {
-    "Area": ["Front", "Middle", "Back"],
-    "Numbers": ["4", "5", "6", "7"],
-    "Setup": ["A", "C", "H", "W"],
-    "Movement": ["Jump", "Move", "Dummy"],
-}
-
-color_scales = {
-    "Area": alt.Scale(domain=sort_orders["Area"], range=['#981515', 'orange', '#146f14']),
-    "Numbers": alt.Scale(domain=sort_orders["Numbers"], range=["#ca0020", "#f4a582", "#92c5de", "#0571b0"]),
-    "Call": alt.Scale(domain=calls4+calls7+calls,range=cols4+cols7+cols),
-    "Setup": alt.Scale(domain=["A","C","H","W"], range=["dodgerblue", "crimson", "midnightblue", "black"]),
-    "Movement": alt.Scale(range=["#981515", "#146f14", "black"], domain=sort_orders["Movement"][::-1]),
-}
-
-types = ["Numbers", "Area", "Hooker", "Jumper", "Setup", "Movement", "Call"]
-type_selections = {type: alt.selection_point(fields=[type], empty="all") for type in types}
-
-squad_selection = alt.param(
-        bind=alt.binding_radio(options=["1st", "2nd"], name="Squad"),
-        value="1st"
-    )
-
-def lineout_success_by_type(type, df=None, top=True, standalone=False):
-
-    color_scale = color_scales.get(type, alt.Scale(scheme="tableau20"))
-
-    min_count = 5 if type in ["Hooker", "Jumper", "Call"] else 0      
-
-    prop_y = alt.Y(
-        "Proportion:Q", 
-        title="Proportion", 
-        axis=alt.Axis(orient="left", format=".0%",), 
-        scale=alt.Scale(domain=[0, 1])
-    )
-    success_y = alt.Y(
-        "Success:Q", 
-        title="Success Rate", 
-        axis=alt.Axis(orient="right", format=".0%"),
-        scale=alt.Scale(domain=[0, 1])
-    )
-    
-    # Base chart
-    base = (
-        alt.Chart(df if df is not None else {"name": "df", "url":'https://raw.githubusercontent.com/samnlindsay/egrfc-stats/main/data/lineouts.json',"format":{'type':"json"}})
-        .add_selection(type_selections[type])
-    )
-    if standalone:
-        base = base.add_selection(squad_selection)
-
-    for t,f in type_selections.items():
-        if t != type:
-            base = base.transform_filter(f)
-
-    base = (
-     base
-        .transform_aggregate(
-            Total="count()",
-            Success="mean(Won)",
-            groupby=[type, "Season", "Squad"]
-        )
-        .transform_joinaggregate(
-            SeasonTotal="sum(Total)",
-            groupby=["Season", "Squad"],
-        )
-        .transform_calculate(
-            Proportion="datum.Total / datum.SeasonTotal",
-            Won="round(datum.Success * datum.Total)",
-            SuccessText="format(datum.Success * datum.Total, '.0f') + ' / ' + format(datum.Total, '.0f')",
-            SuccessTooltip="'Won ' + format(datum.Won, '.0f') + ' of ' + format(datum.Total, '.0f') + ' lineouts (' + format(datum.Success, '.0%') + ')'",
-            ProportionTooltip="datum.Total + ' of ' + datum.SeasonTotal + ' lineouts total (' + format(datum.Proportion, '.0%') + ')'",
-        )
-        .transform_window(
-            ID="row_number()",
-            groupby=["Season", "Squad"],
-            sort=[alt.SortField("Total", order="descending"), alt.SortField("Success", order="descending")],
-        )
-        .transform_filter(f"datum.Total >= {min_count} & datum.{type}!=''")
-        .encode(
-            x=alt.X(
-                f"{type}:N", 
-                title=None, 
-                sort=sort_orders.get(type, alt.SortField(field="ID")),
-                axis=alt.Axis(labelFontSize=18 if type=="Numbers" else 13)
-            ),
-            color=alt.Color(f"{type}:N", legend=None, scale=color_scale),
-            opacity=alt.condition(type_selections[type], alt.value(0.8), alt.value(0.2)),
-            tooltip=[
-                f"{type}:N", 
-                alt.Tooltip("SuccessTooltip:N", title="Success"),
-                alt.Tooltip("ProportionTooltip:N", title="Proportion")
-            ] 
-        )
-    )
-
-    # Proportion of total
-    bars = (
-        base.mark_bar(opacity=0.8, stroke="black")
-        .encode(
-            y=prop_y,            
-            strokeWidth=alt.condition(
-                type_selections[type],
-                alt.value(1.5),
-                alt.value(0)
-            )
-        )
-    )
-    bar_text = (
-        base.mark_text(align="center", baseline="bottom", dy=-5, strokeWidth=1, clip=True)
-        .encode(y=prop_y, text=alt.Text("SuccessText:N"))
-    )
-    proportion = alt.layer(bars, bar_text)
-
-    # Success rate
-    line = (
-        base.mark_line(strokeWidth=1)
-        .encode(
-            y=success_y, 
-            color=alt.value("black"), 
-            opacity=alt.condition(type_selections[type], alt.value(0.5), alt.value(0))
-        )
-    )
-    points = (
-        base.mark_point(stroke="black", filled=True, size=50, fillOpacity=1.0)
-        .encode(y=success_y, color=alt.Color(f"{type}:N", legend=None))
-    )
-    line_text = (
-        base.mark_text(yOffset=-15, fontSize=13, clip=True)
-        .encode(y=success_y, text=alt.Text("Success:Q", format=".0%"), color=alt.value("black"))
-    )
-    success = alt.layer(line, points, line_text)
-
-    # Facet by Season
-    facet_chart = (
-        alt.layer(proportion, success)
-        .properties(width=225, height=275)
-        .facet(
-            column=alt.Column(
-                "Season:N", 
-                header=alt.Header(title=None, labels=top, labelFontSize=40, labelColor="#20294688")
-            ),
-            spacing=10
-        )
-        .resolve_scale(x="independent" if type in ["Call", "Jumper", "Hooker"] else "shared")
-        .transform_filter(f"datum.Squad == {squad_selection.name}")
-        .properties(
-            title=alt.Title(
-                text=f"{type}", 
-                orient="left",
-                anchor="middle", 
-                color="#20294688", 
-                offset=30, 
-                fontSize=64
-            )
-        )
-    )
-
-    return facet_chart  
-
-def lineout_success(types=types, df=None, file=None):
-    # Use optimized data if df not provided
-    if df is None:
-        df = load_lineouts()
-
-    charts = [lineout_success_by_type(t, df=df, top=(i==0)) for i,t in enumerate(types)]
-
-    chart = (
-        alt.vconcat(*charts, spacing=10)
-        .resolve_scale(color="independent")
-        .add_params(squad_selection)
-        .properties(
-            title=alt.Title(
-                text="Lineout Success", 
-                subtitle = [
-                    "Distribution of lineouts (bar), and success rate (line). Click to highlight and filter.",
-                    "Success is defined as being in possession when the lineout ends, and does not necessarily mean clean ball or perfect execution."
-                ]
-            )
-        )
-    )
-    if file:
-        chart.save(file, embed_options=get_embed_options())
-        if str(file).lower().endswith('.html'):
-            hack_params_css(file)
-    return chart
-
 
 def lineout_success_by_zone(df=None, squad="1st", min_total=20, file=None):
     if df is None:
@@ -2544,6 +2349,937 @@ def lineout_breakdown_chart(db, squad="1st", output_file=None):
     )
     chart.save(output_file)
     return chart
+
+
+def set_piece_h2h_chart_backend(db, set_piece="Lineout", output_file=None, bind_params=True):
+    """Game-by-game set piece chart using canonical backend data.
+
+    Exports a legacy-style head-to-head view with retained vs turnover events by
+    attacking team, plus per-team success rate points for each match.
+    """
+    if output_file is None:
+        output_file = f"data/charts/{set_piece.lower()}_h2h.json"
+
+    if str(set_piece).strip().lower() not in {"lineout", "scrum"}:
+        raise ValueError("set_piece must be 'Lineout' or 'Scrum'")
+
+    metric_won = "lineouts_won" if set_piece.lower() == "lineout" else "scrums_won"
+    metric_total = "lineouts_total" if set_piece.lower() == "lineout" else "scrums_total"
+
+    df = db.con.execute(
+        f"""
+        SELECT
+            G.game_id,
+            G.date,
+            G.squad,
+            G.season,
+            G.game_type,
+            G.opposition,
+            G.home_away,
+            CASE WHEN S.team = 'EGRFC' THEN 'EGRFC' ELSE 'Opposition' END AS team,
+            S.{metric_won}::DOUBLE AS won,
+            (S.{metric_total} - S.{metric_won})::DOUBLE AS lost,
+            S.{metric_total}::DOUBLE AS total,
+            S.{metric_won}::DOUBLE / NULLIF(S.{metric_total}, 0) AS success_rate,
+            CONCAT_WS(' ', G.opposition, CONCAT('(', G.home_away, ')')) AS game_label
+        FROM set_piece S
+        JOIN games G USING (game_id)
+        WHERE S.{metric_total} > 0
+        ORDER BY G.date DESC
+        """
+    ).df()
+
+    if df.empty:
+        print(f"Skipping set_piece_h2h_chart_backend ({set_piece}): no rows available.")
+        return None
+
+    df["season"] = df["season"].astype(str)
+    df["squad"] = df["squad"].astype(str)
+    df["game_type"] = df["game_type"].fillna("Unknown").astype(str)
+    df["opposition"] = df["opposition"].fillna("Unknown").astype(str)
+
+    squad_options = ["All", *sorted(df["squad"].unique().tolist())]
+    season_options = ["All", *sorted(df["season"].unique().tolist(), reverse=True)]
+    game_type_options = ["All", "League + Cup", "League only"]
+    opposition_options = ["All", *sorted(df["opposition"].unique().tolist())]
+
+    def _param(name, value, options=None, label=None):
+        bind = alt.binding_select(options=options, name=label) if bind_params and options is not None else None
+        if bind is not None:
+            return alt.param(name=name, bind=bind, value=value)
+        return alt.param(name=name, value=value)
+
+    squad_param = _param("h2hSquadFilter", "All", squad_options, "Squad ")
+    season_param = _param("h2hSeasonFilter", "All", season_options, "Season ")
+    game_type_param = _param("h2hGameTypeFilter", "All", game_type_options, "Game Type ")
+    opposition_param = _param("h2hOppositionFilter", "All", opposition_options, "Opposition ")
+    team_highlight_param = _param("h2hTeamHighlight", "All", ["All", "EGRFC", "Opposition"], "Team ")
+    outcome_highlight_param = _param("h2hOutcomeHighlight", "Turnover", ["All", "Retained", "Turnover"], "Outcome ")
+
+    filter_expr = (
+        f"({squad_param.name} == 'All' || datum.squad == {squad_param.name})"
+        f" && ({season_param.name} == 'All' || datum.season == {season_param.name})"
+        f" && ("
+        f"{game_type_param.name} == 'All'"
+        f" || ({game_type_param.name} == 'League + Cup' && (datum.game_type == 'League' || datum.game_type == 'Cup'))"
+        f" || ({game_type_param.name} == 'League only' && datum.game_type == 'League')"
+        f" || datum.game_type == {game_type_param.name}"
+        f")"
+        f" && ({opposition_param.name} == 'All' || datum.opposition == {opposition_param.name})"
+    )
+
+    event_rows = []
+    success_rows = []
+    for row in df.itertuples(index=False):
+        attacking_team = row.team
+        other_team = "Opposition" if attacking_team == "EGRFC" else "EGRFC"
+        won = max(0.0, float(row.won or 0))
+        raw_total = max(0.0, float(row.total or 0))
+        # Guard against inconsistent source rows where won > total.
+        total = max(raw_total, won)
+        lost = max(0.0, total - won)
+        success_rate = (won / total) if total > 0 else 0.0
+
+        success_rows.append(
+            {
+                "game_id": row.game_id,
+                "game_axis_key": f"{row.game_id}__{row.squad} XV v {row.opposition} ({row.home_away})",
+                "date": row.date,
+                "squad": row.squad,
+                "season": row.season,
+                "game_type": row.game_type,
+                "opposition": row.opposition,
+                "game_label": row.game_label,
+                "attacking_team": attacking_team,
+                "won": won,
+                "lost": lost,
+                "total": total,
+                "success_rate": success_rate,
+            }
+        )
+
+        for outcome, winner, count in (
+            ("Retained", attacking_team, won),
+            ("Turnover", other_team, lost),
+        ):
+            event_rows.append(
+                {
+                    "game_id": row.game_id,
+                    "game_axis_key": f"{row.game_id}__{row.squad} XV v {row.opposition} ({row.home_away})",
+                    "date": row.date,
+                    "squad": row.squad,
+                    "season": row.season,
+                    "game_type": row.game_type,
+                    "opposition": row.opposition,
+                    "game_label": row.game_label,
+                    "attacking_team": attacking_team,
+                    "winner_team": winner,
+                    "outcome": outcome,
+                    "count": count,
+                    "signed_count": count if winner == "EGRFC" else -count,
+                }
+            )
+
+    event_df = pd.DataFrame(event_rows)
+    success_df = pd.DataFrame(success_rows)
+    connector_df = (
+        success_df.pivot_table(
+            index=["game_id", "game_axis_key", "game_label", "date", "squad", "season", "game_type", "opposition"],
+            columns="attacking_team",
+            values="success_rate",
+            aggfunc="mean",
+        )
+        .reset_index()
+        .rename_axis(None, axis=1)
+    )
+    connector_df["eg_rate"] = connector_df.get("EGRFC", pd.Series(index=connector_df.index, dtype=float)).fillna(0.0)
+    connector_df["opp_rate"] = connector_df.get("Opposition", pd.Series(index=connector_df.index, dtype=float)).fillna(0.0)
+    connector_df["min_rate"] = connector_df[["eg_rate", "opp_rate"]].min(axis=1)
+    connector_df["max_rate"] = connector_df[["eg_rate", "opp_rate"]].max(axis=1)
+    connector_df["success_diff"] = connector_df["eg_rate"] - connector_df["opp_rate"]
+    connector_df["winner"] = connector_df["success_diff"].apply(
+        lambda diff: "EGRFC" if diff > 0 else ("Opposition" if diff < 0 else "Level")
+    )
+    success_df = success_df.merge(connector_df[["game_id", "winner"]], on="game_id", how="left")
+
+    y_sort = alt.EncodingSortField(field="date", order="descending")
+    max_abs_count = float(event_df["signed_count"].abs().max() if not event_df.empty else 1.0)
+    flow_domain = [-max_abs_count, max_abs_count]
+    event_focus_filter = (
+        f"({team_highlight_param.name} == 'All' || datum.attacking_team == {team_highlight_param.name})"
+        f" && ({outcome_highlight_param.name} == 'All' || datum.outcome == {outcome_highlight_param.name})"
+    )
+    success_team_filter = f"({team_highlight_param.name} == 'All' || datum.attacking_team == {team_highlight_param.name})"
+
+    event_base = (
+        alt.Chart(event_df)
+        .add_params(
+            squad_param,
+            season_param,
+            game_type_param,
+            opposition_param,
+            team_highlight_param,
+            outcome_highlight_param,
+        )
+        .transform_filter(filter_expr)
+        .transform_filter(event_focus_filter)
+        .transform_calculate(
+            has_single_focus=(
+                f"({team_highlight_param.name} != 'All' || {outcome_highlight_param.name} != 'All')"
+            )
+        )
+        .transform_calculate(y_offset_group="datum.has_single_focus ? 'Single' : datum.attacking_team")
+    )
+
+    flow_chart = event_base.mark_bar().encode(
+        y=alt.Y(
+            "game_axis_key:N",
+            sort=y_sort,
+            title=None,
+            axis=alt.Axis(labelLimit=220, ticks=False, domain=False, labelExpr="split(datum.label, '__')[1]"),
+        ),
+        x=alt.X(
+            "signed_count:Q",
+            title=f"{set_piece}s Won",
+            axis=alt.Axis(format="d", labelExpr="abs(datum.value)", orient="top", labelPadding=15),
+            scale=alt.Scale(domain=flow_domain),
+        ),
+        yOffset=alt.YOffset("y_offset_group:N", sort=["Opposition", "EGRFC", "Single"], bandPosition=0.5),
+        size=alt.condition(
+            f"{team_highlight_param.name} == 'All' && {outcome_highlight_param.name} == 'All'",
+            alt.value(8),
+            alt.value(12),
+        ),
+        color=alt.Color(
+            "attacking_team:N",
+            title="Attacking Team",
+            scale=alt.Scale(domain=["EGRFC", "Opposition"], range=["#202946", "#981515"]),
+        ),
+        opacity=alt.Opacity("outcome:N", scale=alt.Scale(domain=["Retained", "Turnover"], range=[0.5, 1.0]), legend=None),
+        tooltip=[
+            alt.Tooltip("date:T", title="Date", format="%d %b %Y"),
+            alt.Tooltip("squad:N", title="Squad"),
+            alt.Tooltip("season:N", title="Season"),
+            alt.Tooltip("game_type:N", title="Game Type"),
+            alt.Tooltip("opposition:N", title="Opposition"),
+            alt.Tooltip("game_label:N", title="Fixture"),
+            alt.Tooltip("attacking_team:N", title="Attacking Team"),
+            alt.Tooltip("outcome:N", title="Outcome"),
+            alt.Tooltip("winner_team:N", title="Won By"),
+            alt.Tooltip("count:Q", title="Count", format=",.0f"),
+        ],
+    ).properties(width=300, height=alt.Step(15))
+
+    zero_line = alt.Chart(pd.DataFrame({"zero": [0]})).mark_rule(stroke="#222", strokeWidth=2, opacity=1).encode(x="zero:Q")
+
+    success_base = (
+        alt.Chart(success_df)
+        .add_params(
+            squad_param,
+            season_param,
+            game_type_param,
+            opposition_param,
+            team_highlight_param,
+            outcome_highlight_param,
+        )
+        .transform_filter(filter_expr)
+        .transform_filter(success_team_filter)
+    )
+
+    success_connectors = (
+        alt.Chart(connector_df)
+        .add_params(
+            squad_param,
+            season_param,
+            game_type_param,
+            opposition_param,
+            team_highlight_param,
+            outcome_highlight_param,
+        )
+        .transform_filter(filter_expr)
+        .mark_rule(strokeWidth=3)
+        .encode(
+            y=alt.Y("game_axis_key:N", sort=y_sort, title=None, axis=alt.Axis(labelLimit=220, ticks=False, domain=False, orient="right", labelPadding=10,labelExpr="timeFormat(toDate(split(datum.label,'_')[0]), '%d %b %Y')")),
+            x=alt.X("eg_rate:Q", title="Success Rate", axis=alt.Axis(format="%", orient="top"), scale=alt.Scale(domain=[0, 1])),
+            x2="opp_rate:Q",
+            color=alt.Color(
+                "winner:N",
+                title="Higher Success",
+                legend=None,
+                scale=alt.Scale(domain=["EGRFC", "Opposition", "Level"], range=["#202946", "#981515", "#666666"]),
+            ),
+            tooltip=[
+                alt.Tooltip("date:T", title="Date", format="%d %b %Y"),
+                alt.Tooltip("game_label:N", title="Fixture"),
+                alt.Tooltip("eg_rate:Q", title="EGRFC Success", format=".1%"),
+                alt.Tooltip("opp_rate:Q", title="Opposition Success", format=".1%"),
+                alt.Tooltip("success_diff:Q", title="Difference (EGRFC - Opp)", format=".1%"),
+            ],
+        )
+        .properties(width=200, height=alt.Step(15))
+    )
+
+    success_point_encoding = {
+        "y": alt.Y("game_axis_key:N", sort=y_sort, title=None, axis=alt.Axis(orient="right")),
+        "x": alt.X("success_rate:Q", title="Success Rate", axis=alt.Axis(format="%", orient="top"), scale=alt.Scale(domain=[0, 1])),
+        "color": alt.Color(
+            "attacking_team:N",
+            title="Team",
+            scale=alt.Scale(domain=["EGRFC", "Opposition"], range=["#202946", "#981515"]),
+        ),
+        "tooltip": [
+            alt.Tooltip("date:T", title="Date", format="%d %b %Y"),
+            alt.Tooltip("game_label:N", title="Game"),
+            alt.Tooltip("attacking_team:N", title="Attacking Team"),
+            alt.Tooltip("winner:N", title="Higher Success"),
+            alt.Tooltip("won:Q", title=f"{set_piece}s Won", format=",.0f"),
+            alt.Tooltip("lost:Q", title=f"{set_piece}s Lost", format=",.0f"),
+            alt.Tooltip("total:Q", title=f"{set_piece}s Total", format=",.0f"),
+            alt.Tooltip("success_rate:Q", title="Success Rate", format=".1%"),
+        ],
+        "strokeWidth": alt.value(1.6),
+    }
+
+    success_losing_points = success_base.transform_filter(
+        "datum.winner == 'Level' || datum.attacking_team != datum.winner"
+    ).mark_point(size=160, filled=False, opacity=0.9).encode(
+        **success_point_encoding
+    ).properties(width=200, height=alt.Step(15))
+
+    success_winning_points = success_base.transform_filter(
+        "datum.attacking_team == datum.winner"
+    ).mark_point(size=190, filled=True, opacity=1.0).encode(
+        **success_point_encoding
+    ).properties(width=200, height=alt.Step(15))
+
+    main_chart = alt.hconcat((zero_line + flow_chart), success_connectors + success_losing_points + success_winning_points, spacing=10).resolve_scale(y="shared").properties(
+        title=alt.Title(
+            text=f"{set_piece}s Head-to-Head",
+            subtitle=f"{set_piece}s retained or turned over, and success-rate difference by game. Use filters to slice squad, season, game type, and matchup focus.",
+        )
+    )
+
+    opposition_selected_expr = f"{opposition_param.name} != 'All'"
+
+    aggregate_event_base = (
+        alt.Chart(event_df)
+        .add_params(
+            squad_param,
+            season_param,
+            game_type_param,
+            opposition_param,
+            team_highlight_param,
+            outcome_highlight_param,
+        )
+        .transform_filter(filter_expr)
+        .transform_filter(opposition_selected_expr)
+        .transform_filter(event_focus_filter)
+        .transform_aggregate(
+            count="sum(count)",
+            signed_count="sum(signed_count)",
+            groupby=["attacking_team", "winner_team", "outcome"],
+        )
+        .transform_calculate(
+            game_axis_key="'aggregate__TOTAL'",
+            game_label="'TOTAL'",
+        )
+        .transform_calculate(
+            has_single_focus=(
+                f"({team_highlight_param.name} != 'All' || {outcome_highlight_param.name} != 'All')"
+            )
+        )
+        .transform_calculate(y_offset_group="datum.has_single_focus ? 'Single' : datum.attacking_team")
+    )
+
+    aggregate_max_abs = float(
+        max(
+            event_df["signed_count"].abs().max() if not event_df.empty else 1.0,
+            event_df.groupby(["attacking_team", "winner_team", "outcome"], dropna=False)["signed_count"].sum().abs().max()
+            if not event_df.empty
+            else 1.0,
+        )
+    )
+    aggregate_flow_domain = [-aggregate_max_abs, aggregate_max_abs]
+
+    aggregate_flow_chart = aggregate_event_base.mark_bar().encode(
+        y=alt.Y(
+            "game_axis_key:N",
+            title=None,
+            axis=alt.Axis(
+                labelLimit=220,
+                ticks=False,
+                domain=False,
+                labelExpr="split(datum.label, '__')[1]",
+                labelFontWeight="bold",
+            ),
+        ),
+        x=alt.X(
+            "signed_count:Q",
+            title=None,
+            axis=alt.Axis(format="d", labelExpr="abs(datum.value)", orient="bottom", labelPadding=10),
+            scale=alt.Scale(domain=aggregate_flow_domain),
+        ),
+        yOffset=alt.YOffset("y_offset_group:N", sort=["Opposition", "EGRFC", "Single"], bandPosition=0.5),
+        size=alt.condition(
+            f"{team_highlight_param.name} == 'All' && {outcome_highlight_param.name} == 'All'",
+            alt.value(8),
+            alt.value(12),
+        ),
+        color=alt.Color(
+            "attacking_team:N",
+            title="Attacking Team",
+            scale=alt.Scale(domain=["EGRFC", "Opposition"], range=["#202946", "#981515"]),
+        ),
+        opacity=alt.Opacity("outcome:N", scale=alt.Scale(domain=["Retained", "Turnover"], range=[0.5, 1.0]), legend=None),
+        tooltip=[
+            alt.Tooltip("attacking_team:N", title="Attacking Team"),
+            alt.Tooltip("outcome:N", title="Outcome"),
+            alt.Tooltip("winner_team:N", title="Won By"),
+            alt.Tooltip("count:Q", title="Count", format=",.0f"),
+        ],
+    ).properties(width=300, height=alt.Step(10))
+
+    aggregate_success_base = (
+        alt.Chart(success_df)
+        .add_params(
+            squad_param,
+            season_param,
+            game_type_param,
+            opposition_param,
+            team_highlight_param,
+            outcome_highlight_param,
+        )
+        .transform_filter(filter_expr)
+        .transform_filter(opposition_selected_expr)
+        .transform_filter(success_team_filter)
+        .transform_aggregate(
+            won="sum(won)",
+            lost="sum(lost)",
+            total="sum(total)",
+            groupby=["attacking_team"],
+        )
+        .transform_calculate(
+            success_rate="datum.total > 0 ? datum.won / datum.total : 0",
+            game_axis_key="'aggregate__TOTAL'",
+        )
+        .transform_calculate(
+            winner=(
+                "datum.success_rate == 0 ? 'Level' : null"
+            )
+        )
+    )
+
+    aggregate_connector = (
+        alt.Chart(success_df)
+        .add_params(
+            squad_param,
+            season_param,
+            game_type_param,
+            opposition_param,
+            team_highlight_param,
+            outcome_highlight_param,
+        )
+        .transform_filter(filter_expr)
+        .transform_filter(opposition_selected_expr)
+        .transform_calculate(
+            eg_won="datum.attacking_team == 'EGRFC' ? datum.won : 0",
+            eg_total="datum.attacking_team == 'EGRFC' ? datum.total : 0",
+            opp_won="datum.attacking_team == 'Opposition' ? datum.won : 0",
+            opp_total="datum.attacking_team == 'Opposition' ? datum.total : 0",
+        )
+        .transform_aggregate(
+            eg_won="sum(eg_won)",
+            eg_total="sum(eg_total)",
+            opp_won="sum(opp_won)",
+            opp_total="sum(opp_total)",
+        )
+        .transform_calculate(
+            eg_rate="datum.eg_total > 0 ? datum.eg_won / datum.eg_total : 0",
+            opp_rate="datum.opp_total > 0 ? datum.opp_won / datum.opp_total : 0",
+            success_diff="datum.eg_rate - datum.opp_rate",
+            winner="datum.success_diff > 0 ? 'EGRFC' : (datum.success_diff < 0 ? 'Opposition' : 'Level')",
+            game_axis_key="'aggregate__TOTAL'",
+            game_label="'TOTAL'",
+        )
+        .mark_rule(strokeWidth=3)
+        .encode(
+            y=alt.Y(
+                "game_axis_key:N",
+                title=None,
+                axis=alt.Axis(
+                    labelLimit=220,
+                    ticks=False,
+                    domain=False,
+                    orient="right",
+                    labelPadding=10,
+                    labelExpr="split(datum.label, '__')[1]",
+                    labelFontWeight="bold",
+                ),
+            ),
+            x=alt.X(
+                "eg_rate:Q",
+                title=None,
+                axis=alt.Axis(format="%", orient="bottom", labelPadding=10),
+                scale=alt.Scale(domain=[0, 1]),
+            ),
+            x2="opp_rate:Q",
+            color=alt.Color(
+                "winner:N",
+                title="Higher Success",
+                legend=None,
+                scale=alt.Scale(domain=["EGRFC", "Opposition", "Level"], range=["#202946", "#981515", "#666666"]),
+            ),
+            tooltip=[
+                alt.Tooltip("game_label:N", title="Fixture"),
+                alt.Tooltip("eg_rate:Q", title="EGRFC Success", format=".1%"),
+                alt.Tooltip("opp_rate:Q", title="Opposition Success", format=".1%"),
+                alt.Tooltip("success_diff:Q", title="Difference (EGRFC - Opp)", format=".1%"),
+            ],
+        )
+        .properties(width=200, height=alt.Step(10))
+    )
+
+    aggregate_success_points = aggregate_success_base.mark_point(size=190, filled=True, opacity=1.0).encode(
+        y=alt.Y("game_axis_key:N", title=None, axis=alt.Axis(orient="right", labelFontWeight="bold")),
+        x=alt.X(
+            "success_rate:Q",
+            title=None,
+            scale=alt.Scale(domain=[0, 1]),
+        ),
+        color=alt.Color(
+            "attacking_team:N",
+            title="Team",
+            scale=alt.Scale(domain=["EGRFC", "Opposition"], range=["#202946", "#981515"]),
+        ),
+        tooltip=[
+            alt.Tooltip("attacking_team:N", title="Attacking Team"),
+            alt.Tooltip("won:Q", title=f"{set_piece}s Won", format=",.0f"),
+            alt.Tooltip("lost:Q", title=f"{set_piece}s Lost", format=",.0f"),
+            alt.Tooltip("total:Q", title=f"{set_piece}s Total", format=",.0f"),
+            alt.Tooltip("success_rate:Q", title="Success Rate", format=".1%"),
+        ],
+        strokeWidth=alt.value(1.6),
+    ).properties(width=200, height=alt.Step(10))
+
+    aggregate_chart = alt.hconcat(
+        zero_line + aggregate_flow_chart,
+        aggregate_connector + aggregate_success_points,
+        spacing=10,
+    ).resolve_scale(y="shared")
+
+    chart = alt.vconcat(main_chart, aggregate_chart, spacing=18)
+
+    chart.save(output_file)
+    return chart
+
+
+def lineout_analysis_chart(db, breakdown="numbers", output_file=None, bind_params=True):
+    """Lineout analysis explorer for one breakdown field with combined filters.
+
+    Includes:
+    - selected-slice bars (normalised attempts) + line (success rate)
+    - season trend for normalised attempts and success rate
+    """
+    breakdown_map = {
+        "numbers": ("numbers", "Numbers"),
+        "area": ("area", "Area"),
+        "zone": ("area", "Area"),
+        "call": ("call", "Call"),
+        "call_type": ("call_type", "Call Type"),
+        "dummy": ("dummy", "Dummy"),
+        "jumper": ("jumper", "Jumper"),
+        "thrower": ("thrower", "Thrower"),
+    }
+    if breakdown not in breakdown_map:
+        raise ValueError(f"Unsupported breakdown '{breakdown}'. Expected one of: {', '.join(breakdown_map)}")
+
+    field, field_label = breakdown_map[breakdown]
+    if output_file is None:
+        output_file = f"data/charts/lineout_analysis_{breakdown}.json"
+
+    df = db.con.execute(
+        """
+        SELECT
+            L.game_id,
+            G.date,
+            G.squad,
+            G.season,
+            G.game_type,
+            G.opposition,
+            L.numbers,
+            L.area,
+            L.call,
+            L.call_type,
+            L.dummy,
+            L.jumper,
+            L.thrower,
+            L.won
+        FROM lineouts L
+        JOIN games G USING (game_id)
+        WHERE won IS NOT NULL
+        """
+    ).df()
+
+    if df.empty:
+        print(f"Skipping lineout_analysis_chart ({breakdown}): no lineout rows available.")
+        return None
+
+    for col in ["squad", "season", "game_type", "opposition", "numbers", "area", "call", "call_type", "jumper", "thrower"]:
+        df[col] = df[col].fillna("Unknown").astype(str)
+    df["dummy"] = df["dummy"].fillna(False).astype(bool).map({True: "Dummy", False: "Live"})
+    df["won"] = df["won"].astype(int)
+
+    def _opts(column_name):
+        return ["All", *sorted(df[column_name].unique().tolist())]
+
+    # Primary slice filters
+    def _param(name, value, options=None, label=None):
+        bind = alt.binding_select(options=options, name=label) if bind_params and options is not None else None
+        if bind is not None:
+            return alt.param(name=name, bind=bind, value=value)
+        return alt.param(name=name, value=value)
+
+    squad_param = _param("loSquad", "All", _opts("squad"), "Squad ")
+    season_param = _param("loSeason", "All", _opts("season"), "Season ")
+    game_type_param = _param("loGameType", "All", ["All", "League + Cup", "League only", *_opts("game_type")[1:]], "Game Type ")
+    opposition_param = _param("loOpposition", "All", _opts("opposition"), "Opposition ")
+
+    # Combination filters for detailed slicing
+    thrower_param = _param("loThrower", "All", _opts("thrower"), "Thrower ")
+    jumper_param = _param("loJumper", "All", _opts("jumper"), "Jumper ")
+    area_param = _param("loArea", "All", _opts("area"), "Area ")
+    numbers_param = _param("loNumbers", "All", _opts("numbers"), "Numbers ")
+    call_param = _param("loCall", "All", _opts("call"), "Call ")
+    call_type_param = _param("loCallType", "All", _opts("call_type"), "Call Type ")
+
+    shared_filter_expr = (
+        f"({squad_param.name} == 'All' || datum.squad == {squad_param.name})"
+        f" && ("
+        f"{game_type_param.name} == 'All'"
+        f" || ({game_type_param.name} == 'League + Cup' && (datum.game_type == 'League' || datum.game_type == 'Cup'))"
+        f" || ({game_type_param.name} == 'League only' && datum.game_type == 'League')"
+        f" || datum.game_type == {game_type_param.name}"
+        f")"
+        f" && ({opposition_param.name} == 'All' || datum.opposition == {opposition_param.name})"
+        f" && ({thrower_param.name} == 'All' || datum.thrower == {thrower_param.name})"
+        f" && ({jumper_param.name} == 'All' || datum.jumper == {jumper_param.name})"
+        f" && ({area_param.name} == 'All' || datum.area == {area_param.name})"
+        f" && ({numbers_param.name} == 'All' || datum.numbers == {numbers_param.name})"
+        f" && ({call_param.name} == 'All' || datum.call == {call_param.name})"
+        f" && ({call_type_param.name} == 'All' || datum.call_type == {call_type_param.name})"
+    )
+    season_filter_expr = f"({season_param.name} == 'All' || datum.season == {season_param.name})"
+
+    params = [
+        squad_param,
+        season_param,
+        game_type_param,
+        opposition_param,
+        thrower_param,
+        jumper_param,
+        area_param,
+        numbers_param,
+        call_param,
+        call_type_param,
+    ]
+
+    snapshot_base = (
+        alt.Chart(df)
+        .add_params(*params)
+        .transform_filter(shared_filter_expr)
+        .transform_filter(season_filter_expr)
+        .transform_aggregate(attempts="count()", won="sum(won)", groupby=[field])
+        .transform_joinaggregate(total_attempts="sum(attempts)")
+        .transform_calculate(share="datum.attempts / datum.total_attempts", success_rate="datum.won / datum.attempts")
+    )
+
+    snapshot_counts = snapshot_base.mark_bar(color="#7d96e8").encode(
+        x=alt.X(f"{field}:N", title=field_label, sort="-y"),
+        y=alt.Y("share:Q", title="Normalised Count", axis=alt.Axis(format="%"), scale=alt.Scale(domain=[0, 1])),
+        tooltip=[
+            alt.Tooltip(f"{field}:N", title=field_label),
+            alt.Tooltip("attempts:Q", title="Lineouts", format=",.0f"),
+            alt.Tooltip("share:Q", title="Normalised Count", format=".1%"),
+        ],
+    ).properties(width=320, height=240, title="Selected Slice: Normalised Counts")
+
+    snapshot_success = snapshot_base.mark_line(point=True, color="#202946", strokeWidth=2.5).encode(
+        x=alt.X(f"{field}:N", title=field_label, sort="-y"),
+        y=alt.Y("success_rate:Q", title="Success Rate", axis=alt.Axis(format="%"), scale=alt.Scale(domain=[0, 1])),
+        tooltip=[
+            alt.Tooltip(f"{field}:N", title=field_label),
+            alt.Tooltip("won:Q", title="Won", format=",.0f"),
+            alt.Tooltip("attempts:Q", title="Lineouts", format=",.0f"),
+            alt.Tooltip("success_rate:Q", title="Success Rate", format=".1%"),
+        ],
+    ).properties(width=alt.Step(30), height=250, title="Selected Slice: Success Rate")
+
+    trend_base = (
+        alt.Chart(df)
+        .add_params(*params)
+        .transform_filter(shared_filter_expr)
+        .transform_aggregate(attempts="count()", won="sum(won)", groupby=["season", field])
+        .transform_joinaggregate(season_attempts="sum(attempts)", groupby=["season"])
+        .transform_calculate(norm_count="datum.attempts / datum.season_attempts", success_rate="datum.won / datum.attempts")
+    )
+
+    trend_counts = trend_base.mark_line(point=True, strokeWidth=2).encode(
+        x=alt.X("season:N", title="Season", sort="-x"),
+        y=alt.Y("norm_count:Q", title="Normalised Count", axis=alt.Axis(format="%"), scale=alt.Scale(domain=[0, 1])),
+        color=alt.Color(f"{field}:N", title=field_label),
+        tooltip=[
+            alt.Tooltip("season:N", title="Season"),
+            alt.Tooltip(f"{field}:N", title=field_label),
+            alt.Tooltip("attempts:Q", title="Lineouts", format=",.0f"),
+            alt.Tooltip("norm_count:Q", title="Normalised Count", format=".1%"),
+        ],
+    ).properties(width=320, height=250, title="Trend: Normalised Count")
+
+    trend_success = trend_base.mark_line(point=True, strokeWidth=2).encode(
+        x=alt.X("season:N", title="Season", sort="-x"),
+        y=alt.Y("success_rate:Q", title="Success Rate", axis=alt.Axis(format="%"), scale=alt.Scale(domain=[0, 1])),
+        color=alt.Color(f"{field}:N", title=field_label),
+        tooltip=[
+            alt.Tooltip("season:N", title="Season"),
+            alt.Tooltip(f"{field}:N", title=field_label),
+            alt.Tooltip("won:Q", title="Won", format=",.0f"),
+            alt.Tooltip("attempts:Q", title="Lineouts", format=",.0f"),
+            alt.Tooltip("success_rate:Q", title="Success Rate", format=".1%"),
+        ],
+    ).properties(width=320, height=250, title="Trend: Success Rate")
+
+    chart = alt.vconcat(
+        alt.hconcat(snapshot_counts, snapshot_success, spacing=16),
+        alt.hconcat(trend_counts, trend_success, spacing=16),
+        spacing=22,
+    ).properties(
+        title=alt.Title(
+            text=f"Lineout Analysis by {field_label}",
+            subtitle="Use filter controls to slice by squad/season/game type and combine thrower/jumper/area/call filters.",
+        )
+    )
+
+    chart.save(output_file)
+    return chart
+
+
+def lineout_analysis_chart_suite(db, output_dir="data/charts"):
+    """Generate backend-native lineout analysis charts for key breakdown variables."""
+    output_root = Path(output_dir)
+    output_root.mkdir(parents=True, exist_ok=True)
+
+    breakdowns = ["numbers", "area", "call", "call_type", "dummy", "jumper", "thrower"]
+    charts = {}
+    for breakdown in breakdowns:
+        output_file = output_root / f"lineout_analysis_{breakdown}.json"
+        chart = lineout_analysis_chart(db, breakdown=breakdown, output_file=str(output_file), bind_params=False)
+        if chart is not None:
+            charts[breakdown] = chart
+
+    return charts
+
+
+def lineout_analysis_panel_chart(db, breakdown="numbers", panel="breakdown", output_file=None, bind_params=False):
+    """Export a single lineout breakdown or trend chart for one breakdown field."""
+    breakdown_map = {
+        "numbers": ("numbers", "Numbers", ["4", "5", "6", "7"]),
+        "area": ("area", "Zone", ["Front", "Middle", "Back"]),
+        "call": ("call", "Call", None),
+        "call_type": ("call_type", "Call Type", None),
+        "dummy": ("dummy", "Dummy", ["Dummy", "Live"]),
+        "jumper": ("jumper", "Jumper", None),
+        "thrower": ("thrower", "Thrower", None),
+    }
+
+    width_dict = {
+        "numbers": 60,
+        "area": 75,
+        "dummy": 100,
+        "jumper": 25,
+        "thrower": 40,
+    }
+
+    if breakdown not in breakdown_map:
+        raise ValueError(f"Unsupported breakdown '{breakdown}'.")
+    if panel not in {"breakdown", "trend"}:
+        raise ValueError("panel must be 'breakdown' or 'trend'")
+
+    field, field_label, sort_order = breakdown_map[breakdown]
+    if output_file is None:
+        output_file = f"data/charts/lineout_{panel}_{breakdown}.json"
+
+    df = db.con.execute(
+        """
+        SELECT
+            L.game_id,
+            G.date,
+            G.squad,
+            G.season,
+            G.game_type,
+            G.opposition,
+            L.numbers,
+            L.area,
+            L.call,
+            L.call_type,
+            L.dummy,
+            L.jumper,
+            L.thrower,
+            L.won
+        FROM lineouts L
+        JOIN games G USING (game_id)
+        WHERE won IS NOT NULL
+        """
+    ).df()
+
+    if df.empty:
+        print(f"Skipping lineout_analysis_panel_chart ({breakdown}, {panel}): no rows available.")
+        return None
+
+    for col in ["squad", "season", "game_type", "opposition", "numbers", "area", "call", "call_type", "jumper", "thrower"]:
+        df[col] = df[col].fillna("Unknown").astype(str)
+    df["dummy"] = df["dummy"].fillna(False).astype(bool).map({True: "Dummy", False: "Live"})
+    df["won"] = df["won"].astype(int)
+
+    def _opts(column_name):
+        return ["All", *sorted(df[column_name].unique().tolist())]
+
+    def _param(name, value, options=None, label=None):
+        bind = alt.binding_select(options=options, name=label) if bind_params and options is not None else None
+        if bind is not None:
+            return alt.param(name=name, bind=bind, value=value)
+        return alt.param(name=name, value=value)
+
+    params = [
+        _param("loSquad", "All", _opts("squad"), "Squad "),
+        _param("loSeason", "All", _opts("season"), "Season "),
+        _param("loGameType", "All", ["All", "League + Cup", "League only", *_opts("game_type")[1:]], "Game Type "),
+        _param("loOpposition", "All", _opts("opposition"), "Opposition "),
+        _param("loThrower", "All", _opts("thrower"), "Thrower "),
+        _param("loJumper", "All", _opts("jumper"), "Jumper "),
+        _param("loArea", "All", _opts("area"), "Area "),
+        _param("loNumbers", "All", _opts("numbers"), "Numbers "),
+        _param("loCall", "All", _opts("call"), "Call "),
+        _param("loCallType", "All", _opts("call_type"), "Call Type "),
+    ]
+    shared_filter_expr = (
+        "(loSquad == 'All' || datum.squad == loSquad)"
+        " && ("
+        "loGameType == 'All'"
+        " || (loGameType == 'League + Cup' && (datum.game_type == 'League' || datum.game_type == 'Cup'))"
+        " || (loGameType == 'League only' && datum.game_type == 'League')"
+        " || datum.game_type == loGameType"
+        ")"
+        " && (loOpposition == 'All' || datum.opposition == loOpposition)"
+        " && (loThrower == 'All' || datum.thrower == loThrower)"
+        " && (loJumper == 'All' || datum.jumper == loJumper)"
+        " && (loArea == 'All' || datum.area == loArea)"
+        " && (loNumbers == 'All' || datum.numbers == loNumbers)"
+        " && (loCall == 'All' || datum.call == loCall)"
+        " && (loCallType == 'All' || datum.call_type == loCallType)"
+    )
+    season_filter_expr = "(loSeason == 'All' || datum.season == loSeason)"
+
+    highlight = None  # highlight selection removed
+
+    if panel == "breakdown":
+        grouped = (
+            alt.Chart(df)
+            .add_params(*params, highlight)
+            .transform_filter(shared_filter_expr)
+            .transform_filter(season_filter_expr)
+            .transform_aggregate(attempts="count()", won="sum(won)", groupby=[field])
+            .transform_calculate(success_rate="datum.won / datum.attempts")
+        )
+        x_encoding = alt.X(f"{field}:N", title=field_label, sort=sort_order if sort_order is not None else "-y", axis=alt.Axis(labelAngle=-30))
+        chart = alt.layer(
+            grouped.mark_bar(color="#7d96e8", opacity=0.55).encode(
+                x=x_encoding,
+                y=alt.Y("attempts:Q", title="Count", axis=alt.Axis(format=",.0f", orient="left")),
+                tooltip=[
+                    alt.Tooltip(f"{field}:N", title=field_label),
+                    alt.Tooltip("won:Q", title="Won", format=",.0f"),
+                    alt.Tooltip("attempts:Q", title="Attempts", format=",.0f"),
+                    alt.Tooltip("success_rate:Q", title="Success Rate", format=".1%"),
+                ],
+            ),
+            grouped.mark_line(point=True, color="#202946", strokeWidth=2.5).encode(
+                x=x_encoding,
+                y=alt.Y("success_rate:Q", title="Success Rate", axis=alt.Axis(format="%", orient="right"), scale=alt.Scale(domain=[0, 1])),
+                tooltip=[
+                    alt.Tooltip(f"{field}:N", title=field_label),
+                    alt.Tooltip("won:Q", title="Won", format=",.0f"),
+                    alt.Tooltip("attempts:Q", title="Attempts", format=",.0f"),
+                    alt.Tooltip("success_rate:Q", title="Success Rate", format=".1%"),
+                ],
+            ),
+        ).resolve_scale(y="independent").properties(
+            width=alt.Step(width_dict.get(breakdown, 40)),
+            height=250,
+            title=alt.Title(text=f"{field_label} Breakdown", subtitle="Bars: attempts  ·  Line: success %"),
+        )
+    else:
+        grouped = (
+            alt.Chart(df)
+            .add_params(*params)
+            .transform_filter(shared_filter_expr)
+            .transform_aggregate(attempts="count()", won="sum(won)", groupby=["season", field])
+            .transform_joinaggregate(season_attempts="sum(attempts)", groupby=["season"])
+            .transform_calculate(norm_count="datum.attempts / datum.season_attempts", success_rate="datum.won / datum.attempts")
+        )
+        season_order = sorted(df["season"].unique().tolist())
+        bar = grouped.mark_bar(opacity=0.35).encode(
+            x=alt.X("season:N", title="Season", sort=season_order),
+            xOffset=alt.XOffset(f"{field}:N"),
+            y=alt.Y("norm_count:Q", title="Norm Count", axis=alt.Axis(format="%", orient="left"), scale=alt.Scale(domain=[0, 1])),
+            color=alt.Color(f"{field}:N", title=field_label),
+            tooltip=[
+                alt.Tooltip("season:N", title="Season"),
+                alt.Tooltip(f"{field}:N", title=field_label),
+                alt.Tooltip("won:Q", title="Won", format=",.0f"),
+                alt.Tooltip("attempts:Q", title="Attempts", format=",.0f"),
+                alt.Tooltip("norm_count:Q", title="Norm Count", format=".1%"),
+                alt.Tooltip("success_rate:Q", title="Success Rate", format=".1%"),
+            ],
+        )
+        line = grouped.mark_line(point=True, strokeWidth=2).encode(
+            x=alt.X("season:N", title="Season", sort=season_order),
+            y=alt.Y("success_rate:Q", title="Success Rate", axis=alt.Axis(format="%", orient="right"), scale=alt.Scale(domain=[0, 1])),
+            color=alt.Color(f"{field}:N", title=field_label),
+            detail=alt.Detail(f"{field}:N"),
+            tooltip=[
+                alt.Tooltip("season:N", title="Season"),
+                alt.Tooltip(f"{field}:N", title=field_label),
+                alt.Tooltip("won:Q", title="Won", format=",.0f"),
+                alt.Tooltip("attempts:Q", title="Attempts", format=",.0f"),
+                alt.Tooltip("norm_count:Q", title="Norm Count", format=".1%"),
+                alt.Tooltip("success_rate:Q", title="Success Rate", format=".1%"),
+            ],
+        )
+        chart = alt.layer(bar, line).resolve_scale(y="independent").properties(
+            width=430,
+            height=260,
+            title=alt.Title(text=f"{field_label} Trend", subtitle="Bars: season share  ·  Line: success %"),
+        )
+
+    chart.save(output_file)
+    return chart
+
+
+def lineout_analysis_panel_chart_suite(db, output_dir="data/charts"):
+    """Generate panel-level lineout analysis charts for the performance page."""
+    output_root = Path(output_dir)
+    output_root.mkdir(parents=True, exist_ok=True)
+
+    breakdowns = ["numbers", "area", "call_type", "dummy", "thrower", "jumper"]
+    charts = {}
+    for breakdown in breakdowns:
+        for panel in ("breakdown", "trend"):
+            output_file = output_root / f"lineout_{panel}_{breakdown}.json"
+            chart = lineout_analysis_panel_chart(db, breakdown=breakdown, panel=panel, output_file=str(output_file), bind_params=False)
+            if chart is not None:
+                charts[(breakdown, panel)] = chart
+
+    return charts
 
 
 #################################

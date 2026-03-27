@@ -1318,6 +1318,100 @@ table tbody tr:hover {
     min-width: 300px;
 }
 
+.lineout-analysis-pair {
+    display: flex;
+    gap: 0;
+    align-items: flex-start;
+    flex-wrap: nowrap;
+    max-width: 100%;
+}
+
+.lineout-analysis-joint {
+    display: flex;
+    flex-direction: row;
+    width: fit-content;
+    min-width: 0;
+}
+
+.lineout-analysis-panel {
+    min-width: 0;
+}
+
+.lineout-analysis-joint .lineout-analysis-panel--breakdown {
+    min-width: 0;
+    width: fit-content;
+}
+
+.lineout-analysis-joint .lineout-analysis-panel--trend {
+    min-width: 0;
+    width: fit-content;
+}
+
+.lineout-analysis-panel .chart-panel-toggle {
+    min-width: 0;
+    width: 100%;
+    max-width: 100%;
+}
+
+.lineout-analysis-joint .lineout-analysis-panel--breakdown .chart-panel-toggle {
+    /* natural width from content */
+}
+
+.lineout-analysis-joint .lineout-analysis-panel--trend .chart-panel-toggle {
+    /* natural width from content */
+}
+
+.lineout-analysis-panel .chart-panel-card {
+    width: 100%;
+}
+
+.lineout-analysis-panel--breakdown .chart-panel-toggle-hint {
+    font-style: italic;
+}
+
+.lineout-analysis-pairs {
+    overflow-x: auto;
+    padding-bottom: 0.25rem;
+}
+
+.lineout-analysis-panel--trend .chart-panel-toggle {
+    background: #343a40;
+    border-color: #343a40;
+    color: #f0f2f4;
+}
+
+.lineout-analysis-panel--trend .chart-panel-toggle:hover,
+.lineout-analysis-panel--trend .chart-panel-toggle:focus-visible {
+    background: #2f3439;
+    border-color: #2f3439;
+}
+
+.lineout-analysis-panel--trend .chart-panel-toggle .chart-panel-toggle-hint {
+    color: #d3d8de;
+}
+
+.lineout-analysis-panel--breakdown .chart-panel-toggle,
+.lineout-analysis-panel--breakdown .chart-panel-toggle[aria-expanded="false"] {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.lineout-analysis-panel--breakdown .chart-panel-card {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.lineout-analysis-panel--trend .chart-panel-toggle,
+.lineout-analysis-panel--trend .chart-panel-toggle[aria-expanded="false"] {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.lineout-analysis-panel--trend .chart-panel-card {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
 .player-stats-panels {
     display: flex;
     flex-direction: row;
