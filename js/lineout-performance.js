@@ -225,6 +225,12 @@
             pending.push(view.runAsync());
         });
 
+        const successView = views.get('setPieceLineoutChart');
+        if (successView) {
+            setSignalFromControl(successView, 'spSquadParam', 'lineoutFilterSquad');
+            pending.push(successView.runAsync());
+        }
+
         const h2hView = await ensureLineoutH2HViewLayout();
         if (h2hView) {
             Object.entries(H2H_SIGNAL_IDS).forEach(([signalName, controlId]) => {
@@ -325,11 +331,9 @@
     }
 
     document.addEventListener('DOMContentLoaded', async function () {
-        await Promise.all([
-            renderChartSpec('setPiece1stLineoutChart', 'data/charts/set_piece_success_1st_lineout.json', '1st XV lineout chart unavailable.'),
-            renderChartSpec('setPiece2ndLineoutChart', 'data/charts/set_piece_success_2nd_lineout.json', '2nd XV lineout chart unavailable.'),
-            setupLineoutPage(),
-        ]);
+        const lineoutSuccessView = await renderChartSpec('setPieceLineoutChart', 'data/charts/set_piece_success_lineout.json', 'Lineout success chart unavailable.');
+        if (lineoutSuccessView) views.set('setPieceLineoutChart', lineoutSuccessView);
+        await setupLineoutPage();
         initialiseChartPanelToggles();
         initialiseLineoutAnalysisAccordion();
     });

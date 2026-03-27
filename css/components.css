@@ -809,6 +809,17 @@ table tbody tr:hover {
     flex-direction: column;
 }
 
+.chart-panel--inline:has(.chart-panel-toggle[aria-expanded="true"]) {
+    width: fit-content;
+    max-width: 100%;
+}
+
+.chart-panel--inline:has(.chart-panel-toggle[aria-expanded="true"]) .chart-panel-toggle,
+.chart-panel--inline:has(.chart-panel-toggle[aria-expanded="true"]) .chart-panel-card {
+    width: 100%;
+    max-width: 100%;
+}
+
 .chart-panel-toggle {
     min-width: 100%;
     width: fit-content;
@@ -1173,6 +1184,45 @@ table tbody tr:hover {
     margin-bottom: 0;
 }
 
+.page-header-actions {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    align-self: flex-start;
+    padding-top: 0.2rem;
+}
+
+.page-header-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.55rem 0.95rem;
+    border: 1px solid var(--primary-color);
+    border-radius: 999px;
+    background: #fff;
+    color: var(--primary-color);
+    font-family: 'PT Sans Narrow', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1;
+    text-decoration: none;
+    transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.page-header-link:hover,
+.page-header-link:focus {
+    background: var(--primary-color);
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(32, 41, 70, 0.16);
+    transform: translateY(-1px);
+}
+
+.page-header-link:focus-visible {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 2px;
+}
+
 .page-header-filters {
     flex: 0 1 auto;
     display: flex;
@@ -1318,6 +1368,12 @@ table tbody tr:hover {
     min-width: 300px;
 }
 
+.league-context-panel:has(.chart-panel-toggle[aria-expanded="true"]) .chart-panel-toggle,
+.league-context-panel:has(.chart-panel-toggle[aria-expanded="true"]) .chart-panel-card {
+    width: 100%;
+    max-width: 100%;
+}
+
 .lineout-analysis-pair {
     display: flex;
     gap: 0;
@@ -1440,7 +1496,7 @@ table tbody tr:hover {
 
 .player-stats-panel:has(.chart-panel-toggle[aria-expanded="true"]) .chart-panel-toggle,
 .player-stats-panel:has(.chart-panel-toggle[aria-expanded="true"]) .chart-panel-card {
-    width: fit-content;
+    width: 100%;
     max-width: 100%;
 }
 

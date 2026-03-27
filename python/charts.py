@@ -2236,32 +2236,32 @@ def set_piece_success_by_season_chart(
     output_root = Path(output_dir)
     output_root.mkdir(parents=True, exist_ok=True)
 
-    chart_targets = [
-        ("1st XV", "Scrum", "set_piece_success_1st_scrum.json"),
-        ("1st XV", "Lineout", "set_piece_success_1st_lineout.json"),
-        ("2nd XV", "Scrum", "set_piece_success_2nd_scrum.json"),
-        ("2nd XV", "Lineout", "set_piece_success_2nd_lineout.json"),
+    type_targets = [
+        ("Lineout", "set_piece_success_lineout.json"),
+        ("Scrum", "set_piece_success_scrum.json"),
     ]
 
-    charts = {}
-    for squad_label, set_piece_type, filename in chart_targets:
-        subset = dense_long_df[
-            dense_long_df["squad"].eq(squad_label) & dense_long_df["set_piece_type"].eq(set_piece_type)
-        ].copy()
+    squad_param = alt.param(name="spSquadParam", value="1st")
+    subtitle_text = "Seasonal success for EGRFC and opposition, with crossover-shaded advantage."
 
-        if subset.empty:
-            print(f"Skipping {filename}: no rows for {squad_label} {set_piece_type}.")
+    charts = {}
+    for set_piece_type, filename in type_targets:
+        type_df = dense_long_df[dense_long_df["set_piece_type"].eq(set_piece_type)].copy()
+
+        if type_df.empty:
+            print(f"Skipping {filename}: no rows for {set_piece_type}.")
             continue
 
-        title_text = f"{set_piece_type} Success"
-        subtitle_text = "Seasonal success for EGRFC and opposition, with crossover-shaded advantage."
-        chart = _build_chart(subset, width=200, height=300).properties(
-            title=alt.Title(text=title_text, subtitle=subtitle_text)
+        chart = (
+            _build_chart(type_df, width=200, height=300)
+            .add_params(squad_param)
+            .transform_filter("datum.squad == (spSquadParam + ' XV')")
+            .properties(title=alt.Title(text=f"{set_piece_type} Success", subtitle=subtitle_text))
         )
 
         chart_path = output_root / filename
         chart.save(str(chart_path))
-        charts[f"{squad_label}_{set_piece_type}".replace(" ", "_").lower()] = chart
+        charts[set_piece_type.lower()] = chart
 
     return charts
 
@@ -2875,6 +2875,254 @@ def set_piece_h2h_chart_backend(db, set_piece="Lineout", output_file=None, bind_
     return chart
 
 
+def red_zone_performance_chart(db, metric="points", output_file=None, bind_params=False):
+    """Generate red-zone performance scatter chart from canonical backend data.
+
+    metric:
+    - "points" -> y axis is points_per_entry
+    - "tries" -> y axis is tries_per_entry
+    """
+    metric_key = str(metric).strip().lower()
+    if metric_key not in {"points", "tries"}:
+        raise ValueError("metric must be 'points' or 'tries'")
+
+    if output_file is None:
+        output_file = "data/charts/red_zone_points.json" if metric_key == "points" else "data/charts/red_zone_tries.json"
+
+    df = db.con.execute(
+        """
+        SELECT
+            r.game_id,
+            r.date,
+            r.season,
+            r.squad,
+            COALESCE(g.game_type, 'Unknown') AS game_type,
+            r.opposition,
+            COALESCE(g.home_away, '?') AS home_away,
+            r.opposition || ' (' || COALESCE(g.home_away, '?') || ')' AS label,
+            CASE WHEN r.team = 'EGRFC' THEN 'EGRFC' ELSE 'Opposition' END AS team,
+            r.entries_22m::DOUBLE AS entries_22m,
+            r.points::DOUBLE AS points,
+            r.tries::DOUBLE AS tries,
+            r.points_per_entry::DOUBLE AS points_per_entry,
+            r.tries_per_entry::DOUBLE AS tries_per_entry
+        FROM v_red_zone r
+        LEFT JOIN games g USING (game_id)
+        WHERE r.entries_22m IS NOT NULL
+        ORDER BY r.date DESC, r.squad, r.team
+        """
+    ).df()
+
+    if df.empty:
+        print(f"Skipping red_zone_performance_chart ({metric_key}): no rows available.")
+        return None
+
+    df = df.dropna(subset=["entries_22m", "points_per_entry", "tries_per_entry"]).copy()
+    if df.empty:
+        print(f"Skipping red_zone_performance_chart ({metric_key}): no valid rows after null filtering.")
+        return None
+
+    df["season"] = df["season"].fillna("Unknown").astype(str)
+    df["squad"] = df["squad"].fillna("Unknown").astype(str)
+    df["game_type"] = df["game_type"].fillna("Unknown").astype(str)
+    df["opposition"] = df["opposition"].fillna("Unknown").astype(str)
+
+    y_field = "points_per_entry" if metric_key == "points" else "tries_per_entry"
+    y_title = "Points per Entry" if metric_key == "points" else "Tries per Entry"
+
+    x_max = float(df["entries_22m"].max()) if not df.empty else 0.0
+    y_max = float(df[y_field].max()) if not df.empty else 0.0
+    x_domain_max = max(20.0, float(int((x_max * 1.18) + 0.9999)))
+    if metric_key == "points":
+        y_domain_max = 7.0
+    else:
+        y_domain_max = max(1.0, float(int((y_max * 1.22) + 0.9999)))
+
+    seasons = sorted(df["season"].unique().tolist(), reverse=True)
+
+    def _param(name, value, options=None, label=None):
+        bind = alt.binding_select(options=options, name=label) if bind_params and options is not None else None
+        if bind is not None:
+            return alt.param(name=name, bind=bind, value=value)
+        return alt.param(name=name, value=value)
+
+    squad_param = _param("rzSquad", "1st", ["All", "1st", "2nd"], "Squad ")
+    season_param = _param("rzSeason", "All", ["All", *seasons], "Season ")
+    game_type_param = _param("rzGameType", "All", ["All", "League + Cup", "League only"], "Game Type ")
+    highlight = alt.selection_point(fields=["team"], bind="legend")
+
+    filter_expr = (
+        f"({squad_param.name} == 'All' || datum.squad == {squad_param.name})"
+        f" && ({season_param.name} == 'All' || datum.season == {season_param.name})"
+        f" && ("
+        f"{game_type_param.name} == 'All'"
+        f" || ({game_type_param.name} == 'League + Cup' && (datum.game_type == 'League' || datum.game_type == 'Cup'))"
+        f" || ({game_type_param.name} == 'League only' && datum.game_type == 'League')"
+        f" || datum.game_type == {game_type_param.name}"
+        f")"
+    )
+
+    df_wide = (
+        df.pivot_table(index=["game_id", "date", "season", "squad", "game_type", "opposition", "label"], columns="team", values=["entries_22m", y_field, "points", "tries"], aggfunc="first")
+        .reset_index()
+    )
+    if not df_wide.empty:
+        df_wide.columns = [
+            "_".join([str(part) for part in col if str(part) != ""]).strip("_") if isinstance(col, tuple) else str(col)
+            for col in df_wide.columns
+        ]
+        rename_map = {
+            f"entries_22m_EGRFC": "entries_22m_egrfc",
+            f"entries_22m_Opposition": "entries_22m_opp",
+            f"{y_field}_EGRFC": "metric_egrfc",
+            f"{y_field}_Opposition": "metric_opp",
+            "points_EGRFC": "points_egrfc",
+            "points_Opposition": "points_opp",
+            "tries_EGRFC": "tries_egrfc",
+            "tries_Opposition": "tries_opp",
+        }
+        df_wide = df_wide.rename(columns=rename_map)
+        for col in ["entries_22m_egrfc", "entries_22m_opp", "metric_egrfc", "metric_opp"]:
+            if col not in df_wide.columns:
+                df_wide[col] = None
+        df_wide = df_wide.dropna(subset=["entries_22m_egrfc", "entries_22m_opp", "metric_egrfc", "metric_opp"])
+    else:
+        df_wide = pd.DataFrame(columns=["game_id", "entries_22m_egrfc", "entries_22m_opp", "metric_egrfc", "metric_opp"])
+
+    quadrant_df = pd.DataFrame(
+        {
+            "x": [x_domain_max * 0.86, x_domain_max * 0.86, x_domain_max * 0.14, x_domain_max * 0.14, x_domain_max * 0.86, x_domain_max * 0.86, x_domain_max * 0.14, x_domain_max * 0.14],
+            "y": [y_domain_max * 0.94, y_domain_max * 0.10, y_domain_max * 0.94, y_domain_max * 0.10, y_domain_max * 0.90, y_domain_max * 0.06, y_domain_max * 0.90, y_domain_max * 0.06],
+            "label": [
+                "High Efficiency",
+                "Low Efficiency",
+                "High Efficiency",
+                "Low Efficiency",
+                "High Territory",
+                "High Territory",
+                "Low Territory",
+                "Low Territory",
+            ],
+            "opacity": [1, 0.5, 1, 0.5, 1, 1, 0.5, 0.5],
+        }
+    )
+
+    reference_layers = []
+    if metric_key == "points":
+        def ref_line_coords(point_total=20):
+            coords = []
+            for x in range(1, 200):
+                entries = x * 0.1
+                points_per_entry = point_total / entries
+                if (points_per_entry <= 6) and (entries <= x_domain_max or points_per_entry >= 1):
+                    coords.append({"x": entries, "y": points_per_entry})
+            return coords
+
+        ref_line_10 = alt.Chart(pd.DataFrame(ref_line_coords(10))).mark_line(color="black", opacity=0.1, clip=True).encode(x="x:Q", y="y:Q")
+        ref_line_20 = alt.Chart(pd.DataFrame(ref_line_coords(20))).mark_line(color="black", opacity=0.1, clip=True).encode(x="x:Q", y="y:Q")
+        ref_line_50 = alt.Chart(pd.DataFrame(ref_line_coords(50))).mark_line(color="black", opacity=0.1, clip=True).encode(x="x:Q", y="y:Q")
+        ref_line_labels = alt.Chart(
+            pd.DataFrame(
+                {
+                    "y": [6, 5.3, 5],
+                    "x": [50 / 6, 20 / 5.3, 10 / 5],
+                    "label": ["50 pts", "20 pts", "10 pts"],
+                }
+            )
+        ).mark_text(size=10, color="black", opacity=0.5, fontStyle="italic").encode(x="x:Q", y="y:Q", text="label:N")
+        reference_layers = [ref_line_10, ref_line_20, ref_line_50, ref_line_labels]
+
+    points = (
+        alt.Chart(df)
+        .transform_filter(filter_expr)
+        .mark_point(filled=True, size=70)
+        .encode(
+            x=alt.X("entries_22m:Q", scale=alt.Scale(zero=True, domain=[0, x_domain_max]), axis=alt.Axis(title="22m Entries", tickCount=4, grid=False)),
+            y=alt.Y(f"{y_field}:Q", scale=alt.Scale(zero=True, domain=[0, y_domain_max]), axis=alt.Axis(title=y_title, tickCount=7, grid=False)),
+            color=alt.Color("team:N", scale=alt.Scale(domain=["EGRFC", "Opposition"], range=["#202946", "#991515"]), legend=alt.Legend(title=None, orient="top")),
+            tooltip=[
+                alt.Tooltip("label:N", title="Game"),
+                alt.Tooltip("date:T", title="Date"),
+                alt.Tooltip("points:Q", title="Points"),
+                alt.Tooltip("tries:Q", title="Tries"),
+                alt.Tooltip("entries_22m:Q", title="22m Entries"),
+                alt.Tooltip("points_per_entry:Q", title="Points per Entry", format=".1f"),
+                alt.Tooltip("tries_per_entry:Q", title="Tries per Entry", format=".1f"),
+            ],
+            opacity=alt.condition(highlight, alt.value(1), alt.value(0.1), legend=None),
+        )
+    )
+
+    averages = (
+        alt.Chart(df)
+        .transform_filter(filter_expr)
+        .transform_aggregate(
+            entries_22m="mean(entries_22m)",
+            points="mean(points)",
+            tries="mean(tries)",
+            points_per_entry="mean(points_per_entry)",
+            tries_per_entry="mean(tries_per_entry)",
+            groupby=["team"],
+        )
+        .mark_point(filled=True, opacity=1, shape="diamond", stroke="black")
+        .encode(
+            x=alt.X("entries_22m:Q"),
+            y=alt.Y(f"{y_field}:Q"),
+            color=alt.Color("team:N", scale=alt.Scale(domain=["EGRFC", "Opposition"], range=["#202946", "#991515"])),
+            tooltip=[
+                alt.Tooltip("points:Q", title="Average Points", format=".1f"),
+                alt.Tooltip("tries:Q", title="Average Tries", format=".1f"),
+                alt.Tooltip("entries_22m:Q", title="Average 22m Entries", format=".1f"),
+                alt.Tooltip("points_per_entry:Q", title="Average Points per Entry", format=".1f"),
+                alt.Tooltip("tries_per_entry:Q", title="Average Tries per Entry", format=".1f"),
+            ],
+            size=alt.value(200),
+            opacity=alt.condition(highlight, alt.value(1), alt.value(0.1)),
+        )
+    )
+
+    color_test = "datum.points_egrfc > datum.points_opp" if metric_key == "points" else "datum.tries_egrfc > datum.tries_opp"
+    lines = (
+        alt.Chart(df_wide)
+        .transform_filter(filter_expr)
+        .mark_rule(strokeWidth=1.2)
+        .encode(
+            x=alt.X("entries_22m_egrfc:Q"),
+            y=alt.Y("metric_egrfc:Q"),
+            x2=alt.X2("entries_22m_opp:Q"),
+            y2=alt.Y2("metric_opp:Q"),
+            color=alt.condition(color_test, alt.value("#202946"), alt.value("#991515")),
+            detail="game_id:N",
+            opacity=alt.condition(highlight, alt.value(0.8), alt.value(0.1)),
+        )
+    )
+
+    quadrant_labels = alt.Chart(quadrant_df).mark_text(size=12, color="black", fontStyle="italic").encode(
+        x=alt.X("x:Q"),
+        y=alt.Y("y:Q"),
+        opacity=alt.Opacity("opacity:Q", legend=None),
+        text=alt.Text("label:N"),
+    )
+
+    subtitle_metric = "points per entry" if metric_key == "points" else "tries per entry"
+    layer_parts = [*reference_layers, quadrant_labels, points, averages, lines]
+    chart = alt.layer(*layer_parts).add_params(squad_param, season_param, game_type_param, highlight).properties(
+        title=alt.TitleParams(
+            text="Red Zone Success",
+            subtitle=[
+                f"Attacking territory (22m entries) vs Scoring efficiency ({subtitle_metric})",
+                "Each point represents a game. Lines connect EGRFC to their opposition in the same game.",
+                "Diamond points show the average for EGRFC and their opposition across all games.",
+            ],
+        ),
+        width=450,
+        height=400,
+    ).resolve_scale(color="shared", x="shared", y="shared")
+
+    chart.save(output_file)
+    return chart
+
+
 def lineout_analysis_chart(db, breakdown="numbers", output_file=None, bind_params=True):
     """Lineout analysis explorer for one breakdown field with combined filters.
 
@@ -3186,7 +3434,7 @@ def lineout_analysis_panel_chart(db, breakdown="numbers", panel="breakdown", out
     if panel == "breakdown":
         grouped = (
             alt.Chart(df)
-            .add_params(*params, highlight)
+            .add_params(*params)
             .transform_filter(shared_filter_expr)
             .transform_filter(season_filter_expr)
             .transform_aggregate(attempts="count()", won="sum(won)", groupby=[field])
@@ -4012,8 +4260,8 @@ def season_summary_data(db, output_file='data/season_summary.json'):
             g.squad,
             ROUND(AVG(s.lineouts_success_rate), 3) as avg_lineout_success_rate,
             ROUND(AVG(s.scrums_success_rate), 3) as avg_scrum_success_rate,
-            ROUND(AVG(s.points_per_22m_entry), 2) as avg_points_per_22m_entry,
-            ROUND(AVG(s.tries_per_22m_entry), 2) as avg_tries_per_22m_entry,
+            ROUND(AVG(s.points_per_entry), 2) as avg_points_per_22m_entry,
+            ROUND(AVG(s.tries_per_entry), 2) as avg_tries_per_22m_entry,
             COUNT(*) as games_with_set_piece_data
         FROM set_piece s
         JOIN games g ON s.game_id = g.game_id

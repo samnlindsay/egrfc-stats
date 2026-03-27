@@ -11,6 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=PT+Sans+Narrow:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/css/bootstrap-select.min.css" rel="stylesheet">
 
     <link rel="stylesheet" href="css/variables.css">
     <link rel="stylesheet" href="css/base.css">
@@ -27,93 +28,169 @@
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark app-top-navbar" style="background-color: var(--primary-color); padding: 0.75rem 1.5rem;">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="index.html"><strong>EGRFC Statistics</strong></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="season-summary.html">Season Summary</a></li>
-                    <li class="nav-item"><a class="nav-link" href="league-tables.html">League Tables</a></li>
-                    <li class="nav-item"><a class="nav-link" href="squad-stats.html">Squad Stats</a></li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Performance Stats</a>
-                        <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item active" href="performance-stats.html">Overview</a></li>
-                            <li><a class="dropdown-item" href="lineout-performance.html">Lineout</a></li>
-                            <li><a class="dropdown-item" href="scrum-performance.html">Scrum</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item"><a class="nav-link" href="player-profiles.html">Player Profiles</a></li>
-                    <li class="nav-item"><a class="nav-link" href="team-sheets.html">Team Sheets</a></li>
-                    <li class="nav-item"><a class="nav-link" href="database.html">Data</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-    <div class="main-content">
-        <div style="padding: 2rem 1rem; max-width: 1100px; margin: 0 auto;">
-            <div class="page-header">
-                <div class="page-header-text">
-                    <h1>Performance Stats</h1>
-                    <p>Choose a dedicated analysis page for deeper set-piece performance views.</p>
-                </div>
-            </div>
-
-            <div class="row g-3" style="margin-top: 0.5rem;">
-                <div class="col-12 col-md-6">
-                    <a href="lineout-performance.html" class="text-decoration-none">
-                        <div class="card h-100 shadow-sm" style="border-radius: 14px; border: 1px solid rgba(32, 41, 70, 0.18);">
-                            <div class="card-body" style="padding: 1.25rem;">
-                                <h2 style="font-size: 1.2rem; margin-bottom: 0.5rem; color: var(--primary-color); font-weight: 700;">Lineout Performance</h2>
-                                <p style="margin-bottom: 0; color: #4a4a4a;">Lineout success trends, turnover head-to-head flow, and interactive breakdown/trend analysis by zone, call, thrower, and jumper.</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="col-12 col-md-6">
-                    <a href="scrum-performance.html" class="text-decoration-none">
-                        <div class="card h-100 shadow-sm" style="border-radius: 14px; border: 1px solid rgba(32, 41, 70, 0.18);">
-                            <div class="card-body" style="padding: 1.25rem;">
-                                <h2 style="font-size: 1.2rem; margin-bottom: 0.5rem; color: var(--primary-color); font-weight: 700;">Scrum Performance</h2>
-                                <p style="margin-bottom: 0; color: #4a4a4a;">Scrum success trend panels and turnover head-to-head flow with section-scoped filters for squad, season, game type, and opposition.</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-
-            <h2 style="font-size: 1.35rem; margin-top: 2rem; margin-bottom: 0.35rem; color: var(--primary-color); font-weight: 800;">Red Zone</h2>
-            <p style="margin-bottom: 1rem; color: #4a4a4a;">Placeholder view for red-zone scoring efficiency. This panel will be replaced with full backend-driven red zone charts.</p>
-            <div class="chart-panel chart-panel--inline" style="max-width: 900px;">
-                <button type="button" class="chart-panel-toggle chart-panel-toggle--black"
-                    data-target="red-zone-placeholder-panel" data-accordion-group="overview-red-zone"
-                    aria-expanded="true" aria-controls="red-zone-placeholder-panel">
-                    <span class="chart-panel-toggle-text">
-                        <span class="chart-panel-toggle-title">Red Zone Scoring Efficiency (Placeholder)</span>
-                        <span class="chart-panel-toggle-hint">Sample trend until full red-zone dataset is wired</span>
-                    </span>
-                    <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
+            <div class="container-fluid">
+                <a class="navbar-brand" href="index.html"><strong>EGRFC Statistics</strong></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
                 </button>
-                <div id="red-zone-placeholder-panel" class="chart-panel-content">
-                    <div class="chart-panel-card">
-                        <div id="redZonePlaceholderChart" style="overflow: visible;"></div>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="season-summary.html">Season Summary</a></li>
+                        <li class="nav-item"><a class="nav-link" href="league-tables.html">League Tables</a></li>
+                        <li class="nav-item"><a class="nav-link" href="squad-stats.html">Squad Stats</a></li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Performance Stats</a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item active" href="performance-stats.html">Overview</a></li>
+                                <li><a class="dropdown-item" href="lineout-performance.html">Lineout Deep Dive</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item"><a class="nav-link" href="player-profiles.html">Player Profiles</a></li>
+                        <li class="nav-item"><a class="nav-link" href="team-sheets.html">Team Sheets</a></li>
+                        <li class="nav-item"><a class="nav-link" href="database.html">Data</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="main-content">
+            <div style="padding: 2rem 1rem; max-width: 1280px; margin: 0 auto;">
+                <div class="page-header">
+                    <div class="page-header-text">
+                        <h1>Performance Stats</h1>
+                        <p>Lineout success, scrum success, and red-zone efficiency in one place. Use the dedicated Lineout Deep Dive page for detailed thrower, jumper, and call analysis.</p>
+                    </div>
+                    <div class="page-header-actions">
+                        <a class="page-header-link" href="lineout-performance.html">
+                            <span>Lineout Deep Dive</span>
+                            <i class="bi bi-arrow-right" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="page-header-filters" style="margin-bottom: 1rem;">
+                    <div class="filter-item" style="min-width: 170px;"><div class="input-group input-group-sm"><span class="input-group-text">Squad</span><select id="lineoutFilterSquad" class="selectpicker form-control flex-fill" data-size="8"><option value="1st">1st XV</option><option value="2nd">2nd XV</option></select></div></div>
+                    <div class="filter-item" style="min-width: 180px;"><div class="input-group input-group-sm"><span class="input-group-text">Season</span><select id="lineoutFilterSeason" class="selectpicker form-control flex-fill" data-size="8"><option value="All">All Seasons</option></select></div></div>
+                    <div class="filter-item" style="min-width: 180px;"><div class="input-group input-group-sm"><span class="input-group-text">Game Type</span><select id="lineoutFilterGameType" class="selectpicker form-control flex-fill" data-size="8"><option value="All">All games</option><option value="League + Cup">League + Cup</option><option value="League only">League only</option></select></div></div>
+                </div>
+
+                <h2 style="color: var(--primary-color); margin-bottom: 0.5rem; font-weight: 900;">Lineout Success</h2>
+                <p style="margin-bottom: 1rem; color: #666; font-size: 0.9rem;">Season-level lineout success trends and fixture head-to-head flow views.</p>
+
+                <div style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-start; margin-bottom: 2rem;">
+                    <div class="chart-panel chart-panel--inline">
+                        <button type="button" class="chart-panel-toggle chart-panel-toggle--black"
+                            data-target="lineout-success-panel" data-accordion-group="lineout-success-section"
+                            aria-expanded="false" aria-controls="lineout-success-panel">
+                            <span class="chart-panel-toggle-text">
+                                <span class="chart-panel-toggle-title">Success Trend</span>
+                                <span class="chart-panel-toggle-hint">Seasonal lineout success by squad</span>
+                            </span>
+                            <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
+                        </button>
+                        <div id="lineout-success-panel" class="chart-panel-content" hidden>
+                            <div class="chart-panel-card"><div id="setPieceLineoutChart" style="overflow: visible;"></div></div>
+                        </div>
+                    </div>
+
+                    <div class="chart-panel chart-panel--inline">
+                        <button type="button" class="chart-panel-toggle chart-panel-toggle--black"
+                            data-target="lineout-h2h-panel" data-accordion-group="lineout-h2h-section"
+                            aria-expanded="false" aria-controls="lineout-h2h-panel">
+                            <span class="chart-panel-toggle-text">
+                                <span class="chart-panel-toggle-title">Lineouts Head-to-Head</span>
+                                <span class="chart-panel-toggle-hint">Turnover flow and success by fixture</span>
+                            </span>
+                            <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
+                        </button>
+                        <div id="lineout-h2h-panel" class="chart-panel-content" hidden>
+                            <div class="chart-panel-card">
+                                <div class="chart-panel-filters">
+                                    <div class="filter-item league-season-picker"><div class="input-group input-group-sm"><span class="input-group-text">Opposition</span><select id="h2hFilterOpposition" class="selectpicker form-control flex-fill" data-size="8"><option value="All">All Opponents</option></select></div></div>
+                                    <div class="filter-item league-season-picker"><div class="input-group input-group-sm"><span class="input-group-text">Team</span><select id="h2hFilterTeamHighlight" class="selectpicker form-control flex-fill" data-size="8"><option value="All">Both Teams</option><option value="EGRFC">EGRFC</option><option value="Opposition">Opposition</option></select></div></div>
+                                    <div class="filter-item league-season-picker"><div class="input-group input-group-sm"><span class="input-group-text">Outcome</span><select id="h2hFilterOutcomeHighlight" class="selectpicker form-control flex-fill" data-size="8"><option value="All">Retained + Turnover</option><option value="Retained">Retained Only</option><option value="Turnover" selected>Turnover Only</option></select></div></div>
+                                </div>
+                                <div id="lineoutH2HChart" style="overflow: visible;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h2 style="color: var(--primary-color); margin-bottom: 0.5rem; font-weight: 900;">Scrum Success</h2>
+                <p style="margin-bottom: 1rem; color: #666; font-size: 0.9rem;">Season-level scrum success trends and fixture head-to-head flow views.</p>
+
+                <div style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-start; margin-bottom: 2rem;">
+                    <div class="chart-panel chart-panel--inline">
+                        <button type="button" class="chart-panel-toggle chart-panel-toggle--black"
+                            data-target="scrum-success-panel" data-accordion-group="scrum-success-section"
+                            aria-expanded="false" aria-controls="scrum-success-panel">
+                            <span class="chart-panel-toggle-text">
+                                <span class="chart-panel-toggle-title">Success Trend</span>
+                                <span class="chart-panel-toggle-hint">Seasonal scrum success by squad</span>
+                            </span>
+                            <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
+                        </button>
+                        <div id="scrum-success-panel" class="chart-panel-content" hidden>
+                            <div class="chart-panel-card"><div id="setPieceScrumChart" style="overflow: visible;"></div></div>
+                        </div>
+                    </div>
+
+                    <div class="chart-panel chart-panel--inline">
+                        <button type="button" class="chart-panel-toggle chart-panel-toggle--black"
+                            data-target="scrum-h2h-panel" data-accordion-group="scrum-h2h-section"
+                            aria-expanded="false" aria-controls="scrum-h2h-panel">
+                            <span class="chart-panel-toggle-text">
+                                <span class="chart-panel-toggle-title">Scrums Head-to-Head</span>
+                                <span class="chart-panel-toggle-hint">Turnover flow and success by fixture</span>
+                            </span>
+                            <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
+                        </button>
+                        <div id="scrum-h2h-panel" class="chart-panel-content" hidden>
+                            <div class="chart-panel-card">
+                                <div class="chart-panel-filters">
+                                    <div class="filter-item league-season-picker"><div class="input-group input-group-sm"><span class="input-group-text">Opposition</span><select id="scrumFilterOpposition" class="selectpicker form-control flex-fill" data-size="8"><option value="All">All Opponents</option></select></div></div>
+                                    <div class="filter-item league-season-picker"><div class="input-group input-group-sm"><span class="input-group-text">Team</span><select id="scrumFilterTeamHighlight" class="selectpicker form-control flex-fill" data-size="8"><option value="All">Both Teams</option><option value="EGRFC">EGRFC</option><option value="Opposition">Opposition</option></select></div></div>
+                                    <div class="filter-item league-season-picker"><div class="input-group input-group-sm"><span class="input-group-text">Outcome</span><select id="scrumFilterOutcomeHighlight" class="selectpicker form-control flex-fill" data-size="8"><option value="All">Retained + Turnover</option><option value="Retained">Retained Only</option><option value="Turnover" selected>Turnover Only</option></select></div></div>
+                                </div>
+                                <div id="scrumH2HChart" style="overflow: visible;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h2 style="color: var(--primary-color); margin-bottom: 0.35rem; font-weight: 900;">Red Zone Success</h2>
+                <p style="margin-bottom: 1rem; color: #666; font-size: 0.9rem;">How effectively each team converts 22m entries into points and tries.</p>
+                <div style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-start; margin-bottom: 2rem;">
+                    <div class="chart-panel chart-panel--inline">
+                        <button type="button" class="chart-panel-toggle chart-panel-toggle--primary"
+                            data-target="rz-success-panel" data-accordion-group="red-zone-section"
+                            aria-expanded="false" aria-controls="rz-success-panel">
+                            <span class="chart-panel-toggle-text">
+                                <span class="chart-panel-toggle-title">Red Zone Success</span>
+                                <span class="chart-panel-toggle-hint">22m entries converted into points</span>
+                            </span>
+                            <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
+                        </button>
+                        <div id="rz-success-panel" class="chart-panel-content" hidden>
+                            <div class="chart-panel-card">
+                                <div id="rzPointsChart" style="overflow: visible;"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="js/nav-layout.js"></script>
-    <script src="js/shared.js"></script>
-    <script src="js/performance-stats-overview.js"></script>
-</body>
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/js/bootstrap-select.min.js"></script>
+        <script src="js/nav-layout.js"></script>
+        <script src="js/shared.js"></script>
+        <script src="js/lineout-performance.js"></script>
+        <script src="js/scrum-performance.js"></script>
+        <script src="js/red-zone-performance.js"></script>
+    </body>
 
-</html>
+    </html>

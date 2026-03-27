@@ -178,6 +178,7 @@ class BackendDatabase:
         self.con.execute("DROP VIEW IF EXISTS v_player_appearance_discrepancy_summary")
         self.con.execute("DROP VIEW IF EXISTS v_season_player_appearances_reconciled")
         self.con.execute("DROP VIEW IF EXISTS v_pitchero_appearance_mismatches")
+        self.con.execute("DROP VIEW IF EXISTS v_red_zone")
         self.con.execute("DROP VIEW IF EXISTS v_lineout_summary")
         self.con.execute("DROP VIEW IF EXISTS v_set_piece_summary")
         self.con.execute("DROP VIEW IF EXISTS v_season_results")
@@ -330,8 +331,10 @@ class BackendDatabase:
                 scrums_total INTEGER,
                 scrums_success_rate DOUBLE,
                 entries_22m INTEGER,
-                points_per_22m_entry DOUBLE,
-                tries_per_22m_entry DOUBLE,
+                points INTEGER,
+                tries INTEGER,
+                points_per_entry DOUBLE,
+                tries_per_entry DOUBLE,
                 game_id TEXT,
                 season TEXT,
                 opposition TEXT,
@@ -548,7 +551,6 @@ class BackendDatabase:
 
         lineouts_raw = self._extract_lineouts(extractor)
         set_piece_raw = extractor.extract_set_piece_stats()
-        red_zone_raw = extractor.extract_red_zone_data()
         pitchero_raw = self._load_pitchero(extractor, refresh_pitchero)
         scorers_2526_raw = self._extract_2526_scorers(extractor)
         rfu_matches_raw = load_consolidated_matches(self.rfu_matches_file.as_posix())
@@ -556,7 +558,7 @@ class BackendDatabase:
         games = self._build_games(games_raw, appearances_raw)
         appearances = self._build_player_appearances(appearances_raw, games)
         lineouts = self._build_lineouts(lineouts_raw, games)
-        set_piece = self._build_set_piece(set_piece_raw, red_zone_raw, games)
+        set_piece = self._build_set_piece(set_piece_raw, games)
         season_scorers = self._build_season_scorers(scorers_2526_raw, pitchero_raw, appearances)
         reconciliation, backfill = self._build_pitchero_appearance_reconciliation(pitchero_raw, appearances)
         appearances = self._apply_backfill_to_appearances(appearances, backfill, reconciliation)
@@ -616,6 +618,29 @@ class BackendDatabase:
                 SUM(score_against) AS points_against
             FROM games
             GROUP BY season, squad, game_type
+            """
+        )
+
+        self.con.execute(
+            """
+            CREATE VIEW v_red_zone AS
+            SELECT
+                sp.game_id,
+                sp.season,
+                sp.squad,
+                sp.date,
+                sp.opposition,
+                g.game_type,
+                sp.team,
+                sp.entries_22m,
+                sp.tries,
+                sp.points,
+                sp.tries_per_entry,
+                sp.points_per_entry
+            FROM set_piece sp
+            LEFT JOIN games g ON sp.game_id = g.game_id
+            WHERE sp.entries_22m IS NOT NULL
+            ORDER BY sp.date DESC, sp.squad, sp.team
             """
         )
 
@@ -904,6 +929,7 @@ class BackendDatabase:
             "v_rfu_match_retention",
             "v_rfu_average_retention",
             "v_rfu_lineup_coverage",
+            "v_red_zone",
         ]
 
         for name in table_names + view_names:
@@ -1428,7 +1454,7 @@ class BackendDatabase:
             ]
         ].rename(columns={"hooker": "thrower"})
 
-    def _build_set_piece(self, set_piece_raw: pd.DataFrame, red_zone_raw: pd.DataFrame, games: pd.DataFrame) -> pd.DataFrame:
+    def _build_set_piece(self, set_piece_raw: pd.DataFrame, games: pd.DataFrame) -> pd.DataFrame:
         if set_piece_raw.empty:
             return pd.DataFrame(
                 columns=[
@@ -1442,44 +1468,21 @@ class BackendDatabase:
                     "scrums_total",
                     "scrums_success_rate",
                     "entries_22m",
-                    "points_per_22m_entry",
-                    "tries_per_22m_entry",
+                    "points",
+                    "tries",
+                    "points_per_entry",
+                    "tries_per_entry",
                     "game_id",
                     "season",
                     "opposition",
                 ]
             )
 
-        # Handle empty red_zone_raw by creating empty DataFrame with required columns
-        if red_zone_raw.empty:
-            red_zone_raw = pd.DataFrame(columns=['game_id', 'team', 'entries', 'tries', 'points_per_visit'])
-
-        merged = (
-            set_piece_raw
-            .merge(games[["game_id", "squad", "date", "season", "opposition"]], on="game_id", how="left")
-            .merge(red_zone_raw[["game_id", "team", "entries", "tries", "points_per_visit"]], on=["game_id", "team"], how="left")
-        )
+        merged = set_piece_raw.merge(games[["game_id", "squad", "date", "season", "opposition"]], on="game_id", how="left")
 
         merged = merged[merged["squad"].notna()]
 
-        lineouts = merged[merged["set_piece"].eq("Lineout")].copy()
-        lineouts = lineouts.rename(columns={"won": "lineouts_won", "total": "lineouts_total"})
-        scrums = merged[merged["set_piece"].eq("Scrum")].copy()
-        scrums = scrums.rename(columns={"won": "scrums_won", "total": "scrums_total"})
-        red_zone = merged[merged["entries"].notna()].copy()
-        if not red_zone.empty:
-            red_zone["entries_22m"] = red_zone["entries"]
-            red_zone["points_per_22m_entry"] = red_zone["points_per_visit"]
-            red_zone["tries_per_22m_entry"] = red_zone["tries"] / red_zone["entries"].replace(0, pd.NA)
-        else:
-            red_zone = pd.DataFrame(columns=["squad", "date", "team", "game_id", "season", "opposition", "entries_22m", "points_per_22m_entry", "tries_per_22m_entry"])
-
-        key = ["squad", "date", "team", "game_id", "season", "opposition"]
-        df = (
-            lineouts[key + ["lineouts_won", "lineouts_total"]]
-            .merge(scrums[key + ["scrums_won", "scrums_total"]], on=key, how="outer")
-            .merge(red_zone[key + ["entries_22m", "points_per_22m_entry", "tries_per_22m_entry"]], on=key, how="outer")
-        )
+        df = merged.copy()
         df["team"] = df["team"].replace({"EG": "EGRFC", "Opp": "Opposition"})
 
         df["lineouts_won"] = pd.to_numeric(df["lineouts_won"], errors="coerce").fillna(0).astype(int)
@@ -1488,9 +1491,11 @@ class BackendDatabase:
         df["scrums_total"] = pd.to_numeric(df["scrums_total"], errors="coerce").fillna(0).astype(int)
         df["lineouts_success_rate"] = (df["lineouts_won"] / df["lineouts_total"].replace(0, pd.NA)).fillna(0.0)
         df["scrums_success_rate"] = (df["scrums_won"] / df["scrums_total"].replace(0, pd.NA)).fillna(0.0)
-        df["entries_22m"] = pd.to_numeric(df.get("entries_22m"), errors="coerce").fillna(0).astype(int)
-        df["points_per_22m_entry"] = pd.to_numeric(df.get("points_per_22m_entry"), errors="coerce").fillna(0.0)
-        df["tries_per_22m_entry"] = pd.to_numeric(df.get("tries_per_22m_entry"), errors="coerce").fillna(0.0)
+        df["entries_22m"] = pd.to_numeric(df.get("entries_22m"), errors="coerce").astype("Int64")
+        df["points"] = pd.to_numeric(df.get("points"), errors="coerce").astype("Int64")
+        df["tries"] = pd.to_numeric(df.get("tries"), errors="coerce").astype("Int64")
+        df["points_per_entry"] = pd.to_numeric(df.get("points_per_entry"), errors="coerce")
+        df["tries_per_entry"] = pd.to_numeric(df.get("tries_per_entry"), errors="coerce")
 
         return df[
             [
@@ -1504,8 +1509,10 @@ class BackendDatabase:
                 "scrums_total",
                 "scrums_success_rate",
                 "entries_22m",
-                "points_per_22m_entry",
-                "tries_per_22m_entry",
+                "points",
+                "tries",
+                "points_per_entry",
+                "tries_per_entry",
                 "game_id",
                 "season",
                 "opposition",
@@ -2069,8 +2076,8 @@ class BackendDatabase:
                     set_piece_lookup[(season, squad)] = {
                         "avgLineoutSuccessRate": round_or_none(group["lineouts_success_rate"].dropna().mean(), 3),
                         "avgScrumSuccessRate": round_or_none(group["scrums_success_rate"].dropna().mean(), 3),
-                        "avgPointsPer22mEntry": round_or_none(group["points_per_22m_entry"].dropna().mean(), 2),
-                        "avgTriesPer22mEntry": round_or_none(group["tries_per_22m_entry"].dropna().mean(), 2),
+                        "avgPointsPer22mEntry": round_or_none(group["points_per_entry"].dropna().mean(), 2),
+                        "avgTriesPer22mEntry": round_or_none(group["tries_per_entry"].dropna().mean(), 2),
                         "gamesWithSetPieceData": int(group["game_id"].dropna().nunique()),
                     }
 

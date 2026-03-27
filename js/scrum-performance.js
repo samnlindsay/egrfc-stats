@@ -1,6 +1,15 @@
 (function () {
     const SCRUM_H2H_SPEC_PATH = 'data/charts/scrum_h2h.json';
 
+    function getControlElement(preferredId, fallbackId = null) {
+        return document.getElementById(preferredId) || (fallbackId ? document.getElementById(fallbackId) : null);
+    }
+
+    function getControlValue(preferredId, fallbackId = null, fallbackValue = 'All') {
+        const el = getControlElement(preferredId, fallbackId);
+        return el ? el.value : fallbackValue;
+    }
+
     const H2H_SIGNAL_IDS = {
         h2hSquadFilter: 'scrumFilterSquad',
         h2hSeasonFilter: 'scrumFilterSeason',
@@ -13,6 +22,7 @@
     let scrumH2HView = null;
     let scrumH2HBaseSpec = null;
     let scrumH2HLayoutKey = null;
+    let scrumSuccessView = null;
 
     async function renderChartSpec(containerId, path, emptyMessage) {
         const container = document.getElementById(containerId);
@@ -135,7 +145,9 @@
             };
         });
 
-        populateSelect('scrumFilterSeason', Array.from(new Set(rows.map((row) => row.season))).filter(Boolean).sort(seasonSort).reverse(), 'All Seasons');
+        if (document.getElementById('scrumFilterSeason')) {
+            populateSelect('scrumFilterSeason', Array.from(new Set(rows.map((row) => row.season))).filter(Boolean).sort(seasonSort).reverse(), 'All Seasons');
+        }
         populateSelect('scrumFilterOpposition', Array.from(new Set(rows.map((row) => row.opposition))).sort(), 'All Opponents');
     }
 
@@ -143,9 +155,25 @@
         scrumH2HView = await ensureScrumH2HViewLayout();
         if (!scrumH2HView) return;
         Object.entries(H2H_SIGNAL_IDS).forEach(([signalName, controlId]) => {
-            const element = document.getElementById(controlId);
-            scrumH2HView.signal(signalName, element ? element.value : 'All');
+            if (controlId === 'scrumFilterSquad') {
+                scrumH2HView.signal(signalName, getControlValue('scrumFilterSquad', 'lineoutFilterSquad'));
+                return;
+            }
+            if (controlId === 'scrumFilterSeason') {
+                scrumH2HView.signal(signalName, getControlValue('scrumFilterSeason', 'lineoutFilterSeason'));
+                return;
+            }
+            if (controlId === 'scrumFilterGameType') {
+                scrumH2HView.signal(signalName, getControlValue('scrumFilterGameType', 'lineoutFilterGameType'));
+                return;
+            }
+            scrumH2HView.signal(signalName, getControlValue(controlId));
         });
+        if (scrumSuccessView) {
+            scrumSuccessView.signal('spSquadParam', getControlValue('scrumFilterSquad', 'lineoutFilterSquad'));
+            await scrumSuccessView.runAsync();
+        }
+
         await scrumH2HView.runAsync();
     }
 
@@ -167,11 +195,12 @@
         const controls = [
             'scrumFilterSquad', 'scrumFilterSeason', 'scrumFilterGameType',
             'scrumFilterOpposition', 'scrumFilterTeamHighlight', 'scrumFilterOutcomeHighlight',
+            'lineoutFilterSquad', 'lineoutFilterSeason', 'lineoutFilterGameType',
         ];
 
         await loadScrumFilterOptions();
         controls.forEach((id) => {
-            rebuildBootstrapSelect(document.getElementById(id));
+            rebuildBootstrapSelect(getControlElement(id));
         });
         try {
             scrumH2HView = await ensureScrumH2HViewLayout();
@@ -181,7 +210,7 @@
         await applyScrumFilters();
 
         controls.forEach((id) => {
-            const element = document.getElementById(id);
+            const element = getControlElement(id);
             if (!element) return;
             element.addEventListener('change', () => {
                 enforceH2HFilterExclusivity(id);
@@ -193,11 +222,8 @@
     }
 
     document.addEventListener('DOMContentLoaded', async function () {
-        await Promise.all([
-            renderChartSpec('setPiece1stScrumChart', 'data/charts/set_piece_success_1st_scrum.json', '1st XV scrum chart unavailable.'),
-            renderChartSpec('setPiece2ndScrumChart', 'data/charts/set_piece_success_2nd_scrum.json', '2nd XV scrum chart unavailable.'),
-            setupScrumFilters(),
-        ]);
+        scrumSuccessView = await renderChartSpec('setPieceScrumChart', 'data/charts/set_piece_success_scrum.json', 'Scrum success chart unavailable.');
+        await setupScrumFilters();
         initialiseChartPanelToggles();
     });
 })();

@@ -680,50 +680,77 @@ class DataExtractor:
 
     def extract_set_piece_stats(self):
         ss = self.client.open_by_url(self.sheet_url)
-        
-        headers = [
-            "", "Season", "Date", "Opposition", "H/A", "F", "A", "PD",
-            # Lineouts
-            'Won', 'Total', 'Success rate',
-            'Won', 'Total', 'Success rate',
-            'Total', 'Net gain',
-            # Scrums
-            'Won', 'Total', 'Success rate',
-            'Won', 'Total', 'Success rate',
-            'Total', 'Net gain',
-        ]
-
         set_piece_data = []
 
         for squad_name, sheet_name in [("1st", "1st XV Set piece"), ("2nd", "2nd XV Set piece")]:
             try:
                 sheet = ss.worksheet(sheet_name)
-                # Extract data from given range (A5:V)
-                data = sheet.get("A5:V")
+                # Extract one wide range so set piece and red zone are handled together.
+                data = sheet.get("A5:AH")
                 
                 for row in data:
-                    if not row[1]: # Skip if no season
+                    if len(row) <= 2 or not row[1]:
                         continue
 
+                    eg_entries = self._safe_int(row[24] if len(row) > 24 else None)
+                    opp_entries = self._safe_int(row[28] if len(row) > 28 else None)
+                    eg_points_per_entry = self._safe_float(row[25] if len(row) > 25 else None)
+                    opp_points_per_entry = self._safe_float(row[29] if len(row) > 29 else None)
+                    eg_tries = self._safe_int(row[26] if len(row) > 26 else None)
+                    opp_tries = self._safe_int(row[30] if len(row) > 30 else None)
+                    eg_tries_per_entry = self._safe_float(row[27] if len(row) > 27 else None)
+                    opp_tries_per_entry = self._safe_float(row[31] if len(row) > 31 else None)
+
+                    if eg_tries_per_entry is None and eg_entries not in (None, 0) and eg_tries is not None:
+                        eg_tries_per_entry = eg_tries / eg_entries
+                    if opp_tries_per_entry is None and opp_entries not in (None, 0) and opp_tries is not None:
+                        opp_tries_per_entry = opp_tries / opp_entries
+
                     game_data = {
-                        'team': ['EG', 'Opp', 'EG', 'Opp'],
-                        'set_piece': ['Lineout', 'Lineout', 'Scrum', 'Scrum'],
-                        'won': [self._safe_int(row[8]), self._safe_int(row[11]), self._safe_int(row[16]), self._safe_int(row[19])],
-                        'total': [self._safe_int(row[9]), self._safe_int(row[12]), self._safe_int(row[17]), self._safe_int(row[20])],
+                        "team": ["EG", "Opp"],
+                        "lineouts_won": [self._safe_int(row[8] if len(row) > 8 else None), self._safe_int(row[11] if len(row) > 11 else None)],
+                        "lineouts_total": [self._safe_int(row[9] if len(row) > 9 else None), self._safe_int(row[12] if len(row) > 12 else None)],
+                        "scrums_won": [self._safe_int(row[16] if len(row) > 16 else None), self._safe_int(row[19] if len(row) > 19 else None)],
+                        "scrums_total": [self._safe_int(row[17] if len(row) > 17 else None), self._safe_int(row[20] if len(row) > 20 else None)],
+                        "entries_22m": [eg_entries, opp_entries],
+                        "points": [self._safe_int(row[5] if len(row) > 5 else None), self._safe_int(row[6] if len(row) > 6 else None)],
+                        "tries": [eg_tries, opp_tries],
+                        "points_per_entry": [eg_points_per_entry, opp_points_per_entry],
+                        "tries_per_entry": [eg_tries_per_entry, opp_tries_per_entry],
                     }
 
-                    for team, sp, won, total in zip(game_data['team'], game_data['set_piece'], game_data['won'], game_data['total']):
+                    for i, team in enumerate(game_data["team"]):
                         set_piece_data.append({
-                            'date': self._parse_date(row[2]),
-                            'squad': squad_name,
-                            'team': team,
-                            'set_piece': sp,
-                            'won': won,
-                            'lost': total - won,
-                            'total': total,
-                            })
+                            "date": self._parse_date(row[2]),
+                            "squad": squad_name,
+                            "team": team,
+                            "lineouts_won": game_data["lineouts_won"][i],
+                            "lineouts_total": game_data["lineouts_total"][i],
+                            "scrums_won": game_data["scrums_won"][i],
+                            "scrums_total": game_data["scrums_total"][i],
+                            "entries_22m": game_data["entries_22m"][i],
+                            "points": game_data["points"][i],
+                            "tries": game_data["tries"][i],
+                            "points_per_entry": game_data["points_per_entry"][i],
+                            "tries_per_entry": game_data["tries_per_entry"][i],
+                        })
             except Exception as e:
                 print(f"Error extracting set piece stats for {squad_name}: {e}")
+
+        if not set_piece_data:
+            return pd.DataFrame(columns=[
+                "game_id",
+                "team",
+                "lineouts_won",
+                "lineouts_total",
+                "scrums_won",
+                "scrums_total",
+                "entries_22m",
+                "points",
+                "tries",
+                "points_per_entry",
+                "tries_per_entry",
+            ])
 
         # Join to games to get game_id
         df_set_piece = pd.DataFrame(set_piece_data)
@@ -733,92 +760,19 @@ class DataExtractor:
         # Merge on date and squad
         df_merged = pd.merge(df_set_piece, df_games, on=['date', 'squad'], how='left')
         df_merged.drop(columns=['date', 'squad'], inplace=True) # drop date and squad columns
-        df_merged = df_merged[['game_id', 'team', 'set_piece', 'won', 'lost', 'total']]
-        df_merged = df_merged[df_merged['game_id'].notnull()] # keep only rows with game_id
-        
-        return df_merged
-    
-    def extract_red_zone_data(self):
-        """Extract red zone data"""
-        ss = self.client.open_by_url(self.sheet_url)
-        
-        headers = [
-            "", "Season", "Date", "Opposition", "H/A", "F", "A", "PD",
-            # Lineouts
-            'Won', 'Total', 'Success rate',
-            'Won', 'Total', 'Success rate',
-            'Total', 'Net gain',
-            # Scrums
-            'Won', 'Total', 'Success rate',
-            'Won', 'Total', 'Success rate',
-            'Total', 'Net gain',
-            # Red Zone
-            "22m Entries", "Pts per visit", "Tries", "Try rate",
-            "22m Entries", "Pts per visit", "Tries", "Try rate",
-            "22m Entries", "Pts per visit"
-        ]
-
-        red_zone_data = []
-
-        for squad_name, sheet_name in [("1st", "1st XV Set piece"), ("2nd", "2nd XV Set piece")]:
-            try:
-                sheet = ss.worksheet(sheet_name)
-                # Extract data from given range (A5:AH)
-                data = sheet.get("A5:AH")
-                
-                for row in data:
-                    if len(row) <= 2 or not row[1]: # Skip if no season
-                        continue
-
-                    eg_entries = self._safe_int(row[24] if len(row) > 24 else None)
-                    eg_points_per_visit = self._safe_float(row[25] if len(row) > 25 else None)
-                    eg_tries = self._safe_int(row[26] if len(row) > 26 else None)
-                    opp_entries = self._safe_int(row[28] if len(row) > 28 else None)
-                    opp_points_per_visit = self._safe_float(row[29] if len(row) > 29 else None)
-                    opp_tries = self._safe_int(row[30] if len(row) > 30 else None)
-
-                    if not any(value is not None for value in [
-                        eg_entries,
-                        eg_points_per_visit,
-                        eg_tries,
-                        opp_entries,
-                        opp_points_per_visit,
-                        opp_tries,
-                    ]):
-                        continue
-
-                    game_data = {
-                        'team': ['EG', 'Opp'],
-                        'entries': [eg_entries, opp_entries],
-                        'tries': [eg_tries, opp_tries],
-                        'points_per_visit': [eg_points_per_visit, opp_points_per_visit],
-                    }
-
-                    for team, entries, tries, points_per_visit in zip(game_data['team'], game_data['entries'], game_data['tries'], game_data['points_per_visit']):
-                        red_zone_data.append({
-                            'date': self._parse_date(row[2]),
-                            'squad': squad_name,
-                            'team': team,
-                            'entries': entries,
-                            'tries': tries,
-                            'points_per_visit': points_per_visit,
-                            })
-            except Exception as e:
-                print(f"Error extracting red zone data for {squad_name}: {e}")
-
-        # Join to games to get game_id
-        if not red_zone_data:
-            # Return empty DataFrame with correct structure
-            return pd.DataFrame(columns=['game_id', 'team', 'entries', 'tries', 'points_per_visit'])
-        
-        df_red_zone = pd.DataFrame(red_zone_data)
-        df_games = self.extract_games_data()[['game_id', 'date', 'squad']]
-        df_red_zone['date'] = pd.to_datetime(df_red_zone['date'])
-        df_games['date'] = pd.to_datetime(df_games['date'])
-        # Merge on date and squad
-        df_merged = pd.merge(df_red_zone, df_games, on=['date', 'squad'], how='left')
-        df_merged.drop(columns=['date', 'squad'], inplace=True) # drop date and squad columns
-        df_merged = df_merged[['game_id', 'team', 'entries', 'tries', 'points_per_visit']]
+        df_merged = df_merged[[
+            'game_id',
+            'team',
+            'lineouts_won',
+            'lineouts_total',
+            'scrums_won',
+            'scrums_total',
+            'entries_22m',
+            'points',
+            'tries',
+            'points_per_entry',
+            'tries_per_entry',
+        ]]
         df_merged = df_merged[df_merged['game_id'].notnull()] # keep only rows with game_id
         
         return df_merged

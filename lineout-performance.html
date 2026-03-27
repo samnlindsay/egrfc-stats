@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EGRFC Statistics - Lineout Performance</title>
+    <title>EGRFC Statistics - Lineout Deep Dive</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -44,8 +44,7 @@
                         <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Performance Stats</a>
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li><a class="dropdown-item" href="performance-stats.html">Overview</a></li>
-                            <li><a class="dropdown-item active" href="lineout-performance.html">Lineout</a></li>
-                            <li><a class="dropdown-item" href="scrum-performance.html">Scrum</a></li>
+                            <li><a class="dropdown-item active" href="lineout-performance.html">Lineout Deep Dive</a></li>
                         </ul>
                     </li>
                     <li class="nav-item"><a class="nav-link" href="player-profiles.html">Player Profiles</a></li>
@@ -60,8 +59,8 @@
         <div style="padding: 2rem 1rem; max-width: 1280px; margin: 0 auto;">
             <div class="page-header">
                 <div class="page-header-text">
-                    <h1>Lineout Performance</h1>
-                    <p>Lineout outcomes, turnover flow, and detailed breakdown/trend views across squads and seasons.</p>
+                    <h1>Lineout Deep Dive</h1>
+                    <p>Detailed lineout breakdown and trend views across squads and seasons.</p>
                 </div>
                 <div class="page-header-filters">
                     <div class="filter-item" style="min-width: 170px;"><div class="input-group input-group-sm"><span class="input-group-text">Squad</span><select id="lineoutFilterSquad" class="selectpicker form-control flex-fill" data-size="8"><option value="1st">1st XV</option><option value="2nd">2nd XV</option></select></div></div>
@@ -71,62 +70,6 @@
             </div>
 
             <p style="margin-bottom: 1rem;"><a href="performance-stats.html">Back to Performance Stats overview</a></p>
-
-            <h2 style="color: var(--primary-color); margin-bottom: 0.5rem; font-weight: 900;">Lineout Success</h2>
-            <p style="margin-bottom: 1rem; color: #666; font-size: 0.9rem;">Season-level lineout success trends and fixture head-to-head flow views.</p>
-            <div style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-start; margin-bottom: 2rem;">
-                <div class="chart-panel chart-panel--inline">
-                    <button type="button" class="chart-panel-toggle chart-panel-toggle--primary"
-                        data-target="lineout-1st-panel" data-accordion-group="lineout-success-section"
-                        aria-expanded="false" aria-controls="lineout-1st-panel">
-                        <span class="chart-panel-toggle-text">
-                            <span class="chart-panel-toggle-title">1st XV Success Trend</span>
-                            <span class="chart-panel-toggle-hint">Seasonal lineout success</span>
-                        </span>
-                        <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
-                    </button>
-                    <div id="lineout-1st-panel" class="chart-panel-content" hidden>
-                        <div class="chart-panel-card"><div id="setPiece1stLineoutChart" style="overflow: visible;"></div></div>
-                    </div>
-                </div>
-
-                <div class="chart-panel chart-panel--inline">
-                    <button type="button" class="chart-panel-toggle chart-panel-toggle--accent"
-                        data-target="lineout-2nd-panel" data-accordion-group="lineout-success-section"
-                        aria-expanded="false" aria-controls="lineout-2nd-panel">
-                        <span class="chart-panel-toggle-text">
-                            <span class="chart-panel-toggle-title">2nd XV Success Trend</span>
-                            <span class="chart-panel-toggle-hint">Seasonal lineout success</span>
-                        </span>
-                        <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
-                    </button>
-                    <div id="lineout-2nd-panel" class="chart-panel-content" hidden>
-                        <div class="chart-panel-card"><div id="setPiece2ndLineoutChart" style="overflow: visible;"></div></div>
-                    </div>
-                </div>
-
-                <div class="chart-panel chart-panel--inline">
-                    <button type="button" class="chart-panel-toggle chart-panel-toggle--black"
-                        data-target="lineout-h2h-panel" data-accordion-group="lineout-h2h-section"
-                        aria-expanded="false" aria-controls="lineout-h2h-panel">
-                        <span class="chart-panel-toggle-text">
-                            <span class="chart-panel-toggle-title">Lineouts Head-to-Head</span>
-                            <span class="chart-panel-toggle-hint">Turnover flow and success by fixture</span>
-                        </span>
-                        <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
-                    </button>
-                    <div id="lineout-h2h-panel" class="chart-panel-content" hidden>
-                        <div class="chart-panel-card">
-                            <div class="chart-panel-filters">
-                                <div class="filter-item league-season-picker"><div class="input-group input-group-sm"><span class="input-group-text">Opposition</span><select id="h2hFilterOpposition" class="selectpicker form-control flex-fill" data-size="8"><option value="All">All Opponents</option></select></div></div>
-                                <div class="filter-item league-season-picker"><div class="input-group input-group-sm"><span class="input-group-text">Team</span><select id="h2hFilterTeamHighlight" class="selectpicker form-control flex-fill" data-size="8"><option value="All">Both Teams</option><option value="EGRFC">EGRFC</option><option value="Opposition">Opposition</option></select></div></div>
-                                <div class="filter-item league-season-picker"><div class="input-group input-group-sm"><span class="input-group-text">Outcome</span><select id="h2hFilterOutcomeHighlight" class="selectpicker form-control flex-fill" data-size="8"><option value="All">Retained + Turnover</option><option value="Retained">Retained Only</option><option value="Turnover" selected>Turnover Only</option></select></div></div>
-                            </div>
-                            <div id="lineoutH2HChart" style="overflow: visible;"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
             <h2 style="color: var(--primary-color); margin-bottom: 0.5rem; font-weight: 900;">Lineout Deep Dive</h2>
             <p style="margin-bottom: 1rem; color: #666; font-size: 0.9rem;">Breakdown and season trend views paired by analysis
