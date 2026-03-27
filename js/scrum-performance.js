@@ -106,6 +106,7 @@
             select.appendChild(option);
         });
         select.value = Array.from(select.options).some((option) => option.value === currentValue) ? currentValue : 'All';
+        rebuildBootstrapSelect(select);
     }
 
     function seasonSort(a, b) {
@@ -169,6 +170,9 @@
         ];
 
         await loadScrumFilterOptions();
+        controls.forEach((id) => {
+            rebuildBootstrapSelect(document.getElementById(id));
+        });
         try {
             scrumH2HView = await ensureScrumH2HViewLayout();
         } catch (error) {

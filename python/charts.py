@@ -10,6 +10,8 @@ import json
 from collections import defaultdict
 import altair as alt
 import pandas as pd
+import re
+import duckdb
 from python.data_prep import *
 from python.chart_helpers import hack_params_css, alt_theme, get_embed_options
 from copy import deepcopy
@@ -3285,115 +3287,540 @@ def lineout_analysis_panel_chart_suite(db, output_dir="data/charts"):
 #################################
 # League Analysis Charts
 #################################
-def league_results_chart(db, season="2024-2025", league="Counties 1 Surrey/Sussex", output_file='data/charts/league_results.json'):
-    """Create league results matrix chart"""
-    
-    # Query league match data
+def _infer_egr_squad(team_name):
+    if not isinstance(team_name, str):
+        return None
+    team = team_name.strip().lower()
+    if "east grinstead" not in team:
+        return None
+    if re.search(r"\b(ii|2nd|second)\b", team):
+        return 2
+    return 1
+
+
+def _is_truthy_walkover(value):
+    """Return True only for explicit walkover flags, not NaN/None placeholders."""
+
+    if value is None:
+        return False
+    try:
+        if pd.isna(value):
+            return False
+    except (TypeError, ValueError):
+        pass
+
+    if isinstance(value, bool):
+        return value
+
+    if isinstance(value, (int, float)):
+        return value == 1
+
+    token = re.sub(r"[^A-Z0-9]", "", str(value).upper())
+    return token in {"TRUE", "T", "YES", "Y", "1", "HWO", "AWO", "WO", "WALKOVER"}
+
+
+def _is_future_unplayed_fixture(row):
+    """Treat future fixtures without scores as unplayed even if walkover flags are noisy."""
+
+    home_score = row.get("home_score")
+    away_score = row.get("away_score")
+    if pd.notna(home_score) and pd.notna(away_score):
+        return False
+
+    match_date = pd.to_datetime(row.get("date"), errors="coerce")
+    if pd.isna(match_date):
+        return False
+
+    return match_date.normalize() > pd.Timestamp.today().normalize()
+
+
+def _load_league_table_rank_map(squad, season):
+    """Load team->rank mapping from the same CSV league tables used by league_stats.py."""
+
+    if squad not in (1, 2):
+        return {}
+
+    season_text = _normalize_rfu_season_label(season)
+    season_match = re.match(r"^(\d{4})-(\d{4})$", season_text)
+    if season_match:
+        start_year, end_year = season_match.groups()
+        season_token = f"{start_year}_{end_year[-2:]}"
+    else:
+        short_match = re.match(r"^(\d{4})-(\d{2})$", season_text)
+        if not short_match:
+            return {}
+        start_year, end_short = short_match.groups()
+        season_token = f"{start_year}_{end_short}"
+
+    csv_file = Path(__file__).resolve().parent.parent / "data" / f"league_table_{season_token}_squad_{squad}.csv"
+    if not csv_file.exists():
+        return {}
+
+    try:
+        table_df = pd.read_csv(csv_file)
+    except Exception:
+        return {}
+
+    if table_df.empty:
+        return {}
+
+    sample_cols = set(table_df.columns)
+    team_col = "TEAM" if "TEAM" in sample_cols else "Team" if "Team" in sample_cols else None
+    rank_col = "#" if "#" in sample_cols else "Rank" if "Rank" in sample_cols else "Pos" if "Pos" in sample_cols else None
+    if not team_col or not rank_col:
+        return {}
+
+    rank_map = {}
+    for _, row in table_df.iterrows():
+        team_name = row.get(team_col)
+        rank_value = pd.to_numeric(row.get(rank_col), errors="coerce")
+        if pd.isna(rank_value) or not team_name:
+            continue
+        rank_map[str(team_name)] = int(rank_value)
+
+    return rank_map
+
+
+def _derive_league_result(row):
+    if row["home_team"] == row["away_team"]:
+        return "N/A"
+
+    if _is_future_unplayed_fixture(row):
+        return "To be played"
+
+    if _is_truthy_walkover(row.get("home_walkover")):
+        return "Home Win"
+    if _is_truthy_walkover(row.get("away_walkover")):
+        return "Away Win"
+
+    home_score = row.get("home_score")
+    away_score = row.get("away_score")
+    if pd.isna(home_score) or pd.isna(away_score):
+        return "To be played"
+
+    pdiff = int(home_score) - int(away_score)
+    if pdiff > 0:
+        return "Home Win (LBP)" if pdiff <= 7 else "Home Win"
+    if pdiff < 0:
+        return "Away Win (LBP)" if abs(pdiff) <= 7 else "Away Win"
+    return "Draw"
+
+
+def _normalize_rfu_season_label(season):
+    """Normalise RFU season labels for stable filenames/index keys.
+
+    Examples:
+    - 2021/22 -> 2021-2022
+    - 2021-22 -> 2021-2022
+    - 2024-2025 -> 2024-2025
+    """
+
+    text = str(season or "").strip()
+    match_short = re.match(r"^(\d{4})[/-](\d{2})$", text)
+    if match_short:
+        start = int(match_short.group(1))
+        end = int(match_short.group(2))
+        end_full = (start // 100) * 100 + end
+        if end_full < start:
+            end_full += 100
+        return f"{start}-{end_full}"
+
+    match_long = re.match(r"^(\d{4})[/-](\d{4})$", text)
+    if match_long:
+        return f"{match_long.group(1)}-{match_long.group(2)}"
+
+    return text.replace("/", "-")
+
+
+def _league_score_coverage(con):
+    """Return (total_league_rows, rows_with_scores) for games_rfu in a connection."""
+
+    total_rows, with_scores = con.execute(
+        """
+        SELECT
+            COUNT(*) AS total_rows,
+            SUM(CASE WHEN home_score IS NOT NULL AND away_score IS NOT NULL THEN 1 ELSE 0 END) AS with_scores
+        FROM games_rfu
+        WHERE league IS NOT NULL
+        """
+    ).fetchone()
+
+    return int(total_rows or 0), int(with_scores or 0)
+
+
+def _select_league_source_connection(db):
+    """Pick the backend DB connection with the best games_rfu score coverage.
+
+    This prevents league chart specs being generated from a stale primary DB when
+    the fallback backend DB has fresher RFU scores.
+    """
+
+    active_con = db.con
+    best_con = active_con
+    best_label = "active"
+    best_total, best_scores = _league_score_coverage(active_con)
+    opened_connections = []
+
+    root = Path(__file__).resolve().parent.parent
+    candidate_paths = [
+        root / "data" / "egrfc_backend.duckdb",
+        root / "data" / "egrfc_backend_alt.duckdb",
+    ]
+
+    active_db_path = None
+    if hasattr(db, "config") and getattr(db.config, "db_path", None):
+        active_db_path = (root / db.config.db_path).resolve()
+
+    for candidate in candidate_paths:
+        try:
+            resolved_candidate = candidate.resolve()
+        except FileNotFoundError:
+            continue
+
+        if active_db_path is not None and resolved_candidate == active_db_path:
+            continue
+        if not candidate.exists():
+            continue
+
+        try:
+            con = duckdb.connect(str(candidate), read_only=True)
+            opened_connections.append(con)
+            total_rows, with_scores = _league_score_coverage(con)
+        except Exception:
+            continue
+
+        if with_scores > best_scores:
+            best_con = con
+            best_label = candidate.name
+            best_total = total_rows
+            best_scores = with_scores
+
+    return best_con, best_label, best_total, best_scores, opened_connections
+
+
+def league_results_chart(db, season="2024-2025", league="Counties 1 Surrey/Sussex", output_file="data/charts/league_results.json", squad=None):
+    """Create league results matrix chart from canonical backend data."""
+
     df = db.con.execute(
         """
-        SELECT 
+        SELECT
             match_id,
             date,
             home_team,
             away_team,
             home_score,
             away_score,
-            (home_score - away_score) as point_difference,
-            CASE 
-                WHEN home_score > away_score THEN 'Home Win'
-                WHEN home_score < away_score THEN 'Away Win'
-                WHEN home_score = away_score THEN 'Draw'
-                ELSE 'To be played'
-            END as result,
-            CASE 
-                WHEN ABS(home_score - away_score) <= 7 AND home_score != away_score THEN TRUE
-                ELSE FALSE
-            END as losing_bonus_point
-        FROM league_matches 
+            home_walkover,
+            away_walkover
+        FROM games_rfu
         WHERE season = ? AND league = ?
         ORDER BY date DESC
-        """, [season, league]
+        """,
+        [season, league],
     ).df()
-    
+
     if df.empty:
         print(f"No league data found for {season} {league}")
         return None
-    
-    # Get all teams
-    teams = sorted(set(df['home_team'].unique()) | set(df['away_team'].unique()))
-    
-    # Create full matrix (all team combinations)
+
+    teams = sorted(set(df["home_team"].dropna().unique()) | set(df["away_team"].dropna().unique()))
+
     import itertools
-    all_combinations = list(itertools.product(teams, repeat=2))
-    matrix_df = pd.DataFrame(all_combinations, columns=['home_team', 'away_team'])
-    
-    # Merge with actual results
-    matrix_df = matrix_df.merge(df, on=['home_team', 'away_team'], how='left')
-    matrix_df['result'] = matrix_df['result'].fillna('To be played')
-    matrix_df['score_text'] = matrix_df.apply(
-        lambda x: f"{x['home_score']}-{x['away_score']}" if pd.notna(x['home_score']) else "",
-        axis=1
+
+    matrix_df = pd.DataFrame(list(itertools.product(teams, repeat=2)), columns=["home_team", "away_team"])
+    matrix_df = matrix_df.merge(df, on=["home_team", "away_team"], how="left")
+
+    matrix_df["result"] = matrix_df.apply(_derive_league_result, axis=1)
+
+    def _score_parts(row):
+        if row["home_team"] == row["away_team"]:
+            return ("", "", "")
+
+        if _is_future_unplayed_fixture(row):
+            return ("", "", "")
+
+        if _is_truthy_walkover(row.get("home_walkover")):
+            return ("WO", "", "HWO")
+        if _is_truthy_walkover(row.get("away_walkover")):
+            return ("", "WO", "AWO")
+
+        home_score = row.get("home_score")
+        away_score = row.get("away_score")
+        if pd.notna(home_score) and pd.notna(away_score):
+            return (str(int(home_score)), str(int(away_score)), "")
+
+        return ("", "", "")
+
+    score_parts = matrix_df.apply(_score_parts, axis=1)
+    matrix_df[["home_score_text", "away_score_text", "wo_result"]] = pd.DataFrame(
+        score_parts.tolist(), index=matrix_df.index
     )
-    
-    # Color scale
+    matrix_df["score_text"] = matrix_df.apply(
+        lambda row: f"{row['home_score_text']}-{row['away_score_text']}"
+        if row["home_score_text"] and row["away_score_text"]
+        else row["home_score_text"] or row["away_score_text"],
+        axis=1,
+    )
+
+    completed_df = df.dropna(subset=["home_score", "away_score"]).copy()
+    if completed_df.empty:
+        pd_map = {}
+    else:
+        completed_df["home_pd"] = completed_df["home_score"] - completed_df["away_score"]
+        completed_df["away_pd"] = completed_df["away_score"] - completed_df["home_score"]
+        home_pd = completed_df.groupby("home_team", as_index=True)["home_pd"].sum()
+        away_pd = completed_df.groupby("away_team", as_index=True)["away_pd"].sum()
+        pd_map = home_pd.add(away_pd, fill_value=0).to_dict()
+
+    matrix_df["display_text"] = matrix_df["score_text"]
+    matrix_df["is_diagonal"] = matrix_df["home_team"] == matrix_df["away_team"]
+    diagonal_mask = matrix_df["home_team"] == matrix_df["away_team"]
+    matrix_df.loc[diagonal_mask, "display_text"] = matrix_df.loc[diagonal_mask, "home_team"].map(
+        lambda team: f"{int(pd_map.get(team, 0)):+d}"
+    )
+
+    matrix_df["result_simple"] = matrix_df["result"].map(
+        lambda value: "Home Win" if str(value).startswith("Home Win")
+        else "Away Win" if str(value).startswith("Away Win")
+        else "Draw" if value == "Draw"
+        else "To be played" if value == "To be played"
+        else "N/A"
+    )
+
+    rank_map = _load_league_table_rank_map(squad, season)
+    if rank_map:
+        team_order = sorted(teams, key=lambda team: (rank_map.get(team, 999), team))
+    else:
+        team_order = sorted(teams)
+    preferred_eg_team = "East Grinstead II" if squad == 2 else "East Grinstead"
+    default_eg_team = preferred_eg_team if preferred_eg_team in team_order else next(
+        (team for team in team_order if str(team).startswith("East Grinstead")),
+        None,
+    )
+    default_highlight = [{"home_team": default_eg_team}] if default_eg_team else None
+
     color_scale = alt.Scale(
-        domain=['Home Win', 'Away Win', 'Draw', 'To be played'],
-        range=['#146f14', '#991515', 'goldenrod', 'white']
+        domain=["Home Win", "Home Win (LBP)", "Away Win", "Away Win (LBP)", "Draw", "To be played", "N/A"],
+        range=["#146f14", "#146f14a0", "#991515", "#991515a0", "goldenrod", "white", "#202946"],
     )
-    
-    # Team highlight selection
-    team_highlight = alt.selection_point(
-        fields=['home_team'], 
-        on='click',
-        clear='dblclick'
+
+    result_legend = alt.Legend(
+        orient="bottom",
+        direction="horizontal",
+        columns=4,
+        symbolStrokeColor="black",
+        symbolStrokeWidth=1,
+        values=["Home Win", "Away Win", "Draw", "To be played"],
+        offset=16,
+        labelLimit=200,
     )
-    
-    # Base chart
-    base = alt.Chart(matrix_df).add_params(team_highlight)
-    
-    # Heatmap
-    heatmap = base.mark_rect(stroke='black', strokeWidth=1).encode(
-        x=alt.X('away_team:N', title='Away Team', sort=teams, axis=alt.Axis(labelAngle=45)),
-        y=alt.Y('home_team:N', title='Home Team', sort=teams[::-1]),
-        color=alt.Color('result:N', scale=color_scale, legend=alt.Legend(title='Result')),
-        opacity=alt.condition(
-            alt.expr(f"datum.home_team == {team_highlight.name}['home_team'] || datum.away_team == {team_highlight.name}['home_team']"),
-            alt.value(1.0),
-            alt.value(0.3)
+
+    highlight = alt.selection_point(fields=["home_team"], on="click", clear="dblclick", empty="none", value=default_highlight)
+    predicate = f"datum.home_team == {highlight.name}['home_team'] || datum.away_team == {highlight.name}['home_team']"
+    visible_predicate = f"{predicate} || !isValid({highlight.name}['home_team'])"
+    text_color = alt.condition(visible_predicate, alt.value("white"), alt.value("black"))
+
+    title_text = f"{league} Results"
+
+    base = alt.Chart(matrix_df).add_params(highlight)
+    heatmap = base.mark_rect().encode(
+        x=alt.X("away_team:N", title="Away Team", sort=team_order[::-1], axis=alt.Axis(labelAngle=30, orient="top", ticks=False, domain=False, grid=False)),
+        y=alt.Y("home_team:N", title="Home Team", sort=team_order, axis=alt.Axis(ticks=False, domain=False, grid=False)),
+        color=alt.Color(
+            "result:N",
+            scale=color_scale,
+            title="Result",
+            legend=result_legend,
         ),
+        opacity=alt.condition(visible_predicate, alt.value(1.0), alt.value(0.2)),
         tooltip=[
-            'home_team:N',
-            'away_team:N', 
-            'score_text:N',
-            'result:N',
-            alt.Tooltip('date:T', format='%d %b %Y')
-        ]
+            alt.Tooltip("home_team:N", title="Home"),
+            alt.Tooltip("away_team:N", title="Away"),
+            alt.Tooltip("home_score_text:N", title="Home Score"),
+            alt.Tooltip("away_score_text:N", title="Away Score"),
+            alt.Tooltip("result:N", title="Result"),
+            alt.Tooltip("date:T", title="Date", format="%d %b %Y"),
+        ],
     )
-    
-    # Score text
-    score_text = base.mark_text(fontSize=12, fontWeight='bold').encode(
-        x=alt.X('away_team:N', sort=teams),
-        y=alt.Y('home_team:N', sort=teams[::-1]),
-        text='score_text:N',
-        color=alt.value('white'),
-        opacity=alt.condition(
-            alt.expr(f"datum.home_team == {team_highlight.name}['home_team'] || datum.away_team == {team_highlight.name}['home_team']"),
-            alt.value(1.0),
-            alt.value(0.7)
-        )
+
+    text_home_regular = base.transform_filter("datum.home_score_text != '' && datum.home_score_text != 'WO'").mark_text(
+        size=15,
+        xOffset=-10,
+        yOffset=5,
+        fontWeight="bold",
+    ).encode(
+        x=alt.X("away_team:N", sort=team_order[::-1]),
+        y=alt.Y("home_team:N", sort=team_order),
+        text=alt.Text("home_score_text:N"),
+        color=text_color,
+        opacity=alt.condition(visible_predicate, alt.value(1.0), alt.value(0.5)),
     )
-    
-    chart = (heatmap + score_text).properties(
+
+    text_home_wo = base.transform_filter("datum.home_score_text == 'WO'").mark_text(
+        size=12,
+        xOffset=-10,
+        yOffset=5,
+    ).encode(
+        x=alt.X("away_team:N", sort=team_order[::-1]),
+        y=alt.Y("home_team:N", sort=team_order),
+        text=alt.Text("home_score_text:N"),
+        color=text_color,
+        opacity=alt.condition(visible_predicate, alt.value(1.0), alt.value(0.5)),
+    )
+
+    text_away_regular = base.transform_filter("datum.away_score_text != '' && datum.away_score_text != 'WO'").mark_text(
+        size=14,
+        xOffset=10,
+        yOffset=-5,
+        fontStyle="italic",
+    ).encode(
+        x=alt.X("away_team:N", sort=team_order[::-1]),
+        y=alt.Y("home_team:N", sort=team_order),
+        text=alt.Text("away_score_text:N"),
+        color=text_color,
+        opacity=alt.condition(visible_predicate, alt.value(0.8), alt.value(0.4)),
+    )
+
+    text_away_wo = base.transform_filter("datum.away_score_text == 'WO'").mark_text(
+        size=12,
+        xOffset=10,
+        yOffset=-5,
+    ).encode(
+        x=alt.X("away_team:N", sort=team_order[::-1]),
+        y=alt.Y("home_team:N", sort=team_order),
+        text=alt.Text("away_score_text:N"),
+        color=text_color,
+        opacity=alt.condition(visible_predicate, alt.value(0.8), alt.value(0.4)),
+    )
+
+    diagonal_df = matrix_df[matrix_df["is_diagonal"]].copy()
+    diagonal_df = diagonal_df.where(pd.notna(diagonal_df), None)
+    text_pd = alt.Chart(diagonal_df).mark_text(size=16, color="white", fontWeight="bold").encode(
+        x=alt.X("away_team:N", sort=team_order[::-1]),
+        y=alt.Y("home_team:N", sort=team_order),
+        text=alt.Text("display_text:N"),
+        tooltip=[
+            alt.Tooltip("home_team:N", title="Team"),
+            alt.Tooltip("display_text:N", title="Points Difference"),
+        ],
+    )
+
+    chart = alt.layer(
+        heatmap,
+        text_away_regular,
+        text_away_wo,
+        text_home_regular,
+        text_home_wo,
+        text_pd,
+    ).properties(
         width=alt.Step(50),
         height=alt.Step(35),
         title=alt.Title(
-            text=f"League Results - {season}",
-            subtitle=["Click on a cell to highlight all games for that team", "Double-click to reset"]
-        )
-    )
-    
+            text=title_text,
+            subtitle=[
+                f"Season {season}",
+                "Diagonal values are total points difference by team.",
+                "Lighter shading indicates results within 7 points (losing bonus point).",
+                "Click a cell to highlight a team's results; double-click to reset.",
+            ],
+        ),
+        padding={"left": 20, "top": 20, "right": 40, "bottom": 120},
+    ).configure_view(stroke=None)
+
     chart.save(output_file)
     return chart
+
+
+def export_league_results_chart_specs(db, output_dir="data/charts"):
+    """Export season/squad league results matrix specs from backend data."""
+
+    source_con, source_label, total_rows, scored_rows, opened_connections = _select_league_source_connection(db)
+    if source_label != "active":
+        print(
+            "League chart export is using "
+            f"{source_label} for games_rfu scores ({scored_rows}/{total_rows} scored fixtures)."
+        )
+
+    try:
+        league_rows = source_con.execute(
+        """
+        SELECT season, league, home_team, away_team
+        FROM games_rfu
+        WHERE league IS NOT NULL
+        """
+        ).df()
+
+        if league_rows.empty:
+            print("No league fixtures found in games_rfu; skipping league results chart exports.")
+            return {}
+
+        pairs = []
+        for _, row in league_rows.iterrows():
+            season = row["season"]
+            league = row["league"]
+            squads = {
+                _infer_egr_squad(row["home_team"]),
+                _infer_egr_squad(row["away_team"]),
+            }
+            for squad in squads:
+                if squad in (1, 2):
+                    pairs.append({"season": season, "league": league, "squad": squad})
+
+        if not pairs:
+            print("No East Grinstead league fixtures found; skipping league results chart exports.")
+            return {}
+
+        pair_df = pd.DataFrame(pairs)
+        pair_df = (
+            pair_df.groupby(["season", "squad", "league"], as_index=False)
+            .size()
+            .rename(columns={"size": "egr_matches"})
+            .sort_values(["season", "squad", "egr_matches"], ascending=[True, True, False])
+        )
+        selected_pairs = pair_df.drop_duplicates(["season", "squad"], keep="first")
+
+        output_root = Path(output_dir)
+        output_root.mkdir(parents=True, exist_ok=True)
+        exports = {}
+
+        # Build a thin proxy so league_results_chart can use the selected connection.
+        source_db = db if source_con is db.con else type("_LeagueSourceDB", (), {"con": source_con})()
+
+        for _, row in selected_pairs.iterrows():
+            season = row["season"]
+            season_key = _normalize_rfu_season_label(season)
+            squad = int(row["squad"])
+            league = row["league"]
+
+            filename = f"league_results_{squad}s_{season_key}.json"
+            output_file = output_root / filename
+
+            chart = league_results_chart(
+                source_db,
+                season=season,
+                league=league,
+                output_file=str(output_file),
+                squad=squad,
+            )
+
+            if chart is not None:
+                exports.setdefault(season_key, {})[str(squad)] = {
+                    "league": league,
+                    "file": filename,
+                }
+
+        if exports:
+            index_file = output_root / "league_results_index.json"
+            with open(index_file, "w", encoding="utf-8") as f:
+                json.dump(exports, f, indent=2)
+
+        return exports
+    finally:
+        for con in opened_connections:
+            try:
+                con.close()
+            except Exception:
+                pass
 
 def league_squad_analysis_chart(db, season="2024-2025", league="Counties 1 Surrey/Sussex", output_file='data/charts/league_squad_analysis.json'):
     """Create squad analysis charts"""

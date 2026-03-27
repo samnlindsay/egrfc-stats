@@ -131,9 +131,7 @@
             select.appendChild(option);
         });
         select.value = Array.from(select.options).some((option) => option.value === currentValue) ? currentValue : 'All';
-        if (typeof $.fn !== 'undefined' && typeof $.fn.selectpicker !== 'undefined') {
-            $(select).selectpicker('refresh');
-        }
+        rebuildBootstrapSelect(select);
     }
 
     function seasonSort(a, b) {
@@ -308,6 +306,9 @@
         ];
 
         await loadFilterOptions();
+        controlIds.forEach((id) => {
+            rebuildBootstrapSelect(document.getElementById(id));
+        });
         await loadInteractiveCharts();
         await applyFiltersToViews();
 

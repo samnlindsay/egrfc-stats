@@ -30,13 +30,9 @@ from python.charts import (
     set_piece_h2h_chart_backend,
     lineout_analysis_chart_suite,
     lineout_analysis_panel_chart_suite,
+    export_league_results_chart_specs,
 )
-from python.league_stats import (
-    export_web_charts as export_league_web_charts,
-    create_season_results_charts,
-    create_combined_league_table_html,
-    create_unified_league_dispatch_html,
-)
+
 from python.sync_headshots import run_sync, HEADSHOTS_DIR, TARGET_FILES
 import altair as alt
 from python.chart_helpers import *
@@ -105,29 +101,7 @@ def main(refresh_pitchero=False, backend_mode="canonical", backend_db_path="data
     lineout_analysis_panel_chart_suite(db)
     squad_size_trend_chart(db)
     squad_continuity_average_chart(db)
-
-    for squad in (1, 2):
-        try:
-            export_league_web_charts(squad=squad, db=db)
-        except FileNotFoundError as exc:
-            print(f"Warning: League RFU chart export (squad {squad}) skipped - {exc}")
-
-    # Regenerate static league HTML assets used by the League Results/Table iframes.
-    for squad in (1, 2):
-        try:
-            create_season_results_charts(squad=squad)
-            create_combined_league_table_html(squad=squad)
-        except Exception as exc:
-            print(f"Warning: League HTML generation for squad {squad} skipped - {exc}")
-
-    try:
-        create_unified_league_dispatch_html()
-    except Exception as exc:
-        print(f"Warning: League dispatcher generation skipped - {exc}")
-
-    # New league charts
-    # league_results_chart(db)
-    # league_squad_analysis_chart(db)
+    export_league_results_chart_specs(db)
 
     print("All charts and data generated.")
 

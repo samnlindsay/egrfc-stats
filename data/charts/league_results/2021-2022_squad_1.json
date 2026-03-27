@@ -1,0 +1,1082 @@
+{
+    "config": {
+        "axis": {
+            "labelFont": "Lato, sans-serif",
+            "titleFont": "PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif",
+            "labelFontSize": 13,
+            "titleFontSize": 24,
+            "gridColor": "#202947",
+            "gridOpacity": 0.2
+        },
+        "header": {
+            "labelFont": "PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif",
+            "titleFont": "PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif",
+            "labelFontSize": 24,
+            "titleFontSize": 28,
+            "labelFontWeight": "bold",
+            "orient": "left"
+        },
+        "legend": {
+            "labelFont": "Lato, sans-serif",
+            "titleFont": "PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif",
+            "labelFontSize": 14,
+            "titleFontSize": 16,
+            "titlePadding": 5,
+            "fillColor": "white",
+            "strokeColor": "black",
+            "padding": 10,
+            "titleFontWeight": "lighter",
+            "titleFontStyle": "italic",
+            "titleColor": "gray",
+            "offset": 10
+        },
+        "title": {
+            "font": "PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif",
+            "fontSize": 48,
+            "fontWeight": "bold",
+            "anchor": "start",
+            "align": "center",
+            "titlePadding": 20,
+            "subtitlePadding": 10,
+            "subtitleFontSize": 13,
+            "subtitleColor": "",
+            "subtitleFontStyle": "italic",
+            "offset": 15,
+            "color": "black"
+        },
+        "axisX": {
+            "labelAngle": 0
+        },
+        "facet": {
+            "title": null,
+            "header": null,
+            "align": {
+                "row": "each",
+                "column": "each"
+            }
+        },
+        "resolve": {
+            "scale": {
+                "y": "independent",
+                "facet": "independent"
+            }
+        },
+        "background": "#f2f1f4"
+    },
+    "layer": [
+        {
+            "mark": {
+                "type": "rect",
+                "stroke": "black",
+                "strokeWidth": 1
+            },
+            "encoding": {
+                "color": {
+                    "field": "result",
+                    "legend": {
+                        "title": "Result"
+                    },
+                    "scale": {
+                        "domain": [
+                            "Home Win",
+                            "Away Win",
+                            "Draw",
+                            "To be played"
+                        ],
+                        "range": [
+                            "#146f14",
+                            "#991515",
+                            "goldenrod",
+                            "white"
+                        ]
+                    },
+                    "type": "nominal"
+                },
+                "opacity": {
+                    "condition": {
+                        "test": "datum.home_team == param_12['home_team'] || datum.away_team == param_12['home_team']",
+                        "value": 1.0
+                    },
+                    "value": 0.3
+                },
+                "tooltip": [
+                    {
+                        "field": "home_team",
+                        "type": "nominal"
+                    },
+                    {
+                        "field": "away_team",
+                        "type": "nominal"
+                    },
+                    {
+                        "field": "score_text",
+                        "type": "nominal"
+                    },
+                    {
+                        "field": "result",
+                        "type": "nominal"
+                    },
+                    {
+                        "field": "date",
+                        "format": "%d %b %Y",
+                        "type": "temporal"
+                    }
+                ],
+                "x": {
+                    "axis": {
+                        "labelAngle": 45
+                    },
+                    "field": "away_team",
+                    "sort": [
+                        "Burgess Hill",
+                        "East Grinstead",
+                        "Eastbourne",
+                        "Hellingly",
+                        "Hove II",
+                        "Lewes",
+                        "Seaford",
+                        "Uckfield"
+                    ],
+                    "title": "Away Team",
+                    "type": "nominal"
+                },
+                "y": {
+                    "field": "home_team",
+                    "sort": [
+                        "Uckfield",
+                        "Seaford",
+                        "Lewes",
+                        "Hove II",
+                        "Hellingly",
+                        "Eastbourne",
+                        "East Grinstead",
+                        "Burgess Hill"
+                    ],
+                    "title": "Home Team",
+                    "type": "nominal"
+                }
+            },
+            "name": "view_9"
+        },
+        {
+            "mark": {
+                "type": "text",
+                "fontSize": 12,
+                "fontWeight": "bold"
+            },
+            "encoding": {
+                "color": {
+                    "value": "white"
+                },
+                "opacity": {
+                    "condition": {
+                        "test": "datum.home_team == param_12['home_team'] || datum.away_team == param_12['home_team']",
+                        "value": 1.0
+                    },
+                    "value": 0.7
+                },
+                "text": {
+                    "field": "score_text",
+                    "type": "nominal"
+                },
+                "x": {
+                    "field": "away_team",
+                    "sort": [
+                        "Burgess Hill",
+                        "East Grinstead",
+                        "Eastbourne",
+                        "Hellingly",
+                        "Hove II",
+                        "Lewes",
+                        "Seaford",
+                        "Uckfield"
+                    ],
+                    "type": "nominal"
+                },
+                "y": {
+                    "field": "home_team",
+                    "sort": [
+                        "Uckfield",
+                        "Seaford",
+                        "Lewes",
+                        "Hove II",
+                        "Hellingly",
+                        "Eastbourne",
+                        "East Grinstead",
+                        "Burgess Hill"
+                    ],
+                    "type": "nominal"
+                }
+            }
+        }
+    ],
+    "data": {
+        "name": "data-5454b3e843aeac66348b806f1c5f429d"
+    },
+    "height": {
+        "step": 35
+    },
+    "params": [
+        {
+            "name": "param_12",
+            "select": {
+                "type": "point",
+                "clear": "dblclick",
+                "fields": [
+                    "home_team"
+                ],
+                "on": "click"
+            },
+            "views": [
+                "view_9"
+            ]
+        }
+    ],
+    "title": {
+        "text": "League Results - 2021-2022",
+        "subtitle": [
+            "Click on a cell to highlight all games for that team",
+            "Double-click to reset"
+        ]
+    },
+    "width": {
+        "step": 50
+    },
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.20.1.json",
+    "datasets": {
+        "data-5454b3e843aeac66348b806f1c5f429d": [
+            {
+                "home_team": "Burgess Hill",
+                "away_team": "Burgess Hill",
+                "match_id": null,
+                "date": "",
+                "league": null,
+                "home_score": null,
+                "away_score": null,
+                "point_difference": null,
+                "result": "To be played",
+                "losing_bonus_point": null,
+                "score_text": ""
+            },
+            {
+                "home_team": "Burgess Hill",
+                "away_team": "East Grinstead",
+                "match_id": "954941",
+                "date": "2022-02-26T00:00:00",
+                "league": "Harvey\u2019s Brewery Sussex 1",
+                "home_score": null,
+                "away_score": null,
+                "point_difference": null,
+                "result": "To be played",
+                "losing_bonus_point": false,
+                "score_text": ""
+            },
+            {
+                "home_team": "Burgess Hill",
+                "away_team": "Eastbourne",
+                "match_id": "909527",
+                "date": "2021-11-13T00:00:00",
+                "league": "Harvey\u2019s Brewery Sussex 1",
+                "home_score": null,
+                "away_score": null,
+                "point_difference": null,
+                "result": "To be played",
+                "losing_bonus_point": false,
+                "score_text": ""
+            },
+            {
+                "home_team": "Burgess Hill",
+                "away_team": "Hellingly",
+                "match_id": "909555",
+                "date": "2022-02-12T00:00:00",
+                "league": "Harvey\u2019s Brewery Sussex 1",
+                "home_score": null,
+                "away_score": null,
+                "point_difference": null,
+                "result": "To be played",
+                "losing_bonus_point": false,
+                "score_text": ""
+            },
+            {
+                "home_team": "Burgess Hill",
+                "away_team": "Hove II",
+                "match_id": "909511",
+                "date": "2021-10-02T00:00:00",
+                "league": "Harvey\u2019s Brewery Sussex 1",
+                "home_score": null,
+                "away_score": null,
+                "point_difference": null,
+                "result": "To be played",
+                "losing_bonus_point": false,
+                "score_text": ""
+            },
+            {
+                "home_team": "Burgess Hill",
+                "away_team": "Lewes",
+                "match_id": "909507",
+                "date": "2021-09-25T00:00:00",
+                "league": "Harvey\u2019s Brewery Sussex 1",
+                "home_score": null,
+                "away_score": null,
+                "point_difference": null,
+                "result": "To be played",
+                "losing_bonus_point": false,
+                "score_text": ""
+            },
+            {
+                "home_team": "Burgess Hill",
+                "away_team": "Seaford",
+                "match_id": "909547",
+                "date": "2022-01-22T00:00:00",
+                "league": "Harvey\u2019s Brewery Sussex 1",
+                "home_score": null,
+                "away_score": null,
+                "point_difference": null,
+                "result": "To be played",
+                "losing_bonus_point": false,
+                "score_text": ""
+            },
+            {
+                "home_team": "Burgess Hill",
+                "away_team": "Uckfield",
+                "match_id": "909519",
+                "date": "2021-10-23T00:00:00",
+                "league": "Harvey\u2019s Brewery Sussex 1",
+                "home_score": null,
+                "away_score": null,
+                "point_difference": null,
+                "result": "To be played",
+                "losing_bonus_point": false,
+                "score_text": ""
+            },
+            {
+                "home_team": "East Grinstead",
+                "away_team": "Burgess Hill",
+                "match_id": "909516",
+                "date": "2021-10-16T00:00:00",
+                "league": "Harvey\u2019s Brewery Sussex 1",
+                "home_score": null,
+                "away_score": null,
+                "point_difference": null,
+                "result": "To be played",
+                "losing_bonus_point": false,
+                "score_text": ""
+            },
+            {
+                "home_team": "East Grinstead",
+                "away_team": "East Grinstead",
+                "match_id": null,
+                "date": "",
+                "league": null,
+                "home_score": null,
+                "away_score": null,
+                "point_difference": null,
+                "result": "To be played",
+                "losing_bonus_point": null,
+                "score_text": ""
+            },
+            {
+                "home_team": "East Grinstead",
+                "away_team": "Eastbourne",
+                "match_id": "909509",
+                "date": "2021-09-25T00:00:00",
+                "league": "Harvey\u2019s Brewery Sussex 1",
+                "home_score": null,
+                "away_score": null,
+                "point_difference": null,
+                "result": "To be played",
+                "losing_bonus_point": false,
+                "score_text": ""
+            },
+            {
+                "home_team": "East Grinstead",
+                "away_team": "Hellingly",
+                "match_id": null,
+                "date": "",
+                "league": null,
+                "home_score": null,
+                "away_score": null,
+                "point_difference": null,
+                "result": "To be played",
+                "losing_bonus_point": null,
+                "score_text": ""
+            },
+            {
+                "home_team": "East Grinstead",
+                "away_team": "Hove II",
+                "match_id": null,
+                "date": "",
+                "league": null,
+                "home_score": null,
+                "away_score": null,
+                "point_difference": null,
+                "result": "To be played",
+                "losing_bonus_point": null,
+                "score_text": ""
+            },
+            {
+                "home_team": "East Grinstead",
+                "away_team": "Lewes",
+                "match_id": "909523",
+                "date": "2021-10-30T00:00:00",
+                "league": "Harvey\u2019s Brewery Sussex 1",
+                "home_score": null,
+                "away_score": null,
+                "point_difference": null,
+                "result": "To be played",
+                "losing_bonus_point": false,
+                "score_text": ""
+            },
+            {
+                "home_team": "East Grinstead",
+                "away_team": "Seaford",
+                "match_id": "909557",
+                "date": "2022-02-12T00:00:00",
+                "league": "Harvey\u2019s Brewery Sussex 1",
+                "home_score": null,
+                "away_score": null,
+                "point_difference": null,
+                "result": "To be played",
+                "losing_bonus_point": false,
+                "score_text": ""
+            },
+            {
+                "home_team": "East Grinstead",
+                "away_team": "Uckfield",
+                "match_id": "909529",
+                "date": "2021-11-13T00:00:00",
+                "league": "Harvey\u2019s Brewery Sussex 1",
+                "home_score": null,
+                "away_score": null,
+                "point_difference": null,
+                "result": "To be played",
+                "losing_bonus_point": false,
+                "score_text": ""
+            },
+            {
+                "home_team": "Eastbourne",
+                "away_team": "Burgess Hill",
+                "match_id": "909553",
+                "date": "2022-01-29T00:00:00",
+                "league": "Harvey\u2019s Brewery Sussex 1",
+                "home_score": null,
+                "away_score": null,
+                "point_difference": null,
+                "result": "To be played",
+                "losing_bonus_point": false,
+                "score_text": ""
+            },
+            {
+                "home_team": "Eastbourne",
+                "away_team": "East Grinstead",
+                "match_id": "909560",
+                "date": "2022-02-19T00:00:00",
+                "league": "Harvey\u2019s Brewery Sussex 1",
+                "home_score": null,
+                "away_score": null,
+                "point_difference": null,
+                "result": "To be played",
+                "losing_bonus_point": false,
+                "score_text": ""
+            },
+            {
+                "home_team": "Eastbourne",
+                "away_team": "Eastbourne",
+                "match_id": null,
+                "date": "",
+                "league": null,
+                "home_score": null,
+                "away_score": null,
+                "point_difference": null,
+                "result": "To be played",
+                "losing_bonus_point": null,
+                "score_text": ""
+            },
+            {
+                "home_team": "Eastbourne",
+                "away_team": "Hellingly",
+                "match_id": "909526",
+                "date": "2021-10-30T00:00:00",
+                "league": "Harvey\u2019s Brewery Sussex 1",
+                "home_score": null,
+                "away_score": null,
+                "point_difference": null,
+                "result": "To be played",
+                "losing_bonus_point": false,
+                "score_text": ""
+            },
+            {
+                "home_team": "Eastbourne",
+                "away_team": "Hove II",
+                "match_id": "909533",
+                "date": "2021-11-27T00:00:00",
+                "league": "Harvey\u2019s Brewery Sussex 1",
+                "home_score": null,
+                "away_score": null,
+                "point_difference": null,
+                "result": "To be played",
+                "losing_bonus_point": false,
+                "score_text": ""
+            },
+            {
+                "home_team": "Eastbourne",
+                "away_team": "Lewes",
+                "match_id": "909546",
+                "date": "2022-01-15T00:00:00",
+                "league": "Harvey\u2019s Brewery Sussex 1",
+                "home_score": null,
+                "away_score": null,
+                "point_difference": null,
+                "result": "To be played",
+                "losing_bonus_point": false,
+                "score_text": ""
+            },
+            {
+                "home_team": "Eastbourne",
+                "away_team": "Seaford",
+                "match_id": "954943",
+                "date": "2022-02-05T00:00:00",
+                "league": "Harvey\u2019s Brewery Sussex 1",
+                "home_score": null,
+                "away_score": null,
+                "point_difference": null,
+                "result": "To be played",
+                "losing_bonus_point": false,
+                "score_text": ""
+            },
+            {
+                "home_team": "Eastbourne",
+                "away_team": "Uckfield",
+                "match_id": "909512",
+                "date": "2021-10-02T00:00:00",
+                "league": "Harvey\u2019s Brewery Sussex 1",
+                "home_score": null,
+                "away_score": null,
+                "point_difference": null,
+                "result": "To be played",
+                "losing_bonus_point": false,
+                "score_text": ""
+            },
+            {
+                "home_team": "Hellingly",
+                "away_team": "Burgess Hill",
+                "match_id": "953129",
+                "date": "2022-02-05T00:00:00",
+                "league": "Harvey\u2019s Brewery Sussex 1",
+                "home_score": null,
+                "away_score": null,
+                "point_difference": null,
+                "result": "To be played",
+                "losing_bonus_point": false,
+                "score_text": ""
+            },
+            {
+                "home_team": "Hellingly",
+                "away_team": "East Grinstead",
+                "match_id": "909513",
+                "date": "2021-10-02T00:00:00",
+                "league": "Harvey\u2019s Brewery Sussex 1",
+                "home_score": null,
+                "away_score": null,
+                "point_difference": null,
+                "result": "To be played",
+                "losing_bonus_point": false,
+                "score_text": ""
+            },
+            {
+                "home_team": "Hellingly",
+                "away_team": "Eastbourne",
+                "match_id": "909549",
+                "date": "2022-01-22T00:00:00",
+                "league": "Harvey\u2019s Brewery Sussex 1",
+                "home_score": null,
+                "away_score": null,
+                "point_difference": null,
+                "result": "To be played",
+                "losing_bonus_point": false,
+                "score_text": ""
+            },
+            {
+                "home_team": "Hellingly",
+                "away_team": "Hellingly",
+                "match_id": null,
+                "date": "",
+                "league": null,
+                "home_score": null,
+                "away_score": null,
+                "point_difference": null,
+                "result": "To be played",
+                "losing_bonus_point": null,
+                "score_text": ""
+            },
+            {
+                "home_team": "Hellingly",
+                "away_team": "Hove II",
+                "match_id": "909561",
+                "date": "2022-02-19T00:00:00",
+                "league": "Harvey\u2019s Brewery Sussex 1",
+                "home_score": null,
+                "away_score": null,
+                "point_difference": null,
+                "result": "To be played",
+                "losing_bonus_point": false,
+                "score_text": ""
+            },
+            {
+                "home_team": "Hellingly",
+                "away_team": "Lewes",
+                "match_id": "909554",
+                "date": "2022-01-29T00:00:00",
+                "league": "Harvey\u2019s Brewery Sussex 1",
+                "home_score": null,
+                "away_score": null,
+                "point_difference": null,
+                "result": "To be played",
+                "losing_bonus_point": false,
+                "score_text": ""
+            },
+            {
+                "home_team": "Hellingly",
+                "away_team": "Seaford",
+                "match_id": "909521",
+                "date": "2021-10-23T00:00:00",
+                "league": "Harvey\u2019s Brewery Sussex 1",
+                "home_score": null,
+                "away_score": null,
+                "point_difference": null,
+                "result": "To be played",
+                "losing_bonus_point": false,
+                "score_text": ""
+            },
+            {
+                "home_team": "Hellingly",
+                "away_team": "Uckfield",
+                "match_id": "954942",
+                "date": "2022-01-08T00:00:00",
+                "league": "Harvey\u2019s Brewery Sussex 1",
+                "home_score": null,
+                "away_score": null,
+                "point_difference": null,
+                "result": "To be played",
+                "losing_bonus_point": false,
+                "score_text": ""
+            },
+            {
+                "home_team": "Hove II",
+                "away_team": "Burgess Hill",
+                "match_id": "909535",
+                "date": "2021-12-04T00:00:00",
+                "league": "Harvey\u2019s Brewery Sussex 1",
+                "home_score": null,
+                "away_score": null,
+                "point_difference": null,
+                "result": "To be played",
+                "losing_bonus_point": false,
+                "score_text": ""
+            },
+            {
+                "home_team": "Hove II",
+                "away_team": "East Grinstead",
+                "match_id": null,
+                "date": "",
+                "league": null,
+                "home_score": null,
+                "away_score": null,
+                "point_difference": null,
+                "result": "To be played",
+                "losing_bonus_point": null,
+                "score_text": ""
+            },
+            {
+                "home_team": "Hove II",
+                "away_team": "Eastbourne",
+                "match_id": null,
+                "date": "",
+                "league": null,
+                "home_score": null,
+                "away_score": null,
+                "point_difference": null,
+                "result": "To be played",
+                "losing_bonus_point": null,
+                "score_text": ""
+            },
+            {
+                "home_team": "Hove II",
+                "away_team": "Hellingly",
+                "match_id": "909508",
+                "date": "2021-09-25T00:00:00",
+                "league": "Harvey\u2019s Brewery Sussex 1",
+                "home_score": null,
+                "away_score": null,
+                "point_difference": null,
+                "result": "To be played",
+                "losing_bonus_point": false,
+                "score_text": ""
+            },
+            {
+                "home_team": "Hove II",
+                "away_team": "Hove II",
+                "match_id": null,
+                "date": "",
+                "league": null,
+                "home_score": null,
+                "away_score": null,
+                "point_difference": null,
+                "result": "To be played",
+                "losing_bonus_point": null,
+                "score_text": ""
+            },
+            {
+                "home_team": "Hove II",
+                "away_team": "Lewes",
+                "match_id": "909515",
+                "date": "2021-10-16T00:00:00",
+                "league": "Harvey\u2019s Brewery Sussex 1",
+                "home_score": null,
+                "away_score": null,
+                "point_difference": null,
+                "result": "To be played",
+                "losing_bonus_point": false,
+                "score_text": ""
+            },
+            {
+                "home_team": "Hove II",
+                "away_team": "Seaford",
+                "match_id": "909528",
+                "date": "2021-11-13T00:00:00",
+                "league": "Harvey\u2019s Brewery Sussex 1",
+                "home_score": null,
+                "away_score": null,
+                "point_difference": null,
+                "result": "To be played",
+                "losing_bonus_point": false,
+                "score_text": ""
+            },
+            {
+                "home_team": "Hove II",
+                "away_team": "Uckfield",
+                "match_id": null,
+                "date": "",
+                "league": null,
+                "home_score": null,
+                "away_score": null,
+                "point_difference": null,
+                "result": "To be played",
+                "losing_bonus_point": null,
+                "score_text": ""
+            },
+            {
+                "home_team": "Lewes",
+                "away_team": "Burgess Hill",
+                "match_id": "909562",
+                "date": "2022-02-19T00:00:00",
+                "league": "Harvey\u2019s Brewery Sussex 1",
+                "home_score": null,
+                "away_score": null,
+                "point_difference": null,
+                "result": "To be played",
+                "losing_bonus_point": false,
+                "score_text": ""
+            },
+            {
+                "home_team": "Lewes",
+                "away_team": "East Grinstead",
+                "match_id": "909550",
+                "date": "2022-01-22T00:00:00",
+                "league": "Harvey\u2019s Brewery Sussex 1",
+                "home_score": null,
+                "away_score": null,
+                "point_difference": null,
+                "result": "To be played",
+                "losing_bonus_point": false,
+                "score_text": ""
+            },
+            {
+                "home_team": "Lewes",
+                "away_team": "Eastbourne",
+                "match_id": "909522",
+                "date": "2021-10-23T00:00:00",
+                "league": "Harvey\u2019s Brewery Sussex 1",
+                "home_score": null,
+                "away_score": null,
+                "point_difference": null,
+                "result": "To be played",
+                "losing_bonus_point": false,
+                "score_text": ""
+            },
+            {
+                "home_team": "Lewes",
+                "away_team": "Hellingly",
+                "match_id": "909530",
+                "date": "2021-11-13T00:00:00",
+                "league": "Harvey\u2019s Brewery Sussex 1",
+                "home_score": null,
+                "away_score": null,
+                "point_difference": null,
+                "result": "To be played",
+                "losing_bonus_point": false,
+                "score_text": ""
+            },
+            {
+                "home_team": "Lewes",
+                "away_team": "Hove II",
+                "match_id": null,
+                "date": "",
+                "league": null,
+                "home_score": null,
+                "away_score": null,
+                "point_difference": null,
+                "result": "To be played",
+                "losing_bonus_point": null,
+                "score_text": ""
+            },
+            {
+                "home_team": "Lewes",
+                "away_team": "Lewes",
+                "match_id": null,
+                "date": "",
+                "league": null,
+                "home_score": null,
+                "away_score": null,
+                "point_difference": null,
+                "result": "To be played",
+                "losing_bonus_point": null,
+                "score_text": ""
+            },
+            {
+                "home_team": "Lewes",
+                "away_team": "Seaford",
+                "match_id": "909514",
+                "date": "2021-10-02T00:00:00",
+                "league": "Harvey\u2019s Brewery Sussex 1",
+                "home_score": null,
+                "away_score": null,
+                "point_difference": null,
+                "result": "To be played",
+                "losing_bonus_point": false,
+                "score_text": ""
+            },
+            {
+                "home_team": "Lewes",
+                "away_team": "Uckfield",
+                "match_id": "909558",
+                "date": "2022-02-12T00:00:00",
+                "league": "Harvey\u2019s Brewery Sussex 1",
+                "home_score": null,
+                "away_score": null,
+                "point_difference": null,
+                "result": "To be played",
+                "losing_bonus_point": false,
+                "score_text": ""
+            },
+            {
+                "home_team": "Seaford",
+                "away_team": "Burgess Hill",
+                "match_id": "931679",
+                "date": "2021-09-18T00:00:00",
+                "league": "Harvey\u2019s Brewery Sussex 1",
+                "home_score": null,
+                "away_score": null,
+                "point_difference": null,
+                "result": "To be played",
+                "losing_bonus_point": false,
+                "score_text": ""
+            },
+            {
+                "home_team": "Seaford",
+                "away_team": "East Grinstead",
+                "match_id": "909532",
+                "date": "2021-11-27T00:00:00",
+                "league": "Harvey\u2019s Brewery Sussex 1",
+                "home_score": null,
+                "away_score": null,
+                "point_difference": null,
+                "result": "To be played",
+                "losing_bonus_point": false,
+                "score_text": ""
+            },
+            {
+                "home_team": "Seaford",
+                "away_team": "Eastbourne",
+                "match_id": "909518",
+                "date": "2021-10-16T00:00:00",
+                "league": "Harvey\u2019s Brewery Sussex 1",
+                "home_score": null,
+                "away_score": null,
+                "point_difference": null,
+                "result": "To be played",
+                "losing_bonus_point": false,
+                "score_text": ""
+            },
+            {
+                "home_team": "Seaford",
+                "away_team": "Hellingly",
+                "match_id": "909545",
+                "date": "2022-01-15T00:00:00",
+                "league": "Harvey\u2019s Brewery Sussex 1",
+                "home_score": null,
+                "away_score": null,
+                "point_difference": null,
+                "result": "To be played",
+                "losing_bonus_point": false,
+                "score_text": ""
+            },
+            {
+                "home_team": "Seaford",
+                "away_team": "Hove II",
+                "match_id": null,
+                "date": "",
+                "league": null,
+                "home_score": null,
+                "away_score": null,
+                "point_difference": null,
+                "result": "To be played",
+                "losing_bonus_point": null,
+                "score_text": ""
+            },
+            {
+                "home_team": "Seaford",
+                "away_team": "Lewes",
+                "match_id": "909538",
+                "date": "2021-12-04T00:00:00",
+                "league": "Harvey\u2019s Brewery Sussex 1",
+                "home_score": null,
+                "away_score": null,
+                "point_difference": null,
+                "result": "To be played",
+                "losing_bonus_point": false,
+                "score_text": ""
+            },
+            {
+                "home_team": "Seaford",
+                "away_team": "Seaford",
+                "match_id": null,
+                "date": "",
+                "league": null,
+                "home_score": null,
+                "away_score": null,
+                "point_difference": null,
+                "result": "To be played",
+                "losing_bonus_point": null,
+                "score_text": ""
+            },
+            {
+                "home_team": "Seaford",
+                "away_team": "Uckfield",
+                "match_id": "909559",
+                "date": "2022-02-19T00:00:00",
+                "league": "Harvey\u2019s Brewery Sussex 1",
+                "home_score": null,
+                "away_score": null,
+                "point_difference": null,
+                "result": "To be played",
+                "losing_bonus_point": false,
+                "score_text": ""
+            },
+            {
+                "home_team": "Uckfield",
+                "away_team": "Burgess Hill",
+                "match_id": "909544",
+                "date": "2022-01-15T00:00:00",
+                "league": "Harvey\u2019s Brewery Sussex 1",
+                "home_score": null,
+                "away_score": null,
+                "point_difference": null,
+                "result": "To be played",
+                "losing_bonus_point": false,
+                "score_text": ""
+            },
+            {
+                "home_team": "Uckfield",
+                "away_team": "East Grinstead",
+                "match_id": "909551",
+                "date": "2022-01-29T00:00:00",
+                "league": "Harvey\u2019s Brewery Sussex 1",
+                "home_score": null,
+                "away_score": null,
+                "point_difference": null,
+                "result": "To be played",
+                "losing_bonus_point": false,
+                "score_text": ""
+            },
+            {
+                "home_team": "Uckfield",
+                "away_team": "Eastbourne",
+                "match_id": "909537",
+                "date": "2021-12-04T00:00:00",
+                "league": "Harvey\u2019s Brewery Sussex 1",
+                "home_score": null,
+                "away_score": null,
+                "point_difference": null,
+                "result": "To be played",
+                "losing_bonus_point": false,
+                "score_text": ""
+            },
+            {
+                "home_team": "Uckfield",
+                "away_team": "Hellingly",
+                "match_id": "909517",
+                "date": "2021-10-16T00:00:00",
+                "league": "Harvey\u2019s Brewery Sussex 1",
+                "home_score": null,
+                "away_score": null,
+                "point_difference": null,
+                "result": "To be played",
+                "losing_bonus_point": false,
+                "score_text": ""
+            },
+            {
+                "home_team": "Uckfield",
+                "away_team": "Hove II",
+                "match_id": null,
+                "date": "",
+                "league": null,
+                "home_score": null,
+                "away_score": null,
+                "point_difference": null,
+                "result": "To be played",
+                "losing_bonus_point": null,
+                "score_text": ""
+            },
+            {
+                "home_team": "Uckfield",
+                "away_team": "Lewes",
+                "match_id": "909531",
+                "date": "2021-11-27T00:00:00",
+                "league": "Harvey\u2019s Brewery Sussex 1",
+                "home_score": null,
+                "away_score": null,
+                "point_difference": null,
+                "result": "To be played",
+                "losing_bonus_point": false,
+                "score_text": ""
+            },
+            {
+                "home_team": "Uckfield",
+                "away_team": "Seaford",
+                "match_id": null,
+                "date": "",
+                "league": null,
+                "home_score": null,
+                "away_score": null,
+                "point_difference": null,
+                "result": "To be played",
+                "losing_bonus_point": null,
+                "score_text": ""
+            },
+            {
+                "home_team": "Uckfield",
+                "away_team": "Uckfield",
+                "match_id": null,
+                "date": "",
+                "league": null,
+                "home_score": null,
+                "away_score": null,
+                "point_difference": null,
+                "result": "To be played",
+                "losing_bonus_point": null,
+                "score_text": ""
+            }
+        ]
+    }
+}

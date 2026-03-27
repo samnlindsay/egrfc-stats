@@ -39,8 +39,7 @@ const SeasonSummary = (() => {
             if ($.fn.selectpicker) {
                 const $seasonSelect = $(seasonSelect);
                 const selectedSeason = seasons[0];
-                $seasonSelect.selectpicker('destroy');
-                $seasonSelect.selectpicker();
+                rebuildBootstrapSelect(seasonSelect);
                 $seasonSelect.selectpicker('val', selectedSeason);
             }
             currentSeason = seasons[0];

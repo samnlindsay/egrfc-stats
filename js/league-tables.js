@@ -1,6 +1,80 @@
 // League Tables page logic
 
 let leagueTablesData = null;
+let leagueResultsIndexData = null;
+
+async function loadLeagueResultsIndex() {
+    if (leagueResultsIndexData) {
+        return leagueResultsIndexData;
+    }
+
+    try {
+        const response = await fetch('data/charts/league_results_index.json');
+        if (!response.ok) {
+            console.warn(`Unable to load league results index (${response.status}).`);
+            leagueResultsIndexData = {};
+            return leagueResultsIndexData;
+        }
+        leagueResultsIndexData = await response.json();
+    } catch (err) {
+        console.error('Error loading league results index:', err);
+        leagueResultsIndexData = {};
+    }
+
+    return leagueResultsIndexData;
+}
+
+function createLeagueResultsSpecPanel(panelId, chartContainerId, title, colorModifier, season, squad) {
+    return `
+        <div class="chart-panel">
+            <button type="button" class="chart-panel-toggle ${colorModifier}"
+                data-target="${panelId}" aria-expanded="false" aria-controls="${panelId}">
+                <span class="chart-panel-toggle-text">
+                    <span class="chart-panel-toggle-title">${title}</span>
+                    <span class="chart-panel-toggle-hint">League match results</span>
+                </span>
+                <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
+            </button>
+            <div id="${panelId}" class="chart-panel-content" hidden>
+                <div class="chart-panel-card" data-league-season="${season}" data-league-squad="${squad}" data-chart-container-id="${chartContainerId}">
+                    <div id="${chartContainerId}"></div>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function getLeagueResultsSpecPath(season, squad) {
+    const normalizedSeason = toLeagueSeasonFormat(season);
+    const seasonEntry = leagueResultsIndexData?.[normalizedSeason];
+    const squadEntry = seasonEntry?.[String(squad)];
+    if (squadEntry?.file) {
+        return `data/charts/${squadEntry.file}`;
+    }
+
+    return `data/charts/league_results_${squad}s_${normalizedSeason}.json`;
+}
+
+async function renderLeagueResultsChartsForSeason(season) {
+    const tasks = [1, 2].map(async squad => {
+        const containerId = `leagueResultsChart${squad}`;
+        const chartHost = document.getElementById(containerId);
+        if (!chartHost) {
+            return;
+        }
+
+        const specPath = getLeagueResultsSpecPath(season, squad);
+        try {
+            const spec = await loadChartSpec(specPath);
+            renderStaticSpecChart(containerId, spec, `No ${squad === 1 ? '1st' : '2nd'} XV league results available for this season.`);
+        } catch (error) {
+            console.error(`Failed to load league results chart spec: ${specPath}`, error);
+            renderStaticSpecChart(containerId, null, `Unable to load ${squad === 1 ? '1st' : '2nd'} XV league results chart.`);
+        }
+    });
+
+    await Promise.all(tasks);
+}
 
 async function loadLeagueTablePage() {
     if (!leagueTablesData) {
@@ -12,10 +86,11 @@ async function loadLeagueTablePage() {
             return;
         }
     }
-    renderLeagueTables();
+    await loadLeagueResultsIndex();
+    await renderLeagueTables();
 }
 
-function renderLeagueTables() {
+async function renderLeagueTables() {
     const season = document.getElementById('leagueTableSeasonSelect').value;
     const container = document.getElementById('leagueTablesContainer');
     if (!leagueTablesData || !leagueTablesData[season]) {
@@ -24,7 +99,6 @@ function renderLeagueTables() {
     }
 
     const seasonData = leagueTablesData[season];
-    const leagueSeason = toLeagueSeasonFormat(season);
     let html = '';
 
     if (seasonData['1']) {
@@ -75,11 +149,13 @@ function renderLeagueTables() {
                     </table>
                 </div>
                 <div style="margin-top: 0.5rem;">
-                    ${createLeagueResultsPanel(
+                    ${createLeagueResultsSpecPanel(
                         'league-results-panel-1',
-                        `Charts/league/results.html?season=${encodeURIComponent(leagueSeason)}&squad=1`,
+                        'leagueResultsChart1',
                         '1st XV Results',
-                        'chart-panel-toggle--primary'
+                        'chart-panel-toggle--primary',
+                        season,
+                        1
                     )}
                 </div>
             </div>
@@ -137,11 +213,13 @@ function renderLeagueTables() {
                     </table>
                 </div>
                 <div style="margin-top: 0.5rem;">
-                    ${createLeagueResultsPanel(
+                    ${createLeagueResultsSpecPanel(
                         'league-results-panel-2',
-                        `Charts/league/results.html?season=${encodeURIComponent(leagueSeason)}&squad=2`,
+                        'leagueResultsChart2',
                         '2nd XV Results',
-                        'chart-panel-toggle--accent'
+                        'chart-panel-toggle--accent',
+                        season,
+                        2
                     )}
                 </div>
             </div>
@@ -150,6 +228,7 @@ function renderLeagueTables() {
 
     container.innerHTML = html;
     initialiseChartPanelToggles();
+    await renderLeagueResultsChartsForSeason(season);
 }
 
 document.addEventListener('DOMContentLoaded', async function () {
@@ -158,7 +237,6 @@ document.addEventListener('DOMContentLoaded', async function () {
     const seasonSelect = document.getElementById('leagueTableSeasonSelect');
     if (seasonSelect) {
         const $seasonSelect = $('#leagueTableSeasonSelect');
-        $seasonSelect.selectpicker();
 
         seasonSelect.innerHTML = '';
         availableSeasons.forEach(season => {
@@ -176,12 +254,13 @@ document.addEventListener('DOMContentLoaded', async function () {
         }
 
         const selectedLeagueSeason = seasonSelect.value;
-        $seasonSelect.selectpicker('destroy');
-        $seasonSelect.selectpicker();
+        rebuildBootstrapSelect(seasonSelect);
         $seasonSelect.selectpicker('val', selectedLeagueSeason);
 
-        $seasonSelect.on('change', renderLeagueTables);
+        $seasonSelect.on('change', async () => {
+            await renderLeagueTables();
+        });
     }
 
-    loadLeagueTablePage();
+    await loadLeagueTablePage();
 });

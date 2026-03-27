@@ -174,6 +174,31 @@ function renderStaticSpecChart(containerId, spec, emptyMessage) {
         });
 }
 
+function rebuildBootstrapSelect(select, options = {}) {
+    if (!select || !window.jQuery || !window.jQuery.fn || !window.jQuery.fn.selectpicker) {
+        return false;
+    }
+
+    const $select = window.jQuery(select);
+    const currentValue = select.multiple
+        ? Array.from(select.selectedOptions || []).map(option => option.value)
+        : select.value;
+
+    if ($select.data('selectpicker')) {
+        $select.selectpicker('destroy');
+    }
+
+    $select.selectpicker(options);
+
+    if (select.multiple) {
+        $select.selectpicker('val', Array.isArray(currentValue) ? currentValue : []);
+    } else if (currentValue !== undefined && currentValue !== null && currentValue !== '') {
+        $select.selectpicker('val', currentValue);
+    }
+
+    return true;
+}
+
 function toLeagueSeasonFormat(season) {
     if (!season || !season.includes('/')) return season;
     const [startYear, endShort] = String(season).split('/');
