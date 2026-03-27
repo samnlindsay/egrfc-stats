@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EGRFC Statistics</title>
+    <title>EGRFC Statistics - Home</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -34,13 +34,29 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="season-summary.html">Season Summary</a></li>
-                    <li class="nav-item"><a class="nav-link" href="league-tables.html">League Tables</a></li>
-                    <li class="nav-item"><a class="nav-link" href="squad-stats.html">Squad Stats</a></li>
-                    <li class="nav-item"><a class="nav-link" href="performance-stats.html">Performance Stats</a></li>
-                    <li class="nav-item"><a class="nav-link" href="player-profiles.html">Player Profiles</a></li>
-                    <li class="nav-item"><a class="nav-link" href="team-sheets.html">Team Sheets</a></li>
-                    <li class="nav-item"><a class="nav-link" href="database.html">Data</a></li>
+                    <li class="nav-item"><a class="nav-link" href="season-summary.html">Season Overview</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Teams</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="squad-stats.html">Squad Stats</a></li>
+                            <li><a class="dropdown-item" href="league-tables.html">League Tables</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Players</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="player-profiles.html">Player Profiles</a></li>
+                            <li><a class="dropdown-item" href="team-sheets.html">Team Sheets</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Performance</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="performance-stats.html">Performance Stats</a></li>
+                            <li><a class="dropdown-item" href="lineout-performance.html">Lineout Deep Dive</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="database.html">Data Explorer</a></li>
                 </ul>
             </div>
         </div>
@@ -53,72 +69,96 @@
                 performance, player stats, and league standings.</p>
 
             <div class="row" style="margin-bottom: 2rem;">
-                <div class="col-md-6 col-lg-3 mb-3">
+                <!-- Overview Section -->
+                <div class="col-12 mb-2" style="margin-top: 1rem;">
+                    <h4 style="color: var(--primary-color); font-weight: 700; margin-bottom: 0.5rem; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.5px;">Overview</h4>
+                </div>
+                <div class="col-md-6 col-lg-4 mb-3">
                     <a href="season-summary.html" class="text-decoration-none">
                         <div class="card h-100" style="border-top: 4px solid var(--primary-color); cursor: pointer;">
                             <div class="card-body">
-                                <h5 class="card-title">Season Summary</h5>
-                                <p class="card-text">Key statistics and overview of the season's performance.</p>
+                                <h5 class="card-title">Season Overview</h5>
+                                <p class="card-text">Key statistics and overview of the season's wins, draws, and losses across both squads.</p>
                             </div>
                         </div>
                     </a>
                 </div>
-                <div class="col-md-6 col-lg-3 mb-3">
+
+                <!-- Teams Section -->
+                <div class="col-12 mb-2" style="margin-top: 1rem;">
+                    <h4 style="color: var(--primary-color); font-weight: 700; margin-bottom: 0.5rem; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.5px;">Teams</h4>
+                </div>
+                <div class="col-md-6 col-lg-4 mb-3">
+                    <a href="squad-stats.html" class="text-decoration-none">
+                        <div class="card h-100" style="border-top: 4px solid var(--primary-color); cursor: pointer;">
+                            <div class="card-body">
+                                <h5 class="card-title">Squad Stats</h5>
+                                <p class="card-text">Squad composition, continuity analysis, league standings, and team-level performance metrics.</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-6 col-lg-4 mb-3">
                     <a href="league-tables.html" class="text-decoration-none">
                         <div class="card h-100" style="border-top: 4px solid var(--accent-color); cursor: pointer;">
                             <div class="card-body">
                                 <h5 class="card-title">League Tables</h5>
-                                <p class="card-text">1st and 2nd XV league tables and visualisation of all league results.</p>
+                                <p class="card-text">League standings, results matrix, and historical league position trends by season.</p>
                             </div>
                         </div>
                     </a>
                 </div>
-                <div class="col-md-6 col-lg-3 mb-3">
-                    <a href="squad-stats.html" class="text-decoration-none">
-                        <div class="card h-100" style="border-top: 4px solid var(--green-color); cursor: pointer;">
-                            <div class="card-body">
-                                <h5 class="card-title">Squad Stats</h5>
-                                <p class="card-text">Summary of squad sizes and continuity, and individual player statistics.</p>
-                            </div>
-                        </div>
-                    </a>
+
+                <!-- Players Section -->
+                <div class="col-12 mb-2" style="margin-top: 1rem;">
+                    <h4 style="color: var(--primary-color); font-weight: 700; margin-bottom: 0.5rem; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.5px;">Players</h4>
                 </div>
-                <div class="col-md-6 col-lg-3 mb-3">
+                <div class="col-md-6 col-lg-4 mb-3">
                     <a href="player-profiles.html" class="text-decoration-none">
                         <div class="card h-100" style="border-top: 4px solid var(--red-color); cursor: pointer;">
                             <div class="card-body">
                                 <h5 class="card-title">Player Profiles</h5>
-                                <p class="card-text">Summary of all available data for each individual player.</p>
+                                <p class="card-text">Individual player career statistics, appearances, positions, and aggregate performance data.</p>
                             </div>
                         </div>
                     </a>
                 </div>
-                <div class="col-md-6 col-lg-3 mb-3">
-                    <a href="performance-stats.html" class="text-decoration-none">
-                        <div class="card h-100" style="border-top: 4px solid #146f14; cursor: pointer;">
-                            <div class="card-body">
-                                <h5 class="card-title">Performance Stats</h5>
-                                <p class="card-text">Set-piece trends and red-zone conversion performance across seasons.</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-6 col-lg-3 mb-3">
+                <div class="col-md-6 col-lg-4 mb-3">
                     <a href="team-sheets.html" class="text-decoration-none">
                         <div class="card h-100" style="border-top: 4px solid #8B7355; cursor: pointer;">
                             <div class="card-body">
                                 <h5 class="card-title">Team Sheets</h5>
-                                <p class="card-text">Team sheets showing player appearances by position and match.</p>
+                                <p class="card-text">Match-by-match team selections, player appearances, and positional history tracking.</p>
                             </div>
                         </div>
                     </a>
                 </div>
-                <div class="col-md-6 col-lg-3 mb-3">
+
+                <!-- Performance Section -->
+                <div class="col-12 mb-2" style="margin-top: 1rem;">
+                    <h4 style="color: var(--primary-color); font-weight: 700; margin-bottom: 0.5rem; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.5px;">Performance</h4>
+                </div>
+                <div class="col-md-6 col-lg-4 mb-3">
+                    <a href="performance-stats.html" class="text-decoration-none">
+                        <div class="card h-100" style="border-top: 4px solid #146f14; cursor: pointer;">
+                            <div class="card-body">
+                                <h5 class="card-title">Performance Stats</h5>
+                                <p class="card-text">Lineout success rates, scrum conversion efficiency, and red-zone performance trends.</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Data Section -->
+                <div class="col-12 mb-2" style="margin-top: 1rem;">
+                    <h4 style="color: var(--primary-color); font-weight: 700; margin-bottom: 0.5rem; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.5px;">Data</h4>
+                </div>
+                <div class="col-md-6 col-lg-4 mb-3">
                     <a href="database.html" class="text-decoration-none">
                         <div class="card h-100" style="border-top: 4px solid var(--dark-color); cursor: pointer;">
                             <div class="card-body">
-                                <h5 class="card-title">Data</h5>
-                                <p class="card-text">Browse (and download) the backend data tables that power this site.</p>
+                                <h5 class="card-title">Data Explorer</h5>
+                                <p class="card-text">Browse, filter, and download the canonical backend data tables powering this site.</p>
                             </div>
                         </div>
                     </a>

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EGRFC Statistics - Data</title>
+    <title>EGRFC Statistics - Data Explorer</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -34,13 +34,29 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="season-summary.html">Season Summary</a></li>
-                    <li class="nav-item"><a class="nav-link" href="league-tables.html">League Tables</a></li>
-                    <li class="nav-item"><a class="nav-link" href="squad-stats.html">Squad Stats</a></li>
-                    <li class="nav-item"><a class="nav-link" href="performance-stats.html">Performance Stats</a></li>
-                    <li class="nav-item"><a class="nav-link" href="player-profiles.html">Player Profiles</a></li>
-                    <li class="nav-item"><a class="nav-link" href="team-sheets.html">Team Sheets</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="database.html">Data</a></li>
+                    <li class="nav-item"><a class="nav-link" href="season-summary.html">Season Overview</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Teams</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="squad-stats.html">Squad Stats</a></li>
+                            <li><a class="dropdown-item" href="league-tables.html">League Tables</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Players</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="player-profiles.html">Player Profiles</a></li>
+                            <li><a class="dropdown-item" href="team-sheets.html">Team Sheets</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Performance</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="performance-stats.html">Performance Stats</a></li>
+                            <li><a class="dropdown-item" href="lineout-performance.html">Lineout Deep Dive</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item"><a class="nav-link active" href="database.html">Data Explorer</a></li>
                 </ul>
             </div>
         </div>
@@ -50,9 +66,8 @@
         <div class="database-page-shell">
             <div class="database-page-header">
                 <div>
-                    <h1 class="database-page-title">Data</h1>
-                    <p class="database-page-subtitle">View the underlying data tables that power the content of this
-                        site, including canonical tables, backend-enriched exports, and derived summary views. Explore, filter, and download the data for your own analysis.</p>
+                    <h1 class="database-page-title">Data Explorer</h1>
+                    <p class="database-page-subtitle">Browse and download the canonical backend data tables, enriched exports, and derived summary views powering this site. Filter, search, and explore the data for your own analysis.</p>
                 </div>
             </div>
 

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EGRFC Statistics - Season Summary</title>
+    <title>EGRFC Statistics - Season Overview</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -38,13 +38,29 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="season-summary.html">Season Summary</a></li>
-                    <li class="nav-item"><a class="nav-link" href="league-tables.html">League Tables</a></li>
-                    <li class="nav-item"><a class="nav-link" href="squad-stats.html">Squad Stats</a></li>
-                    <li class="nav-item"><a class="nav-link" href="performance-stats.html">Performance Stats</a></li>
-                    <li class="nav-item"><a class="nav-link" href="player-profiles.html">Player Profiles</a></li>
-                    <li class="nav-item"><a class="nav-link" href="team-sheets.html">Team Sheets</a></li>
-                    <li class="nav-item"><a class="nav-link" href="database.html">Data</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="season-summary.html">Season Overview</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Teams</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="squad-stats.html">Squad Stats</a></li>
+                            <li><a class="dropdown-item" href="league-tables.html">League Tables</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Players</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="player-profiles.html">Player Profiles</a></li>
+                            <li><a class="dropdown-item" href="team-sheets.html">Team Sheets</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Performance</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="performance-stats.html">Performance Stats</a></li>
+                            <li><a class="dropdown-item" href="lineout-performance.html">Lineout Deep Dive</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="database.html">Data Explorer</a></li>
                 </ul>
             </div>
         </div>
@@ -54,8 +70,8 @@
         <div style="padding: 2rem 1rem; max-width: 1000px; margin: 0 auto;">
             <div class="page-header">
                 <div class="page-header-text">
-                    <h1>Season Summary</h1>
-                    <p>Key statistics and overview of the season's performance.</p>
+                    <h1>Season Overview</h1>
+                    <p>Season-level summary of wins, draws, losses, and key statistics across both squads.</p>
                 </div>
                 <div class="page-header-filters squad-stats-top-filters">
                     <div class="filter-item league-season-picker" style="margin-bottom: 0;">

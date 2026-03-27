@@ -37,19 +37,29 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="season-summary.html">Season Summary</a></li>
-                        <li class="nav-item"><a class="nav-link" href="league-tables.html">League Tables</a></li>
-                        <li class="nav-item"><a class="nav-link" href="squad-stats.html">Squad Stats</a></li>
+                        <li class="nav-item"><a class="nav-link" href="season-summary.html">Season Overview</a></li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Performance Stats</a>
-                            <ul class="dropdown-menu dropdown-menu-end">
-                                <li><a class="dropdown-item active" href="performance-stats.html">Overview</a></li>
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Teams</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="squad-stats.html">Squad Stats</a></li>
+                                <li><a class="dropdown-item" href="league-tables.html">League Tables</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Players</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="player-profiles.html">Player Profiles</a></li>
+                                <li><a class="dropdown-item" href="team-sheets.html">Team Sheets</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Performance</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item active" href="performance-stats.html">Performance Stats</a></li>
                                 <li><a class="dropdown-item" href="lineout-performance.html">Lineout Deep Dive</a></li>
                             </ul>
                         </li>
-                        <li class="nav-item"><a class="nav-link" href="player-profiles.html">Player Profiles</a></li>
-                        <li class="nav-item"><a class="nav-link" href="team-sheets.html">Team Sheets</a></li>
-                        <li class="nav-item"><a class="nav-link" href="database.html">Data</a></li>
+                        <li class="nav-item"><a class="nav-link" href="database.html">Data Explorer</a></li>
                     </ul>
                 </div>
             </div>
@@ -62,12 +72,6 @@
                         <h1>Performance Stats</h1>
                         <p>Lineout success, scrum success, and red-zone efficiency in one place. Use the dedicated Lineout Deep Dive page for detailed thrower, jumper, and call analysis.</p>
                     </div>
-                    <div class="page-header-actions">
-                        <a class="page-header-link" href="lineout-performance.html">
-                            <span>Lineout Deep Dive</span>
-                            <i class="bi bi-arrow-right" aria-hidden="true"></i>
-                        </a>
-                    </div>
                 </div>
 
                 <div class="page-header-filters" style="margin-bottom: 1rem;">
@@ -76,8 +80,19 @@
                     <div class="filter-item" style="min-width: 180px;"><div class="input-group input-group-sm"><span class="input-group-text">Game Type</span><select id="lineoutFilterGameType" class="selectpicker form-control flex-fill" data-size="8"><option value="All">All games</option><option value="League + Cup">League + Cup</option><option value="League only">League only</option></select></div></div>
                 </div>
 
-                <h2 style="color: var(--primary-color); margin-bottom: 0.5rem; font-weight: 900;">Lineout Success</h2>
-                <p style="margin-bottom: 1rem; color: #666; font-size: 0.9rem;">Season-level lineout success trends and fixture head-to-head flow views.</p>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                    <div>
+                        <h2 style="color: var(--primary-color); margin: 0; font-weight: 900;">Lineout</h2>
+                        <p style="margin: 0.5rem 0 0 0; color: #666; font-size: 0.9rem;">Season-level lineout success trends and fixture head-to-head flow views.</p>
+                    </div>
+                    <div class="page-header-actions" style="margin-left: 1rem;">
+                        <a class="page-header-link" href="lineout-performance.html">
+                            <span>Lineout Deep Dive</span>
+                            <i class="bi bi-arrow-right" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+                <div style="margin-bottom: 1rem;"></div>
 
                 <div style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-start; margin-bottom: 2rem;">
                     <div class="chart-panel chart-panel--inline">
@@ -118,7 +133,7 @@
                     </div>
                 </div>
 
-                <h2 style="color: var(--primary-color); margin-bottom: 0.5rem; font-weight: 900;">Scrum Success</h2>
+                <h2 style="color: var(--primary-color); margin-bottom: 0.5rem; font-weight: 900;">Scrum</h2>
                 <p style="margin-bottom: 1rem; color: #666; font-size: 0.9rem;">Season-level scrum success trends and fixture head-to-head flow views.</p>
 
                 <div style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-start; margin-bottom: 2rem;">
@@ -160,7 +175,7 @@
                     </div>
                 </div>
 
-                <h2 style="color: var(--primary-color); margin-bottom: 0.35rem; font-weight: 900;">Red Zone Success</h2>
+                <h2 style="color: var(--primary-color); margin-bottom: 0.35rem; font-weight: 900;">Red Zone</h2>
                 <p style="margin-bottom: 1rem; color: #666; font-size: 0.9rem;">How effectively each team converts 22m entries into points and tries.</p>
                 <div style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-start; margin-bottom: 2rem;">
                     <div class="chart-panel chart-panel--inline">
