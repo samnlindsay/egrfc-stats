@@ -15,7 +15,7 @@ function extractSeasonsFromSpec(spec) {
     });
 }
 
-function filterTeamSheetSpec(spec, seasons, squad, gameType, positions) {
+function filterTeamSheetSpec(spec, seasons, squad, gameType, positions, includeReplacements) {
     const clonedSpec = JSON.parse(JSON.stringify(spec));
     const predicate = row => {
         if (Array.isArray(seasons) && seasons.length > 0 && !seasons.includes(row?.season)) return false;
@@ -23,6 +23,7 @@ function filterTeamSheetSpec(spec, seasons, squad, gameType, positions) {
         if (gameType === 'League only' && row?.game_type !== 'League') return false;
         if (gameType === 'League + Cup' && !['League', 'Cup'].includes(row?.game_type)) return false;
         if (positions.length > 0 && !positions.includes(row?.position)) return false;
+        if (!includeReplacements && Number(row?.shirt_number) > 15) return false;
         return true;
     };
     return filterChartSpecDataset(clonedSpec, predicate);
@@ -33,9 +34,17 @@ async function renderTeamSheetsPage() {
     const selectedSquad = document.getElementById('teamSheetsSquadSelect')?.value || 'All';
     const selectedGameType = document.getElementById('teamSheetsGameTypeSelect')?.value || 'All games';
     const selectedPositions = $('#teamSheetsPositionSelect').val() || [];
+    const includeReplacements = document.getElementById('teamSheetsIncludeReplacements')?.checked ?? false;
     try {
         const spec = teamSheetsSpec || await loadChartSpec('data/charts/team_sheets.json');
-        const filteredSpec = filterTeamSheetSpec(spec, selectedSeasons, selectedSquad, selectedGameType, selectedPositions);
+        const filteredSpec = filterTeamSheetSpec(
+            spec,
+            selectedSeasons,
+            selectedSquad,
+            selectedGameType,
+            selectedPositions,
+            includeReplacements
+        );
         renderStaticSpecChart('teamSheetsChart', filteredSpec, 'No team sheet data available for the selected filters.');
     } catch (error) {
         console.warn('Unable to load team sheets chart:', error);
@@ -49,7 +58,8 @@ function initialiseTeamSheetsControls(seasons) {
     const squadSelect = document.getElementById('teamSheetsSquadSelect');
     const gameTypeSelect = document.getElementById('teamSheetsGameTypeSelect');
     const positionSelect = document.getElementById('teamSheetsPositionSelect');
-    if (!seasonSelect || !squadSelect || !gameTypeSelect || !positionSelect) return;
+    const includeReplacementsToggle = document.getElementById('teamSheetsIncludeReplacements');
+    if (!seasonSelect || !squadSelect || !gameTypeSelect || !positionSelect || !includeReplacementsToggle) return;
     if (!seasons || seasons.length === 0) seasons = availableSeasons || [];
     const currentSeason = getCurrentSeasonLabel();
     seasonSelect.innerHTML = '';
@@ -77,6 +87,7 @@ function initialiseTeamSheetsControls(seasons) {
     $squadSelect.on('changed.bs.select', renderTeamSheetsPage);
     $gameTypeSelect.on('changed.bs.select', renderTeamSheetsPage);
     $positionSelect.on('changed.bs.select', renderTeamSheetsPage);
+    includeReplacementsToggle.addEventListener('change', renderTeamSheetsPage);
     teamSheetsControlsInitialised = true;
 }
 

@@ -26,9 +26,9 @@ async function loadLeagueResultsIndex() {
 
 function createLeagueResultsSpecPanel(panelId, chartContainerId, title, colorModifier, season, squad) {
     return `
-        <div class="chart-panel">
+        <div class="chart-panel chart-panel--inline">
             <button type="button" class="chart-panel-toggle ${colorModifier}"
-                data-target="${panelId}" aria-expanded="false" aria-controls="${panelId}">
+                data-target="${panelId}" data-accordion-group="league-results-panels" aria-expanded="false" aria-controls="${panelId}">
                 <span class="chart-panel-toggle-text">
                     <span class="chart-panel-toggle-title">${title}</span>
                     <span class="chart-panel-toggle-hint">League match results</span>
@@ -76,6 +76,30 @@ async function renderLeagueResultsChartsForSeason(season) {
     await Promise.all(tasks);
 }
 
+function syncLeagueResultsPanelWidthState() {
+    const columns = Array.from(document.querySelectorAll('.league-results-column'));
+    if (!columns.length) return;
+
+    columns.forEach(column => column.classList.remove('league-results-column--expanded'));
+
+    const expandedToggle = document.querySelector('.chart-panel-toggle[data-accordion-group="league-results-panels"][aria-expanded="true"]');
+    if (!expandedToggle) return;
+
+    const expandedColumn = expandedToggle.closest('.league-results-column');
+    if (expandedColumn) expandedColumn.classList.add('league-results-column--expanded');
+}
+
+function initialiseLeagueResultsPanelLayout() {
+    document.querySelectorAll('.chart-panel-toggle[data-accordion-group="league-results-panels"]').forEach(toggle => {
+        if (toggle.__leagueResultsLayoutBound) return;
+        toggle.__leagueResultsLayoutBound = true;
+        toggle.addEventListener('click', () => {
+            window.requestAnimationFrame(syncLeagueResultsPanelWidthState);
+        });
+    });
+    syncLeagueResultsPanelWidthState();
+}
+
 async function loadLeagueTablePage() {
     if (!leagueTablesData) {
         try {
@@ -104,7 +128,7 @@ async function renderLeagueTables() {
     if (seasonData['1']) {
         const squad1 = seasonData['1'];
         html += `
-            <div class="col-lg-6 mb-4">
+            <div class="col-lg-6 mb-4 league-results-column" data-league-results-squad="1">
                 <h3 class="league-team-title league-section-title league-team-title-1st">1st XV</h3>
                 <p class="league-division-title league-division-title-1st">${squad1.division}</p>
                 <div style="background: white; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); overflow-x: auto;">
@@ -168,7 +192,7 @@ async function renderLeagueTables() {
             <div class="col-12 d-lg-none">
                 <hr class="league-squad-divider">
             </div>
-            <div class="col-lg-6 mb-4">
+            <div class="col-lg-6 mb-4 league-results-column" data-league-results-squad="2">
                 <h3 class="league-team-title league-section-title league-team-title-2nd">2nd XV</h3>
                 <p class="league-division-title league-division-title-2nd">${squad2.division}</p>
                 <div style="background: white; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); overflow-x: auto;">
@@ -228,6 +252,7 @@ async function renderLeagueTables() {
 
     container.innerHTML = html;
     initialiseChartPanelToggles();
+    initialiseLeagueResultsPanelLayout();
     await renderLeagueResultsChartsForSeason(season);
 }
 

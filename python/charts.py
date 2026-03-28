@@ -53,163 +53,6 @@ def season_column(season, **kwargs):
 
 position_order = ["Prop", "Hooker", "Second Row", "Back Row", "Scrum Half", "Fly Half", "Centre", "Back Three"]
 
-def plot_starts_by_position(df=None, min=0, file=None):
-
-    # legend selection filter
-    legend = alt.selection_point(fields=["GameType"], bind="legend", on="click")
-
-    season_selection = alt.param(
-        bind=alt.binding_radio(options=["All", *seasons[::-1]], name="Season"), 
-        value=max(seasons) 
-    )
-    squad_selection = alt.param(
-        bind=alt.binding_radio(options=["1st", "2nd", "Total"], name="Squad"),
-        value="Total"
-    )
-
-    min_selection = alt.param(
-        bind=alt.binding_range(name="Minimum Starts", min=1, max=20, step=1),
-        value=min
-    )
-
-    chart = (
-        alt.Chart(df if df is not None else {"name": "df", "url":'https://raw.githubusercontent.com/samnlindsay/egrfc-stats/main/data/players.json',"format":{'type':"json"}})
-        .mark_bar()
-        .encode(
-            x=alt.X('count()', axis=alt.Axis(title=None, orient="top")),
-            y=alt.Y('Player:N', sort='-x', title=None),
-            facet=alt.Facet(
-                "Position:O", 
-                columns=4,  
-                header=alt.Header(title=None, labelFontSize=36, labelOrient="top"), 
-                spacing=0, 
-                sort=position_order,
-                align="each"
-            ),
-            tooltip=[
-                "Player:N", 
-                "Position:N", 
-                alt.Tooltip("count()", title="Starts"), 
-                'GameType:N',
-                "Rank:N",
-            ],      
-            color=alt.Color(
-                "GameType:N",
-                scale=game_type_scale,
-                legend=alt.Legend(title=None, orient="bottom", direction="horizontal", titleOrient="left")
-            ),
-            order=alt.Order('GameType:N', sort='descending'),
-            opacity=alt.condition(
-                "(datum.Rank <= 3 && (datum.Position == 'Back Row' | datum.Position == 'Back Three')) || (datum.Rank <= 2 && (datum.Position == 'Prop' | datum.Position == 'Second Row' || datum.Position == 'Centre' )) || datum.Rank <= 1",
-                alt.value(1),
-                alt.value(0.5)
-            )
-        )
-        .resolve_scale(y="independent", x="independent")
-        .transform_filter("datum.Number <= 15")
-        .properties(width=150, height=alt.Step(14), title=alt.Title(text="Starts by Position)", subtitle="Not including bench appearances."))
-        .add_params(legend, season_selection, squad_selection, min_selection)
-        .transform_joinaggregate(TotalGames="count()", groupby=["Player", "Position"])
-        .transform_window(
-            Rank="rank(count())",
-            groupby=["Position"],
-            sort=[alt.SortField("count()", order="descending")]
-        )
-        .transform_filter(f"datum.TotalGames >= {min_selection.name}")
-        .transform_filter(f"datum.Season == {season_selection.name} | {season_selection.name} == 'All'")
-        .transform_filter(f"datum.Squad == {squad_selection.name} | {squad_selection.name} == 'Total'")
-        .transform_filter(legend)
-        .transform_joinaggregate(Games="count()", groupby=["Player", "Position"])
-        .transform_window(
-            Rank="dense_rank(Games)",
-            groupby=["Position"],
-            sort=[{"field": "Games", "order": "descending"}]
-        )
-    )
-    if file:
-        chart.save(file, embed_options=get_embed_options())
-        if str(file).lower().endswith('.html'):
-            hack_params_css(file)
-
-    return chart  
-
-
-def plot_games_by_player(min=5, df=None, file=None):
-    # Use optimized data if df not provided
-    if df is None:
-        df = players_agg_optimized()
-
-    c = alt.Color(
-        "GameType:N",
-        scale=game_type_scale,
-        legend=alt.Legend(title=None, orient="bottom", direction="horizontal", titleOrient="left")
-    )
-
-    # legend selection filter
-    legend = alt.selection_point(fields=["GameType"], bind="legend", on="click")
-
-    season_selection = alt.param(
-        bind=alt.binding_select(options=["All", *seasons[::-1], *seasons_hist[::-1]], name="Season"), 
-        value=max(seasons), 
-    )
-    squad_selection = alt.param(
-        bind=alt.binding_radio(options=["1st", "2nd", "Total"], name="Squad"),
-        value="Total"
-    )
-
-    min_selection = alt.param(
-        bind=alt.binding_range(name="Minimum Games", min=1, max=20, step=1),
-        value=min
-    )
-
-    chart = (
-        alt.Chart(df if df is not None else {"name": "df", "url":'https://raw.githubusercontent.com/samnlindsay/egrfc-stats/main/data/players_agg.json',"format":{'type':"json"}})
-        .mark_bar(strokeWidth=2)
-        .encode(
-            x=alt.X("Games:Q", axis=alt.Axis(title=None, orient="top")),
-            y=alt.Y("Player:N", sort="-x", title=None),
-            color=c,
-            order="order:Q",
-            tooltip=[
-                "Player:N", 
-                "GameType:N",
-                "Games:Q",
-                "Total:Q",
-                "order:Q"
-            ]
-        )
-        .add_params(season_selection, squad_selection, min_selection, legend)
-        .resolve_scale(y="independent")
-        .transform_calculate(
-            Cup="datum.CupStarts + datum.CupBench",
-            League="datum.LeagueStarts + datum.LeagueBench",
-            Friendly="datum.FriendlyStarts + datum.FriendlyBench",
-            NA="datum.TotalGames - datum.Cup - datum.League - datum.Friendly",
-        )
-        .transform_fold(["Cup", "League", "Friendly", "NA"], as_=["GameType", "Games"])
-        .transform_filter(f"datum.Season == {season_selection.name} | {season_selection.name} == 'All'")
-        .transform_filter(f"datum.Squad == {squad_selection.name} | {squad_selection.name} == 'Total'")
-        .transform_aggregate(Games="sum(Games)", groupby=["Player", "GameType"])
-        .transform_joinaggregate(Total="sum(Games)", groupby=["Player"])
-        .transform_filter(f"datum.Total >= {min_selection.name}")
-        .transform_calculate(order="datum.GameType == 'League' ? 0 : (datum.GameType == 'Cup' ? 1 : 2)")
-        .transform_filter(legend)
-        .properties(
-            title=alt.Title(
-                text=f"Appearances",
-                subtitle=pitchero_caveat,
-                subtitleFontStyle="italic"  
-            ),
-            width=400,
-            height=alt.Step(15)
-        )
-    )
-    if file:
-        chart.save(file, embed_options=get_embed_options())
-        if str(file).lower().endswith('.html'):
-            hack_params_css(file)
-
-    return chart
 
 def lineout_success_by_zone(df=None, squad="1st", min_total=20, file=None):
     if df is None:
@@ -797,105 +640,7 @@ def player_stats_appearances_chart(db, output_file='data/charts/player_stats_app
     chart.save(output_file)
     return chart
 
-def results_chart(df=None, file=None):
-
-    selection = alt.selection_point(fields=['Result'], bind='legend')
-
-    season_selection = alt.param(
-        bind=alt.binding_select(options=["All", *seasons[::-1]], name="Season"), 
-        value="All",
-        name="seasonSelection"
-    )
-
-    squad_selection = alt.param(
-        bind=alt.binding_radio(options=["1st", "2nd", "Both"], name="Squad"),
-        value="Both",
-        name="squadSelection"
-    )
-
-    base = (
-        alt.Chart(df if df is not None else {"name": "df", "url":'https://raw.githubusercontent.com/samnlindsay/egrfc-stats/main/data/game.json',"format":{'type':"json"}})
-        .transform_calculate(
-            loser="datum.Result == 'L' ? datum.PF : datum.PA",
-            winner="datum.Result == 'W' ? datum.PF : datum.PA",
-            index="datum.index"
-        )
-        .transform_window(
-            ID="row_number()",
-            groupby=["Season", "Squad"],
-        )
-        .encode(
-            y=alt.Y(
-                'GameID:N', 
-                sort=alt.EncodingSortField(field="ID", order="descending"),
-                axis=alt.Axis(
-                    title=None, 
-                    offset=15, 
-                    grid=False,
-                    ticks=False, 
-                    domain=False, 
-                    # labelExpr="split(datum.value,'-__-')[1]"
-                )
-            ),
-            color=alt.Color(
-                'Result:N', 
-                scale=alt.Scale(domain=['W', 'L'], range=['#146f14', '#981515']), 
-                legend=alt.Legend(offset=20, orient="bottom", title="Click to highlight", titleOrient="left")
-            ),
-            opacity=alt.condition(team_filter, alt.value(1), alt.value(0.2))
-        )
-    )
-
-    bar = base.mark_bar(point=True).encode(
-        x=alt.X('PF:Q', title="Points", axis=alt.Axis(orient='bottom', offset=5)),
-        x2='PA:Q'
-    ).properties(height=alt.Step(15), width=400)
-
-    loser = base.mark_text(align='right', dx=-2, dy=0).encode(
-        x=alt.X('loser:Q', title=None, axis=alt.Axis(orient='top', offset=5)),
-        text='loser:N',
-        color=alt.value('black')
-    )
-
-    winner = base.mark_text(align='left', dx=2, dy=0).encode(
-        x=alt.X('winner:Q', title=None, axis=alt.Axis(orient='top', offset=5)),
-        text='winner:N',
-        color=alt.value('black')
-    )
-
-    chart = (
-        (bar + loser + winner)
-        .resolve_scale(y='shared')
-        .add_params(selection, team_filter, season_selection, squad_selection)
-        .transform_filter(selection)
-        .transform_filter(f"datum.Season == {season_selection.name} | {season_selection.name} == 'All'")
-        .transform_filter(f"datum.Squad == {squad_selection.name} | {squad_selection.name} == 'Both'")
-        .facet(
-            row=alt.Row('Season:N', title=None, header=alt.Header(labelFontSize=36), sort="descending"),
-            column=alt.Column('Squad:N', title=None, header=alt.Header(labelFontSize=36, labelExpr="datum.value + ' XV'")),
-            align="each",
-            spacing=20,
-        )
-        .resolve_scale(y='independent')
-        .properties(
-            title=alt.Title(
-                text="Results",
-                subtitle=[
-                    "Match scores visualised by winning margin. Small bars reflect close games, colour reflects the result.",
-                    "Click the legend to highlight wins or losses. Click a bar to highlight results against that team."  
-                ],
-                offset=20
-            )
-        )
-    )
-
-    if file:
-        chart.save(file, embed_options=get_embed_options())
-        hack_params_css(file)
-    
-    return chart
-
-seasons = ["2021/22", "2022/23", "2023/24", "2024/25"]
+seasons = ["2021/22", "2022/23", "2023/24", "2024/25", "2025/26"]
 seasons_hist = ["2016/17", "2017/18", "2018/19", "2019/20"]
 
 turnover_filter = alt.selection_point(fields=["Turnover"], bind="legend")
@@ -904,147 +649,6 @@ team_filter = alt.selection_point(fields=["Opposition"])
 
 color_scale = alt.Scale(domain=["EG", "Opposition"], range=["#202946", "#981515"])
 opacity_scale = alt.Scale(domain=["Turnover", "Retained"], range=[1, 0.5])
-
-def set_piece_h2h_chart(df=None, file=None):
-    # Use optimized data if df not provided
-    if df is None:
-        df = set_piece_h2h_optimized()
-
-    season_selection = alt.param(
-        bind=alt.binding_select(options=seasons[::-1], name="Season"), 
-        value="2024/25",
-        name="seasonSelection"
-    )
-
-    squad_selection = alt.param(
-        bind=alt.binding_radio(options=["1st", "2nd"], name="Squad"),
-        value="1st",
-        name="squadSelection"
-    )
-    
-    base = (
-        alt.Chart(df if df is not None else {"name":"df", "url":'https://raw.githubusercontent.com/samnlindsay/egrfc-stats/main/data/set_piece.json',"format":{'type':"json"}})
-        .add_params(
-            alt.param(
-                name="x_max",
-                # Max value of "Count"
-                expr="parseInt(data('df')[0].Count)",
-            )
-        )
-        .encode(
-            y=alt.Y(
-                "GameID:N", 
-                axis=None,
-                sort=alt.EncodingSortField(field="Date", order="descending"), 
-                scale=alt.Scale(padding=0),
-            ),
-            yOffset=alt.YOffset(
-                "Team:N",
-                scale=alt.Scale(paddingOuter=0.2)
-            ),
-            color=alt.Color(
-                "Team:N", 
-                scale=color_scale, 
-                legend=alt.Legend(
-                    title="Attacking team",
-                    orient="bottom", 
-                    direction="horizontal",
-                )
-            ),
-            opacity=alt.Opacity(
-                "Turnover:N", 
-                scale=opacity_scale, 
-                legend=alt.Legend(
-                    title="Result", 
-                    orient="bottom", 
-                    direction="horizontal",
-                )
-            ),
-            tooltip=[
-                alt.Tooltip("Opposition:N", title="Opposition"),
-                alt.Tooltip("Date:T", title="Date"),
-                alt.Tooltip("Team:N", title="Attacking team"),
-                alt.Tooltip("Winner:N"),
-                "Count:Q",
-            ]
-        )
-        .properties(height=alt.Step(10), width=160)
-    )
-
-    eg = (
-        base.mark_bar(stroke="#202946")
-        .encode(
-            x=alt.X(
-                "Count:Q",
-                axis=alt.Axis(title="EG wins", orient="top", titleColor="#202946"),
-                scale=alt.Scale(domain={"expr": "[0, 15]"}),
-            )
-        )
-        .transform_filter("datum.Winner == 'EG'")
-    )
-    opp = (
-        base.mark_bar(stroke="#981515")
-        .encode(
-            x=alt.X(
-                "Count:Q",
-                scale=alt.Scale(reverse=True, domain={"expr": "[0, 15]"}),
-                axis=alt.Axis(title="Opposition wins", orient="top", titleColor="#981515")
-            ),
-            y=alt.Y(
-                "GameID:N", 
-                title=None, 
-                axis=alt.Axis(orient="left"), 
-                sort=alt.EncodingSortField(field="Date", order="descending"),
-                scale=alt.Scale(padding=0)
-            ),
-        )
-        .transform_filter("datum.Winner == 'Opposition'")
-    )
-
-    scrum_chart = (
-        alt.hconcat(opp, eg, spacing=0)
-        .transform_filter(f"datum.SetPiece == 'Scrum'")
-        .resolve_scale(yOffset="independent")
-        .properties(title=alt.Title("Scrum", fontSize=36, anchor="middle", align="left"))
-    )
-
-    lineout_chart = (
-        alt.hconcat(opp, eg, spacing=0)
-        .transform_filter(f"datum.SetPiece == 'Lineout'")
-        .resolve_scale(yOffset="independent")
-        .properties(title=alt.Title("Lineout", fontSize=36, anchor="middle", align="left"))
-    )
-
-    chart = (
-        alt.hconcat(scrum_chart, lineout_chart, spacing=20)
-        .add_params(season_selection, squad_selection, turnover_filter, team_filter, put_in_filter)
-        .transform_filter(f"datum.Season == {season_selection.name} | {season_selection.name} == 'All'")
-        .transform_filter(f"datum.Squad == {squad_selection.name} | {squad_selection.name} == 'Both'")
-        .transform_filter(turnover_filter)
-        .transform_filter(put_in_filter)
-        .transform_filter(team_filter)
-        .resolve_scale(y="shared")
-        .properties(
-            title=alt.Title(
-                text=f"Set Piece Head-to-Head Results", 
-                subtitle=[
-                    "Numbers of set piece and turnovers for both teams in each game.", 
-                    "Click the legends to view only turnovers.", 
-                    "Click the bar charts to select all games against that specific opposition."
-                ]
-            )
-        )
-    )
-
-    if file:
-        chart.save(file, embed_options=get_embed_options())
-        hack_params_css(file)
-
-    return chart
-
-def squad_continuity_chart(df=None, file=None):
-    """Legacy continuity chart - kept for compatibility."""
-    pass
 
 # Text labels anchored per-facet at the maximum point of each line.
 def _unit_label(base, unit, color, value_field):
@@ -1402,84 +1006,6 @@ def _using_canonical_backend(db) -> bool:
     con = db.con
     return _table_exists(con, "season_scorers") and _table_exists(con, "players")
 
-def cards_chart(db, output_file='data/charts/cards.json'):
-    if _using_canonical_backend(db):
-        pitchero_cache_file = db.pitchero_cache_file if hasattr(db, "pitchero_cache_file") else None
-        if not pitchero_cache_file or not Path(pitchero_cache_file).exists():
-            print("Skipping cards_chart in canonical mode: Pitchero cache not found.")
-            return None
-
-        pitchero_df = pd.read_json(pitchero_cache_file)
-        expected_cols = {"Season", "Squad", "Player_join", "A", "Event", "Count"}
-        if not expected_cols.issubset(set(pitchero_df.columns)):
-            print("Skipping cards_chart in canonical mode: Pitchero cache missing required columns.")
-            return None
-
-        pitchero_df = pitchero_df[pitchero_df["Event"].isin(["RC", "YC"])].copy()
-        pitchero_df["Count"] = pd.to_numeric(pitchero_df["Count"], errors="coerce").fillna(0)
-        pitchero_df = pitchero_df[pitchero_df["Count"] > 0]
-        if pitchero_df.empty:
-            print("Skipping cards_chart in canonical mode: No card data in Pitchero cache.")
-            return None
-
-        player_lookup = db.con.execute("SELECT DISTINCT player FROM player_appearances").df()
-        player_lookup["Player_join"] = player_lookup["player"].apply(clean_name)
-        player_lookup = player_lookup.drop_duplicates(subset=["Player_join"])
-
-        name_lookup = player_lookup.set_index("Player_join")["player"].to_dict()
-        name_lookup.update(other_names)
-
-        pitchero_df["player"] = pitchero_df["Player_join"].map(lambda name: name_lookup.get(name, name))
-        pitchero_df["event"] = pitchero_df["Event"].map(lambda x: "Red" if x == "RC" else "Yellow" if x == "YC" else x)
-        pitchero_df["count"] = pitchero_df["Count"]
-        pitchero_df["A"] = pd.to_numeric(pitchero_df["A"], errors="coerce").fillna(0)
-
-        df = pitchero_df[["player", "event", "count", "A", "Season", "Squad"]].rename(
-            columns={"Season": "season", "Squad": "squad"}
-        )
-        
-    else:
-        df = db.con.execute(
-        """
-        SELECT 
-            A.player,
-            P.*
-        FROM pitchero_stats P 
-        LEFT JOIN (SELECT DISTINCT player, player_join FROM player_appearances) A
-        ON A.player_join = P.player_join
-        WHERE A.player IS NOT NULL
-        AND count > 0
-        AND event IN ('RC', 'YC')
-        """).df()
-
-        df["event"] = df["event"].map(lambda x: "Red" if x == "RC" else "Yellow" if x == "YC" else x)
-
-    chart = alt.Chart(df).mark_bar().encode(
-        x=alt.X("sum(count):Q", axis=alt.Axis(title=None, orient="top", format='d')),
-        y=alt.Y("player:N", sort="-x", title=None),
-        color=alt.Color(
-            'event:N', 
-            scale=alt.Scale(
-                domain=["Red", "Yellow"],
-                range=["#d62728", "goldenrod"]
-            ),
-            legend=alt.Legend(title='Click to filter', orient="none", legendX=300, legendY=100)
-        ),
-        tooltip=[
-            alt.Tooltip('player:N', title='Player'),
-            alt.Tooltip('event:N', title='Card Type'),
-            alt.Tooltip('sum(count):Q', title='Cards'),
-            alt.Tooltip('sum(A):Q', title='Games'),
-        ]   
-    ).properties(
-        width=400,
-        height=alt.Step(15),
-        title=alt.Title(text='Cards', subtitle='Based on available Pitchero data. Click on legend to filter by card type.')
-    )
-
-    chart.save(output_file)
-
-    return chart
 
 def team_sheets_chart(db, output_file='data/charts/team_sheets.json'):
     if _using_canonical_backend(db):
@@ -2694,12 +2220,7 @@ def set_piece_h2h_chart_backend(db, set_piece="Lineout", output_file=None, bind_
     )
 
     aggregate_max_abs = float(
-        max(
-            event_df["signed_count"].abs().max() if not event_df.empty else 1.0,
-            event_df.groupby(["attacking_team", "winner_team", "outcome"], dropna=False)["signed_count"].sum().abs().max()
-            if not event_df.empty
-            else 1.0,
-        )
+        event_df["signed_count"].abs().max() if not event_df.empty else 1.0
     )
     aggregate_flow_domain = [-aggregate_max_abs, aggregate_max_abs]
 
@@ -3140,6 +2661,13 @@ def lineout_analysis_chart(db, breakdown="numbers", output_file=None, bind_param
         "jumper": ("jumper", "Jumper"),
         "thrower": ("thrower", "Thrower"),
     }
+
+    # Define a c
+    color_scale = alt.Scale(
+        domain=["Home Win", "Home Win (LBP)", "Away Win", "Away Win (LBP)", "Draw", "To be played", "N/A"],
+        range=["#146f14", "#146f14a0", "#991515", "#991515a0", "goldenrod", "white", "#202946"],
+    )
+
     if breakdown not in breakdown_map:
         raise ValueError(f"Unsupported breakdown '{breakdown}'. Expected one of: {', '.join(breakdown_map)}")
 
@@ -3325,209 +2853,6 @@ def lineout_analysis_chart_suite(db, output_dir="data/charts"):
         chart = lineout_analysis_chart(db, breakdown=breakdown, output_file=str(output_file), bind_params=False)
         if chart is not None:
             charts[breakdown] = chart
-
-    return charts
-
-
-def lineout_analysis_panel_chart(db, breakdown="numbers", panel="breakdown", output_file=None, bind_params=False):
-    """Export a single lineout breakdown or trend chart for one breakdown field."""
-    breakdown_map = {
-        "numbers": ("numbers", "Numbers", ["4", "5", "6", "7"]),
-        "area": ("area", "Zone", ["Front", "Middle", "Back"]),
-        "call": ("call", "Call", None),
-        "call_type": ("call_type", "Call Type", None),
-        "dummy": ("dummy", "Dummy", ["Dummy", "Live"]),
-        "jumper": ("jumper", "Jumper", None),
-        "thrower": ("thrower", "Thrower", None),
-    }
-
-    width_dict = {
-        "numbers": 60,
-        "area": 75,
-        "dummy": 100,
-        "jumper": 25,
-        "thrower": 40,
-    }
-
-    if breakdown not in breakdown_map:
-        raise ValueError(f"Unsupported breakdown '{breakdown}'.")
-    if panel not in {"breakdown", "trend"}:
-        raise ValueError("panel must be 'breakdown' or 'trend'")
-
-    field, field_label, sort_order = breakdown_map[breakdown]
-    if output_file is None:
-        output_file = f"data/charts/lineout_{panel}_{breakdown}.json"
-
-    df = db.con.execute(
-        """
-        SELECT
-            L.game_id,
-            G.date,
-            G.squad,
-            G.season,
-            G.game_type,
-            G.opposition,
-            L.numbers,
-            L.area,
-            L.call,
-            L.call_type,
-            L.dummy,
-            L.jumper,
-            L.thrower,
-            L.won
-        FROM lineouts L
-        JOIN games G USING (game_id)
-        WHERE won IS NOT NULL
-        """
-    ).df()
-
-    if df.empty:
-        print(f"Skipping lineout_analysis_panel_chart ({breakdown}, {panel}): no rows available.")
-        return None
-
-    for col in ["squad", "season", "game_type", "opposition", "numbers", "area", "call", "call_type", "jumper", "thrower"]:
-        df[col] = df[col].fillna("Unknown").astype(str)
-    df["dummy"] = df["dummy"].fillna(False).astype(bool).map({True: "Dummy", False: "Live"})
-    df["won"] = df["won"].astype(int)
-
-    def _opts(column_name):
-        return ["All", *sorted(df[column_name].unique().tolist())]
-
-    def _param(name, value, options=None, label=None):
-        bind = alt.binding_select(options=options, name=label) if bind_params and options is not None else None
-        if bind is not None:
-            return alt.param(name=name, bind=bind, value=value)
-        return alt.param(name=name, value=value)
-
-    params = [
-        _param("loSquad", "All", _opts("squad"), "Squad "),
-        _param("loSeason", "All", _opts("season"), "Season "),
-        _param("loGameType", "All", ["All", "League + Cup", "League only", *_opts("game_type")[1:]], "Game Type "),
-        _param("loOpposition", "All", _opts("opposition"), "Opposition "),
-        _param("loThrower", "All", _opts("thrower"), "Thrower "),
-        _param("loJumper", "All", _opts("jumper"), "Jumper "),
-        _param("loArea", "All", _opts("area"), "Area "),
-        _param("loNumbers", "All", _opts("numbers"), "Numbers "),
-        _param("loCall", "All", _opts("call"), "Call "),
-        _param("loCallType", "All", _opts("call_type"), "Call Type "),
-    ]
-    shared_filter_expr = (
-        "(loSquad == 'All' || datum.squad == loSquad)"
-        " && ("
-        "loGameType == 'All'"
-        " || (loGameType == 'League + Cup' && (datum.game_type == 'League' || datum.game_type == 'Cup'))"
-        " || (loGameType == 'League only' && datum.game_type == 'League')"
-        " || datum.game_type == loGameType"
-        ")"
-        " && (loOpposition == 'All' || datum.opposition == loOpposition)"
-        " && (loThrower == 'All' || datum.thrower == loThrower)"
-        " && (loJumper == 'All' || datum.jumper == loJumper)"
-        " && (loArea == 'All' || datum.area == loArea)"
-        " && (loNumbers == 'All' || datum.numbers == loNumbers)"
-        " && (loCall == 'All' || datum.call == loCall)"
-        " && (loCallType == 'All' || datum.call_type == loCallType)"
-    )
-    season_filter_expr = "(loSeason == 'All' || datum.season == loSeason)"
-
-    highlight = None  # highlight selection removed
-
-    if panel == "breakdown":
-        grouped = (
-            alt.Chart(df)
-            .add_params(*params)
-            .transform_filter(shared_filter_expr)
-            .transform_filter(season_filter_expr)
-            .transform_aggregate(attempts="count()", won="sum(won)", groupby=[field])
-            .transform_calculate(success_rate="datum.won / datum.attempts")
-        )
-        x_encoding = alt.X(f"{field}:N", title=field_label, sort=sort_order if sort_order is not None else "-y", axis=alt.Axis(labelAngle=-30))
-        chart = alt.layer(
-            grouped.mark_bar(color="#7d96e8", opacity=0.55).encode(
-                x=x_encoding,
-                y=alt.Y("attempts:Q", title="Count", axis=alt.Axis(format=",.0f", orient="left")),
-                tooltip=[
-                    alt.Tooltip(f"{field}:N", title=field_label),
-                    alt.Tooltip("won:Q", title="Won", format=",.0f"),
-                    alt.Tooltip("attempts:Q", title="Attempts", format=",.0f"),
-                    alt.Tooltip("success_rate:Q", title="Success Rate", format=".1%"),
-                ],
-            ),
-            grouped.mark_line(point=True, color="#202946", strokeWidth=2.5).encode(
-                x=x_encoding,
-                y=alt.Y("success_rate:Q", title="Success Rate", axis=alt.Axis(format="%", orient="right"), scale=alt.Scale(domain=[0, 1])),
-                tooltip=[
-                    alt.Tooltip(f"{field}:N", title=field_label),
-                    alt.Tooltip("won:Q", title="Won", format=",.0f"),
-                    alt.Tooltip("attempts:Q", title="Attempts", format=",.0f"),
-                    alt.Tooltip("success_rate:Q", title="Success Rate", format=".1%"),
-                ],
-            ),
-        ).resolve_scale(y="independent").properties(
-            width=alt.Step(width_dict.get(breakdown, 40)),
-            height=250,
-            title=alt.Title(text=f"{field_label} Breakdown", subtitle="Bars: attempts  ·  Line: success %"),
-        )
-    else:
-        grouped = (
-            alt.Chart(df)
-            .add_params(*params)
-            .transform_filter(shared_filter_expr)
-            .transform_aggregate(attempts="count()", won="sum(won)", groupby=["season", field])
-            .transform_joinaggregate(season_attempts="sum(attempts)", groupby=["season"])
-            .transform_calculate(norm_count="datum.attempts / datum.season_attempts", success_rate="datum.won / datum.attempts")
-        )
-        season_order = sorted(df["season"].unique().tolist())
-        bar = grouped.mark_bar(opacity=0.35).encode(
-            x=alt.X("season:N", title="Season", sort=season_order),
-            xOffset=alt.XOffset(f"{field}:N"),
-            y=alt.Y("norm_count:Q", title="Norm Count", axis=alt.Axis(format="%", orient="left"), scale=alt.Scale(domain=[0, 1])),
-            color=alt.Color(f"{field}:N", title=field_label),
-            tooltip=[
-                alt.Tooltip("season:N", title="Season"),
-                alt.Tooltip(f"{field}:N", title=field_label),
-                alt.Tooltip("won:Q", title="Won", format=",.0f"),
-                alt.Tooltip("attempts:Q", title="Attempts", format=",.0f"),
-                alt.Tooltip("norm_count:Q", title="Norm Count", format=".1%"),
-                alt.Tooltip("success_rate:Q", title="Success Rate", format=".1%"),
-            ],
-        )
-        line = grouped.mark_line(point=True, strokeWidth=2).encode(
-            x=alt.X("season:N", title="Season", sort=season_order),
-            y=alt.Y("success_rate:Q", title="Success Rate", axis=alt.Axis(format="%", orient="right"), scale=alt.Scale(domain=[0, 1])),
-            color=alt.Color(f"{field}:N", title=field_label),
-            detail=alt.Detail(f"{field}:N"),
-            tooltip=[
-                alt.Tooltip("season:N", title="Season"),
-                alt.Tooltip(f"{field}:N", title=field_label),
-                alt.Tooltip("won:Q", title="Won", format=",.0f"),
-                alt.Tooltip("attempts:Q", title="Attempts", format=",.0f"),
-                alt.Tooltip("norm_count:Q", title="Norm Count", format=".1%"),
-                alt.Tooltip("success_rate:Q", title="Success Rate", format=".1%"),
-            ],
-        )
-        chart = alt.layer(bar, line).resolve_scale(y="independent").properties(
-            width=430,
-            height=260,
-            title=alt.Title(text=f"{field_label} Trend", subtitle="Bars: season share  ·  Line: success %"),
-        )
-
-    chart.save(output_file)
-    return chart
-
-
-def lineout_analysis_panel_chart_suite(db, output_dir="data/charts"):
-    """Generate panel-level lineout analysis charts for the performance page."""
-    output_root = Path(output_dir)
-    output_root.mkdir(parents=True, exist_ok=True)
-
-    breakdowns = ["numbers", "area", "call_type", "dummy", "thrower", "jumper"]
-    charts = {}
-    for breakdown in breakdowns:
-        for panel in ("breakdown", "trend"):
-            output_file = output_root / f"lineout_{panel}_{breakdown}.json"
-            chart = lineout_analysis_panel_chart(db, breakdown=breakdown, panel=panel, output_file=str(output_file), bind_params=False)
-            if chart is not None:
-                charts[(breakdown, panel)] = chart
 
     return charts
 
@@ -3977,6 +3302,306 @@ def league_results_chart(db, season="2024-2025", league="Counties 1 Surrey/Susse
 
     chart.save(output_file)
     return chart
+
+
+def export_league_context_chart_specs(db, output_dir="data/charts", squads=("1st",)):
+    """Export league squad-size and continuity context specs for squad-stats page."""
+
+    def _parse_squad(value):
+        text = str(value).strip().lower()
+        if text in {"1", "1st", "first"}:
+            return 1, "1st"
+        if text in {"2", "2nd", "second"}:
+            return 2, "2nd"
+        raise ValueError(f"Unsupported squad value: {value}")
+
+    output_root = Path(output_dir)
+    output_root.mkdir(parents=True, exist_ok=True)
+
+    exports = {}
+
+    for squad in squads:
+        squad_num, squad_label = _parse_squad(squad)
+
+        players_per_team = db.con.execute(
+            """
+            SELECT
+                season AS Season,
+                team AS Team,
+                unit AS Unit,
+                players AS "Total Players"
+            FROM v_rfu_squad_size
+            WHERE squad = ?
+            ORDER BY season, team, unit
+            """,
+            [squad_label],
+        ).df()
+
+        average_retention = db.con.execute(
+            """
+            SELECT
+                season AS Season,
+                team AS Team,
+                unit AS Unit,
+                average_retention AS "Average Retention"
+            FROM v_rfu_average_retention
+            WHERE squad = ?
+            ORDER BY season, team, unit
+            """,
+            [squad_label],
+        ).df()
+
+        if players_per_team.empty or average_retention.empty:
+            print(f"Skipping league context chart specs for {squad_label}: no RFU context rows available.")
+            continue
+
+        players_per_team["IsEGR"] = players_per_team["Team"].astype(str).str.startswith("East Grinstead")
+        average_retention["IsEGR"] = average_retention["Team"].astype(str).str.startswith("East Grinstead")
+
+        eg_players = players_per_team[players_per_team["IsEGR"]].copy()
+        eg_retention = average_retention[average_retention["IsEGR"]].copy()
+        if eg_players.empty or eg_retention.empty:
+            print(f"Skipping league context chart specs for {squad_label}: no East Grinstead rows available.")
+            continue
+
+        squad_size_trend = (
+            players_per_team
+            .groupby(["Season", "Unit"], as_index=False)
+            .agg(
+                **{
+                    "League Min": ("Total Players", "min"),
+                    "League Max": ("Total Players", "max"),
+                    "League Average": ("Total Players", "mean"),
+                }
+            )
+            .merge(
+                eg_players[["Season", "Unit", "Team", "Total Players", "IsEGR"]],
+                on=["Season", "Unit"],
+                how="inner",
+            )
+        )
+
+        continuity_trend = (
+            average_retention
+            .groupby(["Season", "Unit"], as_index=False)
+            .agg(
+                **{
+                    "League Min": ("Average Retention", "min"),
+                    "League Max": ("Average Retention", "max"),
+                    "League Average": ("Average Retention", "mean"),
+                }
+            )
+            .merge(
+                eg_retention[["Season", "Unit", "Team", "Average Retention", "IsEGR"]],
+                on=["Season", "Unit"],
+                how="inner",
+            )
+        )
+
+        squad_size_y = alt.Y(
+            "Team:N",
+            sort=alt.SortField(field="Total Players", order="descending"),
+            title=None,
+            axis=alt.Axis(labels=False, ticks=False, domain=False),
+        )
+
+        continuity_y = alt.Y(
+            "Team:N",
+            sort=alt.SortField(field="Average Retention", order="descending"),
+            title=None,
+            axis=alt.Axis(labels=False, ticks=False, domain=False),
+        )
+
+        squad_size_chart = alt.layer(
+            alt.Chart(players_per_team)
+            .mark_bar(strokeWidth=2)
+            .encode(
+                x=alt.X("Total Players:Q", title="Squad Size"),
+                y=squad_size_y,
+                color=alt.condition(
+                    alt.datum.IsEGR,
+                    alt.value("#202946"),
+                    alt.value("#991515"),
+                ),
+                tooltip=["Team", "Season", "Unit", alt.Tooltip("Total Players:Q", title="Total Players")],
+            ),
+            alt.Chart(players_per_team)
+            .mark_text(align="left", baseline="middle", dx=6, fontSize=13)
+            .encode(
+                x=alt.XDatum(0),
+                y=squad_size_y,
+                text="Team:N",
+                color=alt.condition(
+                    alt.datum.IsEGR,
+                    alt.value("#7d96e8"),
+                    alt.value("white"),
+                ),
+                opacity=alt.condition(
+                    alt.datum.IsEGR,
+                    alt.value(1),
+                    alt.value(0.5),
+                ),
+            ),
+        ).properties(width=240, height=400)
+
+        continuity_chart = alt.layer(
+            alt.Chart(average_retention)
+            .mark_bar(strokeWidth=2)
+            .encode(
+                x=alt.X("Average Retention:Q", title="Average Continuity"),
+                y=continuity_y,
+                color=alt.condition(
+                    alt.datum.IsEGR,
+                    alt.value("#202946"),
+                    alt.value("#991515"),
+                ),
+                tooltip=[
+                    "Team",
+                    "Season",
+                    "Unit",
+                    alt.Tooltip("Average Retention:Q", title="Average Players Retained", format=".2f"),
+                ],
+            ),
+            alt.Chart(average_retention)
+            .mark_text(align="left", baseline="middle", dx=6, fontSize=13)
+            .encode(
+                x=alt.XDatum(0),
+                y=continuity_y,
+                text="Team:N",
+                color=alt.condition(
+                    alt.datum.IsEGR,
+                    alt.value("#7d96e8"),
+                    alt.value("white"),
+                ),
+                opacity=alt.condition(
+                    alt.datum.IsEGR,
+                    alt.value(1),
+                    alt.value(0.5),
+                ),
+            ),
+        ).properties(width=240, height=400)
+
+        squad_size_trend_chart = alt.layer(
+            alt.Chart(squad_size_trend)
+            .mark_area(color="#991515", opacity=0.2)
+            .encode(
+                x=alt.X("Season:N", title="Season"),
+                y=alt.Y("League Min:Q", title="Squad Size"),
+                y2="League Max:Q",
+                tooltip=[
+                    alt.Tooltip("Season:N", title="Season"),
+                    alt.Tooltip("Unit:N", title="Unit"),
+                    alt.Tooltip("League Min:Q", title="League Min", format=".0f"),
+                    alt.Tooltip("League Max:Q", title="League Max", format=".0f"),
+                    alt.Tooltip("League Average:Q", title="League Average", format=".1f"),
+                ],
+            ),
+            alt.Chart(squad_size_trend)
+            .mark_line(color="gray", strokeDash=[5, 5], strokeWidth=2)
+            .encode(
+                x=alt.X("Season:N"),
+                y=alt.Y("League Average:Q", axis=alt.Axis(orient="right")),
+                detail="Unit:N",
+            ),
+            alt.Chart(squad_size_trend)
+            .mark_line(point={"size": 100}, strokeWidth=3)
+            .encode(
+                x=alt.X("Season:N"),
+                y=alt.Y("Total Players:Q"),
+                color=alt.condition(
+                    alt.datum.IsEGR,
+                    alt.value("#202946"),
+                    alt.value("#991515"),
+                ),
+                detail="Unit:N",
+                tooltip=[
+                    alt.Tooltip("Season:N", title="Season"),
+                    alt.Tooltip("Unit:N", title="Unit"),
+                    alt.Tooltip("Total Players:Q", title="East Grinstead", format=".0f"),
+                ],
+            ),
+        ).properties(width=300, height=400)
+
+        continuity_trend_chart = alt.layer(
+            alt.Chart(continuity_trend)
+            .mark_area(color="gray", opacity=0.2)
+            .encode(
+                x=alt.X("Season:N", title="Season"),
+                y=alt.Y("League Min:Q", title="Average Continuity"),
+                y2="League Max:Q",
+                tooltip=[
+                    alt.Tooltip("Season:N", title="Season"),
+                    alt.Tooltip("Unit:N", title="Unit"),
+                    alt.Tooltip("League Min:Q", title="League Min", format=".2f"),
+                    alt.Tooltip("League Max:Q", title="League Max", format=".2f"),
+                    alt.Tooltip("League Average:Q", title="League Average", format=".2f"),
+                ],
+            ),
+            alt.Chart(continuity_trend)
+            .mark_line(color="gray", strokeDash=[5, 5], strokeWidth=2)
+            .encode(
+                x=alt.X("Season:N"),
+                y=alt.Y("League Average:Q", axis=alt.Axis(orient="right")),
+                detail="Unit:N",
+            ),
+            alt.Chart(continuity_trend)
+            .mark_line(point={"size": 100}, strokeWidth=3)
+            .encode(
+                x=alt.X("Season:N"),
+                y=alt.Y("Average Retention:Q"),
+                color=alt.condition(
+                    alt.datum.IsEGR,
+                    alt.value("#202946"),
+                    alt.value("#991515"),
+                ),
+                opacity=alt.condition(
+                    alt.datum.IsEGR,
+                    alt.value(1),
+                    alt.value(0.5),
+                ),
+
+                detail="Unit:N",
+                tooltip=[
+                    alt.Tooltip("Season:N", title="Season"),
+                    alt.Tooltip("Unit:N", title="Unit"),
+                    alt.Tooltip("Average Retention:Q", title="East Grinstead", format=".2f"),
+                ],
+            ),
+        ).properties(width=300, height=400)
+
+        squad_size_context_chart = alt.hconcat(
+            squad_size_chart,
+            squad_size_trend_chart,
+            spacing=18,
+        ).resolve_scale(y="independent").properties(
+            title=alt.Title(
+                text="League Squad Size",
+                subtitle="Comparison for the selected season alongside East Grinstead trend by unit.",
+            )
+        )
+
+        continuity_context_chart = alt.hconcat(
+            continuity_chart,
+            continuity_trend_chart,
+            spacing=18,
+        ).resolve_scale(y="independent").properties(
+            title=alt.Title(
+                text="League Squad Continuity",
+                subtitle="Comparison for the selected season alongside East Grinstead trend by unit.",
+            )
+        )
+
+        size_file = output_root / f"league_squad_size_context_{squad_num}s.json"
+        continuity_file = output_root / f"league_continuity_context_{squad_num}s.json"
+        squad_size_context_chart.save(str(size_file))
+        continuity_context_chart.save(str(continuity_file))
+
+        exports[f"{squad_num}s"] = {
+            "squad_size_file": size_file.name,
+            "continuity_file": continuity_file.name,
+        }
+
+    return exports
 
 
 def export_league_results_chart_specs(db, output_dir="data/charts"):

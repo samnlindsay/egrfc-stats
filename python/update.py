@@ -21,7 +21,6 @@ from python.charts import (
     captains_chart,
     player_stats_appearances_chart,
     points_scorers_chart,
-    cards_chart,
     team_sheets_chart,
     results_chart,
     set_piece_success_by_season_chart,
@@ -30,7 +29,7 @@ from python.charts import (
     set_piece_h2h_chart_backend,
     red_zone_performance_chart,
     lineout_analysis_chart_suite,
-    lineout_analysis_panel_chart_suite,
+    export_league_context_chart_specs,
     export_league_results_chart_specs,
 )
 
@@ -88,7 +87,6 @@ def main(refresh_pitchero=False, backend_mode="canonical", backend_db_path="data
     captains_chart(db)
     player_stats_appearances_chart(db)
     points_scorers_chart(db)
-    cards_chart(db)
     team_sheets_chart(db)
     results_chart(db)
 
@@ -100,9 +98,9 @@ def main(refresh_pitchero=False, backend_mode="canonical", backend_db_path="data
     lineout_breakdown_chart(db, squad="1st")
     lineout_breakdown_chart(db, squad="2nd")
     lineout_analysis_chart_suite(db)
-    lineout_analysis_panel_chart_suite(db)
     squad_size_trend_chart(db)
     squad_continuity_average_chart(db)
+    export_league_context_chart_specs(db, squads=("1st",))
     export_league_results_chart_specs(db)
 
     print("All charts and data generated.")

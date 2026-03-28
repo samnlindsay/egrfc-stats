@@ -104,8 +104,8 @@
 
 .page-header-filters .player-profiles-active-toggle {
     background-color: #f1f4fc;
-    border-color: #c5cde6;
     transition: background-color 0.2s ease, border-color 0.2s ease;
+    margin: 0;
 }
 
 .page-header-filters .player-profiles-active-toggle:has(:checked) {

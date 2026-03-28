@@ -940,6 +940,13 @@ table tbody tr:hover {
     border-top: 1px solid rgba(32, 41, 70, 0.2);
 }
 
+@media (min-width: 992px) {
+    .league-results-column--expanded {
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+    }
+}
+
 /* Shared team colour tokens mapped onto existing classes */
 .league-team-title-1st,
 .league-highlight-row-1st,
