@@ -221,7 +221,6 @@
                 setSignalFromControl(view, signalName, controlId);
             });
             view.signal('loOpposition', 'All');
-            view.signal('loCall', 'All');
             pending.push(view.runAsync());
         });
 

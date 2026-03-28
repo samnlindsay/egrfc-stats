@@ -25,7 +25,7 @@ from python.charts import (
     results_chart,
     set_piece_success_by_season_chart,
     lineout_success_by_zone_chart,
-    lineout_breakdown_chart,
+    lineout_analysis_panel_chart_suite,
     set_piece_h2h_chart_backend,
     red_zone_performance_chart,
     lineout_analysis_chart_suite,
@@ -95,8 +95,7 @@ def main(refresh_pitchero=False, backend_mode="canonical", backend_db_path="data
     set_piece_h2h_chart_backend(db, set_piece="Scrum", output_file="data/charts/scrum_h2h.json", bind_params=False)
     red_zone_performance_chart(db, metric="points", output_file="data/charts/red_zone_points.json", bind_params=False)
     lineout_success_by_zone_chart(db)
-    lineout_breakdown_chart(db, squad="1st")
-    lineout_breakdown_chart(db, squad="2nd")
+    lineout_analysis_panel_chart_suite(db)
     lineout_analysis_chart_suite(db)
     squad_size_trend_chart(db)
     squad_continuity_average_chart(db)
