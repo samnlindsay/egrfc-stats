@@ -418,6 +418,135 @@ class BackendCacheAndReconciliationTests(unittest.TestCase):
         self.assertEqual(player_rows.iloc[1]["first_xv_appearance_number"], 1)
         self.assertEqual(player_rows.iloc[2]["first_xv_appearance_number"], 2)
 
+    def test_build_season_scorers_uses_count_column_for_2526_sheet(self):
+        scorers_2526_raw = pd.DataFrame(
+            [
+                {
+                    "Squad": "1st",
+                    "Date": "2025-09-07",
+                    "Opposition": "Hove",
+                    "Score": "TRY",
+                    "Count": 2,
+                    "Player": "Alice Example",
+                    "Points": "5",
+                },
+                {
+                    "Squad": "1st",
+                    "Date": "2025-09-07",
+                    "Opposition": "Hove",
+                    "Score": "CON",
+                    "Count": 1,
+                    "Player": "Alice Example",
+                    "Points": "2",
+                },
+                {
+                    "Squad": "1st",
+                    "Date": "2025-09-07",
+                    "Opposition": "Hove",
+                    "Score": "PK",
+                    "Count": 2,
+                    "Player": "Bob Example",
+                    "Points": "3",
+                },
+            ]
+        )
+        games = pd.DataFrame(
+            [
+                {
+                    "game_id": "g1",
+                    "squad": "1st",
+                    "date": pd.Timestamp("2025-09-07").date(),
+                    "season": "2025/26",
+                    "competition": "League",
+                    "game_type": "League",
+                    "opposition": "Hove",
+                    "home_away": "H",
+                    "score_for": 22,
+                    "score_against": 10,
+                    "result": "W",
+                    "captain": "Cap",
+                    "vice_captain_1": None,
+                    "vice_captain_2": None,
+                }
+            ]
+        )
+        out = self.backend._build_season_scorers(
+            scorers_2526_raw=scorers_2526_raw,
+            pitchero_raw=pd.DataFrame(columns=["Season", "Squad", "Player_join", "A", "Event", "Count"]),
+            appearances=pd.DataFrame(columns=["player"]),
+            games=games,
+        )
+
+        alice = out[(out["player"] == "Alice Example") & (out["squad"] == "1st")].iloc[0]
+        bob = out[(out["player"] == "Bob Example") & (out["squad"] == "1st")].iloc[0]
+
+        self.assertEqual(int(alice["tries"]), 2)
+        self.assertEqual(int(alice["conversions"]), 1)
+        self.assertEqual(int(alice["points"]), 12)
+        self.assertEqual(int(bob["penalties"]), 2)
+        self.assertEqual(int(bob["points"]), 6)
+
+    def test_attach_match_scorers_merges_per_game_counts(self):
+        games = pd.DataFrame(
+            [
+                {
+                    "game_id": "g1",
+                    "squad": "1st",
+                    "date": pd.Timestamp("2025-09-07").date(),
+                    "season": "2025/26",
+                    "competition": "League",
+                    "game_type": "League",
+                    "opposition": "Hove",
+                    "home_away": "H",
+                    "score_for": 22,
+                    "score_against": 10,
+                    "result": "W",
+                    "captain": "Cap",
+                    "vice_captain_1": None,
+                    "vice_captain_2": None,
+                }
+            ]
+        )
+        scorers_2526_raw = pd.DataFrame(
+            [
+                {
+                    "Squad": "1st",
+                    "Date": "2025-09-07",
+                    "Opposition": "Hove",
+                    "Score": "TRY",
+                    "Count": 2,
+                    "Player": "Alice Example",
+                    "Points": "5",
+                },
+                {
+                    "Squad": "1st",
+                    "Date": "2025-09-07",
+                    "Opposition": "Hove",
+                    "Score": "CON",
+                    "Count": 1,
+                    "Player": "Alice Example",
+                    "Points": "2",
+                },
+                {
+                    "Squad": "1st",
+                    "Date": "2025-09-07",
+                    "Opposition": "Hove",
+                    "Score": "PK",
+                    "Count": 2,
+                    "Player": "Bob Example",
+                    "Points": "3",
+                },
+            ]
+        )
+
+        out = self.backend._attach_match_scorers(games, scorers_2526_raw)
+        row = out.iloc[0]
+
+        self.assertEqual(json.loads(row["tries_scorers"]), {"Alice Example": 2})
+        self.assertEqual(json.loads(row["conversions_scorers"]), {"Alice Example": 1})
+        self.assertEqual(json.loads(row["penalties_scorers"]), {"Bob Example": 2})
+        self.assertTrue(pd.isna(row["drop_goals_scorers"]))
+
 
 if __name__ == "__main__":
     unittest.main()

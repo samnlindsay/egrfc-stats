@@ -222,6 +222,10 @@ class BackendDatabase:
                 captain TEXT,
                 vice_captain_1 TEXT,
                 vice_captain_2 TEXT,
+                tries_scorers TEXT,
+                conversions_scorers TEXT,
+                penalties_scorers TEXT,
+                drop_goals_scorers TEXT,
                 UNIQUE(squad, date, opposition)
             )
             """
@@ -559,6 +563,7 @@ class BackendDatabase:
         rfu_matches_raw = load_consolidated_matches(self.rfu_matches_file.as_posix())
 
         games = self._build_games(games_raw, appearances_raw)
+        games = self._attach_match_scorers(games, scorers_2526_raw)
         appearances = self._build_player_appearances(appearances_raw, games)
         lineouts = self._build_lineouts(lineouts_raw, games)
         set_piece = self._build_set_piece(set_piece_raw, games)
@@ -884,6 +889,12 @@ class BackendDatabase:
         # Schema: {table_name: {column_name: default_value_type}}
         # - default_value_type: 'object' ({}) or 'array' ([])
         json_columns_map = {
+            "games": {
+                "tries_scorers": "object",
+                "conversions_scorers": "object",
+                "penalties_scorers": "object",
+                "drop_goals_scorers": "object",
+            },
             "squad_stats_enriched": {
                 "playerCounts": "object",
             },
@@ -1114,32 +1125,168 @@ class BackendDatabase:
         worksheet = spreadsheet.worksheet("25/26 Scorers")
         values = worksheet.get_all_values()
         if not values:
-            return pd.DataFrame(columns=["Squad", "Date", "Opposition", "Score", "Player", "Points"])
+            return pd.DataFrame(columns=["Squad", "Date", "Opposition", "Score", "Count", "Player", "Points"])
+
+        header = [str(cell).strip() for cell in values[0]]
+        normalised_to_idx = {
+            _normalise_key(column): idx
+            for idx, column in enumerate(header)
+            if str(column).strip()
+        }
+
+        def _col_idx(*candidates: str) -> int | None:
+            for candidate in candidates:
+                idx = normalised_to_idx.get(_normalise_key(candidate))
+                if idx is not None:
+                    return idx
+            return None
+
+        squad_idx = _col_idx("Squad")
+        date_idx = _col_idx("Date")
+        opposition_idx = _col_idx("Opposition")
+        score_idx = _col_idx("Score", "Type")
+        count_idx = _col_idx("Count")
+        player_idx = _col_idx("Scorer", "Player")
+        points_idx = _col_idx("Points")
+
+        def _cell(row: list[Any], idx: int | None, fallback_idx: int | None = None) -> str:
+            for candidate in [idx, fallback_idx]:
+                if candidate is None:
+                    continue
+                if 0 <= candidate < len(row):
+                    return str(row[candidate]).strip()
+            return ""
 
         rows: list[dict[str, Any]] = []
         for row in values[1:]:
-            if len(row) < 7:
+            if not row:
                 continue
-            squad = row[1].strip()
-            date = row[2].strip()
-            opposition = row[3].strip()
-            score = row[4].strip()
-            player = row[5].strip()
-            points = row[6].strip()
+
+            # Positional fallbacks preserve legacy 25/26 sheet compatibility.
+            squad = _cell(row, squad_idx, fallback_idx=1)
+            date = _cell(row, date_idx, fallback_idx=2)
+            opposition = _cell(row, opposition_idx, fallback_idx=3)
+            score = _cell(row, score_idx, fallback_idx=4)
+            count_raw = _cell(row, count_idx, fallback_idx=5)
+            player = _cell(row, player_idx, fallback_idx=6 if count_idx is None else None)
+            points = _cell(row, points_idx, fallback_idx=7 if count_idx is not None else 6)
+
             if not squad or not player:
                 continue
+
+            count = pd.to_numeric(count_raw, errors="coerce")
+            count = int(count) if pd.notna(count) and int(count) > 0 else 1
+
             rows.append(
                 {
                     "Squad": squad,
                     "Date": date,
                     "Opposition": opposition,
                     "Score": score,
+                    "Count": count,
                     "Player": player,
                     "Points": points,
                 }
             )
 
         return pd.DataFrame(rows)
+
+    def _attach_match_scorers(self, games: pd.DataFrame, scorers_2526_raw: pd.DataFrame) -> pd.DataFrame:
+        games_with_scorers = games.copy()
+        scorer_columns = [
+            "tries_scorers",
+            "conversions_scorers",
+            "penalties_scorers",
+            "drop_goals_scorers",
+        ]
+        for col in scorer_columns:
+            if col not in games_with_scorers.columns:
+                games_with_scorers[col] = None
+
+        if scorers_2526_raw.empty:
+            return games_with_scorers
+
+        scorers = scorers_2526_raw.copy().rename(
+            columns={
+                "Squad": "squad",
+                "Date": "date",
+                "Opposition": "opposition",
+                "Score": "score_type",
+                "Scorer": "player",
+                "Player": "player",
+                "Count": "count",
+            }
+        )
+        required = {"squad", "date", "opposition", "score_type", "player"}
+        if not required.issubset(set(scorers.columns)):
+            return games_with_scorers
+
+        scorers["date"] = _safe_date(scorers["date"])
+        scorers["opposition"] = scorers["opposition"].astype(str).str.strip()
+        scorers["score_type"] = scorers["score_type"].astype(str).str.strip().str.upper()
+        scorers["player"] = scorers["player"].astype(str).str.strip()
+        scorers["count"] = pd.to_numeric(scorers.get("count", 1), errors="coerce").fillna(1).astype(int)
+        scorers = scorers[(scorers["player"] != "") & (scorers["count"] > 0)]
+        if scorers.empty:
+            return games_with_scorers
+
+        scorer_type_to_column = {
+            "TRY": "tries_scorers",
+            "T": "tries_scorers",
+            "CON": "conversions_scorers",
+            "CONVERSION": "conversions_scorers",
+            "PK": "penalties_scorers",
+            "PEN": "penalties_scorers",
+            "PENALTY": "penalties_scorers",
+            "DG": "drop_goals_scorers",
+            "DROP GOAL": "drop_goals_scorers",
+        }
+        scorers["target_column"] = scorers["score_type"].map(scorer_type_to_column)
+        scorers = scorers[scorers["target_column"].notna()]
+        if scorers.empty:
+            return games_with_scorers
+
+        keyed_games = games_with_scorers[["game_id", "squad", "date", "opposition"]].copy()
+        keyed_games["date"] = _safe_date(keyed_games["date"])
+        keyed_games["opposition"] = keyed_games["opposition"].astype(str).str.strip()
+
+        scored = scorers.merge(
+            keyed_games,
+            on=["squad", "date", "opposition"],
+            how="left",
+        )
+        scored = scored[scored["game_id"].notna()]
+        if scored.empty:
+            return games_with_scorers
+
+        grouped = scored.groupby(["game_id", "target_column", "player"], as_index=False).agg(count=("count", "sum"))
+        if grouped.empty:
+            return games_with_scorers
+
+        per_game: dict[str, dict[str, dict[str, int]]] = {}
+        for row in grouped.itertuples(index=False):
+            game_bucket = per_game.setdefault(str(row.game_id), {})
+            category_bucket = game_bucket.setdefault(str(row.target_column), {})
+            category_bucket[str(row.player)] = int(row.count)
+
+        payload_rows: list[dict[str, Any]] = []
+        for game_id, category_payload in per_game.items():
+            payload: dict[str, Any] = {"game_id": game_id}
+            for col in scorer_columns:
+                category_values = category_payload.get(col)
+                payload[col] = json.dumps(category_values, ensure_ascii=True, sort_keys=True) if category_values else None
+            payload_rows.append(payload)
+
+        scorer_payload_df = pd.DataFrame(payload_rows)
+        if scorer_payload_df.empty:
+            return games_with_scorers
+
+        games_with_scorers = games_with_scorers.drop(columns=[col for col in scorer_columns if col in games_with_scorers.columns])
+        games_with_scorers = games_with_scorers.merge(scorer_payload_df, on="game_id", how="left")
+        for col in scorer_columns:
+            if col not in games_with_scorers.columns:
+                games_with_scorers[col] = None
+        return games_with_scorers
 
     def _extract_lineouts(self, extractor: DataExtractor) -> pd.DataFrame:
         spreadsheet = extractor.client.open_by_url(extractor.sheet_url)
@@ -1582,6 +1729,7 @@ class BackendDatabase:
                     "Date": "date",
                     "Opposition": "opposition",
                     "Score": "score_type",
+                    "Count": "count",
                     "Player": "player",
                     "Points": "points",
                 }
@@ -1590,6 +1738,8 @@ class BackendDatabase:
             df_2526["score_type"] = df_2526["score_type"].fillna("").astype(str).str.strip().str.upper()
             df_2526["metric"] = df_2526["score_type"].map(scorer_type_map)
             df_2526 = df_2526[df_2526["metric"].notna()]
+            df_2526["count"] = pd.to_numeric(df_2526.get("count", 1), errors="coerce").fillna(1).astype(int)
+            df_2526 = df_2526[df_2526["count"] > 0]
 
             # Resolve game type from canonical games so season scorers can respect UI game-type filters.
             game_type_lookup = games[["squad", "date", "opposition", "season", "game_type"]].copy()
@@ -1609,8 +1759,8 @@ class BackendDatabase:
                 df_2526.pivot_table(
                     index=["squad", "season", "player", "game_type"],
                     columns="metric",
-                    values="points",
-                    aggfunc="count",
+                    values="count",
+                    aggfunc="sum",
                     fill_value=0,
                 )
                 .reset_index()

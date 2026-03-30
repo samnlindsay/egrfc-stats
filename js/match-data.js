@@ -67,9 +67,16 @@ function choosePreferredProfile(existing, candidate) {
 function formatDisplayDate(value) {
     const raw = String(value || '').trim();
     if (!raw) return '-';
-    const parsed = new Date(raw);
+    const isoDateMatch = raw.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    const parsed = isoDateMatch
+        ? new Date(Number(isoDateMatch[1]), Number(isoDateMatch[2]) - 1, Number(isoDateMatch[3]))
+        : new Date(raw);
     if (Number.isNaN(parsed.getTime())) return raw;
-    return parsed.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+
+    const day = parsed.getDate();
+    const month = parsed.toLocaleDateString('en-GB', { month: 'long' });
+    const year = parsed.getFullYear();
+    return `${ordinalSuffix(day)} ${month} ${year}`;
 }
 
 function normaliseResult(row) {
@@ -136,6 +143,230 @@ function buildMatchHeroData(row) {
         competition: String(row?.competition || row?.game_type || '-'),
         resultClass: `${squadClass} ${resultClass} ${egSideClass}`.trim(),
     };
+}
+
+function pickFirstScorerValue(row, keys) {
+    if (!row || !Array.isArray(keys)) return undefined;
+    for (const key of keys) {
+        if (!(key in row)) continue;
+        const value = row[key];
+        if (value === null || value === undefined) continue;
+        if (typeof value === 'string' && !value.trim()) continue;
+        if (Array.isArray(value) && value.length === 0) continue;
+        if (value && typeof value === 'object' && !Array.isArray(value) && Object.keys(value).length === 0) continue;
+        return value;
+    }
+    return undefined;
+}
+
+function parseScorerToken(rawToken) {
+    const token = String(rawToken || '').replace(/^[-*\u2022\s]+/, '').trim();
+    if (!token || !/[A-Za-z]/.test(token)) return null;
+
+    let match = token.match(/^(.+?)\s*\((\d+)\)\s*$/);
+    if (match) {
+        return {
+            name: match[1].trim(),
+            count: Math.max(1, Number.parseInt(match[2], 10) || 1),
+        };
+    }
+
+    match = token.match(/^(.+?)\s*[xX]\s*(\d+)\s*$/);
+    if (match) {
+        return {
+            name: match[1].trim(),
+            count: Math.max(1, Number.parseInt(match[2], 10) || 1),
+        };
+    }
+
+    match = token.match(/^(.+?)\s*[:\-]\s*(\d+)\s*$/);
+    if (match) {
+        return {
+            name: match[1].trim(),
+            count: Math.max(1, Number.parseInt(match[2], 10) || 1),
+        };
+    }
+
+    return { name: token, count: 1 };
+}
+
+function scorerEntriesFromUnknown(raw) {
+    if (raw === null || raw === undefined) return [];
+
+    if (Array.isArray(raw)) {
+        return raw.flatMap(item => scorerEntriesFromUnknown(item));
+    }
+
+    if (typeof raw === 'object') {
+        const namedFields = ['player', 'name', 'scorer'];
+        const countFields = ['count', 'tries', 'conversions', 'penalties', 'value'];
+        const hasNamedField = namedFields.some(field => field in raw);
+        if (hasNamedField) {
+            const playerName = String(
+                raw.player || raw.name || raw.scorer || ''
+            ).trim();
+            if (!playerName || !/[A-Za-z]/.test(playerName)) return [];
+            const countValue = countFields
+                .map(field => Number(raw[field]))
+                .find(Number.isFinite);
+            return [{ name: playerName, count: Math.max(1, countValue || 1) }];
+        }
+
+        return Object.entries(raw).flatMap(([name, value]) => {
+            const cleanName = String(name || '').trim();
+            if (!cleanName || !/[A-Za-z]/.test(cleanName)) return [];
+
+            if (Number.isFinite(Number(value))) {
+                return [{ name: cleanName, count: Math.max(1, Number(value) || 1) }];
+            }
+
+            if (value && typeof value === 'object') {
+                const nestedCount = Number(value.count ?? value.value ?? value.total);
+                if (Number.isFinite(nestedCount)) {
+                    return [{ name: cleanName, count: Math.max(1, nestedCount || 1) }];
+                }
+            }
+
+            const parsed = parseScorerToken(`${cleanName} ${String(value || '').trim()}`);
+            return parsed ? [parsed] : [];
+        });
+    }
+
+    if (typeof raw === 'string') {
+        const text = raw.trim();
+        if (!text) return [];
+
+        if ((text.startsWith('[') && text.endsWith(']')) || (text.startsWith('{') && text.endsWith('}'))) {
+            try {
+                const parsed = JSON.parse(text);
+                return scorerEntriesFromUnknown(parsed);
+            } catch (_error) {
+                // Fall through to token parsing when the value is not valid JSON.
+            }
+        }
+
+        return text
+            .split(/\r?\n|,|;|\|/)
+            .map(token => parseScorerToken(token))
+            .filter(Boolean);
+    }
+
+    return [];
+}
+
+function collapseScorerEntries(entries) {
+    const byPlayer = new Map();
+    entries.forEach(entry => {
+        const name = String(entry?.name || '').trim();
+        if (!name) return;
+        const key = canonicalizeName(name);
+        if (!key) return;
+        const existing = byPlayer.get(key) || { name, count: 0 };
+        existing.count += Math.max(1, Number(entry?.count) || 1);
+        byPlayer.set(key, existing);
+    });
+
+    return [...byPlayer.values()]
+        .sort((a, b) => {
+            if (b.count !== a.count) return b.count - a.count;
+            return a.name.localeCompare(b.name);
+        });
+}
+
+function scorerCategoryHtml(title, entries) {
+    if (!entries.length) return '';
+    const rows = entries
+        .map(entry => `<li class="match-info-scorers-item">${escapeHtml(entry.name)}${entry.count > 1 ? ` (${entry.count})` : ''}</li>`)
+        .join('');
+
+    return `
+        <div class="match-info-scorers-group">
+            <h4 class="match-info-scorers-group-title">${escapeHtml(title)}</h4>
+            <ul class="match-info-scorers-list">${rows}</ul>
+        </div>
+    `;
+}
+
+function scorerEntryInlineHtml(entry) {
+    const name = escapeHtml(String(entry?.name || '').trim());
+    const count = Math.max(1, Number(entry?.count) || 1);
+    const countHtml = count > 1
+        ? `<span class="match-info-score-multiplier" aria-label="scored ${count} times">${count}</span>`
+        : '<span class="match-info-score-multiplier match-info-score-multiplier--empty" aria-hidden="true"></span>';
+    return `<span class="match-info-scorer-line"><span class="match-info-scorer-name">${name}</span>${countHtml}</span>`;
+}
+
+function scorerEntriesInlineHtml(entries, multiline = false) {
+    if (!Array.isArray(entries) || !entries.length) return '-';
+    const tokens = entries.map(entry => scorerEntryInlineHtml(entry));
+    return multiline
+    ? `<span class="match-info-scorer-lines">${tokens.join('')}</span>`
+        : tokens.join(', ');
+}
+
+function scorerCategoriesForRow(row) {
+    const categorySources = [
+        {
+            title: 'Tries',
+            keys: ['try_scorers', 'tries_scorers', 'tries_by_player', 'triesScorers', 'tryScorers', 'tries'],
+        },
+        {
+            title: 'Conversions',
+            keys: ['conversion_scorers', 'conversions_scorers', 'conversions_by_player', 'conversionScorers', 'conversionsScorers', 'conversions', 'converters'],
+        },
+        {
+            title: 'Penalties',
+            keys: ['penalty_scorers', 'penalties_scorers', 'penalties_by_player', 'penaltyScorers', 'penaltiesScorers', 'penalties', 'penalty_kickers'],
+        },
+    ];
+
+    return categorySources.map(category => {
+        const raw = pickFirstScorerValue(row, category.keys);
+        const entries = collapseScorerEntries(scorerEntriesFromUnknown(raw));
+        return {
+            title: category.title,
+            entries,
+            total: entries.reduce((sum, entry) => sum + (Number(entry?.count) || 0), 0),
+        };
+    });
+}
+
+function renderScorerMetaRow(row) {
+    const categories = scorerCategoriesForRow(row);
+    const hasAnyScorers = categories.some(category => category.entries.length > 0);
+    if (!hasAnyScorers) return '';
+
+    const itemBlocks = categories.map(category => `
+        <div class="match-info-meta-item">
+            <span class="match-info-meta-label">${escapeHtml(category.title)}</span>
+            <span class="match-info-meta-value match-info-meta-value--scorers">${scorerEntriesInlineHtml(category.entries, true)}</span>
+        </div>
+    `);
+
+    const itemsHtml = itemBlocks
+        .map((itemHtml, index) => index < itemBlocks.length - 1
+            ? `${itemHtml}<div class="match-info-meta-divider" aria-hidden="true"></div>`
+            : itemHtml)
+        .join('');
+
+    return `<div class="match-info-meta-row match-info-meta-row--scoring">${itemsHtml}</div>`;
+}
+
+function renderScorersSection(row) {
+    const categoryHtml = scorerCategoriesForRow(row)
+        .map(category => scorerCategoryHtml(category.title, category.entries))
+        .filter(Boolean);
+
+    if (!categoryHtml.length) return '';
+
+    return `
+        <section class="match-info-scorers" aria-label="Scorers">
+            <h3 class="match-info-scorers-title">Scorers</h3>
+            <div class="match-info-scorers-grid">
+                ${categoryHtml.join('')}
+            </div>
+        </section>
+    `;
 }
 
 function profileLinkHref(playerName) {
@@ -634,15 +865,18 @@ function renderMatchInfo(gameId) {
                 </div>
             </div>
             <div class="match-info-meta">
-                <div class="match-info-meta-item">
-                    <span class="match-info-meta-label">Date</span>
-                    <span class="match-info-meta-value">${escapeHtml(hero.date)}</span>
+                <div class="match-info-meta-row">
+                    <div class="match-info-meta-item">
+                        <span class="match-info-meta-label">Date</span>
+                        <span class="match-info-meta-value">${escapeHtml(hero.date)}</span>
+                    </div>
+                    <div class="match-info-meta-divider" aria-hidden="true"></div>
+                    <div class="match-info-meta-item">
+                        <span class="match-info-meta-label">Competition</span>
+                        <span class="match-info-meta-value">${escapeHtml(hero.competition)}</span>
+                    </div>
                 </div>
-                <div class="match-info-meta-divider" aria-hidden="true"></div>
-                <div class="match-info-meta-item">
-                    <span class="match-info-meta-label">Competition</span>
-                    <span class="match-info-meta-value">${escapeHtml(hero.competition)}</span>
-                </div>
+                ${renderScorerMetaRow(selected)}
             </div>
         </section>
         ${teamSheetSectionHtml(selected.game_id)}
