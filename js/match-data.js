@@ -160,7 +160,87 @@ function captainBadgeHtml(isCaptain, isViceCaptain) {
     return badges.join('');
 }
 
-function playerIdentityHtml(playerName, profile, isCaptain, isViceCaptain) {
+function ordinalSuffix(value) {
+    const n = Number(value || 0);
+    if (!Number.isFinite(n) || n <= 0) return String(value || '');
+    const mod100 = n % 100;
+    if (mod100 >= 11 && mod100 <= 13) return `${n}th`;
+    const mod10 = n % 10;
+    if (mod10 === 1) return `${n}st`;
+    if (mod10 === 2) return `${n}nd`;
+    if (mod10 === 3) return `${n}rd`;
+    return `${n}th`;
+}
+
+function milestoneBadgeHtml(row) {
+    const markers = [];
+    const clubCount = Number(row?.club_appearance_number || 0);
+    const firstXVCount = Number(row?.first_xv_appearance_number || 0);
+
+    const markerMeta = {
+        1: { levelClass: 'match-team-sheet-milestone--debut', iconText: '1' },
+        25: { levelClass: 'match-team-sheet-milestone--25', iconText: '25' },
+        50: { levelClass: 'match-team-sheet-milestone--50', iconText: '50' },
+        100: { levelClass: 'match-team-sheet-milestone--100', iconText: '100' },
+    };
+
+    const pushMarker = (count, scopeClass, scopeLabel) => {
+        const meta = markerMeta[count];
+        if (!meta) return;
+        const milestoneLabel = count === 1 ? 'debut' : `${ordinalSuffix(count)} appearance`;
+        const title = `${scopeLabel} ${milestoneLabel}`;
+        const markerInner = `<span class="match-team-sheet-milestone-text">${meta.iconText}</span>`;
+        markers.push(
+            `<span class="match-team-sheet-milestone ${scopeClass} ${meta.levelClass}" title="${escapeHtml(title)}" aria-label="${escapeHtml(title)}"><span class="match-team-sheet-milestone-core">${markerInner}</span></span>`
+        );
+    };
+
+    if ([1, 25, 50, 100].includes(clubCount)) {
+        pushMarker(clubCount, 'match-team-sheet-milestone--scope-club', 'Club');
+    }
+
+    if ([1, 25, 50, 100].includes(firstXVCount)) {
+        pushMarker(firstXVCount, 'match-team-sheet-milestone--scope-first-xv', '1st XV');
+    }
+
+    return markers.join('');
+}
+
+function hasAnyMilestone(rows) {
+    return rows.some(row => [1, 25, 50, 100].includes(Number(row?.club_appearance_number || 0))
+        || [1, 25, 50, 100].includes(Number(row?.first_xv_appearance_number || 0)));
+}
+
+function milestoneLegendHtml(showLegend) {
+    if (!showLegend) return '';
+
+    const icon = (scopeClass, levelClass, text, title) => {
+        const inner = `<span class="match-team-sheet-milestone-text">${text}</span>`;
+        return `<span class="match-team-sheet-milestone ${scopeClass} ${levelClass}" aria-hidden="true" title="${escapeHtml(title)}"><span class="match-team-sheet-milestone-core">${inner}</span></span>`;
+    };
+
+    const pairedIcon = (levelClass, text, label) => `
+        <span class="match-team-sheet-legend-pair" aria-hidden="true">
+            <span class="match-team-sheet-legend-pair-icon match-team-sheet-legend-pair-icon--club">${icon('match-team-sheet-milestone--scope-club', levelClass, text, `Club ${label}`)}</span>
+            <span class="match-team-sheet-legend-pair-icon match-team-sheet-legend-pair-icon--first-xv">${icon('match-team-sheet-milestone--scope-first-xv', levelClass, text, `1st XV ${label}`)}</span>
+        </span>
+    `;
+
+    return `
+        <div class="match-team-sheet-legend" aria-label="Appearance milestone key">
+            <h4 class="match-team-sheet-legend-title">Milestone Appearances</h4>
+            <div class="match-team-sheet-legend-row">
+                <span class="match-team-sheet-legend-scopes">Club<br><strong>1st XV</strong></span>
+                <span class="match-team-sheet-legend-item">${pairedIcon('match-team-sheet-milestone--debut', '1', 'debut')}<span class="match-team-sheet-legend-text">Debut</span></span>
+                <span class="match-team-sheet-legend-item">${pairedIcon('match-team-sheet-milestone--25', '25', '25th appearance')}<span class="match-team-sheet-legend-text">25th</span></span>
+                <span class="match-team-sheet-legend-item">${pairedIcon('match-team-sheet-milestone--50', '50', '50th appearance')}<span class="match-team-sheet-legend-text">50th</span></span>
+                <span class="match-team-sheet-legend-item">${pairedIcon('match-team-sheet-milestone--100', '100', '100th appearance')}<span class="match-team-sheet-legend-text">100th</span></span>
+            </div>
+        </div>
+    `;
+}
+
+function playerIdentityHtml(playerName, profile, isCaptain, isViceCaptain, row) {
     const safeName = escapeHtml(playerName || 'Unknown');
     const photoUrl = String(profile?.photo_url || '').trim();
     const hasProfile = !!profile;
@@ -179,6 +259,7 @@ function playerIdentityHtml(playerName, profile, isCaptain, isViceCaptain) {
             <span class="match-team-sheet-player-text">
                 ${nameMarkup}
                 ${captainBadgeHtml(isCaptain, isViceCaptain)}
+                ${milestoneBadgeHtml(row)}
             </span>
         </span>
     `;
@@ -211,7 +292,7 @@ function buildTeamSheetRows(rows, startNumber, endNumberInclusive) {
                 </span>
                 <span class="match-team-sheet-content">
                     ${row
-                        ? `${playerIdentityHtml(playerName, profile, !!row?.is_captain, !!row?.is_vice_captain)}`
+                        ? `${playerIdentityHtml(playerName, profile, !!row?.is_captain, !!row?.is_vice_captain, row)}`
                         : '<span class="match-team-sheet-empty">Not listed</span>'}
                 </span>
             </li>
@@ -241,7 +322,7 @@ function buildReplacementsRows(rows) {
                     ${positionLabelHtml(row?.position)}
                 </span>
                 <span class="match-team-sheet-content">
-                    ${playerIdentityHtml(playerName, profile, !!row?.is_captain, !!row?.is_vice_captain)}
+                    ${playerIdentityHtml(playerName, profile, !!row?.is_captain, !!row?.is_vice_captain, row)}
                 </span>
             </li>
         `;
@@ -252,6 +333,7 @@ function teamSheetSectionHtml(gameId) {
     const rows = (appearancesByGameId.get(String(gameId || '').trim()) || [])
         .slice()
         .sort((a, b) => Number(a?.number || 0) - Number(b?.number || 0));
+    const showMilestoneLegend = hasAnyMilestone(rows);
 
     if (!rows.length) {
         return `
@@ -296,6 +378,7 @@ function teamSheetSectionHtml(gameId) {
                     ${buildReplacementsRows(rows)}
                 </ol>
             </div>
+            ${milestoneLegendHtml(showMilestoneLegend)}
         </section>
     `;
 }

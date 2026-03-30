@@ -243,6 +243,8 @@ class BackendDatabase:
                 game_type TEXT,
                 is_starter BOOLEAN,
                 is_backfill BOOLEAN DEFAULT FALSE,
+                club_appearance_number INTEGER,
+                first_xv_appearance_number INTEGER,
                 PRIMARY KEY(squad, date, player)
             )
             """
@@ -563,6 +565,7 @@ class BackendDatabase:
         season_scorers = self._build_season_scorers(scorers_2526_raw, pitchero_raw, appearances, games)
         reconciliation, backfill = self._build_pitchero_appearance_reconciliation(pitchero_raw, appearances)
         appearances = self._apply_backfill_to_appearances(appearances, backfill, reconciliation)
+        appearances = self._annotate_appearance_numbers(appearances)
         players = self._build_players(appearances, games, lineouts, season_scorers)
         player_profiles_base = self._build_player_profiles_base(players, appearances, games, season_scorers)
         squad_stats_enriched = self._build_squad_stats(appearances, games)
@@ -1261,6 +1264,8 @@ class BackendDatabase:
                     "game_type",
                     "is_starter",
                     "is_backfill",
+                    "club_appearance_number",
+                    "first_xv_appearance_number",
                 ]
             )
 
@@ -1273,6 +1278,8 @@ class BackendDatabase:
         df["is_vc"] = df["is_vc"].fillna(False).astype(bool)
         df["is_starter"] = df["is_starter"].fillna(False).astype(bool)
         df["is_backfill"] = False
+        df["club_appearance_number"] = pd.Series(pd.NA, index=df.index, dtype="Int64")
+        df["first_xv_appearance_number"] = pd.Series(pd.NA, index=df.index, dtype="Int64")
         df = df.dropna(subset=["squad", "date", "player"]).drop_duplicates(subset=["squad", "date", "player"])
         return df[
             [
@@ -1289,8 +1296,34 @@ class BackendDatabase:
                 "game_type",
                 "is_starter",
                 "is_backfill",
+                "club_appearance_number",
+                "first_xv_appearance_number",
             ]
         ].rename(columns={"is_vc": "is_vice_captain"})
+
+    def _annotate_appearance_numbers(self, appearances: pd.DataFrame) -> pd.DataFrame:
+        """Add cumulative appearance counters for club total and 1st XV only."""
+        if appearances.empty:
+            df = appearances.copy()
+            df["club_appearance_number"] = pd.Series(dtype="Int64")
+            df["first_xv_appearance_number"] = pd.Series(dtype="Int64")
+            return df
+
+        df = appearances.copy()
+
+        sort_cols = ["player", "date", "is_backfill", "game_id", "squad", "shirt_number"]
+        sorted_df = df.sort_values(sort_cols, kind="stable")
+
+        club_counts = sorted_df.groupby("player").cumcount() + 1
+        df["club_appearance_number"] = pd.Series(index=sorted_df.index, data=club_counts).reindex(df.index).astype("Int64")
+
+        df["first_xv_appearance_number"] = pd.Series(pd.NA, index=df.index, dtype="Int64")
+        first_xv = sorted_df[sorted_df["squad"] == "1st"]
+        if not first_xv.empty:
+            first_xv_counts = first_xv.groupby("player").cumcount() + 1
+            df.loc[first_xv.index, "first_xv_appearance_number"] = first_xv_counts.astype("Int64")
+
+        return df
 
     def _apply_backfill_to_appearances(
         self,
@@ -1373,6 +1406,8 @@ class BackendDatabase:
                         "game_type": None,
                         "is_starter": False,
                         "is_backfill": True,
+                        "club_appearance_number": pd.NA,
+                        "first_xv_appearance_number": pd.NA,
                     })
                     used_dates.add(date_key)
                     added += 1

@@ -359,6 +359,65 @@ class BackendCacheAndReconciliationTests(unittest.TestCase):
         self.assertFalse(DataExtractor._is_egrfc_team_name("Crowboro 2"))
         self.assertFalse(DataExtractor._is_egrfc_team_name("Heathfield 3"))
 
+    def test_annotate_appearance_numbers_adds_club_and_first_xv_counters(self):
+        appearances = pd.DataFrame(
+            [
+                {
+                    "squad": "1st",
+                    "date": pd.Timestamp("2024-09-14").date(),
+                    "player": "Sam Example",
+                    "shirt_number": 10,
+                    "position": "Fly Half",
+                    "unit": "Backs",
+                    "is_captain": False,
+                    "is_vice_captain": False,
+                    "game_id": "g2",
+                    "season": "2024/25",
+                    "game_type": "League",
+                    "is_starter": True,
+                    "is_backfill": False,
+                },
+                {
+                    "squad": "2nd",
+                    "date": pd.Timestamp("2024-09-07").date(),
+                    "player": "Sam Example",
+                    "shirt_number": 15,
+                    "position": "Full Back",
+                    "unit": "Backs",
+                    "is_captain": False,
+                    "is_vice_captain": False,
+                    "game_id": "g1",
+                    "season": "2024/25",
+                    "game_type": "League",
+                    "is_starter": True,
+                    "is_backfill": False,
+                },
+                {
+                    "squad": "1st",
+                    "date": pd.Timestamp("2024-09-21").date(),
+                    "player": "Sam Example",
+                    "shirt_number": 12,
+                    "position": "Inside Centre",
+                    "unit": "Backs",
+                    "is_captain": False,
+                    "is_vice_captain": False,
+                    "game_id": "g3",
+                    "season": "2024/25",
+                    "game_type": "League",
+                    "is_starter": True,
+                    "is_backfill": False,
+                },
+            ]
+        )
+
+        annotated = self.backend._annotate_appearance_numbers(appearances)
+        player_rows = annotated[annotated["player"] == "Sam Example"].sort_values("date")
+
+        self.assertEqual(player_rows["club_appearance_number"].tolist(), [1, 2, 3])
+        self.assertTrue(pd.isna(player_rows.iloc[0]["first_xv_appearance_number"]))
+        self.assertEqual(player_rows.iloc[1]["first_xv_appearance_number"], 1)
+        self.assertEqual(player_rows.iloc[2]["first_xv_appearance_number"], 2)
+
 
 if __name__ == "__main__":
     unittest.main()
