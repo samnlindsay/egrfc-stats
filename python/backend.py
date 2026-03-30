@@ -2050,8 +2050,10 @@ class BackendDatabase:
             working = working[working[value_col].notna()]
             if working.empty:
                 return None, json.dumps([])
-            max_value = int(working[value_col].max())
-            players = sorted(working.loc[working[value_col] == max_value, "player"].dropna().unique().tolist())
+            # Aggregate per player to handle multiple rows per player (e.g., League and Cup games)
+            aggregated = working.groupby("player")[value_col].sum().reset_index()
+            max_value = int(aggregated[value_col].max())
+            players = sorted(aggregated.loc[aggregated[value_col] == max_value, "player"].dropna().unique().tolist())
             return max_value, json.dumps(players)
 
         def build_appearance_leaders(df: pd.DataFrame) -> dict[tuple[str, str], tuple[int | None, str]]:
