@@ -377,6 +377,14 @@ class DataExtractor:
 
                     game_id = f"{date_iso}_{squad_label}_{opposition}".replace(" ", "_").replace("/", "")
 
+                    # Extract scorers from /events endpoint
+                    scorers_data = {}
+                    events_url = self._normalise_events_url(fixture_data.get("match_url"))
+                    if events_url:
+                        events_soup = self._fetch_soup(session, events_url, timeout=timeout)
+                        if events_soup:
+                            scorers_data = self._parse_pitchero_scorers_from_events_page(events_soup)
+
                     game_row = {
                         "game_id": game_id,
                         "date": date_iso,
@@ -393,6 +401,10 @@ class DataExtractor:
                         "captain": None,
                         "vc1": None,
                         "vc2": None,
+                        "tries_scorers": json.dumps(scorers_data.get("tries_scorers", {})),
+                        "conversions_scorers": json.dumps(scorers_data.get("conversions_scorers", {})),
+                        "penalties_scorers": json.dumps(scorers_data.get("penalties_scorers", {})),
+                        "drop_goals_scorers": json.dumps(scorers_data.get("drop_goals_scorers", {})),
                     }
                     games_rows.append(game_row)
 
@@ -938,4 +950,115 @@ class DataExtractor:
             return float(value) if value not in (None, "") else None
         except:
             return None
+
+    def _normalise_events_url(self, match_url):
+        """Convert match URL to /events endpoint."""
+        if not match_url:
+            return None
+        if "/events" in match_url:
+            return match_url
+        if match_url.endswith("/lineup"):
+            return match_url.rstrip("/").replace("/lineup", "/events")
+        # For URL like /teams/142068/match-centre/1-15439074/lineup
+        # Convert to /teams/142068/match-centre/1-15439074/events
+        if "/match-centre/" in match_url:
+            base = match_url.rstrip("/").replace("/lineup", "")
+            return base + "/events"
+        return match_url.rstrip("/") + "/events"
+
+    def _parse_pitchero_scorers_from_events_page(self, events_soup):
+        """Extract scorers from /events page HTML text.
+        
+        Parses HTML like:
+        <span>Tries: A Moffatt (2), A Yaffa</span>
+        <span>Conversions: L Maker (2)</span>
+        """
+        if not events_soup:
+            return {}
+        
+        result = {
+            "tries_scorers": {},
+            "conversions_scorers": {},
+            "penalties_scorers": {},
+            "drop_goals_scorers": {}
+        }
+        
+        try:
+            # Get all text from the page and look for scorer patterns
+            full_text = events_soup.get_text(" ", strip=True)
+            
+            # Look for patterns like "Tries: Name (count), Name"
+            # Split by scorers to find each section
+            if "Tries:" in full_text or "Conversions:" in full_text or "Penalties:" in full_text or "Drop Goals:" in full_text:
+                self._extract_scorers_from_text(full_text, result)
+            
+            return result
+        except Exception as e:
+            logger.warning(f"Failed to parse Pitchero scorers: {e}")
+            return {}
+
+    def _extract_scorers_from_text(self, text, result):
+        """Extract individual scorer categories from text like:
+        'Tries: A Moffatt (2), A Yaffa, J Radcliffe Conversions: L Maker (2) ...'
+        """
+        # Split by scorer categories
+        categories = {
+            "Tries": "tries_scorers",
+            "Conversions": "conversions_scorers",
+            "Penalties": "penalties_scorers",
+            "Drop Goals": "drop_goals_scorers",
+        }
+        
+        for category_name, result_key in categories.items():
+            if category_name not in text:
+                continue
+            
+            # Split on this category
+            parts = text.split(f"{category_name}:")
+            if len(parts) < 2:
+                continue
+            
+            scorers_text = parts[1]
+            
+            # Find where this category ends (at next category or end of string)
+            for next_cat in categories.keys():
+                if next_cat != category_name and next_cat in scorers_text:
+                    scorers_text = scorers_text.split(next_cat)[0]
+                    break
+            
+            # Parse individual scorers
+            scorers = self._parse_scorers_text(scorers_text)
+            result[result_key] = scorers
+
+    def _parse_scorers_text(self, text):
+        """Parse scorer text like 'A Moffatt (2), A Yaffa, J Radcliffe' into dict.
+        
+        Returns:
+            dict: {"canonical_name": count, ...}
+        """
+        scorers = {}
+        
+        if not text:
+            return scorers
+        
+        # Split by comma
+        for entry in text.split(","):
+            entry = entry.strip()
+            if not entry:
+                continue
+            
+            # Try to match "Name (count)" pattern
+            match = re.match(r"^(.+?)\s*\((\d+)\)\s*$", entry)
+            if match:
+                name = match.group(1).strip()
+                count = int(match.group(2))
+                canonical = clean_name(name)
+                scorers[canonical] = count
+            elif entry and not entry.startswith("("):
+                # Single entry without count (count = 1)
+                canonical = clean_name(entry.strip())
+                if canonical:  # Only add if non-empty
+                    scorers[canonical] = 1
+        
+        return scorers
        
