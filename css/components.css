@@ -500,6 +500,8 @@
     justify-content: space-between;
     gap: 1rem;
     text-align: left;
+    /* Shift crop lower so the banner window focuses below the top edge of the source image. */
+    background-position: center var(--full-profile-banner-bg-y, 21%);
 }
 
 .full-profile-banner-copy {
@@ -1729,10 +1731,7 @@ table tbody tr:hover {
 .league-highlight-row-1st,
 .squad-metric-card-1st,
 .squad-metric-card-header-1st,
-.squad-position-panel-card-1st,
-.squad-group-header-1st,
-.squad-group-subheader-1st,
-.squad-stats-table td.squad-group-cell-1st {
+.squad-position-panel-card-1st {
     --team-bg: var(--primary-color);
     --team-fg: var(--light-color);
 }
@@ -1741,17 +1740,12 @@ table tbody tr:hover {
 .league-highlight-row-2nd,
 .squad-metric-card-2nd,
 .squad-metric-card-header-2nd,
-.squad-position-panel-card-2nd,
-.squad-group-header-2nd,
-.squad-group-subheader-2nd,
-.squad-stats-table td.squad-group-cell-2nd {
+.squad-position-panel-card-2nd {
     --team-bg: var(--accent-color);
     --team-fg: var(--primary-color);
 }
 
-.squad-metric-card-total,
-.squad-group-header-total,
-.squad-group-subheader-total {
+.squad-metric-card-total {
     --team-bg: #000;
     --team-fg: #fff;
 }
@@ -2374,129 +2368,4 @@ table tbody tr:hover {
 .squad-metric-card-total .squad-metric-value,
 .squad-metric-card-total .card-text {
     color: var(--team-fg);
-}
-
-.squad-stats-table-wrap {
-    background: white;
-    border-radius: 0.5rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    overflow-x: auto;
-}
-
-.squad-stats-table-title {
-    color: var(--primary-color);
-    font-size: 2rem;
-    font-weight: 800;
-    margin: 0 0 0.5rem 0.65rem;
-}
-
-.squad-stats-table-subtitle {
-    color: var(--primary-color);
-    font-size: 0.95rem;
-    margin: 0 0 0.65rem 0.65rem;
-    min-height: 1.2em;
-}
-
-.squad-stats-table thead tr:first-child {
-    background: var(--primary-color);
-    color: var(--light-color);
-}
-
-.squad-stats-table thead tr:nth-child(2) {
-    background: var(--light-color);
-    color: var(--primary-color);
-}
-
-.squad-group-header-1st {
-    background: var(--team-bg) !important;
-    color: var(--team-fg) !important;
-    font-size: 2rem !important;
-}
-
-.squad-group-header-2nd {
-    background: var(--team-bg) !important;
-    color: var(--team-fg) !important;
-    font-size: 2rem !important;
-}
-
-.squad-group-header-total {
-    background: var(--team-bg) !important;
-    color: var(--team-fg) !important;
-    font-size: 2rem !important;
-}
-
-.squad-group-subheader-1st {
-    background: var(--team-bg) !important;
-    color: var(--team-fg) !important;
-}
-
-.squad-group-subheader-2nd {
-    background: var(--team-bg) !important;
-    color: var(--team-fg) !important;
-}
-
-.squad-group-subheader-total {
-    background: var(--team-bg) !important;
-    color: var(--team-fg) !important;
-}
-
-.squad-stats-table th,
-.squad-stats-table td {
-    text-align: center;
-    vertical-align: middle;
-}
-
-.squad-stats-table .squad-subheader-fwds,
-.squad-stats-table .squad-subheader-backs,
-.squad-stats-table .squad-cell-fwds,
-.squad-stats-table .squad-cell-backs {
-    font-size: 0.86rem;
-    font-weight: 600;
-}
-
-.squad-stats-table .squad-subheader-total,
-.squad-stats-table .squad-cell-total {
-    font-size: 1rem;
-    font-weight: 800;
-}
-
-.squad-stats-table td.squad-group-cell-1st {
-    color: var(--team-bg);
-}
-
-.squad-stats-table td.squad-group-cell-2nd {
-    color: var(--team-bg);
-}
-
-.squad-stats-table th:first-child,
-.squad-stats-table td:first-child {
-    text-align: center;
-    white-space: nowrap;
-}
-
-.squad-stats-table tbody td:nth-child(2) {
-    border-left: 2px solid var(--primary-color) !important;
-}
-
-.squad-stats-table tbody td:nth-child(5) {
-    border-left: 2px solid var(--accent-color) !important;
-}
-
-.squad-stats-table tbody td:nth-child(8) {
-    border-left: 2px solid black !important;
-}
-
-.squad-stats-table thead tr:first-child .squad-group-header-total,
-.squad-stats-table thead tr:first-child .squad-group-header-1st,
-.squad-stats-table thead tr:first-child .squad-group-header-2nd,
-.squad-stats-table thead tr:nth-child(2) .squad-group-subheader-total.squad-subheader-fwds,
-.squad-stats-table thead tr:nth-child(2) .squad-group-subheader-1st.squad-subheader-fwds,
-.squad-stats-table thead tr:nth-child(2) .squad-group-subheader-2nd.squad-subheader-fwds {
-    border-left: 2px solid var(--team-bg) !important;
-}
-
-.squad-stats-current-season td {
-    background: var(--primary-color) !important;
-    color: var(--light-color) !important;
-    font-weight: 800;
 }

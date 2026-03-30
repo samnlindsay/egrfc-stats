@@ -94,8 +94,6 @@ async function loadSquadStatsPage() {
         renderSquadStatsPage();
     } catch (err) {
         console.error('Error loading squad metrics data:', err);
-        const tbody = document.getElementById('squadStatsTableBody');
-        if (tbody) tbody.innerHTML = '<tr><td colspan="10" class="text-center text-danger py-3">Unable to load squad metrics data.</td></tr>';
         ['squadSizeTrendChart', 'squadContinuityTrendChart', 'leagueSquadSizeContextChart', 'leagueContinuityContextChart'].forEach(id => {
             const el = document.getElementById(id);
             if (el) el.innerHTML = '<div class="text-center text-danger py-4">Unable to load chart.</div>';
@@ -242,47 +240,6 @@ function renderSquadMetricCards(season, minimumAppearances) {
     if (labelTotal) labelTotal.textContent = labelText;
 }
 
-function renderSquadStatsTable(minimumAppearances) {
-    const tbody = document.getElementById('squadStatsTableBody');
-    if (!tbody) return;
-    const subtitle = document.getElementById('squadStatsTableSubtitle');
-    if (subtitle) {
-        if (minimumAppearances > 1) { subtitle.textContent = `Players with ${minimumAppearances} or more appearances`; subtitle.style.display = 'block'; }
-        else { subtitle.textContent = ''; subtitle.style.display = 'none'; }
-    }
-    const seasonSelect = document.getElementById('squadStatsSeasonSelect');
-    const selectedSeason = seasonSelect?.value || getCurrentSeasonLabel();
-    const seasonSet = new Set();
-    const addSeason = season => { const normalized = normalizeSeasonLabel(season); if (normalized) seasonSet.add(normalized); };
-    (availableSeasons || []).forEach(addSeason);
-    Object.keys(squadStatsData || {}).forEach(addSeason);
-    addSeason(selectedSeason);
-    addSeason(getCurrentSeasonLabel());
-    const seasons = getSortedSquadStatsSeasons(Object.fromEntries(Array.from(seasonSet).map(s => [s, true])));
-    if (seasons.length === 0) { tbody.innerHTML = '<tr><td colspan="10" class="text-center text-muted py-3">No squad metrics available.</td></tr>'; return; }
-    tbody.innerHTML = seasons.map(season => {
-        const seasonData = squadStatsData?.[season] || createSquadSeasonBucket();
-        const squad1 = seasonData['1st'];
-        const squad2 = seasonData['2nd'];
-        const total = seasonData['Total'];
-        const rowClass = season === selectedSeason ? 'squad-stats-current-season' : '';
-        return `
-            <tr class="${rowClass}">
-                <td>${season}</td>
-                <td class="squad-group-cell-1st squad-cell-fwds">${getSquadMetricValue('Forwards', squad1, minimumAppearances)}</td>
-                <td class="squad-group-cell-1st squad-cell-backs">${getSquadMetricValue('Backs', squad1, minimumAppearances)}</td>
-                <td class="squad-group-cell-1st squad-cell-total">${getSquadMetricValue('Total', squad1, minimumAppearances)}</td>
-                <td class="squad-group-cell-2nd squad-cell-fwds">${getSquadMetricValue('Forwards', squad2, minimumAppearances)}</td>
-                <td class="squad-group-cell-2nd squad-cell-backs">${getSquadMetricValue('Backs', squad2, minimumAppearances)}</td>
-                <td class="squad-group-cell-2nd squad-cell-total">${getSquadMetricValue('Total', squad2, minimumAppearances)}</td>
-                <td class="squad-group-cell-total squad-cell-fwds">${getSquadMetricValue('Forwards', total, minimumAppearances)}</td>
-                <td class="squad-group-cell-total squad-cell-backs">${getSquadMetricValue('Backs', total, minimumAppearances)}</td>
-                <td class="squad-group-cell-total squad-cell-total">${getSquadMetricValue('Total', total, minimumAppearances)}</td>
-            </tr>
-        `;
-    }).join('');
-}
-
 function buildSquadSizeTrendRows(selectedSeason, minimumAppearances) {
     const seasons = getSortedSquadStatsSeasons(squadStatsData).slice().reverse();
     const rows = [];
@@ -402,7 +359,6 @@ function renderSquadStatsPage() {
         const minimumAppearances = getSquadStatsMinimumAppearances();
         const fallbackSeason = getCurrentSeasonLabel();
         renderSquadMetricCards(fallbackSeason, minimumAppearances);
-        renderSquadStatsTable(minimumAppearances);
         renderSquadStatsCharts(fallbackSeason, minimumAppearances);
         return;
     }
@@ -416,7 +372,6 @@ function renderSquadStatsPage() {
     }
     renderSquadMetricCards(selectedSeason, minimumAppearances);
     renderSquadPositionPanels(selectedSeason, minimumAppearances);
-    renderSquadStatsTable(minimumAppearances);
     renderSquadStatsCharts(selectedSeason, minimumAppearances);
     initialiseChartPanelToggles();
 }

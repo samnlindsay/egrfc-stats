@@ -510,6 +510,16 @@ function renderProfile(player) {
     const avatarUrl = String(player?.photo_url || '').trim();
     const squadValue = String(player?.squad || '').trim();
     const primarySquadLabel = formatSquadLabel(squadValue);
+    const totalAppearances = Number(player?.totalAppearances || 0);
+    const totalStarts = Number(player?.totalStarts || 0);
+    const firstXVAppearances = Number(player?.firstXVAppearances || 0);
+    const firstXVStarts = Number(player?.firstXVStarts || 0);
+    const primarySquadAppearances = squadValue === '2nd'
+        ? Math.max(0, totalAppearances - firstXVAppearances)
+        : firstXVAppearances;
+    const primarySquadStarts = squadValue === '2nd'
+        ? Math.max(0, totalStarts - firstXVStarts)
+        : firstXVStarts;
     const bannerBackgroundClass = squadValue === '2nd'
         ? 'player-profile-headshot-wrap-2nd'
         : 'player-profile-headshot-wrap-1st';
@@ -582,9 +592,9 @@ function renderProfile(player) {
                 <div class="full-profile-sections-column">
                     <section class="full-profile-section-block">
                         <div class="full-profile-section-title">Career Summary</div>
-                        <p style="margin:0.18rem 0;"><strong>Total appearances:</strong> ${Number(player?.totalAppearances || 0)} (${Number(player?.totalStarts || 0)} starts)</p>
-                        ${Number(player?.firstXVAppearances || 0) > 0
-                            ? `<p style="margin:0.18rem 0;"><strong>${escapeHtml(primarySquadLabel)} appearances:</strong> ${Number(player?.firstXVAppearances || 0)} (${Number(player?.firstXVStarts || 0)} starts)</p>`
+                        <p style="margin:0.18rem 0;"><strong>Total appearances:</strong> ${totalAppearances} (${totalStarts} starts)</p>
+                        ${primarySquadAppearances > 0
+                            ? `<p style="margin:0.18rem 0;"><strong>${escapeHtml(primarySquadLabel)} appearances:</strong> ${primarySquadAppearances} (${primarySquadStarts} starts)</p>`
                             : ''}
                         <p style="margin:0.18rem 0;"><strong>This season:</strong> ${Number(player?.seasonAppearances || 0)} apps (${Number(player?.seasonStarts || 0)} starts)</p>
                         <p style="margin:0.18rem 0;"><strong>Win record:</strong> ${winRecordMarkup(wins, losses, draws)}</p>
@@ -593,7 +603,7 @@ function renderProfile(player) {
                     <section class="full-profile-section-block">
                         <div class="full-profile-section-title">First and Last Appearances</div>
                         <p style="margin:0.18rem 0;"><strong>Club debut:</strong> ${firstGame ? fixtureAndResultText(firstGame, true) : escapeHtml(String(player?.debutOverall || 'Unknown'))}</p>
-                        ${Number(player?.firstXVAppearances || 0) > 0
+                        ${firstXVAppearances > 0
                             ? `<p style="margin:0.18rem 0;"><strong>1st XV debut:</strong> ${firstXVGame ? fixtureAndResultText(firstXVGame, false) : escapeHtml(String(player?.debutFirstXV || 'Unknown'))}</p>`
                             : ''}
                         <p style="margin:0.18rem 0;"><strong>Last appearance:</strong> ${latestGame ? fixtureAndResultText(latestGame, true) : escapeHtml(String(player?.lastAppearanceDate || 'Unknown'))}</p>

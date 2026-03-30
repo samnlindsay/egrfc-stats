@@ -30,7 +30,10 @@
     <nav class="navbar navbar-expand-lg navbar-dark app-top-navbar"
         style="background-color: var(--primary-color); padding: 0.75rem 1.5rem;">
         <div class="container-fluid">
-            <a class="navbar-brand" href="index.html"><strong>EGRFC Statistics</strong></a>
+            <a class="navbar-brand app-navbar-brand" href="index.html">
+                <img src="img/logos/EastGrinstead.png" alt="EGRFC logo" class="app-navbar-brand-logo">
+                <strong>EGRFC Statistics</strong>
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -171,49 +174,6 @@
                         <div class="chart-panel-card squad-position-panel-card squad-position-panel-card-2nd">
                             <p id="squadPositionSubtitle2nd" class="squad-position-panel-subtitle"></p>
                             <div id="squadPositionCards2nd" class="squad-position-cards-wrap"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="chart-panel chart-panel--inline squad-position-panel">
-                    <button type="button" class="chart-panel-toggle chart-panel-toggle--black"
-                        data-target="squad-size-table-panel" data-accordion-group="squad-stats-breakdown"
-                        aria-expanded="false" aria-controls="squad-size-table-panel">
-                        <span class="chart-panel-toggle-text">
-                            <span class="chart-panel-toggle-title">Squad Size Table</span>
-                            <span class="chart-panel-toggle-hint">Detailed squad numbers by position</span>
-                        </span>
-                        <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
-                    </button>
-                    <div id="squad-size-table-panel" class="chart-panel-content" hidden>
-                        <div class="chart-panel-card" style="padding: 1rem;">
-                            <p id="squadStatsTableSubtitle" class="squad-stats-table-subtitle"></p>
-                            <div class="table-responsive squad-stats-table-wrap">
-                                <table class="table table-sm mb-0 squad-stats-table" id="squadStatsTable">
-                                    <thead>
-                                        <tr>
-                                            <th rowspan="2">Season</th>
-                                            <th colspan="3" class="squad-group-header-1st">1st XV</th>
-                                            <th colspan="3" class="squad-group-header-2nd">2nd XV</th>
-                                            <th colspan="3" class="squad-group-header-total">Total</th>
-                                        </tr>
-                                        <tr>
-                                            <th class="squad-group-subheader-1st squad-subheader-fwds">Fwds</th>
-                                            <th class="squad-group-subheader-1st squad-subheader-backs">Backs</th>
-                                            <th class="squad-group-subheader-1st squad-subheader-total">Total</th>
-                                            <th class="squad-group-subheader-2nd squad-subheader-fwds">Fwds</th>
-                                            <th class="squad-group-subheader-2nd squad-subheader-backs">Backs</th>
-                                            <th class="squad-group-subheader-2nd squad-subheader-total">Total</th>
-                                            <th class="squad-group-subheader-total squad-subheader-fwds">Fwds</th>
-                                            <th class="squad-group-subheader-total squad-subheader-backs">Backs</th>
-                                            <th class="squad-group-subheader-total squad-subheader-total">Total</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="squadStatsTableBody">
-                                        <tr><td colspan="10" class="text-center text-muted py-3">Loading squad metrics...</td></tr>
-                                    </tbody>
-                                </table>
-                            </div>
                         </div>
                     </div>
                 </div>

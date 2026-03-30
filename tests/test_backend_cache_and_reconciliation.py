@@ -6,6 +6,7 @@ from pathlib import Path
 import pandas as pd
 
 from python.backend import BackendConfig, BackendDatabase
+from python.data import DataExtractor
 
 
 class _ExtractorShouldNotBeCalled:
@@ -346,6 +347,17 @@ class BackendCacheAndReconciliationTests(unittest.TestCase):
         self.assertEqual(len(games), 1)
         self.assertEqual(games.iloc[0]["game_id"], "g_scored")
         self.assertEqual(games.iloc[0]["opposition"], "Ditchling")
+
+    def test_egrfc_alias_matching_accepts_abbreviated_pitchero_team_names(self):
+        self.assertTrue(DataExtractor._is_egrfc_team_name("East Grinstead"))
+        self.assertTrue(DataExtractor._is_egrfc_team_name("E. Grinstead 2"))
+        self.assertTrue(DataExtractor._is_egrfc_team_name("EG Men 2"))
+        self.assertTrue(DataExtractor._is_egrfc_team_name("EAST GRINSTEAD RFC"))
+
+    def test_egrfc_alias_matching_rejects_non_egrfc_team_names(self):
+        self.assertFalse(DataExtractor._is_egrfc_team_name("Rye"))
+        self.assertFalse(DataExtractor._is_egrfc_team_name("Crowboro 2"))
+        self.assertFalse(DataExtractor._is_egrfc_team_name("Heathfield 3"))
 
 
 if __name__ == "__main__":

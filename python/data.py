@@ -34,6 +34,13 @@ HISTORIC_PITCHERO_SEASON_IDS = {
     "2019/20": 68499,
 }
 
+_EGRFC_TEAM_ALIASES = (
+    "east grinstead",
+    "e grinstead",
+    "eg men",
+    "egrfc",
+)
+
 def clean_name(name):
     name_dict = {
         "Sam Lindsay": "S Lindsay 2",
@@ -62,6 +69,20 @@ class DataExtractor:
         self.creds = Credentials.from_service_account_file(credentials_path, scopes=self.scope)
         self.client = gspread.authorize(self.creds)
         self.sheet_url = "https://docs.google.com/spreadsheets/d/1pcO8iEpZuds9AWs4AFRmqJtx5pv5QGbP4yg2dEkl8fU/edit"
+
+    @staticmethod
+    def _normalise_team_name(team_name):
+        if not isinstance(team_name, str):
+            return ""
+        cleaned = re.sub(r"[^a-z0-9]+", " ", team_name.lower())
+        return re.sub(r"\s+", " ", cleaned).strip()
+
+    @staticmethod
+    def _is_egrfc_team_name(team_name):
+        normalized = DataExtractor._normalise_team_name(team_name)
+        if not normalized:
+            return False
+        return any(alias in normalized for alias in _EGRFC_TEAM_ALIASES)
         
     def extract_games_data(self):
         """Extract games data from team sheets"""
@@ -320,13 +341,15 @@ class DataExtractor:
 
                     home_team = fixture_data["home_team"]
                     away_team = fixture_data["away_team"]
-                    if "east grinstead" not in home_team.lower() and "east grinstead" not in away_team.lower():
+                    home_is_egrfc = self._is_egrfc_team_name(home_team)
+                    away_is_egrfc = self._is_egrfc_team_name(away_team)
+                    if not home_is_egrfc and not away_is_egrfc:
                         continue
 
                     if fixture_data["home_score"] is None or fixture_data["away_score"] is None:
                         continue
 
-                    home_away = "H" if "east grinstead" in home_team.lower() else "A"
+                    home_away = "H" if home_is_egrfc else "A"
                     opposition = away_team if home_away == "H" else home_team
                     pf, pa = (
                         (fixture_data["home_score"], fixture_data["away_score"])

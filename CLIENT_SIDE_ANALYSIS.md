@@ -173,7 +173,6 @@ fetch('data/backend/squad_continuity_enriched.json')
    - **Lines 200-218**: Core aggregation—counts players where appearances ≥ threshold
    - **Called by**:
      - `renderSquadMetricCards()` (line 263, 268, 269)
-     - `renderSquadStatsTable()` (line 291+)
      - `buildSquadSizeTrendRows()` (line 410+)
 
 5. **Squad size trend rows construction** (lines 406-422)

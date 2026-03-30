@@ -3266,8 +3266,9 @@ def lineout_analysis_chart_suite(db, output_dir="data/charts"):
 def _infer_egr_squad(team_name):
     if not isinstance(team_name, str):
         return None
-    team = team_name.strip().lower()
-    if "east grinstead" not in team:
+    team = re.sub(r"[^a-z0-9]+", " ", team_name.strip().lower())
+    team = re.sub(r"\s+", " ", team).strip()
+    if not any(alias in team for alias in ("east grinstead", "e grinstead", "eg men", "egrfc")):
         return None
     if re.search(r"\b(ii|2nd|second)\b", team):
         return 2
