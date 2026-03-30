@@ -209,11 +209,9 @@ def points_scorers_chart(db, output_file='data/charts/point_scorers.json'):
 
     Supported filters in the generated Vega spec:
         seasonParam     – [] (all seasons) or an array of season labels
+        gameTypesParam  – [] (all) or an array of allowed game_type strings
         squadParam      – 'All', '1st', or '2nd'
         scoreTypeParam  – 'Total', 'Tries', or 'Kicks'
-
-    Game type and position are not available from the season_scorers source, so those
-    UI filters are intentionally not applied to this chart.
     """
 
     base_df = db.con.execute(
@@ -222,6 +220,7 @@ def points_scorers_chart(db, output_file='data/charts/point_scorers.json'):
             squad,
             season,
             player,
+            COALESCE(game_type, 'Unknown') AS game_type,
             COALESCE(tries, 0) AS tries,
             COALESCE(conversions, 0) AS conversions,
             COALESCE(penalties, 0) AS penalties,
@@ -295,6 +294,9 @@ def points_scorers_chart(db, output_file='data/charts/point_scorers.json'):
     df = df[df['value'] > 0].copy()
 
     season_param = alt.param(name='seasonParam', value=[])
+    game_types_param = alt.param(name='gameTypesParam', value=[])
+    # Optional companion param for frontend compatibility; filtering is driven by gameTypesParam.
+    game_type_param = alt.param(name='gameTypeParam', value='All games')
     squad_param = alt.param(name='squadParam', value='All')
     score_type_param = alt.param(name='scoreTypeParam', value='Total')
 
@@ -320,6 +322,7 @@ def points_scorers_chart(db, output_file='data/charts/point_scorers.json'):
         order=alt.Order('component_order:Q', sort='ascending'),
         tooltip=[
             alt.Tooltip('player:N', title='Player'),
+            alt.Tooltip('game_type:N', title='Game Type'),
             alt.Tooltip('component:N', title='Score Type'),
             alt.Tooltip('sum(value):Q', title='Value'),
             alt.Tooltip('max(player_total):Q', title='Total'),
@@ -349,11 +352,12 @@ def points_scorers_chart(db, output_file='data/charts/point_scorers.json'):
     chart = (
         alt.layer(bars, total_labels)
         .transform_filter('length(seasonParam) === 0 || indexof(seasonParam, datum.season) >= 0')
+        .transform_filter('length(gameTypesParam) === 0 || indexof(gameTypesParam, datum.game_type) >= 0')
         .transform_filter('squadParam === "All" || datum.squad === squadParam')
         .transform_filter('scoreTypeParam === datum.score_type')
         .transform_joinaggregate(player_total='sum(value)', groupby=['player'])
         .transform_filter('datum.player_total > 0')
-        .add_params(season_param, squad_param, score_type_param)
+        .add_params(season_param, game_types_param, game_type_param, squad_param, score_type_param)
         .properties(
             title=alt.Title(
                 'Top Scorers'
@@ -639,6 +643,137 @@ def player_stats_appearances_chart(db, output_file='data/charts/player_stats_app
 
     chart.save(output_file)
     return chart
+
+
+def player_full_profile_appearances_per_season_chart(db, output_file='data/charts/player_full_profile_appearances_per_season'):
+    """Generate per-player appearances-by-season specs for the full profile page.
+
+    Writes three standalone Vega-Lite specs with fixed colour scales:
+        *_squad.json
+        *_result.json
+        *_position.json
+    Frontend code filters the chosen spec to a single player based on the Colour By selector.
+    """
+
+    base_df = db.con.execute(
+        """
+        SELECT
+            P.player,
+            COALESCE(G.season, P.season) AS season,
+            COALESCE(G.squad, P.squad, 'Unknown') AS squad,
+            CASE
+                WHEN COALESCE(G.result, '') = 'W' THEN 'Win'
+                WHEN COALESCE(G.result, '') = 'L' THEN 'Loss'
+                WHEN COALESCE(G.result, '') = 'D' THEN 'Draw'
+                ELSE 'Unknown'
+            END AS result,
+            CASE
+                WHEN P.is_backfill THEN 'Unknown'
+                ELSE COALESCE(P.position, 'Unknown')
+            END AS position,
+            COUNT(*) AS apps
+        FROM player_appearances P
+        LEFT JOIN games G USING (game_id)
+        GROUP BY 1, 2, 3, 4, 5
+        """
+    ).df()
+
+    if base_df.empty:
+        base_df = pd.DataFrame(columns=['player', 'season', 'squad', 'result', 'position', 'apps', 'season_sort'])
+
+    def season_sort_key(value):
+        text = str(value or '')
+        match = re.match(r'^(\d{4})/(\d{2}|\d{4})$', text)
+        if not match:
+            return 0
+        return int(match.group(1))
+
+    base_df['season_sort'] = base_df['season'].map(season_sort_key)
+
+    by_squad = base_df[['player', 'season', 'season_sort', 'apps']].copy()
+    by_squad['color_mode'] = 'Squad'
+    by_squad['color_value'] = base_df['squad'].map(
+        lambda v: f"{v} XV" if str(v) in {'1st', '2nd'} else str(v)
+    )
+
+    by_result = base_df[['player', 'season', 'season_sort', 'apps']].copy()
+    by_result['color_mode'] = 'Result'
+    by_result['color_value'] = base_df['result']
+
+    by_position = base_df[['player', 'season', 'season_sort', 'apps']].copy()
+    by_position['color_mode'] = 'Position'
+    by_position['color_value'] = base_df['position']
+
+    df = pd.concat([by_squad, by_result, by_position], ignore_index=True)
+
+    chart_configs = {
+        'Squad': {
+            'sort': ['1st XV', '2nd XV', 'Unknown'],
+            'colors': ['#202946', '#7d96e8', '#99151520'],
+        },
+        'Result': {
+            'sort': ['Win', 'Loss', 'Draw'],
+            'colors': ['#146f14', '#981515', 'goldenrod'],
+            'allowed': ['Win', 'Loss', 'Draw'],
+        },
+        'Position': {
+            'sort': [
+                'Prop', 'Hooker', 'Second Row', 'Flanker', 'Number 8',
+                'Scrum Half', 'Fly Half', 'Centre', 'Wing', 'Full Back',
+                'Bench', 'Unknown'
+            ],
+            'colors': [
+                '#1f2f5f', '#264073', '#2f4e87', '#3a5f9f', '#4a72ba',
+                '#4b5563', '#5a6473', '#697486', '#7c8799', '#909caf',
+                '#e5e7eb', '#99151520'
+            ],
+        },
+    }
+
+    def build_mode_chart(mode, sort_values, color_values, allowed_values=None):
+        mode_df = df[df['color_mode'] == mode].copy()
+        if allowed_values:
+            mode_df = mode_df[mode_df['color_value'].isin(allowed_values)].copy()
+        return (
+            alt.Chart(mode_df)
+            .mark_bar()
+            .encode(
+                x=alt.X('sum(apps):Q', title='Appearances'),
+                y=alt.Y(
+                    'season:N',
+                    title='Season',
+                    sort=alt.EncodingSortField(field='season_sort', order='descending', op='max')
+                ),
+                color=alt.Color(
+                    'color_value:N',
+                    sort=sort_values,
+                    scale=alt.Scale(range=color_values),
+                    legend=alt.Legend(orient='bottom', title=None)
+                ),
+                tooltip=[
+                    alt.Tooltip('player:N', title='Player'),
+                    alt.Tooltip('season:N', title='Season'),
+                    alt.Tooltip('color_value:N', title='Group'),
+                    alt.Tooltip('sum(apps):Q', title='Appearances')
+                ]
+            )
+            .properties(
+                title=alt.Title('Appearances Breakdown', subtitle=f'Games per season, coloured by {mode.lower()}'),
+                width=400,
+                height=alt.Step(30),
+            )
+        )
+
+    output_path = Path(output_file)
+    output_dir = output_path.parent
+    output_stem = output_path.stem
+    charts = {}
+    for mode, config in chart_configs.items():
+        chart = build_mode_chart(mode, config['sort'], config['colors'], config.get('allowed'))
+        chart.save(output_dir / f'{output_stem}_{mode.lower()}.json')
+        charts[mode] = chart
+
+    return charts
 
 seasons = ["2021/22", "2022/23", "2023/24", "2024/25", "2025/26"]
 seasons_hist = ["2016/17", "2017/18", "2018/19", "2019/20"]
@@ -1735,7 +1870,7 @@ def set_piece_success_by_season_chart(
                 alt.Tooltip("team:N", title="Team"),
                 alt.Tooltip("squad:N", title="Squad"),
                 alt.Tooltip("set_piece_type:N", title="Set Piece"),
-                alt.Tooltip("lineouts_total:Q", title="Total Lineouts", format=",.0f"),
+                alt.Tooltip("lineouts_total:Q", title=f"Total {alt.datum.set_piece_type}", format=",.0f"),
                 alt.Tooltip("success_rate:Q", title="Success Rate", format=".0%"),
             ],
         )
@@ -2199,7 +2334,7 @@ def set_piece_h2h_chart_backend(db, set_piece="Lineout", output_file=None, bind_
     )
     success_df = success_df.merge(connector_df[["game_id", "winner"]], on="game_id", how="left")
 
-    y_sort = alt.EncodingSortField(field="date", order="descending")
+    y_sort = alt.EncodingSortField(field="date", order="ascending")
     max_abs_count = float(event_df["signed_count"].abs().max() if not event_df.empty else 1.0)
     flow_domain = [-max_abs_count, max_abs_count]
     event_focus_filter = (
@@ -3978,6 +4113,19 @@ def season_summary_data(db, output_file='data/season_summary.json'):
     # Get top point scorers per season/squad
     point_scorers = db.con.execute(
         """
+        WITH scorer_totals AS (
+            SELECT
+                season,
+                squad,
+                player,
+                SUM(points) AS points,
+                SUM(tries) AS tries,
+                SUM(conversions) AS conversions,
+                SUM(penalties) AS penalties,
+                SUM(drop_goals) AS drop_goals
+            FROM season_scorers
+            GROUP BY season, squad, player
+        )
         SELECT
             s.season,
             s.squad,
@@ -3988,7 +4136,7 @@ def season_summary_data(db, output_file='data/season_summary.json'):
             s.penalties,
             s.drop_goals,
             ROW_NUMBER() OVER (PARTITION BY s.season, s.squad ORDER BY s.points DESC) as rank
-        FROM season_scorers s
+        FROM scorer_totals s
         WHERE points > 0
         ORDER BY s.season DESC, s.squad, s.points DESC
         """
@@ -3997,6 +4145,16 @@ def season_summary_data(db, output_file='data/season_summary.json'):
     # Get top try scorers per season/squad
     try_scorers = db.con.execute(
         """
+        WITH scorer_totals AS (
+            SELECT
+                season,
+                squad,
+                player,
+                SUM(points) AS points,
+                SUM(tries) AS tries
+            FROM season_scorers
+            GROUP BY season, squad, player
+        )
         SELECT
             s.season,
             s.squad,
@@ -4004,7 +4162,7 @@ def season_summary_data(db, output_file='data/season_summary.json'):
             s.tries,
             s.points,
             ROW_NUMBER() OVER (PARTITION BY s.season, s.squad ORDER BY s.tries DESC) as rank
-        FROM season_scorers s
+        FROM scorer_totals s
         WHERE tries > 0
         ORDER BY s.season DESC, s.squad, s.tries DESC
         """
@@ -4149,12 +4307,13 @@ def player_profiles_data(db, output_file='data/player_profiles.json'):
             player AS name,
             season,
             squad,
-            COALESCE(points, 0) AS points,
-            COALESCE(tries, 0) AS tries,
-            COALESCE(conversions, 0) AS conversions,
-            COALESCE(penalties, 0) AS penalties,
-            COALESCE(drop_goals, 0) AS drop_goals
+            SUM(COALESCE(points, 0)) AS points,
+            SUM(COALESCE(tries, 0)) AS tries,
+            SUM(COALESCE(conversions, 0)) AS conversions,
+            SUM(COALESCE(penalties, 0)) AS penalties,
+            SUM(COALESCE(drop_goals, 0)) AS drop_goals
         FROM season_scorers
+        GROUP BY player, season, squad
         ORDER BY season DESC, squad ASC
         """
     ).df()

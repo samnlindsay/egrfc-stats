@@ -1,5 +1,7 @@
 let playerProfilesData = [];
 let playerProfilesControlsInitialised = false;
+let gamesById = new Map();
+let appearancesByPlayer = new Map();
 
 const SIX_MONTHS_MS = 182 * 24 * 60 * 60 * 1000;
 
@@ -228,15 +230,111 @@ function parseScoringPayload(value) {
     }
 }
 
+function ordinalDay(day) {
+    const n = Number(day);
+    if (!Number.isFinite(n)) return '';
+    const rem100 = n % 100;
+    if (rem100 >= 11 && rem100 <= 13) return `${n}th`;
+    const rem10 = n % 10;
+    if (rem10 === 1) return `${n}st`;
+    if (rem10 === 2) return `${n}nd`;
+    if (rem10 === 3) return `${n}rd`;
+    return `${n}th`;
+}
+
+function formatDisplayDate(value) {
+    const raw = String(value || '').trim();
+    if (!raw) return '';
+
+    const isoMatch = raw.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    if (isoMatch) {
+        const year = Number(isoMatch[1]);
+        const month = Number(isoMatch[2]);
+        const day = Number(isoMatch[3]);
+        if (Number.isFinite(year) && Number.isFinite(month) && Number.isFinite(day)) {
+            const date = new Date(Date.UTC(year, month - 1, day));
+            const monthLabel = date.toLocaleString('en-GB', { month: 'short', timeZone: 'UTC' });
+            return `${ordinalDay(day)} ${monthLabel} ${year}`;
+        }
+    }
+
+    const parsed = new Date(raw);
+    if (Number.isNaN(parsed.getTime())) return raw;
+    const day = parsed.getUTCDate();
+    const monthLabel = parsed.toLocaleString('en-GB', { month: 'short', timeZone: 'UTC' });
+    const year = parsed.getUTCFullYear();
+    return `${ordinalDay(day)} ${monthLabel} ${year}`;
+}
+
+function squadLabel(value) {
+    const raw = String(value || '').trim();
+    if (!raw) return 'XV';
+    return `${raw} XV`;
+}
+
+function fixtureSummaryMarkup(game, { includeSquad = false } = {}) {
+    if (!game || typeof game !== 'object') return '';
+    const squadText = includeSquad ? `${escapeHtml(squadLabel(game.squad))} ` : '';
+    const opposition = escapeHtml(String(game.opposition || 'Unknown'));
+    const homeAway = escapeHtml(String(game.home_away || '?'));
+    const dateText = escapeHtml(formatDisplayDate(game.date));
+    return `${squadText}v ${opposition} (${homeAway}) - ${dateText}`;
+}
+
+function playerGameHistory(name) {
+    const rows = appearancesByPlayer.get(String(name || '').trim()) || [];
+    const games = rows
+        .map(row => ({
+            ...row,
+            game: gamesById.get(String(row?.game_id || '').trim())
+        }))
+        .filter(row => row.game)
+        .sort((a, b) => String(a.game.date || '').localeCompare(String(b.game.date || '')));
+    return games;
+}
+
+function buildDerivedProfileStats(profile) {
+    const history = playerGameHistory(profile?.name);
+    if (history.length === 0) {
+        return {
+            overallDebutMarkup: escapeHtml(String(profile?.debutOverall || 'Unknown')),
+            firstXVDebutMarkup: escapeHtml(String(profile?.debutFirstXV || 'Unknown')),
+            latestGameMarkup: profile?.lastAppearanceDate ? escapeHtml(formatDisplayDate(profile.lastAppearanceDate)) : 'Unknown',
+            winRecordText: 'W0 L0'
+        };
+    }
+
+    const overallDebut = history[0]?.game || null;
+    const firstXVRow = history.find(row => String(row?.squad || '').trim() === '1st');
+    const firstXVDebut = firstXVRow?.game || null;
+    const latestGame = history[history.length - 1]?.game || null;
+
+    let wins = 0;
+    let losses = 0;
+    let draws = 0;
+    history.forEach(row => {
+        const result = String(row?.game?.result || '').toUpperCase();
+        if (result === 'W') wins += 1;
+        else if (result === 'L') losses += 1;
+        else if (result === 'D') draws += 1;
+    });
+
+    const drawPart = draws > 0 ? ` D${draws}` : '';
+    return {
+        overallDebutMarkup: overallDebut ? fixtureSummaryMarkup(overallDebut, { includeSquad: true }) : escapeHtml(String(profile?.debutOverall || 'Unknown')),
+        firstXVDebutMarkup: firstXVDebut ? fixtureSummaryMarkup(firstXVDebut, { includeSquad: false }) : escapeHtml(String(profile?.debutFirstXV || 'Unknown')),
+        latestGameMarkup: latestGame ? fixtureSummaryMarkup(latestGame, { includeSquad: true }) : (profile?.lastAppearanceDate ? escapeHtml(formatDisplayDate(profile.lastAppearanceDate)) : 'Unknown'),
+        winRecordText: `W${wins} L${losses}${drawPart}`
+    };
+}
+
 function cardDetailsMarkup(profile) {
     const careerScoring = parseScoringPayload(profile?.scoringCareer);
-    const seasonScoring = parseScoringPayload(profile?.scoringThisSeason);
     const totalTries = Number(careerScoring.tries || 0);
-    const totalPoints = Number(careerScoring.points || 0);
     const conversions = Number(careerScoring.conversions || 0);
     const penalties = Number(careerScoring.penalties || 0);
     const dropGoals = Number(careerScoring.drop_goals || 0);
-    const hasKickedPoints = conversions > 0 || penalties > 0 || dropGoals > 0;
+    const derived = buildDerivedProfileStats(profile);
 
     const lines = [];
     const sponsor = String(profile?.sponsor || '').trim();
@@ -249,33 +347,41 @@ function cardDetailsMarkup(profile) {
     const otherPositions = parseOtherPositions(profile?.otherPositions);
     if (otherPositions.length > 0) {
         lines.push(`<p class="player-profile-detail-line"><strong>Other positions:</strong> ${escapeHtml(otherPositions.join(', '))}</p>`);
+        lines.push('<p class="player-profile-detail-spacer" aria-hidden="true"></p>');
     }
+
+    lines.push(`<p class="player-profile-detail-line"><strong>Debut:</strong> ${derived.overallDebutMarkup}</p>`);
 
     lines.push(`<p class="player-profile-detail-line"><strong>Total appearances:</strong> ${profile.totalAppearances} (${profile.totalStarts} starts)</p>`);
 
-    if (profile.firstXVAppearances > 0) {
-        lines.push(`<p class="player-profile-detail-line"><strong>1st XV appearances:</strong> ${profile.firstXVAppearances} (${profile.firstXVStarts} starts)</p>`);
-    }
+    lines.push('<p class="player-profile-detail-spacer" aria-hidden="true"></p>');
 
-    lines.push(`<p class="player-profile-detail-line"><strong>Debut:</strong> ${escapeHtml(profile.debutOverall)}</p>`);
+    lines.push(`<p class="player-profile-detail-line"><strong>1st XV debut:</strong> ${derived.firstXVDebutMarkup}</p>`);
 
-    if (profile.hasDifferentFirstXVDebut) {
-        lines.push(`<p class="player-profile-detail-line"><strong>1st XV debut:</strong> ${escapeHtml(profile.debutFirstXV)}</p>`);
-    }
+    lines.push(`<p class="player-profile-detail-line"><strong>1st XV appearances:</strong> ${profile.firstXVAppearances} (${profile.firstXVStarts} starts)</p>`);
 
-    lines.push(`<p class="player-profile-detail-line"><strong>Total tries:</strong> ${totalTries}</p>`);
+    lines.push('<p class="player-profile-detail-spacer" aria-hidden="true"></p>');
 
-    if (hasKickedPoints) {
-        lines.push(`<p class="player-profile-detail-line"><strong>Total points:</strong> ${formatPointsSummary(totalPoints, totalTries, conversions, penalties, dropGoals)}</p>`);
-    }
+    const scoringParts = [];
+    if (totalTries > 0) scoringParts.push(`${totalTries} tries`);
+    if (conversions > 0) scoringParts.push(`${conversions} conversions`);
+    if (penalties > 0) scoringParts.push(`${penalties} penalties`);
+    if (dropGoals > 0) scoringParts.push(`${dropGoals} drop goals`);
+    const scoringText = scoringParts.length > 0 ? scoringParts.join(', ') : 'No scores recorded';
+    lines.push(`<p class="player-profile-detail-line"><strong>Scoring record:</strong> ${escapeHtml(scoringText)}</p>`);
 
-    lines.push(
-        `<p class="player-profile-detail-line"><strong>This season:</strong> ${profile.seasonAppearances} appearances (${profile.seasonStarts} starts, ${profile.seasonCompetitiveAppearances} competitive), ${Number(seasonScoring.tries || 0)} tries</p>`
-    );
+    lines.push(`<p class="player-profile-detail-line"><strong>Win record:</strong> ${escapeHtml(derived.winRecordText)}</p>`);
 
-    const lastAppearanceDate = String(profile?.lastAppearanceDate || '').trim();
-    if (lastAppearanceDate) {
-        lines.push(`<p class="player-profile-detail-line"><strong>Last appearance:</strong> ${escapeHtml(lastAppearanceDate)}</p>`);
+    lines.push('<p class="player-profile-detail-spacer" aria-hidden="true"></p>');
+
+    lines.push(`<p class="player-profile-detail-line"><strong>Latest game:</strong> ${derived.latestGameMarkup}</p>`);
+
+    const totalAppearances = Number(profile?.totalAppearances || 0);
+    if (totalAppearances >= 10) {
+        const playerName = encodeURIComponent(String(profile?.name || '').trim());
+        lines.push(
+            `<p class="player-profile-detail-link-wrap"><a class="player-profile-detail-link player-profile-detail-cta" href="player-full-profile.html?player=${playerName}"><i class="bi bi-person-vcard-fill" aria-hidden="true"></i><span>Open Full Profile</span></a></p>`
+        );
     }
 
     return lines.join('');
@@ -515,13 +621,37 @@ async function loadPlayerProfilesPage() {
     const errorState = document.getElementById('playerProfilesErrorState');
 
     try {
-        const profilesRes = await fetch('data/backend/player_profiles_canonical.json');
+        const [profilesRes, gamesRes, appearancesRes] = await Promise.all([
+            fetch('data/backend/player_profiles_canonical.json'),
+            fetch('data/backend/games.json'),
+            fetch('data/backend/player_appearances.json')
+        ]);
 
-        if (!profilesRes.ok) {
+        if (!profilesRes.ok || !gamesRes.ok || !appearancesRes.ok) {
             throw new Error('One or more profile datasets failed to load');
         }
 
-        const rawProfiles = await profilesRes.json();
+        const [rawProfiles, rawGames, rawAppearances] = await Promise.all([
+            profilesRes.json(),
+            gamesRes.json(),
+            appearancesRes.json()
+        ]);
+
+        gamesById = new Map();
+        (Array.isArray(rawGames) ? rawGames : []).forEach(game => {
+            const key = String(game?.game_id || '').trim();
+            if (!key) return;
+            gamesById.set(key, game);
+        });
+
+        appearancesByPlayer = new Map();
+        (Array.isArray(rawAppearances) ? rawAppearances : []).forEach(appearance => {
+            const playerName = String(appearance?.player || '').trim();
+            if (!playerName) return;
+            if (!appearancesByPlayer.has(playerName)) appearancesByPlayer.set(playerName, []);
+            appearancesByPlayer.get(playerName).push(appearance);
+        });
+
         playerProfilesData = (Array.isArray(rawProfiles) ? rawProfiles : [])
             .filter(row => String(row?.name || '').trim())
             .sort(compareBySurnameThenName);

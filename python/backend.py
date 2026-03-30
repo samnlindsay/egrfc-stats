@@ -349,13 +349,14 @@ class BackendDatabase:
                 squad TEXT NOT NULL,
                 season TEXT NOT NULL,
                 player TEXT NOT NULL,
+                game_type TEXT,
                 tries BIGINT,
                 conversions BIGINT,
                 penalties BIGINT,
                 drop_goals BIGINT,
                 points BIGINT,
                 source TEXT,
-                PRIMARY KEY(squad, season, player)
+                PRIMARY KEY(squad, season, player, game_type)
             )
             """
         )
@@ -559,7 +560,7 @@ class BackendDatabase:
         appearances = self._build_player_appearances(appearances_raw, games)
         lineouts = self._build_lineouts(lineouts_raw, games)
         set_piece = self._build_set_piece(set_piece_raw, games)
-        season_scorers = self._build_season_scorers(scorers_2526_raw, pitchero_raw, appearances)
+        season_scorers = self._build_season_scorers(scorers_2526_raw, pitchero_raw, appearances, games)
         reconciliation, backfill = self._build_pitchero_appearance_reconciliation(pitchero_raw, appearances)
         appearances = self._apply_backfill_to_appearances(appearances, backfill, reconciliation)
         players = self._build_players(appearances, games, lineouts, season_scorers)
@@ -1250,7 +1251,7 @@ class BackendDatabase:
                     "squad",
                     "date",
                     "player",
-                    "number",
+                    "shirt_number",
                     "position",
                     "unit",
                     "is_captain",
@@ -1289,7 +1290,7 @@ class BackendDatabase:
                 "is_starter",
                 "is_backfill",
             ]
-        ].rename(columns={"shirt_number": "number", "is_vc": "is_vice_captain"})
+        ].rename(columns={"is_vc": "is_vice_captain"})
 
     def _apply_backfill_to_appearances(
         self,
@@ -1362,7 +1363,7 @@ class BackendDatabase:
                         "squad": squad,
                         "date": sentinel_str,
                         "player": player,
-                        "number": None,
+                        "shirt_number": None,
                         "position": None,
                         "unit": None,
                         "is_captain": False,
@@ -1524,6 +1525,7 @@ class BackendDatabase:
         scorers_2526_raw: pd.DataFrame,
         pitchero_raw: pd.DataFrame,
         appearances: pd.DataFrame,
+        games: pd.DataFrame,
     ) -> pd.DataFrame:
         scorer_type_map = {
             "TRY": "tries",
@@ -1554,9 +1556,23 @@ class BackendDatabase:
             df_2526["metric"] = df_2526["score_type"].map(scorer_type_map)
             df_2526 = df_2526[df_2526["metric"].notna()]
 
+            # Resolve game type from canonical games so season scorers can respect UI game-type filters.
+            game_type_lookup = games[["squad", "date", "opposition", "season", "game_type"]].copy()
+            game_type_lookup["date"] = pd.to_datetime(game_type_lookup["date"], errors="coerce").dt.date
+            game_type_lookup["opposition"] = game_type_lookup["opposition"].astype(str).str.strip()
+
+            df_2526["date"] = _safe_date(df_2526["date"])
+            df_2526["opposition"] = df_2526["opposition"].astype(str).str.strip()
+            df_2526 = df_2526.merge(
+                game_type_lookup,
+                on=["squad", "date", "opposition", "season"],
+                how="left",
+            )
+            df_2526["game_type"] = df_2526["game_type"].fillna("Unknown")
+
             agg_2526 = (
                 df_2526.pivot_table(
-                    index=["squad", "season", "player"],
+                    index=["squad", "season", "player", "game_type"],
                     columns="metric",
                     values="points",
                     aggfunc="count",
@@ -1576,7 +1592,7 @@ class BackendDatabase:
             )
             agg_2526["source"] = "google_2526"
         else:
-            agg_2526 = pd.DataFrame(columns=["squad", "season", "player", "tries", "conversions", "penalties", "drop_goals", "points", "source"])
+            agg_2526 = pd.DataFrame(columns=["squad", "season", "player", "game_type", "tries", "conversions", "penalties", "drop_goals", "points", "source"])
 
         pitchero = pitchero_raw.copy()
         pitchero = pitchero.rename(columns={"Season": "season", "Squad": "squad", "Player_join": "player_join", "Event": "event", "Count": "count"})
@@ -1605,14 +1621,16 @@ class BackendDatabase:
                 pivot[source_col] = 0
             pivot[target_col] = pivot[source_col]
 
+        pivot["game_type"] = "Unknown"
         pivot["points"] = pivot["tries"] * 5 + pivot["conversions"] * 2 + pivot["penalties"] * 3 + pivot["drop_goals"] * 3
         pivot["source"] = "pitchero"
-        pitchero_out = pivot[["squad", "season", "player", "tries", "conversions", "penalties", "drop_goals", "points", "source"]]
+        pitchero_out = pivot[["squad", "season", "player", "game_type", "tries", "conversions", "penalties", "drop_goals", "points", "source"]]
 
         out = pd.concat([pitchero_out, agg_2526], ignore_index=True)
         for col in ["tries", "conversions", "penalties", "drop_goals", "points"]:
             out[col] = pd.to_numeric(out[col], errors="coerce").fillna(0)
-        return out.groupby(["squad", "season", "player"], as_index=False).agg(
+        out["game_type"] = out["game_type"].fillna("Unknown")
+        return out.groupby(["squad", "season", "player", "game_type"], as_index=False).agg(
             tries=("tries", "sum"),
             conversions=("conversions", "sum"),
             penalties=("penalties", "sum"),
@@ -1883,7 +1901,7 @@ class BackendDatabase:
         ].copy()
         df["player"] = df["player"].astype(str).str.strip()
         df = df[df["player"] != ""]
-        df["canonical_position"] = df["number"].apply(self._resolve_starter_position)
+        df["canonical_position"] = df["shirt_number"].apply(self._resolve_starter_position)
         df = df[df["canonical_position"].notna()]
 
         gt = games.set_index("game_id")["game_type"].to_dict()
@@ -2047,16 +2065,9 @@ class BackendDatabase:
                 leaders[(season, squad)] = (max_value, json.dumps(players))
             return leaders
 
-        scorer_lookup: dict[tuple[str, str], dict[str, Any]] = {}
-        for (season, squad), group in scorers_df.groupby(["season", "squad"]):
-            point_value, point_players = build_top_summary(group, "points")
-            try_value, try_players = build_top_summary(group, "tries")
-            scorer_lookup[(season, squad)] = {
-                "topPointScorerValue": point_value,
-                "topPointScorerPlayers": point_players,
-                "topTryScorerValue": try_value,
-                "topTryScorerPlayers": try_players,
-            }
+        if "game_type" not in scorers_df.columns:
+            scorers_df["game_type"] = "Unknown"
+        scorers_df["game_type"] = scorers_df["game_type"].fillna("Unknown")
 
         set_piece_lookup: dict[tuple[str, str], dict[str, Any]] = {}
         if not set_piece_df.empty and "team" in set_piece_df.columns:
@@ -2086,6 +2097,19 @@ class BackendDatabase:
             allowed = self._get_allowed_game_types(mode)
             filtered_games = games_df[games_df["game_type"].isin(allowed)] if allowed is not None else games_df
             filtered_apps = appearances_df[appearances_df["resolved_game_type"].isin(allowed)] if allowed is not None else appearances_df
+            filtered_scorers = scorers_df[scorers_df["game_type"].isin(allowed)] if allowed is not None else scorers_df
+
+            scorer_lookup: dict[tuple[str, str], dict[str, Any]] = {}
+            for (season, squad), group in filtered_scorers.groupby(["season", "squad"]):
+                point_value, point_players = build_top_summary(group, "points")
+                try_value, try_players = build_top_summary(group, "tries")
+                scorer_lookup[(season, squad)] = {
+                    "topPointScorerValue": point_value,
+                    "topPointScorerPlayers": point_players,
+                    "topTryScorerValue": try_value,
+                    "topTryScorerPlayers": try_players,
+                }
+
             appearance_lookup = build_appearance_leaders(filtered_apps)
 
             for (season, squad), group in filtered_games.groupby(["season", "squad"]):

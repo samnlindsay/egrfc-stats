@@ -1,0 +1,813 @@
+let fullProfiles = [];
+let fullGamesById = new Map();
+let fullAppearancesByPlayer = new Map();
+let fullSponsorHistoryByPlayer = new Map();
+let fullProfileAppearancesBySeasonSpecs = {
+    Squad: null,
+    Result: null,
+    Position: null,
+};
+let fullProfileAppearanceRows = [];
+let fullProfileSortState = { key: 'date', direction: 'desc' };
+let fullProfilePaginationState = { page: 1, pageSize: 15 };
+let fullProfileTableSearch = '';
+
+function escapeHtml(value) {
+    return String(value ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
+
+function parseScoringPayload(value) {
+    if (value && typeof value === 'object' && !Array.isArray(value)) {
+        return {
+            tries: Number(value.tries || 0),
+            conversions: Number(value.conversions || 0),
+            penalties: Number(value.penalties || 0),
+            dropGoals: Number(value.drop_goals || value.dropGoals || 0),
+            points: Number(value.points || 0)
+        };
+    }
+
+    const raw = String(value || '').trim();
+    if (!raw) return { tries: 0, conversions: 0, penalties: 0, dropGoals: 0, points: 0 };
+
+    try {
+        const parsed = JSON.parse(raw);
+        return {
+            tries: Number(parsed?.tries || 0),
+            conversions: Number(parsed?.conversions || 0),
+            penalties: Number(parsed?.penalties || 0),
+            dropGoals: Number(parsed?.drop_goals || parsed?.dropGoals || 0),
+            points: Number(parsed?.points || 0)
+        };
+    } catch {
+        return { tries: 0, conversions: 0, penalties: 0, dropGoals: 0, points: 0 };
+    }
+}
+
+function parseOtherPositions(value) {
+    if (Array.isArray(value)) return value.filter(Boolean).map(String);
+    const raw = String(value || '').trim();
+    if (!raw) return [];
+    if (raw.startsWith('[')) {
+        try {
+            const parsed = JSON.parse(raw);
+            return Array.isArray(parsed) ? parsed.filter(Boolean).map(String) : [];
+        } catch {
+            return [];
+        }
+    }
+    return raw.split('|').map(v => String(v || '').trim()).filter(Boolean);
+}
+
+function ordinalDay(day) {
+    const n = Number(day);
+    if (!Number.isFinite(n)) return '';
+    const rem100 = n % 100;
+    if (rem100 >= 11 && rem100 <= 13) return `${n}th`;
+    const rem10 = n % 10;
+    if (rem10 === 1) return `${n}st`;
+    if (rem10 === 2) return `${n}nd`;
+    if (rem10 === 3) return `${n}rd`;
+    return `${n}th`;
+}
+
+function formatDisplayDate(value) {
+    const raw = String(value || '').trim();
+    if (!raw) return '';
+
+    const isoMatch = raw.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    if (isoMatch) {
+        const year = Number(isoMatch[1]);
+        const month = Number(isoMatch[2]);
+        const day = Number(isoMatch[3]);
+        if (Number.isFinite(year) && Number.isFinite(month) && Number.isFinite(day)) {
+            const date = new Date(Date.UTC(year, month - 1, day));
+            const monthLabel = date.toLocaleString('en-GB', { month: 'short', timeZone: 'UTC' });
+            return `${ordinalDay(day)} ${monthLabel} ${year}`;
+        }
+    }
+
+    const parsed = new Date(raw);
+    if (Number.isNaN(parsed.getTime())) return raw;
+    const day = parsed.getUTCDate();
+    const monthLabel = parsed.toLocaleString('en-GB', { month: 'short', timeZone: 'UTC' });
+    const year = parsed.getUTCFullYear();
+    return `${ordinalDay(day)} ${monthLabel} ${year}`;
+}
+
+function playerHistory(name) {
+    const rows = fullAppearancesByPlayer.get(String(name || '').trim()) || [];
+    return rows
+        .map(row => ({ ...row, game: fullGamesById.get(String(row?.game_id || '').trim()) }))
+        .filter(row => row.game)
+        .sort((a, b) => String(a.game.date || '').localeCompare(String(b.game.date || '')));
+}
+
+function fixtureText(game, includeSquad) {
+    if (!game) return 'Unknown';
+    const squadPrefix = includeSquad ? `${escapeHtml(String(game.squad || ''))} XV ` : '';
+    const opposition = escapeHtml(String(game.opposition || 'Unknown'));
+    const homeAway = escapeHtml(String(game.home_away || '?'));
+    const dateText = escapeHtml(formatDisplayDate(game.date));
+    return `${squadPrefix}v ${opposition} (${homeAway}) - ${dateText}`;
+}
+
+function scoreText(game) {
+    const result = String(game?.result || '').toUpperCase();
+    const forScore = Number(game?.score_for);
+    const againstScore = Number(game?.score_against);
+    if (!Number.isFinite(forScore) || !Number.isFinite(againstScore)) return result || '-';
+    return `${result} ${forScore}-${againstScore}`;
+}
+
+function resultBadgeHtml(score) {
+    const text = String(score || '-').trim();
+    const first = text.charAt(0).toUpperCase();
+    const cls = first === 'W' ? 'result-badge--win' : first === 'L' ? 'result-badge--loss' : first === 'D' ? 'result-badge--draw' : '';
+    if (!cls) return escapeHtml(text);
+    return `<span class="result-badge ${cls}">${escapeHtml(text)}</span>`;
+}
+
+function fixtureAndResultText(game, includeSquad) {
+    if (!game) return 'Unknown';
+    return `${fixtureText(game, includeSquad)} | ${resultBadgeHtml(scoreText(game))}`;
+}
+
+function activeTagMarkup(isActive) {
+    return isActive ? '<span class="player-profile-active-tag full-profile-active-tag">Active</span>' : '';
+}
+
+function formatSquadLabel(squadValue) {
+    const raw = String(squadValue || '').trim();
+    if (raw === '1st') return '1st XV';
+    if (raw === '2nd') return '2nd XV';
+    return raw || 'Unknown Squad';
+}
+
+function squadTagMarkup(squadValue) {
+    const raw = String(squadValue || '').trim();
+    const label = formatSquadLabel(raw);
+    const variant = raw === '2nd' ? 'full-profile-squad-tag--2nd' : 'full-profile-squad-tag--1st';
+    return `<span class="player-profile-active-tag full-profile-active-tag full-profile-squad-tag ${variant}">${escapeHtml(label)}</span>`;
+}
+
+function canonicalizeName(value) {
+    return String(value || '').trim().toLowerCase().replace(/\s+/g, ' ');
+}
+
+function buildSponsorHistoryMap(rawSponsorsBySeason) {
+    const historyByPlayer = new Map();
+    if (!rawSponsorsBySeason || typeof rawSponsorsBySeason !== 'object') return historyByPlayer;
+
+    Object.entries(rawSponsorsBySeason).forEach(([season, seasonSponsors]) => {
+        if (!seasonSponsors || typeof seasonSponsors !== 'object') return;
+        Object.entries(seasonSponsors).forEach(([playerName, sponsorName]) => {
+            const normalizedName = canonicalizeName(playerName);
+            const sponsor = String(sponsorName || '').trim();
+            if (!normalizedName || !sponsor) return;
+            if (!historyByPlayer.has(normalizedName)) historyByPlayer.set(normalizedName, []);
+            historyByPlayer.get(normalizedName).push({ season: String(season || '').trim(), sponsor });
+        });
+    });
+
+    return historyByPlayer;
+}
+
+function playerSponsorSnapshot(player) {
+    const playerName = canonicalizeName(player?.name);
+    const rawHistory = fullSponsorHistoryByPlayer.get(playerName) || [];
+    const currentSponsor = String(player?.sponsor || '').trim();
+    const uniqueBySponsor = new Map();
+
+    rawHistory.forEach(entry => {
+        const sponsor = String(entry?.sponsor || '').trim();
+        const season = String(entry?.season || '').trim();
+        if (!sponsor || !season) return;
+        if (!uniqueBySponsor.has(sponsor)) uniqueBySponsor.set(sponsor, []);
+        uniqueBySponsor.get(sponsor).push(season);
+    });
+
+    const previousSponsors = [];
+    uniqueBySponsor.forEach((seasons, sponsor) => {
+        if (currentSponsor && sponsor === currentSponsor) return;
+        const orderedSeasons = [...new Set(seasons)].sort((a, b) => a.localeCompare(b));
+        previousSponsors.push({ sponsor, seasons: orderedSeasons });
+    });
+
+    previousSponsors.sort((a, b) => a.sponsor.localeCompare(b.sponsor));
+
+    return {
+        currentSponsor,
+        previousSponsors,
+    };
+}
+
+function buildAppearanceRows(history) {
+    return history.map(row => {
+        const game = row?.game || {};
+        const rawDate = String(game?.date || row?.date || '');
+        const season = String(game?.season || row?.season || '-');
+        const gameType = String(game?.game_type || row?.game_type || '-');
+        const competition = String(game?.competition || row?.competition || '-');
+        const squad = String(row?.squad || game?.squad || '-');
+        const position = String(row?.position || '-');
+        const opposition = String(game?.opposition || '-');
+        const homeAway = String(game?.home_away || '-');
+        const shirtNumber = row?.shirt_number != null
+            ? String(row.shirt_number)
+            : row?.number != null
+                ? String(row.number)
+                : '-';
+        const score = scoreText(game);
+        return {
+            date: rawDate,
+            dateDisplay: formatDisplayDate(rawDate),
+            season,
+            gameType,
+            competition,
+            squad,
+            opposition,
+            homeAway,
+            position,
+            shirtNumber,
+            result: score,
+            sortTimestamp: new Date(rawDate).getTime(),
+        };
+    });
+}
+
+function compareAppearanceRows(a, b, key, direction) {
+    const factor = direction === 'asc' ? 1 : -1;
+    if (key === 'date') {
+        const left = Number.isFinite(a.sortTimestamp) ? a.sortTimestamp : -Infinity;
+        const right = Number.isFinite(b.sortTimestamp) ? b.sortTimestamp : -Infinity;
+        if (left === right) return 0;
+        return left > right ? factor : -factor;
+    }
+
+    const leftValue = String(a[key] || '').toLowerCase();
+    const rightValue = String(b[key] || '').toLowerCase();
+    if (leftValue === rightValue) return 0;
+    return leftValue > rightValue ? factor : -factor;
+}
+
+function sortedAppearanceRows() {
+    const rows = [...fullProfileAppearanceRows];
+    const key = fullProfileSortState.key;
+    const direction = fullProfileSortState.direction;
+    rows.sort((a, b) => compareAppearanceRows(a, b, key, direction));
+    return rows;
+}
+
+function pagedAppearanceRows(rows) {
+    const pageSize = Math.max(5, Number(fullProfilePaginationState.pageSize) || 15);
+    const pageCount = Math.max(1, Math.ceil(rows.length / pageSize));
+    const page = Math.min(pageCount, Math.max(1, Number(fullProfilePaginationState.page) || 1));
+    fullProfilePaginationState.page = page;
+    fullProfilePaginationState.pageSize = pageSize;
+    const start = (page - 1) * pageSize;
+    return {
+        page,
+        pageSize,
+        pageCount,
+        rows: rows.slice(start, start + pageSize),
+    };
+}
+
+function updateSortHeaderUI() {
+    document.querySelectorAll('[data-appearance-sort]').forEach(button => {
+        const key = String(button.getAttribute('data-appearance-sort') || '');
+        const isActive = key === fullProfileSortState.key;
+        const direction = isActive ? fullProfileSortState.direction : 'none';
+        const arrow = isActive ? (direction === 'asc' ? ' ▲' : ' ▼') : '';
+        const label = String(button.getAttribute('data-appearance-label') || key);
+        button.textContent = `${label}${arrow}`;
+        button.setAttribute('aria-sort', isActive ? (direction === 'asc' ? 'ascending' : 'descending') : 'none');
+    });
+}
+
+function renderAppearanceTable() {
+    const tbody = document.getElementById('fullProfileAppearancesTableBody');
+    if (!tbody) return;
+
+    const sortedRows = sortedAppearanceRows();
+    const query = fullProfileTableSearch.trim().toLowerCase();
+    const filteredRows = query
+        ? sortedRows.filter(row => Object.values(row).some(v => String(v ?? '').toLowerCase().includes(query)))
+        : sortedRows;
+    const paged = pagedAppearanceRows(filteredRows);
+    const html = paged.rows.map(row => `
+        <tr>
+            <td>${escapeHtml(row.dateDisplay || '-')}</td>
+            <td>${escapeHtml(row.season || '-')}</td>
+            <td>${escapeHtml(row.gameType || '-')}</td>
+            <td>${escapeHtml(row.competition || '-')}</td>
+            <td>${escapeHtml(row.squad || '-')} XV</td>
+            <td>${escapeHtml(row.opposition || '-')}</td>
+            <td>${escapeHtml(row.homeAway || '-')}</td>
+            <td>${escapeHtml(row.position || '-')}</td>
+            <td>${escapeHtml(row.shirtNumber || '-')}</td>
+            <td>${resultBadgeHtml(row.result || '-')}</td>
+        </tr>
+    `).join('');
+
+    tbody.innerHTML = html || '<tr><td colspan="10" class="text-muted">No appearances found for this player.</td></tr>';
+
+    const summary = document.getElementById('fullProfileAppearancesPaginationSummary');
+    if (summary) {
+        if (filteredRows.length === 0) {
+            summary.textContent = query ? '0 results' : '0 appearances';
+        } else {
+            const start = (paged.page - 1) * paged.pageSize + 1;
+            const end = Math.min(filteredRows.length, paged.page * paged.pageSize);
+            const total = filteredRows.length;
+            const suffix = query && total !== sortedRows.length ? ` of ${sortedRows.length} appearances` : ' appearances';
+            summary.textContent = `${start}-${end} of ${total}${suffix}`;
+        }
+    }
+
+    const prevButton = document.getElementById('fullProfileAppearancesPrev');
+    const nextButton = document.getElementById('fullProfileAppearancesNext');
+    if (prevButton) prevButton.disabled = paged.page <= 1;
+    if (nextButton) nextButton.disabled = paged.page >= paged.pageCount;
+
+    updateSortHeaderUI();
+}
+
+function renderAppearancesPerSeasonChart(playerName) {
+    const chartColorBy = document.getElementById('fullProfileChartColorBy');
+    const colorByValue = String(chartColorBy?.value || 'Squad');
+    const selectedSpec = fullProfileAppearancesBySeasonSpecs[colorByValue] || null;
+    if (!selectedSpec) {
+        renderStaticSpecChart(
+            'fullProfileAppearancesPerSeasonChart',
+            null,
+            'Unable to load appearances-per-season chart. Run python/update.py and refresh this page.'
+        );
+        return;
+    }
+
+    const filteredSpec = filterChartSpecDataset(
+        JSON.parse(JSON.stringify(selectedSpec)),
+        row => String(row?.player || '').trim() === playerName
+    );
+
+    renderStaticSpecChart(
+        'fullProfileAppearancesPerSeasonChart',
+        filteredSpec,
+        'No appearances available for this player.'
+    );
+}
+
+function bindAppearancePanelControls(playerName) {
+    const colorBySelect = document.getElementById('fullProfileChartColorBy');
+    if (colorBySelect) {
+        const useSelectPicker = !!(window.jQuery && window.jQuery.fn && window.jQuery.fn.selectpicker);
+        if (useSelectPicker) {
+            const $select = window.jQuery(colorBySelect);
+            if ($select.data('selectpicker')) $select.selectpicker('destroy');
+            $select.selectpicker();
+            $select
+                .off('changed.bs.select.fullProfileColorBy')
+                .on('changed.bs.select.fullProfileColorBy', () => {
+                    renderAppearancesPerSeasonChart(playerName);
+                });
+        } else {
+            colorBySelect.addEventListener('change', () => {
+                renderAppearancesPerSeasonChart(playerName);
+            });
+        }
+    }
+
+    const seasonPanelToggle = document.querySelector('[data-target="full-profile-season-apps-panel"]');
+    if (seasonPanelToggle) {
+        seasonPanelToggle.addEventListener('click', () => {
+            // Re-render after panel visibility changes so width='container' resolves correctly.
+            window.setTimeout(() => renderAppearancesPerSeasonChart(playerName), 60);
+        });
+    }
+
+    const tableHost = document.getElementById('fullProfileAppearancesTable');
+    if (tableHost) {
+        tableHost.addEventListener('click', event => {
+            const target = event.target.closest('[data-appearance-sort]');
+            if (!target) return;
+            const key = String(target.getAttribute('data-appearance-sort') || '').trim();
+            if (!key) return;
+            if (fullProfileSortState.key === key) {
+                fullProfileSortState.direction = fullProfileSortState.direction === 'asc' ? 'desc' : 'asc';
+            } else {
+                fullProfileSortState = { key, direction: key === 'date' ? 'desc' : 'asc' };
+            }
+            fullProfilePaginationState.page = 1;
+            renderAppearanceTable();
+        });
+    }
+
+    const searchInput = document.getElementById('fullProfileAppearancesSearch');
+    if (searchInput) {
+        searchInput.addEventListener('input', () => {
+            fullProfileTableSearch = String(searchInput.value || '');
+            fullProfilePaginationState.page = 1;
+            renderAppearanceTable();
+        });
+    }
+
+    const pageSizeSelect = document.getElementById('fullProfileAppearancesPageSize');
+    if (pageSizeSelect) {
+        pageSizeSelect.addEventListener('change', () => {
+            fullProfilePaginationState.pageSize = Number(pageSizeSelect.value) || 15;
+            fullProfilePaginationState.page = 1;
+            renderAppearanceTable();
+        });
+    }
+
+    const prevButton = document.getElementById('fullProfileAppearancesPrev');
+    if (prevButton) {
+        prevButton.addEventListener('click', () => {
+            fullProfilePaginationState.page = Math.max(1, fullProfilePaginationState.page - 1);
+            renderAppearanceTable();
+        });
+    }
+
+    const nextButton = document.getElementById('fullProfileAppearancesNext');
+    if (nextButton) {
+        nextButton.addEventListener('click', () => {
+            fullProfilePaginationState.page += 1;
+            renderAppearanceTable();
+        });
+    }
+}
+
+function renderProfile(player) {
+    const root = document.getElementById('fullProfileRoot');
+    if (!root) return;
+
+    const history = playerHistory(player?.name);
+    const firstGame = history[0]?.game;
+    const firstXVGame = history.find(row => String(row?.squad || '') === '1st')?.game;
+    const latestGame = history[history.length - 1]?.game;
+
+    let wins = 0;
+    let losses = 0;
+    let draws = 0;
+    history.forEach(row => {
+        const result = String(row?.game?.result || '').toUpperCase();
+        if (result === 'W') wins += 1;
+        if (result === 'L') losses += 1;
+        if (result === 'D') draws += 1;
+    });
+
+    const scoringCareer = parseScoringPayload(player?.scoringCareer);
+    const scoringSeason = parseScoringPayload(player?.scoringThisSeason);
+    const otherPositions = parseOtherPositions(player?.otherPositions);
+    const avatarUrl = String(player?.photo_url || '').trim();
+    const squadValue = String(player?.squad || '').trim();
+    const primarySquadLabel = formatSquadLabel(squadValue);
+    const bannerBackgroundClass = squadValue === '2nd'
+        ? 'player-profile-headshot-wrap-2nd'
+        : 'player-profile-headshot-wrap-1st';
+    const sponsorSnapshot = playerSponsorSnapshot(player);
+
+    fullProfileAppearanceRows = buildAppearanceRows(history);
+    fullProfileSortState = { key: 'date', direction: 'desc' };
+    fullProfilePaginationState = { page: 1, pageSize: 15 };
+    fullProfileTableSearch = '';
+
+    const scoringParts = [];
+    if (scoringCareer.tries > 0) scoringParts.push(`${scoringCareer.tries} tries`);
+    if (scoringCareer.conversions > 0) scoringParts.push(`${scoringCareer.conversions} conversions`);
+    if (scoringCareer.penalties > 0) scoringParts.push(`${scoringCareer.penalties} penalties`);
+    if (scoringCareer.dropGoals > 0) scoringParts.push(`${scoringCareer.dropGoals} drop goals`);
+    const scoringRecord = scoringParts.length ? scoringParts.join(', ') : 'No scores recorded';
+    const seasonParts = [];
+    if (scoringSeason.tries > 0) seasonParts.push(`${Number(scoringSeason.tries)} tries`);
+    if (scoringSeason.conversions > 0) seasonParts.push(`${Number(scoringSeason.conversions)} conversions`);
+    if (scoringSeason.penalties > 0) seasonParts.push(`${Number(scoringSeason.penalties)} penalties`);
+    if (scoringSeason.dropGoals > 0) seasonParts.push(`${Number(scoringSeason.dropGoals)} drop goals`);
+    const seasonRecord = seasonParts.length ? seasonParts.join(', ') : 'No scores recorded';
+    const startingPositionCounts = new Map();
+    let benchAppearances = 0;
+    history.forEach(row => {
+        if (row?.is_starter) {
+            const position = String(row?.position || '').trim();
+            if (!position || position.toLowerCase() === 'bench') return;
+            startingPositionCounts.set(position, (startingPositionCounts.get(position) || 0) + 1);
+            return;
+        }
+        benchAppearances += 1;
+    });
+    const sortedPositions = [...startingPositionCounts.entries()]
+        .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+    const positionLines = sortedPositions.map(([position, count]) =>
+        `<p class="full-profile-position-line"><strong>${escapeHtml(position)}:</strong> ${count} starts</p>`);
+    if (benchAppearances > 0) {
+        positionLines.push(`<p class="full-profile-position-line"><strong>Bench:</strong> ${benchAppearances} appearances</p>`);
+    }
+    const positionsListHtml = positionLines.length > 0
+        ? `<div class="full-profile-positions-stack">${positionLines.join('')}</div>`
+        : '<p style="margin:0.18rem 0;">No positions recorded</p>';
+    root.innerHTML = `
+        <article class="card" style="border-radius:0.85rem; overflow:hidden; border:1px solid #d9e0f0;">
+            <div class="player-profile-headshot-wrap ${bannerBackgroundClass} full-profile-banner">
+                <div class="full-profile-banner-copy">
+                    <h2 class="full-profile-banner-name">${escapeHtml(String(player?.name || 'Unknown'))}</h2>
+                    <p class="full-profile-banner-subtitle">${escapeHtml(String(player?.position || 'Unknown'))}</p>
+                    <div class="full-profile-active-row">${activeTagMarkup(player?.isActive)}${squadTagMarkup(squadValue)}</div>
+                </div>
+                <div class="full-profile-banner-headshot">
+                    ${avatarUrl
+                        ? `<img src="${escapeHtml(avatarUrl)}" alt="${escapeHtml(player?.name || 'Player')}" class="player-profile-avatar" loading="lazy">`
+                        : '<div class="player-profile-avatar-placeholder"><i class="bi bi-person-fill" aria-hidden="true"></i></div>'
+                    }
+                </div>
+            </div>
+
+            <div class="full-profile-sections-grid" style="padding:1rem 1.1rem;">
+                <section class="full-profile-section-block">
+                    <h3 style="margin:0 0 0.4rem; color:#202946; font-size:1.05rem;">Career Summary</h3>
+                    <p style="margin:0.18rem 0;"><strong>Total appearances:</strong> ${Number(player?.totalAppearances || 0)} (${Number(player?.totalStarts || 0)} starts)</p>
+                    ${Number(player?.firstXVAppearances || 0) > 0
+                        ? `<p style="margin:0.18rem 0;"><strong>${escapeHtml(primarySquadLabel)} appearances:</strong> ${Number(player?.firstXVAppearances || 0)} (${Number(player?.firstXVStarts || 0)} starts)</p>`
+                        : ''}
+                    <p style="margin:0.18rem 0;"><strong>This season:</strong> ${Number(player?.seasonAppearances || 0)} apps (${Number(player?.seasonStarts || 0)} starts)</p>
+                    <p style="margin:0.18rem 0;"><strong>Win record:</strong> W${wins} L${losses}${draws > 0 ? ` D${draws}` : ''}</p>
+                </section>
+
+                <section class="full-profile-section-block">
+                    <h3 style="margin:0 0 0.4rem; color:#202946; font-size:1.05rem;">First and Last Appearances </h3>
+                    <p style="margin:0.18rem 0;"><strong>Club debut:</strong> ${firstGame ? fixtureAndResultText(firstGame, true) : escapeHtml(String(player?.debutOverall || 'Unknown'))}</p>
+                    ${Number(player?.firstXVAppearances || 0) > 0
+                        ? `<p style="margin:0.18rem 0;"><strong>1st XV debut:</strong> ${firstXVGame ? fixtureAndResultText(firstXVGame, false) : escapeHtml(String(player?.debutFirstXV || 'Unknown'))}</p>`
+                        : ''}
+                    <p style="margin:0.18rem 0;"><strong>Last appearance:</strong> ${latestGame ? fixtureAndResultText(latestGame, true) : escapeHtml(String(player?.lastAppearanceDate || 'Unknown'))}</p>
+                </section>
+
+                <section class="full-profile-section-block">
+                    <h3 style="margin:0 0 0.4rem; color:#202946; font-size:1.05rem;">Positions</h3>
+                    ${positionsListHtml}
+                </section>
+
+                <section class="full-profile-section-block">
+                    <h3 style="margin:0 0 0.4rem; color:#202946; font-size:1.05rem;">Scoring</h3>
+                    <p style="margin:0.18rem 0;"><strong>Scoring record:</strong> ${escapeHtml(scoringRecord)}</p>
+                    <p style="margin:0.18rem 0;"><strong>Career points:</strong> ${Number(scoringCareer.points || 0)}</p>
+                    <p style="margin:0.18rem 0;"><strong>This season:</strong> ${seasonRecord}.</p>
+                </section>
+
+                ${(() => {
+                    const sponsorshipLines = [];
+                    if (sponsorSnapshot.currentSponsor) {
+                        sponsorshipLines.push(`<p style="margin:0.18rem 0;"><strong>Current sponsor:</strong> ${escapeHtml(sponsorSnapshot.currentSponsor)}</p>`);
+                    }
+                    if (sponsorSnapshot.previousSponsors.length > 0) {
+                        sponsorshipLines.push(`<p style="margin:0.18rem 0;"><strong>Previous sponsors:</strong> ${sponsorSnapshot.previousSponsors.map(item => `${escapeHtml(item.sponsor)} (${escapeHtml(item.seasons.join(', '))})`).join('; ')}</p>`);
+                    }
+                    if (sponsorshipLines.length === 0) return '';
+                    return `<section class="full-profile-section-block"><h3 style="margin:0 0 0.4rem; color:#202946; font-size:1.05rem;">Sponsorship</h3>${sponsorshipLines.join('')}</section>`;
+                })()}
+
+                <div class="full-profile-section-full full-profile-panels-grid" style="margin-top:0.2rem;">
+                    <div class="chart-panel chart-panel--inline full-profile-chart-panel">
+                        <button type="button" class="chart-panel-toggle chart-panel-toggle--black"
+                            data-target="full-profile-season-apps-panel" data-accordion-group="full-profile-panels"
+                            aria-expanded="false" aria-controls="full-profile-season-apps-panel">
+                            <span class="chart-panel-toggle-text">
+                                <span class="chart-panel-toggle-title">Appearances Per Season</span>
+                                <span class="chart-panel-toggle-hint">Toggle colour by result, position, or squad</span>
+                            </span>
+                            <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
+                        </button>
+                        <div id="full-profile-season-apps-panel" class="chart-panel-content" hidden>
+                            <div class="chart-panel-card">
+                                <div class="chart-panel-filters" style="margin-bottom:0.85rem;">
+                                    <div class="filter-item league-season-picker" style="margin-bottom:0;">
+                                        <div class="input-group">
+                                            <span class="input-group-text">Colour By</span>
+                                            <select id="fullProfileChartColorBy" class="selectpicker form-control flex-fill" data-size="8" title="Colour By" aria-label="Colour appearances chart by">
+                                                <option value="Squad" selected>Squad</option>
+                                                <option value="Result">Result</option>
+                                                <option value="Position">Position</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="fullProfileAppearancesPerSeasonChart" class="player-stats-chart-container">Loading appearances chart...</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chart-panel full-profile-panel-full">
+                        <button type="button" class="chart-panel-toggle chart-panel-toggle--black"
+                            data-target="full-profile-all-apps-panel" data-accordion-group="full-profile-panels"
+                            aria-expanded="false" aria-controls="full-profile-all-apps-panel">
+                            <span class="chart-panel-toggle-text">
+                                <span class="chart-panel-toggle-title">All Appearances</span>
+                                <span class="chart-panel-toggle-hint">Searchable, sortable, and paginated appearance history</span>
+                            </span>
+                            <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
+                        </button>
+                        <div id="full-profile-all-apps-panel" class="chart-panel-content" hidden>
+                            <div class="chart-panel-card full-profile-table-card">
+                                <div class="chart-panel-filters" style="margin-bottom:0.6rem;">
+                                    <div class="filter-item database-search-item" style="margin-bottom:0;">
+                                        <div class="input-group">
+                                            <span class="input-group-text">Search</span>
+                                            <input id="fullProfileAppearancesSearch" type="search" class="form-control flex-fill" placeholder="Filter rows..." autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="table-responsive database-table-responsive" id="fullProfileAppearancesTable">
+                                    <table class="table table-striped table-hover align-middle database-data-table">
+                                        <thead>
+                                            <tr>
+                                                <th><button type="button" class="database-sort-button full-profile-sort-button" data-appearance-sort="date" data-appearance-label="Date"><span>Date</span></button></th>
+                                                <th><button type="button" class="database-sort-button full-profile-sort-button" data-appearance-sort="season" data-appearance-label="Season"><span>Season</span></button></th>
+                                                <th><button type="button" class="database-sort-button full-profile-sort-button" data-appearance-sort="gameType" data-appearance-label="Game Type"><span>Game Type</span></button></th>
+                                                <th><button type="button" class="database-sort-button full-profile-sort-button" data-appearance-sort="competition" data-appearance-label="Competition"><span>Competition</span></button></th>
+                                                <th><button type="button" class="database-sort-button full-profile-sort-button" data-appearance-sort="squad" data-appearance-label="Squad"><span>Squad</span></button></th>
+                                                <th><button type="button" class="database-sort-button full-profile-sort-button" data-appearance-sort="opposition" data-appearance-label="Opposition"><span>Opposition</span></button></th>
+                                                <th><button type="button" class="database-sort-button full-profile-sort-button" data-appearance-sort="homeAway" data-appearance-label="H/A"><span>H/A</span></button></th>
+                                                <th><button type="button" class="database-sort-button full-profile-sort-button" data-appearance-sort="position" data-appearance-label="Position"><span>Position</span></button></th>
+                                                <th><button type="button" class="database-sort-button full-profile-sort-button" data-appearance-sort="shirtNumber" data-appearance-label="Number"><span>Number</span></button></th>
+                                                <th><button type="button" class="database-sort-button full-profile-sort-button" data-appearance-sort="result" data-appearance-label="Result"><span>Result</span></button></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="fullProfileAppearancesTableBody"></tbody>
+                                    </table>
+                                </div>
+                                <div class="database-pagination-bar" style="justify-content:space-between;">
+                                    <div class="d-flex align-items-center" style="gap:0.4rem;">
+                                        <label for="fullProfileAppearancesPageSize" style="font-size:0.9rem; color:#44506b;">Rows</label>
+                                        <select id="fullProfileAppearancesPageSize" class="form-select form-select-sm" style="width:86px;">
+                                            <option value="10">10</option>
+                                            <option value="15" selected>15</option>
+                                            <option value="25">25</option>
+                                            <option value="50">50</option>
+                                        </select>
+                                    </div>
+                                    <div id="fullProfileAppearancesPaginationSummary" class="database-pagination-summary">0 appearances</div>
+                                    <div class="btn-group btn-group-sm" role="group" aria-label="Appearances pagination">
+                                        <button id="fullProfileAppearancesPrev" type="button" class="btn btn-outline-secondary">Previous</button>
+                                        <button id="fullProfileAppearancesNext" type="button" class="btn btn-outline-secondary">Next</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </article>
+    `;
+
+    initialiseChartPanelToggles();
+    bindAppearancePanelControls(String(player?.name || '').trim());
+    renderAppearanceTable();
+    renderAppearancesPerSeasonChart(String(player?.name || '').trim());
+}
+
+function updateUrlPlayer(name) {
+    const next = String(name || '').trim();
+    const url = new URL(window.location.href);
+    if (next) url.searchParams.set('player', next);
+    else url.searchParams.delete('player');
+    window.history.replaceState({}, '', url.toString());
+}
+
+function renderSelectedPlayer() {
+    const select = document.getElementById('fullProfilePlayerSelect');
+    if (!select) return;
+
+    const selectedName = String(select.value || '').trim();
+    const player = fullProfiles.find(row => String(row?.name || '').trim() === selectedName);
+    const root = document.getElementById('fullProfileRoot');
+    if (!root) return;
+
+    if (!player) {
+        root.classList.remove('d-none');
+        root.innerHTML = '<div class="alert alert-light">Select a player to view their full profile.</div>';
+        updateUrlPlayer('');
+        return;
+    }
+
+    updateUrlPlayer(selectedName);
+    renderProfile(player);
+}
+
+function initPlayerSelect() {
+    const select = document.getElementById('fullProfilePlayerSelect');
+    if (!select) return;
+
+    const eligible = fullProfiles
+        .filter(row => Number(row?.totalAppearances || 0) >= 10)
+        .sort((a, b) => String(a?.name || '').localeCompare(String(b?.name || '')));
+
+    select.innerHTML = '<option value="">Select player...</option>' + eligible
+        .map(row => `<option value="${escapeHtml(String(row?.name || ''))}">${escapeHtml(String(row?.name || ''))}</option>`)
+        .join('');
+
+    const useSelectPicker = !!(window.jQuery && window.jQuery.fn && window.jQuery.fn.selectpicker);
+    if (useSelectPicker) {
+        const $select = window.jQuery(select);
+        if ($select.data('selectpicker')) $select.selectpicker('destroy');
+        $select.selectpicker();
+    }
+
+    const url = new URL(window.location.href);
+    const preselected = String(url.searchParams.get('player') || '').trim();
+    if (preselected && eligible.some(row => String(row?.name || '').trim() === preselected)) {
+        if (useSelectPicker) window.jQuery(select).selectpicker('val', preselected);
+        else select.value = preselected;
+    } else if (useSelectPicker) {
+        window.jQuery(select).selectpicker('val', '');
+    }
+
+    if (useSelectPicker) {
+        window.jQuery(select)
+            .off('changed.bs.select.fullProfile')
+            .on('changed.bs.select.fullProfile', renderSelectedPlayer);
+    } else {
+        select.addEventListener('change', renderSelectedPlayer);
+    }
+
+    renderSelectedPlayer();
+}
+
+async function loadPage() {
+    const loadingState = document.getElementById('fullProfileLoadingState');
+    const errorState = document.getElementById('fullProfileErrorState');
+    const root = document.getElementById('fullProfileRoot');
+
+    try {
+        const [profilesRes, gamesRes, appearancesRes, sponsorsRes] = await Promise.all([
+            fetch('data/backend/player_profiles_canonical.json'),
+            fetch('data/backend/games.json'),
+            fetch('data/backend/player_appearances.json'),
+            fetch('data/sponsors.json')
+        ]);
+
+        if (!profilesRes.ok || !gamesRes.ok || !appearancesRes.ok) {
+            throw new Error('Failed to load one or more profile datasets');
+        }
+
+        const [profiles, games, appearances, sponsorsBySeason] = await Promise.all([
+            profilesRes.json(),
+            gamesRes.json(),
+            appearancesRes.json(),
+            sponsorsRes.ok ? sponsorsRes.json() : Promise.resolve({})
+        ]);
+
+        fullProfiles = Array.isArray(profiles) ? profiles : [];
+
+        fullGamesById = new Map();
+        (Array.isArray(games) ? games : []).forEach(game => {
+            const key = String(game?.game_id || '').trim();
+            if (key) fullGamesById.set(key, game);
+        });
+
+        fullAppearancesByPlayer = new Map();
+        (Array.isArray(appearances) ? appearances : []).forEach(row => {
+            const key = String(row?.player || '').trim();
+            if (!key) return;
+            if (!fullAppearancesByPlayer.has(key)) fullAppearancesByPlayer.set(key, []);
+            fullAppearancesByPlayer.get(key).push(row);
+        });
+
+        fullSponsorHistoryByPlayer = buildSponsorHistoryMap(sponsorsBySeason);
+
+        const chartSpecEntries = await Promise.allSettled([
+            loadChartSpec('data/charts/player_full_profile_appearances_per_season_squad.json'),
+            loadChartSpec('data/charts/player_full_profile_appearances_per_season_result.json'),
+            loadChartSpec('data/charts/player_full_profile_appearances_per_season_position.json')
+        ]);
+        fullProfileAppearancesBySeasonSpecs = {
+            Squad: chartSpecEntries[0].status === 'fulfilled' ? chartSpecEntries[0].value : null,
+            Result: chartSpecEntries[1].status === 'fulfilled' ? chartSpecEntries[1].value : null,
+            Position: chartSpecEntries[2].status === 'fulfilled' ? chartSpecEntries[2].value : null,
+        };
+        if (!fullProfileAppearancesBySeasonSpecs.Squad || !fullProfileAppearancesBySeasonSpecs.Result || !fullProfileAppearancesBySeasonSpecs.Position) {
+            console.warn('Unable to load one or more full profile appearances chart specs:', chartSpecEntries);
+        }
+
+        initPlayerSelect();
+
+        if (loadingState) loadingState.classList.add('d-none');
+        if (errorState) errorState.classList.add('d-none');
+        if (root) root.classList.remove('d-none');
+    } catch (error) {
+        console.error(error);
+        if (loadingState) loadingState.classList.add('d-none');
+        if (root) root.classList.add('d-none');
+        if (errorState) {
+            errorState.classList.remove('d-none');
+            errorState.textContent = 'Unable to load full profile data. Run python/update.py and try again.';
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', loadPage);

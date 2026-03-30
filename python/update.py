@@ -20,6 +20,7 @@ from python.charts import (
     squad_continuity_average_chart,
     captains_chart,
     player_stats_appearances_chart,
+    player_full_profile_appearances_per_season_chart,
     points_scorers_chart,
     team_sheets_chart,
     results_chart,
@@ -86,6 +87,7 @@ def main(refresh_pitchero=False, backend_mode="canonical", backend_db_path="data
     # Existing charts
     captains_chart(db)
     player_stats_appearances_chart(db)
+    player_full_profile_appearances_per_season_chart(db)
     points_scorers_chart(db)
     team_sheets_chart(db)
     results_chart(db)

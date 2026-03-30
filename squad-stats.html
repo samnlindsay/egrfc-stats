@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EGRFC Statistics - Team & Player Stats</title>
+    <title>EGRFC Statistics - Squad Stats</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -51,6 +51,7 @@
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="player-profiles.html">Player Profiles</a></li>
                             <li><a class="dropdown-item" href="team-sheets.html">Team Sheets</a></li>
+                            <li><a class="dropdown-item" href="player-stats.html">Player Stats</a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
@@ -323,140 +324,6 @@
                 </div>
             </div>
 
-            <hr style="margin-top: 2.5rem; margin-bottom: 2.5rem;">
-
-            <!-- ===== SECTION 3: PLAYER STATS ===== -->
-            <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem; margin-bottom: 0.5rem;">
-                <h2 style="font-weight:900; color: var(--primary-color); margin-bottom: 0;">Player Stats</h2>
-                <div class="page-header-filters" style="margin: 0; padding: 0; flex-wrap: wrap;">
-                    <div class="filter-item league-season-picker" style="margin-bottom: 0;">
-                        <div class="input-group">
-                            <span class="input-group-text">Season</span>
-                            <select id="playerStatsSeasonSelect" class="selectpicker form-control flex-fill" data-size="8">
-                            </select>
-                        </div>
-                    </div>
-                    <div class="filter-item league-season-picker" style="margin-bottom: 0;">
-                        <div class="input-group">
-                            <span class="input-group-text">Game Type</span>
-                            <select id="playerStatsGameTypeSelect" class="selectpicker form-control flex-fill" data-size="4">
-                                <option value="All games">All games</option>
-                                <option value="League + Cup">League + Cup</option>
-                                <option value="League only">League only</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="filter-item league-season-picker" style="margin-bottom: 0;">
-                        <div class="input-group">
-                            <span class="input-group-text">Squad</span>
-                            <select id="playerStatsSquadSelect" class="selectpicker form-control flex-fill" data-size="4">
-                                <option value="All">Both</option>
-                                <option value="1st">1st XV</option>
-                                <option value="2nd">2nd XV</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <p style="margin-bottom: 1rem; color: #666; font-size: 0.9rem;">Individual player statistics including captaincy records, total appearances, and point-scoring contributions.</p>
-
-            <div class="player-stats-panels">
-                <div class="chart-panel chart-panel--inline player-stats-panel">
-                    <button type="button" class="chart-panel-toggle chart-panel-toggle--black"
-                        data-target="player-stats-captains-panel" data-accordion-group="player-stats-panels"
-                        aria-expanded="false" aria-controls="player-stats-captains-panel">
-                        <span class="chart-panel-toggle-text">
-                            <span class="chart-panel-toggle-title">Match Day Captains</span>
-                            <span class="chart-panel-toggle-hint">1st XV &amp; 2nd XV Captains and Vice Captains</span>
-                        </span>
-                        <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
-                    </button>
-                    <div id="player-stats-captains-panel" class="chart-panel-content" hidden>
-                        <div class="chart-panel-card">
-                            <div id="playerStatsCaptainsChart" class="player-stats-chart-container">
-                                Loading captains chart...
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="chart-panel chart-panel--inline player-stats-panel">
-                    <button type="button" class="chart-panel-toggle chart-panel-toggle--black"
-                        data-target="player-stats-appearances-panel" data-accordion-group="player-stats-panels"
-                        aria-expanded="false" aria-controls="player-stats-appearances-panel">
-                        <span class="chart-panel-toggle-text">
-                            <span class="chart-panel-toggle-title">Appearances</span>
-                            <span class="chart-panel-toggle-hint">Player appearances by squad and position</span>
-                        </span>
-                        <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
-                    </button>
-                    <div id="player-stats-appearances-panel" class="chart-panel-content" hidden>
-                        <div class="chart-panel-card">
-                            <div class="chart-panel-filters">
-                                <div class="filter-item league-season-picker">
-                                    <div class="input-group">
-                                        <span class="input-group-text">Position</span>
-                                        <select id="playerStatsPositionSelect" class="selectpicker form-control flex-fill" multiple data-actions-box="true" data-size="8" title="All positions">
-                                            <option value="Prop">Prop</option>
-                                            <option value="Hooker">Hooker</option>
-                                            <option value="Second Row">Second Row</option>
-                                            <option value="Flanker">Flanker</option>
-                                            <option value="Number 8">Number 8</option>
-                                            <option value="Scrum Half">Scrum Half</option>
-                                            <option value="Fly Half">Fly Half</option>
-                                            <option value="Centre">Centre</option>
-                                            <option value="Wing">Wing</option>
-                                            <option value="Full Back">Full Back</option>
-                                            <option value="Unknown">Unknown</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="filter-item league-season-picker">
-                                    <div class="input-group">
-                                        <span class="input-group-text">Min Apps</span>
-                                        <input id="playerStatsMinAppearancesInput" class="form-control" type="number" min="0" step="1" value="5"
-                                            inputmode="numeric" aria-label="Minimum appearances" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="playerStatsAppearancesChart" class="player-stats-chart-container">
-                                Loading appearances chart...
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="chart-panel chart-panel--inline player-stats-panel">
-                    <button type="button" class="chart-panel-toggle chart-panel-toggle--black"
-                        data-target="player-stats-points-panel" data-accordion-group="player-stats-panels"
-                        aria-expanded="false" aria-controls="player-stats-points-panel">
-                        <span class="chart-panel-toggle-text">
-                            <span class="chart-panel-toggle-title">Point Scorers</span>
-                            <span class="chart-panel-toggle-hint">Points scored by player and type</span>
-                        </span>
-                        <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
-                    </button>
-                    <div id="player-stats-points-panel" class="chart-panel-content" hidden>
-                        <div class="chart-panel-card">
-                            <div class="chart-panel-filters">
-                                <div class="filter-item league-season-picker">
-                                    <div class="input-group">
-                                        <span class="input-group-text">Score Type</span>
-                                        <select id="playerStatsScoreTypeSelect" class="selectpicker form-control flex-fill" data-size="4">
-                                            <option value="Total">Total</option>
-                                            <option value="Tries">Tries</option>
-                                            <option value="Kicks">Kicks</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="playerStatsPointsChart" class="player-stats-chart-container">
-                                Loading point scorers chart...
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 

@@ -1,0 +1,59 @@
+{
+    "match_id": "1220115",
+    "season": "2025-2026",
+    "league": "Counties 2 Sussex",
+    "date": "2026-03-28",
+    "teams": [
+        "Royals RFC",
+        "Crawley"
+    ],
+    "score": [
+        41,
+        17
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/94051.png",
+        "https://images.englandrugby.com/club_images/5807.png"
+    ],
+    "players": [
+        {
+            "15": "Jenson Holmes",
+            "14": "William Dawson",
+            "13": "Jake Stanton",
+            "12": "Marcus Brandon",
+            "11": "George Burke",
+            "10": "Ben Pearson",
+            "9": "Pearse Moloney",
+            "8": "Jake Bates",
+            "7": "Matthew Boyd",
+            "6": "John James Le Feuvre",
+            "5": "Will Michel",
+            "4": "Cameron Queree",
+            "3": "Name withheld",
+            "2": "Tristan Burns",
+            "1": "Thibaud Calohard",
+            "S1": "Brodie Sutton",
+            "S2": "Daniel Baker",
+            "S3": "Kristian Dean"
+        },
+        {
+            "15": "Joshua Rodwell",
+            "14": "Dino Gomez Ruiz",
+            "13": "Charles Dennis",
+            "12": "Vincenzo Dessena",
+            "11": "Conor Kelly",
+            "10": "Callum Hankin",
+            "9": "Daniel Davis",
+            "8": "William Ofosuhene",
+            "7": "Guy Craddock",
+            "6": "Jake Jackson",
+            "5": "Andrew Jagger",
+            "4": "Bradley Davies",
+            "3": "Stuart McKenzie",
+            "2": "Joel Fisher",
+            "1": "Matthew McCormack",
+            "S1": "Andrew Griffiths",
+            "S2": "Dean Riley"
+        }
+    ]
+}
