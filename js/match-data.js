@@ -2,6 +2,9 @@ let allMatches = [];
 let filteredMatches = [];
 let pagination = { page: 1, pageSize: 10 };
 let isInitialisingControls = false;
+let appearancesByGameId = new Map();
+let profilesByName = new Map();
+let isCompactTeamSheetMode = false;
 
 const CLUB_LOGO_FILES = Object.freeze({
     barnsgreen: 'BarnsGreen.png',
@@ -40,6 +43,25 @@ function escapeHtml(value) {
         .replace(/>/g, '&gt;')
         .replace(/"/g, '&quot;')
         .replace(/'/g, '&#039;');
+}
+
+function canonicalizeName(value) {
+    return String(value || '').trim().toLowerCase().replace(/\s+/g, ' ');
+}
+
+function choosePreferredProfile(existing, candidate) {
+    if (!existing) return candidate;
+    if (!candidate) return existing;
+
+    const existingPhoto = String(existing?.photo_url || '').trim();
+    const candidatePhoto = String(candidate?.photo_url || '').trim();
+    if (!existingPhoto && candidatePhoto) return candidate;
+    if (existingPhoto && !candidatePhoto) return existing;
+
+    const existingApps = Number(existing?.totalAppearances || 0);
+    const candidateApps = Number(candidate?.totalAppearances || 0);
+    if (candidateApps > existingApps) return candidate;
+    return existing;
 }
 
 function formatDisplayDate(value) {
@@ -114,6 +136,168 @@ function buildMatchHeroData(row) {
         competition: String(row?.competition || row?.game_type || '-'),
         resultClass: `${squadClass} ${resultClass} ${egSideClass}`.trim(),
     };
+}
+
+function profileLinkHref(playerName) {
+    return `player-full-profile.html?player=${encodeURIComponent(String(playerName || '').trim())}`;
+}
+
+function formatPositionLabel(position) {
+    return String(position || '')
+        .trim()
+    .toUpperCase()
+    .replace(/\s+/g, ' ');
+}
+
+function captainBadgeHtml(isCaptain, isViceCaptain) {
+    const badges = [];
+    if (isCaptain) {
+        badges.push('<span class="match-team-sheet-badge match-team-sheet-badge--captain"><span class="match-team-sheet-badge-label-full">Captain</span><span class="match-team-sheet-badge-label-short">C</span></span>');
+    }
+    if (isViceCaptain) {
+        badges.push('<span class="match-team-sheet-badge match-team-sheet-badge--vice"><span class="match-team-sheet-badge-label-full">Vice Captain</span><span class="match-team-sheet-badge-label-short">VC</span></span>');
+    }
+    return badges.join('');
+}
+
+function playerIdentityHtml(playerName, profile, isCaptain, isViceCaptain) {
+    const safeName = escapeHtml(playerName || 'Unknown');
+    const photoUrl = String(profile?.photo_url || '').trim();
+    const hasProfile = !!profile;
+
+    const avatar = photoUrl
+        ? `<img class="match-team-sheet-avatar" src="${escapeHtml(photoUrl)}" alt="${safeName}" loading="lazy">`
+        : '<span class="match-team-sheet-avatar-placeholder" aria-hidden="true"><i class="bi bi-person-fill"></i></span>';
+
+    const nameMarkup = hasProfile
+        ? `<a class="match-team-sheet-player-link" href="${profileLinkHref(playerName)}">${safeName}</a>`
+        : `<span class="match-team-sheet-player-name">${safeName}</span>`;
+
+    return `
+        <span class="match-team-sheet-player-wrap">
+            ${avatar}
+            <span class="match-team-sheet-player-text">
+                ${nameMarkup}
+                ${captainBadgeHtml(isCaptain, isViceCaptain)}
+            </span>
+        </span>
+    `;
+}
+
+function positionLabelHtml(position) {
+    const raw = String(position || '').trim().toUpperCase();
+    if (!raw) return '';
+    return `<span class="match-team-sheet-position-label" aria-label="${escapeHtml(raw)}"><span class="match-team-sheet-position-label-text">${formatPositionLabel(raw)}</span></span>`;
+}
+
+function teamSheetModeToggleLabel() {
+    return isCompactTeamSheetMode ? 'Bold mode' : 'Compact mode';
+}
+
+function buildTeamSheetRows(rows, startNumber, endNumberInclusive) {
+    const byNumber = new Map(rows.map(row => [Number(row?.number), row]));
+    const htmlRows = [];
+
+    for (let number = startNumber; number <= endNumberInclusive; number += 1) {
+        const row = byNumber.get(number);
+        const playerName = String(row?.player || '').trim();
+        const profile = profilesByName.get(canonicalizeName(playerName));
+
+        htmlRows.push(`
+            <li class="match-team-sheet-item${row ? '' : ' match-team-sheet-item--empty'}">
+                <span class="match-team-sheet-number-wrap">
+                    <span class="match-team-sheet-number">${number}</span>
+                    ${positionLabelHtml(row?.position)}
+                </span>
+                <span class="match-team-sheet-content">
+                    ${row
+                        ? `${playerIdentityHtml(playerName, profile, !!row?.is_captain, !!row?.is_vice_captain)}`
+                        : '<span class="match-team-sheet-empty">Not listed</span>'}
+                </span>
+            </li>
+        `);
+    }
+
+    return htmlRows.join('');
+}
+
+function buildReplacementsRows(rows) {
+    const replacements = rows
+        .filter(row => Number(row?.number) >= 16)
+        .sort((a, b) => Number(a?.number || 0) - Number(b?.number || 0));
+
+    if (!replacements.length) {
+        return '<li class="match-team-sheet-item match-team-sheet-item--empty"><span class="match-team-sheet-number-wrap"><span class="match-team-sheet-number">16+</span></span><span class="match-team-sheet-content"><span class="match-team-sheet-empty">No replacements listed</span></span></li>';
+    }
+
+    return replacements.map(row => {
+        const number = Number(row?.number || 0);
+        const playerName = String(row?.player || '').trim();
+        const profile = profilesByName.get(canonicalizeName(playerName));
+        return `
+            <li class="match-team-sheet-item">
+                <span class="match-team-sheet-number-wrap">
+                    <span class="match-team-sheet-number">${number}</span>
+                    ${positionLabelHtml(row?.position)}
+                </span>
+                <span class="match-team-sheet-content">
+                    ${playerIdentityHtml(playerName, profile, !!row?.is_captain, !!row?.is_vice_captain)}
+                </span>
+            </li>
+        `;
+    }).join('');
+}
+
+function teamSheetSectionHtml(gameId) {
+    const rows = (appearancesByGameId.get(String(gameId || '').trim()) || [])
+        .slice()
+        .sort((a, b) => Number(a?.number || 0) - Number(b?.number || 0));
+
+    if (!rows.length) {
+        return `
+            <section class="match-team-sheet ${isCompactTeamSheetMode ? 'match-team-sheet--compact' : 'match-team-sheet--bold'}" aria-label="Team sheet">
+                <div class="match-team-sheet-header-wrap">
+                    <div class="match-team-sheet-header">Team Sheet</div>
+                    <button type="button" class="match-team-sheet-mode-toggle" data-team-sheet-mode-toggle aria-pressed="${isCompactTeamSheetMode ? 'true' : 'false'}">${teamSheetModeToggleLabel()}</button>
+                </div>
+                <p class="match-team-sheet-empty-note">No team-sheet data is available for this match.</p>
+            </section>
+        `;
+    }
+
+    return `
+        <section class="match-team-sheet ${isCompactTeamSheetMode ? 'match-team-sheet--compact' : 'match-team-sheet--bold'}" aria-label="Team sheet">
+            <div class="match-team-sheet-header-wrap">
+                <div class="match-team-sheet-header">Team Sheet</div>
+                <button type="button" class="match-team-sheet-mode-toggle" data-team-sheet-mode-toggle aria-pressed="${isCompactTeamSheetMode ? 'true' : 'false'}">${teamSheetModeToggleLabel()}</button>
+            </div>
+            <div class="match-team-sheet-starting-header">
+                <h3 class="match-team-sheet-title">Starting XV</h3>
+            </div>
+            <div class="match-team-sheet-top-grid">
+                <div class="match-team-sheet-panel match-team-sheet-panel--forwards">
+                    <h4 class="match-team-sheet-subtitle">Forwards</h4>
+                    <ol class="match-team-sheet-list" start="1">
+                        ${buildTeamSheetRows(rows, 1, 8)}
+                    </ol>
+                </div>
+                <div class="match-team-sheet-panel match-team-sheet-panel--backs">
+                    <h4 class="match-team-sheet-subtitle">Backs</h4>
+                    <ol class="match-team-sheet-list" start="9">
+                        ${buildTeamSheetRows(rows, 9, 15)}
+                    </ol>
+                </div>
+            </div>
+            <div class="match-team-sheet-panel match-team-sheet-panel--replacements">
+                <div class="match-team-sheet-replacements-header-wrap">
+                    <h3 class="match-team-sheet-title">Replacements</h3>
+                </div>
+                <ol class="match-team-sheet-list" start="16">
+                    ${buildReplacementsRows(rows)}
+                </ol>
+            </div>
+        </section>
+    `;
 }
 
 // Strip trailing roman numeral / ordinal suffixes to get the base club name.
@@ -378,9 +562,7 @@ function renderMatchInfo(gameId) {
                 </div>
             </div>
         </section>
-        <div class="match-info-future-note alert alert-light" style="margin: 0; border-color: #d9e0f0;">
-            Later additions can sit below this summary: formatted team sheet, scorers, and any available performance stats.
-        </div>
+        ${teamSheetSectionHtml(selected.game_id)}
     `;
 
     // Collapse the Filtered Matches panel when a game is selected
@@ -403,6 +585,22 @@ function collapseFilteredMatchesPanel() {
     if (!toggle || !panel) return;
     const isExpanded = toggle.getAttribute('aria-expanded') !== 'false';
     if (isExpanded) toggle.click();
+}
+
+function bindTeamSheetModeToggle() {
+    const infoBody = document.getElementById('matchDataInfoBody');
+    if (!infoBody || infoBody.__teamSheetToggleBound) return;
+
+    infoBody.addEventListener('click', event => {
+        const toggle = event.target.closest('[data-team-sheet-mode-toggle]');
+        if (!toggle) return;
+        isCompactTeamSheetMode = !isCompactTeamSheetMode;
+        const matchSelect = document.getElementById('matchSelect');
+        const selectedGameId = String(matchSelect?.value || '').trim();
+        renderMatchInfo(selectedGameId);
+    });
+
+    infoBody.__teamSheetToggleBound = true;
 }
 
 function bindControls(initialGameId) {
@@ -477,17 +675,42 @@ function bindControls(initialGameId) {
 async function loadPage() {
     const errorEl = document.getElementById('matchDataError');
     try {
-        const response = await fetch('data/backend/games.json');
-        if (!response.ok) throw new Error(`Failed to load games (${response.status})`);
-        const games = await response.json();
+        const [gamesResponse, appearancesResponse, profilesResponse] = await Promise.all([
+            fetch('data/backend/games.json'),
+            fetch('data/backend/player_appearances.json'),
+            fetch('data/backend/player_profiles_canonical.json')
+        ]);
+        if (!gamesResponse.ok) throw new Error(`Failed to load games (${gamesResponse.status})`);
+
+        const games = await gamesResponse.json();
+        const appearances = appearancesResponse.ok ? await appearancesResponse.json() : [];
+        const profiles = profilesResponse.ok ? await profilesResponse.json() : [];
+
         allMatches = Array.isArray(games) ? games.filter(row => row && row.game_id) : [];
         allMatches.sort((a, b) => String(b?.date || '').localeCompare(String(a?.date || '')));
+
+        appearancesByGameId = new Map();
+        (Array.isArray(appearances) ? appearances : []).forEach(row => {
+            const gameId = String(row?.game_id || '').trim();
+            if (!gameId) return;
+            if (!appearancesByGameId.has(gameId)) appearancesByGameId.set(gameId, []);
+            appearancesByGameId.get(gameId).push(row);
+        });
+
+        profilesByName = new Map();
+        (Array.isArray(profiles) ? profiles : []).forEach(profile => {
+            const key = canonicalizeName(profile?.name);
+            if (!key) return;
+            const existing = profilesByName.get(key);
+            profilesByName.set(key, choosePreferredProfile(existing, profile));
+        });
 
         populateBaseFilters();
 
         const url = new URL(window.location.href);
         const initialGameId = String(url.searchParams.get('game') || '').trim();
         bindControls(initialGameId);
+        bindTeamSheetModeToggle();
 
         initialiseChartPanelToggles();
 

@@ -1,4 +1,16 @@
 /* ===== MOBILE RESPONSIVE ===== */
+@media (max-width: 1200px) {
+    .match-team-sheet--compact {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .match-team-sheet--compact .match-team-sheet-panel--replacements {
+        grid-column: 1 / -1;
+        border-left: none;
+        border-top: 1px solid #dbe2f4;
+    }
+}
+
 @media (max-width: 768px) {
 
     /* Page header: stack title/desc above filters on narrow screens */
@@ -262,6 +274,265 @@
         width: 100% !important;
         height: auto !important;
         display: block;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .match-info-hero-grid {
+        grid-template-columns: 1fr;
+        /* Mobile: rows stack as home -> score -> away (roughly equal thirds).
+           Gradient runs top-to-bottom with stops mirroring the desktop proportions. */
+        background: linear-gradient(to bottom,
+            var(--eg-color)     0%,
+            var(--eg-color)     28%,
+            var(--result-color) 38%,
+            var(--result-color) 62%,
+            var(--opp-color)    72%,
+            var(--opp-color)    100%
+        );
+    }
+
+    /* Away on mobile: EG row is at the bottom */
+    .match-info-hero--eg-away .match-info-hero-grid {
+        background: linear-gradient(to bottom,
+            var(--opp-color)    0%,
+            var(--opp-color)    28%,
+            var(--result-color) 38%,
+            var(--result-color) 62%,
+            var(--eg-color)     72%,
+            var(--eg-color)     100%
+        );
+    }
+
+    .match-info-team,
+    .match-info-team--away,
+    .match-info-score-wrap {
+        text-align: center;
+    }
+
+    .match-info-team-shell {
+        display: block;
+    }
+
+    .match-info-team-text {
+        text-align: center;
+    }
+
+    .match-info-team-logo-wrap {
+        display: none;
+    }
+
+    .match-info-score-line {
+        display: grid;
+        grid-template-columns: minmax(4.25rem, 5rem) auto minmax(4.25rem, 5rem);
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .match-info-score-logo-wrap {
+        display: flex;
+        width: min(100%, 4.75rem);
+    }
+
+    .match-info-score-logo-wrap--home {
+        justify-self: start;
+    }
+
+    .match-info-score-logo-wrap--away {
+        justify-self: end;
+    }
+
+    .match-info-score-logo-wrap--empty {
+        display: flex;
+        visibility: hidden;
+    }
+
+    .match-info-team--away {
+        text-align: center;
+    }
+
+    .match-info-meta {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .match-info-meta-divider {
+        width: 100%;
+        height: 1px;
+    }
+
+    .match-team-sheet-top-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .match-team-sheet-header {
+        padding: 0.72rem 0.9rem;
+        font-size: 0.92rem;
+    }
+
+    .match-team-sheet-mode-toggle {
+        font-size: 0.68rem;
+        padding: 0 0.62rem;
+        min-width: 6.6rem;
+    }
+
+    .match-team-sheet-starting-header {
+        padding: 0.66rem 0.85rem 0.08rem;
+    }
+
+    .match-team-sheet-panel {
+        padding: 0.78rem 0.85rem 0.88rem;
+    }
+
+    .match-team-sheet-title {
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .match-team-sheet-subtitle {
+        margin-bottom: 0.48rem;
+        font-size: 0.82rem;
+    }
+
+    .match-team-sheet-item {
+        grid-template-columns: 4.35rem minmax(0, 1fr);
+        gap: 0.5rem;
+        padding: 0.32rem 0;
+    }
+
+    .match-team-sheet-number-wrap {
+        width: 4.35rem;
+        min-height: 3.85rem;
+    }
+
+    .match-team-sheet-number {
+        font-size: clamp(42px, 12vw, 50px);
+    }
+
+    .match-team-sheet-avatar,
+    .match-team-sheet-avatar-placeholder {
+        width: 3.25rem;
+        height: 3.25rem;
+    }
+
+    .match-team-sheet-player-wrap {
+        gap: 0.5rem;
+    }
+
+    .match-team-sheet-player-link,
+    .match-team-sheet-player-name {
+        font-size: 1.03rem;
+    }
+
+    .match-team-sheet-badge {
+        font-size: 0.62rem;
+        padding: 0.07rem 0.35rem;
+    }
+
+    .match-team-sheet-badge-label-full {
+        display: none;
+    }
+
+    .match-team-sheet-badge-label-short {
+        display: inline;
+    }
+
+    .match-team-sheet--compact {
+        grid-template-columns: 1fr;
+    }
+
+    .match-team-sheet--compact .match-team-sheet-header {
+        font-size: 0.82rem;
+        padding: 0.58rem 0.7rem;
+    }
+
+    .match-team-sheet--compact .match-team-sheet-mode-toggle {
+        font-size: 0.63rem;
+        padding: 0 0.52rem;
+    }
+
+    .match-team-sheet--compact .match-team-sheet-panel {
+        padding: 0.56rem 0.66rem 0.65rem;
+    }
+
+    .match-team-sheet--compact .match-team-sheet-starting-header {
+        padding: 0.5rem 0.66rem 0.05rem;
+    }
+
+    .match-team-sheet--compact .match-team-sheet-item {
+        grid-template-columns: 2.9rem minmax(0, 1fr);
+    }
+
+    .match-team-sheet--compact .match-team-sheet-number-wrap {
+        width: 2.9rem;
+    }
+
+    .match-team-sheet--compact .match-team-sheet-number {
+        font-size: 31px;
+    }
+
+    .match-team-sheet--compact .match-team-sheet-player-link,
+    .match-team-sheet--compact .match-team-sheet-player-name {
+        font-size: 0.9rem;
+    }
+
+    .match-team-sheet-top-grid > .match-team-sheet-panel + .match-team-sheet-panel {
+        border-left: none;
+        border-top: 1px solid #dbe2f4;
+    }
+}
+
+@media (max-width: 420px) {
+    .match-team-sheet-panel {
+        padding-left: 0.7rem;
+        padding-right: 0.7rem;
+    }
+
+    .match-team-sheet-starting-header {
+        padding-left: 0.7rem;
+        padding-right: 0.7rem;
+    }
+
+    .match-team-sheet-item {
+        grid-template-columns: 3.7rem minmax(0, 1fr);
+        gap: 0.42rem;
+    }
+
+    .match-team-sheet-number-wrap {
+        width: 3.7rem;
+        min-height: 3.35rem;
+    }
+
+    .match-team-sheet-number {
+        font-size: clamp(30px, 10vw, 40px);
+    }
+
+    .match-team-sheet-avatar,
+    .match-team-sheet-avatar-placeholder {
+        width: 2.7rem;
+        height: 2.7rem;
+    }
+
+    .match-team-sheet-player-link,
+    .match-team-sheet-player-name {
+        font-size: 0.95rem;
+    }
+
+    .match-team-sheet--compact .match-team-sheet-item {
+        grid-template-columns: 2.55rem minmax(0, 1fr);
+    }
+
+    .match-team-sheet--compact .match-team-sheet-number-wrap {
+        width: 2.55rem;
+    }
+
+    .match-team-sheet--compact .match-team-sheet-number {
+        font-size: 28px;
+    }
+
+    .match-team-sheet--compact .match-team-sheet-player-link,
+    .match-team-sheet--compact .match-team-sheet-player-name {
+        font-size: 0.84rem;
     }
 }
 
