@@ -90,6 +90,19 @@
     overflow: visible !important;
 }
 
+.app-top-navbar .nav-link .bi,
+.app-top-navbar .dropdown-item .bi {
+    display: inline-block;
+    width: 1rem;
+    margin-right: 0.4rem;
+    text-align: center;
+}
+
+.app-top-navbar .dropdown-item .bi {
+    color: inherit;
+    opacity: 0.9;
+}
+
 .app-top-navbar .dropdown-menu {
     z-index: 1201;
 }

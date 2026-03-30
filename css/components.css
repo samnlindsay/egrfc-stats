@@ -576,6 +576,7 @@
 .full-profile-table-card {
     width: 100%;
     max-width: 1240px;
+    padding: 0.55rem 0.65rem 0.6rem;
 }
 
 .full-profile-panel-full {
@@ -597,8 +598,27 @@
     max-width: none;
 }
 
+.full-profile-table-card .database-data-table thead tr {
+    background-color: var(--dark-color);
+    color: #ffffff;
+}
+
+.full-profile-table-card .database-data-table thead th {
+    background-color: var(--dark-color) !important;
+    border-color: var(--dark-color) !important;
+}
+
+.full-profile-table-card .database-data-table thead th,
+.full-profile-table-card .database-data-table thead .database-sort-button {
+    color: #ffffff;
+}
+
 .full-profile-table-card .btn-group {
     margin-left: auto;
+}
+
+.full-profile-table-card .database-pagination-bar {
+    padding: 0.35rem 0.4rem 0.15rem;
 }
 
 .full-profile-chart-panel .chart-panel-content,
@@ -610,23 +630,35 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 0.95rem;
+    align-items: start;
+}
+
+.full-profile-sections-column {
+    display: flex;
+    flex-direction: column;
+    gap: 0.95rem;
+    min-width: 0;
 }
 
 .full-profile-section-block {
-    padding-top: 0.6rem;
-    border-top: 1px solid #e4e9f7;
+    padding: 0.72rem 0.8rem;
+    border: 1px solid #dbe3f5;
+    border-radius: 0.65rem;
+    background: #f9fbff;
+    box-shadow: 0 1px 2px rgba(32, 41, 70, 0.06);
 }
 
-.full-profile-sections-grid > .full-profile-section-block:nth-child(-n+2) {
-    padding-top: 0;
-    border-top: 0;
+/* Full Profile Section title */
+.full-profile-section-title {
+    margin: 0 0 0.4rem;
+    color: var(--primary-color);
+    font-size: 1.25rem;
+    font-weight:900;
 }
 
 .full-profile-section-full {
     grid-column: 1 / -1;
-    margin-top: 0.15rem;
-    padding-top: 0.6rem;
-    border-top: 1px solid #e4e9f7;
+    margin-top: 0.25rem;
 }
 
 .full-profile-panels-grid {
@@ -635,10 +667,18 @@
     gap: 0.95rem;
 }
 
+.full-profile-panels-grid > .full-profile-panel-full:has(> .chart-panel-toggle[aria-expanded="true"]) {
+    grid-column: 1 / -1;
+}
+
 #fullProfileAppearancesPerSeasonChart {
     width: 100%;
     min-width: 300px;
     max-width: 900px;
+}
+
+#fullProfileAppearancesSearch {
+    min-width: 100px !important;   
 }
 
 .full-profile-positions-stack {
@@ -647,6 +687,74 @@
 
 .full-profile-position-line {
     margin: 0.18rem 0;
+}
+
+.fixture-result-inline {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    flex-wrap: wrap;
+    vertical-align: top;
+}
+
+.fixture-result-main {
+    line-height: 1.25;
+}
+
+.fixture-result-separator {
+    color: #6a7388;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.fixture-result-meta {
+    line-height: 1;
+}
+
+.record-chip-group {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.28rem;
+    margin-left: 0.2rem;
+    vertical-align: middle;
+}
+
+.record-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.18rem;
+    padding: 0.08rem 0.34rem;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    font-size: 0.82rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.record-chip-label {
+    opacity: 0.88;
+}
+
+.record-chip-value {
+    font-size: 0.95em;
+}
+
+.record-chip--win {
+    background: #d4edda;
+    color: #146f14;
+    border-color: #b8dfc0;
+}
+
+.record-chip--loss {
+    background: #f8d7da;
+    color: #991515;
+    border-color: #e8bcc1;
+}
+
+.record-chip--draw {
+    background: #fff3cd;
+    color: #856404;
+    border-color: #eadb9e;
 }
 
 .result-badge {
@@ -673,6 +781,412 @@
     color: #856404;
 }
 
+/* Squad pill inside appearance/match tables */
+.squad-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.1rem 0.52rem;
+    border-radius: 999px;
+    font-size: 0.95rem;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+    line-height: 1;
+}
+
+.squad-pill--1st {
+    background: var(--primary-color);
+    color: #ffffff;
+}
+
+.squad-pill--2nd {
+    background: var(--accent-color);
+    color: var(--primary-color);
+}
+
+.squad-pill--unknown {
+    background: #e2e6ea;
+    color: #495057;
+}
+
+td:has(> .squad-pill) {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+td:has(> .squad-pill) > .squad-pill {
+    padding-top: 0.45rem;
+    padding-bottom: 0.45rem;
+}
+
+/* Standard alternating row shading — no squad-specific row colouring */
+.full-profile-table-card .database-data-table tbody .full-profile-appearance-row:hover > td {
+    background-color: rgba(125, 150, 232, 0.12) !important;
+}
+
+.match-data-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.18rem 0.45rem;
+    border-radius: 999px;
+    border: 1px solid var(--primary-color);
+    background: transparent;
+    color: var(--primary-color);
+    font-size: 0.74rem;
+    line-height: 1;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.match-data-link:hover,
+.match-data-link:focus {
+    background: var(--primary-color);
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.match-info-hero {
+    margin-bottom: 1rem;
+    padding: 0;
+    border: 3px solid #d9e0f0;
+    border-radius: 1rem;
+    overflow: hidden; /* clips grid gradient to the card's rounded corners */
+    /* CSS variables cascade to .match-info-hero-grid which carries the gradient */
+    --eg-color: var(--primary-color);
+    --eg-fg: white;
+    --result-color: #edf0f8;
+    --opp-color: color-mix(in srgb, #888 14%, white);
+    background: #ffffff; /* only the meta strip shows this — kept neutral */
+    box-shadow: 0 12px 28px rgba(32, 41, 70, 0.08);
+}
+
+/* Squad color variants — match the site-wide team color conventions */
+.match-info-hero--1st {
+    --eg-color: var(--primary-color);
+    --eg-fg: white;
+}
+
+.match-info-hero--2nd {
+    --eg-color: var(--accent-color);
+    --eg-fg: var(--primary-color);
+}
+
+/* Apply EG squad text color to whichever side EG occupies */
+.match-info-hero--eg-home .match-info-team--home .match-info-team-name,
+.match-info-hero--eg-home .match-info-team--home .match-info-team-label,
+.match-info-hero--eg-away .match-info-team--away .match-info-team-name,
+.match-info-hero--eg-away .match-info-team--away .match-info-team-label {
+    color: var(--eg-fg);
+}
+
+/* Result color variants */
+.match-info-hero--win {
+    --result-color: color-mix(in srgb, var(--green-color) 28%, white);
+    border-color: color-mix(in srgb, var(--green-color) 30%, #d9e0f0);
+}
+
+.match-info-hero--loss {
+    --result-color: color-mix(in srgb, var(--red-color) 28%, white);
+    border-color: color-mix(in srgb, var(--red-color) 30%, #d9e0f0);
+}
+
+.match-info-hero--draw {
+    --result-color: color-mix(in srgb, #d6b75b 24%, white);
+    border-color: color-mix(in srgb, #d6b75b 45%, #d9e0f0);
+}
+
+.match-info-hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    gap: 0;
+    align-items: stretch;
+    /* Desktop gradient: grid is [1fr][auto][1fr] with gap 0.
+       The narrow auto score column sits centrally (~15-20% of width),
+       so each team column occupies ~40% of total width.
+       Blend zones are kept wide so the transition falls in the padding
+       area between team name and score, not across the text itself. */
+    background: linear-gradient(to right,
+        var(--eg-color)     0%,
+        var(--eg-color)     32%,
+        var(--result-color) 44%,
+        var(--result-color) 56%,
+        var(--opp-color)    68%,
+        var(--opp-color)    100%
+    );
+}
+
+/* Away: EG panel is on the right — mirror the stops */
+.match-info-hero--eg-away .match-info-hero-grid {
+    background: linear-gradient(to right,
+        var(--opp-color)    0%,
+        var(--opp-color)    32%,
+        var(--result-color) 44%,
+        var(--result-color) 56%,
+        var(--eg-color)     68%,
+        var(--eg-color)     100%
+    );
+}
+
+.match-info-team {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 1.1rem 1rem;
+}
+
+.match-info-team-shell {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    min-width: 0;
+}
+
+.match-info-team-shell--away {
+    flex-direction: row-reverse;
+}
+
+.match-info-team-text {
+    min-width: 0;
+}
+
+.match-info-team--home {
+    padding-left: 1.25rem;
+    padding-right: 0;
+}
+
+.match-info-team--away {
+    text-align: right;
+    padding-right: 1.25rem;
+}
+
+.match-info-team-label,
+.match-info-meta-label {
+    display: block;
+    margin-bottom: 0.3rem;
+    font-size: 0.74rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #6a7388;
+}
+
+.match-info-team-name {
+    color: var(--primary-color);
+    font-size: clamp(1.4rem, 3.4vw, 2.7rem);
+    font-weight: 800;
+    line-height: 1.05;
+    text-wrap: balance;
+}
+
+.match-info-team-logo-wrap {
+    flex: 0 0 auto;
+    width: clamp(4rem, 7vw, 6rem);
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.match-info-team-logo-wrap--empty {
+    display: none;
+}
+
+.match-info-team-logo {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.5))
+}
+
+.match-info-score-wrap {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1.1rem 1.25rem;
+}
+
+.match-info-score-line {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.match-info-score-logo-wrap {
+    display: none;
+    flex: 0 0 auto;
+    width: clamp(3.5rem, 6vw, 5rem);
+    aspect-ratio: 1;
+    align-items: center;
+    justify-content: center;
+}
+
+.match-info-score-logo-wrap--empty {
+    display: none;
+}
+
+.match-info-score {
+    color: var(--primary-color);
+    font-size: clamp(2.4rem, 6vw, 4.9rem);
+    font-weight: 900;
+    line-height: 0.95;
+    letter-spacing: -0.05em;
+    white-space: nowrap;
+}
+
+.match-info-score-separator {
+    display: inline-block;
+    margin: 0 0.18em;
+    color: color-mix(in srgb, var(--primary-color) 60%, white);
+}
+
+.match-info-meta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.95rem;
+    padding: 0.95rem 1.25rem 1rem;
+    border-top: 1px solid rgba(32, 41, 70, 0.08);
+}
+
+.match-info-meta-item {
+    text-align: center;
+}
+
+.match-info-meta-value {
+    display: block;
+    color: var(--primary-color);
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    font-weight: 700;
+    line-height: 1.15;
+}
+
+.match-info-meta-divider {
+    width: 1px;
+    align-self: stretch;
+    background: rgba(32, 41, 70, 0.12);
+}
+
+.match-info-future-note {
+    font-size: 0.95rem;
+}
+
+/* ===== HOME PAGE NAV CARDS ===== */
+.nav-page-card {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    border: 1px solid rgba(0,0,0,.125); /* standard Bootstrap card border, no top accent */
+    transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.nav-page-card:hover {
+    box-shadow: 0 4px 16px rgba(32, 41, 70, 0.13);
+    transform: translateY(-2px);
+}
+
+/* Large background icon: positioned behind content, low opacity */
+.nav-page-card .nav-page-card-icon {
+    position: absolute;
+    bottom: -0.25rem;
+    right: -0.25rem;
+    font-size: 5.5rem;
+    line-height: 1;
+    color: var(--primary-color);
+    opacity: 0.06;
+    pointer-events: none;
+    user-select: none;
+}
+
+@media (max-width: 767.98px) {
+    .match-info-hero-grid {
+        grid-template-columns: 1fr;
+        /* Mobile: rows stack as home → score → away (roughly equal thirds).
+           Gradient runs top-to-bottom with stops mirroring the desktop proportions. */
+        background: linear-gradient(to bottom,
+            var(--eg-color)     0%,
+            var(--eg-color)     28%,
+            var(--result-color) 38%,
+            var(--result-color) 62%,
+            var(--opp-color)    72%,
+            var(--opp-color)    100%
+        );
+    }
+
+    /* Away on mobile: EG row is at the bottom */
+    .match-info-hero--eg-away .match-info-hero-grid {
+        background: linear-gradient(to bottom,
+            var(--opp-color)    0%,
+            var(--opp-color)    28%,
+            var(--result-color) 38%,
+            var(--result-color) 62%,
+            var(--eg-color)     72%,
+            var(--eg-color)     100%
+        );
+    }
+
+    .match-info-team,
+    .match-info-team--away,
+    .match-info-score-wrap {
+        text-align: center;
+    }
+
+    .match-info-team-shell {
+        display: block;
+    }
+
+    .match-info-team-text {
+        text-align: center;
+    }
+
+    .match-info-team-logo-wrap {
+        display: none;
+    }
+
+    .match-info-score-line {
+        display: grid;
+        grid-template-columns: minmax(4.25rem, 5rem) auto minmax(4.25rem, 5rem);
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .match-info-score-logo-wrap {
+        display: flex;
+        width: min(100%, 4.75rem);
+    }
+
+    .match-info-score-logo-wrap--home {
+        justify-self: start;
+    }
+
+    .match-info-score-logo-wrap--away {
+        justify-self: end;
+    }
+
+    .match-info-score-logo-wrap--empty {
+        display: flex;
+        visibility: hidden;
+    }
+
+    .match-info-team--away {
+        text-align: center;
+    }
+
+    .match-info-meta {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .match-info-meta-divider {
+        width: 100%;
+        height: 1px;
+    }
+}
+
 @media (max-width: 767.98px) {
     .full-profile-sections-grid {
         grid-template-columns: 1fr;
@@ -682,15 +1196,6 @@
         grid-template-columns: 1fr;
     }
 
-    .full-profile-sections-grid > .full-profile-section-block:nth-child(-n+2) {
-        padding-top: 0.6rem;
-        border-top: 1px solid #e4e9f7;
-    }
-
-    .full-profile-sections-grid > .full-profile-section-block:first-child {
-        padding-top: 0;
-        border-top: 0;
-    }
 }
 
 @media (max-width: 360px) {
@@ -993,6 +1498,13 @@ table tbody tr:hover {
     gap: 0.75rem;
     margin-top: 0.9rem;
     flex-wrap: wrap;
+}
+
+#matchDataPrev,
+#matchDataNext {
+    flex: 0 0 auto;
+    width: auto;
+    white-space: nowrap;
 }
 
 .database-muted {
@@ -1499,6 +2011,7 @@ table tbody tr:hover {
     flex: 0 1 auto;
     display: flex;
     align-items: center;
+    justify-content: flex-end;
     gap: 0.75rem;
     flex-wrap: wrap;
     align-self: flex-start;
@@ -1679,14 +2192,6 @@ table tbody tr:hover {
     min-width: 0;
     width: 100%;
     max-width: 100%;
-}
-
-.lineout-analysis-joint .lineout-analysis-panel--breakdown .chart-panel-toggle {
-    /* natural width from content */
-}
-
-.lineout-analysis-joint .lineout-analysis-panel--trend .chart-panel-toggle {
-    /* natural width from content */
 }
 
 .lineout-analysis-panel .chart-panel-card {

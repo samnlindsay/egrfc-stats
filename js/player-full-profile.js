@@ -2,6 +2,7 @@ let fullProfiles = [];
 let fullGamesById = new Map();
 let fullAppearancesByPlayer = new Map();
 let fullSponsorHistoryByPlayer = new Map();
+let fullCurrentSeason = '';
 let fullProfileAppearancesBySeasonSpecs = {
     Squad: null,
     Result: null,
@@ -9,7 +10,7 @@ let fullProfileAppearancesBySeasonSpecs = {
 };
 let fullProfileAppearanceRows = [];
 let fullProfileSortState = { key: 'date', direction: 'desc' };
-let fullProfilePaginationState = { page: 1, pageSize: 15 };
+let fullProfilePaginationState = { page: 1, pageSize: 25 };
 let fullProfileTableSearch = '';
 
 function escapeHtml(value) {
@@ -114,7 +115,7 @@ function fixtureText(game, includeSquad) {
     const opposition = escapeHtml(String(game.opposition || 'Unknown'));
     const homeAway = escapeHtml(String(game.home_away || '?'));
     const dateText = escapeHtml(formatDisplayDate(game.date));
-    return `${squadPrefix}v ${opposition} (${homeAway}) - ${dateText}`;
+    return `${squadPrefix}v ${opposition} (${homeAway}) <span class="fixture-result-separator" aria-hidden="true">&bull;</span> ${dateText}`;
 }
 
 function scoreText(game) {
@@ -135,7 +136,18 @@ function resultBadgeHtml(score) {
 
 function fixtureAndResultText(game, includeSquad) {
     if (!game) return 'Unknown';
-    return `${fixtureText(game, includeSquad)} | ${resultBadgeHtml(scoreText(game))}`;
+    return `<span class="fixture-result-inline"><span class="fixture-result-main">${fixtureText(game, includeSquad)}</span><span class="fixture-result-separator" aria-hidden="true">&bull;</span><span class="fixture-result-meta">${resultBadgeHtml(scoreText(game))}</span></span>`;
+}
+
+function winRecordMarkup(wins, losses, draws) {
+    const parts = [
+        `<span class="record-chip record-chip--win"><span class="record-chip-label">W</span><span class="record-chip-value">${Number(wins || 0)}</span></span>`,
+        `<span class="record-chip record-chip--loss"><span class="record-chip-label">L</span><span class="record-chip-value">${Number(losses || 0)}</span></span>`
+    ];
+    if (Number(draws || 0) > 0) {
+        parts.push(`<span class="record-chip record-chip--draw"><span class="record-chip-label">D</span><span class="record-chip-value">${Number(draws || 0)}</span></span>`);
+    }
+    return `<span class="record-chip-group">${parts.join('')}</span>`;
 }
 
 function activeTagMarkup(isActive) {
@@ -160,6 +172,20 @@ function canonicalizeName(value) {
     return String(value || '').trim().toLowerCase().replace(/\s+/g, ' ');
 }
 
+function seasonSortKey(value) {
+    const text = String(value || '').trim();
+    const match = text.match(/^(\d{4})\/(\d{2}|\d{4})$/);
+    return match ? Number(match[1]) : -Infinity;
+}
+
+function deriveCurrentSeason(games) {
+    const seasons = (Array.isArray(games) ? games : [])
+        .map(row => String(row?.season || '').trim())
+        .filter(Boolean)
+        .sort((a, b) => seasonSortKey(b) - seasonSortKey(a));
+    return seasons[0] || '';
+}
+
 function buildSponsorHistoryMap(rawSponsorsBySeason) {
     const historyByPlayer = new Map();
     if (!rawSponsorsBySeason || typeof rawSponsorsBySeason !== 'object') return historyByPlayer;
@@ -181,12 +207,17 @@ function buildSponsorHistoryMap(rawSponsorsBySeason) {
 function playerSponsorSnapshot(player) {
     const playerName = canonicalizeName(player?.name);
     const rawHistory = fullSponsorHistoryByPlayer.get(playerName) || [];
-    const currentSponsor = String(player?.sponsor || '').trim();
+    const currentSeason = String(fullCurrentSeason || '').trim();
+    const currentSeasonEntries = rawHistory.filter(entry => String(entry?.season || '').trim() === currentSeason);
+    const currentSponsor = currentSeasonEntries.length > 0
+        ? String(currentSeasonEntries[currentSeasonEntries.length - 1]?.sponsor || '').trim()
+        : '-';
     const uniqueBySponsor = new Map();
 
     rawHistory.forEach(entry => {
         const sponsor = String(entry?.sponsor || '').trim();
         const season = String(entry?.season || '').trim();
+        if (currentSeason && season === currentSeason) return;
         if (!sponsor || !season) return;
         if (!uniqueBySponsor.has(sponsor)) uniqueBySponsor.set(sponsor, []);
         uniqueBySponsor.get(sponsor).push(season);
@@ -194,7 +225,6 @@ function playerSponsorSnapshot(player) {
 
     const previousSponsors = [];
     uniqueBySponsor.forEach((seasons, sponsor) => {
-        if (currentSponsor && sponsor === currentSponsor) return;
         const orderedSeasons = [...new Set(seasons)].sort((a, b) => a.localeCompare(b));
         previousSponsors.push({ sponsor, seasons: orderedSeasons });
     });
@@ -210,6 +240,7 @@ function playerSponsorSnapshot(player) {
 function buildAppearanceRows(history) {
     return history.map(row => {
         const game = row?.game || {};
+        const gameId = String(game?.game_id || row?.game_id || '').trim();
         const rawDate = String(game?.date || row?.date || '');
         const season = String(game?.season || row?.season || '-');
         const gameType = String(game?.game_type || row?.game_type || '-');
@@ -236,6 +267,7 @@ function buildAppearanceRows(history) {
             position,
             shirtNumber,
             result: score,
+            gameId,
             sortTimestamp: new Date(rawDate).getTime(),
         };
     });
@@ -301,22 +333,31 @@ function renderAppearanceTable() {
         ? sortedRows.filter(row => Object.values(row).some(v => String(v ?? '').toLowerCase().includes(query)))
         : sortedRows;
     const paged = pagedAppearanceRows(filteredRows);
-    const html = paged.rows.map(row => `
-        <tr>
+    const html = paged.rows.map(row => {
+        const squadKey = String(row.squad || '').trim();
+        const rowClass = 'full-profile-appearance-row';
+        const squadPillClass = squadKey === '1st' ? 'squad-pill squad-pill--1st'
+            : squadKey === '2nd' ? 'squad-pill squad-pill--2nd'
+            : 'squad-pill squad-pill--unknown';
+        const squadLabel = squadKey === '1st' || squadKey === '2nd' ? `${squadKey} XV` : (squadKey || '-');
+        return `
+        <tr class="${rowClass}">
             <td>${escapeHtml(row.dateDisplay || '-')}</td>
             <td>${escapeHtml(row.season || '-')}</td>
             <td>${escapeHtml(row.gameType || '-')}</td>
             <td>${escapeHtml(row.competition || '-')}</td>
-            <td>${escapeHtml(row.squad || '-')} XV</td>
+            <td><span class="${squadPillClass}">${escapeHtml(squadLabel)}</span></td>
             <td>${escapeHtml(row.opposition || '-')}</td>
             <td>${escapeHtml(row.homeAway || '-')}</td>
             <td>${escapeHtml(row.position || '-')}</td>
             <td>${escapeHtml(row.shirtNumber || '-')}</td>
             <td>${resultBadgeHtml(row.result || '-')}</td>
+            <td>${row.gameId ? `<a class="match-data-link" href="match-data.html?game=${encodeURIComponent(row.gameId)}"><i class="bi bi-box-arrow-up-right" aria-hidden="true"></i><span>Match Data</span></a>` : '<span class="text-muted">-</span>'}</td>
         </tr>
-    `).join('');
+    `;
+    }).join('');
 
-    tbody.innerHTML = html || '<tr><td colspan="10" class="text-muted">No appearances found for this player.</td></tr>';
+    tbody.innerHTML = html || '<tr><td colspan="11" class="text-muted">No appearances found for this player.</td></tr>';
 
     const summary = document.getElementById('fullProfileAppearancesPaginationSummary');
     if (summary) {
@@ -476,20 +517,21 @@ function renderProfile(player) {
 
     fullProfileAppearanceRows = buildAppearanceRows(history);
     fullProfileSortState = { key: 'date', direction: 'desc' };
-    fullProfilePaginationState = { page: 1, pageSize: 15 };
+    fullProfilePaginationState = { page: 1, pageSize: 25 };
     fullProfileTableSearch = '';
 
     const scoringParts = [];
-    if (scoringCareer.tries > 0) scoringParts.push(`${scoringCareer.tries} tries`);
-    if (scoringCareer.conversions > 0) scoringParts.push(`${scoringCareer.conversions} conversions`);
-    if (scoringCareer.penalties > 0) scoringParts.push(`${scoringCareer.penalties} penalties`);
-    if (scoringCareer.dropGoals > 0) scoringParts.push(`${scoringCareer.dropGoals} drop goals`);
+    if (scoringCareer.tries > 0) scoringParts.push(`${scoringCareer.tries} ${scoringCareer.tries === 1 ? 'try' : 'tries'}`);
+    if (scoringCareer.conversions > 0) scoringParts.push(`${scoringCareer.conversions} ${scoringCareer.conversions === 1 ? 'conversion' : 'conversions'}`);
+    if (scoringCareer.penalties > 0) scoringParts.push(`${scoringCareer.penalties} ${scoringCareer.penalties === 1 ? 'penalty' : 'penalties'}`);
+    if (scoringCareer.dropGoals > 0) scoringParts.push(`${scoringCareer.dropGoals} ${scoringCareer.dropGoals === 1 ? 'drop goal' : 'drop goals'}`);
     const scoringRecord = scoringParts.length ? scoringParts.join(', ') : 'No scores recorded';
     const seasonParts = [];
-    if (scoringSeason.tries > 0) seasonParts.push(`${Number(scoringSeason.tries)} tries`);
-    if (scoringSeason.conversions > 0) seasonParts.push(`${Number(scoringSeason.conversions)} conversions`);
-    if (scoringSeason.penalties > 0) seasonParts.push(`${Number(scoringSeason.penalties)} penalties`);
-    if (scoringSeason.dropGoals > 0) seasonParts.push(`${Number(scoringSeason.dropGoals)} drop goals`);
+    // "1 try", "2 tries", etc. - avoid pluralising "0 tries" or "1 tries"
+    if (scoringSeason.tries > 0) seasonParts.push(`${Number(scoringSeason.tries)} ${scoringSeason.tries === 1 ? 'try' : 'tries'}`);
+    if (scoringSeason.conversions > 0) seasonParts.push(`${Number(scoringSeason.conversions)} ${scoringSeason.conversions === 1 ? 'conversion' : 'conversions'}`);
+    if (scoringSeason.penalties > 0) seasonParts.push(`${Number(scoringSeason.penalties)} ${scoringSeason.penalties === 1 ? 'penalty' : 'penalties'}`);
+    if (scoringSeason.dropGoals > 0) seasonParts.push(`${Number(scoringSeason.dropGoals)} ${scoringSeason.dropGoals === 1 ? 'drop goal' : 'drop goals'}`);
     const seasonRecord = seasonParts.length ? seasonParts.join(', ') : 'No scores recorded';
     const startingPositionCounts = new Map();
     let benchAppearances = 0;
@@ -512,6 +554,14 @@ function renderProfile(player) {
     const positionsListHtml = positionLines.length > 0
         ? `<div class="full-profile-positions-stack">${positionLines.join('')}</div>`
         : '<p style="margin:0.18rem 0;">No positions recorded</p>';
+    const sponsorshipSectionHtml = (() => {
+        const sponsorshipLines = [];
+        sponsorshipLines.push(`<p style="margin:0.18rem 0;"><strong>Current sponsor:</strong> ${escapeHtml(sponsorSnapshot.currentSponsor || '-')}</p>`);
+        if (sponsorSnapshot.previousSponsors.length > 0) {
+            sponsorshipLines.push(`<p style="margin:0.18rem 0;"><strong>Previous sponsors:</strong> ${sponsorSnapshot.previousSponsors.map(item => `${escapeHtml(item.sponsor)} (${escapeHtml(item.seasons.join(', '))})`).join('; ')}</p>`);
+        }
+        return `<section class="full-profile-section-block"><div class="full-profile-section-title">Sponsorship</div>${sponsorshipLines.join('')}</section>`;
+    })();
     root.innerHTML = `
         <article class="card" style="border-radius:0.85rem; overflow:hidden; border:1px solid #d9e0f0;">
             <div class="player-profile-headshot-wrap ${bannerBackgroundClass} full-profile-banner">
@@ -529,48 +579,42 @@ function renderProfile(player) {
             </div>
 
             <div class="full-profile-sections-grid" style="padding:1rem 1.1rem;">
-                <section class="full-profile-section-block">
-                    <h3 style="margin:0 0 0.4rem; color:#202946; font-size:1.05rem;">Career Summary</h3>
-                    <p style="margin:0.18rem 0;"><strong>Total appearances:</strong> ${Number(player?.totalAppearances || 0)} (${Number(player?.totalStarts || 0)} starts)</p>
-                    ${Number(player?.firstXVAppearances || 0) > 0
-                        ? `<p style="margin:0.18rem 0;"><strong>${escapeHtml(primarySquadLabel)} appearances:</strong> ${Number(player?.firstXVAppearances || 0)} (${Number(player?.firstXVStarts || 0)} starts)</p>`
-                        : ''}
-                    <p style="margin:0.18rem 0;"><strong>This season:</strong> ${Number(player?.seasonAppearances || 0)} apps (${Number(player?.seasonStarts || 0)} starts)</p>
-                    <p style="margin:0.18rem 0;"><strong>Win record:</strong> W${wins} L${losses}${draws > 0 ? ` D${draws}` : ''}</p>
-                </section>
+                <div class="full-profile-sections-column">
+                    <section class="full-profile-section-block">
+                        <div class="full-profile-section-title">Career Summary</div>
+                        <p style="margin:0.18rem 0;"><strong>Total appearances:</strong> ${Number(player?.totalAppearances || 0)} (${Number(player?.totalStarts || 0)} starts)</p>
+                        ${Number(player?.firstXVAppearances || 0) > 0
+                            ? `<p style="margin:0.18rem 0;"><strong>${escapeHtml(primarySquadLabel)} appearances:</strong> ${Number(player?.firstXVAppearances || 0)} (${Number(player?.firstXVStarts || 0)} starts)</p>`
+                            : ''}
+                        <p style="margin:0.18rem 0;"><strong>This season:</strong> ${Number(player?.seasonAppearances || 0)} apps (${Number(player?.seasonStarts || 0)} starts)</p>
+                        <p style="margin:0.18rem 0;"><strong>Win record:</strong> ${winRecordMarkup(wins, losses, draws)}</p>
+                    </section>
 
-                <section class="full-profile-section-block">
-                    <h3 style="margin:0 0 0.4rem; color:#202946; font-size:1.05rem;">First and Last Appearances </h3>
-                    <p style="margin:0.18rem 0;"><strong>Club debut:</strong> ${firstGame ? fixtureAndResultText(firstGame, true) : escapeHtml(String(player?.debutOverall || 'Unknown'))}</p>
-                    ${Number(player?.firstXVAppearances || 0) > 0
-                        ? `<p style="margin:0.18rem 0;"><strong>1st XV debut:</strong> ${firstXVGame ? fixtureAndResultText(firstXVGame, false) : escapeHtml(String(player?.debutFirstXV || 'Unknown'))}</p>`
-                        : ''}
-                    <p style="margin:0.18rem 0;"><strong>Last appearance:</strong> ${latestGame ? fixtureAndResultText(latestGame, true) : escapeHtml(String(player?.lastAppearanceDate || 'Unknown'))}</p>
-                </section>
+                    <section class="full-profile-section-block">
+                        <div class="full-profile-section-title">First and Last Appearances</div>
+                        <p style="margin:0.18rem 0;"><strong>Club debut:</strong> ${firstGame ? fixtureAndResultText(firstGame, true) : escapeHtml(String(player?.debutOverall || 'Unknown'))}</p>
+                        ${Number(player?.firstXVAppearances || 0) > 0
+                            ? `<p style="margin:0.18rem 0;"><strong>1st XV debut:</strong> ${firstXVGame ? fixtureAndResultText(firstXVGame, false) : escapeHtml(String(player?.debutFirstXV || 'Unknown'))}</p>`
+                            : ''}
+                        <p style="margin:0.18rem 0;"><strong>Last appearance:</strong> ${latestGame ? fixtureAndResultText(latestGame, true) : escapeHtml(String(player?.lastAppearanceDate || 'Unknown'))}</p>
+                    </section>
 
-                <section class="full-profile-section-block">
-                    <h3 style="margin:0 0 0.4rem; color:#202946; font-size:1.05rem;">Positions</h3>
-                    ${positionsListHtml}
-                </section>
+                    ${sponsorshipSectionHtml}
+                </div>
 
-                <section class="full-profile-section-block">
-                    <h3 style="margin:0 0 0.4rem; color:#202946; font-size:1.05rem;">Scoring</h3>
-                    <p style="margin:0.18rem 0;"><strong>Scoring record:</strong> ${escapeHtml(scoringRecord)}</p>
-                    <p style="margin:0.18rem 0;"><strong>Career points:</strong> ${Number(scoringCareer.points || 0)}</p>
-                    <p style="margin:0.18rem 0;"><strong>This season:</strong> ${seasonRecord}.</p>
-                </section>
+                <div class="full-profile-sections-column">
+                    <section class="full-profile-section-block">
+                        <div class="full-profile-section-title">Scoring</div>
+                        <p style="margin:0.18rem 0;"><strong>Scoring record:</strong> ${escapeHtml(scoringRecord)}</p>
+                        <p style="margin:0.18rem 0;"><strong>Career points:</strong> ${Number(scoringCareer.points || 0)}</p>
+                        <p style="margin:0.18rem 0;"><strong>This season:</strong> ${seasonRecord}</p>
+                    </section>
 
-                ${(() => {
-                    const sponsorshipLines = [];
-                    if (sponsorSnapshot.currentSponsor) {
-                        sponsorshipLines.push(`<p style="margin:0.18rem 0;"><strong>Current sponsor:</strong> ${escapeHtml(sponsorSnapshot.currentSponsor)}</p>`);
-                    }
-                    if (sponsorSnapshot.previousSponsors.length > 0) {
-                        sponsorshipLines.push(`<p style="margin:0.18rem 0;"><strong>Previous sponsors:</strong> ${sponsorSnapshot.previousSponsors.map(item => `${escapeHtml(item.sponsor)} (${escapeHtml(item.seasons.join(', '))})`).join('; ')}</p>`);
-                    }
-                    if (sponsorshipLines.length === 0) return '';
-                    return `<section class="full-profile-section-block"><h3 style="margin:0 0 0.4rem; color:#202946; font-size:1.05rem;">Sponsorship</h3>${sponsorshipLines.join('')}</section>`;
-                })()}
+                    <section class="full-profile-section-block">
+                        <div class="full-profile-section-title">Positions</div>
+                        ${positionsListHtml}
+                    </section>
+                </div>
 
                 <div class="full-profile-section-full full-profile-panels-grid" style="margin-top:0.2rem;">
                     <div class="chart-panel chart-panel--inline full-profile-chart-panel">
@@ -636,6 +680,7 @@ function renderProfile(player) {
                                                 <th><button type="button" class="database-sort-button full-profile-sort-button" data-appearance-sort="position" data-appearance-label="Position"><span>Position</span></button></th>
                                                 <th><button type="button" class="database-sort-button full-profile-sort-button" data-appearance-sort="shirtNumber" data-appearance-label="Number"><span>Number</span></button></th>
                                                 <th><button type="button" class="database-sort-button full-profile-sort-button" data-appearance-sort="result" data-appearance-label="Result"><span>Result</span></button></th>
+                                                <th>Match Data</th>
                                             </tr>
                                         </thead>
                                         <tbody id="fullProfileAppearancesTableBody"></tbody>
@@ -646,8 +691,8 @@ function renderProfile(player) {
                                         <label for="fullProfileAppearancesPageSize" style="font-size:0.9rem; color:#44506b;">Rows</label>
                                         <select id="fullProfileAppearancesPageSize" class="form-select form-select-sm" style="width:86px;">
                                             <option value="10">10</option>
-                                            <option value="15" selected>15</option>
-                                            <option value="25">25</option>
+                                            <option value="15">15</option>
+                                            <option value="25" selected>25</option>
                                             <option value="50">50</option>
                                         </select>
                                     </div>
@@ -779,6 +824,7 @@ async function loadPage() {
         });
 
         fullSponsorHistoryByPlayer = buildSponsorHistoryMap(sponsorsBySeason);
+        fullCurrentSeason = deriveCurrentSeason(games);
 
         const chartSpecEntries = await Promise.allSettled([
             loadChartSpec('data/charts/player_full_profile_appearances_per_season_squad.json'),

@@ -1,0 +1,506 @@
+let allMatches = [];
+let filteredMatches = [];
+let pagination = { page: 1, pageSize: 10 };
+let isInitialisingControls = false;
+
+const CLUB_LOGO_FILES = Object.freeze({
+    barnsgreen: 'BarnsGreen.png',
+    brighton: 'Brighton.png',
+    burgesshill: 'BurgessHill.png',
+    chipstead: 'Chipstead.png',
+    crawley: 'Crawley.png',
+    crowborough: 'Crowborough.png',
+    ditchling: 'Ditchling.png',
+    eastbourne: 'Eastbourne.png',
+    eastgrinstead: 'EastGrinstead.png',
+    haywardsheath: 'HaywardsHeath.png',
+    hellingly: 'Hellingly.png',
+    horsham: 'Horsham.png',
+    lewes: 'Lewes.png',
+    pulborough: 'Pulborough.png',
+    royals: 'Royals.png',
+    seaford: 'Seaford.png',
+    shoreham: 'Shoreham.png',
+    uckfield: 'Uckfield.png',
+    worthing: 'Worthing.png',
+});
+
+const CLUB_LOGO_ALIASES = Object.freeze({
+    brightonsm: 'brighton',
+});
+
+function isSelectPickerEnabled() {
+    return !!(window.jQuery && window.jQuery.fn && window.jQuery.fn.selectpicker);
+}
+
+function escapeHtml(value) {
+    return String(value ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
+
+function formatDisplayDate(value) {
+    const raw = String(value || '').trim();
+    if (!raw) return '-';
+    const parsed = new Date(raw);
+    if (Number.isNaN(parsed.getTime())) return raw;
+    return parsed.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+}
+
+function normaliseResult(row) {
+    const result = String(row?.result || '').toUpperCase();
+    const pf = Number(row?.score_for);
+    const pa = Number(row?.score_against);
+    const prefix = result || '-';
+    if (Number.isFinite(pf) && Number.isFinite(pa)) return `${prefix} ${pf}-${pa}`;
+    return prefix;
+}
+
+function resultBadgeHtml(score) {
+    const text = String(score || '-').trim();
+    const first = text.charAt(0).toUpperCase();
+    const cls = first === 'W' ? 'result-badge--win' : first === 'L' ? 'result-badge--loss' : first === 'D' ? 'result-badge--draw' : '';
+    if (!cls) return escapeHtml(text);
+    return `<span class="result-badge ${cls}">${escapeHtml(text)}</span>`;
+}
+
+function formatSquadLabel(value) {
+    const squad = String(value || '').trim();
+    if (squad === '1st') return '1st XV';
+    if (squad === '2nd') return '2nd XV';
+    return squad || 'Unknown';
+}
+
+function fixtureLabel(row) {
+    const dateLabel = formatDisplayDate(row?.date);
+    return `${dateLabel} - ${formatSquadLabel(row?.squad)} v ${String(row?.opposition || 'Unknown')}`;
+}
+
+function eastGrinsteadTeamName(row) {
+    const squadLabel = formatSquadLabel(row?.squad);
+    return squadLabel ? `East Grinstead ${squadLabel}` : 'East Grinstead';
+}
+
+function buildMatchHeroData(row) {
+    const isHome = String(row?.home_away || '').trim().toUpperCase() !== 'A';
+    const egTeam = eastGrinsteadTeamName(row);
+    const opposition = String(row?.opposition || 'Unknown').trim() || 'Unknown';
+    const scoreFor = Number(row?.score_for);
+    const scoreAgainst = Number(row?.score_against);
+    const squad = String(row?.squad || '').trim();
+
+    const resultClass = String(row?.result || '').toUpperCase() === 'W'
+        ? 'match-info-hero--win'
+        : String(row?.result || '').toUpperCase() === 'L'
+            ? 'match-info-hero--loss'
+            : String(row?.result || '').toUpperCase() === 'D'
+                ? 'match-info-hero--draw'
+                : '';
+
+    const squadClass = squad === '1st' ? 'match-info-hero--1st' : squad === '2nd' ? 'match-info-hero--2nd' : '';
+    const egSideClass = isHome ? 'match-info-hero--eg-home' : 'match-info-hero--eg-away';
+
+    return {
+        homeTeam: isHome ? egTeam : opposition,
+        awayTeam: isHome ? opposition : egTeam,
+        homeLogoSrc: getClubLogoSrc(isHome ? egTeam : opposition),
+        awayLogoSrc: getClubLogoSrc(isHome ? opposition : egTeam),
+        homeScore: Number.isFinite(isHome ? scoreFor : scoreAgainst) ? String(isHome ? scoreFor : scoreAgainst) : '-',
+        awayScore: Number.isFinite(isHome ? scoreAgainst : scoreFor) ? String(isHome ? scoreAgainst : scoreFor) : '-',
+        date: formatDisplayDate(row?.date),
+        competition: String(row?.competition || row?.game_type || '-'),
+        resultClass: `${squadClass} ${resultClass} ${egSideClass}`.trim(),
+    };
+}
+
+// Strip trailing roman numeral / ordinal suffixes to get the base club name.
+// e.g. "Hove III" → "Hove", "Eastbourne II" → "Eastbourne", "Crawley" → "Crawley"
+function baseClubName(name) {
+    return String(name || '').trim()
+        .replace(/\s+(I{1,3}|IV|VI{0,3}|IX|XI{0,3}|[23456789](?:st|nd|rd|th)?|2nds?|3rds?|4ths?)$/i, '')
+        .trim();
+}
+
+function normaliseLogoKey(name) {
+    return String(name || '')
+        .toLowerCase()
+        .normalize('NFKD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/&/g, ' and ')
+        .replace(/\b(?:rugby football club|football club|rugby club|rfc|fc|club)\b/g, ' ')
+        .replace(/\b(?:1st|2nd|3rd|4th|5th|ii|iii|iv|v|vi|vii|viii|ix|x)\b/g, ' ')
+        .replace(/\b(?:xv|xvii?)\b/g, ' ')
+        .replace(/\band\b/g, ' ')
+        .replace(/[^a-z0-9]+/g, '');
+}
+
+function getClubLogoSrc(name) {
+    const clubName = String(name || '').trim();
+    if (!clubName) return '';
+
+    const keys = [
+        normaliseLogoKey(clubName),
+        normaliseLogoKey(baseClubName(clubName)),
+    ].flatMap(key => key ? [key, CLUB_LOGO_ALIASES[key] || ''] : []).filter(Boolean);
+
+    const match = keys.find(key => CLUB_LOGO_FILES[key]);
+    return match ? `img/logos/${CLUB_LOGO_FILES[match]}` : '';
+}
+
+function teamLogoSlotHtml(src, name, side) {
+    const safeSide = side === 'away' ? 'away' : 'home';
+    if (!src) {
+        return `<span class="match-info-team-logo-wrap match-info-team-logo-wrap--${safeSide} match-info-team-logo-wrap--empty" aria-hidden="true"></span>`;
+    }
+
+    return `
+        <span class="match-info-team-logo-wrap match-info-team-logo-wrap--${safeSide}">
+            <img class="match-info-team-logo" src="${escapeHtml(src)}" alt="${escapeHtml(name)} club logo" loading="lazy">
+        </span>
+    `;
+}
+
+function scoreLogoSlotHtml(src, name, side) {
+    const safeSide = side === 'away' ? 'away' : 'home';
+    if (!src) {
+        return `<span class="match-info-score-logo-wrap match-info-score-logo-wrap--${safeSide} match-info-score-logo-wrap--empty" aria-hidden="true"></span>`;
+    }
+
+    return `
+        <span class="match-info-score-logo-wrap match-info-score-logo-wrap--${safeSide}">
+            <img class="match-info-team-logo" src="${escapeHtml(src)}" alt="${escapeHtml(name)} club logo" loading="lazy">
+        </span>
+    `;
+}
+
+function getFilterValues() {
+    const squad = String(document.getElementById('matchFilterSquad')?.value || 'All');
+    const season = String(document.getElementById('matchFilterSeason')?.value || 'All');
+    const opposition = String(document.getElementById('matchFilterOpposition')?.value || 'All');
+    return { squad, season, opposition };
+}
+
+function applyFilters() {
+    const { squad, season, opposition } = getFilterValues();
+    filteredMatches = allMatches.filter(row => {
+        if (squad !== 'All' && String(row?.squad || '') !== squad) return false;
+        if (season !== 'All' && String(row?.season || '') !== season) return false;
+        if (opposition !== 'All' && baseClubName(String(row?.opposition || '')) !== opposition) return false;
+        return true;
+    });
+
+    filteredMatches.sort((a, b) => String(b?.date || '').localeCompare(String(a?.date || '')));
+    pagination.page = 1;
+}
+
+function updateSelectPicker(selectEl) {
+    if (!selectEl || !isSelectPickerEnabled()) return;
+    rebuildBootstrapSelect(selectEl);
+}
+
+function populateBaseFilters() {
+    const squadSelect = document.getElementById('matchFilterSquad');
+    const seasonSelect = document.getElementById('matchFilterSeason');
+    const oppositionSelect = document.getElementById('matchFilterOpposition');
+
+    if (!squadSelect || !seasonSelect || !oppositionSelect) return;
+
+    const squads = [...new Set(allMatches.map(row => String(row?.squad || '').trim()).filter(Boolean))]
+        .sort((a, b) => a.localeCompare(b));
+    const seasons = [...new Set(allMatches.map(row => String(row?.season || '').trim()).filter(Boolean))]
+        .sort((a, b) => b.localeCompare(a));
+    const oppositions = [...new Set(allMatches.map(row => baseClubName(row?.opposition)).filter(Boolean))]
+        .sort((a, b) => a.localeCompare(b));
+
+    squadSelect.innerHTML = '<option value="All" selected>All squads</option>'
+        + squads.map(value => `<option value="${escapeHtml(value)}">${escapeHtml(formatSquadLabel(value))}</option>`).join('');
+    seasonSelect.innerHTML = '<option value="All" selected>All seasons</option>'
+        + seasons.map(value => `<option value="${escapeHtml(value)}">${escapeHtml(value)}</option>`).join('');
+    oppositionSelect.innerHTML = '<option value="All" selected>All opposition</option>'
+        + oppositions.map(value => `<option value="${escapeHtml(value)}">${escapeHtml(value)}</option>`).join('');
+
+    updateSelectPicker(squadSelect);
+    updateSelectPicker(seasonSelect);
+    updateSelectPicker(oppositionSelect);
+}
+
+function updateMatchSelectOptions(preferredGameId) {
+    const matchSelect = document.getElementById('matchSelect');
+    if (!matchSelect) return;
+
+    const previousValue = String(preferredGameId || matchSelect.value || '').trim();
+
+    matchSelect.innerHTML = '<option value="">Select match...</option>' + filteredMatches
+        .map(row => {
+            const gameId = String(row?.game_id || '').trim();
+            const label = fixtureLabel(row);
+            return `<option value="${escapeHtml(gameId)}">${escapeHtml(label)}</option>`;
+        })
+        .join('');
+
+    const hasPrevious = filteredMatches.some(row => String(row?.game_id || '').trim() === previousValue);
+    matchSelect.value = hasPrevious ? previousValue : '';
+
+    // Rebuild selectpicker to reflect new options and selection
+    if (window.jQuery && window.jQuery.fn && window.jQuery.fn.selectpicker) {
+        const $select = window.jQuery(matchSelect);
+        if ($select.data('selectpicker')) {
+            $select.selectpicker('destroy');
+        }
+        $select.selectpicker();
+        if (matchSelect.value) {
+            $select.selectpicker('val', matchSelect.value);
+        }
+    }
+}
+
+function pagedRows() {
+    const pageSize = pagination.pageSize;
+    const pageCount = Math.max(1, Math.ceil(filteredMatches.length / pageSize));
+    const page = Math.min(pageCount, Math.max(1, pagination.page));
+    pagination.page = page;
+    const start = (page - 1) * pageSize;
+    return {
+        page,
+        pageCount,
+        rows: filteredMatches.slice(start, start + pageSize),
+    };
+}
+
+function renderTable() {
+    const tbody = document.getElementById('matchDataTableBody');
+    if (!tbody) return;
+
+    const paged = pagedRows();
+    const rowsHtml = paged.rows.map(row => {
+        const gameId = String(row?.game_id || '').trim();
+        const squadKey = String(row?.squad || '').trim();
+        const rowClass = 'full-profile-appearance-row';
+        const squadPillClass = squadKey === '1st' ? 'squad-pill squad-pill--1st'
+            : squadKey === '2nd' ? 'squad-pill squad-pill--2nd'
+            : 'squad-pill squad-pill--unknown';
+        const squadLabel = formatSquadLabel(row?.squad);
+        return `
+            <tr class="${rowClass}">
+                <td>${escapeHtml(formatDisplayDate(row?.date))}</td>
+                <td>${escapeHtml(String(row?.season || '-'))}</td>
+                <td><span class="${squadPillClass}">${escapeHtml(squadLabel)}</span></td>
+                <td>${escapeHtml(String(row?.opposition || '-'))}</td>
+                <td>${escapeHtml(String(row?.game_type || '-'))}</td>
+                <td>${resultBadgeHtml(normaliseResult(row))}</td>
+                <td><a class="match-data-link" href="match-data.html?game=${encodeURIComponent(gameId)}"><i class="bi bi-box-arrow-up-right" aria-hidden="true"></i><span>Match Data</span></a></td>
+            </tr>
+        `;
+    }).join('');
+
+    tbody.innerHTML = rowsHtml || '<tr><td colspan="7" class="text-muted">No matches found for these filters.</td></tr>';
+
+    const summary = document.getElementById('matchDataPaginationSummary');
+    if (summary) {
+        if (!filteredMatches.length) {
+            summary.textContent = '0 matches';
+        } else {
+            const start = (paged.page - 1) * pagination.pageSize + 1;
+            const end = Math.min(filteredMatches.length, paged.page * pagination.pageSize);
+            summary.textContent = `${start}-${end} of ${filteredMatches.length} matches`;
+        }
+    }
+
+    const prev = document.getElementById('matchDataPrev');
+    const next = document.getElementById('matchDataNext');
+    if (prev) prev.disabled = paged.page <= 1;
+    if (next) next.disabled = paged.page >= paged.pageCount;
+}
+
+function updateUrlGame(gameId) {
+    const url = new URL(window.location.href);
+    if (gameId) url.searchParams.set('game', gameId);
+    else url.searchParams.delete('game');
+    window.history.replaceState({}, '', url.toString());
+}
+
+function renderMatchInfo(gameId) {
+    const body = document.getElementById('matchDataInfoBody');
+    if (!body) return;
+
+    const selected = allMatches.find(row => String(row?.game_id || '').trim() === String(gameId || '').trim());
+    if (!selected) {
+        body.innerHTML = '<p class="text-muted" style="margin: 0;">Select a match to load full match information.</p>';
+        updateUrlGame('');
+        return;
+    }
+
+    updateUrlGame(String(selected.game_id || ''));
+
+    const hero = buildMatchHeroData(selected);
+
+    body.innerHTML = `
+        <section class="match-info-hero ${hero.resultClass}">
+            <div class="match-info-hero-grid">
+                <div class="match-info-team match-info-team--home">
+                    <div class="match-info-team-shell match-info-team-shell--home">
+                        ${teamLogoSlotHtml(hero.homeLogoSrc, hero.homeTeam, 'home')}
+                        <div class="match-info-team-text">
+                            <div class="match-info-team-label">Home</div>
+                            <div class="match-info-team-name">${escapeHtml(hero.homeTeam)}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="match-info-score-wrap" aria-label="Final score ${escapeHtml(hero.homeScore)} to ${escapeHtml(hero.awayScore)}">
+                    <div class="match-info-score-line">
+                        ${scoreLogoSlotHtml(hero.homeLogoSrc, hero.homeTeam, 'home')}
+                        <div class="match-info-score">${escapeHtml(hero.homeScore)}<span class="match-info-score-separator">-</span>${escapeHtml(hero.awayScore)}</div>
+                        ${scoreLogoSlotHtml(hero.awayLogoSrc, hero.awayTeam, 'away')}
+                    </div>
+                </div>
+                <div class="match-info-team match-info-team--away">
+                    <div class="match-info-team-shell match-info-team-shell--away">
+                        ${teamLogoSlotHtml(hero.awayLogoSrc, hero.awayTeam, 'away')}
+                        <div class="match-info-team-text">
+                            <div class="match-info-team-label">Away</div>
+                            <div class="match-info-team-name">${escapeHtml(hero.awayTeam)}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="match-info-meta">
+                <div class="match-info-meta-item">
+                    <span class="match-info-meta-label">Date</span>
+                    <span class="match-info-meta-value">${escapeHtml(hero.date)}</span>
+                </div>
+                <div class="match-info-meta-divider" aria-hidden="true"></div>
+                <div class="match-info-meta-item">
+                    <span class="match-info-meta-label">Competition</span>
+                    <span class="match-info-meta-value">${escapeHtml(hero.competition)}</span>
+                </div>
+            </div>
+        </section>
+        <div class="match-info-future-note alert alert-light" style="margin: 0; border-color: #d9e0f0;">
+            Later additions can sit below this summary: formatted team sheet, scorers, and any available performance stats.
+        </div>
+    `;
+
+    // Collapse the Filtered Matches panel when a game is selected
+    collapseFilteredMatchesPanel();
+}
+
+function refreshFromFilters(preferredGameId) {
+    applyFilters();
+    updateMatchSelectOptions(preferredGameId);
+    renderTable();
+
+    const matchSelect = document.getElementById('matchSelect');
+    const selectedGameId = String(matchSelect?.value || '').trim();
+    renderMatchInfo(selectedGameId);
+}
+
+function collapseFilteredMatchesPanel() {
+    const toggle = document.querySelector('.chart-panel-toggle[data-target="match-list-panel"]');
+    const panel = document.getElementById('match-list-panel');
+    if (!toggle || !panel) return;
+    const isExpanded = toggle.getAttribute('aria-expanded') !== 'false';
+    if (isExpanded) toggle.click();
+}
+
+function bindControls(initialGameId) {
+    const squad = document.getElementById('matchFilterSquad');
+    const season = document.getElementById('matchFilterSeason');
+    const opposition = document.getElementById('matchFilterOpposition');
+    const matchSelect = document.getElementById('matchSelect');
+    const prev = document.getElementById('matchDataPrev');
+    const next = document.getElementById('matchDataNext');
+
+    // Handle filter changes (squad, season, opposition)
+    [squad, season, opposition].forEach(selectEl => {
+        if (!selectEl) return;
+        if (isSelectPickerEnabled()) {
+            window.jQuery(selectEl)
+                .off('changed.bs.select.matchFilters')
+                .on('changed.bs.select.matchFilters', () => {
+                    if (isInitialisingControls) return;
+                    refreshFromFilters('');
+                });
+        } else {
+            selectEl.removeEventListener('change', null);
+            selectEl.addEventListener('change', () => refreshFromFilters(''));
+        }
+    });
+
+    // Handle match select changes - single unified listener
+    if (matchSelect) {
+        // Remove all existing listeners to prevent stacking
+        matchSelect.removeEventListener('change', null);
+        if (window.jQuery && window.jQuery.fn && window.jQuery.fn.selectpicker) {
+            window.jQuery(matchSelect).off('changed.bs.select.matchSelect');
+        }
+
+        // Add single change listener (works for both selectpicker and native select)
+        matchSelect.addEventListener('change', () => {
+            if (isInitialisingControls) return;
+            const selectedGameId = String(matchSelect.value || '').trim();
+            renderMatchInfo(selectedGameId);
+        });
+
+        // Also bind Bootstrap Select event if available
+        if (isSelectPickerEnabled()) {
+            window.jQuery(matchSelect)
+                .on('changed.bs.select.matchSelect', () => {
+                    if (isInitialisingControls) return;
+                    const selectedGameId = String(matchSelect.value || '').trim();
+                    renderMatchInfo(selectedGameId);
+                });
+        }
+    }
+
+    if (prev) {
+        prev.addEventListener('click', () => {
+            pagination.page = Math.max(1, pagination.page - 1);
+            renderTable();
+        });
+    }
+
+    if (next) {
+        next.addEventListener('click', () => {
+            pagination.page += 1;
+            renderTable();
+        });
+    }
+
+    isInitialisingControls = true;
+    refreshFromFilters(initialGameId);
+    isInitialisingControls = false;
+}
+
+async function loadPage() {
+    const errorEl = document.getElementById('matchDataError');
+    try {
+        const response = await fetch('data/backend/games.json');
+        if (!response.ok) throw new Error(`Failed to load games (${response.status})`);
+        const games = await response.json();
+        allMatches = Array.isArray(games) ? games.filter(row => row && row.game_id) : [];
+        allMatches.sort((a, b) => String(b?.date || '').localeCompare(String(a?.date || '')));
+
+        populateBaseFilters();
+
+        const url = new URL(window.location.href);
+        const initialGameId = String(url.searchParams.get('game') || '').trim();
+        bindControls(initialGameId);
+
+        initialiseChartPanelToggles();
+
+        if (initialGameId && allMatches.some(row => String(row?.game_id || '').trim() === initialGameId)) {
+            collapseFilteredMatchesPanel();
+        }
+    } catch (error) {
+        console.error(error);
+        if (errorEl) {
+            errorEl.classList.remove('d-none');
+            errorEl.textContent = 'Unable to load match data. Run python/update.py and refresh this page.';
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', loadPage);

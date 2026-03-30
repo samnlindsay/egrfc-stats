@@ -4,14 +4,12 @@
     const PANEL_SPECS = [
         { containerId: 'lineoutPerfBreakdownNumbersChart', path: 'data/charts/lineout_breakdown_numbers.json', emptyMessage: 'Numbers breakdown unavailable.' },
         { containerId: 'lineoutPerfBreakdownAreaChart', path: 'data/charts/lineout_breakdown_area.json', emptyMessage: 'Zone breakdown unavailable.' },
-        { containerId: 'lineoutPerfBreakdownCallTypeChart', path: 'data/charts/lineout_breakdown_call_type.json', emptyMessage: 'Call type breakdown unavailable.' },
-        { containerId: 'lineoutPerfBreakdownDummyChart', path: 'data/charts/lineout_breakdown_dummy.json', emptyMessage: 'Dummy breakdown unavailable.' },
+        { containerId: 'lineoutPerfBreakdownCallChart', path: 'data/charts/lineout_breakdown_call.json', emptyMessage: 'Call breakdown unavailable.' },
         { containerId: 'lineoutPerfBreakdownThrowerChart', path: 'data/charts/lineout_breakdown_thrower.json', emptyMessage: 'Thrower breakdown unavailable.' },
         { containerId: 'lineoutPerfBreakdownJumperChart', path: 'data/charts/lineout_breakdown_jumper.json', emptyMessage: 'Jumper breakdown unavailable.' },
         { containerId: 'lineoutPerfTrendNumbersChart', path: 'data/charts/lineout_trend_numbers.json', emptyMessage: 'Numbers trend unavailable.' },
         { containerId: 'lineoutPerfTrendAreaChart', path: 'data/charts/lineout_trend_area.json', emptyMessage: 'Zone trend unavailable.' },
-        { containerId: 'lineoutPerfTrendCallTypeChart', path: 'data/charts/lineout_trend_call_type.json', emptyMessage: 'Call type trend unavailable.' },
-        { containerId: 'lineoutPerfTrendDummyChart', path: 'data/charts/lineout_trend_dummy.json', emptyMessage: 'Dummy trend unavailable.' },
+        { containerId: 'lineoutPerfTrendCallChart', path: 'data/charts/lineout_trend_call.json', emptyMessage: 'Call trend unavailable.' },
         { containerId: 'lineoutPerfTrendThrowerChart', path: 'data/charts/lineout_trend_thrower.json', emptyMessage: 'Thrower trend unavailable.' },
         { containerId: 'lineoutPerfTrendJumperChart', path: 'data/charts/lineout_trend_jumper.json', emptyMessage: 'Jumper trend unavailable.' },
     ];
@@ -138,6 +136,12 @@
         const ay = parseInt(String(a).slice(0, 4), 10);
         const by = parseInt(String(b).slice(0, 4), 10);
         return ay - by;
+    }
+
+    function toOppositionClubName(opposition) {
+        const text = String(opposition || 'Unknown').trim();
+        const club = text.replace(/\s+(?:I{1,6}|[1-6](?:st|nd|rd|th)?|A|B)(?:\s+XV)?$/i, '').trim();
+        return club || 'Unknown';
     }
 
     function setSignalFromControl(view, signalName, controlId, fallback = 'All') {
@@ -270,7 +274,7 @@
 
         const setPieceRows = (Array.isArray(setPieceRaw) ? setPieceRaw : []).map((row) => {
             const game = gamesById.get(row.game_id) || {};
-            return { opposition: String(row.opposition || game.opposition || 'Unknown') };
+            return { opposition_club: toOppositionClubName(row.opposition || game.opposition || 'Unknown') };
         });
 
         populateSelect('lineoutFilterSeason', Array.from(new Set(lineoutRows.map((row) => row.season))).filter(Boolean).sort(seasonSort).reverse(), 'All Seasons');
@@ -278,7 +282,7 @@
         populateSelect('lineoutFilterJumper', Array.from(new Set(lineoutRows.map((row) => row.jumper))).sort(), 'All Jumpers');
         populateSelect('lineoutFilterArea', Array.from(new Set(lineoutRows.map((row) => row.area))).sort(), 'All Zones');
         populateSelect('lineoutFilterNumbers', Array.from(new Set(lineoutRows.map((row) => row.numbers))).sort(), 'All Numbers');
-        populateSelect('h2hFilterOpposition', Array.from(new Set(setPieceRows.map((row) => row.opposition))).sort(), 'All Opponents');
+        populateSelect('h2hFilterOpposition', Array.from(new Set(setPieceRows.map((row) => row.opposition_club))).sort(), 'All Opponents');
     }
 
     async function loadInteractiveCharts() {

@@ -582,13 +582,13 @@ def player_stats_appearances_chart(db, output_file='data/charts/player_stats_app
             'squad:N',
             sort=['1st', '2nd'],
             scale=alt.Scale(domain=['1st', '2nd'], range=['#202946', '#7d96e8']),
-            legend=alt.Legend(title='Squad', orient='top', labelExpr="datum.value + ' XV'", titleOrient='left')
+            legend=alt.Legend(title=None, orient='none', legendX=410, legendY=100, direction='vertical', labelExpr="datum.value + ' XV'")
         ),
         opacity=alt.Opacity(
             'start:N',
             sort=['Start', 'Bench', 'Unknown'],
             scale=alt.Scale(domain=['Start', 'Bench', 'Unknown'], range=[1.0, 0.35, 0.2]),
-            legend=alt.Legend(title='Selection', orient='bottom')
+            legend=alt.Legend(title=None, orient='none', legendX=410, legendY=195, direction='vertical')
         ),
         order=alt.Order('stack_order:Q', sort='ascending'),
         tooltip=[
@@ -700,11 +700,72 @@ def player_full_profile_appearances_per_season_chart(db, output_file='data/chart
     by_result['color_mode'] = 'Result'
     by_result['color_value'] = base_df['result']
 
-    by_position = base_df[['player', 'season', 'season_sort', 'apps']].copy()
+    by_position = base_df[['player', 'season', 'season_sort', 'apps', 'position']].copy()
     by_position['color_mode'] = 'Position'
-    by_position['color_value'] = base_df['position']
+    by_position['color_value'] = by_position['position']
 
-    df = pd.concat([by_squad, by_result, by_position], ignore_index=True)
+    palette_by_rank = ['#202946', '#7d96e8', '#146f14', '#991515', '#333333', '#000000']
+    bench_color = '#e5e7eb'
+    unknown_color = '#99151520'
+
+    position_totals = (
+        by_position
+        .groupby(['player', 'position'], as_index=False)['apps']
+        .sum()
+        .rename(columns={'apps': 'total_apps'})
+    )
+
+    position_color_rows = []
+    for player, player_df in position_totals.groupby('player', sort=False):
+        ranked_df = player_df[
+            ~player_df['position'].fillna('').str.lower().isin(['bench', 'unknown', ''])
+        ].copy()
+        ranked_df = ranked_df.sort_values(['total_apps', 'position'], ascending=[False, True]).reset_index(drop=True)
+
+        for idx, row in ranked_df.iterrows():
+            color = palette_by_rank[min(idx, len(palette_by_rank) - 1)]
+            position_color_rows.append({
+                'player': player,
+                'position': row['position'],
+                'color_hex': color,
+                'sort_order': idx + 1,
+            })
+
+        bench_df = player_df[player_df['position'].fillna('').str.lower() == 'bench']
+        for _, row in bench_df.iterrows():
+            position_color_rows.append({
+                'player': player,
+                'position': row['position'],
+                'color_hex': bench_color,
+                'sort_order': 100,
+            })
+
+        unknown_df = player_df[player_df['position'].fillna('').str.lower().isin(['unknown', ''])]
+        for _, row in unknown_df.iterrows():
+            position_color_rows.append({
+                'player': player,
+                'position': row['position'],
+                'color_hex': unknown_color,
+                'sort_order': 101,
+            })
+
+    position_color_map = pd.DataFrame(position_color_rows)
+    if position_color_map.empty:
+        position_color_map = pd.DataFrame(columns=['player', 'position', 'color_hex', 'sort_order'])
+
+    by_position = by_position.merge(position_color_map, on=['player', 'position'], how='left')
+    by_position['color_hex'] = by_position['color_hex'].fillna(unknown_color)
+    by_position['sort_order'] = by_position['sort_order'].fillna(101).astype(int)
+    by_position['color_key'] = by_position.apply(
+        lambda row: f"{row['player']}|||{row['color_value']}",
+        axis=1,
+    )
+
+    df = pd.concat([
+        by_squad,
+        by_result,
+        by_position[['player', 'season', 'season_sort', 'apps', 'color_mode', 'color_value']]
+    ], ignore_index=True)
 
     chart_configs = {
         'Squad': {
@@ -715,18 +776,6 @@ def player_full_profile_appearances_per_season_chart(db, output_file='data/chart
             'sort': ['Win', 'Loss', 'Draw'],
             'colors': ['#146f14', '#981515', 'goldenrod'],
             'allowed': ['Win', 'Loss', 'Draw'],
-        },
-        'Position': {
-            'sort': [
-                'Prop', 'Hooker', 'Second Row', 'Flanker', 'Number 8',
-                'Scrum Half', 'Fly Half', 'Centre', 'Wing', 'Full Back',
-                'Bench', 'Unknown'
-            ],
-            'colors': [
-                '#1f2f5f', '#264073', '#2f4e87', '#3a5f9f', '#4a72ba',
-                '#4b5563', '#5a6473', '#697486', '#7c8799', '#909caf',
-                '#e5e7eb', '#99151520'
-            ],
         },
     }
 
@@ -764,6 +813,45 @@ def player_full_profile_appearances_per_season_chart(db, output_file='data/chart
             )
         )
 
+    def build_position_chart():
+        position_df = by_position.copy()
+        key_order_df = (
+            position_df[['color_key', 'color_hex', 'sort_order', 'player', 'color_value']]
+            .drop_duplicates()
+            .sort_values(['sort_order', 'player', 'color_value'])
+        )
+        color_domain = key_order_df['color_key'].tolist()
+        color_range = key_order_df['color_hex'].tolist()
+
+        return (
+            alt.Chart(position_df)
+            .mark_bar()
+            .encode(
+                x=alt.X('sum(apps):Q', title='Appearances'),
+                y=alt.Y(
+                    'season:N',
+                    title='Season',
+                    sort=alt.EncodingSortField(field='season_sort', order='descending', op='max')
+                ),
+                color=alt.Color(
+                    'color_key:N',
+                    scale=alt.Scale(domain=color_domain, range=color_range),
+                    legend=alt.Legend(orient='bottom', title=None, labelExpr="split(datum.label, '|||')[1]")
+                ),
+                tooltip=[
+                    alt.Tooltip('player:N', title='Player'),
+                    alt.Tooltip('season:N', title='Season'),
+                    alt.Tooltip('color_value:N', title='Position'),
+                    alt.Tooltip('sum(apps):Q', title='Appearances')
+                ]
+            )
+            .properties(
+                title=alt.Title('Appearances Breakdown', subtitle='Games per season, coloured by position'),
+                width=400,
+                height=alt.Step(30),
+            )
+        )
+
     output_path = Path(output_file)
     output_dir = output_path.parent
     output_stem = output_path.stem
@@ -772,6 +860,10 @@ def player_full_profile_appearances_per_season_chart(db, output_file='data/chart
         chart = build_mode_chart(mode, config['sort'], config['colors'], config.get('allowed'))
         chart.save(output_dir / f'{output_stem}_{mode.lower()}.json')
         charts[mode] = chart
+
+    position_chart = build_position_chart()
+    position_chart.save(output_dir / f'{output_stem}_position.json')
+    charts['Position'] = position_chart
 
     return charts
 
@@ -1903,7 +1995,7 @@ def set_piece_success_by_season_chart(
     ]
 
     squad_param = alt.param(name="spSquadParam", value="1st")
-    subtitle_text = "Seasonal success for EGRFC and opposition, with crossover-shaded advantage."
+    subtitle_text = "Seasonal success for EGRFC and opposition, with the performance gap highlighted.."
 
     charts = {}
     for set_piece_type, filename in type_targets:
@@ -1966,8 +2058,8 @@ def lineout_analysis_panel_chart(db, breakdown="numbers", panel="breakdown", out
     breakdown_map = {
         "numbers": ("numbers", "Numbers", ["4", "5", "6", "7"]),
         "area": ("area", "Zone", ["Front", "Middle", "Back"]),
+        "call": ("call", "Call", None),
         "call_type": ("call_type", "Call Type", None),
-        "dummy": ("dummy", "Dummy", ["Dummy", "Live"]),
         "jumper": ("jumper", "Jumper", None),
         "thrower": ("thrower", "Thrower", None),
     }
@@ -1999,8 +2091,8 @@ def lineout_analysis_panel_chart(db, breakdown="numbers", panel="breakdown", out
             G.opposition,
             L.numbers,
             L.area,
+            L.call,
             L.call_type,
-            L.dummy,
             L.jumper,
             L.thrower,
             L.won
@@ -2014,9 +2106,8 @@ def lineout_analysis_panel_chart(db, breakdown="numbers", panel="breakdown", out
         print(f"Skipping lineout_analysis_panel_chart ({breakdown}, {panel}): no rows available.")
         return None
 
-    for column in ["squad", "season", "game_type", "opposition", "numbers", "area", "call_type", "jumper", "thrower"]:
+    for column in ["squad", "season", "game_type", "opposition", "numbers", "area", "call", "call_type", "jumper", "thrower"]:
         df[column] = df[column].fillna("Unknown").astype(str)
-    df["dummy"] = df["dummy"].fillna(False).astype(bool).map({True: "Dummy", False: "Live"})
     df["won"] = df["won"].astype(int)
 
     def _opts(column_name):
@@ -2108,7 +2199,7 @@ def lineout_analysis_panel_chart(db, breakdown="numbers", panel="breakdown", out
         ).resolve_scale(y="independent").properties(
             width=alt.Step(width_map.get(breakdown, 40)),
             height=250,
-            title=alt.Title(text=f"{field_label} Breakdown", subtitle="Bars: attempts  ·  Line: success %"),
+            title=alt.Title(text=f"{field_label} Breakdown", subtitle="Usage count (bars) and success rate (line)"),
         )
     else:
         season_order = sorted(df["season"].unique().tolist())
@@ -2153,7 +2244,7 @@ def lineout_analysis_panel_chart(db, breakdown="numbers", panel="breakdown", out
         ).resolve_scale(y="independent").properties(
             width=430,
             height=260,
-            title=alt.Title(text=f"{field_label} Trend", subtitle="Bars: season share  ·  Line: success %"),
+            title=alt.Title(text=f"{field_label} Trend", subtitle="Relative usage (bars) and success rate (line)"),
         )
 
     chart.save(output_file)
@@ -2165,7 +2256,7 @@ def lineout_analysis_panel_chart_suite(db, output_dir="data/charts"):
     output_root = Path(output_dir)
     output_root.mkdir(parents=True, exist_ok=True)
 
-    breakdowns = ["numbers", "area", "call_type", "dummy", "thrower", "jumper"]
+    breakdowns = ["numbers", "area", "call", "thrower", "jumper"]
     charts = {}
     for breakdown in breakdowns:
         for panel in ("breakdown", "trend"):
@@ -2229,11 +2320,17 @@ def set_piece_h2h_chart_backend(db, set_piece="Lineout", output_file=None, bind_
     df["squad"] = df["squad"].astype(str)
     df["game_type"] = df["game_type"].fillna("Unknown").astype(str)
     df["opposition"] = df["opposition"].fillna("Unknown").astype(str)
+    df["opposition_club"] = (
+        df["opposition"]
+        .str.replace(r"\s+(?:I{1,6}|[1-6](?:st|nd|rd|th)?|A|B)(?:\s+XV)?$", "", regex=True)
+        .str.strip()
+    )
+    df.loc[df["opposition_club"] == "", "opposition_club"] = "Unknown"
 
     squad_options = ["All", *sorted(df["squad"].unique().tolist())]
     season_options = ["All", *sorted(df["season"].unique().tolist(), reverse=True)]
     game_type_options = ["All", "League + Cup", "League only"]
-    opposition_options = ["All", *sorted(df["opposition"].unique().tolist())]
+    opposition_options = ["All", *sorted(df["opposition_club"].unique().tolist())]
 
     def _param(name, value, options=None, label=None):
         bind = alt.binding_select(options=options, name=label) if bind_params and options is not None else None
@@ -2257,7 +2354,7 @@ def set_piece_h2h_chart_backend(db, set_piece="Lineout", output_file=None, bind_
         f" || ({game_type_param.name} == 'League only' && datum.game_type == 'League')"
         f" || datum.game_type == {game_type_param.name}"
         f")"
-        f" && ({opposition_param.name} == 'All' || datum.opposition == {opposition_param.name})"
+        f" && ({opposition_param.name} == 'All' || datum.opposition_club == {opposition_param.name})"
     )
 
     event_rows = []
@@ -2281,6 +2378,7 @@ def set_piece_h2h_chart_backend(db, set_piece="Lineout", output_file=None, bind_
                 "season": row.season,
                 "game_type": row.game_type,
                 "opposition": row.opposition,
+                "opposition_club": row.opposition_club,
                 "game_label": row.game_label,
                 "attacking_team": attacking_team,
                 "won": won,
@@ -2303,6 +2401,7 @@ def set_piece_h2h_chart_backend(db, set_piece="Lineout", output_file=None, bind_
                     "season": row.season,
                     "game_type": row.game_type,
                     "opposition": row.opposition,
+                    "opposition_club": row.opposition_club,
                     "game_label": row.game_label,
                     "attacking_team": attacking_team,
                     "winner_team": winner,
@@ -2316,7 +2415,7 @@ def set_piece_h2h_chart_backend(db, set_piece="Lineout", output_file=None, bind_
     success_df = pd.DataFrame(success_rows)
     connector_df = (
         success_df.pivot_table(
-            index=["game_id", "game_axis_key", "game_label", "date", "squad", "season", "game_type", "opposition"],
+            index=["game_id", "game_axis_key", "game_label", "date", "squad", "season", "game_type", "opposition", "opposition_club"],
             columns="attacking_team",
             values="success_rate",
             aggfunc="mean",

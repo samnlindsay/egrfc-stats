@@ -38,6 +38,29 @@
     width: auto;
 }
 
+/* Keep header/chart dropdowns compact instead of stretching to full width */
+.page-header-filters .bootstrap-select,
+.chart-panel-filters .bootstrap-select {
+    width: auto !important;
+    min-width: 0 !important;
+    flex: 0 0 auto !important;
+}
+
+.page-header-filters .input-group .bootstrap-select,
+.chart-panel-filters .input-group .bootstrap-select {
+    width: auto !important;
+    min-width: 0 !important;
+    flex: 0 0 auto !important;
+}
+
+.page-header-filters .bootstrap-select .dropdown-toggle,
+.chart-panel-filters .bootstrap-select .dropdown-toggle {
+    width: auto !important;
+    min-width: 5.5rem;
+    max-width: 16rem;
+    padding-right: 2rem !important;
+}
+
 .page-header-filters .form-check {
     display: flex;
     align-items: center;

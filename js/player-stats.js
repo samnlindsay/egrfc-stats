@@ -182,5 +182,6 @@ async function renderPlayerStatsPage() {
 document.addEventListener('DOMContentLoaded', async function () {
     await loadAvailableSeasons();
     initialisePlayerStatsControls();
+    initialiseChartPanelToggles();
     renderPlayerStatsPage();
 });

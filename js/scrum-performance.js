@@ -125,6 +125,12 @@
         return ay - by;
     }
 
+    function toOppositionClubName(opposition) {
+        const text = String(opposition || 'Unknown').trim();
+        const club = text.replace(/\s+(?:I{1,6}|[1-6](?:st|nd|rd|th)?|A|B)(?:\s+XV)?$/i, '').trim();
+        return club || 'Unknown';
+    }
+
     async function loadScrumFilterOptions() {
         const [setPieceRes, gamesRes] = await Promise.all([
             fetch('data/backend/set_piece.json'),
@@ -141,14 +147,14 @@
             const game = gamesById.get(row.game_id) || {};
             return {
                 season: String(row.season || game.season || ''),
-                opposition: String(row.opposition || game.opposition || 'Unknown'),
+                opposition_club: toOppositionClubName(row.opposition || game.opposition || 'Unknown'),
             };
         });
 
         if (document.getElementById('scrumFilterSeason')) {
             populateSelect('scrumFilterSeason', Array.from(new Set(rows.map((row) => row.season))).filter(Boolean).sort(seasonSort).reverse(), 'All Seasons');
         }
-        populateSelect('scrumFilterOpposition', Array.from(new Set(rows.map((row) => row.opposition))).sort(), 'All Opponents');
+        populateSelect('scrumFilterOpposition', Array.from(new Set(rows.map((row) => row.opposition_club))).sort(), 'All Opponents');
     }
 
     async function applyScrumFilters() {

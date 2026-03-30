@@ -380,7 +380,7 @@ function cardDetailsMarkup(profile) {
     if (totalAppearances >= 10) {
         const playerName = encodeURIComponent(String(profile?.name || '').trim());
         lines.push(
-            `<p class="player-profile-detail-link-wrap"><a class="player-profile-detail-link player-profile-detail-cta" href="player-full-profile.html?player=${playerName}"><i class="bi bi-person-vcard-fill" aria-hidden="true"></i><span>Open Full Profile</span></a></p>`
+            `<p class="player-profile-detail-link-wrap"><a class="player-profile-detail-link player-profile-detail-cta" href="player-full-profile.html?player=${playerName}"><i class="bi bi-person-vcard-fill" aria-hidden="true"></i><span>Player Profile</span></a></p>`
         );
     }
 
