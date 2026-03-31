@@ -66,6 +66,20 @@ PITCHERO_OPPOSITION_CANONICAL_NAMES = {
     "warlingham3s": "Warlingham III",
 }
 
+_OPPOSITION_NOTE_SUFFIX_KEYWORDS = (
+    "cup",
+    "semi",
+    "quarter",
+    "final",
+    "plate",
+    "vase",
+    "shield",
+    "championship",
+    "playoff",
+    "play-off",
+    "papa john",
+)
+
 
 def _mode_or_none(series: pd.Series) -> str | None:
     values = series.dropna()
@@ -138,7 +152,23 @@ def _canonical_pitchero_opposition_name(name: Any) -> Any:
     if pd.isna(name):
         return name
     cleaned = str(name).strip()
+    note_match = re.match(r"^(.*?)\s*\(([^()]*)\)\s*$", cleaned)
+    if note_match:
+        base_name = note_match.group(1).strip()
+        note = note_match.group(2).strip().lower()
+        if base_name and any(keyword in note for keyword in _OPPOSITION_NOTE_SUFFIX_KEYWORDS):
+            cleaned = base_name
     return PITCHERO_OPPOSITION_CANONICAL_NAMES.get(_normalise_key(cleaned), cleaned)
+
+
+def _build_game_id(date_value: Any, squad: Any, opposition: Any) -> str:
+    if isinstance(date_value, (date, datetime)):
+        date_text = date_value.strftime("%Y-%m-%d")
+    else:
+        date_text = str(date_value).strip()
+    squad_text = str(squad).strip()
+    opposition_text = str(opposition).strip()
+    return f"{date_text}_{squad_text}_{opposition_text}".replace(" ", "_").replace("/", "")
 
 
 @dataclass
@@ -546,15 +576,27 @@ class BackendDatabase:
 
         games_raw = extractor.extract_games_data()
         appearances_raw = extractor.extract_player_appearances()
+        if not games_raw.empty:
+            games_raw = games_raw.copy()
+            games_raw["source"] = "google"
+        if not appearances_raw.empty:
+            appearances_raw = appearances_raw.copy()
+            appearances_raw["source"] = "google"
 
         historic_games_raw, historic_appearances_raw = self._load_historic_pitchero_team_sheets(
             extractor=extractor,
             refresh_pitchero=refresh_pitchero,
         )
         if not historic_games_raw.empty:
+            historic_games_raw = historic_games_raw.copy()
+            historic_games_raw["source"] = "pitchero"
             games_raw = pd.concat([games_raw, historic_games_raw], ignore_index=True)
         if not historic_appearances_raw.empty:
+            historic_appearances_raw = historic_appearances_raw.copy()
+            historic_appearances_raw["source"] = "pitchero"
             appearances_raw = pd.concat([appearances_raw, historic_appearances_raw], ignore_index=True)
+
+        games_raw, appearances_raw = self._canonicalise_raw_game_keys(games_raw, appearances_raw)
 
         lineouts_raw = self._extract_lineouts(extractor)
         set_piece_raw = extractor.extract_set_piece_stats()
@@ -1004,6 +1046,10 @@ class BackendDatabase:
             "captain",
             "vc1",
             "vc2",
+            "tries_scorers",
+            "conversions_scorers",
+            "penalties_scorers",
+            "drop_goals_scorers",
         ]
         cache_apps_cols = [
             "appearance_id",
@@ -1087,7 +1133,11 @@ class BackendDatabase:
                             ABS(score_for - score_against) AS margin,
                             captain,
                             vice_captain_1 AS vc1,
-                            vice_captain_2 AS vc2
+                            vice_captain_2 AS vc2,
+                            tries_scorers,
+                            conversions_scorers,
+                            penalties_scorers,
+                            drop_goals_scorers
                         FROM games
                         WHERE season IN ({historic_seasons_sql})
                         """
@@ -1343,12 +1393,41 @@ class BackendDatabase:
     def _build_games(self, games_raw: pd.DataFrame, appearances_raw: pd.DataFrame | None = None) -> pd.DataFrame:
         df = games_raw.copy()
         df["date"] = _safe_date(df["date"])
-        historic_seasons = set(HISTORIC_PITCHERO_SEASON_IDS.keys())
-        historic_mask = df["season"].isin(historic_seasons)
-        df.loc[historic_mask, "opposition"] = df.loc[historic_mask, "opposition"].map(_canonical_pitchero_opposition_name)
+        df["opposition"] = df["opposition"].map(_canonical_pitchero_opposition_name)
         df["pf"] = pd.to_numeric(df["pf"], errors="coerce").astype("Int64")
         df["pa"] = pd.to_numeric(df["pa"], errors="coerce").astype("Int64")
         df["game_id"] = df["game_id"].astype(str)
+        if "source" not in df.columns:
+            df["source"] = "unknown"
+        df["source_priority"] = df["source"].map({"google": 0, "pitchero": 1}).fillna(2)
+
+        scorer_columns = [
+            "tries_scorers",
+            "conversions_scorers",
+            "penalties_scorers",
+            "drop_goals_scorers",
+        ]
+        for col in scorer_columns:
+            if col not in df.columns:
+                df[col] = None
+
+        def _has_scorer_payload(value: Any) -> bool:
+            if value is None or pd.isna(value):
+                return False
+            if isinstance(value, dict):
+                return bool(value)
+            if isinstance(value, str):
+                stripped = value.strip()
+                return stripped not in {"", "{}", "null", "None"}
+            return bool(value)
+
+        group_cols = ["squad", "date", "opposition"]
+        scorer_payloads = (
+            df[group_cols + scorer_columns]
+            .groupby(group_cols, dropna=False, as_index=False)
+            .agg({col: lambda values: next((value for value in values if _has_scorer_payload(value)), None) for col in scorer_columns})
+        )
+        df["has_scorers"] = df[scorer_columns].apply(lambda row: any(_has_scorer_payload(value) for value in row), axis=1).astype(int)
 
         if appearances_raw is not None and not appearances_raw.empty and "game_id" in appearances_raw.columns:
             appearance_counts = appearances_raw["game_id"].astype(str).value_counts().to_dict()
@@ -1362,12 +1441,13 @@ class BackendDatabase:
         df = (
             df.dropna(subset=["squad", "date", "opposition"])
             .sort_values(
-                ["squad", "date", "opposition", "has_score", "appearance_count", "has_result", "game_id"],
-                ascending=[True, True, True, False, False, False, True],
+                ["squad", "date", "opposition", "source_priority", "has_score", "appearance_count", "has_scorers", "has_result", "game_id"],
+                ascending=[True, True, True, True, False, False, False, False, True],
             )
             .drop_duplicates(subset=["game_id"])
             .drop_duplicates(subset=["squad", "date", "opposition"])
         )
+        df = df.drop(columns=scorer_columns, errors="ignore").merge(scorer_payloads, on=group_cols, how="left")
         return df[
             [
                 "game_id",
@@ -1384,6 +1464,10 @@ class BackendDatabase:
                 "captain",
                 "vc1",
                 "vc2",
+                "tries_scorers",
+                "conversions_scorers",
+                "penalties_scorers",
+                "drop_goals_scorers",
             ]
         ].rename(
             columns={
@@ -1393,6 +1477,67 @@ class BackendDatabase:
                 "vc2": "vice_captain_2",
             }
         )
+
+    def _canonicalise_raw_game_keys(
+        self,
+        games_raw: pd.DataFrame,
+        appearances_raw: pd.DataFrame,
+    ) -> tuple[pd.DataFrame, pd.DataFrame]:
+        if games_raw.empty:
+            return games_raw, appearances_raw
+
+        games = games_raw.copy()
+        games["original_game_id"] = games["game_id"].astype(str)
+        parsed_dates = _safe_date(games["date"])
+        games["date"] = parsed_dates.where(parsed_dates.notna(), games["date"])
+        games["opposition"] = games["opposition"].map(_canonical_pitchero_opposition_name)
+
+        if "source" not in games.columns:
+            games["source"] = "unknown"
+
+        games["pf"] = pd.to_numeric(games.get("pf"), errors="coerce").astype("Int64")
+        games["pa"] = pd.to_numeric(games.get("pa"), errors="coerce").astype("Int64")
+        games["source_priority"] = games["source"].map({"google": 0, "pitchero": 1}).fillna(2)
+        games["has_named_captain"] = games.get("captain").fillna("").astype(str).str.strip().ne("").astype(int)
+        games["has_named_vice_captain"] = (
+            games.get("vc1").fillna("").astype(str).str.strip().ne("")
+            | games.get("vc2").fillna("").astype(str).str.strip().ne("")
+        ).astype(int)
+
+        signature_cols = ["squad", "date", "home_away", "pf", "pa"]
+        candidate_groups = games.dropna(subset=["pf", "pa"]).groupby(signature_cols, dropna=False)
+        replacement_opposition: dict[tuple[Any, ...], str] = {}
+        for signature, group in candidate_groups:
+            opposition_values = [str(value).strip() for value in group["opposition"] if str(value).strip()]
+            if len(set(opposition_values)) <= 1:
+                continue
+            preferred = (
+                group.sort_values(
+                    ["source_priority", "has_named_vice_captain", "has_named_captain", "original_game_id"],
+                    ascending=[True, False, False, True],
+                )["opposition"].iloc[0]
+            )
+            replacement_opposition[signature] = str(preferred).strip()
+
+        if replacement_opposition:
+            signature_keys = list(zip(games["squad"], games["date"], games["home_away"], games["pf"], games["pa"]))
+            games["opposition"] = [replacement_opposition.get(key, opposition) for key, opposition in zip(signature_keys, games["opposition"])]
+
+        games["game_id"] = games.apply(
+            lambda row: _build_game_id(row["date"], row["squad"], row["opposition"]),
+            axis=1,
+        )
+
+        if appearances_raw.empty or "game_id" not in appearances_raw.columns:
+            return games.drop(columns=["original_game_id"]), appearances_raw
+
+        mapping = games[["original_game_id", "game_id"]].drop_duplicates(subset=["original_game_id"])
+        appearances = appearances_raw.copy()
+        appearances["game_id"] = appearances["game_id"].astype(str)
+        appearances = appearances.merge(mapping, left_on="game_id", right_on="original_game_id", how="left")
+        appearances["game_id"] = appearances["game_id_y"].fillna(appearances["game_id_x"])
+        appearances = appearances.drop(columns=["game_id_x", "game_id_y", "original_game_id"], errors="ignore")
+        return games.drop(columns=["original_game_id", "source_priority", "has_named_captain", "has_named_vice_captain"], errors="ignore"), appearances
 
     def _build_player_appearances(self, appearances_raw: pd.DataFrame, games: pd.DataFrame) -> pd.DataFrame:
         if appearances_raw.empty:
@@ -1417,6 +1562,10 @@ class BackendDatabase:
             )
 
         df = appearances_raw.copy()
+        if "source" in df.columns:
+            google_game_ids = set(df.loc[df["source"] == "google", "game_id"].astype(str))
+            if google_game_ids:
+                df = df[(df["source"] == "google") | (~df["game_id"].astype(str).isin(google_game_ids))]
         df = df.merge(games[["game_id", "squad", "date", "season", "game_type"]], on="game_id", how="left")
         df = df[df["player"].notna()]
         df["player"] = df["player"].map(_canonical_player_name)

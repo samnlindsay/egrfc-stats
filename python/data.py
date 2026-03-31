@@ -967,11 +967,11 @@ class DataExtractor:
         return match_url.rstrip("/") + "/events"
 
     def _parse_pitchero_scorers_from_events_page(self, events_soup):
-        """Extract scorers from /events page HTML text.
-        
-        Parses HTML like:
-        <span>Tries: A Moffatt (2), A Yaffa</span>
-        <span>Conversions: L Maker (2)</span>
+        """Extract scorers from Pitchero /events page payload.
+
+        Preferred source is the structured Next.js payload embedded in
+        ``__NEXT_DATA__``. Fall back to loose text parsing only if the payload
+        does not expose scorer events.
         """
         if not events_soup:
             return {}
@@ -984,18 +984,97 @@ class DataExtractor:
         }
         
         try:
-            # Get all text from the page and look for scorer patterns
+            next_data = self._extract_next_data_payload(events_soup)
+            if next_data:
+                parsed = self._parse_pitchero_scorers_from_next_data(next_data)
+                if any(parsed.values()):
+                    return parsed
+
             full_text = events_soup.get_text(" ", strip=True)
-            
-            # Look for patterns like "Tries: Name (count), Name"
-            # Split by scorers to find each section
             if "Tries:" in full_text or "Conversions:" in full_text or "Penalties:" in full_text or "Drop Goals:" in full_text:
                 self._extract_scorers_from_text(full_text, result)
-            
+
             return result
         except Exception as e:
             logger.warning(f"Failed to parse Pitchero scorers: {e}")
             return {}
+
+    def _parse_pitchero_scorers_from_next_data(self, next_data):
+        """Extract structured scorer summaries from Pitchero Next.js payload."""
+        result = {
+            "tries_scorers": {},
+            "conversions_scorers": {},
+            "penalties_scorers": {},
+            "drop_goals_scorers": {},
+        }
+
+        try:
+            page_data = (
+                next_data.get("props", {})
+                .get("initialReduxState", {})
+                .get("teams", {})
+                .get("matchCentre", {})
+                .get("pageData", {})
+            )
+            if not page_data:
+                return result
+
+            match_entry = next(iter(page_data.values()))
+            overview = match_entry.get("overview") or {}
+            ha = (overview.get("ha") or "").lower()
+            team_side = "home" if ha == "h" else "away" if ha == "a" else None
+
+            if team_side:
+                for event_group in ((overview.get(team_side) or {}).get("events") or []):
+                    target_key = self._pitchero_event_label_to_scorer_key(event_group.get("label"))
+                    if not target_key:
+                        continue
+                    scorers = {}
+                    for player in event_group.get("players") or []:
+                        player_name = (player.get("name") or "").strip()
+                        count = self._safe_int(player.get("count")) or 0
+                        if not player_name or count <= 0:
+                            continue
+                        scorers[clean_name(player_name)] = count
+                    if scorers:
+                        result[target_key] = scorers
+
+            if any(result.values()):
+                return result
+
+            events_by_period = match_entry.get("eventsByPeriod") or []
+            for period in events_by_period:
+                for event in period.get("events") or []:
+                    event_type = (event.get("eventType") or "").strip()
+                    target_key = self._pitchero_event_label_to_scorer_key(event_type)
+                    if not target_key:
+                        continue
+                    if event.get("type") != "event":
+                        continue
+                    player_name = (event.get("playerName") or "").strip()
+                    if not player_name:
+                        continue
+                    canonical_name = clean_name(player_name)
+                    result[target_key][canonical_name] = result[target_key].get(canonical_name, 0) + 1
+        except Exception:
+            return result
+
+        return result
+
+    def _pitchero_event_label_to_scorer_key(self, label):
+        """Map Pitchero scorer labels/event types to backend scorer columns."""
+        normalized = re.sub(r"[^a-z]+", " ", (label or "").lower()).strip()
+        mapping = {
+            "try": "tries_scorers",
+            "tries": "tries_scorers",
+            "conversion": "conversions_scorers",
+            "conversions": "conversions_scorers",
+            "penalty": "penalties_scorers",
+            "penalties": "penalties_scorers",
+            "drop goal": "drop_goals_scorers",
+            "drop goals": "drop_goals_scorers",
+        }
+        return mapping.get(normalized)
 
     def _extract_scorers_from_text(self, text, result):
         """Extract individual scorer categories from text like:
