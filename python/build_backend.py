@@ -26,7 +26,20 @@ def main() -> None:
         default="data/backend",
         help="Directory for JSON/Parquet exports",
     )
+    parser.add_argument(
+        "--strict-duplicate-audit",
+        action="store_true",
+        help=(
+            "Fail the build if duplicate fixture groups are detected "
+            "(same date/squad/venue/score but different opposition names)."
+        ),
+    )
     parser.add_argument("--no-export", action="store_true", help="Skip exporting JSON/Parquet artifacts")
+    parser.add_argument(
+        "--no-supplemental-enrichment",
+        action="store_true",
+        help="Skip post-build URL/scorer supplementation from reconciliation artifacts",
+    )
     args = parser.parse_args()
 
     build_backend(
@@ -34,6 +47,8 @@ def main() -> None:
         export=not args.no_export,
         db_path=args.db_path,
         export_dir=args.export_dir,
+        strict_duplicate_audit=args.strict_duplicate_audit,
+        apply_supplemental_enrichment=not args.no_supplemental_enrichment,
     )
 
 

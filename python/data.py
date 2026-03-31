@@ -36,6 +36,7 @@ HISTORIC_PITCHERO_SEASON_IDS = {
     "2022/23": 83980,
     "2023/24": 87941,
     "2024/25": 91673,
+    "2025/26": 94981,
 }
 
 _EGRFC_TEAM_ALIASES = (
@@ -379,11 +380,13 @@ class DataExtractor:
 
                     # Extract scorers from /events endpoint
                     scorers_data = {}
+                    motm = None
                     events_url = self._normalise_events_url(fixture_data.get("match_url"))
                     if events_url:
                         events_soup = self._fetch_soup(session, events_url, timeout=timeout)
                         if events_soup:
                             scorers_data = self._parse_pitchero_scorers_from_events_page(events_soup)
+                            motm = self._parse_pitchero_motm_from_events_page(events_soup)
 
                     game_row = {
                         "game_id": game_id,
@@ -399,12 +402,14 @@ class DataExtractor:
                         "result": result,
                         "margin": abs(pf - pa),
                         "captain": None,
+                        "motm": motm,
                         "vc1": None,
                         "vc2": None,
                         "tries_scorers": json.dumps(scorers_data.get("tries_scorers", {})),
                         "conversions_scorers": json.dumps(scorers_data.get("conversions_scorers", {})),
                         "penalties_scorers": json.dumps(scorers_data.get("penalties_scorers", {})),
                         "drop_goals_scorers": json.dumps(scorers_data.get("drop_goals_scorers", {})),
+                        "pitchero_match_url": events_url or None,
                     }
                     games_rows.append(game_row)
 
@@ -543,7 +548,7 @@ class DataExtractor:
         return parsed.to_pydatetime()
 
     def _extract_pitchero_match_date(self, soup):
-        next_data = self._extract_next_data_payload(soup)
+        next_data = self._extract_next_data_payload(soup)   
         if next_data:
             try:
                 page_data = (
@@ -1060,6 +1065,96 @@ class DataExtractor:
             return result
 
         return result
+
+    def _parse_pitchero_motm_from_events_page(self, events_soup):
+        """Extract Star Player / MOTM from Pitchero events page payload."""
+        if not events_soup:
+            return None
+        try:
+            next_data = self._extract_next_data_payload(events_soup)
+            if not next_data:
+                return None
+            return self._parse_pitchero_motm_from_next_data(next_data)
+        except Exception:
+            return None
+
+    def _parse_pitchero_motm_from_next_data(self, next_data):
+        """Extract our side's Star Player from Pitchero Next.js payload."""
+        try:
+            page_data = (
+                next_data.get("props", {})
+                .get("initialReduxState", {})
+                .get("teams", {})
+                .get("matchCentre", {})
+                .get("pageData", {})
+            )
+            if not page_data:
+                return None
+
+            match_entry = next(iter(page_data.values()))
+            overview = match_entry.get("overview") or {}
+            ha = (overview.get("ha") or "").lower()
+            team_side = "home" if ha == "h" else "away" if ha == "a" else None
+
+            raw_players = overview.get("playersOfTheMatch")
+            if raw_players is None:
+                return None
+            if isinstance(raw_players, dict):
+                raw_players = [raw_players]
+            if not isinstance(raw_players, list):
+                return None
+
+            def _extract_name(entry):
+                if isinstance(entry, str):
+                    return entry.strip() or None
+                if not isinstance(entry, dict):
+                    return None
+
+                direct = entry.get("name") or entry.get("playerName") or entry.get("displayName")
+                if isinstance(direct, str) and direct.strip():
+                    return direct.strip()
+
+                player_obj = entry.get("player")
+                if isinstance(player_obj, dict):
+                    nested = player_obj.get("name") or player_obj.get("playerName") or player_obj.get("displayName")
+                    if isinstance(nested, str) and nested.strip():
+                        return nested.strip()
+                return None
+
+            def _entry_side(entry):
+                if not isinstance(entry, dict):
+                    return None
+                value = (
+                    entry.get("ha")
+                    or entry.get("side")
+                    or entry.get("team")
+                    or entry.get("homeAway")
+                    or entry.get("home_away")
+                )
+                if isinstance(value, str):
+                    value = value.lower().strip()
+                    if value in {"h", "home"}:
+                        return "home"
+                    if value in {"a", "away"}:
+                        return "away"
+                return None
+
+            if team_side:
+                for entry in raw_players:
+                    if _entry_side(entry) != team_side:
+                        continue
+                    name = _extract_name(entry)
+                    if name:
+                        return clean_name(name)
+
+            for entry in raw_players:
+                name = _extract_name(entry)
+                if name:
+                    return clean_name(name)
+        except Exception:
+            return None
+
+        return None
 
     def _pitchero_event_label_to_scorer_key(self, label):
         """Map Pitchero scorer labels/event types to backend scorer columns."""
