@@ -94,9 +94,8 @@ game_id,date,season,squad,opposition,game_type,result,captain,motm,pitchero_matc
 2024-03-02_2nd_West_Sussex_Emergency_Services,2024-03-02,2023/24,2nd,West Sussex Emergency Services,Friendly,W,,,,,,,,False,False
 2024-02-17_1st_Teddington,2024-02-17,2023/24,1st,Teddington,League,L,Ryland Thomas,,https://www.egrfc.com/teams/142068/match-centre/1-13868629/events,,,,,False,True
 2024-02-17_2nd_Hellingly,2024-02-17,2023/24,2nd,Hellingly,League,W,Max Crawley-Moore,Rhys Skinner,https://www.egrfc.com/teams/142069/match-centre/1-14258368/events,,,,,False,True
-2024-02-13_2nd_Crowborough,2024-02-13,2023/24,2nd,Crowborough,League,W,Ben Watkinson,,,,,,,False,False
 2024-02-10_1st_Kingston,2024-02-10,2023/24,1st,Kingston,League,W,Ryland Thomas,,https://www.egrfc.com/teams/142068/match-centre/1-14502745/events,,,,,False,True
-2024-02-03_2nd_Crowborough,2024-02-03,2023/24,2nd,Crowborough II,League,W,Ben Watkinson,Will Bramwell,https://www.egrfc.com/teams/142069/match-centre/1-14258364/events,"{""W Roberts"": 1, ""J Andrews"": 1}",{},{},{},True,True
+2024-02-03_2nd_Crowborough,2024-02-03,2023/24,2nd,Crowborough,League,W,Ben Watkinson,Will Bramwell,https://www.egrfc.com/teams/142069/match-centre/1-14258364/events,,,,,False,True
 2024-01-27_1st_Old_Walcountians,2024-01-27,2023/24,1st,Old Walcountians,League,W,Ryland Thomas,,https://www.egrfc.com/teams/142068/match-centre/1-13868615/events,,,,,False,True
 2024-01-27_2nd_Uckfield,2024-01-27,2023/24,2nd,Uckfield II,League,D,,,https://www.egrfc.com/teams/142069/match-centre/1-14258362/events,{},{},{},{},True,True
 2024-01-20_2nd_Heathfield_&_Waldron,2024-01-20,2023/24,2nd,Heathfield & Waldron,League,W,Ben Watkinson,Alister Yaffa,https://www.egrfc.com/teams/142069/match-centre/1-14258358/events,,,,,False,True

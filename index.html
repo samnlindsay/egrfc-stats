@@ -100,11 +100,11 @@
                     <div class="row g-4" style="margin-bottom: 1.5rem;">
                         <div class="col-sm-6">
                             <div>
-                                <h3 style="text-align: center; font-size: 2.5rem; font-weight:900; color: var(--primary-color); text-shadow: 1px 1px 2px var(--accent-color);">1st XV</h3>
+                                <h3 style="text-align: center; font-size: 2.5rem; font-weight:900; color: var(--primary-color);">1st XV</h3>
 
                                 <div class="card squad-metric-card squad-metric-card-1st" style="margin-bottom: 1rem;">
                                     <div class="card-header squad-metric-card-header squad-metric-card-header-1st">
-                                        Season Record
+                                        Results
                                     </div>
                                     <div class="card-body p-0">
                                         <div class="season-results-row" id="seasonSummary1stResults">
@@ -133,16 +133,11 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-
-                                <div class="card squad-metric-card squad-metric-card-1st" style="margin-bottom: 1rem;">
-                                    <div class="card-header squad-metric-card-header squad-metric-card-header-1st">
-                                        Last 10 Results
-                                    </div>
-                                    <div class="card-body">
-                                        <div id="season-summary-1st-last-10" class="last-ten-results-strip" aria-label="1st XV last ten results">
-                                            <span class="last-ten-results-empty">No recent results</span>
+                                        <div class="season-results-last-ten-row">
+                                            <div class="season-results-last-ten-label">Last 10 Results</div>
+                                            <div id="season-summary-1st-last-10" class="last-ten-results-strip last-ten-results-strip--single-row" aria-label="1st XV last ten results">
+                                                <span class="last-ten-results-empty">No recent results</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -183,11 +178,11 @@
 
                         <div class="col-sm-6">
                             <div>
-                                <h3 style="text-align: center; font-size: 2.5rem; font-weight:900; color: var(--accent-color); text-shadow: 1px 1px 2px var(--primary-color);">2nd XV</h3>
+                                <h3 style="text-align: center; font-size: 2.5rem; font-weight:900; color: var(--accent-color);">2nd XV</h3>
 
                                 <div class="card squad-metric-card squad-metric-card-2nd" style="margin-bottom: 1rem;">
                                     <div class="card-header squad-metric-card-header squad-metric-card-header-2nd">
-                                        Season Record
+                                        Results
                                     </div>
                                     <div class="card-body p-0">
                                         <div class="season-results-row" id="seasonSummary2ndResults">
@@ -216,16 +211,11 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-
-                                <div class="card squad-metric-card squad-metric-card-2nd" style="margin-bottom: 1rem;">
-                                    <div class="card-header squad-metric-card-header squad-metric-card-header-2nd">
-                                        Last 10 Results
-                                    </div>
-                                    <div class="card-body">
-                                        <div id="season-summary-2nd-last-10" class="last-ten-results-strip" aria-label="2nd XV last ten results">
-                                            <span class="last-ten-results-empty">No recent results</span>
+                                        <div class="season-results-last-ten-row">
+                                            <div class="season-results-last-ten-label">Last 10 Results</div>
+                                            <div id="season-summary-2nd-last-10" class="last-ten-results-strip last-ten-results-strip--single-row" aria-label="2nd XV last ten results">
+                                                <span class="last-ten-results-empty">No recent results</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -379,24 +369,46 @@
 
         <!-- Notes on data sources and coverage -->
         <!-- Sources: Google Sheets, Pitchero, RFU (englandrugby.com) -->
-        <div style="padding: 2rem 1rem; max-width: 800px; margin: 0 auto;">
-            <h4 style="color: var(--primary-color); font-weight: 700; margin-bottom: 0.5rem; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.5px;">Data Notes</h4>
-            <p style="font-size: 0.9rem; margin-bottom: 1rem;">Data is sourced from a combination of sources, each with their own limitations, combined to give the best possible representation of the information available:</p>
-            <ul style="font-size: 0.9rem; margin-bottom: 1rem;">
-                <li><strong>Google Sheets:</strong> This is the primary source of data since 2020 (when I joined the club). For every 1st and 2nd team game in that period it includes: </li>
-                <ul>
-                    <li>Date, competition, score, captain, and full team sheet</li>
-                    <li>If Veo footage is available:</li>
-                    <ul>
-                        <li>Scrums/lineouts won and lost for both teams</li>
-                        <li>Individually coded attacking lineouts for further analysis</li>
-                        <li>[_From 2025/26_] 22m entries for both teams and points/tries per 22m entry</li>
-                    </ul>
-                    <li>[_From 2025/26_] Man of the match and individual scorers</li>
+        <div class="home-data-notes-wrap">
+            <section class="home-data-notes" aria-labelledby="homeDataNotesTitle">
+                <h4 id="homeDataNotesTitle" class="home-data-notes-title">Data Notes</h4>
+                <p class="home-data-notes-intro">Data is sourced from multiple systems, each with limitations, and combined to provide the most complete view currently available.</p>
+                <ul class="home-data-notes-list">
+                    <li>
+                        <strong>Google Sheets:</strong> Primary source since 2020 (when I joined the club). For every 1st and 2nd XV game in that period it includes:
+                        <ul>
+                            <li>Date, competition, score, captain, and full team sheet</li>
+                            <li>
+                                If Veo footage is available:
+                                <ul>
+                                    <li>Scrums and lineouts won and lost for both teams</li>
+                                    <li>Individually coded attacking lineouts for deeper analysis</li>
+                                    <li>(From 2025/26) 22m entries for both teams and points/tries per 22m entry</li>
+                                </ul>
+                            </li>
+                            <li><em>From 2025/26:</em>
+                                <ul>
+                                    <li>MOTM and individual scorers</li>
+                                </ul>
+                        </ul>
+                    </li>
+                    <li><strong>Pitchero:</strong> Individual scorers and MOTM before 2025/26, plus team sheets before 2020/21.</li>
+                    <li><strong>RFU (englandrugby.com):</strong> Team sheets and results across all teams in a league season for fair league-wide comparisons.</li>
                 </ul>
-                <li><strong>Pitchero:</strong> Used for individual scorers and MOTM pre-2025/26, and team sheets pre-2020/21. </li>
-                <li><strong>RFU (englandrugby.com):</strong> Used only to extract team sheets and results for all teams in a given league season for making a fair comparison across the league.</li>
-    </div>
+
+
+                <!-- Warning using bootstrap alert -->
+                <div class="alert alert-warning" role="alert">
+                    This <u>does not</u> include games before 2017.<br>
+                    This <u>does not</u> include games for the Vets or Colts.<br>
+                    If the team sheet or tries weren't logged on Pitchero (pre-2021), they're <u>not included</u>.
+                </div>
+
+                <p>If you spot any gaps or errors, please let me know!<br>But remember, I do all this manually in my spare time - it's a labour of love, not an official club record.</p>
+
+                <p><strong><em>Sam Lindsay-McCall</em></strong><br>(Second Row, Lineout Coach, <u>not</u> a web developer)</p>
+            </section>
+        </div>
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

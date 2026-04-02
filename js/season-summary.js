@@ -9,6 +9,23 @@ const SeasonSummary = (() => {
     let currentSeason = null;
     let currentGameType = 'All games';
 
+    const escapeAttribute = (value) => String(value ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/"/g, '&quot;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+
+    const initializeLastTenTooltips = (containerEl) => {
+        if (!containerEl || !window.bootstrap || !window.bootstrap.Tooltip) return;
+        const tooltipEls = containerEl.querySelectorAll('[data-bs-toggle="tooltip"]');
+        tooltipEls.forEach(el => {
+            window.bootstrap.Tooltip.getOrCreateInstance(el, {
+                container: 'body',
+                trigger: 'hover focus',
+            });
+        });
+    };
+
     const init = () => {
         loadSeasonSummaryData();
     };
@@ -52,22 +69,40 @@ const SeasonSummary = (() => {
             return;
         }
 
-        el.innerHTML = rows.map(row => {
+        const displayRows = [...rows].reverse();
+
+        el.innerHTML = displayRows.map(row => {
             const result = String(row?.result || '').trim().toUpperCase();
             const variant = result === 'W' ? 'last-ten-result--win'
                 : result === 'L' ? 'last-ten-result--loss'
                     : 'last-ten-result--draw';
+            const gameId = String(row?.game_id || '').trim();
             const squadLabel = String(row?.squad || '').trim();
             const opposition = String(row?.opposition || 'Unknown').trim();
             const date = String(row?.date || '').trim();
+            const homeAway = String(row?.home_away || '').trim().toUpperCase();
+            const competition = String(row?.competition || row?.game_type || 'Unknown').trim();
             const scoreFor = Number(row?.score_for);
             const scoreAgainst = Number(row?.score_against);
             const scoreText = Number.isFinite(scoreFor) && Number.isFinite(scoreAgainst)
-                ? ` ${scoreFor}-${scoreAgainst}`
-                : '';
-            const title = `${date} ${squadLabel} XV v ${opposition} (${result}${scoreText})`;
-            return `<span class="last-ten-result ${variant}" title="${title}">${result}</span>`;
+                ? `${scoreFor}-${scoreAgainst}`
+                : 'N/A';
+
+            const tooltipText = [
+                `${date}`,
+                `${squadLabel} XV vs ${opposition} (${homeAway})`,
+                `${competition}`,
+                `Result: ${result} (${scoreText})`,
+                gameId ? 'Click to open Match Info' : '',
+            ].filter(Boolean).join('\n');
+
+            const chip = `<span class="last-ten-result ${variant}" data-bs-toggle="tooltip" data-bs-custom-class="last-ten-result-tooltip" data-bs-title="${escapeAttribute(tooltipText)}">${result}</span>`;
+            return gameId
+                ? `<a class="last-ten-result-link" href="match-data.html?game=${encodeURIComponent(gameId)}" aria-label="Open Match Info for ${escapeAttribute(date)} ${escapeAttribute(opposition)}">${chip}</a>`
+                : chip;
         }).join('');
+
+        initializeLastTenTooltips(el);
     };
 
     const initializeFilters = () => {
