@@ -12,7 +12,6 @@ import altair as alt
 import pandas as pd
 import re
 import duckdb
-from python.data_prep import *
 from python.chart_helpers import hack_params_css, alt_theme, get_embed_options
 from copy import deepcopy
 import os

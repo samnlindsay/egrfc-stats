@@ -5,6 +5,7 @@
 
 const SeasonSummary = (() => {
     let summaryData = null;
+    let gamesData = [];
     let currentSeason = null;
     let currentGameType = 'All games';
 
@@ -13,14 +14,60 @@ const SeasonSummary = (() => {
     };
 
     const loadSeasonSummaryData = () => {
-        fetch('data/backend/season_summary_enriched.json')
-            .then(res => res.json())
-            .then(data => {
-                summaryData = Array.isArray(data) ? data : [];
+        Promise.all([
+            fetch('data/backend/season_summary_enriched.json'),
+            fetch('data/backend/games.json'),
+        ])
+            .then(async ([summaryRes, gamesRes]) => {
+                if (!summaryRes.ok) throw new Error(`Failed to load season summary (${summaryRes.status})`);
+                const summaryPayload = await summaryRes.json();
+                const gamesPayload = gamesRes.ok ? await gamesRes.json() : [];
+                summaryData = Array.isArray(summaryPayload) ? summaryPayload : [];
+                gamesData = Array.isArray(gamesPayload) ? gamesPayload : [];
                 initializeFilters();
                 renderSeasonSummary();
             })
             .catch(error => console.error('Failed to load season summary data:', error));
+    };
+
+    const recentResultsForSquad = (squad) => {
+        return (Array.isArray(gamesData) ? gamesData : [])
+            .filter(row => String(row?.squad || '').trim() === squad)
+            .filter(row => {
+                const result = String(row?.result || '').trim().toUpperCase();
+                return result === 'W' || result === 'L' || result === 'D';
+            })
+            .sort((a, b) => String(b?.date || '').localeCompare(String(a?.date || '')))
+            .slice(0, 10);
+    };
+
+    const renderLastTenResults = (squad) => {
+        const targetId = squad === '1st' ? 'season-summary-1st-last-10' : 'season-summary-2nd-last-10';
+        const el = document.getElementById(targetId);
+        if (!el) return;
+
+        const rows = recentResultsForSquad(squad);
+        if (!rows.length) {
+            el.innerHTML = '<span class="last-ten-results-empty">No recent results</span>';
+            return;
+        }
+
+        el.innerHTML = rows.map(row => {
+            const result = String(row?.result || '').trim().toUpperCase();
+            const variant = result === 'W' ? 'last-ten-result--win'
+                : result === 'L' ? 'last-ten-result--loss'
+                    : 'last-ten-result--draw';
+            const squadLabel = String(row?.squad || '').trim();
+            const opposition = String(row?.opposition || 'Unknown').trim();
+            const date = String(row?.date || '').trim();
+            const scoreFor = Number(row?.score_for);
+            const scoreAgainst = Number(row?.score_against);
+            const scoreText = Number.isFinite(scoreFor) && Number.isFinite(scoreAgainst)
+                ? ` ${scoreFor}-${scoreAgainst}`
+                : '';
+            const title = `${date} ${squadLabel} XV v ${opposition} (${result}${scoreText})`;
+            return `<span class="last-ten-result ${variant}" title="${title}">${result}</span>`;
+        }).join('');
     };
 
     const initializeFilters = () => {
@@ -78,6 +125,8 @@ const SeasonSummary = (() => {
         updateResultsTitles();
         renderSquadSummary('1st');
         renderSquadSummary('2nd');
+        renderLastTenResults('1st');
+        renderLastTenResults('2nd');
     };
 
     const updateResultsTitles = () => {

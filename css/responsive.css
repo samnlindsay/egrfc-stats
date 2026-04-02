@@ -360,6 +360,11 @@
         gap: 0.7rem;
     }
 
+    .match-info-meta-row--paired {
+        display: flex;
+        justify-content: center;
+    }
+
     .match-info-meta-row--scoring {
         flex-direction: row;
         align-items: flex-start;

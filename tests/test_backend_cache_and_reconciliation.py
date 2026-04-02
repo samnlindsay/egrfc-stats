@@ -76,6 +76,131 @@ class BackendCacheAndReconciliationTests(unittest.TestCase):
         self.assertEqual(games.iloc[0]["season"], "2018/19")
         self.assertEqual(appearances.iloc[0]["player_join"], "J Radcliffe")
 
+    def test_historic_loader_filters_out_non_historic_cache_rows(self):
+        cache_file = self.temp_path / "historic_cache_with_modern_rows.json"
+        payload = {
+            "games": [
+                {
+                    "game_id": "2018-09-01_1st_Hove",
+                    "date": "2018-09-01",
+                    "season": "2018/19",
+                    "squad": "1st",
+                    "competition": "League",
+                    "game_type": "League",
+                    "opposition": "Hove",
+                    "home_away": "H",
+                    "pf": 25,
+                    "pa": 10,
+                    "result": "W",
+                    "margin": 15,
+                    "captain": "Jake Radcliffe",
+                    "vc1": None,
+                    "vc2": None,
+                },
+                {
+                    "game_id": "2025-03-22_2nd_Horsham_Barbarians",
+                    "date": "2025-03-22",
+                    "season": "2030/31",
+                    "squad": "2nd",
+                    "competition": "League",
+                    "game_type": "League",
+                    "opposition": "Horsham Barbarians",
+                    "home_away": "H",
+                    "pf": 58,
+                    "pa": 14,
+                    "result": "W",
+                    "margin": 44,
+                    "captain": "Someone",
+                    "vc1": None,
+                    "vc2": None,
+                },
+            ],
+            "appearances": [
+                {
+                    "appearance_id": "2018-09-01_1st_Hove_10",
+                    "game_id": "2018-09-01_1st_Hove",
+                    "player": "Jake Radcliffe",
+                    "shirt_number": 10,
+                    "position": "Fly Half",
+                    "position_group": "Backs",
+                    "unit": "Backs",
+                    "is_starter": True,
+                    "is_captain": False,
+                    "is_vc": False,
+                    "player_join": "J Radcliffe",
+                },
+                {
+                    "appearance_id": "2025-03-22_2nd_Horsham_Barbarians_9",
+                    "game_id": "2025-03-22_2nd_Horsham_Barbarians",
+                    "player": "Titch Mitchell",
+                    "shirt_number": 9,
+                    "position": "Scrum Half",
+                    "position_group": "Backs",
+                    "unit": "Backs",
+                    "is_starter": True,
+                    "is_captain": False,
+                    "is_vc": False,
+                    "player_join": "T Mitchell",
+                },
+            ],
+        }
+        cache_file.write_text(json.dumps(payload), encoding="utf-8")
+
+        self.backend.historic_pitchero_cache_file = cache_file
+        games, appearances = self.backend._load_historic_pitchero_team_sheets(
+            extractor=_ExtractorShouldNotBeCalled(),
+            refresh_pitchero=False,
+        )
+
+        self.assertEqual(len(games), 1)
+        self.assertEqual(games.iloc[0]["game_id"], "2018-09-01_1st_Hove")
+        self.assertEqual(len(appearances), 1)
+        self.assertEqual(appearances.iloc[0]["game_id"], "2018-09-01_1st_Hove")
+
+    def test_build_games_blocks_pitchero_only_rows_in_google_covered_season(self):
+        games_raw = pd.DataFrame(
+            [
+                {
+                    "game_id": "g_google",
+                    "date": "2025-03-22",
+                    "season": "2024/25",
+                    "squad": "2nd",
+                    "competition": "League",
+                    "game_type": "League",
+                    "opposition": "Horsham",
+                    "home_away": "H",
+                    "pf": 30,
+                    "pa": 20,
+                    "result": "W",
+                    "captain": "Cap",
+                    "vc1": None,
+                    "vc2": None,
+                    "_source": "google",
+                },
+                {
+                    "game_id": "g_pitchero_extra",
+                    "date": "2025-03-08",
+                    "season": "2024/25",
+                    "squad": "2nd",
+                    "competition": "League",
+                    "game_type": "League",
+                    "opposition": "Midhurst",
+                    "home_away": "A",
+                    "pf": 0,
+                    "pa": 0,
+                    "result": "D",
+                    "captain": None,
+                    "vc1": None,
+                    "vc2": None,
+                    "_source": "pitchero",
+                },
+            ]
+        )
+
+        games = self.backend._build_games(games_raw)
+        self.assertEqual(len(games), 1)
+        self.assertEqual(games.iloc[0]["opposition"], "Horsham")
+
     def test_historic_loader_raises_when_no_cache_and_no_bootstrap(self):
         self.backend.historic_pitchero_cache_file = self.temp_path / "missing_historic_cache.json"
         self.backend._bootstrap_historic_cache_from_local_backend = lambda: (pd.DataFrame(), pd.DataFrame())
@@ -239,11 +364,7 @@ class BackendCacheAndReconciliationTests(unittest.TestCase):
         )
 
         games = self.backend._build_games(games_raw)
-        opposition_by_game = dict(zip(games["game_id"], games["opposition"]))
-
-        self.assertEqual(opposition_by_game["g1"], "Crawley")
-        self.assertEqual(opposition_by_game["g2"], "Uckfield II")
-        self.assertEqual(opposition_by_game["g3"], "Uckfield RFC")
+        self.assertEqual(sorted(games["opposition"].tolist()), ["Crawley", "Uckfield", "Uckfield II"])
 
     def test_build_games_deduplicates_canonicalized_opposition_collisions(self):
         games_raw = pd.DataFrame(
@@ -286,6 +407,80 @@ class BackendCacheAndReconciliationTests(unittest.TestCase):
         games = self.backend._build_games(games_raw)
         self.assertEqual(len(games), 1)
         self.assertEqual(games.iloc[0]["opposition"], "Ditchling")
+
+    def test_season_scorers_aggregate_match_level_scorer_payloads(self):
+        appearances = pd.DataFrame(
+            [
+                {
+                    "player": "Max Crawley-Moore",
+                    "squad": "1st",
+                    "season": "2019/20",
+                    "date": pd.Timestamp("2019-09-14").date(),
+                    "game_id": "g1",
+                    "game_type": "League",
+                },
+                {
+                    "player": "Ollie Adams",
+                    "squad": "1st",
+                    "season": "2019/20",
+                    "date": pd.Timestamp("2019-09-14").date(),
+                    "game_id": "g1",
+                    "game_type": "League",
+                },
+                {
+                    "player": "Ollie Adams",
+                    "squad": "1st",
+                    "season": "2019/20",
+                    "date": pd.Timestamp("2019-09-21").date(),
+                    "game_id": "g2",
+                    "game_type": "League",
+                },
+            ]
+        )
+
+        games = pd.DataFrame(
+            [
+                {
+                    "game_id": "g1",
+                    "squad": "1st",
+                    "season": "2019/20",
+                    "game_type": "League",
+                    "tries_scorers": '{"M Crawley-Moore": 1}',
+                    "conversions_scorers": '{"O Adams": 2}',
+                    "penalties_scorers": '{}',
+                    "drop_goals_scorers": '{}',
+                },
+                {
+                    "game_id": "g2",
+                    "squad": "1st",
+                    "season": "2019/20",
+                    "game_type": "League",
+                    "tries_scorers": '{"O Adams": 1}',
+                    "conversions_scorers": '{}',
+                    "penalties_scorers": '{"O Adams": 1}',
+                    "drop_goals_scorers": '{}',
+                },
+            ]
+        )
+
+        scorers = self.backend._build_season_scorers(
+            scorers_2526_raw=pd.DataFrame(),
+            pitchero_raw=pd.DataFrame(),
+            appearances=appearances,
+            games=games,
+        )
+
+        crawley_moore = scorers[scorers["player"] == "Max Crawley-Moore"].iloc[0]
+        self.assertEqual(crawley_moore["tries"], 1)
+        self.assertEqual(crawley_moore["points"], 5)
+        self.assertEqual(crawley_moore["source"], "games")
+
+        adams = scorers[scorers["player"] == "Ollie Adams"].iloc[0]
+        self.assertEqual(adams["tries"], 1)
+        self.assertEqual(adams["conversions"], 2)
+        self.assertEqual(adams["penalties"], 1)
+        self.assertEqual(adams["drop_goals"], 0)
+        self.assertEqual(adams["points"], 12)
 
     def test_build_games_prefers_scored_and_lineup_backed_duplicate(self):
         games_raw = pd.DataFrame(
@@ -345,8 +540,9 @@ class BackendCacheAndReconciliationTests(unittest.TestCase):
 
         games = self.backend._build_games(games_raw, appearances_raw)
         self.assertEqual(len(games), 1)
-        self.assertEqual(games.iloc[0]["game_id"], "g_scored")
         self.assertEqual(games.iloc[0]["opposition"], "Ditchling")
+        self.assertEqual(int(games.iloc[0]["score_for"]), 12)
+        self.assertEqual(int(games.iloc[0]["score_against"]), 10)
 
     def test_egrfc_alias_matching_accepts_abbreviated_pitchero_team_names(self):
         self.assertTrue(DataExtractor._is_egrfc_team_name("East Grinstead"))

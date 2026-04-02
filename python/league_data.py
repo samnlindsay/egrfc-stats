@@ -49,6 +49,11 @@ division_ids = {
     },
     "Sussex 1": {
         "2021-2022": 31791,
+        "2019-2020": 21526,
+        "2018-2019": 14030,
+        "2017-2018": 11128,
+
+
     },
     "Sussex 3 Premier": {
         "2021-2022": 37770,
@@ -61,7 +66,10 @@ divisions = {
         "2024/25": "Counties 1 Surrey/Sussex",
         "2023/24": "Counties 1 Surrey/Sussex",
         "2022/23": "Counties 2 Sussex",
-        "2021/22": "Sussex 1"
+        "2021/22": "Sussex 1",
+        "2019/20": "Sussex 1",
+        "2018/19": "Sussex 1",
+        "2017/18": "Sussex 1",
     },
     2: {
         "2025/26": "Counties 3 Sussex",

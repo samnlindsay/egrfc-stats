@@ -113,20 +113,28 @@ const DatabaseExplorer = (() => {
             sourceNote: 'Defined in backend.py as the backend-owned player profile source replacing JS-side deduplication and profile shaping.'
         },
         {
-            key: 'pitchero_appearance_reconciliation',
-            label: 'pitchero_appearance_reconciliation',
-            path: 'data/backend/pitchero_appearance_reconciliation.json',
-            grain: 'One row per historic player-season-squad',
-            description: 'Historic comparison between Pitchero appearance totals and scraped team-sheet totals, including deltas and fix strategy.',
-            sourceNote: 'Defined in backend.py and used to reconcile 2016/17 to 2019/20 appearance totals.'
+            key: 'ref_pitchero_player_name_overrides',
+            label: 'ref_pitchero_player_name_overrides',
+            path: 'data/backend/ref_pitchero_player_name_overrides.json',
+            grain: 'One row per name override',
+            description: 'Reference lookup mapping Pitchero player display names to canonical EGRFC names.',
+            sourceNote: 'Built from the static PITCHERO_TO_GOOGLE_CANONICAL_NAMES map in backend.py.'
         },
         {
-            key: 'pitchero_appearance_backfill',
-            label: 'pitchero_appearance_backfill',
-            path: 'data/backend/pitchero_appearance_backfill.json',
-            grain: 'One row per historic player-season-squad needing backfill',
-            description: 'Subset of reconciliation rows where synthetic appearance rows are injected to align canonical totals with Pitchero.',
-            sourceNote: 'Defined in backend.py as the positive-delta action log for appearance backfill.'
+            key: 'ref_pitchero_opposition_overrides',
+            label: 'ref_pitchero_opposition_overrides',
+            path: 'data/backend/ref_pitchero_opposition_overrides.json',
+            grain: 'One row per opposition key override',
+            description: 'Reference lookup mapping normalized Pitchero opposition keys to canonical opposition names.',
+            sourceNote: 'Built from the static PITCHERO_OPPOSITION_CANONICAL_NAMES map in backend.py.'
+        },
+        {
+            key: 'ref_pitchero_match_url_overrides',
+            label: 'ref_pitchero_match_url_overrides',
+            path: 'data/backend/ref_pitchero_match_url_overrides.json',
+            grain: 'One row per manual URL override',
+            description: 'Reference table of manually approved Pitchero match URL corrections keyed by canonical game_id.',
+            sourceNote: 'Built from the static MANUAL_PITCHERO_URL_OVERRIDES map in backend.py.'
         },
         {
             key: 'v_season_results',
@@ -135,30 +143,6 @@ const DatabaseExplorer = (() => {
             grain: 'One row per season-squad-game type',
             description: 'Derived season results summary by squad and game type, including match counts and points for/against.',
             sourceNote: 'Defined in backend.py as a summary view over canonical games.'
-        },
-        {
-            key: 'v_pitchero_appearance_mismatches',
-            label: 'v_pitchero_appearance_mismatches',
-            path: 'data/backend/v_pitchero_appearance_mismatches.json',
-            grain: 'One row per historic player-season-squad mismatch',
-            description: 'Derived view of reconciliation rows where Pitchero and scraped appearance counts disagree.',
-            sourceNote: 'Defined in backend.py as a filtered mismatch view over pitchero_appearance_reconciliation.'
-        },
-        {
-            key: 'v_season_player_appearances_reconciled',
-            label: 'v_season_player_appearances_reconciled',
-            path: 'data/backend/v_season_player_appearances_reconciled.json',
-            grain: 'One row per historic player-season-squad',
-            description: 'Derived reconciled historic appearance totals showing scraped, Pitchero, and effective counts side by side.',
-            sourceNote: 'Defined in backend.py as a reconciliation summary view over historic appearance mismatches.'
-        },
-        {
-            key: 'v_player_appearance_discrepancy_summary',
-            label: 'v_player_appearance_discrepancy_summary',
-            path: 'data/backend/v_player_appearance_discrepancy_summary.json',
-            grain: 'One row per historic player with any mismatch',
-            description: 'Derived player-level summary of historic reconciliation discrepancies across all affected seasons.',
-            sourceNote: 'Defined in backend.py as a player-level aggregate over pitchero_appearance_reconciliation.'
         },
         {
             key: 'v_rfu_team_games',
@@ -238,7 +222,9 @@ const DatabaseExplorer = (() => {
 
     const TABLE_DROPDOWN_GROUPS = [
         { key: 'core', label: 'Core Canonical Tables' },
+        { key: 'rfu', label: 'RFU Tables' },
         { key: 'enriched', label: 'Enriched Tables' },
+        { key: 'pitchero', label: 'Pitchero Staging & Reference' },
         { key: 'views', label: 'Derived Views' }
     ];
 
@@ -400,12 +386,22 @@ const DatabaseExplorer = (() => {
             return 'core';
         }
 
-        if (definition.key.startsWith('v_')) {
+        const key = definition.key;
+
+        if (key.startsWith('v_')) {
             return 'views';
         }
 
-        if (definition.key.endsWith('_enriched')) {
+        if (key.endsWith('_enriched') || key === 'player_profiles_canonical') {
             return 'enriched';
+        }
+
+        if (key.startsWith('ref_') || key.startsWith('pitchero_')) {
+            return 'pitchero';
+        }
+
+        if (key.endsWith('_rfu')) {
+            return 'rfu';
         }
 
         return 'core';

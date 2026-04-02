@@ -109,6 +109,43 @@ function playerHistory(name) {
         .sort((a, b) => String(a.game.date || '').localeCompare(String(b.game.date || '')));
 }
 
+function gameResultCode(game) {
+    const result = String(game?.result || '').trim().toUpperCase();
+    if (result === 'W' || result === 'L' || result === 'D') return result;
+    return '';
+}
+
+function lastTenResultsFromHistory(history) {
+    return (Array.isArray(history) ? history : [])
+        .map(row => ({
+            result: gameResultCode(row?.game),
+            game: row?.game || null,
+        }))
+        .filter(entry => entry.result)
+        .slice(-10)
+        .reverse();
+}
+
+function lastTenResultsMarkup(history) {
+    const entries = lastTenResultsFromHistory(history);
+    if (!entries.length) {
+        return '<p style="margin:0.18rem 0;"><strong>Last 10 results:</strong> No recent results</p>';
+    }
+
+    const tokens = entries
+        .map(entry => {
+            const result = entry.result;
+            const variant = result === 'W' ? 'last-ten-result--win'
+                : result === 'L' ? 'last-ten-result--loss'
+                    : 'last-ten-result--draw';
+            const title = fixtureText(entry.game, true).replace(/<[^>]+>/g, '');
+            return `<span class="last-ten-result ${variant}" title="${title}">${result}</span>`;
+        })
+        .join('');
+
+    return `<p style="margin:0.18rem 0;"><strong>Last 10 results:</strong> <span class="last-ten-results-strip">${tokens}</span></p>`;
+}
+
 function fixtureText(game, includeSquad) {
     if (!game) return 'Unknown';
     const squadPrefix = includeSquad ? `${escapeHtml(String(game.squad || ''))} XV ` : '';
@@ -598,6 +635,7 @@ function renderProfile(player) {
                             : ''}
                         <p style="margin:0.18rem 0;"><strong>This season:</strong> ${Number(player?.seasonAppearances || 0)} apps (${Number(player?.seasonStarts || 0)} starts)</p>
                         <p style="margin:0.18rem 0;"><strong>Win record:</strong> ${winRecordMarkup(wins, losses, draws)}</p>
+                        ${lastTenResultsMarkup(history)}
                     </section>
 
                     <section class="full-profile-section-block">

@@ -47,7 +47,6 @@ Recommended pattern:
 Main outputs:
 - `data/egrfc_backend.duckdb`
 - `data/backend/*.json`
-- `data/backend/*.parquet`
 
 Backend schema and usage notes:
 - `python/backend.md`

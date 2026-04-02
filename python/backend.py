@@ -14,7 +14,14 @@ from typing import Any
 import duckdb
 import pandas as pd
 
-from python.data import HISTORIC_PITCHERO_SEASON_IDS, DataExtractor, clean_name
+from python.data import (
+    HISTORIC_PITCHERO_SEASON_IDS,
+    PITCHERO_OPPOSITION_CANONICAL_NAMES,
+    DataExtractor,
+    _normalise_pitchero_key,
+    canonical_pitchero_opposition,
+    clean_name,
+)
 from python.league_data import (
     build_rfu_games_dataframe,
     build_rfu_player_appearances_dataframe,
@@ -33,44 +40,37 @@ PITCHERO_TO_GOOGLE_CANONICAL_NAMES = {
     "Thomas Halligey": "Tom Halligey",
     "Alistair Moffatt": "Ali Moffatt",
     "Bertram Beanland": "Bertie Beanland",
+    "Olivier Hodge": "Oli Hodge",
+    "Oliver Hodge": "Oli Hodge",
+    "Benjamin Green": "Ben Green",
+    "Titch Mitchell": "James Mitchell",
+    "Benjamin Slingsby": "Ben Slingsby",
+    "Daniel Poulton": "Dan Poulton",
+    "Dante maynard": "Dante Maynard",
+    "Eoin O’Donoghue": "Eoin O'Donoghue",
+    "John Lear": "Jon Lear",
+    "Jonathan Martin": "Jonny Martin",
+    "Josh Brimmecombe": "Josh Brimecombe",
+    "Jozef Boczek": "Joe Boczek",
+    "Jose Eduardo Fernandez-Oliva Fernandez": "Edu Fernandez",
+    "Edward Arundell": "Ed Arundell",
+    "mark lewis": "Mark Lewis",
+    "Oliver Johnston": "Ollie Johnston",
+    "PATRICK THOMSON": "Patrick Thomson",
+    "Owen R Jones": "Owen Jones",
+    "Samuel Johnston": "Sam Johnston",
+    "Zach Bradbury": "Zack Bradbury",
+    "Artemus Maynard": "Artemis Maynard",
+    "Barley O’Conor": "Barley O'Conor",
 }
+
+
 
 # Some players appear under multiple display names across sources.
 # We only collapse aliases within the same game_id to avoid merging genuinely
 # distinct players who share similar names.
 IN_GAME_PLAYER_ALIAS_CANONICAL = {
     "Sam Lindsay": "Sam Lindsay-McCall",
-}
-
-PITCHERO_OPPOSITION_CANONICAL_NAMES = {
-    "brighton3": "Brighton III",
-    "bognor2": "Bognor II",
-    "burgesshill2": "Burgess Hill II",
-    "burgesshill": "Burgess Hill",
-    "crawleycupfinal": "Crawley",
-    "crawley2s3s": "Crawley II",
-    "ditchlingrfc": "Ditchling",
-    "ditchling": "Ditchling",
-    "eastbourneiirfc": "Eastbourne II",
-    "eastbourne2": "Eastbourne II",
-    "eastbourne2s": "Eastbourne II",
-    "eastbourneiirfc": "Eastbourne II",
-    "haywardsheath2xv": "Haywards Heath II",
-    "haywardsheath2xy": "Haywards Heath II",
-    "heathfield2": "Heathfield II",
-    "heathfield3s": "Heathfield III",
-    "heathfieldwaldron3": "Heathfield & Waldron III",
-    "hellingly2": "Hellingly II",
-    "hove2": "Hove II",
-    "hove2xv": "Hove II",
-    "hove2xy": "Hove II",
-    "hove3": "Hove III",
-    "pulborough2": "Pulborough II",
-    "pulborough3": "Pulborough III",
-    "uckfieldiirfc": "Uckfield II",
-    "uckfield2s": "Uckfield II",
-    "uckfieldrfc": "Uckfield",
-    "warlingham3s": "Warlingham III",
 }
 
 MANUAL_PITCHERO_URL_OVERRIDES = {
@@ -131,6 +131,70 @@ def _normalise_key(name: str) -> str:
     return re.sub(r"[^a-z0-9]", "", name.lower())
 
 
+_OPPOSITION_TEAM_SUFFIX_RE = re.compile(
+    r"""
+    ^\s*(?P<club>.*?)\s*
+    (?P<team>
+        (?:(?P<team_num>[1-6])(?:st|nd|rd|th)?(?:\s*(?:xv|s|['\u2019]s))?)
+        |
+        (?P<team_roman>i{1,3}|iv|v|vi)
+    )\s*$
+    """,
+    flags=re.IGNORECASE | re.VERBOSE,
+)
+
+_ROMAN_TO_TEAM_NUMBER = {
+    "I": 1,
+    "II": 2,
+    "III": 3,
+    "IV": 4,
+    "V": 5,
+    "VI": 6,
+}
+
+
+def _split_opposition_club_team(name: Any) -> tuple[str, int | None]:
+    """Split opposition display name into (club_name, team_number).
+
+    Examples:
+    - "Haywards Heath" -> ("Haywards Heath", None)
+    - "Haywards Heath II" -> ("Haywards Heath", 2)
+    - "Pulborough 2s" -> ("Pulborough", 2)
+    """
+    if name is None or pd.isna(name):
+        return "", None
+
+    canonical = str(_canonical_pitchero_opposition_name(name)).strip()
+    if not canonical:
+        return "", None
+
+    collapsed = re.sub(r"\s+", " ", canonical)
+    match = _OPPOSITION_TEAM_SUFFIX_RE.match(collapsed)
+    if not match:
+        return collapsed, None
+
+    club = re.sub(r"\s+", " ", (match.group("club") or "").strip(" -"))
+    if not club:
+        return collapsed, None
+
+    team_num = match.group("team_num")
+    if team_num:
+        return club, int(team_num)
+
+    team_roman = (match.group("team_roman") or "").upper()
+    return club, _ROMAN_TO_TEAM_NUMBER.get(team_roman)
+
+
+def _opposition_club_name(name: Any) -> str:
+    club, _team = _split_opposition_club_team(name)
+    return club
+
+
+def _canonical_game_id(match_date: Any, squad: Any, opposition: Any) -> str:
+    club = _opposition_club_name(opposition)
+    return f"{match_date}_{squad}_{club}".replace(" ", "_").replace("/", "")
+
+
 def _season_sort_key(season: Any) -> tuple[int, str]:
     season_text = str(season or "").strip()
     match = re.match(r"^(\d{4})-(\d{4})$", season_text)
@@ -146,10 +210,7 @@ def _canonical_player_name(name: Any) -> Any:
 
 
 def _canonical_pitchero_opposition_name(name: Any) -> Any:
-    if pd.isna(name):
-        return name
-    cleaned = str(name).strip()
-    return PITCHERO_OPPOSITION_CANONICAL_NAMES.get(_normalise_key(cleaned), cleaned)
+    return canonical_pitchero_opposition(name)
 
 
 def _is_empty_jsonish(value: Any) -> bool:
@@ -159,12 +220,47 @@ def _is_empty_jsonish(value: Any) -> bool:
     return text in {"", "{}", "null", "None"}
 
 
+def _parse_scorer_payload(value: Any) -> dict[str, int]:
+    if value is None or pd.isna(value):
+        return {}
+
+    if isinstance(value, dict):
+        payload = value
+    elif isinstance(value, str):
+        text = value.strip()
+        if text in {"", "{}", "null", "None"}:
+            return {}
+        try:
+            payload = json.loads(text)
+        except json.JSONDecodeError:
+            return {}
+    else:
+        return {}
+
+    parsed: dict[str, int] = {}
+    for name, count in payload.items():
+        player_name = str(name).strip()
+        if not player_name:
+            continue
+        numeric_count = pd.to_numeric(count, errors="coerce")
+        if pd.isna(numeric_count):
+            continue
+        parsed_count = int(numeric_count)
+        if parsed_count <= 0:
+            continue
+        parsed[player_name] = parsed_count
+    return parsed
+
+
 def _apply_pitchero_supplemental_enrichment(db_path: Path, project_root: Path) -> dict[str, int]:
     """Apply URL/scorer supplements from reconciliation artifacts, if available."""
     report = {
         "manual_url_overrides_applied": 0,
         "candidate_url_updates_applied": 0,
         "scorer_backfills_applied": 0,
+        "historic_cache_rows_updated": 0,
+        "historic_cache_scorer_backfills_applied": 0,
+        "historic_cache_captain_backfills_applied": 0,
     }
 
     if not db_path.exists():
@@ -300,6 +396,165 @@ def _apply_pitchero_supplemental_enrichment(db_path: Path, project_root: Path) -
                         scorer_updates += 1
 
                 report["scorer_backfills_applied"] = int(scorer_updates)
+
+        # 4) Backfill from historic Pitchero cache by game_id.
+        # This path avoids network calls and preserves scorer/captain data
+        # extracted previously from Pitchero events pages.
+        historic_cache_file = project_root / "data" / "pitchero_historic_team_sheets_cache.json"
+        if historic_cache_file.exists():
+            try:
+                with historic_cache_file.open("r", encoding="utf-8") as handle:
+                    cache_payload = json.load(handle)
+            except Exception:
+                cache_payload = {}
+
+            cache_games = cache_payload.get("games", []) if isinstance(cache_payload, dict) else []
+            if isinstance(cache_games, list) and cache_games:
+                scorer_cols = ["tries_scorers", "conversions_scorers", "penalties_scorers", "drop_goals_scorers"]
+                cache_lookup: dict[str, dict[str, Any]] = {}
+                for row in cache_games:
+                    if not isinstance(row, dict):
+                        continue
+                    # Rebuild a canonical (club-only) game_id so the lookup matches
+                    # the games table, which normalises team-suffix variants away.
+                    raw_date = str(row.get("date") or "").strip()
+                    raw_squad = str(row.get("squad") or "").strip()
+                    raw_opposition = str(row.get("opposition") or "").strip()
+                    if raw_date and raw_squad and raw_opposition:
+                        game_id = _canonical_game_id(raw_date, raw_squad, raw_opposition)
+                    else:
+                        game_id = str(row.get("game_id") or "").strip()
+                    if not game_id:
+                        continue
+                    cache_lookup[game_id] = {
+                        "captain": row.get("captain"),
+                        "motm": row.get("motm"),
+                        "vc1": row.get("vc1"),
+                        "vc2": row.get("vc2"),
+                        "pitchero_match_url": row.get("pitchero_match_url"),
+                        **{col: row.get(col) for col in scorer_cols},
+                    }
+
+                existing_rows = con.execute(
+                    """
+                    SELECT game_id,
+                           captain,
+                           motm,
+                           vice_captain_1,
+                           vice_captain_2,
+                           tries_scorers,
+                           conversions_scorers,
+                           penalties_scorers,
+                           drop_goals_scorers,
+                           pitchero_match_url
+                    FROM games
+                    """
+                ).fetchall()
+
+                rows_updated = 0
+                scorer_updates = 0
+                captain_updates = 0
+
+                for (
+                    game_id,
+                    captain,
+                    motm,
+                    vc1,
+                    vc2,
+                    tries,
+                    conv,
+                    pen,
+                    dg,
+                    url,
+                ) in existing_rows:
+                    payload = cache_lookup.get(str(game_id))
+                    if not payload:
+                        continue
+
+                    new_captain, new_motm = captain, motm
+                    new_vc1, new_vc2 = vc1, vc2
+                    new_tries, new_conv, new_pen, new_dg = tries, conv, pen, dg
+                    new_url = url
+
+                    if _is_empty_jsonish(new_captain) and not _is_empty_jsonish(payload.get("captain")):
+                        new_captain = payload.get("captain")
+                        captain_updates += 1
+                    if _is_empty_jsonish(new_motm) and not _is_empty_jsonish(payload.get("motm")):
+                        new_motm = payload.get("motm")
+                    if _is_empty_jsonish(new_vc1) and not _is_empty_jsonish(payload.get("vc1")):
+                        new_vc1 = payload.get("vc1")
+                    if _is_empty_jsonish(new_vc2) and not _is_empty_jsonish(payload.get("vc2")):
+                        new_vc2 = payload.get("vc2")
+
+                    if _is_empty_jsonish(new_tries) and not _is_empty_jsonish(payload.get("tries_scorers")):
+                        new_tries = payload.get("tries_scorers")
+                        scorer_updates += 1
+                    if _is_empty_jsonish(new_conv) and not _is_empty_jsonish(payload.get("conversions_scorers")):
+                        new_conv = payload.get("conversions_scorers")
+                        scorer_updates += 1
+                    if _is_empty_jsonish(new_pen) and not _is_empty_jsonish(payload.get("penalties_scorers")):
+                        new_pen = payload.get("penalties_scorers")
+                        scorer_updates += 1
+                    if _is_empty_jsonish(new_dg) and not _is_empty_jsonish(payload.get("drop_goals_scorers")):
+                        new_dg = payload.get("drop_goals_scorers")
+                        scorer_updates += 1
+
+                    if _is_empty_jsonish(new_url) and not _is_empty_jsonish(payload.get("pitchero_match_url")):
+                        new_url = payload.get("pitchero_match_url")
+
+                    if (
+                        new_captain,
+                        new_motm,
+                        new_vc1,
+                        new_vc2,
+                        new_tries,
+                        new_conv,
+                        new_pen,
+                        new_dg,
+                        new_url,
+                    ) != (
+                        captain,
+                        motm,
+                        vc1,
+                        vc2,
+                        tries,
+                        conv,
+                        pen,
+                        dg,
+                        url,
+                    ):
+                        con.execute(
+                            """
+                            UPDATE games
+                            SET captain = ?,
+                                motm = ?,
+                                vice_captain_1 = ?,
+                                vice_captain_2 = ?,
+                                tries_scorers = ?,
+                                conversions_scorers = ?,
+                                penalties_scorers = ?,
+                                drop_goals_scorers = ?,
+                                pitchero_match_url = ?
+                            WHERE game_id = ?
+                            """,
+                            [
+                                new_captain,
+                                new_motm,
+                                new_vc1,
+                                new_vc2,
+                                new_tries,
+                                new_conv,
+                                new_pen,
+                                new_dg,
+                                new_url,
+                                game_id,
+                            ],
+                        )
+                        rows_updated += 1
+
+                report["historic_cache_rows_updated"] = int(rows_updated)
+                report["historic_cache_scorer_backfills_applied"] = int(scorer_updates)
+                report["historic_cache_captain_backfills_applied"] = int(captain_updates)
     finally:
         con.close()
 
@@ -340,6 +595,9 @@ class BackendDatabase:
 
     def reset_schema(self) -> None:
         self.con.execute("DROP VIEW IF EXISTS v_player_profiles")
+        self.con.execute("DROP VIEW IF EXISTS v_pitchero_stats_cleaning_audit")
+        self.con.execute("DROP VIEW IF EXISTS v_pitchero_player_appearances_cleaning_audit")
+        self.con.execute("DROP VIEW IF EXISTS v_pitchero_games_cleaning_audit")
         self.con.execute("DROP VIEW IF EXISTS v_player_appearance_discrepancy_summary")
         self.con.execute("DROP VIEW IF EXISTS v_season_player_appearances_reconciled")
         self.con.execute("DROP VIEW IF EXISTS v_pitchero_appearance_mismatches")
@@ -360,6 +618,15 @@ class BackendDatabase:
         self.con.execute("DROP TABLE IF EXISTS player_profiles_canonical")
         self.con.execute("DROP TABLE IF EXISTS pitchero_appearance_backfill")
         self.con.execute("DROP TABLE IF EXISTS pitchero_appearance_reconciliation")
+        self.con.execute("DROP TABLE IF EXISTS pitchero_stats_clean")
+        self.con.execute("DROP TABLE IF EXISTS pitchero_stats_raw")
+        self.con.execute("DROP TABLE IF EXISTS pitchero_player_appearances_clean")
+        self.con.execute("DROP TABLE IF EXISTS pitchero_player_appearances_raw")
+        self.con.execute("DROP TABLE IF EXISTS pitchero_games_clean")
+        self.con.execute("DROP TABLE IF EXISTS pitchero_games_raw")
+        self.con.execute("DROP TABLE IF EXISTS ref_pitchero_match_url_overrides")
+        self.con.execute("DROP TABLE IF EXISTS ref_pitchero_opposition_overrides")
+        self.con.execute("DROP TABLE IF EXISTS ref_pitchero_player_name_overrides")
         self.con.execute("DROP TABLE IF EXISTS player_profiles_enriched")
         self.con.execute("DROP TABLE IF EXISTS player_appearances_rfu")
         self.con.execute("DROP TABLE IF EXISTS players")
@@ -369,6 +636,33 @@ class BackendDatabase:
         self.con.execute("DROP TABLE IF EXISTS player_appearances")
         self.con.execute("DROP TABLE IF EXISTS games_rfu")
         self.con.execute("DROP TABLE IF EXISTS games")
+
+        self.con.execute(
+            """
+            CREATE TABLE ref_pitchero_player_name_overrides (
+                pitchero_name TEXT PRIMARY KEY,
+                canonical_name TEXT NOT NULL
+            )
+            """
+        )
+
+        self.con.execute(
+            """
+            CREATE TABLE ref_pitchero_opposition_overrides (
+                opposition_key TEXT PRIMARY KEY,
+                canonical_opposition TEXT NOT NULL
+            )
+            """
+        )
+
+        self.con.execute(
+            """
+            CREATE TABLE ref_pitchero_match_url_overrides (
+                game_id TEXT PRIMARY KEY,
+                pitchero_match_url TEXT NOT NULL
+            )
+            """
+        )
 
         self.con.execute(
             """
@@ -559,38 +853,6 @@ class BackendDatabase:
 
         self.con.execute(
             """
-            CREATE TABLE pitchero_appearance_reconciliation (
-                squad TEXT NOT NULL,
-                season TEXT NOT NULL,
-                player_join TEXT NOT NULL,
-                player TEXT,
-                pitchero_appearances INTEGER,
-                scraped_appearances INTEGER,
-                delta INTEGER,
-                abs_delta INTEGER,
-                status TEXT,
-                fix_type TEXT,
-                PRIMARY KEY(squad, season, player_join)
-            )
-            """
-        )
-
-        self.con.execute(
-            """
-            CREATE TABLE pitchero_appearance_backfill (
-                squad TEXT NOT NULL,
-                season TEXT NOT NULL,
-                player_join TEXT NOT NULL,
-                player TEXT,
-                missing_appearances INTEGER,
-                applied_fix BOOLEAN,
-                PRIMARY KEY(squad, season, player_join)
-            )
-            """
-        )
-
-        self.con.execute(
-            """
             CREATE TABLE squad_stats_enriched (
                 season TEXT NOT NULL,
                 gameTypeMode TEXT NOT NULL,
@@ -711,9 +973,9 @@ class BackendDatabase:
         self.reset_schema()
         extractor = DataExtractor(credentials_path=self.config.credentials_path)
 
-        games_raw = extractor.extract_games_data()
-        games_raw["_source"] = "google"
-        appearances_raw = extractor.extract_player_appearances()
+        games_google_raw = extractor.extract_games_data()
+        games_google_raw["_source"] = "google"
+        appearances_google_raw = extractor.extract_player_appearances()
 
         historic_games_raw, historic_appearances_raw = self._load_historic_pitchero_team_sheets(
             extractor=extractor,
@@ -721,15 +983,25 @@ class BackendDatabase:
         )
         if not historic_games_raw.empty:
             historic_games_raw["_source"] = "pitchero"
-            games_raw = pd.concat([games_raw, historic_games_raw], ignore_index=True)
-        if not historic_appearances_raw.empty:
-            appearances_raw = pd.concat([appearances_raw, historic_appearances_raw], ignore_index=True)
 
         lineouts_raw = self._extract_lineouts(extractor)
         set_piece_raw = extractor.extract_set_piece_stats()
-        pitchero_raw = self._load_pitchero(extractor, refresh_pitchero)
+        pitchero_stats_source = self._load_pitchero(extractor, refresh_pitchero)
         scorers_2526_raw = self._extract_2526_scorers(extractor)
         rfu_matches_raw = load_consolidated_matches(self.rfu_matches_file.as_posix())
+
+        pitchero_games_raw = self._build_pitchero_games_raw(historic_games_raw)
+        pitchero_games_clean = self._build_pitchero_games_clean(pitchero_games_raw)
+        pitchero_appearances_raw = self._build_pitchero_player_appearances_raw(historic_appearances_raw)
+        pitchero_appearances_clean = self._build_pitchero_player_appearances_clean(pitchero_appearances_raw)
+        pitchero_stats_raw = self._build_pitchero_stats_raw(pitchero_stats_source)
+        pitchero_stats_clean = self._build_pitchero_stats_clean(pitchero_stats_raw)
+        ref_player_names = self._build_ref_pitchero_player_name_overrides()
+        ref_opposition_names = self._build_ref_pitchero_opposition_overrides()
+        ref_match_urls = self._build_ref_pitchero_match_url_overrides()
+
+        games_raw = pd.concat([games_google_raw, pitchero_games_clean.assign(_source="pitchero")], ignore_index=True)
+        appearances_raw = pd.concat([appearances_google_raw, pitchero_appearances_clean], ignore_index=True)
 
         # Ensure pitchero_match_url column exists (from Pitchero data, NULL for Google Sheets data)
         if "pitchero_match_url" not in games_raw.columns:
@@ -740,9 +1012,7 @@ class BackendDatabase:
         appearances = self._build_player_appearances(appearances_raw, games)
         lineouts = self._build_lineouts(lineouts_raw, games)
         set_piece = self._build_set_piece(set_piece_raw, games)
-        season_scorers = self._build_season_scorers(scorers_2526_raw, pitchero_raw, appearances, games)
-        reconciliation, backfill = self._build_pitchero_appearance_reconciliation(pitchero_raw, appearances)
-        appearances = self._apply_backfill_to_appearances(appearances, backfill, reconciliation)
+        season_scorers = self._build_season_scorers(scorers_2526_raw, pitchero_stats_clean, appearances, games)
         appearances = self._annotate_appearance_numbers(appearances)
         players = self._build_players(appearances, games, lineouts, season_scorers)
         player_profiles_base = self._build_player_profiles_base(players, appearances, games, season_scorers)
@@ -762,6 +1032,9 @@ class BackendDatabase:
             games_df=games_rfu,
         )
 
+        self._insert("ref_pitchero_player_name_overrides", ref_player_names)
+        self._insert("ref_pitchero_opposition_overrides", ref_opposition_names)
+        self._insert("ref_pitchero_match_url_overrides", ref_match_urls)
         self._insert("games", games)
         self._insert("player_appearances", appearances)
         self._insert("games_rfu", games_rfu)
@@ -776,9 +1049,6 @@ class BackendDatabase:
         self._insert("squad_stats_with_thresholds_enriched", squad_stats_with_thresholds_enriched)
         self._insert("player_profiles_canonical", player_profiles_canonical)
         self._insert("season_summary_enriched", season_summary_enriched)
-        self._insert("pitchero_appearance_reconciliation", reconciliation)
-        self._insert("pitchero_appearance_backfill", backfill)
-
         self.create_views()
 
         if export:
@@ -1002,56 +1272,6 @@ class BackendDatabase:
             """
         )
 
-        self.con.execute(
-            """
-            CREATE VIEW v_pitchero_appearance_mismatches AS
-            SELECT *
-            FROM pitchero_appearance_reconciliation
-            WHERE delta <> 0
-            ORDER BY abs_delta DESC, season DESC, squad, player_join
-            """
-        )
-
-        self.con.execute(
-            """
-            CREATE VIEW v_season_player_appearances_reconciled AS
-            SELECT
-                squad,
-                season,
-                player_join,
-                player,
-                scraped_appearances,
-                pitchero_appearances,
-                CASE
-                    WHEN delta > 0 THEN pitchero_appearances
-                    ELSE scraped_appearances
-                END AS effective_appearances,
-                delta AS reconciliation_delta,
-                delta > 0 AS adjusted_by_pitchero
-            FROM pitchero_appearance_reconciliation
-            """
-        )
-
-        self.con.execute(
-            """
-            CREATE VIEW v_player_appearance_discrepancy_summary AS
-            SELECT
-                player,
-                player_join,
-                SUM(pitchero_appearances) AS pitchero_appearances,
-                SUM(scraped_appearances) AS scraped_appearances,
-                SUM(delta) AS net_delta,
-                SUM(abs_delta) AS total_abs_delta,
-                SUM(CASE WHEN delta > 0 THEN delta ELSE 0 END) AS missing_from_scrape,
-                SUM(CASE WHEN delta < 0 THEN -delta ELSE 0 END) AS excess_in_scrape,
-                COUNT(*) FILTER (WHERE delta <> 0) AS seasons_with_mismatch
-            FROM pitchero_appearance_reconciliation
-            GROUP BY player, player_join
-            HAVING SUM(abs_delta) > 0
-            ORDER BY total_abs_delta DESC, net_delta DESC, player_join
-            """
-        )
-
     def query(self, sql: str, params: list[Any] | None = None) -> pd.DataFrame:
         return self.con.execute(sql, params or []).df()
 
@@ -1090,6 +1310,9 @@ class BackendDatabase:
         }
         
         table_names = [
+            "ref_pitchero_player_name_overrides",
+            "ref_pitchero_opposition_overrides",
+            "ref_pitchero_match_url_overrides",
             "games",
             "games_rfu",
             "player_appearances",
@@ -1104,14 +1327,9 @@ class BackendDatabase:
             "squad_continuity_enriched",
             "squad_stats_with_thresholds_enriched",
             "player_profiles_canonical",
-            "pitchero_appearance_reconciliation",
-            "pitchero_appearance_backfill",
         ]
         view_names = [
             "v_season_results",
-            "v_pitchero_appearance_mismatches",
-            "v_season_player_appearances_reconciled",
-            "v_player_appearance_discrepancy_summary",
             "v_rfu_team_games",
             "v_rfu_squad_size",
             "v_rfu_match_retention",
@@ -1119,6 +1337,12 @@ class BackendDatabase:
             "v_rfu_lineup_coverage",
             "v_red_zone",
         ]
+
+        expected_export_names = {f"{name}.json" for name in (table_names + view_names)}
+        expected_export_names.update({"scorer_coverage_audit.json", "scorer_coverage_audit.csv"})
+        for path in self.export_root.glob("*.*"):
+            if path.name not in expected_export_names:
+                path.unlink()
 
         for name in table_names + view_names:
             df = self.con.execute(f"SELECT * FROM {name}").df()
@@ -1134,14 +1358,169 @@ class BackendDatabase:
                         )
             
             export_df.to_json(self.export_root / f"{name}.json", orient="records")
-            self.con.execute(
-                f"COPY (SELECT * FROM {name}) TO '{(self.export_root / f'{name}.parquet').as_posix()}' (FORMAT PARQUET)"
-            )
+
+        # Scorer coverage audit: identify game_ids still missing all scorer payloads.
+        scorer_audit_df = self.con.execute(
+            """
+            SELECT
+                game_id,
+                date,
+                season,
+                squad,
+                opposition,
+                game_type,
+                result,
+                captain,
+                motm,
+                pitchero_match_url,
+                tries_scorers,
+                conversions_scorers,
+                penalties_scorers,
+                drop_goals_scorers,
+                CASE
+                    WHEN NULLIF(TRIM(COALESCE(tries_scorers, '')), '') IS NOT NULL
+                      OR NULLIF(TRIM(COALESCE(conversions_scorers, '')), '') IS NOT NULL
+                      OR NULLIF(TRIM(COALESCE(penalties_scorers, '')), '') IS NOT NULL
+                      OR NULLIF(TRIM(COALESCE(drop_goals_scorers, '')), '') IS NOT NULL
+                    THEN TRUE ELSE FALSE
+                END AS has_any_scorers,
+                CASE
+                    WHEN NULLIF(TRIM(COALESCE(pitchero_match_url, '')), '') IS NOT NULL
+                    THEN TRUE ELSE FALSE
+                END AS has_pitchero_url
+            FROM games
+            ORDER BY date DESC, squad, opposition
+            """
+        ).df()
+        scorer_audit_df = _normalise_dates_for_json(scorer_audit_df)
+        scorer_audit_df.to_json(self.export_root / "scorer_coverage_audit.json", orient="records")
+        scorer_audit_df.to_csv(self.export_root / "scorer_coverage_audit.csv", index=False)
 
     def _insert(self, table_name: str, df: pd.DataFrame) -> None:
         if df.empty:
             return
         self.con.execute(f"INSERT INTO {table_name} SELECT * FROM df")
+
+    def _build_ref_pitchero_player_name_overrides(self) -> pd.DataFrame:
+        rows = [
+            {"pitchero_name": pitchero_name, "canonical_name": canonical_name}
+            for pitchero_name, canonical_name in sorted(PITCHERO_TO_GOOGLE_CANONICAL_NAMES.items())
+        ]
+        return pd.DataFrame(rows, columns=["pitchero_name", "canonical_name"])
+
+    def _build_ref_pitchero_opposition_overrides(self) -> pd.DataFrame:
+        rows = [
+            {"opposition_key": opposition_key, "canonical_opposition": canonical_name}
+            for opposition_key, canonical_name in sorted(PITCHERO_OPPOSITION_CANONICAL_NAMES.items())
+        ]
+        return pd.DataFrame(rows, columns=["opposition_key", "canonical_opposition"])
+
+    def _build_ref_pitchero_match_url_overrides(self) -> pd.DataFrame:
+        rows = [
+            {"game_id": game_id, "pitchero_match_url": url}
+            for game_id, url in sorted(MANUAL_PITCHERO_URL_OVERRIDES.items())
+        ]
+        return pd.DataFrame(rows, columns=["game_id", "pitchero_match_url"])
+
+    def _build_pitchero_games_raw(self, historic_games_raw: pd.DataFrame) -> pd.DataFrame:
+        columns = [
+            "game_id",
+            "date",
+            "season",
+            "squad",
+            "competition",
+            "game_type",
+            "opposition",
+            "home_away",
+            "pf",
+            "pa",
+            "result",
+            "margin",
+            "captain",
+            "motm",
+            "vc1",
+            "vc2",
+            "tries_scorers",
+            "conversions_scorers",
+            "penalties_scorers",
+            "drop_goals_scorers",
+            "pitchero_match_url",
+        ]
+        if historic_games_raw.empty:
+            return pd.DataFrame(columns=columns)
+
+        df = historic_games_raw.copy().reindex(columns=columns)
+        df["date"] = _safe_date(df["date"])
+        df["pf"] = pd.to_numeric(df["pf"], errors="coerce").astype("Int64")
+        df["pa"] = pd.to_numeric(df["pa"], errors="coerce").astype("Int64")
+        df["margin"] = pd.to_numeric(df["margin"], errors="coerce").astype("Int64")
+        return df.drop_duplicates(subset=["game_id"])
+
+    def _build_pitchero_games_clean(self, pitchero_games_raw: pd.DataFrame) -> pd.DataFrame:
+        if pitchero_games_raw.empty:
+            return pitchero_games_raw.copy()
+
+        df = pitchero_games_raw.copy()
+        historic_seasons = set(HISTORIC_PITCHERO_SEASON_IDS.keys())
+        historic_mask = df["season"].isin(historic_seasons)
+        df.loc[historic_mask, "opposition"] = df.loc[historic_mask, "opposition"].map(_canonical_pitchero_opposition_name)
+        for col in ["captain", "motm", "vc1", "vc2"]:
+            df[col] = df[col].map(_canonical_player_name)
+        return df
+
+    def _build_pitchero_player_appearances_raw(self, historic_appearances_raw: pd.DataFrame) -> pd.DataFrame:
+        columns = [
+            "appearance_id",
+            "game_id",
+            "player",
+            "shirt_number",
+            "position",
+            "position_group",
+            "unit",
+            "is_starter",
+            "is_captain",
+            "is_vc",
+            "player_join",
+        ]
+        if historic_appearances_raw.empty:
+            return pd.DataFrame(columns=columns)
+
+        df = historic_appearances_raw.copy().reindex(columns=columns)
+        df["shirt_number"] = pd.to_numeric(df["shirt_number"], errors="coerce").astype("Int64")
+        for flag_col in ["is_starter", "is_captain", "is_vc"]:
+            df[flag_col] = df[flag_col].fillna(False).astype(bool)
+        return df.drop_duplicates(subset=["appearance_id"])
+
+    def _build_pitchero_player_appearances_clean(self, pitchero_apps_raw: pd.DataFrame) -> pd.DataFrame:
+        if pitchero_apps_raw.empty:
+            return pitchero_apps_raw.copy()
+
+        df = pitchero_apps_raw.copy()
+        df["player"] = df["player"].map(_canonical_player_name)
+        df["player_join"] = df["player"].map(clean_name)
+        return df.drop_duplicates(subset=["appearance_id"])
+
+    def _build_pitchero_stats_raw(self, pitchero_stats_source: pd.DataFrame) -> pd.DataFrame:
+        expected_columns = ["Season", "Squad", "Player_join", "A", "Event", "Count"]
+        if pitchero_stats_source.empty:
+            return pd.DataFrame(columns=expected_columns)
+
+        df = pitchero_stats_source.copy().reindex(columns=expected_columns)
+        df["A"] = pd.to_numeric(df["A"], errors="coerce").fillna(0).astype(int)
+        df["Count"] = pd.to_numeric(df["Count"], errors="coerce").fillna(0).astype(int)
+        return df
+
+    def _build_pitchero_stats_clean(self, pitchero_stats_raw: pd.DataFrame) -> pd.DataFrame:
+        if pitchero_stats_raw.empty:
+            return pitchero_stats_raw.copy()
+
+        df = pitchero_stats_raw.copy()
+        df["Squad"] = df["Squad"].astype(str).str.strip()
+        df["Season"] = df["Season"].astype(str).str.strip()
+        df["Event"] = df["Event"].astype(str).str.strip()
+        df = df[df["Squad"].isin(["1st", "2nd"])].copy()
+        df = df[df["Event"].isin(["T", "Con", "PK", "DG", "YC", "RC"])].copy()
+        return df
 
     def _load_pitchero(self, extractor: DataExtractor, refresh: bool) -> pd.DataFrame:
         expected_columns = ["Season", "Squad", "Player_join", "A", "Event", "Count"]
@@ -1178,6 +1557,10 @@ class BackendDatabase:
             "motm",
             "vc1",
             "vc2",
+            "tries_scorers",
+            "conversions_scorers",
+            "penalties_scorers",
+            "drop_goals_scorers",
             "pitchero_match_url",
         ]
         cache_apps_cols = [
@@ -1199,15 +1582,18 @@ class BackendDatabase:
                 seasons=sorted(HISTORIC_PITCHERO_SEASON_IDS.keys()),
                 squads=(1, 2),
             )
+            games_df, apps_df = self._filter_to_historic_pitchero_seasons(games_df, apps_df)
             if not games_df.empty or not apps_df.empty:
                 self._write_historic_pitchero_cache(games_df, apps_df)
             return games_df.reindex(columns=cache_games_cols), apps_df.reindex(columns=cache_apps_cols)
 
         if self.historic_pitchero_cache_file.exists():
             cached_games, cached_apps = self._read_historic_pitchero_cache()
+            cached_games, cached_apps = self._filter_to_historic_pitchero_seasons(cached_games, cached_apps)
             return cached_games.reindex(columns=cache_games_cols), cached_apps.reindex(columns=cache_apps_cols)
 
         boot_games, boot_apps = self._bootstrap_historic_cache_from_local_backend()
+        boot_games, boot_apps = self._filter_to_historic_pitchero_seasons(boot_games, boot_apps)
         if not boot_games.empty or not boot_apps.empty:
             self._write_historic_pitchero_cache(boot_games, boot_apps)
             return boot_games.reindex(columns=cache_games_cols), boot_apps.reindex(columns=cache_apps_cols)
@@ -1223,6 +1609,33 @@ class BackendDatabase:
         games = pd.DataFrame(payload.get("games", []))
         appearances = pd.DataFrame(payload.get("appearances", []))
         return games, appearances
+
+    def _filter_to_historic_pitchero_seasons(
+        self,
+        games_df: pd.DataFrame,
+        apps_df: pd.DataFrame,
+    ) -> tuple[pd.DataFrame, pd.DataFrame]:
+        """Restrict cached Pitchero team-sheet data to configured historic seasons only."""
+        historic_seasons = set(HISTORIC_PITCHERO_SEASON_IDS.keys())
+
+        if games_df.empty:
+            return games_df.copy(), apps_df.copy()
+
+        filtered_games = games_df.copy()
+        if "season" in filtered_games.columns:
+            filtered_games["season"] = filtered_games["season"].astype(str).str.strip()
+            filtered_games = filtered_games[filtered_games["season"].isin(historic_seasons)].copy()
+
+        if apps_df.empty:
+            return filtered_games, apps_df.copy()
+
+        if "game_id" not in filtered_games.columns or "game_id" not in apps_df.columns:
+            return filtered_games, apps_df.copy()
+
+        historic_game_ids = set(filtered_games["game_id"].astype(str))
+        filtered_apps = apps_df.copy()
+        filtered_apps = filtered_apps[filtered_apps["game_id"].astype(str).isin(historic_game_ids)].copy()
+        return filtered_games, filtered_apps
 
     def _write_historic_pitchero_cache(self, games_df: pd.DataFrame, apps_df: pd.DataFrame) -> None:
         payload = {
@@ -1261,8 +1674,14 @@ class BackendDatabase:
                             result,
                             ABS(score_for - score_against) AS margin,
                             captain,
+                            motm,
                             vice_captain_1 AS vc1,
-                            vice_captain_2 AS vc2
+                            vice_captain_2 AS vc2,
+                            tries_scorers,
+                            conversions_scorers,
+                            penalties_scorers,
+                            drop_goals_scorers,
+                            pitchero_match_url
                         FROM games
                         WHERE season IN ({historic_seasons_sql})
                         """
@@ -1565,13 +1984,37 @@ class BackendDatabase:
         df["date"] = _safe_date(df["date"])
         historic_seasons = set(HISTORIC_PITCHERO_SEASON_IDS.keys())
         historic_mask = df["season"].isin(historic_seasons)
-        df.loc[historic_mask, "opposition"] = df.loc[historic_mask, "opposition"].map(_canonical_pitchero_opposition_name)
+        # Apply opposition canonicalization to all rows so Google Sheets entries
+        # (e.g. "Heathfield II") are normalised the same way as Pitchero entries.
+        df["opposition"] = df["opposition"].map(_canonical_pitchero_opposition_name)
         df["pf"] = pd.to_numeric(df["pf"], errors="coerce").astype("Int64")
         df["pa"] = pd.to_numeric(df["pa"], errors="coerce").astype("Int64")
         df["game_id"] = df["game_id"].astype(str)
 
+        # Normalize game_id to date+squad+club opposition for all rows so
+        # Google/Pitchero team-suffix variants (e.g. "Haywards Heath" vs
+        # "Haywards Heath II") share the same canonical match key.
+        _opposition_alias_map: dict[str, str] = {}
+        if not df.empty:
+            _old_ids = df["game_id"].astype(str)
+            _new_ids = df.apply(
+                lambda row: _canonical_game_id(row.get("date"), row.get("squad"), row.get("opposition")),
+                axis=1,
+            )
+            _opposition_alias_map = {
+                str(old): str(new)
+                for old, new in zip(_old_ids, _new_ids)
+                if old != new
+            }
+            df["game_id"] = _new_ids
+
         if appearances_raw is not None and not appearances_raw.empty and "game_id" in appearances_raw.columns:
-            appearance_counts = appearances_raw["game_id"].astype(str).value_counts().to_dict()
+            appearance_counts: dict[str, int] = appearances_raw["game_id"].astype(str).value_counts().to_dict()
+            # Carry appearance counts forward for any game_ids that were just remapped.
+            if _opposition_alias_map:
+                for _old_id, _new_id in _opposition_alias_map.items():
+                    if _old_id in appearance_counts:
+                        appearance_counts[_new_id] = appearance_counts.get(_new_id, 0) + appearance_counts[_old_id]
             df["appearance_count"] = df["game_id"].map(appearance_counts).fillna(0).astype(int)
         else:
             df["appearance_count"] = 0
@@ -1583,6 +2026,7 @@ class BackendDatabase:
             axis=1,
         ).astype(int)
         df["has_result"] = df["result"].notna().astype(int)
+        df["_source_priority"] = (df["_source"].astype(str) == "google").astype(int)
 
         # Dedup by (squad, date, normalised opposition). This collapses Google/Pitchero naming
         # variants for the same opponent (e.g., "Croydon" vs "Croydon RFC") but preserves true
@@ -1591,12 +2035,18 @@ class BackendDatabase:
         # 2. For each (squad, date, opposition_key), keep the highest-scoring row
         # 3. If tie, prefer longer opposition name (more likely canonical)
         df = df.dropna(subset=["squad", "date", "opposition"])
-        
+
+        # Exclude Pitchero-source rows with null scores (walkovers, postponements, scrape
+        # failures). Google-source rows with null scores are future fixtures — preserve them.
+        df = df[~((df["_source"] == "pitchero") & df["pf"].isna() & df["pa"].isna())]
+
         # Create a quality score for each row.
         # Appearance linkage must dominate here so we don't orphan player appearances by
         # selecting an alias row that has richer metadata but a different game_id.
+        # Google rows must remain canonical when present; Pitchero should only add supplements.
         df["_quality_score"] = (
-            df["appearance_count"].astype(int) * 100
+            df["_source_priority"].astype(int) * 10000
+            + df["appearance_count"].astype(int) * 100
             + df["has_pitchero_url"].astype(int) * 4
             + df["has_pitchero_scorers"].astype(int) * 3
             + df["has_score"].astype(int) * 2
@@ -1607,7 +2057,7 @@ class BackendDatabase:
         # when scores are unavailable. This keeps true double-headers while merging alias rows.
         df["_score_match_key"] = df.apply(
             lambda row: (
-                f"{int(row['pf'])}:{int(row['pa'])}:{str(row.get('home_away') or '').strip().upper()}"
+                f"{min(int(row['pf']), int(row['pa']))}:{max(int(row['pf']), int(row['pa']))}"
                 if pd.notna(row.get("pf")) and pd.notna(row.get("pa"))
                 else ""
             ),
@@ -1653,14 +2103,58 @@ class BackendDatabase:
                 str(row.game_id): str(row.canonical_game_id)
                 for row in alias_map_df.itertuples(index=False)
             }
+        # Fold in opposition-canonicalization aliases. Dedup aliases take priority
+        # (they may redirect to a different canonical ID entirely).
+        if _opposition_alias_map:
+            merged_aliases = dict(_opposition_alias_map)
+            merged_aliases.update(self._game_id_alias_map)
+            self._game_id_alias_map = merged_aliases
 
+        df = sorted_df.drop_duplicates(subset=["squad", "date", "_match_dedupe_key"], keep="first")
+
+        # If a single canonical game_id survives under multiple match keys (typically due
+        # to source score disagreements), always keep the highest-quality/source-priority row.
+        # This prevents retaining a Pitchero row that can later be pruned, orphaning the game.
         df = (
-            sorted_df
-            .drop_duplicates(subset=["squad", "date", "_match_dedupe_key"], keep="first")
-            .drop(columns=["_quality_score", "_opposition_length", "_opp_dedupe_key", "_score_match_key", "_match_dedupe_key"])
-            .drop_duplicates(subset=["game_id"])
+            df.sort_values(
+                ["game_id", "_quality_score", "_source_priority", "_opposition_length"],
+                ascending=[True, False, False, False],
+            )
+            .drop_duplicates(subset=["game_id"], keep="first")
             .drop_duplicates(subset=["squad", "date", "opposition"])
+            .drop(columns=["_quality_score", "_source_priority", "_opposition_length", "_opp_dedupe_key", "_score_match_key", "_match_dedupe_key"])
         )
+
+        # Remove any surviving Pitchero-source rows for (squad, date) pairs already represented
+        # by a Google canonical game. This handles score discrepancies between sources
+        # (e.g., Hove 7-47 from Google vs 7-57 from Pitchero) that prevent score-based merging.
+        _google_squads_dates = set(
+            df.loc[df["_source"] == "google", ["squad", "date"]].itertuples(index=False, name=None)
+        )
+        _pitchero_overlap = (df["_source"] == "pitchero") & df.apply(
+            lambda row: (str(row["squad"]), row["date"]) in _google_squads_dates, axis=1
+        )
+        if _pitchero_overlap.any():
+            print(f"Removing {_pitchero_overlap.sum()} Pitchero-only rows overlapping with Google games.")
+            df = df[~_pitchero_overlap]
+
+        # Google Sheets is authoritative for any season it covers. Pitchero can still
+        # supplement matching Google fixtures (URLs/scorers) via lookup, but must not
+        # introduce additional standalone game rows in those seasons.
+        _google_seasons = set(
+            df.loc[df["_source"] == "google", "season"].dropna().astype(str).str.strip().tolist()
+        )
+        if _google_seasons:
+            _pitchero_google_season_rows = (
+                (df["_source"] == "pitchero")
+                & df["season"].astype(str).str.strip().isin(_google_seasons)
+            )
+            if _pitchero_google_season_rows.any():
+                print(
+                    "Removing "
+                    f"{_pitchero_google_season_rows.sum()} Pitchero rows in Google-covered seasons."
+                )
+                df = df[~_pitchero_google_season_rows]
 
         # Backfill missing URLs/scorers from Pitchero rows on the same squad/date.
         pitchero_lookup = games_raw.copy()
@@ -1674,13 +2168,14 @@ class BackendDatabase:
         if not pitchero_lookup.empty:
             pitchero_lookup["pf"] = pd.to_numeric(pitchero_lookup["pf"], errors="coerce")
             pitchero_lookup["pa"] = pd.to_numeric(pitchero_lookup["pa"], errors="coerce")
-            pitchero_lookup["opp_key"] = pitchero_lookup["opposition"].map(
-                lambda value: _normalise_key(str(_canonical_pitchero_opposition_name(value)))
-            )
+            _pitchero_opp_parts = pitchero_lookup["opposition"].map(_split_opposition_club_team)
+            pitchero_lookup["opp_club_key"] = _pitchero_opp_parts.map(lambda parts: _normalise_key(parts[0]))
+            pitchero_lookup["opp_team_number"] = _pitchero_opp_parts.map(lambda parts: parts[1])
 
             def _score_match_quality(row: pd.Series, cand: pd.Series) -> float:
-                row_key = _normalise_key(str(_canonical_pitchero_opposition_name(row.get("opposition"))))
-                cand_key = str(cand.get("opp_key") or "")
+                row_club, row_team = _split_opposition_club_team(row.get("opposition"))
+                row_key = _normalise_key(row_club)
+                cand_key = str(cand.get("opp_club_key") or "")
                 quality = 0.0
                 if row_key and cand_key:
                     if row_key == cand_key:
@@ -1688,8 +2183,22 @@ class BackendDatabase:
                     elif row_key in cand_key or cand_key in row_key:
                         quality += 0.6
 
-                row_sf = row.get("score_for")
-                row_sa = row.get("score_against")
+                cand_team = cand.get("opp_team_number")
+                if pd.notna(cand_team):
+                    cand_team = int(cand_team)
+                else:
+                    cand_team = None
+                if row_team is not None and cand_team is not None:
+                    if row_team == cand_team:
+                        quality += 0.35
+                    else:
+                        quality -= 0.25
+                elif row_team is None and cand_team is not None:
+                    # Google records often omit team suffixes (II/III).
+                    quality += 0.2
+
+                row_sf = row.get("pf") if pd.notna(row.get("pf")) else row.get("score_for")
+                row_sa = row.get("pa") if pd.notna(row.get("pa")) else row.get("score_against")
                 cand_pf = cand.get("pf")
                 cand_pa = cand.get("pa")
                 if pd.notna(row_sf) and pd.notna(row_sa) and pd.notna(cand_pf) and pd.notna(cand_pa):
@@ -1732,6 +2241,39 @@ class BackendDatabase:
                         df.at[idx, col] = best.get(col)
                 if str(df.at[idx, "motm"] or "").strip() in {"", "{}", "null", "None"}:
                     df.at[idx, "motm"] = best.get("motm")
+
+        # Replace generic league competition labels with the season/squad-specific
+        # league name when one is available in the same group.
+        competition_text = df["competition"].fillna("").astype(str).str.strip()
+        game_type_text = df["game_type"].fillna("").astype(str).str.strip()
+        generic_league_mask = game_type_text.eq("League") & competition_text.eq("League")
+        if generic_league_mask.any():
+            specific_comp = df.loc[
+                game_type_text.eq("League")
+                & competition_text.ne("")
+                & competition_text.ne("League"),
+                ["squad", "season", "competition"],
+            ].copy()
+            if not specific_comp.empty:
+                preferred_by_group = (
+                    specific_comp
+                    .groupby(["squad", "season", "competition"], dropna=False)
+                    .size()
+                    .reset_index(name="rows")
+                    .sort_values(["squad", "season", "rows", "competition"], ascending=[True, True, False, True])
+                    .drop_duplicates(subset=["squad", "season"], keep="first")
+                )
+                preferred_lookup = {
+                    (str(row.squad), str(row.season)): str(row.competition)
+                    for row in preferred_by_group.itertuples(index=False)
+                }
+                mapped_competitions = df.loc[generic_league_mask, ["squad", "season"]].apply(
+                    lambda row: preferred_lookup.get((str(row["squad"]), str(row["season"]))),
+                    axis=1,
+                )
+                fill_indexes = mapped_competitions[mapped_competitions.notna()].index
+                if len(fill_indexes) > 0:
+                    df.loc[fill_indexes, "competition"] = mapped_competitions.loc[fill_indexes].values
 
         return df[
             [
@@ -2079,112 +2621,152 @@ class BackendDatabase:
         appearances: pd.DataFrame,
         games: pd.DataFrame,
     ) -> pd.DataFrame:
-        scorer_type_map = {
-            "TRY": "tries",
-            "T": "tries",
-            "CON": "conversions",
-            "CONVERSION": "conversions",
-            "PK": "penalties",
-            "PEN": "penalties",
-            "PENALTY": "penalties",
-            "DG": "drop_goals",
-            "DROP GOAL": "drop_goals",
+        del pitchero_raw
+
+        empty = pd.DataFrame(
+            columns=["squad", "season", "player", "game_type", "tries", "conversions", "penalties", "drop_goals", "points", "source"]
+        )
+        if games.empty:
+            return empty
+
+        appearance_names = appearances[["player"]].dropna().copy()
+        if not appearance_names.empty:
+            appearance_names["player"] = appearance_names["player"].map(_canonical_player_name)
+            appearance_names["player_join"] = appearance_names["player"].map(clean_name)
+            player_lookup = (
+                appearance_names.groupby("player_join", as_index=False)
+                .agg(player=("player", _mode_or_none))
+                .set_index("player_join")["player"]
+                .to_dict()
+            )
+        else:
+            player_lookup = {}
+
+        scorer_columns = {
+            "tries_scorers": ("tries", 5),
+            "conversions_scorers": ("conversions", 2),
+            "penalties_scorers": ("penalties", 3),
+            "drop_goals_scorers": ("drop_goals", 3),
         }
 
-        df_2526 = scorers_2526_raw.copy()
-        if not df_2526.empty:
-            df_2526 = df_2526.rename(
+        rows: list[dict[str, Any]] = []
+        for game in games.itertuples(index=False):
+            squad = str(getattr(game, "squad", "") or "").strip()
+            season = str(getattr(game, "season", "") or "").strip()
+            game_type = str(getattr(game, "game_type", "") or "Unknown").strip() or "Unknown"
+
+            for column, (metric, multiplier) in scorer_columns.items():
+                payload = _parse_scorer_payload(getattr(game, column, None))
+                if not payload:
+                    continue
+
+                for raw_player, count in payload.items():
+                    canonical_name = _canonical_player_name(raw_player)
+                    player_join = clean_name(canonical_name)
+                    resolved_player = player_lookup.get(player_join, canonical_name)
+                    rows.append(
+                        {
+                            "squad": squad,
+                            "season": season,
+                            "player": resolved_player,
+                            "game_type": game_type,
+                            "tries": count if metric == "tries" else 0,
+                            "conversions": count if metric == "conversions" else 0,
+                            "penalties": count if metric == "penalties" else 0,
+                            "drop_goals": count if metric == "drop_goals" else 0,
+                            "points": count * multiplier,
+                            "source": "games",
+                        }
+                    )
+
+        if not scorers_2526_raw.empty:
+            scorers = scorers_2526_raw.copy().rename(
                 columns={
                     "Squad": "squad",
-                    "Date": "date",
-                    "Opposition": "opposition",
                     "Score": "score_type",
-                    "Count": "count",
+                    "Scorer": "player",
                     "Player": "player",
-                    "Points": "points",
+                    "Count": "count",
                 }
             )
-            df_2526["season"] = "2025/26"
-            df_2526["score_type"] = df_2526["score_type"].fillna("").astype(str).str.strip().str.upper()
-            df_2526["metric"] = df_2526["score_type"].map(scorer_type_map)
-            df_2526 = df_2526[df_2526["metric"].notna()]
-            df_2526["count"] = pd.to_numeric(df_2526.get("count", 1), errors="coerce").fillna(1).astype(int)
-            df_2526 = df_2526[df_2526["count"] > 0]
+            required = {"squad", "score_type", "player"}
+            if required.issubset(set(scorers.columns)):
+                scorers["squad"] = scorers["squad"].astype(str).str.strip()
+                scorers["score_type"] = scorers["score_type"].astype(str).str.strip().str.upper()
+                scorers["player"] = scorers["player"].astype(str).str.strip()
+                scorers["count"] = pd.to_numeric(scorers.get("count", 1), errors="coerce").fillna(1).astype(int)
 
-            # Resolve game type from canonical games so season scorers can respect UI game-type filters.
-            game_type_lookup = games[["squad", "date", "opposition", "season", "game_type"]].copy()
-            game_type_lookup["date"] = pd.to_datetime(game_type_lookup["date"], errors="coerce").dt.date
-            game_type_lookup["opposition"] = game_type_lookup["opposition"].astype(str).str.strip()
+                if "Date" in scorers.columns:
+                    scorers["date"] = _safe_date(scorers["Date"])
+                else:
+                    scorers["date"] = pd.NaT
+                if "Opposition" in scorers.columns:
+                    scorers["opposition"] = scorers["Opposition"].astype(str).str.strip()
+                else:
+                    scorers["opposition"] = ""
 
-            df_2526["date"] = _safe_date(df_2526["date"])
-            df_2526["opposition"] = df_2526["opposition"].astype(str).str.strip()
-            df_2526 = df_2526.merge(
-                game_type_lookup,
-                on=["squad", "date", "opposition", "season"],
-                how="left",
-            )
-            df_2526["game_type"] = df_2526["game_type"].fillna("Unknown")
+                scorers = scorers[(scorers["player"] != "") & (scorers["count"] > 0)]
 
-            agg_2526 = (
-                df_2526.pivot_table(
-                    index=["squad", "season", "player", "game_type"],
-                    columns="metric",
-                    values="count",
-                    aggfunc="sum",
-                    fill_value=0,
-                )
-                .reset_index()
-                .rename_axis(None, axis=1)
-            )
-            for col in ["tries", "conversions", "penalties", "drop_goals"]:
-                if col not in agg_2526.columns:
-                    agg_2526[col] = 0
-            agg_2526["points"] = (
-                agg_2526["tries"] * 5
-                + agg_2526["conversions"] * 2
-                + agg_2526["penalties"] * 3
-                + agg_2526["drop_goals"] * 3
-            )
-            agg_2526["source"] = "google_2526"
-        else:
-            agg_2526 = pd.DataFrame(columns=["squad", "season", "player", "game_type", "tries", "conversions", "penalties", "drop_goals", "points", "source"])
+                scorer_type_to_metric = {
+                    "TRY": ("tries", 5),
+                    "T": ("tries", 5),
+                    "CON": ("conversions", 2),
+                    "CONVERSION": ("conversions", 2),
+                    "PK": ("penalties", 3),
+                    "PEN": ("penalties", 3),
+                    "PENALTY": ("penalties", 3),
+                    "DG": ("drop_goals", 3),
+                    "DROP GOAL": ("drop_goals", 3),
+                }
 
-        pitchero = pitchero_raw.copy()
-        pitchero = pitchero.rename(columns={"Season": "season", "Squad": "squad", "Player_join": "player_join", "Event": "event", "Count": "count"})
-        pitchero = pitchero[pitchero["season"] != "2025/26"]
-        pitchero = pitchero[pitchero["event"].isin(["T", "Con", "PK", "DG"])]
-        join_lookup = appearances[["player"]].drop_duplicates().copy()
-        join_lookup["player_join"] = join_lookup["player"].map(clean_name)
-        join_lookup = join_lookup.drop_duplicates(subset=["player_join"]) 
-        pitchero = pitchero.merge(join_lookup, on="player_join", how="left")
-        pitchero["player"] = pitchero["player"].fillna(pitchero["player_join"])
+                game_lookup = games[["squad", "season", "game_type"]].copy() if not games.empty else pd.DataFrame()
+                if not game_lookup.empty:
+                    game_lookup["date"] = _safe_date(games.get("date"))
+                    game_lookup["opposition"] = games.get("opposition", pd.Series(index=games.index, dtype="object")).astype(str).str.strip()
+                    game_lookup = game_lookup.drop_duplicates(subset=["squad", "date", "opposition"], keep="first")
 
-        pivot = (
-            pitchero.pivot_table(
-                index=["squad", "season", "player"],
-                columns="event",
-                values="count",
-                aggfunc="sum",
-                fill_value=0,
-            )
-            .reset_index()
-            .rename_axis(None, axis=1)
-        )
+                for scorer in scorers.itertuples(index=False):
+                    metric_info = scorer_type_to_metric.get(str(scorer.score_type))
+                    if metric_info is None:
+                        continue
+                    metric, multiplier = metric_info
+                    canonical_name = _canonical_player_name(scorer.player)
+                    player_join = clean_name(canonical_name)
+                    resolved_player = player_lookup.get(player_join, canonical_name)
 
-        for source_col, target_col in [("T", "tries"), ("Con", "conversions"), ("PK", "penalties"), ("DG", "drop_goals")]:
-            if source_col not in pivot.columns:
-                pivot[source_col] = 0
-            pivot[target_col] = pivot[source_col]
+                    season = "2025/26"
+                    game_type = "Unknown"
+                    scorer_date = getattr(scorer, "date", pd.NaT)
+                    scorer_opposition = str(getattr(scorer, "opposition", "") or "").strip()
+                    if not game_lookup.empty and pd.notna(scorer_date) and scorer_opposition:
+                        match = game_lookup[
+                            (game_lookup["squad"] == str(scorer.squad).strip())
+                            & (game_lookup["date"] == scorer_date)
+                            & (game_lookup["opposition"] == scorer_opposition)
+                        ]
+                        if not match.empty:
+                            season = str(match.iloc[0]["season"] or season).strip() or season
+                            game_type = str(match.iloc[0]["game_type"] or game_type).strip() or game_type
 
-        pivot["game_type"] = "Unknown"
-        pivot["points"] = pivot["tries"] * 5 + pivot["conversions"] * 2 + pivot["penalties"] * 3 + pivot["drop_goals"] * 3
-        pivot["source"] = "pitchero"
-        pitchero_out = pivot[["squad", "season", "player", "game_type", "tries", "conversions", "penalties", "drop_goals", "points", "source"]]
+                    rows.append(
+                        {
+                            "squad": str(scorer.squad).strip(),
+                            "season": season,
+                            "player": resolved_player,
+                            "game_type": game_type,
+                            "tries": scorer.count if metric == "tries" else 0,
+                            "conversions": scorer.count if metric == "conversions" else 0,
+                            "penalties": scorer.count if metric == "penalties" else 0,
+                            "drop_goals": scorer.count if metric == "drop_goals" else 0,
+                            "points": scorer.count * multiplier,
+                            "source": "games",
+                        }
+                    )
 
-        out = pd.concat([pitchero_out, agg_2526], ignore_index=True)
-        for col in ["tries", "conversions", "penalties", "drop_goals", "points"]:
-            out[col] = pd.to_numeric(out[col], errors="coerce").fillna(0)
-        out["game_type"] = out["game_type"].fillna("Unknown")
+        if not rows:
+            return empty
+
+        out = pd.DataFrame(rows)
         return out.groupby(["squad", "season", "player", "game_type"], as_index=False).agg(
             tries=("tries", "sum"),
             conversions=("conversions", "sum"),
@@ -3282,6 +3864,10 @@ def build_backend(
         backend.build(refresh_pitchero=refresh_pitchero, export=export, strict_duplicate_audit=strict_duplicate_audit)
         if apply_supplemental_enrichment:
             _apply_pitchero_supplemental_enrichment(db_path=backend.db_file, project_root=backend.project_root)
+            # Re-export after enrichment so scorer/URL updates written by
+            # _apply_pitchero_supplemental_enrichment are reflected in the JSON files.
+            if export:
+                backend.export_tables()
     finally:
         backend.close()
 

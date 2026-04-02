@@ -39,6 +39,156 @@ HISTORIC_PITCHERO_SEASON_IDS = {
     "2025/26": 94981,
 }
 
+# ---------------------------------------------------------------------------
+# Pitchero opposition name canonicalisation
+# ---------------------------------------------------------------------------
+# Keys are produced by _normalise_pitchero_key (lowercase, alphanumeric only).
+# Values are the canonical EGRFC opposition names used in the games table.
+PITCHERO_OPPOSITION_CANONICAL_NAMES: dict[str, str] = {
+    # Brighton / Sussex
+    "brighton3": "Brighton III",
+    "brighton2ndxv": "Brighton II",
+    # Bognor
+    "bognor2": "Bognor II",
+    # Bromley (cup match)
+    "papajohnsquarterfinalbromley": "Bromley",
+    # Burgess Hill
+    "burgesshill2": "Burgess Hill II",
+    "burgesshill": "Burgess Hill",
+    "burgesshillrfc": "Burgess Hill",
+    # Cheshunt (cup match suffix)
+    "cheshuntnationalcupquarterfinal": "Cheshunt",
+    # Chipstead
+    "chipsteadrfc": "Chipstead",
+    # Cranleigh
+    "cranleighrfc": "Cranleigh",
+    # Crawley
+    "crawleycupfinal": "Crawley",
+    "crawley2": "Crawley II",
+    "crawley2s3s": "Crawley II",
+    "crawleyii": "Crawley II",
+    # Crowborough
+    "crowboro2": "Crowborough II",
+    "crowborough2ndxv": "Crowborough II",
+    "crowborough2s": "Crowborough II",
+    "crowboroughii": "Crowborough II",
+    # Croydon
+    "croydonrfc": "Croydon",
+    # Ditchling
+    "ditchlingrfc": "Ditchling",
+    "ditchling": "Ditchling",
+    # Eastbourne
+    "eastbourneiirfc": "Eastbourne II",
+    "eastbourne2": "Eastbourne II",
+    "eastbourne2s": "Eastbourne II",
+    "eastbournerfc": "Eastbourne",
+    # Haywards Heath
+    "haywardsheath2xv": "Haywards Heath II",
+    "haywardsheath2xy": "Haywards Heath II",
+    "haywardsheath2s": "Haywards Heath II",
+    "haywardsheath1stxv": "Haywards Heath",
+    # Heathfield
+    "heathfield": "Heathfield & Waldron",
+    "heathfldwal": "Heathfield & Waldron",
+    "heathfield2": "Heathfield & Waldron II",
+    "heathfieldii": "Heathfield & Waldron II",
+    "heathfield3s": "Heathfield & Waldron III",
+    "heathfieldiii": "Heathfield & Waldron III",
+    "heathfieldwaldron3": "Heathfield & Waldron III",
+    "heathfldwal3": "Heathfield & Waldron III",
+    "heathfieldwaldronii": "Heathfield & Waldron II",
+    # Hellingly
+    "hellingly2": "Hellingly II",
+    # Horsham
+    "horsham2s": "Horsham II",
+    "horshamii": "Horsham II",
+    "horshamiiicasuals": "Horsham III",
+    # Hove
+    "hove2": "Hove II",
+    "hove2xv": "Hove II",
+    "hove2xy": "Hove II",
+    "hoveii": "Hove II",
+    "hove3": "Hove III",
+    "hove3rdxv": "Hove III",
+    # Jersey / Royals
+    "jerseyroyals": "Royals",
+    "royalsrfc": "Royals",
+    # Lewes
+    "lewes2": "Lewes II",
+    # Midhurst (cup match suffix)
+    "sussexcupfinalmidhurst": "Midhurst",
+    # Newick
+    "newickrfc": "Newick",
+    # Oakmedians
+    "oakmediansrfc": "Oakmedians",
+    # Old Caterhamians
+    "oldcaterhamians2s": "Old Caterhamians II",
+    # Old Haileyburians (and common misspelling)
+    "oldhaileyburians": "Old Haileyburians",
+    "oldhaileybarians": "Old Haileyburians",
+    # Old Rutlishians
+    "oldrutlishians2s": "Old Rutlishians II",
+    "oldrutlishiansrfc": "Old Rutlishians",
+    # Pulborough
+    "pulborough2": "Pulborough II",
+    "pulborough3": "Pulborough III",
+    "pulborough2ssussexjuniorvase": "Pulborough II",
+    # Rye
+    "ryerfc": "Rye",
+    # Shoreham
+    "shoreham2ndxv": "Shoreham II",
+    # Trinity
+    "trinity2s": "Trinity II",
+    # Uckfield
+    "uckfieldiirfc": "Uckfield II",
+    "uckfield2s": "Uckfield II",
+    "uckfield12s": "Uckfield",
+    "uckfieldrfc": "Uckfield",
+    # Warlingham
+    "warlingham3s": "Warlingham III",
+    # Wensleydale (cup match suffix)
+    "wensleydalepapajohnscupsemifinal": "Wensleydale",
+}
+
+
+def _normalise_pitchero_key(name: str) -> str:
+    """Lowercase, strip all non-alphanumeric characters – used as dict lookup key."""
+    return re.sub(r"[^a-z0-9]", "", name.lower())
+
+
+def canonical_pitchero_opposition(name: object) -> object:
+    """Return the canonical opposition name for a raw Pitchero opposition string.
+
+    Returns the original value unchanged when no mapping is found.
+    """
+    if name is None or (isinstance(name, float) and name != name):
+        return name
+    cleaned = str(name).strip()
+    canonical = PITCHERO_OPPOSITION_CANONICAL_NAMES.get(_normalise_pitchero_key(cleaned), cleaned)
+
+    # Fallback for unmapped team-suffix shorthand like "Club 2"/"Club 3s".
+    if canonical == cleaned:
+        suffix_match = re.match(
+            r"^(?P<base>.+?)\s*(?P<num>[2-5])(?:st|nd|rd|th)?(?:xv|s)?\s*$",
+            cleaned,
+            flags=re.IGNORECASE,
+        )
+        if suffix_match:
+            roman = {
+                "2": "II",
+                "3": "III",
+                "4": "IV",
+                "5": "V",
+            }
+            base = suffix_match.group("base").strip()
+            canonical = f"{base} {roman[suffix_match.group('num')]}"
+
+    # Strip trailing " RFC" suffix that sometimes leaks through unmapped entries.
+    if isinstance(canonical, str) and canonical.upper().endswith(" RFC"):
+        canonical = canonical[:-4].strip()
+    return canonical
+
+
 _EGRFC_TEAM_ALIASES = (
     "east grinstead",
     "e grinstead",
@@ -76,6 +226,53 @@ class DataExtractor:
         self.sheet_url = "https://docs.google.com/spreadsheets/d/1pcO8iEpZuds9AWs4AFRmqJtx5pv5QGbP4yg2dEkl8fU/edit"
 
     @staticmethod
+    def _normalise_sheet_header(header_value):
+        if not isinstance(header_value, str):
+            header_value = str(header_value or "")
+        return re.sub(r"[^a-z0-9]+", "", header_value.lower())
+
+    def _build_team_sheet_layout(self, header_row, squad_name):
+        normalized_headers = [self._normalise_sheet_header(value) for value in header_row]
+
+        shirt_col_map = {}
+        for idx, header in enumerate(header_row):
+            header_value = str(header).strip()
+            shirt_match = re.fullmatch(r"#?(\d{1,2})", header_value)
+            if not shirt_match:
+                continue
+            shirt_no = int(shirt_match.group(1))
+            if 1 <= shirt_no <= 29:
+                shirt_col_map[shirt_no] = idx
+
+        vc_cols = [idx for idx, header in enumerate(normalized_headers) if header == "vc"]
+
+        layout = {
+            "date": normalized_headers.index("date") if "date" in normalized_headers else 0,
+            "season": normalized_headers.index("season") if "season" in normalized_headers else 1,
+            "competition": normalized_headers.index("competition") if "competition" in normalized_headers else 2,
+            "opposition": normalized_headers.index("opposition") if "opposition" in normalized_headers else 3,
+            "score": normalized_headers.index("score") if "score" in normalized_headers else 4,
+            "captain": normalized_headers.index("captain") if "captain" in normalized_headers else 5,
+            "motm": normalized_headers.index("motm") if "motm" in normalized_headers else None,
+            "vc_cols": vc_cols,
+            "shirt_col_map": shirt_col_map,
+        }
+
+        if layout["motm"] is None:
+            layout["motm"] = 9 if squad_name == "1st" else 7
+
+        if not layout["vc_cols"]:
+            layout["vc_cols"] = [6, 7] if squad_name == "1st" else [6]
+
+        return layout
+
+    @staticmethod
+    def _get_row_value(row, column_index):
+        if column_index is None or column_index >= len(row):
+            return ""
+        return row[column_index].strip()
+
+    @staticmethod
     def _normalise_team_name(team_name):
         if not isinstance(team_name, str):
             return ""
@@ -98,30 +295,33 @@ class DataExtractor:
         for squad_name, sheet_name in [("1st", "1st XV Players"), ("2nd", "2nd XV Players")]:
             sheet = ss.worksheet(sheet_name)
             data = sheet.get_all_values()
+            layout = self._build_team_sheet_layout(data[3] if len(data) >= 4 else [], squad_name)
             
             # Skip header rows
             for row in data[4:]:  # Assuming data starts at row 6
-                if not row[1]:  # Skip if no season
+                if not self._get_row_value(row, layout["season"]):  # Skip if no season
                     continue
                     
-                game_data = self._parse_game_row(row, squad_name)
+                game_data = self._parse_game_row(row, squad_name, layout)
                 if game_data:
                     games_data.append(game_data)
         
         return pd.DataFrame(games_data)
     
-    def _parse_game_row(self, row, squad):
+    def _parse_game_row(self, row, squad, layout):
         """Parse a single game row from team sheet"""
         try:
-            # Map columns - adjust indices based on your sheet structure
-            date = self._parse_date(row[0])
-            season = row[1]
-            competition = row[2]
-            opposition_raw = row[3]
-            score = row[4]
-            captain = row[5]
-            vc1 = row[6]
-            vc2 = row[7]
+            date = self._parse_date(self._get_row_value(row, layout["date"]))
+            season = self._get_row_value(row, layout["season"])
+            competition = self._get_row_value(row, layout["competition"])
+            opposition_raw = self._get_row_value(row, layout["opposition"])
+            score = self._get_row_value(row, layout["score"])
+            captain = self._get_row_value(row, layout["captain"])
+            vc_values = [self._get_row_value(row, idx) for idx in layout["vc_cols"]]
+            vc_values = [value for value in vc_values if value]
+            vc1 = vc_values[0] if len(vc_values) >= 1 else None
+            vc2 = vc_values[1] if len(vc_values) >= 2 else None
+            motm = self._get_row_value(row, layout["motm"]) or None
             
             # Parse opposition and home/away
             home_away = 'H' if '(H)' in opposition_raw else 'A'
@@ -157,6 +357,7 @@ class DataExtractor:
                 'result': result,
                 'margin': margin,
                 'captain': captain,
+                'motm': motm,
                 'vc1': vc1,
                 'vc2': vc2
             }
@@ -173,34 +374,23 @@ class DataExtractor:
         for squad_name, sheet_name in [("1st", "1st XV Players"), ("2nd", "2nd XV Players")]:
             sheet = ss.worksheet(sheet_name)
             data = sheet.get_all_values()
+            layout = self._build_team_sheet_layout(data[3] if len(data) >= 4 else [], squad_name)
 
-            # Build a shirt-number -> column-index map from the header row so we can
-            # handle sheet-specific layouts (e.g. optional columns before player 1).
-            shirt_col_map = {}
-            if len(data) >= 4:
-                header_row = data[3]
-                for idx, header in enumerate(header_row):
-                    header_value = str(header).strip()
-                    if header_value.isdigit():
-                        shirt_no = int(header_value)
-                        if 1 <= shirt_no <= 29:
-                            shirt_col_map[shirt_no] = idx
-            
             for row in data[4:]:
-                if not row[1]:  # Skip if no season
+                if not self._get_row_value(row, layout["season"]):  # Skip if no season
                     continue
                     
                 # Extract game info
-                date = self._parse_date(row[0])
-                opposition = row[3].replace('(H)', '').replace('(A)', '').strip()
+                date = self._parse_date(self._get_row_value(row, layout["date"]))
+                opposition = self._get_row_value(row, layout["opposition"]).replace('(H)', '').replace('(A)', '').strip()
                 game_id = f"{date}_{squad_name}_{opposition}".replace(' ', '_').replace('/', '')
-                captain = row[5]
-                vc1 = row[6]
-                vc2 = row[7]
+                captain = self._get_row_value(row, layout["captain"])
+                vice_captains = [self._get_row_value(row, idx) for idx in layout["vc_cols"]]
+                vice_captains = [value for value in vice_captains if value]
                 
                 # Extract players (positions 1-29) using header-derived column map
                 for pos in range(1, 30):
-                    col_idx = shirt_col_map.get(pos)
+                    col_idx = layout["shirt_col_map"].get(pos)
                     if col_idx is None:
                         continue
                     if col_idx < len(row):
@@ -216,7 +406,7 @@ class DataExtractor:
                                 'unit': self._get_unit(pos),
                                 'is_starter': pos <= 15,
                                 'is_captain': player == captain,
-                                'is_vc': player in [vc1, vc2],
+                                'is_vc': player in vice_captains,
                                 'player_join': clean_name(player)
                             }
                             appearances_data.append(appearance_data)
@@ -355,7 +545,9 @@ class DataExtractor:
                         continue
 
                     home_away = "H" if home_is_egrfc else "A"
-                    opposition = away_team if home_away == "H" else home_team
+                    opposition = canonical_pitchero_opposition(
+                        away_team if home_away == "H" else home_team
+                    )
                     pf, pa = (
                         (fixture_data["home_score"], fixture_data["away_score"])
                         if home_away == "H"
@@ -1073,10 +1265,33 @@ class DataExtractor:
         try:
             next_data = self._extract_next_data_payload(events_soup)
             if not next_data:
-                return None
-            return self._parse_pitchero_motm_from_next_data(next_data)
+                return self._parse_pitchero_motm_from_events_html(events_soup)
+            motm = self._parse_pitchero_motm_from_next_data(next_data)
+            if motm:
+                return motm
+            return self._parse_pitchero_motm_from_events_html(events_soup)
         except Exception:
             return None
+
+    def _parse_pitchero_motm_from_events_html(self, events_soup):
+        """Fallback parser for Star Player from rendered events HTML."""
+        try:
+            heading = events_soup.find(
+                ["h3", "h4"],
+                string=lambda s: isinstance(s, str) and "star player" in s.lower(),
+            )
+            if heading is None:
+                return None
+
+            candidate = heading.find_next(string=True)
+            while candidate:
+                text = (candidate or "").strip()
+                if text and text.lower() != "star player":
+                    return text
+                candidate = candidate.find_next(string=True)
+        except Exception:
+            return None
+        return None
 
     def _parse_pitchero_motm_from_next_data(self, next_data):
         """Extract our side's Star Player from Pitchero Next.js payload."""
@@ -1096,7 +1311,10 @@ class DataExtractor:
             ha = (overview.get("ha") or "").lower()
             team_side = "home" if ha == "h" else "away" if ha == "a" else None
 
-            raw_players = overview.get("playersOfTheMatch")
+            # Pitchero has moved this field between overview and match root.
+            raw_players = match_entry.get("playersOfTheMatch")
+            if raw_players is None:
+                raw_players = overview.get("playersOfTheMatch")
             if raw_players is None:
                 return None
             if isinstance(raw_players, dict):
@@ -1145,12 +1363,12 @@ class DataExtractor:
                         continue
                     name = _extract_name(entry)
                     if name:
-                        return clean_name(name)
+                        return name
 
             for entry in raw_players:
                 name = _extract_name(entry)
                 if name:
-                    return clean_name(name)
+                    return name
         except Exception:
             return None
 

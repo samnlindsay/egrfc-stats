@@ -4,7 +4,7 @@ This backend is the canonical data model for powering website tables and charts.
 
 It is designed to support both:
 - live querying (DuckDB SQL), and
-- static exports (JSON/Parquet for frontend or static chart generation).
+- static exports (JSON for frontend and static chart generation).
 
 Google Sheets remains canonical for modern seasons. The builder supplements historic game + appearance rows by scraping Pitchero fixture and lineup pages for pre-2021 seasons (currently 2016/17 to 2019/20).
 
@@ -60,7 +60,7 @@ This should be run after the backend build to regenerate chart JSON from canonic
 
 Outputs:
 - Database: `data/egrfc_backend.duckdb`
-- Exports: `data/backend/*.json` and `data/backend/*.parquet`
+- Exports: `data/backend/*.json`
 
 ## Live backend table contract
 
@@ -70,6 +70,38 @@ For each dataset, it captures:
 - derivation
 - key contents
 - downstream usage
+
+## Naming contract
+
+Backend table naming is intentionally layered:
+- Canonical frontend-facing entities keep stable business names (for example: `games`, `player_appearances`, `season_scorers`, `players`).
+- Raw ingestion/staging tables must end with `_raw`.
+- Cleaned/sanitized staging tables must end with `_clean`.
+- Lookup/override tables must start with `ref_`.
+
+This keeps extraction, cleanup, and canonical modeling clearly separated while preserving stable table names for downstream consumers.
+
+### Pitchero reference tables
+
+### `ref_pitchero_player_name_overrides`
+- Grain: one row per explicit Pitchero-name override.
+- Derived from: backend static override map.
+- Key contents: `pitchero_name`, `canonical_name`.
+- Downstream: name standardization for Pitchero player records.
+
+### `ref_pitchero_opposition_overrides`
+- Grain: one row per normalized opposition key override.
+- Derived from: backend static opposition canonicalization map.
+- Key contents: `opposition_key`, `canonical_opposition`.
+- Downstream: opposition standardization in Pitchero game records.
+
+### `ref_pitchero_match_url_overrides`
+- Grain: one row per manual game URL override.
+- Derived from: backend manual URL override map.
+- Key contents: `game_id`, `pitchero_match_url`.
+- Downstream: reconciliation/supplemental enrichment and traceability.
+
+Pitchero raw/clean staging datasets are now in-memory build intermediates only. They are not persisted as DuckDB tables or exported datasets.
 
 ### Core canonical tables
 
@@ -81,7 +113,7 @@ For each dataset, it captures:
 
 ### `player_appearances`
 - Grain: one row per player per game.
-- Derived from: canonical team sheets + historic Pitchero lineups + reconciliation backfill rows.
+- Derived from: canonical team sheets + historic Pitchero lineups (+ manual corrections where present).
 - Key contents: shirt number, position/unit, starter/captain flags, season and game type.
 - Downstream: players table, profile enrichment, squad enrichment, season summary appearance leaders.
 
@@ -99,7 +131,7 @@ For each dataset, it captures:
 
 ### `season_scorers`
 - Grain: one row per squad/season/player.
-- Derived from: 25/26 scorer sheet plus historic Pitchero scorer aggregates.
+- Derived from: match-level scorer payloads attached to canonical `games` (including 25/26 scorer-sheet payload integration).
 - Key contents: tries, conversions, penalties, drop goals, points, source tag.
 - Downstream: player profiles, season summary leaders, scorer charts.
 
@@ -122,20 +154,6 @@ For each dataset, it captures:
 - Derived from: RFU lineups linked to RFU match register.
 - Key contents: shirt number, derived position/unit, starter flag, previous match continuity marker.
 - Downstream: RFU continuity and squad-size views.
-
-### Reconciliation tables
-
-### `pitchero_appearance_reconciliation`
-- Grain: one row per historic squad/season/player_join.
-- Derived from: comparison between Pitchero appearances and scraped lineup counts.
-- Key contents: pitchero count, scraped count, delta, status, fix type.
-- Downstream: QA/diagnostic views and discrepancy analysis.
-
-### `pitchero_appearance_backfill`
-- Grain: one row per positive-delta historic squad/season/player_join.
-- Derived from: reconciliation rows requiring synthetic appearance backfill.
-- Key contents: missing_appearances, applied_fix.
-- Downstream: audit trail for injected backfill rows.
 
 ### Frontend enriched tables
 
@@ -181,9 +199,6 @@ For each dataset, it captures:
 
 ### Core views
 - `v_season_results`: season/squad/game type result aggregates.
-- `v_pitchero_appearance_mismatches`: reconciliation rows where delta != 0.
-- `v_season_player_appearances_reconciled`: reconciled effective historic season appearances.
-- `v_player_appearance_discrepancy_summary`: player-level mismatch totals across seasons.
 
 ### RFU views
 - `v_rfu_team_games`: team-perspective rows from each RFU match.

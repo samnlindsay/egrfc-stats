@@ -254,14 +254,24 @@ function scorerEntriesFromUnknown(raw) {
     return [];
 }
 
+function resolveScorerNameToCanonical(scorerName) {
+    const nameKey = canonicalizeName(scorerName);
+    const profile = profilesByName.get(nameKey);
+    if (profile && profile.name) {
+        return profile.name;
+    }
+    return scorerName;
+}
+
 function collapseScorerEntries(entries) {
     const byPlayer = new Map();
     entries.forEach(entry => {
-        const name = String(entry?.name || '').trim();
-        if (!name) return;
-        const key = canonicalizeName(name);
+        const rawName = String(entry?.name || '').trim();
+        if (!rawName) return;
+        const key = canonicalizeName(rawName);
         if (!key) return;
-        const existing = byPlayer.get(key) || { name, count: 0 };
+        const canonicalName = resolveScorerNameToCanonical(rawName);
+        const existing = byPlayer.get(key) || { name: canonicalName, count: 0 };
         existing.count += Math.max(1, Number(entry?.count) || 1);
         byPlayer.set(key, existing);
     });
@@ -352,6 +362,42 @@ function renderScorerMetaRow(row) {
     return `<div class="match-info-meta-row match-info-meta-row--scoring">${itemsHtml}</div>`;
 }
 
+function renderLeadershipMetaRow(row) {
+    const captain = String(row?.captain || '').trim();
+    const motm = String(row?.motm || '').trim();
+
+    if (!captain && !motm) return '';
+
+    const items = [];
+
+    if (captain) {
+        items.push(`
+            <div class="match-info-meta-item">
+                <span class="match-info-meta-label">Captain</span>
+                <span class="match-info-meta-value">${escapeHtml(captain)}</span>
+            </div>
+        `);
+    }
+
+    if (motm) {
+        items.push(`
+            <div class="match-info-meta-item">
+                <span class="match-info-meta-label">Man of the Match</span>
+                <span class="match-info-meta-value">${escapeHtml(motm)}</span>
+            </div>
+        `);
+    }
+
+    const itemsHtml = items
+        .map((itemHtml, index) => index < items.length - 1
+            ? `${itemHtml}<div class="match-info-meta-divider" aria-hidden="true"></div>`
+            : itemHtml)
+        .join('');
+
+    const rowClass = items.length > 1 ? 'match-info-meta-row match-info-meta-row--paired' : 'match-info-meta-row';
+    return `<div class="${rowClass}">${itemsHtml}</div>`;
+}
+
 function renderScorersSection(row) {
     const categoryHtml = scorerCategoriesForRow(row)
         .map(category => scorerCategoryHtml(category.title, category.entries))
@@ -361,12 +407,18 @@ function renderScorersSection(row) {
 
     return `
         <section class="match-info-scorers" aria-label="Scorers">
-            <h3 class="match-info-scorers-title">Scorers</h3>
+            <h3 class="match-info-scorers-title">Scorers (Pitchero)</h3>
             <div class="match-info-scorers-grid">
                 ${categoryHtml.join('')}
             </div>
         </section>
     `;
+}
+
+function pitcheroLinkButtonHtml(row) {
+    const url = String(row?.pitchero_match_url || '').trim();
+    if (!url) return '';
+    return `<a class="match-info-external-link" href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer"><i class="bi bi-box-arrow-up-right" aria-hidden="true"></i><span>Open Pitchero Match Centre</span></a>`;
 }
 
 function profileLinkHref(playerName) {
@@ -822,14 +874,18 @@ function updateUrlGame(gameId) {
 
 function renderMatchInfo(gameId) {
     const body = document.getElementById('matchDataInfoBody');
+    const headerAction = document.getElementById('matchDataInfoHeaderAction');
     if (!body) return;
 
     const selected = allMatches.find(row => String(row?.game_id || '').trim() === String(gameId || '').trim());
     if (!selected) {
         body.innerHTML = '<p class="text-muted" style="margin: 0;">Select a match to load full match information.</p>';
+        if (headerAction) headerAction.innerHTML = '';
         updateUrlGame('');
         return;
     }
+
+    if (headerAction) headerAction.innerHTML = pitcheroLinkButtonHtml(selected);
 
     updateUrlGame(String(selected.game_id || ''));
 
@@ -865,7 +921,7 @@ function renderMatchInfo(gameId) {
                 </div>
             </div>
             <div class="match-info-meta">
-                <div class="match-info-meta-row">
+                <div class="match-info-meta-row match-info-meta-row--paired">
                     <div class="match-info-meta-item">
                         <span class="match-info-meta-label">Date</span>
                         <span class="match-info-meta-value">${escapeHtml(hero.date)}</span>
@@ -876,6 +932,7 @@ function renderMatchInfo(gameId) {
                         <span class="match-info-meta-value">${escapeHtml(hero.competition)}</span>
                     </div>
                 </div>
+                ${renderLeadershipMetaRow(selected)}
                 ${renderScorerMetaRow(selected)}
             </div>
         </section>
