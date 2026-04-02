@@ -2754,10 +2754,40 @@ class BackendDatabase:
                     "DROP GOAL": ("drop_goals", 3),
                 }
 
+                # Scores from the 25/26 sheet are already attached to matching
+                # game rows by _attach_match_scorers. Only keep unmatched rows
+                # here as a fallback to avoid double-counting.
+                known_game_keys: set[tuple[str, date, str]] = set()
+                if not games.empty and {"squad", "date", "opposition"}.issubset(set(games.columns)):
+                    keyed_cols = ["squad", "date", "opposition"]
+                    scorer_payload_cols = [
+                        col
+                        for col in ["tries_scorers", "conversions_scorers", "penalties_scorers", "drop_goals_scorers"]
+                        if col in games.columns
+                    ]
+                    if not scorer_payload_cols:
+                        keyed_games = pd.DataFrame(columns=keyed_cols)
+                    else:
+                        keyed_games = games[keyed_cols + scorer_payload_cols].copy()
+                    keyed_games["date"] = _safe_date(keyed_games["date"])
+                    keyed_games["opposition"] = keyed_games["opposition"].map(_canonical_pitchero_opposition_name)
+                    keyed_games["opposition"] = keyed_games["opposition"].astype(str).str.strip()
+                    if scorer_payload_cols:
+                        keyed_games["has_scorer_payload"] = keyed_games[scorer_payload_cols].fillna("").astype(str).apply(
+                            lambda row: any(value.strip() not in {"", "{}", "null", "None"} for value in row),
+                            axis=1,
+                        )
+                        keyed_games = keyed_games[keyed_games["has_scorer_payload"]]
+                    known_game_keys = {
+                        (str(row.squad).strip(), row.date, str(row.opposition).strip())
+                        for row in keyed_games.dropna(subset=["squad", "date", "opposition"]).itertuples(index=False)
+                    }
+
                 game_lookup = games[["squad", "season", "game_type"]].copy() if not games.empty else pd.DataFrame()
                 if not game_lookup.empty:
                     game_lookup["date"] = _safe_date(games.get("date"))
-                    game_lookup["opposition"] = games.get("opposition", pd.Series(index=games.index, dtype="object")).astype(str).str.strip()
+                    game_lookup["opposition"] = games.get("opposition", pd.Series(index=games.index, dtype="object")).map(_canonical_pitchero_opposition_name)
+                    game_lookup["opposition"] = game_lookup["opposition"].astype(str).str.strip()
                     game_lookup = game_lookup.drop_duplicates(subset=["squad", "date", "opposition"], keep="first")
 
                 for scorer in scorers.itertuples(index=False):
@@ -2773,6 +2803,13 @@ class BackendDatabase:
                     game_type = "Unknown"
                     scorer_date = getattr(scorer, "date", pd.NaT)
                     scorer_opposition = str(getattr(scorer, "opposition", "") or "").strip()
+                    scorer_opposition = str(_canonical_pitchero_opposition_name(scorer_opposition) or "").strip()
+
+                    if pd.notna(scorer_date) and scorer_opposition:
+                        scorer_key = (str(scorer.squad).strip(), scorer_date, scorer_opposition)
+                        if scorer_key in known_game_keys:
+                            continue
+
                     if not game_lookup.empty and pd.notna(scorer_date) and scorer_opposition:
                         match = game_lookup[
                             (game_lookup["squad"] == str(scorer.squad).strip())

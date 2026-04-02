@@ -544,6 +544,62 @@ class BackendCacheAndReconciliationTests(unittest.TestCase):
         self.assertEqual(int(games.iloc[0]["score_for"]), 12)
         self.assertEqual(int(games.iloc[0]["score_against"]), 10)
 
+    def test_season_scorers_2526_sheet_rows_are_fallback_only(self):
+        appearances = pd.DataFrame(
+            [
+                {
+                    "player": "Ollie Adams",
+                    "squad": "1st",
+                    "season": "2025/26",
+                    "date": pd.Timestamp("2025-09-13").date(),
+                    "game_id": "g2526",
+                    "game_type": "League",
+                }
+            ]
+        )
+
+        games = pd.DataFrame(
+            [
+                {
+                    "game_id": "g2526",
+                    "squad": "1st",
+                    "season": "2025/26",
+                    "game_type": "League",
+                    "date": pd.Timestamp("2025-09-13").date(),
+                    "opposition": "Hove",
+                    "tries_scorers": '{"O Adams": 1}',
+                    "conversions_scorers": "{}",
+                    "penalties_scorers": "{}",
+                    "drop_goals_scorers": "{}",
+                }
+            ]
+        )
+
+        scorers_2526_raw = pd.DataFrame(
+            [
+                {
+                    "Squad": "1st",
+                    "Date": "2025-09-13",
+                    "Opposition": "Hove",
+                    "Score": "TRY",
+                    "Count": 1,
+                    "Player": "O Adams",
+                }
+            ]
+        )
+
+        scorers = self.backend._build_season_scorers(
+            scorers_2526_raw=scorers_2526_raw,
+            pitchero_raw=pd.DataFrame(),
+            appearances=appearances,
+            games=games,
+        )
+
+        adams = scorers[scorers["player"] == "Ollie Adams"]
+        self.assertEqual(len(adams), 1)
+        self.assertEqual(int(adams.iloc[0]["tries"]), 1)
+        self.assertEqual(int(adams.iloc[0]["points"]), 5)
+
     def test_egrfc_alias_matching_accepts_abbreviated_pitchero_team_names(self):
         self.assertTrue(DataExtractor._is_egrfc_team_name("East Grinstead"))
         self.assertTrue(DataExtractor._is_egrfc_team_name("E. Grinstead 2"))
