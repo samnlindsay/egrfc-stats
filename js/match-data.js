@@ -5,32 +5,19 @@ let isInitialisingControls = false;
 let appearancesByGameId = new Map();
 let profilesByName = new Map();
 let isCompactTeamSheetMode = false;
+let clubLogosManifest = {}; // Will be populated by loadLogosManifest()
 
-const CLUB_LOGO_FILES = Object.freeze({
-    barnsgreen: 'BarnsGreen.png',
-    brighton: 'Brighton.png',
-    burgesshill: 'BurgessHill.png',
-    chipstead: 'Chipstead.png',
-    crawley: 'Crawley.png',
-    crowborough: 'Crowborough.png',
-    ditchling: 'Ditchling.png',
-    eastbourne: 'Eastbourne.png',
-    eastgrinstead: 'EastGrinstead.png',
-    haywardsheath: 'HaywardsHeath.png',
-    hellingly: 'Hellingly.png',
-    horsham: 'Horsham.png',
-    lewes: 'Lewes.png',
-    pulborough: 'Pulborough.png',
-    royals: 'Royals.png',
-    seaford: 'Seaford.png',
-    shoreham: 'Shoreham.png',
-    uckfield: 'Uckfield.png',
-    worthing: 'Worthing.png',
-});
-
-const CLUB_LOGO_ALIASES = Object.freeze({
-    brightonsm: 'brighton',
-});
+// Load the logos manifest on page load
+async function loadLogosManifest() {
+    try {
+        const response = await fetch('data/logos.json');
+        if (response.ok) {
+            clubLogosManifest = await response.json();
+        }
+    } catch (_error) {
+        console.warn('Could not load logos manifest', _error);
+    }
+}
 
 function isSelectPickerEnabled() {
     return !!(window.jQuery && window.jQuery.fn && window.jQuery.fn.selectpicker);
@@ -691,13 +678,20 @@ function getClubLogoSrc(name) {
     const clubName = String(name || '').trim();
     if (!clubName) return '';
 
+    // Try normalized variations of the club name (with and without roman numerals removed)
     const keys = [
         normaliseLogoKey(clubName),
         normaliseLogoKey(baseClubName(clubName)),
-    ].flatMap(key => key ? [key, CLUB_LOGO_ALIASES[key] || ''] : []).filter(Boolean);
+    ].filter(Boolean);
 
-    const match = keys.find(key => CLUB_LOGO_FILES[key]);
-    return match ? `img/logos/${CLUB_LOGO_FILES[match]}` : '';
+    // Find the first key that exists in the manifest
+    for (const key of keys) {
+        if (key in clubLogosManifest) {
+            return `img/logos/${clubLogosManifest[key]}`;
+        }
+    }
+
+    return '';
 }
 
 function teamLogoSlotHtml(src, name, side) {
@@ -1052,7 +1046,8 @@ async function loadPage() {
         const [gamesResponse, appearancesResponse, profilesResponse] = await Promise.all([
             fetch('data/backend/games.json'),
             fetch('data/backend/player_appearances.json'),
-            fetch('data/backend/player_profiles_canonical.json')
+            fetch('data/backend/player_profiles_canonical.json'),
+            loadLogosManifest()  // Load in parallel
         ]);
         if (!gamesResponse.ok) throw new Error(`Failed to load games (${gamesResponse.status})`);
 

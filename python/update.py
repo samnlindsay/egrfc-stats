@@ -35,6 +35,7 @@ from python.charts import (
 )
 
 from python.sync_headshots import run_sync, HEADSHOTS_DIR, TARGET_FILES
+from python.logos import export_logos_manifest
 import altair as alt
 from python.chart_helpers import *
 import pandas as pd
@@ -46,6 +47,9 @@ import pandas as pd
 
 def main(refresh_pitchero=False, backend_mode="canonical", backend_db_path="data/egrfc_backend.duckdb"):
     """Main update function using optimized data"""
+
+    # Generate logos manifest for frontend
+    export_logos_manifest(Path("data") / "logos.json", Path("img") / "logos")
 
     if backend_mode != "canonical":
         raise ValueError("Only canonical backend mode is supported.")

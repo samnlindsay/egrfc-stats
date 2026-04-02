@@ -26,6 +26,7 @@ game_id,date,season,squad,opposition,game_type,result,captain,motm,pitchero_matc
 2025-11-15_2nd_Royals,2025-11-15,2025/26,2nd,Royals,Cup,L,George Beet,Harrison Berry,https://www.egrfc.com/teams/142069/match-centre/0-6379844/events,"{""Ali Moffatt"": 1, ""Louis Duvall"": 1, ""Sam McCarthy"": 1}","{""Ali Moffatt"": 1}",,,True,True
 2025-11-08_1st_Lewes,2025-11-08,2025/26,1st,Lewes,League,W,Rory Evans,James Funnell,https://www.egrfc.com/teams/142068/match-centre/1-17629264/events,"{""Connor Leggat"": 4, ""Dan Poulton"": 1, ""James Funnell"": 1, ""Ted Hardisty"": 1}","{""Dan Poulton"": 3, ""Luke Maker"": 1}",,,True,True
 2025-11-08_2nd_Hove,2025-11-08,2025/26,2nd,Hove,League,L,George Beet,,https://www.egrfc.com/teams/142069/match-centre/1-17629353/events,"{""George Beet"": 1, ""George Jones"": 1, ""Max Crawley-Moore"": 1}","{""Max Crawley-Moore"": 1, ""Rhys Skinner"": 2}",,,True,True
+2025-10-25_1st_Old_Haileyburians,2025-10-25,2025/26,1st,Old Haileyburians,League,D,,,https://www.egrfc.com/teams/142068/match-centre/0-6379703/events,{},{},{},{},True,True
 2025-10-18_1st_Brighton,2025-10-18,2025/26,1st,Brighton II,League,W,Rory Evans,Josh Brimecombe,https://www.egrfc.com/teams/142068/match-centre/1-17629257/events,"{""Aaron Boczek"": 2, ""Luke Maker"": 1, ""Mark Lewis"": 3, ""Mark Oliver"": 1, ""Will Roberts"": 3}","{""Luke Maker"": 3}",,,True,True
 2025-10-11_1st_Shoreham,2025-10-11,2025/26,1st,Shoreham,League,W,Rory Evans,Mark Lewis,https://www.egrfc.com/teams/142068/match-centre/1-17629253/events,"{""Ali Moffatt"": 1, ""Ben Green"": 1, ""Ben Marelli"": 1, ""Jake Radcliffe"": 1, ""John Peaty"": 1, ""Luke Maker"": 1, ""Mark Lewis"": 2, ""Or Shay"": 1, ""Rory Evans"": 1, ""Will Roberts"": 1}","{""Luke Maker"": 7}",,,True,True
 2025-10-11_2nd_Burgess_Hill,2025-10-11,2025/26,2nd,Burgess Hill,League,L,George Beet,Jude Lavender,https://www.egrfc.com/teams/142069/match-centre/1-17629342/events,"{""George Beet"": 1, ""Ralph Harris"": 1}","{""Rhys Skinner"": 1}",,,True,True
@@ -42,6 +43,7 @@ game_id,date,season,squad,opposition,game_type,result,captain,motm,pitchero_matc
 2025-03-22_1st_Cobham,2025-03-22,2024/25,1st,Cobham,League,L,Ryland Thomas,Oli Billin,https://www.egrfc.com/teams/142068/match-centre/1-15439181/events,,,,,False,True
 2025-03-22_2nd_Horsham,2025-03-22,2024/25,2nd,Horsham,League,W,Rory Evans,Ben Marelli,https://www.egrfc.com/teams/142069/match-centre/0-6115906/events,,,,,False,True
 2025-03-08_1st_Old_Rutlishians,2025-03-08,2024/25,1st,Old Rutlishians,League,L,Chris May-Miller,,https://www.egrfc.com/teams/142068/match-centre/1-15439179/events,,,,,False,True
+2025-03-08_2nd_Midhurst,2025-03-08,2024/25,2nd,Midhurst,League,D,,,https://www.egrfc.com/teams/142069/match-centre/1-15721452/events,{},{},{},{},True,True
 2025-03-01_1st_Trinity,2025-03-01,2024/25,1st,Trinity,League,L,Ryland Thomas,,https://www.egrfc.com/teams/142068/match-centre/1-15439172/events,,,,,False,True
 2025-03-01_2nd_Trinity,2025-03-01,2024/25,2nd,Trinity,Friendly,L,Rory Evans,Ryan Morlen,https://www.egrfc.com/teams/142069/match-centre/0-6179893/events,,,,,False,True
 2025-02-22_2nd_Burgess_Hill,2025-02-22,2024/25,2nd,Burgess Hill,Friendly,W,Rory Evans,,https://www.egrfc.com/teams/142069/match-centre/0-6109266/events,,,,,False,True
@@ -79,6 +81,7 @@ game_id,date,season,squad,opposition,game_type,result,captain,motm,pitchero_matc
 2024-09-07_1st_London_Cornish,2024-09-07,2024/25,1st,London Cornish,League,L,Ryland Thomas,Jake Radcliffe,https://www.egrfc.com/teams/142068/match-centre/1-15439061/events,,,,,False,True
 2024-08-17_2nd_Warlingham,2024-08-17,2024/25,2nd,Warlingham,Friendly,W,Pete Morley,Luke Maker,https://www.egrfc.com/teams/142069/match-centre/0-5953432/events,,,,,False,True
 2024-04-27_1st_Bromley,2024-04-27,2023/24,1st,Bromley,Cup,L,Ryland Thomas,,https://www.egrfc.com/teams/142068/match-centre/0-5849920/events,,,,,False,True
+2024-04-20_2nd_Midhurst,2024-04-20,2023/24,2nd,Midhurst,League,D,,,https://www.egrfc.com/teams/142069/match-centre/0-5672619/events,{},{},{},{},True,True
 2024-04-13_1st_Dover,2024-04-13,2023/24,1st,Dover,Cup,W,Ryland Thomas,,https://www.egrfc.com/teams/142068/match-centre/0-5849916/events,,,,,False,True
 2024-04-06_1st_Twickenham,2024-04-06,2023/24,1st,Twickenham,League,L,Ryland Thomas,,https://www.egrfc.com/teams/142068/match-centre/1-13868655/events,,,,,False,True
 2024-04-06_2nd_Midhurst,2024-04-06,2023/24,2nd,Midhurst,League,W,Ben Watkinson,Daan Hulst,https://www.egrfc.com/teams/142069/match-centre/1-14258436/events,,,,,False,True
@@ -93,13 +96,16 @@ game_id,date,season,squad,opposition,game_type,result,captain,motm,pitchero_matc
 2024-02-17_2nd_Hellingly,2024-02-17,2023/24,2nd,Hellingly,League,W,Max Crawley-Moore,Rhys Skinner,https://www.egrfc.com/teams/142069/match-centre/1-14258368/events,,,,,False,True
 2024-02-13_2nd_Crowborough,2024-02-13,2023/24,2nd,Crowborough,League,W,Ben Watkinson,,,,,,,False,False
 2024-02-10_1st_Kingston,2024-02-10,2023/24,1st,Kingston,League,W,Ryland Thomas,,https://www.egrfc.com/teams/142068/match-centre/1-14502745/events,,,,,False,True
+2024-02-03_2nd_Crowborough,2024-02-03,2023/24,2nd,Crowborough II,League,W,Ben Watkinson,Will Bramwell,https://www.egrfc.com/teams/142069/match-centre/1-14258364/events,"{""W Roberts"": 1, ""J Andrews"": 1}",{},{},{},True,True
 2024-01-27_1st_Old_Walcountians,2024-01-27,2023/24,1st,Old Walcountians,League,W,Ryland Thomas,,https://www.egrfc.com/teams/142068/match-centre/1-13868615/events,,,,,False,True
+2024-01-27_2nd_Uckfield,2024-01-27,2023/24,2nd,Uckfield II,League,D,,,https://www.egrfc.com/teams/142069/match-centre/1-14258362/events,{},{},{},{},True,True
 2024-01-20_2nd_Heathfield_&_Waldron,2024-01-20,2023/24,2nd,Heathfield & Waldron,League,W,Ben Watkinson,Alister Yaffa,https://www.egrfc.com/teams/142069/match-centre/1-14258358/events,,,,,False,True
 2024-01-13_1st_Old_Tiffinians,2024-01-13,2023/24,1st,Old Tiffinians,League,L,Ryland Thomas,,https://www.egrfc.com/teams/142068/match-centre/1-13868603/events,,,,,False,True
 2024-01-13_2nd_Shoreham,2024-01-13,2023/24,2nd,Shoreham,Friendly,W,Ben Watkinson,Sam Musgrave,https://www.egrfc.com/teams/142069/match-centre/0-5828198/events,,,,,False,True
 2024-01-06_1st_KCS_Old_Boys,2024-01-06,2023/24,1st,KCS Old Boys,League,L,Ryland Thomas,,https://www.egrfc.com/teams/142068/match-centre/1-13868598/events,,,,,False,True
 2023-12-16_1st_Trinity,2023-12-16,2023/24,1st,Trinity,League,W,Ryland Thomas,Connor Leggat,https://www.egrfc.com/teams/142068/match-centre/1-13868591/events,,,,,False,True
 2023-12-09_1st_Hove,2023-12-09,2023/24,1st,Hove,League,W,Ryland Thomas,Connor Leggat,https://www.egrfc.com/teams/142068/match-centre/1-13868586/events,,,,,False,True
+2023-12-09_2nd_Heathfield_&_Waldron,2023-12-09,2023/24,2nd,Heathfield & Waldron II,League,W,,,https://www.egrfc.com/teams/142069/match-centre/0-5800317/events,{},{},{},{},True,True
 2023-12-02_1st_Weybridge_Vandals,2023-12-02,2023/24,1st,Weybridge Vandals,League,L,Ryland Thomas,Josh Brimecombe,https://www.egrfc.com/teams/142068/match-centre/1-13868579/events,,,,,False,True
 2023-12-02_2nd_Hellingly,2023-12-02,2023/24,2nd,Hellingly,League,W,Ben Watkinson,Rory Evans,https://www.egrfc.com/teams/142069/match-centre/1-14258355/events,,,,,False,True
 2023-11-25_1st_Horsham,2023-11-25,2023/24,1st,Horsham II,Cup,L,Ryland Thomas,Oli Billin,https://www.egrfc.com/teams/142068/match-centre/0-5672614/events,,,,,False,True
@@ -121,6 +127,7 @@ game_id,date,season,squad,opposition,game_type,result,captain,motm,pitchero_matc
 2023-08-19_1st_Old_Colfeians,2023-08-19,2023/24,1st,Old Colfeians,Friendly,L,Connor Leggat,,,,,,,False,False
 2023-04-29_1st_Wensleydale,2023-04-29,2022/23,1st,Wensleydale,Cup,L,Max Crawley-Moore,Ben Saunders,https://www.egrfc.com/teams/142068/match-centre/0-5339608/events,,,,,False,True
 2023-04-22_1st_Cheshunt,2023-04-22,2022/23,1st,Cheshunt,Cup,W,Max Crawley-Moore,Ryland Thomas,https://www.egrfc.com/teams/142068/match-centre/0-5339605/events,,,,,False,True
+2023-04-15_1st_Oakmedians,2023-04-15,2022/23,1st,Oakmedians,League,D,,,https://www.egrfc.com/teams/142068/match-centre/0-5339602/events,{},{},{},{},True,True
 2023-04-01_1st_Old_Rutlishians,2023-04-01,2022/23,1st,Old Rutlishians,Cup,W,Max Crawley-Moore,Devon Frost,https://www.egrfc.com/teams/142068/match-centre/0-5339598/events,,,,,False,True
 2023-03-25_2nd_Pulborough,2023-03-25,2022/23,2nd,Pulborough,Cup,L,Richard Dodgson,,https://www.egrfc.com/teams/142069/match-centre/0-5511825/events,,,,,False,True
 2023-03-04_1st_Haywards_Heath,2023-03-04,2022/23,1st,Haywards Heath,League,W,Max Crawley-Moore,Ryan Morlen,https://www.egrfc.com/teams/142068/match-centre/1-10555152/events,,,,,False,True
@@ -151,6 +158,8 @@ game_id,date,season,squad,opposition,game_type,result,captain,motm,pitchero_matc
 2022-10-01_1st_Crawley,2022-10-01,2022/23,1st,Crawley,League,W,Max Crawley-Moore,Connor Leggat,https://www.egrfc.com/teams/142068/match-centre/1-10555221/events,,,,,False,True
 2022-10-01_2nd_Haywards_Heath,2022-10-01,2022/23,2nd,Haywards Heath,Friendly,L,Ben Watkinson,,,,,,,False,False
 2022-09-24_1st_Uckfield,2022-09-24,2022/23,1st,Uckfield,League,W,Max Crawley-Moore,Jake Radcliffe,https://www.egrfc.com/teams/142068/match-centre/1-10555228/events,,,,,False,True
+2022-09-24_2nd_Hastings_&_Bexhill,2022-09-24,2022/23,2nd,Hastings & Bexhill II,League,W,,,https://www.egrfc.com/teams/142069/match-centre/1-10690401/events,{},{},{},{},True,True
+2022-09-24_2nd_Haywards_Heath,2022-09-24,2022/23,2nd,Haywards Heath,League,L,Ben Watkinson,Jack Billin,https://www.egrfc.com/teams/142069/match-centre/0-5458292/events,"{""J Billin"": 1, ""J Jenkins"": 1}","{""E Carrick"": 1}",{},{},True,True
 2022-09-17_1st_Lewes,2022-09-17,2022/23,1st,Lewes,League,W,Max Crawley-Moore,John Peaty,https://www.egrfc.com/teams/142068/match-centre/1-10555233/events,,,,,False,True
 2022-05-07_2nd_Hove,2022-05-07,2021/22,2nd,Hove,Cup,W,Toby Rowe,Eoin OâDonoghue,https://www.egrfc.com/teams/142069/match-centre/0-5282348/events,,,,,False,True
 2022-04-30_2nd_Rye,2022-04-30,2021/22,2nd,Rye,Cup,W,Ali Moffatt,Scott Devlin,https://www.egrfc.com/teams/142069/match-centre/0-5282347/events,,,,,False,True
@@ -191,6 +200,28 @@ game_id,date,season,squad,opposition,game_type,result,captain,motm,pitchero_matc
 2021-06-12_1st_University_of_Brighton,2021-06-12,2021/22,1st,University of Brighton,Friendly,L,Jack Andrews,,,,,,,False,False
 2021-05-22_1st_Crawley,2021-05-22,2021/22,1st,Crawley,Friendly,W,Jack Andrews,,,,,,,False,False
 2020-03-14_1st_Crawley,2020-03-14,2019/20,1st,Crawley,Cup,L,,,https://www.egrfc.com/teams/142068/match-centre/0-4742962/events,,,,,False,True
+2020-03-07_1st_Hove,2020-03-07,2019/20,1st,Hove II,League,W,,,https://www.egrfc.com/teams/142068/match-centre/0-4818855/events,"{""M Crawley-Moore"": 1, ""A Moffatt"": 1, ""O Roberts"": 1, ""J Funnell"": 1, ""J Busby"": 1}","{""O Adams"": 2}","{""O Adams"": 2}",{},True,True
+2020-02-22_1st_Barns_Green,2020-02-22,2019/20,1st,Barns Green,League,W,,,https://www.egrfc.com/teams/142068/match-centre/1-4421483/events,"{""J Radcliffe"": 1, ""C Leggat"": 1, ""A Moffatt"": 1, ""B Beard"": 1}","{""O Adams"": 2}","{""O Adams"": 2}",{},True,True
+2020-02-01_1st_Hellingly,2020-02-01,2019/20,1st,Hellingly,League,W,,,https://www.egrfc.com/teams/142068/match-centre/1-4421470/events,"{""O Billin"": 1, ""B Beard"": 2, ""J Leppard"": 1, ""C Leggat"": 1}","{""O Adams"": 5}","{""O Adams"": 3}",{},True,True
+2020-01-25_1st_Seaford,2020-01-25,2019/20,1st,Seaford,League,W,,,https://www.egrfc.com/teams/142068/match-centre/1-4421466/events,"{""M Crawley-Moore"": 2, ""B Beard"": 1}","{""O Adams"": 2}","{""O Adams"": 2}",{},True,True
+2020-01-18_2nd_Eastbourne,2020-01-18,2019/20,2nd,Eastbourne II,League,W,,,https://www.egrfc.com/teams/142069/match-centre/0-4787739/events,{},{},{},{},True,True
+2020-01-11_1st_Eastbourne,2020-01-11,2019/20,1st,Eastbourne,League,W,,,https://www.egrfc.com/teams/142068/match-centre/1-4421453/events,"{""J Radcliffe"": 1, ""B Beard"": 1}","{""O Adams"": 1}","{""O Adams"": 1}",{},True,True
+2020-01-11_2nd_Uckfield,2020-01-11,2019/20,2nd,Uckfield II,League,W,,,https://www.egrfc.com/teams/142069/match-centre/0-4787738/events,"{""R Thomas"": 2, ""M Brooke"": 1, ""H Weller"": 1, ""S Cooke"": 1}","{""S Cooke"": 3}",{},{},True,True
+2020-01-04_2nd_B&H_Sea_Serpents,2020-01-04,2019/20,2nd,B&H Sea Serpents,League,W,,,https://www.egrfc.com/teams/142069/match-centre/0-5532012/events,{},{},{},{},True,True
+2019-12-14_1st_Crawley,2019-12-14,2019/20,1st,Crawley,League,L,,,https://www.egrfc.com/teams/142068/match-centre/1-4421447/events,{},{},{},{},True,True
+2019-12-07_1st_Burgess_Hill,2019-12-07,2019/20,1st,Burgess Hill,League,L,,,https://www.egrfc.com/teams/142068/match-centre/1-4421439/events,"{""L Cammish"": 1, ""O Adams"": 1}","{""O Adams"": 1}",{},{},True,True
+2019-11-23_1st_Lewes,2019-11-23,2019/20,1st,Lewes,League,W,,,https://www.egrfc.com/teams/142068/match-centre/1-4421436/events,"{""M Crawley-Moore"": 2, ""C Leggat"": 1, ""M Oliver"": 1}","{""O Adams"": 3}","{""O Adams"": 1}",{},True,True
+2019-11-16_2nd_Warlingham,2019-11-16,2019/20,2nd,Warlingham III,League,W,,,https://www.egrfc.com/teams/142069/match-centre/0-4756354/events,{},{},{},{},True,True
+2019-11-09_1st_Barns_Green,2019-11-09,2019/20,1st,Barns Green,League,W,,Ben Saunders,https://www.egrfc.com/teams/142068/match-centre/1-4421425/events,"{""L Cammish"": 1, ""A Maynard"": 1, ""M Crawley-Moore"": 1}","{""O Adams"": 2}",{},{},True,True
+2019-11-09_2nd_Heathfield_&_Waldron,2019-11-09,2019/20,2nd,Heathfield & Waldron II,League,W,,,https://www.egrfc.com/teams/142069/match-centre/0-4742946/events,{},{},{},{},True,True
+2019-10-26_1st_Hove,2019-10-26,2019/20,1st,Hove II,League,W,Dan Arnold,,https://www.egrfc.com/teams/142068/match-centre/1-4421419/events,"{""D Arnold"": 1, ""M Simmonds"": 1, ""M Crawley-Moore"": 1, ""J Andrews"": 1, ""L Cammish"": 2, ""B Beard"": 2}","{""O Adams"": 3}",{},{},True,True
+2019-10-19_1st_Hellingly,2019-10-19,2019/20,1st,Hellingly,League,L,,,https://www.egrfc.com/teams/142068/match-centre/1-4421413/events,"{""B Beard"": 1, ""D Arnold"": 1, ""J Andrews"": 1, ""J Busby"": 1}","{""O Adams"": 1}",{},{},True,True
+2019-10-19_2nd_Eastbourne,2019-10-19,2019/20,2nd,Eastbourne II,League,W,,,https://www.egrfc.com/teams/142069/match-centre/0-4702064/events,"{""L Waite"": 1, ""Z Roberts"": 1, ""O Brown"": 1, ""M Marriott"": 2, ""T Byron"": 1, ""M Redmond"": 1, ""T Kiernan"": 1}","{""B Gray"": 5}",{},{},True,True
+2019-10-05_1st_Seaford,2019-10-05,2019/20,1st,Seaford,League,W,Mark Oliver,Ben Beard,https://www.egrfc.com/teams/142068/match-centre/1-4421404/events,"{""O Adams"": 1, ""A Moffatt"": 1, ""A Maynard"": 1, ""D Arnold"": 1, ""B Beard"": 1}","{""O Adams"": 4}","{""O Adams"": 3}",{},True,True
+2019-10-05_2nd_Uckfield,2019-10-05,2019/20,2nd,Uckfield II,League,W,,,https://www.egrfc.com/teams/142069/match-centre/0-4702061/events,"{""J Skipworth"": 3, ""H Weller"": 1, ""M Redmond"": 1, ""G Phillips"": 2}","{""H Weller"": 4}",{},{},True,True
+2019-09-28_1st_Haywards_Heath,2019-09-28,2019/20,1st,Haywards Heath II,League,W,,James Funnell,https://www.egrfc.com/teams/142068/match-centre/1-4421400/events,"{""M Oliver"": 1, ""B Beard"": 2, ""M Tomkinson"": 1, ""U"": 2, ""J Funnell"": 1, ""J Busby"": 1, ""O Adams"": 2}","{""O Billin"": 3, ""S Cooke"": 2}",{},{},True,True
+2019-09-21_1st_Eastbourne,2019-09-21,2019/20,1st,Eastbourne,League,W,Mark Oliver,,https://www.egrfc.com/teams/142068/match-centre/1-4421392/events,"{""M Crawley-Moore"": 2, ""U"": 1}","{""O Billin"": 1}","{""O Billin"": 1}",{},True,True
+2019-09-14_1st_Ditchling,2019-09-14,2019/20,1st,Ditchling,League,W,Mark Oliver,Matthew Tomkinson,https://www.egrfc.com/teams/142068/match-centre/1-4421387/events,"{""S Cooke"": 1, ""J Radcliffe"": 3, ""J Funnell"": 1, ""B Beard"": 1, ""M Crawley-Moore"": 1, ""M Tomkinson"": 1}","{""S Cooke"": 2, ""O Billin"": 4}","{""O Billin"": 1, ""S Cooke"": 1}",{},True,True
 2019-03-23_1st_Ditchling,2019-03-23,2018/19,1st,Ditchling,League,L,,,https://www.egrfc.com/teams/142068/match-centre/1-3790777/events,{},{},{},{},True,True
 2019-03-09_1st_Plumpton,2019-03-09,2018/19,1st,Plumpton,League,W,,,https://www.egrfc.com/teams/142068/match-centre/1-3790775/events,"{""S Montagu"": 4, ""C Pentney"": 1, ""D Arnold"": 3, ""J Skipworth"": 2, ""C Leggat"": 3, ""S Cooke"": 1, ""M Oliver"": 1}","{""S Cooke"": 10}",{},{},True,True
 2019-03-09_2nd_Hellingly,2019-03-09,2018/19,2nd,Hellingly II,League,W,,,https://www.egrfc.com/teams/142069/match-centre/1-3788508/events,{},{},{},{},True,True

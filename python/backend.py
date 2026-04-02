@@ -1053,6 +1053,38 @@ class BackendDatabase:
 
         if export:
             self.export_tables()
+    
+        # Store for post-enrichment scorer rebuild.
+        self._last_build_scorers_2526_raw = scorers_2526_raw
+
+    def rebuild_post_enrichment(self) -> None:
+        """Rebuild scorer-dependent tables after Pitchero supplemental enrichment.
+
+        ``_apply_pitchero_supplemental_enrichment`` writes try/conversion/penalty
+        scorer JSON back onto the ``games`` table rows *after* the main build() run
+        has already populated ``season_scorers``.  This method re-reads the enriched
+        games from the database and rebuilds every table that depends on scorer data.
+        """
+        scorers_2526_raw = getattr(self, "_last_build_scorers_2526_raw", pd.DataFrame())
+
+        games = self.con.execute("SELECT * FROM games").df()
+        appearances = self.con.execute("SELECT * FROM player_appearances").df()
+        lineouts = self.con.execute("SELECT * FROM lineouts").df()
+        set_piece = self.con.execute("SELECT * FROM set_piece").df()
+
+        season_scorers = self._build_season_scorers(scorers_2526_raw, pd.DataFrame(), appearances, games)
+        players = self._build_players(appearances, games, lineouts, season_scorers)
+        player_profiles_base = self._build_player_profiles_base(players, appearances, games, season_scorers)
+        player_profiles_canonical = self._build_player_profiles_canonical(player_profiles_base)
+        season_summary_enriched = self._build_season_summary(games, appearances, season_scorers, set_piece)
+
+        for table in ("season_scorers", "players", "player_profiles_canonical", "season_summary_enriched"):
+            self.con.execute(f"DELETE FROM {table}")
+
+        self._insert("season_scorers", season_scorers)
+        self._insert("players", players)
+        self._insert("player_profiles_canonical", player_profiles_canonical)
+        self._insert("season_summary_enriched", season_summary_enriched)
 
     def create_views(self) -> None:
         self.con.execute(
@@ -2138,16 +2170,17 @@ class BackendDatabase:
             print(f"Removing {_pitchero_overlap.sum()} Pitchero-only rows overlapping with Google games.")
             df = df[~_pitchero_overlap]
 
-        # Google Sheets is authoritative for any season it covers. Pitchero can still
-        # supplement matching Google fixtures (URLs/scorers) via lookup, but must not
-        # introduce additional standalone game rows in those seasons.
+        # Google Sheets is authoritative for modern seasons it covers. Historic
+        # seasons (Pitchero-era) can contain one-off manual Google additions, but
+        # Pitchero must remain the primary source for unmatched fixtures.
         _google_seasons = set(
             df.loc[df["_source"] == "google", "season"].dropna().astype(str).str.strip().tolist()
         )
-        if _google_seasons:
+        _google_modern_seasons = {season for season in _google_seasons if season not in historic_seasons}
+        if _google_modern_seasons:
             _pitchero_google_season_rows = (
                 (df["_source"] == "pitchero")
-                & df["season"].astype(str).str.strip().isin(_google_seasons)
+                & df["season"].astype(str).str.strip().isin(_google_modern_seasons)
             )
             if _pitchero_google_season_rows.any():
                 print(
@@ -2618,6 +2651,8 @@ class BackendDatabase:
         self,
         scorers_2526_raw: pd.DataFrame,
         pitchero_raw: pd.DataFrame,
+
+# ---- insertion point (method placed above _build_season_scorers) ----
         appearances: pd.DataFrame,
         games: pd.DataFrame,
     ) -> pd.DataFrame:
@@ -3864,8 +3899,11 @@ def build_backend(
         backend.build(refresh_pitchero=refresh_pitchero, export=export, strict_duplicate_audit=strict_duplicate_audit)
         if apply_supplemental_enrichment:
             _apply_pitchero_supplemental_enrichment(db_path=backend.db_file, project_root=backend.project_root)
-            # Re-export after enrichment so scorer/URL updates written by
-            # _apply_pitchero_supplemental_enrichment are reflected in the JSON files.
+            # Rebuild scorer-dependent tables so that try/conversion/penalty data
+            # backfilled by enrichment flows through to season_scorers, players,
+            # player_profiles_canonical and season_summary_enriched.
+            backend.rebuild_post_enrichment()
+            # Re-export so all post-enrichment updates are in the JSON files.
             if export:
                 backend.export_tables()
     finally:
