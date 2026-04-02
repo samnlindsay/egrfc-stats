@@ -1,14 +1,35 @@
 // Player Stats page logic
 
 let playerStatsControlsInitialised = false;
+let playerStatsDataSeasons = [];
+let playerStatsBaseSpecs = null;
 
-function getPlayerStatsSeasonOptions() {
-    const seasons = Array.from(new Set((availableSeasons || []).filter(Boolean))).sort((a, b) => {
+function sortSeasonLabelsDescending(seasons) {
+    return Array.from(new Set((seasons || []).filter(Boolean))).sort((a, b) => {
         const aYear = Number(String(a).split('/')[0]) || 0;
         const bYear = Number(String(b).split('/')[0]) || 0;
         return bYear - aYear;
     });
-    return ['All', ...seasons];
+}
+
+function extractSeasonsFromSpec(spec) {
+    if (!spec || typeof spec !== 'object' || !spec.datasets) return [];
+    const datasetNames = collectChartDatasetNames(spec);
+    const seasons = new Set();
+    datasetNames.forEach(name => {
+        const rows = spec.datasets?.[name];
+        if (!Array.isArray(rows)) return;
+        rows.forEach(row => {
+            const season = row?.season;
+            if (season && season !== 'Total') seasons.add(season);
+        });
+    });
+    return Array.from(seasons);
+}
+
+function getPlayerStatsSeasonOptions() {
+    const seasons = sortSeasonLabelsDescending([...(availableSeasons || []), ...playerStatsDataSeasons]);
+    return seasons;
 }
 
 function getPlayerStatsSquadColors() {
@@ -39,7 +60,7 @@ function initialisePlayerStatsControls() {
     seasons.forEach(season => {
         const option = document.createElement('option');
         option.value = season;
-        option.textContent = season === 'All' ? 'All seasons' : season;
+        option.textContent = season;
         seasonSelect.appendChild(option);
     });
     const $seasonSelect = $('#playerStatsSeasonSelect');
@@ -51,7 +72,13 @@ function initialisePlayerStatsControls() {
         if ($el.data('selectpicker')) $el.selectpicker('destroy');
         $el.selectpicker();
     });
-    $seasonSelect.selectpicker('val', 'All');
+    const currentSeason = getCurrentSeasonLabel();
+    const defaultSeason = seasons.includes(currentSeason) ? currentSeason : (seasons[0] || null);
+    if (defaultSeason) {
+        $seasonSelect.selectpicker('val', [defaultSeason]);
+    } else {
+        $seasonSelect.selectpicker('deselectAll');
+    }
     $gameTypeSelect.selectpicker('val', 'All games');
     $squadSelect.selectpicker('val', 'All');
     $positionSelect.selectpicker('deselectAll');
@@ -77,7 +104,9 @@ function filterPlayerStatsCaptainsSpec(spec, selectedSeasons, gameTypeMode, sele
     }
     const predicate = row => {
         const seasons = Array.isArray(selectedSeasons) ? selectedSeasons : [];
-        if (seasons.length === 0) { if (row?.season !== 'Total') return false; }
+        if (seasons.length === 0) {
+            if (row?.season === 'Total') return false;
+        }
         else if (row?.season === 'Total' || !seasons.includes(row?.season)) return false;
         if (allowedGameTypes && !allowedGameTypes.has(row?.game_type)) return false;
         if (selectedSquad !== 'All' && row?.squad !== selectedSquad) return false;
@@ -150,21 +179,22 @@ function filterPlayerStatsPointsSpec(spec, selectedSeasons, gameTypeMode, select
 }
 
 async function renderPlayerStatsPage() {
-    const selectedSeasonValue = document.getElementById('playerStatsSeasonSelect')?.value;
-    const selectedSeasons = (selectedSeasonValue && selectedSeasonValue !== 'All')
-        ? [selectedSeasonValue]
-        : [];
+    const selectedSeasons = $('#playerStatsSeasonSelect').val() || [];
     const selectedGameType = document.getElementById('playerStatsGameTypeSelect')?.value || 'All games';
     const selectedSquad = document.getElementById('playerStatsSquadSelect')?.value || 'All';
     const selectedPositions = $('#playerStatsPositionSelect').val() || [];
     const selectedScoreType = document.getElementById('playerStatsScoreTypeSelect')?.value || 'Total';
     const minimumAppearances = getPlayerStatsMinimumAppearances();
     try {
-        const [captainsSpec, appearancesSpec, pointsSpec] = await Promise.all([
-            loadChartSpec('data/charts/player_stats_captains.json'),
-            loadChartSpec('data/charts/player_stats_appearances.json'),
-            loadChartSpec('data/charts/point_scorers.json')
-        ]);
+        if (!playerStatsBaseSpecs) {
+            const [captainsSpec, appearancesSpec, pointsSpec] = await Promise.all([
+                loadChartSpec('data/charts/player_stats_captains.json'),
+                loadChartSpec('data/charts/player_stats_appearances.json'),
+                loadChartSpec('data/charts/point_scorers.json')
+            ]);
+            playerStatsBaseSpecs = { captainsSpec, appearancesSpec, pointsSpec };
+        }
+        const { captainsSpec, appearancesSpec, pointsSpec } = playerStatsBaseSpecs;
         const filteredCaptains = filterPlayerStatsCaptainsSpec(captainsSpec, selectedSeasons, selectedGameType, selectedSquad);
         const filteredAppearances = filterPlayerStatsAppearancesSpec(appearancesSpec, selectedSeasons, selectedGameType, selectedSquad, selectedPositions, minimumAppearances);
         const filteredPoints = filterPlayerStatsPointsSpec(pointsSpec, selectedSeasons, selectedGameType, selectedSquad, selectedScoreType);
@@ -181,6 +211,20 @@ async function renderPlayerStatsPage() {
 
 document.addEventListener('DOMContentLoaded', async function () {
     await loadAvailableSeasons();
+    if (!playerStatsBaseSpecs) {
+        const [captainsSpec, appearancesSpec, pointsSpec] = await Promise.all([
+            loadChartSpec('data/charts/player_stats_captains.json'),
+            loadChartSpec('data/charts/player_stats_appearances.json'),
+            loadChartSpec('data/charts/point_scorers.json')
+        ]);
+        playerStatsBaseSpecs = { captainsSpec, appearancesSpec, pointsSpec };
+    }
+    const { captainsSpec, appearancesSpec, pointsSpec } = playerStatsBaseSpecs;
+    playerStatsDataSeasons = sortSeasonLabelsDescending([
+        ...extractSeasonsFromSpec(captainsSpec),
+        ...extractSeasonsFromSpec(appearancesSpec),
+        ...extractSeasonsFromSpec(pointsSpec)
+    ]);
     initialisePlayerStatsControls();
     initialiseChartPanelToggles();
     renderPlayerStatsPage();

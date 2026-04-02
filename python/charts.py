@@ -463,7 +463,7 @@ def captains_chart(db, output_file='data/charts/player_stats_captains.json'):
                 'role:N',
                 sort=['Captain', 'Vice Captain'],
                 scale=alt.Scale(domain=['Captain', 'Vice Captain'], range=[1.0, 0.45]),
-                legend=alt.Legend(title=None, orient='none', legendX=250, legendY=100)
+                legend=alt.Legend(title=None, orient='none', legendX=250, legendY=50)
             ),
             order=alt.Order('stack_order:Q', sort='ascending'),
             tooltip=tooltip,
@@ -530,13 +530,9 @@ def player_stats_appearances_chart(db, output_file='data/charts/player_stats_app
             P.player,
             COALESCE(G.squad, P.squad) AS squad,
             COALESCE(G.season, P.season) AS season,
-            CASE WHEN P.is_backfill THEN 'Unknown' ELSE G.game_type END AS game_type,
-            CASE WHEN P.is_backfill THEN 'Unknown' ELSE COALESCE(P.position, 'Unknown') END AS position,
-            CASE
-                WHEN P.is_backfill THEN 'Unknown'
-                WHEN P.is_starter THEN 'Start'
-                ELSE 'Bench'
-            END AS start,
+            G.game_type,
+            COALESCE(P.position, 'Unknown') AS position,
+            CASE WHEN P.is_starter THEN 'Start' ELSE 'Bench' END AS start,
             COUNT(*) AS games
         FROM player_appearances P
         LEFT JOIN games G USING (game_id)
@@ -544,19 +540,17 @@ def player_stats_appearances_chart(db, output_file='data/charts/player_stats_app
             P.player,
             COALESCE(G.squad, P.squad),
             COALESCE(G.season, P.season),
-            CASE WHEN P.is_backfill THEN 'Unknown' ELSE G.game_type END,
-            CASE WHEN P.is_backfill THEN 'Unknown' ELSE COALESCE(P.position, 'Unknown') END,
-            CASE WHEN P.is_backfill THEN 'Unknown' WHEN P.is_starter THEN 'Start' ELSE 'Bench' END
+            G.game_type,
+            COALESCE(P.position, 'Unknown'),
+            CASE WHEN P.is_starter THEN 'Start' ELSE 'Bench' END
         """
     ).df()
 
     stack_order_map = {
         ('1st', 'Start'): 1,
         ('1st', 'Bench'): 2,
-        ('1st', 'Unknown'): 3,
-        ('2nd', 'Start'): 4,
-        ('2nd', 'Bench'): 5,
-        ('2nd', 'Unknown'): 6,
+        ('2nd', 'Start'): 3,
+        ('2nd', 'Bench'): 4,
     }
     df['stack_order'] = df.apply(
         lambda row: stack_order_map.get((row['squad'], row['start']), 99),
@@ -581,13 +575,13 @@ def player_stats_appearances_chart(db, output_file='data/charts/player_stats_app
             'squad:N',
             sort=['1st', '2nd'],
             scale=alt.Scale(domain=['1st', '2nd'], range=['#202946', '#7d96e8']),
-            legend=alt.Legend(title=None, orient='none', legendX=410, legendY=100, direction='vertical', labelExpr="datum.value + ' XV'")
+            legend=alt.Legend(title=None, orient='bottom-right', direction='vertical', labelExpr="datum.value + ' XV'")
         ),
         opacity=alt.Opacity(
             'start:N',
-            sort=['Start', 'Bench', 'Unknown'],
-            scale=alt.Scale(domain=['Start', 'Bench', 'Unknown'], range=[1.0, 0.35, 0.2]),
-            legend=alt.Legend(title=None, orient='none', legendX=410, legendY=195, direction='vertical')
+            sort=['Start', 'Bench'],
+            scale=alt.Scale(domain=['Start', 'Bench'], range=[1.0, 0.6]),
+            legend=alt.Legend(title=None, orient='bottom-right', direction='vertical')
         ),
         order=alt.Order('stack_order:Q', sort='ascending'),
         tooltip=[
@@ -666,10 +660,7 @@ def player_full_profile_appearances_per_season_chart(db, output_file='data/chart
                 WHEN COALESCE(G.result, '') = 'D' THEN 'Draw'
                 ELSE 'Unknown'
             END AS result,
-            CASE
-                WHEN P.is_backfill THEN 'Unknown'
-                ELSE COALESCE(P.position, 'Unknown')
-            END AS position,
+            COALESCE(P.position, 'Unknown') AS position,
             COUNT(*) AS apps
         FROM player_appearances P
         LEFT JOIN games G USING (game_id)
