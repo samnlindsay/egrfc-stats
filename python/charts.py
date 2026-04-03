@@ -1141,14 +1141,14 @@ def squad_size_trend_chart(db, output_file='data/charts/squad_size_trend.json'):
 
 
 def squad_overlap_chart(db, output_file='data/charts/squad_overlap.json'):
-    """Generate a stacked area/bar chart showing player squad overlap by season.
+    """Generate a diverging stacked bar chart showing player squad overlap by season.
     
     Categorizes players by their squad appearances in each season:
-    - "1st XV only"
-    - "2nd XV only"
-    - "Both (mostly 1st XV)"
-    - "Both (mostly 2nd XV)"
-    - "Both (equal)"
+    - Left (2nd XV focus): "2nd XV only", "Both (mostly 2nd XV)"
+    - Neutral: "Both (equal)"
+    - Right (1st XV focus): "Both (mostly 1st XV)", "1st XV only"
+    
+    The chart diverges from a center zero line with the neutral category centered on zero.
     """
 
     # Get unique players per season and their squads with appearance counts
@@ -1161,6 +1161,7 @@ def squad_overlap_chart(db, output_file='data/charts/squad_overlap.json'):
             COUNT(*) AS appearances
         FROM player_appearances
         WHERE season IS NOT NULL AND player IS NOT NULL
+        AND season != '2016/17' -- Exclude first season with incomplete data
         GROUP BY season, player, squad
         """
     ).df()
@@ -1185,9 +1186,9 @@ def squad_overlap_chart(db, output_file='data/charts/squad_overlap.json'):
             total = first_apps + second_apps
             pct_first = first_apps / total if total > 0 else 0.5
             
-            if pct_first > 0.5:
+            if pct_first > 0.65:
                 category = "Both (mostly 1st XV)"
-            elif pct_first < 0.5:
+            elif pct_first < 0.35:
                 category = "Both (mostly 2nd XV)"
             else:
                 category = "Both (equal)"
@@ -1208,73 +1209,216 @@ def squad_overlap_chart(db, output_file='data/charts/squad_overlap.json'):
         .rename(columns={'size': 'players'})
     )
     
-    # Calculate total per season for normalization
-    totals_df = (
-        summary_df
-        .groupby('season', as_index=False)['players']
-        .sum()
-        .rename(columns={'players': 'total'})
-    )
-    
-    summary_df = summary_df.merge(totals_df, on='season')
-    summary_df['pct'] = summary_df['players'] / summary_df['total']
-    
-    # Define stack order for consistent coloring
-    category_order = ["1st XV only", "Both (mostly 1st XV)", "Both (equal)", "Both (mostly 2nd XV)", "2nd XV only"]
-    category_colors = {
-        "1st XV only": "#202946",
-        "Both (mostly 1st XV)": "#a9efa9",
-        "Both (equal)": "#146f14",
-        "Both (mostly 2nd XV)": "#a9efa9",
-        "2nd XV only": "#7d96e8", 
+    # Define category order and mapping
+    category_map = {
+        "1st XV only": 2,
+        "Both (mostly 1st XV)": 1,
+        "Both (equal)": 0,
+        "Both (mostly 2nd XV)": -1,
+        "2nd XV only": -2
     }
     
-    summary_df['stack_order'] = summary_df['category'].map(
-        lambda x: category_order.index(x) if x in category_order else 99
+    category_colors = {
+        "1st XV only": "#202946",
+        "Both (mostly 1st XV)": "#161d33",
+        "Both (equal)": "#000000",
+        "Both (mostly 2nd XV)": "#465480",
+        "2nd XV only": "#7d96e8"
+    }
+    
+    summary_df['type_code'] = summary_df['category'].map(category_map)
+    summary_df['category_group'] = summary_df['category'].map(
+        lambda value: 'Both squads' if str(value).startswith('Both') else 'One squad'
     )
     
-    # Create normalized stacked bar chart
-    chart = alt.Chart(summary_df).mark_bar().encode(
+    # Assign render priority: "One squad" segments render underneath (0), "Both squads" segments on top (1)
+    summary_df['render_priority'] = summary_df['category_group'].map(
+        {'One squad': 0, 'Both squads': 1}
+    )
+    
+    # Compute percentages and diverging positions per season
+    def compute_diverging_positions(group):
+        # Sort by type_code to ensure correct order
+        group = group.set_index('type_code').sort_index()
+        
+        # Compute percentage within season
+        perc = group['players'] / group['players'].sum()
+        group['percentage'] = perc
+        
+        # Center the neutral category (type_code 0) around zero
+        # Offset = sum of left side (-2, -1) + half of neutral (0)
+        offset = perc.get(-2, 0) + perc.get(-1, 0) + perc.get(0, 0) / 2
+        
+        # Compute cumulative sum and apply offset to center on zero
+        group['percentage_end'] = perc.cumsum() - offset
+        group['percentage_start'] = group['percentage_end'] - perc
+        
+        return group
+    
+    # Group by season and compute positions
+    summary_df = summary_df.groupby('season', group_keys=False).apply(
+        compute_diverging_positions
+    ).reset_index()
+
+    summary_df['label_position'] = (summary_df['percentage_start'] + summary_df['percentage_end']) / 2
+    summary_df['label_color'] = summary_df['category'].map(
+        {
+            "1st XV only": "white",
+            "Both (mostly 1st XV)": "white",
+            "Both (equal)": "white",
+            "Both (mostly 2nd XV)": "white",
+            "2nd XV only": "#111827",
+        }
+    )
+    
+    # Sort for consistent rendering
+    summary_df = summary_df.sort_values(['season', 'type_code'])
+
+    # Create interactive selection for highlighting (initially highlights "Both squads")
+    appearance_selection = alt.selection_multi(
+        fields=['category_group'],
+        bind='legend',
+        name='appearanceSelect'
+    )
+    
+    # Create the diverging stacked bar chart
+    bars = alt.Chart(summary_df).mark_bar().encode(
         x=alt.X(
-            "season:O",
-            sort=alt.SortOrder("ascending"),
-            title="Season",
-            axis=alt.Axis(labelAngle=0, labelOverlap="parity")
+            'percentage_start:Q',
+            title='Percentage',
+            axis=alt.Axis(format='%', grid=False),
+            scale=alt.Scale(domain=[-0.75, 0.75], nice=False)
         ),
+        x2='percentage_end:Q',
         y=alt.Y(
-            "pct:Q",
-            title="Percentage of Players",
-            axis=alt.Axis(format="%"),
-            scale=alt.Scale(domain=[0, 1])
+            'season:O',
+            sort=alt.SortOrder('descending'),
+            title='Season'
         ),
         color=alt.Color(
-            "category:N",
-            sort=category_order,
+            'category:N',
             scale=alt.Scale(
-                domain=category_order,
-                range=[category_colors[cat] for cat in category_order]
+                domain=list(category_colors.keys()),
+                range=list(category_colors.values())
             ),
-            title="Squad Appearance"
+            legend=None  # Removed Squad Pattern legend
         ),
-        order=alt.Order("stack_order:Q", sort="ascending"),
+        stroke=alt.Stroke(
+            'category_group:N',
+            scale=alt.Scale(
+                domain=['One squad', 'Both squads'],
+                range=['#00000000', '#000000']
+            ),
+            legend=alt.Legend(title='Click to highlight', orient='top', titleOrient='left')
+        ),
+        strokeWidth=alt.condition(appearance_selection, alt.value(2), alt.value(0)),
+        opacity=alt.condition(
+            appearance_selection,
+            alt.value(1.0),
+            alt.value(0.35)
+        ),
+        order=alt.Order('render_priority:Q', sort='ascending'),
         tooltip=[
-            alt.Tooltip("season:O", title="Season"),
-            alt.Tooltip("category:N", title="Category"),
-            alt.Tooltip("players:Q", title="Players"),
-            alt.Tooltip("total:Q", title="Total"),
-            alt.Tooltip("pct:Q", title="Percentage", format=".1%")
+            alt.Tooltip('season:O', title='Season'),
+            alt.Tooltip('category:N', title='Pattern'),
+            alt.Tooltip('category_group:N', title='Appearance'),
+            alt.Tooltip('players:Q', title='Players'),
+            alt.Tooltip('percentage:Q', title='Percentage', format='.1%')
         ]
-    ).properties(
-        width=700,
-        height=400,
-        title=alt.Title(
-            text="Squad Overlap",
-            subtitle="Distribution of players by appearance patterns each season"
+    ).add_params(
+        appearance_selection
+    )
+
+    # Zero line
+    zero_line = alt.Chart(pd.DataFrame({'x': [0]})).mark_rule(
+        color='#000000',
+        strokeDash=[2, 2],
+        opacity=0.3,
+        size=1
+    ).encode(x='x:Q')
+
+    # Header labels above the chart area
+    label_data = pd.DataFrame([
+        {'x': -0.5, 'label': '2nd XV', 'color': category_colors['2nd XV only']},
+        {'x': -0.2, 'label': 'Mostly 2nd XV', 'color': category_colors['Both (mostly 2nd XV)']},
+        {'x': 0.0, 'label': 'Equal', 'color': category_colors['Both (equal)']},
+        {'x': 0.2, 'label': 'Mostly 1st XV', 'color': category_colors['Both (mostly 1st XV)']},
+        {'x': 0.5, 'label': '1st XV', 'color': category_colors['1st XV only']}
+    ])
+    
+    header_labels = alt.Chart(label_data).mark_text(
+        align='center',
+        baseline='middle',
+        fontSize=10,
+        fontWeight='bold',
+        opacity=1.0,
+    ).encode(
+        x=alt.X(
+            'x:Q',
+            axis=None
+        ),
+        text='label:N',
+        color=alt.Color('color:N', scale=None, legend=None)
+    ).properties(width=400, height=22)
+
+    # Data labels on bars
+    labels = alt.Chart(summary_df).transform_filter(
+        'datum.percentage >= 0.035'
+    ).mark_text(
+        align='center',
+        baseline='middle',
+        fontSize=14,
+        fontWeight='bold'
+    ).encode(
+        x=alt.X('label_position:Q'),
+        y=alt.Y(
+            'season:O',
+            sort=alt.SortOrder('descending'),
+            title='Season'
+        ),
+        text=alt.Text('players:Q', format='.0f'),
+        color=alt.Color('label_color:N', scale=None, legend=None),
+        opacity=alt.condition(
+            appearance_selection,
+            alt.value(1.0),
+            alt.value(0.35)
         )
     )
+
+    # Combine layers, with labels rendered in a header strip above the plot area
+    plot_area = alt.layer(zero_line, bars, labels).properties(
+        width=400,
+        height=alt.Step(40)
+    ).resolve_scale(x='shared')
+
+    charter = alt.vconcat(header_labels, plot_area, spacing=2).properties(
+        title=alt.Title(
+            text='Squad Overlap',
+            subtitle=[
+                'How much players overlap between the 1st and 2nd XV each season.',
+                'Bigger bars at either end indicate lots of players only appearing for one squad.',
+                'Bigger bars in the middle indicate more players appearing for both squads.',
+            ]
+        )
+    )
+
+    charter.save(output_file)
     
-    chart.save(output_file)
-    return chart
+    # Post-process the JSON to set initial selection to "Both squads"
+    import json
+    with open(output_file, 'r') as f:
+        spec = json.load(f)
+    
+    # Find and initialize the appearanceSelect parameter
+    if 'params' in spec:
+        for param in spec['params']:
+            if param.get('name') == 'appearanceSelect':
+                param['value'] = [{'category_group': 'Both squads'}]
+    
+    with open(output_file, 'w') as f:
+        json.dump(spec, f)
+    
+    return charter
 
 
 # ===== MIGRATED FROM update.py ===== (Helper functions and chart generation)
