@@ -3386,6 +3386,37 @@ def _derive_league_result(row):
     return "Draw"
 
 
+def _derive_unexpected_result(row, rank_map):
+    """Classify result novelty based on pre-match table ranking expectations."""
+
+    if row["home_team"] == row["away_team"]:
+        return "N/A"
+
+    result_simple = row.get("result_simple")
+    if result_simple == "To be played":
+        return "To be played"
+    if result_simple == "Draw":
+        return "Draw"
+    if result_simple not in {"Home Win", "Away Win"}:
+        return "N/A"
+
+    home_rank = rank_map.get(row.get("home_team"))
+    away_rank = rank_map.get(row.get("away_team"))
+    if home_rank is None or away_rank is None:
+        return "Expected"
+
+    if home_rank == away_rank:
+        return "Expected"
+
+    higher_ranked_side = "home" if home_rank < away_rank else "away"
+    winner_side = "home" if result_simple == "Home Win" else "away"
+
+    if winner_side == higher_ranked_side:
+        return "Expected"
+
+    return "Upset (Away Win)" if winner_side == "away" else "Upset (Home Win)"
+
+
 def _normalize_rfu_season_label(season):
     """Normalise RFU season labels for stable filenames/index keys.
 
@@ -3568,109 +3599,107 @@ def league_results_chart(db, season="2024-2025", league="Counties 1 Surrey/Susse
     )
 
     rank_map = _load_league_table_rank_map(squad, season)
+    matrix_df["unexpected_result"] = matrix_df.apply(lambda row: _derive_unexpected_result(row, rank_map), axis=1)
+    matrix_df["unexpected_opacity"] = matrix_df["unexpected_result"].map(
+        {
+            "Expected": 0.25,
+            "Upset (Home Win)": 0.75,
+            "Upset (Away Win)": 1.0,
+            "Draw": 0.75,
+            "To be played": 1.,
+            "N/A": 1.,
+        }
+    ).fillna(0.25)
+
+    highlight = alt.selection_point(fields=["home_team"], on="click", clear="dblclick", empty="none", value=None)
+    predicate = f"datum.home_team == {highlight.name}['home_team'] || datum.away_team == {highlight.name}['home_team']"
+    visible_predicate = f"{predicate} || !isValid({highlight.name}['home_team'])"
+    text_color = alt.condition(
+        f"({visible_predicate}) && datum.unexpected_result == 'Expected'",
+        alt.value("black"),
+        alt.value("white"),
+    )
+
     if rank_map:
         team_order = sorted(teams, key=lambda team: (rank_map.get(team, 999), team))
     else:
         team_order = sorted(teams)
-    preferred_eg_team = "East Grinstead II" if squad == 2 else "East Grinstead"
-    default_eg_team = preferred_eg_team if preferred_eg_team in team_order else next(
-        (team for team in team_order if str(team).startswith("East Grinstead")),
-        None,
-    )
-    default_highlight = [{"home_team": default_eg_team}] if default_eg_team else None
-
-    color_scale = alt.Scale(
-        domain=["Home Win", "Home Win (LBP)", "Away Win", "Away Win (LBP)", "Draw", "To be played", "N/A"],
-        range=["#146f14", "#146f14a0", "#991515", "#991515a0", "goldenrod", "white", "#202946"],
-    )
-
-    result_legend = alt.Legend(
-        orient="bottom",
-        direction="horizontal",
-        columns=4,
-        symbolStrokeColor="black",
-        symbolStrokeWidth=1,
-        values=["Home Win", "Away Win", "Draw", "To be played"],
-        offset=16,
-        labelLimit=200,
-    )
-
-    highlight = alt.selection_point(fields=["home_team"], on="click", clear="dblclick", empty="none", value=default_highlight)
-    predicate = f"datum.home_team == {highlight.name}['home_team'] || datum.away_team == {highlight.name}['home_team']"
-    visible_predicate = f"{predicate} || !isValid({highlight.name}['home_team'])"
-    text_color = alt.condition(visible_predicate, alt.value("white"), alt.value("black"))
 
     title_text = f"{league} Results"
 
-    base = alt.Chart(matrix_df).add_params(highlight)
+    base = alt.Chart(matrix_df)
     heatmap = base.mark_rect().encode(
         x=alt.X("away_team:N", title="Away Team", sort=team_order[::-1], axis=alt.Axis(labelAngle=30, orient="top", ticks=False, domain=False, grid=False)),
         y=alt.Y("home_team:N", title="Home Team", sort=team_order, axis=alt.Axis(ticks=False, domain=False, grid=False)),
         color=alt.Color(
-            "result:N",
-            scale=color_scale,
-            title="Result",
-            legend=result_legend,
+            "unexpected_result:N",
+            scale=alt.Scale(
+                domain=["Expected", "Upset (Home Win)", "Upset (Away Win)", "Draw", "To be played", "N/A"],
+                range=["#146f1444", "#991515bb", "#991515", "goldenrod", "white", "black"],
+            ),
+            title=None,
+            legend=alt.Legend(
+                orient="bottom",
+                direction="horizontal",
+                columns=1,
+                symbolStrokeColor="black",
+                symbolStrokeWidth=1,
+                values=["Upset (Away Win)", "Draw", "Expected"],
+                labelExpr="datum.value === 'Upset (Away Win)' ? 'Upset' : datum.value",
+                offset=16,
+                labelLimit=220,
+            )
         ),
-        opacity=alt.condition(visible_predicate, alt.value(1.0), alt.value(0.2)),
+        opacity=alt.condition(visible_predicate, alt.value(1.0), alt.value(0.1), legend=None),
         tooltip=[
             alt.Tooltip("home_team:N", title="Home"),
             alt.Tooltip("away_team:N", title="Away"),
             alt.Tooltip("home_score_text:N", title="Home Score"),
             alt.Tooltip("away_score_text:N", title="Away Score"),
             alt.Tooltip("result:N", title="Result"),
+            alt.Tooltip("unexpected_result:N", title="Unexpectedness"),
             alt.Tooltip("date:T", title="Date", format="%d %b %Y"),
         ],
     )
 
-    text_home_regular = base.transform_filter("datum.home_score_text != '' && datum.home_score_text != 'WO'").mark_text(
+    text_base = base.encode(
+        x=alt.X("away_team:N", sort=team_order[::-1]),
+        y=alt.Y("home_team:N", sort=team_order),
+        color=text_color
+    )   
+
+    text_home_regular = text_base.transform_filter("datum.home_score_text != '' && datum.home_score_text != 'WO'").mark_text(
         size=15,
         xOffset=-10,
         yOffset=5,
         fontWeight="bold",
     ).encode(
-        x=alt.X("away_team:N", sort=team_order[::-1]),
-        y=alt.Y("home_team:N", sort=team_order),
         text=alt.Text("home_score_text:N"),
-        color=text_color,
-        opacity=alt.condition(visible_predicate, alt.value(1.0), alt.value(0.5)),
     )
 
-    text_home_wo = base.transform_filter("datum.home_score_text == 'WO'").mark_text(
+    text_home_wo = text_base.transform_filter("datum.home_score_text == 'WO'").mark_text(
         size=12,
         xOffset=-10,
         yOffset=5,
     ).encode(
-        x=alt.X("away_team:N", sort=team_order[::-1]),
-        y=alt.Y("home_team:N", sort=team_order),
         text=alt.Text("home_score_text:N"),
-        color=text_color,
-        opacity=alt.condition(visible_predicate, alt.value(1.0), alt.value(0.5)),
     )
 
-    text_away_regular = base.transform_filter("datum.away_score_text != '' && datum.away_score_text != 'WO'").mark_text(
+    text_away_regular = text_base.transform_filter("datum.away_score_text != '' && datum.away_score_text != 'WO'").mark_text(
         size=14,
         xOffset=10,
         yOffset=-5,
         fontStyle="italic",
     ).encode(
-        x=alt.X("away_team:N", sort=team_order[::-1]),
-        y=alt.Y("home_team:N", sort=team_order),
         text=alt.Text("away_score_text:N"),
-        color=text_color,
-        opacity=alt.condition(visible_predicate, alt.value(0.8), alt.value(0.4)),
     )
 
-    text_away_wo = base.transform_filter("datum.away_score_text == 'WO'").mark_text(
+    text_away_wo = text_base.transform_filter("datum.away_score_text == 'WO'").mark_text(
         size=12,
         xOffset=10,
         yOffset=-5,
     ).encode(
-        x=alt.X("away_team:N", sort=team_order[::-1]),
-        y=alt.Y("home_team:N", sort=team_order),
         text=alt.Text("away_score_text:N"),
-        color=text_color,
-        opacity=alt.condition(visible_predicate, alt.value(0.8), alt.value(0.4)),
     )
 
     diagonal_df = matrix_df[matrix_df["is_diagonal"]].copy()
@@ -3698,14 +3727,13 @@ def league_results_chart(db, season="2024-2025", league="Counties 1 Surrey/Susse
         title=alt.Title(
             text=title_text,
             subtitle=[
-                f"Season {season}",
+                "Summary of every league result with teams sorted by current table position.",
                 "Diagonal values are total points difference by team.",
-                "Lighter shading indicates results within 7 points (losing bonus point).",
-                "Click a cell to highlight a team's results; double-click to reset.",
+                "Upsets (where the lower-ranked team won) are shaded red, darker for away wins."
             ],
         ),
         padding={"left": 20, "top": 20, "right": 40, "bottom": 120},
-    ).configure_view(stroke=None)
+    ).configure_view(stroke=None).add_params(highlight)
 
     chart.save(output_file)
     return chart
