@@ -975,7 +975,7 @@ class BackendDatabase:
 
         games_google_raw = extractor.extract_games_data()
         games_google_raw["_source"] = "google"
-        appearances_google_raw = extractor.extract_player_appearances()
+        appearances_google_raw = extractor.extract_player_appearances().assign(_source="google")
 
         historic_games_raw, historic_appearances_raw = self._load_historic_pitchero_team_sheets(
             extractor=extractor,
@@ -1001,7 +1001,10 @@ class BackendDatabase:
         ref_match_urls = self._build_ref_pitchero_match_url_overrides()
 
         games_raw = pd.concat([games_google_raw, pitchero_games_clean.assign(_source="pitchero")], ignore_index=True)
-        appearances_raw = pd.concat([appearances_google_raw, pitchero_appearances_clean], ignore_index=True)
+        appearances_raw = pd.concat(
+            [appearances_google_raw, pitchero_appearances_clean.assign(_source="pitchero")],
+            ignore_index=True,
+        )
 
         # Ensure pitchero_match_url column exists (from Pitchero data, NULL for Google Sheets data)
         if "pitchero_match_url" not in games_raw.columns:
@@ -2398,10 +2401,27 @@ class BackendDatabase:
             )
 
         df = appearances_raw.copy()
+        if "_source" not in df.columns:
+            df["_source"] = "unknown"
+
         # Remap appearances from alias game_ids to canonical retained game_ids.
         alias_map = getattr(self, "_game_id_alias_map", {})
         if alias_map:
             df["game_id"] = df["game_id"].astype(str).map(lambda gid: alias_map.get(gid, gid))
+
+        # Google Sheets is authoritative for lineups. If a canonical game_id has
+        # any Google rows, discard Pitchero appearance rows for that same game.
+        google_game_ids = set(
+            df.loc[df["_source"].astype(str) == "google", "game_id"].dropna().astype(str)
+        )
+        if google_game_ids:
+            df = df[
+                ~(
+                    df["_source"].astype(str).eq("pitchero")
+                    & df["game_id"].astype(str).isin(google_game_ids)
+                )
+            ]
+
         df = df.merge(games[["game_id", "squad", "date", "season", "game_type"]], on="game_id", how="left")
         df = df[df["player"].notna()]
         df["player"] = df["player"].map(_canonical_player_name)

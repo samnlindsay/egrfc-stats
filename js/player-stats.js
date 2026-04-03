@@ -115,6 +115,32 @@ function filterPlayerStatsCaptainsSpec(spec, selectedSeasons, gameTypeMode, sele
     return filterChartSpecDataset(clonedSpec, predicate);
 }
 
+function filterPlayerStatsMotmSpec(spec, selectedSeasons, gameTypeMode, selectedSquad) {
+    const clonedSpec = JSON.parse(JSON.stringify(spec));
+    const seasonValue = Array.isArray(selectedSeasons) ? selectedSeasons : [];
+    const allowedGameTypes = getAllowedGameTypes(gameTypeMode);
+    const gameTypesValue = allowedGameTypes ? Array.from(allowedGameTypes) : [];
+    const squadColors = getPlayerStatsSquadColors();
+
+    if (Array.isArray(clonedSpec.layer)) {
+        clonedSpec.layer.forEach(layer => {
+            if (layer?.encoding?.color?.scale) layer.encoding.color.scale.range = squadColors;
+        });
+    }
+
+    if (Array.isArray(clonedSpec.params)) {
+        clonedSpec.params.forEach(param => {
+            switch (param.name) {
+                case 'seasonParam': param.value = seasonValue; break;
+                case 'gameTypesParam': param.value = gameTypesValue; break;
+                case 'squadParam': param.value = selectedSquad; break;
+            }
+        });
+    }
+
+    return clonedSpec;
+}
+
 function filterPlayerStatsAppearancesSpec(spec, selectedSeasons, gameTypeMode, selectedSquad, positions, minimumAppearances) {
     const clonedSpec = JSON.parse(JSON.stringify(spec));
     const squadColors = getPlayerStatsSquadColors();
@@ -187,23 +213,27 @@ async function renderPlayerStatsPage() {
     const minimumAppearances = getPlayerStatsMinimumAppearances();
     try {
         if (!playerStatsBaseSpecs) {
-            const [captainsSpec, appearancesSpec, pointsSpec] = await Promise.all([
+            const [captainsSpec, motmSpec, appearancesSpec, pointsSpec] = await Promise.all([
                 loadChartSpec('data/charts/player_stats_captains.json'),
+                loadChartSpec('data/charts/player_stats_motm.json'),
                 loadChartSpec('data/charts/player_stats_appearances.json'),
                 loadChartSpec('data/charts/point_scorers.json')
             ]);
-            playerStatsBaseSpecs = { captainsSpec, appearancesSpec, pointsSpec };
+            playerStatsBaseSpecs = { captainsSpec, motmSpec, appearancesSpec, pointsSpec };
         }
-        const { captainsSpec, appearancesSpec, pointsSpec } = playerStatsBaseSpecs;
+        const { captainsSpec, motmSpec, appearancesSpec, pointsSpec } = playerStatsBaseSpecs;
         const filteredCaptains = filterPlayerStatsCaptainsSpec(captainsSpec, selectedSeasons, selectedGameType, selectedSquad);
+        const filteredMotm = filterPlayerStatsMotmSpec(motmSpec, selectedSeasons, selectedGameType, selectedSquad);
         const filteredAppearances = filterPlayerStatsAppearancesSpec(appearancesSpec, selectedSeasons, selectedGameType, selectedSquad, selectedPositions, minimumAppearances);
         const filteredPoints = filterPlayerStatsPointsSpec(pointsSpec, selectedSeasons, selectedGameType, selectedSquad, selectedScoreType);
         renderStaticSpecChart('playerStatsCaptainsChart', filteredCaptains, 'No captains or vice-captains data available for the selected season.');
+        renderStaticSpecChart('playerStatsMotmChart', filteredMotm, 'No player of the match awards available for the selected filters.');
         renderStaticSpecChart('playerStatsAppearancesChart', filteredAppearances, 'No player appearances available for the selected filters.');
         renderStaticSpecChart('playerStatsPointsChart', filteredPoints, 'No point scorers available for the selected filters.');
     } catch (error) {
         console.warn('Unable to load Player Stats charts:', error);
         renderStaticSpecChart('playerStatsCaptainsChart', null, 'Unable to load captains chart.');
+        renderStaticSpecChart('playerStatsMotmChart', null, 'Unable to load player of the match chart.');
         renderStaticSpecChart('playerStatsAppearancesChart', null, 'Unable to load appearances chart.');
         renderStaticSpecChart('playerStatsPointsChart', null, 'Unable to load point scorers chart.');
     }
@@ -212,16 +242,18 @@ async function renderPlayerStatsPage() {
 document.addEventListener('DOMContentLoaded', async function () {
     await loadAvailableSeasons();
     if (!playerStatsBaseSpecs) {
-        const [captainsSpec, appearancesSpec, pointsSpec] = await Promise.all([
+        const [captainsSpec, motmSpec, appearancesSpec, pointsSpec] = await Promise.all([
             loadChartSpec('data/charts/player_stats_captains.json'),
+            loadChartSpec('data/charts/player_stats_motm.json'),
             loadChartSpec('data/charts/player_stats_appearances.json'),
             loadChartSpec('data/charts/point_scorers.json')
         ]);
-        playerStatsBaseSpecs = { captainsSpec, appearancesSpec, pointsSpec };
+        playerStatsBaseSpecs = { captainsSpec, motmSpec, appearancesSpec, pointsSpec };
     }
-    const { captainsSpec, appearancesSpec, pointsSpec } = playerStatsBaseSpecs;
+    const { captainsSpec, motmSpec, appearancesSpec, pointsSpec } = playerStatsBaseSpecs;
     playerStatsDataSeasons = sortSeasonLabelsDescending([
         ...extractSeasonsFromSpec(captainsSpec),
+        ...extractSeasonsFromSpec(motmSpec),
         ...extractSeasonsFromSpec(appearancesSpec),
         ...extractSeasonsFromSpec(pointsSpec)
     ]);

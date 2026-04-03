@@ -489,6 +489,115 @@ def captains_chart(db, output_file='data/charts/player_stats_captains.json'):
     chart.save(output_file)
     return chart
 
+
+def player_stats_motm_chart(db, output_file='data/charts/player_stats_motm.json'):
+    """Man of the Match awards from the games.motm column.
+
+    Supported filters in the generated Vega spec:
+        seasonParam     - [] (all seasons) or an array of season labels
+        gameTypesParam  - [] (all) or an array of allowed game_type strings
+        squadParam      - 'All', '1st', or '2nd'
+    """
+
+    base_df = db.con.execute(
+        """
+        SELECT
+            squad,
+            season,
+            COALESCE(game_type, 'Unknown') AS game_type,
+            motm
+        FROM games
+        WHERE motm IS NOT NULL AND TRIM(motm) <> ''
+        """
+    ).df()
+
+    if base_df.empty:
+        df = pd.DataFrame(columns=['player', 'squad', 'season', 'game_type', 'motm_awards'])
+    else:
+        motm_df = base_df.copy()
+        motm_df['motm'] = motm_df['motm'].astype(str).str.replace(r'\s+', ' ', regex=True).str.strip()
+
+        invalid_names = {'', 'none', 'null', 'nan', 'n/a', 'na', 'tbc', '-', 'unknown'}
+        motm_df = motm_df[~motm_df['motm'].str.lower().isin(invalid_names)].copy()
+
+        # Some records include joint awards in one string.
+        motm_df['player'] = motm_df['motm'].str.split(r'\s*(?:,|/|&|\band\b|\+)\s*', regex=True)
+        motm_df = motm_df.explode('player', ignore_index=True)
+        motm_df['player'] = motm_df['player'].astype(str).str.strip()
+        motm_df = motm_df[motm_df['player'] != ''].copy()
+        motm_df['player'] = motm_df['player'].map(lambda name: other_names.get(name, name))
+
+        df = (
+            motm_df
+            .groupby(['player', 'squad', 'season', 'game_type'], as_index=False)
+            .size()
+            .rename(columns={'size': 'motm_awards'})
+        )
+
+    season_param = alt.param(name='seasonParam', value=[])
+    game_types_param = alt.param(name='gameTypesParam', value=[])
+    squad_param = alt.param(name='squadParam', value='All')
+
+    bars = alt.Chart(df).mark_bar().encode(
+        x=alt.X('sum(motm_awards):Q', axis=alt.Axis(title=None, orient='top')),
+        y=alt.Y(
+            'player:N',
+            sort=alt.EncodingSortField(field='player_total', order='descending', op='max'),
+            title=None,
+        ),
+        color=alt.Color(
+            'squad:N',
+            sort=['1st', '2nd'],
+            scale=alt.Scale(domain=['1st', '2nd'], range=['#202946', '#7d96e8']),
+            legend=alt.Legend(title=None, orient='bottom-right', direction='vertical', labelExpr="datum.value + ' XV'")
+        ),
+        tooltip=[
+            alt.Tooltip('player:N', title='Player'),
+            alt.Tooltip('squad:N', title='Squad'),
+            alt.Tooltip('game_type:N', title='Game Type'),
+            alt.Tooltip('sum(motm_awards):Q', title='MOTM Awards'),
+            alt.Tooltip('max(player_total):Q', title='Total'),
+        ]
+    )
+
+    total_labels = alt.Chart(df).transform_aggregate(
+        total_awards='sum(motm_awards)',
+        player_total='max(player_total)',
+        groupby=['player']
+    ).mark_text(
+        align='left',
+        baseline='middle',
+        dx=4,
+        fontSize=11,
+        color='black'
+    ).encode(
+        x=alt.X('total_awards:Q', axis=alt.Axis(title=None, orient='top', tickCount=3, format='.0f')),
+        y=alt.Y(
+            'player:N',
+            sort=alt.EncodingSortField(field='player_total', order='descending', op='max'),
+            title=None,
+        ),
+        text=alt.Text('total_awards:Q', format='.0f')
+    )
+
+    chart = (
+        alt.layer(bars, total_labels)
+        .transform_filter('length(seasonParam) === 0 || indexof(seasonParam, datum.season) >= 0')
+        .transform_filter('length(gameTypesParam) === 0 || indexof(gameTypesParam, datum.game_type) >= 0')
+        .transform_filter('squadParam === "All" || datum.squad === squadParam')
+        .transform_joinaggregate(player_total='sum(motm_awards)', groupby=['player'])
+        .transform_filter('datum.player_total > 0')
+        .add_params(season_param, game_types_param, squad_param)
+        .properties(
+            title=alt.Title(text='Man of the Match', subtitle='Number of MOTM awards per player (of those on record).'),
+            width=300,
+            height=alt.Step(15)
+        )
+    )
+
+    chart.save(output_file)
+    return chart
+
 def player_stats_appearances_chart(db, output_file='data/charts/player_stats_appearances.json'):
     """Player appearances split by start/bench for each squad.
 
