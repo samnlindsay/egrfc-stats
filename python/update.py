@@ -18,6 +18,7 @@ from python.data import *
 from python.charts import (
     squad_size_trend_chart,
     squad_continuity_average_chart,
+    squad_overlap_chart,
     captains_chart,
     player_stats_appearances_chart,
     player_full_profile_appearances_per_season_chart,
@@ -104,6 +105,7 @@ def main(refresh_pitchero=False, backend_mode="canonical", backend_db_path="data
     lineout_analysis_panel_chart_suite(db)
     lineout_analysis_chart_suite(db)
     squad_size_trend_chart(db)
+    squad_overlap_chart(db)
     squad_continuity_average_chart(db)
     export_league_context_chart_specs(db, squads=("1st",))
     export_league_results_chart_specs(db)

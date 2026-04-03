@@ -177,6 +177,23 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="chart-panel chart-panel--inline squad-position-panel">
+                    <button type="button" class="chart-panel-toggle chart-panel-toggle--black"
+                        data-target="squad-overlap-panel" data-accordion-group="squad-stats-breakdown"
+                        aria-expanded="false" aria-controls="squad-overlap-panel">
+                        <span class="chart-panel-toggle-text">
+                            <span class="chart-panel-toggle-title">Squad Overlap</span>
+                            <span class="chart-panel-toggle-hint">Distribution of players between squads</span>
+                        </span>
+                        <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
+                    </button>
+                    <div id="squad-overlap-panel" class="chart-panel-content" hidden>
+                        <div class="chart-panel-card">
+                            <div id="squadOverlapChart" style="overflow: visible;"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- ===== SECTION 2: SQUAD CONTINUITY ===== -->

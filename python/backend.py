@@ -1483,6 +1483,9 @@ class BackendDatabase:
 
         df = historic_games_raw.copy().reindex(columns=columns)
         df["date"] = _safe_date(df["date"])
+        # Preserve raw score values to detect non-numeric values (e.g., "W-L") before conversion
+        df["_raw_pf"] = df["pf"].astype(str)
+        df["_raw_pa"] = df["pa"].astype(str)
         df["pf"] = pd.to_numeric(df["pf"], errors="coerce").astype("Int64")
         df["pa"] = pd.to_numeric(df["pa"], errors="coerce").astype("Int64")
         df["margin"] = pd.to_numeric(df["margin"], errors="coerce").astype("Int64")
@@ -1498,6 +1501,38 @@ class BackendDatabase:
         df.loc[historic_mask, "opposition"] = df.loc[historic_mask, "opposition"].map(_canonical_pitchero_opposition_name)
         for col in ["captain", "motm", "vc1", "vc2"]:
             df[col] = df[col].map(_canonical_player_name)
+        
+        # Filter out unfulfilled fixtures (0-0 scores or non-numeric score values like "W-L").
+        # A fixture is considered unfulfilled if:
+        # 1. Both scores are 0 (0-0 draw)
+        # 2. The raw score values couldn't be parsed as numeric (e.g., "W-L", walkover markers)
+        def is_unfulfilled_fixture(row):
+            # Check if both scores are 0 (unfulfilled fixture marker)
+            if pd.notna(row.get("pf")) and pd.notna(row.get("pa")):
+                if int(row["pf"]) == 0 and int(row["pa"]) == 0:
+                    return True
+            
+            # Check if raw scores were non-numeric (couldn't parse to numbers)
+            raw_pf = str(row.get("_raw_pf", "")).strip()
+            raw_pa = str(row.get("_raw_pa", "")).strip()
+            
+            # If raw score contains non-numeric characters (except "."), it's likely unfulfilled
+            if raw_pf and not raw_pf.replace(".", "").isdigit():
+                return True
+            if raw_pa and not raw_pa.replace(".", "").isdigit():
+                return True
+            
+            return False
+        
+        initial_count = len(df)
+        df = df[~df.apply(is_unfulfilled_fixture, axis=1)]
+        filtered_count = initial_count - len(df)
+        if filtered_count > 0:
+            print(f"Removed {filtered_count} unfulfilled Pitchero fixtures (0-0 or non-numeric scores)")
+        
+        # Drop the temporary raw score columns
+        df = df.drop(columns=["_raw_pf", "_raw_pa"], errors="ignore")
+        
         return df
 
     def _build_pitchero_player_appearances_raw(self, historic_appearances_raw: pd.DataFrame) -> pd.DataFrame:

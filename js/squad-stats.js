@@ -6,6 +6,7 @@ let squadContinuityEnrichedData = null;
 let squadStatsData = null;
 let squadSizeTrendTemplateSpec = null;
 let squadContinuityTrendTemplateSpec = null;
+let squadOverlapTemplateSpec = null;
 let squadStatsControlsInitialised = false;
 
 async function loadSquadStatsCanonicalData() {
@@ -37,6 +38,13 @@ async function loadSquadStatsCanonicalData() {
             const res = await fetch('data/charts/squad_continuity_average.json');
             if (res.ok) squadContinuityTrendTemplateSpec = await res.json();
         } catch (e) { console.warn('Unable to load squad continuity trend template spec:', e); }
+    }
+
+    if (!squadOverlapTemplateSpec) {
+        try {
+            const res = await fetch('data/charts/squad_overlap.json');
+            if (res.ok) squadOverlapTemplateSpec = await res.json();
+        } catch (e) { console.warn('Unable to load squad overlap template spec:', e); }
     }
 }
 
@@ -348,7 +356,22 @@ async function renderLeagueContextCharts() {
 function renderSquadStatsCharts(selectedSeason, minimumAppearances) {
     renderSquadSizeTrendChart(selectedSeason, minimumAppearances);
     renderSquadContinuityTrendChart(selectedSeason);
+    renderSquadOverlapChart();
     renderLeagueContextCharts();
+}
+
+function renderSquadOverlapChart() {
+    const container = document.getElementById('squadOverlapChart');
+    if (!container) return;
+    if (!squadOverlapTemplateSpec) {
+        container.innerHTML = '<div class="text-center text-muted py-4">Squad overlap chart not available. Run <code>python update.py</code> to generate charts.</div>';
+        return;
+    }
+    container.innerHTML = '';
+    const spec = JSON.parse(JSON.stringify(squadOverlapTemplateSpec));
+    vegaEmbed('#squadOverlapChart', spec, { actions: VEGA_EMBED_ACTIONS, renderer: 'svg' })
+        .then(() => pinVegaActionsInElement(container))
+        .catch(error => { console.error('Error rendering squad overlap chart:', error); container.innerHTML = '<div class="text-center text-danger py-4">Unable to render squad overlap chart.</div>'; });
 }
 
 function renderSquadStatsPage() {

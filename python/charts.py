@@ -1140,6 +1140,143 @@ def squad_size_trend_chart(db, output_file='data/charts/squad_size_trend.json'):
     return chart
 
 
+def squad_overlap_chart(db, output_file='data/charts/squad_overlap.json'):
+    """Generate a stacked area/bar chart showing player squad overlap by season.
+    
+    Categorizes players by their squad appearances in each season:
+    - "1st XV only"
+    - "2nd XV only"
+    - "Both (mostly 1st XV)"
+    - "Both (mostly 2nd XV)"
+    - "Both (equal)"
+    """
+
+    # Get unique players per season and their squads with appearance counts
+    df = db.con.execute(
+        """
+        SELECT
+            season,
+            player,
+            squad,
+            COUNT(*) AS appearances
+        FROM player_appearances
+        WHERE season IS NOT NULL AND player IS NOT NULL
+        GROUP BY season, player, squad
+        """
+    ).df()
+
+    if df.empty:
+        print("No player appearance data found for squad overlap chart.")
+        return None
+
+    # For each player-season combo, determine overlap category
+    overlap_data = []
+    for (season, player), group_df in df.groupby(['season', 'player']):
+        squads = group_df['squad'].unique()
+        
+        if len(squads) == 1:
+            # Player only appeared in one squad
+            squad = squads[0]
+            category = f"{squad} XV only"
+        else:
+            # Player appeared in both squads
+            first_apps = group_df[group_df['squad'] == '1st']['appearances'].sum()
+            second_apps = group_df[group_df['squad'] == '2nd']['appearances'].sum()
+            total = first_apps + second_apps
+            pct_first = first_apps / total if total > 0 else 0.5
+            
+            if pct_first > 0.5:
+                category = "Both (mostly 1st XV)"
+            elif pct_first < 0.5:
+                category = "Both (mostly 2nd XV)"
+            else:
+                category = "Both (equal)"
+        
+        overlap_data.append({
+            'season': season,
+            'player': player,
+            'category': category
+        })
+    
+    overlap_df = pd.DataFrame(overlap_data)
+    
+    # Count players per category per season
+    summary_df = (
+        overlap_df
+        .groupby(['season', 'category'], as_index=False)
+        .size()
+        .rename(columns={'size': 'players'})
+    )
+    
+    # Calculate total per season for normalization
+    totals_df = (
+        summary_df
+        .groupby('season', as_index=False)['players']
+        .sum()
+        .rename(columns={'players': 'total'})
+    )
+    
+    summary_df = summary_df.merge(totals_df, on='season')
+    summary_df['pct'] = summary_df['players'] / summary_df['total']
+    
+    # Define stack order for consistent coloring
+    category_order = ["1st XV only", "Both (mostly 1st XV)", "Both (equal)", "Both (mostly 2nd XV)", "2nd XV only"]
+    category_colors = {
+        "1st XV only": "#202946",
+        "Both (mostly 1st XV)": "#a9efa9",
+        "Both (equal)": "#146f14",
+        "Both (mostly 2nd XV)": "#a9efa9",
+        "2nd XV only": "#7d96e8", 
+    }
+    
+    summary_df['stack_order'] = summary_df['category'].map(
+        lambda x: category_order.index(x) if x in category_order else 99
+    )
+    
+    # Create normalized stacked bar chart
+    chart = alt.Chart(summary_df).mark_bar().encode(
+        x=alt.X(
+            "season:O",
+            sort=alt.SortOrder("ascending"),
+            title="Season",
+            axis=alt.Axis(labelAngle=0, labelOverlap="parity")
+        ),
+        y=alt.Y(
+            "pct:Q",
+            title="Percentage of Players",
+            axis=alt.Axis(format="%"),
+            scale=alt.Scale(domain=[0, 1])
+        ),
+        color=alt.Color(
+            "category:N",
+            sort=category_order,
+            scale=alt.Scale(
+                domain=category_order,
+                range=[category_colors[cat] for cat in category_order]
+            ),
+            title="Squad Appearance"
+        ),
+        order=alt.Order("stack_order:Q", sort="ascending"),
+        tooltip=[
+            alt.Tooltip("season:O", title="Season"),
+            alt.Tooltip("category:N", title="Category"),
+            alt.Tooltip("players:Q", title="Players"),
+            alt.Tooltip("total:Q", title="Total"),
+            alt.Tooltip("pct:Q", title="Percentage", format=".1%")
+        ]
+    ).properties(
+        width=700,
+        height=400,
+        title=alt.Title(
+            text="Squad Overlap",
+            subtitle="Distribution of players by appearance patterns each season"
+        )
+    )
+    
+    chart.save(output_file)
+    return chart
+
+
 # ===== MIGRATED FROM update.py ===== (Helper functions and chart generation)
 other_names = {
     "A Moffatt": "Ali Moffatt",
