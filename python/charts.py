@@ -29,9 +29,6 @@ squad_scale = alt.Scale(
     range=["#202947", "#146f14"]
 )
 
-position_order = ["Prop", "Hooker", "Second Row", "Back Row", "Scrum Half", "Fly Half", "Centre", "Back Three"]
-
-
 def lineout_success_by_zone(df=None, squad="1st", min_total=20, file=None):
 
     if df is None or len(df) == 0:
@@ -384,17 +381,6 @@ def captains_chart(db, output_file='data/charts/player_stats_captains.json'):
         """
     ).df()
 
-    # Sort within each facet panel by that squad's total (so 1st XV and 2nd XV rank independently).
-    sort_totals = (
-        df[df['season'] == 'Total']
-        .groupby(['player', 'squad'])['games']
-        .sum()
-        .rename('sort_total')
-        .reset_index()
-    )
-    df = df.merge(sort_totals, on=['player', 'squad'], how='left')
-    df['sort_total'] = df['sort_total'].fillna(0)
-
     role_order = {'Captain': 1, 'Vice Captain': 2}
     df['stack_order'] = df['role'].map(role_order).fillna(99)
 
@@ -406,7 +392,7 @@ def captains_chart(db, output_file='data/charts/player_stats_captains.json'):
     )
     y_enc = alt.Y(
         'player:N',
-        sort=alt.SortField(field='sort_total', order='descending'),
+        sort=alt.SortField(field='player_total', order='descending'),
         title=None,
     )
     tooltip = [
@@ -420,7 +406,7 @@ def captains_chart(db, output_file='data/charts/player_stats_captains.json'):
         alt.Chart(df)
         .transform_aggregate(
             games_agg='sum(games)',
-            sort_total='max(sort_total)',
+            player_total='max(player_total)',
             groupby=['player', 'squad', 'role', 'stack_order']
         )
         .transform_window(
@@ -451,7 +437,7 @@ def captains_chart(db, output_file='data/charts/player_stats_captains.json'):
         alt.Chart(df)
         .transform_aggregate(
             total_games='sum(games)',
-            sort_total='max(sort_total)',
+            player_total='max(player_total)',
             groupby=['player', 'squad']
         )
         .mark_text(align='left', baseline='middle', dx=4, fontSize=11, color='black')
@@ -459,7 +445,7 @@ def captains_chart(db, output_file='data/charts/player_stats_captains.json'):
             x=alt.X('total_games:Q', axis=alt.Axis(title=None, orient='top')),
             y=alt.Y(
                 'player:N',
-                sort=alt.SortField(field='sort_total', order='descending'),
+                sort=alt.SortField(field='player_total', order='descending'),
                 title=None,
             ),
             text=alt.Text('total_games:Q', format='.0f')
@@ -468,6 +454,7 @@ def captains_chart(db, output_file='data/charts/player_stats_captains.json'):
 
     chart = (
         alt.layer(bars, totals)
+        .transform_joinaggregate(player_total='sum(games)', groupby=['player', 'squad'])
         .properties(width=400, height=alt.Step(15))
         .facet(
             row=alt.Row(
@@ -502,17 +489,24 @@ def player_stats_motm_chart(db, output_file='data/charts/player_stats_motm.json'
     base_df = db.con.execute(
         """
         SELECT
-            squad,
-            season,
-            COALESCE(game_type, 'Unknown') AS game_type,
-            motm
-        FROM games
+            G.squad,
+            G.season,
+            COALESCE(G.game_type, 'Unknown') AS game_type,
+            G.motm,
+            P.position
+        FROM games G
+        LEFT JOIN players P ON G.motm = P.name
         WHERE motm IS NOT NULL AND TRIM(motm) <> ''
         """
     ).df()
 
     if base_df.empty:
-        df = pd.DataFrame(columns=['player', 'squad', 'season', 'game_type', 'motm_awards'])
+        df = pd.DataFrame(
+            columns=[
+                'player', 'position', 'squad', 'season', 'game_type',
+                'motm_awards', 'unit', 'unit_sort', 'position_sort', 'position_opacity'
+            ]
+        )
     else:
         motm_df = base_df.copy()
         motm_df['motm'] = motm_df['motm'].astype(str).str.replace(r'\s+', ' ', regex=True).str.strip()
@@ -529,10 +523,47 @@ def player_stats_motm_chart(db, output_file='data/charts/player_stats_motm.json'
 
         df = (
             motm_df
-            .groupby(['player', 'squad', 'season', 'game_type'], as_index=False)
+            .groupby(['player', 'position', 'squad', 'season', 'game_type'], as_index=False)
             .size()
             .rename(columns={'size': 'motm_awards'})
         )
+
+        df['position'] = df['position'].fillna('Other')
+
+        unit_map = {
+            'Prop': 'Forwards',
+            'Hooker': 'Forwards',
+            'Second Row': 'Forwards',
+            'Flanker': 'Forwards',
+            'Number 8': 'Forwards',
+            'Scrum Half': 'Backs',
+            'Fly Half': 'Backs',
+            'Centre': 'Backs',
+            'Wing': 'Backs',
+            'Full Back': 'Backs',
+        }
+        position_order = [
+            'Prop', 'Hooker', 'Second Row', 'Flanker', 'Number 8',
+            'Scrum Half', 'Fly Half', 'Centre', 'Wing', 'Full Back',
+        ]
+        position_sort_map = {pos: idx + 1 for idx, pos in enumerate(position_order)}
+        opacity_map = {
+            'Prop': 1.00,
+            'Hooker': 0.88,
+            'Second Row': 0.76,
+            'Flanker': 0.64,
+            'Number 8': 0.52,
+            'Scrum Half': 1.00,
+            'Fly Half': 0.88,
+            'Centre': 0.76,
+            'Wing': 0.64,
+            'Full Back': 0.52,
+        }
+
+        df['unit'] = df['position'].map(unit_map).fillna('Other')
+        df['unit_sort'] = df['unit'].map({'Forwards': 1, 'Backs': 2, 'Other': 3}).fillna(99)
+        df['position_sort'] = df['position'].map(position_sort_map).fillna(999)
+        df['position_opacity'] = df['position'].map(opacity_map).fillna(0.55)
 
     season_param = alt.param(name='seasonParam', value=[])
     game_types_param = alt.param(name='gameTypesParam', value=[])
@@ -554,7 +585,8 @@ def player_stats_motm_chart(db, output_file='data/charts/player_stats_motm.json'
         tooltip=[
             alt.Tooltip('player:N', title='Player'),
             alt.Tooltip('squad:N', title='Squad'),
-            alt.Tooltip('game_type:N', title='Game Type'),
+            alt.Tooltip('position:N', title='Position'),
+            alt.Tooltip('unit:N', title='Unit'),
             alt.Tooltip('sum(motm_awards):Q', title='MOTM Awards'),
             alt.Tooltip('max(player_total):Q', title='Total'),
         ]
@@ -580,7 +612,7 @@ def player_stats_motm_chart(db, output_file='data/charts/player_stats_motm.json'
         text=alt.Text('total_awards:Q', format='.0f')
     )
 
-    chart = (
+    player_panel = (
         alt.layer(bars, total_labels)
         .transform_filter('length(seasonParam) === 0 || indexof(seasonParam, datum.season) >= 0')
         .transform_filter('length(gameTypesParam) === 0 || indexof(gameTypesParam, datum.game_type) >= 0')
@@ -593,6 +625,125 @@ def player_stats_motm_chart(db, output_file='data/charts/player_stats_motm.json'
             width=300,
             height=alt.Step(15)
         )
+    )
+
+    unit_base = (
+        alt.Chart(df)
+        .transform_filter('length(seasonParam) === 0 || indexof(seasonParam, datum.season) >= 0')
+        .transform_filter('length(gameTypesParam) === 0 || indexof(gameTypesParam, datum.game_type) >= 0')
+        .transform_filter('squadParam === "All" || datum.squad === squadParam')
+        .transform_aggregate(
+            motm_awards='sum(motm_awards)',
+            position_sort='min(position_sort)',
+            position_opacity='max(position_opacity)',
+            groupby=['unit', 'unit_sort', 'position']
+        )
+        .transform_joinaggregate(unit_total='sum(motm_awards)', groupby=['unit'])
+        .transform_calculate(segment_share='datum.unit_total > 0 ? datum.motm_awards / datum.unit_total : 0')
+        .transform_calculate(
+            segment_color=(
+                "datum.unit === 'Forwards' ? "
+                "(datum.position === 'Prop' ? '#202946' : "
+                " datum.position === 'Hooker' ? '#2e4b8c' : "
+                " datum.position === 'Second Row' ? '#4667b0' : "
+                " datum.position === 'Flanker' ? '#6f8fda' : '#9eb6ee') : "
+                "datum.unit === 'Backs' ? "
+                "(datum.position === 'Scrum Half' ? 'black' : "
+                " datum.position === 'Fly Half' ? '#1a1a1a' : "
+                " datum.position === 'Centre' ? '#2a2a2a' : "
+                " datum.position === 'Wing' ? '#3a3a3a' : '#4a4a4a') : '#9ca3af'"
+            )
+        )
+        .transform_calculate(
+            label_color=(
+                "datum.segment_color === '#ffffff' || datum.segment_color === '#f3f4f6' ? '#111111' : '#ffffff'"
+            )
+        )
+        .transform_filter('datum.motm_awards > 0')
+    )
+
+    unit_bars = unit_base.mark_bar(strokeWidth=0.8).encode(
+        x=alt.X('motm_awards:Q', axis=alt.Axis(title=None, orient='top', tickCount=3, format='.0f')),
+        y=alt.Y('unit:N', sort=['Forwards', 'Backs', 'Other'], title=None),
+        color=alt.Color(
+            'segment_color:N',
+            scale=None,
+            legend=None
+        ),
+        opacity=alt.Opacity(
+            'position_opacity:Q',
+            scale=None,
+            legend=None
+        ),
+        order=alt.Order('position_sort:Q', sort='ascending'),
+        tooltip=[
+            alt.Tooltip('unit:N', title='Unit'),
+            alt.Tooltip('position:N', title='Position'),
+            alt.Tooltip('motm_awards:Q', title='MOTM Awards'),
+            alt.Tooltip('unit_total:Q', title='Unit Total'),
+            alt.Tooltip('segment_share:Q', title='Share', format='.0%'),
+        ]
+    )
+
+    segment_labels = (
+        unit_base
+        .transform_stack(
+            stack='motm_awards',
+            groupby=['unit'],
+            sort=[alt.SortField(field='position_sort', order='ascending')],
+            as_=['x0', 'x1']
+        )
+        .transform_calculate(x_mid='(datum.x0 + datum.x1) / 2')
+        .mark_text(fontSize=10, fontWeight='bold', align='center', baseline='middle')
+        .encode(
+            x=alt.X('x_mid:Q'),
+            y=alt.Y('unit:N', sort=['Forwards', 'Backs', 'Other'], title=None),
+            text=alt.condition(
+                'datum.motm_awards >= 2 || datum.segment_share >= 0.16',
+                alt.Text('position:N'),
+                alt.value('')
+            ),
+            color=alt.Color('label_color:N', scale=None, legend=None),
+            opacity=alt.condition(
+                'datum.motm_awards >= 2 || datum.segment_share >= 0.16',
+                alt.value(1),
+                alt.value(0)
+            )
+        )
+    )
+
+    unit_total_labels = (
+        unit_base
+        .transform_aggregate(
+            unit_total='max(unit_total)',
+            groupby=['unit']
+        )
+        .mark_text(
+            align='left',
+            baseline='middle',
+            dx=4,
+            fontSize=11,
+            color='black'
+        )
+        .encode(
+            x=alt.X('unit_total:Q'),
+            y=alt.Y('unit:N', sort=['Forwards', 'Backs', 'Other'], title=None),
+            text=alt.Text('unit_total:Q', format='.0f')
+        )
+    )
+
+    aggregated_panel = (
+        alt.layer(unit_bars, segment_labels, unit_total_labels)
+        .properties(
+            width=300,
+            height=alt.Step(24)
+        )
+    )
+
+    chart = (
+        alt.vconcat(player_panel, aggregated_panel, spacing=18)
+        .add_params(season_param, game_types_param, squad_param)
+        .resolve_scale(x='independent')
     )
 
     chart.save(output_file)

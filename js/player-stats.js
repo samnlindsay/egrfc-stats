@@ -124,7 +124,10 @@ function filterPlayerStatsMotmSpec(spec, selectedSeasons, gameTypeMode, selected
 
     if (Array.isArray(clonedSpec.layer)) {
         clonedSpec.layer.forEach(layer => {
-            if (layer?.encoding?.color?.scale) layer.encoding.color.scale.range = squadColors;
+            const colorEncoding = layer?.encoding?.color;
+            if (colorEncoding?.field === 'squad' && colorEncoding?.scale) {
+                colorEncoding.scale.range = squadColors;
+            }
         });
     }
 

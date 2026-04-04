@@ -6,6 +6,7 @@ const BACK_POSITIONS = ['Scrum Half', 'Fly Half', 'Centre', 'Wing', 'Full Back']
 const SQUAD_POSITION_ORDER = [...FORWARD_POSITIONS, ...BACK_POSITIONS];
 let availableSeasons = ['2025/26', '2024/25', '2023/24', '2022/23', '2021/22', '2019/20', '2018/19', '2017/18', '2016/17'];
 const chartSpecCache = new Map();
+const chartSpecRequestVersion = String(Date.now());
 
 function getCurrentSeasonLabel() {
     const now = new Date();
@@ -91,7 +92,9 @@ function pinVegaActionsInElement(rootElement) {
 
 async function loadChartSpec(path) {
     if (chartSpecCache.has(path)) return chartSpecCache.get(path);
-    const response = await fetch(path);
+    const separator = path.includes('?') ? '&' : '?';
+    const requestPath = `${path}${separator}v=${encodeURIComponent(chartSpecRequestVersion)}`;
+    const response = await fetch(requestPath, { cache: 'no-store' });
     if (!response.ok) throw new Error(`Failed to fetch ${path} (${response.status})`);
     const spec = await response.json();
     chartSpecCache.set(path, spec);
