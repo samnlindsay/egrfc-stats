@@ -580,7 +580,14 @@ def player_stats_motm_chart(db, output_file='data/charts/player_stats_motm.json'
             'squad:N',
             sort=['1st', '2nd'],
             scale=alt.Scale(domain=['1st', '2nd'], range=['#202946', '#7d96e8']),
-            legend=alt.Legend(title=None, orient='bottom-right', direction='vertical', labelExpr="datum.value + ' XV'")
+            legend=alt.Legend(
+                title=None, 
+                orient="none", 
+                legendX=200, 
+                legendY=100, 
+                direction='vertical', 
+                labelExpr="datum.value + ' XV'"
+            )
         ),
         tooltip=[
             alt.Tooltip('player:N', title='Player'),
