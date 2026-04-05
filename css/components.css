@@ -3232,3 +3232,30 @@ table tbody tr:hover {
 .squad-metric-card-total .card-text {
     color: var(--team-fg);
 }
+
+/* ===== CLICKABLE FIXTURE AND PLAYER LINKS ===== */
+.fixture-result-link {
+    display: inline-block;
+    border-bottom: 1px dotted currentColor;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.fixture-result-link:hover {
+    text-decoration: none;
+    opacity: 0.75;
+}
+
+.match-team-sheet-player-link {
+    color: var(--primary-color);
+    font-weight: 600;
+    border-bottom: 1px dotted var(--primary-color);
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.match-team-sheet-player-link:hover {
+    opacity: 0.75;
+    text-decoration: underline;
+}

@@ -61,6 +61,16 @@ function getAllowedGameTypes(mode) {
     return null;
 }
 
+function createGameLink(gameId) {
+    if (!gameId) return null;
+    return `match-data.html?game=${encodeURIComponent(String(gameId || '').trim())}`;
+}
+
+function createPlayerLink(playerName) {
+    if (!playerName) return null;
+    return `player-profile.html?player=${encodeURIComponent(String(playerName || '').trim())}`;
+}
+
 function pinVegaActionsInElement(rootElement) {
     if (!rootElement) return;
     const run = () => {

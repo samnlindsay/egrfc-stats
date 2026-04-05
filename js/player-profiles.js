@@ -274,11 +274,16 @@ function squadLabel(value) {
 
 function fixtureSummaryMarkup(game, { includeSquad = false } = {}) {
     if (!game || typeof game !== 'object') return '';
+    const gameId = String(game?.game_id || '').trim();
     const squadText = includeSquad ? `${escapeHtml(squadLabel(game.squad))} ` : '';
     const opposition = escapeHtml(String(game.opposition || 'Unknown'));
     const homeAway = escapeHtml(String(game.home_away || '?'));
     const dateText = escapeHtml(formatDisplayDate(game.date));
-    return `${squadText}v ${opposition} (${homeAway}) - ${dateText}`;
+    const fixtureText = `${squadText}v ${opposition} (${homeAway}) - ${dateText}`;
+    
+    if (!gameId) return fixtureText;
+    const matchLink = `match-data.html?game=${encodeURIComponent(gameId)}`;
+    return `<a class="fixture-result-link" href="${matchLink}" style="text-decoration: none; color: inherit;">${fixtureText}</a>`;
 }
 
 function playerGameHistory(name) {

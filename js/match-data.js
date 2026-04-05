@@ -273,7 +273,13 @@ function collapseScorerEntries(entries) {
 function scorerCategoryHtml(title, entries) {
     if (!entries.length) return '';
     const rows = entries
-        .map(entry => `<li class="match-info-scorers-item">${escapeHtml(entry.name)}${entry.count > 1 ? ` (${entry.count})` : ''}</li>`)
+        .map(entry => {
+            const playerName = String(entry?.name || '').trim();
+            const link = profileLinkHref(playerName);
+            const safeName = escapeHtml(playerName);
+            const count = entry.count > 1 ? ` (${entry.count})` : '';
+            return `<li class="match-info-scorers-item"><a class="match-team-sheet-player-link" href="${escapeAttribute(link)}">${safeName}</a>${count}</li>`;
+        })
         .join('');
 
     return `
@@ -285,12 +291,14 @@ function scorerCategoryHtml(title, entries) {
 }
 
 function scorerEntryInlineHtml(entry) {
-    const name = escapeHtml(String(entry?.name || '').trim());
+    const name = String(entry?.name || '').trim();
+    const safeName = escapeHtml(name);
+    const link = profileLinkHref(name);
     const count = Math.max(1, Number(entry?.count) || 1);
     const countHtml = count > 1
         ? `<span class="match-info-score-multiplier" aria-label="scored ${count} times">${count}</span>`
         : '<span class="match-info-score-multiplier match-info-score-multiplier--empty" aria-hidden="true"></span>';
-    return `<span class="match-info-scorer-line"><span class="match-info-scorer-name">${name}</span>${countHtml}</span>`;
+    return `<span class="match-info-scorer-line"><a class="match-team-sheet-player-link" href="${escapeAttribute(link)}" style="border-bottom: none;"><span class="match-info-scorer-name">${safeName}</span></a>${countHtml}</span>`;
 }
 
 function scorerEntriesInlineHtml(entries, multiline = false) {
@@ -358,19 +366,21 @@ function renderLeadershipMetaRow(row) {
     const items = [];
 
     if (captain) {
+        const captainLink = profileLinkHref(captain);
         items.push(`
             <div class="match-info-meta-item">
                 <span class="match-info-meta-label">Captain</span>
-                <span class="match-info-meta-value">${escapeHtml(captain)}</span>
+                <span class="match-info-meta-value"><a class="match-team-sheet-player-link" href="${escapeAttribute(captainLink)}">${escapeHtml(captain)}</a></span>
             </div>
         `);
     }
 
     if (motm) {
+        const motmLink = profileLinkHref(motm);
         items.push(`
             <div class="match-info-meta-item">
                 <span class="match-info-meta-label">Man of the Match</span>
-                <span class="match-info-meta-value">${escapeHtml(motm)}</span>
+                <span class="match-info-meta-value"><a class="match-team-sheet-player-link" href="${escapeAttribute(motmLink)}">${escapeHtml(motm)}</a></span>
             </div>
         `);
     }

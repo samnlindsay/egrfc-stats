@@ -200,9 +200,22 @@ function resultBadgeHtml(score) {
     return `<span class="result-badge ${cls}">${escapeHtml(text)}</span>`;
 }
 
+function gameLinkHref(gameId) {
+    return `match-data.html?game=${encodeURIComponent(String(gameId || '').trim())}`;
+}
+
 function fixtureAndResultText(game, includeSquad) {
     if (!game) return 'Unknown';
     return `<span class="fixture-result-inline"><span class="fixture-result-main">${fixtureText(game, includeSquad)}</span><span class="fixture-result-separator" aria-hidden="true">&bull;</span><span class="fixture-result-meta">${resultBadgeHtml(scoreText(game))}</span></span>`;
+}
+
+function fixtureAndResultLink(game, includeSquad) {
+    if (!game) return 'Unknown';
+    const gameId = String(game?.game_id || '').trim();
+    if (!gameId) return fixtureAndResultText(game, includeSquad);
+    const fixtureHtml = fixtureText(game, includeSquad);
+    const resultHtml = resultBadgeHtml(scoreText(game));
+    return `<a class="fixture-result-link" href="${escapeAttribute(gameLinkHref(gameId))}" style="text-decoration: none; color: inherit;"><span class="fixture-result-inline"><span class="fixture-result-main">${fixtureHtml}</span><span class="fixture-result-separator" aria-hidden="true">&bull;</span><span class="fixture-result-meta">${resultHtml}</span></span></a>`;
 }
 
 function winRecordMarkup(wins, losses, draws) {
@@ -669,11 +682,11 @@ function renderProfile(player) {
 
                     <section class="full-profile-section-block">
                         <div class="full-profile-section-title">First and Last Appearances</div>
-                        <p style="margin:0.18rem 0;"><strong>Club debut:</strong> ${firstGame ? fixtureAndResultText(firstGame, true) : escapeHtml(String(player?.debutOverall || 'Unknown'))}</p>
+                        <p style="margin:0.18rem 0;"><strong>Club debut:</strong> ${firstGame ? fixtureAndResultLink(firstGame, true) : escapeHtml(String(player?.debutOverall || 'Unknown'))}</p>
                         ${firstXVAppearances > 0
-                            ? `<p style="margin:0.18rem 0;"><strong>1st XV debut:</strong> ${firstXVGame ? fixtureAndResultText(firstXVGame, false) : escapeHtml(String(player?.debutFirstXV || 'Unknown'))}</p>`
+                            ? `<p style="margin:0.18rem 0;"><strong>1st XV debut:</strong> ${firstXVGame ? fixtureAndResultLink(firstXVGame, false) : escapeHtml(String(player?.debutFirstXV || 'Unknown'))}</p>`
                             : ''}
-                        <p style="margin:0.18rem 0;"><strong>Last appearance:</strong> ${latestGame ? fixtureAndResultText(latestGame, true) : escapeHtml(String(player?.lastAppearanceDate || 'Unknown'))}</p>
+                        <p style="margin:0.18rem 0;"><strong>Last appearance:</strong> ${latestGame ? fixtureAndResultLink(latestGame, true) : escapeHtml(String(player?.lastAppearanceDate || 'Unknown'))}</p>
                     </section>
 
                     ${sponsorshipSectionHtml}
