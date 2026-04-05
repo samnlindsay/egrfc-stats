@@ -22,6 +22,25 @@ function escapeHtml(value) {
         .replace(/'/g, '&#039;');
 }
 
+function escapeAttribute(value) {
+    return String(value ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/"/g, '&quot;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+}
+
+function initializeLastTenTooltips(containerEl) {
+    if (!containerEl || !window.bootstrap || !window.bootstrap.Tooltip) return;
+    const tooltipEls = containerEl.querySelectorAll('[data-bs-toggle="tooltip"]');
+    tooltipEls.forEach(el => {
+        window.bootstrap.Tooltip.getOrCreateInstance(el, {
+            container: 'body',
+            trigger: 'hover focus',
+        });
+    });
+}
+
 function parseScoringPayload(value) {
     if (value && typeof value === 'object' && !Array.isArray(value)) {
         return {
@@ -129,7 +148,7 @@ function lastTenResultsFromHistory(history) {
 function lastTenResultsMarkup(history) {
     const entries = lastTenResultsFromHistory(history);
     if (!entries.length) {
-        return '<p style="margin:0.18rem 0;"><strong>Last 10 results:</strong> No recent results</p>';
+        return '<div class="season-results-last-ten-row"><div class="season-results-last-ten-label">Last 10 Results</div><div class="last-ten-results-strip last-ten-results-strip--single-row"><span class="last-ten-results-empty">No recent results</span></div></div>';
     }
 
     const tokens = entries
@@ -138,12 +157,22 @@ function lastTenResultsMarkup(history) {
             const variant = result === 'W' ? 'last-ten-result--win'
                 : result === 'L' ? 'last-ten-result--loss'
                     : 'last-ten-result--draw';
+            const gameId = String(entry?.game?.game_id || '').trim();
             const title = fixtureText(entry.game, true).replace(/<[^>]+>/g, '');
-            return `<span class="last-ten-result ${variant}" title="${title}">${result}</span>`;
+            const score = scoreText(entry.game);
+            const tooltipText = [
+                title,
+                `Result: ${result}${score ? ` (${score})` : ''}`,
+                gameId ? 'Click to open Match Info' : '',
+            ].filter(Boolean).join('\n');
+            const chip = `<span class="last-ten-result ${variant}" data-bs-toggle="tooltip" data-bs-custom-class="last-ten-result-tooltip" data-bs-title="${escapeAttribute(tooltipText)}">${result}</span>`;
+            return gameId
+                ? `<a class="last-ten-result-link" href="match-data.html?game=${encodeURIComponent(gameId)}" aria-label="Open Match Info for ${escapeHtml(title)}">${chip}</a>`
+                : chip;
         })
         .join('');
 
-    return `<p style="margin:0.18rem 0;"><strong>Last 10 results:</strong> <span class="last-ten-results-strip">${tokens}</span></p>`;
+    return `<div class="season-results-last-ten-row"><div class="season-results-last-ten-label">Last 10 Results</div><div class="last-ten-results-strip last-ten-results-strip--single-row">${tokens}</div></div>`;
 }
 
 function fixtureText(game, includeSquad) {
@@ -759,6 +788,7 @@ function renderProfile(player) {
     `;
 
     initialiseChartPanelToggles();
+    initializeLastTenTooltips(root);
     bindAppearancePanelControls(String(player?.name || '').trim());
     renderAppearanceTable();
     renderAppearancesPerSeasonChart(String(player?.name || '').trim());

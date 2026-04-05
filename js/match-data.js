@@ -409,7 +409,7 @@ function pitcheroLinkButtonHtml(row) {
 }
 
 function profileLinkHref(playerName) {
-    return `player-full-profile.html?player=${encodeURIComponent(String(playerName || '').trim())}`;
+    return `player-profile.html?player=${encodeURIComponent(String(playerName || '').trim())}`;
 }
 
 function formatPositionLabel(position) {

@@ -293,43 +293,6 @@ function playerGameHistory(name) {
     return games;
 }
 
-function gameResultCode(game) {
-    const result = String(game?.result || '').trim().toUpperCase();
-    if (result === 'W' || result === 'L' || result === 'D') return result;
-    return '';
-}
-
-function lastTenResultsFromHistory(history) {
-    return (Array.isArray(history) ? history : [])
-        .map(row => ({
-            result: gameResultCode(row?.game),
-            game: row?.game || null,
-        }))
-        .filter(entry => entry.result)
-        .slice(-10)
-        .reverse();
-}
-
-function lastTenResultsMarkup(history, label = 'Last 10 Results') {
-    const entries = lastTenResultsFromHistory(history);
-    if (!entries.length) {
-        return `<p class="player-profile-detail-line"><strong>${escapeHtml(label)}:</strong> No recent results</p>`;
-    }
-
-    const tokens = entries
-        .map(entry => {
-            const result = entry.result;
-            const variant = result === 'W' ? 'last-ten-result--win'
-                : result === 'L' ? 'last-ten-result--loss'
-                    : 'last-ten-result--draw';
-            const fixture = fixtureSummaryMarkup(entry.game, { includeSquad: true });
-            return `<span class="last-ten-result ${variant}" title="${fixture}">${result}</span>`;
-        })
-        .join('');
-
-    return `<p class="player-profile-detail-line"><strong>${escapeHtml(label)}:</strong> <span class="last-ten-results-strip">${tokens}</span></p>`;
-}
-
 function buildDerivedProfileStats(profile) {
     const history = playerGameHistory(profile?.name);
     if (history.length === 0) {
@@ -408,7 +371,6 @@ function cardDetailsMarkup(profile) {
     lines.push(`<p class="player-profile-detail-line"><strong>Scoring record:</strong> ${escapeHtml(scoringText)}</p>`);
 
     lines.push(`<p class="player-profile-detail-line"><strong>Win record:</strong> ${escapeHtml(derived.winRecordText)}</p>`);
-    lines.push(lastTenResultsMarkup(playerGameHistory(profile?.name)));
 
     lines.push('<p class="player-profile-detail-spacer" aria-hidden="true"></p>');
 
@@ -418,7 +380,7 @@ function cardDetailsMarkup(profile) {
     if (totalAppearances >= 10) {
         const playerName = encodeURIComponent(String(profile?.name || '').trim());
         lines.push(
-            `<p class="player-profile-detail-link-wrap"><a class="player-profile-detail-link player-profile-detail-cta" href="player-full-profile.html?player=${playerName}"><i class="bi bi-person-vcard-fill" aria-hidden="true"></i><span>Player Profile</span></a></p>`
+            `<p class="player-profile-detail-link-wrap"><a class="player-profile-detail-link player-profile-detail-cta" href="player-profile.html?player=${playerName}"><i class="bi bi-person-vcard-fill" aria-hidden="true"></i><span>Player Profile</span></a></p>`
         );
     }
 

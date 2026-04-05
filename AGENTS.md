@@ -18,9 +18,9 @@ The `egrfc-stats` project is a comprehensive data analytics and visualization pl
 
 - `python/`: Contains all Python scripts for data ingestion, processing, and backend management. This includes the main build script (`build_backend.py`), update routines (`update.py`), and any utility functions or modules related to data handling.
 - `data/`: Stores the DuckDB database files, exported JSON data for the frontend, and chart specifications. This directory is organized into subdirectories for clarity (e.g., `data/backend/` for backend exports, `data/charts/` for chart specs).
-- `js/`: Contains JavaScript files that handle frontend interactivity, data fetching, and chart rendering. Each page has its own JS file (e.g., `player-profiles.js`, `team-sheets.js`), and there may be shared utility scripts (e.g., `nav-layout.js`).
+- `js/`: Contains JavaScript files that handle frontend interactivity, data fetching, and chart rendering. Each page has its own JS file (e.g., `player-info.js`, `team-sheets.js`), and there may be shared utility scripts (e.g., `nav-layout.js`).
 - `css/`: Contains CSS files for styling the frontend. This includes custom styles as well as any overrides for Bootstrap components.
-- `*.html`: The HTML files that define the structure of the frontend pages. Each page corresponds to a specific feature (e.g., `player-profiles.html`, `database.html`).
+- `*.html`: The HTML files that define the structure of the frontend pages. Each page corresponds to a specific feature (e.g., `player-info.html`, `database.html`).
 - `README.md`: The main documentation file that provides an overview of the project, instructions for setup and usage, and general information about the repository.
 - `AGENTS.md`: This document (the one you're reading) that provides a detailed guide for agents working in the repository, including an overview of the project, its structure, and the workflows to follow.
 
