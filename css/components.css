@@ -1375,6 +1375,236 @@ td:has(> .squad-pill) > .squad-pill {
     line-height: 1.35;
 }
 
+.video-analysis {
+    margin: 0 0 1rem;
+    border: 1px solid #d9e0f0;
+    border-radius: 0.95rem;
+    background: #ffffff;
+    box-shadow: 0 8px 18px rgba(32, 41, 70, 0.05);
+    overflow: hidden;
+    --video-eg-bg: color-mix(in srgb, var(--primary-color) 14%, white);
+    --video-eg-fg: var(--primary-color);
+    --video-eg-head-fg: #ffffff;
+    --video-opp-bg: color-mix(in srgb, #8f97a9 22%, white);
+    --video-opp-fg: #4b5368;
+    --video-opp-head-fg: #2c3347;
+    /* Header row gradient variables — mirror the match-info-hero-grid palette */
+    --video-header-eg: var(--primary-color);
+    --video-header-opp: color-mix(in srgb, #888 14%, white);
+    --video-header-mid: #edf0f8;
+}
+
+.video-analysis-table-wrap {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.video-analysis--2nd {
+    --video-eg-bg: color-mix(in srgb, var(--accent-color) 24%, white);
+    --video-eg-fg: #1e2a4a;
+    --video-eg-head-fg: #1e2a4a;
+    --video-header-eg: var(--accent-color);
+}
+
+.video-analysis-panel-header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.video-analysis-table {
+    margin: 0;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.video-analysis-table th,
+.video-analysis-table td {
+    border: none;
+    padding: 0.4rem 0.3rem;
+}
+
+.video-analysis-matchup-row {
+    box-shadow: inset 0 -1px 0 #d7dfef;
+}
+
+.video-analysis-matchup-row th {
+    border-bottom: 1px solid #d7dfef;
+    padding-top: 0.84rem !important;
+    padding-bottom: 0.84rem !important;
+}
+
+.video-analysis-team-head {
+    width: 39%;
+    text-align: center;
+    background: transparent;
+}
+
+.video-analysis-score-head {
+    width: 22%;
+    text-align: center;
+    vertical-align: middle;
+    background: #edf0f8;
+    border-left: 1px solid rgba(32, 41, 70, 0.1);
+    border-right: 1px solid rgba(32, 41, 70, 0.1);
+}
+
+.video-analysis-team-head-inner {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    min-width: 0;
+    max-width: 100%;
+}
+
+.video-analysis-team-head-inner--away {
+    flex-direction: row-reverse;
+}
+
+.video-analysis-team-logo {
+    width: 3rem;
+    height: 3rem;
+    object-fit: contain;
+    flex: 0 0 auto;
+}
+
+.video-analysis-team-name {
+    font-size: 1.2rem;
+    font-weight: 900;
+    line-height: 1.2;
+    text-wrap: balance;
+}
+
+.video-analysis-score {
+    color: var(--primary-color);
+    font-size: 2rem;
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    white-space: nowrap;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.85);
+}
+
+.video-analysis-score-separator {
+    display: inline-block;
+    margin: 0 0.2em;
+    color: color-mix(in srgb, var(--primary-color) 62%, white);
+}
+
+/* Header row: per-cell solid backgrounds */
+.video-analysis--eg-home .video-analysis-matchup-row,
+.video-analysis--eg-away .video-analysis-matchup-row {
+    background: transparent;
+}
+
+/* Cell text colors — cells carry their own backgrounds */
+.video-analysis--eg-home .video-analysis-team-head--eg,
+.video-analysis--eg-away .video-analysis-team-head--eg {
+    background: var(--video-header-eg);
+    color: var(--video-eg-head-fg);
+}
+
+.video-analysis--eg-home .video-analysis-team-head--opp,
+.video-analysis--eg-away .video-analysis-team-head--opp {
+    background: var(--video-header-opp);
+    color: var(--video-opp-head-fg);
+}
+
+/* Score cell: result-tinted background */
+.video-analysis--win .video-analysis-score-head {
+    background: color-mix(in srgb, var(--green-color) 22%, white);
+}
+
+.video-analysis--loss .video-analysis-score-head {
+    background: color-mix(in srgb, var(--red-color) 22%, white);
+}
+
+.video-analysis--draw .video-analysis-score-head {
+    background: color-mix(in srgb, #d6b75b 18%, white);
+    vertical-align: middle;
+}
+
+.video-analysis--eg-home .video-analysis-value--home,
+.video-analysis--eg-away .video-analysis-value--away {
+    background: var(--video-header-eg);
+    color: var(--video-eg-head-fg);
+    border-left: none;
+    border-right: none;
+}
+
+.video-analysis--eg-home .video-analysis-value--away,
+.video-analysis--eg-away .video-analysis-value--home {
+    background: color-mix(in srgb, var(--video-opp-bg) 62%, white);
+    color: var(--video-opp-fg);
+}
+
+.video-analysis-section-row th {
+    padding: 0.46rem 0.45rem;
+    background: white;
+    color: color-mix(in srgb, var(--primary-color) 90%, black);
+    font-size: 1.2rem;
+    font-weight: 900;
+    letter-spacing: 0.01em;
+    border-top: 1px solid #d9e0f0;
+    border-bottom: 1px solid #d9e0f0;
+    text-align: center;
+}
+
+.video-analysis-value {
+    text-align: center;
+    font-size: 1.03rem;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    border-left: 1px solid #edf1f8;
+    border-right: 1px solid #edf1f8;
+}
+
+.video-analysis-value--lead {
+    color: var(--green-color);
+    box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--green-color) 45%, white);
+}
+
+.video-analysis-label {
+    text-align: center;
+    color: #5d657d;
+    font-size: 0.86rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+}
+
+.video-analysis-table tbody tr:not(.video-analysis-section-row) {
+    border-bottom: 1px solid #eef2f8;
+}
+
+@media (max-width: 767.98px) {
+    .video-analysis-table th,
+    .video-analysis-table td {
+        padding: 0.46rem 0.35rem;
+    }
+
+    .video-analysis-team-logo {
+        width: 1.6rem;
+        height: 1.6rem;
+    }
+
+    .video-analysis-team-name {
+        font-size: 0.76rem;
+    }
+
+    .video-analysis-score {
+        font-size: 1.02rem;
+    }
+
+    .video-analysis-value {
+        font-size: 0.92rem;
+    }
+
+    .video-analysis-label {
+        font-size: 0.76rem;
+    }
+}
+
 .match-info-external-link {
     display: inline-flex;
     align-items: center;

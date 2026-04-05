@@ -63,7 +63,7 @@ function getAllowedGameTypes(mode) {
 
 function createGameLink(gameId) {
     if (!gameId) return null;
-    return `match-data.html?game=${encodeURIComponent(String(gameId || '').trim())}`;
+    return `match-info.html?game=${encodeURIComponent(String(gameId || '').trim())}`;
 }
 
 function createPlayerLink(playerName) {

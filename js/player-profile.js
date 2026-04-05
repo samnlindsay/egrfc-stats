@@ -167,7 +167,7 @@ function lastTenResultsMarkup(history) {
             ].filter(Boolean).join('\n');
             const chip = `<span class="last-ten-result ${variant}" data-bs-toggle="tooltip" data-bs-custom-class="last-ten-result-tooltip" data-bs-title="${escapeAttribute(tooltipText)}">${result}</span>`;
             return gameId
-                ? `<a class="last-ten-result-link" href="match-data.html?game=${encodeURIComponent(gameId)}" aria-label="Open Match Info for ${escapeHtml(title)}">${chip}</a>`
+                ? `<a class="last-ten-result-link" href="match-info.html?game=${encodeURIComponent(gameId)}" aria-label="Open Match Info for ${escapeHtml(title)}">${chip}</a>`
                 : chip;
         })
         .join('');
@@ -201,7 +201,7 @@ function resultBadgeHtml(score) {
 }
 
 function gameLinkHref(gameId) {
-    return `match-data.html?game=${encodeURIComponent(String(gameId || '').trim())}`;
+    return `match-info.html?game=${encodeURIComponent(String(gameId || '').trim())}`;
 }
 
 function fixtureAndResultText(game, includeSquad) {
@@ -431,7 +431,7 @@ function renderAppearanceTable() {
             <td>${escapeHtml(row.position || '-')}</td>
             <td>${escapeHtml(row.shirtNumber || '-')}</td>
             <td>${resultBadgeHtml(row.result || '-')}</td>
-            <td>${row.gameId ? `<a class="match-data-link" href="match-data.html?game=${encodeURIComponent(row.gameId)}"><i class="bi bi-box-arrow-up-right" aria-hidden="true"></i><span>Match Data</span></a>` : '<span class="text-muted">-</span>'}</td>
+            <td>${row.gameId ? `<a class="match-data-link" href="match-info.html?game=${encodeURIComponent(row.gameId)}"><i class="bi bi-box-arrow-up-right" aria-hidden="true"></i><span>Match Data</span></a>` : '<span class="text-muted">-</span>'}</td>
         </tr>
     `;
     }).join('');

@@ -118,7 +118,7 @@ const SeasonSummary = (() => {
 
             const chip = `<span class="last-ten-result ${variant}" data-bs-toggle="tooltip" data-bs-custom-class="last-ten-result-tooltip" data-bs-title="${escapeAttribute(tooltipText)}">${result}</span>`;
             return gameId
-                ? `<a class="last-ten-result-link" href="match-data.html?game=${encodeURIComponent(gameId)}" aria-label="Open Match Info for ${escapeAttribute(date)} ${escapeAttribute(opposition)}">${chip}</a>`
+                ? `<a class="last-ten-result-link" href="match-info.html?game=${encodeURIComponent(gameId)}" aria-label="Open Match Info for ${escapeAttribute(date)} ${escapeAttribute(opposition)}">${chip}</a>`
                 : chip;
         }).join('');
 

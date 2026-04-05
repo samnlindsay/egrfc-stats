@@ -33,6 +33,14 @@ function escapeHtml(value) {
         .replace(/'/g, '&#039;');
 }
 
+function escapeAttribute(value) {
+    return String(value ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/"/g, '&quot;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+}
+
 function canonicalizeName(value) {
     return String(value || '').trim().toLowerCase().replace(/\s+/g, ' ');
 }
@@ -671,7 +679,7 @@ function numberIfFinite(value) {
 
 function formatVideoStatValue(value, formatter) {
     if (value === null || value === undefined || Number.isNaN(value)) return '-';
-    if (formatter === 'percent') return `${(Number(value) * 100).toFixed(1)}%`;
+    if (formatter === 'percent') return `${Math.round(Number(value) * 100)}%`;
     if (formatter === 'fixed1') return Number(value).toFixed(1);
     return String(Math.round(Number(value)));
 }
@@ -695,31 +703,34 @@ function metricRowHtml(label, homeValue, awayValue, formatter = 'integer', highe
 
     return `
         <tr>
-            <td class="video-analysis-value ${homeLead ? 'video-analysis-value--lead' : ''}">${escapeHtml(formatVideoStatValue(homeNum, formatter))}</td>
+            <td class="video-analysis-value video-analysis-value--home ${homeLead ? 'video-analysis-value--lead' : ''}">${escapeHtml(formatVideoStatValue(homeNum, formatter))}</td>
             <th scope="row" class="video-analysis-label">${escapeHtml(label)}</th>
-            <td class="video-analysis-value ${awayLead ? 'video-analysis-value--lead' : ''}">${escapeHtml(formatVideoStatValue(awayNum, formatter))}</td>
+            <td class="video-analysis-value video-analysis-value--away ${awayLead ? 'video-analysis-value--lead' : ''}">${escapeHtml(formatVideoStatValue(awayNum, formatter))}</td>
         </tr>
     `;
 }
 
 function buildVideoAnalysisRows(homeStats, awayStats) {
-    const setPieceRows = [
-        metricRowHtml('Scrums won', homeStats?.scrums_won, awayStats?.scrums_won),
-        metricRowHtml('Scrums lost', homeStats?.scrums_lost, awayStats?.scrums_lost, 'integer', false),
-        metricRowHtml('Scrum success', homeStats?.scrums_success_rate, awayStats?.scrums_success_rate, 'percent'),
-        metricRowHtml('Lineouts won', homeStats?.lineouts_won, awayStats?.lineouts_won),
-        metricRowHtml('Lineouts lost', homeStats?.lineouts_lost, awayStats?.lineouts_lost, 'integer', false),
-        metricRowHtml('Lineout success %', homeStats?.lineouts_success_rate, awayStats?.lineouts_success_rate, 'percent'),
+    const scrumRows = [
+        metricRowHtml('Won', homeStats?.scrums_won, awayStats?.scrums_won),
+        metricRowHtml('Lost', homeStats?.scrums_lost, awayStats?.scrums_lost, 'integer', false),
+        metricRowHtml('Success', homeStats?.scrums_success_rate, awayStats?.scrums_success_rate, 'percent'),
     ].filter(Boolean).join('');
 
-    const attackRows = [
+    const lineoutRows = [
+        metricRowHtml('Won', homeStats?.lineouts_won, awayStats?.lineouts_won),
+        metricRowHtml('Lost', homeStats?.lineouts_lost, awayStats?.lineouts_lost, 'integer', false),
+        metricRowHtml('Success', homeStats?.lineouts_success_rate, awayStats?.lineouts_success_rate, 'percent'),
+    ].filter(Boolean).join('');
+
+    const redZoneRows = [
         metricRowHtml('22m entries', homeStats?.entries_22m, awayStats?.entries_22m),
         metricRowHtml('Tries', homeStats?.tries, awayStats?.tries),
         metricRowHtml('Efficiency', homeStats?.tries_per_entry, awayStats?.tries_per_entry, 'percent'),
         metricRowHtml('Points per entry', homeStats?.points_per_entry, awayStats?.points_per_entry, 'fixed1'),
     ].filter(Boolean).join('');
 
-    return { setPieceRows, attackRows };
+    return { scrumRows, lineoutRows, redZoneRows };
 }
 
 function renderVideoAnalysisSection(row) {
@@ -736,45 +747,81 @@ function renderVideoAnalysisSection(row) {
 
     const homeTeam = isEgHome ? eastGrinsteadTeamName(row) : String(row?.opposition || 'Home').trim();
     const awayTeam = isEgHome ? String(row?.opposition || 'Away').trim() : eastGrinsteadTeamName(row);
+    const homeLogo = getClubLogoSrc(homeTeam);
+    const awayLogo = getClubLogoSrc(awayTeam);
+    const homeScore = Number.isFinite(isEgHome ? Number(row?.score_for) : Number(row?.score_against))
+        ? String(isEgHome ? Number(row?.score_for) : Number(row?.score_against))
+        : '-';
+    const awayScore = Number.isFinite(isEgHome ? Number(row?.score_against) : Number(row?.score_for))
+        ? String(isEgHome ? Number(row?.score_against) : Number(row?.score_for))
+        : '-';
+    const squadClass = String(row?.squad || '').trim() === '2nd' ? 'video-analysis--2nd' : 'video-analysis--1st';
+    const sideClass = isEgHome ? 'video-analysis--eg-home' : 'video-analysis--eg-away';
+    const resultClass = String(row?.result || '').toUpperCase() === 'W' ? 'video-analysis--win'
+        : String(row?.result || '').toUpperCase() === 'L' ? 'video-analysis--loss'
+        : String(row?.result || '').toUpperCase() === 'D' ? 'video-analysis--draw' : '';
+    const homeRoleClass = isEgHome ? 'video-analysis-team-head--eg' : 'video-analysis-team-head--opp';
+    const awayRoleClass = isEgHome ? 'video-analysis-team-head--opp' : 'video-analysis-team-head--eg';
 
     const rows = buildVideoAnalysisRows(homeStats || {}, awayStats || {});
-    if (!rows.setPieceRows && !rows.attackRows) return '';
+    if (!rows.scrumRows && !rows.lineoutRows && !rows.redZoneRows) return '';
 
-    const setPieceSection = rows.setPieceRows
+    const scrumSection = rows.scrumRows
         ? `
             <tbody>
-                <tr class="video-analysis-section-row"><th colspan="3">Set Piece</th></tr>
-                ${rows.setPieceRows}
+                <tr class="video-analysis-section-row"><th colspan="3">Scrum</th></tr>
+                ${rows.scrumRows}
             </tbody>
         `
         : '';
 
-    const attackSection = rows.attackRows
+    const lineoutSection = rows.lineoutRows
+        ? `
+            <tbody>
+                <tr class="video-analysis-section-row"><th colspan="3">Lineout</th></tr>
+                ${rows.lineoutRows}
+            </tbody>
+        `
+        : '';
+
+    const redZoneSection = rows.redZoneRows
         ? `
             <tbody>
                 <tr class="video-analysis-section-row"><th colspan="3">Red Zone</th></tr>
-                ${rows.attackRows}
+                ${rows.redZoneRows}
             </tbody>
         `
         : '';
 
     return `
-        <section class="video-analysis" aria-label="Video analysis">
-            <div class="video-analysis-header">
-                <h3 class="video-analysis-title">Video Analysis</h3>
-                <p class="video-analysis-subtitle">Home and away comparison from available set-piece and 22m entry data.</p>
+        <section class="video-analysis ${squadClass} ${sideClass} ${resultClass}" aria-label="Video analysis">
+            <div class="match-team-sheet-header-wrap video-analysis-panel-header">
+                <div class="match-team-sheet-header">Video Analysis</div>
             </div>
-            <div class="table-responsive">
+            <div class="table-responsive video-analysis-table-wrap">
                 <table class="table video-analysis-table align-middle">
                     <thead>
-                        <tr>
-                            <th scope="col" class="video-analysis-team">${escapeHtml(homeTeam)}</th>
-                            <th scope="col" class="video-analysis-metric-heading">Metric</th>
-                            <th scope="col" class="video-analysis-team">${escapeHtml(awayTeam)}</th>
+                        <tr class="video-analysis-matchup-row">
+                            <th scope="col" class="video-analysis-team-head ${homeRoleClass}">
+                                <span class="video-analysis-team-head-inner">
+                                    ${homeLogo ? `<img class="video-analysis-team-logo" src="${escapeAttribute(homeLogo)}" alt="${escapeAttribute(homeTeam)} logo" loading="lazy">` : ''}
+                                    <span class="video-analysis-team-name">${escapeHtml(homeTeam)}</span>
+                                </span>
+                            </th>
+                            <th scope="col" class="video-analysis-score-head">
+                                <span class="video-analysis-score">${escapeHtml(homeScore)}<span class="video-analysis-score-separator">-</span>${escapeHtml(awayScore)}</span>
+                            </th>
+                            <th scope="col" class="video-analysis-team-head ${awayRoleClass}">
+                                <span class="video-analysis-team-head-inner video-analysis-team-head-inner--away">
+                                    ${awayLogo ? `<img class="video-analysis-team-logo" src="${escapeAttribute(awayLogo)}" alt="${escapeAttribute(awayTeam)} logo" loading="lazy">` : ''}
+                                    <span class="video-analysis-team-name">${escapeHtml(awayTeam)}</span>
+                                </span>
+                            </th>
                         </tr>
                     </thead>
-                    ${setPieceSection}
-                    ${attackSection}
+                    ${scrumSection}
+                    ${lineoutSection}
+                    ${redZoneSection}
                 </table>
             </div>
         </section>
@@ -963,7 +1010,7 @@ function renderTable() {
                 <td>${escapeHtml(String(row?.opposition || '-'))}</td>
                 <td>${escapeHtml(String(row?.game_type || '-'))}</td>
                 <td>${resultBadgeHtml(normaliseResult(row))}</td>
-                <td><a class="match-data-link" href="match-data.html?game=${encodeURIComponent(gameId)}"><i class="bi bi-box-arrow-up-right" aria-hidden="true"></i><span>Match Data</span></a></td>
+                <td><a class="match-data-link" href="match-info.html?game=${encodeURIComponent(gameId)}"><i class="bi bi-box-arrow-up-right" aria-hidden="true"></i><span>Match Data</span></a></td>
             </tr>
         `;
     }).join('');
@@ -1058,8 +1105,8 @@ function renderMatchInfo(gameId) {
                 ${renderScorerMetaRow(selected)}
             </div>
         </section>
-        ${renderVideoAnalysisSection(selected)}
         ${teamSheetSectionHtml(selected.game_id)}
+        ${renderVideoAnalysisSection(selected)}
     `;
 
     // Collapse the Filtered Matches panel when a game is selected
@@ -1172,19 +1219,31 @@ function bindControls(initialGameId) {
 async function loadPage() {
     const errorEl = document.getElementById('matchDataError');
     try {
-        const [gamesResponse, appearancesResponse, profilesResponse, setPieceResponse] = await Promise.all([
+        const [gamesResponse, appearancesResponse, profilesResponse] = await Promise.all([
             fetch('data/backend/games.json'),
             fetch('data/backend/player_appearances.json'),
             fetch('data/backend/player_profiles_canonical.json'),
-            fetch('data/backend/set_piece.json'),
-            loadLogosManifest()  // Load in parallel
         ]);
         if (!gamesResponse.ok) throw new Error(`Failed to load games (${gamesResponse.status})`);
+
+        // Optional assets should never block the page from loading.
+        loadLogosManifest().catch(error => {
+            console.warn('Could not load logos manifest', error);
+        });
+
+        let setPiece = [];
+        try {
+            const setPieceResponse = await fetch('data/backend/set_piece.json');
+            if (setPieceResponse.ok) {
+                setPiece = await setPieceResponse.json();
+            }
+        } catch (error) {
+            console.warn('Could not load set-piece data; Video Analysis section will be hidden.', error);
+        }
 
         const games = await gamesResponse.json();
         const appearances = appearancesResponse.ok ? await appearancesResponse.json() : [];
         const profiles = profilesResponse.ok ? await profilesResponse.json() : [];
-        const setPiece = setPieceResponse.ok ? await setPieceResponse.json() : [];
 
         allMatches = Array.isArray(games) ? games.filter(row => row && row.game_id) : [];
         allMatches.sort((a, b) => String(b?.date || '').localeCompare(String(a?.date || '')));
@@ -1248,11 +1307,22 @@ async function loadPage() {
         if (initialGameId && allMatches.some(row => String(row?.game_id || '').trim() === initialGameId)) {
             collapseFilteredMatchesPanel();
         }
+
+        if (errorEl) {
+            errorEl.classList.add('d-none');
+            errorEl.textContent = '';
+        }
     } catch (error) {
         console.error(error);
         if (errorEl) {
             errorEl.classList.remove('d-none');
-            errorEl.textContent = 'Unable to load match data. Run python/update.py and refresh this page.';
+            const protocol = String(window.location.protocol || '').toLowerCase();
+            const detail = String(error?.message || 'Unknown error');
+            if (protocol === 'file:') {
+                errorEl.textContent = 'Unable to load match data from file://. Start a local server (for example: python3 -m http.server 8000 in the repo root) and open http://localhost:8000/match-info.html.';
+            } else {
+                errorEl.textContent = `Unable to load match data (${detail}). Ensure data/backend/games.json exists, then run python/update.py and refresh.`;
+            }
         }
     }
 }
