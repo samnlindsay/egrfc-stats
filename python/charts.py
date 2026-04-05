@@ -939,7 +939,7 @@ def player_full_profile_appearances_per_season_chart(db, output_file='data/chart
     by_position['color_value'] = by_position['position']
 
     palette_by_rank = ['#202946', '#7d96e8', '#146f14', '#991515', '#333333', '#000000']
-    bench_color = '#e5e7eb'
+    bench_color = '#6b7280'
     unknown_color = '#99151520'
 
     position_totals = (
@@ -1017,6 +1017,13 @@ def player_full_profile_appearances_per_season_chart(db, output_file='data/chart
         mode_df = df[df['color_mode'] == mode].copy()
         if allowed_values:
             mode_df = mode_df[mode_df['color_value'].isin(allowed_values)].copy()
+        
+        # Filter sort and color values to only those present in the data
+        unique_values = sorted(mode_df['color_value'].unique())
+        filtered_sort = [v for v in sort_values if v in unique_values]
+        color_map = dict(zip(sort_values, color_values))
+        filtered_colors = [color_map[v] for v in filtered_sort]
+        
         return (
             alt.Chart(mode_df)
             .mark_bar()
@@ -1029,8 +1036,8 @@ def player_full_profile_appearances_per_season_chart(db, output_file='data/chart
                 ),
                 color=alt.Color(
                     'color_value:N',
-                    sort=sort_values,
-                    scale=alt.Scale(range=color_values),
+                    sort=alt.EncodingSortField(field='sum(apps)', op='sum', order='descending'),
+                    scale=alt.Scale(domain=filtered_sort, range=filtered_colors),
                     legend=alt.Legend(orient='bottom', title=None)
                 ),
                 tooltip=[
@@ -1049,14 +1056,46 @@ def player_full_profile_appearances_per_season_chart(db, output_file='data/chart
 
     def build_position_chart():
         position_df = by_position.copy()
-        key_order_df = (
-            position_df[['color_key', 'color_hex', 'sort_order', 'player', 'color_value']]
-            .drop_duplicates()
-            .sort_values(['sort_order', 'player', 'color_value'])
-        )
-        color_domain = key_order_df['color_key'].tolist()
-        color_range = key_order_df['color_hex'].tolist()
-
+        
+        # Build global position-to-color mapping (deduplicated across all players)
+        position_totals = position_df.groupby('color_value')['apps'].sum().reset_index(name='total_apps')
+        # Separate bench from regular positions
+        regular_positions = position_totals[~position_totals['color_value'].str.lower().isin(['bench', 'unknown', ''])]
+        regular_positions = regular_positions.sort_values('total_apps', ascending=False).reset_index(drop=True)
+        
+        bench_positions = position_totals[position_totals['color_value'].str.lower() == 'bench']
+        unknown_positions = position_totals[position_totals['color_value'].str.lower().isin(['unknown', ''])]
+        
+        # Assign colors: regular positions by frequency, then bench, then unknown
+        pos_to_color = {}
+        for idx, row in regular_positions.iterrows():
+            color = palette_by_rank[min(idx, len(palette_by_rank) - 1)]
+            pos_to_color[row['color_value']] = color
+        
+        for _, row in bench_positions.iterrows():
+            pos_to_color[row['color_value']] = bench_color
+        
+        for _, row in unknown_positions.iterrows():
+            pos_to_color[row['color_value']] = unknown_color
+        
+        # Build sorted domain and range
+        color_domain = list(pos_to_color.keys())
+        color_range = [pos_to_color[pos] for pos in color_domain]
+        
+        # Calculate stack order per position based on total appearances
+        stack_order_map = {}
+        stacked = 0
+        for _, row in regular_positions.iterrows():
+            stack_order_map[row['color_value']] = stacked
+            stacked += 1
+        # Bench always comes last
+        for _, row in bench_positions.iterrows():
+            stack_order_map[row['color_value']] = 1000
+        for _, row in unknown_positions.iterrows():
+            stack_order_map[row['color_value']] = 1001
+        
+        position_df['stack_order'] = position_df['color_value'].map(stack_order_map)
+        
         return (
             alt.Chart(position_df)
             .mark_bar()
@@ -1068,10 +1107,11 @@ def player_full_profile_appearances_per_season_chart(db, output_file='data/chart
                     sort=alt.EncodingSortField(field='season_sort', order='descending', op='max')
                 ),
                 color=alt.Color(
-                    'color_key:N',
+                    'color_value:N',
                     scale=alt.Scale(domain=color_domain, range=color_range),
-                    legend=alt.Legend(orient='bottom', title=None, labelExpr="split(datum.label, '|||')[1]")
+                    legend=alt.Legend(orient='bottom', title=None)
                 ),
+                order=alt.Order('stack_order:Q'),
                 tooltip=[
                     alt.Tooltip('player:N', title='Player'),
                     alt.Tooltip('season:N', title='Season'),

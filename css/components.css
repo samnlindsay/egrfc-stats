@@ -490,7 +490,7 @@
 
 .player-profile-detail-link:not(.player-profile-detail-cta):hover,
 .player-profile-detail-link:not(.player-profile-detail-cta):focus {
-    text-decoration: underline;
+    text-decoration: none;
 }
 
 .full-profile-banner {
@@ -896,6 +896,46 @@
 .last-ten-results-empty {
     color: #5d667d;
     font-size: 0.9rem;
+}
+
+.season-summary-player-link {
+    color: inherit;
+    text-decoration: none;
+}
+
+.season-summary-player-link:hover,
+.season-summary-player-link:focus {
+    color: inherit;
+    opacity: 0.85;
+}
+
+/* Player Info card variant for Last 10 row */
+.player-info-last-ten-row {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    flex-wrap: wrap;
+}
+
+.player-info-last-ten-row .last-ten-results-strip {
+    gap: 0.08rem;
+}
+
+.player-info-last-ten-row .last-ten-results-strip--single-row {
+    padding-top: 0;
+}
+
+.player-info-last-ten-row .last-ten-results-strip--single-row > .last-ten-result:last-child::before,
+.player-info-last-ten-row .last-ten-results-strip--single-row > .last-ten-result-link:last-child .last-ten-result::before {
+    top: -0.65rem;
+    font-size: 0.5rem;
+    letter-spacing: 1.4px;
+}
+
+.player-info-last-ten-row .last-ten-result {
+    width: 1rem;
+    height: 1rem;
+    font-size: 0.65rem;
 }
 
 /* Squad pill inside appearance/match tables */
@@ -1685,7 +1725,7 @@ td:has(> .squad-pill) > .squad-pill {
 .match-team-sheet-player-link:hover,
 .match-team-sheet-player-link:focus {
     color: #202946;
-    text-decoration: underline;
+    text-decoration: none;
 }
 
 .match-team-sheet-badge {
@@ -3236,26 +3276,25 @@ table tbody tr:hover {
 /* ===== CLICKABLE FIXTURE AND PLAYER LINKS ===== */
 .fixture-result-link {
     display: inline-block;
-    border-bottom: 1px dotted currentColor;
     cursor: pointer;
     transition: all 0.2s ease;
+    text-decoration: none;
+    color: inherit;
 }
 
 .fixture-result-link:hover {
-    text-decoration: none;
-    opacity: 0.75;
+    opacity: 0.85;
 }
 
 .match-team-sheet-player-link {
     color: var(--primary-color);
     font-weight: 600;
-    border-bottom: 1px dotted var(--primary-color);
     text-decoration: none;
     cursor: pointer;
     transition: all 0.2s ease;
 }
 
 .match-team-sheet-player-link:hover {
-    opacity: 0.75;
-    text-decoration: underline;
+    opacity: 0.85;
+    text-decoration: none;
 }

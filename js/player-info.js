@@ -154,6 +154,25 @@ function escapeHtml(value) {
         .replace(/'/g, '&#039;');
 }
 
+function escapeAttribute(value) {
+    return String(value ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/"/g, '&quot;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+}
+
+function initializeLastTenTooltips(containerEl) {
+    if (!containerEl || !window.bootstrap || !window.bootstrap.Tooltip) return;
+    const tooltipEls = containerEl.querySelectorAll('[data-bs-toggle="tooltip"]');
+    tooltipEls.forEach(el => {
+        window.bootstrap.Tooltip.getOrCreateInstance(el, {
+            container: 'body',
+            trigger: 'hover focus',
+        });
+    });
+}
+
 function createAvatarMarkup(profile) {
     const name = escapeHtml(profile?.name || 'Player');
     const photoUrl = String(profile?.photo_url || '').trim();
@@ -298,14 +317,82 @@ function playerGameHistory(name) {
     return games;
 }
 
+function gameResultCode(game) {
+    const result = String(game?.result || '').trim().toUpperCase();
+    if (result === 'W' || result === 'L' || result === 'D') return result;
+    return '';
+}
+
+function scoreText(game) {
+    const result = String(game?.result || '').toUpperCase();
+    const forScore = Number(game?.score_for);
+    const againstScore = Number(game?.score_against);
+    if (!Number.isFinite(forScore) || !Number.isFinite(againstScore)) return result || '-';
+    return `${result} ${forScore}-${againstScore}`;
+}
+
+function lastTenResultsFromHistory(history) {
+    return (Array.isArray(history) ? history : [])
+        .map(row => ({
+            result: gameResultCode(row?.game),
+            game: row?.game || null,
+        }))
+        .filter(entry => entry.result)
+        .slice(-10);
+}
+
+function lastTenResultsMarkup(history) {
+    const entries = lastTenResultsFromHistory(history);
+    if (!entries.length) {
+        return '<p class="player-profile-detail-line player-info-last-ten-row"><strong>Last 10 results:</strong> <span class="last-ten-results-strip last-ten-results-strip--single-row"><span class="last-ten-results-empty">No recent results</span></span></p>';
+    }
+
+    const tokens = entries
+        .map(entry => {
+            const result = entry.result;
+            const variant = result === 'W' ? 'last-ten-result--win'
+                : result === 'L' ? 'last-ten-result--loss'
+                    : 'last-ten-result--draw';
+            const gameId = String(entry?.game?.game_id || '').trim();
+            const title = fixtureSummaryMarkup(entry.game, { includeSquad: true }).replace(/<[^>]+>/g, '');
+            const score = scoreText(entry.game);
+            const tooltipText = [
+                title,
+                `Result: ${result}${score ? ` (${score})` : ''}`,
+                gameId ? 'Click to open Match Info' : '',
+            ].filter(Boolean).join('\n');
+            const chip = `<span class="last-ten-result ${variant}" data-bs-toggle="tooltip" data-bs-custom-class="last-ten-result-tooltip" data-bs-title="${escapeAttribute(tooltipText)}">${result}</span>`;
+            return gameId
+                ? `<a class="last-ten-result-link" href="match-data.html?game=${encodeURIComponent(gameId)}" aria-label="Open Match Info for ${escapeHtml(title)}">${chip}</a>`
+                : chip;
+        })
+        .join('');
+
+    return `<p class="player-profile-detail-line player-info-last-ten-row"><strong>Last 10 results:</strong> <span class="last-ten-results-strip last-ten-results-strip--single-row">${tokens}</span></p>`;
+}
+
+function winRecordMarkup(wins, losses, draws) {
+    const parts = [
+        `<span class="record-chip record-chip--win"><span class="record-chip-label">W</span><span class="record-chip-value">${Number(wins || 0)}</span></span>`,
+        `<span class="record-chip record-chip--loss"><span class="record-chip-label">L</span><span class="record-chip-value">${Number(losses || 0)}</span></span>`
+    ];
+    if (Number(draws || 0) > 0) {
+        parts.push(`<span class="record-chip record-chip--draw"><span class="record-chip-label">D</span><span class="record-chip-value">${Number(draws || 0)}</span></span>`);
+    }
+    return `<span class="record-chip-group">${parts.join('')}</span>`;
+}
+
 function buildDerivedProfileStats(profile) {
     const history = playerGameHistory(profile?.name);
     if (history.length === 0) {
         return {
+            history,
             overallDebutMarkup: escapeHtml(String(profile?.debutOverall || 'Unknown')),
             firstXVDebutMarkup: escapeHtml(String(profile?.debutFirstXV || 'Unknown')),
             latestGameMarkup: profile?.lastAppearanceDate ? escapeHtml(formatDisplayDate(profile.lastAppearanceDate)) : 'Unknown',
-            winRecordText: 'W0 L0'
+            wins: 0,
+            losses: 0,
+            draws: 0
         };
     }
 
@@ -324,12 +411,14 @@ function buildDerivedProfileStats(profile) {
         else if (result === 'D') draws += 1;
     });
 
-    const drawPart = draws > 0 ? ` D${draws}` : '';
     return {
+        history,
         overallDebutMarkup: overallDebut ? fixtureSummaryMarkup(overallDebut, { includeSquad: true }) : escapeHtml(String(profile?.debutOverall || 'Unknown')),
         firstXVDebutMarkup: firstXVDebut ? fixtureSummaryMarkup(firstXVDebut, { includeSquad: false }) : escapeHtml(String(profile?.debutFirstXV || 'Unknown')),
         latestGameMarkup: latestGame ? fixtureSummaryMarkup(latestGame, { includeSquad: true }) : (profile?.lastAppearanceDate ? escapeHtml(formatDisplayDate(profile.lastAppearanceDate)) : 'Unknown'),
-        winRecordText: `W${wins} L${losses}${drawPart}`
+        wins,
+        losses,
+        draws
     };
 }
 
@@ -375,11 +464,12 @@ function cardDetailsMarkup(profile) {
     const scoringText = scoringParts.length > 0 ? scoringParts.join(', ') : 'No scores recorded';
     lines.push(`<p class="player-profile-detail-line"><strong>Scoring record:</strong> ${escapeHtml(scoringText)}</p>`);
 
-    lines.push(`<p class="player-profile-detail-line"><strong>Win record:</strong> ${escapeHtml(derived.winRecordText)}</p>`);
+    lines.push(`<p class="player-profile-detail-line"><strong>Win record:</strong> ${winRecordMarkup(derived.wins, derived.losses, derived.draws)}</p>`);
 
     lines.push('<p class="player-profile-detail-spacer" aria-hidden="true"></p>');
 
     lines.push(`<p class="player-profile-detail-line"><strong>Latest game:</strong> ${derived.latestGameMarkup}</p>`);
+    lines.push(lastTenResultsMarkup(derived.history));
 
     const totalAppearances = Number(profile?.totalAppearances || 0);
     if (totalAppearances >= 10) {
@@ -507,10 +597,12 @@ function renderPlayerProfiles() {
 
     if (sortMode === 'position') {
         grid.innerHTML = `<div class="player-profiles-position-sections">${renderGroupedByPosition(filtered)}</div>`;
+        initializeLastTenTooltips(grid);
         return;
     }
 
     grid.innerHTML = filtered.map(profileCardMarkup).join('');
+    initializeLastTenTooltips(grid);
 }
 
 function populateFilters() {

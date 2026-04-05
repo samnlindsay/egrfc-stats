@@ -26,6 +26,14 @@ body {
     overflow-x: hidden;
 }
 
+a,
+a:hover,
+a:focus,
+a:active,
+a:visited {
+    text-decoration: none !important;
+}
+
 .navbar {
     flex-shrink: 0;
 }

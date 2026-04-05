@@ -6,14 +6,27 @@
 const SeasonSummary = (() => {
     let summaryData = null;
     let gamesData = [];
+    let profileNamesIndex = new Set();
     let currentSeason = null;
     let currentGameType = 'All games';
+
+    const escapeHtml = (value) => String(value ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
 
     const escapeAttribute = (value) => String(value ?? '')
         .replace(/&/g, '&amp;')
         .replace(/"/g, '&quot;')
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;');
+
+    const canonicalizeName = (value) => String(value || '')
+        .trim()
+        .replace(/\s+/g, ' ')
+        .toLowerCase();
 
     const initializeLastTenTooltips = (containerEl) => {
         if (!containerEl || !window.bootstrap || !window.bootstrap.Tooltip) return;
@@ -34,13 +47,20 @@ const SeasonSummary = (() => {
         Promise.all([
             fetch('data/backend/season_summary_enriched.json'),
             fetch('data/backend/games.json'),
+            fetch('data/backend/player_profiles_canonical.json'),
         ])
-            .then(async ([summaryRes, gamesRes]) => {
+            .then(async ([summaryRes, gamesRes, profilesRes]) => {
                 if (!summaryRes.ok) throw new Error(`Failed to load season summary (${summaryRes.status})`);
                 const summaryPayload = await summaryRes.json();
                 const gamesPayload = gamesRes.ok ? await gamesRes.json() : [];
+                const profilesPayload = profilesRes.ok ? await profilesRes.json() : [];
                 summaryData = Array.isArray(summaryPayload) ? summaryPayload : [];
                 gamesData = Array.isArray(gamesPayload) ? gamesPayload : [];
+                profileNamesIndex = new Set(
+                    (Array.isArray(profilesPayload) ? profilesPayload : [])
+                        .map(row => canonicalizeName(row?.name))
+                        .filter(Boolean)
+                );
                 initializeFilters();
                 renderSeasonSummary();
             })
@@ -243,7 +263,21 @@ const SeasonSummary = (() => {
         }
 
         valueElement.textContent = Math.round(Number(value));
-        playerElement.textContent = Array.isArray(players) && players.length > 0 ? players.join(' / ') : '-';
+        if (!Array.isArray(players) || players.length === 0) {
+            playerElement.textContent = '-';
+            return;
+        }
+
+        const linkedNames = players.map(rawName => {
+            const name = String(rawName || '').trim();
+            if (!name) return '';
+            const canonicalName = canonicalizeName(name);
+            if (!profileNamesIndex.has(canonicalName)) return escapeHtml(name);
+            const href = `player-profile.html?player=${encodeURIComponent(name)}`;
+            return `<a class="season-summary-player-link" href="${escapeAttribute(href)}">${escapeHtml(name)}</a>`;
+        }).filter(Boolean);
+
+        playerElement.innerHTML = linkedNames.length ? linkedNames.join(' / ') : '-';
     };
 
     return {

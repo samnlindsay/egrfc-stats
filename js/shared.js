@@ -113,15 +113,60 @@ async function loadChartSpec(path) {
 
 function filterChartSpecDataset(spec, predicate) {
     const clonedSpec = JSON.parse(JSON.stringify(spec));
+    const filteredRows = [];
+    
     if (clonedSpec.datasets) {
         Object.keys(clonedSpec.datasets).forEach(key => {
             const rows = clonedSpec.datasets[key];
-            if (Array.isArray(rows)) clonedSpec.datasets[key] = rows.filter(predicate);
+            if (Array.isArray(rows)) {
+                const filtered = rows.filter(predicate);
+                clonedSpec.datasets[key] = filtered;
+                filteredRows.push(...filtered);
+            }
         });
     }
     if (clonedSpec.data && Array.isArray(clonedSpec.data.values)) {
-        clonedSpec.data.values = clonedSpec.data.values.filter(predicate);
+        const filtered = clonedSpec.data.values.filter(predicate);
+        clonedSpec.data.values = filtered;
+        filteredRows.push(...filtered);
     }
+    
+    // Filter color scale to only include values present in filtered data
+    if (filteredRows.length > 0 && clonedSpec.encoding && clonedSpec.encoding.color && clonedSpec.encoding.color.scale) {
+        const colorScale = clonedSpec.encoding.color.scale;
+        if (colorScale.domain && colorScale.range && colorScale.domain.length === colorScale.range.length) {
+            const colorField = clonedSpec.encoding.color.field ? clonedSpec.encoding.color.field.split(':')[0] : null;
+            if (colorField) {
+                const uniqueColorValues = new Set();
+                filteredRows.forEach(row => {
+                    const value = row[colorField];
+                    if (value !== undefined && value !== null) {
+                        uniqueColorValues.add(String(value));
+                    }
+                });
+                
+                if (uniqueColorValues.size > 0 && uniqueColorValues.size < colorScale.domain.length) {
+                    const valuesToIndices = new Map();
+                    colorScale.domain.forEach((val, idx) => {
+                        valuesToIndices.set(String(val), idx);
+                    });
+                    
+                    const filteredDomain = [];
+                    const filteredRange = [];
+                    colorScale.domain.forEach((val, idx) => {
+                        if (uniqueColorValues.has(String(val))) {
+                            filteredDomain.push(val);
+                            filteredRange.push(colorScale.range[idx]);
+                        }
+                    });
+                    
+                    colorScale.domain = filteredDomain;
+                    colorScale.range = filteredRange;
+                }
+            }
+        }
+    }
+    
     return clonedSpec;
 }
 
