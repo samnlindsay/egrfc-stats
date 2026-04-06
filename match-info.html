@@ -82,7 +82,7 @@
 
             <p style="margin: 0 0 1rem; color: #5b6173;">Filter and select a match to view available data. Use Open Match from any list row to jump to that match.</p>
 
-            <div class="page-header-filters" style="margin-bottom: 1rem;">
+            <div class="page-header-filters" style="margin-bottom: 1.25rem;">
                 <div class="filter-item">
                     <div class="input-group">
                         <span class="input-group-text">Squad</span>
@@ -115,7 +115,7 @@
                 </div>
             </div>
 
-            <div class="chart-panel" style="margin-bottom: 1rem;">
+            <div class="chart-panel" style="margin-bottom: 1.35rem;">
                 <button type="button" class="chart-panel-toggle chart-panel-toggle--black"
                     data-target="match-list-panel" aria-expanded="true" aria-controls="match-list-panel">
                     <span class="chart-panel-toggle-text">
@@ -153,16 +153,16 @@
                 </div>
             </div>
 
-            <div id="matchDataInfoPanel" class="card" style="border-radius: 0.85rem; border: 1px solid #d9e0f0; overflow: hidden;">
-                <div class="card-header match-data-info-header" style="background: var(--chart-surface-color); color: var(--primary-color); font-weight: 700;">
-                    <span>Match Information</span>
+            <hr style="margin: 1rem 0; border: 2px solid var(--primary-color)">
+
+            <div id="matchDataInfoPanel" style="margin-top: 0.2rem;">
+                <div style="display: flex; justify-content: flex-end; margin: 0 0 0.55rem;">
                     <span id="matchDataInfoHeaderAction" class="match-data-info-header-action"></span>
                 </div>
-                <div class="card-body" id="matchDataInfoBody">
+                <div id="matchDataInfoBody" style="display: grid; gap: 1rem;">
                     <p class="text-muted" style="margin: 0;">Select a match to load full match information.</p>
                 </div>
             </div>
-
             <div id="matchDataError" class="alert alert-danger d-none" style="margin-top: 1rem;"></div>
         </div>
     </div>

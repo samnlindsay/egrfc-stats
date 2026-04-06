@@ -1132,7 +1132,7 @@ td:has(> .squad-pill) > .squad-pill {
 .match-info-team-name {
     color: var(--primary-color);
     font-size: clamp(1.4rem, 3.4vw, 2.7rem);
-    font-weight: 800;
+    font-weight: 900;
     line-height: 1.05;
     text-wrap: balance;
 }
@@ -1376,7 +1376,7 @@ td:has(> .squad-pill) > .squad-pill {
 }
 
 .video-analysis {
-    margin: 0 0 1rem;
+    margin: 0.7rem 0 1rem;
     border: 1px solid #d9e0f0;
     border-radius: 0.95rem;
     background: #ffffff;
@@ -1391,7 +1391,11 @@ td:has(> .squad-pill) > .squad-pill {
 .video-analysis-table-wrap {
     width: 100%;
     max-width: 600px;
-    margin: 0 auto;
+    margin: 0.45rem auto 0;
+    border: 2px solid var(--primary-color);
+    border-radius: 1rem;
+    overflow: hidden;
+    background: #ffffff;
 }
 
 .video-analysis--2nd {
@@ -1411,7 +1415,7 @@ td:has(> .squad-pill) > .squad-pill {
 
 .video-analysis-notes ul {
     margin: 0;
-    padding-left: 1.05rem;
+    padding-left: 1rem;
 }
 
 .video-analysis-notes li {
@@ -1430,7 +1434,7 @@ td:has(> .squad-pill) > .squad-pill {
 .video-analysis-table th,
 .video-analysis-table td {
     border: none;
-    padding: 0.16rem 0.1rem;
+    padding: 0.1rem 0.1rem;
 }
 
 .video-analysis-matchup-row {
@@ -1438,9 +1442,8 @@ td:has(> .squad-pill) > .squad-pill {
 }
 
 .video-analysis-matchup-row th {
-    border-bottom: 1px solid #d7dfef;
-    padding-top: 0.55rem !important;
-    padding-bottom: 0.55rem !important;
+    vertical-align: middle;
+    padding: 0.5rem;
 }
 
 .video-analysis-team-head {
@@ -1459,13 +1462,13 @@ td:has(> .squad-pill) > .squad-pill {
 }
 
 .video-analysis-team-head-inner {
-    display: inline-flex;
+    display: flex;
     align-items: center;
     justify-content: center;
     gap: 0.45rem;
+    width: 100%;
     min-width: 0;
     max-width: 100%;
-    padding: 0 0.5rem;
 }
 
 .video-analysis-team-head-inner--away {
@@ -1488,7 +1491,7 @@ td:has(> .squad-pill) > .squad-pill {
 
 .video-analysis-score {
     color: var(--primary-color);
-    font-size: 2rem;
+    font-size: 2.5rem;
     font-weight: 900;
     line-height: 1.1;
     letter-spacing: -0.03em;
@@ -1536,21 +1539,19 @@ td:has(> .squad-pill) > .squad-pill {
 }
 
 .video-analysis-section-row th {
-    padding: 0.3rem 0.45rem;
+    padding: 0.22rem 0.45rem;
     background: var(--dark-color);
     color: var(--light-color);
     font-size: 1.5rem;
     font-weight: 900;
     letter-spacing: 0.01em;
-    border-top: 1px solid #d9e0f0;
-    border-bottom: 1px solid #d9e0f0;
     text-align: center;
 }
 
 .video-analysis-value {
     text-align: center;
     font-size: 1.25rem;
-    font-weight: 800;
+    font-weight: 900;
     font-variant-numeric: tabular-nums;
     border-left: 1px solid #edf1f8;
     border-right: 1px solid #edf1f8;
@@ -1573,33 +1574,21 @@ td:has(> .squad-pill) > .squad-pill {
     text-transform: uppercase;
 }
 
-
 @media (max-width: 767.98px) {
-    .video-analysis-table th,
-    .video-analysis-table td {
-        padding: 0.24rem 0.35rem;
-    }
 
     .video-analysis-team-logo {
-        width: 1.6rem;
-        height: 1.6rem;
-    }
-
-    .video-analysis-team-name {
-        font-size: 0.76rem;
+        width: 2rem;
+        height: 2rem;
     }
 
     .video-analysis-score {
-        font-size: 1.02rem;
+        font-size: 2rem;
     }
 
-    .video-analysis-value {
-        font-size: 0.92rem;
+    .video-analysis-matchup-row th {
+        padding: 0.4rem;
     }
 
-    .video-analysis-label {
-        font-size: 0.76rem;
-    }
 }
 
 .match-info-external-link {
