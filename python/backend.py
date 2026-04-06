@@ -777,6 +777,7 @@ class BackendDatabase:
                 thrower TEXT,
                 jumper TEXT,
                 won BOOLEAN,
+                notes TEXT,
                 game_id TEXT,
                 season TEXT,
                 opposition TEXT,
@@ -2031,6 +2032,7 @@ class BackendDatabase:
                         "hooker": str(row[15]).strip(),
                         "jumper": str(row[16]).strip(),
                         "won": str(row[17]).strip().upper() == "Y",
+                        "notes": str(row[18]).strip() if len(row) > 18 else "",
                     }
                 )
 
@@ -2587,6 +2589,7 @@ class BackendDatabase:
                     "thrower",
                     "jumper",
                     "won",
+                    "notes",
                     "game_id",
                     "season",
                     "opposition",
@@ -2631,6 +2634,7 @@ class BackendDatabase:
                 "hooker",
                 "jumper",
                 "won",
+                "notes",
                 "game_id",
                 "season",
                 "opposition",

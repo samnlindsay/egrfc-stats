@@ -903,6 +903,7 @@ class DataExtractor:
                         'hooker': str(row.get('Hooker', '')),
                         'jumper': str(row.get('Jumper', '')),
                         'won': row.get('Won') in ['Y', True],
+                        'notes': str(row.get('Notes', '')).strip(),
                         'drive': row.get('Drive') in ['x', 'Y', True],
                         'crusaders': row.get('Crusaders') in ['x', 'Y', True],
                         'transfer': row.get('Transfer') in ['x', 'Y', True],

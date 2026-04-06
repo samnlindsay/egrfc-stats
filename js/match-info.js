@@ -5,6 +5,7 @@ let isInitialisingControls = false;
 let appearancesByGameId = new Map();
 let profilesByName = new Map();
 let setPieceByGameId = new Map();
+let lineoutsByGameId = new Map();
 let isCompactTeamSheetMode = false;
 let clubLogosManifest = {}; // Will be populated by loadLogosManifest()
 
@@ -753,6 +754,120 @@ function buildVideoAnalysisRows(homeStats, awayStats) {
     return { scrumRows, lineoutRows, redZoneRows };
 }
 
+function lineoutDetailValue(value) {
+    const text = String(value ?? '').trim();
+    return text || '-';
+}
+
+function getPlayerShortName(fullName) {
+    if (!fullName) return '-';
+    const name = String(fullName).trim();
+    const canonicalName = canonicalizeName(name);
+    const parts = name.split(/\s+/).filter(Boolean);
+
+    if (parts.length >= 2) {
+        const firstName = parts[0];
+        const surname = parts[parts.length - 1];
+        if (surname.includes('-')) {
+            const hyphenInitials = surname
+                .split('-')
+                .map(part => String(part || '').trim())
+                .filter(Boolean)
+                .map(part => part[0]?.toUpperCase() || '')
+                .join('');
+            if (hyphenInitials) {
+                return `${firstName} ${hyphenInitials}`;
+            }
+        }
+    }
+
+    const profile = profilesByName.get(canonicalName);
+    if (profile && String(profile?.short_name || '').trim()) {
+        return String(profile.short_name).trim();
+    }
+    return name || '-';
+}
+
+function playerShortNameLinkHtml(fullName) {
+    const name = String(fullName || '').trim();
+    if (!name) return '-';
+    const shortName = getPlayerShortName(name);
+    const href = profileLinkHref(name);
+    return `<a class="match-team-sheet-player-link" href="${escapeAttribute(href)}">${escapeHtml(shortName)}</a>`;
+}
+
+function lineoutResultWithNote(row, includeNote = true) {
+    const won = row?.won;
+    const isWon = won === true || won === 1 || String(won || '').toLowerCase() === 'true';
+    if (isWon) return 'Won';
+
+    const isLost = won === false || won === 0 || String(won || '').toLowerCase() === 'false';
+    if (!isLost) return '-';
+
+    if (!includeNote) return 'Lost';
+
+    // Prefer explicit backend notes; fall back to derived context
+    const backendNote = String(row?.notes || '').trim();
+    if (backendNote) return `Lost - ${backendNote}`;
+
+    const noteParts = [];
+    const half = String(row?.half || '').trim();
+    if (half) noteParts.push(`H${half}`);
+    const area = String(row?.area || '').trim();
+    if (area && area.toLowerCase() !== 'unknown') noteParts.push(area);
+
+    return noteParts.length ? `Lost (${noteParts.join(', ')})` : 'Lost';
+}
+
+function buildLineoutDetailRows(gameId) {
+    const rows = (lineoutsByGameId.get(String(gameId || '').trim()) || [])
+        .slice()
+        .sort((a, b) => Number(a?.seq_id || 0) - Number(b?.seq_id || 0));
+
+    if (!rows.length) return '';
+
+    const numbersClass = (numbersValue) => {
+        const match = String(numbersValue || '').match(/\d+/);
+        if (!match) return 'video-analysis-lineout-numbers--other';
+        const n = Number(match[0]);
+        if (n <= 4) return 'video-analysis-lineout-numbers--4';
+        if (n === 5) return 'video-analysis-lineout-numbers--5';
+        if (n === 6) return 'video-analysis-lineout-numbers--6';
+        if (n >= 7) return 'video-analysis-lineout-numbers--7';
+        return 'video-analysis-lineout-numbers--other';
+    };
+
+    const numbersLabel = (numbersValue) => {
+        const raw = String(numbersValue || '').trim();
+        const match = raw.match(/^\d+$/);
+        if (!match) return raw || '-';
+        return `${Number(match[0])}-man`;
+    };
+
+    return rows.map((row, idx) => {
+        const won = row?.won === true || row?.won === 1 || String(row?.won || '').toLowerCase() === 'true';
+        const rowClass = won ? 'video-analysis-lineout-row--won' : 'video-analysis-lineout-row--lost';
+        const numbersValue = lineoutDetailValue(row?.numbers);
+        const callRaw = lineoutDetailValue(row?.call);
+        const isBangCall = callRaw === '*';
+        const callValue = isBangCall ? 'Bang' : callRaw;
+        const notesRaw = String(row?.notes ?? '').trim();
+        const notesHtml = notesRaw
+            ? escapeHtml(notesRaw)
+            : `<span class="video-analysis-lineout-notes-placeholder ${won ? 'video-analysis-lineout-notes-placeholder--won' : 'video-analysis-lineout-notes-placeholder--lost'}">${won ? 'WON' : 'LOST'}</span>`;
+        return `
+            <tr class="${rowClass}">
+                <td>${idx + 1}</td>
+                <td class="video-analysis-lineout-numbers"><span class="video-analysis-lineout-numbers-pill ${numbersClass(numbersValue)}">${escapeHtml(numbersLabel(numbersValue))}</span></td>
+                <td class="video-analysis-lineout-call ${isBangCall ? 'video-analysis-lineout-call--bang' : ''}">${escapeHtml(callValue)}</td>
+                <td>${playerShortNameLinkHtml(row?.thrower)}</td>
+                <td>${playerShortNameLinkHtml(row?.jumper)}</td>
+                <td class="video-analysis-lineout-notes ${notesRaw ? '' : 'video-analysis-lineout-notes--placeholder'}">${notesHtml}</td>
+            </tr>
+        `;
+    }).join('');
+}
+
 function renderVideoAnalysisSection(row) {
     const gameId = String(row?.game_id || '').trim();
     if (!gameId) return '';
@@ -784,7 +899,9 @@ function renderVideoAnalysisSection(row) {
     const awayRoleClass = isEgHome ? 'video-analysis-team-head--opp' : 'video-analysis-team-head--eg';
 
     const rows = buildVideoAnalysisRows(homeStats || {}, awayStats || {});
-    if (!rows.scrumRows && !rows.lineoutRows && !rows.redZoneRows) return '';
+    const lineoutDetailRows = buildLineoutDetailRows(gameId);
+    const hasLineoutDetails = !!lineoutDetailRows;
+    if (!rows.scrumRows && !rows.lineoutRows && !rows.redZoneRows && !hasLineoutDetails) return '';
 
     const scrumSection = rows.scrumRows
         ? `
@@ -824,31 +941,56 @@ function renderVideoAnalysisSection(row) {
                     <li>Lost lineouts and scrums are defined by who has possession when the set piece ends (for example after a steal, knock-on, or infringement by the team in possession).</li>
                 </ul>
             </div>
-            <div class="table-responsive video-analysis-table-wrap">
-                <table class="table video-analysis-table align-middle">
-                    <thead>
-                        <tr class="video-analysis-matchup-row">
-                            <th scope="col" class="video-analysis-team-head ${homeRoleClass}">
-                                <span class="video-analysis-team-head-inner">
-                                    ${homeLogo ? `<img class="video-analysis-team-logo" src="${escapeAttribute(homeLogo)}" alt="${escapeAttribute(homeTeam)} logo" loading="lazy">` : ''}
-                                    <span class="video-analysis-team-name">${escapeHtml(homeTeam)}</span>
-                                </span>
-                            </th>
-                            <th scope="col" class="video-analysis-score-head">
-                                <span class="video-analysis-score">${escapeHtml(homeScore)}<span class="video-analysis-score-separator">-</span>${escapeHtml(awayScore)}</span>
-                            </th>
-                            <th scope="col" class="video-analysis-team-head ${awayRoleClass}">
-                                <span class="video-analysis-team-head-inner video-analysis-team-head-inner--away">
-                                    ${awayLogo ? `<img class="video-analysis-team-logo" src="${escapeAttribute(awayLogo)}" alt="${escapeAttribute(awayTeam)} logo" loading="lazy">` : ''}
-                                    <span class="video-analysis-team-name">${escapeHtml(awayTeam)}</span>
-                                </span>
-                            </th>
-                        </tr>
-                    </thead>
-                    ${scrumSection}
-                    ${lineoutSection}
-                    ${redZoneSection}
-                </table>
+            <div class="video-analysis-tables">
+                <div class="table-responsive video-analysis-table-wrap">
+                    <table class="table video-analysis-table align-middle">
+                        <thead>
+                            <tr class="video-analysis-matchup-row">
+                                <th scope="col" class="video-analysis-team-head ${homeRoleClass}">
+                                    <span class="video-analysis-team-head-inner">
+                                        ${homeLogo ? `<img class="video-analysis-team-logo" src="${escapeAttribute(homeLogo)}" alt="${escapeAttribute(homeTeam)} logo" loading="lazy">` : ''}
+                                        <span class="video-analysis-team-name">${escapeHtml(homeTeam)}</span>
+                                    </span>
+                                </th>
+                                <th scope="col" class="video-analysis-score-head">
+                                    <span class="video-analysis-score">${escapeHtml(homeScore)}<span class="video-analysis-score-separator">-</span>${escapeHtml(awayScore)}</span>
+                                </th>
+                                <th scope="col" class="video-analysis-team-head ${awayRoleClass}">
+                                    <span class="video-analysis-team-head-inner video-analysis-team-head-inner--away">
+                                        ${awayLogo ? `<img class="video-analysis-team-logo" src="${escapeAttribute(awayLogo)}" alt="${escapeAttribute(awayTeam)} logo" loading="lazy">` : ''}
+                                        <span class="video-analysis-team-name">${escapeHtml(awayTeam)}</span>
+                                    </span>
+                                </th>
+                            </tr>
+                        </thead>
+                        ${scrumSection}
+                        ${lineoutSection}
+                        ${redZoneSection}
+                    </table>
+                </div>
+                ${hasLineoutDetails ? `
+                <div class="video-analysis-lineout-detail-section">
+                    <div class="table-responsive video-analysis-lineout-detail-wrap">
+                        <table class="table video-analysis-lineout-detail-table align-middle">
+                            <thead>
+                            <tr class="video-analysis-lineout-detail-title-row">
+                                <th scope="col" colspan="6">Lineout Detail</th>
+                            </tr>
+                            <tr>
+                                <th scope="col"></th>
+                                <th scope="col">Numbers</th>
+                                <th scope="col">Call</th>
+                                <th scope="col">Thrower</th>
+                                <th scope="col">Jumper</th>
+                                <th scope="col">Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${lineoutDetailRows}
+                        </tbody>
+                    </table>
+                    </div>
+                </div>` : ''}
             </div>
         </section>
     `;
@@ -1258,6 +1400,7 @@ async function loadPage() {
         });
 
         let setPiece = [];
+        let lineouts = [];
         try {
             const setPieceResponse = await fetch('data/backend/set_piece.json');
             if (setPieceResponse.ok) {
@@ -1265,6 +1408,15 @@ async function loadPage() {
             }
         } catch (error) {
             console.warn('Could not load set-piece data; Video Analysis section will be hidden.', error);
+        }
+
+        try {
+            const lineoutResponse = await fetch('data/backend/lineouts.json');
+            if (lineoutResponse.ok) {
+                lineouts = await lineoutResponse.json();
+            }
+        } catch (error) {
+            console.warn('Could not load lineout detail data; lineout table will be hidden.', error);
         }
 
         const games = await gamesResponse.json();
@@ -1319,6 +1471,14 @@ async function loadPage() {
             if (team === 'EGRFC') existing.egrfc = normalized;
             if (team === 'Opposition') existing.opposition = normalized;
             setPieceByGameId.set(gameId, existing);
+        });
+
+        lineoutsByGameId = new Map();
+        (Array.isArray(lineouts) ? lineouts : []).forEach(row => {
+            const gameId = String(row?.game_id || '').trim();
+            if (!gameId) return;
+            if (!lineoutsByGameId.has(gameId)) lineoutsByGameId.set(gameId, []);
+            lineoutsByGameId.get(gameId).push(row);
         });
 
         populateBaseFilters();

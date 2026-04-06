@@ -291,6 +291,18 @@
             var(--opp-color)    100%
         );
     }
+    
+    .match-detail-picker-row .match-detail-picker-item {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .match-detail-picker-row .input-group,
+    .match-detail-picker-row .input-group .bootstrap-select,
+    .match-detail-picker-row .input-group .bootstrap-select .dropdown-toggle {
+        width: 100% !important;
+        min-width: 0;
+    }
 
     /* Away on mobile: EG row is at the bottom */
     .match-info-hero--eg-away .match-info-hero-grid {
