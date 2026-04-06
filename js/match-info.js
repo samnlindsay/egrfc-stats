@@ -677,6 +677,13 @@ function numberIfFinite(value) {
     return Number.isFinite(n) ? n : null;
 }
 
+function optionalNumberIfFinite(value) {
+    if (value === null || value === undefined) return null;
+    if (typeof value === 'string' && value.trim() === '') return null;
+    const n = Number(value);
+    return Number.isFinite(n) ? n : null;
+}
+
 function formatVideoStatValue(value, formatter) {
     if (value === null || value === undefined || Number.isNaN(value)) return '-';
     if (formatter === 'percent') return `${Math.round(Number(value) * 100)}%`;
@@ -723,12 +730,25 @@ function buildVideoAnalysisRows(homeStats, awayStats) {
         metricRowHtml('Success', homeStats?.lineouts_success_rate, awayStats?.lineouts_success_rate, 'percent'),
     ].filter(Boolean).join('');
 
-    const redZoneRows = [
-        metricRowHtml('22m entries', homeStats?.entries_22m, awayStats?.entries_22m),
-        metricRowHtml('Tries', homeStats?.tries, awayStats?.tries),
-        metricRowHtml('Efficiency', homeStats?.tries_per_entry, awayStats?.tries_per_entry, 'percent'),
-        metricRowHtml('Points per entry', homeStats?.points_per_entry, awayStats?.points_per_entry, 'fixed1'),
-    ].filter(Boolean).join('');
+    const hasRedZoneData = [
+        homeStats?.entries_22m,
+        homeStats?.tries,
+        homeStats?.tries_per_entry,
+        homeStats?.points_per_entry,
+        awayStats?.entries_22m,
+        awayStats?.tries,
+        awayStats?.tries_per_entry,
+        awayStats?.points_per_entry,
+    ].some(value => value !== null && value !== undefined);
+
+    const redZoneRows = hasRedZoneData
+        ? [
+            metricRowHtml('22m entries', homeStats?.entries_22m, awayStats?.entries_22m),
+            metricRowHtml('Tries', homeStats?.tries, awayStats?.tries),
+            metricRowHtml('Efficiency', homeStats?.tries_per_entry, awayStats?.tries_per_entry, 'percent'),
+            metricRowHtml('Points per entry', homeStats?.points_per_entry, awayStats?.points_per_entry, 'fixed1'),
+        ].filter(Boolean).join('')
+        : '';
 
     return { scrumRows, lineoutRows, redZoneRows };
 }
@@ -797,6 +817,12 @@ function renderVideoAnalysisSection(row) {
         <section class="video-analysis ${squadClass} ${sideClass} ${resultClass}" aria-label="Video analysis">
             <div class="match-team-sheet-header-wrap video-analysis-panel-header">
                 <div class="match-team-sheet-header">Video Analysis</div>
+            </div>
+            <div class="video-analysis-notes" aria-label="Video analysis notes">
+                <ul>
+                    <li>Only filmed games include video analysis stats.</li>
+                    <li>Lost lineouts and scrums are defined by who has possession when the set piece ends (for example after a steal, knock-on, or infringement by the team in possession).</li>
+                </ul>
             </div>
             <div class="table-responsive video-analysis-table-wrap">
                 <table class="table video-analysis-table align-middle">
@@ -1283,10 +1309,10 @@ async function loadPage() {
                 scrums_total: scrumsTotal,
                 scrums_lost: scrumsWon !== null && scrumsTotal !== null ? Math.max(0, scrumsTotal - scrumsWon) : null,
                 scrums_success_rate: numberIfFinite(row?.scrums_success_rate),
-                entries_22m: numberIfFinite(row?.entries_22m),
-                tries: numberIfFinite(row?.tries),
-                tries_per_entry: numberIfFinite(row?.tries_per_entry),
-                points_per_entry: numberIfFinite(row?.points_per_entry),
+                entries_22m: optionalNumberIfFinite(row?.entries_22m),
+                tries: optionalNumberIfFinite(row?.tries),
+                tries_per_entry: optionalNumberIfFinite(row?.tries_per_entry),
+                points_per_entry: optionalNumberIfFinite(row?.points_per_entry),
             };
 
             const existing = setPieceByGameId.get(gameId) || { egrfc: null, opposition: null };
