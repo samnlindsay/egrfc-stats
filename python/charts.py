@@ -2875,7 +2875,6 @@ def set_piece_h2h_chart_backend(db, set_piece="Lineout", output_file=None):
     count_domain = [-count_max, count_max]
 
     color_scale = alt.Scale(domain=["EGRFC", "Opposition"], range=["#202946", "#991515"])
-    winner_scale = alt.Scale(domain=["EGRFC", "Opposition", "Level"], range=["#202946", "#991515", "#666666"])
     y_sort = alt.EncodingSortField(field="date", order="descending")
 
     count_axis_top = alt.Axis(format="d", labelExpr="abs(datum.value)", orient="top", labelPadding=15, titlePadding=8)
@@ -2929,7 +2928,7 @@ def set_piece_h2h_chart_backend(db, set_piece="Lineout", output_file=None):
         opacity=alt.Opacity(
             "outcome:N",
             scale=outcome_opacity_scale,
-            legend=alt.Legend(title="Outcome", titleOrient="left", orient="bottom", direction="horizontal", columns=2),
+            legend=None,
         ),
         tooltip=[
             alt.Tooltip("team_label:N", title="Attacking Team"),
@@ -2951,7 +2950,7 @@ def set_piece_h2h_chart_backend(db, set_piece="Lineout", output_file=None):
         x2="opp_rate:Q",
         color=alt.Color(
             "winner:N",
-            scale=winner_scale,
+            scale=color_scale,
             legend=None,
         ),
         tooltip=[
@@ -2960,10 +2959,10 @@ def set_piece_h2h_chart_backend(db, set_piece="Lineout", output_file=None):
         ],
     ).properties(width=200, height=alt.Step(12))
 
-    success_points_higher = success_base.transform_filter("datum.is_lower == false").mark_point(size=170, filled=True, stroke="#ffffff", strokeWidth=1.4, opacity=1).encode(
+    success_points_higher = success_base.transform_filter("datum.is_lower == false").mark_point(size=170, filled=True, stroke="transparent", strokeWidth=1.4, opacity=1).encode(
         y=alt.Y("y_axis:N", sort=y_sort, title=None, axis=alt.Axis(orient="right")),
         x=alt.X("success_rate:Q", title="Success Rate", scale=alt.Scale(domain=[0, 1]), axis=alt.Axis(format="%", orient="top")),
-        color=alt.Color("team:N", scale=color_scale, legend=None),
+        color=alt.Color("team:N", scale=color_scale, legend=alt.Legend(title="Attacking Team", titleOrient="left", orient="bottom", direction="horizontal", columns=2)),
         tooltip=[
             alt.Tooltip("team_label:N", title="Attacking Team"),
             alt.Tooltip("won:Q", title="Won", format=",.0f"),
@@ -2988,7 +2987,7 @@ def set_piece_h2h_chart_backend(db, set_piece="Lineout", output_file=None):
         bg_rects + flow_chart,
         success_connectors + success_points_higher + success_points_lower,
         spacing=10,
-    ).resolve_scale(y="shared").properties(
+    ).resolve_scale(y="shared", color="independent").properties(
         title=alt.Title(
             text=f"{set_piece}s Head-to-Head", 
             subtitle=[
@@ -3030,10 +3029,10 @@ def set_piece_h2h_chart_backend(db, set_piece="Lineout", output_file=None):
         won="mean(won)",
         lost="mean(lost)",
         total="mean(total)",
-        success_rate="mean(success_rate)",
         groupby=["team", "team_label"],
     ).transform_calculate(
         y_axis="'AVERAGE||AVERAGE'",
+        success_rate="datum.total > 0 ? datum.won / datum.total : 0",
         eg_rate="datum.team == 'EGRFC' ? datum.success_rate : null",
         opp_rate="datum.team == 'Opposition' ? datum.success_rate : null",
     ).transform_joinaggregate(
@@ -3060,7 +3059,7 @@ def set_piece_h2h_chart_backend(db, set_piece="Lineout", output_file=None):
         eg_rate="datum.eg_total > 0 ? datum.eg_won / datum.eg_total : 0",
         opp_rate="datum.opp_total > 0 ? datum.opp_won / datum.opp_total : 0",
         success_diff="datum.eg_rate - datum.opp_rate",
-        winner="datum.success_diff > 0 ? 'EGRFC' : (datum.success_diff < 0 ? 'Opposition' : 'Level')",
+        winner="datum.success_diff >= 0 ? 'EGRFC' : 'Opposition'",
         y_axis="'AVERAGE||AVERAGE'",
     ).mark_rule(strokeWidth=3, opacity=0.6).encode(
         y=alt.Y(
@@ -3070,14 +3069,14 @@ def set_piece_h2h_chart_backend(db, set_piece="Lineout", output_file=None):
         ),
         x=alt.X("eg_rate:Q", title="Success Rate", scale=alt.Scale(domain=[0, 1]), axis=alt.Axis(format="%", orient="bottom")),
         x2="opp_rate:Q",
-        color=alt.Color("winner:N", legend=None, scale=winner_scale),
+        color=alt.Color("winner:N", legend=None, scale=color_scale),
         tooltip=[
             alt.Tooltip("eg_rate:Q", title="EGRFC Success", format=".1%"),
             alt.Tooltip("opp_rate:Q", title="Opposition Success", format=".1%"),
         ],
     ).properties(width=200, height=alt.Step(16))
 
-    aggregate_success_points_higher = aggregate_success_base.transform_filter("datum.is_lower == false").mark_point(size=180, filled=True, opacity=1).encode(
+    aggregate_success_points_higher = aggregate_success_base.transform_filter("datum.is_lower == false").mark_point(size=180, filled=True, stroke="transparent", opacity=1).encode(
         x=alt.X("success_rate:Q", scale=alt.Scale(domain=[0, 1])),
         y=alt.Y(
             "y_axis:N",
@@ -3113,13 +3112,13 @@ def set_piece_h2h_chart_backend(db, set_piece="Lineout", output_file=None):
         bg_rects + bg_text + aggregate_flow_chart,
         aggregate_connector + aggregate_success_points_higher + aggregate_success_points_lower,
         spacing=10,
-    ).resolve_scale(y="shared", color="independent")
+    ).resolve_scale(y="shared", color="independent", stroke="independent")
 
     chart = alt.vconcat(main_chart, aggregate_chart, spacing=10)
 
     chart.save(output_file)
     return chart
-
+    
 
 def red_zone_performance_chart(db, metric="points", output_file=None, bind_params=False):
     """Generate red-zone performance scatter chart from canonical backend data.
