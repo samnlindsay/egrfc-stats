@@ -577,8 +577,7 @@
 
 .full-profile-table-card {
     width: 100%;
-    max-width: 1240px;
-    padding: 0.55rem 0.65rem 0.6rem;
+    padding: 0.75rem 1rem;
 }
 
 .full-profile-panel-full {
@@ -1454,8 +1453,8 @@ td:has(> .squad-pill) > .squad-pill {
 .video-analysis-lineout-detail-table thead th:nth-child(1) { width: 1rem; }
 .video-analysis-lineout-detail-table thead th:nth-child(2) { width: 3.2rem; }
 .video-analysis-lineout-detail-table thead th:nth-child(3) { width: 4rem; }
-.video-analysis-lineout-detail-table thead th:nth-child(4) { width: 6rem; }
-.video-analysis-lineout-detail-table thead th:nth-child(5) { width: 6rem; }
+.video-analysis-lineout-detail-table thead th:nth-child(4) { width: 5rem; }
+.video-analysis-lineout-detail-table thead th:nth-child(5) { width: 5rem; }
 .video-analysis-lineout-detail-table thead th:nth-child(6) { width: auto; }
 
 .video-analysis-lineout-detail-table tbody td {
@@ -1545,6 +1544,19 @@ td:has(> .squad-pill) > .squad-pill {
     letter-spacing: 0.01em;
 }
 
+.video-analysis-lineout-detail-table tbody td.video-analysis-lineout-thrower,
+.video-analysis-lineout-detail-table tbody td.video-analysis-lineout-jumper {
+    white-space: nowrap;
+    font-size: 0.86rem;
+}
+
+.video-analysis-lineout-detail-table tbody td.video-analysis-lineout-thrower a.match-team-sheet-player-link,
+.video-analysis-lineout-detail-table tbody td.video-analysis-lineout-jumper a.match-team-sheet-player-link {
+    font-size: 0.86rem;
+    font-weight: 400;
+}
+
+
 .video-analysis-lineout-detail-table tbody td:nth-child(3),
 .video-analysis-lineout-detail-table tbody td:nth-child(4),
 .video-analysis-lineout-detail-table tbody td:nth-child(5) {
@@ -1562,7 +1574,6 @@ td:has(> .squad-pill) > .squad-pill {
 }
 
 .video-analysis-lineout-notes-placeholder {
-    font-size: 0.72rem;
     font-weight: 800;
     letter-spacing: 0.04em;
 }
@@ -1573,6 +1584,10 @@ td:has(> .squad-pill) > .squad-pill {
 
 .video-analysis-lineout-notes-placeholder--lost {
     color: var(--red-color);
+}
+
+.video-analysis-lineout-detail-table tbody td.video-analysis-lineout-notes {
+    font-size: 0.72rem !important;
 }
 
 .video-analysis-lineout-detail-table tbody tr.video-analysis-lineout-row--won {
@@ -3768,6 +3783,217 @@ table tbody tr:hover {
 .squad-metric-card-total .squad-metric-value,
 .squad-metric-card-total .card-text {
     color: var(--team-fg);
+}
+
+.opposition-summary-card {
+    max-width: 860px;
+}
+
+.opposition-profile-hero {
+    border-width: 3px;
+    border-color: #d9e0f0;
+}
+
+.opposition-profile-hero-grid {
+    display: block;
+    background: linear-gradient(to right,
+        color-mix(in srgb, var(--primary-color) 16%, white) 0%,
+        color-mix(in srgb, var(--primary-color) 8%, white) 48%,
+        #ffffff 100%
+    );
+}
+
+.opposition-profile-team {
+    padding: 1.1rem 1.25rem;
+}
+
+.opposition-profile-team-shell {
+    gap: 1rem;
+}
+
+.opposition-profile-team .match-info-team-name {
+    font-size: clamp(2rem, 5.2vw, 3.9rem);
+    line-height: 0.96;
+}
+
+.opposition-profile-team .match-info-team-label {
+    color: #5d6780;
+}
+
+.opposition-profile-meta {
+    border-top: 1px solid rgba(32, 41, 70, 0.1);
+    background: #ffffff;
+    align-items: stretch;
+    padding: 0.8rem 1.2rem 0.9rem;
+}
+
+.opposition-profile-meta .match-info-meta-row:first-child .match-info-meta-value {
+    font-size: clamp(1.45rem, 2.8vw, 2rem);
+    font-weight: 800;
+}
+
+.opposition-top-table tbody tr td {
+    vertical-align: middle;
+}
+
+.opposition-select-row-btn {
+    min-width: 5.5rem;
+}
+
+.opposition-results-row {
+    transition: background-color 0.18s ease;
+}
+
+.opposition-results-row--1st > td:first-child {
+    border-left: 3px solid var(--primary-color);
+}
+
+.opposition-results-row--2nd > td:first-child {
+    border-left: 3px solid var(--accent-color);
+}
+
+.opposition-team-sheets-card {
+    width: 100%;
+    padding: 0.25rem;
+}
+
+/* Opposition Top Table Styling */
+.opposition-top-table thead th {
+    font-weight: 900;
+    font-size: 1rem;
+    background-color: #f8f9fa;
+}
+
+.opposition-top-table thead th:nth-child(n+3),
+.opposition-top-table tbody td:nth-child(n+3) {
+    text-align: center !important;
+}
+
+.opposition-table-rank {
+    width: 2rem;
+    text-align: center;
+}
+
+.opposition-table-opposition {
+    flex: 1;
+}
+
+.opposition-table-opposition-content {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.opposition-table-logo {
+    flex-shrink: 0;
+    width: 1.75rem;
+    height: 1.75rem;
+    object-fit: contain;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+}
+
+.opposition-table-games-total {
+    font-size: 1.1rem;
+    width: 4.5rem;
+    font-weight:900;
+}
+
+.opposition-table-games-1st {
+    width: 4rem;
+}
+
+.opposition-table-games-2nd {
+    width: 4rem;
+}
+
+.opposition-table-result {
+    width: 4rem;
+    font-weight: 900;
+}
+
+/* Force column color coding to win over Bootstrap table striping/header defaults. */
+.opposition-top-table thead th.opposition-table-games-total {
+    background-color: black !important;
+    color: var(--light-color) !important;
+}
+
+.opposition-top-table thead th.opposition-table-games-1st {
+    background-color: var(--primary-color) !important;
+    color: var(--light-color) !important;
+}
+
+.opposition-top-table thead th.opposition-table-games-2nd {
+    background-color: var(--accent-color) !important;
+    color: var(--primary-color) !important;
+}
+
+.opposition-top-table tbody td.opposition-table-games-total {
+    background-color: color-mix(in srgb, #000000 10%, white) !important;
+    color: #111111 !important;
+}
+
+.opposition-top-table tbody td.opposition-table-games-1st {
+    background-color: color-mix(in srgb, var(--primary-color) 20%, white) !important;
+    color: #111111 !important;
+}
+
+.opposition-top-table tbody td.opposition-table-games-2nd {
+    background-color: color-mix(in srgb, var(--accent-color) 26%, white) !important;
+    color: #111111 !important;
+}
+
+/* Vertical separators for key column group boundaries. */
+.opposition-top-table thead th.opposition-table-games-1st,
+.opposition-top-table tbody td.opposition-table-games-1st,
+.opposition-top-table thead th.opposition-table-result--win,
+.opposition-top-table tbody td.opposition-table-result--win,
+.opposition-top-table thead th.opposition-table-action,
+.opposition-top-table tbody td.opposition-table-action {
+    border-left: 2px solid var(--dark-color) !important;
+}
+
+.opposition-top-table thead th.opposition-table-result--win {
+    background-color: var(--green-color) !important;
+    color: #ffffff !important;
+}
+
+.opposition-top-table thead th.opposition-table-result--draw {
+    background-color: goldenrod !important;
+    color: #ffffff !important;
+}
+
+.opposition-top-table thead th.opposition-table-result--loss {
+    background-color: var(--red-color) !important;
+    color: #ffffff !important;
+}
+
+.opposition-top-table tbody td.opposition-table-result--win {
+    background-color: color-mix(in srgb, var(--green-color) 26%, white) !important;
+    color: #111111 !important;
+}
+
+.opposition-top-table tbody td.opposition-table-result--draw {
+    background-color: color-mix(in srgb, goldenrod 30%, white) !important;
+    color: #111111 !important;
+}
+
+.opposition-top-table tbody td.opposition-table-result--loss {
+    background-color: color-mix(in srgb, var(--red-color) 24%, white) !important;
+    color: #111111 !important;
+}
+
+.opposition-table-action {
+    width: 5rem;
+    text-align: center;
+}
+
+/* Ensure opposition top panel matches toggle panel width */
+.opposition-top-table {
+    width: 100%;
+}
+
+.opposition-h2h-card {
+    min-width: min(100%, 620px);
 }
 
 /* ===== CLICKABLE FIXTURE AND PLAYER LINKS ===== */

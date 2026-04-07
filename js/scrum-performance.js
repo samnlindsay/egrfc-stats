@@ -159,28 +159,33 @@
 
     async function applyScrumFilters() {
         scrumH2HView = await ensureScrumH2HViewLayout();
-        if (!scrumH2HView) return;
-        Object.entries(H2H_SIGNAL_IDS).forEach(([signalName, controlId]) => {
-            if (controlId === 'scrumFilterSquad') {
-                scrumH2HView.signal(signalName, getControlValue('scrumFilterSquad', 'lineoutFilterSquad'));
-                return;
-            }
-            if (controlId === 'scrumFilterSeason') {
-                scrumH2HView.signal(signalName, getControlValue('scrumFilterSeason', 'lineoutFilterSeason'));
-                return;
-            }
-            if (controlId === 'scrumFilterGameType') {
-                scrumH2HView.signal(signalName, getControlValue('scrumFilterGameType', 'lineoutFilterGameType'));
-                return;
-            }
-            scrumH2HView.signal(signalName, getControlValue(controlId));
-        });
+
+        if (scrumH2HView) {
+            Object.entries(H2H_SIGNAL_IDS).forEach(([signalName, controlId]) => {
+                if (controlId === 'scrumFilterSquad') {
+                    scrumH2HView.signal(signalName, getControlValue('scrumFilterSquad', 'lineoutFilterSquad'));
+                    return;
+                }
+                if (controlId === 'scrumFilterSeason') {
+                    scrumH2HView.signal(signalName, getControlValue('scrumFilterSeason', 'lineoutFilterSeason'));
+                    return;
+                }
+                if (controlId === 'scrumFilterGameType') {
+                    scrumH2HView.signal(signalName, getControlValue('scrumFilterGameType', 'lineoutFilterGameType'));
+                    return;
+                }
+                scrumH2HView.signal(signalName, getControlValue(controlId));
+            });
+        }
+
         if (scrumSuccessView) {
             scrumSuccessView.signal('spSquadParam', getControlValue('scrumFilterSquad', 'lineoutFilterSquad'));
             await scrumSuccessView.runAsync();
         }
 
-        await scrumH2HView.runAsync();
+        if (scrumH2HView) {
+            await scrumH2HView.runAsync();
+        }
     }
 
     function enforceH2HFilterExclusivity(changedControlId) {

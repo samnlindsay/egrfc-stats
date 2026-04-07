@@ -25,6 +25,7 @@ from python.charts import (
     player_full_profile_appearances_per_season_chart,
     points_scorers_chart,
     team_sheets_chart,
+    opposition_profile_team_sheets_chart,
     results_chart,
     set_piece_success_by_season_chart,
     lineout_success_by_zone_chart,
@@ -97,6 +98,7 @@ def main(refresh_pitchero=False, backend_mode="canonical", backend_db_path="data
     player_full_profile_appearances_per_season_chart(db)
     points_scorers_chart(db)
     team_sheets_chart(db)
+    opposition_profile_team_sheets_chart(db)
     results_chart(db)
 
     set_piece_success_by_season_chart(db, layout="separate")

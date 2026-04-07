@@ -1930,6 +1930,161 @@ def team_sheets_chart(db, output_file='data/charts/team_sheets.json'):
     return team_sheets
 
 
+def opposition_profile_team_sheets_chart(db, output_file='data/charts/opposition_profile_team_sheets.json'):
+    """Team sheets chart for Opposition Profile page: merged 1st/2nd XV, faceted by season only."""
+    if _using_canonical_backend(db):
+        df = db.con.execute(
+            """
+            SELECT DISTINCT
+                P.player,
+                P.number AS shirt_number,
+                P.position,
+                P.game_id,
+                G.date,
+                G.opposition,
+                G.season,
+                G.game_type,
+                G.squad,
+                G.home_away,
+                strftime(G.date, '%Y %m %d') || ' ' || G.squad || ' ' || G.opposition || ' (' || G.home_away || ')' AS game_label,
+                CONCAT_WS(' ', G.opposition, CONCAT('(', G.home_away, ')')) AS game_label_short,
+                CONCAT_WS(' ', P.position, CONCAT('(', P.number, ')')) AS position_label,
+                CONCAT_WS(
+                    ' ',
+                    SPLIT_PART(P.player, ' ', 1),
+                    ARRAY_TO_STRING(
+                        LIST_TRANSFORM(SPLIT(SPLIT_PART(P.player, ' ', 2), '-'), x -> SUBSTR(x, 1, 1)),
+                        ''
+                    )
+                ) AS player_label
+            FROM player_appearances P
+            LEFT JOIN games G USING (game_id)
+            ORDER BY G.date DESC, P.number ASC
+            """
+        ).df()
+    else:
+        df = db.con.execute(
+            """
+            SELECT DISTINCT
+                P.*,
+                G.game_id,
+                G.date,
+                G.opposition,
+                G.season,
+                G.game_type,
+                G.squad,
+                G.home_away,
+                strftime(G.date, '%Y %m %d') || ' ' || G.squad || ' ' || G.opposition || ' (' || G.home_away || ')' AS game_label,
+                CONCAT_WS(' ', G.opposition, CONCAT('(', G.home_away, ')')) AS game_label_short,
+                CONCAT_WS(' ', P.position, CONCAT('(', P.shirt_number, ')')) AS position_label,
+                CONCAT_WS(
+                    ' ',
+                    SPLIT_PART(P.player, ' ', 1),
+                    ARRAY_TO_STRING(
+                        LIST_TRANSFORM(SPLIT(SPLIT_PART(P.player, ' ', 2), '-'), x -> SUBSTR(x, 1, 1)),
+                        ''
+                    )
+                ) AS player_label
+            FROM player_appearances P
+            LEFT JOIN games G USING (game_id)
+            ORDER BY G.date DESC, P.shirt_number ASC
+            """
+        ).df()
+
+    player_position_agg = df.groupby(['player', 'position']).size().reset_index(name='count')
+    player_primary_position = player_position_agg.loc[player_position_agg.groupby('player')['count'].idxmax()][['player', 'position']]
+
+    # Merge primary position back into main df
+    df = df.merge(player_primary_position, on=['player'], how='left', suffixes=('', '_primary'))
+
+    # Selection for player highlighting
+    player_highlight = alt.selection_point(
+        fields=['player'], 
+        on="mouseover",
+        clear='mouseout',
+        empty='all'
+    )
+    click_player_highlight = alt.selection_point(
+        fields=['player'], 
+        on="click",
+        clear='dblclick',
+        empty='all'
+    )
+
+    # Format date as string (e.g., '2024-08-23' -> '23 Aug 2024')
+    df['date_str'] = df['date'].dt.strftime('%d %b %Y')
+    
+    # Create merged game label: "1st XV v Opposition (home/away)"
+    df['game_label_merged'] = df.apply(
+        lambda row: f"{row['squad']} XV v {row['opposition']} ({row['home_away']})",
+        axis=1
+    )
+
+    # Create a unique identifier combining game_id with label for display
+    df['game_id_with_label'] = df['game_id'].astype(str) + '|' + df['game_label_merged']
+    
+    # Use .encode() with explicit types and field names, avoid ambiguous axis titles
+    chart = alt.Chart(df).mark_rect().encode(
+        x=alt.X(
+            'shirt_number:O',  # Use ordinal for shirt numbers
+            title='Shirt Number',
+            axis=alt.Axis(labelAngle=0, orient='top', ticks=False)
+        ),
+        y=alt.Y(
+            'game_id_with_label:N',
+            sort=alt.EncodingSortField(field='date', order='descending'),
+            axis=alt.Axis(
+                ticks=False, 
+                labelAngle=0, 
+                labelPadding=10, 
+                labelFontSize=11,
+                labelExpr="split(datum.value, '|')[1]"  # Extract label part after |
+            ),
+            title=None
+        ),
+        color=alt.Color('player:N', scale=alt.Scale(scheme='category20c', domain=player_primary_position.sort_values('position', ascending=True)["player"].unique()), legend=None),
+        opacity=alt.condition(click_player_highlight, alt.value(1.0), alt.value(0)),
+        stroke=alt.condition(click_player_highlight, alt.value('black'), alt.value(None)),
+        tooltip=[
+            alt.Tooltip('player:N', title='Player'),
+            alt.Tooltip('position_label:N', title='Position'),
+            alt.Tooltip('game_type:N', title='Competition'),
+            alt.Tooltip('date_str:N', title='Date'),
+            alt.Tooltip('game_label_short:N', title='Opposition'),
+        ]
+    ).add_params(
+        player_highlight, click_player_highlight
+    )
+
+    # Player name text
+    text = alt.Chart(df).mark_text(
+        fontSize=12,
+        baseline='middle',
+        align='center',
+        font='PT Sans Narrow'
+    ).encode(
+        x=alt.X('shirt_number:O', title=None),
+        y=alt.Y('game_id_with_label:N', sort=alt.EncodingSortField(field='date', order='descending')),
+        text=alt.Text('player_label:N'),
+        color=alt.value('black'),
+        opacity=alt.condition(click_player_highlight, alt.value(1.0), alt.value(0.5)),
+        strokeWidth=alt.value(0.5),
+        detail='game_id:N'
+    )
+
+    opposition_team_sheets = (chart + text).properties(
+        width=alt.Step(45),
+        height=alt.Step(20),
+    ).facet(
+        row=alt.Row('season:N', title=None, sort=alt.EncodingSortField(field='season', order='descending'), header=alt.Header(labelFontSize=12)),
+        spacing=10
+    ).resolve_scale(y='independent').resolve_axis(x='shared').configure_view(strokeWidth=0)
+
+    opposition_team_sheets.save(output_file)
+
+    return opposition_team_sheets
+
+
 def results_chart(db, output_file='data/charts/results.json'):
     if _using_canonical_backend(db):
         df = db.con.execute(

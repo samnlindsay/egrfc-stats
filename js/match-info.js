@@ -860,8 +860,8 @@ function buildLineoutDetailRows(gameId) {
                 <td>${idx + 1}</td>
                 <td class="video-analysis-lineout-numbers"><span class="video-analysis-lineout-numbers-pill ${numbersClass(numbersValue)}">${escapeHtml(numbersLabel(numbersValue))}</span></td>
                 <td class="video-analysis-lineout-call ${isBangCall ? 'video-analysis-lineout-call--bang' : ''}">${escapeHtml(callValue)}</td>
-                <td>${playerShortNameLinkHtml(row?.thrower)}</td>
-                <td>${playerShortNameLinkHtml(row?.jumper)}</td>
+                <td class="video-analysis-lineout-thrower">${playerShortNameLinkHtml(row?.thrower)}</td>
+                <td class="video-analysis-lineout-jumper">${playerShortNameLinkHtml(row?.jumper)}</td>
                 <td class="video-analysis-lineout-notes ${notesRaw ? '' : 'video-analysis-lineout-notes--placeholder'}">${notesHtml}</td>
             </tr>
         `;
