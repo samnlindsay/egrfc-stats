@@ -2742,8 +2742,10 @@ def lineout_analysis_panel_chart_suite(db, output_dir="data/charts"):
 def set_piece_h2h_chart_backend(db, set_piece="Lineout", output_file=None, bind_params=True):
     """Game-by-game set piece chart using canonical backend data.
 
-    Exports a legacy-style head-to-head view with retained vs turnover events by
-    attacking team, plus per-team success rate points for each match.
+    Exports a head-to-head view with mirrored retained vs turnover bars for
+    each team, plus per-team success-rate markers and an aggregate summary.
+    Opposition filtering is handled by the frontend by trimming the exported
+    datasets before embedding the spec.
     """
     if output_file is None:
         output_file = f"data/charts/{set_piece.lower()}_h2h.json"
@@ -2767,9 +2769,7 @@ def set_piece_h2h_chart_backend(db, set_piece="Lineout", output_file=None, bind_
             CASE WHEN S.team = 'EGRFC' THEN 'EGRFC' ELSE 'Opposition' END AS team,
             S.{metric_won}::DOUBLE AS won,
             (S.{metric_total} - S.{metric_won})::DOUBLE AS lost,
-            S.{metric_total}::DOUBLE AS total,
-            S.{metric_won}::DOUBLE / NULLIF(S.{metric_total}, 0) AS success_rate,
-            CONCAT_WS(' ', G.opposition, CONCAT('(', G.home_away, ')')) AS game_label
+            S.{metric_total}::DOUBLE AS total
         FROM set_piece S
         JOIN games G USING (game_id)
         WHERE S.{metric_total} > 0
@@ -2792,96 +2792,67 @@ def set_piece_h2h_chart_backend(db, set_piece="Lineout", output_file=None, bind_
     )
     df.loc[df["opposition_club"] == "", "opposition_club"] = "Unknown"
 
-    squad_options = ["All", *sorted(df["squad"].unique().tolist())]
-    season_options = ["All", *sorted(df["season"].unique().tolist(), reverse=True)]
-    game_type_options = ["All", "League + Cup", "League only"]
-    opposition_options = ["All", *sorted(df["opposition_club"].unique().tolist())]
+    def _ordinal_date_label(value):
+        d = pd.to_datetime(value)
+        day = int(d.day)
+        if 11 <= (day % 100) <= 13:
+            suffix = "th"
+        else:
+            suffix = {1: "st", 2: "nd", 3: "rd"}.get(day % 10, "th")
+        return f"{day}{suffix} {d.strftime('%b %Y')}"
 
-    def _param(name, value, options=None, label=None):
-        bind = alt.binding_select(options=options, name=label) if bind_params and options is not None else None
-        if bind is not None:
-            return alt.param(name=name, bind=bind, value=value)
-        return alt.param(name=name, value=value)
-
-    squad_param = _param("h2hSquadFilter", "All", squad_options, "Squad ")
-    season_param = _param("h2hSeasonFilter", "All", season_options, "Season ")
-    game_type_param = _param("h2hGameTypeFilter", "All", game_type_options, "Game Type ")
-    opposition_param = _param("h2hOppositionFilter", "All", opposition_options, "Opposition ")
-    team_highlight_param = _param("h2hTeamHighlight", "All", ["All", "EGRFC", "Opposition"], "Team ")
-    outcome_highlight_param = _param("h2hOutcomeHighlight", "Turnover", ["All", "Retained", "Turnover"], "Outcome ")
-
-    filter_expr = (
-        f"({squad_param.name} == 'All' || datum.squad == {squad_param.name})"
-        f" && ({season_param.name} == 'All' || datum.season == {season_param.name})"
-        f" && ("
-        f"{game_type_param.name} == 'All'"
-        f" || ({game_type_param.name} == 'League + Cup' && (datum.game_type == 'League' || datum.game_type == 'Cup'))"
-        f" || ({game_type_param.name} == 'League only' && datum.game_type == 'League')"
-        f" || datum.game_type == {game_type_param.name}"
-        f")"
-        f" && ({opposition_param.name} == 'All' || datum.opposition_club == {opposition_param.name})"
+    success_df = df.copy()
+    success_df["won"] = success_df["won"].clip(lower=0)
+    success_df["total"] = success_df[["total", "won"]].max(axis=1)
+    success_df["lost"] = (success_df["total"] - success_df["won"]).clip(lower=0)
+    success_df["success_rate"] = success_df.apply(
+        lambda row: (row["won"] / row["total"]) if row["total"] else 0.0,
+        axis=1,
     )
+    success_df["game_axis_key"] = success_df.apply(
+        lambda row: f"{row['game_id']}__{row['squad']} XV v {row['opposition']} ({row['home_away']})",
+        axis=1,
+    )
+    success_df["game_label"] = success_df["opposition"] + " (" + success_df["home_away"].astype(str) + ")"
+    success_df["team_label"] = success_df["team"].map({"EGRFC": "East Grinstead", "Opposition": "Opposition"})
+    success_df["fixture_label"] = success_df["game_axis_key"].str.split("__").str[1]
+    success_df["date_label"] = success_df["date"].apply(_ordinal_date_label)
+    success_df["y_axis"] = success_df["date_label"] + "||" + success_df["fixture_label"]
 
-    event_rows = []
-    success_rows = []
-    for row in df.itertuples(index=False):
-        attacking_team = row.team
-        other_team = "Opposition" if attacking_team == "EGRFC" else "EGRFC"
-        won = max(0.0, float(row.won or 0))
-        raw_total = max(0.0, float(row.total or 0))
-        # Guard against inconsistent source rows where won > total.
-        total = max(raw_total, won)
-        lost = max(0.0, total - won)
-        success_rate = (won / total) if total > 0 else 0.0
-
-        success_rows.append(
-            {
-                "game_id": row.game_id,
-                "game_axis_key": f"{row.game_id}__{row.squad} XV v {row.opposition} ({row.home_away})",
-                "date": row.date,
-                "squad": row.squad,
-                "season": row.season,
-                "game_type": row.game_type,
-                "opposition": row.opposition,
-                "opposition_club": row.opposition_club,
-                "game_label": row.game_label,
-                "attacking_team": attacking_team,
-                "won": won,
-                "lost": lost,
-                "total": total,
-                "success_rate": success_rate,
-            }
-        )
-
-        for outcome, winner, count in (
-            ("Retained", attacking_team, won),
-            ("Turnover", other_team, lost),
-        ):
-            event_rows.append(
+    segment_rows = []
+    for row in success_df.itertuples(index=False):
+        segments = [
+            ("Retained", row.won if row.team == "EGRFC" else -row.won, row.won),
+            ("Turnover", -row.lost if row.team == "EGRFC" else row.lost, row.lost),
+        ]
+        for outcome, signed_value, count in segments:
+            segment_rows.append(
                 {
                     "game_id": row.game_id,
-                    "game_axis_key": f"{row.game_id}__{row.squad} XV v {row.opposition} ({row.home_away})",
                     "date": row.date,
+                    "game_axis_key": row.game_axis_key,
+                    "game_label": row.game_label,
+                    "y_axis": row.y_axis,
                     "squad": row.squad,
                     "season": row.season,
                     "game_type": row.game_type,
                     "opposition": row.opposition,
                     "opposition_club": row.opposition_club,
-                    "game_label": row.game_label,
-                    "attacking_team": attacking_team,
-                    "winner_team": winner,
+                    "team": row.team,
+                    "team_label": row.team_label,
                     "outcome": outcome,
                     "count": count,
-                    "signed_count": count if winner == "EGRFC" else -count,
+                    "segment_start": 0.0,
+                    "segment_end": signed_value,
                 }
             )
 
-    event_df = pd.DataFrame(event_rows)
-    success_df = pd.DataFrame(success_rows)
+    segment_df = pd.DataFrame(segment_rows)
+
     connector_df = (
         success_df.pivot_table(
-            index=["game_id", "game_axis_key", "game_label", "date", "squad", "season", "game_type", "opposition", "opposition_club"],
-            columns="attacking_team",
+            index=["game_id", "game_axis_key", "game_label", "date", "y_axis", "squad", "season", "game_type", "opposition", "opposition_club"],
+            columns="team",
             values="success_rate",
             aggfunc="mean",
         )
@@ -2890,68 +2861,80 @@ def set_piece_h2h_chart_backend(db, set_piece="Lineout", output_file=None, bind_
     )
     connector_df["eg_rate"] = connector_df.get("EGRFC", pd.Series(index=connector_df.index, dtype=float)).fillna(0.0)
     connector_df["opp_rate"] = connector_df.get("Opposition", pd.Series(index=connector_df.index, dtype=float)).fillna(0.0)
-    connector_df["min_rate"] = connector_df[["eg_rate", "opp_rate"]].min(axis=1)
-    connector_df["max_rate"] = connector_df[["eg_rate", "opp_rate"]].max(axis=1)
     connector_df["success_diff"] = connector_df["eg_rate"] - connector_df["opp_rate"]
     connector_df["winner"] = connector_df["success_diff"].apply(
         lambda diff: "EGRFC" if diff > 0 else ("Opposition" if diff < 0 else "Level")
     )
-    success_df = success_df.merge(connector_df[["game_id", "winner"]], on="game_id", how="left")
-
-    y_sort = alt.EncodingSortField(field="date", order="ascending")
-    max_abs_count = float(event_df["signed_count"].abs().max() if not event_df.empty else 1.0)
-    flow_domain = [-max_abs_count, max_abs_count]
-    event_focus_filter = (
-        f"({team_highlight_param.name} == 'All' || datum.attacking_team == {team_highlight_param.name})"
-        f" && ({outcome_highlight_param.name} == 'All' || datum.outcome == {outcome_highlight_param.name})"
-    )
-    success_team_filter = f"({team_highlight_param.name} == 'All' || datum.attacking_team == {team_highlight_param.name})"
-
-    event_base = (
-        alt.Chart(event_df)
-        .add_params(
-            squad_param,
-            season_param,
-            game_type_param,
-            opposition_param,
-            team_highlight_param,
-            outcome_highlight_param,
-        )
-        .transform_filter(filter_expr)
-        .transform_filter(event_focus_filter)
-        .transform_calculate(
-            has_single_focus=(
-                f"({team_highlight_param.name} != 'All' || {outcome_highlight_param.name} != 'All')"
-            )
-        )
-        .transform_calculate(y_offset_group="datum.has_single_focus ? 'Single' : datum.attacking_team")
+    success_df = success_df.merge(connector_df[["game_id", "eg_rate", "opp_rate"]], on="game_id", how="left")
+    success_df["is_lower"] = (
+        ((success_df["team"] == "EGRFC") & (success_df["eg_rate"] < success_df["opp_rate"]))
+        | ((success_df["team"] == "Opposition") & (success_df["opp_rate"] < success_df["eg_rate"]))
     )
 
-    flow_chart = event_base.mark_bar().encode(
+    count_max = max(1.0, float(segment_df["segment_end"].abs().max()) if not segment_df.empty else 1.0)
+    count_domain = [-count_max, count_max]
+
+    color_scale = alt.Scale(domain=["EGRFC", "Opposition"], range=["#202946", "#991515"])
+    winner_scale = alt.Scale(domain=["EGRFC", "Opposition", "Level"], range=["#202946", "#991515", "#666666"])
+    y_sort = alt.EncodingSortField(field="date", order="descending")
+
+    count_axis_top = alt.Axis(format="d", labelExpr="abs(datum.value)", orient="top", labelPadding=15, titlePadding=8)
+    count_axis_bottom = alt.Axis(format="d", labelExpr="abs(datum.value)", orient="bottom")
+
+    zone_df = pd.DataFrame(
+        {
+            "x1": [-count_max, 0.0],
+            "x2": [0.0, count_max],
+            "x_mid": [-count_max / 2, count_max / 2],
+            "label": ["← Opposition wins", "East Grinstead wins →"],
+            "fill": ["#991515", "#202946"],
+        }
+    )
+
+    outcome_opacity_scale = alt.Scale(domain=["Retained", "Turnover"], range=[0.5, 1.0])
+
+    segment_base = alt.Chart(segment_df)
+
+    bg_rects = alt.Chart(zone_df).mark_rect(opacity=0.04).encode(
+        x=alt.X("x1:Q", scale=alt.Scale(domain=count_domain)),
+        x2="x2:Q",
+        color=alt.Color("fill:N", scale=None, legend=None),
+    )
+
+    bg_text = alt.Chart(zone_df).mark_text(
+        align="center",
+        baseline="middle",
+        fontSize=12,
+        fontWeight="bold",
+        fontStyle="italic",
+        opacity=0.4,
+    ).encode(
+        x=alt.X("x_mid:Q", scale=alt.Scale(domain=count_domain)),
+        y=alt.value(-15),
+        text="label:N",
+        color=alt.Color("fill:N", scale=None, legend=None),
+    )
+
+    flow_chart = segment_base.mark_bar(size=10).encode(
         y=alt.Y(
-            "game_axis_key:N",
+            "y_axis:N",
             sort=y_sort,
             title=None,
-            axis=alt.Axis(labelLimit=220, ticks=False, domain=False, labelExpr="split(datum.label, '__')[1]"),
+            axis=alt.Axis(labelLimit=220, ticks=False, domain=False, labelExpr="split(datum.label, '||')[1]", labelPadding=10),
         ),
-        x=alt.X(
-            "signed_count:Q",
-            title=f"{set_piece}s Won",
-            axis=alt.Axis(format="d", labelExpr="abs(datum.value)", orient="top", labelPadding=15),
-            scale=alt.Scale(domain=flow_domain),
-        ),
-        yOffset=alt.YOffset("y_offset_group:N", sort=["Opposition", "EGRFC", "Single"], bandPosition=0.5),
-        size=alt.condition(
-            f"{team_highlight_param.name} == 'All' && {outcome_highlight_param.name} == 'All'",
-            alt.value(8),
-            alt.value(12),
-        ),
+        yOffset=alt.YOffset("team:N", sort=["Opposition", "EGRFC"]),
+        x=alt.X("segment_start:Q", title=f"{set_piece}s", scale=alt.Scale(domain=count_domain), axis=count_axis_top),
+        x2="segment_end:Q",
         color=alt.Color(
-            "attacking_team:N",
-            title="Attacking Team",
-            scale=alt.Scale(domain=["EGRFC", "Opposition"], range=["#202946", "#981515"]),
+            "team:N",
+            scale=color_scale,
+            legend=alt.Legend(title="Put-in", orient="bottom", direction="horizontal", columns=2),
         ),
-        opacity=alt.Opacity("outcome:N", scale=alt.Scale(domain=["Retained", "Turnover"], range=[0.5, 1.0]), legend=None),
+        opacity=alt.Opacity(
+            "outcome:N",
+            scale=outcome_opacity_scale,
+            legend=alt.Legend(title="Outcome", orient="bottom", direction="horizontal", columns=2),
+        ),
         tooltip=[
             alt.Tooltip("date:T", title="Date", format="%d %b %Y"),
             alt.Tooltip("squad:N", title="Squad"),
@@ -2959,306 +2942,174 @@ def set_piece_h2h_chart_backend(db, set_piece="Lineout", output_file=None, bind_
             alt.Tooltip("game_type:N", title="Game Type"),
             alt.Tooltip("opposition:N", title="Opposition"),
             alt.Tooltip("game_label:N", title="Fixture"),
-            alt.Tooltip("attacking_team:N", title="Attacking Team"),
-            alt.Tooltip("outcome:N", title="Outcome"),
-            alt.Tooltip("winner_team:N", title="Won By"),
-            alt.Tooltip("count:Q", title="Count", format=",.0f"),
+            alt.Tooltip("team_label:N", title="Bar"),
+            alt.Tooltip("outcome:N", title="Segment"),
+            alt.Tooltip("count:Q", title="Count", format=",.1f"),
         ],
-    ).properties(width=300, height=alt.Step(15))
+    ).properties(width=320, height=alt.Step(12))
 
-    zero_line = alt.Chart(pd.DataFrame({"zero": [0]})).mark_rule(stroke="#222", strokeWidth=2, opacity=1).encode(x="zero:Q")
+    success_base = alt.Chart(success_df)
 
-    success_base = (
-        alt.Chart(success_df)
-        .add_params(
-            squad_param,
-            season_param,
-            game_type_param,
-            opposition_param,
-            team_highlight_param,
-            outcome_highlight_param,
-        )
-        .transform_filter(filter_expr)
-        .transform_filter(success_team_filter)
-    )
-
-    success_connectors = (
-        alt.Chart(connector_df)
-        .add_params(
-            squad_param,
-            season_param,
-            game_type_param,
-            opposition_param,
-            team_highlight_param,
-            outcome_highlight_param,
-        )
-        .transform_filter(filter_expr)
-        .mark_rule(strokeWidth=3)
-        .encode(
-            y=alt.Y("game_axis_key:N", sort=y_sort, title=None, axis=alt.Axis(labelLimit=220, ticks=False, domain=False, orient="right", labelPadding=10,labelExpr="timeFormat(toDate(split(datum.label,'_')[0]), '%d %b %Y')")),
-            x=alt.X("eg_rate:Q", title="Success Rate", axis=alt.Axis(format="%", orient="top"), scale=alt.Scale(domain=[0, 1])),
-            x2="opp_rate:Q",
-            color=alt.Color(
-                "winner:N",
-                title="Higher Success",
-                legend=None,
-                scale=alt.Scale(domain=["EGRFC", "Opposition", "Level"], range=["#202946", "#981515", "#666666"]),
-            ),
-            tooltip=[
-                alt.Tooltip("date:T", title="Date", format="%d %b %Y"),
-                alt.Tooltip("game_label:N", title="Fixture"),
-                alt.Tooltip("eg_rate:Q", title="EGRFC Success", format=".1%"),
-                alt.Tooltip("opp_rate:Q", title="Opposition Success", format=".1%"),
-                alt.Tooltip("success_diff:Q", title="Difference (EGRFC - Opp)", format=".1%"),
-            ],
-        )
-        .properties(width=200, height=alt.Step(15))
-    )
-
-    success_point_encoding = {
-        "y": alt.Y("game_axis_key:N", sort=y_sort, title=None, axis=alt.Axis(orient="right")),
-        "x": alt.X("success_rate:Q", title="Success Rate", axis=alt.Axis(format="%", orient="top"), scale=alt.Scale(domain=[0, 1])),
-        "color": alt.Color(
-            "attacking_team:N",
-            title="Team",
-            scale=alt.Scale(domain=["EGRFC", "Opposition"], range=["#202946", "#981515"]),
-        ),
-        "tooltip": [
-            alt.Tooltip("date:T", title="Date", format="%d %b %Y"),
-            alt.Tooltip("game_label:N", title="Game"),
-            alt.Tooltip("attacking_team:N", title="Attacking Team"),
-            alt.Tooltip("winner:N", title="Higher Success"),
-            alt.Tooltip("won:Q", title=f"{set_piece}s Won", format=",.0f"),
-            alt.Tooltip("lost:Q", title=f"{set_piece}s Lost", format=",.0f"),
-            alt.Tooltip("total:Q", title=f"{set_piece}s Total", format=",.0f"),
-            alt.Tooltip("success_rate:Q", title="Success Rate", format=".1%"),
-        ],
-        "strokeWidth": alt.value(1.6),
-    }
-
-    success_losing_points = success_base.transform_filter(
-        "datum.winner == 'Level' || datum.attacking_team != datum.winner"
-    ).mark_point(size=160, filled=False, opacity=0.9).encode(
-        **success_point_encoding
-    ).properties(width=200, height=alt.Step(15))
-
-    success_winning_points = success_base.transform_filter(
-        "datum.attacking_team == datum.winner"
-    ).mark_point(size=190, filled=True, opacity=1.0).encode(
-        **success_point_encoding
-    ).properties(width=200, height=alt.Step(15))
-
-    main_chart = alt.hconcat((zero_line + flow_chart), success_connectors + success_losing_points + success_winning_points, spacing=10).resolve_scale(y="shared").properties(
-        title=alt.Title(
-            text=f"{set_piece}s Head-to-Head",
-            subtitle=f"{set_piece}s retained or turned over, and success-rate difference by game. Use filters to slice squad, season, game type, and matchup focus.",
-        )
-    )
-
-    opposition_selected_expr = f"{opposition_param.name} != 'All'"
-
-    aggregate_event_base = (
-        alt.Chart(event_df)
-        .add_params(
-            squad_param,
-            season_param,
-            game_type_param,
-            opposition_param,
-            team_highlight_param,
-            outcome_highlight_param,
-        )
-        .transform_filter(filter_expr)
-        .transform_filter(opposition_selected_expr)
-        .transform_filter(event_focus_filter)
-        .transform_aggregate(
-            count="sum(count)",
-            signed_count="sum(signed_count)",
-            groupby=["attacking_team", "winner_team", "outcome"],
-        )
-        .transform_calculate(
-            game_axis_key="'aggregate__TOTAL'",
-            game_label="'TOTAL'",
-        )
-        .transform_calculate(
-            has_single_focus=(
-                f"({team_highlight_param.name} != 'All' || {outcome_highlight_param.name} != 'All')"
-            )
-        )
-        .transform_calculate(y_offset_group="datum.has_single_focus ? 'Single' : datum.attacking_team")
-    )
-
-    aggregate_max_abs = float(
-        event_df["signed_count"].abs().max() if not event_df.empty else 1.0
-    )
-    aggregate_flow_domain = [-aggregate_max_abs, aggregate_max_abs]
-
-    aggregate_flow_chart = aggregate_event_base.mark_bar().encode(
+    success_connectors = alt.Chart(connector_df).mark_rule(strokeWidth=3, opacity=0.6).encode(
         y=alt.Y(
-            "game_axis_key:N",
+            "y_axis:N",
+            sort=y_sort,
             title=None,
-            axis=alt.Axis(
-                labelLimit=220,
-                ticks=False,
-                domain=False,
-                labelExpr="split(datum.label, '__')[1]",
-                labelFontWeight="bold",
-            ),
+            axis=alt.Axis(orient="right", labelLimit=220, ticks=False, domain=False, labelExpr="split(datum.label, '||')[0]", labelPadding=10),
         ),
-        x=alt.X(
-            "signed_count:Q",
-            title=None,
-            axis=alt.Axis(format="d", labelExpr="abs(datum.value)", orient="bottom", labelPadding=10),
-            scale=alt.Scale(domain=aggregate_flow_domain),
-        ),
-        yOffset=alt.YOffset("y_offset_group:N", sort=["Opposition", "EGRFC", "Single"], bandPosition=0.5),
-        size=alt.condition(
-            f"{team_highlight_param.name} == 'All' && {outcome_highlight_param.name} == 'All'",
-            alt.value(8),
-            alt.value(12),
-        ),
-        color=alt.Color(
-            "attacking_team:N",
-            title="Attacking Team",
-            scale=alt.Scale(domain=["EGRFC", "Opposition"], range=["#202946", "#981515"]),
-        ),
-        opacity=alt.Opacity("outcome:N", scale=alt.Scale(domain=["Retained", "Turnover"], range=[0.5, 1.0]), legend=None),
+        x=alt.X("eg_rate:Q", title="Success Rate", scale=alt.Scale(domain=[0, 1]), axis=alt.Axis(format="%", orient="top")),
+        x2="opp_rate:Q",
+        color=alt.Color("winner:N", legend=None, scale=winner_scale),
         tooltip=[
-            alt.Tooltip("attacking_team:N", title="Attacking Team"),
-            alt.Tooltip("outcome:N", title="Outcome"),
-            alt.Tooltip("winner_team:N", title="Won By"),
-            alt.Tooltip("count:Q", title="Count", format=",.0f"),
+            alt.Tooltip("game_label:N", title="Fixture"),
+            alt.Tooltip("eg_rate:Q", title="EGRFC Success", format=".1%"),
+            alt.Tooltip("opp_rate:Q", title="Opposition Success", format=".1%"),
         ],
-    ).properties(width=300, height=alt.Step(10))
+    ).properties(width=200, height=alt.Step(16))
 
-    aggregate_success_base = (
-        alt.Chart(success_df)
-        .add_params(
-            squad_param,
-            season_param,
-            game_type_param,
-            opposition_param,
-            team_highlight_param,
-            outcome_highlight_param,
-        )
-        .transform_filter(filter_expr)
-        .transform_filter(opposition_selected_expr)
-        .transform_filter(success_team_filter)
-        .transform_aggregate(
-            won="sum(won)",
-            lost="sum(lost)",
-            total="sum(total)",
-            groupby=["attacking_team"],
-        )
-        .transform_calculate(
-            success_rate="datum.total > 0 ? datum.won / datum.total : 0",
-            game_axis_key="'aggregate__TOTAL'",
-        )
-        .transform_calculate(
-            winner=(
-                "datum.success_rate == 0 ? 'Level' : null"
-            )
-        )
+    success_points_higher = success_base.transform_filter("datum.is_lower == false").mark_point(size=170, filled=True, stroke="#ffffff", strokeWidth=1.4, opacity=1).encode(
+        y=alt.Y("y_axis:N", sort=y_sort, title=None, axis=alt.Axis(orient="right")),
+        x=alt.X("success_rate:Q", title="Success Rate", scale=alt.Scale(domain=[0, 1]), axis=alt.Axis(format="%", orient="top")),
+        color=alt.Color("team:N", scale=color_scale, legend=None),
+        tooltip=[
+            alt.Tooltip("game_label:N", title="Fixture"),
+            alt.Tooltip("team_label:N", title="Team"),
+            alt.Tooltip("won:Q", title="Won", format=",.0f"),
+            alt.Tooltip("lost:Q", title="Lost", format=",.0f"),
+            alt.Tooltip("success_rate:Q", title="Success", format=".1%"),
+        ],
+    ).properties(width=200, height=alt.Step(16))
+
+    success_points_lower = success_base.transform_filter("datum.is_lower == true").mark_point(size=170, filled=False, strokeWidth=2, opacity=1).encode(
+        y=alt.Y("y_axis:N", sort=y_sort, title=None, axis=alt.Axis(orient="right")),
+        x=alt.X("success_rate:Q", scale=alt.Scale(domain=[0, 1]), axis=alt.Axis(format="%", orient="top")),
+        stroke=alt.Stroke("team:N", scale=color_scale, legend=None),
+        tooltip=[
+            alt.Tooltip("game_label:N", title="Fixture"),
+            alt.Tooltip("team_label:N", title="Team"),
+            alt.Tooltip("won:Q", title="Won", format=",.0f"),
+            alt.Tooltip("lost:Q", title="Lost", format=",.0f"),
+            alt.Tooltip("success_rate:Q", title="Success", format=".1%"),
+        ],
+    ).properties(width=200, height=alt.Step(16))
+
+    main_chart = alt.hconcat(
+        bg_rects + flow_chart,
+        success_connectors + success_points_higher + success_points_lower,
+        spacing=10,
+    ).resolve_scale(y="shared").properties(
+        title=alt.Title(text=f"{set_piece}s Head-to-Head", subtitle="Per-game mirrored bars plus success-rate panel")
     )
 
-    aggregate_connector = (
-        alt.Chart(success_df)
-        .add_params(
-            squad_param,
-            season_param,
-            game_type_param,
-            opposition_param,
-            team_highlight_param,
-            outcome_highlight_param,
-        )
-        .transform_filter(filter_expr)
-        .transform_filter(opposition_selected_expr)
-        .transform_calculate(
-            eg_won="datum.attacking_team == 'EGRFC' ? datum.won : 0",
-            eg_total="datum.attacking_team == 'EGRFC' ? datum.total : 0",
-            opp_won="datum.attacking_team == 'Opposition' ? datum.won : 0",
-            opp_total="datum.attacking_team == 'Opposition' ? datum.total : 0",
-        )
-        .transform_aggregate(
-            eg_won="sum(eg_won)",
-            eg_total="sum(eg_total)",
-            opp_won="sum(opp_won)",
-            opp_total="sum(opp_total)",
-        )
-        .transform_calculate(
-            eg_rate="datum.eg_total > 0 ? datum.eg_won / datum.eg_total : 0",
-            opp_rate="datum.opp_total > 0 ? datum.opp_won / datum.opp_total : 0",
-            success_diff="datum.eg_rate - datum.opp_rate",
-            winner="datum.success_diff > 0 ? 'EGRFC' : (datum.success_diff < 0 ? 'Opposition' : 'Level')",
-            game_axis_key="'aggregate__TOTAL'",
-            game_label="'TOTAL'",
-        )
-        .mark_rule(strokeWidth=3)
-        .encode(
-            y=alt.Y(
-                "game_axis_key:N",
-                title=None,
-                axis=alt.Axis(
-                    labelLimit=220,
-                    ticks=False,
-                    domain=False,
-                    orient="right",
-                    labelPadding=10,
-                    labelExpr="split(datum.label, '__')[1]",
-                    labelFontWeight="bold",
-                ),
-            ),
-            x=alt.X(
-                "eg_rate:Q",
-                title=None,
-                axis=alt.Axis(format="%", orient="bottom", labelPadding=10),
-                scale=alt.Scale(domain=[0, 1]),
-            ),
-            x2="opp_rate:Q",
-            color=alt.Color(
-                "winner:N",
-                title="Higher Success",
-                legend=None,
-                scale=alt.Scale(domain=["EGRFC", "Opposition", "Level"], range=["#202946", "#981515", "#666666"]),
-            ),
-            tooltip=[
-                alt.Tooltip("game_label:N", title="Fixture"),
-                alt.Tooltip("eg_rate:Q", title="EGRFC Success", format=".1%"),
-                alt.Tooltip("opp_rate:Q", title="Opposition Success", format=".1%"),
-                alt.Tooltip("success_diff:Q", title="Difference (EGRFC - Opp)", format=".1%"),
-            ],
-        )
-        .properties(width=200, height=alt.Step(10))
+    aggregate_segment_base = alt.Chart(segment_df).transform_aggregate(
+        count="mean(count)",
+        groupby=["team", "team_label", "outcome"],
+    ).transform_calculate(
+        y_axis="'AVERAGE||AVERAGE'",
+        segment_start="0",
+        segment_end="((datum.team == 'Opposition' && datum.outcome == 'Turnover') || (datum.team == 'EGRFC' && datum.outcome == 'Retained')) ? datum.count : -datum.count",
     )
 
-    aggregate_success_points = aggregate_success_base.mark_point(size=190, filled=True, opacity=1.0).encode(
-        y=alt.Y("game_axis_key:N", title=None, axis=alt.Axis(orient="right", labelFontWeight="bold")),
-        x=alt.X(
-            "success_rate:Q",
+    aggregate_flow_chart = aggregate_segment_base.mark_bar(size=14).encode(
+        y=alt.Y(
+            "y_axis:N",
             title=None,
-            scale=alt.Scale(domain=[0, 1]),
+            axis=alt.Axis(labelExpr="split(datum.label, '||')[1]", labelFontWeight="bold", ticks=False, domain=False, labelPadding=10),
         ),
-        color=alt.Color(
-            "attacking_team:N",
-            title="Team",
-            scale=alt.Scale(domain=["EGRFC", "Opposition"], range=["#202946", "#981515"]),
-        ),
+        yOffset=alt.YOffset("team:N", sort=["Opposition", "EGRFC"]),
+        x=alt.X("segment_start:Q", title=f"{set_piece}s", scale=alt.Scale(domain=count_domain), axis=count_axis_bottom),
+        x2="segment_end:Q",
+        color=alt.Color("team:N", scale=color_scale, legend=None),
+        opacity=alt.Opacity("outcome:N", scale=outcome_opacity_scale, legend=None),
         tooltip=[
-            alt.Tooltip("attacking_team:N", title="Attacking Team"),
-            alt.Tooltip("won:Q", title=f"{set_piece}s Won", format=",.0f"),
-            alt.Tooltip("lost:Q", title=f"{set_piece}s Lost", format=",.0f"),
-            alt.Tooltip("total:Q", title=f"{set_piece}s Total", format=",.0f"),
-            alt.Tooltip("success_rate:Q", title="Success Rate", format=".1%"),
+            alt.Tooltip("team_label:N", title="Bar"),
+            alt.Tooltip("outcome:N", title="Segment"),
+            alt.Tooltip("count:Q", title="Average Count", format=",.1f"),
         ],
-        strokeWidth=alt.value(1.6),
-    ).properties(width=200, height=alt.Step(10))
+    ).properties(width=320, height=alt.Step(16))
+
+    aggregate_success_base = alt.Chart(success_df).transform_aggregate(
+        won="mean(won)",
+        lost="mean(lost)",
+        total="mean(total)",
+        success_rate="mean(success_rate)",
+        groupby=["team", "team_label"],
+    ).transform_calculate(
+        y_axis="'AVERAGE||AVERAGE'",
+        eg_rate="datum.team == 'EGRFC' ? datum.success_rate : null",
+        opp_rate="datum.team == 'Opposition' ? datum.success_rate : null",
+    ).transform_joinaggregate(
+        aggregate_eg_rate="max(eg_rate)",
+        aggregate_opp_rate="max(opp_rate)",
+    ).transform_calculate(
+        is_lower=(
+            "((datum.team == 'EGRFC') && (datum.aggregate_eg_rate < datum.aggregate_opp_rate))"
+            " || ((datum.team == 'Opposition') && (datum.aggregate_opp_rate < datum.aggregate_eg_rate))"
+        ),
+    )
+
+    aggregate_connector = alt.Chart(success_df).transform_calculate(
+        eg_won="datum.team == 'EGRFC' ? datum.won : 0",
+        eg_total="datum.team == 'EGRFC' ? datum.total : 0",
+        opp_won="datum.team == 'Opposition' ? datum.won : 0",
+        opp_total="datum.team == 'Opposition' ? datum.total : 0",
+    ).transform_aggregate(
+        eg_won="mean(eg_won)",
+        eg_total="mean(eg_total)",
+        opp_won="mean(opp_won)",
+        opp_total="mean(opp_total)",
+    ).transform_calculate(
+        eg_rate="datum.eg_total > 0 ? datum.eg_won / datum.eg_total : 0",
+        opp_rate="datum.opp_total > 0 ? datum.opp_won / datum.opp_total : 0",
+        success_diff="datum.eg_rate - datum.opp_rate",
+        winner="datum.success_diff > 0 ? 'EGRFC' : (datum.success_diff < 0 ? 'Opposition' : 'Level')",
+        y_axis="'AVERAGE||AVERAGE'",
+    ).mark_rule(strokeWidth=3, opacity=0.6).encode(
+        y=alt.Y(
+            "y_axis:N",
+            title=None,
+            axis=alt.Axis(orient="right", labelExpr="split(datum.label, '||')[0]", labelFontWeight="bold", ticks=False, domain=False, labelPadding=10),
+        ),
+        x=alt.X("eg_rate:Q", title="Success Rate", scale=alt.Scale(domain=[0, 1]), axis=alt.Axis(format="%", orient="bottom")),
+        x2="opp_rate:Q",
+        color=alt.Color("winner:N", legend=None, scale=winner_scale),
+        tooltip=[
+            alt.Tooltip("eg_rate:Q", title="EGRFC Success", format=".1%"),
+            alt.Tooltip("opp_rate:Q", title="Opposition Success", format=".1%"),
+        ],
+    ).properties(width=200, height=alt.Step(16))
+
+    aggregate_success_points_higher = aggregate_success_base.transform_filter("datum.is_lower == false").mark_point(size=180, filled=True, stroke="#ffffff", strokeWidth=1.4, opacity=1).encode(
+        y=alt.Y("y_axis:N", title=None, axis=alt.Axis(orient="right", labelFontWeight="bold")),
+        x=alt.X("success_rate:Q", scale=alt.Scale(domain=[0, 1])),
+        color=alt.Color("team:N", scale=color_scale, legend=None),
+        tooltip=[
+            alt.Tooltip("team_label:N", title="Team"),
+            alt.Tooltip("won:Q", title="Avg Won", format=",.1f"),
+            alt.Tooltip("lost:Q", title="Avg Lost", format=",.1f"),
+            alt.Tooltip("success_rate:Q", title="Avg Success", format=".1%"),
+        ],
+    ).properties(width=200, height=alt.Step(16))
+
+    aggregate_success_points_lower = aggregate_success_base.transform_filter("datum.is_lower == true").mark_point(size=180, filled=False, strokeWidth=2, opacity=1).encode(
+        y=alt.Y("y_axis:N", title=None, axis=alt.Axis(orient="right", labelFontWeight="bold")),
+        x=alt.X("success_rate:Q", scale=alt.Scale(domain=[0, 1])),
+        stroke=alt.Stroke("team:N", scale=color_scale, legend=None),
+        tooltip=[
+            alt.Tooltip("team_label:N", title="Team"),
+            alt.Tooltip("won:Q", title="Avg Won", format=",.1f"),
+            alt.Tooltip("lost:Q", title="Avg Lost", format=",.1f"),
+            alt.Tooltip("success_rate:Q", title="Avg Success", format=".1%"),
+        ],
+    ).properties(width=200, height=alt.Step(16))
 
     aggregate_chart = alt.hconcat(
-        zero_line + aggregate_flow_chart,
-        aggregate_connector + aggregate_success_points,
+        bg_rects + bg_text + aggregate_flow_chart,
+        aggregate_connector + aggregate_success_points_higher + aggregate_success_points_lower,
         spacing=10,
     ).resolve_scale(y="shared")
 
-    chart = alt.vconcat(main_chart, aggregate_chart, spacing=18)
+    chart = alt.vconcat(main_chart, aggregate_chart, spacing=10)
 
     chart.save(output_file)
     return chart

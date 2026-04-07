@@ -458,32 +458,51 @@
     function layoutH2HSpec(baseSpec) {
         const cloned = JSON.parse(JSON.stringify(baseSpec));
 
-        const flowBarLayer = cloned?.hconcat?.[0]?.layer?.[1];
-        if (flowBarLayer) {
-            flowBarLayer.height = { step: 8 };
-            flowBarLayer.encoding = flowBarLayer.encoding || {};
-            flowBarLayer.encoding.size = { value: 8 };
+        function compactLeafSpecs(node) {
+            if (!node || typeof node !== 'object') return;
+
+            if (Array.isArray(node.vconcat)) {
+                node.vconcat.forEach(compactLeafSpecs);
+            }
+
+            if (Array.isArray(node.hconcat)) {
+                node.hconcat.forEach(compactLeafSpecs);
+            }
+
+            if (Array.isArray(node.layer)) {
+                node.layer.forEach(compactLeafSpecs);
+            }
+
+            if (node.mark) {
+                node.height = { step: 12 };
+                if (node.mark.type === 'bar') {
+                    node.encoding = node.encoding || {};
+                    node.encoding.size = { value: 10 };
+                }
+            }
         }
 
-        const successLayers = cloned?.hconcat?.[1]?.layer || [];
-        successLayers.forEach((layer) => {
-            layer.height = { step: 8 };
-        });
-
-        const aggregateFlowLayer = cloned?.vconcat?.[1]?.hconcat?.[0]?.layer?.[1];
-        if (aggregateFlowLayer) {
-            aggregateFlowLayer.height = { step: 8 };
-        }
-
-        const aggregateSuccessLayers = cloned?.vconcat?.[1]?.hconcat?.[1]?.layer || [];
-        aggregateSuccessLayers.forEach((layer) => {
-            layer.height = { step: 8 };
-        });
+        compactLeafSpecs(cloned);
 
         return cloned;
     }
 
-    async function renderH2HCharts() {
+    function filterH2HSpecByClub(spec, oppositionClub) {
+        if (!spec || !oppositionClub || oppositionClub === 'All') {
+            return layoutH2HSpec(spec);
+        }
+
+        return layoutH2HSpec(
+            filterChartSpecDataset(spec, (row) => {
+                if (!row || !Object.prototype.hasOwnProperty.call(row, 'opposition_club')) {
+                    return true;
+                }
+                return toOppositionClubName(row.opposition_club) === oppositionClub;
+            })
+        );
+    }
+
+    async function renderH2HCharts(oppositionClub = 'All') {
         const lineoutContainer = document.getElementById('oppositionLineoutH2HChart');
         const scrumContainer = document.getElementById('oppositionScrumH2HChart');
         const lineoutPanel = document.querySelector('[data-target="opposition-lineout-h2h-panel"]')?.closest('.chart-panel');
@@ -491,9 +510,12 @@
 
         if (!lineoutContainer || !scrumContainer) return;
 
+        const filteredLineoutSpec = filterH2HSpecByClub(lineoutH2HSpec, oppositionClub);
+        const filteredScrumSpec = filterH2HSpecByClub(scrumH2HSpec, oppositionClub);
+
         // Check if specs have data
-        const lineoutHasData = chartSpecHasRows(lineoutH2HSpec);
-        const scrumHasData = chartSpecHasRows(scrumH2HSpec);
+        const lineoutHasData = chartSpecHasRows(filteredLineoutSpec);
+        const scrumHasData = chartSpecHasRows(filteredScrumSpec);
 
         // Show/hide panels based on data availability
         if (lineoutPanel) lineoutPanel.style.display = lineoutHasData ? 'block' : 'none';
@@ -501,9 +523,11 @@
 
         lineoutContainer.innerHTML = '';
         scrumContainer.innerHTML = '';
+        lineoutH2HView = null;
+        scrumH2HView = null;
 
         if (lineoutHasData) {
-            await vegaEmbed(lineoutContainer, layoutH2HSpec(lineoutH2HSpec), { actions: VEGA_EMBED_ACTIONS, renderer: 'svg' })
+            await vegaEmbed(lineoutContainer, filteredLineoutSpec, { actions: VEGA_EMBED_ACTIONS, renderer: 'svg' })
                 .then(result => {
                     lineoutH2HView = result.view;
                     pinVegaActionsInElement(lineoutContainer);
@@ -514,7 +538,7 @@
         }
 
         if (scrumHasData) {
-            await vegaEmbed(scrumContainer, layoutH2HSpec(scrumH2HSpec), { actions: VEGA_EMBED_ACTIONS, renderer: 'svg' })
+            await vegaEmbed(scrumContainer, filteredScrumSpec, { actions: VEGA_EMBED_ACTIONS, renderer: 'svg' })
                 .then(result => {
                     scrumH2HView = result.view;
                     pinVegaActionsInElement(scrumContainer);
@@ -526,22 +550,7 @@
     }
 
     async function applyH2HFilters(oppositionClub) {
-        const signals = {
-            h2hSquadFilter: 'All',
-            h2hSeasonFilter: 'All',
-            h2hGameTypeFilter: 'All',
-            h2hOppositionFilter: oppositionClub || 'All',
-            h2hTeamHighlight: 'All',
-            h2hOutcomeHighlight: 'All',
-        };
-
-        const views = [lineoutH2HView, scrumH2HView].filter(Boolean);
-        for (const view of views) {
-            Object.entries(signals).forEach(([signalName, signalValue]) => {
-                view.signal(signalName, signalValue);
-            });
-            await view.runAsync();
-        }
+        await renderH2HCharts(oppositionClub || 'All');
     }
 
     async function renderOppositionProfile(oppositionClub) {
@@ -625,8 +634,7 @@
         lineoutH2HSpec = loadedLineoutH2HSpec;
         scrumH2HSpec = loadedScrumH2HSpec;
 
-        await renderH2HCharts();
-        await applyH2HFilters('All');
+        await renderH2HCharts('All');
 
         const rowsByClub = clubCountsFromGames(gamesRows);
         renderTopOppositionsTable(rowsByClub);

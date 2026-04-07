@@ -3860,13 +3860,14 @@ table tbody tr:hover {
 /* Opposition Top Table Styling */
 .opposition-top-table thead th {
     font-weight: 900;
-    font-size: 1rem;
+    font-size: 1.1rem !important;
     background-color: #f8f9fa;
 }
 
 .opposition-top-table thead th:nth-child(n+3),
 .opposition-top-table tbody td:nth-child(n+3) {
     text-align: center !important;
+    font-size: 1.2rem;
 }
 
 .opposition-table-rank {
