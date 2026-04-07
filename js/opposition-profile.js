@@ -474,10 +474,13 @@
             }
 
             if (node.mark) {
-                node.height = { step: 12 };
-                if (node.mark.type === 'bar') {
+                const hasRowEncoding = Boolean(node.encoding && (node.encoding.y || node.encoding.yOffset));
+                if (hasRowEncoding) {
+                    node.height = { step: 14 };
+                }
+                if (hasRowEncoding && node.mark.type === 'bar') {
                     node.encoding = node.encoding || {};
-                    node.encoding.size = { value: 10 };
+                    node.encoding.size = { value: 12 };
                 }
             }
         }

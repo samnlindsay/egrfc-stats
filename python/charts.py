@@ -2739,7 +2739,7 @@ def lineout_analysis_panel_chart_suite(db, output_dir="data/charts"):
     return charts
 
 
-def set_piece_h2h_chart_backend(db, set_piece="Lineout", output_file=None, bind_params=True):
+def set_piece_h2h_chart_backend(db, set_piece="Lineout", output_file=None):
     """Game-by-game set piece chart using canonical backend data.
 
     Exports a head-to-head view with mirrored retained vs turnover bars for
@@ -2895,7 +2895,7 @@ def set_piece_h2h_chart_backend(db, set_piece="Lineout", output_file=None, bind_
 
     segment_base = alt.Chart(segment_df)
 
-    bg_rects = alt.Chart(zone_df).mark_rect(opacity=0.04).encode(
+    bg_rects = alt.Chart(zone_df).mark_rect(opacity=0.1).encode(
         x=alt.X("x1:Q", scale=alt.Scale(domain=count_domain)),
         x2="x2:Q",
         color=alt.Color("fill:N", scale=None, legend=None),
@@ -2907,7 +2907,7 @@ def set_piece_h2h_chart_backend(db, set_piece="Lineout", output_file=None, bind_
         fontSize=12,
         fontWeight="bold",
         fontStyle="italic",
-        opacity=0.4,
+        opacity=0.7,
     ).encode(
         x=alt.X("x_mid:Q", scale=alt.Scale(domain=count_domain)),
         y=alt.value(-15),
@@ -2915,7 +2915,7 @@ def set_piece_h2h_chart_backend(db, set_piece="Lineout", output_file=None, bind_
         color=alt.Color("fill:N", scale=None, legend=None),
     )
 
-    flow_chart = segment_base.mark_bar(size=10).encode(
+    flow_chart = segment_base.mark_bar(size=12).encode(
         y=alt.Y(
             "y_axis:N",
             sort=y_sort,
@@ -2925,25 +2925,15 @@ def set_piece_h2h_chart_backend(db, set_piece="Lineout", output_file=None, bind_
         yOffset=alt.YOffset("team:N", sort=["Opposition", "EGRFC"]),
         x=alt.X("segment_start:Q", title=f"{set_piece}s", scale=alt.Scale(domain=count_domain), axis=count_axis_top),
         x2="segment_end:Q",
-        color=alt.Color(
-            "team:N",
-            scale=color_scale,
-            legend=alt.Legend(title="Put-in", orient="bottom", direction="horizontal", columns=2),
-        ),
+        color=alt.Color("team:N", scale=color_scale, legend=alt.Legend(title="Attacking Team", titleOrient="left",orient="bottom", direction="horizontal", columns=2)),
         opacity=alt.Opacity(
             "outcome:N",
             scale=outcome_opacity_scale,
-            legend=alt.Legend(title="Outcome", orient="bottom", direction="horizontal", columns=2),
+            legend=alt.Legend(title="Outcome", titleOrient="left", orient="bottom", direction="horizontal", columns=2),
         ),
         tooltip=[
-            alt.Tooltip("date:T", title="Date", format="%d %b %Y"),
-            alt.Tooltip("squad:N", title="Squad"),
-            alt.Tooltip("season:N", title="Season"),
-            alt.Tooltip("game_type:N", title="Game Type"),
-            alt.Tooltip("opposition:N", title="Opposition"),
-            alt.Tooltip("game_label:N", title="Fixture"),
-            alt.Tooltip("team_label:N", title="Bar"),
-            alt.Tooltip("outcome:N", title="Segment"),
+            alt.Tooltip("team_label:N", title="Attacking Team"),
+            alt.Tooltip("outcome:N", title="Outcome"),
             alt.Tooltip("count:Q", title="Count", format=",.1f"),
         ],
     ).properties(width=320, height=alt.Step(12))
@@ -2959,46 +2949,54 @@ def set_piece_h2h_chart_backend(db, set_piece="Lineout", output_file=None, bind_
         ),
         x=alt.X("eg_rate:Q", title="Success Rate", scale=alt.Scale(domain=[0, 1]), axis=alt.Axis(format="%", orient="top")),
         x2="opp_rate:Q",
-        color=alt.Color("winner:N", legend=None, scale=winner_scale),
+        color=alt.Color(
+            "winner:N",
+            scale=winner_scale,
+            legend=None,
+        ),
         tooltip=[
-            alt.Tooltip("game_label:N", title="Fixture"),
             alt.Tooltip("eg_rate:Q", title="EGRFC Success", format=".1%"),
             alt.Tooltip("opp_rate:Q", title="Opposition Success", format=".1%"),
         ],
-    ).properties(width=200, height=alt.Step(16))
+    ).properties(width=200, height=alt.Step(12))
 
     success_points_higher = success_base.transform_filter("datum.is_lower == false").mark_point(size=170, filled=True, stroke="#ffffff", strokeWidth=1.4, opacity=1).encode(
         y=alt.Y("y_axis:N", sort=y_sort, title=None, axis=alt.Axis(orient="right")),
         x=alt.X("success_rate:Q", title="Success Rate", scale=alt.Scale(domain=[0, 1]), axis=alt.Axis(format="%", orient="top")),
         color=alt.Color("team:N", scale=color_scale, legend=None),
         tooltip=[
-            alt.Tooltip("game_label:N", title="Fixture"),
-            alt.Tooltip("team_label:N", title="Team"),
+            alt.Tooltip("team_label:N", title="Attacking Team"),
             alt.Tooltip("won:Q", title="Won", format=",.0f"),
             alt.Tooltip("lost:Q", title="Lost", format=",.0f"),
             alt.Tooltip("success_rate:Q", title="Success", format=".1%"),
         ],
-    ).properties(width=200, height=alt.Step(16))
+    ).properties(width=200, height=alt.Step(12))
 
     success_points_lower = success_base.transform_filter("datum.is_lower == true").mark_point(size=170, filled=False, strokeWidth=2, opacity=1).encode(
         y=alt.Y("y_axis:N", sort=y_sort, title=None, axis=alt.Axis(orient="right")),
         x=alt.X("success_rate:Q", scale=alt.Scale(domain=[0, 1]), axis=alt.Axis(format="%", orient="top")),
         stroke=alt.Stroke("team:N", scale=color_scale, legend=None),
         tooltip=[
-            alt.Tooltip("game_label:N", title="Fixture"),
-            alt.Tooltip("team_label:N", title="Team"),
+            alt.Tooltip("team_label:N", title="Attacking Team"),
             alt.Tooltip("won:Q", title="Won", format=",.0f"),
             alt.Tooltip("lost:Q", title="Lost", format=",.0f"),
             alt.Tooltip("success_rate:Q", title="Success", format=".1%"),
         ],
-    ).properties(width=200, height=alt.Step(16))
+    ).properties(width=200, height=alt.Step(12))
 
     main_chart = alt.hconcat(
         bg_rects + flow_chart,
         success_connectors + success_points_higher + success_points_lower,
         spacing=10,
     ).resolve_scale(y="shared").properties(
-        title=alt.Title(text=f"{set_piece}s Head-to-Head", subtitle="Per-game mirrored bars plus success-rate panel")
+        title=alt.Title(
+            text=f"{set_piece}s Head-to-Head", 
+            subtitle=[
+                f"{set_piece}s won and lost in each game, with success rates and overall performance gap.",
+                "Attacking team is indicated by color (EG in blue, Opposition in red).",
+                "Darker shaded bars indicate turnovers, lighter shaded bars indicate retained possession.",
+            ]
+        ),
     )
 
     aggregate_segment_base = alt.Chart(segment_df).transform_aggregate(
@@ -3019,11 +3017,11 @@ def set_piece_h2h_chart_backend(db, set_piece="Lineout", output_file=None, bind_
         yOffset=alt.YOffset("team:N", sort=["Opposition", "EGRFC"]),
         x=alt.X("segment_start:Q", title=f"{set_piece}s", scale=alt.Scale(domain=count_domain), axis=count_axis_bottom),
         x2="segment_end:Q",
-        color=alt.Color("team:N", scale=color_scale, legend=None),
+        color=alt.Color("team:N", scale=color_scale, legend=alt.Legend(title="Attacking Team", titleOrient="left", orient="right", direction="horizontal", columns=2)),
         opacity=alt.Opacity("outcome:N", scale=outcome_opacity_scale, legend=None),
         tooltip=[
-            alt.Tooltip("team_label:N", title="Bar"),
-            alt.Tooltip("outcome:N", title="Segment"),
+            alt.Tooltip("team_label:N", title="Attacking Team"),
+            alt.Tooltip("outcome:N", title="Outcome"),
             alt.Tooltip("count:Q", title="Average Count", format=",.1f"),
         ],
     ).properties(width=320, height=alt.Step(16))
@@ -3079,12 +3077,16 @@ def set_piece_h2h_chart_backend(db, set_piece="Lineout", output_file=None, bind_
         ],
     ).properties(width=200, height=alt.Step(16))
 
-    aggregate_success_points_higher = aggregate_success_base.transform_filter("datum.is_lower == false").mark_point(size=180, filled=True, stroke="#ffffff", strokeWidth=1.4, opacity=1).encode(
-        y=alt.Y("y_axis:N", title=None, axis=alt.Axis(orient="right", labelFontWeight="bold")),
+    aggregate_success_points_higher = aggregate_success_base.transform_filter("datum.is_lower == false").mark_point(size=180, filled=True, opacity=1).encode(
         x=alt.X("success_rate:Q", scale=alt.Scale(domain=[0, 1])),
-        color=alt.Color("team:N", scale=color_scale, legend=None),
+        y=alt.Y(
+            "y_axis:N",
+            title=None,
+            axis=alt.Axis(labelExpr="split(datum.label, '||')[1]", labelFontWeight="bold", ticks=False, domain=False, labelPadding=10),
+        ),
+        color=alt.Color("team:N", scale=color_scale, legend=alt.Legend(title="Attacking Team", titleOrient="left", orient="right", direction="horizontal", columns=2)),
         tooltip=[
-            alt.Tooltip("team_label:N", title="Team"),
+            alt.Tooltip("team_label:N", title="Attacking Team"),
             alt.Tooltip("won:Q", title="Avg Won", format=",.1f"),
             alt.Tooltip("lost:Q", title="Avg Lost", format=",.1f"),
             alt.Tooltip("success_rate:Q", title="Avg Success", format=".1%"),
@@ -3092,11 +3094,15 @@ def set_piece_h2h_chart_backend(db, set_piece="Lineout", output_file=None, bind_
     ).properties(width=200, height=alt.Step(16))
 
     aggregate_success_points_lower = aggregate_success_base.transform_filter("datum.is_lower == true").mark_point(size=180, filled=False, strokeWidth=2, opacity=1).encode(
-        y=alt.Y("y_axis:N", title=None, axis=alt.Axis(orient="right", labelFontWeight="bold")),
         x=alt.X("success_rate:Q", scale=alt.Scale(domain=[0, 1])),
         stroke=alt.Stroke("team:N", scale=color_scale, legend=None),
+        y=alt.Y(
+            "y_axis:N",
+            title=None,
+            axis=alt.Axis(labelExpr="split(datum.label, '||')[1]", labelFontWeight="bold", ticks=False, domain=False, labelPadding=10),
+        ),
         tooltip=[
-            alt.Tooltip("team_label:N", title="Team"),
+            alt.Tooltip("team_label:N", title="Attacking Team"),
             alt.Tooltip("won:Q", title="Avg Won", format=",.1f"),
             alt.Tooltip("lost:Q", title="Avg Lost", format=",.1f"),
             alt.Tooltip("success_rate:Q", title="Avg Success", format=".1%"),
@@ -3107,7 +3113,7 @@ def set_piece_h2h_chart_backend(db, set_piece="Lineout", output_file=None, bind_
         bg_rects + bg_text + aggregate_flow_chart,
         aggregate_connector + aggregate_success_points_higher + aggregate_success_points_lower,
         spacing=10,
-    ).resolve_scale(y="shared")
+    ).resolve_scale(y="shared", color="independent")
 
     chart = alt.vconcat(main_chart, aggregate_chart, spacing=10)
 

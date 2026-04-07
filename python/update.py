@@ -102,8 +102,8 @@ def main(refresh_pitchero=False, backend_mode="canonical", backend_db_path="data
     results_chart(db)
 
     set_piece_success_by_season_chart(db, layout="separate")
-    set_piece_h2h_chart_backend(db, set_piece="Lineout", output_file="data/charts/lineout_h2h.json", bind_params=False)
-    set_piece_h2h_chart_backend(db, set_piece="Scrum", output_file="data/charts/scrum_h2h.json", bind_params=False)
+    set_piece_h2h_chart_backend(db, set_piece="Lineout", output_file="data/charts/lineout_h2h.json")
+    set_piece_h2h_chart_backend(db, set_piece="Scrum", output_file="data/charts/scrum_h2h.json")
     red_zone_performance_chart(db, metric="points", output_file="data/charts/red_zone_points.json", bind_params=False)
     lineout_success_by_zone_chart(db)
     lineout_analysis_panel_chart_suite(db)
