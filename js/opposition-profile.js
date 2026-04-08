@@ -1,10 +1,12 @@
 (function () {
     const TEAM_SHEETS_SPEC_PATH = 'data/charts/opposition_profile_team_sheets.json';
+    const RESULTS_SPEC_PATH = 'data/charts/opposition_results.json';
     const LINEOUT_H2H_SPEC_PATH = 'data/charts/lineout_h2h.json';
     const SCRUM_H2H_SPEC_PATH = 'data/charts/scrum_h2h.json';
 
     let gamesRows = [];
     let teamSheetsSpec = null;
+    let resultsSpec = null;
     let lineoutH2HSpec = null;
     let scrumH2HSpec = null;
 
@@ -455,6 +457,15 @@
         });
     }
 
+    function filterResultsSpecByClub(spec, oppositionClub) {
+        if (!spec || !oppositionClub) return null;
+        const clonedSpec = JSON.parse(JSON.stringify(spec));
+        return filterChartSpecDataset(clonedSpec, (row) => {
+            const rowClub = toOppositionClubName(row?.opposition);
+            return rowClub === oppositionClub;
+        });
+    }
+
     function layoutH2HSpec(baseSpec) {
         const cloned = JSON.parse(JSON.stringify(baseSpec));
 
@@ -505,6 +516,26 @@
         );
     }
 
+    function h2hSpecHasGameRows(spec) {
+        if (!spec) return false;
+
+        if (spec.datasets) {
+            const datasetRows = Object.values(spec.datasets);
+            for (const rows of datasetRows) {
+                if (!Array.isArray(rows)) continue;
+                if (rows.some((row) => row && Object.prototype.hasOwnProperty.call(row, 'game_id'))) {
+                    return true;
+                }
+            }
+        }
+
+        if (spec.data && Array.isArray(spec.data.values)) {
+            return spec.data.values.some((row) => row && Object.prototype.hasOwnProperty.call(row, 'game_id'));
+        }
+
+        return false;
+    }
+
     async function renderH2HCharts(oppositionClub = 'All') {
         const lineoutContainer = document.getElementById('oppositionLineoutH2HChart');
         const scrumContainer = document.getElementById('oppositionScrumH2HChart');
@@ -516,9 +547,9 @@
         const filteredLineoutSpec = filterH2HSpecByClub(lineoutH2HSpec, oppositionClub);
         const filteredScrumSpec = filterH2HSpecByClub(scrumH2HSpec, oppositionClub);
 
-        // Check if specs have data
-        const lineoutHasData = chartSpecHasRows(filteredLineoutSpec);
-        const scrumHasData = chartSpecHasRows(filteredScrumSpec);
+        // Check if filtered specs include real game rows.
+        const lineoutHasData = h2hSpecHasGameRows(filteredLineoutSpec);
+        const scrumHasData = h2hSpecHasGameRows(filteredScrumSpec);
 
         // Show/hide panels based on data availability
         if (lineoutPanel) lineoutPanel.style.display = lineoutHasData ? 'block' : 'none';
@@ -568,6 +599,9 @@
         const filteredGames = gamesRows.filter((row) => toOppositionClubName(row?.opposition) === oppositionClub);
         renderSummary(filteredGames);
         renderResultsTable(filteredGames);
+
+        const filteredResultsSpec = filterResultsSpecByClub(resultsSpec, oppositionClub);
+        renderStaticSpecChart('oppositionResultsChart', filteredResultsSpec, 'No results chart data for this opposition.');
 
         const filteredTeamSheetsSpec = filterTeamSheetsSpecByClub(teamSheetsSpec, oppositionClub);
         renderStaticSpecChart('oppositionTeamSheetsChart', filteredTeamSheetsSpec, 'No team sheet data for this opposition.');
@@ -627,13 +661,15 @@
             gamesRows = [];
         }
 
-        const [loadedTeamSheetsSpec, loadedLineoutH2HSpec, loadedScrumH2HSpec] = await Promise.all([
+        const [loadedTeamSheetsSpec, loadedResultsSpec, loadedLineoutH2HSpec, loadedScrumH2HSpec] = await Promise.all([
             loadChartSpec(TEAM_SHEETS_SPEC_PATH),
+            loadChartSpec(RESULTS_SPEC_PATH),
             loadChartSpec(LINEOUT_H2H_SPEC_PATH),
             loadChartSpec(SCRUM_H2H_SPEC_PATH),
         ]);
 
         teamSheetsSpec = loadedTeamSheetsSpec;
+        resultsSpec = loadedResultsSpec;
         lineoutH2HSpec = loadedLineoutH2HSpec;
         scrumH2HSpec = loadedScrumH2HSpec;
 

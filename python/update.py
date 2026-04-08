@@ -100,6 +100,7 @@ def main(refresh_pitchero=False, backend_mode="canonical", backend_db_path="data
     team_sheets_chart(db)
     opposition_profile_team_sheets_chart(db)
     results_chart(db)
+    results_chart(db, output_file='data/charts/opposition_results.json', facet_by_season=True)
 
     set_piece_success_by_season_chart(db, layout="separate")
     set_piece_h2h_chart_backend(db, set_piece="Lineout", output_file="data/charts/lineout_h2h.json")

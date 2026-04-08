@@ -77,17 +77,11 @@
                         <h1>Performance Stats</h1>
                         <p>Lineout success, scrum success, and red-zone efficiency.<br>Use the dedicated Lineout Deep Dive page for extra detail.</p>
                     </div>
-                    <div class="page-header-filters">
-                        <div class="filter-item"><div class="input-group input-group-sm"><span class="input-group-text">Squad</span><select id="lineoutFilterSquad" class="selectpicker form-control flex-fill" data-size="8"><option value="1st">1st XV</option><option value="2nd">2nd XV</option></select></div></div>
-                        <div class="filter-item"><div class="input-group input-group-sm"><span class="input-group-text">Season</span><select id="lineoutFilterSeason" class="selectpicker form-control flex-fill" data-size="8"><option value="All">All Seasons</option></select></div></div>
-                        <div class="filter-item"><div class="input-group input-group-sm"><span class="input-group-text">Game Type</span><select id="lineoutFilterGameType" class="selectpicker form-control flex-fill" data-size="8"><option value="All">All games</option><option value="League + Cup">League + Cup</option><option value="League only">League only</option></select></div></div>
-                    </div>
                 </div>
 
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
                     <div>
                         <h2 style="color: var(--primary-color); margin: 0; font-weight: 900;">Lineout</h2>
-                        <p style="margin: 0.5rem 0 0 0; color: #666; font-size: 0.9rem;">Season-level lineout success trends by squad.</p>
                     </div>
                     <div class="page-header-actions" style="margin-left: 1rem;">
                         <a class="page-header-link" href="lineout-performance.html">
@@ -100,43 +94,69 @@
 
                 <div style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-start; margin-bottom: 2rem;">
                     <div class="chart-panel chart-panel--inline">
-                        <button type="button" class="chart-panel-toggle chart-panel-toggle--black"
-                            data-target="lineout-success-panel" data-accordion-group="lineout-success-section"
-                            aria-expanded="false" aria-controls="lineout-success-panel">
+                        <button type="button" class="chart-panel-toggle chart-panel-toggle--primary"
+                            data-target="lineout-success-panel-1st"
+                            aria-expanded="false" aria-controls="lineout-success-panel-1st">
                             <span class="chart-panel-toggle-text">
-                                <span class="chart-panel-toggle-title">Success Trend</span>
-                                <span class="chart-panel-toggle-hint">Seasonal lineout success by squad</span>
+                                <span class="chart-panel-toggle-title">1st XV Success Trend</span>
+                                <span class="chart-panel-toggle-hint">Seasonal lineout success for 1st XV</span>
                             </span>
                             <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
                         </button>
-                        <div id="lineout-success-panel" class="chart-panel-content" hidden>
-                            <div class="chart-panel-card"><div id="setPieceLineoutChart" style="overflow: visible;"></div></div>
+                        <div id="lineout-success-panel-1st" class="chart-panel-content" hidden>
+                            <div class="chart-panel-card"><div id="setPiece1stLineoutChart" style="overflow: visible;"></div></div>
+                        </div>
+                    </div>
+                    <div class="chart-panel chart-panel--inline">
+                        <button type="button" class="chart-panel-toggle chart-panel-toggle--accent"
+                            data-target="lineout-success-panel-2nd"
+                            aria-expanded="false" aria-controls="lineout-success-panel-2nd">
+                            <span class="chart-panel-toggle-text">
+                                <span class="chart-panel-toggle-title">2nd XV Success Trend</span>
+                                <span class="chart-panel-toggle-hint">Seasonal lineout success for 2nd XV</span>
+                            </span>
+                            <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
+                        </button>
+                        <div id="lineout-success-panel-2nd" class="chart-panel-content" hidden>
+                            <div class="chart-panel-card"><div id="setPiece2ndLineoutChart" style="overflow: visible;"></div></div>
                         </div>
                     </div>
                 </div>
 
                 <h2 style="color: var(--primary-color); margin-bottom: 0.5rem; font-weight: 900;">Scrum</h2>
-                <p style="margin-bottom: 1rem; color: #666; font-size: 0.9rem;">Season-level scrum success trends by squad.</p>
 
                 <div style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-start; margin-bottom: 2rem;">
                     <div class="chart-panel chart-panel--inline">
-                        <button type="button" class="chart-panel-toggle chart-panel-toggle--black"
-                            data-target="scrum-success-panel" data-accordion-group="scrum-success-section"
-                            aria-expanded="false" aria-controls="scrum-success-panel">
+                        <button type="button" class="chart-panel-toggle chart-panel-toggle--primary"
+                            data-target="scrum-success-panel-1st"
+                            aria-expanded="false" aria-controls="scrum-success-panel-1st">
                             <span class="chart-panel-toggle-text">
-                                <span class="chart-panel-toggle-title">Success Trend</span>
-                                <span class="chart-panel-toggle-hint">Seasonal scrum success by squad</span>
+                                <span class="chart-panel-toggle-title">1st XV Success Trend</span>
+                                <span class="chart-panel-toggle-hint">Seasonal scrum success for 1st XV</span>
                             </span>
                             <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
                         </button>
-                        <div id="scrum-success-panel" class="chart-panel-content" hidden>
-                            <div class="chart-panel-card"><div id="setPieceScrumChart" style="overflow: visible;"></div></div>
+                        <div id="scrum-success-panel-1st" class="chart-panel-content" hidden>
+                            <div class="chart-panel-card"><div id="setPiece1stScrumChart" style="overflow: visible;"></div></div>
+                        </div>
+                    </div>
+                    <div class="chart-panel chart-panel--inline">
+                        <button type="button" class="chart-panel-toggle chart-panel-toggle--accent"
+                            data-target="scrum-success-panel-2nd"
+                            aria-expanded="false" aria-controls="scrum-success-panel-2nd">
+                            <span class="chart-panel-toggle-text">
+                                <span class="chart-panel-toggle-title">2nd XV Success Trend</span>
+                                <span class="chart-panel-toggle-hint">Seasonal scrum success for 2nd XV</span>
+                            </span>
+                            <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
+                        </button>
+                        <div id="scrum-success-panel-2nd" class="chart-panel-content" hidden>
+                            <div class="chart-panel-card"><div id="setPiece2ndScrumChart" style="overflow: visible;"></div></div>
                         </div>
                     </div>
                 </div>
 
                 <h2 style="color: var(--primary-color); margin-bottom: 0.35rem; font-weight: 900;">Red Zone</h2>
-                <p style="margin-bottom: 1rem; color: #666; font-size: 0.9rem;">How effectively each team converts 22m entries into points and tries.</p>
                 <div style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-start; margin-bottom: 2rem;">
                     <div class="chart-panel chart-panel--inline">
                         <button type="button" class="chart-panel-toggle chart-panel-toggle--primary"

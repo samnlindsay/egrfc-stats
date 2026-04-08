@@ -53,6 +53,41 @@
         }
     }
 
+    async function renderSplitSetPiecePanelsFromSingleSpec(path, panelConfigs) {
+        let baseSpec = null;
+        try {
+            baseSpec = await loadChartSpec(path);
+        } catch (error) {
+            console.error(`Unable to load shared chart spec from ${path}:`, error);
+            panelConfigs.forEach(({ containerId, emptyMessage }) => {
+                const container = document.getElementById(containerId);
+                if (container) {
+                    container.innerHTML = `<div class="text-center text-muted py-4">${emptyMessage}</div>`;
+                }
+            });
+            return;
+        }
+
+        await Promise.all(panelConfigs.map(async ({ containerId, squad, emptyMessage }) => {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+
+            try {
+                const spec = cloneSpec(baseSpec);
+                container.innerHTML = '';
+                const result = await vegaEmbed(container, spec, { actions: VEGA_EMBED_ACTIONS, renderer: 'svg' });
+                if (result?.view) {
+                    result.view.signal('spSquadParam', squad);
+                    await result.view.runAsync();
+                }
+                pinVegaActionsInElement(container);
+            } catch (error) {
+                console.error(`Unable to render split set-piece panel for ${containerId}:`, error);
+                container.innerHTML = `<div class="text-center text-muted py-4">${emptyMessage}</div>`;
+            }
+        }));
+    }
+
     function cloneSpec(spec) {
         return JSON.parse(JSON.stringify(spec));
     }
@@ -336,8 +371,20 @@
     document.addEventListener('DOMContentLoaded', async function () {
         const lineoutSuccessView = await renderChartSpec('setPieceLineoutChart', 'data/charts/set_piece_success_lineout.json', 'Lineout success chart unavailable.');
         if (lineoutSuccessView) views.set('setPieceLineoutChart', lineoutSuccessView);
-        await setupLineoutPage();
+
+        await renderSplitSetPiecePanelsFromSingleSpec('data/charts/set_piece_success_lineout.json', [
+            { containerId: 'setPiece1stLineoutChart', squad: '1st', emptyMessage: '1st XV lineout chart unavailable.' },
+            { containerId: 'setPiece2ndLineoutChart', squad: '2nd', emptyMessage: '2nd XV lineout chart unavailable.' },
+        ]);
+
+        const hasLineoutFilters = Boolean(document.getElementById('lineoutFilterSquad') || document.getElementById('lineoutFilterSeason') || document.getElementById('lineoutFilterGameType'));
+        const hasLineoutDeepDiveCharts = Boolean(document.getElementById('lineoutH2HChart') || document.getElementById('lineoutPerfBreakdownNumbersChart'));
+
+        if (hasLineoutFilters || hasLineoutDeepDiveCharts) {
+            await setupLineoutPage();
+            initialiseLineoutAnalysisAccordion();
+        }
+
         initialiseChartPanelToggles();
-        initialiseLineoutAnalysisAccordion();
     });
 })();

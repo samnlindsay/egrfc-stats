@@ -40,6 +40,41 @@
         }
     }
 
+    async function renderSplitSetPiecePanelsFromSingleSpec(path, panelConfigs) {
+        let baseSpec = null;
+        try {
+            baseSpec = await loadChartSpec(path);
+        } catch (error) {
+            console.error(`Unable to load shared chart spec from ${path}:`, error);
+            panelConfigs.forEach(({ containerId, emptyMessage }) => {
+                const container = document.getElementById(containerId);
+                if (container) {
+                    container.innerHTML = `<div class="text-center text-muted py-4">${emptyMessage}</div>`;
+                }
+            });
+            return;
+        }
+
+        await Promise.all(panelConfigs.map(async ({ containerId, squad, emptyMessage }) => {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+
+            try {
+                const spec = cloneSpec(baseSpec);
+                container.innerHTML = '';
+                const result = await vegaEmbed(container, spec, { actions: VEGA_EMBED_ACTIONS, renderer: 'svg' });
+                if (result?.view) {
+                    result.view.signal('spSquadParam', squad);
+                    await result.view.runAsync();
+                }
+                pinVegaActionsInElement(container);
+            } catch (error) {
+                console.error(`Unable to render split set-piece panel for ${containerId}:`, error);
+                container.innerHTML = `<div class="text-center text-muted py-4">${emptyMessage}</div>`;
+            }
+        }));
+    }
+
     function cloneSpec(spec) {
         return JSON.parse(JSON.stringify(spec));
     }
@@ -234,7 +269,26 @@
 
     document.addEventListener('DOMContentLoaded', async function () {
         scrumSuccessView = await renderChartSpec('setPieceScrumChart', 'data/charts/set_piece_success_scrum.json', 'Scrum success chart unavailable.');
-        await setupScrumFilters();
+
+        await renderSplitSetPiecePanelsFromSingleSpec('data/charts/set_piece_success_scrum.json', [
+            { containerId: 'setPiece1stScrumChart', squad: '1st', emptyMessage: '1st XV scrum chart unavailable.' },
+            { containerId: 'setPiece2ndScrumChart', squad: '2nd', emptyMessage: '2nd XV scrum chart unavailable.' },
+        ]);
+
+        const hasScrumFilters = Boolean(
+            getControlElement('scrumFilterSquad') ||
+            getControlElement('scrumFilterSeason') ||
+            getControlElement('scrumFilterGameType') ||
+            getControlElement('lineoutFilterSquad') ||
+            getControlElement('lineoutFilterSeason') ||
+            getControlElement('lineoutFilterGameType')
+        );
+        const hasScrumDeepDiveChart = Boolean(document.getElementById('scrumH2HChart'));
+
+        if (hasScrumFilters || hasScrumDeepDiveChart) {
+            await setupScrumFilters();
+        }
+
         initialiseChartPanelToggles();
     });
 })();

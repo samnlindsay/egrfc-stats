@@ -2085,7 +2085,7 @@ def opposition_profile_team_sheets_chart(db, output_file='data/charts/opposition
     return opposition_team_sheets
 
 
-def results_chart(db, output_file='data/charts/results.json'):
+def results_chart(db, output_file='data/charts/results.json', facet_by_season=False):
     if _using_canonical_backend(db):
         df = db.con.execute(
             """
@@ -2095,7 +2095,7 @@ def results_chart(db, output_file='data/charts/results.json'):
                 squad,
                 opposition,
                 home_away,
-                CONCAT_WS(' ', opposition, CONCAT('(', home_away, ')')) AS game_label,
+                CONCAT_WS(' ', squad, 'XV v ', opposition, CONCAT('(', home_away, ')')) AS game_label,
                 season,
                 score_for AS pf,
                 score_against AS pa,
@@ -2123,7 +2123,7 @@ def results_chart(db, output_file='data/charts/results.json'):
                 squad,
                 opposition,
                 home_away,
-                CONCAT_WS(' ', opposition, CONCAT('(', home_away, ')')) AS game_label,
+                CONCAT_WS(' ', squad, 'XV v ', opposition, CONCAT('(', home_away, ')')) AS game_label,
                 season,
                 pf,
                 pa,
@@ -2143,59 +2143,116 @@ def results_chart(db, output_file='data/charts/results.json'):
             """
         ).df()
 
-    team_filter = alt.selection_point(fields=["opposition"], on="hover", clear="mouseout", empty="all")
-    selection = alt.selection_point(fields=['result'], empty='all')
+    squad_highlight = alt.selection_point(fields=['squad'], on='hover', clear='mouseout', empty='all')
+        
+    df = df.copy()
+    df['date'] = pd.to_datetime(df['date'], errors='coerce')
+    df['game_label'] = df['game_label'].fillna('Unknown').astype(str)
+    df['date_label'] = df['date'].dt.strftime('%d %b %Y').fillna('Unknown')
+    df['game_axis_key'] = df.apply(
+        lambda row: f"{row['date_label']}||{row['game_label']}||{row['game_id']}",
+        axis=1,
+    )
+
+    df = df.sort_values(['date', 'game_id'], ascending=[False, False]).reset_index(drop=True)
+    df['game_sort_key'] = df.index
 
     base = alt.Chart(df).encode(
-        y=alt.Y(
-            "game_label:N", 
-            title=None, 
-            sort=alt.EncodingSortField(field='date', order='descending'), 
-            axis=alt.Axis(
-                title=None, 
-                offset=15, 
-                grid=False,
-                ticks=False, 
-                domain=False, 
-            )
-        ),
         detail='game_id:N',
-        color=alt.Color('result:N', scale=alt.Scale(domain=['W', 'L'], range=['#146f14', '#981515']), 
-                    legend=alt.Legend(orient="right", title="Result", titleOrient="top")),
-        opacity=alt.condition(team_filter, alt.value(1.0), alt.value(0.2)),
+        color=alt.Color(
+            'result:N',
+            scale=alt.Scale(domain=['W', 'L'], range=['#146f14', '#981515']),
+            legend=alt.Legend(orient='bottom', title='Result', titleOrient='left', direction='horizontal'),
+        ),
+        opacity=alt.condition(squad_highlight, alt.value(1.0), alt.value(0.2)),
+        tooltip=[
+            alt.Tooltip('game_label:N', title='Game'),
+            alt.Tooltip('date_label:N', title='Date'),
+            alt.Tooltip('pf:Q', title='Points For'),
+            alt.Tooltip('pa:Q', title='Points Against'),
+            alt.Tooltip('margin:Q', title='Margin'),
+            alt.Tooltip('result:N', title='Result'),
+            alt.Tooltip('competition:N', title='Competition'),
+        ]
     )
 
     bar = base.mark_bar().encode(
-        x=alt.X('pf:Q', title="Points", axis=alt.Axis(orient='bottom', offset=5)),
-        x2=alt.X2("pa:Q"),
-    ).properties(
-        width=400,
-        height=alt.Step(15),
+        x=alt.X('pf:Q', title='Points', axis=alt.Axis(orient='bottom', offset=5)),
+        x2=alt.X2('pa:Q'),
+        y=alt.Y(
+            'game_axis_key:N',
+            title=None,
+            sort=alt.EncodingSortField(field='game_sort_key', order='ascending'),
+            axis=alt.Axis(
+                title=None,
+                orient='left',
+                labelExpr="split(datum.label, '||')[1]",
+                labelLimit=260,
+                labelPadding=10,
+                ticks=False,
+                domain=False,
+            ),
+        )
     )
+
     loser = base.mark_text(align='right', dx=-2, dy=0).encode(
         x=alt.X('loser:Q', title=None, axis=alt.Axis(orient='top', offset=5)),
+        y=alt.Y('game_axis_key:N', sort=alt.EncodingSortField(field='game_sort_key', order='ascending'), axis=None),
         text='loser:N',
-        color=alt.value('black')
+        color=alt.value('black'),
     )
-
+        
     winner = base.mark_text(align='left', dx=2, dy=0).encode(
         x=alt.X('winner:Q', title=None, axis=alt.Axis(orient='top', offset=5)),
+        y=alt.Y(
+            'game_axis_key:N',
+            sort=alt.EncodingSortField(field='game_sort_key', order='ascending'),
+            axis=alt.Axis(
+                title=None,
+                orient='right',
+                labelExpr="split(datum.label, '||')[0]",
+                labelLimit=120,
+                labelPadding=10,
+                ticks=False,
+                domain=False,
+            ),
+        ),
         text='winner:N',
-        color=alt.value('black')
+        color=alt.value('black'),
     )
 
-    chart = (bar + loser + winner).transform_filter(selection).facet(
-        row=alt.Row('season:N', title=None, sort=alt.EncodingSortField(field='season', order='descending')),
-        column=alt.Column('squad:N', title=None, header=alt.Header(title=None, labelFontSize=36, labelExpr="datum.value + ' XV'", labelAnchor="start")),
-        spacing=10
-    ).resolve_scale(
-        x='independent', y='independent'
-    ).add_params(
-        team_filter, selection
-    ).properties(
-        title=alt.Title("Results", subtitle="Points for and against in each game. Hover to highlight all games against a team. Click on legend to filter by result.")
-    ).configure_view(strokeWidth=0)
-    
+    layer = (bar + loser + winner).add_params(squad_highlight).properties(
+        width=400,
+        height=alt.Step(18),
+    )
+
+    if facet_by_season:
+        chart = layer.facet(
+            row=alt.Row(
+                'season:N',
+                sort='descending',
+                header=alt.Header(title=None, labelOrient='left', labelFontSize=14),
+            ),
+        ).resolve_scale(
+            y='independent'
+        ).properties(
+            title=alt.Title(
+                'Results',
+                subtitle=[
+                    'Results of all games, highlighting size of winning margin and the result.',
+                    'Hover to highlight games for a specific squad.'],
+            )
+        ).configure_view(strokeWidth=0)
+    else:
+        chart = layer.properties(
+            title=alt.Title(
+                'Results',
+                subtitle=[
+                    'Results of all games, highlighting size of winning margin and the result.',
+                    'Hover to highlight games for a specific squad.'],
+            )
+        ).configure_view(strokeWidth=0)
+
     chart.save(output_file)
 
     return chart
@@ -2989,7 +3046,7 @@ def set_piece_h2h_chart_backend(db, set_piece="Lineout", output_file=None):
         spacing=10,
     ).resolve_scale(y="shared", color="independent").properties(
         title=alt.Title(
-            text=f"{set_piece}s Head-to-Head", 
+            text=f"{set_piece} Head-to-Head", 
             subtitle=[
                 f"{set_piece}s won and lost in each game, with success rates and overall performance gap.",
                 "Attacking team is indicated by color (EG in blue, Opposition in red).",

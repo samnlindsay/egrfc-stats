@@ -184,7 +184,7 @@
                     <button type="button" class="chart-panel-toggle chart-panel-toggle--black"
                         data-target="opposition-results-panel" aria-expanded="true" aria-controls="opposition-results-panel">
                         <span class="chart-panel-toggle-text">
-                            <span class="chart-panel-toggle-title">Results</span>
+                            <span class="chart-panel-toggle-title">Previous Matches</span>
                             <span class="chart-panel-toggle-hint">All matches with links to Match Info</span>
                         </span>
                         <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
@@ -231,10 +231,26 @@
                 <div style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-start; margin-bottom: 2rem;">
                     <div class="chart-panel chart-panel--inline">
                         <button type="button" class="chart-panel-toggle chart-panel-toggle--black"
+                            data-target="opposition-results-chart-panel" aria-expanded="false" aria-controls="opposition-results-chart-panel">
+                            <span class="chart-panel-toggle-text">
+                                <span class="chart-panel-toggle-title">Results</span>
+                                <span class="chart-panel-toggle-hint">Points for and against in all matches vs this opposition</span>
+                            </span>
+                            <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
+                        </button>
+                        <div id="opposition-results-chart-panel" class="chart-panel-content" hidden>
+                            <div class="chart-panel-card">
+                                <div id="oppositionResultsChart" style="overflow: visible;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chart-panel chart-panel--inline">
+                        <button type="button" class="chart-panel-toggle chart-panel-toggle--black"
                             data-target="opposition-lineout-h2h-panel" aria-expanded="false" aria-controls="opposition-lineout-h2h-panel">
                             <span class="chart-panel-toggle-text">
                                 <span class="chart-panel-toggle-title">Lineouts Head-to-Head</span>
-                                <span class="chart-panel-toggle-hint">Retained vs turnover flow and success rates</span>
+                                <span class="chart-panel-toggle-hint">Lineouts won and lost by both teams in previous meetings.</span>
                             </span>
                             <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
                         </button>
@@ -250,7 +266,7 @@
                             data-target="opposition-scrum-h2h-panel" aria-expanded="false" aria-controls="opposition-scrum-h2h-panel">
                             <span class="chart-panel-toggle-text">
                                 <span class="chart-panel-toggle-title">Scrums Head-to-Head</span>
-                                <span class="chart-panel-toggle-hint">Retained vs turnover flow and success rates</span>
+                                <span class="chart-panel-toggle-hint">Scrums won and lost by both teams in previous meetings.</span>
                             </span>
                             <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
                         </button>
