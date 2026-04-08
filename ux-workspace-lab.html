@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EGRFC UX Workspace Lab</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=PT+Sans+Narrow:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/navigation.css">
+    <link rel="stylesheet" href="css/ux-workspace-lab.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark app-top-navbar">
+        <div class="container-fluid">
+            <a class="navbar-brand app-navbar-brand" href="index.html">
+                <img src="img/logos/EastGrinstead.png" alt="EGRFC logo" class="app-navbar-brand-logo">
+                <strong>EGRFC Statistics</strong>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html"><i class="bi bi-house-door-fill" aria-hidden="true"></i>Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="ux-lab.html"><i class="bi bi-lightbulb-fill" aria-hidden="true"></i>UX Lab</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="ux-workspace-lab.html"><i class="bi bi-grid-1x2-fill" aria-hidden="true"></i>Workspace Lab</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <div class="page-shell page-shell--default workspace-shell">
+            <header class="workspace-hero">
+                <p class="workspace-kicker">Prototype / Workspace Flow</p>
+                <h1>Analyst Desk: One Filter Bar, Multiple Live Views</h1>
+                <p class="workspace-hero-copy">
+                    This direction explores a workspace model where filters remain fixed at the top,
+                    while detail panes switch via tabs. It is designed for quick scanning on desktop and
+                    fast thumb navigation on mobile.
+                </p>
+                <div class="workspace-hero-actions">
+                    <a class="btn btn-light btn-sm" href="ux-lab.html"><i class="bi bi-arrow-left" aria-hidden="true"></i> Back to Prototype 1</a>
+                    <button class="btn btn-outline-light btn-sm" id="workspaceResetBtn"><i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i> Reset Filters</button>
+                </div>
+            </header>
+
+            <section class="workspace-controlbar" aria-label="Workspace filters">
+                <div class="control-group">
+                    <span class="control-label">Squad</span>
+                    <div class="btn-group btn-group-sm" role="group" aria-label="Squad selector">
+                        <button class="btn btn-control active" data-squad="All">All</button>
+                        <button class="btn btn-control" data-squad="1st">1st XV</button>
+                        <button class="btn btn-control" data-squad="2nd">2nd XV</button>
+                    </div>
+                </div>
+                <div class="control-group control-group-select">
+                    <span class="control-label">Season</span>
+                    <select class="form-select form-select-sm" id="workspaceSeasonSelect" aria-label="Season selector">
+                        <option value="2025/26" selected>2025/26</option>
+                        <option value="2024/25">2024/25</option>
+                        <option value="2023/24">2023/24</option>
+                        <option value="2022/23">2022/23</option>
+                        <option value="2021/22">2021/22</option>
+                    </select>
+                </div>
+                <div class="control-group control-group-select">
+                    <span class="control-label">Game Scope</span>
+                    <select class="form-select form-select-sm" id="workspaceGameTypeSelect" aria-label="Game scope selector">
+                        <option value="All games" selected>All games</option>
+                        <option value="League + Cup">League + Cup</option>
+                        <option value="League only">League only</option>
+                    </select>
+                </div>
+                <div class="control-group control-group-range">
+                    <span class="control-label">Min Apps</span>
+                    <input type="range" id="workspaceMinApps" min="0" max="20" step="1" value="0">
+                    <span class="range-value" id="workspaceMinAppsValue">0</span>
+                </div>
+            </section>
+
+            <section class="workspace-kpis" aria-label="Headline metrics">
+                <article class="workspace-kpi"><p>Games</p><strong id="wsKpiGames">-</strong></article>
+                <article class="workspace-kpi"><p>Win Rate</p><strong id="wsKpiWinRate">-</strong></article>
+                <article class="workspace-kpi"><p>Avg Points For</p><strong id="wsKpiPointsFor">-</strong></article>
+                <article class="workspace-kpi"><p>Avg Points Against</p><strong id="wsKpiPointsAgainst">-</strong></article>
+                <article class="workspace-kpi"><p>Players Over Threshold</p><strong id="wsKpiPlayers">-</strong></article>
+            </section>
+
+            <section class="workspace-grid">
+                <aside class="workspace-sidepanel">
+                    <h2>Recent Fixtures</h2>
+                    <p>Latest filtered matches and scorelines.</p>
+                    <ul id="wsRecentMatches" class="workspace-list"></ul>
+                </aside>
+
+                <main class="workspace-mainpanel">
+                    <ul class="nav nav-pills workspace-tabs" id="workspaceTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="tab-outcomes" data-bs-toggle="pill" data-bs-target="#pane-outcomes" type="button" role="tab">Outcomes</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="tab-players" data-bs-toggle="pill" data-bs-target="#pane-players" type="button" role="tab">Players</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="tab-setpiece" data-bs-toggle="pill" data-bs-target="#pane-setpiece" type="button" role="tab">Set Piece</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="tab-redzone" data-bs-toggle="pill" data-bs-target="#pane-redzone" type="button" role="tab">Red Zone</button>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content workspace-tab-content">
+                        <section class="tab-pane fade show active" id="pane-outcomes" role="tabpanel" aria-labelledby="tab-outcomes">
+                            <h3>Result Split</h3>
+                            <p id="wsOutcomesNote" class="workspace-note">-</p>
+                            <div class="workspace-progress-group">
+                                <label>Wins</label>
+                                <div class="progress"><div id="wsWinsBar" class="progress-bar bg-success" style="width: 0%"></div></div>
+                            </div>
+                            <div class="workspace-progress-group">
+                                <label>Draws</label>
+                                <div class="progress"><div id="wsDrawsBar" class="progress-bar bg-secondary" style="width: 0%"></div></div>
+                            </div>
+                            <div class="workspace-progress-group">
+                                <label>Losses</label>
+                                <div class="progress"><div id="wsLossesBar" class="progress-bar bg-danger" style="width: 0%"></div></div>
+                            </div>
+                        </section>
+
+                        <section class="tab-pane fade" id="pane-players" role="tabpanel" aria-labelledby="tab-players">
+                            <h3>Top Appearances</h3>
+                            <div class="table-responsive">
+                                <table class="table table-sm workspace-table">
+                                    <thead>
+                                        <tr><th>Player</th><th>Apps</th><th>Points</th></tr>
+                                    </thead>
+                                    <tbody id="wsPlayersRows"></tbody>
+                                </table>
+                            </div>
+                        </section>
+
+                        <section class="tab-pane fade" id="pane-setpiece" role="tabpanel" aria-labelledby="tab-setpiece">
+                            <h3>Set Piece Snapshot</h3>
+                            <p id="wsSetPieceNote" class="workspace-note">-</p>
+                            <div class="workspace-chip-row">
+                                <span class="workspace-chip" id="wsLineoutChip">Lineout: -</span>
+                                <span class="workspace-chip" id="wsScrumChip">Scrum: -</span>
+                            </div>
+                        </section>
+
+                        <section class="tab-pane fade" id="pane-redzone" role="tabpanel" aria-labelledby="tab-redzone">
+                            <h3>Red Zone Efficiency</h3>
+                            <p id="wsRedZoneNote" class="workspace-note">-</p>
+                            <div class="workspace-chip-row">
+                                <span class="workspace-chip" id="wsPointsEntryChip">Points/Entry: -</span>
+                                <span class="workspace-chip" id="wsTriesEntryChip">Tries/Entry: -</span>
+                            </div>
+                        </section>
+                    </div>
+                </main>
+            </section>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/ux-workspace-lab.js"></script>
+</body>
+
+</html>

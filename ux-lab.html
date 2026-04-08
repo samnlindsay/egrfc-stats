@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EGRFC UX Lab - Filter and Navigation Prototype</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=PT+Sans+Narrow:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/navigation.css">
+    <link rel="stylesheet" href="css/ux-lab.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark app-top-navbar">
+        <div class="container-fluid">
+            <a class="navbar-brand app-navbar-brand" href="index.html">
+                <img src="img/logos/EastGrinstead.png" alt="EGRFC logo" class="app-navbar-brand-logo">
+                <strong>EGRFC Statistics</strong>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html"><i class="bi bi-house-door-fill" aria-hidden="true"></i>Home</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="ux-lab.html"><i class="bi bi-lightbulb-fill" aria-hidden="true"></i>UX Lab</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <div class="page-shell page-shell--default ux-lab-shell">
+            <header class="ux-hero">
+                <p class="ux-kicker">Prototype / Creative Direction</p>
+                <h1>Less Dropdown Maze, More Guided Analysis</h1>
+                <p class="ux-hero-copy">
+                    This demo explores alternatives to dense dropdown-heavy filters and stacked collapse panels.
+                    It focuses on quick choices, clear filter scope, and fast movement between analysis sections.
+                </p>
+                <div class="ux-hero-actions">
+                    <button class="btn btn-light btn-sm" id="expandAllCardsBtn"><i class="bi bi-arrows-fullscreen" aria-hidden="true"></i> Expand Visible Cards</button>
+                    <button class="btn btn-outline-light btn-sm" id="resetLabFiltersBtn"><i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i> Reset Filters</button>
+                    <a class="btn btn-outline-light btn-sm" href="ux-workspace-lab.html"><i class="bi bi-grid-1x2-fill" aria-hidden="true"></i> Try Workspace Prototype</a>
+                </div>
+
+                <div class="ux-kpi-strip" id="uxKpiStrip">
+                    <div class="ux-kpi-card"><span class="ux-kpi-label">Games</span><span class="ux-kpi-value" id="kpiGamesPlayed">-</span></div>
+                    <div class="ux-kpi-card"><span class="ux-kpi-label">Win Rate</span><span class="ux-kpi-value" id="kpiWinRate">-</span></div>
+                    <div class="ux-kpi-card"><span class="ux-kpi-label">Players Used</span><span class="ux-kpi-value" id="kpiPlayersUsed">-</span></div>
+                    <div class="ux-kpi-card"><span class="ux-kpi-label">Avg Points</span><span class="ux-kpi-value" id="kpiAvgPoints">-</span></div>
+                </div>
+            </header>
+
+            <section class="filter-cockpit" aria-label="Global filter cockpit">
+                <div class="filter-cockpit-row">
+                    <div class="filter-group" data-filter-key="squad">
+                        <span class="filter-label">Squad</span>
+                        <div class="btn-group btn-group-sm filter-segment" role="group" aria-label="Squad filter">
+                            <button type="button" class="btn btn-segment active" data-filter-key="squad" data-filter-value="All">All</button>
+                            <button type="button" class="btn btn-segment" data-filter-key="squad" data-filter-value="1st">1st XV</button>
+                            <button type="button" class="btn btn-segment" data-filter-key="squad" data-filter-value="2nd">2nd XV</button>
+                        </div>
+                    </div>
+
+                    <div class="filter-group" data-filter-key="gameType">
+                        <span class="filter-label">Game Type</span>
+                        <div class="btn-group btn-group-sm filter-segment" role="group" aria-label="Game type filter">
+                            <button type="button" class="btn btn-segment active" data-filter-key="gameType" data-filter-value="All games">All</button>
+                            <button type="button" class="btn btn-segment" data-filter-key="gameType" data-filter-value="League + Cup">League + Cup</button>
+                            <button type="button" class="btn btn-segment" data-filter-key="gameType" data-filter-value="League only">League</button>
+                        </div>
+                    </div>
+
+                    <div class="filter-group season-stepper-wrap" data-filter-key="season">
+                        <span class="filter-label">Season</span>
+                        <div class="season-stepper" role="group" aria-label="Season picker">
+                            <button class="btn btn-sm btn-outline-primary" id="seasonPrevBtn" type="button" aria-label="Previous season"><i class="bi bi-chevron-left" aria-hidden="true"></i></button>
+                            <button class="btn btn-sm btn-primary season-pill" id="seasonCurrentBtn" type="button">2025/26</button>
+                            <button class="btn btn-sm btn-outline-primary" id="seasonNextBtn" type="button" aria-label="Next season"><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+                        </div>
+                    </div>
+
+                    <div class="filter-group filter-group-actions">
+                        <span class="filter-label">Advanced</span>
+                        <button class="btn btn-sm btn-outline-dark" type="button" data-bs-toggle="offcanvas" data-bs-target="#advancedFilters" aria-controls="advancedFilters">
+                            <i class="bi bi-sliders" aria-hidden="true"></i> More Filters
+                        </button>
+                    </div>
+                </div>
+
+                <div class="active-filter-ribbon" id="activeFilterRibbon" aria-live="polite"></div>
+            </section>
+
+            <div class="lab-layout">
+                <aside class="analysis-rail" aria-label="Section navigation">
+                    <p class="analysis-rail-title">Jump To Section</p>
+                    <button class="rail-link active" data-target="sec-squad-size"><i class="bi bi-people-fill" aria-hidden="true"></i> Squad Size</button>
+                    <button class="rail-link" data-target="sec-continuity"><i class="bi bi-shuffle" aria-hidden="true"></i> Continuity</button>
+                    <button class="rail-link" data-target="sec-set-piece"><i class="bi bi-diagram-3-fill" aria-hidden="true"></i> Set Piece</button>
+                    <button class="rail-link" data-target="sec-red-zone"><i class="bi bi-bullseye" aria-hidden="true"></i> Red Zone</button>
+                    <button class="rail-link" data-target="sec-players"><i class="bi bi-person-vcard-fill" aria-hidden="true"></i> Player Trends</button>
+                </aside>
+
+                <main class="analysis-main">
+                    <section id="sec-squad-size" class="analysis-section">
+                        <div class="analysis-section-head">
+                            <div>
+                                <h2>Squad Size</h2>
+                                <p>Always-visible cards instead of default-collapsed panels.</p>
+                            </div>
+                            <div class="scope-badges">
+                                <span class="scope-badge">Uses: Season</span>
+                                <span class="scope-badge">Uses: Squad</span>
+                            </div>
+                        </div>
+                        <div class="chart-grid chart-grid-3">
+                            <article class="insight-card" data-card-title="Players Used">
+                                <div class="insight-card-head"><h3>Players Used</h3><button class="btn btn-sm btn-link focus-card-btn" type="button">Focus</button></div>
+                                <div class="chart-placeholder chart-placeholder-bars"></div>
+                                <p class="insight-note" id="squadPlayersUsedNote">Quick comparison of total selected players by squad.</p>
+                            </article>
+                            <article class="insight-card" data-card-title="Position Spread">
+                                <div class="insight-card-head"><h3>Position Spread</h3><button class="btn btn-sm btn-link focus-card-btn" type="button">Focus</button></div>
+                                <div class="chart-placeholder chart-placeholder-heat"></div>
+                                <p class="insight-note" id="squadPositionSpreadNote">Forward/backline balance by season and squad.</p>
+                            </article>
+                            <article class="insight-card" data-card-title="Overlap Distribution">
+                                <div class="insight-card-head"><h3>Overlap Distribution</h3><button class="btn btn-sm btn-link focus-card-btn" type="button">Focus</button></div>
+                                <div class="chart-placeholder chart-placeholder-donut"></div>
+                                <p class="insight-note" id="squadOverlapNote">Players who appeared in 1st only, 2nd only, or both.</p>
+                            </article>
+                        </div>
+                    </section>
+
+                    <section id="sec-continuity" class="analysis-section">
+                        <div class="analysis-section-head">
+                            <div>
+                                <h2>Continuity</h2>
+                                <p>Section-level navigation replaces deep nested expand/collapse flows.</p>
+                            </div>
+                            <div class="scope-badges">
+                                <span class="scope-badge">Uses: Season</span>
+                                <span class="scope-badge">Uses: Game Type</span>
+                            </div>
+                        </div>
+                        <div class="chart-grid chart-grid-2">
+                            <article class="insight-card" data-card-title="Average Returners">
+                                <div class="insight-card-head"><h3>Average Returners</h3><button class="btn btn-sm btn-link focus-card-btn" type="button">Focus</button></div>
+                                <div class="chart-placeholder chart-placeholder-line"></div>
+                                <p class="insight-note" id="continuityReturnersNote">How many players carry into the next match week.</p>
+                            </article>
+                            <article class="insight-card" data-card-title="Selection Volatility">
+                                <div class="insight-card-head"><h3>Selection Volatility</h3><button class="btn btn-sm btn-link focus-card-btn" type="button">Focus</button></div>
+                                <div class="chart-placeholder chart-placeholder-bars"></div>
+                                <p class="insight-note" id="continuityVolatilityNote">Weekly change rate in starting XV selections.</p>
+                            </article>
+                        </div>
+                        <div class="live-list-wrap">
+                            <p class="live-list-title">Most Recent Matches</p>
+                            <ul class="live-list" id="recentMatchesList"></ul>
+                        </div>
+                    </section>
+
+                    <section id="sec-set-piece" class="analysis-section">
+                        <div class="analysis-section-head">
+                            <div>
+                                <h2>Set Piece</h2>
+                                <p>Card grouping by question, not by separate hidden panel stack.</p>
+                            </div>
+                            <div class="scope-badges">
+                                <span class="scope-badge">Uses: Season</span>
+                                <span class="scope-badge">Uses: Squad</span>
+                                <span class="scope-badge">Uses: Min Apps</span>
+                            </div>
+                        </div>
+                        <div class="chart-grid chart-grid-2">
+                            <article class="insight-card" data-card-title="Lineout Success">
+                                <div class="insight-card-head"><h3>Lineout Success</h3><button class="btn btn-sm btn-link focus-card-btn" type="button">Focus</button></div>
+                                <div class="chart-placeholder chart-placeholder-line"></div>
+                                <p class="insight-note" id="lineoutSuccessNote">Success trend with opposition-adjusted baseline.</p>
+                            </article>
+                            <article class="insight-card" data-card-title="Scrum Success">
+                                <div class="insight-card-head"><h3>Scrum Success</h3><button class="btn btn-sm btn-link focus-card-btn" type="button">Focus</button></div>
+                                <div class="chart-placeholder chart-placeholder-line"></div>
+                                <p class="insight-note" id="scrumSuccessNote">Own-feed success and pressure conceded overlays.</p>
+                            </article>
+                        </div>
+                    </section>
+
+                    <section id="sec-red-zone" class="analysis-section">
+                        <div class="analysis-section-head">
+                            <div>
+                                <h2>Red Zone</h2>
+                                <p>Compact cards with one-tap focus modal for deeper reads on mobile.</p>
+                            </div>
+                            <div class="scope-badges">
+                                <span class="scope-badge">Uses: Season</span>
+                                <span class="scope-badge">Uses: Game Type</span>
+                            </div>
+                        </div>
+                        <div class="chart-grid chart-grid-2">
+                            <article class="insight-card" data-card-title="Points Per Entry">
+                                <div class="insight-card-head"><h3>Points Per Entry</h3><button class="btn btn-sm btn-link focus-card-btn" type="button">Focus</button></div>
+                                <div class="chart-placeholder chart-placeholder-bars"></div>
+                                <p class="insight-note" id="pointsPerEntryNote">Efficiency per 22m visit with game state context.</p>
+                            </article>
+                            <article class="insight-card" data-card-title="Try Conversion">
+                                <div class="insight-card-head"><h3>Try Conversion</h3><button class="btn btn-sm btn-link focus-card-btn" type="button">Focus</button></div>
+                                <div class="chart-placeholder chart-placeholder-donut"></div>
+                                <p class="insight-note" id="triesPerEntryNote">Rate of entries ending in tries by phase source.</p>
+                            </article>
+                        </div>
+                    </section>
+
+                    <section id="sec-players" class="analysis-section">
+                        <div class="analysis-section-head">
+                            <div>
+                                <h2>Player Trends</h2>
+                                <p>Player-specific filters should be local, not always global.</p>
+                            </div>
+                            <div class="scope-badges">
+                                <span class="scope-badge">Uses: Season</span>
+                                <span class="scope-badge">Local: Player</span>
+                            </div>
+                        </div>
+                        <div class="local-filter-bar">
+                            <span class="filter-label">Player View</span>
+                            <div class="btn-group btn-group-sm" role="group" aria-label="Player metric selector">
+                                <button type="button" class="btn btn-segment active">Appearances</button>
+                                <button type="button" class="btn btn-segment">Points</button>
+                                <button type="button" class="btn btn-segment">Captains</button>
+                                <button type="button" class="btn btn-segment">MOTM</button>
+                            </div>
+                        </div>
+                        <div class="chart-grid chart-grid-1">
+                            <article class="insight-card" data-card-title="Player Ranking">
+                                <div class="insight-card-head"><h3>Top Player Ranking</h3><button class="btn btn-sm btn-link focus-card-btn" type="button">Focus</button></div>
+                                <div class="table-responsive">
+                                    <table class="table table-sm align-middle mb-0 live-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Player</th>
+                                                <th>Apps</th>
+                                                <th>Points</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="topPlayersRows"></tbody>
+                                    </table>
+                                </div>
+                                <p class="insight-note">Real player records for the current filter scope.</p>
+                            </article>
+                        </div>
+                    </section>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="advancedFilters" aria-labelledby="advancedFiltersLabel">
+        <div class="offcanvas-header">
+            <h5 id="advancedFiltersLabel" class="offcanvas-title">Advanced Filters</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div class="mb-3">
+                <label class="form-label" for="minAppsRange">Minimum Appearances</label>
+                <input type="range" class="form-range" min="0" max="10" step="1" value="0" id="minAppsRange">
+                <div class="small text-muted">Current: <span id="minAppsValue">0</span></div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label d-block">Competition</label>
+                <div class="form-check form-switch"><input class="form-check-input" type="checkbox" id="compLeague" checked><label class="form-check-label" for="compLeague">League</label></div>
+                <div class="form-check form-switch"><input class="form-check-input" type="checkbox" id="compCup" checked><label class="form-check-label" for="compCup">Cup</label></div>
+                <div class="form-check form-switch"><input class="form-check-input" type="checkbox" id="compFriendly"><label class="form-check-label" for="compFriendly">Friendly</label></div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label d-block">Show</label>
+                <div class="form-check form-switch"><input class="form-check-input" type="checkbox" id="showBench" checked><label class="form-check-label" for="showBench">Include Bench</label></div>
+                <div class="form-check form-switch"><input class="form-check-input" type="checkbox" id="showReplacements" checked><label class="form-check-label" for="showReplacements">Include Replacements</label></div>
+            </div>
+
+            <button id="applyAdvancedFilters" class="btn btn-primary w-100" type="button" data-bs-dismiss="offcanvas">
+                Apply Advanced Filters
+            </button>
+        </div>
+    </div>
+
+    <div class="modal fade" id="cardFocusModal" tabindex="-1" aria-labelledby="cardFocusModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="cardFocusModalLabel">Focused Insight</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="chart-placeholder chart-placeholder-focus" id="focusModalChart"></div>
+                    <p class="mt-3 mb-0 text-muted" id="focusModalCopy">Large-view mode for easier mobile reading and quick comparison.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/nav-layout.js"></script>
+    <script src="js/ux-lab.js"></script>
+</body>
+
+</html>
