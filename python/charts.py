@@ -2573,6 +2573,817 @@ def lineout_success_by_zone_chart(db, output_file='data/charts/lineout_success_b
     return lineout_success_by_zone(df=df, file=output_file)
 
 
+_HC_PLAYER_PALETTE = ["#202946", "#3a6fcc", "#146f14", "#cc8800", "#991515"]
+_HC_OTHER_COLOR = "#9ca3af"
+
+
+def _compute_hc_tiers(df, field, top_n=4, min_attempts=20):
+    """Compute ordered player tiers for high-cardinality lineout dimensions.
+
+    Returns (top_players, color_domain, color_range) for consistent color assignment
+    between breakdown and trend charts.
+    """
+    totals = (
+        df.groupby(field, as_index=False)
+        .size()
+        .rename(columns={"size": "total_attempts"})
+        .sort_values("total_attempts", ascending=False)
+    )
+    top_players = totals[totals["total_attempts"] >= min_attempts].head(top_n)[field].tolist()
+    color_domain = top_players + ["Other"]
+    color_range = list(_HC_PLAYER_PALETTE[: len(top_players)]) + [_HC_OTHER_COLOR]
+    return top_players, color_domain, color_range
+
+
+LINEOUT_BREAKDOWN_CONFIG = {
+    "numbers": {
+        "field": "numbers",
+        "field_label": "Numbers",
+        "sort": ["4", "5", "6", "7"],
+        "step": 60,
+        "point_size": 50,
+        "scale": alt.Scale(domain=["4", "5", "6", "7"], range=["#7d96e8", "#202946", "#994C4C", "#991515"]),
+    },
+    "area": {
+        "field": "area",
+        "field_label": "Zone",
+        "sort": ["Front", "Middle", "Back"],
+        "step": 90,
+        "point_size": 75,
+        "scale": alt.Scale(domain=["Front", "Middle", "Back"], range=["#991515", "goldenrod", "#146f14"]),
+    },
+    "jumper": {
+        "field": "jumper",
+        "field_label": "Jumper",
+        "sort": "-y",
+        "step": 35,
+        "point_size": 30,
+        "label_angle": -30,
+        "tooltip_field": "jumper_name",
+        "scale": alt.Scale(scheme="category20c"),
+    },
+    "thrower": {
+        "field": "thrower",
+        "field_label": "Thrower",
+        "sort": "-y",
+        "step": 60,
+        "point_size": 50,
+        "label_angle": -30,
+        "tooltip_field": "thrower_name",
+        "scale": alt.Scale(scheme="category20c"),
+    },
+    "play": {
+        "field": "play",
+        "field_label": "Play",
+        "sort": ["Hot", "Cold", "Lost"],
+        "step": 90,
+        "point_size": 75,
+        "scale": alt.Scale(domain=["Hot", "Cold", "Lost"], range=["white", "blue", "#991515"]),
+        "stroke_scale": alt.Scale(domain=["Hot", "Cold", "Lost"], range=["black", "transparent", "transparent"]),
+    },
+    "season": {
+        "field": "season",
+        "field_label": "Season",
+        "sort": "season_asc",
+        "step": 60,
+        "point_size": 50,
+        "scale": alt.Scale(scheme="category10"),
+    },
+}
+
+
+def _lineout_analysis_source_df(db):
+    df = db.con.execute(
+        """
+        SELECT
+            L.game_id,
+            G.date,
+            G.squad,
+            G.season,
+            COALESCE(G.game_type, 'Unknown') AS game_type,
+            COALESCE(G.opposition, 'Unknown') AS opposition,
+            COALESCE(L.numbers, 'Unknown') AS numbers,
+            COALESCE(L.area, 'Unknown') AS area,
+            COALESCE(L.call, 'Unknown') AS call,
+            COALESCE(L.call_type, 'Unknown') AS call_type,
+            CASE
+                WHEN (COALESCE(L.drive, FALSE) OR COALESCE(L.flyby, FALSE) OR COALESCE(L.crusaders, FALSE)) AND COALESCE(L.won, FALSE) THEN 'Cold'
+                WHEN COALESCE(L.won, FALSE) THEN 'Hot'
+                ELSE 'Lost'
+            END AS play,
+            COALESCE(J.name, L.jumper, 'Unknown') AS jumper_name,
+            COALESCE(T.name, L.thrower, 'Unknown') AS thrower_name,
+            COALESCE(J.short_name, L.jumper, 'Unknown') AS jumper,
+            COALESCE(T.short_name, L.thrower, 'Unknown') AS thrower,
+            L.won
+        FROM lineouts L
+        JOIN games G USING (game_id)
+        LEFT JOIN players J ON L.jumper = J.name
+        LEFT JOIN players T ON L.thrower = T.name
+        WHERE L.won IS NOT NULL
+        """
+    ).df()
+
+    if df.empty:
+        return df
+
+    fill_columns = [
+        "squad",
+        "season",
+        "game_type",
+        "opposition",
+        "numbers",
+        "area",
+        "call",
+        "call_type",
+        "play",
+        "jumper",
+        "thrower",
+        "jumper_name",
+        "thrower_name",
+    ]
+    for column in fill_columns:
+        df[column] = df[column].fillna("Unknown").astype(str)
+    df["won"] = df["won"].fillna(False).astype(int)
+
+    return df
+
+
+def export_lineout_breakdown_source_data(db, output_file="data/charts/lineout_breakdown_source.json"):
+    df = _lineout_analysis_source_df(db)
+    output_path = Path(output_file)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+
+    if df.empty:
+        output_path.write_text("[]", encoding="utf-8")
+        return df
+
+    export_df = df.copy()
+    export_df["date"] = export_df["date"].astype(str)
+    output_path.write_text(json.dumps(export_df.to_dict(orient="records"), indent=2), encoding="utf-8")
+    return df
+
+
+def _lineout_breakdown_sort_values(df, config, field):
+    sort_value = config.get("sort")
+    if sort_value == "season_asc":
+        return sorted(
+            df[field].dropna().astype(str).unique().tolist(),
+            key=lambda season: int(str(season).split("/")[0]) if str(season).split("/")[0].isdigit() else str(season),
+        )
+    return sort_value
+
+
+def lineout_breakdown_chart(db=None, df=None, breakdown="numbers", output_file=None, bind_params=False, min_attempts=10):
+    breakdown_key = "area" if breakdown == "zone" else breakdown
+    if breakdown_key not in LINEOUT_BREAKDOWN_CONFIG:
+        raise ValueError(f"Unsupported breakdown '{breakdown}'.")
+
+    config = LINEOUT_BREAKDOWN_CONFIG[breakdown_key]
+    field = config["field"]
+    field_label = config["field_label"]
+
+    if output_file is None:
+        output_file = f"data/charts/lineout_breakdown_{breakdown_key}.json"
+
+    if df is None:
+        if db is None:
+            raise ValueError("lineout_breakdown_chart requires either db or df")
+        df = _lineout_analysis_source_df(db)
+
+    if df.empty:
+        print(f"Skipping lineout_breakdown_chart ({breakdown_key}): no rows available.")
+        return None
+
+    def _opts(column_name):
+        values = sorted(df[column_name].dropna().astype(str).unique().tolist())
+        if column_name == "area":
+            ordered = [value for value in ["Front", "Middle", "Back"] if value in values]
+            values = ordered + [value for value in values if value not in ordered]
+        if column_name == "numbers":
+            ordered = [value for value in ["4", "5", "6", "7"] if value in values]
+            values = ordered + [value for value in values if value not in ordered]
+        if column_name == "season":
+            values = _lineout_breakdown_sort_values(df, {"sort": "season_asc"}, column_name)
+        return ["All", *values]
+
+    def _param(name, value, options=None, label=None):
+        bind = alt.binding_select(options=options, name=label) if bind_params and options is not None else None
+        if bind is not None:
+            return alt.param(name=name, bind=bind, value=value)
+        return alt.param(name=name, value=value)
+
+    squad_param = _param("loSquad", "All", _opts("squad"), "Squad ")
+    season_param = _param("loSeason", "All", _opts("season"), "Season ")
+    game_type_param = _param("loGameType", "All", ["All", "League + Cup", "League only", *_opts("game_type")[1:]], "Game Type ")
+    thrower_param = _param("loThrower", "All", _opts("thrower"), "Thrower ")
+    jumper_param = _param("loJumper", "All", _opts("jumper"), "Jumper ")
+    area_param = _param("loArea", "All", _opts("area"), "Area ")
+    numbers_param = _param("loNumbers", "All", _opts("numbers"), "Numbers ")
+
+    params = [
+        squad_param,
+        season_param,
+        game_type_param,
+        thrower_param,
+        jumper_param,
+        area_param,
+        numbers_param,
+    ]
+
+    filter_expr = (
+        f"({squad_param.name} == 'All' || datum.squad == {squad_param.name})"
+        f" && ({season_param.name} == 'All' || datum.season == {season_param.name})"
+        f" && ("
+        f"{game_type_param.name} == 'All'"
+        f" || ({game_type_param.name} == 'League + Cup' && (datum.game_type == 'League' || datum.game_type == 'Cup'))"
+        f" || ({game_type_param.name} == 'League only' && datum.game_type == 'League')"
+        f" || datum.game_type == {game_type_param.name}"
+        f")"
+        f" && ({thrower_param.name} == 'All' || datum.thrower == {thrower_param.name})"
+        f" && ({jumper_param.name} == 'All' || datum.jumper == {jumper_param.name})"
+        f" && ({area_param.name} == 'All' || datum.area == {area_param.name})"
+        f" && ({numbers_param.name} == 'All' || datum.numbers == {numbers_param.name})"
+    )
+
+    is_high_cardinality = breakdown_key in ("jumper", "thrower")
+    label_angle = config.get("label_angle", 0)
+
+    if is_high_cardinality:
+        top_players, color_domain, color_range = _compute_hc_tiers(df, field, top_n=4, min_attempts=20)
+        tier_field = f"{field}_tier"
+        df = df.copy()
+        top_player_set = set(top_players)
+        df[tier_field] = df[field].apply(lambda x: x if x in top_player_set else "Other")
+        name_field = f"{field}_name"
+        tier_name_field = f"{field}_tier_name"
+        df[tier_name_field] = df.apply(
+            lambda row: row[name_field] if row[field] in top_player_set else "Other", axis=1
+        )
+
+        grouped = (
+            alt.Chart(df)
+            .add_params(*params)
+            .transform_filter(filter_expr)
+            .transform_aggregate(attempts="count()", won="sum(won)", groupby=[tier_field, tier_name_field])
+            .transform_calculate(success_rate="datum.won / datum.attempts")
+        )
+
+        x_encoding = alt.X(
+            f"{tier_field}:N",
+            title=field_label,
+            sort=color_domain,
+            axis=alt.Axis(labelAngle=label_angle),
+        )
+        tooltip_dimension = alt.Tooltip(f"{tier_name_field}:N", title=field_label)
+        color_encoding = alt.Color(
+            f"{tier_field}:N",
+            scale=alt.Scale(domain=color_domain, range=color_range),
+            legend=None,
+        )
+        stroke_encoding = alt.value("transparent")
+        bar_size = 60
+        chart_step = 70
+    else:
+        group_columns = [field]
+        tooltip_field = config.get("tooltip_field")
+        if tooltip_field:
+            group_columns.append(tooltip_field)
+
+        x_sort = _lineout_breakdown_sort_values(df, config, field)
+
+        grouped = (
+            alt.Chart(df)
+            .add_params(*params)
+            .transform_filter(filter_expr)
+            .transform_aggregate(attempts="count()", won="sum(won)", groupby=group_columns)
+            .transform_filter(f"datum.attempts >= {int(min_attempts)}")
+            .transform_calculate(success_rate="datum.won / datum.attempts")
+        )
+
+        x_encoding = alt.X(
+            f"{field}:N",
+            title=field_label,
+            sort=x_sort,
+            axis=alt.Axis(labelAngle=label_angle),
+        )
+        tooltip_dimension = alt.Tooltip(f"{tooltip_field or field}:N", title=field_label)
+        color_encoding = alt.Color(f"{field}:N", scale=config["scale"], legend=None)
+        stroke_encoding = (
+            alt.Stroke(f"{field}:N", scale=config["stroke_scale"], legend=None)
+            if "stroke_scale" in config
+            else alt.value("transparent")
+        )
+        bar_size = config.get("point_size", 40)
+        chart_step = config.get("step", 40)
+
+        if breakdown_key == "numbers":
+            grouped = grouped.transform_calculate(numbers_display="datum.numbers + '-man'")
+            tooltip_dimension = alt.Tooltip("numbers_display:N", title=field_label)
+
+    bar = grouped.mark_bar(opacity=0.9, size=bar_size).encode(
+        x=x_encoding,
+        y=alt.Y("attempts:Q", title="Lineouts Taken"),
+        color=color_encoding,
+        stroke=stroke_encoding,
+        tooltip=[
+            tooltip_dimension,
+            alt.Tooltip("attempts:Q", title="Attempts", format=",.0f"),
+            alt.Tooltip("won:Q", title="Won", format=",.0f"),
+            alt.Tooltip("success_rate:Q", title="Success Rate", format=".1%"),
+        ],
+    )
+
+    line = grouped.mark_line(
+        point=alt.OverlayMarkDef(
+            filled=False,
+            fill="white",
+            stroke="#202946",
+            size=bar_size * 2,
+        ),
+        stroke="#202946",
+        strokeWidth=2.5,
+    ).encode(
+        x=x_encoding,
+        y=alt.Y(
+            "success_rate:Q",
+            title="Success Rate",
+            axis=alt.Axis(format="%"),
+            scale=alt.Scale(domain=[0, 1]),
+        ),
+        tooltip=[
+            tooltip_dimension,
+            alt.Tooltip("attempts:Q", title="Attempts", format=",.0f"),
+            alt.Tooltip("won:Q", title="Won", format=",.0f"),
+            alt.Tooltip("success_rate:Q", title="Success Rate", format=".1%"),
+        ],
+    )
+
+    text = grouped.mark_text(
+        align="left",
+        baseline="middle",
+        dx=5,
+        dy=-10,
+        fontSize=12,
+        color="#202946",
+    ).encode(
+        x=x_encoding,
+        y=alt.Y(
+            "success_rate:Q",
+            title="Success Rate",
+            axis=alt.Axis(format="%"),
+            scale=alt.Scale(domain=[0, 1]),
+        ),
+        text=alt.Text("success_rate:Q", format=".0%"),
+    )
+
+    chart = (
+        alt.layer(bar, line, text)
+        .resolve_scale(y="independent")
+        .properties(
+            width=alt.Step(chart_step),
+            height=300,
+            title=alt.Title(text=f"{field_label} Breakdown", subtitle=f"Minimum {int(min_attempts)} attempts. Hover for details. Adjust filters to explore different subsets."),
+        )
+    )
+
+    chart.save(output_file)
+    return chart
+
+
+def lineout_breakdown_chart_suite(db, output_dir="data/charts", source_output_file="data/charts/lineout_breakdown_source.json"):
+    """Generate simple lineout breakdown charts and export their shared source rows."""
+    output_root = Path(output_dir)
+    output_root.mkdir(parents=True, exist_ok=True)
+
+    df = export_lineout_breakdown_source_data(db, output_file=source_output_file)
+    if df.empty:
+        return {}
+
+    breakdowns = ["numbers", "area", "jumper", "thrower", "play", "season"]
+    charts = {}
+    for breakdown in breakdowns:
+        output_file = output_root / f"lineout_breakdown_{breakdown}.json"
+        chart = lineout_breakdown_chart(
+            df=df,
+            breakdown=breakdown,
+            output_file=str(output_file),
+            bind_params=False,
+        )
+        if chart is not None:
+            charts[breakdown] = chart
+
+    return charts
+
+
+def lineout_trend_chart(db=None, df=None, breakdown="numbers", output_file=None, bind_params=False):
+    """Generate a season-over-season trend chart for a single lineout breakdown dimension.
+
+    Low-cardinality dimensions (numbers, area, play) use 100% stacked bars so each
+    season occupies one bar of fixed width — avoids the X-values × Y-seasons blowout.
+
+    High-cardinality dimensions (jumper, thrower) use grouped bars limited to the top N
+    players by total attempts, with an embedded slider to adjust N, plus dashed success
+    rate lines overlaid on a secondary y-axis.
+
+    The season filter param is intentionally excluded from the trend filter expression so
+    the chart always shows the full season history regardless of the season dropdown.
+    The dimension's own filter is also excluded (e.g., the Area filter is not applied
+    when drawing the Area trend) so all values are always visible.
+    """
+    breakdown_key = "area" if breakdown == "zone" else breakdown
+    if breakdown_key not in LINEOUT_BREAKDOWN_CONFIG:
+        raise ValueError(f"Unsupported breakdown '{breakdown}'.")
+    if breakdown_key == "season":
+        raise ValueError("Season trend chart is not supported; use lineout_breakdown_chart with breakdown='season'.")
+
+    config = LINEOUT_BREAKDOWN_CONFIG[breakdown_key]
+    field = config["field"]
+    field_label = config["field_label"]
+    is_high_cardinality = breakdown_key in ("jumper", "thrower")
+
+    if output_file is None:
+        output_file = f"data/charts/lineout_trend_{breakdown_key}.json"
+
+    if df is None:
+        if db is None:
+            raise ValueError("lineout_trend_chart requires either db or df")
+        df = _lineout_analysis_source_df(db)
+
+    if df.empty:
+        print(f"Skipping lineout_trend_chart ({breakdown_key}): no rows available.")
+        return None
+
+    def _opts(column_name):
+        values = sorted(df[column_name].dropna().astype(str).unique().tolist())
+        if column_name == "area":
+            ordered = [v for v in ["Front", "Middle", "Back"] if v in values]
+            values = ordered + [v for v in values if v not in ordered]
+        if column_name == "numbers":
+            ordered = [v for v in ["4", "5", "6", "7"] if v in values]
+            values = ordered + [v for v in values if v not in ordered]
+        if column_name == "season":
+            values = _lineout_breakdown_sort_values(df, {"sort": "season_asc"}, column_name)
+        return ["All", *values]
+
+    def _param(name, value, options=None, label=None):
+        bind = alt.binding_select(options=options, name=label) if bind_params and options is not None else None
+        if bind is not None:
+            return alt.param(name=name, bind=bind, value=value)
+        return alt.param(name=name, value=value)
+
+    squad_param = _param("loSquad", "All", _opts("squad"), "Squad ")
+    season_param = _param("loSeason", "All", _opts("season"), "Season ")
+    game_type_param = _param("loGameType", "All", ["All", "League + Cup", "League only", *_opts("game_type")[1:]], "Game Type ")
+    thrower_param = _param("loThrower", "All", _opts("thrower"), "Thrower ")
+    jumper_param = _param("loJumper", "All", _opts("jumper"), "Jumper ")
+    area_param = _param("loArea", "All", _opts("area"), "Area ")
+    numbers_param = _param("loNumbers", "All", _opts("numbers"), "Numbers ")
+
+    params = [squad_param, season_param, game_type_param, thrower_param, jumper_param, area_param, numbers_param]
+
+    # Season filter intentionally omitted — trend shows full history.
+    # The dimension's own filter is also omitted so all its values remain visible.
+    filter_parts = [
+        f"({squad_param.name} == 'All' || datum.squad == {squad_param.name})",
+        (
+            f"({game_type_param.name} == 'All'"
+            f" || ({game_type_param.name} == 'League + Cup' && (datum.game_type == 'League' || datum.game_type == 'Cup'))"
+            f" || ({game_type_param.name} == 'League only' && datum.game_type == 'League')"
+            f" || datum.game_type == {game_type_param.name})"
+        ),
+    ]
+    if field != "thrower":
+        filter_parts.append(f"({thrower_param.name} == 'All' || datum.thrower == {thrower_param.name})")
+    if field != "jumper":
+        filter_parts.append(f"({jumper_param.name} == 'All' || datum.jumper == {jumper_param.name})")
+    if field != "area":
+        filter_parts.append(f"({area_param.name} == 'All' || datum.area == {area_param.name})")
+    if field != "numbers":
+        filter_parts.append(f"({numbers_param.name} == 'All' || datum.numbers == {numbers_param.name})")
+    filter_expr = " && ".join(filter_parts)
+
+    season_order = _lineout_breakdown_sort_values(df, {"sort": "season_asc"}, "season")
+    season_x = alt.X("season:N", title="Season", sort=season_order, axis=alt.Axis(labelAngle=-30))
+
+    value_sort = config.get("sort")
+    if value_sort in ("season_asc", "-y"):
+        value_sort = None
+
+    # Use in-chart labels for low-cardinality options (numbers/area/play) instead of a legend.
+    color_legend = None if breakdown_key in ("numbers", "area", "play") else alt.Legend(title=field_label)
+    color_encoding = alt.Color(
+        f"{field}:N",
+        scale=config["scale"],
+        legend=color_legend,
+        sort=value_sort,
+    )
+    stroke_encoding = (
+        alt.Stroke(f"{field}:N", scale=config["stroke_scale"], legend=None)
+        if "stroke_scale" in config
+        else alt.value("transparent")
+    )
+    interaction_subtitle = "Click a line or bar segment to highlight it. Double-click to reset."
+
+    if is_high_cardinality:
+        top_n = 4 if breakdown_key == "thrower" else 5
+
+        top_players, color_domain, color_range = _compute_hc_tiers(df, field, top_n=top_n, min_attempts=20)
+        tier_field = f"{field}_tier"
+        top_player_set = set(top_players)
+        highlight_param = alt.selection_point(fields=[tier_field], on="click", clear="dblclick", empty="all")
+        df = df.copy()
+        df[tier_field] = df[field].apply(lambda x: x if x in top_player_set else "Other")
+        name_field = f"{field}_name"
+        tier_name_field = f"{field}_tier_name"
+        df[tier_name_field] = df.apply(
+            lambda row: row[name_field] if row[field] in top_player_set else "Other", axis=1
+        )
+        tier_sort_expr = " : ".join(
+            f"datum.{tier_field} == '{p}' ? {i}" for i, p in enumerate(top_players)
+        ) + " : 999"
+
+        grouped = (
+            alt.Chart(df)
+            .add_params(*params)
+            .transform_filter(filter_expr)
+            .transform_aggregate(attempts="count()", won="sum(won)", groupby=["season", tier_field, tier_name_field])
+            .transform_joinaggregate(season_attempts="sum(attempts)", groupby=["season"])
+            .transform_calculate(
+                norm_count="datum.attempts / datum.season_attempts",
+                success_rate="datum.won / datum.attempts",
+                won_attempts_label="datum.won + '/' + datum.attempts",
+                tier_sort_order=tier_sort_expr,
+            )
+        )
+
+        trend_color = alt.Color(
+            f"{tier_field}:N",
+            title=field_label,
+            scale=alt.Scale(domain=color_domain, range=color_range),
+        )
+
+        options_bar = grouped.mark_bar(opacity=0.85).encode(
+            x=season_x,
+            y=alt.Y(
+                "attempts:Q",
+                title="Proportion",
+                axis=alt.Axis(format="%", orient="left"),
+                stack="normalize",
+            ),
+            color=trend_color,
+            order=alt.Order("tier_sort_order:Q", sort="ascending"),
+            opacity=alt.condition(highlight_param, alt.value(1.0), alt.value(0.2)),
+            tooltip=[
+                alt.Tooltip("season:N", title="Season"),
+                alt.Tooltip(f"{tier_name_field}:N", title=field_label),
+                alt.Tooltip("attempts:Q", title="Attempts", format=",.0f"),
+                alt.Tooltip("won:Q", title="Won", format=",.0f"),
+                alt.Tooltip("success_rate:Q", title="Success Rate", format=".1%"),
+            ],
+        ).properties(
+            width=alt.Step(55),
+            height=280,
+        )
+
+        outcome_y = alt.Y(
+            "success_rate:Q",
+            title="Success Rate",
+            axis=alt.Axis(format="%", orient="right"),
+            scale=alt.Scale(domainMax=1, nice=True),
+        )
+        outcome_line = grouped.mark_line(
+            point=alt.OverlayMarkDef(filled=False, fill="white", size=60),
+            strokeWidth=2.5,
+        ).encode(
+            x=season_x,
+            y=outcome_y,
+            color=trend_color,
+            detail=alt.Detail(f"{tier_field}:N"),
+            opacity=alt.condition(highlight_param, alt.value(1.0), alt.value(0.2)),
+            tooltip=[
+                alt.Tooltip("season:N", title="Season"),
+                alt.Tooltip(f"{tier_name_field}:N", title=field_label),
+                alt.Tooltip("attempts:Q", title="Attempts", format=",.0f"),
+                alt.Tooltip("won:Q", title="Won", format=",.0f"),
+                alt.Tooltip("success_rate:Q", title="Success Rate", format=".1%"),
+            ],
+        )
+        outcome_text = grouped.mark_text(
+            align="center",
+            baseline="bottom",
+            dy=-8,
+            fontSize=10,
+        ).encode(
+            x=season_x,
+            y=outcome_y,
+            color=trend_color,
+            detail=alt.Detail(f"{tier_field}:N"),
+            text=alt.Text("won_attempts_label:N"),
+            opacity=alt.condition(highlight_param, alt.value(1.0), alt.value(0.2)),
+        )
+        outcome_chart = alt.layer(outcome_line, outcome_text).properties(
+            width=alt.Step(55),
+            height=280,
+        )
+
+        chart = alt.hconcat(options_bar, outcome_chart, spacing=8).add_params(highlight_param).resolve_scale(color="shared").properties(
+            title=alt.Title(text=f"{field_label} Trend", subtitle=interaction_subtitle),
+        )
+    else:
+        # 100% stacked bars for option distribution, plus a separate line chart
+        # for outcomes so both trend stories remain visible.
+        grouped = (
+            alt.Chart(df)
+            .add_params(*params)
+            .transform_filter(filter_expr)
+            .transform_aggregate(attempts="count()", won="sum(won)", groupby=["season", field])
+        )
+
+        if breakdown_key != "play":
+            grouped = grouped.transform_calculate(
+                success_rate="datum.won / datum.attempts",
+                won_attempts_label="datum.won + '/' + datum.attempts",
+            )
+
+        stack_order_expr = "0"
+        if isinstance(value_sort, list) and value_sort:
+            cases = [f"datum.{field} == '{str(value).replace("'", "\\'")}' ? {index}" for index, value in enumerate(value_sort)]
+            stack_order_expr = " : ".join(cases) + " : 999"
+        if breakdown_key == "numbers":
+            grouped = grouped.transform_calculate(numbers_display="datum.numbers + '-man'")
+        display_field = "numbers_display" if breakdown_key == "numbers" else field
+
+
+        grouped_with_order = grouped.transform_calculate(stack_order=stack_order_expr)
+        highlight_param = alt.selection_point(fields=[field], on="click", clear="dblclick", empty="all")
+
+        options_tooltip = [
+            alt.Tooltip("season:N", title="Season"),
+            alt.Tooltip(f"{display_field}:N", title=field_label),
+            alt.Tooltip("attempts:Q", title="Attempts", format=",.0f"),
+        ]
+        if breakdown_key != "play":
+            options_tooltip.extend(
+                [
+                    alt.Tooltip("won:Q", title="Won", format=",.0f"),
+                    alt.Tooltip("success_rate:Q", title="Success Rate", format=".1%"),
+                ]
+            )
+
+        options_bar = grouped_with_order.mark_bar(opacity=0.85).encode(
+            x=season_x,
+            y=alt.Y(
+                "attempts:Q",
+                title="Proportion",
+                axis=alt.Axis(format="%", orient="left"),
+                stack="normalize",
+            ),
+            color=color_encoding,
+            stroke=stroke_encoding,
+            order=alt.Order("stack_order:Q", sort="ascending"),
+            opacity=alt.condition(highlight_param, alt.value(1.0), alt.value(0.2)),
+            tooltip=options_tooltip,
+        ).properties(
+            width=alt.Step(55),
+            height=280,
+        )
+
+        options_overlay = options_bar
+        if breakdown_key in ("numbers", "area", "play"):
+            # Contrasting text color per category so labels are legible over their bar segment.
+            _lc_text_clr = {
+                "numbers": {"4": "#0a1a4a", "5": "#c8d4f5", "6": "#fce8e8", "7": "#fce8e8"},
+                "area": {"Front": "#fce8e8", "Middle": "#3d2000", "Back": "#d4f5d4"},
+                "play": {"Hot": "#555555", "Cold": "#ccd0ff", "Lost": "white"},
+            }
+            text_clr_map = _lc_text_clr.get(breakdown_key, {})
+            text_clr_expr = (
+                " : ".join(f"datum.{field} == '{v}' ? '{c}'" for v, c in text_clr_map.items())
+                + " : 'black'"
+            ) if text_clr_map else "'black'"
+
+            options_labels = (
+                grouped_with_order
+                # Step 1: compute each segment's proportion of its season total
+                .transform_joinaggregate(season_total="sum(attempts)", groupby=["season"])
+                .transform_calculate(proportion="datum.attempts / datum.season_total")
+                # Step 2: running cumulative proportion (bottom → top, matching stack order)
+                .transform_window(
+                    cum_prop="sum(proportion)",
+                    sort=[alt.SortField("stack_order", order="ascending")],
+                    groupby=["season"],
+                    frame=[None, 0],
+                )
+                # Step 3: midpoint of this segment + contrasting text color
+                .transform_calculate(
+                    mid_y="datum.cum_prop - datum.proportion / 2",
+                    text_label_color=text_clr_expr,
+                )
+                # Step 4: filter to the most recent season only
+                .transform_calculate(
+                    season_order_num="toNumber(split(datum.season, '/')[0])"
+                )
+                .transform_window(
+                    season_rank="row_number()",
+                    groupby=[field],
+                    sort=[alt.SortField("season_order_num", order="descending")],
+                )
+                .transform_filter("datum.season_rank == 1")
+                .mark_text(align="center", baseline="middle", fontSize=12, fontStyle="italic")
+                .encode(
+                    x=season_x,
+                    y=alt.Y("mid_y:Q", scale=alt.Scale(domain=[0, 1])),
+                    text=alt.Text(f"{display_field}:N"),
+                    color=alt.Color("text_label_color:N", scale=None, legend=None),
+                    opacity=alt.condition(highlight_param, alt.value(0.9), alt.value(0.3)),
+                )
+            )
+            options_overlay = alt.layer(options_bar, options_labels)
+
+        if breakdown_key == "play":
+            # Play trend shows only the options distribution — no outcome line.
+            chart = options_overlay.add_params(highlight_param).properties(
+                title=alt.Title(text=f"{field_label} Trend", subtitle=interaction_subtitle),
+            )
+        else:
+            outcome_y = alt.Y(
+                "success_rate:Q",
+                title="Success Rate",
+                axis=alt.Axis(format="%", orient="right"),
+                scale=alt.Scale(domainMax=1, nice=True),
+            )
+            outcome_line = grouped.mark_line(
+                point=alt.OverlayMarkDef(filled=False, fill="white", size=60),
+                strokeWidth=2.5,
+            ).encode(
+                x=season_x,
+                y=outcome_y,
+                color=color_encoding,
+                detail=alt.Detail(f"{field}:N"),
+                opacity=alt.condition(highlight_param, alt.value(1.0), alt.value(0.2)),
+                tooltip=[
+                    alt.Tooltip("season:N", title="Season"),
+                    alt.Tooltip(f"{display_field}:N", title=field_label),
+                    alt.Tooltip("attempts:Q", title="Attempts", format=",.0f"),
+                    alt.Tooltip("won:Q", title="Won", format=",.0f"),
+                    alt.Tooltip("success_rate:Q", title="Success Rate", format=".1%"),
+                ],
+            )
+            outcome_text = grouped.mark_text(
+                align="center",
+                baseline="bottom",
+                dy=-8,
+                fontSize=10,
+            ).encode(
+                x=season_x,
+                y=outcome_y,
+                color=color_encoding,
+                detail=alt.Detail(f"{field}:N"),
+                text=alt.Text("won_attempts_label:N"),
+                opacity=alt.condition(highlight_param, alt.value(1.0), alt.value(0.2)),
+            )
+            outcome_chart = alt.layer(outcome_line, outcome_text).properties(
+                width=alt.Step(55),
+                height=280,
+            )
+
+            chart = alt.hconcat(options_overlay, outcome_chart, spacing=8).add_params(highlight_param).resolve_scale(color="shared").properties(
+                title=alt.Title(text=f"{field_label} Trend", subtitle=interaction_subtitle),
+            )
+
+    chart.save(output_file)
+    return chart
+
+
+def lineout_trend_chart_suite(db, output_dir="data/charts"):
+    """Generate season trend charts for all applicable lineout breakdown dimensions.
+
+    Season is excluded because it is the grouping axis of the trend chart itself.
+    """
+    output_root = Path(output_dir)
+    output_root.mkdir(parents=True, exist_ok=True)
+
+    df = _lineout_analysis_source_df(db)
+    if df.empty:
+        return {}
+
+    breakdowns = ["numbers", "area", "jumper", "thrower", "play"]
+    charts = {}
+    for breakdown in breakdowns:
+        output_file = output_root / f"lineout_trend_{breakdown}.json"
+        chart = lineout_trend_chart(
+            df=df,
+            breakdown=breakdown,
+            output_file=str(output_file),
+            bind_params=False,
+        )
+        if chart is not None:
+            charts[breakdown] = chart
+
+    return charts
+
+
 def lineout_analysis_panel_chart(db, breakdown="numbers", panel="breakdown", output_file=None, bind_params=False):
     """Export one legacy lineout panel chart as a standalone Vega-Lite spec.
 
@@ -2753,7 +3564,7 @@ def lineout_analysis_panel_chart(db, breakdown="numbers", panel="breakdown", out
             ),
             grouped.mark_line(point=True, strokeWidth=2).encode(
                 x=alt.X("season:N", title="Season", sort=season_order),
-                y=alt.Y("success_rate:Q", title="Success Rate", axis=alt.Axis(format="%", orient="right"), scale=alt.Scale(domain=[0, 1])),
+                y=alt.Y("success_rate:Q", title="Success Rate", axis=alt.Axis(format="%", orient="right"), scale=alt.Scale(domainMax=1, nice=True, zero=False)),
                 color=alt.Color(f"{field}:N", title=field_label, sort=sort_order),
                 detail=alt.Detail(f"{field}:N"),
                 tooltip=[

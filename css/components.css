@@ -3568,33 +3568,8 @@ table tbody tr:hover {
     max-width: 100%;
 }
 
-.lineout-analysis-pair {
-    display: flex;
-    gap: 0;
-    align-items: flex-start;
-    flex-wrap: nowrap;
-    max-width: 100%;
-}
-
-.lineout-analysis-joint {
-    display: flex;
-    flex-direction: row;
-    width: fit-content;
-    min-width: 0;
-}
-
 .lineout-analysis-panel {
     min-width: 0;
-}
-
-.lineout-analysis-joint .lineout-analysis-panel--breakdown {
-    min-width: 0;
-    width: fit-content;
-}
-
-.lineout-analysis-joint .lineout-analysis-panel--trend {
-    min-width: 0;
-    width: fit-content;
 }
 
 .lineout-analysis-panel .chart-panel-toggle {
@@ -3612,46 +3587,64 @@ table tbody tr:hover {
 }
 
 .lineout-analysis-pairs {
-    overflow-x: auto;
+    overflow-x: visible;
     padding-bottom: 0.25rem;
 }
 
-.lineout-analysis-panel--trend .chart-panel-toggle {
-    background: #343a40;
-    border-color: #343a40;
-    color: #f0f2f4;
+.lineout-breakdown-panels .lineout-analysis-panel--breakdown .chart-panel-toggle,
+.lineout-breakdown-panels .lineout-analysis-panel--breakdown .chart-panel-toggle[aria-expanded="false"] {
+    border-top-right-radius: 14px;
+    border-bottom-right-radius: 14px;
 }
 
-.lineout-analysis-panel--trend .chart-panel-toggle:hover,
-.lineout-analysis-panel--trend .chart-panel-toggle:focus-visible {
-    background: #2f3439;
-    border-color: #2f3439;
+.lineout-breakdown-panels .lineout-analysis-panel--breakdown .chart-panel-card {
+    border-top-right-radius: 18px;
+    border-bottom-right-radius: 18px;
 }
 
-.lineout-analysis-panel--trend .chart-panel-toggle .chart-panel-toggle-hint {
-    color: #d3d8de;
+.lineout-breakdown-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+    align-items: start;
 }
 
-.lineout-analysis-panel--breakdown .chart-panel-toggle,
-.lineout-analysis-panel--breakdown .chart-panel-toggle[aria-expanded="false"] {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
+.lineout-breakdown-chart {
+    min-width: 0;
 }
 
-.lineout-analysis-panel--breakdown .chart-panel-card {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
+.lineout-breakdown-table-wrap {
+    overflow: auto;
+    border-radius: 14px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(242, 241, 244, 0.98));
+    border: 1px solid rgba(32, 41, 70, 0.08);
 }
 
-.lineout-analysis-panel--trend .chart-panel-toggle,
-.lineout-analysis-panel--trend .chart-panel-toggle[aria-expanded="false"] {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
+.lineout-breakdown-table {
+    margin-bottom: 0;
+    width: 100%;
+    font-size: 0.88rem;
 }
 
-.lineout-analysis-panel--trend .chart-panel-card {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
+.lineout-breakdown-table thead th,
+.lineout-breakdown-table tbody td:first-child {
+    font-family: 'PT Sans Narrow', sans-serif;
+    font-size: 1rem;
+}
+
+.lineout-breakdown-table tbody td {
+    font-family: 'Lato', sans-serif;
+}
+
+.lineout-breakdown-table .badge {
+    font-size: 1rem;
+    padding: 0.28em 0.46em;
+}
+
+@media (max-width: 991.98px) {
+    .lineout-breakdown-layout {
+        grid-template-columns: minmax(0, 1fr);
+    }
 }
 
 .player-stats-panels {
