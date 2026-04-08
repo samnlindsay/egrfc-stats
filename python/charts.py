@@ -2146,6 +2146,8 @@ def results_chart(db, output_file='data/charts/results.json', facet_by_season=Fa
     squad_highlight = alt.selection_point(fields=['squad'], on='hover', clear='mouseout', empty='all')
         
     df = df.copy()
+    # Exclude fixtures without a confirmed result (e.g. future games entered in Google Sheets)
+    df = df[df['result'].isin(['W', 'L', 'D'])]
     df['date'] = pd.to_datetime(df['date'], errors='coerce')
     df['game_label'] = df['game_label'].fillna('Unknown').astype(str)
     df['date_label'] = df['date'].dt.strftime('%d %b %Y').fillna('Unknown')

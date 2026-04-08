@@ -69,13 +69,6 @@
     function normaliseResult(row) {
         const result = String(row?.result || '').trim().toUpperCase();
         if (result === 'W' || result === 'D' || result === 'L') return result;
-        const pf = Number(row?.score_for);
-        const pa = Number(row?.score_against);
-        if (Number.isFinite(pf) && Number.isFinite(pa)) {
-            if (pf > pa) return 'W';
-            if (pf < pa) return 'L';
-            return 'D';
-        }
         return '-';
     }
 
@@ -226,10 +219,12 @@
     function getOppositionStats(filteredGames) {
         return filteredGames.reduce((acc, row) => {
             const result = normaliseResult(row);
-            acc.played += 1;
-            if (result === 'W') acc.won += 1;
-            if (result === 'D') acc.drawn += 1;
-            if (result === 'L') acc.lost += 1;
+            if (result === 'W' || result === 'D' || result === 'L') {
+                acc.played += 1;
+                if (result === 'W') acc.won += 1;
+                if (result === 'D') acc.drawn += 1;
+                if (result === 'L') acc.lost += 1;
+            }
             return acc;
         }, { won: 0, drawn: 0, lost: 0, played: 0 });
     }
@@ -262,22 +257,26 @@
             .map(([club, rows]) => {
                 const stats = getOppositionStats(rows);
                 const stats1st = rows.reduce((acc, row) => {
-                    acc.played += row?.squad === '1st' ? 1 : 0;
                     if (row?.squad === '1st') {
                         const result = normaliseResult(row);
-                        if (result === 'W') acc.won += 1;
-                        if (result === 'D') acc.drawn += 1;
-                        if (result === 'L') acc.lost += 1;
+                        if (result === 'W' || result === 'D' || result === 'L') {
+                            acc.played += 1;
+                            if (result === 'W') acc.won += 1;
+                            if (result === 'D') acc.drawn += 1;
+                            if (result === 'L') acc.lost += 1;
+                        }
                     }
                     return acc;
                 }, { won: 0, drawn: 0, lost: 0, played: 0 });
                 const stats2nd = rows.reduce((acc, row) => {
-                    acc.played += row?.squad === '2nd' ? 1 : 0;
                     if (row?.squad === '2nd') {
                         const result = normaliseResult(row);
-                        if (result === 'W') acc.won += 1;
-                        if (result === 'D') acc.drawn += 1;
-                        if (result === 'L') acc.lost += 1;
+                        if (result === 'W' || result === 'D' || result === 'L') {
+                            acc.played += 1;
+                            if (result === 'W') acc.won += 1;
+                            if (result === 'D') acc.drawn += 1;
+                            if (result === 'L') acc.lost += 1;
+                        }
                     }
                     return acc;
                 }, { won: 0, drawn: 0, lost: 0, played: 0 });

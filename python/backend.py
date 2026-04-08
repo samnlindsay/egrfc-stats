@@ -1105,6 +1105,7 @@ class BackendDatabase:
                 SUM(score_for) AS points_for,
                 SUM(score_against) AS points_against
             FROM games
+            WHERE result IS NOT NULL AND result IN ('W', 'L', 'D')
             GROUP BY season, squad, game_type
             """
         )
@@ -3386,21 +3387,24 @@ class BackendDatabase:
                 scorer_data = scorer_lookup.get((season, squad), {})
                 set_piece_data = set_piece_lookup.get((season, squad), {})
                 top_appearance_value, top_appearance_players = appearance_lookup.get((season, squad), (None, json.dumps([])))
+                # Only count games that have a valid result (W/L/D) for result-based stats.
+                # Future fixtures (no result yet) are kept in the backend but excluded here.
+                completed = group[group["result"].isin(["W", "L", "D"])]
                 rows.append(
                     {
                         "season": season,
                         "gameTypeMode": mode,
                         "squad": squad,
-                        "gamesPlayed": int(len(group)),
-                        "gamesWon": int((group["result"] == "W").sum()),
-                        "gamesLost": int((group["result"] == "L").sum()),
-                        "gamesDrawn": int((group["result"] == "D").sum()),
-                        "avgPointsForHome": round_or_none(group.loc[group["home_away"] == "H", "score_for"].mean(), 2),
-                        "avgPointsAgainstHome": round_or_none(group.loc[group["home_away"] == "H", "score_against"].mean(), 2),
-                        "avgPointsForAway": round_or_none(group.loc[group["home_away"] == "A", "score_for"].mean(), 2),
-                        "avgPointsAgainstAway": round_or_none(group.loc[group["home_away"] == "A", "score_against"].mean(), 2),
-                        "avgPointsForOverall": round_or_none(group["score_for"].mean(), 2),
-                        "avgPointsAgainstOverall": round_or_none(group["score_against"].mean(), 2),
+                        "gamesPlayed": int(len(completed)),
+                        "gamesWon": int((completed["result"] == "W").sum()),
+                        "gamesLost": int((completed["result"] == "L").sum()),
+                        "gamesDrawn": int((completed["result"] == "D").sum()),
+                        "avgPointsForHome": round_or_none(completed.loc[completed["home_away"] == "H", "score_for"].mean(), 2),
+                        "avgPointsAgainstHome": round_or_none(completed.loc[completed["home_away"] == "H", "score_against"].mean(), 2),
+                        "avgPointsForAway": round_or_none(completed.loc[completed["home_away"] == "A", "score_for"].mean(), 2),
+                        "avgPointsAgainstAway": round_or_none(completed.loc[completed["home_away"] == "A", "score_against"].mean(), 2),
+                        "avgPointsForOverall": round_or_none(completed["score_for"].mean(), 2),
+                        "avgPointsAgainstOverall": round_or_none(completed["score_against"].mean(), 2),
                         "topPointScorerValue": scorer_data.get("topPointScorerValue"),
                         "topPointScorerPlayers": scorer_data.get("topPointScorerPlayers", json.dumps([])),
                         "topTryScorerValue": scorer_data.get("topTryScorerValue"),
