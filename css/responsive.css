@@ -34,11 +34,6 @@
     }
 
 
-    /* Tighter page container padding on mobile */
-    .page-content > div {
-        padding: 1rem 0.75rem !important;
-    }
-
     /* Compact Squad Metrics header row */
     #page-squad-stats .squad-stats-top-filters {
         gap: 0.4rem;
@@ -208,11 +203,6 @@
     #seasonSummary1stResults .squad-metric-value,
     #seasonSummary2ndResults .squad-metric-value {
         line-height: 1;
-    }
-
-    /* Page styling for mobile */
-    .page-content {
-        padding-bottom: 1rem;
     }
 
     .row {
@@ -600,10 +590,6 @@
     .navbar-nav .nav-link {
         font-size: 0.85rem;
         padding: 0.25rem !important;
-    }
-
-    .page-content > div {
-        padding: 0.75rem 0.5rem !important;
     }
 
     h1 {

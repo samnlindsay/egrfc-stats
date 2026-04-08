@@ -1,20 +1,4 @@
 /* ===== CHART CONTENT ===== */
-.tab-content {
-    flex: 1;
-    padding: 0;
-    overflow-x: auto;
-    overflow-y: visible;
-}
-
-.tab-pane {
-    display: flex;
-    flex-direction: column;
-    min-height: 0;
-    align-items: flex-start;
-    min-width: 600px;
-    width: max-content;
-}
-
 #league-content {
     width: 100% !important;
     min-width: 0 !important;
@@ -173,11 +157,6 @@
     .chart-scale-mobile-tight .vega-embed {
         transform: scale(var(--chart-mobile-scale));
         transform-origin: top left;
-    }
-
-    .tab-pane {
-        min-width: 500px;
-        /* Adjust container to accommodate scaled content */
     }
 
     .team-sheets-page-shell {
