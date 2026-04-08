@@ -2211,7 +2211,7 @@ td:has(> .squad-pill) > .squad-pill {
 }
 
 .match-team-sheet-badge--captain {
-    background: #981515;
+    background: var(--red-color);
     color: #ffffff;
     border: 1px solid #7f1313;
 }
@@ -3310,6 +3310,9 @@ table tbody tr:hover {
     margin-bottom: 2rem;
 }
 
+.page-header--compact { margin-bottom: 1rem; }
+.page-header--tight   { margin-bottom: 0.5rem; }
+
 .page-header-text {
     flex: 1 1 auto;
     min-width: 0;
@@ -3374,6 +3377,37 @@ table tbody tr:hover {
     flex-wrap: wrap;
     align-self: flex-start;
     padding-top: 0.35rem; /* optical align with h1 baseline */
+}
+
+/* Page title / intro — used when h1/p sit directly inside .page-shell without a .page-header wrapper */
+.page-title {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.page-intro {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+}
+
+/* Section headings — for h2/h3 within page content sections */
+.section-heading {
+    color: var(--primary-color);
+    font-weight: 900;
+    margin-bottom: 0.5rem;
+}
+
+.section-heading--tight { margin-bottom: 0.35rem; }
+.section-heading--flush { margin: 0; }
+
+/* Navigation category labels — index page section group titles */
+.nav-category-label {
+    color: var(--primary-color);
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .match-detail-picker-row {

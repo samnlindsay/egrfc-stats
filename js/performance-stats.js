@@ -68,7 +68,7 @@
             encoding: {
                 x: { field: 'season', type: 'ordinal', sort: orderedSeasons, title: 'Season' },
                 y: { field: 'value', type: 'quantitative', title: 'Per 22m Entry' },
-                color: { field: 'metric', type: 'nominal', title: null, scale: { domain: ['Points per 22m entry', 'Tries per 22m entry'], range: ['#202946', '#981515'] } },
+                color: { field: 'metric', type: 'nominal', title: null, scale: { domain: ['Points per 22m entry', 'Tries per 22m entry'], range: ['#202946', '#991515'] } },
                 tooltip: [
                     { field: 'season', type: 'nominal', title: 'Season' },
                     { field: 'metric', type: 'nominal', title: 'Metric' },
@@ -410,7 +410,7 @@
                     field: 'attacking_team',
                     type: 'nominal',
                     title: 'Attacking Team',
-                    scale: { domain: ['EGRFC', 'Opposition'], range: ['#202946', '#981515'] },
+                    scale: { domain: ['EGRFC', 'Opposition'], range: ['#202946', '#991515'] },
                 },
                 opacity: { field: 'highlight_opacity', type: 'quantitative', legend: null },
                 strokeWidth: {
@@ -482,7 +482,7 @@
                                     field: 'attacking_team',
                                     type: 'nominal',
                                     title: 'Team',
-                                    scale: { domain: ['EGRFC', 'Opposition'], range: ['#202946', '#981515'] },
+                                    scale: { domain: ['EGRFC', 'Opposition'], range: ['#202946', '#991515'] },
                                 },
                                 tooltip: [
                                     { field: 'game_label', type: 'nominal', title: 'Game' },
