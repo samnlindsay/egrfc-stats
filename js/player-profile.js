@@ -487,12 +487,9 @@ function renderAppearancesPerSeasonChart(playerName) {
 function bindAppearancePanelControls(playerName) {
     const colorBySelect = document.getElementById('fullProfileChartColorBy');
     if (colorBySelect) {
-        const useSelectPicker = !!(window.jQuery && window.jQuery.fn && window.jQuery.fn.selectpicker);
+        const useSelectPicker = rebuildBootstrapSelect(colorBySelect);
         if (useSelectPicker) {
-            const $select = window.jQuery(colorBySelect);
-            if ($select.data('selectpicker')) $select.selectpicker('destroy');
-            $select.selectpicker();
-            $select
+            window.jQuery(colorBySelect)
                 .off('changed.bs.select.fullProfileColorBy')
                 .on('changed.bs.select.fullProfileColorBy', () => {
                     renderAppearancesPerSeasonChart(playerName);
@@ -847,12 +844,7 @@ function initPlayerSelect() {
         .map(row => `<option value="${escapeHtml(String(row?.name || ''))}">${escapeHtml(String(row?.name || ''))}</option>`)
         .join('');
 
-    const useSelectPicker = !!(window.jQuery && window.jQuery.fn && window.jQuery.fn.selectpicker);
-    if (useSelectPicker) {
-        const $select = window.jQuery(select);
-        if ($select.data('selectpicker')) $select.selectpicker('destroy');
-        $select.selectpicker();
-    }
+    const useSelectPicker = rebuildBootstrapSelect(select);
 
     const url = new URL(window.location.href);
     const preselected = String(url.searchParams.get('player') || '').trim();

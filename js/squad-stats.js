@@ -411,14 +411,10 @@ function initialiseSquadStatsControlsOnce() {
     const $gameTypeSelect = $('#squadStatsGameTypeSelect');
     const $leagueContextUnitSelect = $('#leagueContextUnitSelect');
     const $leagueContextUnitSelectAlt = $('#leagueContextUnitSelectAlt');
-    $seasonSelect.selectpicker();
     const seasons = populateSquadStatsSeasonDropdownOptions(seasonSelect);
     const currentSeason = getCurrentSeasonLabel();
     seasonSelect.value = seasons.includes(currentSeason) ? currentSeason : seasons[0];
-    const selectedSquadSeason = seasonSelect.value;
-    $seasonSelect.selectpicker('destroy');
-    $seasonSelect.selectpicker();
-    $seasonSelect.selectpicker('val', selectedSquadSeason);
+    rebuildBootstrapSelect(seasonSelect);
     $gameTypeSelect.selectpicker();
     $leagueContextUnitSelect.selectpicker();
     $leagueContextUnitSelectAlt.selectpicker();

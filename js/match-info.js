@@ -1132,16 +1132,7 @@ function updateMatchSelectOptions(preferredGameId) {
     matchSelect.value = hasPrevious ? previousValue : '';
 
     // Rebuild selectpicker to reflect new options and selection
-    if (window.jQuery && window.jQuery.fn && window.jQuery.fn.selectpicker) {
-        const $select = window.jQuery(matchSelect);
-        if ($select.data('selectpicker')) {
-            $select.selectpicker('destroy');
-        }
-        $select.selectpicker();
-        if (matchSelect.value) {
-            $select.selectpicker('val', matchSelect.value);
-        }
-    }
+    updateSelectPicker(matchSelect);
 }
 
 function pagedRows() {
