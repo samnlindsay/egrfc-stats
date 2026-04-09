@@ -60,6 +60,10 @@ body {
     margin-top: 0.9rem;
 }
 
+.mobile-filter-trigger {
+    border-color: rgba(255, 255, 255, 0.6);
+}
+
 .ux-kpi-strip {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -343,6 +347,23 @@ body {
     gap: 0.5rem;
 }
 
+.card-filter-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+}
+
+.scoped-filter-chip {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 999px;
+    border: 1px solid rgba(32, 41, 70, 0.14);
+    background: #edf2ff;
+    color: #29345c;
+    font-size: 0.72rem;
+    padding: 0.14rem 0.43rem;
+}
+
 .insight-card-head {
     display: flex;
     justify-content: space-between;
@@ -361,6 +382,7 @@ body {
     text-decoration: none;
     font-weight: 700;
     color: #425ab0;
+    font-size: 0.82rem;
 }
 
 .chart-placeholder {
@@ -435,6 +457,118 @@ body {
     height: 300px;
 }
 
+.vega-chart-host {
+    min-height: 210px;
+    border: 1px solid rgba(32, 41, 70, 0.14);
+    border-radius: 10px;
+    background: #f7f9ff;
+    padding: 0.2rem;
+    overflow: hidden;
+}
+
+.vega-chart-host .vega-embed,
+.vega-chart-host .vega-embed > div {
+    width: 100%;
+}
+
+.vega-chart-host .vega-actions {
+    display: none;
+}
+
+.sample-bars {
+    display: grid;
+    gap: 0.35rem;
+    border: 1px solid rgba(32, 41, 70, 0.14);
+    border-radius: 10px;
+    background: #f7f9ff;
+    padding: 0.45rem;
+}
+
+.sample-bars-tight {
+    max-height: 178px;
+    overflow: auto;
+}
+
+.sample-bar-row {
+    display: grid;
+    grid-template-columns: 80px minmax(0, 1fr) 54px;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.08rem 0;
+}
+
+.sample-bar-row + .sample-bar-row {
+    border-top: 1px dashed rgba(32, 41, 70, 0.1);
+}
+
+.sample-bar-label {
+    color: #4d577b;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.sample-bar-track {
+    height: 0.5rem;
+    border-radius: 999px;
+    background: #dde5fb;
+    overflow: hidden;
+}
+
+.sample-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #7d96e8, #202946);
+}
+
+.sample-bar-value {
+    color: #2f3a5f;
+    font-size: 0.8rem;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+
+.split-meter {
+    height: 1.7rem;
+    border-radius: 999px;
+    overflow: hidden;
+    display: flex;
+    border: 1px solid rgba(32, 41, 70, 0.14);
+    background: #f3f6ff;
+}
+
+.split-meter-segment {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 0.78rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.split-meter-segment--forwards {
+    background: #202946;
+}
+
+.split-meter-segment--backs {
+    background: #7d96e8;
+    color: #0e1738;
+}
+
+.mini-list {
+    margin: 0;
+    padding-left: 1rem;
+    display: grid;
+    gap: 0.25rem;
+    color: #364163;
+    font-size: 0.89rem;
+    border: 1px solid rgba(32, 41, 70, 0.14);
+    border-radius: 10px;
+    background: #f7f9ff;
+    padding: 0.45rem 0.7rem;
+}
+
 .insight-note {
     margin: 0;
     color: #5b6178;
@@ -478,11 +612,12 @@ body {
 .live-table td {
     font-size: 0.92rem;
     color: #2f3a5f;
+    font-variant-numeric: tabular-nums;
 }
 
 @media (max-width: 991.98px) {
     .filter-cockpit {
-        top: calc(var(--nav-offset, 66px) + 8px);
+        display: none;
     }
 
     .filter-cockpit-row {
@@ -510,11 +645,16 @@ body {
     }
 
     .analysis-section {
-        scroll-margin-top: 208px;
+        scroll-margin-top: 118px;
     }
 }
 
 @media (max-width: 575.98px) {
+    .mobile-filter-trigger {
+        min-height: 2.25rem;
+        padding-inline: 0.6rem;
+    }
+
     .ux-hero {
         border-radius: 12px;
         padding: 1rem 0.95rem 1.1rem;
@@ -528,6 +668,18 @@ body {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
+    .ux-hero-actions .btn {
+        min-height: 2.25rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.35rem;
+    }
+
+    .ux-kpi-card {
+        padding: 0.4rem 0.45rem;
+    }
+
     .filter-cockpit {
         border-radius: 12px;
         padding: 0.6rem;
@@ -538,7 +690,110 @@ body {
         padding: 0.7rem;
     }
 
+    .analysis-section-head h2 {
+        font-size: 1.3rem;
+    }
+
+    .analysis-section-head p {
+        font-size: 0.86rem;
+    }
+
+    .rail-link {
+        min-height: 2.6rem;
+        padding: 0.45rem 0.55rem;
+    }
+
+    .local-filter-bar .btn-segment {
+        min-height: 2.1rem;
+    }
+
+    .sample-bar-row {
+        grid-template-columns: 66px minmax(0, 1fr) 46px;
+        gap: 0.32rem;
+    }
+
+    .sample-bar-label,
+    .sample-bar-value {
+        font-size: 0.73rem;
+    }
+
+    .sample-bars,
+    .mini-list {
+        padding: 0.4rem 0.55rem;
+    }
+
+    .vega-chart-host {
+        min-height: 180px;
+    }
+
+    .live-table thead {
+        display: none;
+    }
+
+    .live-table tbody tr {
+        display: block;
+        border: 1px solid rgba(32, 41, 70, 0.12);
+        border-radius: 10px;
+        background: #fff;
+        padding: 0.4rem 0.5rem;
+        margin-bottom: 0.35rem;
+    }
+
+    .live-table tbody td {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        border: 0;
+        padding: 0.1rem 0;
+        font-size: 0.84rem;
+    }
+
+    .live-table tbody td::before {
+        content: attr(data-label);
+        color: #5a6487;
+        font-weight: 700;
+        font-size: 0.73rem;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        margin-right: 0.65rem;
+    }
+
     .season-stepper {
         grid-template-columns: auto minmax(0, 1fr) auto;
+    }
+}
+
+@media (max-width: 390px) {
+    .ux-hero {
+        padding: 0.92rem 0.8rem 1rem;
+    }
+
+    .ux-hero h1 {
+        font-size: 1.62rem;
+        line-height: 1.08;
+    }
+
+    .ux-hero-copy {
+        font-size: 0.95rem;
+    }
+
+    .analysis-section {
+        padding: 0.62rem;
+    }
+
+    .insight-card {
+        padding: 0.52rem;
+    }
+
+    .insight-card h3 {
+        font-size: 0.98rem;
+    }
+
+    .focus-card-btn {
+        font-size: 0.76rem;
+    }
+
+    .sample-bar-row {
+        grid-template-columns: 60px minmax(0, 1fr) 42px;
     }
 }

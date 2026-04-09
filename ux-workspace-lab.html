@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EGRFC UX Workspace Lab</title>
+    <title>EGRFC UX Workspace Lab (Archived)</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,6 +26,9 @@
                 <img src="img/logos/EastGrinstead.png" alt="EGRFC logo" class="app-navbar-brand-logo">
                 <strong>EGRFC Statistics</strong>
             </a>
+            <button class="btn btn-outline-light btn-sm d-lg-none ms-auto me-2 mobile-filter-trigger" type="button" data-bs-toggle="offcanvas" data-bs-target="#workspaceMobileFiltersCanvas" aria-controls="workspaceMobileFiltersCanvas">
+                <i class="bi bi-funnel-fill" aria-hidden="true"></i> Filters
+            </button>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -33,8 +36,8 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="index.html"><i class="bi bi-house-door-fill" aria-hidden="true"></i>Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="ux-lab.html"><i class="bi bi-lightbulb-fill" aria-hidden="true"></i>UX Lab</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="ux-workspace-lab.html"><i class="bi bi-grid-1x2-fill" aria-hidden="true"></i>Workspace Lab</a></li>
+                    <li class="nav-item"><a class="nav-link" href="ux-lab.html"><i class="bi bi-lightbulb-fill" aria-hidden="true"></i>UX Prototype</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="ux-workspace-lab.html"><i class="bi bi-grid-1x2-fill" aria-hidden="true"></i>Archived</a></li>
                 </ul>
             </div>
         </div>
@@ -43,16 +46,14 @@
     <div class="main-content">
         <div class="page-shell page-shell--default workspace-shell">
             <header class="workspace-hero">
-                <p class="workspace-kicker">Prototype / Workspace Flow</p>
-                <h1>Analyst Desk: One Filter Bar, Multiple Live Views</h1>
+                <p class="workspace-kicker">Archived Prototype</p>
+                <h1>Workspace Lab Is Archived</h1>
                 <p class="workspace-hero-copy">
-                    This direction explores a workspace model where filters remain fixed at the top,
-                    while detail panes switch via tabs. It is designed for quick scanning on desktop and
-                    fast thumb navigation on mobile.
+                    Iteration is now consolidated into one canonical responsive prototype.
+                    Continue all UX testing and design evolution in UX Lab.
                 </p>
                 <div class="workspace-hero-actions">
-                    <a class="btn btn-light btn-sm" href="ux-lab.html"><i class="bi bi-arrow-left" aria-hidden="true"></i> Back to Prototype 1</a>
-                    <button class="btn btn-outline-light btn-sm" id="workspaceResetBtn"><i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i> Reset Filters</button>
+                    <a class="btn btn-light btn-sm" href="ux-lab.html"><i class="bi bi-arrow-left" aria-hidden="true"></i> Go To UX Prototype</a>
                 </div>
             </header>
 
@@ -90,7 +91,7 @@
                 </div>
             </section>
 
-            <section class="workspace-kpis" aria-label="Headline metrics">
+            <section class="workspace-kpis" aria-label="Headline metrics" data-ws-filter-scope="season,squad,gameType,minApps">
                 <article class="workspace-kpi"><p>Games</p><strong id="wsKpiGames">-</strong></article>
                 <article class="workspace-kpi"><p>Win Rate</p><strong id="wsKpiWinRate">-</strong></article>
                 <article class="workspace-kpi"><p>Avg Points For</p><strong id="wsKpiPointsFor">-</strong></article>
@@ -101,6 +102,7 @@
             <section class="workspace-grid">
                 <aside class="workspace-sidepanel">
                     <h2>Recent Fixtures</h2>
+                    <div class="panel-filter-chips" data-ws-filter-scope="season,squad,gameType"></div>
                     <p>Latest filtered matches and scorelines.</p>
                     <ul id="wsRecentMatches" class="workspace-list"></ul>
                 </aside>
@@ -124,6 +126,7 @@
                     <div class="tab-content workspace-tab-content">
                         <section class="tab-pane fade show active" id="pane-outcomes" role="tabpanel" aria-labelledby="tab-outcomes">
                             <h3>Result Split</h3>
+                            <div class="panel-filter-chips" data-ws-filter-scope="season,squad,gameType"></div>
                             <p id="wsOutcomesNote" class="workspace-note">-</p>
                             <div class="workspace-progress-group">
                                 <label>Wins</label>
@@ -141,6 +144,7 @@
 
                         <section class="tab-pane fade" id="pane-players" role="tabpanel" aria-labelledby="tab-players">
                             <h3>Top Appearances</h3>
+                            <div class="panel-filter-chips" data-ws-filter-scope="season,squad,minApps"></div>
                             <div class="table-responsive">
                                 <table class="table table-sm workspace-table">
                                     <thead>
@@ -153,6 +157,7 @@
 
                         <section class="tab-pane fade" id="pane-setpiece" role="tabpanel" aria-labelledby="tab-setpiece">
                             <h3>Set Piece Snapshot</h3>
+                            <div class="panel-filter-chips" data-ws-filter-scope="season,squad,minApps"></div>
                             <p id="wsSetPieceNote" class="workspace-note">-</p>
                             <div class="workspace-chip-row">
                                 <span class="workspace-chip" id="wsLineoutChip">Lineout: -</span>
@@ -162,6 +167,7 @@
 
                         <section class="tab-pane fade" id="pane-redzone" role="tabpanel" aria-labelledby="tab-redzone">
                             <h3>Red Zone Efficiency</h3>
+                            <div class="panel-filter-chips" data-ws-filter-scope="season,squad,gameType"></div>
                             <p id="wsRedZoneNote" class="workspace-note">-</p>
                             <div class="workspace-chip-row">
                                 <span class="workspace-chip" id="wsPointsEntryChip">Points/Entry: -</span>
@@ -171,6 +177,47 @@
                     </div>
                 </main>
             </section>
+        </div>
+    </div>
+
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="workspaceMobileFiltersCanvas" aria-labelledby="workspaceMobileFiltersLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="workspaceMobileFiltersLabel">Workspace Filters</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div class="mb-3">
+                <label for="wsMobileSquad" class="form-label">Squad</label>
+                <select id="wsMobileSquad" class="form-select">
+                    <option value="All">All squads</option>
+                    <option value="1st">1st XV</option>
+                    <option value="2nd">2nd XV</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="wsMobileSeason" class="form-label">Season</label>
+                <select id="wsMobileSeason" class="form-select">
+                    <option value="2025/26">2025/26</option>
+                    <option value="2024/25">2024/25</option>
+                    <option value="2023/24">2023/24</option>
+                    <option value="2022/23">2022/23</option>
+                    <option value="2021/22">2021/22</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="wsMobileGameType" class="form-label">Game Scope</label>
+                <select id="wsMobileGameType" class="form-select">
+                    <option value="All games">All games</option>
+                    <option value="League + Cup">League + Cup</option>
+                    <option value="League only">League only</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="wsMobileMinApps">Minimum Appearances</label>
+                <input type="range" class="form-range" min="0" max="20" step="1" value="0" id="wsMobileMinApps">
+                <div class="small text-muted">Current: <span id="wsMobileMinAppsValue">0</span></div>
+            </div>
+            <button id="wsApplyMobileFilters" class="btn btn-primary w-100" type="button" data-bs-dismiss="offcanvas">Apply Filters</button>
         </div>
     </div>
 

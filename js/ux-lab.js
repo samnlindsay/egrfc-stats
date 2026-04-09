@@ -19,13 +19,32 @@
         redZone: [],
         setPiece: [],
     };
+    const VEGA_EMBED_ACTIONS = false;
+    const chartSpecCache = {};
 
     const seasonCurrentBtn = document.getElementById('seasonCurrentBtn');
     const seasonPrevBtn = document.getElementById('seasonPrevBtn');
     const seasonNextBtn = document.getElementById('seasonNextBtn');
     const activeFilterRibbon = document.getElementById('activeFilterRibbon');
+
     const minAppsRange = document.getElementById('minAppsRange');
     const minAppsValue = document.getElementById('minAppsValue');
+    const compLeague = document.getElementById('compLeague');
+    const compCup = document.getElementById('compCup');
+    const compFriendly = document.getElementById('compFriendly');
+    const showBench = document.getElementById('showBench');
+    const showReplacements = document.getElementById('showReplacements');
+
+    const mobileSquadSelect = document.getElementById('mobileSquadSelect');
+    const mobileGameTypeSelect = document.getElementById('mobileGameTypeSelect');
+    const mobileSeasonSelect = document.getElementById('mobileSeasonSelect');
+    const mobileMinAppsRange = document.getElementById('mobileMinAppsRange');
+    const mobileMinAppsValue = document.getElementById('mobileMinAppsValue');
+    const mobileCompLeague = document.getElementById('mobileCompLeague');
+    const mobileCompCup = document.getElementById('mobileCompCup');
+    const mobileCompFriendly = document.getElementById('mobileCompFriendly');
+    const mobileShowBench = document.getElementById('mobileShowBench');
+    const mobileShowReplacements = document.getElementById('mobileShowReplacements');
 
     function parseSeasonStart(seasonLabel) {
         const match = String(seasonLabel || '').match(/^(\d{4})\//);
@@ -60,6 +79,59 @@
         if (state.cup) selected.add('Cup');
         if (state.friendly) selected.add('Friendly');
         return selected;
+    }
+
+    function getCompetitionLabel() {
+        const labels = [];
+        if (state.league) labels.push('League');
+        if (state.cup) labels.push('Cup');
+        if (state.friendly) labels.push('Friendly');
+        return labels.join(' + ') || 'None';
+    }
+
+    function getScopedStateValue(key) {
+        const map = {
+            squad: state.squad,
+            season: state.season,
+            gameType: state.gameType,
+            minApps: String(state.minApps),
+            competition: getCompetitionLabel(),
+            showBench: state.showBench ? 'Bench On' : 'Bench Off',
+            showReplacements: state.showReplacements ? 'Repl On' : 'Repl Off',
+        };
+        return map[key] || '-';
+    }
+
+    function getScopedLabel(key) {
+        const map = {
+            squad: 'Squad',
+            season: 'Season',
+            gameType: 'Game',
+            minApps: 'Min Apps',
+            competition: 'Comp',
+            showBench: 'Bench',
+            showReplacements: 'Repl',
+        };
+        return map[key] || key;
+    }
+
+    function renderScopedChips() {
+        const containers = document.querySelectorAll('[data-filter-scope]');
+        containers.forEach(container => {
+            const scope = String(container.getAttribute('data-filter-scope') || '')
+                .split(',')
+                .map(item => item.trim())
+                .filter(Boolean);
+
+            if (!scope.length) {
+                container.innerHTML = '';
+                return;
+            }
+
+            container.innerHTML = scope.map(key => {
+                return '<span class="scoped-filter-chip"><strong>' + getScopedLabel(key) + ':</strong> ' + getScopedStateValue(key) + '</span>';
+            }).join('');
+        });
     }
 
     function getFilteredGames() {
@@ -100,7 +172,7 @@
         });
     }
 
-    function getFilteredPlayers(filteredGames) {
+    function getFilteredPlayers() {
         const playerRows = state.squad === 'All'
             ? dataset.players
             : dataset.players.filter(row => String(row?.squad || '') === state.squad);
@@ -113,11 +185,65 @@
         return values.reduce((sum, value) => sum + value, 0) / values.length;
     }
 
+    function renderNoDataChart(containerId, message) {
+        const host = document.getElementById(containerId);
+        if (!host) return;
+        host.innerHTML = '<div class="small text-muted p-2">' + message + '</div>';
+    }
+
+    function cloneSpec(spec) {
+        return JSON.parse(JSON.stringify(spec));
+    }
+
+    async function fetchChartSpec(path) {
+        if (chartSpecCache[path]) return chartSpecCache[path];
+        const response = await fetch(path);
+        if (!response.ok) throw new Error('Failed to load chart spec: ' + path);
+        const spec = await response.json();
+        chartSpecCache[path] = spec;
+        return spec;
+    }
+
+    async function embedChartFromFile(containerId, path) {
+        const host = document.getElementById(containerId);
+        if (!host || typeof vegaEmbed !== 'function') return;
+
+        try {
+            const sourceSpec = await fetchChartSpec(path);
+            const authoredSpec = cloneSpec(sourceSpec);
+            await vegaEmbed('#' + containerId, authoredSpec, { actions: VEGA_EMBED_ACTIONS, renderer: 'svg' });
+        } catch (error) {
+            console.error('Failed to render chart', containerId, error);
+            renderNoDataChart(containerId, 'Chart unavailable for current filters.');
+        }
+    }
+
+    function renderPrototypeCharts() {
+        const chartMap = [
+            ['chartPlayersUsed', 'data/charts/squad_size_trend.json'],
+            ['chartPositionSpread', 'data/charts/league_squad_size_context_1s.json'],
+            ['chartOverlapDistribution', 'data/charts/squad_overlap.json'],
+            ['chartAverageReturners', 'data/charts/squad_continuity_average.json'],
+            ['chartSelectionVolatility', 'data/charts/league_continuity_context_1s.json'],
+            ['chartLineoutSuccess', 'data/charts/set_piece_success_lineout.json'],
+            ['chartScrumSuccess', 'data/charts/set_piece_success_scrum.json'],
+            ['chartPointsPerEntry', 'data/charts/red_zone_points.json'],
+            ['chartTryConversion', 'data/charts/red_zone_points.json'],
+            ['chartPlayerAppearances', 'data/charts/player_stats_appearances.json'],
+        ];
+
+        chartMap.forEach(([containerId, path]) => {
+            embedChartFromFile(containerId, path);
+        });
+
+    }
+
     function updateLiveCards() {
         const filteredGames = getFilteredGames();
-        const filteredPlayers = getFilteredPlayers(filteredGames);
+        const filteredPlayers = getFilteredPlayers();
         const filteredRedZone = getFilteredRedZone();
         const filteredSetPiece = getFilteredSetPiece();
+        const filteredSetPieceTeam = filteredSetPiece.filter(row => String(row?.team || '') === 'EGRFC');
 
         const wins = filteredGames.filter(row => row?.result === 'W').length;
         const draws = filteredGames.filter(row => row?.result === 'D').length;
@@ -154,8 +280,9 @@
 
         const continuityReturnersNote = document.getElementById('continuityReturnersNote');
         const continuityVolatilityNote = document.getElementById('continuityVolatilityNote');
-        if (continuityReturnersNote) continuityReturnersNote.textContent = 'W-D-L: ' + wins + '-' + draws + '-' + losses + ' in filtered matches.';
+        if (continuityReturnersNote) continuityReturnersNote.textContent = 'Average returners context: W-D-L is ' + wins + '-' + draws + '-' + losses + ' in filtered matches.';
         if (continuityVolatilityNote) continuityVolatilityNote.textContent = 'Average points difference: ' + (filteredGames.length ? average(filteredGames.map(row => Number(row?.score_for || 0) - Number(row?.score_against || 0))).toFixed(1) : '-') + '.';
+
 
         const recentMatchesList = document.getElementById('recentMatchesList');
         if (recentMatchesList) {
@@ -174,15 +301,15 @@
 
         const lineoutSuccessNote = document.getElementById('lineoutSuccessNote');
         const scrumSuccessNote = document.getElementById('scrumSuccessNote');
-
-        const lineoutRates = filteredSetPiece.map(row => Number(row?.lineouts_success_rate)).filter(Number.isFinite);
-        const scrumRates = filteredSetPiece.map(row => Number(row?.scrums_success_rate)).filter(Number.isFinite);
+        const lineoutRates = filteredSetPieceTeam.map(row => Number(row?.lineouts_success_rate)).filter(Number.isFinite);
+        const scrumRates = filteredSetPieceTeam.map(row => Number(row?.scrums_success_rate)).filter(Number.isFinite);
         if (lineoutSuccessNote) lineoutSuccessNote.textContent = lineoutRates.length
-            ? 'Average lineout success: ' + (average(lineoutRates) * 100).toFixed(1) + '%.'
+            ? 'Average lineout success: ' + (average(lineoutRates) * 100).toFixed(1) + '%. '
             : 'No lineout data for active filters.';
         if (scrumSuccessNote) scrumSuccessNote.textContent = scrumRates.length
-            ? 'Average scrum success: ' + (average(scrumRates) * 100).toFixed(1) + '%.'
+            ? 'Average scrum success: ' + (average(scrumRates) * 100).toFixed(1) + '%. '
             : 'No scrum data for active filters.';
+
 
         const pointsPerEntryNote = document.getElementById('pointsPerEntryNote');
         const triesPerEntryNote = document.getElementById('triesPerEntryNote');
@@ -195,6 +322,7 @@
             ? 'Average tries per 22m entry: ' + average(triesPerEntryVals).toFixed(2) + '.'
             : 'No red zone try data for active filters.';
 
+
         const topPlayersRows = document.getElementById('topPlayersRows');
         if (topPlayersRows) {
             const topPlayers = filteredPlayers
@@ -204,12 +332,14 @@
 
             topPlayersRows.innerHTML = topPlayers.length
                 ? topPlayers.map(player => {
-                    return '<tr><td>' + player.name + '</td><td>'
-                        + Number(player.total_appearances || 0) + '</td><td>'
+                    return '<tr><td data-label="Player">' + player.name + '</td><td data-label="Apps">'
+                        + Number(player.total_appearances || 0) + '</td><td data-label="Points">'
                         + Number(player.career_points || 0) + '</td></tr>';
                 }).join('')
                 : '<tr><td colspan="3" class="text-muted">No players for this filter.</td></tr>';
         }
+
+        renderPrototypeCharts();
     }
 
     function renderActiveFilterRibbon() {
@@ -221,12 +351,9 @@
         if (state.season !== defaultState.season) chips.push(['Season', state.season, 'season']);
         if (state.minApps !== defaultState.minApps) chips.push(['Min Apps', String(state.minApps), 'minApps']);
 
-        const competitions = [];
-        if (state.league) competitions.push('League');
-        if (state.cup) competitions.push('Cup');
-        if (state.friendly) competitions.push('Friendly');
-        if (competitions.length !== 2 || competitions[0] !== 'League' || competitions[1] !== 'Cup') {
-            chips.push(['Competition', competitions.join(' + ') || 'None', 'competition']);
+        const competitions = getCompetitionLabel();
+        if (competitions !== 'League + Cup') {
+            chips.push(['Competition', competitions, 'competition']);
         }
 
         if (state.showBench !== defaultState.showBench) chips.push(['Bench', state.showBench ? 'On' : 'Off', 'showBench']);
@@ -234,7 +361,6 @@
 
         if (chips.length === 0) {
             activeFilterRibbon.innerHTML = '<span class="text-muted small">No active overrides. Showing default analysis view.</span>';
-            updateLiveCards();
             return;
         }
 
@@ -246,15 +372,12 @@
                     + '</span>';
             })
             .join('');
-
-        updateLiveCards();
     }
 
     function setSeason(newSeason) {
         if (!seasons.includes(newSeason)) return;
         state.season = newSeason;
         if (seasonCurrentBtn) seasonCurrentBtn.textContent = state.season;
-        renderActiveFilterRibbon();
     }
 
     function cycleSeason(direction) {
@@ -265,6 +388,7 @@
         }
         const nextIndex = Math.max(0, Math.min(seasons.length - 1, currentIndex + direction));
         setSeason(seasons[nextIndex]);
+        renderAll();
     }
 
     function setSegmentValue(filterKey, value) {
@@ -274,71 +398,67 @@
             const active = btn.getAttribute('data-filter-value') === value;
             btn.classList.toggle('active', active);
         });
+    }
 
+    function syncDesktopAdvancedControls() {
+        if (minAppsRange) minAppsRange.value = String(state.minApps);
+        if (minAppsValue) minAppsValue.textContent = String(state.minApps);
+        if (compLeague) compLeague.checked = !!state.league;
+        if (compCup) compCup.checked = !!state.cup;
+        if (compFriendly) compFriendly.checked = !!state.friendly;
+        if (showBench) showBench.checked = !!state.showBench;
+        if (showReplacements) showReplacements.checked = !!state.showReplacements;
+    }
+
+    function syncMobileControls() {
+        if (mobileSquadSelect) mobileSquadSelect.value = state.squad;
+        if (mobileGameTypeSelect) mobileGameTypeSelect.value = state.gameType;
+        if (mobileSeasonSelect) mobileSeasonSelect.value = state.season;
+        if (mobileMinAppsRange) mobileMinAppsRange.value = String(state.minApps);
+        if (mobileMinAppsValue) mobileMinAppsValue.textContent = String(state.minApps);
+        if (mobileCompLeague) mobileCompLeague.checked = !!state.league;
+        if (mobileCompCup) mobileCompCup.checked = !!state.cup;
+        if (mobileCompFriendly) mobileCompFriendly.checked = !!state.friendly;
+        if (mobileShowBench) mobileShowBench.checked = !!state.showBench;
+        if (mobileShowReplacements) mobileShowReplacements.checked = !!state.showReplacements;
+    }
+
+    function syncPrimaryDesktopControls() {
+        setSegmentValue('squad', state.squad);
+        setSegmentValue('gameType', state.gameType);
+        if (seasonCurrentBtn) seasonCurrentBtn.textContent = state.season;
+    }
+
+    function renderAll() {
+        syncPrimaryDesktopControls();
+        syncDesktopAdvancedControls();
+        syncMobileControls();
         renderActiveFilterRibbon();
+        renderScopedChips();
+        updateLiveCards();
     }
 
     function resetState() {
         Object.assign(state, defaultState);
-        setSegmentValue('squad', state.squad);
-        setSegmentValue('gameType', state.gameType);
-        setSeason(state.season);
-
-        if (minAppsRange) minAppsRange.value = String(state.minApps);
-        if (minAppsValue) minAppsValue.textContent = String(state.minApps);
-
-        const boolMap = [
-            ['compLeague', 'league'],
-            ['compCup', 'cup'],
-            ['compFriendly', 'friendly'],
-            ['showBench', 'showBench'],
-            ['showReplacements', 'showReplacements'],
-        ];
-
-        boolMap.forEach(([id, key]) => {
-            const el = document.getElementById(id);
-            if (el) el.checked = !!state[key];
-        });
-
-        renderActiveFilterRibbon();
+        renderAll();
     }
 
     function clearKey(key) {
         if (key === 'season') {
             setSeason(defaultState.season);
-            return;
-        }
-        if (key === 'minApps') {
+        } else if (key === 'minApps') {
             state.minApps = defaultState.minApps;
-            if (minAppsRange) minAppsRange.value = String(state.minApps);
-            if (minAppsValue) minAppsValue.textContent = String(state.minApps);
-            renderActiveFilterRibbon();
-            return;
-        }
-        if (key === 'competition') {
+        } else if (key === 'competition') {
             state.league = true;
             state.cup = true;
             state.friendly = false;
-            const compLeague = document.getElementById('compLeague');
-            const compCup = document.getElementById('compCup');
-            const compFriendly = document.getElementById('compFriendly');
-            if (compLeague) compLeague.checked = true;
-            if (compCup) compCup.checked = true;
-            if (compFriendly) compFriendly.checked = false;
-            renderActiveFilterRibbon();
-            return;
-        }
-        if (key === 'showBench' || key === 'showReplacements') {
+        } else if (key === 'showBench' || key === 'showReplacements') {
             state[key] = defaultState[key];
-            const checkbox = document.getElementById(key);
-            if (checkbox) checkbox.checked = defaultState[key];
-            renderActiveFilterRibbon();
-            return;
+        } else if (key === 'squad' || key === 'gameType') {
+            state[key] = defaultState[key];
         }
 
-        if (key === 'squad' || key === 'gameType') {
-            setSegmentValue(key, defaultState[key]);
-        }
+        renderAll();
     }
 
     function setupSegmentButtons() {
@@ -348,6 +468,7 @@
                 const value = this.getAttribute('data-filter-value');
                 if (!filterKey || value === null) return;
                 setSegmentValue(filterKey, value);
+                renderAll();
             });
         });
     }
@@ -365,25 +486,23 @@
         }
     }
 
-    function setupAdvancedFilters() {
+    function setupDesktopAdvancedFilters() {
         if (minAppsRange) {
             minAppsRange.addEventListener('input', function () {
-                const nextValue = Number(this.value) || 0;
-                state.minApps = nextValue;
-                if (minAppsValue) minAppsValue.textContent = String(nextValue);
+                state.minApps = Number(this.value) || 0;
+                if (minAppsValue) minAppsValue.textContent = String(state.minApps);
             });
         }
 
-        const boolMap = [
-            ['compLeague', 'league'],
-            ['compCup', 'cup'],
-            ['compFriendly', 'friendly'],
-            ['showBench', 'showBench'],
-            ['showReplacements', 'showReplacements'],
+        const desktopBoolMap = [
+            [compLeague, 'league'],
+            [compCup, 'cup'],
+            [compFriendly, 'friendly'],
+            [showBench, 'showBench'],
+            [showReplacements, 'showReplacements'],
         ];
 
-        boolMap.forEach(([id, key]) => {
-            const el = document.getElementById(id);
+        desktopBoolMap.forEach(([el, key]) => {
             if (!el) return;
             el.addEventListener('change', function () {
                 state[key] = this.checked;
@@ -393,7 +512,32 @@
         const applyAdvancedFilters = document.getElementById('applyAdvancedFilters');
         if (applyAdvancedFilters) {
             applyAdvancedFilters.addEventListener('click', function () {
-                renderActiveFilterRibbon();
+                renderAll();
+            });
+        }
+    }
+
+    function setupMobileFilters() {
+        if (mobileMinAppsRange) {
+            mobileMinAppsRange.addEventListener('input', function () {
+                const next = Number(this.value) || 0;
+                if (mobileMinAppsValue) mobileMinAppsValue.textContent = String(next);
+            });
+        }
+
+        const applyMobileFilters = document.getElementById('applyMobileFilters');
+        if (applyMobileFilters) {
+            applyMobileFilters.addEventListener('click', function () {
+                if (mobileSquadSelect) state.squad = mobileSquadSelect.value;
+                if (mobileGameTypeSelect) state.gameType = mobileGameTypeSelect.value;
+                if (mobileSeasonSelect) state.season = mobileSeasonSelect.value;
+                if (mobileMinAppsRange) state.minApps = Number(mobileMinAppsRange.value) || 0;
+                if (mobileCompLeague) state.league = mobileCompLeague.checked;
+                if (mobileCompCup) state.cup = mobileCompCup.checked;
+                if (mobileCompFriendly) state.friendly = mobileCompFriendly.checked;
+                if (mobileShowBench) state.showBench = mobileShowBench.checked;
+                if (mobileShowReplacements) state.showReplacements = mobileShowReplacements.checked;
+                renderAll();
             });
         }
     }
@@ -423,9 +567,9 @@
             btn.addEventListener('click', function () {
                 const card = this.closest('.insight-card');
                 if (!card || !focusModal || !focusTitle || !focusCopy) return;
-                const title = card.getAttribute('data-card-title') || 'Focused Insight';
-                focusTitle.textContent = title;
-                focusCopy.textContent = 'Focused view for ' + title + '. Use this mode on mobile when compact cards feel too dense.';
+                const title = card.getAttribute('data-card-title') || 'Inspect Mode (Beta)';
+                focusTitle.textContent = 'Inspect: ' + title;
+                focusCopy.textContent = 'This beta view is retained for testing. Keep or remove based on real mobile use cases.';
                 focusModal.show();
             });
         });
@@ -435,9 +579,9 @@
             expandAllCardsBtn.addEventListener('click', function () {
                 const firstCard = document.querySelector('.insight-card');
                 if (!firstCard || !focusModal || !focusTitle || !focusCopy) return;
-                const title = firstCard.getAttribute('data-card-title') || 'Focused Insight';
-                focusTitle.textContent = title;
-                focusCopy.textContent = 'In a real implementation, this action could open a carousel of expanded cards in sequence.';
+                const title = firstCard.getAttribute('data-card-title') || 'Inspect Mode (Beta)';
+                focusTitle.textContent = 'Inspect: ' + title;
+                focusCopy.textContent = 'Inspect mode can become a carousel or zoomed card if testing proves clear value.';
                 focusModal.show();
             });
         }
@@ -466,7 +610,8 @@
     async function init() {
         setupSegmentButtons();
         setupSeasonControls();
-        setupAdvancedFilters();
+        setupDesktopAdvancedFilters();
+        setupMobileFilters();
         setupRailNavigation();
         setupFocusCards();
         setupRibbonActions();

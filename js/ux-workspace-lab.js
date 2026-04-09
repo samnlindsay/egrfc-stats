@@ -13,12 +13,62 @@
         setPiece: [],
     };
 
+    const seasonSelect = document.getElementById('workspaceSeasonSelect');
+    const gameTypeSelect = document.getElementById('workspaceGameTypeSelect');
+    const minApps = document.getElementById('workspaceMinApps');
+    const minAppsValue = document.getElementById('workspaceMinAppsValue');
+
+    const wsMobileSquad = document.getElementById('wsMobileSquad');
+    const wsMobileSeason = document.getElementById('wsMobileSeason');
+    const wsMobileGameType = document.getElementById('wsMobileGameType');
+    const wsMobileMinApps = document.getElementById('wsMobileMinApps');
+    const wsMobileMinAppsValue = document.getElementById('wsMobileMinAppsValue');
+
     function normaliseGameType(value) {
         const text = String(value || '').toLowerCase();
         if (text.includes('league')) return 'League';
         if (text.includes('cup')) return 'Cup';
         if (text.includes('friendly')) return 'Friendly';
         return 'Other';
+    }
+
+    function scopeLabel(key) {
+        const map = {
+            squad: 'Squad',
+            season: 'Season',
+            gameType: 'Game',
+            minApps: 'Min Apps',
+        };
+        return map[key] || key;
+    }
+
+    function scopeValue(key) {
+        const map = {
+            squad: state.squad,
+            season: state.season,
+            gameType: state.gameType,
+            minApps: String(state.minApps),
+        };
+        return map[key] || '-';
+    }
+
+    function renderScopedChips() {
+        const containers = document.querySelectorAll('[data-ws-filter-scope]');
+        containers.forEach(container => {
+            const scope = String(container.getAttribute('data-ws-filter-scope') || '')
+                .split(',')
+                .map(item => item.trim())
+                .filter(Boolean);
+
+            if (!scope.length) {
+                container.innerHTML = '';
+                return;
+            }
+
+            container.innerHTML = scope
+                .map(key => '<span class="ws-filter-chip"><strong>' + scopeLabel(key) + ':</strong> ' + scopeValue(key) + '</span>')
+                .join('');
+        });
     }
 
     async function loadData() {
@@ -78,7 +128,30 @@
         });
     }
 
+    function syncDesktopControls() {
+        document.querySelectorAll('[data-squad]').forEach(el => {
+            el.classList.toggle('active', el.getAttribute('data-squad') === state.squad);
+        });
+
+        if (seasonSelect) seasonSelect.value = state.season;
+        if (gameTypeSelect) gameTypeSelect.value = state.gameType;
+        if (minApps) minApps.value = String(state.minApps);
+        if (minAppsValue) minAppsValue.textContent = String(state.minApps);
+    }
+
+    function syncMobileControls() {
+        if (wsMobileSquad) wsMobileSquad.value = state.squad;
+        if (wsMobileSeason) wsMobileSeason.value = state.season;
+        if (wsMobileGameType) wsMobileGameType.value = state.gameType;
+        if (wsMobileMinApps) wsMobileMinApps.value = String(state.minApps);
+        if (wsMobileMinAppsValue) wsMobileMinAppsValue.textContent = String(state.minApps);
+    }
+
     function render() {
+        syncDesktopControls();
+        syncMobileControls();
+        renderScopedChips();
+
         const games = getFilteredGames();
         const players = getFilteredPlayers();
         const setPiece = getFilteredSetPiece();
@@ -120,7 +193,7 @@
         const wsWinsBar = document.getElementById('wsWinsBar');
         const wsDrawsBar = document.getElementById('wsDrawsBar');
         const wsLossesBar = document.getElementById('wsLossesBar');
-        if (wsOutcomesNote) wsOutcomesNote.textContent = 'W-D-L: ' + wins + '-' + draws + '-' + losses + ' across ' + games.length + ' games.';
+        if (wsOutcomesNote) wsOutcomesNote.textContent = 'Win rate is ' + (games.length ? ((wins / games.length) * 100).toFixed(1) : '-') + '%. W-D-L: ' + wins + '-' + draws + '-' + losses + '.';
         if (wsWinsBar) wsWinsBar.style.width = ((wins / total) * 100).toFixed(1) + '%';
         if (wsDrawsBar) wsDrawsBar.style.width = ((draws / total) * 100).toFixed(1) + '%';
         if (wsLossesBar) wsLossesBar.style.width = ((losses / total) * 100).toFixed(1) + '%';
@@ -168,14 +241,10 @@
             btn.addEventListener('click', function () {
                 const nextSquad = this.getAttribute('data-squad') || 'All';
                 state.squad = nextSquad;
-                document.querySelectorAll('[data-squad]').forEach(el => {
-                    el.classList.toggle('active', el.getAttribute('data-squad') === nextSquad);
-                });
                 render();
             });
         });
 
-        const seasonSelect = document.getElementById('workspaceSeasonSelect');
         if (seasonSelect) {
             seasonSelect.addEventListener('change', function () {
                 state.season = this.value;
@@ -183,7 +252,6 @@
             });
         }
 
-        const gameTypeSelect = document.getElementById('workspaceGameTypeSelect');
         if (gameTypeSelect) {
             gameTypeSelect.addEventListener('change', function () {
                 state.gameType = this.value;
@@ -191,13 +259,29 @@
             });
         }
 
-        const minApps = document.getElementById('workspaceMinApps');
-        const minAppsValue = document.getElementById('workspaceMinAppsValue');
         if (minApps) {
             minApps.addEventListener('input', function () {
                 const nextValue = Number(this.value) || 0;
                 state.minApps = nextValue;
                 if (minAppsValue) minAppsValue.textContent = String(nextValue);
+                render();
+            });
+        }
+
+        if (wsMobileMinApps) {
+            wsMobileMinApps.addEventListener('input', function () {
+                const nextValue = Number(this.value) || 0;
+                if (wsMobileMinAppsValue) wsMobileMinAppsValue.textContent = String(nextValue);
+            });
+        }
+
+        const wsApplyMobileFilters = document.getElementById('wsApplyMobileFilters');
+        if (wsApplyMobileFilters) {
+            wsApplyMobileFilters.addEventListener('click', function () {
+                if (wsMobileSquad) state.squad = wsMobileSquad.value;
+                if (wsMobileSeason) state.season = wsMobileSeason.value;
+                if (wsMobileGameType) state.gameType = wsMobileGameType.value;
+                if (wsMobileMinApps) state.minApps = Number(wsMobileMinApps.value) || 0;
                 render();
             });
         }
@@ -209,16 +293,6 @@
                 state.season = '2025/26';
                 state.gameType = 'All games';
                 state.minApps = 0;
-
-                document.querySelectorAll('[data-squad]').forEach(el => {
-                    el.classList.toggle('active', el.getAttribute('data-squad') === 'All');
-                });
-
-                if (seasonSelect) seasonSelect.value = state.season;
-                if (gameTypeSelect) gameTypeSelect.value = state.gameType;
-                if (minApps) minApps.value = '0';
-                if (minAppsValue) minAppsValue.textContent = '0';
-
                 render();
             });
         }
