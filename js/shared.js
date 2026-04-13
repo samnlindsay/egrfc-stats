@@ -7,6 +7,83 @@ const SQUAD_POSITION_ORDER = [...FORWARD_POSITIONS, ...BACK_POSITIONS];
 let availableSeasons = ['2025/26', '2024/25', '2023/24', '2022/23', '2021/22', '2019/20', '2018/19', '2017/18', '2016/17'];
 const chartSpecCache = new Map();
 const chartSpecRequestVersion = String(Date.now());
+let responsiveChartResizeBound = false;
+
+function resetResponsiveChartScale(embed) {
+    if (!embed) return;
+    embed.style.transform = 'none';
+    embed.style.transformOrigin = 'top left';
+    embed.classList.remove('chart-responsive-scaled');
+    const wrapper = embed.parentElement;
+    if (wrapper) {
+        wrapper.style.width = '';
+        wrapper.style.height = '';
+    }
+}
+
+function getResponsiveChartBoundary(embed) {
+    if (!embed) return null;
+    return (
+        embed.closest('.player-stats-chart-container') ||
+        embed.closest('.chart-host--intrinsic') ||
+        embed.closest('.chart-host') ||
+        embed.parentElement
+    );
+}
+
+function applyResponsiveChartScale(rootElement = document) {
+    if (!rootElement || !window || typeof window.innerWidth !== 'number') return;
+
+    rootElement.querySelectorAll('.vega-embed').forEach(embed => {
+        if (embed.closest('#teamSheetsChart, .chart-embed-host--team-sheets, .team-sheets-chart-shell')) {
+            resetResponsiveChartScale(embed);
+            return;
+        }
+
+        const boundary = getResponsiveChartBoundary(embed);
+        if (!boundary) {
+            resetResponsiveChartScale(embed);
+            return;
+        }
+
+        const availableWidth = Math.floor(boundary.clientWidth || 0);
+        if (!availableWidth || window.innerWidth > 900) {
+            resetResponsiveChartScale(embed);
+            return;
+        }
+
+        const intrinsicWidth = Math.ceil(embed.scrollWidth || embed.getBoundingClientRect().width || 0);
+        const intrinsicHeight = Math.ceil(embed.scrollHeight || embed.getBoundingClientRect().height || 0);
+        if (!intrinsicWidth || intrinsicWidth <= availableWidth) {
+            resetResponsiveChartScale(embed);
+            return;
+        }
+
+        const rawScale = availableWidth / intrinsicWidth;
+        const minReadableScale = window.innerWidth <= 480 ? 0.58 : 0.68;
+        if (rawScale < minReadableScale) {
+            resetResponsiveChartScale(embed);
+            return;
+        }
+
+        const scale = Math.min(1, rawScale);
+        embed.style.transformOrigin = 'top left';
+        embed.style.transform = `scale(${scale})`;
+        embed.classList.add('chart-responsive-scaled');
+
+        const wrapper = embed.parentElement;
+        if (wrapper) {
+            wrapper.style.width = `${Math.ceil(intrinsicWidth * scale)}px`;
+            wrapper.style.height = `${Math.ceil(intrinsicHeight * scale)}px`;
+        }
+    });
+}
+
+function bindResponsiveChartResizeHandler() {
+    if (responsiveChartResizeBound) return;
+    responsiveChartResizeBound = true;
+    window.addEventListener('resize', () => applyResponsiveChartScale(document));
+}
 
 function getCurrentSeasonLabel() {
     const now = new Date();
@@ -73,6 +150,7 @@ function createPlayerLink(playerName) {
 
 function pinVegaActionsInElement(rootElement) {
     if (!rootElement) return;
+    bindResponsiveChartResizeHandler();
     const run = () => {
         rootElement.querySelectorAll('.vega-embed').forEach(embed => {
             embed.style.display = 'block';
@@ -95,6 +173,8 @@ function pinVegaActionsInElement(rootElement) {
                 actions.style.zIndex = '11';
             }
         });
+
+        applyResponsiveChartScale(rootElement);
     };
     run();
     [50, 150, 400, 900].forEach(delay => window.setTimeout(run, delay));

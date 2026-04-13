@@ -34,6 +34,13 @@
     max-width: max-content;
 }
 
+.chart-host--intrinsic,
+.player-stats-chart-container {
+    overflow-x: auto;
+    overflow-y: visible;
+    -webkit-overflow-scrolling: touch;
+}
+
 .chart-host--intrinsic .vega-embed,
 .chart-host--intrinsic .vega-embed > div {
     width: max-content !important;
@@ -169,6 +176,12 @@
     .chart-scale-mobile-tight .vega-embed {
         transform: scale(var(--chart-mobile-scale));
         transform-origin: top left;
+
+    .chart-host--intrinsic .chart-embed-host,
+    .player-stats-chart-container .chart-embed-host {
+        min-width: 0;
+        max-width: 100%;
+    }
     }
 
     .team-sheets-page-shell {
