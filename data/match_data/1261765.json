@@ -1,0 +1,59 @@
+{
+    "match_id": "1261765",
+    "season": "2025-2026",
+    "league": "Counties 2 Sussex",
+    "date": "2026-04-11",
+    "teams": [
+        "Royals RFC",
+        "East Grinstead"
+    ],
+    "score": [
+        27,
+        45
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/94051.png",
+        "https://images.englandrugby.com/club_images/7134.png"
+    ],
+    "players": [
+        {
+            "15": "Christian Weald",
+            "14": "Pearse Moloney",
+            "13": "Jake Stanton",
+            "12": "Hamish Mackie",
+            "11": "George Burke",
+            "10": "Ben Pearson",
+            "9": "Aidan Loane",
+            "8": "Cameron Queree",
+            "7": "Matthew Boyd",
+            "6": "Joshua Aldwinckle",
+            "5": "Lewis Ham-Howes",
+            "4": "Dan Haywood",
+            "3": "Name withheld",
+            "2": "Patrick Crossley",
+            "1": "Tristan Burns",
+            "S1": "Thibaud Calohard",
+            "S2": "Connor Devenny",
+            "S3": "Luke Maker"
+        },
+        {
+            "15": "Jack Andrews",
+            "14": "Samuel Musgrave",
+            "13": "Jake Radcliffe",
+            "12": "Alistair Moffatt",
+            "11": "Noah Roberts",
+            "10": "Daniel Poulton",
+            "9": "Daniel Harding",
+            "8": "Rory evans",
+            "7": "Harrison Berry",
+            "6": "Oscar Staples",
+            "5": "John Peaty",
+            "4": "Guy Collins",
+            "3": "Benjamin Tottman",
+            "2": "Joshua Brimecombe",
+            "1": "Thomas McMahon",
+            "S1": "Henry Weller",
+            "S2": "William Roberts"
+        }
+    ]
+}

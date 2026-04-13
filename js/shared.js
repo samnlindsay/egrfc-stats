@@ -212,7 +212,13 @@ function chartSpecHasRows(spec) {
     return true;
 }
 
-function renderStaticSpecChart(containerId, spec, emptyMessage) {
+function prepareChartSpecForEmbed(spec, options = {}) {
+    const processedSpec = JSON.parse(JSON.stringify(spec));
+    if (options.hideTitle !== false) delete processedSpec.title;
+    return processedSpec;
+}
+
+function renderStaticSpecChart(containerId, spec, emptyMessage, options = {}) {
     const container = document.getElementById(containerId);
     if (!container) return;
     if (!spec || !chartSpecHasRows(spec)) {
@@ -224,7 +230,8 @@ function renderStaticSpecChart(containerId, spec, emptyMessage) {
     embedHost.className = 'chart-embed-host';
     if (containerId === 'teamSheetsChart') embedHost.classList.add('chart-embed-host--team-sheets');
     container.appendChild(embedHost);
-    vegaEmbed(embedHost, spec, { actions: VEGA_EMBED_ACTIONS, renderer: 'svg' })
+    const chartSpec = prepareChartSpecForEmbed(spec, options);
+    vegaEmbed(embedHost, chartSpec, { actions: VEGA_EMBED_ACTIONS, renderer: 'svg' })
         .then(() => pinVegaActionsInElement(container))
         .catch(error => {
             console.error(`Error rendering ${containerId}:`, error);

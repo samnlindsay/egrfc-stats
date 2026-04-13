@@ -16,6 +16,7 @@ os.chdir(project_root)
 from python.backend import BackendConfig, BackendDatabase
 from python.data import *
 from python.charts import (
+    squad_position_composition_chart,
     squad_size_trend_chart,
     squad_continuity_average_chart,
     squad_overlap_chart,
@@ -112,6 +113,7 @@ def main(refresh_pitchero=False, backend_mode="canonical", backend_db_path="data
     lineout_trend_chart_suite(db)
     lineout_analysis_chart_suite(db)
     squad_size_trend_chart(db)
+    squad_position_composition_chart(db)
     squad_overlap_chart(db)
     squad_continuity_average_chart(db)
     export_league_context_chart_specs(db, squads=("1st",))

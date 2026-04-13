@@ -28,6 +28,18 @@
     min-width: 100%;
 }
 
+.chart-host--intrinsic .chart-embed-host {
+    min-width: 0;
+    width: auto;
+    max-width: max-content;
+}
+
+.chart-host--intrinsic .vega-embed,
+.chart-host--intrinsic .vega-embed > div {
+    width: max-content !important;
+    min-width: 0 !important;
+}
+
 .chart-embed-host--team-sheets {
     min-width: max-content;
 }

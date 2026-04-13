@@ -252,6 +252,31 @@ def _parse_scorer_payload(value: Any) -> dict[str, int]:
     return parsed
 
 
+def _normalise_scorer_payload_names(
+    value: Any,
+    player_lookup: dict[tuple[str, str], str] | None = None,
+) -> str | None:
+    payload = _parse_scorer_payload(value)
+    if not payload:
+        return None if _is_empty_jsonish(value) else json.dumps({})
+
+    player_lookup = player_lookup or {}
+    normalized: dict[str, int] = {}
+    for raw_name, count in payload.items():
+        player_name = player_lookup.get((str(raw_name).strip(), clean_name(raw_name)))
+        if not player_name:
+            player_name = player_lookup.get((clean_name(raw_name), clean_name(raw_name)))
+        if not player_name:
+            player_name = _canonical_player_name(raw_name)
+
+        player_name = str(player_name).strip()
+        if not player_name:
+            continue
+        normalized[player_name] = normalized.get(player_name, 0) + count
+
+    return json.dumps(normalized)
+
+
 def _apply_pitchero_supplemental_enrichment(db_path: Path, project_root: Path) -> dict[str, int]:
     """Apply URL/scorer supplements from reconciliation artifacts, if available."""
     report = {
@@ -2092,6 +2117,20 @@ class BackendDatabase:
         else:
             df["appearance_count"] = 0
 
+        scorer_name_lookup: dict[str, dict[tuple[str, str], str]] = {}
+        if appearances_raw is not None and not appearances_raw.empty and {"game_id", "player"}.issubset(set(appearances_raw.columns)):
+            lookup_apps = appearances_raw[["game_id", "player"]].dropna().copy()
+            lookup_apps["game_id"] = lookup_apps["game_id"].astype(str).map(
+                lambda game_id: self._game_id_alias_map.get(game_id, game_id)
+            )
+            lookup_apps["player"] = lookup_apps["player"].map(_canonical_player_name)
+            lookup_apps["player_join"] = lookup_apps["player"].map(clean_name)
+
+            for row in lookup_apps.drop_duplicates(subset=["game_id", "player"]).itertuples(index=False):
+                game_lookup = scorer_name_lookup.setdefault(str(row.game_id), {})
+                game_lookup[(str(row.player).strip(), str(row.player_join).strip())] = str(row.player).strip()
+                game_lookup[(str(row.player_join).strip(), str(row.player_join).strip())] = str(row.player).strip()
+
         df["has_score"] = (df["pf"].notna() & df["pa"].notna()).astype(int)
         df["has_pitchero_url"] = df["pitchero_match_url"].notna().astype(int)
         df["has_pitchero_scorers"] = df[scorer_columns].fillna("{}").astype(str).apply(
@@ -2281,11 +2320,8 @@ class BackendDatabase:
                 return quality
 
             for idx, row in df.iterrows():
-                needs_url = pd.isna(row.get("pitchero_match_url"))
-                needs_scorers = not any(
-                    str(row.get(col) or "").strip() not in {"", "{}", "null", "None"}
-                    for col in scorer_columns
-                )
+                needs_url = _is_empty_jsonish(row.get("pitchero_match_url"))
+                needs_scorers = all(_is_empty_jsonish(row.get(col)) for col in scorer_columns)
                 if not needs_url and not needs_scorers:
                     continue
 
@@ -2311,10 +2347,18 @@ class BackendDatabase:
                 if needs_url:
                     df.at[idx, "pitchero_match_url"] = best.get("pitchero_match_url")
                 for col in scorer_columns:
-                    if str(df.at[idx, col] or "").strip() in {"", "{}", "null", "None"}:
+                    if _is_empty_jsonish(df.at[idx, col]):
                         df.at[idx, col] = best.get(col)
-                if str(df.at[idx, "motm"] or "").strip() in {"", "{}", "null", "None"}:
+                if _is_empty_jsonish(df.at[idx, "motm"]):
                     df.at[idx, "motm"] = best.get("motm")
+
+        if scorer_name_lookup:
+            for idx, row in df.iterrows():
+                player_lookup = scorer_name_lookup.get(str(row.get("game_id")))
+                if not player_lookup:
+                    continue
+                for col in scorer_columns:
+                    df.at[idx, col] = _normalise_scorer_payload_names(row.get(col), player_lookup)
 
         # Replace generic league competition labels with the season/squad-specific
         # league name when one is available in the same group.
@@ -2666,7 +2710,14 @@ class BackendDatabase:
                 ]
             )
 
-        merged = set_piece_raw.merge(games[["game_id", "squad", "date", "season", "opposition"]], on="game_id", how="left")
+        df_raw = set_piece_raw.copy()
+
+        # Remap set-piece rows from alias game_ids to canonical retained game_ids.
+        alias_map = getattr(self, "_game_id_alias_map", {})
+        if alias_map and "game_id" in df_raw.columns:
+            df_raw["game_id"] = df_raw["game_id"].astype(str).map(lambda gid: alias_map.get(gid, gid))
+
+        merged = df_raw.merge(games[["game_id", "squad", "date", "season", "opposition"]], on="game_id", how="left")
 
         merged = merged[merged["squad"].notna()]
 
@@ -2679,6 +2730,8 @@ class BackendDatabase:
         df["scrums_total"] = pd.to_numeric(df["scrums_total"], errors="coerce").fillna(0).astype(int)
         df["lineouts_success_rate"] = (df["lineouts_won"] / df["lineouts_total"].replace(0, pd.NA)).fillna(0.0)
         df["scrums_success_rate"] = (df["scrums_won"] / df["scrums_total"].replace(0, pd.NA)).fillna(0.0)
+        # Preserve blanks as NULL so unrecorded red-zone rows can be filtered out downstream.
+        # Explicit "0" values from the sheet remain numeric zero via _safe_int.
         df["entries_22m"] = pd.to_numeric(df.get("entries_22m"), errors="coerce").astype("Int64")
         df["points"] = pd.to_numeric(df.get("points"), errors="coerce").astype("Int64")
         df["tries"] = pd.to_numeric(df.get("tries"), errors="coerce").astype("Int64")

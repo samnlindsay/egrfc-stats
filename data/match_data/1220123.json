@@ -1,0 +1,57 @@
+{
+    "match_id": "1220123",
+    "season": "2025-2026",
+    "league": "Counties 2 Sussex",
+    "date": "2026-04-11",
+    "teams": [
+        "Crawley",
+        "Shoreham"
+    ],
+    "score": [
+        19,
+        34
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/5807.png",
+        "https://images.englandrugby.com/club_images/19257.png"
+    ],
+    "players": [
+        {
+            "15": "Kristian Dean",
+            "14": "Kai Marshall",
+            "13": "Name withheld",
+            "12": "Vincenzo Dessena",
+            "11": "Dino Gomez Ruiz",
+            "10": "Conor Kelly",
+            "9": "Paul Christie",
+            "8": "Charles Dennis",
+            "7": "Guy Craddock",
+            "6": "Jake Jackson",
+            "5": "Oliver Plunkett",
+            "4": "Bradley Davies",
+            "3": "Nathan Cox",
+            "2": "Robert Higgins",
+            "1": "Joel Fisher",
+            "S1": "Jude Read",
+            "S2": "Joshua Laviol",
+            "S3": "David Ayres"
+        },
+        {
+            "15": "Nathan Funnell",
+            "14": "Joel Carter",
+            "13": "Darren Locke",
+            "12": "Finnbar Broxup",
+            "11": "Adam Fear",
+            "10": "Archie Winter",
+            "9": "Gavin Cox",
+            "8": "Alex Hall",
+            "7": "Alfie Cawkwell",
+            "6": "Daniel Adams",
+            "5": "Michael Shaw",
+            "4": "Mark Lavery",
+            "3": "Daryn Clarke",
+            "2": "Noah Rudge",
+            "1": "Connor Fairhall"
+        }
+    ]
+}

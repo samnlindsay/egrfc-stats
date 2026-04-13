@@ -1447,6 +1447,185 @@ def squad_size_trend_chart(db, output_file='data/charts/squad_size_trend.json'):
     return chart
 
 
+def squad_position_composition_chart(db, output_file='data/charts/squad_position_composition.json'):
+    """Generate squad position composition chart template.
+
+    The exported spec is consumed by the frontend, which filters to selected:
+    - season
+    - gameTypeMode (All games / League + Cup / League only)
+    - minimumAppearances
+    """
+
+    base_df = db.con.execute(
+        """
+        SELECT
+            g.season,
+            pa.squad,
+            pa.unit,
+            pa.position,
+            g.game_type,
+            pa.player,
+            COUNT(*)::INTEGER AS games
+        FROM player_appearances pa
+        JOIN games g ON pa.game_id = g.game_id
+        WHERE pa.is_starter = TRUE
+          AND pa.unit IN ('Forwards', 'Backs')
+          AND pa.position IS NOT NULL
+        GROUP BY g.season, pa.squad, pa.unit, pa.position, g.game_type, pa.player
+        """
+    ).df()
+
+    if base_df.empty:
+        print("No starter position data found for squad position composition chart.")
+        return None
+
+    position_order = [
+        'Prop', 'Hooker', 'Second Row', 'Flanker', 'Number 8',
+        'Scrum Half', 'Fly Half', 'Centre', 'Wing', 'Full Back'
+    ]
+    position_order_map = {name: idx + 1 for idx, name in enumerate(position_order)}
+
+    mode_filters = {
+        'All games': lambda df: df,
+        'League + Cup': lambda df: df[df['game_type'].isin(['League', 'Cup'])],
+        'League only': lambda df: df[df['game_type'] == 'League'],
+    }
+
+    count_modes = {
+        'appearance_position': 'Appearance position',
+        'primary_position': 'Player primary position',
+    }
+
+    rows = []
+    for mode_name, mode_filter in mode_filters.items():
+        mode_df = mode_filter(base_df)
+        if mode_df.empty:
+            continue
+
+        # Keep one row per player-position with appearance count at that position.
+        by_appearance_position = mode_df[['season', 'squad', 'unit', 'position', 'player', 'games']].copy()
+
+        # Collapse each player into one "primary" position per season/squad, using total appearances.
+        ranked = mode_df.copy()
+        ranked['position_order'] = ranked['position'].map(position_order_map).fillna(999).astype(int)
+        ranked = ranked.sort_values(
+            by=['season', 'squad', 'player', 'games', 'position_order'],
+            ascending=[True, True, True, False, True],
+        )
+        primary_positions = ranked.drop_duplicates(['season', 'squad', 'player'], keep='first')[
+            ['season', 'squad', 'player', 'position', 'unit']
+        ]
+        player_totals = (
+            mode_df
+            .groupby(['season', 'squad', 'player'], as_index=False)
+            .agg(games=('games', 'sum'))
+        )
+        by_primary_position = primary_positions.merge(
+            player_totals,
+            on=['season', 'squad', 'player'],
+            how='inner',
+        )
+
+        source_by_count_mode = {
+            'appearance_position': by_appearance_position,
+            'primary_position': by_primary_position,
+        }
+
+        for count_mode, count_mode_label in count_modes.items():
+            source_df = source_by_count_mode[count_mode]
+            if source_df.empty:
+                continue
+
+            for minimum_appearances in range(0, 13):
+                filtered = source_df[source_df['games'] >= minimum_appearances].copy()
+                if filtered.empty:
+                    continue
+
+                grouped = (
+                    filtered
+                    .groupby(['season', 'squad', 'unit', 'position', 'games'], as_index=False)
+                    .agg(
+                        players=('player', 'nunique'),
+                    )
+                )
+
+                grouped['gameTypeMode'] = mode_name
+                grouped['countMode'] = count_mode
+                grouped['countModeLabel'] = count_mode_label
+                grouped['minimumAppearances'] = minimum_appearances
+                grouped['position_order'] = grouped['position'].map(position_order_map).fillna(999).astype(int)
+
+                rows.append(grouped)
+
+    if not rows:
+        print("No grouped rows generated for squad position composition chart.")
+        return None
+
+    df = pd.concat(rows, ignore_index=True)
+
+    chart = (
+        alt.Chart(df)
+        .mark_bar(cornerRadiusEnd=5)
+        .encode(
+            y=alt.Y(
+                'position:N',
+                sort=alt.EncodingSortField(field='position_order', op='min', order='ascending'),
+                title=None,
+                axis=alt.Axis(labelLimit=120),
+            ),
+            x=alt.X('players:Q', stack='zero', title='Players', axis=alt.Axis(tickMinStep=1)),
+            detail=alt.Detail('games:Q'),
+            order=alt.Order('games:Q', sort='descending'),
+            color=alt.Color(
+                'squad:N',
+                scale=alt.Scale(domain=['1st', '2nd'], range=['#202946', '#7d96e8']),
+                legend=None,
+            ),
+            opacity=alt.Opacity(
+                'games:Q',
+                legend=alt.Legend(title='Games per player', orient='bottom', titleOrient='left', values=[1, 3, 5, 10]),
+            ),
+            tooltip=[
+                alt.Tooltip('season:N', title='Season'),
+                alt.Tooltip('gameTypeMode:N', title='Game Type'),
+                alt.Tooltip('countModeLabel:N', title='Position Count Mode'),
+                alt.Tooltip('minimumAppearances:Q', title='Min Apps'),
+                alt.Tooltip('squad:N', title='Squad'),
+                alt.Tooltip('unit:N', title='Unit'),
+                alt.Tooltip('position:N', title='Position'),
+                alt.Tooltip('players:Q', title='Players'),
+                alt.Tooltip('games:Q', title='Appearances per player '),
+            ],
+        )
+        .properties(width=250, height=alt.Step(22))
+        .facet(
+            column=alt.Column(
+                'squad:N',
+                sort=['1st', '2nd'],
+                title=None,
+                header=alt.Header(labelExpr="datum.value + ' XV'", labelFontSize=16),
+            ),
+            row=alt.Row(
+                'unit:N',
+                sort=['Forwards', 'Backs'],
+                title=None,
+                header=alt.Header(labelFontSize=14),
+            ),
+            spacing=16,
+        )
+        .resolve_scale(x='shared', y='independent')
+        .properties(
+            title=alt.Title(
+                text='Squad Composition by Position',
+                subtitle=['Bar length = players used. Stack segments group players by appearances in each position bucket.'],
+            )
+        )
+    )
+
+    chart.save(output_file)
+    return chart
+
+
 def squad_overlap_chart(db, output_file='data/charts/squad_overlap.json'):
     """Generate a diverging stacked bar chart showing player squad overlap by season.
     
@@ -3991,11 +4170,11 @@ def set_piece_h2h_chart_backend(db, set_piece="Lineout", output_file=None):
     
 
 def red_zone_performance_chart(db, metric="points", output_file=None, bind_params=False):
-    """Generate red-zone performance scatter chart from canonical backend data.
+    """Generate notebook-style red-zone game scatter chart from canonical backend data.
 
     metric:
-    - "points" -> y axis is points_per_entry
-    - "tries" -> y axis is tries_per_entry
+    - "points" -> color by points-per-entry difference (EGRFC - Opposition)
+    - "tries" -> color by tries-per-entry difference (EGRFC - Opposition)
     """
     metric_key = str(metric).strip().lower()
     if metric_key not in {"points", "tries"}:
@@ -4007,14 +4186,12 @@ def red_zone_performance_chart(db, metric="points", output_file=None, bind_param
     df = db.con.execute(
         """
         SELECT
-            r.game_id,
-            r.date,
-            r.season,
-            r.squad,
+            g.game_id,
+            g.date,
+            g.season,
             COALESCE(g.game_type, 'Unknown') AS game_type,
-            r.opposition,
-            COALESCE(g.home_away, '?') AS home_away,
-            r.opposition || ' (' || COALESCE(g.home_away, '?') || ')' AS label,
+            g.opposition || ' (' || COALESCE(g.home_away, '?') || ')' AS label,
+            CAST(g.score_for AS VARCHAR) || ' - ' || CAST(g.score_against AS VARCHAR) AS score,
             CASE WHEN r.team = 'EGRFC' THEN 'EGRFC' ELSE 'Opposition' END AS team,
             r.entries_22m::DOUBLE AS entries_22m,
             r.points::DOUBLE AS points,
@@ -4024,7 +4201,7 @@ def red_zone_performance_chart(db, metric="points", output_file=None, bind_param
         FROM v_red_zone r
         LEFT JOIN games g USING (game_id)
         WHERE r.entries_22m IS NOT NULL
-        ORDER BY r.date DESC, r.squad, r.team
+        ORDER BY g.date DESC, g.squad, r.team
         """
     ).df()
 
@@ -4032,28 +4209,65 @@ def red_zone_performance_chart(db, metric="points", output_file=None, bind_param
         print(f"Skipping red_zone_performance_chart ({metric_key}): no rows available.")
         return None
 
-    df = df.dropna(subset=["entries_22m", "points_per_entry", "tries_per_entry"]).copy()
+    df = df.dropna(subset=["entries_22m", "points", "points_per_entry", "tries_per_entry"]).copy()
     if df.empty:
         print(f"Skipping red_zone_performance_chart ({metric_key}): no valid rows after null filtering.")
         return None
 
     df["season"] = df["season"].fillna("Unknown").astype(str)
-    df["squad"] = df["squad"].fillna("Unknown").astype(str)
     df["game_type"] = df["game_type"].fillna("Unknown").astype(str)
-    df["opposition"] = df["opposition"].fillna("Unknown").astype(str)
+    df["label"] = df["label"].fillna("Unknown").astype(str)
+    df["score"] = df["score"].fillna("?").astype(str)
 
-    y_field = "points_per_entry" if metric_key == "points" else "tries_per_entry"
-    y_title = "Points per Entry" if metric_key == "points" else "Tries per Entry"
+    df_wide = (
+        df.pivot_table(
+            index=["game_id", "date", "season", "game_type", "label", "score"],
+            values=["entries_22m", "points", "tries", "points_per_entry", "tries_per_entry"],
+            columns=["team"],
+            aggfunc="first",
+        )
+        .reset_index()
+    )
+    df_wide.columns = ["_".join([str(part) for part in col if str(part) != ""]).strip("_") if isinstance(col, tuple) else str(col) for col in df_wide.columns]
 
-    x_max = float(df["entries_22m"].max()) if not df.empty else 0.0
-    y_max = float(df[y_field].max()) if not df.empty else 0.0
-    x_domain_max = max(20.0, float(int((x_max * 1.18) + 0.9999)))
-    if metric_key == "points":
-        y_domain_max = 7.0
-    else:
-        y_domain_max = max(1.0, float(int((y_max * 1.22) + 0.9999)))
+    required_cols = [
+        "entries_22m_EGRFC",
+        "entries_22m_Opposition",
+        "points_EGRFC",
+        "points_Opposition",
+        "points_per_entry_EGRFC",
+        "points_per_entry_Opposition",
+        "tries_per_entry_EGRFC",
+        "tries_per_entry_Opposition",
+    ]
+    for col in required_cols:
+        if col not in df_wide.columns:
+            df_wide[col] = None
 
-    seasons = sorted(df["season"].unique().tolist(), reverse=True)
+    df_wide = df_wide.dropna(
+        subset=[
+            "entries_22m_EGRFC",
+            "entries_22m_Opposition",
+            "points_EGRFC",
+            "points_Opposition",
+            "points_per_entry_EGRFC",
+            "points_per_entry_Opposition",
+        ]
+    ).copy()
+
+    if df_wide.empty:
+        print(f"Skipping red_zone_performance_chart ({metric_key}): no complete game rows after pivot.")
+        return None
+
+    df_wide["PD"] = df_wide["points_EGRFC"] - df_wide["points_Opposition"]
+    df_wide["entries_diff"] = df_wide["entries_22m_EGRFC"] - df_wide["entries_22m_Opposition"]
+    df_wide["pp22_diff"] = df_wide["points_per_entry_EGRFC"] - df_wide["points_per_entry_Opposition"]
+    df_wide["tp22_diff"] = df_wide["tries_per_entry_EGRFC"] - df_wide["tries_per_entry_Opposition"]
+
+    x_extent = max(5.0, float(df_wide["entries_diff"].abs().max()) * 1.15)
+    y_extent = max(20.0, float(df_wide["PD"].abs().max()) * 1.15)
+
+    seasons = sorted(df_wide["season"].dropna().unique().tolist(), reverse=True)
 
     def _param(name, value, options=None, label=None):
         bind = alt.binding_select(options=options, name=label) if bind_params and options is not None else None
@@ -4061,10 +4275,9 @@ def red_zone_performance_chart(db, metric="points", output_file=None, bind_param
             return alt.param(name=name, bind=bind, value=value)
         return alt.param(name=name, value=value)
 
-    squad_param = _param("rzSquad", "1st", ["All", "1st", "2nd"], "Squad ")
+    squad_param = _param("rzSquad", "All", ["All", "1st", "2nd"], "Squad ")
     season_param = _param("rzSeason", "All", ["All", *seasons], "Season ")
     game_type_param = _param("rzGameType", "All", ["All", "League + Cup", "League only"], "Game Type ")
-    highlight = alt.selection_point(fields=["team"], bind="legend")
 
     filter_expr = (
         f"({squad_param.name} == 'All' || datum.squad == {squad_param.name})"
@@ -4077,162 +4290,115 @@ def red_zone_performance_chart(db, metric="points", output_file=None, bind_param
         f")"
     )
 
-    df_wide = (
-        df.pivot_table(index=["game_id", "date", "season", "squad", "game_type", "opposition", "label"], columns="team", values=["entries_22m", y_field, "points", "tries"], aggfunc="first")
-        .reset_index()
-    )
-    if not df_wide.empty:
-        df_wide.columns = [
-            "_".join([str(part) for part in col if str(part) != ""]).strip("_") if isinstance(col, tuple) else str(col)
-            for col in df_wide.columns
-        ]
-        rename_map = {
-            f"entries_22m_EGRFC": "entries_22m_egrfc",
-            f"entries_22m_Opposition": "entries_22m_opp",
-            f"{y_field}_EGRFC": "metric_egrfc",
-            f"{y_field}_Opposition": "metric_opp",
-            "points_EGRFC": "points_egrfc",
-            "points_Opposition": "points_opp",
-            "tries_EGRFC": "tries_egrfc",
-            "tries_Opposition": "tries_opp",
-        }
-        df_wide = df_wide.rename(columns=rename_map)
-        for col in ["entries_22m_egrfc", "entries_22m_opp", "metric_egrfc", "metric_opp"]:
-            if col not in df_wide.columns:
-                df_wide[col] = None
-        df_wide = df_wide.dropna(subset=["entries_22m_egrfc", "entries_22m_opp", "metric_egrfc", "metric_opp"])
-    else:
-        df_wide = pd.DataFrame(columns=["game_id", "entries_22m_egrfc", "entries_22m_opp", "metric_egrfc", "metric_opp"])
+    color_field = "pp22_diff:Q" if metric_key == "points" else "tp22_diff:Q"
+    color_title = "Points per entry difference" if metric_key == "points" else "Tries per entry difference"
+    color_domain = [-3, 3] if metric_key == "points" else [-1, 1]
 
-    quadrant_df = pd.DataFrame(
-        {
-            "x": [x_domain_max * 0.86, x_domain_max * 0.86, x_domain_max * 0.14, x_domain_max * 0.14, x_domain_max * 0.86, x_domain_max * 0.86, x_domain_max * 0.14, x_domain_max * 0.14],
-            "y": [y_domain_max * 0.94, y_domain_max * 0.10, y_domain_max * 0.94, y_domain_max * 0.10, y_domain_max * 0.90, y_domain_max * 0.06, y_domain_max * 0.90, y_domain_max * 0.06],
-            "label": [
-                "High Efficiency",
-                "Low Efficiency",
-                "High Efficiency",
-                "Low Efficiency",
-                "High Territory",
-                "High Territory",
-                "Low Territory",
-                "Low Territory",
-            ],
-            "opacity": [1, 0.5, 1, 0.5, 1, 1, 0.5, 0.5],
-        }
-    )
-
-    reference_layers = []
-    if metric_key == "points":
-        def ref_line_coords(point_total=20):
-            coords = []
-            for x in range(1, 200):
-                entries = x * 0.1
-                points_per_entry = point_total / entries
-                if (points_per_entry <= 6) and (entries <= x_domain_max or points_per_entry >= 1):
-                    coords.append({"x": entries, "y": points_per_entry})
-            return coords
-
-        ref_line_10 = alt.Chart(pd.DataFrame(ref_line_coords(10))).mark_line(color="black", opacity=0.1, clip=True).encode(x="x:Q", y="y:Q")
-        ref_line_20 = alt.Chart(pd.DataFrame(ref_line_coords(20))).mark_line(color="black", opacity=0.1, clip=True).encode(x="x:Q", y="y:Q")
-        ref_line_50 = alt.Chart(pd.DataFrame(ref_line_coords(50))).mark_line(color="black", opacity=0.1, clip=True).encode(x="x:Q", y="y:Q")
-        ref_line_labels = alt.Chart(
-            pd.DataFrame(
-                {
-                    "y": [6, 5.3, 5],
-                    "x": [50 / 6, 20 / 5.3, 10 / 5],
-                    "label": ["50 pts", "20 pts", "10 pts"],
-                }
-            )
-        ).mark_text(size=10, color="black", opacity=0.5, fontStyle="italic").encode(x="x:Q", y="y:Q", text="label:N")
-        reference_layers = [ref_line_10, ref_line_20, ref_line_50, ref_line_labels]
-
-    points = (
-        alt.Chart(df)
-        .transform_filter(filter_expr)
-        .mark_point(filled=True, size=70)
-        .encode(
-            x=alt.X("entries_22m:Q", scale=alt.Scale(zero=True, domain=[0, x_domain_max]), axis=alt.Axis(title="22m Entries", tickCount=4, grid=False)),
-            y=alt.Y(f"{y_field}:Q", scale=alt.Scale(zero=True, domain=[0, y_domain_max]), axis=alt.Axis(title=y_title, tickCount=7, grid=False)),
-            color=alt.Color("team:N", scale=alt.Scale(domain=["EGRFC", "Opposition"], range=["#202946", "#991515"]), legend=alt.Legend(title=None, orient="top")),
-            tooltip=[
-                alt.Tooltip("label:N", title="Game"),
-                alt.Tooltip("date:T", title="Date"),
-                alt.Tooltip("points:Q", title="Points"),
-                alt.Tooltip("tries:Q", title="Tries"),
-                alt.Tooltip("entries_22m:Q", title="22m Entries"),
-                alt.Tooltip("points_per_entry:Q", title="Points per Entry", format=".1f"),
-                alt.Tooltip("tries_per_entry:Q", title="Tries per Entry", format=".1f"),
-            ],
-            opacity=alt.condition(highlight, alt.value(1), alt.value(0.1), legend=None),
-        )
-    )
-
-    averages = (
-        alt.Chart(df)
-        .transform_filter(filter_expr)
-        .transform_aggregate(
-            entries_22m="mean(entries_22m)",
-            points="mean(points)",
-            tries="mean(tries)",
-            points_per_entry="mean(points_per_entry)",
-            tries_per_entry="mean(tries_per_entry)",
-            groupby=["team"],
-        )
-        .mark_point(filled=True, opacity=1, shape="diamond", stroke="black")
-        .encode(
-            x=alt.X("entries_22m:Q"),
-            y=alt.Y(f"{y_field}:Q"),
-            color=alt.Color("team:N", scale=alt.Scale(domain=["EGRFC", "Opposition"], range=["#202946", "#991515"])),
-            tooltip=[
-                alt.Tooltip("points:Q", title="Average Points", format=".1f"),
-                alt.Tooltip("tries:Q", title="Average Tries", format=".1f"),
-                alt.Tooltip("entries_22m:Q", title="Average 22m Entries", format=".1f"),
-                alt.Tooltip("points_per_entry:Q", title="Average Points per Entry", format=".1f"),
-                alt.Tooltip("tries_per_entry:Q", title="Average Tries per Entry", format=".1f"),
-            ],
-            size=alt.value(200),
-            opacity=alt.condition(highlight, alt.value(1), alt.value(0.1)),
-        )
-    )
-
-    color_test = "datum.points_egrfc > datum.points_opp" if metric_key == "points" else "datum.tries_egrfc > datum.tries_opp"
-    lines = (
+    point = (
         alt.Chart(df_wide)
         .transform_filter(filter_expr)
-        .mark_rule(strokeWidth=1.2)
+        .mark_circle(size=150, stroke="black", strokeWidth=1, fillOpacity=1.0, strokeOpacity=0.7)
         .encode(
-            x=alt.X("entries_22m_egrfc:Q"),
-            y=alt.Y("metric_egrfc:Q"),
-            x2=alt.X2("entries_22m_opp:Q"),
-            y2=alt.Y2("metric_opp:Q"),
-            color=alt.condition(color_test, alt.value("#202946"), alt.value("#991515")),
-            detail="game_id:N",
-            opacity=alt.condition(highlight, alt.value(0.8), alt.value(0.1)),
+            x=alt.X(
+                "entries_diff:Q",
+                title="Difference in 22m Entries",
+                scale=alt.Scale(type="symlog", constant=5, domain=[-x_extent, x_extent], nice=True),
+                axis=alt.Axis(tickCount=5, grid=False),
+            ),
+            y=alt.Y(
+                "PD:Q",
+                title="Points Difference",
+                scale=alt.Scale(type="symlog", constant=20, domain=[-y_extent, y_extent], nice=True),
+                axis=alt.Axis(tickCount=8, grid=False, format="+d"),
+            ),
+            color=alt.Color(
+                color_field,
+                scale=alt.Scale(scheme="redyellowgreen", domain=color_domain, zero=True, clamp=True),
+                legend=alt.Legend(
+                    orient="right",
+                    direction="vertical",
+                    title=color_title,
+                    titleOrient="left",
+                    format="+.2f",
+                    padding=5,
+                    offset=20,
+                ),
+            ),
+            tooltip=[
+                alt.Tooltip("label:N", title="Game"),
+                alt.Tooltip("score:N", title="Score"),
+                alt.Tooltip("PD:Q", title="Points Difference", format="+d"),
+                alt.Tooltip("entries_22m_EGRFC:Q", title="EG 22m Entries"),
+                alt.Tooltip("entries_22m_Opposition:Q", title="Opp 22m Entries"),
+                alt.Tooltip("points_per_entry_EGRFC:Q", title="EG pts per entry", format=".2f"),
+                alt.Tooltip("points_per_entry_Opposition:Q", title="Opp pts per entry", format=".2f"),
+                alt.Tooltip("pp22_diff:Q", title="Points per Entry Diff", format="+.2f"),
+                alt.Tooltip("tries_EGRFC:Q", title="EG tries"),
+                alt.Tooltip("tries_Opposition:Q", title="Opp tries"),
+                alt.Tooltip("tries_per_entry_EGRFC:Q", title="EG tries per entry", format=".0%"),
+                alt.Tooltip("tries_per_entry_Opposition:Q", title="Opp tries per entry", format=".0%"),
+                alt.Tooltip("tp22_diff:Q", title="Tries per Entry Diff", format="+.2f"),
+            ],
         )
     )
 
-    quadrant_labels = alt.Chart(quadrant_df).mark_text(size=12, color="black", fontStyle="italic").encode(
-        x=alt.X("x:Q"),
-        y=alt.Y("y:Q"),
-        opacity=alt.Opacity("opacity:Q", legend=None),
-        text=alt.Text("label:N"),
+    zero_x = alt.Chart(pd.DataFrame({"x": [0]})).mark_rule(color="black", strokeWidth=1, strokeDash=[10, 5], opacity=0.5).encode(x="x:Q")
+    zero_y = alt.Chart(pd.DataFrame({"y": [0]})).mark_rule(color="black", strokeWidth=1, strokeDash=[10, 5], opacity=0.5).encode(y="y:Q")
+
+    labels = (
+        alt.Chart(df_wide)
+        .transform_filter(filter_expr)
+        .mark_text(align="left", baseline="middle", dx=8, dy=8, fontSize=9, opacity=0.7)
+        .encode(
+            x=alt.X("entries_diff:Q"),
+            y=alt.Y("PD:Q"),
+            text=alt.Text("label:N"),
+        )
     )
 
-    subtitle_metric = "points per entry" if metric_key == "points" else "tries per entry"
-    layer_parts = [*reference_layers, quadrant_labels, points, averages, lines]
-    chart = alt.layer(*layer_parts).add_params(squad_param, season_param, game_type_param, highlight).properties(
-        title=alt.TitleParams(
-            text="Red Zone Success",
-            subtitle=[
-                f"Attacking territory (22m entries) vs Scoring efficiency ({subtitle_metric})",
-                "Each point represents a game. Lines connect EGRFC to their opposition in the same game.",
-                "Diamond points show the average for EGRFC and their opposition across all games.",
-            ],
-        ),
-        width=450,
-        height=400,
-    ).resolve_scale(color="shared", x="shared", y="shared")
+    text_y = alt.Chart(
+        pd.DataFrame(
+            {
+                "x": [-x_extent * 0.9, -x_extent * 0.9],
+                "y": [y_extent * 0.02, -y_extent * 0.02],
+                "label": ["↑ Won", "↓ Lost"],
+            }
+        )
+    ).mark_text(align="center", baseline="middle", fontSize=14, opacity=0.5).encode(
+        x=alt.X("x:Q"),
+        y=alt.Y("y:Q"),
+        text=alt.Text("label:N"),
+        color=alt.condition(alt.datum.y > 0, alt.value("green"), alt.value("red")),
+    )
+
+    text_x = alt.Chart(
+        pd.DataFrame(
+            {
+                "x": [x_extent * 0.1, -x_extent * 0.1],
+                "y": [y_extent * 0.9, y_extent * 0.9],
+                "label": [["→ More", "chances"], ["Fewer ←", "chances"]],
+            }
+        )
+    ).mark_text(align="center", baseline="middle", fontSize=12, opacity=0.5).encode(
+        x=alt.X("x:Q"),
+        y=alt.Y("y:Q"),
+        text=alt.Text("label:N"),
+        color=alt.condition(alt.datum.x > 0, alt.value("green"), alt.value("red")),
+    )
+
+    title_text = "Red Zone Performance"
+    subtitle_text = "Difference in attacking chances vs points difference by game"
+
+    chart = (
+        alt.layer(zero_x, zero_y, point, labels, text_y, text_x)
+        .add_params(squad_param, season_param, game_type_param)
+        .properties(
+            title=alt.TitleParams(text=title_text, subtitle=[subtitle_text]),
+            width=400,
+            height=500,
+        )
+        .resolve_scale(x="shared", y="shared", color="independent")
+    )
 
     chart.save(output_file)
     return chart

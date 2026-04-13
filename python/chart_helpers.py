@@ -278,12 +278,19 @@ def alt_theme():
     return {
         "config": {
             "axis": {
-                "labelFont": font,
+                "labelFont": title_font,
                 "titleFont": title_font,
                 "labelFontSize": 13,
                 "titleFontSize": 24,
                 "gridColor":"#202947",
                 "gridOpacity": 0.2,
+            },
+            "text": {
+                "font": font,
+            },
+            # Custom bar corner radius
+            "bar": {
+                "cornerRadiusEnd": 5,
             },
             "header": {
                 "labelFont": title_font,
@@ -294,7 +301,7 @@ def alt_theme():
                 "orient": "left",
             },
             "legend": {
-                "labelFont": font,
+                "labelFont": title_font,
                 "titleFont": title_font,
                 "labelFontSize": 14,
                 "titleFontSize": 16,

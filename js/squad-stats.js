@@ -1,29 +1,29 @@
 // Squad Stats + Player Stats page logic
 
 let squadStatsWithThresholdsEnrichedData = null;
-let squadPositionProfilesEnrichedData = null;
 let squadContinuityEnrichedData = null;
 let squadStatsData = null;
 let squadSizeTrendTemplateSpec = null;
 let squadContinuityTrendTemplateSpec = null;
 let squadOverlapTemplateSpec = null;
+let squadPositionCompositionTemplateSpec = null;
 let squadStatsControlsInitialised = false;
+let syncingSquadStatsControls = false;
+let squadStatsAnalysisRailInitialised = false;
+let suppressGameTypeSegmentSync = false;
 
 async function loadSquadStatsCanonicalData() {
-    if (squadStatsWithThresholdsEnrichedData && squadPositionProfilesEnrichedData && squadContinuityEnrichedData) return;
+    if (squadStatsWithThresholdsEnrichedData && squadContinuityEnrichedData && squadPositionCompositionTemplateSpec) return;
 
-    const [statsResponse, positionsResponse, continuityResponse] = await Promise.all([
+    const [statsResponse, continuityResponse] = await Promise.all([
         fetch('data/backend/squad_stats_with_thresholds_enriched.json'),
-        fetch('data/backend/squad_position_profiles_enriched.json'),
         fetch('data/backend/squad_continuity_enriched.json')
     ]);
 
     if (!statsResponse.ok) throw new Error(`Failed to fetch squad stats export (${statsResponse.status})`);
-    if (!positionsResponse.ok) throw new Error(`Failed to fetch squad position profiles export (${positionsResponse.status})`);
     if (!continuityResponse.ok) throw new Error(`Failed to fetch squad continuity export (${continuityResponse.status})`);
 
     squadStatsWithThresholdsEnrichedData = await statsResponse.json();
-    squadPositionProfilesEnrichedData = await positionsResponse.json();
     squadContinuityEnrichedData = await continuityResponse.json();
 
     if (!squadSizeTrendTemplateSpec) {
@@ -46,6 +46,13 @@ async function loadSquadStatsCanonicalData() {
             if (res.ok) squadOverlapTemplateSpec = await res.json();
         } catch (e) { console.warn('Unable to load squad overlap template spec:', e); }
     }
+
+    if (!squadPositionCompositionTemplateSpec) {
+        try {
+            const res = await fetch('data/charts/squad_position_composition.json');
+            if (res.ok) squadPositionCompositionTemplateSpec = await res.json();
+        } catch (e) { console.warn('Unable to load squad position composition template spec:', e); }
+    }
 }
 
 function createSquadMetricBucket() {
@@ -54,24 +61,6 @@ function createSquadMetricBucket() {
 
 function createSquadSeasonBucket() {
     return { '1st': createSquadMetricBucket(), '2nd': createSquadMetricBucket(), 'Total': createSquadMetricBucket() };
-}
-
-function parsePlayerCountsMap(value) {
-    if (value instanceof Map) return new Map(value);
-    if (value && typeof value === 'object' && !Array.isArray(value)) {
-        return new Map(Object.entries(value).map(([player, count]) => [player, Number(count) || 0]));
-    }
-    if (typeof value === 'string' && value.trim()) {
-        try {
-            const parsed = JSON.parse(value);
-            if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) {
-                return new Map(Object.entries(parsed).map(([player, count]) => [player, Number(count) || 0]));
-            }
-        } catch (error) {
-            console.warn('Unable to parse playerCounts payload:', error);
-        }
-    }
-    return new Map();
 }
 
 function buildSquadStatsDataFromThresholds(rows, gameTypeMode) {
@@ -106,74 +95,55 @@ async function loadSquadStatsPage() {
             const el = document.getElementById(id);
             if (el) el.innerHTML = '<div class="text-center text-danger py-4">Unable to load chart.</div>';
         });
-        ['squadPositionCards1st', 'squadPositionCards2nd'].forEach(id => {
-            const el = document.getElementById(id);
-            if (el) el.innerHTML = '<div class="text-center text-danger py-3">Unable to load position data.</div>';
-        });
+        const positionChartHost = document.getElementById('squadPositionCompositionChart');
+        if (positionChartHost) positionChartHost.innerHTML = '<div class="text-center text-danger py-3">Unable to load position data.</div>';
     }
 }
 
-function getEmptySquadPositionCounts() {
-    const createPositionCounts = () => {
-        const counts = {};
-        SQUAD_POSITION_ORDER.forEach(position => { counts[position] = 0; });
-        return counts;
-    };
-    return { '1st': createPositionCounts(), '2nd': createPositionCounts() };
-}
+function renderSquadPositionCompositionChart(selectedSeason, minimumAppearances, positionCountMode) {
+    const container = document.getElementById('squadPositionCompositionChart');
+    if (!container) return;
 
-function buildSquadPositionCounts(selectedSeason, minimumAppearances) {
-    const counts = getEmptySquadPositionCounts();
-    if (!squadPositionProfilesEnrichedData || !selectedSeason) return counts;
+    if (!squadPositionCompositionTemplateSpec) {
+        container.innerHTML = '<div class="text-center text-muted py-4">Squad position composition chart template not available. Run <code>python update.py</code> to generate charts.</div>';
+        return;
+    }
+
     const mode = getSquadStatsGameTypeMode();
     const threshold = Math.max(0, Number(minimumAppearances) || 0);
-    (squadPositionProfilesEnrichedData || []).forEach(row => {
-        const season = normalizeSeasonLabel(row?.season);
-        const squad = row?.squad;
-        const position = row?.position;
-        if (season !== selectedSeason || row?.gameTypeMode !== mode) return;
-        if (!['1st', '2nd'].includes(squad)) return;
-        if (!SQUAD_POSITION_ORDER.includes(position)) return;
-        const playerMap = parsePlayerCountsMap(row?.playerCounts);
-        if (threshold <= 0) {
-            counts[squad][position] = playerMap.size;
-            return;
-        }
-        let playerCount = 0;
-        playerMap.forEach(value => { if (value >= threshold) playerCount += 1; });
-        counts[squad][position] = playerCount;
-    });
-    return counts;
-}
 
-function buildPositionCardsMarkup(positionCounts) {
-    const renderCard = (position, value, section) => `
-        <div class="squad-position-card squad-position-card--${section}">
-            <div class="squad-position-card-title squad-position-card-title--${section}">${position}</div>
-            <div class="squad-position-card-value squad-position-card-value--${section}">${value}</div>
-        </div>
-    `;
-    const forwardsRow = FORWARD_POSITIONS.map(p => renderCard(p, positionCounts[p] || 0, 'forwards')).join('');
-    const backsRow = BACK_POSITIONS.map(p => renderCard(p, positionCounts[p] || 0, 'backs')).join('');
-    return `
-        <div class="squad-position-cards-grid">
-            <div class="squad-position-cards-row">${forwardsRow}</div>
-            <div class="squad-position-cards-row">${backsRow}</div>
-        </div>
-    `;
-}
+    const rowFilter = row => (
+        normalizeSeasonLabel(row?.season) === selectedSeason
+        && row?.gameTypeMode === mode
+        && Number(row?.minimumAppearances) === threshold
+        && (row?.countMode || 'appearance_position') === positionCountMode
+        && Number(row?.players || 0) > 0
+    );
 
-function renderSquadPositionPanels(selectedSeason, minimumAppearances) {
-    const counts = buildSquadPositionCounts(selectedSeason, minimumAppearances);
-    const cards1st = document.getElementById('squadPositionCards1st');
-    const cards2nd = document.getElementById('squadPositionCards2nd');
-    const subtitle1st = document.getElementById('squadPositionSubtitle1st');
-    const subtitle2nd = document.getElementById('squadPositionSubtitle2nd');
-    const subtitleText = minimumAppearances > 1 ? `Players with ${minimumAppearances}+ appearances in position` : 'Players used in each position';
-    if (subtitle1st) subtitle1st.textContent = subtitleText;
-    if (subtitle2nd) subtitle2nd.textContent = subtitleText;
-    if (cards1st) cards1st.innerHTML = buildPositionCardsMarkup(counts['1st']);
-    if (cards2nd) cards2nd.innerHTML = buildPositionCardsMarkup(counts['2nd']);
+    const spec = JSON.parse(JSON.stringify(squadPositionCompositionTemplateSpec));
+
+    if (spec.data && Array.isArray(spec.data.values)) {
+        spec.data.values = spec.data.values.filter(rowFilter);
+    }
+
+    if (spec.datasets) {
+        Object.keys(spec.datasets).forEach(name => {
+            const rows = spec.datasets[name];
+            if (!Array.isArray(rows)) return;
+            spec.datasets[name] = rows.filter(rowFilter);
+        });
+    }
+
+    const filteredRows =
+        (spec.data && Array.isArray(spec.data.values) ? spec.data.values.length : 0)
+        + (spec.datasets ? Object.values(spec.datasets).reduce((n, rows) => n + (Array.isArray(rows) ? rows.length : 0), 0) : 0);
+
+    if (!filteredRows) {
+        container.innerHTML = '<div class="text-center text-muted py-4">No position composition data available for the selected filters.</div>';
+        return;
+    }
+
+    renderStaticSpecChart('squadPositionCompositionChart', spec, 'No position composition data available for the selected filters.', { hideTitle: true });
 }
 
 function getSquadMetricValue(unit, bucket, minimumAppearances = 0) {
@@ -183,11 +153,6 @@ function getSquadMetricValue(unit, bucket, minimumAppearances = 0) {
     if (unit === 'Forwards') return getValueAtThreshold(bucket.forwardsByThreshold);
     if (unit === 'Backs') return getValueAtThreshold(bucket.backsByThreshold);
     return getValueAtThreshold(bucket.playersByThreshold);
-}
-
-function getSquadMetricCardLabel(minimumAppearances) {
-    if (minimumAppearances > 1) return `Players with ${minimumAppearances} or more games`;
-    return 'Players used';
 }
 
 function getSquadStatsGameTypeMode() {
@@ -202,6 +167,135 @@ function getSquadStatsMinimumAppearances() {
     return Math.max(0, Math.floor(value));
 }
 
+function getSquadStatsPositionCountMode() {
+    const select = document.getElementById('squadStatsPositionCountModeSelect');
+    return select?.value || 'appearance_position';
+}
+
+function getSquadStatsPositionCountModeLabel(value) {
+    return value === 'primary_position' ? 'Player primary position' : 'Appearance position';
+}
+
+function getSquadStatsSelectedSeason() {
+    const seasonSelect = document.getElementById('squadStatsSeasonSelect');
+    return seasonSelect?.value || getCurrentSeasonLabel();
+}
+
+function setSelectValue(selectEl, value) {
+    if (!selectEl || value === undefined || value === null) return;
+    selectEl.value = value;
+}
+
+function setMinAppsValue(inputEl, value) {
+    if (!inputEl) return;
+    inputEl.value = String(Math.max(0, Math.floor(Number(value) || 0)));
+}
+
+function applySquadStatsControlState({ season, gameType, minimumAppearances, positionCountMode }) {
+    const seasonSelect = document.getElementById('squadStatsSeasonSelect');
+    const gameTypeSelect = document.getElementById('squadStatsGameTypeSelect');
+    const minAppsInput = document.getElementById('squadStatsMinAppsSelect');
+    const positionCountModeSelect = document.getElementById('squadStatsPositionCountModeSelect');
+
+    syncingSquadStatsControls = true;
+    try {
+        setSelectValue(seasonSelect, season);
+        setSelectValue(gameTypeSelect, gameType);
+        setSelectValue(positionCountModeSelect, positionCountMode);
+        setMinAppsValue(minAppsInput, minimumAppearances);
+        syncSeasonStepperFromSelect();
+        syncGameTypeSegmentFromSelect();
+        syncPositionCountModeSegmentFromSelect();
+        updateMinAppsDisplay();
+    } finally {
+        syncingSquadStatsControls = false;
+    }
+}
+
+function syncSeasonStepperFromSelect() {
+    const select = document.getElementById('squadStatsSeasonSelect');
+    const label = document.getElementById('squadStatsSeasonLabel');
+    const prevBtn = document.getElementById('squadStatsSeasonPrev');
+    const nextBtn = document.getElementById('squadStatsSeasonNext');
+    if (!select || !label) return;
+    label.textContent = select.value || '';
+    if (prevBtn) prevBtn.disabled = select.selectedIndex <= 0;
+    if (nextBtn) nextBtn.disabled = select.selectedIndex >= select.options.length - 1;
+}
+
+function syncGameTypeSegmentFromSelect() {
+    if (suppressGameTypeSegmentSync) return;
+    const select = document.getElementById('squadStatsGameTypeSelect');
+    const segment = document.getElementById('squadStatsGameTypeSegment');
+    if (!select || !segment) return;
+    const value = select.value || 'All games';
+    segment.querySelectorAll('.squad-filter-segment-btn').forEach(btn => {
+        btn.classList.toggle('is-active', btn.dataset.value === value);
+    });
+}
+
+function syncPositionCountModeSegmentFromSelect() {
+    const select = document.getElementById('squadStatsPositionCountModeSelect');
+    const segment = document.getElementById('squadStatsPositionCountModeSegment');
+    if (!select || !segment) return;
+    const value = select.value || 'appearance_position';
+    segment.querySelectorAll('.squad-filter-segment-btn').forEach(btn => {
+        btn.classList.toggle('is-active', btn.dataset.value === value);
+    });
+}
+
+function updateMinAppsDisplay() {
+    const valueEl = document.getElementById('squadStatsMinAppsValue');
+    if (!valueEl) return;
+    valueEl.textContent = String(getSquadStatsMinimumAppearances());
+}
+
+function syncLeagueContextUnitSegmentFromSelect() {
+    const select = document.getElementById('leagueContextUnitSelect');
+    const segment = document.getElementById('leagueContextUnitSegment');
+    if (!select || !segment) return;
+    const value = select.value || 'Total';
+    segment.querySelectorAll('.squad-filter-segment-btn').forEach(btn => {
+        btn.classList.toggle('is-active', btn.dataset.value === value);
+    });
+}
+
+function renderSquadStatsActiveFilterChips(targetId, selectedSeason, gameTypeMode, minimumAppearances, positionCountMode) {
+    const host = document.getElementById(targetId);
+    if (!host) return;
+    
+    const chips = [
+        `<span class="squad-stats-filter-chip"><strong>Season</strong> ${selectedSeason}</span>`,
+        `<span class="squad-stats-filter-chip"><strong>Game Type</strong> ${gameTypeMode}</span>`,
+        `<span class="squad-stats-filter-chip"><strong>Min Appearances</strong> ${minimumAppearances}</span>`
+    ];
+    
+    host.innerHTML = chips.join('');
+}
+
+function renderSquadStatsHeroStats() {
+    const selectedSeason = getSquadStatsSelectedSeason() || getCurrentSeasonLabel();
+    const mode = getSquadStatsGameTypeMode();
+    const minimumAppearances = getSquadStatsMinimumAppearances();
+    const modeData = buildSquadStatsDataFromThresholds(squadStatsWithThresholdsEnrichedData || [], mode);
+    const seasonKey = modeData[selectedSeason] ? selectedSeason : getCurrentSeasonLabel();
+    const seasonData = modeData[seasonKey] || createSquadSeasonBucket();
+
+    const value1st = getSquadMetricValue('Total', seasonData['1st'], minimumAppearances);
+    const value2nd = getSquadMetricValue('Total', seasonData['2nd'], minimumAppearances);
+    const valueTotal = getSquadMetricValue('Total', seasonData['Total'], minimumAppearances);
+
+    const value1stEl = document.getElementById('squadStatsHeroValue1st');
+    const value2ndEl = document.getElementById('squadStatsHeroValue2nd');
+    const valueTotalEl = document.getElementById('squadStatsHeroValueTotal');
+    const metaEl = document.getElementById('squadStatsHeroMeta');
+
+    if (value1stEl) value1stEl.textContent = String(value1st);
+    if (value2ndEl) value2ndEl.textContent = String(value2nd);
+    if (valueTotalEl) valueTotalEl.textContent = String(valueTotal);
+    if (metaEl) metaEl.textContent = `${seasonKey} • ${mode} • Min Apps ${minimumAppearances}`;
+}
+
 function getSquadStatsSeasonOptions() {
     const seasonSet = new Set();
     const addSeason = season => { const normalized = normalizeSeasonLabel(season); if (normalized) seasonSet.add(normalized); };
@@ -211,7 +305,8 @@ function getSquadStatsSeasonOptions() {
     return getSortedSquadStatsSeasons(Object.fromEntries(Array.from(seasonSet).map(s => [s, true])));
 }
 
-function populateSquadStatsSeasonDropdownOptions(seasonSelect) {
+function populateSquadStatsSeasonDropdownOptions() {
+    const seasonSelect = document.getElementById('squadStatsSeasonSelect');
     if (!seasonSelect) return [];
     const seasons = getSquadStatsSeasonOptions();
     const finalSeasons = seasons.length > 0 ? seasons : [getCurrentSeasonLabel()];
@@ -222,6 +317,9 @@ function populateSquadStatsSeasonDropdownOptions(seasonSelect) {
         option.textContent = season;
         seasonSelect.appendChild(option);
     });
+    const currentSeason = getCurrentSeasonLabel();
+    seasonSelect.value = finalSeasons.includes(currentSeason) ? currentSeason : finalSeasons[0];
+    syncSeasonStepperFromSelect();
     return finalSeasons;
 }
 
@@ -231,21 +329,65 @@ function refreshSquadStatsData() {
     squadStatsData = buildSquadStatsDataFromThresholds(squadStatsWithThresholdsEnrichedData, mode);
 }
 
-function renderSquadMetricCards(season, minimumAppearances) {
-    const seasonData = squadStatsData?.[season] || createSquadSeasonBucket();
-    const labelText = getSquadMetricCardLabel(minimumAppearances);
-    const value1st = document.getElementById('squadMetricValue1st');
-    const value2nd = document.getElementById('squadMetricValue2nd');
-    const valueTotal = document.getElementById('squadMetricValueTotal');
-    const label1st = document.getElementById('squadMetricLabel1st');
-    const label2nd = document.getElementById('squadMetricLabel2nd');
-    const labelTotal = document.getElementById('squadMetricLabelTotal');
-    if (value1st) value1st.textContent = getSquadMetricValue('Total', seasonData['1st'], minimumAppearances);
-    if (value2nd) value2nd.textContent = getSquadMetricValue('Total', seasonData['2nd'], minimumAppearances);
-    if (valueTotal) valueTotal.textContent = getSquadMetricValue('Total', seasonData['Total'], minimumAppearances);
-    if (label1st) label1st.textContent = labelText;
-    if (label2nd) label2nd.textContent = labelText;
-    if (labelTotal) labelTotal.textContent = labelText;
+function initialiseSquadStatsAnalysisRail() {
+    if (squadStatsAnalysisRailInitialised) return;
+    const rail = document.querySelector('.squad-stats-layout .analysis-rail');
+    if (!rail) return;
+
+    const buttons = rail.querySelectorAll('.rail-link');
+    if (!buttons.length) return;
+
+    // Handle button clicks for smooth scroll
+    buttons.forEach(button => {
+        button.addEventListener('click', () => {
+            const targetId = button.getAttribute('data-target');
+            const targetSection = document.getElementById(targetId);
+            if (targetSection) {
+                targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                updateAnalysisRailActive(targetId);
+            }
+        });
+    });
+
+    // Handle scroll to update active link
+    window.addEventListener('scroll', () => {
+        updateAnalysisRailActiveOnScroll();
+    }, { passive: true });
+
+    // Set initial active section
+    updateAnalysisRailActiveOnScroll();
+    squadStatsAnalysisRailInitialised = true;
+}
+
+function updateAnalysisRailActive(sectionId) {
+    const rail = document.querySelector('.squad-stats-layout .analysis-rail');
+    if (!rail) return;
+
+    const buttons = rail.querySelectorAll('.rail-link');
+    buttons.forEach(button => {
+        button.classList.remove('active');
+        if (button.getAttribute('data-target') === sectionId) {
+            button.classList.add('active');
+        }
+    });
+}
+
+function updateAnalysisRailActiveOnScroll() {
+    const rail = document.querySelector('.squad-stats-layout .analysis-rail');
+    if (!rail) return;
+
+    const sections = document.querySelectorAll('.analysis-section[id]');
+    let currentSection = sections[0]?.id;
+
+    for (const section of sections) {
+        const rect = section.getBoundingClientRect();
+        // Consider section active if it's in the upper half of viewport
+        if (rect.top < window.innerHeight / 2) {
+            currentSection = section.id;
+        }
+    }
+
+    updateAnalysisRailActive(currentSection);
 }
 
 function buildSquadSizeTrendRows(selectedSeason, minimumAppearances) {
@@ -277,9 +419,7 @@ function renderSquadSizeTrendChart(selectedSeason, minimumAppearances) {
     const spec = JSON.parse(JSON.stringify(squadSizeTrendTemplateSpec));
     spec.data = { values };
     if (spec.datasets) delete spec.datasets;
-    vegaEmbed('#squadSizeTrendChart', spec, { actions: VEGA_EMBED_ACTIONS, renderer: 'svg' })
-        .then(() => pinVegaActionsInElement(container))
-        .catch(error => { console.error('Error rendering squad size trend chart:', error); container.innerHTML = '<div class="text-center text-danger py-4">Unable to render squad size trend chart.</div>'; });
+    renderStaticSpecChart('squadSizeTrendChart', spec, 'No squad size trend data available for the selected filters.', { hideTitle: true });
 }
 
 function buildContinuityAverageTrendRows() {
@@ -297,23 +437,31 @@ function buildContinuityAverageTrendRows() {
 function renderSquadContinuityTrendChart(selectedSeason) {
     const container = document.getElementById('squadContinuityTrendChart');
     if (!container) return;
-    if (!squadContinuityTrendTemplateSpec) { container.innerHTML = '<div class="text-center text-muted py-4">Squad continuity trend template not available.</div>'; return; }
+    if (!squadContinuityTrendTemplateSpec) { container.innerHTML = '<div class="text-center text-muted py-4">Squad returners trend template not available.</div>'; return; }
     const values = buildContinuityAverageTrendRows();
-    if (!values.length) { container.innerHTML = '<div class="text-center text-muted py-4">No continuity data available for the selected filters.</div>'; return; }
+    if (!values.length) { container.innerHTML = '<div class="text-center text-muted py-4">No returners data available for the selected filters.</div>'; return; }
     container.innerHTML = '';
     const spec = JSON.parse(JSON.stringify(squadContinuityTrendTemplateSpec));
     spec.data = { values };
     if (spec.datasets) delete spec.datasets;
-    vegaEmbed('#squadContinuityTrendChart', spec, { actions: VEGA_EMBED_ACTIONS, renderer: 'svg' })
-        .then(() => pinVegaActionsInElement(container))
-        .catch(error => { console.error('Error rendering continuity trend chart:', error); container.innerHTML = '<div class="text-center text-danger py-4">Unable to render continuity trend chart.</div>'; });
+    renderStaticSpecChart('squadContinuityTrendChart', spec, 'No returners data available for the selected filters.', { hideTitle: true });
+}
+
+function leagueSpecHasSeasonRows(spec, season) {
+    if (!spec) return false;
+    const rowHasSeason = row => normalizeSeasonLabel(row?.Season) === season;
+    if (spec.datasets) {
+        return Object.values(spec.datasets).some(rows => Array.isArray(rows) && rows.some(rowHasSeason));
+    }
+    if (spec.data && Array.isArray(spec.data.values)) {
+        return spec.data.values.some(rowHasSeason);
+    }
+    return false;
 }
 
 function getLeagueContextUnit() {
     const select = document.getElementById('leagueContextUnitSelect');
-    if (select?.value) return select.value;
-    const selectAlt = document.getElementById('leagueContextUnitSelectAlt');
-    return selectAlt?.value || 'Total';
+    return select?.value || 'Total';
 }
 
 async function renderLeagueContextCharts() {
@@ -333,7 +481,7 @@ async function renderLeagueContextCharts() {
         {
             containerId: 'leagueContinuityContextChart',
             path: 'data/charts/league_continuity_context_1s.json',
-            emptyMessage: `No league squad continuity data available for ${selectedSeason} (${selectedUnit}).`,
+            emptyMessage: `No league returners data available for ${selectedSeason} (${selectedUnit}).`,
             filterSpec: spec => filterLeagueContextCombinedSpec(
                 spec,
                 row => row?.Season === selectedSeason && row?.Unit === selectedUnit,
@@ -344,8 +492,12 @@ async function renderLeagueContextCharts() {
     await Promise.all(charts.map(async chart => {
         try {
             const spec = await loadChartSpec(chart.path);
+            if (!leagueSpecHasSeasonRows(spec, selectedSeason)) {
+                renderStaticSpecChart(chart.containerId, null, `No league data available for ${selectedSeason}.`);
+                return;
+            }
             const filteredSpec = chart.filterSpec ? chart.filterSpec(spec) : spec;
-            renderStaticSpecChart(chart.containerId, filteredSpec, chart.emptyMessage);
+            renderStaticSpecChart(chart.containerId, filteredSpec, chart.emptyMessage, { hideTitle: true });
         } catch (error) {
             console.warn(`Unable to load ${chart.path}:`, error);
             renderStaticSpecChart(chart.containerId, null, chart.emptyMessage);
@@ -369,9 +521,7 @@ function renderSquadOverlapChart() {
     }
     container.innerHTML = '';
     const spec = JSON.parse(JSON.stringify(squadOverlapTemplateSpec));
-    vegaEmbed('#squadOverlapChart', spec, { actions: VEGA_EMBED_ACTIONS, renderer: 'svg' })
-        .then(() => pinVegaActionsInElement(container))
-        .catch(error => { console.error('Error rendering squad overlap chart:', error); container.innerHTML = '<div class="text-center text-danger py-4">Unable to render squad overlap chart.</div>'; });
+    renderStaticSpecChart('squadOverlapChart', spec, 'Squad overlap chart not available.', { hideTitle: true });
 }
 
 function renderSquadStatsPage() {
@@ -380,79 +530,174 @@ function renderSquadStatsPage() {
     const seasons = getSortedSquadStatsSeasons(squadStatsData);
     if (seasons.length === 0) {
         const minimumAppearances = getSquadStatsMinimumAppearances();
+        const gameTypeMode = getSquadStatsGameTypeMode();
+        const positionCountMode = getSquadStatsPositionCountMode();
         const fallbackSeason = getCurrentSeasonLabel();
-        renderSquadMetricCards(fallbackSeason, minimumAppearances);
+        renderSquadStatsHeroStats();
+        renderSquadStatsActiveFilterChips('squadCompositionActiveFilters', fallbackSeason, gameTypeMode, minimumAppearances, positionCountMode);
+        renderSquadStatsActiveFilterChips('squadContinuityActiveFilters', fallbackSeason, gameTypeMode, minimumAppearances, positionCountMode);
+        renderSquadStatsActiveFilterChips('leagueContextActiveFilters', fallbackSeason, gameTypeMode, minimumAppearances, positionCountMode);
+        renderSquadPositionCompositionChart(fallbackSeason, minimumAppearances, positionCountMode);
         renderSquadStatsCharts(fallbackSeason, minimumAppearances);
         return;
     }
-    const seasonSelect = document.getElementById('squadStatsSeasonSelect');
-    const selectedSeason = seasonSelect?.value || (seasons.includes(getCurrentSeasonLabel()) ? getCurrentSeasonLabel() : seasons[0]);
+    const selectedSeasonFromControls = getSquadStatsSelectedSeason();
+    const selectedSeason = selectedSeasonFromControls || (seasons.includes(getCurrentSeasonLabel()) ? getCurrentSeasonLabel() : seasons[0]);
     const minimumAppearances = getSquadStatsMinimumAppearances();
-    if (seasonSelect && seasonSelect.value !== selectedSeason) {
-        const $seasonSelect = $('#squadStatsSeasonSelect');
-        if ($seasonSelect.data('selectpicker')) $seasonSelect.selectpicker('val', selectedSeason);
-        else seasonSelect.value = selectedSeason;
-    }
-    renderSquadMetricCards(selectedSeason, minimumAppearances);
-    renderSquadPositionPanels(selectedSeason, minimumAppearances);
+    const gameTypeMode = getSquadStatsGameTypeMode();
+    const positionCountMode = getSquadStatsPositionCountMode();
+    applySquadStatsControlState({ season: selectedSeason, gameType: gameTypeMode, minimumAppearances, positionCountMode });
+    renderSquadStatsHeroStats();
+    renderSquadStatsActiveFilterChips('squadCompositionActiveFilters', selectedSeason, gameTypeMode, minimumAppearances, positionCountMode);
+    renderSquadStatsActiveFilterChips('squadContinuityActiveFilters', selectedSeason, gameTypeMode, minimumAppearances, positionCountMode);
+    renderSquadStatsActiveFilterChips('leagueContextActiveFilters', selectedSeason, gameTypeMode, minimumAppearances, positionCountMode);
+    initialiseSquadStatsAnalysisRail();
+    renderSquadPositionCompositionChart(selectedSeason, minimumAppearances, positionCountMode);
     renderSquadStatsCharts(selectedSeason, minimumAppearances);
-    initialiseChartPanelToggles();
 }
 
 function initialiseSquadStatsControlsOnce() {
     if (squadStatsControlsInitialised) return;
     const seasonSelect = document.getElementById('squadStatsSeasonSelect');
     const gameTypeSelect = document.getElementById('squadStatsGameTypeSelect');
+    const positionCountModeSelect = document.getElementById('squadStatsPositionCountModeSelect');
     const minAppsInput = document.getElementById('squadStatsMinAppsSelect');
     const leagueContextUnitSelect = document.getElementById('leagueContextUnitSelect');
-    const leagueContextUnitSelectAlt = document.getElementById('leagueContextUnitSelectAlt');
-    if (!seasonSelect || !gameTypeSelect || !minAppsInput || !leagueContextUnitSelect || !leagueContextUnitSelectAlt) return;
-    const $seasonSelect = $('#squadStatsSeasonSelect');
-    const $gameTypeSelect = $('#squadStatsGameTypeSelect');
-    const $leagueContextUnitSelect = $('#leagueContextUnitSelect');
-    const $leagueContextUnitSelectAlt = $('#leagueContextUnitSelectAlt');
-    const seasons = populateSquadStatsSeasonDropdownOptions(seasonSelect);
-    const currentSeason = getCurrentSeasonLabel();
-    seasonSelect.value = seasons.includes(currentSeason) ? currentSeason : seasons[0];
-    rebuildBootstrapSelect(seasonSelect);
-    $gameTypeSelect.selectpicker();
-    $leagueContextUnitSelect.selectpicker();
-    $leagueContextUnitSelectAlt.selectpicker();
+    
+    if (!seasonSelect || !gameTypeSelect || !positionCountModeSelect || !minAppsInput || !leagueContextUnitSelect) return;
+    
+    populateSquadStatsSeasonDropdownOptions();
     gameTypeSelect.value = 'All games';
+    positionCountModeSelect.value = 'appearance_position';
     minAppsInput.value = '0';
     leagueContextUnitSelect.value = 'Total';
-    leagueContextUnitSelectAlt.value = 'Total';
-    $gameTypeSelect.selectpicker('val', 'All games');
-    $leagueContextUnitSelect.selectpicker('val', 'Total');
-    $leagueContextUnitSelectAlt.selectpicker('val', 'Total');
-    $seasonSelect.on('changed.bs.select', renderSquadStatsPage);
-    $gameTypeSelect.on('changed.bs.select', renderSquadStatsPage);
-    minAppsInput.addEventListener('input', function () {
-        let v = parseInt(this.value, 10);
-        if (isNaN(v) || v < 0) v = 0;
-        this.value = String(Math.floor(v));
+
+    seasonSelect.addEventListener('change', function () {
+        if (syncingSquadStatsControls) return;
+        syncSeasonStepperFromSelect();
+        applySquadStatsControlState({
+            season: this.value || getCurrentSeasonLabel(),
+            gameType: gameTypeSelect.value || 'All games',
+            minimumAppearances: minAppsInput.value,
+            positionCountMode: positionCountModeSelect.value || 'appearance_position'
+        });
         renderSquadStatsPage();
+    });
+
+    const prevBtn = document.getElementById('squadStatsSeasonPrev');
+    const nextBtn = document.getElementById('squadStatsSeasonNext');
+    const stepSeason = (direction) => {
+        const newIndex = seasonSelect.selectedIndex + direction;
+        if (newIndex < 0 || newIndex >= seasonSelect.options.length) return;
+        seasonSelect.selectedIndex = newIndex;
+        syncSeasonStepperFromSelect();
+        applySquadStatsControlState({
+            season: seasonSelect.value || getCurrentSeasonLabel(),
+            gameType: gameTypeSelect.value || 'All games',
+            minimumAppearances: minAppsInput.value,
+            positionCountMode: positionCountModeSelect.value || 'appearance_position'
+        });
+        renderSquadStatsPage();
+    };
+    if (prevBtn) prevBtn.addEventListener('click', () => stepSeason(-1));
+    if (nextBtn) nextBtn.addEventListener('click', () => stepSeason(1));
+
+    gameTypeSelect.addEventListener('change', function () {
+        if (syncingSquadStatsControls) return;
+        applySquadStatsControlState({
+            season: seasonSelect.value || getCurrentSeasonLabel(),
+            gameType: this.value || 'All games',
+            minimumAppearances: minAppsInput.value,
+            positionCountMode: positionCountModeSelect.value || 'appearance_position'
+        });
+        renderSquadStatsPage();
+    });
+
+    positionCountModeSelect.addEventListener('change', function () {
+        if (syncingSquadStatsControls) return;
+        applySquadStatsControlState({
+            season: seasonSelect.value || getCurrentSeasonLabel(),
+            gameType: gameTypeSelect.value || 'All games',
+            minimumAppearances: minAppsInput.value,
+            positionCountMode: this.value || 'appearance_position'
+        });
+        renderSquadStatsPage();
+    });
+
+    const gameTypeSegment = document.getElementById('squadStatsGameTypeSegment');
+    if (gameTypeSegment) {
+        gameTypeSegment.addEventListener('click', event => {
+            const button = event.target.closest('.squad-filter-segment-btn');
+            if (!button) return;
+            const value = button.dataset.value;
+            if (!value) return;
+            suppressGameTypeSegmentSync = true;
+            gameTypeSelect.value = value;
+            suppressGameTypeSegmentSync = false;
+            syncGameTypeSegmentFromSelect();
+            renderSquadStatsPage();
+        });
+    }
+
+    const positionCountModeSegment = document.getElementById('squadStatsPositionCountModeSegment');
+    if (positionCountModeSegment) {
+        positionCountModeSegment.addEventListener('click', event => {
+            const button = event.target.closest('.squad-filter-segment-btn');
+            if (!button) return;
+            const value = button.dataset.value;
+            if (!value) return;
+            positionCountModeSelect.value = value;
+            syncPositionCountModeSegmentFromSelect();
+            renderSquadStatsPage();
+        });
+    }
+
+    const onMinAppsChange = (sourceInput) => {
+        let v = parseInt(sourceInput.value, 10);
+        if (isNaN(v) || v < 0) v = 0;
+        sourceInput.value = String(Math.floor(v));
+        if (syncingSquadStatsControls) return;
+        applySquadStatsControlState({
+            season: seasonSelect.value || getCurrentSeasonLabel(),
+            gameType: gameTypeSelect.value || 'All games',
+            minimumAppearances: v,
+            positionCountMode: positionCountModeSelect.value || 'appearance_position'
+        });
+        renderSquadStatsPage();
+    };
+
+    minAppsInput.addEventListener('input', function () {
+        onMinAppsChange(this);
+        updateMinAppsDisplay();
     });
     minAppsInput.addEventListener('change', function () {
-        let v = parseInt(this.value, 10);
-        if (isNaN(v) || v < 0) v = 0;
-        this.value = String(v);
-        renderSquadStatsPage();
+        onMinAppsChange(this);
+        updateMinAppsDisplay();
     });
-    $leagueContextUnitSelect.on('changed.bs.select', function () {
-        const value = this.value || 'Total';
-        if (leagueContextUnitSelectAlt.value !== value) {
-            $leagueContextUnitSelectAlt.selectpicker('val', value);
-        }
+
+    leagueContextUnitSelect.addEventListener('change', function () {
+        syncLeagueContextUnitSegmentFromSelect();
         renderLeagueContextCharts();
     });
-    $leagueContextUnitSelectAlt.on('changed.bs.select', function () {
-        const value = this.value || 'Total';
-        if (leagueContextUnitSelect.value !== value) {
-            $leagueContextUnitSelect.selectpicker('val', value);
-        }
-        renderLeagueContextCharts();
-    });
+
+    const leagueContextUnitSegment = document.getElementById('leagueContextUnitSegment');
+    if (leagueContextUnitSegment) {
+        leagueContextUnitSegment.addEventListener('click', event => {
+            const button = event.target.closest('.squad-filter-segment-btn');
+            if (!button) return;
+            const value = button.dataset.value;
+            if (!value) return;
+            leagueContextUnitSelect.value = value;
+            syncLeagueContextUnitSegmentFromSelect();
+            renderLeagueContextCharts();
+        });
+    }
+
+    syncGameTypeSegmentFromSelect();
+    syncPositionCountModeSegmentFromSelect();
+    syncLeagueContextUnitSegmentFromSelect();
+    updateMinAppsDisplay();
+
     squadStatsControlsInitialised = true;
 }
 

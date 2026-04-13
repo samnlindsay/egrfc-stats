@@ -1138,7 +1138,13 @@ class DataExtractor:
     def _safe_int(self, value):
         """Safely convert to int"""
         try:
-            return int(value) if value else None
+            if value is None:
+                return None
+            if isinstance(value, str):
+                value = value.strip()
+                if value == "":
+                    return None
+            return int(float(value))
         except:
             return None
 
@@ -1233,7 +1239,7 @@ class DataExtractor:
                         count = self._safe_int(player.get("count")) or 0
                         if not player_name or count <= 0:
                             continue
-                        scorers[clean_name(player_name)] = count
+                        scorers[player_name] = count
                     if scorers:
                         result[target_key] = scorers
 
@@ -1252,8 +1258,7 @@ class DataExtractor:
                     player_name = (event.get("playerName") or "").strip()
                     if not player_name:
                         continue
-                    canonical_name = clean_name(player_name)
-                    result[target_key][canonical_name] = result[target_key].get(canonical_name, 0) + 1
+                    result[target_key][player_name] = result[target_key].get(player_name, 0) + 1
         except Exception:
             return result
 
@@ -1445,13 +1450,12 @@ class DataExtractor:
             if match:
                 name = match.group(1).strip()
                 count = int(match.group(2))
-                canonical = clean_name(name)
-                scorers[canonical] = count
+                scorers[name] = count
             elif entry and not entry.startswith("("):
                 # Single entry without count (count = 1)
-                canonical = clean_name(entry.strip())
-                if canonical:  # Only add if non-empty
-                    scorers[canonical] = 1
+                name = entry.strip()
+                if name:  # Only add if non-empty
+                    scorers[name] = 1
         
         return scorers
        

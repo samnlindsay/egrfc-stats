@@ -3477,20 +3477,398 @@ table tbody tr:hover {
     flex: 0 0 auto;
 }
 
-.squad-stats-top-filters .input-group {
+.squad-filters-shell {
+    margin-bottom: 1rem;
+    padding: 0.85rem;
+    border: 1px solid rgba(32, 41, 70, 0.16);
+    border-radius: 0.9rem;
+    background: linear-gradient(180deg, #ffffff 0%, #f3f5fb 100%);
+    box-shadow: 0 6px 16px rgba(32, 41, 70, 0.08);
+}
+
+.squad-filters-head {
+    margin-bottom: 0.6rem;
+}
+
+.squad-filters-head p {
+    margin: 0.25rem 0 0;
+    color: #5e6783;
+    font-size: 0.9rem;
+}
+
+.squad-filters-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1.6fr 1fr;
+    gap: 0.7rem;
+}
+
+.squad-filter-control {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.squad-filter-label {
+    color: #3d4765;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+}
+
+.squad-filter-season-stepper {
+    display: grid;
+    grid-template-columns: 2.2rem 1fr 2.2rem;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.squad-filter-stepper-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.2rem;
+    height: 2.5rem;
+    border: 1px solid #c9d3f2;
+    border-radius: 0.6rem;
+    background: #fff;
+    color: var(--primary-color);
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease;
+    padding: 0;
+}
+
+.squad-filter-stepper-btn:hover:not(:disabled) {
+    background: #eef2ff;
+    border-color: var(--primary-color);
+}
+
+.squad-filter-stepper-btn:disabled {
+    color: #b0bcd4;
+    border-color: #e4e8f5;
+    cursor: default;
+}
+
+.squad-filter-stepper-label {
+    min-height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #c9d3f2;
+    border-radius: 0.6rem;
+    background: #fff;
+    color: #1e2a50;
+    font-family: 'PT Sans Narrow', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    text-align: center;
+    padding: 0.1rem 0.25rem;
+}
+
+.squad-filter-select {
+    min-height: 2.5rem;
+    border: 1px solid #c9d3f2;
+    border-radius: 0.6rem;
+    background: #fff;
+    color: #1e2a50;
+    font-family: 'PT Sans Narrow', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    padding: 0.45rem 0.65rem;
+}
+
+.squad-filter-segment {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.35rem;
+}
+
+.squad-filter-segment-btn {
+    min-height: 2.5rem;
+    border: 1px solid #c9d3f2;
+    border-radius: 0.6rem;
+    background: #fff;
+    color: #25325f;
+    font-family: 'PT Sans Narrow', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    padding: 0.35rem 0.45rem;
+    transition: all 0.15s ease;
+}
+
+.squad-filter-segment-btn.is-active {
+    border-color: #202946;
+    background: #202946;
+    color: #f4f6ff;
+}
+
+.squad-filter-range {
+    width: 100%;
+    accent-color: #202946;
+}
+
+.squad-filter-range-wrap {
+    display: flex;
+    align-items: center;
+    min-height: 2.5rem;
+    padding: 0 0.65rem;
+    border: 1px solid #c9d3f2;
+    border-radius: 0.6rem;
+    background: #fff;
+}
+
+.squad-stats-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+    gap: 1rem;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border: 1px solid #d9deef;
+    border-radius: 0.9rem;
+    background-image: url("../img/EGRFC Background.png");
+    background-size: cover;
+    background-position: center 32%;
+    background-repeat: no-repeat;
+    box-shadow: 0 6px 18px rgba(32, 41, 70, 0.1);
+}
+
+.ux-hero-kicker {
+    margin: 0 0 0.2rem 0;
+    color: #f0f1f5;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 700;
+}
+
+.ux-hero-title {
+    margin: 0;
+    color: #ffffff;
+    font-size: clamp(2.1rem, 5.4vw, 3.2rem);
+    line-height: 0.95;
+    font-weight: 900;
+}
+
+.ux-hero-description {
+    margin: 0.5rem 0 0;
+    color: rgba(232, 234, 238, 0.75);
+    font-size: 1rem;
+    line-height: 1.28;
+    max-width: 45ch;
+}
+
+.ux-hero-metrics {
+    border-radius: 0.75rem;
+    border: 1px solid var(--light-color);
+    background: rgba(255, 255, 255, 0.1);
+    padding: 0.75rem;
+}
+
+.ux-hero-metrics-head {
+    margin-bottom: 0.55rem;
+    color: var(--light-color);
+}
+
+.ux-hero-metrics-title {
+    margin: 0;
+    color: var(--light-color);
+    font-size: 1.25rem;
+    font-weight: 900;
+}
+
+.ux-hero-metrics-meta {
+    font-size: 0.85rem;
+    opacity: 0.75;
+}
+
+.ux-hero-metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.5rem;
+}
+
+.ux-hero-metric {
+    border-radius: 0.6rem;
+    border: 2px solid rgba(32, 41, 70, 0.14);
+    padding: 0.4rem 0.42rem 0.35rem;
+    text-align: center;
+    background: #fff;
+    box-shadow: 0 2px 6px rgba(32, 41, 70, 0.1);
+}
+
+.ux-hero-metric--1st {
+    border: 6px solid var(--primary-color);
+    background-color: var(--primary-color);
+}
+
+.ux-hero-metric--2nd {
+    border: 6px solid var(--primary-color);
+    background-color: var(--accent-color);
+}
+
+.ux-hero-metric--total {
+    background: black;
+    color: #fff;   
+    border: 3px solid black;
+}
+
+.ux-hero-metric-label {
+    margin: 0;
+    color: white;
+    font-size: 0.86rem;
+    font-weight: 700;
+}
+.ux-hero-metric--1st .ux-hero-metric-label {
+    color: white;
+}
+.ux-hero-metric--2nd .ux-hero-metric-label {
+    color: var(--primary-color);
+}
+
+.ux-hero-metric-value {
+    margin: 0.22rem 0 0;
+    color: white;
+    font-size: clamp(1.9rem, 3.5vw, 2.5rem);
+    font-weight: 900;
+    line-height: 1;
+}
+
+.ux-hero-metric--2nd .ux-hero-metric-value {
+    color: var(--primary-color);
+}
+
+.ux-hero-metric-note {
+    margin: 0.15rem 0 0;
+    color: #666;
+    font-size: 0.78rem;
+}
+
+.section-intro {
+    margin-bottom: 1rem;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.section-heading--spaced {
+    margin-top: 2rem;
+}
+
+.squad-stats-active-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin-bottom: 1rem;
+    min-height: 1.8rem;
+}
+
+.squad-stats-filter-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.2rem 0.5rem;
+    background: #eef1fb;
+    color: var(--primary-color);
+    border: 1px solid #d5ddf1;
+    border-radius: 999px;
+    font-size: 0.84rem;
+    line-height: 1;
+}
+
+.squad-stats-filter-chip strong {
+    font-weight: 700;
+}
+
+/* League context: chips + unit filter as a flex row without a background box */
+.league-context-section-head {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+}
+
+.league-context-section-head .squad-stats-active-filters {
+    flex: 1 1 auto;
+    margin-bottom: 0;
     min-width: 0;
-    width: auto;
+    gap: 0.35rem;
 }
 
-.squad-stats-top-filters .bootstrap-select {
-    width: auto !important;
-    min-width: 8rem;
-}
-
-.squad-stats-top-filters #squadStatsMinAppsSelect {
-    min-width: 4rem;
-    max-width: 5rem;
+.squad-filter-control--unit {
     flex: 0 0 auto;
+    gap: 0.25rem;
+}
+
+.squad-filter-control--unit .squad-filter-label {
+    font-size: 0.75rem;
+}
+
+.squad-filter-control--unit .squad-filter-segment {
+    grid-template-columns: repeat(3, minmax(5.5rem, 1fr));
+    gap: 0.3rem;
+}
+
+.squad-filter-control--unit .squad-filter-segment-btn {
+    min-height: 2.2rem;
+    padding: 0.3rem 0.55rem;
+    font-size: 0.9rem;
+}
+
+/* Color-coded unit buttons (active state) */
+#leagueContextUnitSegment .squad-filter-segment-btn[data-value="Total"].is-active {
+    background: #000;
+    border-color: #000;
+    color: #fff;
+}
+
+#leagueContextUnitSegment .squad-filter-segment-btn[data-value="Forwards"].is-active {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    color: #fff;
+}
+
+#leagueContextUnitSegment .squad-filter-segment-btn[data-value="Backs"].is-active {
+    background: #fff;
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.chart-host {
+    width: 100%;
+}
+
+.chart-host--intrinsic {
+    width: auto;
+    max-width: 100%;
+    flex: 0 0 auto;
+    padding: 0;
+    border-radius: 0.5rem;
+    background: rgba(255, 255, 255, 0.58);
+    border: 1px solid rgba(32, 41, 70, 0.08);
+}
+
+.chart-host--overflow-visible {
+    overflow: visible;
+}
+
+.squad-stats-breakdown-panels,
+.squad-continuity-panels,
+.league-context-panels {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: flex-start;
+}
+
+.squad-stats-breakdown-panels {
+    margin-bottom: 1.25rem;
+}
+
+.league-context-panels {
+    margin-bottom: 2rem;
 }
 
 .chart-panel-filters {
@@ -4030,3 +4408,248 @@ table tbody tr:hover {
     opacity: 0.85;
     text-decoration: none;
 }
+
+/* ===== SQUAD STATS REFACTOR: ALWAYS-VISIBLE SECTIONS ===== */
+.chart-section {
+    margin: 2rem 0;
+    padding: 0;
+}
+
+.chart-section:first-of-type {
+    margin-top: 0;
+}
+
+.chart-section > .section-heading,
+.chart-section > .section-intro {
+    margin-bottom: 0.5rem;
+}
+
+.chart-section-block {
+    margin-bottom: 1.5rem;
+}
+
+.chart-section-block--panel {
+    border: 1px solid rgba(32, 41, 70, 0.14);
+    border-radius: 0.75rem;
+    background: var(--chart-surface-color);
+    padding: 0.8rem;
+    box-shadow: 0 4px 12px rgba(32, 41, 70, 0.06);
+}
+
+.chart-section-block:last-child {
+    margin-bottom: 0;
+}
+
+.chart-section-title {
+    margin: 0 0 1rem 0;
+    color: var(--primary-color);
+    font-size: 1.65rem;
+    font-weight: 700;
+    font-family: 'PT Sans Narrow', sans-serif;
+}
+
+.chart-section-hint {
+    margin: 0 0 0.75rem 0;
+    color: #6a7388;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.chart-section-content--split {
+    display: grid;
+    grid-template-columns: auto max-content;
+    align-items: start;
+    gap: 0.8rem;
+}
+
+.chart-section-content--split .chart-section-hint {
+    margin: 0;
+    max-width: 62ch;
+}
+
+.chart-section-content--split > .chart-host--intrinsic {
+    align-self: start;
+    padding: 0rem;
+}
+
+.chart-section-content--split .chart-section-meta {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.chart-section-content--split .chart-section-meta .card-filters {
+    margin-bottom: 0 !important;
+    padding-top: 0.35rem;
+}
+
+/* Vertical stacked segment buttons (used for count mode inside panels) */
+.squad-filter-segment--vertical {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.squad-filter-segment--vertical .squad-filter-segment-btn {
+    min-height: 2.2rem;
+    text-align: left;
+    padding: 0.35rem 0.7rem;
+    font-size: 0.9rem;
+    width: 100%;
+    border-radius: 0.5rem;
+}
+
+.squad-filter-control--count {
+    gap: 0.3rem;
+}
+
+/* Card for charts */
+.card-chart {
+    border: 1px solid #d9e0f5;
+    border-radius: 0.65rem;
+    box-shadow: 0 1px 4px rgba(32, 41, 70, 0.08);
+    transition: all 0.2s ease;
+}
+
+.card-chart:hover {
+    box-shadow: 0 2px 8px rgba(32, 41, 70, 0.12);
+}
+
+.card-chart .card-body {
+    padding: 0;
+    background: var(--chart-surface-color);
+}
+
+/* Filters within cards */
+.card-filters {
+    display: flex;
+    align-items: flex-end;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #e5e9f0;
+}
+
+.card-filters .filter-item {
+    flex: 0 1 auto;
+    min-width: 180px;
+}
+
+/* Squad Size Summary Cards */
+.squad-size-summary {
+    margin-bottom: 2rem;
+}
+
+/* Subsection titles within cards */
+.chart-subsection-title {
+    margin: 0 0 0.15rem 0;
+    font-size: 1rem;
+    font-weight: 700;
+    font-family: 'PT Sans Narrow', sans-serif;
+}
+
+.chart-subsection-hint {
+    margin: 0 0 0.5rem 0;
+    color: #6a7388;
+    font-size: 0.85rem;
+    line-height: 1.35;
+}
+
+    /* ===== SQUAD STATS LAYOUT: Analysis Rail + Main Content ===== */
+    .squad-stats-layout {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .squad-stats-main {
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.9rem;
+    }
+
+    /* Squad-stats specific rail styling */
+    .squad-stats-layout .analysis-rail {
+        display: flex;
+        flex-direction: row;
+        gap: 0.45rem;
+        position: sticky;
+        top: calc(var(--nav-offset, 74px) + 10px);
+        background: #ffffff;
+        border: 1px solid #d9e0f5;
+        border-radius: 0.75rem;
+        padding: 0.55rem;
+        box-shadow: 0 2px 10px rgba(32, 41, 70, 0.08);
+        overflow-x: auto;
+        white-space: nowrap;
+        align-items: center;
+    }
+
+    .squad-stats-layout .analysis-rail-title {
+        margin: 0 0.25rem 0 0.15rem;
+        color: #5f6780;
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+    }
+
+    .squad-stats-layout .rail-link {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        flex: 0 0 auto;
+        border: 1px solid transparent;
+        border-radius: 0.6rem;
+        background: transparent;
+        color: var(--primary-color);
+        font-family: 'PT Sans Narrow', sans-serif;
+        font-size: 0.95rem;
+        font-weight: 700;
+        line-height: 1.25;
+        text-align: left;
+        padding: 0.38rem 0.6rem;
+        transition: all 0.16s ease;
+    }
+
+    .squad-stats-layout .rail-link:hover,
+    .squad-stats-layout .rail-link:focus-visible {
+        background: #eef2ff;
+        border-color: #d9e0f5;
+        color: #101938;
+        outline: none;
+    }
+
+    .squad-stats-layout .rail-link.active {
+        background: linear-gradient(180deg, #202946 0%, #1a2340 100%);
+        border-color: #202946;
+        color: #ffffff;
+    }
+
+    .squad-stats-layout .rail-link i {
+        font-size: 0.95rem;
+    }
+
+    /* Analysis Sections */
+    .analysis-section {
+        margin: 0;
+        padding: 0;
+    }
+
+    .analysis-section-head {
+        margin-bottom: 1rem;
+    }
+
+    .analysis-section-head h2 {
+        margin: 0 0 0.3rem;
+        font-size: 1.5rem;
+        font-weight: 700;
+    }
+
+    .analysis-section-head p {
+        margin: 0;
+        color: #6a7388;
+        font-size: 0.9rem;
+    }

@@ -102,6 +102,21 @@ It complements the existing [FRONTEND_HOUSE_STYLE_AND_MOBILE_PLAN.md](FRONTEND_H
 3. Validate mobile behavior at 360, 390, 414 and desktop at 1280+.
 4. Apply to remaining pages incrementally.
 
+### Page-by-Page Iteration Method
+1. Work on real production pages in place, one page at a time.
+2. For each page, complete one vertical slice:
+- responsive filter behavior
+- section spacing and hierarchy
+- chart/table container pattern
+- mobile fit at 360/390/414
+3. Update this blueprint after each page pass with confirmed improvements and any adjustments needed.
+
+### Chart Title Display Policy
+1. Default policy: hide Vega/Altair chart titles at embed-time on production pages.
+2. Page-level HTML headings/subheadings become the canonical source for titles and explanatory copy.
+3. Do not require chart regeneration in `charts.py` just to change display titles.
+4. Keep this behavior configurable in shared JS so individual pages can opt in or out.
+
 ## Acceptance Criteria
 1. Mobile: filters are hidden by default and reachable from navbar.
 2. Desktop: filters are visible without opening a drawer.
