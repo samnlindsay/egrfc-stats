@@ -1562,10 +1562,13 @@ def squad_position_composition_chart(db, output_file='data/charts/squad_position
         return None
 
     df = pd.concat(rows, ignore_index=True)
+    squad_color_scale = alt.Scale(domain=['1st', '2nd'], range=['#202946', '#7d96e8'])
 
-    chart = (
-        alt.Chart(df)
-        .mark_bar(cornerRadiusEnd=5)
+    base_chart = alt.Chart(df)
+
+    bars = (
+        base_chart
+        .mark_bar()
         .encode(
             y=alt.Y(
                 'position:N',
@@ -1573,12 +1576,17 @@ def squad_position_composition_chart(db, output_file='data/charts/squad_position
                 title=None,
                 axis=alt.Axis(labelLimit=120),
             ),
+            yOffset=alt.YOffset(
+                'squad:N',
+                sort=['1st', '2nd'],
+                scale=alt.Scale(paddingInner=0.08, paddingOuter=0.02),
+            ),
             x=alt.X('players:Q', stack='zero', title='Players', axis=alt.Axis(tickMinStep=1)),
             detail=alt.Detail('games:Q'),
             order=alt.Order('games:Q', sort='descending'),
             color=alt.Color(
                 'squad:N',
-                scale=alt.Scale(domain=['1st', '2nd'], range=['#202946', '#7d96e8']),
+                scale=squad_color_scale,
                 legend=None,
             ),
             opacity=alt.Opacity(
@@ -1597,14 +1605,63 @@ def squad_position_composition_chart(db, output_file='data/charts/squad_position
                 alt.Tooltip('games:Q', title='Appearances per player '),
             ],
         )
-        .properties(width=250, height=alt.Step(22))
-        .facet(
-            column=alt.Column(
+    )
+
+    total_labels = (
+        base_chart
+        .transform_aggregate(
+            total_players='sum(players)',
+            groupby=[
+                'season',
+                'gameTypeMode',
+                'countMode',
+                'countModeLabel',
+                'minimumAppearances',
+                'squad',
+                'unit',
+                'position',
+                'position_order',
+            ],
+        )
+        .mark_text(align='left', baseline='middle', dx=4, fontSize=11, fontWeight='bold')
+        .encode(
+            y=alt.Y(
+                'position:N',
+                sort=alt.EncodingSortField(field='position_order', op='min', order='ascending'),
+                title=None,
+                axis=alt.Axis(labelLimit=120),
+            ),
+            yOffset=alt.YOffset(
                 'squad:N',
                 sort=['1st', '2nd'],
-                title=None,
-                header=alt.Header(labelExpr="datum.value + ' XV'", labelFontSize=16),
+                scale=alt.Scale(paddingInner=0.08, paddingOuter=0.02),
             ),
+            x=alt.X('total_players:Q'),
+            text=alt.Text('total_players:Q', format='.0f'),
+            color=alt.Color('squad:N', scale=squad_color_scale, legend=None),
+            tooltip=[
+                alt.Tooltip('season:N', title='Season'),
+                alt.Tooltip('gameTypeMode:N', title='Game Type'),
+                alt.Tooltip('countModeLabel:N', title='Position Count Mode'),
+                alt.Tooltip('minimumAppearances:Q', title='Min Apps'),
+                alt.Tooltip('squad:N', title='Squad'),
+                alt.Tooltip('unit:N', title='Unit'),
+                alt.Tooltip('position:N', title='Position'),
+                alt.Tooltip('total_players:Q', title='Total Players'),
+            ],
+        )
+    )
+
+    chart = (
+        alt.layer(bars, total_labels)
+        .properties(width=250, height=alt.Step(18))
+        .facet(
+            # column=alt.Column(
+            #     'squad:N',
+            #     sort=['1st', '2nd'],
+            #     title=None,
+            #     header=alt.Header(labelExpr="datum.value + ' XV'", labelFontSize=16),
+            # ),
             row=alt.Row(
                 'unit:N',
                 sort=['Forwards', 'Backs'],
@@ -1630,9 +1687,9 @@ def squad_overlap_chart(db, output_file='data/charts/squad_overlap.json'):
     """Generate a diverging stacked bar chart showing player squad overlap by season.
     
     Categorizes players by their squad appearances in each season:
-    - Left (2nd XV focus): "2nd XV only", "Both (mostly 2nd XV)"
-    - Neutral: "Both (equal)"
-    - Right (1st XV focus): "Both (mostly 1st XV)", "1st XV only"
+    - Left: "2nd XV"
+    - Neutral: "Both"
+    - Right: "1st XV"
     
     The chart diverges from a center zero line with the neutral category centered on zero.
     """
@@ -1664,20 +1721,10 @@ def squad_overlap_chart(db, output_file='data/charts/squad_overlap.json'):
         if len(squads) == 1:
             # Player only appeared in one squad
             squad = squads[0]
-            category = f"{squad} XV only"
+            category = f"{squad} XV"
         else:
-            # Player appeared in both squads
-            first_apps = group_df[group_df['squad'] == '1st']['appearances'].sum()
-            second_apps = group_df[group_df['squad'] == '2nd']['appearances'].sum()
-            total = first_apps + second_apps
-            pct_first = first_apps / total if total > 0 else 0.5
-            
-            if pct_first > 0.65:
-                category = "Both (mostly 1st XV)"
-            elif pct_first < 0.35:
-                category = "Both (mostly 2nd XV)"
-            else:
-                category = "Both (equal)"
+            # Any appearances in both squads count as overlap
+            category = "Both"
         
         overlap_data.append({
             'season': season,
@@ -1697,19 +1744,15 @@ def squad_overlap_chart(db, output_file='data/charts/squad_overlap.json'):
     
     # Define category order and mapping
     category_map = {
-        "1st XV only": 2,
-        "Both (mostly 1st XV)": 1,
-        "Both (equal)": 0,
-        "Both (mostly 2nd XV)": -1,
-        "2nd XV only": -2
+        "1st XV": 1,
+        "Both": 0,
+        "2nd XV": -1,
     }
     
     category_colors = {
-        "1st XV only": "#202946",
-        "Both (mostly 1st XV)": "#161d33",
-        "Both (equal)": "#000000",
-        "Both (mostly 2nd XV)": "#465480",
-        "2nd XV only": "#7d96e8"
+        "1st XV": "#202946",
+        "Both": "#000000",
+        "2nd XV": "#7d96e8",
     }
     
     summary_df['type_code'] = summary_df['category'].map(category_map)
@@ -1749,26 +1792,17 @@ def squad_overlap_chart(db, output_file='data/charts/squad_overlap.json'):
     summary_df['label_position'] = (summary_df['percentage_start'] + summary_df['percentage_end']) / 2
     summary_df['label_color'] = summary_df['category'].map(
         {
-            "1st XV only": "white",
-            "Both (mostly 1st XV)": "white",
-            "Both (equal)": "white",
-            "Both (mostly 2nd XV)": "white",
-            "2nd XV only": "#111827",
+            "1st XV": "white",
+            "Both": "white",
+            "2nd XV": "#111827",
         }
     )
     
     # Sort for consistent rendering
     summary_df = summary_df.sort_values(['season', 'type_code'])
-
-    # Create interactive selection for highlighting (initially highlights "Both squads")
-    appearance_selection = alt.selection_multi(
-        fields=['category_group'],
-        bind='legend',
-        name='appearanceSelect'
-    )
     
     # Create the diverging stacked bar chart
-    bars = alt.Chart(summary_df).mark_bar().encode(
+    bars = alt.Chart(summary_df).mark_bar(cornerRadiusEnd=0).encode(
         x=alt.X(
             'percentage_start:Q',
             title='Percentage',
@@ -1787,21 +1821,7 @@ def squad_overlap_chart(db, output_file='data/charts/squad_overlap.json'):
                 domain=list(category_colors.keys()),
                 range=list(category_colors.values())
             ),
-            legend=None  # Removed Squad Pattern legend
-        ),
-        stroke=alt.Stroke(
-            'category_group:N',
-            scale=alt.Scale(
-                domain=['One squad', 'Both squads'],
-                range=['#00000000', '#000000']
-            ),
-            legend=alt.Legend(title='Click to highlight', orient='top', titleOrient='left')
-        ),
-        strokeWidth=alt.condition(appearance_selection, alt.value(2), alt.value(0)),
-        opacity=alt.condition(
-            appearance_selection,
-            alt.value(1.0),
-            alt.value(0.35)
+            legend=alt.Legend(title=None, orient='top', values=list(["2nd XV", "Both", "1st XV"]))
         ),
         order=alt.Order('render_priority:Q', sort='ascending'),
         tooltip=[
@@ -1811,8 +1831,6 @@ def squad_overlap_chart(db, output_file='data/charts/squad_overlap.json'):
             alt.Tooltip('players:Q', title='Players'),
             alt.Tooltip('percentage:Q', title='Percentage', format='.1%')
         ]
-    ).add_params(
-        appearance_selection
     )
 
     # Zero line
@@ -1822,31 +1840,7 @@ def squad_overlap_chart(db, output_file='data/charts/squad_overlap.json'):
         opacity=0.3,
         size=1
     ).encode(x='x:Q')
-
-    # Header labels above the chart area
-    label_data = pd.DataFrame([
-        {'x': -0.5, 'label': '2nd XV', 'color': category_colors['2nd XV only']},
-        {'x': -0.2, 'label': 'Mostly 2nd XV', 'color': category_colors['Both (mostly 2nd XV)']},
-        {'x': 0.0, 'label': 'Equal', 'color': category_colors['Both (equal)']},
-        {'x': 0.2, 'label': 'Mostly 1st XV', 'color': category_colors['Both (mostly 1st XV)']},
-        {'x': 0.5, 'label': '1st XV', 'color': category_colors['1st XV only']}
-    ])
     
-    header_labels = alt.Chart(label_data).mark_text(
-        align='center',
-        baseline='middle',
-        fontSize=10,
-        fontWeight='bold',
-        opacity=1.0,
-    ).encode(
-        x=alt.X(
-            'x:Q',
-            axis=None
-        ),
-        text='label:N',
-        color=alt.Color('color:N', scale=None, legend=None)
-    ).properties(width=400, height=22)
-
     # Data labels on bars
     labels = alt.Chart(summary_df).transform_filter(
         'datum.percentage >= 0.035'
@@ -1863,21 +1857,13 @@ def squad_overlap_chart(db, output_file='data/charts/squad_overlap.json'):
             title='Season'
         ),
         text=alt.Text('players:Q', format='.0f'),
-        color=alt.Color('label_color:N', scale=None, legend=None),
-        opacity=alt.condition(
-            appearance_selection,
-            alt.value(1.0),
-            alt.value(0.35)
-        )
+        color=alt.Color('label_color:N', scale=None, legend=None)
     )
 
     # Combine layers, with labels rendered in a header strip above the plot area
     plot_area = alt.layer(zero_line, bars, labels).properties(
         width=400,
-        height=alt.Step(40)
-    ).resolve_scale(x='shared')
-
-    charter = alt.vconcat(header_labels, plot_area, spacing=2).properties(
+        height=alt.Step(30),
         title=alt.Title(
             text='Squad Overlap',
             subtitle=[
@@ -1886,25 +1872,11 @@ def squad_overlap_chart(db, output_file='data/charts/squad_overlap.json'):
                 'Bigger bars in the middle indicate more players appearing for both squads.',
             ]
         )
-    )
+    ).resolve_scale(x='shared')
 
-    charter.save(output_file)
+    plot_area.save(output_file)
     
-    # Post-process the JSON to set initial selection to "Both squads"
-    import json
-    with open(output_file, 'r') as f:
-        spec = json.load(f)
-    
-    # Find and initialize the appearanceSelect parameter
-    if 'params' in spec:
-        for param in spec['params']:
-            if param.get('name') == 'appearanceSelect':
-                param['value'] = [{'category_group': 'Both squads'}]
-    
-    with open(output_file, 'w') as f:
-        json.dump(spec, f)
-    
-    return charter
+    return plot_area
 
 
 # ===== MIGRATED FROM update.py ===== (Helper functions and chart generation)
@@ -5226,13 +5198,13 @@ def export_league_context_chart_specs(db, output_dir="data/charts", squads=("1st
                     alt.value(0.5),
                 ),
             ),
-        ).properties(width=240, height=400)
+        ).properties(width=180, height=400)
 
         continuity_chart = alt.layer(
             alt.Chart(average_retention)
             .mark_bar(strokeWidth=2)
             .encode(
-                x=alt.X("Average Retention:Q", title="Average Continuity"),
+                x=alt.X("Average Retention:Q", title="Average Returners"),
                 y=continuity_y,
                 color=alt.condition(
                     alt.datum.IsEGR,
@@ -5243,7 +5215,7 @@ def export_league_context_chart_specs(db, output_dir="data/charts", squads=("1st
                     "Team",
                     "Season",
                     "Unit",
-                    alt.Tooltip("Average Retention:Q", title="Average Players Retained", format=".2f"),
+                    alt.Tooltip("Average Retention:Q", title="Average Returners", format=".2f"),
                 ],
             ),
             alt.Chart(average_retention)
@@ -5258,7 +5230,7 @@ def export_league_context_chart_specs(db, output_dir="data/charts", squads=("1st
                     alt.value(0.5),
                 ),
             ),
-        ).properties(width=240, height=400)
+        ).properties(width=180, height=400)
 
         squad_size_trend_chart = alt.layer(
             alt.Chart(squad_size_trend)
@@ -5299,14 +5271,14 @@ def export_league_context_chart_specs(db, output_dir="data/charts", squads=("1st
                     alt.Tooltip("Total Players:Q", title="East Grinstead", format=".0f"),
                 ],
             ),
-        ).properties(width=300, height=400)
+        ).properties(width=alt.Step(45), height=400)
 
         continuity_trend_chart = alt.layer(
             alt.Chart(continuity_trend)
             .mark_area(color="#991515", opacity=0.2)
             .encode(
                 x=alt.X("Season:N", title="Season"),
-                y=alt.Y("League Min:Q", title="Average Continuity"),
+                y=alt.Y("League Min:Q", title="Average Returners"),
                 y2="League Max:Q",
                 tooltip=[
                     alt.Tooltip("Season:N", title="Season"),
@@ -5343,10 +5315,10 @@ def export_league_context_chart_specs(db, output_dir="data/charts", squads=("1st
                 tooltip=[
                     alt.Tooltip("Season:N", title="Season"),
                     alt.Tooltip("Unit:N", title="Unit"),
-                    alt.Tooltip("Average Retention:Q", title="East Grinstead", format=".2f"),
+                    alt.Tooltip("Average Returners:Q", title="East Grinstead", format=".2f"),
                 ],
             ),
-        ).properties(width=300, height=400)
+        ).properties(width=alt.Step(45), height=400)
 
         squad_size_context_chart = alt.hconcat(
             squad_size_chart,
@@ -5365,7 +5337,7 @@ def export_league_context_chart_specs(db, output_dir="data/charts", squads=("1st
             spacing=18,
         ).resolve_scale(y="independent").properties(
             title=alt.Title(
-                text="League Squad Continuity",
+                text="League Squad Returners",
                 subtitle="Comparison for the selected season alongside East Grinstead trend by unit.",
             )
         )
