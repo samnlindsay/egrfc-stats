@@ -53,10 +53,7 @@
                     spec.title.text = 'Red Zone Success';
                 }
             }
-            container.innerHTML = '';
-            const result = await vegaEmbed(container, spec, { actions: VEGA_EMBED_ACTIONS, renderer: 'svg' });
-            pinVegaActionsInElement(container);
-            return result.view;
+            return await embedChartSpec(container, spec, { containerId, emptyMessage });
         } catch (error) {
             console.error(`Unable to render chart from ${path}:`, error);
             container.innerHTML = `<div class="text-center text-muted py-4">${emptyMessage}</div>`;

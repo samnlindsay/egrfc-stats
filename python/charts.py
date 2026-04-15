@@ -1325,8 +1325,26 @@ def squad_continuity_average_chart(db, output_file='data/charts/squad_continuity
     label_forwards = _unit_label(base, "Forwards", "darkblue", "retained")
     label_backs    = _unit_label(base, "Backs", "black", "retained")
 
+    # Selected-season highlight layers (isSelected injected by JavaScript at render time).
+    total_selected = (
+        base.transform_filter("datum.unit === 'Total' && datum.isSelected")
+        .mark_point(filled=True, size=250, color="#7d96e8", stroke="#202946", strokeWidth=3)
+    )
+    forwards_selected = (
+        base.transform_filter("datum.unit === 'Forwards' && datum.isSelected")
+        .mark_point(filled=True, size=180, color="blue", stroke="darkblue", strokeWidth=3)
+    )
+    backs_selected = (
+        base.transform_filter("datum.unit === 'Backs' && datum.isSelected")
+        .mark_point(filled=True, size=180, color="white", stroke="black", strokeWidth=3)
+    )
+
     chart = (
-        alt.layer(total_line, forwards_line, backs_line, label_total, label_forwards, label_backs)
+        alt.layer(
+            total_line, forwards_line, backs_line,
+            label_total, label_forwards, label_backs,
+            total_selected, forwards_selected, backs_selected,
+        )
         .properties(width=200, height=400)
         .facet(
             column=alt.Column(
@@ -1334,11 +1352,12 @@ def squad_continuity_average_chart(db, output_file='data/charts/squad_continuity
                 sort=["1st", "2nd"],
                 title=None,
                 header=alt.Header(
-                    labelFontSize=24,
+                    labelFontSize=20,
+                    labelPadding=6,
                     labelExpr="datum.value + ' XV'",
                 ),
             ),
-            spacing=30
+            spacing=10
         )
         .properties(
             title=alt.Title(
@@ -1367,6 +1386,19 @@ def squad_size_trend_chart(db, output_file='data/charts/squad_size_trend.json'):
         SELECT season, squad, 'Total' AS unit, COUNT(DISTINCT player) AS players
         FROM player_appearances
         GROUP BY season, squad
+
+        UNION ALL
+
+        SELECT season, 'Total' AS squad, unit, COUNT(DISTINCT player) AS players
+        FROM player_appearances
+        WHERE unit IN ('Forwards', 'Backs')
+        GROUP BY season, unit
+
+        UNION ALL
+
+        SELECT season, 'Total' AS squad, 'Total' AS unit, COUNT(DISTINCT player) AS players
+        FROM player_appearances
+        GROUP BY season
 
         ORDER BY season, squad, unit
         """
@@ -1420,20 +1452,40 @@ def squad_size_trend_chart(db, output_file='data/charts/squad_size_trend.json'):
     label_forwards = _unit_label(base, "Forwards", "darkblue", "players")
     label_backs    = _unit_label(base, "Backs", "black", "players")
 
+    # Selected-season highlight layers (isSelected injected by JavaScript at render time).
+    # Larger point overlays for the selected season per unit, drawn on top.
+    total_selected = (
+        base.transform_filter("datum.unit === 'Total' && datum.isSelected")
+        .mark_point(filled=True, size=250, color="#7d96e8", stroke="#202946", strokeWidth=3)
+    )
+    forwards_selected = (
+        base.transform_filter("datum.unit === 'Forwards' && datum.isSelected")
+        .mark_point(filled=True, size=180, color="blue", stroke="darkblue", strokeWidth=3)
+    )
+    backs_selected = (
+        base.transform_filter("datum.unit === 'Backs' && datum.isSelected")
+        .mark_point(filled=True, size=180, color="white", stroke="black", strokeWidth=3)
+    )
+
     chart = (
-        alt.layer(total_line, forwards_line, backs_line, label_total, label_forwards, label_backs)
+        alt.layer(
+            total_line, forwards_line, backs_line,
+            label_total, label_forwards, label_backs,
+            total_selected, forwards_selected, backs_selected,
+        )
         .properties(width=200, height=400)
         .facet(
             column=alt.Column(
                 "squad:N",
-                sort=["1st", "2nd"],
+                sort=["1st", "2nd", "Total"],
                 title=None,
                 header=alt.Header(
-                    labelFontSize=24,
-                    labelExpr="datum.value + ' XV'",
+                    labelFontSize=20,
+                    labelPadding=6,
+                    labelExpr="datum.value == 'Total' ? 'Total' : datum.value + ' XV'",
                 ),
             ),
-            spacing=30
+            spacing=10
         )
         .properties(
             title=alt.Title(
@@ -1450,10 +1502,11 @@ def squad_size_trend_chart(db, output_file='data/charts/squad_size_trend.json'):
 def squad_position_composition_chart(db, output_file='data/charts/squad_position_composition.json'):
     """Generate squad position composition chart template.
 
-    The exported spec is consumed by the frontend, which filters to selected:
-    - season
-    - gameTypeMode (All games / League + Cup / League only)
-    - minimumAppearances
+    Aggregates player appearance data by (season, squad, unit, position, games, game_type).
+    Frontend applies filters at render time for gameTypeMode and minimumAppearances.
+    
+    This approach is ~78x more efficient than pre-computing all filter combinations.
+    Instead of 21k rows, generates ~300 rows that Vega-Lite filters dynamically.
     """
 
     base_df = db.con.execute(
@@ -1485,124 +1538,85 @@ def squad_position_composition_chart(db, output_file='data/charts/squad_position
     ]
     position_order_map = {name: idx + 1 for idx, name in enumerate(position_order)}
 
-    mode_filters = {
-        'All games': lambda df: df,
-        'League + Cup': lambda df: df[df['game_type'].isin(['League', 'Cup'])],
-        'League only': lambda df: df[df['game_type'] == 'League'],
-    }
-
     count_modes = {
         'appearance_position': 'Appearance position',
         'primary_position': 'Player primary position',
     }
 
     rows = []
-    for mode_name, mode_filter in mode_filters.items():
-        mode_df = mode_filter(base_df)
-        if mode_df.empty:
-            continue
+    
+    # Appearance position aggregation: group by (season, squad, unit, position, games, game_type)
+    by_appearance_position = base_df[['season', 'squad', 'unit', 'position', 'player', 'games', 'game_type']].copy()
+    grouped_appearance = (
+        by_appearance_position
+        .groupby(['season', 'squad', 'unit', 'position', 'games', 'game_type'], as_index=False)
+        .agg(players=('player', 'nunique'))
+    )
+    grouped_appearance['countMode'] = 'appearance_position'
+    grouped_appearance['countModeLabel'] = 'Appearance position'
+    rows.append(grouped_appearance)
 
-        # Keep one row per player-position with appearance count at that position.
-        by_appearance_position = mode_df[['season', 'squad', 'unit', 'position', 'player', 'games']].copy()
-
-        # Collapse each player into one "primary" position per season/squad, using total appearances.
-        ranked = mode_df.copy()
-        ranked['position_order'] = ranked['position'].map(position_order_map).fillna(999).astype(int)
-        ranked = ranked.sort_values(
-            by=['season', 'squad', 'player', 'games', 'position_order'],
-            ascending=[True, True, True, False, True],
-        )
-        primary_positions = ranked.drop_duplicates(['season', 'squad', 'player'], keep='first')[
-            ['season', 'squad', 'player', 'position', 'unit']
-        ]
-        player_totals = (
-            mode_df
-            .groupby(['season', 'squad', 'player'], as_index=False)
-            .agg(games=('games', 'sum'))
-        )
-        by_primary_position = primary_positions.merge(
-            player_totals,
-            on=['season', 'squad', 'player'],
-            how='inner',
-        )
-
-        source_by_count_mode = {
-            'appearance_position': by_appearance_position,
-            'primary_position': by_primary_position,
-        }
-
-        for count_mode, count_mode_label in count_modes.items():
-            source_df = source_by_count_mode[count_mode]
-            if source_df.empty:
-                continue
-
-            for minimum_appearances in range(0, 13):
-                filtered = source_df[source_df['games'] >= minimum_appearances].copy()
-                if filtered.empty:
-                    continue
-
-                grouped = (
-                    filtered
-                    .groupby(['season', 'squad', 'unit', 'position', 'games'], as_index=False)
-                    .agg(
-                        players=('player', 'nunique'),
-                    )
-                )
-
-                grouped['gameTypeMode'] = mode_name
-                grouped['countMode'] = count_mode
-                grouped['countModeLabel'] = count_mode_label
-                grouped['minimumAppearances'] = minimum_appearances
-                grouped['position_order'] = grouped['position'].map(position_order_map).fillna(999).astype(int)
-
-                rows.append(grouped)
+    # Primary position: collapse each player to one primary position per season/squad,
+    # then aggregate the same way
+    ranked = base_df.copy()
+    ranked['position_order'] = ranked['position'].map(position_order_map).fillna(999).astype(int)
+    ranked = ranked.sort_values(
+        by=['season', 'squad', 'player', 'games', 'position_order'],
+        ascending=[True, True, True, False, True],
+    )
+    primary_positions = ranked.drop_duplicates(['season', 'squad', 'player'], keep='first')[
+        ['season', 'squad', 'player', 'position', 'unit', 'games', 'game_type']
+    ]
+    grouped_primary = (
+        primary_positions
+        .groupby(['season', 'squad', 'unit', 'position', 'games', 'game_type'], as_index=False)
+        .agg(players=('player', 'nunique'))
+    )
+    grouped_primary['countMode'] = 'primary_position'
+    grouped_primary['countModeLabel'] = 'Player primary position'
+    rows.append(grouped_primary)
 
     if not rows:
         print("No grouped rows generated for squad position composition chart.")
         return None
 
     df = pd.concat(rows, ignore_index=True)
+    df['position_order'] = df['position'].map(position_order_map).fillna(999).astype(int)
     squad_color_scale = alt.Scale(domain=['1st', '2nd'], range=['#202946', '#7d96e8'])
 
-    base_chart = alt.Chart(df)
+    base_chart = alt.Chart(df).encode(
+        y=alt.Y(
+            'position:N',
+            sort=alt.EncodingSortField(field='position_order', op='min', order='ascending'),
+            title=None,
+        ),
+        yOffset=alt.YOffset(
+            'squad:N',
+            sort=['1st', '2nd'],
+            scale=alt.Scale(paddingInner=0.05, paddingOuter=0.01),
+        ),
+        color=alt.Color('squad:N', scale=squad_color_scale, legend=alt.Legend(title="Squad", orient='bottom-right', labelExpr="datum.value + ' XV'")),
+    )
 
     bars = (
         base_chart
         .mark_bar()
         .encode(
-            y=alt.Y(
-                'position:N',
-                sort=alt.EncodingSortField(field='position_order', op='min', order='ascending'),
-                title=None,
-                axis=alt.Axis(labelLimit=120),
-            ),
-            yOffset=alt.YOffset(
-                'squad:N',
-                sort=['1st', '2nd'],
-                scale=alt.Scale(paddingInner=0.08, paddingOuter=0.02),
-            ),
-            x=alt.X('players:Q', stack='zero', title='Players', axis=alt.Axis(tickMinStep=1)),
+            x=alt.X('players:Q', stack='zero', title='Players', axis=alt.Axis(tickMinStep=1, grid=False)),
             detail=alt.Detail('games:Q'),
-            order=alt.Order('games:Q', sort='descending'),
-            color=alt.Color(
-                'squad:N',
-                scale=squad_color_scale,
-                legend=None,
-            ),
             opacity=alt.Opacity(
                 'games:Q',
-                legend=alt.Legend(title='Games per player', orient='bottom', titleOrient='left', values=[1, 3, 5, 10]),
+                scale=alt.Scale(domain=[1, 10], range=[0.5, 1]),
+                legend=alt.Legend(title='Games', orient='top', titleOrient='top', values=[1, 5, 10]),
             ),
+            order=alt.Order('games:Q', sort='descending'),
             tooltip=[
                 alt.Tooltip('season:N', title='Season'),
-                alt.Tooltip('gameTypeMode:N', title='Game Type'),
-                alt.Tooltip('countModeLabel:N', title='Position Count Mode'),
-                alt.Tooltip('minimumAppearances:Q', title='Min Apps'),
                 alt.Tooltip('squad:N', title='Squad'),
                 alt.Tooltip('unit:N', title='Unit'),
                 alt.Tooltip('position:N', title='Position'),
                 alt.Tooltip('players:Q', title='Players'),
-                alt.Tooltip('games:Q', title='Appearances per player '),
+                alt.Tooltip('games:Q', title='Appearances per player'),
             ],
         )
     )
@@ -1613,10 +1627,8 @@ def squad_position_composition_chart(db, output_file='data/charts/squad_position
             total_players='sum(players)',
             groupby=[
                 'season',
-                'gameTypeMode',
                 'countMode',
                 'countModeLabel',
-                'minimumAppearances',
                 'squad',
                 'unit',
                 'position',
@@ -1625,25 +1637,11 @@ def squad_position_composition_chart(db, output_file='data/charts/squad_position
         )
         .mark_text(align='left', baseline='middle', dx=4, fontSize=11, fontWeight='bold')
         .encode(
-            y=alt.Y(
-                'position:N',
-                sort=alt.EncodingSortField(field='position_order', op='min', order='ascending'),
-                title=None,
-                axis=alt.Axis(labelLimit=120),
-            ),
-            yOffset=alt.YOffset(
-                'squad:N',
-                sort=['1st', '2nd'],
-                scale=alt.Scale(paddingInner=0.08, paddingOuter=0.02),
-            ),
-            x=alt.X('total_players:Q'),
+            x=alt.X('total_players:Q', axis=alt.Axis(tickMinStep=1, grid=False)),
             text=alt.Text('total_players:Q', format='.0f'),
-            color=alt.Color('squad:N', scale=squad_color_scale, legend=None),
             tooltip=[
                 alt.Tooltip('season:N', title='Season'),
-                alt.Tooltip('gameTypeMode:N', title='Game Type'),
                 alt.Tooltip('countModeLabel:N', title='Position Count Mode'),
-                alt.Tooltip('minimumAppearances:Q', title='Min Apps'),
                 alt.Tooltip('squad:N', title='Squad'),
                 alt.Tooltip('unit:N', title='Unit'),
                 alt.Tooltip('position:N', title='Position'),
@@ -1654,22 +1652,8 @@ def squad_position_composition_chart(db, output_file='data/charts/squad_position
 
     chart = (
         alt.layer(bars, total_labels)
-        .properties(width=250, height=alt.Step(18))
-        .facet(
-            # column=alt.Column(
-            #     'squad:N',
-            #     sort=['1st', '2nd'],
-            #     title=None,
-            #     header=alt.Header(labelExpr="datum.value + ' XV'", labelFontSize=16),
-            # ),
-            row=alt.Row(
-                'unit:N',
-                sort=['Forwards', 'Backs'],
-                title=None,
-                header=alt.Header(labelFontSize=14),
-            ),
-            spacing=16,
-        )
+        .properties(width=250, height=alt.Step(16))
+        .facet(column=alt.Column("unit:N", title=None, sort=['Forwards', 'Backs']), spacing=20) 
         .resolve_scale(x='shared', y='independent')
         .properties(
             title=alt.Title(
@@ -1694,17 +1678,35 @@ def squad_overlap_chart(db, output_file='data/charts/squad_overlap.json'):
     The chart diverges from a center zero line with the neutral category centered on zero.
     """
 
-    # Get unique players per season and their squads with appearance counts
+    # Get unique players per season/unit and their squads with appearance counts.
+    # Emit both unit-specific rows (Forwards/Backs) and overall Total rows.
     df = db.con.execute(
         """
         SELECT
             season,
             player,
             squad,
+            unit,
             COUNT(*) AS appearances
         FROM player_appearances
-        WHERE season IS NOT NULL AND player IS NOT NULL
-        AND season != '2016/17' -- Exclude first season with incomplete data
+        WHERE season IS NOT NULL
+          AND player IS NOT NULL
+          AND unit IN ('Forwards', 'Backs')
+          AND season != '2016/17' -- Exclude first season with incomplete data
+        GROUP BY season, player, squad, unit
+
+        UNION ALL
+
+        SELECT
+            season,
+            player,
+            squad,
+            'Total' AS unit,
+            COUNT(*) AS appearances
+        FROM player_appearances
+        WHERE season IS NOT NULL
+          AND player IS NOT NULL
+          AND season != '2016/17' -- Exclude first season with incomplete data
         GROUP BY season, player, squad
         """
     ).df()
@@ -1713,9 +1715,9 @@ def squad_overlap_chart(db, output_file='data/charts/squad_overlap.json'):
         print("No player appearance data found for squad overlap chart.")
         return None
 
-    # For each player-season combo, determine overlap category
+    # For each player-season-unit combo, determine overlap category
     overlap_data = []
-    for (season, player), group_df in df.groupby(['season', 'player']):
+    for (season, unit, player), group_df in df.groupby(['season', 'unit', 'player']):
         squads = group_df['squad'].unique()
         
         if len(squads) == 1:
@@ -1728,16 +1730,17 @@ def squad_overlap_chart(db, output_file='data/charts/squad_overlap.json'):
         
         overlap_data.append({
             'season': season,
+            'unit': unit,
             'player': player,
             'category': category
         })
     
     overlap_df = pd.DataFrame(overlap_data)
     
-    # Count players per category per season
+    # Count players per category per season/unit
     summary_df = (
         overlap_df
-        .groupby(['season', 'category'], as_index=False)
+        .groupby(['season', 'unit', 'category'], as_index=False)
         .size()
         .rename(columns={'size': 'players'})
     )
@@ -1765,7 +1768,7 @@ def squad_overlap_chart(db, output_file='data/charts/squad_overlap.json'):
         {'One squad': 0, 'Both squads': 1}
     )
     
-    # Compute percentages and diverging positions per season
+    # Compute percentages and diverging positions per season/unit
     def compute_diverging_positions(group):
         # Sort by type_code to ensure correct order
         group = group.set_index('type_code').sort_index()
@@ -1784,8 +1787,8 @@ def squad_overlap_chart(db, output_file='data/charts/squad_overlap.json'):
         
         return group
     
-    # Group by season and compute positions
-    summary_df = summary_df.groupby('season', group_keys=False).apply(
+    # Group by season+unit and compute positions
+    summary_df = summary_df.groupby(['season', 'unit'], group_keys=False).apply(
         compute_diverging_positions
     ).reset_index()
 
@@ -1799,7 +1802,9 @@ def squad_overlap_chart(db, output_file='data/charts/squad_overlap.json'):
     )
     
     # Sort for consistent rendering
-    summary_df = summary_df.sort_values(['season', 'type_code'])
+    unit_order = {'Total': 0, 'Forwards': 1, 'Backs': 2}
+    summary_df['unit_order'] = summary_df['unit'].map(unit_order).fillna(99)
+    summary_df = summary_df.sort_values(['season', 'unit_order', 'type_code'])
     
     # Create the diverging stacked bar chart
     bars = alt.Chart(summary_df).mark_bar(cornerRadiusEnd=0).encode(
@@ -1807,7 +1812,7 @@ def squad_overlap_chart(db, output_file='data/charts/squad_overlap.json'):
             'percentage_start:Q',
             title='Percentage',
             axis=alt.Axis(format='%', grid=False),
-            scale=alt.Scale(domain=[-0.75, 0.75], nice=False)
+            scale=alt.Scale(nice=False)
         ),
         x2='percentage_end:Q',
         y=alt.Y(
@@ -1821,11 +1826,12 @@ def squad_overlap_chart(db, output_file='data/charts/squad_overlap.json'):
                 domain=list(category_colors.keys()),
                 range=list(category_colors.values())
             ),
-            legend=alt.Legend(title=None, orient='top', values=list(["2nd XV", "Both", "1st XV"]))
+            legend=alt.Legend(title="Squad", orient='top', values=list(["2nd XV", "Both", "1st XV"]))
         ),
         order=alt.Order('render_priority:Q', sort='ascending'),
         tooltip=[
             alt.Tooltip('season:O', title='Season'),
+            alt.Tooltip('unit:N', title='Unit'),
             alt.Tooltip('category:N', title='Pattern'),
             alt.Tooltip('category_group:N', title='Appearance'),
             alt.Tooltip('players:Q', title='Players'),
@@ -1862,7 +1868,7 @@ def squad_overlap_chart(db, output_file='data/charts/squad_overlap.json'):
 
     # Combine layers, with labels rendered in a header strip above the plot area
     plot_area = alt.layer(zero_line, bars, labels).properties(
-        width=400,
+        width=300,
         height=alt.Step(30),
         title=alt.Title(
             text='Squad Overlap',
@@ -2619,7 +2625,7 @@ def set_piece_success_by_season_chart(
                 axis=alt.Axis(values=season_ticks, labelExpr=season_label_expr),
             ),
             y=alt.Y(
-                "success_rate:Q",
+                "success_rate:Q",   
                 title=None,
                 scale=alt.Scale(domain=[0.0, 1.0]),
                 axis=alt.Axis(format="%", orient="right"),
@@ -3359,7 +3365,7 @@ def lineout_trend_chart(db=None, df=None, breakdown="numbers", output_file=None,
 
         stack_order_expr = "0"
         if isinstance(value_sort, list) and value_sort:
-            cases = [f"datum.{field} == '{str(value).replace("'", "\\'")}' ? {index}" for index, value in enumerate(value_sort)]
+            cases = [f"datum.{field} == '{str(value).replace(chr(39), chr(92) + chr(39))}' ? {index}" for index, value in enumerate(value_sort)]
             stack_order_expr = " : ".join(cases) + " : 999"
         if breakdown_key == "numbers":
             grouped = grouped.transform_calculate(numbers_display="datum.numbers + '-man'")
@@ -5233,6 +5239,11 @@ def export_league_context_chart_specs(db, output_dir="data/charts", squads=("1st
         ).properties(width=180, height=400)
 
         squad_size_trend_chart = alt.layer(
+            # Background rule highlights the selected season column (isSelected injected by JS).
+            alt.Chart(squad_size_trend)
+            .transform_filter("datum.isSelected && datum.Unit === 'Total'")
+            .mark_rule(strokeWidth=32, color="rgba(125, 150, 232, 0.18)")
+            .encode(x=alt.X("Season:N")),
             alt.Chart(squad_size_trend)
             .mark_area(color="#991515", opacity=0.2)
             .encode(
@@ -5270,6 +5281,15 @@ def export_league_context_chart_specs(db, output_dir="data/charts", squads=("1st
                     alt.Tooltip("Unit:N", title="Unit"),
                     alt.Tooltip("Total Players:Q", title="East Grinstead", format=".0f"),
                 ],
+            ),
+            # Selected-season EGR point overlay.
+            alt.Chart(squad_size_trend)
+            .transform_filter("datum.isSelected && datum.IsEGR")
+            .mark_point(filled=True, size=200, color="#202946", stroke="#7d96e8", strokeWidth=3)
+            .encode(
+                x=alt.X("Season:N"),
+                y=alt.Y("Total Players:Q"),
+                detail="Unit:N",
             ),
         ).properties(width=alt.Step(45), height=400)
 
@@ -5310,13 +5330,26 @@ def export_league_context_chart_specs(db, output_dir="data/charts", squads=("1st
                     alt.value(1),
                     alt.value(0.5),
                 ),
-
                 detail="Unit:N",
                 tooltip=[
                     alt.Tooltip("Season:N", title="Season"),
                     alt.Tooltip("Unit:N", title="Unit"),
                     alt.Tooltip("Average Returners:Q", title="East Grinstead", format=".2f"),
                 ],
+            ),
+            # Background rule highlights the selected season column (isSelected injected by JS).
+            alt.Chart(continuity_trend)
+            .transform_filter("datum.isSelected && datum.Unit === 'Total'")
+            .mark_rule(strokeWidth=32, color="rgba(125, 150, 232, 0.18)")
+            .encode(x=alt.X("Season:N")),
+            # Selected-season EGR point overlay.
+            alt.Chart(continuity_trend)
+            .transform_filter("datum.isSelected && datum.IsEGR")
+            .mark_point(filled=True, size=200, color="#202946", stroke="#7d96e8", strokeWidth=3)
+            .encode(
+                x=alt.X("Season:N"),
+                y=alt.Y("Average Retention:Q"),
+                detail="Unit:N",
             ),
         ).properties(width=alt.Step(45), height=400)
 

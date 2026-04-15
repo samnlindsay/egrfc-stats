@@ -29,10 +29,7 @@
         if (!container) return null;
         try {
             const spec = await loadChartSpec(path);
-            container.innerHTML = '';
-            const result = await vegaEmbed(container, spec, { actions: VEGA_EMBED_ACTIONS, renderer: 'svg' });
-            pinVegaActionsInElement(container);
-            return result.view;
+            return await embedChartSpec(container, spec, { containerId, emptyMessage });
         } catch (error) {
             console.error(`Unable to render chart from ${path}:`, error);
             container.innerHTML = `<div class="text-center text-muted py-4">${emptyMessage}</div>`;
@@ -61,13 +58,11 @@
 
             try {
                 const spec = cloneSpec(baseSpec);
-                container.innerHTML = '';
-                const result = await vegaEmbed(container, spec, { actions: VEGA_EMBED_ACTIONS, renderer: 'svg' });
-                if (result?.view) {
-                    result.view.signal('spSquadParam', squad);
-                    await result.view.runAsync();
+                const view = await embedChartSpec(container, spec, { containerId, emptyMessage });
+                if (view) {
+                    view.signal('spSquadParam', squad);
+                    await view.runAsync();
                 }
-                pinVegaActionsInElement(container);
             } catch (error) {
                 console.error(`Unable to render split set-piece panel for ${containerId}:`, error);
                 container.innerHTML = `<div class="text-center text-muted py-4">${emptyMessage}</div>`;
@@ -127,11 +122,11 @@
         }
 
         const layoutSpec = applyScrumH2HLayout(cloneSpec(scrumH2HBaseSpec), layoutKey);
-        container.innerHTML = '';
-        const result = await vegaEmbed(container, layoutSpec, { actions: VEGA_EMBED_ACTIONS, renderer: 'svg' });
-        pinVegaActionsInElement(container);
         scrumH2HLayoutKey = layoutKey;
-        scrumH2HView = result.view;
+        scrumH2HView = await embedChartSpec(container, layoutSpec, {
+            containerId: 'scrumH2HChart',
+            emptyMessage: 'Scrums head-to-head chart unavailable.'
+        });
         return scrumH2HView;
     }
 

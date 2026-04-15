@@ -9,6 +9,430 @@ const chartSpecCache = new Map();
 const chartSpecRequestVersion = String(Date.now());
 let responsiveChartResizeBound = false;
 
+// Methodical inventory of chart containers present across HTML pages.
+// Use this to track responsive layout coverage in CHART_LAYOUT_INVENTORY.
+const CHART_CONTAINER_INVENTORY = Object.freeze([
+    'focusModalChart',
+    'leagueContinuityContextChart',
+    'leagueSquadSizeContextChart',
+    'lineoutPerfBreakdownAreaChart',
+    'lineoutPerfBreakdownJumperChart',
+    'lineoutPerfBreakdownNumbersChart',
+    'lineoutPerfBreakdownThrowerChart',
+    'lineoutTrendAreaChart',
+    'lineoutTrendJumperChart',
+    'lineoutTrendNumbersChart',
+    'lineoutTrendPlayChart',
+    'lineoutTrendThrowerChart',
+    'oppositionLineoutH2HChart',
+    'oppositionResultsChart',
+    'oppositionScrumH2HChart',
+    'oppositionTeamSheetsChart',
+    'playerStatsAppearancesChart',
+    'playerStatsCaptainsChart',
+    'playerStatsMotmChart',
+    'playerStatsPointsChart',
+    'rzPointsChart',
+    'setPiece1stLineoutChart',
+    'setPiece1stScrumChart',
+    'setPiece2ndLineoutChart',
+    'setPiece2ndScrumChart',
+    'squadContinuityTrendChart',
+    'squadOverlapChart',
+    'squadPositionCompositionChart',
+    'squadSizeTrendChart',
+    'teamSheetsChart'
+]);
+
+// Centralized responsive layout inventory for chart-level structural tweaks.
+// Rules are opt-in per chart container id and applied at render time.
+//
+// Supported profile fields:
+// - legendOrient: 'bottom' | 'right' | ... (legend orient)
+// - legendTitleOrient: 'top' | 'bottom' | 'left' | 'right' | ... (legend title orient)
+// - facetColumns: number
+// - facetHeaderLabels: boolean (show/hide facet headers)
+// - concat: 'vertical' | 'horizontal'
+// - width / height: root chart dimensions (number or Vega-Lite sizing object)
+// - innerWidth / innerHeight: dimensions for faceted/repeated child spec (spec.spec)
+// - spacing / padding / autosize: top-level layout values
+// - specPath: override chart spec path for a given mode
+// - panelSizing: per-panel width/height for concat charts
+//
+// Supported entry-level fields:
+// - narrowMax / wideMin: mode breakpoints
+// - specPaths: { narrow, default, wide } for Python-generated chart variants
+const CHART_LAYOUT_INVENTORY = {
+  squadPositionCompositionChart: {
+    narrowMax: 680,
+    wideMin: 1000,
+    narrow: { legendOrient: "bottom", facetColumns: 1, facetHeaderLabels: false },
+    wide: { legendOrient: "right", facetColumns: 2, innerHeight: { step: 25 } },
+  },
+  squadOverlapChart: {
+    narrowMax: 680,
+    wideMin: 1000,
+    narrow: { legendOrient: "bottom" },
+    wide: { legendOrient: "right", width: 500 },
+  },
+  squadSizeTrendChart: {
+    narrowMax: 680,
+    wideMin: 1080,
+    narrow: { width: 100 },
+    wide: { legendOrient: "right", innerWidth: 200 },
+  },
+  squadContinuityTrendChart: {
+    narrowMax: 680,
+    narrow: { legendOrient: "bottom" },
+    wide: { legendOrient: "right", innerWidth: 275 },
+  },
+  leagueSquadSizeContextChart: {
+    narrowMax: 760,
+    wideMin: 1000,
+    narrow: {
+      concat: "vertical",
+      legendOrient: "bottom",
+      panelSizing: {
+        sharedWidthPadding: 20,
+        vertical: {
+          spacing: 10,
+          panels: [
+            { width: "shared", height: { step: 25 } },
+            { width: "shared", height: 300 },
+          ],
+        },
+      },
+    },
+    wide: {
+      concat: "horizontal",
+      legendOrient: "right",
+      panelSizing: {
+        horizontal: {
+          spacing: 20,
+          panels: [
+            { width: 275, height: 300 },
+            { width: { step: 60 }, height: 300 },
+          ],
+        },
+      },
+    },
+  },
+  leagueContinuityContextChart: {
+    narrowMax: 760,
+    wideMin: 1080,
+    narrow: {
+      concat: "vertical",
+      legendOrient: "bottom",
+      panelSizing: {
+        sharedWidthPadding: 20,
+        vertical: {
+          spacing: 10,
+          panels: [
+            { width: "shared", height: { step: 25 } },
+            { width: "shared", height: 300 },
+          ],
+        },
+      },
+    },
+    wide: {
+      concat: "horizontal",
+      legendOrient: "right",
+      panelSizing: {
+        horizontal: {
+          spacing: 20,
+          panels: [
+            { width: 275, height: 300 },
+            { width: { step: 60 }, height: 300 },
+          ],
+        },
+      },
+    },
+  },
+  scrumH2HChart: {
+    narrowMax: 760,
+    narrow: { legendOrient: "bottom" },
+    wide: { legendOrient: "right" },
+  },
+  oppositionLineoutH2HChart: {
+    narrowMax: 760,
+    narrow: { legendOrient: "bottom" },
+    wide: { legendOrient: "right" },
+  },
+  oppositionScrumH2HChart: {
+    narrowMax: 760,
+    narrow: { legendOrient: "bottom" },
+    wide: { legendOrient: "right" },
+  },
+  redZone1stChart: {
+    narrowMax: 720,
+    narrow: { legendOrient: "bottom" },
+    wide: { legendOrient: "right" },
+  },
+  rzPointsChart: {
+    narrowMax: 720,
+    narrow: { legendOrient: "bottom" },
+    wide: { legendOrient: "right" },
+  },
+  setPieceLineoutChart: {
+    narrowMax: 760,
+    narrow: { legendOrient: "bottom" },
+    wide: { legendOrient: "right" },
+  },
+  setPiece1stLineoutChart: {
+    narrowMax: 760,
+    narrow: { legendOrient: "bottom" },
+    wide: { legendOrient: "right" },
+  },
+  setPiece2ndLineoutChart: {
+    narrowMax: 760,
+    narrow: { legendOrient: "bottom" },
+    wide: { legendOrient: "right" },
+  },
+  setPieceScrumChart: {
+    narrowMax: 760,
+    narrow: { legendOrient: "bottom" },
+    wide: { legendOrient: "right" },
+  },
+  setPiece1stScrumChart: {
+    narrowMax: 760,
+    narrow: { legendOrient: "bottom" },
+    wide: { legendOrient: "right" },
+  },
+  setPiece2ndScrumChart: {
+    narrowMax: 760,
+    narrow: { legendOrient: "bottom" },
+    wide: { legendOrient: "right" },
+  },
+};
+
+function getChartLayoutCoverage() {
+    const configured = CHART_CONTAINER_INVENTORY.filter(id => Object.prototype.hasOwnProperty.call(CHART_LAYOUT_INVENTORY, id));
+    const missing = CHART_CONTAINER_INVENTORY.filter(id => !Object.prototype.hasOwnProperty.call(CHART_LAYOUT_INVENTORY, id));
+    return {
+        total: CHART_CONTAINER_INVENTORY.length,
+        configuredCount: configured.length,
+        missingCount: missing.length,
+        configured,
+        missing
+    };
+}
+
+function attachChartSpecMetadata(spec, metadata = {}) {
+    if (!spec || typeof spec !== 'object') return spec;
+    if (metadata.sourcePath) {
+        Object.defineProperty(spec, '__sourcePath', {
+            value: metadata.sourcePath,
+            writable: true,
+            configurable: true,
+            enumerable: false
+        });
+    }
+    return spec;
+}
+
+function cloneChartSpec(spec) {
+    const cloned = JSON.parse(JSON.stringify(spec));
+    return attachChartSpecMetadata(cloned, { sourcePath: spec?.__sourcePath });
+}
+
+function resolveChartLayoutState(containerId, width) {
+    if (!containerId || !Number.isFinite(width)) return { entry: null, mode: null, profile: null };
+    const entry = CHART_LAYOUT_INVENTORY[containerId] || null;
+    if (!entry) return { entry: null, mode: null, profile: null };
+    const narrowMax = Number.isFinite(entry.narrowMax) ? entry.narrowMax : 680;
+    const wideMin = Number.isFinite(entry.wideMin) ? entry.wideMin : 1100;
+    if (width <= narrowMax) return { entry, mode: 'narrow', profile: entry.narrow || null };
+    if (width >= wideMin) return { entry, mode: 'wide', profile: entry.wide || null };
+
+    // Width is between narrowMax and wideMin.
+    // If no explicit default profile exists, choose the nearest available profile
+    // so responsive overrides still apply in the breakpoint gap.
+    if (entry.default) return { entry, mode: 'default', profile: entry.default };
+
+    const hasNarrow = !!entry.narrow;
+    const hasWide = !!entry.wide;
+    if (hasNarrow && hasWide) {
+        const gapSpan = wideMin - narrowMax;
+        const midpoint = gapSpan > 0 ? (narrowMax + gapSpan / 2) : narrowMax;
+        return width >= midpoint
+            ? { entry, mode: 'wide', profile: entry.wide }
+            : { entry, mode: 'narrow', profile: entry.narrow };
+    }
+    if (hasWide) return { entry, mode: 'wide', profile: entry.wide };
+    if (hasNarrow) return { entry, mode: 'narrow', profile: entry.narrow };
+    return { entry, mode: 'default', profile: null };
+}
+
+function resolveChartLayoutProfile(containerId, width) {
+    return resolveChartLayoutState(containerId, width).profile;
+}
+
+function getChartLayoutWidth(container) {
+    if (!container) return Number(window?.innerWidth || 0) || 0;
+    const direct = Number(container.clientWidth || 0);
+    const chartSection = Number(container.closest('.chart-section-content, .chart-section-block, .chart-panel-card')?.clientWidth || 0);
+    const mainColumn = Number(container.closest('.squad-stats-main, .page-shell, .main-content')?.clientWidth || 0);
+    const viewport = Number(window?.innerWidth || 0);
+    return Math.max(direct, chartSection, mainColumn, viewport ? viewport * 0.75 : 0);
+}
+
+function applyLegendOrientationDeep(spec, orient) {
+    if (!spec || typeof spec !== 'object' || !orient) return;
+    const legendChannels = ['color', 'fill', 'stroke', 'shape', 'size', 'opacity'];
+    if (spec.encoding && typeof spec.encoding === 'object') {
+        legendChannels.forEach(channel => {
+            const enc = spec.encoding[channel];
+            if (!enc || enc.legend === null) return;
+            enc.legend = { ...(enc.legend || {}), orient };
+        });
+    }
+    ['layer', 'hconcat', 'vconcat', 'concat'].forEach(key => {
+        const childSpecs = spec[key];
+        if (Array.isArray(childSpecs)) childSpecs.forEach(child => applyLegendOrientationDeep(child, orient));
+    });
+    if (spec.spec) applyLegendOrientationDeep(spec.spec, orient);
+}
+
+function applyLegendTitleOrientDeep(spec, titleOrient) {
+    if (!spec || typeof spec !== 'object' || !titleOrient) return;
+    const legendChannels = ['color', 'fill', 'stroke', 'shape', 'size', 'opacity'];
+    if (spec.encoding && typeof spec.encoding === 'object') {
+        legendChannels.forEach(channel => {
+            const enc = spec.encoding[channel];
+            if (!enc || enc.legend === null) return;
+            enc.legend = { ...(enc.legend || {}), titleOrient };
+        });
+    }
+    ['layer', 'hconcat', 'vconcat', 'concat'].forEach(key => {
+        const childSpecs = spec[key];
+        if (Array.isArray(childSpecs)) childSpecs.forEach(child => applyLegendTitleOrientDeep(child, titleOrient));
+    });
+    if (spec.spec) applyLegendTitleOrientDeep(spec.spec, titleOrient);
+}
+
+function applyFacetColumnsDeep(spec, columns) {
+    if (!spec || typeof spec !== 'object' || !Number.isFinite(columns) || columns < 1) return;
+    if (spec.facet && typeof spec.facet === 'object') {
+        // Vega-Lite ignores top-level `columns` when facet is declared as `{ column: {...} }`.
+        // Normalize to wrapped facet syntax so `columns` takes effect.
+        const facetDef = spec.facet;
+        if (
+            !Array.isArray(facetDef)
+            && facetDef.column
+            && !facetDef.row
+            && typeof facetDef.column === 'object'
+        ) {
+            const wrappedFacet = { ...facetDef.column };
+            if (
+                Object.prototype.hasOwnProperty.call(facetDef, 'title')
+                && !Object.prototype.hasOwnProperty.call(wrappedFacet, 'title')
+            ) {
+                wrappedFacet.title = facetDef.title;
+            }
+            spec.facet = wrappedFacet;
+        }
+        spec.columns = Math.max(1, Math.floor(columns));
+    }
+    ['layer', 'hconcat', 'vconcat', 'concat'].forEach(key => {
+        const childSpecs = spec[key];
+        if (Array.isArray(childSpecs)) childSpecs.forEach(child => applyFacetColumnsDeep(child, columns));
+    });
+    if (spec.spec) applyFacetColumnsDeep(spec.spec, columns);
+}
+
+function applyFacetHeaderLabelsDeep(spec, showLabels) {
+    if (!spec || typeof spec !== 'object') return;
+    if (spec.facet && typeof spec.facet === 'object') {
+        if (showLabels === false) {
+            // log if removing facet header labels from a spec that has title text defined at the facet level, since this may be unintentional
+            console.log(`Applying facet header label removal to spec${spec.__sourcePath ? ` from ${spec.__sourcePath}` : ''}${spec.facet.title ? ' with facet title' : ''}`);
+            // spec.facet.header = { labels: false, title: null };
+            console.log(spec.facet)
+        } else if (
+            typeof spec.facet.header === 'object'
+            && spec.facet.header !== null
+            && spec.facet.header.labels === false
+        ) {
+            delete spec.facet.header;
+        }
+    }
+
+    ['layer', 'hconcat', 'vconcat', 'concat'].forEach(key => {
+        const childSpecs = spec[key];
+        if (Array.isArray(childSpecs)) childSpecs.forEach(child => applyFacetHeaderLabelsDeep(child, showLabels));
+    });
+    if (spec.spec) applyFacetHeaderLabelsDeep(spec.spec, showLabels);
+}
+
+function applyConcatOrientationDeep(spec, orientation) {
+    if (!spec || typeof spec !== 'object' || !orientation) return;
+    if (orientation === 'vertical' && Array.isArray(spec.hconcat)) {
+        spec.vconcat = spec.hconcat;
+        delete spec.hconcat;
+    } else if (orientation === 'horizontal' && Array.isArray(spec.vconcat)) {
+        spec.hconcat = spec.vconcat;
+        delete spec.vconcat;
+    }
+    ['layer', 'hconcat', 'vconcat', 'concat'].forEach(key => {
+        const childSpecs = spec[key];
+        if (Array.isArray(childSpecs)) childSpecs.forEach(child => applyConcatOrientationDeep(child, orientation));
+    });
+    if (spec.spec) applyConcatOrientationDeep(spec.spec, orientation);
+}
+
+function applyConcatPanelSizing(spec, panelSizing, layoutWidth) {
+    if (!spec || typeof spec !== 'object' || !panelSizing || typeof panelSizing !== 'object') return;
+    const hasVertical = Array.isArray(spec.vconcat);
+    const hasHorizontal = Array.isArray(spec.hconcat);
+    const modeKey = hasVertical ? 'vertical' : (hasHorizontal ? 'horizontal' : null);
+    if (!modeKey) return;
+
+    const modeSizing = panelSizing[modeKey];
+    if (!modeSizing || !Array.isArray(modeSizing.panels)) return;
+
+    const concatPanels = hasVertical ? spec.vconcat : spec.hconcat;
+    const sharedWidthPadding = Number.isFinite(panelSizing.sharedWidthPadding) ? panelSizing.sharedWidthPadding : 24;
+    const sharedWidth = Math.max(180, Math.floor((Number(layoutWidth || 0) || 0) - sharedWidthPadding));
+    const resolveDim = value => {
+        if (value === 'shared') return sharedWidth;
+        return value;
+    };
+
+    modeSizing.panels.forEach((panelDims, index) => {
+        const panelSpec = concatPanels[index];
+        if (!panelSpec || typeof panelSpec !== 'object' || !panelDims) return;
+        if (panelDims.width !== undefined) panelSpec.width = resolveDim(panelDims.width);
+        if (panelDims.height !== undefined) panelSpec.height = resolveDim(panelDims.height);
+    });
+
+    if (Number.isFinite(modeSizing.spacing)) spec.spacing = modeSizing.spacing;
+}
+
+function applyRootChartSizing(spec, profile) {
+    if (!spec || typeof spec !== 'object' || !profile || typeof profile !== 'object') return;
+    if (profile.width !== undefined) spec.width = profile.width;
+    if (profile.height !== undefined) spec.height = profile.height;
+    if (profile.spacing !== undefined) spec.spacing = profile.spacing;
+    if (profile.padding !== undefined) spec.padding = profile.padding;
+    if (profile.autosize !== undefined) spec.autosize = profile.autosize;
+    if (spec.spec && typeof spec.spec === 'object') {
+        if (profile.innerWidth !== undefined) spec.spec.width = profile.innerWidth;
+        if (profile.innerHeight !== undefined) spec.spec.height = profile.innerHeight;
+    }
+}
+
+function applyChartLayoutProfile(spec, profile, layoutWidth) {
+    if (!spec || !profile || typeof profile !== 'object') return spec;
+    applyRootChartSizing(spec, profile);
+    if (profile.legendOrient) applyLegendOrientationDeep(spec, profile.legendOrient);
+    if (profile.legendTitleOrient) applyLegendTitleOrientDeep(spec, profile.legendTitleOrient);
+    if (Number.isFinite(profile.facetColumns)) applyFacetColumnsDeep(spec, profile.facetColumns);
+    if (profile.facetHeaderLabels !== undefined) applyFacetHeaderLabelsDeep(spec, !!profile.facetHeaderLabels);
+    if (profile.concat) applyConcatOrientationDeep(spec, profile.concat);
+    if (profile.panelSizing) applyConcatPanelSizing(spec, profile.panelSizing, layoutWidth);
+    return spec;
+}
+
 function resetResponsiveChartScale(embed) {
     if (!embed) return;
     embed.style.transform = 'none';
@@ -186,13 +610,13 @@ async function loadChartSpec(path) {
     const requestPath = `${path}${separator}v=${encodeURIComponent(chartSpecRequestVersion)}`;
     const response = await fetch(requestPath, { cache: 'no-store' });
     if (!response.ok) throw new Error(`Failed to fetch ${path} (${response.status})`);
-    const spec = await response.json();
+    const spec = attachChartSpecMetadata(await response.json(), { sourcePath: path });
     chartSpecCache.set(path, spec);
     return spec;
 }
 
 function filterChartSpecDataset(spec, predicate) {
-    const clonedSpec = JSON.parse(JSON.stringify(spec));
+    const clonedSpec = cloneChartSpec(spec);
     const filteredRows = [];
     
     if (clonedSpec.datasets) {
@@ -273,7 +697,7 @@ function filterNamedDatasetsInSpec(spec, datasetNames, predicate) {
 }
 
 function filterLeagueContextCombinedSpec(spec, comparisonPredicate, trendPredicate) {
-    const clonedSpec = JSON.parse(JSON.stringify(spec));
+    const clonedSpec = cloneChartSpec(spec);
     const combinedCharts = Array.isArray(clonedSpec.hconcat) ? clonedSpec.hconcat : null;
     if (!combinedCharts || combinedCharts.length < 2) {
         return filterChartSpecDataset(clonedSpec, comparisonPredicate);
@@ -292,27 +716,99 @@ function chartSpecHasRows(spec) {
     return true;
 }
 
+function stripTitlesDeep(spec) {
+    if (!spec || typeof spec !== 'object') return;
+    delete spec.title;
+    ['layer', 'hconcat', 'vconcat', 'concat'].forEach(key => {
+        const childSpecs = spec[key];
+        if (Array.isArray(childSpecs)) childSpecs.forEach(child => stripTitlesDeep(child));
+    });
+    if (spec.spec) stripTitlesDeep(spec.spec);
+}
+
 function prepareChartSpecForEmbed(spec, options = {}) {
-    const processedSpec = JSON.parse(JSON.stringify(spec));
-    if (options.hideTitle !== false) delete processedSpec.title;
+    const processedSpec = cloneChartSpec(spec);
+    if (options.hideTitle !== false) {
+        stripTitlesDeep(processedSpec);
+        if (options.containerId === 'leagueSquadSizeContextChart' || options.containerId === 'leagueContinuityContextChart') {
+            processedSpec.padding = { top: 0, right: 8, bottom: 0, left: 8 };
+        }
+    }
+    const profile = resolveChartLayoutProfile(options.containerId, Number(options.containerWidth || 0));
+    if (profile) applyChartLayoutProfile(processedSpec, profile, Number(options.containerWidth || 0));
     return processedSpec;
 }
 
-function renderStaticSpecChart(containerId, spec, emptyMessage, options = {}) {
-    const container = document.getElementById(containerId);
-    if (!container) return;
+function resolveChartVariantPath(containerId, containerWidth, fallbackSourcePath = null) {
+    const { entry, mode, profile } = resolveChartLayoutState(containerId, containerWidth);
+    if (!entry) return null;
+    if (profile?.specPath) return profile.specPath;
+    if (entry.specPaths && typeof entry.specPaths === 'object') {
+        return entry.specPaths[mode] || entry.specPaths.default || fallbackSourcePath || null;
+    }
+    return fallbackSourcePath || null;
+}
+
+function shouldDisableVegaTooltips() {
+    if (typeof window === 'undefined') return false;
+    const coarsePointer = typeof window.matchMedia === 'function'
+        && window.matchMedia('(hover: none), (pointer: coarse)').matches;
+    const narrowViewport = Number(window.innerWidth || 0) <= 900;
+    return coarsePointer || narrowViewport;
+}
+
+async function embedChartSpec(containerOrId, spec, options = {}) {
+    const container = typeof containerOrId === 'string'
+        ? document.getElementById(containerOrId)
+        : containerOrId;
+    if (!container) return null;
+
+    const containerId = options.containerId || container.id || null;
+    const emptyMessage = options.emptyMessage || 'No chart data available.';
+
     if (!spec || !chartSpecHasRows(spec)) {
         container.innerHTML = `<div class="text-center text-muted py-4">${emptyMessage}</div>`;
-        return;
+        return null;
     }
+
     container.innerHTML = '';
     const embedHost = document.createElement('div');
     embedHost.className = 'chart-embed-host';
     if (containerId === 'teamSheetsChart') embedHost.classList.add('chart-embed-host--team-sheets');
     container.appendChild(embedHost);
-    const chartSpec = prepareChartSpecForEmbed(spec, options);
-    vegaEmbed(embedHost, chartSpec, { actions: VEGA_EMBED_ACTIONS, renderer: 'svg' })
-        .then(() => pinVegaActionsInElement(container))
+
+    const layoutWidth = getChartLayoutWidth(container);
+    const sourcePath = options.sourcePath || spec?.__sourcePath || null;
+    const variantPath = resolveChartVariantPath(containerId, layoutWidth, sourcePath);
+    const variantSpec = variantPath && variantPath !== sourcePath
+        ? await loadChartSpec(variantPath)
+        : spec;
+    const chartSpec = prepareChartSpecForEmbed(variantSpec, {
+        ...options,
+        containerId,
+        containerWidth: layoutWidth
+    });
+
+    const embedOptions = {
+        actions: VEGA_EMBED_ACTIONS,
+        renderer: 'svg',
+        tooltip: shouldDisableVegaTooltips() ? false : true,
+    };
+
+    const result = await vegaEmbed(embedHost, chartSpec, embedOptions);
+
+    pinVegaActionsInElement(container);
+    return result?.view || null;
+}
+
+function renderStaticSpecChart(containerId, spec, emptyMessage, options = {}) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    embedChartSpec(container, spec, {
+        ...options,
+        containerId,
+        emptyMessage
+    })
         .catch(error => {
             console.error(`Error rendering ${containerId}:`, error);
             container.innerHTML = '<div class="text-center text-danger py-4">Unable to render chart.</div>';

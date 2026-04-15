@@ -18,14 +18,8 @@
         }
 
         try {
-            const response = await fetch(path);
-            if (!response.ok) {
-                throw new Error(`Failed to fetch chart (${response.status}): ${path}`);
-            }
-            const spec = await response.json();
-            container.innerHTML = '';
-            await vegaEmbed(container, spec, { actions: VEGA_EMBED_ACTIONS, renderer: 'svg' });
-            pinVegaActionsInElement(container);
+            const spec = await loadChartSpec(path);
+            await embedChartSpec(container, spec, { containerId, emptyMessage });
         } catch (error) {
             console.error(`Unable to render chart from ${path}:`, error);
             container.innerHTML = `<div class="text-center text-muted py-4">${emptyMessage}</div>`;
@@ -41,9 +35,7 @@
             container.innerHTML = `<div class="text-center text-muted py-4">${emptyMessage}</div>`;
             return;
         }
-        container.innerHTML = '';
-        await vegaEmbed(container, spec, { actions: VEGA_EMBED_ACTIONS, renderer: 'svg' });
-        pinVegaActionsInElement(container);
+        await embedChartSpec(container, spec, { containerId, emptyMessage });
     }
 
     function buildRedZoneSpec(setPieceSummaryRows) {
@@ -110,9 +102,10 @@
             }
 
             const spec = buildRedZoneSpec(rows);
-            container.innerHTML = '';
-            await vegaEmbed(container, spec, { actions: VEGA_EMBED_ACTIONS, renderer: 'svg' });
-            pinVegaActionsInElement(container);
+            await embedChartSpec(container, spec, {
+                containerId: 'redZone1stChart',
+                emptyMessage: 'Red-zone chart unavailable.'
+            });
         } catch (error) {
             console.error('Unable to render red zone performance chart:', error);
             container.innerHTML = '<div class="text-center text-muted py-4">Red-zone chart unavailable.</div>';

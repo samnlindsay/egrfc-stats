@@ -3498,8 +3498,39 @@ table tbody tr:hover {
 
 .squad-filters-grid {
     display: grid;
-    grid-template-columns: 1.4fr 1.6fr 1fr;
+    grid-template-columns: 1.3fr 1.6fr 1fr 1.1fr;
     gap: 0.7rem;
+}
+
+.squad-filters-grid--offcanvas {
+    grid-template-columns: 1fr !important;
+    gap: 2.5rem;
+}
+
+.squad-filters-offcanvas {
+    top: var(--navbar-height) !important;
+    height: calc(100vh - var(--navbar-height)) !important;
+}
+
+.squad-filters-offcanvas .offcanvas-header {
+    background-color: #f9f9fa;
+    border-bottom: 1px solid #e5e4e7;
+    padding: 1rem;
+}
+
+.squad-filters-offcanvas .offcanvas-header h5 {
+    margin-bottom: 0.25rem;
+}
+
+.squad-filters-description {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #5e6783;
+    line-height: 1.4;
+}
+
+.squad-filters-offcanvas .offcanvas-body {
+    padding: 1.25rem 1rem;
 }
 
 .squad-filter-control {
@@ -3556,10 +3587,10 @@ table tbody tr:hover {
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid #c9d3f2;
+    border: 1px solid var(--primary-color);
     border-radius: 0.6rem;
-    background: #fff;
-    color: #1e2a50;
+    background: var(--primary-color);
+    color: #fff;
     font-family: 'PT Sans Narrow', sans-serif;
     font-size: 1rem;
     font-weight: 700;
@@ -3594,7 +3625,7 @@ table tbody tr:hover {
     font-family: 'PT Sans Narrow', sans-serif;
     font-size: 0.95rem;
     font-weight: 700;
-    padding: 0.35rem 0.45rem;
+    padding: 0.3rem 0.4rem;
     transition: all 0.15s ease;
 }
 
@@ -3748,7 +3779,7 @@ table tbody tr:hover {
 .section-intro {
     margin-bottom: 1rem;
     color: #666;
-    font-size: 0.9rem;
+    font-size: 1rem;
 }
 
 .section-heading--spaced {
@@ -3767,13 +3798,38 @@ table tbody tr:hover {
     display: inline-flex;
     align-items: center;
     gap: 0.35rem;
-    padding: 0.2rem 0.5rem;
+    padding: 0.3rem 0.5rem;
     background: #eef1fb;
     color: var(--primary-color);
     border: 1px solid #d5ddf1;
     border-radius: 999px;
-    font-size: 0.84rem;
+    font-size: 0.9rem;
     line-height: 1;
+}
+
+.squad-stats-filter-chip-btn {
+    appearance: none;
+    -webkit-appearance: none;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.squad-stats-filter-chip-btn:hover {
+    background-color: #d5ddf1;
+    border-color: var(--accent-color);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(32, 41, 70, 0.15);
+}
+
+.squad-stats-filter-chip-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 3px rgba(32, 41, 70, 0.1);
+}
+
+.squad-stats-filter-chip-btn:focus-visible {
+    outline: 2px solid rgba(125, 150, 232, 0.45);
+    outline-offset: 2px;
 }
 
 .squad-stats-filter-chip strong {
@@ -4436,10 +4492,6 @@ table tbody tr:hover {
     box-shadow: 0 4px 12px rgba(32, 41, 70, 0.06);
 }
 
-.chart-section-block:last-child {
-    margin-bottom: 0;
-}
-
 .chart-section-title {
     margin: 0 0 1rem 0;
     color: var(--primary-color);
@@ -4448,11 +4500,45 @@ table tbody tr:hover {
     font-family: 'PT Sans Narrow', sans-serif;
 }
 
+.chart-section-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.chart-section-head .chart-section-title {
+    margin-bottom: 0;
+}
+
+.chart-section-head--position-count .squad-filter-control--panel-head {
+    flex: 0 0 auto;
+    align-items: flex-end;
+    margin-left: auto;
+}
+
+.chart-section-head--position-count .squad-filter-label {
+    font-size: 0.85rem;
+}
+
+.chart-section-head--position-count .squad-filter-segment--vertical {
+    flex-direction: row;
+    gap: 0.35rem;
+}
+
+.chart-section-head--position-count .squad-filter-segment--vertical .squad-filter-segment-btn {
+    width: auto;
+    min-width: 9rem;
+    text-align: center;
+    white-space: nowrap;
+}
+
 .chart-section-hint {
     margin: 0 0 0.75rem 0;
     color: #6a7388;
     font-size: 0.9rem;
-    line-height: 1.4;
+    line-height: 1.25;
 }
 
 .chart-section-content--split {

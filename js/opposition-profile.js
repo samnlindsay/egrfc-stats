@@ -560,10 +560,12 @@
         scrumH2HView = null;
 
         if (lineoutHasData) {
-            await vegaEmbed(lineoutContainer, filteredLineoutSpec, { actions: VEGA_EMBED_ACTIONS, renderer: 'svg' })
-                .then(result => {
-                    lineoutH2HView = result.view;
-                    pinVegaActionsInElement(lineoutContainer);
+            await embedChartSpec(lineoutContainer, filteredLineoutSpec, {
+                containerId: 'oppositionLineoutH2HChart',
+                emptyMessage: 'Lineout head-to-head chart unavailable.'
+            })
+                .then(view => {
+                    lineoutH2HView = view;
                 })
                 .catch(error => {
                     console.error('Error rendering lineout h2h chart:', error);
@@ -571,10 +573,12 @@
         }
 
         if (scrumHasData) {
-            await vegaEmbed(scrumContainer, filteredScrumSpec, { actions: VEGA_EMBED_ACTIONS, renderer: 'svg' })
-                .then(result => {
-                    scrumH2HView = result.view;
-                    pinVegaActionsInElement(scrumContainer);
+            await embedChartSpec(scrumContainer, filteredScrumSpec, {
+                containerId: 'oppositionScrumH2HChart',
+                emptyMessage: 'Scrum head-to-head chart unavailable.'
+            })
+                .then(view => {
+                    scrumH2HView = view;
                 })
                 .catch(error => {
                     console.error('Error rendering scrum h2h chart:', error);

@@ -204,6 +204,13 @@
         return spec;
     }
 
+    function shouldDisableVegaTooltips() {
+        const coarsePointer = typeof window.matchMedia === 'function'
+            && window.matchMedia('(hover: none), (pointer: coarse)').matches;
+        const narrowViewport = Number(window.innerWidth || 0) <= 900;
+        return coarsePointer || narrowViewport;
+    }
+
     async function embedChartFromFile(containerId, path) {
         const host = document.getElementById(containerId);
         if (!host || typeof vegaEmbed !== 'function') return;
@@ -211,7 +218,11 @@
         try {
             const sourceSpec = await fetchChartSpec(path);
             const authoredSpec = cloneSpec(sourceSpec);
-            await vegaEmbed('#' + containerId, authoredSpec, { actions: VEGA_EMBED_ACTIONS, renderer: 'svg' });
+            await vegaEmbed('#' + containerId, authoredSpec, {
+                actions: VEGA_EMBED_ACTIONS,
+                renderer: 'svg',
+                tooltip: shouldDisableVegaTooltips() ? false : true,
+            });
         } catch (error) {
             console.error('Failed to render chart', containerId, error);
             renderNoDataChart(containerId, 'Chart unavailable for current filters.');

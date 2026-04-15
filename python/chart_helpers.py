@@ -284,6 +284,7 @@ def alt_theme():
                 "titleFontSize": 24,
                 "gridColor":"#202947",
                 "gridOpacity": 0.2,
+                "zindex": 1,
             },
             "text": {
                 "font": font,

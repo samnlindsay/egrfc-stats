@@ -1,7 +1,7 @@
 game_id,date,season,squad,opposition,game_type,result,captain,motm,pitchero_match_url,tries_scorers,conversions_scorers,penalties_scorers,drop_goals_scorers,has_any_scorers,has_pitchero_url
 2026-05-02_1st_Trojans,2026-05-02,2025/26,1st,Trojans,Cup,,,,,,,,,False,False
-2026-04-18_1st_Seaford,2026-04-18,2025/26,1st,Seaford,League,,,,,,,,,False,False
-2026-04-18_2nd_Horsham,2026-04-18,2025/26,2nd,Horsham,League,,,,,,,,,False,False
+2026-04-18_1st_Seaford,2026-04-18,2025/26,1st,Seaford,League,,Rory Evans,,,,,,,False,False
+2026-04-18_2nd_Horsham,2026-04-18,2025/26,2nd,Horsham,League,,George Beet,,,,,,,False,False
 2026-04-11_1st_Royals,2026-04-11,2025/26,1st,Royals,League,W,Rory Evans,Ben Tottman,,"{""Ben Tottman"": 1, ""Jake Radcliffe"": 4, ""Luke Maker"": 1, ""Sam Musgrave"": 1}","{""Noah Roberts"": 5}",,,True,False
 2026-04-11_2nd_Uckfield,2026-04-11,2025/26,2nd,Uckfield,League,W,George Beet,,,"{""Chris Taylor"": 1, ""Idris Lawal"": 1, ""Josh Weaver"": 1, ""PENALTY"": 1, ""Sam McCarthy"": 1}","{""Max Crawley-Moore"": 1}",,,True,False
 2026-03-28_1st_Ditchling,2026-03-28,2025/26,1st,Ditchling,League,W,Rory Evans,Jake Radcliffe,https://www.egrfc.com/teams/142068/match-centre/1-17629322/events,"{""Ben Tottman"": 1, ""Jake Radcliffe"": 1, ""Luke Maker"": 1, ""Ted Hardisty"": 1}","{""Noah Roberts"": 2}","{""Noah Roberts"": 1}",,True,True

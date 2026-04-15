@@ -8,10 +8,6 @@
         grid-template-columns: minmax(0, 1fr);
     }
 
-    #page-squad-stats .squad-filters-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
     .match-team-sheet--compact .match-team-sheet-panel--replacements {
         grid-column: 1 / -1;
         border-left: none;
@@ -19,13 +15,22 @@
     }
 }
 
-@media (max-width: 1024px) {
-    #page-squad-stats .squad-filters-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-}
+
 
 @media (max-width: 768px) {
+
+    #page-squad-stats .page-shell {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
+
+    #page-squad-stats .squad-stats-layout {
+        gap: 0.45rem;
+    }
+
+    #page-squad-stats .squad-stats-main {
+        gap: 0.55rem;
+    }
 
     /* Page header: stack title/desc above filters on narrow screens */
     .page-header {
@@ -93,15 +98,6 @@
         padding: 0.18rem 0.45rem;
     }
 
-    #page-squad-stats .squad-filters-shell {
-        padding: 0.7rem;
-    }
-
-    #page-squad-stats .squad-filters-grid {
-        grid-template-columns: 1fr;
-        gap: 0.55rem;
-    }
-
     #page-squad-stats .squad-filter-segment {
         grid-template-columns: repeat(3, minmax(0, 1fr));
     }
@@ -116,8 +112,46 @@
         gap: 0.65rem;
     }
 
+    #page-squad-stats .chart-section {
+        margin: 1.2rem 0;
+    }
+
+    #page-squad-stats .chart-section-block {
+        margin-bottom: 0.85rem;
+    }
+
+    #page-squad-stats .chart-section-block--panel {
+        padding: 0.6rem;
+        border-radius: 0.65rem;
+    }
+
+    #page-squad-stats .chart-section-title {
+        margin-bottom: 0.55rem;
+    }
+
+    #page-squad-stats .chart-section-head {
+        flex-wrap: wrap;
+        gap: 0.55rem;
+        margin-bottom: 0.55rem;
+    }
+
+    /* #page-squad-stats .chart-section-head--position-count .squad-filter-control--panel-head {
+        width: 100%;
+        align-items: stretch;
+        margin-left: 0;
+    } */
+
+    #page-squad-stats .chart-section-hint {
+        margin-bottom: 0.4rem;
+        line-height: 1.3;
+    }
+
     #page-squad-stats .chart-section-content--split .chart-section-hint {
         flex: 1 1 auto;
+    }
+
+    #page-squad-stats .league-context-section-head {
+        margin-bottom: 0.65rem;
     }
 
     #page-squad-stats .league-context-section-head {
@@ -355,6 +389,25 @@
         width: 100% !important;
         height: auto !important;
         display: block;
+    }
+}
+
+@media (max-width: 480px) {
+    #page-squad-stats .page-shell {
+        padding-left: 0.35rem;
+        padding-right: 0.35rem;
+    }
+
+    #page-squad-stats .chart-section {
+        margin: 1rem 0;
+    }
+
+    #page-squad-stats .chart-section-block--panel {
+        padding: 0.5rem;
+    }
+
+    #page-squad-stats .squad-stats-active-filters {
+        margin-bottom: 0.6rem;
     }
 }
 
