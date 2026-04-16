@@ -370,7 +370,7 @@ def captains_chart(db, output_file='data/charts/player_stats_captains.json'):
                 G.game_type,
                 CASE
                     WHEN P.is_captain THEN 'Captain'
-                    ELSE 'Vice Captain'
+                    ELSE 'VC'
                 END AS role,
                 COUNT(*) AS games
             FROM player_appearances P
@@ -397,9 +397,9 @@ def captains_chart(db, output_file='data/charts/player_stats_captains.json'):
 
     stack_order_map = {
         ('1st', 'Captain'): 1,
-        ('1st', 'Vice Captain'): 2,
+        ('1st', 'VC'): 2,
         ('2nd', 'Captain'): 3,
-        ('2nd', 'Vice Captain'): 4,
+        ('2nd', 'VC'): 4,
     }
     df['stack_order'] = df.apply(
         lambda row: stack_order_map.get((row.get('squad'), row.get('role')), 99),
@@ -438,8 +438,8 @@ def captains_chart(db, output_file='data/charts/player_stats_captains.json'):
             color=color_enc,
             opacity=alt.Opacity(
                 'role:N',
-                sort=['Captain', 'Vice Captain'],
-                scale=alt.Scale(domain=['Captain', 'Vice Captain'], range=[1.0, 0.45]),
+                sort=['Captain', 'VC'],
+                scale=alt.Scale(domain=['Captain', 'VC'], range=[1.0, 0.45]),
                 legend=alt.Legend(title=None, orient='none', legendX=250, legendY=50)
             ),
             order=alt.Order('stack_order:Q', sort='ascending'),
@@ -464,7 +464,7 @@ def captains_chart(db, output_file='data/charts/player_stats_captains.json'):
             x_mid='(datum.x0 + datum.x1) / 2',
             label_color="datum.squad === '1st' && datum.role === 'Captain' ? '#ffffff' : '#111111'"
         )
-        .mark_text(align='center', baseline='middle', fontSize=11)
+        .mark_text(align='center', baseline='middle', fontSize=11, opacity=0.8)
         .encode(
             x=alt.X('x_mid:Q'),
             y=y_enc,
@@ -541,7 +541,7 @@ def player_stats_motm_chart(db, output_file='data/charts/player_stats_motm.json'
             .rename(columns={'size': 'motm_awards'})
         )
 
-        df['position'] = df['position'].fillna('Other')
+        df['position'] = df['position'].fillna('Bench')
 
         unit_map = {
             'Prop': 'Forwards',
@@ -554,10 +554,11 @@ def player_stats_motm_chart(db, output_file='data/charts/player_stats_motm.json'
             'Centre': 'Backs',
             'Wing': 'Backs',
             'Full Back': 'Backs',
+            'Bench': 'Bench',
         }
         position_order = [
             'Prop', 'Hooker', 'Second Row', 'Flanker', 'Number 8',
-            'Scrum Half', 'Fly Half', 'Centre', 'Wing', 'Full Back',
+            'Scrum Half', 'Fly Half', 'Centre', 'Wing', 'Full Back', 'Bench',
         ]
         position_sort_map = {pos: idx + 1 for idx, pos in enumerate(position_order)}
         opacity_map = {
@@ -571,6 +572,7 @@ def player_stats_motm_chart(db, output_file='data/charts/player_stats_motm.json'
             'Centre': 0.76,
             'Wing': 0.64,
             'Full Back': 0.52,
+            'Bench': 0.65,
         }
 
         segment_color_map = {
@@ -587,8 +589,8 @@ def player_stats_motm_chart(db, output_file='data/charts/player_stats_motm.json'
         }
         label_color_map = {pos: _text_color_for_bg(color) for pos, color in segment_color_map.items()}
 
-        df['unit'] = df['position'].map(unit_map).fillna('Other')
-        df['unit_sort'] = df['unit'].map({'Forwards': 1, 'Backs': 2, 'Other': 3}).fillna(99)
+        df['unit'] = df['position'].map(unit_map).fillna('Bench')
+        df['unit_sort'] = df['unit'].map({'Forwards': 1, 'Backs': 2, 'Bench': 3}).fillna(99)
         df['position_sort'] = df['position'].map(position_sort_map).fillna(999)
         df['position_opacity'] = df['position'].map(opacity_map).fillna(0.55)
         df['label_color'] = df['position'].map(label_color_map).fillna('#111111')
@@ -610,10 +612,8 @@ def player_stats_motm_chart(db, output_file='data/charts/player_stats_motm.json'
             scale=alt.Scale(domain=['1st', '2nd'], range=['#202946', '#7d96e8']),
             legend=alt.Legend(
                 title="Squad", 
-                orient="none", 
-                legendX=200, 
-                legendY=100, 
-                direction='vertical', 
+                offset=20,
+                orient="right",
                 labelExpr="datum.value + ' XV'"
             )
         ),
@@ -695,7 +695,7 @@ def player_stats_motm_chart(db, output_file='data/charts/player_stats_motm.json'
 
     unit_bars = unit_base.mark_bar(strokeWidth=0.8).encode(
         x=alt.X('motm_awards:Q', axis=alt.Axis(title='MOTM Awards', orient='top', tickCount=3, format='.0f')),
-        y=alt.Y('unit:N', sort=['Forwards', 'Backs', 'Other'], title=None),
+        y=alt.Y('unit:N', sort=['Forwards', 'Backs', 'Bench'], title=None),
         color=alt.Color(
             'segment_color:N',
             scale=None,
@@ -725,18 +725,42 @@ def player_stats_motm_chart(db, output_file='data/charts/player_stats_motm.json'
             as_=['x0', 'x1']
         )
         .transform_calculate(x_mid='(datum.x0 + datum.x1) / 2')
-        .mark_text(fontSize=14, fontWeight='bold', align='center', baseline='middle', font='PT Sans Narrow')
+        .transform_calculate(
+            position_label_multiline=(
+                "datum.position === 'Second Row' ? 'Second\\nRow' : "
+                "datum.position === 'Number 8' ? 'No.\\n8' : "
+                "datum.position === 'Scrum Half' ? 'Scrum\\nHalf' : "
+                "datum.position === 'Fly Half' ? 'Fly\\nHalf' : "
+                "datum.position === 'Full Back' ? 'Full\\nBack' : datum.position"
+            )
+        )
+        .transform_calculate(
+            position_label_compact=(
+                "datum.position === 'Second Row' ? 'Lock' : "
+                "datum.position === 'Number 8' ? '8' : "
+                "datum.position === 'Scrum Half' ? '9' : "
+                "datum.position === 'Fly Half' ? '10' : "
+                "datum.position === 'Full Back' ? '15' : datum.position"
+            )
+        )
+        .transform_calculate(
+            position_label_display=(
+                "(datum.segment_share < 0.2 || datum.motm_awards < 4) ? "
+                "datum.position_label_compact : datum.position_label_multiline"
+            )
+        )
+        .mark_text(fontSize=14, fontWeight='bold', align='center', baseline='middle', font='PT Sans Narrow', lineBreak='\n')
         .encode(
             x=alt.X('x_mid:Q'),
-            y=alt.Y('unit:N', sort=['Forwards', 'Backs', 'Other'], title=None),
+            y=alt.Y('unit:N', sort=['Forwards', 'Backs', 'Bench'], title=None),
             text=alt.condition(
-                'datum.motm_awards >= 2 || datum.segment_share >= 0.16',
-                alt.Text('position:N'),
+                "datum.unit !== 'Bench' && (datum.motm_awards >= 2 || datum.segment_share >= 0.16)",
+                alt.Text('position_label_display:N'),
                 alt.value('')
             ),
             color=alt.Color('label_color:N', scale=None, legend=None),
             opacity=alt.condition(
-                'datum.motm_awards >= 2 || datum.segment_share >= 0.16',
+                "datum.unit !== 'Bench' && (datum.motm_awards >= 2 || datum.segment_share >= 0.16)",
                 alt.value(1),
                 alt.value(0)
             )
@@ -821,13 +845,13 @@ def player_stats_appearances_chart(db, output_file='data/charts/player_stats_app
             'squad:N',
             sort=['1st', '2nd'],
             scale=alt.Scale(domain=['1st', '2nd'], range=['#202946', '#7d96e8']),
-            legend=alt.Legend(title="Squad", orient='bottom-right', direction='vertical', labelExpr="datum.value + ' XV'")
+            legend=alt.Legend(title="Squad", offset=20, orient="right", direction='vertical', labelExpr="datum.value + ' XV'")
         ),
         opacity=alt.Opacity(
             'start:N',
             sort=['Start', 'Bench'],
             scale=alt.Scale(domain=['Start', 'Bench'], range=[1.0, 0.6]),
-            legend=alt.Legend(title=None, orient='bottom-right', direction='vertical')
+            legend=alt.Legend(title=None, offset=20, orient='right', direction='vertical')
         ),
         order=alt.Order('stack_order:Q', sort='ascending'),
         tooltip=[
@@ -1808,15 +1832,16 @@ def squad_overlap_chart(db, output_file='data/charts/squad_overlap.json'):
     summary_df['unit_order'] = summary_df['unit'].map(unit_order).fillna(99)
     summary_df = summary_df.sort_values(['season', 'unit_order', 'type_code'])
     
-    # Create the diverging stacked bar chart
-    bars = alt.Chart(summary_df).mark_bar(cornerRadiusEnd=0).encode(
+    # Shared encodings for all three bar layers
+    _bar_radius = 5
+    _shared_encode = dict(
         x=alt.X(
             'percentage_start:Q',
             title='Percentage',
             axis=alt.Axis(format='%', grid=False),
             scale=alt.Scale(nice=False)
         ),
-        x2='percentage_end:Q',
+        x2=alt.X2('percentage_end:Q'),
         y=alt.Y(
             'season:O',
             sort=alt.SortOrder('descending'),
@@ -1840,6 +1865,46 @@ def squad_overlap_chart(db, output_file='data/charts/squad_overlap.json'):
             alt.Tooltip('percentage:Q', title='Percentage', format='.1%')
         ]
     )
+
+    # Create three filtered bar layers so corner radius can be applied
+    # only to the outer edges of the leftmost (2nd XV) and rightmost (1st XV) segments.
+    bars_left = (
+        alt.Chart(summary_df)
+        .transform_filter("datum.category === '2nd XV'")
+        .mark_bar(
+            cornerRadiusTopLeft=_bar_radius,
+            cornerRadiusBottomLeft=_bar_radius,
+            cornerRadiusTopRight=0,
+            cornerRadiusBottomRight=0,
+        )
+        .encode(**_shared_encode)
+    )
+
+    bars_center = (
+        alt.Chart(summary_df)
+        .transform_filter("datum.category === 'Both'")
+        .mark_bar(
+            cornerRadiusTopLeft=0,
+            cornerRadiusBottomLeft=0,
+            cornerRadiusTopRight=0,
+            cornerRadiusBottomRight=0,
+        )
+        .encode(**_shared_encode)
+    )
+
+    bars_right = (
+        alt.Chart(summary_df)
+        .transform_filter("datum.category === '1st XV'")
+        .mark_bar(
+            cornerRadiusTopLeft=0,
+            cornerRadiusBottomLeft=0,
+            cornerRadiusTopRight=_bar_radius,
+            cornerRadiusBottomRight=_bar_radius,
+        )
+        .encode(**_shared_encode)
+    )
+
+    bars = alt.layer(bars_left, bars_center, bars_right)
 
     # Zero line
     zero_line = alt.Chart(pd.DataFrame({'x': [0]})).mark_rule(
@@ -1868,7 +1933,7 @@ def squad_overlap_chart(db, output_file='data/charts/squad_overlap.json'):
         color=alt.Color('label_color:N', scale=None, legend=None)
     )
 
-    # Combine layers, with labels rendered in a header strip above the plot area
+    # Combine layers
     plot_area = alt.layer(zero_line, bars, labels).properties(
         width=300,
         height=alt.Step(30),

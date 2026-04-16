@@ -19,7 +19,8 @@
 
 @media (max-width: 768px) {
 
-    #page-squad-stats .page-shell {
+    #page-squad-stats .page-shell,
+    #page-player-stats .page-shell {
         padding-left: 0.5rem;
         padding-right: 0.5rem;
     }
@@ -32,11 +33,6 @@
     #page-squad-stats .squad-stats-main,
     #page-player-stats .squad-stats-main {
         gap: 0.55rem;
-    }
-
-    #page-player-stats .page-shell {
-        padding-left: 0.5rem;
-        padding-right: 0.5rem;
     }
 
     /* Page header: stack title/desc above filters on narrow screens */
@@ -69,6 +65,26 @@
 
     #page-player-stats .player-stats-main .chart-section-meta {
         margin-bottom: 0.55rem;
+    }
+
+    #page-player-stats .position-picker__top-row {
+        width: 100%;
+    }
+
+    #page-player-stats .position-picker__columns {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.3rem;
+    }
+
+    #page-player-stats .position-picker__group-btn {
+        font-size: 0.78rem;
+        letter-spacing: 0.03em;
+    }
+
+    #page-player-stats .position-picker__pos-btn {
+        font-size: 0.74rem;
+        padding-top: 0.24rem;
+        padding-bottom: 0.24rem;
     }
 
     #page-player-stats .squad-stats-active-filters {
@@ -174,6 +190,16 @@
         margin-bottom: 0.55rem;
     }
 
+    #page-squad-stats .squad-filter-control--trend-view {
+        width: 100%;
+        align-items: stretch;
+        margin-left: 0;
+    }
+
+    #page-squad-stats .squad-filter-control--trend-view .squad-filter-segment {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
     /* #page-squad-stats .chart-section-head--position-count .squad-filter-control--panel-head {
         width: 100%;
         align-items: stretch;
@@ -191,9 +217,6 @@
 
     #page-squad-stats .league-context-section-head {
         margin-bottom: 0.65rem;
-    }
-
-    #page-squad-stats .league-context-section-head {
         flex-wrap: wrap;
         gap: 0.5rem;
     }
@@ -219,12 +242,33 @@
         border: none;
     }
 
-    #page-squad-stats .squad-stats-main .chart-host,
-    #page-squad-stats .squad-stats-main .chart-host--intrinsic,
-    #page-squad-stats .squad-stats-main .chart-host--overflow-visible {
-        overflow-x: hidden !important;
-        overflow-y: visible !important;
+    #page-squad-stats #squadOverlapChart,
+    #page-squad-stats #leagueSquadSizeContextChart,
+    #page-squad-stats #leagueContinuityContextChart {
+        overflow: visible !important;
+        height: auto !important;
+        max-height: none !important;
         -webkit-overflow-scrolling: auto;
+    }
+
+    #page-squad-stats #squadOverlapChart .chart-embed-host,
+    #page-squad-stats #leagueSquadSizeContextChart .chart-embed-host,
+    #page-squad-stats #leagueContinuityContextChart .chart-embed-host {
+        display: block !important;
+        width: 100% !important;
+        min-width: 0 !important;
+        height: auto !important;
+    }
+
+    #page-squad-stats #squadOverlapChart .vega-embed,
+    #page-squad-stats #leagueSquadSizeContextChart .vega-embed,
+    #page-squad-stats #leagueContinuityContextChart .vega-embed,
+    #page-squad-stats #squadOverlapChart .vega-embed > div,
+    #page-squad-stats #leagueSquadSizeContextChart .vega-embed > div,
+    #page-squad-stats #leagueContinuityContextChart .vega-embed > div {
+        width: 100% !important;
+        height: auto !important;
+        max-height: none !important;
     }
 
     #page-squad-stats .chart-section-content--split > .chart-host--intrinsic {

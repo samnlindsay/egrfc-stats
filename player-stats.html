@@ -184,7 +184,7 @@
                     <section id="sec-player-captains" class="analysis-section chart-section"
                         aria-labelledby="player-captains-heading">
                         <h2 id="player-captains-heading" class="section-heading">Match Day Captains</h2>
-                        <p class="section-intro">Which players have led each squad on match day, including both captains and vice captains.</p>
+                        <p class="section-intro">Which players have led each squad on match day, including both captains and VCs.</p>
                         <div id="playerStatsCaptainsActiveFilters" class="squad-stats-active-filters" aria-live="polite"></div>
 
                         <div class="chart-section-block chart-section-block--panel">
@@ -248,13 +248,13 @@
                 <div class="squad-filter-control" role="group" aria-label="Game Type">
                     <span class="squad-filter-label">Game Type</span>
                     <div class="squad-filter-segment" id="playerStatsGameTypeSegment">
-                        <button type="button" class="squad-filter-segment-btn" data-value="All games">All</button>
-                        <button type="button" class="squad-filter-segment-btn is-active" data-value="League + Cup">League + Cup</button>
+                        <button type="button" class="squad-filter-segment-btn is-active" data-value="All">All</button>
+                        <button type="button" class="squad-filter-segment-btn" data-value="League + Cup">League + Cup</button>
                         <button type="button" class="squad-filter-segment-btn" data-value="League only">League</button>
                     </div>
                     <select id="playerStatsGameTypeSelect" class="visually-hidden" aria-hidden="true" tabindex="-1">
-                        <option value="All games">All games</option>
-                        <option value="League + Cup" selected>League + Cup</option>
+                        <option value="All" selected>All</option>
+                        <option value="League + Cup">League + Cup</option>
                         <option value="League only">League only</option>
                     </select>
                 </div>
@@ -273,26 +273,44 @@
                 </div>
                 <div class="squad-filter-control squad-filter-control--player-positions" role="group" aria-label="Position">
                     <span class="squad-filter-label">Position</span>
-                    <div id="playerStatsPositionGrid" class="player-stats-position-grid">
-                        <button type="button" class="squad-filter-segment-btn is-active" data-value="All">All</button>
-                        <button type="button" class="squad-filter-segment-btn" data-value="Forwards">Forwards</button>
-                        <button type="button" class="squad-filter-segment-btn" data-value="Backs">Backs</button>
-                        <button type="button" class="squad-filter-segment-btn" data-value="Prop">Prop</button>
-                        <button type="button" class="squad-filter-segment-btn" data-value="Hooker">Hooker</button>
-                        <button type="button" class="squad-filter-segment-btn" data-value="Second Row">Second Row</button>
-                        <button type="button" class="squad-filter-segment-btn" data-value="Flanker">Flanker</button>
-                        <button type="button" class="squad-filter-segment-btn" data-value="Number 8">Number 8</button>
-                        <button type="button" class="squad-filter-segment-btn" data-value="Scrum Half">Scrum Half</button>
-                        <button type="button" class="squad-filter-segment-btn" data-value="Fly Half">Fly Half</button>
-                        <button type="button" class="squad-filter-segment-btn" data-value="Centre">Centre</button>
-                        <button type="button" class="squad-filter-segment-btn" data-value="Wing">Wing</button>
-                        <button type="button" class="squad-filter-segment-btn" data-value="Full Back">Full Back</button>
+                    <div id="playerStatsPositionGrid" class="position-picker">
+                        <div class="btn-group btn-group-sm position-picker__top-row" role="group" aria-label="Overall position scope">
+                            <button type="button" class="btn squad-filter-segment-btn position-picker__total is-active" data-value="All">Total</button>
+                            <button type="button" class="btn squad-filter-segment-btn position-picker__bench-btn" data-value="Bench">Bench</button>
+                        </div>
+                        <div class="position-picker__columns">
+                            <div class="position-picker__group position-picker__group--fwd">
+                                <div class="position-picker__group-items">
+                                    <div class="btn-group-vertical btn-group-sm position-picker__row" role="group" aria-label="Forwards">
+                                        <button type="button" class="btn squad-filter-segment-btn position-picker__group-btn"
+                                            data-value="Forwards">Forwards</button>
+                                        <button type="button" class="btn squad-filter-segment-btn position-picker__pos-btn" data-value="Prop">Prop</button>
+                                        <button type="button" class="btn squad-filter-segment-btn position-picker__pos-btn" data-value="Hooker">Hooker</button>
+                                        <button type="button" class="btn squad-filter-segment-btn position-picker__pos-btn" data-value="Second Row">Second Row</button>
+                                        <button type="button" class="btn squad-filter-segment-btn position-picker__pos-btn" data-value="Flanker">Flanker</button>
+                                        <button type="button" class="btn squad-filter-segment-btn position-picker__pos-btn" data-value="Number 8">No. 8</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="position-picker__group position-picker__group--bks">
+                                <div class="position-picker__group-items">
+                                    <div class="btn-group-vertical btn-group-sm position-picker__row" role="group" aria-label="Backs">
+                                        <button type="button" class="btn squad-filter-segment-btn position-picker__group-btn" data-value="Backs">Backs</button>
+                                        <button type="button" class="btn squad-filter-segment-btn position-picker__pos-btn" data-value="Scrum Half">Scrum Half</button>
+                                        <button type="button" class="btn squad-filter-segment-btn position-picker__pos-btn" data-value="Fly Half">Fly Half</button>
+                                        <button type="button" class="btn squad-filter-segment-btn position-picker__pos-btn" data-value="Centre">Centre</button>
+                                        <button type="button" class="btn squad-filter-segment-btn position-picker__pos-btn" data-value="Wing">Wing</button>
+                                        <button type="button" class="btn squad-filter-segment-btn position-picker__pos-btn" data-value="Full Back">Full Back</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <label class="squad-filter-control" for="playerStatsMinAppearancesInput">
                     <span class="squad-filter-label">Min Appearances <strong id="playerStatsMinAppearancesValue">10</strong></span>
                     <div class="squad-filter-range-wrap">
-                        <input id="playerStatsMinAppearancesInput" type="range" class="squad-filter-range" min="0" max="12"
+                        <input id="playerStatsMinAppearancesInput" type="range" class="squad-filter-range" min="1" max="100"
                             step="1" value="10">
                     </div>
                 </label>

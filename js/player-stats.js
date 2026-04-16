@@ -5,7 +5,7 @@ let playerStatsDataSeasons = [];
 let playerStatsBaseSpecs = null;
 let playerStatsAnalysisRailInitialised = false;
 
-const PLAYER_STATS_DEFAULT_GAME_TYPE = 'League + Cup';
+const PLAYER_STATS_DEFAULT_GAME_TYPE = 'All';
 const PLAYER_STATS_DEFAULT_SCORE_TYPE = 'Total';
 const PLAYER_STATS_DEFAULT_MOTM_AGGREGATE = false;
 const PLAYER_STATS_ALL_SEASONS_VALUE = '__all_seasons__';
@@ -72,6 +72,7 @@ function getPlayerStatsPositionChipLabel(selectedPositions) {
     const sameAs = reference => positions.length === reference.length && positions.every((value, index) => value === reference[index]);
     if (sameAs(forwards)) return 'Forwards';
     if (sameAs(backs)) return 'Backs';
+    if (positions.length === 1 && positions[0] === 'Bench') return 'Bench';
     if (positions.length === 1) return positions[0];
     return `${positions[0]} +${positions.length - 1}`;
 }
@@ -184,11 +185,17 @@ function getPlayerStatsSquadColors() {
     return [primary, accent];
 }
 
+function normalizePlayerStatsMinAppearances(value) {
+    const numericValue = Number(value);
+    if (!Number.isFinite(numericValue)) return 10;
+    const clamped = Math.min(100, Math.max(1, Math.floor(numericValue)));
+    if (clamped <= 2) return 1;
+    return Math.max(5, Math.round(clamped / 5) * 5);
+}
+
 function getPlayerStatsMinimumAppearances() {
     const minAppearancesInput = document.getElementById('playerStatsMinAppearancesInput');
-    const value = Number(minAppearancesInput?.value ?? 10);
-    if (!Number.isFinite(value)) return 10;
-    return Math.max(0, Math.floor(value));
+    return normalizePlayerStatsMinAppearances(minAppearancesInput?.value ?? 10);
 }
 
 function syncPlayerStatsSeasonStepperFromSelect() {
@@ -238,10 +245,11 @@ function syncPlayerStatsPositionButtons() {
     const selectedPositions = getPlayerStatsSelectedPositions();
     const selectedSet = new Set(selectedPositions);
     const isAll = selectedPositions.length === 0;
-    const isForwards = PLAYER_STATS_FORWARD_POSITIONS.every(position => selectedSet.has(position))
+    const isForwards = PLAYER_STATS_FORWARD_POSITIONS.every(p => selectedSet.has(p))
         && selectedPositions.length === PLAYER_STATS_FORWARD_POSITIONS.length;
-    const isBacks = PLAYER_STATS_BACK_POSITIONS.every(position => selectedSet.has(position))
+    const isBacks = PLAYER_STATS_BACK_POSITIONS.every(p => selectedSet.has(p))
         && selectedPositions.length === PLAYER_STATS_BACK_POSITIONS.length;
+    const isBench = selectedPositions.length === 1 && selectedSet.has('Bench');
 
     grid.querySelectorAll('.squad-filter-segment-btn').forEach(btn => {
         const value = btn.dataset.value;
@@ -249,13 +257,19 @@ function syncPlayerStatsPositionButtons() {
         if (value === PLAYER_STATS_ALL_POSITIONS_VALUE) active = isAll;
         else if (value === 'Forwards') active = isForwards;
         else if (value === 'Backs') active = isBacks;
+        else if (value === 'Bench') active = isBench;
         else active = selectedSet.has(value);
         btn.classList.toggle('is-active', active);
     });
 }
 
 function updatePlayerStatsMinAppsDisplay() {
-    const value = String(getPlayerStatsMinimumAppearances());
+    const normalizedValue = getPlayerStatsMinimumAppearances();
+    const value = String(normalizedValue);
+    const minAppearancesInput = document.getElementById('playerStatsMinAppearancesInput');
+    if (minAppearancesInput && minAppearancesInput.value !== value) {
+        minAppearancesInput.value = value;
+    }
     const offcanvasValue = document.getElementById('playerStatsMinAppearancesValue');
     if (offcanvasValue) offcanvasValue.textContent = value;
 }
@@ -271,12 +285,14 @@ function renderPlayerStatsActiveFilterChips(state) {
         minimumAppearances
     } = state;
 
-    const seasonChip = `<button type="button" class="squad-stats-filter-chip squad-stats-filter-chip-btn" data-bs-toggle="offcanvas" data-bs-target="#playerStatsFiltersOffcanvas" aria-controls="playerStatsFiltersOffcanvas"><strong>Season</strong> ${getPlayerStatsSelectedSeasonLabel(selectedSeasonValue)}</button>`;
+    const _seasonLabel = getPlayerStatsSelectedSeasonLabel(selectedSeasonValue);
+    const _seasonShort = /^\d{4}\//.test(_seasonLabel) ? _seasonLabel.replace(/^20/, '') : _seasonLabel;
+    const seasonChip = `<button type="button" class="squad-stats-filter-chip squad-stats-filter-chip-btn" data-bs-toggle="offcanvas" data-bs-target="#playerStatsFiltersOffcanvas" aria-controls="playerStatsFiltersOffcanvas"><strong>Season</strong> <span class="d-none d-md-inline">${_seasonLabel}</span><span class="d-inline d-md-none">${_seasonShort}</span></button>`;
     const gameTypeChip = `<button type="button" class="squad-stats-filter-chip squad-stats-filter-chip-btn" data-bs-toggle="offcanvas" data-bs-target="#playerStatsFiltersOffcanvas" aria-controls="playerStatsFiltersOffcanvas"><strong>Game Type</strong> ${selectedGameType || PLAYER_STATS_DEFAULT_GAME_TYPE}</button>`;
     const squadLabel = selectedSquad === 'All' ? 'All' : `${selectedSquad} XV`;
     const squadChip = `<button type="button" class="squad-stats-filter-chip squad-stats-filter-chip-btn" data-bs-toggle="offcanvas" data-bs-target="#playerStatsFiltersOffcanvas" aria-controls="playerStatsFiltersOffcanvas"><strong>Squad</strong> ${squadLabel}</button>`;
     const positionsChip = `<button type="button" class="squad-stats-filter-chip squad-stats-filter-chip-btn" data-bs-toggle="offcanvas" data-bs-target="#playerStatsFiltersOffcanvas" aria-controls="playerStatsFiltersOffcanvas"><strong>Position</strong> ${getPlayerStatsPositionChipLabel(selectedPositions)}</button>`;
-    const minAppsChip = `<button type="button" class="squad-stats-filter-chip squad-stats-filter-chip-btn" data-bs-toggle="offcanvas" data-bs-target="#playerStatsFiltersOffcanvas" aria-controls="playerStatsFiltersOffcanvas"><strong>Min Apps</strong> ${minimumAppearances}</button>`;
+    const minAppsChip = `<button type="button" class="squad-stats-filter-chip squad-stats-filter-chip-btn" data-bs-toggle="offcanvas" data-bs-target="#playerStatsFiltersOffcanvas" aria-controls="playerStatsFiltersOffcanvas"><strong><span class="d-none d-md-inline">Min Appearances</span><span class="d-inline d-md-none">Min Apps</span></strong> ${minimumAppearances}</button>`;
     const scoreTypeChip = `<span class="squad-stats-filter-chip"><strong>Scoring</strong> ${selectedScoreType || PLAYER_STATS_DEFAULT_SCORE_TYPE}</span>`;
     const motmViewChip = selectedMotmAggregate
         ? '<span class="squad-stats-filter-chip"><strong>Aggregate by position</strong></span>'
@@ -408,6 +424,12 @@ function handlePlayerStatsPositionButton(value) {
 
     if (value === 'Backs') {
         setPlayerStatsPositionSelection(PLAYER_STATS_BACK_POSITIONS);
+        handlePlayerStatsControlChange();
+        return;
+    }
+
+    if (value === 'Bench') {
+        setPlayerStatsPositionSelection(['Bench']);
         handlePlayerStatsControlChange();
         return;
     }

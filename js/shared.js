@@ -104,14 +104,13 @@ const CHART_LAYOUT_INVENTORY = {
   squadOverlapChart: {
     narrowMax: 680,
     wideMin: 1000,
-    narrow: { legendOrient: "bottom" },
+    narrow: { legendOrient: "bottom", legendTitleOrient: "left" },
     wide: { legendOrient: "right", width: 500 },
   },
   squadSizeTrendChart: {
     narrowMax: 680,
     wideMin: 1080,
-    narrow: { width: 100 },
-    wide: { legendOrient: "right", innerWidth: 200 },
+    wide: { legendOrient: "right", innerWidth: 275 },
   },
   squadContinuityTrendChart: {
     narrowMax: 680,
@@ -199,7 +198,8 @@ const CHART_LAYOUT_INVENTORY = {
     narrowMax: 760,
     wideMin: 1000,
     narrow: {
-      legendOrient: "bottom",
+      legendOrient: "bottom-right",
+      legendTitleOrient: "left",
       facetColumns: 1,
       facetHeaderLabels: false,
       width: 275,
@@ -211,12 +211,12 @@ const CHART_LAYOUT_INVENTORY = {
   },
   playerStatsPointsChart: {
     narrowMax: 760,
-    narrow: { legendOrient: "bottom", width: 275 },
+    narrow: { legendOrient: "bottom-right", legendTitleOrient: "left", width: 275 },
     wide: { legendOrient: "right", width: 500 },
   },
   playerStatsCaptainsChart: {
     narrowMax: 760,
-    narrow: { legendOrient: "bottom", width: 275 },
+    narrow: { legendOrient: "bottom-right", legendTitleOrient: "left", width: 275 },
     wide: { legendOrient: "right", width: 500, height: { step: 20 } },
   },
   playerStatsMotmChart: {
@@ -227,7 +227,7 @@ const CHART_LAYOUT_INVENTORY = {
   playerStatsMotmUnitsChart: {
     narrowMax: 760,
     narrow: { legendOrient: "bottom" },
-    wide: { legendOrient: "right", width: 500, height: { step: 40 } },
+    wide: { legendOrient: "right", width: 500, height: { step: 50 } },
   },
   redZone1stChart: {
     narrowMax: 720,

@@ -3594,32 +3594,169 @@ table tbody tr:hover {
     grid-column: 1 / -1;
 }
 
-.player-stats-position-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr));
+/* ===== POSITION PICKER ===== */
+.position-picker {
+    display: flex;
+    flex-direction: column;
     gap: 0.35rem;
 }
 
-.player-stats-position-grid .squad-filter-segment-btn[data-value="All"].is-active {
-    background: #000;
-    border-color: #000;
+.position-picker__top-row {
+    width: 100%;
+}
+
+.position-picker__top-row .position-picker__total {
+    flex: 1.7 1 0;
+}
+
+.position-picker__top-row .position-picker__bench-btn {
+    flex: 0.75 1 0;
+    font-weight: 500;
+}
+
+.position-picker__total {
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-width: 2px;
+    border-color: color-mix(in srgb, #111827 45%, white);
+    background: linear-gradient(180deg, rgba(17, 24, 39, 0.12) 0%, rgba(17, 24, 39, 0.04) 100%);
+    color: #1f2937;
+}
+
+.position-picker__total.is-active {
+    background: linear-gradient(180deg, #111827 0%, #1f2937 100%);
+    border-color: #111827;
     color: #fff;
 }
 
-.player-stats-position-grid .squad-filter-segment-btn[data-value="Forwards"].is-active {
+.position-picker__columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.35rem;
+}
+
+.position-picker__group {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    background: rgba(255, 255, 255, 0.88);
+    overflow: hidden;
+    border-radius: 0.65rem;
+}
+
+.position-picker__group--fwd {
+    border: 2px solid color-mix(in srgb, var(--primary-color) 42%, white);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85);
+}
+
+.position-picker__group--bks {
+    border: 2px solid color-mix(in srgb, var(--accent-color) 72%, var(--primary-color) 28%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.88);
+}
+
+/* Group header buttons (Forwards / Backs) */
+.position-picker__group-btn {
+    width: 100%;
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+}
+
+.position-picker__group--fwd .position-picker__group-btn {
+    background: linear-gradient(180deg, rgba(32, 41, 70, 0.12) 0%, rgba(32, 41, 70, 0.04) 100%);
+    border-bottom-color: color-mix(in srgb, var(--primary-color) 28%, white);
+    color: var(--primary-color);
+}
+
+.position-picker__group--bks .position-picker__group-btn {
+    background: linear-gradient(180deg, rgba(125, 150, 232, 0.2) 0%, rgba(125, 150, 232, 0.08) 100%);
+    border-bottom-color: color-mix(in srgb, var(--accent-color) 55%, white);
+    color: var(--primary-color);
+}
+
+.position-picker__group--fwd .position-picker__group-btn.is-active {
     background: var(--primary-color);
     border-color: var(--primary-color);
     color: #fff;
 }
 
-.player-stats-position-grid .squad-filter-segment-btn[data-value="Backs"].is-active {
+.position-picker__group--bks .position-picker__group-btn.is-active {
     background: var(--accent-color);
     border-color: var(--primary-color);
     color: var(--primary-color);
 }
 
-.player-stats-position-grid .squad-filter-segment-btn.is-active {
-    box-shadow: 0 2px 8px rgba(32, 41, 70, 0.12);
+/* Individual position buttons */
+.position-picker__group-items {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.position-picker__row {
+    width: 100%;
+}
+
+.position-picker__row + .position-picker__row {
+    border-top: 1px solid rgba(212, 220, 237, 0.7);
+}
+
+.position-picker__pos-btn {
+    width: 100%;
+    font-size: 0.8rem;
+    padding-top: 0.28rem;
+    padding-bottom: 0.28rem;
+    min-height: 2rem;
+}
+
+.position-picker__group--fwd .position-picker__pos-btn {
+    background: linear-gradient(180deg, rgba(32, 41, 70, 0.05) 0%, rgba(32, 41, 70, 0.015) 100%);
+    color: #25325f;
+}
+
+.position-picker__group--bks .position-picker__pos-btn {
+    background: linear-gradient(180deg, rgba(125, 150, 232, 0.08) 0%, rgba(125, 150, 232, 0.025) 100%);
+    color: #25325f;
+}
+
+.position-picker__group--fwd .position-picker__pos-btn.is-active {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    color: #fff;
+    opacity: 0.82;
+}
+
+.position-picker__group--bks .position-picker__pos-btn.is-active {
+    background: var(--accent-color);
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    opacity: 0.82;
+}
+
+/* Bench button */
+.position-picker__bench-btn {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.position-picker__bench-btn:not(.is-active) {
+    color: #4b5563;
+}
+
+.position-picker__bench-btn.is-active {
+    background: #4b5563;
+    border-color: #374151;
+    color: #fff;
+}
+
+.position-picker .btn-group .squad-filter-segment-btn {
+    min-height: 2.1rem;
 }
 
 .squad-filters-offcanvas {
@@ -4685,6 +4822,23 @@ table tbody tr:hover {
 
 .squad-filter-control--count {
     gap: 0.3rem;
+}
+
+.squad-filter-control--trend-view {
+    flex: 0 0 auto;
+    align-items: flex-end;
+    margin-left: auto;
+    gap: 0.3rem;
+}
+
+.squad-filter-control--trend-view .squad-filter-segment {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.squad-filter-control--trend-view .squad-filter-segment-btn {
+    min-height: 2.1rem;
+    white-space: nowrap;
+    padding: 0.3rem 0.6rem;
 }
 
 /* Card for charts */

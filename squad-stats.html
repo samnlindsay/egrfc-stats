@@ -207,7 +207,20 @@
                             style="margin-bottom: 1rem;"></div>
 
                         <div class="chart-section-block chart-section-block--panel">
-                            <h3 class="chart-section-title">Squad Size Trend</h3>
+                            <div class="chart-section-head">
+                                <h3 class="chart-section-title">Squad Size Trend</h3>
+                                <div class="squad-filter-control squad-filter-control--trend-view" role="group" aria-label="Squad Size Trend View">
+                                    <span class="squad-filter-label">View</span>
+                                    <div class="squad-filter-segment" id="squadSizeTrendViewSegment">
+                                        <button type="button" class="squad-filter-segment-btn is-active" data-value="faceted">Split Squads</button>
+                                        <button type="button" class="squad-filter-segment-btn" data-value="aggregated">Combined</button>
+                                    </div>
+                                    <select id="squadSizeTrendViewSelect" class="visually-hidden" aria-hidden="true" tabindex="-1">
+                                        <option value="faceted" selected>Faceted</option>
+                                        <option value="aggregated">Aggregated</option>
+                                    </select>
+                                </div>
+                            </div>
                             <div class="chart-section-content chart-section-content--split">
                                 <div class="chart-section-meta">
                                     <p class="chart-section-hint">Season-by-season view of players used in each squad, broken down by forwards and backs.

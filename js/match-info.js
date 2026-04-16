@@ -445,7 +445,7 @@ function captainBadgeHtml(isCaptain, isViceCaptain) {
         badges.push('<span class="match-team-sheet-badge match-team-sheet-badge--captain"><span class="match-team-sheet-badge-label-full">Captain</span><span class="match-team-sheet-badge-label-short">C</span></span>');
     }
     if (isViceCaptain) {
-        badges.push('<span class="match-team-sheet-badge match-team-sheet-badge--vice"><span class="match-team-sheet-badge-label-full">Vice Captain</span><span class="match-team-sheet-badge-label-short">VC</span></span>');
+        badges.push('<span class="match-team-sheet-badge match-team-sheet-badge--vice"><span class="match-team-sheet-badge-label-full">VC</span><span class="match-team-sheet-badge-label-short">VC</span></span>');
     }
     return badges.join('');
 }

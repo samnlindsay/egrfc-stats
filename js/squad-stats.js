@@ -285,13 +285,14 @@ function renderSquadStatsActiveFilterChips(targetId, selectedSeason, gameTypeMod
 
     const chips = [];
     if (includeSeason) {
-        chips.push(`<button type="button" class="squad-stats-filter-chip squad-stats-filter-chip-btn" data-bs-toggle="offcanvas" data-bs-target="#squadStatsFiltersOffcanvas" aria-controls="squadStatsFiltersOffcanvas"><strong>Season</strong> ${selectedSeason}</button>`);
+        const seasonShort = /^\d{4}\//.test(selectedSeason) ? selectedSeason.replace(/^20/, '') : selectedSeason;
+        chips.push(`<button type="button" class="squad-stats-filter-chip squad-stats-filter-chip-btn" data-bs-toggle="offcanvas" data-bs-target="#squadStatsFiltersOffcanvas" aria-controls="squadStatsFiltersOffcanvas"><strong>Season</strong> <span class="d-none d-md-inline">${selectedSeason}</span><span class="d-inline d-md-none">${seasonShort}</span></button>`);
     }
     if (includeGameType) {
         chips.push(`<button type="button" class="squad-stats-filter-chip squad-stats-filter-chip-btn" data-bs-toggle="offcanvas" data-bs-target="#squadStatsFiltersOffcanvas" aria-controls="squadStatsFiltersOffcanvas"><strong>Game Type</strong> ${gameTypeMode}</button>`);
     }
     if (includeMinAppearances) {
-        chips.push(`<button type="button" class="squad-stats-filter-chip squad-stats-filter-chip-btn" data-bs-toggle="offcanvas" data-bs-target="#squadStatsFiltersOffcanvas" aria-controls="squadStatsFiltersOffcanvas"><strong>Min Appearances</strong> ${minimumAppearances}</button>`);
+        chips.push(`<button type="button" class="squad-stats-filter-chip squad-stats-filter-chip-btn" data-bs-toggle="offcanvas" data-bs-target="#squadStatsFiltersOffcanvas" aria-controls="squadStatsFiltersOffcanvas"><strong><span class="d-none d-md-inline">Min Appearances</span><span class="d-inline d-md-none">Min Apps</span></strong> ${minimumAppearances}</button>`);
     }
     if (includeUnit) {
         chips.push(`<button type="button" class="squad-stats-filter-chip squad-stats-filter-chip-btn" data-bs-toggle="offcanvas" data-bs-target="#squadStatsFiltersOffcanvas" aria-controls="squadStatsFiltersOffcanvas"><strong>Unit</strong> ${unitMode}</button>`);
@@ -588,16 +589,17 @@ function getUnitsForTrendCharts(selectedUnit) {
     return ['Total', 'Forwards', 'Backs'];
 }
 
-function buildSquadSizeTrendRows(selectedSeason, minimumAppearances, selectedUnit) {
+function buildSquadSizeTrendRows(selectedSeason, minimumAppearances, selectedUnit, viewMode = 'faceted') {
     const seasons = getSortedSquadStatsSeasons(squadStatsData).slice().reverse();
     const rows = [];
     const toTrendValue = value => (value === 0 ? null : value);
     const unitsToInclude = getUnitsForTrendCharts(selectedUnit);
-    const squadPanels = [
-        { bucketKey: '1st', squad: '1st' },
-        { bucketKey: '2nd', squad: '2nd' },
-        { bucketKey: 'Total', squad: 'Total' },
-    ];
+    const squadPanels = viewMode === 'aggregated'
+        ? [{ bucketKey: 'Total', squad: 'Total' }]
+        : [
+            { bucketKey: '1st', squad: '1st' },
+            { bucketKey: '2nd', squad: '2nd' }
+        ];
     seasons.forEach(season => {
         const seasonData = squadStatsData?.[season];
         if (!seasonData) return;
@@ -619,11 +621,11 @@ function buildSquadSizeTrendRows(selectedSeason, minimumAppearances, selectedUni
     return rows;
 }
 
-function renderSquadSizeTrendChart(selectedSeason, minimumAppearances, selectedUnit) {
+function renderSquadSizeTrendChart(selectedSeason, minimumAppearances, selectedUnit, viewMode) {
     const container = document.getElementById('squadSizeTrendChart');
     if (!container) return;
     if (!squadSizeTrendTemplateSpec) { container.innerHTML = '<div class="text-center text-muted py-4">Squad size trend template not available. Run <code>python update.py</code> to generate charts.</div>'; return; }
-    const values = buildSquadSizeTrendRows(selectedSeason, minimumAppearances, selectedUnit);
+    const values = buildSquadSizeTrendRows(selectedSeason, minimumAppearances, selectedUnit, viewMode);
     if (!values.length) { container.innerHTML = '<div class="text-center text-muted py-4">No squad size trend data available for the selected filters.</div>'; return; }
     container.innerHTML = '';
     const spec = JSON.parse(JSON.stringify(squadSizeTrendTemplateSpec));
@@ -674,6 +676,21 @@ function leagueSpecHasSeasonRows(spec, season) {
 function getLeagueContextUnit() {
     const select = document.getElementById('squadStatsUnitSelect');
     return select?.value || 'Total';
+}
+
+function getSquadSizeTrendViewMode() {
+    const select = document.getElementById('squadSizeTrendViewSelect');
+    return select?.value || 'faceted';
+}
+
+function syncSquadSizeTrendViewSegmentFromSelect() {
+    const select = document.getElementById('squadSizeTrendViewSelect');
+    const segment = document.getElementById('squadSizeTrendViewSegment');
+    if (!select || !segment) return;
+    const value = select.value || 'faceted';
+    segment.querySelectorAll('.squad-filter-segment-btn').forEach(btn => {
+        btn.classList.toggle('is-active', btn.dataset.value === value);
+    });
 }
 
 async function renderLeagueContextCharts() {
@@ -734,8 +751,8 @@ async function renderLeagueContextCharts() {
     }));
 }
 
-function renderSquadStatsCharts(selectedSeason, minimumAppearances, selectedUnit) {
-    renderSquadSizeTrendChart(selectedSeason, minimumAppearances, selectedUnit);
+function renderSquadStatsCharts(selectedSeason, minimumAppearances, selectedUnit, trendViewMode) {
+    renderSquadSizeTrendChart(selectedSeason, minimumAppearances, selectedUnit, trendViewMode);
     renderSquadContinuityTrendChart(selectedSeason, selectedUnit);
     renderSquadOverlapChart(selectedUnit);
     renderLeagueContextCharts();
@@ -754,7 +771,6 @@ function renderSquadOverlapChart(selectedUnit) {
     const rowMatchesUnit = row => {
         const unit = row?.unit;
         if (unit === undefined || unit === null || unit === '') {
-            // Backward-compatible fallback for older specs without unit field.
             return unitFilterValue === 'Total';
         }
         return unit === unitFilterValue;
@@ -784,6 +800,7 @@ function renderSquadStatsPage() {
         const gameTypeMode = getSquadStatsGameTypeMode();
         const positionCountMode = getSquadStatsPositionCountMode();
         const selectedUnit = getLeagueContextUnit();
+        const trendViewMode = getSquadSizeTrendViewMode();
         const fallbackSeason = getCurrentSeasonLabel();
         renderSquadStatsHeroStats();
         renderSquadStatsActiveFilterChips('squadCompositionActiveFilters', fallbackSeason, gameTypeMode, minimumAppearances, positionCountMode, selectedUnit);
@@ -793,7 +810,7 @@ function renderSquadStatsPage() {
             includeMinAppearances: false,
         });
         renderSquadPositionCompositionChart(fallbackSeason, minimumAppearances, positionCountMode, selectedUnit);
-        renderSquadStatsCharts(fallbackSeason, minimumAppearances, selectedUnit);
+        renderSquadStatsCharts(fallbackSeason, minimumAppearances, selectedUnit, trendViewMode);
         return;
     }
     const selectedSeasonFromControls = getSquadStatsSelectedSeason();
@@ -802,6 +819,7 @@ function renderSquadStatsPage() {
     const gameTypeMode = getSquadStatsGameTypeMode();
     const positionCountMode = getSquadStatsPositionCountMode();
     const selectedUnit = getLeagueContextUnit();
+    const trendViewMode = getSquadSizeTrendViewMode();
     applySquadStatsControlState({ season: selectedSeason, gameType: gameTypeMode, minimumAppearances, positionCountMode, unit: selectedUnit });
     renderSquadStatsHeroStats();
     renderSquadStatsActiveFilterChips('squadCompositionActiveFilters', selectedSeason, gameTypeMode, minimumAppearances, positionCountMode, selectedUnit);
@@ -812,7 +830,7 @@ function renderSquadStatsPage() {
     });
     initialiseSquadStatsAnalysisRail();
     renderSquadPositionCompositionChart(selectedSeason, minimumAppearances, positionCountMode, selectedUnit);
-    renderSquadStatsCharts(selectedSeason, minimumAppearances, selectedUnit);
+    renderSquadStatsCharts(selectedSeason, minimumAppearances, selectedUnit, trendViewMode);
 }
 
 function initialiseSquadStatsControlsOnce() {
@@ -822,6 +840,7 @@ function initialiseSquadStatsControlsOnce() {
     const positionCountModeSelect = document.getElementById('squadStatsPositionCountModeSelect');
     const minAppsInput = document.getElementById('squadStatsMinAppsSelect');
     const squadStatsUnitSelect = document.getElementById('squadStatsUnitSelect');
+    const squadSizeTrendViewSelect = document.getElementById('squadSizeTrendViewSelect');
     
     if (!seasonSelect || !gameTypeSelect || !positionCountModeSelect || !minAppsInput || !squadStatsUnitSelect) return;
     
@@ -830,6 +849,7 @@ function initialiseSquadStatsControlsOnce() {
     positionCountModeSelect.value = 'appearance_position';
     minAppsInput.value = '0';
     squadStatsUnitSelect.value = 'Total';
+    if (squadSizeTrendViewSelect) squadSizeTrendViewSelect.value = 'faceted';
 
     seasonSelect.addEventListener('change', function () {
         if (syncingSquadStatsControls) return;
@@ -959,9 +979,30 @@ function initialiseSquadStatsControlsOnce() {
         });
     }
 
+    if (squadSizeTrendViewSelect) {
+        squadSizeTrendViewSelect.addEventListener('change', function () {
+            syncSquadSizeTrendViewSegmentFromSelect();
+            renderSquadStatsPage();
+        });
+    }
+
+    const squadSizeTrendViewSegment = document.getElementById('squadSizeTrendViewSegment');
+    if (squadSizeTrendViewSegment && squadSizeTrendViewSelect) {
+        squadSizeTrendViewSegment.addEventListener('click', event => {
+            const button = event.target.closest('.squad-filter-segment-btn');
+            if (!button) return;
+            const value = button.dataset.value;
+            if (!value) return;
+            squadSizeTrendViewSelect.value = value;
+            syncSquadSizeTrendViewSegmentFromSelect();
+            renderSquadStatsPage();
+        });
+    }
+
     syncGameTypeSegmentFromSelect();
     syncPositionCountModeSegmentFromSelect();
     syncUnitSegmentFromSelect();
+    syncSquadSizeTrendViewSegmentFromSelect();
     updateMinAppsDisplay();
 
     syncOffcanvasFiltersFromMain();
