@@ -27,7 +27,7 @@
     <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
 </head>
 
-<body>
+<body id="page-player-stats">
     <nav class="navbar navbar-expand-lg navbar-dark app-top-navbar">
         <div class="container-fluid">
             <a class="navbar-brand app-navbar-brand" href="index.html">
@@ -86,169 +86,217 @@
     </nav>
 
     <div class="main-content">
-        <div class="page-shell">
+        <div class="page-shell page-shell--sm">
 
-            <div class="page-header page-header--tight">
-                <div>
-                    <h1 style="color: var(--primary-color); margin-bottom: 0.25rem;">Player Stats</h1>
-                    <p style="margin-bottom: 0; color: #666; font-size: 0.95rem;">Individual player statistics including
-                        captaincy records, player of the match awards, total appearances, and point-scoring
-                        contributions.</p>
+            <section class="ux-hero squad-stats-hero player-stats-hero" aria-labelledby="playerStatsHeroTitle">
+                <div class="ux-hero-main">
+                    <p class="ux-hero-kicker">Players Analytics</p>
+                    <div class="player-stats-hero-head">
+                        <h1 id="playerStatsHeroTitle" class="ux-hero-title">Player Stats</h1>
+                    </div>
+                    <p class="ux-hero-description">Track the player leaders across appearances, points, captaincy, and man of the match awards.</p>
+                    <p class="ux-hero-description">Use the sections below to compare the main player leaderboards, with contextual filters that show exactly which squad, season set, and match scope you are viewing.</p>
                 </div>
-                <div class="page-header-filters">
-                    <div class="filter-item" style="margin-bottom: 0;">
-                        <div class="input-group">
-                            <span class="input-group-text">Season</span>
-                            <select id="playerStatsSeasonSelect" class="selectpicker form-control flex-fill" multiple
-                                data-actions-box="true" title="All seasons" data-size="8">
-                            </select>
-                        </div>
+                <div class="ux-hero-metrics" aria-live="polite">
+                    <div class="ux-hero-metrics-head">
+                        <h2 class="ux-hero-metrics-title">Headline Player Stats</h2>
+                        <p id="playerStatsHeroMeta" class="ux-hero-metrics-meta">Current selection</p>
                     </div>
-                    <div class="filter-item" style="margin-bottom: 0;">
-                        <div class="input-group">
-                            <span class="input-group-text">Game Type</span>
-                            <select id="playerStatsGameTypeSelect" class="selectpicker form-control flex-fill"
-                                data-size="4">
-                                <option value="All games">All games</option>
-                                <option value="League + Cup">League + Cup</option>
-                                <option value="League only">League only</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="filter-item" style="margin-bottom: 0;">
-                        <div class="input-group">
-                            <span class="input-group-text">Squad</span>
-                            <select id="playerStatsSquadSelect" class="selectpicker form-control flex-fill"
-                                data-size="4">
-                                <option value="All">Both</option>
-                                <option value="1st">1st XV</option>
-                                <option value="2nd">2nd XV</option>
-                            </select>
-                        </div>
+                    <div class="ux-hero-metrics-grid">
+                        <article class="ux-hero-metric player-stats-hero-metric player-stats-hero-metric--appearances">
+                            <h3 class="ux-hero-metric-label">Most Appearances</h3>
+                            <p id="playerStatsHeroAppearancesValue" class="ux-hero-metric-value">0</p>
+                            <p id="playerStatsHeroAppearancesNote" class="ux-hero-metric-note">No data</p>
+                        </article>
+                        <article class="ux-hero-metric player-stats-hero-metric player-stats-hero-metric--points">
+                            <h3 class="ux-hero-metric-label">Most Points</h3>
+                            <p id="playerStatsHeroPointsValue" class="ux-hero-metric-value">0</p>
+                            <p id="playerStatsHeroPointsNote" class="ux-hero-metric-note">No data</p>
+                        </article>
+                        <article class="ux-hero-metric player-stats-hero-metric player-stats-hero-metric--tries">
+                            <h3 class="ux-hero-metric-label">Most Tries</h3>
+                            <p id="playerStatsHeroTriesValue" class="ux-hero-metric-value">0</p>
+                            <p id="playerStatsHeroTriesNote" class="ux-hero-metric-note">No data</p>
+                        </article>
                     </div>
                 </div>
+            </section>
+
+            <div class="squad-stats-layout player-stats-layout">
+                <aside id="playerStatsAnalysisRail" class="analysis-rail nav" aria-label="Section navigation">
+                    <p class="analysis-rail-title">Sections</p>
+                    <a class="rail-link nav-link active" href="#sec-player-appearances" data-short="Apps"><i class="bi bi-person-lines-fill"
+                        aria-hidden="true"></i><span class="rail-link-label">Appearances</span></a>
+                    <a class="rail-link nav-link" href="#sec-player-points" data-short="Points"><i class="bi bi-lightning-charge-fill"
+                        aria-hidden="true"></i><span class="rail-link-label">Point Scorers</span></a>
+                    <a class="rail-link nav-link" href="#sec-player-captains" data-short="Captains"><i class="bi bi-award-fill"
+                        aria-hidden="true"></i><span class="rail-link-label">Captains</span></a>
+                    <a class="rail-link nav-link" href="#sec-player-motm" data-short="MOTM"><i class="bi bi-star-fill"
+                        aria-hidden="true"></i><span class="rail-link-label">Man of the Match</span></a>
+                </aside>
+
+                <main class="squad-stats-main player-stats-main">
+                    <section id="sec-player-appearances" class="analysis-section chart-section"
+                        aria-labelledby="player-appearances-heading">
+                        <h2 id="player-appearances-heading" class="section-heading">Appearances</h2>
+                        <p class="section-intro">Player appearances by squad and position, with a minimum appearances threshold to keep the leaderboard readable.</p>
+                        <div id="playerStatsAppearancesActiveFilters" class="squad-stats-active-filters" aria-live="polite"></div>
+
+                        <div class="chart-section-block chart-section-block--panel">
+                            <div class="chart-section-content">
+                                <div id="playerStatsAppearancesChart" class="chart-host chart-host--overflow-visible chart-host--intrinsic player-stats-chart-container">
+                                    Loading appearances chart...
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="sec-player-points" class="analysis-section chart-section"
+                        aria-labelledby="player-points-heading">
+                        <h2 id="player-points-heading" class="section-heading">Point Scorers</h2>
+                        <p class="section-intro">Top scorers across tries, kicks, and total points, filtered to the current season, squad, and game scope.</p>
+                        <div id="playerStatsPointsActiveFilters" class="squad-stats-active-filters" aria-live="polite"></div>
+
+                        <div class="chart-section-block chart-section-block--panel">
+                            <div class="chart-section-head">
+                                <div class="squad-filter-control player-stats-section-filter" role="group" aria-label="Score Type">
+                                    <span class="squad-filter-label">Score Type</span>
+                                    <div class="squad-filter-segment" id="playerStatsScoreTypeSegment">
+                                        <button type="button" class="squad-filter-segment-btn is-active" data-value="Total">Total</button>
+                                        <button type="button" class="squad-filter-segment-btn" data-value="Tries">Tries</button>
+                                        <button type="button" class="squad-filter-segment-btn" data-value="Kicks">Kicks</button>
+                                    </div>
+                                    <select id="playerStatsScoreTypeSelect" class="visually-hidden" aria-hidden="true" tabindex="-1">
+                                        <option value="Total" selected>Total</option>
+                                        <option value="Tries">Tries</option>
+                                        <option value="Kicks">Kicks</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="chart-section-content">
+                                <div id="playerStatsPointsChart" class="chart-host chart-host--overflow-visible chart-host--intrinsic player-stats-chart-container">
+                                    Loading point scorers chart...
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="sec-player-captains" class="analysis-section chart-section"
+                        aria-labelledby="player-captains-heading">
+                        <h2 id="player-captains-heading" class="section-heading">Match Day Captains</h2>
+                        <p class="section-intro">Which players have led each squad on match day, including both captains and vice captains.</p>
+                        <div id="playerStatsCaptainsActiveFilters" class="squad-stats-active-filters" aria-live="polite"></div>
+
+                        <div class="chart-section-block chart-section-block--panel">
+                            <div class="chart-section-content">
+                                <div id="playerStatsCaptainsChart" class="chart-host chart-host--overflow-visible chart-host--intrinsic player-stats-chart-container">
+                                    Loading captains chart...
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="sec-player-motm" class="analysis-section chart-section"
+                        aria-labelledby="player-motm-heading">
+                        <h2 id="player-motm-heading" class="section-heading">Man of the Match</h2>
+                        <p class="section-intro">Player of the match awards by player and squad for the selected seasons and competition scope.</p>
+                        <div id="playerStatsMotmActiveFilters" class="squad-stats-active-filters" aria-live="polite"></div>
+
+                        <div class="chart-section-block chart-section-block--panel">
+                            <div class="chart-section-head chart-section-head--motm-toggle">
+                                <div class="squad-filter-control player-stats-section-filter player-stats-section-filter--motm" role="group" aria-label="MOTM View">
+                                    <div class="form-check form-switch player-stats-motm-switch">
+                                        <input class="form-check-input" type="checkbox" role="switch" id="playerStatsMotmAggregateSwitch" aria-label="Aggregate by position">
+                                        <label class="form-check-label" for="playerStatsMotmAggregateSwitch">Aggregate by position</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="chart-section-content">
+                                <div id="playerStatsMotmChart" class="chart-host chart-host--overflow-visible chart-host--intrinsic player-stats-chart-container">
+                                    Loading MOTM chart...
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </main>
             </div>
+        </div>
+    </div>
 
-            <div class="player-stats-panels" style="margin-top: 1.5rem;">
-                <div class="chart-panel chart-panel--inline player-stats-panel">
-                    <button type="button" class="chart-panel-toggle chart-panel-toggle--black"
-                        data-target="player-stats-appearances-panel" data-accordion-group="player-stats-panels"
-                        aria-expanded="false" aria-controls="player-stats-appearances-panel">
-                        <span class="chart-panel-toggle-text">
-                            <span class="chart-panel-toggle-title">Appearances</span>
-                            <span class="chart-panel-toggle-hint">Player appearances by squad and position</span>
-                        </span>
-                        <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
-                    </button>
-                    <div id="player-stats-appearances-panel" class="chart-panel-content" hidden>
-                        <div class="chart-panel-card">
-                            <div class="chart-panel-filters">
-                                <div class="filter-item league-season-picker">
-                                    <div class="input-group">
-                                        <span class="input-group-text">Position</span>
-                                        <select id="playerStatsPositionSelect"
-                                            class="selectpicker form-control flex-fill" multiple data-actions-box="true"
-                                            data-size="8" title="All positions">
-                                            <option value="Prop">Prop</option>
-                                            <option value="Hooker">Hooker</option>
-                                            <option value="Second Row">Second Row</option>
-                                            <option value="Flanker">Flanker</option>
-                                            <option value="Number 8">Number 8</option>
-                                            <option value="Scrum Half">Scrum Half</option>
-                                            <option value="Fly Half">Fly Half</option>
-                                            <option value="Centre">Centre</option>
-                                            <option value="Wing">Wing</option>
-                                            <option value="Full Back">Full Back</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="filter-item league-season-picker">
-                                    <div class="input-group">
-                                        <span class="input-group-text">Min Apps</span>
-                                        <input id="playerStatsMinAppearancesInput" class="form-control" type="number"
-                                            min="0" step="1" value="10" inputmode="numeric"
-                                            aria-label="Minimum appearances" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="playerStatsAppearancesChart" class="player-stats-chart-container">
-                                Loading appearances chart...
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="chart-panel chart-panel--inline player-stats-panel">
-                    <button type="button" class="chart-panel-toggle chart-panel-toggle--black"
-                        data-target="player-stats-points-panel" data-accordion-group="player-stats-panels"
-                        aria-expanded="false" aria-controls="player-stats-points-panel">
-                        <span class="chart-panel-toggle-text">
-                            <span class="chart-panel-toggle-title">Point Scorers</span>
-                            <span class="chart-panel-toggle-hint">Points scored by player and type</span>
-                        </span>
-                        <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
-                    </button>
-                    <div id="player-stats-points-panel" class="chart-panel-content" hidden>
-                        <div class="chart-panel-card">
-                            <div class="chart-panel-filters">
-                                <div class="filter-item league-season-picker">
-                                    <div class="input-group">
-                                        <span class="input-group-text">Score Type</span>
-                                        <select id="playerStatsScoreTypeSelect"
-                                            class="selectpicker form-control flex-fill" data-size="4">
-                                            <option value="Total">Total</option>
-                                            <option value="Tries">Tries</option>
-                                            <option value="Kicks">Kicks</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="playerStatsPointsChart" class="player-stats-chart-container">
-                                Loading point scorers chart...
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="chart-panel chart-panel--inline player-stats-panel">
-                    <button type="button" class="chart-panel-toggle chart-panel-toggle--black"
-                        data-target="player-stats-captains-panel" data-accordion-group="player-stats-panels"
-                        aria-expanded="false" aria-controls="player-stats-captains-panel">
-                        <span class="chart-panel-toggle-text">
-                            <span class="chart-panel-toggle-title">Match Day Captains</span>
-                            <span class="chart-panel-toggle-hint">1st XV &amp; 2nd XV Captains and Vice Captains</span>
-                        </span>
-                        <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
-                    </button>
-                    <div id="player-stats-captains-panel" class="chart-panel-content" hidden>
-                        <div class="chart-panel-card">
-                            <div id="playerStatsCaptainsChart" class="player-stats-chart-container">
-                                Loading captains chart...
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="chart-panel chart-panel--inline player-stats-panel">
-                    <button type="button" class="chart-panel-toggle chart-panel-toggle--black"
-                        data-target="player-stats-motm-panel" data-accordion-group="player-stats-panels"
-                        aria-expanded="false" aria-controls="player-stats-motm-panel">
-                        <span class="chart-panel-toggle-text">
-                            <span class="chart-panel-toggle-title">Man of the Match</span>
-                            <span class="chart-panel-toggle-hint">MOTM awards by player and squad</span>
-                        </span>
-                        <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
-                    </button>
-                    <div id="player-stats-motm-panel" class="chart-panel-content" hidden>
-                        <div class="chart-panel-card">
-                            <div id="playerStatsMotmChart" class="player-stats-chart-container">
-                                Loading MOTM chart...
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+    <div class="offcanvas offcanvas-end player-filters-offcanvas" tabindex="-1" id="playerStatsFiltersOffcanvas"
+        aria-labelledby="playerStatsFiltersHeading">
+        <div class="offcanvas-header">
+            <div>
+                <h5 id="playerStatsFiltersHeading" class="section-heading section-heading--flush">Filters</h5>
+                <p class="squad-filters-description">Choose season, competition scope, squad, position group, and minimum appearances. These apply where relevant across the page.</p>
             </div>
-
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div class="squad-filters-grid squad-filters-grid--offcanvas">
+                <div class="squad-filter-control" role="group" aria-label="Season">
+                    <span class="squad-filter-label">Season</span>
+                    <div class="squad-filter-season-stepper">
+                        <button type="button" id="playerStatsSeasonPrevOffcanvas" class="squad-filter-stepper-btn"
+                            aria-label="Previous season">&#8249;</button>
+                        <span id="playerStatsSeasonLabelOffcanvas" class="squad-filter-stepper-label"></span>
+                        <button type="button" id="playerStatsSeasonNextOffcanvas" class="squad-filter-stepper-btn"
+                            aria-label="Next season">&#8250;</button>
+                    </div>
+                    <select id="playerStatsSeasonSelect" class="visually-hidden" aria-hidden="true" tabindex="-1"></select>
+                </div>
+                <div class="squad-filter-control" role="group" aria-label="Game Type">
+                    <span class="squad-filter-label">Game Type</span>
+                    <div class="squad-filter-segment" id="playerStatsGameTypeSegment">
+                        <button type="button" class="squad-filter-segment-btn" data-value="All games">All</button>
+                        <button type="button" class="squad-filter-segment-btn is-active" data-value="League + Cup">League + Cup</button>
+                        <button type="button" class="squad-filter-segment-btn" data-value="League only">League</button>
+                    </div>
+                    <select id="playerStatsGameTypeSelect" class="visually-hidden" aria-hidden="true" tabindex="-1">
+                        <option value="All games">All games</option>
+                        <option value="League + Cup" selected>League + Cup</option>
+                        <option value="League only">League only</option>
+                    </select>
+                </div>
+                <div class="squad-filter-control" role="group" aria-label="Squad">
+                    <span class="squad-filter-label">Squad</span>
+                    <div class="squad-filter-segment" id="playerStatsSquadSegment">
+                        <button type="button" class="squad-filter-segment-btn is-active" data-value="All">All</button>
+                        <button type="button" class="squad-filter-segment-btn" data-value="1st">1st XV</button>
+                        <button type="button" class="squad-filter-segment-btn" data-value="2nd">2nd XV</button>
+                    </div>
+                    <select id="playerStatsSquadSelect" class="visually-hidden" aria-hidden="true" tabindex="-1">
+                        <option value="All" selected>All</option>
+                        <option value="1st">1st XV</option>
+                        <option value="2nd">2nd XV</option>
+                    </select>
+                </div>
+                <div class="squad-filter-control squad-filter-control--player-positions" role="group" aria-label="Position">
+                    <span class="squad-filter-label">Position</span>
+                    <div id="playerStatsPositionGrid" class="player-stats-position-grid">
+                        <button type="button" class="squad-filter-segment-btn is-active" data-value="All">All</button>
+                        <button type="button" class="squad-filter-segment-btn" data-value="Forwards">Forwards</button>
+                        <button type="button" class="squad-filter-segment-btn" data-value="Backs">Backs</button>
+                        <button type="button" class="squad-filter-segment-btn" data-value="Prop">Prop</button>
+                        <button type="button" class="squad-filter-segment-btn" data-value="Hooker">Hooker</button>
+                        <button type="button" class="squad-filter-segment-btn" data-value="Second Row">Second Row</button>
+                        <button type="button" class="squad-filter-segment-btn" data-value="Flanker">Flanker</button>
+                        <button type="button" class="squad-filter-segment-btn" data-value="Number 8">Number 8</button>
+                        <button type="button" class="squad-filter-segment-btn" data-value="Scrum Half">Scrum Half</button>
+                        <button type="button" class="squad-filter-segment-btn" data-value="Fly Half">Fly Half</button>
+                        <button type="button" class="squad-filter-segment-btn" data-value="Centre">Centre</button>
+                        <button type="button" class="squad-filter-segment-btn" data-value="Wing">Wing</button>
+                        <button type="button" class="squad-filter-segment-btn" data-value="Full Back">Full Back</button>
+                    </div>
+                </div>
+                <label class="squad-filter-control" for="playerStatsMinAppearancesInput">
+                    <span class="squad-filter-label">Min Appearances <strong id="playerStatsMinAppearancesValue">10</strong></span>
+                    <div class="squad-filter-range-wrap">
+                        <input id="playerStatsMinAppearancesInput" type="range" class="squad-filter-range" min="0" max="12"
+                            step="1" value="10">
+                    </div>
+                </label>
+            </div>
         </div>
     </div>
 

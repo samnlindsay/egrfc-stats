@@ -17,6 +17,23 @@ Create a consistent, maintainable house style where:
 2. Replacing Vega/Vega-Lite.
 3. Rewriting all page JS from scratch.
 
+## Confirmed Decisions (from Squad Stats Refinement)
+These are now part of the house style baseline.
+
+1. Filters can be contextual and offcanvas-first when a page is dense:
+   - Squad Stats uses an offcanvas-only filter model at all breakpoints.
+   - Active filter chips open the offcanvas, so users can change filters without scrolling to page top.
+2. Filter chips must be scoped to the content block they annotate:
+   - Show only relevant controls for that section.
+   - Example: 1st XV league comparison chips exclude game type and minimum appearances.
+3. Default game scope should avoid friendlies unless intentionally requested:
+   - Use `League + Cup` as default where the control includes `All games`.
+4. In-page navigation should support deep links:
+   - Section rails should update URL hash, and hash-based loads should land on the referenced section.
+5. Mobile/touch tooltip policy:
+   - Disable Vega tooltips on coarse-pointer/mobile contexts to prevent accidental activation and clipped overlays.
+   - Keep hover tooltips on desktop.
+
 ## Current Issues (Summary)
 1. Extensive inline style duplication in page markup (containers, section spacing, card surfaces, navbar style).
 2. Inconsistent implementation of similar functional patterns (headers, filters, panel spacing).
@@ -344,6 +361,73 @@ Deliverable:
 3. Mobile chart-fit remediation.
 4. Mobile table-fit remediation.
 5. JS deduplication and dead code cleanup.
+
+## Methodical Rollout Plan (Post Squad Stats)
+
+### Rollout Order
+1. `player-stats.html`
+2. `performance-stats.html`
+3. `lineout-performance.html`
+4. `league-tables.html`
+5. `opposition-profile.html`
+6. `match-info.html`
+7. `player-info.html` and `player-profile.html`
+
+### Rollout Progress Log
+#### `player-stats.html` (Phase 1 + Phase 2: Shared Foundations, Hybrid Filters, Scoped Chips)
+Status: in progress
+
+Completed in this slice:
+1. Removed inline header text styling and switched to shared `.page-header-text` scaffold.
+2. Removed inline filter item spacing styles in top controls (now utility/class based).
+3. Removed inline panel top margin in favor of utility spacing class.
+4. Set game type default to `League + Cup` in both HTML default option and JS initialization/fallback logic.
+
+Completed in latest slice:
+1. Implemented `desktop-visible + mobile offcanvas` hybrid filter model.
+2. Added mobile filter trigger in page header and a dedicated Player Stats offcanvas drawer.
+3. Wired JS sync/apply flow between main controls and offcanvas controls.
+4. Added scoped active-filter chips to all Player Stats panels (appearances, points, captains, MOTM), with global chips opening the filter drawer.
+5. Added responsive rules to hide top filters on mobile while keeping desktop filter row intact.
+
+Completed in current slice:
+1. Replaced the old collapsible-panel page structure with a Squad Stats-style layout: `ux-hero`, `analysis-rail`, and always-visible chart sections.
+2. Added hero headline stats for appearances, points, and MOTM leaders based on the current filter state.
+3. Replaced accordion/panel navigation with section hash navigation and scroll-synced rail state.
+4. Kept existing chart/filter IDs intact so the page behavior migrated without backend/spec changes.
+
+Planned next slice for this page:
+1. Perform mobile-fit pass (360/390/414) and document matrix outcomes.
+2. Remove any dead page-specific CSS/JS that remains after mobile-fit validation.
+
+`charts.py` impact so far: none.
+
+### Per-Page Execution Checklist (apply in full before moving on)
+1. Unify header and section scaffolding with shared classes.
+2. Decide filter model:
+   - offcanvas-only for dense mobile-first pages,
+   - or desktop-visible + mobile offcanvas hybrid.
+3. Implement scoped active-filter chips per section/panel.
+4. Add/verify in-page section jump links and hash behavior for long pages.
+5. Verify mobile fit at 360/390/414 and desktop at 1280+.
+6. Remove dead page-specific CSS/JS after migration.
+7. Update this plan doc with page status and any exceptions.
+
+### `charts.py` Change Triggers During Rollout
+Update Python chart generation when a frontend requirement cannot be safely solved in JS/spec post-processing alone.
+
+1. Add explicit fields needed for scoped filtering/chips (for example normalized unit or game-scope flags).
+2. Add stable sort/order fields where mobile-friendly rendering depends on deterministic ordering.
+3. Add optional selected-state fields only when they materially simplify shared front-end logic.
+4. Keep chart titles/subtitles in Python for provenance, but rely on JS embed policy for display suppression where pages provide stronger local headings.
+
+### Tracking Matrix (new columns)
+Add these fields to the QA matrix as rollout proceeds:
+1. `filter_model` (desktop-visible | hybrid | offcanvas-only)
+2. `scoped_chips` (yes/no)
+3. `hash_nav` (yes/no)
+4. `mobile_tooltip_policy` (disabled-on-touch | default)
+5. `charts_py_changes` (none | minor | major)
 
 ## Acceptance Criteria
 

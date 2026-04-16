@@ -24,12 +24,19 @@
         padding-right: 0.5rem;
     }
 
-    #page-squad-stats .squad-stats-layout {
+    #page-squad-stats .squad-stats-layout,
+    #page-player-stats .squad-stats-layout {
         gap: 0.45rem;
     }
 
-    #page-squad-stats .squad-stats-main {
+    #page-squad-stats .squad-stats-main,
+    #page-player-stats .squad-stats-main {
         gap: 0.55rem;
+    }
+
+    #page-player-stats .page-shell {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
     }
 
     /* Page header: stack title/desc above filters on narrow screens */
@@ -40,6 +47,38 @@
 
     .page-header-filters {
         padding-top: 0;
+    }
+
+    #page-player-stats .player-stats-hero-head {
+        align-items: stretch;
+    }
+
+    #page-player-stats .player-stats-main .chart-section-head {
+        flex-wrap: wrap;
+        align-items: stretch;
+        gap: 0.6rem;
+    }
+
+    #page-player-stats .player-stats-main .chart-panel-filters {
+        width: 100%;
+    }
+
+    #page-player-stats .player-stats-main .chart-section-content--split {
+        display: block;
+    }
+
+    #page-player-stats .player-stats-main .chart-section-meta {
+        margin-bottom: 0.55rem;
+    }
+
+    #page-player-stats .squad-stats-active-filters {
+        margin-bottom: 0.7rem;
+        gap: 0.35rem;
+    }
+
+    #page-player-stats .squad-stats-filter-chip {
+        font-size: 0.8rem;
+        padding: 0.24rem 0.42rem;
     }
 
     .player-profiles-controls-row {
@@ -67,7 +106,7 @@
     }
 
     .ux-hero-metrics-grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 0.35rem;
     }
 
@@ -180,17 +219,57 @@
         border: none;
     }
 
+    #page-squad-stats .squad-stats-main .chart-host,
+    #page-squad-stats .squad-stats-main .chart-host--intrinsic,
+    #page-squad-stats .squad-stats-main .chart-host--overflow-visible {
+        overflow-x: hidden !important;
+        overflow-y: visible !important;
+        -webkit-overflow-scrolling: auto;
+    }
+
     #page-squad-stats .chart-section-content--split > .chart-host--intrinsic {
         margin-top: 0.55rem;
     }
 
-    #page-squad-stats .analysis-rail {
-        gap: 0.35rem;
-        padding: 0.45rem;
+    #page-squad-stats .analysis-rail,
+    #page-player-stats .analysis-rail {
+        gap: 0.2rem;
+        padding: 0.3rem;
+        margin-bottom: 0.25rem;
     }
 
-    #page-squad-stats .analysis-rail-title {
+    #page-squad-stats .analysis-rail .rail-link,
+    #page-player-stats .analysis-rail .rail-link {
+        gap: 0.26rem;
+        padding: 0.22rem 0.4rem;
+        font-size: 0.78rem;
+        border-radius: 0.5rem;
+        line-height: 1.1;
+        white-space: nowrap;
+    }
+
+    #page-squad-stats .analysis-rail .rail-link i,
+    #page-player-stats .analysis-rail .rail-link i {
+        font-size: 0.78rem;
+    }
+
+    #page-squad-stats .analysis-rail .rail-link .rail-link-label,
+    #page-player-stats .analysis-rail .rail-link .rail-link-label {
         display: none;
+    }
+
+    #page-squad-stats .analysis-rail .rail-link::after,
+    #page-player-stats .analysis-rail .rail-link::after {
+        content: attr(data-short);
+    }
+
+    #page-squad-stats .analysis-rail-title,
+    #page-player-stats .analysis-rail-title {
+        display: inline-flex;
+        align-items: center;
+        margin: 0 0.12rem 0 0.08rem;
+        font-size: 0.66rem;
+        letter-spacing: 0.04em;
     }
 
     .chart-panel-filters {
@@ -393,16 +472,19 @@
 }
 
 @media (max-width: 480px) {
-    #page-squad-stats .page-shell {
+    #page-squad-stats .page-shell,
+    #page-player-stats .page-shell {
         padding-left: 0.35rem;
         padding-right: 0.35rem;
     }
 
-    #page-squad-stats .chart-section {
+    #page-squad-stats .chart-section,
+    #page-player-stats .chart-section {
         margin: 1rem 0;
     }
 
-    #page-squad-stats .chart-section-block--panel {
+    #page-squad-stats .chart-section-block--panel,
+    #page-player-stats .chart-section-block--panel {
         padding: 0.5rem;
     }
 
@@ -856,7 +938,7 @@
     }
 
     .squad-stats-layout .analysis-rail {
-        display: none !important;
+        display: flex;
     }
 }
 

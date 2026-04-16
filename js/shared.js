@@ -1,10 +1,37 @@
 // Shared constants, utilities and chart helpers used across all pages.
 
-const VEGA_EMBED_ACTIONS = { export: true, source: false, compiled: false, editor: false };
-const FORWARD_POSITIONS = ['Prop', 'Hooker', 'Second Row', 'Flanker', 'Number 8'];
-const BACK_POSITIONS = ['Scrum Half', 'Fly Half', 'Centre', 'Wing', 'Full Back'];
+const VEGA_EMBED_ACTIONS = {
+  export: true,
+  source: false,
+  compiled: false,
+  editor: false,
+};
+const FORWARD_POSITIONS = [
+  "Prop",
+  "Hooker",
+  "Second Row",
+  "Flanker",
+  "Number 8",
+];
+const BACK_POSITIONS = [
+  "Scrum Half",
+  "Fly Half",
+  "Centre",
+  "Wing",
+  "Full Back",
+];
 const SQUAD_POSITION_ORDER = [...FORWARD_POSITIONS, ...BACK_POSITIONS];
-let availableSeasons = ['2025/26', '2024/25', '2023/24', '2022/23', '2021/22', '2019/20', '2018/19', '2017/18', '2016/17'];
+let availableSeasons = [
+  "2025/26",
+  "2024/25",
+  "2023/24",
+  "2022/23",
+  "2021/22",
+  "2019/20",
+  "2018/19",
+  "2017/18",
+  "2016/17",
+];
 const chartSpecCache = new Map();
 const chartSpecRequestVersion = String(Date.now());
 let responsiveChartResizeBound = false;
@@ -12,36 +39,37 @@ let responsiveChartResizeBound = false;
 // Methodical inventory of chart containers present across HTML pages.
 // Use this to track responsive layout coverage in CHART_LAYOUT_INVENTORY.
 const CHART_CONTAINER_INVENTORY = Object.freeze([
-    'focusModalChart',
-    'leagueContinuityContextChart',
-    'leagueSquadSizeContextChart',
-    'lineoutPerfBreakdownAreaChart',
-    'lineoutPerfBreakdownJumperChart',
-    'lineoutPerfBreakdownNumbersChart',
-    'lineoutPerfBreakdownThrowerChart',
-    'lineoutTrendAreaChart',
-    'lineoutTrendJumperChart',
-    'lineoutTrendNumbersChart',
-    'lineoutTrendPlayChart',
-    'lineoutTrendThrowerChart',
-    'oppositionLineoutH2HChart',
-    'oppositionResultsChart',
-    'oppositionScrumH2HChart',
-    'oppositionTeamSheetsChart',
-    'playerStatsAppearancesChart',
-    'playerStatsCaptainsChart',
-    'playerStatsMotmChart',
-    'playerStatsPointsChart',
-    'rzPointsChart',
-    'setPiece1stLineoutChart',
-    'setPiece1stScrumChart',
-    'setPiece2ndLineoutChart',
-    'setPiece2ndScrumChart',
-    'squadContinuityTrendChart',
-    'squadOverlapChart',
-    'squadPositionCompositionChart',
-    'squadSizeTrendChart',
-    'teamSheetsChart'
+  "focusModalChart",
+  "leagueContinuityContextChart",
+  "leagueSquadSizeContextChart",
+  "lineoutPerfBreakdownAreaChart",
+  "lineoutPerfBreakdownJumperChart",
+  "lineoutPerfBreakdownNumbersChart",
+  "lineoutPerfBreakdownThrowerChart",
+  "lineoutTrendAreaChart",
+  "lineoutTrendJumperChart",
+  "lineoutTrendNumbersChart",
+  "lineoutTrendPlayChart",
+  "lineoutTrendThrowerChart",
+  "oppositionLineoutH2HChart",
+  "oppositionResultsChart",
+  "oppositionScrumH2HChart",
+  "oppositionTeamSheetsChart",
+  "playerStatsAppearancesChart",
+  "playerStatsCaptainsChart",
+  "playerStatsMotmChart",
+  "playerStatsMotmUnitsChart",
+  "playerStatsPointsChart",
+  "rzPointsChart",
+  "setPiece1stLineoutChart",
+  "setPiece1stScrumChart",
+  "setPiece2ndLineoutChart",
+  "setPiece2ndScrumChart",
+  "squadContinuityTrendChart",
+  "squadOverlapChart",
+  "squadPositionCompositionChart",
+  "squadSizeTrendChart",
+  "teamSheetsChart",
 ]);
 
 // Centralized responsive layout inventory for chart-level structural tweaks.
@@ -66,7 +94,11 @@ const CHART_LAYOUT_INVENTORY = {
   squadPositionCompositionChart: {
     narrowMax: 680,
     wideMin: 1000,
-    narrow: { legendOrient: "bottom", facetColumns: 1, facetHeaderLabels: false },
+    narrow: {
+      legendOrient: "bottom",
+      facetColumns: 1,
+      facetHeaderLabels: false,
+    },
     wide: { legendOrient: "right", facetColumns: 2, innerHeight: { step: 25 } },
   },
   squadOverlapChart: {
@@ -163,6 +195,40 @@ const CHART_LAYOUT_INVENTORY = {
     narrow: { legendOrient: "bottom" },
     wide: { legendOrient: "right" },
   },
+  playerStatsAppearancesChart: {
+    narrowMax: 760,
+    wideMin: 1000,
+    narrow: {
+      legendOrient: "bottom",
+      facetColumns: 1,
+      facetHeaderLabels: false,
+      width: 275,
+    },
+    wide: {
+      legendOrient: "right",
+      width: 500,
+    },
+  },
+  playerStatsPointsChart: {
+    narrowMax: 760,
+    narrow: { legendOrient: "bottom", width: 275 },
+    wide: { legendOrient: "right", width: 500 },
+  },
+  playerStatsCaptainsChart: {
+    narrowMax: 760,
+    narrow: { legendOrient: "bottom", width: 275 },
+    wide: { legendOrient: "right", width: 500, height: { step: 20 } },
+  },
+  playerStatsMotmChart: {
+    narrowMax: 760,
+    narrow: { legendOrient: "bottom", width: 275 },
+    wide: { legendOrient: "right", width: 500 },
+  },
+  playerStatsMotmUnitsChart: {
+    narrowMax: 760,
+    narrow: { legendOrient: "bottom" },
+    wide: { legendOrient: "right", width: 500, height: { step: 40 } },
+  },
   redZone1stChart: {
     narrowMax: 720,
     narrow: { legendOrient: "bottom" },
@@ -206,712 +272,948 @@ const CHART_LAYOUT_INVENTORY = {
 };
 
 function getChartLayoutCoverage() {
-    const configured = CHART_CONTAINER_INVENTORY.filter(id => Object.prototype.hasOwnProperty.call(CHART_LAYOUT_INVENTORY, id));
-    const missing = CHART_CONTAINER_INVENTORY.filter(id => !Object.prototype.hasOwnProperty.call(CHART_LAYOUT_INVENTORY, id));
-    return {
-        total: CHART_CONTAINER_INVENTORY.length,
-        configuredCount: configured.length,
-        missingCount: missing.length,
-        configured,
-        missing
-    };
+  const configured = CHART_CONTAINER_INVENTORY.filter((id) =>
+    Object.prototype.hasOwnProperty.call(CHART_LAYOUT_INVENTORY, id),
+  );
+  const missing = CHART_CONTAINER_INVENTORY.filter(
+    (id) => !Object.prototype.hasOwnProperty.call(CHART_LAYOUT_INVENTORY, id),
+  );
+  return {
+    total: CHART_CONTAINER_INVENTORY.length,
+    configuredCount: configured.length,
+    missingCount: missing.length,
+    configured,
+    missing,
+  };
 }
 
 function attachChartSpecMetadata(spec, metadata = {}) {
-    if (!spec || typeof spec !== 'object') return spec;
-    if (metadata.sourcePath) {
-        Object.defineProperty(spec, '__sourcePath', {
-            value: metadata.sourcePath,
-            writable: true,
-            configurable: true,
-            enumerable: false
-        });
-    }
-    return spec;
+  if (!spec || typeof spec !== "object") return spec;
+  if (metadata.sourcePath) {
+    Object.defineProperty(spec, "__sourcePath", {
+      value: metadata.sourcePath,
+      writable: true,
+      configurable: true,
+      enumerable: false,
+    });
+  }
+  return spec;
 }
 
 function cloneChartSpec(spec) {
-    const cloned = JSON.parse(JSON.stringify(spec));
-    return attachChartSpecMetadata(cloned, { sourcePath: spec?.__sourcePath });
+  const cloned = JSON.parse(JSON.stringify(spec));
+  return attachChartSpecMetadata(cloned, { sourcePath: spec?.__sourcePath });
 }
 
 function resolveChartLayoutState(containerId, width) {
-    if (!containerId || !Number.isFinite(width)) return { entry: null, mode: null, profile: null };
-    const entry = CHART_LAYOUT_INVENTORY[containerId] || null;
-    if (!entry) return { entry: null, mode: null, profile: null };
-    const narrowMax = Number.isFinite(entry.narrowMax) ? entry.narrowMax : 680;
-    const wideMin = Number.isFinite(entry.wideMin) ? entry.wideMin : 1100;
-    if (width <= narrowMax) return { entry, mode: 'narrow', profile: entry.narrow || null };
-    if (width >= wideMin) return { entry, mode: 'wide', profile: entry.wide || null };
+  if (!containerId || !Number.isFinite(width))
+    return { entry: null, mode: null, profile: null };
+  const entry = CHART_LAYOUT_INVENTORY[containerId] || null;
+  if (!entry) return { entry: null, mode: null, profile: null };
+  const narrowMax = Number.isFinite(entry.narrowMax) ? entry.narrowMax : 680;
+  const wideMin = Number.isFinite(entry.wideMin) ? entry.wideMin : 1100;
+  if (width <= narrowMax)
+    return { entry, mode: "narrow", profile: entry.narrow || null };
+  if (width >= wideMin)
+    return { entry, mode: "wide", profile: entry.wide || null };
 
-    // Width is between narrowMax and wideMin.
-    // If no explicit default profile exists, choose the nearest available profile
-    // so responsive overrides still apply in the breakpoint gap.
-    if (entry.default) return { entry, mode: 'default', profile: entry.default };
+  // Width is between narrowMax and wideMin.
+  // If no explicit default profile exists, choose the nearest available profile
+  // so responsive overrides still apply in the breakpoint gap.
+  if (entry.default) return { entry, mode: "default", profile: entry.default };
 
-    const hasNarrow = !!entry.narrow;
-    const hasWide = !!entry.wide;
-    if (hasNarrow && hasWide) {
-        const gapSpan = wideMin - narrowMax;
-        const midpoint = gapSpan > 0 ? (narrowMax + gapSpan / 2) : narrowMax;
-        return width >= midpoint
-            ? { entry, mode: 'wide', profile: entry.wide }
-            : { entry, mode: 'narrow', profile: entry.narrow };
-    }
-    if (hasWide) return { entry, mode: 'wide', profile: entry.wide };
-    if (hasNarrow) return { entry, mode: 'narrow', profile: entry.narrow };
-    return { entry, mode: 'default', profile: null };
+  const hasNarrow = !!entry.narrow;
+  const hasWide = !!entry.wide;
+  if (hasNarrow && hasWide) {
+    const gapSpan = wideMin - narrowMax;
+    const midpoint = gapSpan > 0 ? narrowMax + gapSpan / 2 : narrowMax;
+    return width >= midpoint
+      ? { entry, mode: "wide", profile: entry.wide }
+      : { entry, mode: "narrow", profile: entry.narrow };
+  }
+  if (hasWide) return { entry, mode: "wide", profile: entry.wide };
+  if (hasNarrow) return { entry, mode: "narrow", profile: entry.narrow };
+  return { entry, mode: "default", profile: null };
 }
 
 function resolveChartLayoutProfile(containerId, width) {
-    return resolveChartLayoutState(containerId, width).profile;
+  return resolveChartLayoutState(containerId, width).profile;
 }
 
 function getChartLayoutWidth(container) {
-    if (!container) return Number(window?.innerWidth || 0) || 0;
-    const direct = Number(container.clientWidth || 0);
-    const chartSection = Number(container.closest('.chart-section-content, .chart-section-block, .chart-panel-card')?.clientWidth || 0);
-    const mainColumn = Number(container.closest('.squad-stats-main, .page-shell, .main-content')?.clientWidth || 0);
-    const viewport = Number(window?.innerWidth || 0);
-    return Math.max(direct, chartSection, mainColumn, viewport ? viewport * 0.75 : 0);
+  if (!container) return Number(window?.innerWidth || 0) || 0;
+  const direct = Number(container.clientWidth || 0);
+  const chartSection = Number(
+    container.closest(
+      ".chart-section-content, .chart-section-block, .chart-panel-card",
+    )?.clientWidth || 0,
+  );
+  const mainColumn = Number(
+    container.closest(".squad-stats-main, .page-shell, .main-content")
+      ?.clientWidth || 0,
+  );
+  const viewport = Number(window?.innerWidth || 0);
+  return Math.max(
+    direct,
+    chartSection,
+    mainColumn,
+    viewport ? viewport * 0.75 : 0,
+  );
 }
 
 function applyLegendOrientationDeep(spec, orient) {
-    if (!spec || typeof spec !== 'object' || !orient) return;
-    const legendChannels = ['color', 'fill', 'stroke', 'shape', 'size', 'opacity'];
-    if (spec.encoding && typeof spec.encoding === 'object') {
-        legendChannels.forEach(channel => {
-            const enc = spec.encoding[channel];
-            if (!enc || enc.legend === null) return;
-            enc.legend = { ...(enc.legend || {}), orient };
-        });
-    }
-    ['layer', 'hconcat', 'vconcat', 'concat'].forEach(key => {
-        const childSpecs = spec[key];
-        if (Array.isArray(childSpecs)) childSpecs.forEach(child => applyLegendOrientationDeep(child, orient));
+  if (!spec || typeof spec !== "object" || !orient) return;
+  const legendChannels = [
+    "color",
+    "fill",
+    "stroke",
+    "shape",
+    "size",
+    "opacity",
+  ];
+  if (spec.encoding && typeof spec.encoding === "object") {
+    legendChannels.forEach((channel) => {
+      const enc = spec.encoding[channel];
+      if (!enc || enc.legend === null) return;
+      enc.legend = { ...(enc.legend || {}), orient };
     });
-    if (spec.spec) applyLegendOrientationDeep(spec.spec, orient);
+  }
+  ["layer", "hconcat", "vconcat", "concat"].forEach((key) => {
+    const childSpecs = spec[key];
+    if (Array.isArray(childSpecs))
+      childSpecs.forEach((child) => applyLegendOrientationDeep(child, orient));
+  });
+  if (spec.spec) applyLegendOrientationDeep(spec.spec, orient);
 }
 
 function applyLegendTitleOrientDeep(spec, titleOrient) {
-    if (!spec || typeof spec !== 'object' || !titleOrient) return;
-    const legendChannels = ['color', 'fill', 'stroke', 'shape', 'size', 'opacity'];
-    if (spec.encoding && typeof spec.encoding === 'object') {
-        legendChannels.forEach(channel => {
-            const enc = spec.encoding[channel];
-            if (!enc || enc.legend === null) return;
-            enc.legend = { ...(enc.legend || {}), titleOrient };
-        });
-    }
-    ['layer', 'hconcat', 'vconcat', 'concat'].forEach(key => {
-        const childSpecs = spec[key];
-        if (Array.isArray(childSpecs)) childSpecs.forEach(child => applyLegendTitleOrientDeep(child, titleOrient));
+  if (!spec || typeof spec !== "object" || !titleOrient) return;
+  const legendChannels = [
+    "color",
+    "fill",
+    "stroke",
+    "shape",
+    "size",
+    "opacity",
+  ];
+  if (spec.encoding && typeof spec.encoding === "object") {
+    legendChannels.forEach((channel) => {
+      const enc = spec.encoding[channel];
+      if (!enc || enc.legend === null) return;
+      enc.legend = { ...(enc.legend || {}), titleOrient };
     });
-    if (spec.spec) applyLegendTitleOrientDeep(spec.spec, titleOrient);
+  }
+  ["layer", "hconcat", "vconcat", "concat"].forEach((key) => {
+    const childSpecs = spec[key];
+    if (Array.isArray(childSpecs))
+      childSpecs.forEach((child) =>
+        applyLegendTitleOrientDeep(child, titleOrient),
+      );
+  });
+  if (spec.spec) applyLegendTitleOrientDeep(spec.spec, titleOrient);
 }
 
 function applyFacetColumnsDeep(spec, columns) {
-    if (!spec || typeof spec !== 'object' || !Number.isFinite(columns) || columns < 1) return;
-    if (spec.facet && typeof spec.facet === 'object') {
-        // Vega-Lite ignores top-level `columns` when facet is declared as `{ column: {...} }`.
-        // Normalize to wrapped facet syntax so `columns` takes effect.
-        const facetDef = spec.facet;
-        if (
-            !Array.isArray(facetDef)
-            && facetDef.column
-            && !facetDef.row
-            && typeof facetDef.column === 'object'
-        ) {
-            const wrappedFacet = { ...facetDef.column };
-            if (
-                Object.prototype.hasOwnProperty.call(facetDef, 'title')
-                && !Object.prototype.hasOwnProperty.call(wrappedFacet, 'title')
-            ) {
-                wrappedFacet.title = facetDef.title;
-            }
-            spec.facet = wrappedFacet;
-        }
-        spec.columns = Math.max(1, Math.floor(columns));
+  if (
+    !spec ||
+    typeof spec !== "object" ||
+    !Number.isFinite(columns) ||
+    columns < 1
+  )
+    return;
+  if (spec.facet && typeof spec.facet === "object") {
+    // Vega-Lite ignores top-level `columns` when facet is declared as `{ column: {...} }`.
+    // Normalize to wrapped facet syntax so `columns` takes effect.
+    const facetDef = spec.facet;
+    if (
+      !Array.isArray(facetDef) &&
+      facetDef.column &&
+      !facetDef.row &&
+      typeof facetDef.column === "object"
+    ) {
+      const wrappedFacet = { ...facetDef.column };
+      if (
+        Object.prototype.hasOwnProperty.call(facetDef, "title") &&
+        !Object.prototype.hasOwnProperty.call(wrappedFacet, "title")
+      ) {
+        wrappedFacet.title = facetDef.title;
+      }
+      spec.facet = wrappedFacet;
     }
-    ['layer', 'hconcat', 'vconcat', 'concat'].forEach(key => {
-        const childSpecs = spec[key];
-        if (Array.isArray(childSpecs)) childSpecs.forEach(child => applyFacetColumnsDeep(child, columns));
-    });
-    if (spec.spec) applyFacetColumnsDeep(spec.spec, columns);
+    spec.columns = Math.max(1, Math.floor(columns));
+  }
+  ["layer", "hconcat", "vconcat", "concat"].forEach((key) => {
+    const childSpecs = spec[key];
+    if (Array.isArray(childSpecs))
+      childSpecs.forEach((child) => applyFacetColumnsDeep(child, columns));
+  });
+  if (spec.spec) applyFacetColumnsDeep(spec.spec, columns);
 }
 
 function applyFacetHeaderLabelsDeep(spec, showLabels) {
-    if (!spec || typeof spec !== 'object') return;
-    if (spec.facet && typeof spec.facet === 'object') {
-        if (showLabels === false) {
-            // log if removing facet header labels from a spec that has title text defined at the facet level, since this may be unintentional
-            console.log(`Applying facet header label removal to spec${spec.__sourcePath ? ` from ${spec.__sourcePath}` : ''}${spec.facet.title ? ' with facet title' : ''}`);
-            // spec.facet.header = { labels: false, title: null };
-            console.log(spec.facet)
-        } else if (
-            typeof spec.facet.header === 'object'
-            && spec.facet.header !== null
-            && spec.facet.header.labels === false
-        ) {
-            delete spec.facet.header;
-        }
+  if (!spec || typeof spec !== "object") return;
+  if (spec.facet && typeof spec.facet === "object") {
+    if (showLabels === false) {
+      // log if removing facet header labels from a spec that has title text defined at the facet level, since this may be unintentional
+      console.log(
+        `Applying facet header label removal to spec${spec.__sourcePath ? ` from ${spec.__sourcePath}` : ""}${spec.facet.title ? " with facet title" : ""}`,
+      );
+      // spec.facet.header = { labels: false, title: null };
+      console.log(spec.facet);
+    } else if (
+      typeof spec.facet.header === "object" &&
+      spec.facet.header !== null &&
+      spec.facet.header.labels === false
+    ) {
+      delete spec.facet.header;
     }
+  }
 
-    ['layer', 'hconcat', 'vconcat', 'concat'].forEach(key => {
-        const childSpecs = spec[key];
-        if (Array.isArray(childSpecs)) childSpecs.forEach(child => applyFacetHeaderLabelsDeep(child, showLabels));
-    });
-    if (spec.spec) applyFacetHeaderLabelsDeep(spec.spec, showLabels);
+  ["layer", "hconcat", "vconcat", "concat"].forEach((key) => {
+    const childSpecs = spec[key];
+    if (Array.isArray(childSpecs))
+      childSpecs.forEach((child) =>
+        applyFacetHeaderLabelsDeep(child, showLabels),
+      );
+  });
+  if (spec.spec) applyFacetHeaderLabelsDeep(spec.spec, showLabels);
 }
 
 function applyConcatOrientationDeep(spec, orientation) {
-    if (!spec || typeof spec !== 'object' || !orientation) return;
-    if (orientation === 'vertical' && Array.isArray(spec.hconcat)) {
-        spec.vconcat = spec.hconcat;
-        delete spec.hconcat;
-    } else if (orientation === 'horizontal' && Array.isArray(spec.vconcat)) {
-        spec.hconcat = spec.vconcat;
-        delete spec.vconcat;
-    }
-    ['layer', 'hconcat', 'vconcat', 'concat'].forEach(key => {
-        const childSpecs = spec[key];
-        if (Array.isArray(childSpecs)) childSpecs.forEach(child => applyConcatOrientationDeep(child, orientation));
-    });
-    if (spec.spec) applyConcatOrientationDeep(spec.spec, orientation);
+  if (!spec || typeof spec !== "object" || !orientation) return;
+  if (orientation === "vertical" && Array.isArray(spec.hconcat)) {
+    spec.vconcat = spec.hconcat;
+    delete spec.hconcat;
+  } else if (orientation === "horizontal" && Array.isArray(spec.vconcat)) {
+    spec.hconcat = spec.vconcat;
+    delete spec.vconcat;
+  }
+  ["layer", "hconcat", "vconcat", "concat"].forEach((key) => {
+    const childSpecs = spec[key];
+    if (Array.isArray(childSpecs))
+      childSpecs.forEach((child) =>
+        applyConcatOrientationDeep(child, orientation),
+      );
+  });
+  if (spec.spec) applyConcatOrientationDeep(spec.spec, orientation);
 }
 
 function applyConcatPanelSizing(spec, panelSizing, layoutWidth) {
-    if (!spec || typeof spec !== 'object' || !panelSizing || typeof panelSizing !== 'object') return;
-    const hasVertical = Array.isArray(spec.vconcat);
-    const hasHorizontal = Array.isArray(spec.hconcat);
-    const modeKey = hasVertical ? 'vertical' : (hasHorizontal ? 'horizontal' : null);
-    if (!modeKey) return;
+  if (
+    !spec ||
+    typeof spec !== "object" ||
+    !panelSizing ||
+    typeof panelSizing !== "object"
+  )
+    return;
+  const hasVertical = Array.isArray(spec.vconcat);
+  const hasHorizontal = Array.isArray(spec.hconcat);
+  const modeKey = hasVertical
+    ? "vertical"
+    : hasHorizontal
+      ? "horizontal"
+      : null;
+  if (!modeKey) return;
 
-    const modeSizing = panelSizing[modeKey];
-    if (!modeSizing || !Array.isArray(modeSizing.panels)) return;
+  const modeSizing = panelSizing[modeKey];
+  if (!modeSizing || !Array.isArray(modeSizing.panels)) return;
 
-    const concatPanels = hasVertical ? spec.vconcat : spec.hconcat;
-    const sharedWidthPadding = Number.isFinite(panelSizing.sharedWidthPadding) ? panelSizing.sharedWidthPadding : 24;
-    const sharedWidth = Math.max(180, Math.floor((Number(layoutWidth || 0) || 0) - sharedWidthPadding));
-    const resolveDim = value => {
-        if (value === 'shared') return sharedWidth;
-        return value;
-    };
+  const concatPanels = hasVertical ? spec.vconcat : spec.hconcat;
+  const sharedWidthPadding = Number.isFinite(panelSizing.sharedWidthPadding)
+    ? panelSizing.sharedWidthPadding
+    : 24;
+  const sharedWidth = Math.max(
+    180,
+    Math.floor((Number(layoutWidth || 0) || 0) - sharedWidthPadding),
+  );
+  const resolveDim = (value) => {
+    if (value === "shared") return sharedWidth;
+    return value;
+  };
 
-    modeSizing.panels.forEach((panelDims, index) => {
-        const panelSpec = concatPanels[index];
-        if (!panelSpec || typeof panelSpec !== 'object' || !panelDims) return;
-        if (panelDims.width !== undefined) panelSpec.width = resolveDim(panelDims.width);
-        if (panelDims.height !== undefined) panelSpec.height = resolveDim(panelDims.height);
-    });
+  modeSizing.panels.forEach((panelDims, index) => {
+    const panelSpec = concatPanels[index];
+    if (!panelSpec || typeof panelSpec !== "object" || !panelDims) return;
+    if (panelDims.width !== undefined)
+      panelSpec.width = resolveDim(panelDims.width);
+    if (panelDims.height !== undefined)
+      panelSpec.height = resolveDim(panelDims.height);
+  });
 
-    if (Number.isFinite(modeSizing.spacing)) spec.spacing = modeSizing.spacing;
+  if (Number.isFinite(modeSizing.spacing)) spec.spacing = modeSizing.spacing;
 }
 
 function applyRootChartSizing(spec, profile) {
-    if (!spec || typeof spec !== 'object' || !profile || typeof profile !== 'object') return;
-    if (profile.width !== undefined) spec.width = profile.width;
-    if (profile.height !== undefined) spec.height = profile.height;
-    if (profile.spacing !== undefined) spec.spacing = profile.spacing;
-    if (profile.padding !== undefined) spec.padding = profile.padding;
-    if (profile.autosize !== undefined) spec.autosize = profile.autosize;
-    if (spec.spec && typeof spec.spec === 'object') {
-        if (profile.innerWidth !== undefined) spec.spec.width = profile.innerWidth;
-        if (profile.innerHeight !== undefined) spec.spec.height = profile.innerHeight;
-    }
+  if (
+    !spec ||
+    typeof spec !== "object" ||
+    !profile ||
+    typeof profile !== "object"
+  )
+    return;
+  if (profile.width !== undefined) spec.width = profile.width;
+  if (profile.height !== undefined) spec.height = profile.height;
+  if (profile.spacing !== undefined) spec.spacing = profile.spacing;
+  if (profile.padding !== undefined) spec.padding = profile.padding;
+  if (profile.autosize !== undefined) spec.autosize = profile.autosize;
+  if (spec.spec && typeof spec.spec === "object") {
+    if (profile.innerWidth !== undefined) spec.spec.width = profile.innerWidth;
+    if (profile.innerHeight !== undefined)
+      spec.spec.height = profile.innerHeight;
+  }
 }
 
 function applyChartLayoutProfile(spec, profile, layoutWidth) {
-    if (!spec || !profile || typeof profile !== 'object') return spec;
-    applyRootChartSizing(spec, profile);
-    if (profile.legendOrient) applyLegendOrientationDeep(spec, profile.legendOrient);
-    if (profile.legendTitleOrient) applyLegendTitleOrientDeep(spec, profile.legendTitleOrient);
-    if (Number.isFinite(profile.facetColumns)) applyFacetColumnsDeep(spec, profile.facetColumns);
-    if (profile.facetHeaderLabels !== undefined) applyFacetHeaderLabelsDeep(spec, !!profile.facetHeaderLabels);
-    if (profile.concat) applyConcatOrientationDeep(spec, profile.concat);
-    if (profile.panelSizing) applyConcatPanelSizing(spec, profile.panelSizing, layoutWidth);
-    return spec;
+  if (!spec || !profile || typeof profile !== "object") return spec;
+  applyRootChartSizing(spec, profile);
+  if (profile.legendOrient)
+    applyLegendOrientationDeep(spec, profile.legendOrient);
+  if (profile.legendTitleOrient)
+    applyLegendTitleOrientDeep(spec, profile.legendTitleOrient);
+  if (Number.isFinite(profile.facetColumns))
+    applyFacetColumnsDeep(spec, profile.facetColumns);
+  if (profile.facetHeaderLabels !== undefined)
+    applyFacetHeaderLabelsDeep(spec, !!profile.facetHeaderLabels);
+  if (profile.concat) applyConcatOrientationDeep(spec, profile.concat);
+  if (profile.panelSizing)
+    applyConcatPanelSizing(spec, profile.panelSizing, layoutWidth);
+  return spec;
 }
 
 function resetResponsiveChartScale(embed) {
-    if (!embed) return;
-    embed.style.transform = 'none';
-    embed.style.transformOrigin = 'top left';
-    embed.classList.remove('chart-responsive-scaled');
-    const wrapper = embed.parentElement;
-    if (wrapper) {
-        wrapper.style.width = '';
-        wrapper.style.height = '';
-    }
+  if (!embed) return;
+  embed.style.transform = "none";
+  embed.style.transformOrigin = "top left";
+  embed.classList.remove("chart-responsive-scaled");
+  const wrapper = embed.parentElement;
+  if (wrapper) {
+    wrapper.style.width = "";
+    wrapper.style.height = "";
+  }
+  const boundary = getResponsiveChartBoundary(embed);
+  if (boundary) boundary.style.overflowX = "";
 }
 
 function getResponsiveChartBoundary(embed) {
-    if (!embed) return null;
-    return (
-        embed.closest('.player-stats-chart-container') ||
-        embed.closest('.chart-host--intrinsic') ||
-        embed.closest('.chart-host') ||
-        embed.parentElement
-    );
+  if (!embed) return null;
+  return (
+    embed.closest(".player-stats-chart-container") ||
+    embed.closest(".chart-host--intrinsic") ||
+    embed.closest(".chart-host") ||
+    embed.parentElement
+  );
 }
 
 function applyResponsiveChartScale(rootElement = document) {
-    if (!rootElement || !window || typeof window.innerWidth !== 'number') return;
+  if (!rootElement || !window || typeof window.innerWidth !== "number") return;
 
-    rootElement.querySelectorAll('.vega-embed').forEach(embed => {
-        if (embed.closest('#teamSheetsChart, .chart-embed-host--team-sheets, .team-sheets-chart-shell')) {
-            resetResponsiveChartScale(embed);
-            return;
-        }
+  rootElement.querySelectorAll(".vega-embed").forEach((embed) => {
+    if (
+      embed.closest(
+        "#teamSheetsChart, .chart-embed-host--team-sheets, .team-sheets-chart-shell",
+      )
+    ) {
+      resetResponsiveChartScale(embed);
+      return;
+    }
 
-        const boundary = getResponsiveChartBoundary(embed);
-        if (!boundary) {
-            resetResponsiveChartScale(embed);
-            return;
-        }
+    const boundary = getResponsiveChartBoundary(embed);
+    if (!boundary) {
+      resetResponsiveChartScale(embed);
+      return;
+    }
 
-        const availableWidth = Math.floor(boundary.clientWidth || 0);
-        if (!availableWidth || window.innerWidth > 900) {
-            resetResponsiveChartScale(embed);
-            return;
-        }
+    const availableWidth = Math.floor(boundary.clientWidth || 0);
+    if (!availableWidth || window.innerWidth > 900) {
+      resetResponsiveChartScale(embed);
+      return;
+    }
 
-        const intrinsicWidth = Math.ceil(embed.scrollWidth || embed.getBoundingClientRect().width || 0);
-        const intrinsicHeight = Math.ceil(embed.scrollHeight || embed.getBoundingClientRect().height || 0);
-        if (!intrinsicWidth || intrinsicWidth <= availableWidth) {
-            resetResponsiveChartScale(embed);
-            return;
-        }
+    const intrinsicWidth = Math.ceil(
+      embed.scrollWidth || embed.getBoundingClientRect().width || 0,
+    );
+    const intrinsicHeight = Math.ceil(
+      embed.scrollHeight || embed.getBoundingClientRect().height || 0,
+    );
+    if (!intrinsicWidth || intrinsicWidth <= availableWidth) {
+      resetResponsiveChartScale(embed);
+      return;
+    }
 
-        const rawScale = availableWidth / intrinsicWidth;
-        const minReadableScale = window.innerWidth <= 480 ? 0.58 : 0.68;
-        if (rawScale < minReadableScale) {
-            resetResponsiveChartScale(embed);
-            return;
-        }
+    const rawScale = availableWidth / intrinsicWidth;
+    const minReadableScale = window.innerWidth <= 480 ? 0.58 : 0.68;
+    if (rawScale < minReadableScale) {
+      resetResponsiveChartScale(embed);
+      return;
+    }
 
-        const scale = Math.min(1, rawScale);
-        embed.style.transformOrigin = 'top left';
-        embed.style.transform = `scale(${scale})`;
-        embed.classList.add('chart-responsive-scaled');
+    const scale = Math.min(1, rawScale);
+    embed.style.transformOrigin = "top left";
+    embed.style.transform = `scale(${scale})`;
+    embed.classList.add("chart-responsive-scaled");
 
-        const wrapper = embed.parentElement;
-        if (wrapper) {
-            wrapper.style.width = `${Math.ceil(intrinsicWidth * scale)}px`;
-            wrapper.style.height = `${Math.ceil(intrinsicHeight * scale)}px`;
-        }
-    });
+    const wrapper = embed.parentElement;
+    if (wrapper) {
+      wrapper.style.width = `${Math.ceil(intrinsicWidth * scale)}px`;
+      wrapper.style.height = `${Math.ceil(intrinsicHeight * scale)}px`;
+    }
+
+    // CSS transform does not affect layout width, so the unscaled SVG
+    // still occupies its full layout width inside the container,
+    // creating a scrollable whitespace gap beyond the scaled visual.
+    // Clip that overflow now that the visual content fits the boundary.
+    boundary.style.overflowX = "hidden";
+  });
 }
 
 function bindResponsiveChartResizeHandler() {
-    if (responsiveChartResizeBound) return;
-    responsiveChartResizeBound = true;
-    window.addEventListener('resize', () => applyResponsiveChartScale(document));
+  if (responsiveChartResizeBound) return;
+  responsiveChartResizeBound = true;
+  window.addEventListener("resize", () => applyResponsiveChartScale(document));
 }
 
 function getCurrentSeasonLabel() {
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = now.getMonth() + 1;
-    const startYear = month >= 7 ? year : year - 1;
-    const endSuffix = String((startYear + 1) % 100).padStart(2, '0');
-    return `${startYear}/${endSuffix}`;
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth() + 1;
+  const startYear = month >= 7 ? year : year - 1;
+  const endSuffix = String((startYear + 1) % 100).padStart(2, "0");
+  return `${startYear}/${endSuffix}`;
 }
 
 async function loadAvailableSeasons() {
-    try {
-        const response = await fetch('data/league_tables.json');
-        if (!response.ok) {
-            console.warn(`Failed to fetch league_tables.json (${response.status}), using default seasons`);
-            return;
-        }
-        const data = await response.json();
-        if (data.seasons && Array.isArray(data.seasons) && data.seasons.length > 0) {
-            availableSeasons = data.seasons;
-        }
-    } catch (err) {
-        console.error('Failed to load seasons from league_tables.json:', err.message);
+  try {
+    const response = await fetch("data/league_tables.json");
+    if (!response.ok) {
+      console.warn(
+        `Failed to fetch league_tables.json (${response.status}), using default seasons`,
+      );
+      return;
     }
+    const data = await response.json();
+    if (
+      data.seasons &&
+      Array.isArray(data.seasons) &&
+      data.seasons.length > 0
+    ) {
+      availableSeasons = data.seasons;
+    }
+  } catch (err) {
+    console.error(
+      "Failed to load seasons from league_tables.json:",
+      err.message,
+    );
+  }
 }
 
 function normalizeSeasonLabel(value) {
-    if (!value) return null;
-    const season = String(value).trim().replace('-', '/');
-    const match = season.match(/^(\d{4})\/(\d{2}|\d{4})$/);
-    if (!match) return null;
-    const startYear = match[1];
-    const endPart = match[2];
-    const endSuffix = endPart.length === 4 ? endPart.slice(-2) : endPart;
-    return `${startYear}/${endSuffix}`;
+  if (!value) return null;
+  const season = String(value).trim().replace("-", "/");
+  const match = season.match(/^(\d{4})\/(\d{2}|\d{4})$/);
+  if (!match) return null;
+  const startYear = match[1];
+  const endPart = match[2];
+  const endSuffix = endPart.length === 4 ? endPart.slice(-2) : endPart;
+  return `${startYear}/${endSuffix}`;
 }
 
 function getSortedSquadStatsSeasons(dataBySeason) {
-    const seasons = Object.keys(dataBySeason || {});
-    if (seasons.length === 0) return [];
-    return seasons.sort((a, b) => {
-        const startA = parseInt(String(a).split('/')[0], 10);
-        const startB = parseInt(String(b).split('/')[0], 10);
-        if (!Number.isFinite(startA) || !Number.isFinite(startB)) return String(b).localeCompare(String(a));
-        return startB - startA;
-    });
+  const seasons = Object.keys(dataBySeason || {});
+  if (seasons.length === 0) return [];
+  return seasons.sort((a, b) => {
+    const startA = parseInt(String(a).split("/")[0], 10);
+    const startB = parseInt(String(b).split("/")[0], 10);
+    if (!Number.isFinite(startA) || !Number.isFinite(startB))
+      return String(b).localeCompare(String(a));
+    return startB - startA;
+  });
 }
 
 function getAllowedGameTypes(mode) {
-    if (mode === 'League + Cup') return new Set(['League', 'Cup']);
-    if (mode === 'League only') return new Set(['League']);
-    return null;
+  if (mode === "League + Cup") return new Set(["League", "Cup"]);
+  if (mode === "League only") return new Set(["League"]);
+  return null;
 }
 
 function createGameLink(gameId) {
-    if (!gameId) return null;
-    return `match-info.html?game=${encodeURIComponent(String(gameId || '').trim())}`;
+  if (!gameId) return null;
+  return `match-info.html?game=${encodeURIComponent(String(gameId || "").trim())}`;
 }
 
 function createPlayerLink(playerName) {
-    if (!playerName) return null;
-    return `player-profile.html?player=${encodeURIComponent(String(playerName || '').trim())}`;
+  if (!playerName) return null;
+  return `player-profile.html?player=${encodeURIComponent(String(playerName || "").trim())}`;
 }
 
 function pinVegaActionsInElement(rootElement) {
-    if (!rootElement) return;
-    bindResponsiveChartResizeHandler();
-    const run = () => {
-        rootElement.querySelectorAll('.vega-embed').forEach(embed => {
-            embed.style.display = 'block';
-            embed.style.position = 'relative';
-            const details = embed.querySelector('details[title="Click to view actions"], details');
-            if (!details) return;
-            details.style.position = 'absolute';
-            details.style.top = '8px';
-            details.style.right = '8px';
-            details.style.left = 'auto';
-            details.style.margin = '0';
-            details.style.float = 'none';
-            details.style.zIndex = '10';
-            const actions = details.querySelector('.vega-actions');
-            if (actions) {
-                actions.style.position = 'absolute';
-                actions.style.top = '100%';
-                actions.style.right = '0';
-                actions.style.left = 'auto';
-                actions.style.zIndex = '11';
-            }
-        });
+  if (!rootElement) return;
+  bindResponsiveChartResizeHandler();
+  const run = () => {
+    rootElement.querySelectorAll(".vega-embed").forEach((embed) => {
+      embed.style.display = "block";
+      embed.style.position = "relative";
+      const details = embed.querySelector(
+        'details[title="Click to view actions"], details',
+      );
+      if (!details) return;
+      details.style.position = "absolute";
+      details.style.top = "8px";
+      details.style.right = "8px";
+      details.style.left = "auto";
+      details.style.margin = "0";
+      details.style.float = "none";
+      details.style.zIndex = "10";
+      const actions = details.querySelector(".vega-actions");
+      if (actions) {
+        actions.style.position = "absolute";
+        actions.style.top = "100%";
+        actions.style.right = "0";
+        actions.style.left = "auto";
+        actions.style.zIndex = "11";
+      }
+    });
 
-        applyResponsiveChartScale(rootElement);
-    };
-    run();
-    [50, 150, 400, 900].forEach(delay => window.setTimeout(run, delay));
+    applyResponsiveChartScale(rootElement);
+  };
+  run();
+  [50, 150, 400, 900].forEach((delay) => window.setTimeout(run, delay));
 }
 
 async function loadChartSpec(path) {
-    if (chartSpecCache.has(path)) return chartSpecCache.get(path);
-    const separator = path.includes('?') ? '&' : '?';
-    const requestPath = `${path}${separator}v=${encodeURIComponent(chartSpecRequestVersion)}`;
-    const response = await fetch(requestPath, { cache: 'no-store' });
-    if (!response.ok) throw new Error(`Failed to fetch ${path} (${response.status})`);
-    const spec = attachChartSpecMetadata(await response.json(), { sourcePath: path });
-    chartSpecCache.set(path, spec);
-    return spec;
+  if (chartSpecCache.has(path)) return chartSpecCache.get(path);
+  const separator = path.includes("?") ? "&" : "?";
+  const requestPath = `${path}${separator}v=${encodeURIComponent(chartSpecRequestVersion)}`;
+  const response = await fetch(requestPath, { cache: "no-store" });
+  if (!response.ok)
+    throw new Error(`Failed to fetch ${path} (${response.status})`);
+  const spec = attachChartSpecMetadata(await response.json(), {
+    sourcePath: path,
+  });
+  chartSpecCache.set(path, spec);
+  return spec;
 }
 
 function filterChartSpecDataset(spec, predicate) {
-    const clonedSpec = cloneChartSpec(spec);
-    const filteredRows = [];
-    
-    if (clonedSpec.datasets) {
-        Object.keys(clonedSpec.datasets).forEach(key => {
-            const rows = clonedSpec.datasets[key];
-            if (Array.isArray(rows)) {
-                const filtered = rows.filter(predicate);
-                clonedSpec.datasets[key] = filtered;
-                filteredRows.push(...filtered);
-            }
-        });
-    }
-    if (clonedSpec.data && Array.isArray(clonedSpec.data.values)) {
-        const filtered = clonedSpec.data.values.filter(predicate);
-        clonedSpec.data.values = filtered;
+  const clonedSpec = cloneChartSpec(spec);
+  const filteredRows = [];
+
+  if (clonedSpec.datasets) {
+    Object.keys(clonedSpec.datasets).forEach((key) => {
+      const rows = clonedSpec.datasets[key];
+      if (Array.isArray(rows)) {
+        const filtered = rows.filter(predicate);
+        clonedSpec.datasets[key] = filtered;
         filteredRows.push(...filtered);
-    }
-    
-    // Filter color scale to only include values present in filtered data
-    if (filteredRows.length > 0 && clonedSpec.encoding && clonedSpec.encoding.color && clonedSpec.encoding.color.scale) {
-        const colorScale = clonedSpec.encoding.color.scale;
-        if (colorScale.domain && colorScale.range && colorScale.domain.length === colorScale.range.length) {
-            const colorField = clonedSpec.encoding.color.field ? clonedSpec.encoding.color.field.split(':')[0] : null;
-            if (colorField) {
-                const uniqueColorValues = new Set();
-                filteredRows.forEach(row => {
-                    const value = row[colorField];
-                    if (value !== undefined && value !== null) {
-                        uniqueColorValues.add(String(value));
-                    }
-                });
-                
-                if (uniqueColorValues.size > 0 && uniqueColorValues.size < colorScale.domain.length) {
-                    const valuesToIndices = new Map();
-                    colorScale.domain.forEach((val, idx) => {
-                        valuesToIndices.set(String(val), idx);
-                    });
-                    
-                    const filteredDomain = [];
-                    const filteredRange = [];
-                    colorScale.domain.forEach((val, idx) => {
-                        if (uniqueColorValues.has(String(val))) {
-                            filteredDomain.push(val);
-                            filteredRange.push(colorScale.range[idx]);
-                        }
-                    });
-                    
-                    colorScale.domain = filteredDomain;
-                    colorScale.range = filteredRange;
-                }
+      }
+    });
+  }
+  if (clonedSpec.data && Array.isArray(clonedSpec.data.values)) {
+    const filtered = clonedSpec.data.values.filter(predicate);
+    clonedSpec.data.values = filtered;
+    filteredRows.push(...filtered);
+  }
+
+  // Filter color scale to only include values present in filtered data
+  if (
+    filteredRows.length > 0 &&
+    clonedSpec.encoding &&
+    clonedSpec.encoding.color &&
+    clonedSpec.encoding.color.scale
+  ) {
+    const colorScale = clonedSpec.encoding.color.scale;
+    if (
+      colorScale.domain &&
+      colorScale.range &&
+      colorScale.domain.length === colorScale.range.length
+    ) {
+      const colorField = clonedSpec.encoding.color.field
+        ? clonedSpec.encoding.color.field.split(":")[0]
+        : null;
+      if (colorField) {
+        const uniqueColorValues = new Set();
+        filteredRows.forEach((row) => {
+          const value = row[colorField];
+          if (value !== undefined && value !== null) {
+            uniqueColorValues.add(String(value));
+          }
+        });
+
+        if (
+          uniqueColorValues.size > 0 &&
+          uniqueColorValues.size < colorScale.domain.length
+        ) {
+          const valuesToIndices = new Map();
+          colorScale.domain.forEach((val, idx) => {
+            valuesToIndices.set(String(val), idx);
+          });
+
+          const filteredDomain = [];
+          const filteredRange = [];
+          colorScale.domain.forEach((val, idx) => {
+            if (uniqueColorValues.has(String(val))) {
+              filteredDomain.push(val);
+              filteredRange.push(colorScale.range[idx]);
             }
+          });
+
+          colorScale.domain = filteredDomain;
+          colorScale.range = filteredRange;
         }
+      }
     }
-    
-    return clonedSpec;
+  }
+
+  return clonedSpec;
 }
 
 function collectChartDatasetNames(spec, datasetNames = new Set()) {
-    if (!spec || typeof spec !== 'object') return datasetNames;
-    if (spec.data && typeof spec.data.name === 'string') datasetNames.add(spec.data.name);
-    ['layer', 'hconcat', 'vconcat', 'concat'].forEach(key => {
-        const childSpecs = spec[key];
-        if (Array.isArray(childSpecs)) childSpecs.forEach(child => collectChartDatasetNames(child, datasetNames));
-    });
-    if (spec.spec) collectChartDatasetNames(spec.spec, datasetNames);
-    return datasetNames;
+  if (!spec || typeof spec !== "object") return datasetNames;
+  if (spec.data && typeof spec.data.name === "string")
+    datasetNames.add(spec.data.name);
+  ["layer", "hconcat", "vconcat", "concat"].forEach((key) => {
+    const childSpecs = spec[key];
+    if (Array.isArray(childSpecs))
+      childSpecs.forEach((child) =>
+        collectChartDatasetNames(child, datasetNames),
+      );
+  });
+  if (spec.spec) collectChartDatasetNames(spec.spec, datasetNames);
+  return datasetNames;
 }
 
 function filterNamedDatasetsInSpec(spec, datasetNames, predicate) {
-    if (!spec || typeof spec !== 'object') return spec;
-    if (spec.datasets) {
-        datasetNames.forEach(name => {
-            const rows = spec.datasets[name];
-            if (Array.isArray(rows)) spec.datasets[name] = rows.filter(predicate);
-        });
-    }
-    return spec;
+  if (!spec || typeof spec !== "object") return spec;
+  if (spec.datasets) {
+    datasetNames.forEach((name) => {
+      const rows = spec.datasets[name];
+      if (Array.isArray(rows)) spec.datasets[name] = rows.filter(predicate);
+    });
+  }
+  return spec;
 }
 
-function filterLeagueContextCombinedSpec(spec, comparisonPredicate, trendPredicate) {
-    const clonedSpec = cloneChartSpec(spec);
-    const combinedCharts = Array.isArray(clonedSpec.hconcat) ? clonedSpec.hconcat : null;
-    if (!combinedCharts || combinedCharts.length < 2) {
-        return filterChartSpecDataset(clonedSpec, comparisonPredicate);
-    }
-    const comparisonDatasetNames = collectChartDatasetNames(combinedCharts[0]);
-    const trendDatasetNames = collectChartDatasetNames(combinedCharts[1]);
-    filterNamedDatasetsInSpec(clonedSpec, comparisonDatasetNames, comparisonPredicate);
-    filterNamedDatasetsInSpec(clonedSpec, trendDatasetNames, trendPredicate);
-    return clonedSpec;
+function filterLeagueContextCombinedSpec(
+  spec,
+  comparisonPredicate,
+  trendPredicate,
+) {
+  const clonedSpec = cloneChartSpec(spec);
+  const combinedCharts = Array.isArray(clonedSpec.hconcat)
+    ? clonedSpec.hconcat
+    : null;
+  if (!combinedCharts || combinedCharts.length < 2) {
+    return filterChartSpecDataset(clonedSpec, comparisonPredicate);
+  }
+  const comparisonDatasetNames = collectChartDatasetNames(combinedCharts[0]);
+  const trendDatasetNames = collectChartDatasetNames(combinedCharts[1]);
+  filterNamedDatasetsInSpec(
+    clonedSpec,
+    comparisonDatasetNames,
+    comparisonPredicate,
+  );
+  filterNamedDatasetsInSpec(clonedSpec, trendDatasetNames, trendPredicate);
+  return clonedSpec;
 }
 
 function chartSpecHasRows(spec) {
-    if (!spec) return false;
-    if (spec.datasets) return Object.values(spec.datasets).some(rows => Array.isArray(rows) && rows.length > 0);
-    if (spec.data && Array.isArray(spec.data.values)) return spec.data.values.length > 0;
-    return true;
+  if (!spec) return false;
+  if (spec.datasets)
+    return Object.values(spec.datasets).some(
+      (rows) => Array.isArray(rows) && rows.length > 0,
+    );
+  if (spec.data && Array.isArray(spec.data.values))
+    return spec.data.values.length > 0;
+  return true;
 }
 
 function stripTitlesDeep(spec) {
-    if (!spec || typeof spec !== 'object') return;
-    delete spec.title;
-    ['layer', 'hconcat', 'vconcat', 'concat'].forEach(key => {
-        const childSpecs = spec[key];
-        if (Array.isArray(childSpecs)) childSpecs.forEach(child => stripTitlesDeep(child));
-    });
-    if (spec.spec) stripTitlesDeep(spec.spec);
+  if (!spec || typeof spec !== "object") return;
+  delete spec.title;
+  ["layer", "hconcat", "vconcat", "concat"].forEach((key) => {
+    const childSpecs = spec[key];
+    if (Array.isArray(childSpecs))
+      childSpecs.forEach((child) => stripTitlesDeep(child));
+  });
+  if (spec.spec) stripTitlesDeep(spec.spec);
 }
 
 function prepareChartSpecForEmbed(spec, options = {}) {
-    const processedSpec = cloneChartSpec(spec);
-    if (options.hideTitle !== false) {
-        stripTitlesDeep(processedSpec);
-        if (options.containerId === 'leagueSquadSizeContextChart' || options.containerId === 'leagueContinuityContextChart') {
-            processedSpec.padding = { top: 0, right: 8, bottom: 0, left: 8 };
-        }
+  const processedSpec = cloneChartSpec(spec);
+  if (options.hideTitle !== false) {
+    stripTitlesDeep(processedSpec);
+    if (
+      options.containerId === "leagueSquadSizeContextChart" ||
+      options.containerId === "leagueContinuityContextChart"
+    ) {
+      processedSpec.padding = { top: 0, right: 8, bottom: 0, left: 8 };
     }
-    const profile = resolveChartLayoutProfile(options.containerId, Number(options.containerWidth || 0));
-    if (profile) applyChartLayoutProfile(processedSpec, profile, Number(options.containerWidth || 0));
-    return processedSpec;
+  }
+  const profile = resolveChartLayoutProfile(
+    options.containerId,
+    Number(options.containerWidth || 0),
+  );
+  if (profile)
+    applyChartLayoutProfile(
+      processedSpec,
+      profile,
+      Number(options.containerWidth || 0),
+    );
+  return processedSpec;
 }
 
-function resolveChartVariantPath(containerId, containerWidth, fallbackSourcePath = null) {
-    const { entry, mode, profile } = resolveChartLayoutState(containerId, containerWidth);
-    if (!entry) return null;
-    if (profile?.specPath) return profile.specPath;
-    if (entry.specPaths && typeof entry.specPaths === 'object') {
-        return entry.specPaths[mode] || entry.specPaths.default || fallbackSourcePath || null;
-    }
-    return fallbackSourcePath || null;
+function resolveChartVariantPath(
+  containerId,
+  containerWidth,
+  fallbackSourcePath = null,
+) {
+  const { entry, mode, profile } = resolveChartLayoutState(
+    containerId,
+    containerWidth,
+  );
+  if (!entry) return null;
+  if (profile?.specPath) return profile.specPath;
+  if (entry.specPaths && typeof entry.specPaths === "object") {
+    return (
+      entry.specPaths[mode] ||
+      entry.specPaths.default ||
+      fallbackSourcePath ||
+      null
+    );
+  }
+  return fallbackSourcePath || null;
 }
 
 function shouldDisableVegaTooltips() {
-    if (typeof window === 'undefined') return false;
-    const coarsePointer = typeof window.matchMedia === 'function'
-        && window.matchMedia('(hover: none), (pointer: coarse)').matches;
-    const narrowViewport = Number(window.innerWidth || 0) <= 900;
-    return coarsePointer || narrowViewport;
+  if (typeof window === "undefined") return false;
+  const coarsePointer =
+    typeof window.matchMedia === "function" &&
+    window.matchMedia("(hover: none), (pointer: coarse)").matches;
+  const narrowViewport = Number(window.innerWidth || 0) <= 900;
+  return coarsePointer || narrowViewport;
 }
 
 async function embedChartSpec(containerOrId, spec, options = {}) {
-    const container = typeof containerOrId === 'string'
-        ? document.getElementById(containerOrId)
-        : containerOrId;
-    if (!container) return null;
+  const container =
+    typeof containerOrId === "string"
+      ? document.getElementById(containerOrId)
+      : containerOrId;
+  if (!container) return null;
 
-    const containerId = options.containerId || container.id || null;
-    const emptyMessage = options.emptyMessage || 'No chart data available.';
+  const containerId = options.containerId || container.id || null;
+  const layoutContainerId = options.layoutContainerId || containerId;
+  const emptyMessage = options.emptyMessage || "No chart data available.";
 
-    if (!spec || !chartSpecHasRows(spec)) {
-        container.innerHTML = `<div class="text-center text-muted py-4">${emptyMessage}</div>`;
-        return null;
-    }
+  if (!spec || !chartSpecHasRows(spec)) {
+    container.innerHTML = `<div class="text-center text-muted py-4">${emptyMessage}</div>`;
+    return null;
+  }
 
-    container.innerHTML = '';
-    const embedHost = document.createElement('div');
-    embedHost.className = 'chart-embed-host';
-    if (containerId === 'teamSheetsChart') embedHost.classList.add('chart-embed-host--team-sheets');
-    container.appendChild(embedHost);
+  container.innerHTML = "";
+  const embedHost = document.createElement("div");
+  embedHost.className = "chart-embed-host";
+  if (containerId === "teamSheetsChart")
+    embedHost.classList.add("chart-embed-host--team-sheets");
+  container.appendChild(embedHost);
 
-    const layoutWidth = getChartLayoutWidth(container);
-    const sourcePath = options.sourcePath || spec?.__sourcePath || null;
-    const variantPath = resolveChartVariantPath(containerId, layoutWidth, sourcePath);
-    const variantSpec = variantPath && variantPath !== sourcePath
-        ? await loadChartSpec(variantPath)
-        : spec;
-    const chartSpec = prepareChartSpecForEmbed(variantSpec, {
-        ...options,
-        containerId,
-        containerWidth: layoutWidth
-    });
+  const layoutWidth = getChartLayoutWidth(container);
+  const sourcePath = options.sourcePath || spec?.__sourcePath || null;
+  const variantPath = resolveChartVariantPath(
+    layoutContainerId,
+    layoutWidth,
+    sourcePath,
+  );
+  const variantSpec =
+    variantPath && variantPath !== sourcePath
+      ? await loadChartSpec(variantPath)
+      : spec;
+  const chartSpec = prepareChartSpecForEmbed(variantSpec, {
+    ...options,
+    containerId: layoutContainerId,
+    containerWidth: layoutWidth,
+  });
 
-    const embedOptions = {
-        actions: VEGA_EMBED_ACTIONS,
-        renderer: 'svg',
-        tooltip: shouldDisableVegaTooltips() ? false : true,
-    };
+  const embedOptions = {
+    actions: VEGA_EMBED_ACTIONS,
+    renderer: "svg",
+    tooltip: shouldDisableVegaTooltips() ? false : true,
+  };
 
-    const result = await vegaEmbed(embedHost, chartSpec, embedOptions);
+  const result = await vegaEmbed(embedHost, chartSpec, embedOptions);
 
-    pinVegaActionsInElement(container);
-    return result?.view || null;
+  pinVegaActionsInElement(container);
+  return result?.view || null;
 }
 
 function renderStaticSpecChart(containerId, spec, emptyMessage, options = {}) {
-    const container = document.getElementById(containerId);
-    if (!container) return;
-    embedChartSpec(container, spec, {
-        ...options,
-        containerId,
-        emptyMessage
-    })
-        .catch(error => {
-            console.error(`Error rendering ${containerId}:`, error);
-            container.innerHTML = '<div class="text-center text-danger py-4">Unable to render chart.</div>';
-        });
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  embedChartSpec(container, spec, {
+    ...options,
+    containerId,
+    emptyMessage,
+  }).catch((error) => {
+    console.error(`Error rendering ${containerId}:`, error);
+    container.innerHTML =
+      '<div class="text-center text-danger py-4">Unable to render chart.</div>';
+  });
 }
 
 function rebuildBootstrapSelect(select, options = {}) {
-    if (!select || !window.jQuery || !window.jQuery.fn || !window.jQuery.fn.selectpicker) {
-        return false;
-    }
+  if (
+    !select ||
+    !window.jQuery ||
+    !window.jQuery.fn ||
+    !window.jQuery.fn.selectpicker
+  ) {
+    return false;
+  }
 
-    const $select = window.jQuery(select);
-    const currentValue = select.multiple
-        ? Array.from(select.selectedOptions || []).map(option => option.value)
-        : select.value;
+  const $select = window.jQuery(select);
+  const currentValue = select.multiple
+    ? Array.from(select.selectedOptions || []).map((option) => option.value)
+    : select.value;
 
-    if ($select.data('selectpicker')) {
-        $select.selectpicker('destroy');
-    }
+  if ($select.data("selectpicker")) {
+    $select.selectpicker("destroy");
+  }
 
-    $select.selectpicker(options);
+  $select.selectpicker(options);
 
-    if (select.multiple) {
-        $select.selectpicker('val', Array.isArray(currentValue) ? currentValue : []);
-    } else if (currentValue !== undefined && currentValue !== null && currentValue !== '') {
-        $select.selectpicker('val', currentValue);
-    }
+  if (select.multiple) {
+    $select.selectpicker(
+      "val",
+      Array.isArray(currentValue) ? currentValue : [],
+    );
+  } else if (
+    currentValue !== undefined &&
+    currentValue !== null &&
+    currentValue !== ""
+  ) {
+    $select.selectpicker("val", currentValue);
+  }
 
-    return true;
+  return true;
 }
 
 function toLeagueSeasonFormat(season) {
-    if (!season || !season.includes('/')) return season;
-    const [startYear, endShort] = String(season).split('/');
-    return `${startYear}-20${endShort}`;
+  if (!season || !season.includes("/")) return season;
+  const [startYear, endShort] = String(season).split("/");
+  return `${startYear}-20${endShort}`;
 }
 
 function updateLeagueResultsIframeHeight(iframe) {
-    if (!iframe) return;
-    try {
-        const doc = iframe.contentDocument || iframe.contentWindow?.document;
-        if (!doc) return;
-        const primaryContent =
-            doc.querySelector('#vis') ||
-            doc.querySelector('.vega-embed') ||
-            doc.querySelector('main') ||
-            doc.body;
-        const svg = doc.querySelector('#vis svg, .vega-embed svg, svg');
-        if (doc.body) { doc.body.style.overflowX = 'hidden'; doc.body.style.margin = '0'; doc.body.style.padding = '0'; }
-        if (doc.documentElement) { doc.documentElement.style.overflowX = 'hidden'; doc.documentElement.style.margin = '0'; doc.documentElement.style.padding = '0'; }
-        if (primaryContent) { primaryContent.style.transformOrigin = 'top left'; primaryContent.style.transform = 'none'; primaryContent.style.width = 'auto'; }
-        if (svg) { svg.style.display = 'block'; svg.style.width = '100%'; svg.style.height = 'auto'; svg.style.maxWidth = '100%'; svg.style.margin = '0'; }
-        const contentWidth = Math.max(
-            svg?.getBoundingClientRect ? svg.getBoundingClientRect().width : 0,
-            primaryContent?.scrollWidth || 0, primaryContent?.offsetWidth || 0,
-            primaryContent?.getBoundingClientRect ? primaryContent.getBoundingClientRect().width : 0
-        );
-        const availableWidth = Math.max(
-            iframe.clientWidth || 0,
-            iframe.getBoundingClientRect ? iframe.getBoundingClientRect().width : 0
-        );
-        const scale = contentWidth > 0 && availableWidth > 0 ? Math.min(1, availableWidth / contentWidth) : 1;
-        let svgDrawHeight = 0;
-        if (svg?.getBoundingClientRect) svgDrawHeight = Math.ceil(svg.getBoundingClientRect().height || 0);
-        if (svg && typeof svg.getBBox === 'function') {
-            try {
-                const bbox = svg.getBBox();
-                if (bbox && bbox.height > 0) svgDrawHeight = Math.max(svgDrawHeight, Math.ceil((bbox.y || 0) + bbox.height));
-            } catch (e) {}
-        }
-        const intrinsicContentHeight = Math.max(
+  if (!iframe) return;
+  try {
+    const doc = iframe.contentDocument || iframe.contentWindow?.document;
+    if (!doc) return;
+    const primaryContent =
+      doc.querySelector("#vis") ||
+      doc.querySelector(".vega-embed") ||
+      doc.querySelector("main") ||
+      doc.body;
+    const svg = doc.querySelector("#vis svg, .vega-embed svg, svg");
+    if (doc.body) {
+      doc.body.style.overflowX = "hidden";
+      doc.body.style.margin = "0";
+      doc.body.style.padding = "0";
+    }
+    if (doc.documentElement) {
+      doc.documentElement.style.overflowX = "hidden";
+      doc.documentElement.style.margin = "0";
+      doc.documentElement.style.padding = "0";
+    }
+    if (primaryContent) {
+      primaryContent.style.transformOrigin = "top left";
+      primaryContent.style.transform = "none";
+      primaryContent.style.width = "auto";
+    }
+    if (svg) {
+      svg.style.display = "block";
+      svg.style.width = "100%";
+      svg.style.height = "auto";
+      svg.style.maxWidth = "100%";
+      svg.style.margin = "0";
+    }
+    const contentWidth = Math.max(
+      svg?.getBoundingClientRect ? svg.getBoundingClientRect().width : 0,
+      primaryContent?.scrollWidth || 0,
+      primaryContent?.offsetWidth || 0,
+      primaryContent?.getBoundingClientRect
+        ? primaryContent.getBoundingClientRect().width
+        : 0,
+    );
+    const availableWidth = Math.max(
+      iframe.clientWidth || 0,
+      iframe.getBoundingClientRect ? iframe.getBoundingClientRect().width : 0,
+    );
+    const scale =
+      contentWidth > 0 && availableWidth > 0
+        ? Math.min(1, availableWidth / contentWidth)
+        : 1;
+    let svgDrawHeight = 0;
+    if (svg?.getBoundingClientRect)
+      svgDrawHeight = Math.ceil(svg.getBoundingClientRect().height || 0);
+    if (svg && typeof svg.getBBox === "function") {
+      try {
+        const bbox = svg.getBBox();
+        if (bbox && bbox.height > 0)
+          svgDrawHeight = Math.max(
             svgDrawHeight,
-            primaryContent?.getBoundingClientRect ? Math.ceil(primaryContent.getBoundingClientRect().height || 0) : 0,
-            primaryContent?.scrollHeight || 0, primaryContent?.offsetHeight || 0
-        );
-        const fallbackDocumentHeight = Math.max(doc.body?.scrollHeight || 0, doc.documentElement?.scrollHeight || 0);
-        const bindings = doc.querySelector('.vega-bindings');
-        const svgRect = svg?.getBoundingClientRect ? svg.getBoundingClientRect() : null;
-        const bindingsRect = bindings?.getBoundingClientRect ? bindings.getBoundingClientRect() : null;
-        const visualTop = Math.min(
-            Number.isFinite(svgRect?.top) ? svgRect.top : Number.POSITIVE_INFINITY,
-            Number.isFinite(bindingsRect?.top) ? bindingsRect.top : Number.POSITIVE_INFINITY
-        );
-        const visualBottom = Math.max(
-            Number.isFinite(svgRect?.bottom) ? svgRect.bottom : 0,
-            Number.isFinite(bindingsRect?.bottom) ? bindingsRect.bottom : 0
-        );
-        const visualContentHeight = Number.isFinite(visualTop) && visualBottom > visualTop ? Math.ceil(visualBottom - visualTop) : 0;
-        let contentHeight = 0;
-        if (visualContentHeight > 0) contentHeight = visualContentHeight;
-        else if (svgDrawHeight > 0) contentHeight = svgDrawHeight;
-        else if (intrinsicContentHeight > 0) contentHeight = intrinsicContentHeight;
-        else contentHeight = fallbackDocumentHeight;
-        const visibleHeight = contentHeight * scale;
-        const nextHeight = Math.ceil(visibleHeight + 2);
-        if (nextHeight > 0) { iframe.style.height = `${nextHeight}px`; iframe.style.minHeight = '0'; }
-        const wrapper = iframe.closest('.chart-panel-card');
-        if (wrapper) wrapper.style.minHeight = '0';
-    } catch (e) {}
+            Math.ceil((bbox.y || 0) + bbox.height),
+          );
+      } catch (e) {}
+    }
+    const intrinsicContentHeight = Math.max(
+      svgDrawHeight,
+      primaryContent?.getBoundingClientRect
+        ? Math.ceil(primaryContent.getBoundingClientRect().height || 0)
+        : 0,
+      primaryContent?.scrollHeight || 0,
+      primaryContent?.offsetHeight || 0,
+    );
+    const fallbackDocumentHeight = Math.max(
+      doc.body?.scrollHeight || 0,
+      doc.documentElement?.scrollHeight || 0,
+    );
+    const bindings = doc.querySelector(".vega-bindings");
+    const svgRect = svg?.getBoundingClientRect
+      ? svg.getBoundingClientRect()
+      : null;
+    const bindingsRect = bindings?.getBoundingClientRect
+      ? bindings.getBoundingClientRect()
+      : null;
+    const visualTop = Math.min(
+      Number.isFinite(svgRect?.top) ? svgRect.top : Number.POSITIVE_INFINITY,
+      Number.isFinite(bindingsRect?.top)
+        ? bindingsRect.top
+        : Number.POSITIVE_INFINITY,
+    );
+    const visualBottom = Math.max(
+      Number.isFinite(svgRect?.bottom) ? svgRect.bottom : 0,
+      Number.isFinite(bindingsRect?.bottom) ? bindingsRect.bottom : 0,
+    );
+    const visualContentHeight =
+      Number.isFinite(visualTop) && visualBottom > visualTop
+        ? Math.ceil(visualBottom - visualTop)
+        : 0;
+    let contentHeight = 0;
+    if (visualContentHeight > 0) contentHeight = visualContentHeight;
+    else if (svgDrawHeight > 0) contentHeight = svgDrawHeight;
+    else if (intrinsicContentHeight > 0) contentHeight = intrinsicContentHeight;
+    else contentHeight = fallbackDocumentHeight;
+    const visibleHeight = contentHeight * scale;
+    const nextHeight = Math.ceil(visibleHeight + 2);
+    if (nextHeight > 0) {
+      iframe.style.height = `${nextHeight}px`;
+      iframe.style.minHeight = "0";
+    }
+    const wrapper = iframe.closest(".chart-panel-card");
+    if (wrapper) wrapper.style.minHeight = "0";
+  } catch (e) {}
 }
 
 function createLeagueResultsPanel(panelId, src, title, colorModifier) {
-    return `
+  return `
         <div class="chart-panel">
             <button type="button" class="chart-panel-toggle ${colorModifier}"
                 data-target="${panelId}" aria-expanded="false" aria-controls="${panelId}">
@@ -931,44 +1233,55 @@ function createLeagueResultsPanel(panelId, src, title, colorModifier) {
 }
 
 function initialiseChartPanelToggles() {
-    document.querySelectorAll('.chart-panel-toggle').forEach(toggle => {
-        if (toggle.__chartPanelInitialised) return;
-        toggle.__chartPanelInitialised = true;
-        toggle.addEventListener('click', function () {
-            const targetId = this.getAttribute('data-target');
-            const panel = targetId ? document.getElementById(targetId) : null;
-            if (!panel) return;
-            const accordionGroup = this.getAttribute('data-accordion-group');
-            const isExpanded = this.getAttribute('aria-expanded') !== 'false';
-            this.setAttribute('aria-expanded', String(!isExpanded));
-            panel.hidden = isExpanded;
-            if (accordionGroup && isExpanded === false) {
-                document.querySelectorAll(`.chart-panel-toggle[data-accordion-group="${accordionGroup}"]`).forEach(otherToggle => {
-                    if (otherToggle === this) return;
-                    const otherTargetId = otherToggle.getAttribute('data-target');
-                    const otherPanel = otherTargetId ? document.getElementById(otherTargetId) : null;
-                    otherToggle.setAttribute('aria-expanded', 'false');
-                    if (otherPanel) otherPanel.hidden = true;
-                });
-            }
-            if (!isExpanded) {
-                const iframe = panel.querySelector('.league-results-frame');
-                if (iframe) window.setTimeout(() => updateLeagueResultsIframeHeight(iframe), 50);
-            }
-        });
+  document.querySelectorAll(".chart-panel-toggle").forEach((toggle) => {
+    if (toggle.__chartPanelInitialised) return;
+    toggle.__chartPanelInitialised = true;
+    toggle.addEventListener("click", function () {
+      const targetId = this.getAttribute("data-target");
+      const panel = targetId ? document.getElementById(targetId) : null;
+      if (!panel) return;
+      const accordionGroup = this.getAttribute("data-accordion-group");
+      const isExpanded = this.getAttribute("aria-expanded") !== "false";
+      this.setAttribute("aria-expanded", String(!isExpanded));
+      panel.hidden = isExpanded;
+      if (accordionGroup && isExpanded === false) {
+        document
+          .querySelectorAll(
+            `.chart-panel-toggle[data-accordion-group="${accordionGroup}"]`,
+          )
+          .forEach((otherToggle) => {
+            if (otherToggle === this) return;
+            const otherTargetId = otherToggle.getAttribute("data-target");
+            const otherPanel = otherTargetId
+              ? document.getElementById(otherTargetId)
+              : null;
+            otherToggle.setAttribute("aria-expanded", "false");
+            if (otherPanel) otherPanel.hidden = true;
+          });
+      }
+      if (!isExpanded) {
+        const iframe = panel.querySelector(".league-results-frame");
+        if (iframe)
+          window.setTimeout(() => updateLeagueResultsIframeHeight(iframe), 50);
+      }
     });
+  });
 
-    document.querySelectorAll('.league-results-frame').forEach(iframe => {
-        iframe.addEventListener('load', () => {
-            updateLeagueResultsIframeHeight(iframe);
-            [150, 500, 1000, 1800].forEach(delay => window.setTimeout(() => updateLeagueResultsIframeHeight(iframe), delay));
-        });
+  document.querySelectorAll(".league-results-frame").forEach((iframe) => {
+    iframe.addEventListener("load", () => {
+      updateLeagueResultsIframeHeight(iframe);
+      [150, 500, 1000, 1800].forEach((delay) =>
+        window.setTimeout(() => updateLeagueResultsIframeHeight(iframe), delay),
+      );
     });
+  });
 
-    if (!window.__chartPanelResizeBound) {
-        window.addEventListener('resize', () => {
-            document.querySelectorAll('.league-results-frame').forEach(iframe => updateLeagueResultsIframeHeight(iframe));
-        });
-        window.__chartPanelResizeBound = true;
-    }
+  if (!window.__chartPanelResizeBound) {
+    window.addEventListener("resize", () => {
+      document
+        .querySelectorAll(".league-results-frame")
+        .forEach((iframe) => updateLeagueResultsIframeHeight(iframe));
+    });
+    window.__chartPanelResizeBound = true;
+  }
 }

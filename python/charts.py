@@ -16,6 +16,20 @@ from python.chart_helpers import hack_params_css, alt_theme, get_embed_options
 
 pitchero_caveat = f"Using Pitchero data from 2017 to 2019/20. Manually updated records from 2021 onwards"
 
+
+def _text_color_for_bg(hex_color: str) -> str:
+    """Return '#111111' or '#ffffff' based on WCAG relative luminance of the background colour."""
+    h = hex_color.lstrip('#')
+    if len(h) == 3:
+        h = ''.join(c * 2 for c in h)
+    r, g, b = (int(h[i:i+2], 16) / 255.0 for i in (0, 2, 4))
+
+    def _linearize(c: float) -> float:
+        return c / 12.92 if c <= 0.04045 else ((c + 0.055) / 1.055) ** 2.4
+
+    lum = 0.2126 * _linearize(r) + 0.7152 * _linearize(g) + 0.0722 * _linearize(b)
+    return '#111111' if lum > 0.179 else '#ffffff'
+
 alt.themes.register("my_custom_theme", alt_theme)
 alt.themes.enable("my_custom_theme")
 
@@ -344,7 +358,7 @@ def points_scorers_chart(db, output_file='data/charts/point_scorers.json'):
     return chart
 
 def captains_chart(db, output_file='data/charts/player_stats_captains.json'):
-    """Captains and vice-captains, faceted by squad. Captain=full opacity, VC=reduced opacity."""
+    """Captains and vice-captains in a single chart. Captain=full opacity, VC=reduced opacity."""
 
     df = db.con.execute(
         """
@@ -381,18 +395,26 @@ def captains_chart(db, output_file='data/charts/player_stats_captains.json'):
         """
     ).df()
 
-    role_order = {'Captain': 1, 'Vice Captain': 2}
-    df['stack_order'] = df['role'].map(role_order).fillna(99)
+    stack_order_map = {
+        ('1st', 'Captain'): 1,
+        ('1st', 'Vice Captain'): 2,
+        ('2nd', 'Captain'): 3,
+        ('2nd', 'Vice Captain'): 4,
+    }
+    df['stack_order'] = df.apply(
+        lambda row: stack_order_map.get((row.get('squad'), row.get('role')), 99),
+        axis=1
+    )
 
     color_enc = alt.Color(
         'squad:N',
         sort=['1st', '2nd'],
         scale=alt.Scale(domain=['1st', '2nd'], range=['#202946', '#7d96e8']),
-        legend=None
+        legend=alt.Legend(title="Squad", orient="right", labelExpr="datum.value + ' XV'")
     )
     y_enc = alt.Y(
         'player:N',
-        sort=alt.SortField(field='player_total', order='descending'),
+        sort=alt.EncodingSortField(field='player_total', op='max', order='descending'),
         title=None,
     )
     tooltip = [
@@ -409,17 +431,9 @@ def captains_chart(db, output_file='data/charts/player_stats_captains.json'):
             player_total='max(player_total)',
             groupby=['player', 'squad', 'role', 'stack_order']
         )
-        .transform_window(
-            x2='sum(games_agg)',
-            groupby=['player', 'squad'],
-            sort=[alt.SortField(field='stack_order', order='ascending')],
-            frame=[None, 0]
-        )
-        .transform_calculate(x0='datum.x2 - datum.games_agg')
         .mark_bar()
         .encode(
-            x=alt.X('x0:Q', axis=alt.Axis(title=None, orient='top')),
-            x2=alt.X2('x2:Q'),
+            x=alt.X('games_agg:Q', axis=alt.Axis(title="Appearances", orient='top'), stack='zero'),
             y=y_enc,
             color=color_enc,
             opacity=alt.Opacity(
@@ -433,38 +447,36 @@ def captains_chart(db, output_file='data/charts/player_stats_captains.json'):
         )
     )
 
-    totals = (
+    segment_labels = (
         alt.Chart(df)
         .transform_aggregate(
-            total_games='sum(games)',
+            games_agg='sum(games)',
             player_total='max(player_total)',
-            groupby=['player', 'squad']
+            groupby=['player', 'squad', 'role', 'stack_order']
         )
-        .mark_text(align='left', baseline='middle', dx=4, fontSize=11, color='black')
+        .transform_stack(
+            stack='games_agg',
+            groupby=['player'],
+            sort=[alt.SortField(field='stack_order', order='ascending')],
+            as_=['x0', 'x1']
+        )
+        .transform_calculate(
+            x_mid='(datum.x0 + datum.x1) / 2',
+            label_color="datum.squad === '1st' && datum.role === 'Captain' ? '#ffffff' : '#111111'"
+        )
+        .mark_text(align='center', baseline='middle', fontSize=11)
         .encode(
-            x=alt.X('total_games:Q', axis=alt.Axis(title=None, orient='top')),
-            y=alt.Y(
-                'player:N',
-                sort=alt.SortField(field='player_total', order='descending'),
-                title=None,
-            ),
-            text=alt.Text('total_games:Q', format='.0f')
+            x=alt.X('x_mid:Q'),
+            y=y_enc,
+            text=alt.Text('games_agg:Q', format='.0f'),
+            color=alt.Color('label_color:N', scale=None, legend=None)
         )
     )
 
     chart = (
-        alt.layer(bars, totals)
-        .transform_joinaggregate(player_total='sum(games)', groupby=['player', 'squad'])
+        alt.layer(bars, segment_labels)
+        .transform_joinaggregate(player_total='sum(games)', groupby=['player'])
         .properties(width=400, height=alt.Step(15))
-        .facet(
-            row=alt.Row(
-                'squad:N',
-                sort=['1st', '2nd'],
-                title=None,
-                header=alt.Header(title=None, labelFontSize=30, labelExpr="datum.value + ' XV'")
-            )
-        )
-        .resolve_scale(y='independent')
         .properties(
             title=alt.Title(
                 'Captains and Vice-Captains',
@@ -477,7 +489,7 @@ def captains_chart(db, output_file='data/charts/player_stats_captains.json'):
     return chart
 
 
-def player_stats_motm_chart(db, output_file='data/charts/player_stats_motm.json'):
+def player_stats_motm_chart(db, output_file='data/charts/player_stats_motm.json', units_output_file='data/charts/player_stats_motm_units.json'):
     """Man of the Match awards from the games.motm column.
 
     Supported filters in the generated Vega spec:
@@ -504,7 +516,8 @@ def player_stats_motm_chart(db, output_file='data/charts/player_stats_motm.json'
         df = pd.DataFrame(
             columns=[
                 'player', 'position', 'squad', 'season', 'game_type',
-                'motm_awards', 'unit', 'unit_sort', 'position_sort', 'position_opacity'
+                'motm_awards', 'unit', 'unit_sort', 'position_sort', 'position_opacity',
+                'label_color'
             ]
         )
     else:
@@ -560,17 +573,32 @@ def player_stats_motm_chart(db, output_file='data/charts/player_stats_motm.json'
             'Full Back': 0.52,
         }
 
+        segment_color_map = {
+            'Prop': '#202946',
+            'Hooker': '#2e4b8c',
+            'Second Row': '#4667b0',
+            'Flanker': '#6f8fda',
+            'Number 8': '#9eb6ee',
+            'Scrum Half': '#000000',
+            'Fly Half': '#1a1a1a',
+            'Centre': '#2a2a2a',
+            'Wing': '#3a3a3a',
+            'Full Back': '#4a4a4a',
+        }
+        label_color_map = {pos: _text_color_for_bg(color) for pos, color in segment_color_map.items()}
+
         df['unit'] = df['position'].map(unit_map).fillna('Other')
         df['unit_sort'] = df['unit'].map({'Forwards': 1, 'Backs': 2, 'Other': 3}).fillna(99)
         df['position_sort'] = df['position'].map(position_sort_map).fillna(999)
         df['position_opacity'] = df['position'].map(opacity_map).fillna(0.55)
+        df['label_color'] = df['position'].map(label_color_map).fillna('#111111')
 
     season_param = alt.param(name='seasonParam', value=[])
     game_types_param = alt.param(name='gameTypesParam', value=[])
     squad_param = alt.param(name='squadParam', value='All')
 
     bars = alt.Chart(df).mark_bar().encode(
-        x=alt.X('sum(motm_awards):Q', axis=alt.Axis(title=None, orient='top')),
+        x=alt.X('sum(motm_awards):Q', axis=alt.Axis(title='MOTM Awards', orient='top')),
         y=alt.Y(
             'player:N',
             sort=alt.EncodingSortField(field='player_total', order='descending', op='max'),
@@ -581,7 +609,7 @@ def player_stats_motm_chart(db, output_file='data/charts/player_stats_motm.json'
             sort=['1st', '2nd'],
             scale=alt.Scale(domain=['1st', '2nd'], range=['#202946', '#7d96e8']),
             legend=alt.Legend(
-                title=None, 
+                title="Squad", 
                 orient="none", 
                 legendX=200, 
                 legendY=100, 
@@ -610,7 +638,7 @@ def player_stats_motm_chart(db, output_file='data/charts/player_stats_motm.json'
         fontSize=11,
         color='black'
     ).encode(
-        x=alt.X('total_awards:Q', axis=alt.Axis(title=None, orient='top', tickCount=3, format='.0f')),
+        x=alt.X('total_awards:Q', axis=alt.Axis(title='MOTM Awards', orient='top', tickCount=3, format='.0f')),
         y=alt.Y(
             'player:N',
             sort=alt.EncodingSortField(field='player_total', order='descending', op='max'),
@@ -643,6 +671,7 @@ def player_stats_motm_chart(db, output_file='data/charts/player_stats_motm.json'
             motm_awards='sum(motm_awards)',
             position_sort='min(position_sort)',
             position_opacity='max(position_opacity)',
+            label_color='max(label_color)',
             groupby=['unit', 'unit_sort', 'position']
         )
         .transform_joinaggregate(unit_total='sum(motm_awards)', groupby=['unit'])
@@ -661,16 +690,11 @@ def player_stats_motm_chart(db, output_file='data/charts/player_stats_motm.json'
                 " datum.position === 'Wing' ? '#3a3a3a' : '#4a4a4a') : '#9ca3af'"
             )
         )
-        .transform_calculate(
-            label_color=(
-                "datum.segment_color === '#ffffff' || datum.segment_color === '#f3f4f6' ? '#111111' : '#ffffff'"
-            )
-        )
         .transform_filter('datum.motm_awards > 0')
     )
 
     unit_bars = unit_base.mark_bar(strokeWidth=0.8).encode(
-        x=alt.X('motm_awards:Q', axis=alt.Axis(title=None, orient='top', tickCount=3, format='.0f')),
+        x=alt.X('motm_awards:Q', axis=alt.Axis(title='MOTM Awards', orient='top', tickCount=3, format='.0f')),
         y=alt.Y('unit:N', sort=['Forwards', 'Backs', 'Other'], title=None),
         color=alt.Color(
             'segment_color:N',
@@ -701,7 +725,7 @@ def player_stats_motm_chart(db, output_file='data/charts/player_stats_motm.json'
             as_=['x0', 'x1']
         )
         .transform_calculate(x_mid='(datum.x0 + datum.x1) / 2')
-        .mark_text(fontSize=10, fontWeight='bold', align='center', baseline='middle')
+        .mark_text(fontSize=14, fontWeight='bold', align='center', baseline='middle', font='PT Sans Narrow')
         .encode(
             x=alt.X('x_mid:Q'),
             y=alt.Y('unit:N', sort=['Forwards', 'Backs', 'Other'], title=None),
@@ -719,42 +743,20 @@ def player_stats_motm_chart(db, output_file='data/charts/player_stats_motm.json'
         )
     )
 
-    unit_total_labels = (
-        unit_base
-        .transform_aggregate(
-            unit_total='max(unit_total)',
-            groupby=['unit']
-        )
-        .mark_text(
-            align='left',
-            baseline='middle',
-            dx=4,
-            fontSize=11,
-            color='black'
-        )
-        .encode(
-            x=alt.X('unit_total:Q'),
-            y=alt.Y('unit:N', sort=['Forwards', 'Backs', 'Other'], title=None),
-            text=alt.Text('unit_total:Q', format='.0f')
-        )
-    )
-
     aggregated_panel = (
-        alt.layer(unit_bars, segment_labels, unit_total_labels)
+        alt.layer(unit_bars, segment_labels)
+        .add_params(season_param, game_types_param, squad_param)
         .properties(
             width=300,
-            height=alt.Step(24)
+            height=alt.Step(40)
         )
     )
 
-    chart = (
-        alt.vconcat(player_panel, aggregated_panel, spacing=18)
-        .add_params(season_param, game_types_param, squad_param)
-        .resolve_scale(x='independent')
-    )
+    player_panel.save(output_file)
 
-    chart.save(output_file)
-    return chart
+    aggregated_panel.save(units_output_file)
+
+    return player_panel, aggregated_panel
 
 def player_stats_appearances_chart(db, output_file='data/charts/player_stats_appearances.json'):
     """Player appearances split by start/bench for each squad.
@@ -809,7 +811,7 @@ def player_stats_appearances_chart(db, output_file='data/charts/player_stats_app
     min_apps_param = alt.param(name='minAppsParam', value=5)
 
     bars = alt.Chart(df).mark_bar().encode(
-        x=alt.X('sum(games):Q', axis=alt.Axis(title=None, orient='top')),
+        x=alt.X('sum(games):Q', axis=alt.Axis(title="Appearances", orient='top')),
         y=alt.Y(
             'player:N',
             sort=alt.EncodingSortField(field='player_total', order='descending', op='max'),
@@ -819,7 +821,7 @@ def player_stats_appearances_chart(db, output_file='data/charts/player_stats_app
             'squad:N',
             sort=['1st', '2nd'],
             scale=alt.Scale(domain=['1st', '2nd'], range=['#202946', '#7d96e8']),
-            legend=alt.Legend(title=None, orient='bottom-right', direction='vertical', labelExpr="datum.value + ' XV'")
+            legend=alt.Legend(title="Squad", orient='bottom-right', direction='vertical', labelExpr="datum.value + ' XV'")
         ),
         opacity=alt.Opacity(
             'start:N',
@@ -852,7 +854,7 @@ def player_stats_appearances_chart(db, output_file='data/charts/player_stats_app
         fontSize=11,
         color='black'
     ).encode(
-        x=alt.X('total_games:Q', axis=alt.Axis(title=None, orient='top')),
+        x=alt.X('total_games:Q', axis=alt.Axis(title="Appearances", orient='top')),
         y=alt.Y(
             'player:N',
             sort=alt.EncodingSortField(field='player_total', order='descending', op='max'),

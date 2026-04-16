@@ -3477,25 +3477,6 @@ table tbody tr:hover {
     flex: 0 0 auto;
 }
 
-.squad-filters-shell {
-    margin-bottom: 1rem;
-    padding: 0.85rem;
-    border: 1px solid rgba(32, 41, 70, 0.16);
-    border-radius: 0.9rem;
-    background: linear-gradient(180deg, #ffffff 0%, #f3f5fb 100%);
-    box-shadow: 0 6px 16px rgba(32, 41, 70, 0.08);
-}
-
-.squad-filters-head {
-    margin-bottom: 0.6rem;
-}
-
-.squad-filters-head p {
-    margin: 0.25rem 0 0;
-    color: #5e6783;
-    font-size: 0.9rem;
-}
-
 .squad-filters-grid {
     display: grid;
     grid-template-columns: 1.3fr 1.6fr 1fr 1.1fr;
@@ -3505,6 +3486,140 @@ table tbody tr:hover {
 .squad-filters-grid--offcanvas {
     grid-template-columns: 1fr !important;
     gap: 2.5rem;
+}
+
+.player-stats-hero {
+    margin-bottom: 1rem;
+}
+
+.player-stats-hero-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.9rem;
+    flex-wrap: wrap;
+}
+
+.player-stats-hero-metric {
+    background: #ffffff;
+    border-width: 3px;
+}
+
+.player-stats-hero-metric .ux-hero-metric-label,
+.player-stats-hero-metric .ux-hero-metric-value {
+    color: var(--primary-color);
+}
+
+.player-stats-hero-metric .ux-hero-metric-note {
+    color: #4e5875;
+}
+
+.player-stats-hero-metric--appearances {
+    border-color: var(--primary-color);
+}
+
+.player-stats-hero-metric--points {
+    border-color: var(--red-color);
+}
+
+.player-stats-hero-metric--motm {
+    border-color: var(--accent-color);
+}
+
+.player-filters-offcanvas {
+    top: var(--navbar-height) !important;
+    height: calc(100vh - var(--navbar-height)) !important;
+}
+
+.player-filters-offcanvas .offcanvas-header {
+    background-color: #f9f9fa;
+    border-bottom: 1px solid #e5e4e7;
+    padding: 1rem;
+}
+
+.player-filters-offcanvas .offcanvas-header h5 {
+    margin-bottom: 0.25rem;
+}
+
+.player-filters-offcanvas .offcanvas-body {
+    padding: 1.25rem 1rem;
+}
+
+.player-stats-section-filter {
+    flex: 0 0 auto;
+    min-width: min(100%, 20rem);
+}
+
+.chart-section-head--motm-toggle {
+    justify-content: flex-end;
+    margin-bottom: 0.55rem;
+}
+
+.player-stats-section-filter--motm {
+    min-width: 0;
+}
+
+.player-stats-motm-switch {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    margin-left: auto;
+}
+
+.player-stats-motm-switch .form-check-label {
+    margin-bottom: 0;
+    font-weight: 700;
+    color: #202946;
+}
+
+#playerStatsSquadSegment .squad-filter-segment-btn[data-value="All"].is-active {
+    background: #000;
+    border-color: #000;
+    color: #fff;
+}
+
+#playerStatsSquadSegment .squad-filter-segment-btn[data-value="1st"].is-active {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    color: #fff;
+}
+
+#playerStatsSquadSegment .squad-filter-segment-btn[data-value="2nd"].is-active {
+    background: var(--accent-color);
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.squad-filter-control--player-positions {
+    grid-column: 1 / -1;
+}
+
+.player-stats-position-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr));
+    gap: 0.35rem;
+}
+
+.player-stats-position-grid .squad-filter-segment-btn[data-value="All"].is-active {
+    background: #000;
+    border-color: #000;
+    color: #fff;
+}
+
+.player-stats-position-grid .squad-filter-segment-btn[data-value="Forwards"].is-active {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    color: #fff;
+}
+
+.player-stats-position-grid .squad-filter-segment-btn[data-value="Backs"].is-active {
+    background: var(--accent-color);
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.player-stats-position-grid .squad-filter-segment-btn.is-active {
+    box-shadow: 0 2px 8px rgba(32, 41, 70, 0.12);
 }
 
 .squad-filters-offcanvas {
@@ -4096,36 +4211,18 @@ table tbody tr:hover {
     }
 }
 
-.player-stats-panels {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 1rem;
-    align-items: flex-start;
+.player-stats-main .chart-section-head {
+    align-items: flex-end;
 }
 
-.player-stats-panel {
+.player-stats-main .chart-panel-filters {
+    padding: 0;
+    background: none;
+    border: none;
+}
+
+.player-stats-main .player-stats-chart-container {
     min-width: 0;
-    flex: 0 0 auto;
-    width: fit-content;
-    max-width: 100%;
-}
-
-.player-stats-panel .chart-panel-toggle {
-    width: fit-content;
-    min-width: 300px;
-    max-width: 100%;
-}
-
-.player-stats-panel:has(.chart-panel-toggle[aria-expanded="true"]) {
-    width: fit-content;
-    max-width: 100%;
-}
-
-.player-stats-panel:has(.chart-panel-toggle[aria-expanded="true"]) .chart-panel-toggle,
-.player-stats-panel:has(.chart-panel-toggle[aria-expanded="true"]) .chart-panel-card {
-    width: 100%;
-    max-width: 100%;
 }
 
 .squad-position-panel-card {
@@ -4663,6 +4760,7 @@ table tbody tr:hover {
         gap: 0.45rem;
         position: sticky;
         top: calc(var(--nav-offset, 74px) + 10px);
+        z-index: 20;
         background: #ffffff;
         border: 1px solid #d9e0f5;
         border-radius: 0.75rem;
@@ -4671,6 +4769,22 @@ table tbody tr:hover {
         overflow-x: auto;
         white-space: nowrap;
         align-items: center;
+    }
+
+    .squad-stats-layout .analysis-rail.is-pinned {
+        position: fixed;
+        top: calc(var(--nav-offset, 74px) + 0.45rem);
+        left: var(--analysis-rail-fixed-left, 0.5rem);
+        width: var(--analysis-rail-fixed-width, calc(100vw - 1rem));
+        max-width: var(--analysis-rail-fixed-width, calc(100vw - 1rem));
+        margin: 0;
+        z-index: 1050;
+    }
+
+    .analysis-rail-placeholder {
+        display: none;
+        width: 100%;
+        pointer-events: none;
     }
 
     .squad-stats-layout .analysis-rail-title {
@@ -4722,6 +4836,7 @@ table tbody tr:hover {
     .analysis-section {
         margin: 0;
         padding: 0;
+        scroll-margin-top: calc(var(--nav-offset, 74px) + 5.5rem);
     }
 
     .analysis-section-head {

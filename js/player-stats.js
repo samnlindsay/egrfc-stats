@@ -3,6 +3,17 @@
 let playerStatsControlsInitialised = false;
 let playerStatsDataSeasons = [];
 let playerStatsBaseSpecs = null;
+let playerStatsAnalysisRailInitialised = false;
+
+const PLAYER_STATS_DEFAULT_GAME_TYPE = 'League + Cup';
+const PLAYER_STATS_DEFAULT_SCORE_TYPE = 'Total';
+const PLAYER_STATS_DEFAULT_MOTM_AGGREGATE = false;
+const PLAYER_STATS_ALL_SEASONS_VALUE = '__all_seasons__';
+const PLAYER_STATS_ALL_POSITIONS_VALUE = 'All';
+const PLAYER_STATS_FORWARD_POSITIONS = ['Prop', 'Hooker', 'Second Row', 'Flanker', 'Number 8'];
+const PLAYER_STATS_BACK_POSITIONS = ['Scrum Half', 'Fly Half', 'Centre', 'Wing', 'Full Back'];
+
+let playerStatsSelectedPositions = new Set();
 
 function sortSeasonLabelsDescending(seasons) {
     return Array.from(new Set((seasons || []).filter(Boolean))).sort((a, b) => {
@@ -28,8 +39,142 @@ function extractSeasonsFromSpec(spec) {
 }
 
 function getPlayerStatsSeasonOptions() {
-    const seasons = sortSeasonLabelsDescending([...(availableSeasons || []), ...playerStatsDataSeasons]);
-    return seasons;
+    return sortSeasonLabelsDescending([...(availableSeasons || []), ...playerStatsDataSeasons]);
+}
+
+function getPlayerStatsAllSeasonsLabel() {
+    const seasons = getPlayerStatsSeasonOptions();
+    const earliestSeason = seasons[seasons.length - 1];
+    if (!earliestSeason) return 'All';
+    const [startYear, endYear] = String(earliestSeason).split('/');
+    if (!startYear || !endYear) return `All (${earliestSeason})`;
+    const centuryPrefix = String(startYear).slice(0, 2);
+    const normalizedEndYear = endYear.length === 2 ? `${centuryPrefix}${endYear}` : endYear;
+    return `All (${normalizedEndYear}-)`;
+}
+
+function getPlayerStatsSelectedSeasonLabel(selectedSeasonValue) {
+    if (!selectedSeasonValue || selectedSeasonValue === PLAYER_STATS_ALL_SEASONS_VALUE) {
+        return getPlayerStatsAllSeasonsLabel();
+    }
+    return selectedSeasonValue;
+}
+
+function getPlayerStatsSelectedPositions() {
+    return Array.from(playerStatsSelectedPositions);
+}
+
+function getPlayerStatsPositionChipLabel(selectedPositions) {
+    if (!Array.isArray(selectedPositions) || selectedPositions.length === 0) return 'All';
+    const positions = selectedPositions.slice().sort();
+    const forwards = PLAYER_STATS_FORWARD_POSITIONS.slice().sort();
+    const backs = PLAYER_STATS_BACK_POSITIONS.slice().sort();
+    const sameAs = reference => positions.length === reference.length && positions.every((value, index) => value === reference[index]);
+    if (sameAs(forwards)) return 'Forwards';
+    if (sameAs(backs)) return 'Backs';
+    if (positions.length === 1) return positions[0];
+    return `${positions[0]} +${positions.length - 1}`;
+}
+
+function getPlayerStatsSelectedState() {
+    const seasonSelect = document.getElementById('playerStatsSeasonSelect');
+    const selectedSeasonValue = seasonSelect?.value || PLAYER_STATS_ALL_SEASONS_VALUE;
+    return {
+        selectedSeasonValue,
+        selectedSeasons: selectedSeasonValue === PLAYER_STATS_ALL_SEASONS_VALUE ? [] : [selectedSeasonValue],
+        selectedGameType: document.getElementById('playerStatsGameTypeSelect')?.value || PLAYER_STATS_DEFAULT_GAME_TYPE,
+        selectedSquad: document.getElementById('playerStatsSquadSelect')?.value || 'All',
+        selectedMotmAggregate: document.getElementById('playerStatsMotmAggregateSwitch')?.checked ?? PLAYER_STATS_DEFAULT_MOTM_AGGREGATE,
+        selectedPositions: getPlayerStatsSelectedPositions(),
+        selectedScoreType: document.getElementById('playerStatsScoreTypeSelect')?.value || PLAYER_STATS_DEFAULT_SCORE_TYPE,
+        minimumAppearances: getPlayerStatsMinimumAppearances()
+    };
+}
+
+function getPlayerStatsDatasetRows(spec) {
+    if (!spec || typeof spec !== 'object' || !spec.datasets) return [];
+    const rows = [];
+    const datasetNames = collectChartDatasetNames(spec);
+    datasetNames.forEach(name => {
+        const datasetRows = spec.datasets?.[name];
+        if (Array.isArray(datasetRows)) rows.push(...datasetRows);
+    });
+    return rows;
+}
+
+function filterPlayerStatsRowsByScope(rows, selectedSeasons, gameTypeMode, selectedSquad) {
+    const seasons = Array.isArray(selectedSeasons) ? selectedSeasons : [];
+    const allowedGameTypes = getAllowedGameTypes(gameTypeMode);
+    return (rows || []).filter(row => {
+        if (!row || typeof row !== 'object') return false;
+        if (seasons.length > 0 && !seasons.includes(row.season)) return false;
+        if (allowedGameTypes && row.game_type && !allowedGameTypes.has(row.game_type)) return false;
+        if (selectedSquad !== 'All' && row.squad !== selectedSquad) return false;
+        return true;
+    });
+}
+
+function getTopPlayerAggregate(rows, valueField) {
+    const totals = new Map();
+    rows.forEach(row => {
+        const player = row?.player;
+        const value = Number(row?.[valueField] ?? 0);
+        if (!player || !Number.isFinite(value)) return;
+        totals.set(player, (totals.get(player) || 0) + value);
+    });
+    return Array.from(totals.entries())
+        .map(([player, value]) => ({ player, value }))
+        .sort((a, b) => b.value - a.value || a.player.localeCompare(b.player))[0] || null;
+}
+
+function getTopPlayerScopedAggregate(rows, valueField) {
+    const scopedValues = new Map();
+    rows.forEach(row => {
+        const player = row?.player;
+        const season = row?.season;
+        const squad = row?.squad;
+        const gameType = row?.game_type;
+        const value = Number(row?.[valueField] ?? 0);
+        if (!player || !Number.isFinite(value)) return;
+
+        const scopeKey = [player, season, squad, gameType].join('||');
+        const current = scopedValues.get(scopeKey);
+        if (!Number.isFinite(current) || value > current) scopedValues.set(scopeKey, value);
+    });
+
+    const totals = new Map();
+    scopedValues.forEach((value, scopeKey) => {
+        const [player] = scopeKey.split('||');
+        totals.set(player, (totals.get(player) || 0) + value);
+    });
+
+    return Array.from(totals.entries())
+        .map(([player, value]) => ({ player, value }))
+        .sort((a, b) => b.value - a.value || a.player.localeCompare(b.player))[0] || null;
+}
+
+function getPlayerStatsEligiblePlayersByMinAppearances(selectedSeasons, gameTypeMode, selectedSquad, minimumAppearances) {
+    const threshold = Number.isFinite(minimumAppearances) ? Math.max(0, Math.floor(minimumAppearances)) : 10;
+    const scopedRows = filterPlayerStatsRowsByScope(
+        getPlayerStatsDatasetRows(playerStatsBaseSpecs?.appearancesSpec),
+        selectedSeasons,
+        gameTypeMode,
+        selectedSquad
+    );
+
+    const totals = new Map();
+    scopedRows.forEach(row => {
+        const player = row?.player;
+        const games = Number(row?.games ?? 0);
+        if (!player || !Number.isFinite(games)) return;
+        totals.set(player, (totals.get(player) || 0) + games);
+    });
+
+    return new Set(
+        Array.from(totals.entries())
+            .filter(([, total]) => Number(total) >= threshold)
+            .map(([player]) => player)
+    );
 }
 
 function getPlayerStatsSquadColors() {
@@ -41,59 +186,540 @@ function getPlayerStatsSquadColors() {
 
 function getPlayerStatsMinimumAppearances() {
     const minAppearancesInput = document.getElementById('playerStatsMinAppearancesInput');
-    const value = Number(minAppearancesInput?.value ?? 5);
-    if (!Number.isFinite(value)) return 5;
+    const value = Number(minAppearancesInput?.value ?? 10);
+    if (!Number.isFinite(value)) return 10;
     return Math.max(0, Math.floor(value));
+}
+
+function syncPlayerStatsSeasonStepperFromSelect() {
+    const select = document.getElementById('playerStatsSeasonSelect');
+    const label = document.getElementById('playerStatsSeasonLabelOffcanvas');
+    const prevBtn = document.getElementById('playerStatsSeasonPrevOffcanvas');
+    const nextBtn = document.getElementById('playerStatsSeasonNextOffcanvas');
+    if (!select || !label) return;
+    label.textContent = select.options[select.selectedIndex]?.text || getPlayerStatsAllSeasonsLabel();
+    if (prevBtn) prevBtn.disabled = select.selectedIndex >= select.options.length - 1;
+    if (nextBtn) nextBtn.disabled = select.selectedIndex <= 0;
+}
+
+function syncPlayerStatsGameTypeSegmentFromSelect() {
+    const select = document.getElementById('playerStatsGameTypeSelect');
+    const segment = document.getElementById('playerStatsGameTypeSegment');
+    if (!select || !segment) return;
+    const value = select.value || PLAYER_STATS_DEFAULT_GAME_TYPE;
+    segment.querySelectorAll('.squad-filter-segment-btn').forEach(btn => {
+        btn.classList.toggle('is-active', btn.dataset.value === value);
+    });
+}
+
+function syncPlayerStatsSquadSegmentFromSelect() {
+    const select = document.getElementById('playerStatsSquadSelect');
+    const segment = document.getElementById('playerStatsSquadSegment');
+    if (!select || !segment) return;
+    const value = select.value || 'All';
+    segment.querySelectorAll('.squad-filter-segment-btn').forEach(btn => {
+        btn.classList.toggle('is-active', btn.dataset.value === value);
+    });
+}
+
+function syncPlayerStatsScoreTypeSegmentFromSelect() {
+    const select = document.getElementById('playerStatsScoreTypeSelect');
+    const segment = document.getElementById('playerStatsScoreTypeSegment');
+    if (!select || !segment) return;
+    const value = select.value || PLAYER_STATS_DEFAULT_SCORE_TYPE;
+    segment.querySelectorAll('.squad-filter-segment-btn').forEach(btn => {
+        btn.classList.toggle('is-active', btn.dataset.value === value);
+    });
+}
+
+function syncPlayerStatsPositionButtons() {
+    const grid = document.getElementById('playerStatsPositionGrid');
+    if (!grid) return;
+    const selectedPositions = getPlayerStatsSelectedPositions();
+    const selectedSet = new Set(selectedPositions);
+    const isAll = selectedPositions.length === 0;
+    const isForwards = PLAYER_STATS_FORWARD_POSITIONS.every(position => selectedSet.has(position))
+        && selectedPositions.length === PLAYER_STATS_FORWARD_POSITIONS.length;
+    const isBacks = PLAYER_STATS_BACK_POSITIONS.every(position => selectedSet.has(position))
+        && selectedPositions.length === PLAYER_STATS_BACK_POSITIONS.length;
+
+    grid.querySelectorAll('.squad-filter-segment-btn').forEach(btn => {
+        const value = btn.dataset.value;
+        let active = false;
+        if (value === PLAYER_STATS_ALL_POSITIONS_VALUE) active = isAll;
+        else if (value === 'Forwards') active = isForwards;
+        else if (value === 'Backs') active = isBacks;
+        else active = selectedSet.has(value);
+        btn.classList.toggle('is-active', active);
+    });
+}
+
+function updatePlayerStatsMinAppsDisplay() {
+    const value = String(getPlayerStatsMinimumAppearances());
+    const offcanvasValue = document.getElementById('playerStatsMinAppearancesValue');
+    if (offcanvasValue) offcanvasValue.textContent = value;
+}
+
+function renderPlayerStatsActiveFilterChips(state) {
+    const {
+        selectedSeasonValue,
+        selectedGameType,
+        selectedSquad,
+        selectedMotmAggregate,
+        selectedPositions,
+        selectedScoreType,
+        minimumAppearances
+    } = state;
+
+    const seasonChip = `<button type="button" class="squad-stats-filter-chip squad-stats-filter-chip-btn" data-bs-toggle="offcanvas" data-bs-target="#playerStatsFiltersOffcanvas" aria-controls="playerStatsFiltersOffcanvas"><strong>Season</strong> ${getPlayerStatsSelectedSeasonLabel(selectedSeasonValue)}</button>`;
+    const gameTypeChip = `<button type="button" class="squad-stats-filter-chip squad-stats-filter-chip-btn" data-bs-toggle="offcanvas" data-bs-target="#playerStatsFiltersOffcanvas" aria-controls="playerStatsFiltersOffcanvas"><strong>Game Type</strong> ${selectedGameType || PLAYER_STATS_DEFAULT_GAME_TYPE}</button>`;
+    const squadLabel = selectedSquad === 'All' ? 'All' : `${selectedSquad} XV`;
+    const squadChip = `<button type="button" class="squad-stats-filter-chip squad-stats-filter-chip-btn" data-bs-toggle="offcanvas" data-bs-target="#playerStatsFiltersOffcanvas" aria-controls="playerStatsFiltersOffcanvas"><strong>Squad</strong> ${squadLabel}</button>`;
+    const positionsChip = `<button type="button" class="squad-stats-filter-chip squad-stats-filter-chip-btn" data-bs-toggle="offcanvas" data-bs-target="#playerStatsFiltersOffcanvas" aria-controls="playerStatsFiltersOffcanvas"><strong>Position</strong> ${getPlayerStatsPositionChipLabel(selectedPositions)}</button>`;
+    const minAppsChip = `<button type="button" class="squad-stats-filter-chip squad-stats-filter-chip-btn" data-bs-toggle="offcanvas" data-bs-target="#playerStatsFiltersOffcanvas" aria-controls="playerStatsFiltersOffcanvas"><strong>Min Apps</strong> ${minimumAppearances}</button>`;
+    const scoreTypeChip = `<span class="squad-stats-filter-chip"><strong>Scoring</strong> ${selectedScoreType || PLAYER_STATS_DEFAULT_SCORE_TYPE}</span>`;
+    const motmViewChip = selectedMotmAggregate
+        ? '<span class="squad-stats-filter-chip"><strong>Aggregate by position</strong></span>'
+        : '';
+
+    const appearancesHost = document.getElementById('playerStatsAppearancesActiveFilters');
+    if (appearancesHost) {
+        appearancesHost.innerHTML = [seasonChip, gameTypeChip, squadChip, positionsChip, minAppsChip].join('');
+    }
+
+    const pointsHost = document.getElementById('playerStatsPointsActiveFilters');
+    if (pointsHost) {
+        pointsHost.innerHTML = [seasonChip, gameTypeChip, squadChip, minAppsChip, scoreTypeChip].join('');
+    }
+
+    const captainsHost = document.getElementById('playerStatsCaptainsActiveFilters');
+    if (captainsHost) {
+        captainsHost.innerHTML = [seasonChip, gameTypeChip, squadChip, minAppsChip].join('');
+    }
+
+    const motmHost = document.getElementById('playerStatsMotmActiveFilters');
+    if (motmHost) {
+        motmHost.innerHTML = [seasonChip, gameTypeChip, squadChip, minAppsChip, motmViewChip].filter(Boolean).join('');
+    }
+}
+
+function renderPlayerStatsHero(state) {
+    const {
+        selectedSeasonValue,
+        selectedSeasons,
+        selectedGameType,
+        selectedSquad,
+        selectedPositions,
+        selectedScoreType,
+        minimumAppearances
+    } = state;
+
+    const eligiblePlayers = getPlayerStatsEligiblePlayersByMinAppearances(
+        selectedSeasons,
+        selectedGameType,
+        selectedSquad,
+        minimumAppearances
+    );
+
+    const meta = document.getElementById('playerStatsHeroMeta');
+    if (meta) {
+        const squadLabel = selectedSquad === 'All' ? 'All' : `${selectedSquad} XV`;
+        meta.textContent = `${getPlayerStatsSelectedSeasonLabel(selectedSeasonValue)} | ${selectedGameType} | ${squadLabel}`;
+    }
+
+    const appearancesRows = filterPlayerStatsRowsByScope(
+        getPlayerStatsDatasetRows(playerStatsBaseSpecs?.appearancesSpec),
+        selectedSeasons,
+        selectedGameType,
+        selectedSquad
+    ).filter(row => {
+        if (!Array.isArray(selectedPositions) || selectedPositions.length === 0) return true;
+        return selectedPositions.includes(row?.position);
+    });
+    const appearancesLeader = getTopPlayerAggregate(
+        appearancesRows.filter(row => eligiblePlayers.has(row?.player)),
+        'games'
+    );
+
+    const pointsRows = filterPlayerStatsRowsByScope(
+        getPlayerStatsDatasetRows(playerStatsBaseSpecs?.pointsSpec),
+        selectedSeasons,
+        selectedGameType,
+        selectedSquad
+    ).filter(row => row?.score_type === 'Total' && eligiblePlayers.has(row?.player));
+    const pointsLeader = getTopPlayerScopedAggregate(pointsRows, 'total_points');
+
+    const triesRows = filterPlayerStatsRowsByScope(
+        getPlayerStatsDatasetRows(playerStatsBaseSpecs?.pointsSpec),
+        selectedSeasons,
+        selectedGameType,
+        selectedSquad
+    ).filter(row => row?.score_type === 'Total' && eligiblePlayers.has(row?.player));
+    const triesLeader = getTopPlayerScopedAggregate(triesRows, 'tries');
+
+    const appearancesValue = document.getElementById('playerStatsHeroAppearancesValue');
+    const appearancesNote = document.getElementById('playerStatsHeroAppearancesNote');
+    if (appearancesValue) appearancesValue.textContent = appearancesLeader ? String(appearancesLeader.value) : '0';
+    if (appearancesNote) {
+        appearancesNote.textContent = appearancesLeader ? appearancesLeader.player : 'No data for current filters';
+    }
+
+    const pointsValue = document.getElementById('playerStatsHeroPointsValue');
+    const pointsNote = document.getElementById('playerStatsHeroPointsNote');
+    if (pointsValue) pointsValue.textContent = pointsLeader ? String(pointsLeader.value) : '0';
+    if (pointsNote) {
+        pointsNote.textContent = pointsLeader ? pointsLeader.player : 'No data for current filters';
+    }
+
+    const triesValue = document.getElementById('playerStatsHeroTriesValue');
+    const triesNote = document.getElementById('playerStatsHeroTriesNote');
+    if (triesValue) triesValue.textContent = triesLeader ? String(triesLeader.value) : '0';
+    if (triesNote) {
+        triesNote.textContent = triesLeader ? triesLeader.player : 'No data for current filters';
+    }
+}
+
+function handlePlayerStatsControlChange() {
+    syncPlayerStatsSeasonStepperFromSelect();
+    syncPlayerStatsGameTypeSegmentFromSelect();
+    syncPlayerStatsSquadSegmentFromSelect();
+    syncPlayerStatsScoreTypeSegmentFromSelect();
+    syncPlayerStatsPositionButtons();
+    updatePlayerStatsMinAppsDisplay();
+    renderPlayerStatsPage();
+}
+
+function setPlayerStatsPositionSelection(nextPositions) {
+    playerStatsSelectedPositions = new Set(nextPositions);
+}
+
+function handlePlayerStatsPositionButton(value) {
+    if (value === PLAYER_STATS_ALL_POSITIONS_VALUE) {
+        setPlayerStatsPositionSelection([]);
+        handlePlayerStatsControlChange();
+        return;
+    }
+
+    if (value === 'Forwards') {
+        setPlayerStatsPositionSelection(PLAYER_STATS_FORWARD_POSITIONS);
+        handlePlayerStatsControlChange();
+        return;
+    }
+
+    if (value === 'Backs') {
+        setPlayerStatsPositionSelection(PLAYER_STATS_BACK_POSITIONS);
+        handlePlayerStatsControlChange();
+        return;
+    }
+
+    const nextPositions = new Set(playerStatsSelectedPositions);
+    if (nextPositions.has(value)) nextPositions.delete(value);
+    else nextPositions.add(value);
+    setPlayerStatsPositionSelection(Array.from(nextPositions));
+    handlePlayerStatsControlChange();
 }
 
 function initialisePlayerStatsControls() {
     if (playerStatsControlsInitialised) return;
+
     const seasonSelect = document.getElementById('playerStatsSeasonSelect');
     const gameTypeSelect = document.getElementById('playerStatsGameTypeSelect');
     const squadSelect = document.getElementById('playerStatsSquadSelect');
-    const positionSelect = document.getElementById('playerStatsPositionSelect');
     const scoreTypeSelect = document.getElementById('playerStatsScoreTypeSelect');
+    const motmAggregateSwitch = document.getElementById('playerStatsMotmAggregateSwitch');
     const minAppearancesInput = document.getElementById('playerStatsMinAppearancesInput');
-    if (!seasonSelect || !gameTypeSelect || !squadSelect || !positionSelect || !scoreTypeSelect || !minAppearancesInput) return;
+    const seasonPrevButton = document.getElementById('playerStatsSeasonPrevOffcanvas');
+    const seasonNextButton = document.getElementById('playerStatsSeasonNextOffcanvas');
+    const gameTypeSegment = document.getElementById('playerStatsGameTypeSegment');
+    const squadSegment = document.getElementById('playerStatsSquadSegment');
+    const scoreTypeSegment = document.getElementById('playerStatsScoreTypeSegment');
+    const positionGrid = document.getElementById('playerStatsPositionGrid');
+
+    if (!seasonSelect || !gameTypeSelect || !squadSelect || !scoreTypeSelect || !motmAggregateSwitch || !minAppearancesInput) return;
+
     const seasons = getPlayerStatsSeasonOptions();
     seasonSelect.innerHTML = '';
+    const allSeasonsOption = document.createElement('option');
+    allSeasonsOption.value = PLAYER_STATS_ALL_SEASONS_VALUE;
+    allSeasonsOption.textContent = getPlayerStatsAllSeasonsLabel();
+    seasonSelect.appendChild(allSeasonsOption);
     seasons.forEach(season => {
         const option = document.createElement('option');
         option.value = season;
         option.textContent = season;
         seasonSelect.appendChild(option);
     });
-    const $seasonSelect = $('#playerStatsSeasonSelect');
-    const $gameTypeSelect = $('#playerStatsGameTypeSelect');
-    const $squadSelect = $('#playerStatsSquadSelect');
-    const $positionSelect = $('#playerStatsPositionSelect');
-    const $scoreTypeSelect = $('#playerStatsScoreTypeSelect');
-    [$seasonSelect, $gameTypeSelect, $squadSelect, $positionSelect, $scoreTypeSelect].forEach($el => {
-        if ($el.data('selectpicker')) $el.selectpicker('destroy');
-        $el.selectpicker();
-    });
-    const currentSeason = getCurrentSeasonLabel();
-    const defaultSeason = seasons.includes(currentSeason) ? currentSeason : (seasons[0] || null);
-    if (defaultSeason) {
-        $seasonSelect.selectpicker('val', [defaultSeason]);
-    } else {
-        $seasonSelect.selectpicker('deselectAll');
+
+    seasonSelect.value = PLAYER_STATS_ALL_SEASONS_VALUE;
+    gameTypeSelect.value = PLAYER_STATS_DEFAULT_GAME_TYPE;
+    squadSelect.value = 'All';
+    scoreTypeSelect.value = PLAYER_STATS_DEFAULT_SCORE_TYPE;
+    motmAggregateSwitch.checked = PLAYER_STATS_DEFAULT_MOTM_AGGREGATE;
+    minAppearancesInput.value = '10';
+    setPlayerStatsPositionSelection([]);
+
+    seasonSelect.addEventListener('change', handlePlayerStatsControlChange);
+    gameTypeSelect.addEventListener('change', handlePlayerStatsControlChange);
+    squadSelect.addEventListener('change', handlePlayerStatsControlChange);
+    scoreTypeSelect.addEventListener('change', handlePlayerStatsControlChange);
+    motmAggregateSwitch.addEventListener('change', handlePlayerStatsControlChange);
+    minAppearancesInput.addEventListener('input', handlePlayerStatsControlChange);
+    minAppearancesInput.addEventListener('change', handlePlayerStatsControlChange);
+
+    if (seasonPrevButton) {
+        seasonPrevButton.addEventListener('click', () => {
+            if (seasonSelect.selectedIndex < seasonSelect.options.length - 1) {
+                seasonSelect.selectedIndex += 1;
+                handlePlayerStatsControlChange();
+            }
+        });
     }
-    $gameTypeSelect.selectpicker('val', 'All games');
-    $squadSelect.selectpicker('val', 'All');
-    $positionSelect.selectpicker('deselectAll');
-    $scoreTypeSelect.selectpicker('val', 'Total');
-    $seasonSelect.on('changed.bs.select', renderPlayerStatsPage);
-    $gameTypeSelect.on('changed.bs.select', renderPlayerStatsPage);
-    $squadSelect.on('changed.bs.select', renderPlayerStatsPage);
-    $positionSelect.on('changed.bs.select', renderPlayerStatsPage);
-    $scoreTypeSelect.on('changed.bs.select', renderPlayerStatsPage);
-    minAppearancesInput.addEventListener('input', renderPlayerStatsPage);
-    minAppearancesInput.addEventListener('change', renderPlayerStatsPage);
+
+    if (seasonNextButton) {
+        seasonNextButton.addEventListener('click', () => {
+            if (seasonSelect.selectedIndex > 0) {
+                seasonSelect.selectedIndex -= 1;
+                handlePlayerStatsControlChange();
+            }
+        });
+    }
+
+    if (gameTypeSegment) {
+        gameTypeSegment.querySelectorAll('.squad-filter-segment-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const value = btn.dataset.value;
+                if (!value) return;
+                gameTypeSelect.value = value;
+                handlePlayerStatsControlChange();
+            });
+        });
+    }
+
+    if (squadSegment) {
+        squadSegment.querySelectorAll('.squad-filter-segment-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const value = btn.dataset.value;
+                if (!value) return;
+                squadSelect.value = value;
+                handlePlayerStatsControlChange();
+            });
+        });
+    }
+
+    if (scoreTypeSegment) {
+        scoreTypeSegment.querySelectorAll('.squad-filter-segment-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const value = btn.dataset.value;
+                if (!value) return;
+                scoreTypeSelect.value = value;
+                handlePlayerStatsControlChange();
+            });
+        });
+    }
+
+    if (positionGrid) {
+        positionGrid.querySelectorAll('.squad-filter-segment-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const value = btn.dataset.value;
+                if (!value) return;
+                handlePlayerStatsPositionButton(value);
+            });
+        });
+    }
+
+    syncPlayerStatsSeasonStepperFromSelect();
+    syncPlayerStatsGameTypeSegmentFromSelect();
+    syncPlayerStatsSquadSegmentFromSelect();
+    syncPlayerStatsScoreTypeSegmentFromSelect();
+    syncPlayerStatsPositionButtons();
+    updatePlayerStatsMinAppsDisplay();
     playerStatsControlsInitialised = true;
 }
 
-function filterPlayerStatsCaptainsSpec(spec, selectedSeasons, gameTypeMode, selectedSquad) {
+function initialisePlayerStatsAnalysisRail() {
+    if (playerStatsAnalysisRailInitialised) return;
+    const rail = document.querySelector('.player-stats-layout .analysis-rail');
+    if (!rail) return;
+
+    const layout = rail.closest('.player-stats-layout');
+    const placeholder = document.createElement('div');
+    placeholder.className = 'analysis-rail-placeholder';
+    rail.insertAdjacentElement('afterend', placeholder);
+
+    const links = rail.querySelectorAll('.rail-link[href^="#"]');
+    if (!links.length) return;
+
+    const pinState = {
+        triggerScrollY: 0,
+        hysteresis: 8
+    };
+
+    const recalculatePinTrigger = () => {
+        const navOffset = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--nav-offset')) || 74;
+        const pinTop = navOffset + 7;
+        const wasPinned = rail.classList.contains('is-pinned');
+
+        if (wasPinned) {
+            rail.classList.remove('is-pinned');
+            rail.style.removeProperty('--analysis-rail-fixed-left');
+            rail.style.removeProperty('--analysis-rail-fixed-width');
+            placeholder.style.display = 'none';
+            placeholder.style.height = '0px';
+        }
+
+        const naturalTop = rail.getBoundingClientRect().top + window.scrollY;
+        pinState.triggerScrollY = Math.max(0, naturalTop - pinTop);
+
+        if (wasPinned) {
+            updatePlayerStatsAnalysisRailPinnedState(rail, layout, placeholder, pinState);
+        }
+    };
+
+    links.forEach(link => {
+        link.addEventListener('click', (event) => {
+            const targetId = link.getAttribute('href')?.replace('#', '');
+            const targetSection = targetId ? document.getElementById(targetId) : null;
+            if (!targetSection) return;
+            event.preventDefault();
+            targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            if (window.location.hash !== `#${targetId}`) {
+                window.history.replaceState(null, '', `#${targetId}`);
+            }
+            window.setTimeout(() => {
+                recalculatePinTrigger();
+                updatePlayerStatsAnalysisRailPinnedState(rail, layout, placeholder, pinState);
+                updatePlayerStatsAnalysisRailActiveOnScroll();
+            }, 120);
+        });
+    });
+
+    const navOffset = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--nav-offset')) || 74;
+    const railHeight = rail.getBoundingClientRect().height || 48;
+    const scrollSpy = window.bootstrap?.ScrollSpy
+        ? window.bootstrap.ScrollSpy.getOrCreateInstance(document.body, {
+            target: '#playerStatsAnalysisRail',
+            offset: Math.ceil(navOffset + railHeight + 12)
+        })
+        : null;
+
+    const syncActiveLink = () => {
+        rail.querySelectorAll('.rail-link').forEach(link => {
+            if (link.classList.contains('active')) link.setAttribute('aria-current', 'true');
+            else link.removeAttribute('aria-current');
+        });
+    };
+
+    document.body.addEventListener('activate.bs.scrollspy', syncActiveLink);
+    syncActiveLink();
+    scrollSpy?.refresh();
+
+    const refreshRail = () => {
+        updatePlayerStatsAnalysisRailPinnedState(rail, layout, placeholder, pinState);
+        updatePlayerStatsAnalysisRailActiveOnScroll();
+    };
+
+    let refreshRaf = null;
+    const scheduleRefresh = () => {
+        if (refreshRaf !== null) return;
+        refreshRaf = window.requestAnimationFrame(() => {
+            refreshRaf = null;
+            refreshRail();
+        });
+    };
+
+    let recalcRaf = null;
+    const scheduleRecalculate = () => {
+        if (recalcRaf !== null) return;
+        recalcRaf = window.requestAnimationFrame(() => {
+            recalcRaf = null;
+            recalculatePinTrigger();
+            refreshRail();
+        });
+    };
+
+    window.addEventListener('scroll', scheduleRefresh, { passive: true });
+    window.addEventListener('resize', scheduleRecalculate);
+    recalculatePinTrigger();
+    refreshRail();
+    window.setTimeout(scheduleRecalculate, 250);
+    window.setTimeout(scheduleRecalculate, 900);
+
+    const initialHash = String(window.location.hash || '').replace('#', '');
+    if (initialHash) {
+        const targetSection = document.getElementById(initialHash);
+        if (targetSection) {
+            window.setTimeout(() => {
+                targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                scrollSpy?.refresh();
+                syncActiveLink();
+                recalculatePinTrigger();
+                refreshRail();
+            }, 80);
+        }
+    }
+
+    playerStatsAnalysisRailInitialised = true;
+}
+
+function updatePlayerStatsAnalysisRailPinnedState(rail, layout, placeholder, pinState = null) {
+    if (!rail || !layout || !placeholder) return;
+    const triggerScrollY = Number(pinState?.triggerScrollY ?? 0);
+    const hysteresis = Number(pinState?.hysteresis ?? 0);
+    const isPinned = rail.classList.contains('is-pinned');
+    const scrollY = window.scrollY;
+    const shouldPin = isPinned
+        ? scrollY >= (triggerScrollY - hysteresis)
+        : scrollY >= (triggerScrollY + hysteresis);
+
+    if (!shouldPin) {
+        rail.classList.remove('is-pinned');
+        rail.style.removeProperty('--analysis-rail-fixed-left');
+        rail.style.removeProperty('--analysis-rail-fixed-width');
+        placeholder.style.display = 'none';
+        placeholder.style.height = '0px';
+        return;
+    }
+
+    const layoutRect = layout.getBoundingClientRect();
+    const viewportPadding = 8;
+    const left = Math.max(viewportPadding, layoutRect.left);
+    const available = window.innerWidth - (viewportPadding * 2);
+    const width = Math.max(220, Math.min(layoutRect.width, available));
+
+    rail.classList.add('is-pinned');
+    rail.style.setProperty('--analysis-rail-fixed-left', `${left}px`);
+    rail.style.setProperty('--analysis-rail-fixed-width', `${width}px`);
+    placeholder.style.display = 'block';
+    placeholder.style.height = `${Math.ceil(rail.offsetHeight)}px`;
+}
+
+function updatePlayerStatsAnalysisRailActive(sectionId) {
+    const rail = document.querySelector('.player-stats-layout .analysis-rail');
+    if (!rail) return;
+    rail.querySelectorAll('.rail-link').forEach(button => {
+        const isActive = button.getAttribute('href') === `#${sectionId}`;
+        button.classList.toggle('active', isActive);
+        if (isActive) button.setAttribute('aria-current', 'true');
+        else button.removeAttribute('aria-current');
+    });
+}
+
+function updatePlayerStatsAnalysisRailActiveOnScroll() {
+    const rail = document.querySelector('.player-stats-layout .analysis-rail');
+    if (!rail) return;
+
+    const sections = document.querySelectorAll('.player-stats-layout .analysis-section[id]');
+    let currentSection = sections[0]?.id;
+    for (const section of sections) {
+        const rect = section.getBoundingClientRect();
+        if (rect.top < window.innerHeight / 2) {
+            currentSection = section.id;
+        }
+    }
+    updatePlayerStatsAnalysisRailActive(currentSection);
+}
+
+function filterPlayerStatsCaptainsSpec(spec, selectedSeasons, gameTypeMode, selectedSquad, eligiblePlayers) {
     const clonedSpec = JSON.parse(JSON.stringify(spec));
     const allowedGameTypes = getAllowedGameTypes(gameTypeMode);
     const squadColors = getPlayerStatsSquadColors();
@@ -106,16 +732,18 @@ function filterPlayerStatsCaptainsSpec(spec, selectedSeasons, gameTypeMode, sele
         const seasons = Array.isArray(selectedSeasons) ? selectedSeasons : [];
         if (seasons.length === 0) {
             if (row?.season === 'Total') return false;
+        } else if (row?.season === 'Total' || !seasons.includes(row?.season)) {
+            return false;
         }
-        else if (row?.season === 'Total' || !seasons.includes(row?.season)) return false;
         if (allowedGameTypes && !allowedGameTypes.has(row?.game_type)) return false;
         if (selectedSquad !== 'All' && row?.squad !== selectedSquad) return false;
+        if (eligiblePlayers instanceof Set && !eligiblePlayers.has(row?.player)) return false;
         return true;
     };
     return filterChartSpecDataset(clonedSpec, predicate);
 }
 
-function filterPlayerStatsMotmSpec(spec, selectedSeasons, gameTypeMode, selectedSquad) {
+function filterPlayerStatsMotmSpec(spec, selectedSeasons, gameTypeMode, selectedSquad, eligiblePlayers) {
     const clonedSpec = JSON.parse(JSON.stringify(spec));
     const seasonValue = Array.isArray(selectedSeasons) ? selectedSeasons : [];
     const allowedGameTypes = getAllowedGameTypes(gameTypeMode);
@@ -141,6 +769,39 @@ function filterPlayerStatsMotmSpec(spec, selectedSeasons, gameTypeMode, selected
         });
     }
 
+    if (eligiblePlayers instanceof Set) {
+        return filterChartSpecDataset(clonedSpec, row => {
+            if (!row || typeof row !== 'object' || !('player' in row)) return true;
+            return eligiblePlayers.has(row.player);
+        });
+    }
+
+    return clonedSpec;
+}
+
+function filterPlayerStatsMotmUnitsSpec(spec, selectedSeasons, gameTypeMode, selectedSquad, eligiblePlayers) {
+    const clonedSpec = JSON.parse(JSON.stringify(spec));
+    const seasonValue = Array.isArray(selectedSeasons) ? selectedSeasons : [];
+    const allowedGameTypes = getAllowedGameTypes(gameTypeMode);
+    const gameTypesValue = allowedGameTypes ? Array.from(allowedGameTypes) : [];
+
+    if (Array.isArray(clonedSpec.params)) {
+        clonedSpec.params.forEach(param => {
+            switch (param.name) {
+                case 'seasonParam': param.value = seasonValue; break;
+                case 'gameTypesParam': param.value = gameTypesValue; break;
+                case 'squadParam': param.value = selectedSquad; break;
+            }
+        });
+    }
+
+    if (eligiblePlayers instanceof Set) {
+        return filterChartSpecDataset(clonedSpec, row => {
+            if (!row || typeof row !== 'object' || !('player' in row)) return true;
+            return eligiblePlayers.has(row.player);
+        });
+    }
+
     return clonedSpec;
 }
 
@@ -156,7 +817,7 @@ function filterPlayerStatsAppearancesSpec(spec, selectedSeasons, gameTypeMode, s
     const allowedGameTypes = getAllowedGameTypes(gameTypeMode);
     const gameTypesValue = allowedGameTypes ? Array.from(allowedGameTypes) : [];
     const positionsValue = Array.isArray(positions) && positions.length > 0 ? positions : [];
-    const threshold = Number.isFinite(minimumAppearances) ? Math.max(0, Math.floor(minimumAppearances)) : 5;
+    const threshold = Number.isFinite(minimumAppearances) ? Math.max(0, Math.floor(minimumAppearances)) : 10;
     if (Array.isArray(clonedSpec.params)) {
         clonedSpec.params.forEach(param => {
             switch (param.name) {
@@ -171,19 +832,19 @@ function filterPlayerStatsAppearancesSpec(spec, selectedSeasons, gameTypeMode, s
     return clonedSpec;
 }
 
-function filterPlayerStatsPointsSpec(spec, selectedSeasons, gameTypeMode, selectedSquad, scoreType) {
+function filterPlayerStatsPointsSpec(spec, selectedSeasons, gameTypeMode, selectedSquad, scoreType, eligiblePlayers) {
     const clonedSpec = JSON.parse(JSON.stringify(spec));
     const seasonValue = Array.isArray(selectedSeasons) ? selectedSeasons : [];
     const allowedGameTypes = getAllowedGameTypes(gameTypeMode);
     const gameTypesValue = allowedGameTypes ? Array.from(allowedGameTypes) : [];
-    const nextScoreType = scoreType || 'Total';
+    const nextScoreType = scoreType || PLAYER_STATS_DEFAULT_SCORE_TYPE;
     const valueAxisTitle = nextScoreType === 'Tries' ? 'Tries' : 'Points';
     if (Array.isArray(clonedSpec.params)) {
         clonedSpec.params.forEach(param => {
             switch (param.name) {
                 case 'seasonParam': param.value = seasonValue; break;
                 case 'gameTypesParam': param.value = gameTypesValue; break;
-                case 'gameTypeParam': param.value = gameTypeMode || 'All games'; break;
+                case 'gameTypeParam': param.value = gameTypeMode || PLAYER_STATS_DEFAULT_GAME_TYPE; break;
                 case 'squadParam': param.value = selectedSquad; break;
                 case 'scoreTypeParam': param.value = nextScoreType; break;
             }
@@ -197,40 +858,65 @@ function filterPlayerStatsPointsSpec(spec, selectedSeasons, gameTypeMode, select
             }
         });
     }
-    // Fallback filtering for specs that include raw data with game_type but no Vega params.
-    if (allowedGameTypes) {
+    if (allowedGameTypes || eligiblePlayers instanceof Set) {
         return filterChartSpecDataset(clonedSpec, row => {
             if (!row || typeof row !== 'object' || !('game_type' in row)) return true;
-            return allowedGameTypes.has(row.game_type);
+            if (allowedGameTypes && !allowedGameTypes.has(row.game_type)) return false;
+            if (eligiblePlayers instanceof Set && !eligiblePlayers.has(row?.player)) return false;
+            return true;
         });
     }
     return clonedSpec;
 }
 
 async function renderPlayerStatsPage() {
-    const selectedSeasons = $('#playerStatsSeasonSelect').val() || [];
-    const selectedGameType = document.getElementById('playerStatsGameTypeSelect')?.value || 'All games';
-    const selectedSquad = document.getElementById('playerStatsSquadSelect')?.value || 'All';
-    const selectedPositions = $('#playerStatsPositionSelect').val() || [];
-    const selectedScoreType = document.getElementById('playerStatsScoreTypeSelect')?.value || 'Total';
-    const minimumAppearances = getPlayerStatsMinimumAppearances();
+    const state = getPlayerStatsSelectedState();
+    const {
+        selectedSeasons,
+        selectedGameType,
+        selectedSquad,
+        selectedMotmAggregate,
+        selectedPositions,
+        selectedScoreType,
+        minimumAppearances
+    } = state;
+
+    renderPlayerStatsActiveFilterChips(state);
+
     try {
         if (!playerStatsBaseSpecs) {
-            const [captainsSpec, motmSpec, appearancesSpec, pointsSpec] = await Promise.all([
+            const [captainsSpec, motmSpec, motmUnitsSpec, appearancesSpec, pointsSpec] = await Promise.all([
                 loadChartSpec('data/charts/player_stats_captains.json'),
                 loadChartSpec('data/charts/player_stats_motm.json'),
+                loadChartSpec('data/charts/player_stats_motm_units.json'),
                 loadChartSpec('data/charts/player_stats_appearances.json'),
                 loadChartSpec('data/charts/point_scorers.json')
             ]);
-            playerStatsBaseSpecs = { captainsSpec, motmSpec, appearancesSpec, pointsSpec };
+            playerStatsBaseSpecs = { captainsSpec, motmSpec, motmUnitsSpec, appearancesSpec, pointsSpec };
         }
-        const { captainsSpec, motmSpec, appearancesSpec, pointsSpec } = playerStatsBaseSpecs;
-        const filteredCaptains = filterPlayerStatsCaptainsSpec(captainsSpec, selectedSeasons, selectedGameType, selectedSquad);
-        const filteredMotm = filterPlayerStatsMotmSpec(motmSpec, selectedSeasons, selectedGameType, selectedSquad);
+
+        const { captainsSpec, motmSpec, motmUnitsSpec, appearancesSpec, pointsSpec } = playerStatsBaseSpecs;
+        const eligiblePlayers = getPlayerStatsEligiblePlayersByMinAppearances(
+            selectedSeasons,
+            selectedGameType,
+            selectedSquad,
+            minimumAppearances
+        );
+
+        const filteredCaptains = filterPlayerStatsCaptainsSpec(captainsSpec, selectedSeasons, selectedGameType, selectedSquad, eligiblePlayers);
+        const filteredMotm = filterPlayerStatsMotmSpec(motmSpec, selectedSeasons, selectedGameType, selectedSquad, eligiblePlayers);
+        const filteredMotmUnits = filterPlayerStatsMotmUnitsSpec(motmUnitsSpec, selectedSeasons, selectedGameType, selectedSquad, eligiblePlayers);
         const filteredAppearances = filterPlayerStatsAppearancesSpec(appearancesSpec, selectedSeasons, selectedGameType, selectedSquad, selectedPositions, minimumAppearances);
-        const filteredPoints = filterPlayerStatsPointsSpec(pointsSpec, selectedSeasons, selectedGameType, selectedSquad, selectedScoreType);
+        const filteredPoints = filterPlayerStatsPointsSpec(pointsSpec, selectedSeasons, selectedGameType, selectedSquad, selectedScoreType, eligiblePlayers);
+        const motmSpecToRender = selectedMotmAggregate ? filteredMotmUnits : filteredMotm;
+        const motmEmptyMessage = selectedMotmAggregate
+            ? 'No MOTM unit breakdown available for the selected filters.'
+            : 'No player of the match awards available for the selected filters.';
+        const motmLayoutContainerId = selectedMotmAggregate ? 'playerStatsMotmUnitsChart' : 'playerStatsMotmChart';
+
+        renderPlayerStatsHero(state);
         renderStaticSpecChart('playerStatsCaptainsChart', filteredCaptains, 'No captains or vice-captains data available for the selected season.');
-        renderStaticSpecChart('playerStatsMotmChart', filteredMotm, 'No player of the match awards available for the selected filters.');
+        renderStaticSpecChart('playerStatsMotmChart', motmSpecToRender, motmEmptyMessage, { layoutContainerId: motmLayoutContainerId });
         renderStaticSpecChart('playerStatsAppearancesChart', filteredAppearances, 'No player appearances available for the selected filters.');
         renderStaticSpecChart('playerStatsPointsChart', filteredPoints, 'No point scorers available for the selected filters.');
     } catch (error) {
@@ -245,22 +931,26 @@ async function renderPlayerStatsPage() {
 document.addEventListener('DOMContentLoaded', async function () {
     await loadAvailableSeasons();
     if (!playerStatsBaseSpecs) {
-        const [captainsSpec, motmSpec, appearancesSpec, pointsSpec] = await Promise.all([
+        const [captainsSpec, motmSpec, motmUnitsSpec, appearancesSpec, pointsSpec] = await Promise.all([
             loadChartSpec('data/charts/player_stats_captains.json'),
             loadChartSpec('data/charts/player_stats_motm.json'),
+            loadChartSpec('data/charts/player_stats_motm_units.json'),
             loadChartSpec('data/charts/player_stats_appearances.json'),
             loadChartSpec('data/charts/point_scorers.json')
         ]);
-        playerStatsBaseSpecs = { captainsSpec, motmSpec, appearancesSpec, pointsSpec };
+        playerStatsBaseSpecs = { captainsSpec, motmSpec, motmUnitsSpec, appearancesSpec, pointsSpec };
     }
-    const { captainsSpec, motmSpec, appearancesSpec, pointsSpec } = playerStatsBaseSpecs;
+
+    const { captainsSpec, motmSpec, motmUnitsSpec, appearancesSpec, pointsSpec } = playerStatsBaseSpecs;
     playerStatsDataSeasons = sortSeasonLabelsDescending([
         ...extractSeasonsFromSpec(captainsSpec),
         ...extractSeasonsFromSpec(motmSpec),
+        ...extractSeasonsFromSpec(motmUnitsSpec),
         ...extractSeasonsFromSpec(appearancesSpec),
         ...extractSeasonsFromSpec(pointsSpec)
     ]);
+
     initialisePlayerStatsControls();
-    initialiseChartPanelToggles();
+    initialisePlayerStatsAnalysisRail();
     renderPlayerStatsPage();
 });

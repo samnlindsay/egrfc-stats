@@ -337,45 +337,6 @@ function syncOffcanvasFiltersFromMain() {
     }
 }
 
-function initialiseOffcanvasFilterControls() {
-    // Offcanvas controls are now the primary controls
-    // No need to delegate to non-existent main controls
-    // Just sync visible changes to the hidden select elements
-    
-    const gameTypeSegment = document.getElementById('squadStatsGameTypeSegment');
-    const gameTypeSelect = document.getElementById('squadStatsGameTypeSelect');
-    if (gameTypeSegment) {
-        gameTypeSegment.querySelectorAll('.squad-filter-segment-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const value = btn.dataset.value;
-                if (value && gameTypeSelect) {
-                    gameTypeSelect.value = value;
-                }
-            });
-        });
-    }
-
-    const minAppsInput = document.getElementById('squadStatsMinAppsSelect');
-    if (minAppsInput) {
-        minAppsInput.addEventListener('change', () => {
-            document.getElementById('squadStatsMinAppsValue').textContent = minAppsInput.value;
-        });
-    }
-
-    const unitSegment = document.getElementById('squadStatsUnitSegment');
-    const unitSelect = document.getElementById('squadStatsUnitSelect');
-    if (unitSegment) {
-        unitSegment.querySelectorAll('.squad-filter-segment-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const value = btn.dataset.value;
-                if (value && unitSelect) {
-                    unitSelect.value = value;
-                }
-            });
-        });
-    }
-}
-
 function renderSquadStatsHeroStats() {
     const selectedSeason = getSquadStatsSelectedSeason() || getCurrentSeasonLabel();
     const mode = getSquadStatsGameTypeMode();
@@ -438,31 +399,108 @@ function initialiseSquadStatsAnalysisRail() {
     const rail = document.querySelector('.squad-stats-layout .analysis-rail');
     if (!rail) return;
 
-    const buttons = rail.querySelectorAll('.rail-link');
-    if (!buttons.length) return;
+    const layout = rail.closest('.squad-stats-layout');
+    const placeholder = document.createElement('div');
+    placeholder.className = 'analysis-rail-placeholder';
+    rail.insertAdjacentElement('afterend', placeholder);
 
-    // Handle button clicks for smooth scroll
-    buttons.forEach(button => {
-        button.addEventListener('click', () => {
-            const targetId = button.getAttribute('data-target');
-            const targetSection = document.getElementById(targetId);
-            if (targetSection) {
-                targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                if (window.location.hash !== `#${targetId}`) {
-                    window.history.replaceState(null, '', `#${targetId}`);
-                }
-                updateAnalysisRailActive(targetId);
+    const links = rail.querySelectorAll('.rail-link[href^="#"]');
+    if (!links.length) return;
+
+    const pinState = {
+        triggerScrollY: 0,
+        hysteresis: 8
+    };
+
+    const recalculatePinTrigger = () => {
+        const navOffset = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--nav-offset')) || 74;
+        const pinTop = navOffset + 7;
+        const wasPinned = rail.classList.contains('is-pinned');
+
+        if (wasPinned) {
+            rail.classList.remove('is-pinned');
+            rail.style.removeProperty('--analysis-rail-fixed-left');
+            rail.style.removeProperty('--analysis-rail-fixed-width');
+            placeholder.style.display = 'none';
+            placeholder.style.height = '0px';
+        }
+
+        const naturalTop = rail.getBoundingClientRect().top + window.scrollY;
+        pinState.triggerScrollY = Math.max(0, naturalTop - pinTop);
+
+        if (wasPinned) {
+            updateSquadStatsAnalysisRailPinnedState(rail, layout, placeholder, pinState);
+        }
+    };
+
+    links.forEach(link => {
+        link.addEventListener('click', (event) => {
+            const targetId = link.getAttribute('href')?.replace('#', '');
+            const targetSection = targetId ? document.getElementById(targetId) : null;
+            if (!targetSection) return;
+            event.preventDefault();
+            targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            if (window.location.hash !== `#${targetId}`) {
+                window.history.replaceState(null, '', `#${targetId}`);
             }
+            window.setTimeout(() => {
+                recalculatePinTrigger();
+                updateSquadStatsAnalysisRailPinnedState(rail, layout, placeholder, pinState);
+                updateAnalysisRailActiveOnScroll();
+            }, 120);
         });
     });
 
-    // Handle scroll to update active link
-    window.addEventListener('scroll', () => {
-        updateAnalysisRailActiveOnScroll();
-    }, { passive: true });
+    const navOffset = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--nav-offset')) || 74;
+    const railHeight = rail.getBoundingClientRect().height || 48;
+    const scrollSpy = window.bootstrap?.ScrollSpy
+        ? window.bootstrap.ScrollSpy.getOrCreateInstance(document.body, {
+            target: '#squadStatsAnalysisRail',
+            offset: Math.ceil(navOffset + railHeight + 12)
+        })
+        : null;
 
-    // Set initial active section
-    updateAnalysisRailActiveOnScroll();
+    const syncActiveLink = () => {
+        rail.querySelectorAll('.rail-link').forEach(link => {
+            if (link.classList.contains('active')) link.setAttribute('aria-current', 'true');
+            else link.removeAttribute('aria-current');
+        });
+    };
+
+    document.body.addEventListener('activate.bs.scrollspy', syncActiveLink);
+    syncActiveLink();
+    scrollSpy?.refresh();
+
+    const refreshRail = () => {
+        updateSquadStatsAnalysisRailPinnedState(rail, layout, placeholder, pinState);
+        updateAnalysisRailActiveOnScroll();
+    };
+
+    let refreshRaf = null;
+    const scheduleRefresh = () => {
+        if (refreshRaf !== null) return;
+        refreshRaf = window.requestAnimationFrame(() => {
+            refreshRaf = null;
+            refreshRail();
+        });
+    };
+
+    let recalcRaf = null;
+    const scheduleRecalculate = () => {
+        if (recalcRaf !== null) return;
+        recalcRaf = window.requestAnimationFrame(() => {
+            recalcRaf = null;
+            recalculatePinTrigger();
+            refreshRail();
+        });
+    };
+
+    window.addEventListener('scroll', scheduleRefresh, { passive: true });
+    window.addEventListener('resize', scheduleRecalculate);
+    recalculatePinTrigger();
+    refreshRail();
+    window.setTimeout(scheduleRecalculate, 250);
+    window.setTimeout(scheduleRecalculate, 900);
 
     // Apply deep-link hash on initial load if present.
     const initialHash = String(window.location.hash || '').replace('#', '');
@@ -471,12 +509,47 @@ function initialiseSquadStatsAnalysisRail() {
         if (targetSection) {
             window.setTimeout(() => {
                 targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                updateAnalysisRailActive(initialHash);
+                scrollSpy?.refresh();
+                syncActiveLink();
+                recalculatePinTrigger();
+                refreshRail();
             }, 80);
         }
     }
 
     squadStatsAnalysisRailInitialised = true;
+}
+
+function updateSquadStatsAnalysisRailPinnedState(rail, layout, placeholder, pinState = null) {
+    if (!rail || !layout || !placeholder) return;
+    const triggerScrollY = Number(pinState?.triggerScrollY ?? 0);
+    const hysteresis = Number(pinState?.hysteresis ?? 0);
+    const isPinned = rail.classList.contains('is-pinned');
+    const scrollY = window.scrollY;
+    const shouldPin = isPinned
+        ? scrollY >= (triggerScrollY - hysteresis)
+        : scrollY >= (triggerScrollY + hysteresis);
+
+    if (!shouldPin) {
+        rail.classList.remove('is-pinned');
+        rail.style.removeProperty('--analysis-rail-fixed-left');
+        rail.style.removeProperty('--analysis-rail-fixed-width');
+        placeholder.style.display = 'none';
+        placeholder.style.height = '0px';
+        return;
+    }
+
+    const layoutRect = layout.getBoundingClientRect();
+    const viewportPadding = 8;
+    const left = Math.max(viewportPadding, layoutRect.left);
+    const available = window.innerWidth - (viewportPadding * 2);
+    const width = Math.max(220, Math.min(layoutRect.width, available));
+
+    rail.classList.add('is-pinned');
+    rail.style.setProperty('--analysis-rail-fixed-left', `${left}px`);
+    rail.style.setProperty('--analysis-rail-fixed-width', `${width}px`);
+    placeholder.style.display = 'block';
+    placeholder.style.height = `${Math.ceil(rail.offsetHeight)}px`;
 }
 
 function updateAnalysisRailActive(sectionId) {
@@ -485,14 +558,10 @@ function updateAnalysisRailActive(sectionId) {
 
     const buttons = rail.querySelectorAll('.rail-link');
     buttons.forEach(button => {
-        button.classList.remove('active');
-        if (button.getAttribute('data-target') === sectionId) {
-            button.classList.add('active');
-        }
-    });
-
-    document.querySelectorAll('.page-breadcrumb-section-link[data-section-link]').forEach(link => {
-        link.classList.toggle('is-active', link.getAttribute('data-section-link') === sectionId);
+        const isActive = button.getAttribute('href') === `#${sectionId}`;
+        button.classList.toggle('active', isActive);
+        if (isActive) button.setAttribute('aria-current', 'true');
+        else button.removeAttribute('aria-current');
     });
 }
 
