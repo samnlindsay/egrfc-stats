@@ -992,17 +992,9 @@ def fetch_new_matches_only(squad=1, season="2025/26", consolidated_file=None):
     # Combine both sets (remove duplicates)
     to_fetch = list(set(new_match_ids + retry_match_ids))
 
-    # Squad 2 fixtures should be fully refreshed from results pages because score
-    # orientation can change and full lineups are not required.
-    if squad == 2:
-        to_fetch = list(all_match_ids)
-    
     logging.info(f"Season {season} squad {squad}: {len(all_match_ids)} total matches on website")
     logging.info(f"Found {len(existing_match_ids)} existing matches in consolidated file")
-    if squad == 2:
-        logging.info(f"Need to fetch: refreshing all {len(to_fetch)} squad 2 fixtures for score accuracy")
-    else:
-        logging.info(f"Need to fetch: {len(new_match_ids)} new + {len(retry_match_ids)} incomplete = {len(to_fetch)} total")
+    logging.info(f"Need to fetch: {len(new_match_ids)} new + {len(retry_match_ids)} incomplete = {len(to_fetch)} total")
     
     if not to_fetch:
         logging.info("All matches already in consolidated file with complete data!")

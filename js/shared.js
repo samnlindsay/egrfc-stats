@@ -70,6 +70,8 @@ const CHART_CONTAINER_INVENTORY = Object.freeze([
   "squadPositionCompositionChart",
   "squadSizeTrendChart",
   "teamSheetsChart",
+  "leagueResultsChart1",
+  "leagueResultsChart2",
 ]);
 
 // Centralized responsive layout inventory for chart-level structural tweaks.
@@ -178,6 +180,16 @@ const CHART_LAYOUT_INVENTORY = {
         },
       },
     },
+  },
+  leagueResultsChart1: {
+    narrowMax: 760,
+    narrow: { legendOrient: "bottom" , width: { step: 42 }, height: { step: 32 } },
+    wide: { legendOrient: "right" },
+  },
+  leagueResultsChart2: {
+    narrowMax: 760,
+    narrow: { legendOrient: "bottom", width: { step: 42 }, height: { step: 32 } },
+    wide: { legendOrient: "right" },
   },
   scrumH2HChart: {
     narrowMax: 760,
@@ -385,6 +397,7 @@ function applyLegendOrientationDeep(spec, orient) {
   });
   if (spec.spec) applyLegendOrientationDeep(spec.spec, orient);
 }
+
 
 function applyLegendTitleOrientDeep(spec, titleOrient) {
   if (!spec || typeof spec !== "object" || !titleOrient) return;
@@ -614,6 +627,11 @@ function applyResponsiveChartScale(rootElement = document) {
       )
     ) {
       resetResponsiveChartScale(embed);
+      return;
+    }
+
+    if (embed.closest("#leagueResultsChart1, #leagueResultsChart2")) {
+      // League Results uses dedicated page-level scaling in league-tables.js.
       return;
     }
 
@@ -992,6 +1010,28 @@ function shouldDisableVegaTooltips() {
   return coarsePointer || narrowViewport;
 }
 
+function applyChartSpecCustomizer(spec, options = {}) {
+  const customizer =
+    typeof options.specCustomizer === "function"
+      ? options.specCustomizer
+      : typeof options.customizeSpec === "function"
+        ? options.customizeSpec
+        : null;
+  if (!customizer) return spec;
+  try {
+    const customResult = customizer(cloneChartSpec(spec), {
+      containerId: options.containerId || null,
+      layoutContainerId: options.layoutContainerId || options.containerId || null,
+      sourcePath: options.sourcePath || spec?.__sourcePath || null,
+      customizerData: options.specCustomizerData,
+    });
+    if (customResult && typeof customResult === "object") return customResult;
+  } catch (error) {
+    console.error("Chart spec customization failed:", error);
+  }
+  return spec;
+}
+
 async function embedChartSpec(containerOrId, spec, options = {}) {
   const container =
     typeof containerOrId === "string"
@@ -1026,14 +1066,21 @@ async function embedChartSpec(containerOrId, spec, options = {}) {
     variantPath && variantPath !== sourcePath
       ? await loadChartSpec(variantPath)
       : spec;
-  const chartSpec = prepareChartSpecForEmbed(variantSpec, {
+  const customizedSpec = applyChartSpecCustomizer(variantSpec, {
+    ...options,
+    containerId: layoutContainerId,
+    layoutContainerId,
+    sourcePath: variantPath || sourcePath,
+  });
+  const chartSpec = prepareChartSpecForEmbed(customizedSpec, {
     ...options,
     containerId: layoutContainerId,
     containerWidth: layoutWidth,
   });
 
   const embedOptions = {
-    actions: VEGA_EMBED_ACTIONS,
+    actions:
+      options.actions !== undefined ? options.actions : VEGA_EMBED_ACTIONS,
     renderer: "svg",
     tooltip: shouldDisableVegaTooltips() ? false : true,
   };

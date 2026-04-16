@@ -26,7 +26,7 @@
     <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
 </head>
 
-<body>
+<body id="page-league-tables">
     <nav class="navbar navbar-expand-lg navbar-dark app-top-navbar">
         <div class="container-fluid">
             <a class="navbar-brand app-navbar-brand" href="index.html">
@@ -72,25 +72,114 @@
 
     <div class="main-content">
         <div class="page-shell page-shell--sm">
-            <div class="page-header">
-                <div class="page-header-text">
-                    <h1>League Tables</h1>
-                    <p>1st and 2nd XV league tables and visualisation of all league results.</p>
+
+            <section class="ux-hero squad-stats-hero" aria-labelledby="leagueTablesHeroTitle">
+                <div class="ux-hero-main">
+                    <p class="ux-hero-kicker">League Analytics</p>
+                    <h1 id="leagueTablesHeroTitle" class="ux-hero-title">League Tables</h1>
+                    <p class="ux-hero-description">Track where the 1st XV and 2nd XV finished each season, alongside their full league standings.</p>
+                    <p class="ux-hero-description">Use the season and squad filters to compare standings and match-result visuals for one squad or both side by side.</p>
                 </div>
-                <div class="page-header-filters">
-                    <div class="filter-item league-season-picker" style="margin-bottom: 0;">
-                        <div class="input-group">
-                            <span class="input-group-text">Season</span>
-                            <select id="leagueTableSeasonSelect" class="selectpicker form-control flex-fill"
-                                data-size="8">
-                            </select>
-                        </div>
+                <div class="ux-hero-metrics" aria-live="polite">
+                    <div class="ux-hero-metrics-head">
+                        <h2 class="ux-hero-metrics-title">Headline League Context</h2>
+                        <p id="leagueTablesHeroMeta" class="ux-hero-metrics-meta">Current selection</p>
+                    </div>
+                    <div class="ux-hero-metrics-grid league-tables-hero-metrics-grid">
+                        <article class="ux-hero-metric ux-hero-metric--1st">
+                            <h3 class="ux-hero-metric-label">1st XV League Position</h3>
+                            <p id="leagueTablesHero1stValue" class="ux-hero-metric-value">-</p>
+                            <p id="leagueTablesHero1stNote" class="ux-hero-metric-note">No data</p>
+                        </article>
+                        <article class="ux-hero-metric ux-hero-metric--2nd">
+                            <h3 class="ux-hero-metric-label">2nd XV League Position</h3>
+                            <p id="leagueTablesHero2ndValue" class="ux-hero-metric-value">-</p>
+                            <p id="leagueTablesHero2ndNote" class="ux-hero-metric-note">No data</p>
+                        </article>
                     </div>
                 </div>
-            </div>
+            </section>
 
-            <div class="row" id="leagueTablesContainer">
-                <!-- Tables populated by JavaScript -->
+            <div class="squad-stats-layout league-tables-layout">
+                <aside id="leagueTablesAnalysisRail" class="analysis-rail nav" aria-label="Section navigation">
+                    <p class="analysis-rail-title">Sections</p>
+                    <a class="rail-link nav-link active" href="#sec-league-standings" data-short="Tables"><i class="bi bi-table"
+                            aria-hidden="true"></i><span class="rail-link-label">League Standings</span></a>
+                    <a class="rail-link nav-link" href="#sec-league-results" data-short="Results"><i class="bi bi-graph-up-arrow"
+                            aria-hidden="true"></i><span class="rail-link-label">League Results</span></a>
+                </aside>
+
+                <main class="squad-stats-main league-tables-main">
+                    <section id="sec-league-standings" class="analysis-section chart-section"
+                        aria-labelledby="league-standings-heading">
+                        <h2 id="league-standings-heading" class="section-heading">League Standings</h2>
+                        <p class="section-intro">Complete league tables for each available EGRFC squad in the selected season.</p>
+                        <div id="leagueTablesStandingsActiveFilters" class="squad-stats-active-filters" aria-live="polite"></div>
+
+                        <div class="chart-section-block chart-section-block--panel">
+                            <div class="chart-section-content">
+                                <div class="row" id="leagueTablesStandingsContainer">
+                                    <!-- Standings tables populated by JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="sec-league-results" class="analysis-section chart-section"
+                        aria-labelledby="league-results-heading">
+                        <h2 id="league-results-heading" class="section-heading">League Results</h2>
+                        <p class="section-intro text-muted">Match-by-match results matrix for each squad, with optional colour modes for outcomes and upsets. Click to highlight all results for a particular team.</p>
+                        <div id="leagueTablesResultsActiveFilters" class="squad-stats-active-filters" aria-live="polite"></div>
+
+                        <div class="chart-section-block chart-section-block--panel">
+                            <div class="chart-section-content">
+                                <div class="row" id="leagueTablesResultsContainer">
+                                    <!-- Results charts populated by JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <div class="offcanvas offcanvas-end squad-filters-offcanvas" tabindex="-1" id="leagueTablesFiltersOffcanvas"
+        aria-labelledby="leagueTablesFiltersHeading">
+        <div class="offcanvas-header">
+            <div>
+                <h5 id="leagueTablesFiltersHeading" class="section-heading section-heading--flush">Filters</h5>
+                <p class="squad-filters-description">Choose the season for the standings and results sections.</p>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div class="squad-filters-grid squad-filters-grid--offcanvas">
+                <div class="squad-filter-control" role="group" aria-label="Season">
+                    <span class="squad-filter-label">Season</span>
+                    <div class="squad-filter-season-stepper">
+                        <button type="button" id="leagueTablesSeasonPrevOffcanvas" class="squad-filter-stepper-btn"
+                            aria-label="Previous season">&#8249;</button>
+                        <span id="leagueTablesSeasonLabelOffcanvas" class="squad-filter-stepper-label"></span>
+                        <button type="button" id="leagueTablesSeasonNextOffcanvas" class="squad-filter-stepper-btn"
+                            aria-label="Next season">&#8250;</button>
+                    </div>
+                    <select id="leagueTableSeasonSelect" class="visually-hidden" aria-hidden="true"
+                        tabindex="-1"></select>
+                </div>
+                <div class="squad-filter-control" role="group" aria-label="Squad">
+                    <span class="squad-filter-label">Squad</span>
+                    <div class="squad-filter-segment" id="leagueTablesSquadSegment">
+                        <button type="button" class="squad-filter-segment-btn is-active" data-value="All">Both</button>
+                        <button type="button" class="squad-filter-segment-btn" data-value="1st">1st XV</button>
+                        <button type="button" class="squad-filter-segment-btn" data-value="2nd">2nd XV</button>
+                    </div>
+                    <select id="leagueTablesSquadSelect" class="visually-hidden" aria-hidden="true" tabindex="-1">
+                        <option value="All" selected>Both squads</option>
+                        <option value="1st">1st XV</option>
+                        <option value="2nd">2nd XV</option>
+                    </select>
+                </div>
             </div>
         </div>
     </div>

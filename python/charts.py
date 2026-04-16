@@ -4802,16 +4802,16 @@ def _derive_unexpected_result(row, rank_map):
     home_rank = rank_map.get(row.get("home_team"))
     away_rank = rank_map.get(row.get("away_team"))
     if home_rank is None or away_rank is None:
-        return "Expected"
+        return "Expected result"
 
     if home_rank == away_rank:
-        return "Expected"
+        return "Expected result"
 
     higher_ranked_side = "home" if home_rank < away_rank else "away"
     winner_side = "home" if result_simple == "Home Win" else "away"
 
     if winner_side == higher_ranked_side:
-        return "Expected"
+        return "Expected result"
 
     return "Upset (Away Win)" if winner_side == "away" else "Upset (Home Win)"
 
@@ -5001,7 +5001,7 @@ def league_results_chart(db, season="2024-2025", league="Counties 1 Surrey/Susse
     matrix_df["unexpected_result"] = matrix_df.apply(lambda row: _derive_unexpected_result(row, rank_map), axis=1)
     matrix_df["unexpected_opacity"] = matrix_df["unexpected_result"].map(
         {
-            "Expected": 0.25,
+            "Expected result": 0.25,
             "Upset (Home Win)": 0.75,
             "Upset (Away Win)": 1.0,
             "Draw": 0.75,
@@ -5014,7 +5014,7 @@ def league_results_chart(db, season="2024-2025", league="Counties 1 Surrey/Susse
     predicate = f"datum.home_team == {highlight.name}['home_team'] || datum.away_team == {highlight.name}['home_team']"
     visible_predicate = f"{predicate} || !isValid({highlight.name}['home_team'])"
     text_color = alt.condition(
-        f"({visible_predicate}) && datum.unexpected_result == 'Expected'",
+        f"({visible_predicate}) && datum.unexpected_result == 'Expected result'",
         alt.value("black"),
         alt.value("white"),
     )
@@ -5033,17 +5033,15 @@ def league_results_chart(db, season="2024-2025", league="Counties 1 Surrey/Susse
         color=alt.Color(
             "unexpected_result:N",
             scale=alt.Scale(
-                domain=["Expected", "Upset (Home Win)", "Upset (Away Win)", "Draw", "To be played", "N/A"],
+                domain=["Expected result", "Upset (Home Win)", "Upset (Away Win)", "Draw", "To be played", "N/A"],
                 range=["#146f1444", "#991515bb", "#991515", "goldenrod", "white", "black"],
             ),
             title=None,
             legend=alt.Legend(
                 orient="bottom",
-                direction="horizontal",
-                columns=1,
                 symbolStrokeColor="black",
                 symbolStrokeWidth=1,
-                values=["Upset (Away Win)", "Draw", "Expected"],
+                values=["Upset (Away Win)", "Draw", "Expected result"],
                 labelExpr="datum.value === 'Upset (Away Win)' ? 'Upset' : datum.value",
                 offset=16,
                 labelLimit=220,
@@ -5130,8 +5128,7 @@ def league_results_chart(db, season="2024-2025", league="Counties 1 Surrey/Susse
                 "Diagonal values are total points difference by team.",
                 "Upsets (where the lower-ranked team won) are shaded red, darker for away wins."
             ],
-        ),
-        padding={"left": 20, "top": 20, "right": 40, "bottom": 120},
+        )
     ).configure_view(stroke=None).add_params(highlight)
 
     chart.save(output_file)

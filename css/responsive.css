@@ -20,18 +20,21 @@
 @media (max-width: 768px) {
 
     #page-squad-stats .page-shell,
-    #page-player-stats .page-shell {
+    #page-player-stats .page-shell,
+    #page-league-tables .page-shell {
         padding-left: 0.5rem;
         padding-right: 0.5rem;
     }
 
     #page-squad-stats .squad-stats-layout,
-    #page-player-stats .squad-stats-layout {
+    #page-player-stats .squad-stats-layout,
+    #page-league-tables .squad-stats-layout {
         gap: 0.45rem;
     }
 
     #page-squad-stats .squad-stats-main,
-    #page-player-stats .squad-stats-main {
+    #page-player-stats .squad-stats-main,
+    #page-league-tables .squad-stats-main {
         gap: 0.55rem;
     }
 
@@ -276,14 +279,16 @@
     }
 
     #page-squad-stats .analysis-rail,
-    #page-player-stats .analysis-rail {
+    #page-player-stats .analysis-rail,
+    #page-league-tables .analysis-rail {
         gap: 0.2rem;
         padding: 0.3rem;
         margin-bottom: 0.25rem;
     }
 
     #page-squad-stats .analysis-rail .rail-link,
-    #page-player-stats .analysis-rail .rail-link {
+    #page-player-stats .analysis-rail .rail-link,
+    #page-league-tables .analysis-rail .rail-link {
         gap: 0.26rem;
         padding: 0.22rem 0.4rem;
         font-size: 0.78rem;
@@ -293,22 +298,26 @@
     }
 
     #page-squad-stats .analysis-rail .rail-link i,
-    #page-player-stats .analysis-rail .rail-link i {
+    #page-player-stats .analysis-rail .rail-link i,
+    #page-league-tables .analysis-rail .rail-link i {
         font-size: 0.78rem;
     }
 
     #page-squad-stats .analysis-rail .rail-link .rail-link-label,
-    #page-player-stats .analysis-rail .rail-link .rail-link-label {
+    #page-player-stats .analysis-rail .rail-link .rail-link-label,
+    #page-league-tables .analysis-rail .rail-link .rail-link-label {
         display: none;
     }
 
     #page-squad-stats .analysis-rail .rail-link::after,
-    #page-player-stats .analysis-rail .rail-link::after {
+    #page-player-stats .analysis-rail .rail-link::after,
+    #page-league-tables .analysis-rail .rail-link::after {
         content: attr(data-short);
     }
 
     #page-squad-stats .analysis-rail-title,
-    #page-player-stats .analysis-rail-title {
+    #page-player-stats .analysis-rail-title,
+    #page-league-tables .analysis-rail-title {
         display: inline-flex;
         align-items: center;
         margin: 0 0.12rem 0 0.08rem;
@@ -517,18 +526,21 @@
 
 @media (max-width: 480px) {
     #page-squad-stats .page-shell,
-    #page-player-stats .page-shell {
+    #page-player-stats .page-shell,
+    #page-league-tables .page-shell {
         padding-left: 0.35rem;
         padding-right: 0.35rem;
     }
 
     #page-squad-stats .chart-section,
-    #page-player-stats .chart-section {
+    #page-player-stats .chart-section,
+    #page-league-tables .chart-section {
         margin: 1rem 0;
     }
 
     #page-squad-stats .chart-section-block--panel,
-    #page-player-stats .chart-section-block--panel {
+    #page-player-stats .chart-section-block--panel,
+    #page-league-tables .chart-section-block--panel {
         padding: 0.5rem;
     }
 

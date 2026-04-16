@@ -3119,6 +3119,62 @@ table tbody tr:hover {
     color: var(--team-fg) !important;
 }
 
+#page-league-tables .league-tables-hero-metrics-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+#page-league-tables .ux-hero-metrics {
+    align-self: stretch;
+}
+
+#page-league-tables .ux-hero-metric-value {
+    display: inline-flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 0.2rem;
+}
+
+.league-hero-position-rank sup {
+    font-size: 0.4em;
+    font-weight: 700;
+    vertical-align: super;
+    margin-left: -0.05em;
+}
+
+.league-hero-position-total {
+    font-size: 0.4em;
+    font-weight: normal;
+    letter-spacing: -0.02em;
+    margin-left: -0.5rem;
+}
+
+.league-results-chart-card {
+    margin-top: 0.5rem;
+    padding: 0;
+    border-radius: 0.5rem;
+    background: var(--chart-surface-color);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#page-league-tables .league-results-chart-card .chart-host--intrinsic {
+    display: block;
+    width: fit-content;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: var(--chart-surface-color);
+    overflow: hidden;
+}
+
+#page-league-tables .league-results-chart-card .chart-embed-host {
+    display: block;
+    width: fit-content;
+    max-width: 100%;
+    min-width: 0;
+    overflow: visible;
+}
+
 .squad-metric-card {
     overflow: hidden;
     background: white;
@@ -3578,13 +3634,52 @@ table tbody tr:hover {
     color: #fff;
 }
 
+#playerStatsSquadSegment .squad-filter-segment-btn[data-value="All"]:not(.is-active),
+#leagueTablesSquadSegment .squad-filter-segment-btn[data-value="All"]:not(.is-active) {
+    background: rgba(0, 0, 0, 0.06);
+    border-color: rgba(0, 0, 0, 0.22);
+    color: #111;
+}
+
 #playerStatsSquadSegment .squad-filter-segment-btn[data-value="1st"].is-active {
     background: var(--primary-color);
     border-color: var(--primary-color);
     color: #fff;
 }
 
+#playerStatsSquadSegment .squad-filter-segment-btn[data-value="1st"]:not(.is-active),
+#leagueTablesSquadSegment .squad-filter-segment-btn[data-value="1st"]:not(.is-active) {
+    background: rgba(32, 41, 70, 0.08);
+    border-color: rgba(32, 41, 70, 0.24);
+    color: var(--primary-color);
+}
+
 #playerStatsSquadSegment .squad-filter-segment-btn[data-value="2nd"].is-active {
+    background: var(--accent-color);
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+#playerStatsSquadSegment .squad-filter-segment-btn[data-value="2nd"]:not(.is-active),
+#leagueTablesSquadSegment .squad-filter-segment-btn[data-value="2nd"]:not(.is-active) {
+    background: rgba(125, 150, 232, 0.16);
+    border-color: rgba(32, 41, 70, 0.2);
+    color: var(--primary-color);
+}
+
+#leagueTablesSquadSegment .squad-filter-segment-btn[data-value="All"].is-active {
+    background: #000;
+    border-color: #000;
+    color: #fff;
+}
+
+#leagueTablesSquadSegment .squad-filter-segment-btn[data-value="1st"].is-active {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    color: #fff;
+}
+
+#leagueTablesSquadSegment .squad-filter-segment-btn[data-value="2nd"].is-active {
     background: var(--accent-color);
     border-color: var(--primary-color);
     color: var(--primary-color);
@@ -4024,8 +4119,13 @@ table tbody tr:hover {
 
 .ux-hero-metric-note {
     margin: 0.15rem 0 0;
-    color: #666;
+    color: white;
+    opacity: 0.6;
     font-size: 0.78rem;
+}
+
+.ux-hero-metric--2nd .ux-hero-metric-note {
+    color: var(--primary-color);
 }
 
 .section-intro {
