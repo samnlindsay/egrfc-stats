@@ -1332,3 +1332,206 @@ function initialiseChartPanelToggles() {
     window.__chartPanelResizeBound = true;
   }
 }
+
+function initialiseAnalysisRail(options = {}) {
+  const {
+    railId,
+    layoutSelector = ".squad-stats-layout",
+    sectionSelector = ".analysis-section[id]",
+    initialHashDelay = 80,
+  } = options;
+
+  const rail = railId
+    ? document.getElementById(railId)
+    : document.querySelector(`${layoutSelector} .analysis-rail`);
+  if (!rail || rail.__analysisRailInitialised) return false;
+
+  const layout = rail.closest(layoutSelector) || rail.closest(".squad-stats-layout");
+  if (!layout) return false;
+
+  const placeholder = document.createElement("div");
+  placeholder.className = "analysis-rail-placeholder";
+  rail.insertAdjacentElement("afterend", placeholder);
+
+  const links = rail.querySelectorAll('.rail-link[href^="#"]');
+  if (!links.length) return false;
+
+  const pinState = {
+    triggerScrollY: 0,
+    hysteresis: 8,
+  };
+
+  const updateActive = (sectionId) => {
+    rail.querySelectorAll(".rail-link").forEach((link) => {
+      const isMatch = link.getAttribute("href") === `#${sectionId}`;
+      link.classList.toggle("active", isMatch);
+      if (isMatch) link.setAttribute("aria-current", "true");
+      else link.removeAttribute("aria-current");
+    });
+  };
+
+  const updateActiveOnScroll = () => {
+    const sections = layout.querySelectorAll(sectionSelector);
+    if (!sections.length) return;
+
+    let currentSection = sections[0]?.id;
+    for (const section of sections) {
+      const rect = section.getBoundingClientRect();
+      if (rect.top < window.innerHeight / 2) {
+        currentSection = section.id;
+      }
+    }
+
+    if (currentSection) updateActive(currentSection);
+  };
+
+  const updatePinnedState = () => {
+    const triggerScrollY = Number(pinState.triggerScrollY ?? 0);
+    const hysteresis = Number(pinState.hysteresis ?? 0);
+    const isPinned = rail.classList.contains("is-pinned");
+    const scrollY = window.scrollY;
+    const shouldPin = isPinned
+      ? scrollY >= triggerScrollY - hysteresis
+      : scrollY >= triggerScrollY + hysteresis;
+
+    if (!shouldPin) {
+      rail.classList.remove("is-pinned");
+      rail.style.removeProperty("--analysis-rail-fixed-left");
+      rail.style.removeProperty("--analysis-rail-fixed-width");
+      placeholder.style.display = "none";
+      placeholder.style.height = "0px";
+      return;
+    }
+
+    const layoutRect = layout.getBoundingClientRect();
+    const viewportPadding = 8;
+    const left = Math.max(viewportPadding, layoutRect.left);
+    const available = window.innerWidth - viewportPadding * 2;
+    const width = Math.max(220, Math.min(layoutRect.width, available));
+
+    rail.classList.add("is-pinned");
+    rail.style.setProperty("--analysis-rail-fixed-left", `${left}px`);
+    rail.style.setProperty("--analysis-rail-fixed-width", `${width}px`);
+    placeholder.style.display = "block";
+    placeholder.style.height = `${Math.ceil(rail.offsetHeight)}px`;
+  };
+
+  const recalculatePinTrigger = () => {
+    const navOffset =
+      parseFloat(
+        getComputedStyle(document.documentElement).getPropertyValue(
+          "--nav-offset",
+        ),
+      ) || 74;
+    const pinTop = navOffset + 7;
+    const wasPinned = rail.classList.contains("is-pinned");
+
+    if (wasPinned) {
+      rail.classList.remove("is-pinned");
+      rail.style.removeProperty("--analysis-rail-fixed-left");
+      rail.style.removeProperty("--analysis-rail-fixed-width");
+      placeholder.style.display = "none";
+      placeholder.style.height = "0px";
+    }
+
+    const naturalTop = rail.getBoundingClientRect().top + window.scrollY;
+    pinState.triggerScrollY = Math.max(0, naturalTop - pinTop);
+
+    if (wasPinned) updatePinnedState();
+  };
+
+  links.forEach((link) => {
+    link.addEventListener("click", (event) => {
+      const targetId = link.getAttribute("href")?.replace("#", "");
+      const targetSection = targetId ? document.getElementById(targetId) : null;
+      if (!targetSection) return;
+      event.preventDefault();
+      targetSection.scrollIntoView({ behavior: "smooth", block: "start" });
+      if (window.location.hash !== `#${targetId}`) {
+        window.history.replaceState(null, "", `#${targetId}`);
+      }
+      window.setTimeout(() => {
+        recalculatePinTrigger();
+        updatePinnedState();
+        updateActiveOnScroll();
+      }, 120);
+    });
+  });
+
+  const navOffset =
+    parseFloat(
+      getComputedStyle(document.documentElement).getPropertyValue(
+        "--nav-offset",
+      ),
+    ) || 74;
+  const railHeight = rail.getBoundingClientRect().height || 48;
+  const scrollSpy = window.bootstrap?.ScrollSpy
+    ? window.bootstrap.ScrollSpy.getOrCreateInstance(document.body, {
+        target: railId ? `#${railId}` : undefined,
+        offset: Math.ceil(navOffset + railHeight + 12),
+      })
+    : null;
+
+  const syncActiveLink = () => {
+    rail.querySelectorAll(".rail-link").forEach((link) => {
+      if (link.classList.contains("active")) link.setAttribute("aria-current", "true");
+      else link.removeAttribute("aria-current");
+    });
+  };
+
+  document.body.addEventListener("activate.bs.scrollspy", syncActiveLink);
+  syncActiveLink();
+  scrollSpy?.refresh();
+
+  const refreshRail = () => {
+    updatePinnedState();
+    updateActiveOnScroll();
+  };
+
+  let refreshRaf = null;
+  const scheduleRefresh = () => {
+    if (refreshRaf !== null) return;
+    refreshRaf = window.requestAnimationFrame(() => {
+      refreshRaf = null;
+      refreshRail();
+    });
+  };
+
+  let recalcRaf = null;
+  const scheduleRecalculate = () => {
+    if (recalcRaf !== null) return;
+    recalcRaf = window.requestAnimationFrame(() => {
+      recalcRaf = null;
+      recalculatePinTrigger();
+      scrollSpy?.refresh();
+      syncActiveLink();
+      refreshRail();
+    });
+  };
+
+  window.addEventListener("scroll", scheduleRefresh, { passive: true });
+  window.addEventListener("resize", scheduleRecalculate);
+  window.addEventListener("hashchange", scheduleRecalculate);
+
+  recalculatePinTrigger();
+  refreshRail();
+  window.setTimeout(scheduleRecalculate, 250);
+  window.setTimeout(scheduleRecalculate, 900);
+
+  const initialHash = String(window.location.hash || "").replace("#", "");
+  if (initialHash) {
+    const targetSection = document.getElementById(initialHash);
+    if (targetSection) {
+      window.setTimeout(() => {
+        targetSection.scrollIntoView({ behavior: "smooth", block: "start" });
+        scrollSpy?.refresh();
+        syncActiveLink();
+        recalculatePinTrigger();
+        refreshRail();
+      }, initialHashDelay);
+    }
+  }
+
+  rail.__analysisRailInitialised = true;
+  return true;
+}

@@ -961,26 +961,171 @@ td:has(> .squad-pill) > .squad-pill {
     background-color: rgba(125, 150, 232, 0.12) !important;
 }
 
-.match-data-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-    padding: 0.18rem 0.45rem;
-    border-radius: 999px;
-    border: 1px solid var(--primary-color);
-    background: transparent;
-    color: var(--primary-color);
-    font-size: 0.74rem;
+.match-open-btn {
+    width: 1.8rem;
+    height: 1.8rem;
     line-height: 1;
-    text-decoration: none;
-    white-space: nowrap;
 }
 
-.match-data-link:hover,
-.match-data-link:focus {
+.match-table-venue,
+th.match-table-open-cell,
+td.match-table-open-cell {
+    width: 1px;
+    white-space: nowrap;
+    text-align: center;
+}
+
+.match-info-hero-matrix {
+    display: grid;
+    grid-template-columns: 3.2rem repeat(2, minmax(0, 1fr));
+    gap: 0.42rem;
+    align-items: stretch;
+}
+
+.match-info-hero-matrix-corner {
+    min-height: 1px;
+}
+
+.match-info-hero-matrix-colhead {
+    margin: 0;
+    padding: 0.28rem 0.25rem 0.18rem;
+    font-size: 2rem;
+    font-weight: 900;
+    text-align: center;
+    color: #eef2ff;
+}
+
+.match-info-hero-matrix-rowhead {
+    margin: 0;
+    padding: 0.45rem 0.2rem;
+    font-size: 0.86rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #d9e2ff;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.match-info-hero-matrix-cell {
+    min-width: 0;
+}
+
+.match-info-hero-action-card {
+    width: 100%;
+    min-height: 3.35rem;
+    border-radius: 0.65rem;
+    border: 2px solid rgba(26, 39, 76, 0.2);
+    background: #ffffff;
+    color: #152042;
+    box-shadow: 0 2px 6px rgba(32, 41, 70, 0.12);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.02rem;
+    padding: 0.34rem 0.4rem;
+    text-align: center;
+    font-family: 'PT Sans Narrow', sans-serif;
+    line-height: 1.12;
+}
+
+.match-info-hero-matrix-cell--1st .match-info-hero-action-card {
+    border-color: color-mix(in srgb, var(--primary-color) 70%, #ffffff);
     background: var(--primary-color);
-    color: #ffffff;
-    text-decoration: none;
+    color: #f4f7ff;
+}
+
+.match-info-hero-matrix-cell--2nd .match-info-hero-action-card {
+    border-color: color-mix(in srgb, var(--accent-color) 75%, var(--primary-color));
+    background: var(--accent-color);
+    color: var(--primary-color);
+}
+
+button.match-info-hero-action-card {
+    cursor: pointer;
+    transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+}
+
+button.match-info-hero-action-card:hover,
+button.match-info-hero-action-card:focus-visible {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 11px rgba(32, 41, 70, 0.18);
+    outline: none;
+}
+
+.match-info-hero-matrix-cell--1st button.match-info-hero-action-card:hover,
+.match-info-hero-matrix-cell--1st button.match-info-hero-action-card:focus-visible {
+    border-color: #ffffff;
+    box-shadow: 0 4px 12px rgba(32, 41, 70, 0.3);
+}
+
+.match-info-hero-matrix-cell--2nd button.match-info-hero-action-card:hover,
+.match-info-hero-matrix-cell--2nd button.match-info-hero-action-card:focus-visible {
+    border-color: var(--primary-color);
+    box-shadow: 0 4px 12px rgba(32, 41, 70, 0.24);
+}
+
+.match-info-hero-action-card.is-empty {
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.match-info-hero-matrix-cell--1st .match-info-hero-action-card.is-empty {
+    color: color-mix(in srgb, #ffffff 84%, var(--primary-color));
+}
+
+.match-info-hero-matrix-cell--2nd .match-info-hero-action-card.is-empty {
+    color: color-mix(in srgb, var(--primary-color) 80%, #ffffff);
+}
+
+.match-info-hero-action-date {
+    font-size: 0.92rem;
+    font-weight: 900;
+}
+
+.match-info-hero-action-detail {
+    font-size: 0.78rem;
+    font-weight: 700;
+}
+
+.match-info-hero-matrix-cell--1st .match-info-hero-action-detail {
+    color: color-mix(in srgb, #ffffff 82%, var(--primary-color));
+}
+
+.match-info-hero-matrix-cell--2nd .match-info-hero-action-detail {
+    color: color-mix(in srgb, var(--primary-color) 88%, #ffffff);
+}
+
+@media (max-width: 767.98px) {
+    .match-info-hero-matrix {
+        grid-template-columns: 2.8rem repeat(2, minmax(0, 1fr));
+        gap: 0.3rem;
+    }
+
+    .match-info-hero-matrix-colhead {
+        font-size: 0.82rem;
+        padding-top: 0.18rem;
+    }
+
+    .match-info-hero-matrix-rowhead {
+        font-size: 0.72rem;
+        letter-spacing: 0.06em;
+    }
+
+    .match-info-hero-action-card {
+        min-height: 3rem;
+        padding: 0.24rem 0.25rem;
+    }
+
+    .match-info-hero-action-date {
+        font-size: 0.82rem;
+    }
+
+    .match-info-hero-action-detail {
+        font-size: 0.72rem;
+    }
 }
 
 .match-info-hero {
@@ -2832,6 +2977,26 @@ table tbody tr:hover {
     min-height: 20rem;
 }
 
+/* Rounded table used on Match Info finder */
+#matchDataTableWrap {
+    min-height: unset;
+    border-radius: 0.65rem;
+    overflow: hidden;
+    border: 1px solid #dee2e6;
+}
+
+#matchDataTableWrap .database-data-table {
+    margin-bottom: 0;
+}
+
+#matchDataTableWrap .database-data-table thead th:first-child {
+    border-top-left-radius: 0.65rem;
+}
+
+#matchDataTableWrap .database-data-table thead th:last-child {
+    border-top-right-radius: 0.65rem;
+}
+
 .database-empty-state {
     padding: 2rem 1rem;
     text-align: center;
@@ -2852,6 +3017,40 @@ table tbody tr:hover {
     flex: 0 0 auto;
     width: auto;
     white-space: nowrap;
+}
+
+@media (max-width: 767.98px) {
+    #matchDataTableWrap {
+        border-radius: 0.5rem;
+    }
+
+    #matchDataTableWrap .database-data-table tbody td {
+        max-width: 9rem;
+    }
+
+    #matchDataTableWrap .database-data-table tbody td:nth-child(3) {
+        max-width: 7.25rem;
+    }
+
+    #matchDataTableWrap .database-data-table tbody td:nth-child(5) {
+        max-width: 5.8rem;
+    }
+
+    #matchDataTableWrap .squad-pill {
+        font-size: 0.78rem;
+        padding: 0.1rem 0.38rem;
+    }
+
+    #matchDataTableWrap .match-table-venue {
+        font-size: 0.76rem;
+        font-weight: 700;
+    }
+
+    #matchDataTableWrap .match-open-btn {
+        width: 1.45rem;
+        height: 1.45rem;
+        --bs-btn-font-size: 0.72rem;
+    }
 }
 
 .database-muted {
@@ -3448,37 +3647,22 @@ table tbody tr:hover {
 }
 
 .match-detail-picker-row {
-    justify-content: flex-start;
     padding-top: 0;
 }
 
-.match-detail-picker-row .match-detail-picker-item {
-    width: auto;
-    min-width: min(100%, 28rem);
-    max-width: 100%;
+.match-detail-picker-row .bootstrap-select {
+    width: 100% !important;
 }
 
-.match-detail-picker-row .input-group {
-    width: auto;
-    max-width: 100%;
-}
-
-.match-detail-picker-row .input-group .bootstrap-select {
-    width: auto !important;
-    max-width: 100%;
-}
-
-.match-detail-picker-row .input-group .bootstrap-select .dropdown-toggle {
-    width: auto !important;
-    max-width: 100% !important;
-    min-width: 24rem;
-    display: inline-flex;
+.match-detail-picker-row .bootstrap-select .dropdown-toggle {
+    border-radius: 0.375rem !important;
+    border-left: 1px solid #ced4da !important;
+    display: flex !important;
     align-items: center;
     justify-content: space-between;
-    flex-wrap: nowrap;
     white-space: nowrap !important;
-    overflow: visible !important;
-    text-overflow: clip !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
 }
 
 .match-detail-picker-row .bootstrap-select .filter-option {
@@ -3488,8 +3672,8 @@ table tbody tr:hover {
 
 .match-detail-picker-row .bootstrap-select .filter-option-inner-inner {
     white-space: nowrap;
-    overflow: visible;
-    text-overflow: clip;
+    overflow: hidden;
+    text-overflow: ellipsis;
     line-height: 1.2;
 }
 
@@ -3892,6 +4076,29 @@ table tbody tr:hover {
     font-weight: 700;
     letter-spacing: 0.03em;
     text-transform: uppercase;
+}
+
+.squad-filters-grid--offcanvas .squad-filter-control .bootstrap-select .dropdown-toggle {
+    border: 1px solid #c9d3f2 !important;
+    border-radius: 0.7rem !important;
+    border-left: 1px solid #c9d3f2 !important;
+    background: #fff !important;
+    color: var(--primary-color) !important;
+    min-height: 2.9rem;
+    padding: 0.7rem 0.95rem !important;
+    box-shadow: none !important;
+}
+
+.squad-filters-grid--offcanvas .squad-filter-control .bootstrap-select.show .dropdown-toggle,
+.squad-filters-grid--offcanvas .squad-filter-control .bootstrap-select .dropdown-toggle:focus,
+.squad-filters-grid--offcanvas .squad-filter-control .bootstrap-select .dropdown-toggle:hover {
+    border-color: #7d96e8 !important;
+    background: #f8faff !important;
+}
+
+.squad-filters-grid--offcanvas .squad-filter-control .bootstrap-select .filter-option-inner-inner {
+    color: var(--primary-color);
+    font-weight: 700;
 }
 
 .squad-filter-season-stepper {

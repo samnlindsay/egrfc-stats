@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="css/responsive.css">
 </head>
 
-<body>
+<body id="page-match-info">
     <nav class="navbar navbar-expand-lg navbar-dark app-top-navbar">
         <div class="container-fluid">
             <a class="navbar-brand app-navbar-brand" href="index.html">
@@ -67,111 +67,143 @@
     </nav>
 
     <div class="main-content">
-        <div class="page-shell page-shell--md">
-            <div class="page-header page-header--compact">
-                <div class="page-header-text">
-                    <h1 style="margin-bottom: 0;">Match Info</h1>
+        <div class="page-shell page-shell--sm">
+            <section class="ux-hero squad-stats-hero" aria-labelledby="matchInfoHeroTitle">
+                <div class="ux-hero-main">
+                    <p class="ux-hero-kicker">Team Analytics</p>
+                    <h1 id="matchInfoHeroTitle" class="ux-hero-title">Match Info</h1>
+                    <p class="ux-hero-description">Open full match detail from the fixture list, with team sheets, scorers, and video analysis context.</p>
+                    <p class="ux-hero-description">Use quick links for each squad to jump straight to the most recent fixture or the next scheduled match.</p>
                 </div>
-                <div class="page-header-actions" style="padding-top: 0;">
-                    <a class="page-header-link" href="squad-stats.html">
-                        <i class="bi bi-arrow-left" aria-hidden="true"></i>
-                        <span>Squad Stats</span>
-                    </a>
-                </div>
-            </div>
+                <div class="ux-hero-metrics" aria-live="polite">
+                    <div class="match-info-hero-matrix" role="group" aria-label="Recent and upcoming fixtures by squad">
+                        <div class="match-info-hero-matrix-corner" aria-hidden="true"></div>
+                        <h3 class="match-info-hero-matrix-colhead">1st XV</h3>
+                        <h3 class="match-info-hero-matrix-colhead">2nd XV</h3>
 
-            <section aria-label="Match finder" style="margin: 0 0 1.35rem; padding: 0.85rem 0.85rem 0.4rem; border: 1px solid black; border-radius: 0.95rem; background: #ffffff; box-shadow: 0 8px 18px rgba(32, 41, 70, 0.04);">
-                <div style="margin: 0 0 0.8rem;">
-                    <h2 class="section-heading section-heading--flush" style="font-size: 1.2rem;">Match Finder</h2>
-                    <p style="margin: 0.28rem 0 0; color: #5b6173; font-size: 0.9rem;">Filter the fixture list, then open a match or choose it below to view full match content.</p>
-                </div>
+                        <p class="match-info-hero-matrix-rowhead">Last</p>
+                        <div id="matchInfoHero1stLast" class="match-info-hero-matrix-cell match-info-hero-matrix-cell--1st">
+                            <span class="match-info-hero-action-card is-empty">Loading...</span>
+                        </div>
+                        <div id="matchInfoHero2ndLast" class="match-info-hero-matrix-cell match-info-hero-matrix-cell--2nd">
+                            <span class="match-info-hero-action-card is-empty">Loading...</span>
+                        </div>
 
-                <div class="page-header-filters" style="margin-bottom: 1rem;">
-                    <div class="filter-item">
-                        <div class="input-group">
-                            <span class="input-group-text">Squad</span>
-                            <select id="matchFilterSquad" class="selectpicker form-control flex-fill" data-size="8">
-                                <option value="All" selected>All squads</option>
-                            </select>
+                        <p class="match-info-hero-matrix-rowhead">Next</p>
+                        <div id="matchInfoHero1stNext" class="match-info-hero-matrix-cell match-info-hero-matrix-cell--1st">
+                            <span class="match-info-hero-action-card is-empty">Loading...</span>
                         </div>
-                    </div>
-                    <div class="filter-item">
-                        <div class="input-group">
-                            <span class="input-group-text">Season</span>
-                            <select id="matchFilterSeason" class="selectpicker form-control flex-fill" data-size="10">
-                                <option value="All" selected>All seasons</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="filter-item">
-                        <div class="input-group">
-                            <span class="input-group-text">Opposition</span>
-                            <select id="matchFilterOpposition" class="selectpicker form-control flex-fill" data-live-search="true" data-size="10">
-                                <option value="All" selected>All opposition</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="chart-panel" style="margin-bottom: 0.25rem;">
-                    <button type="button" class="chart-panel-toggle chart-panel-toggle--black"
-                        data-target="match-list-panel" aria-expanded="true" aria-controls="match-list-panel">
-                        <span class="chart-panel-toggle-text">
-                            <span class="chart-panel-toggle-title">Filtered Matches</span>
-                            <span class="chart-panel-toggle-hint">Browse matches and open full match info</span>
-                        </span>
-                        <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
-                    </button>
-                    <div id="match-list-panel" class="chart-panel-content">
-                        <div class="chart-panel-card full-profile-table-card">
-                            <div class="table-responsive database-table-responsive" id="matchDataTableWrap">
-                                <table class="table table-striped table-hover align-middle database-data-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Date</th>
-                                            <th>Season</th>
-                                            <th>Squad</th>
-                                            <th>Opposition</th>
-                                            <th>Game Type</th>
-                                            <th>Result</th>
-                                            <th>Open</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="matchDataTableBody"></tbody>
-                                </table>
-                            </div>
-                            <div class="database-pagination-bar" style="justify-content: space-between;">
-                                <div id="matchDataPaginationSummary" class="database-pagination-summary">0 matches</div>
-                                <div class="btn-group btn-group-sm" role="group" aria-label="Match pagination">
-                                    <button id="matchDataPrev" type="button" class="btn btn-outline-secondary">Previous</button>
-                                    <button id="matchDataNext" type="button" class="btn btn-outline-secondary">Next</button>
-                                </div>
-                            </div>
+                        <div id="matchInfoHero2ndNext" class="match-info-hero-matrix-cell match-info-hero-matrix-cell--2nd">
+                            <span class="match-info-hero-action-card is-empty">Loading...</span>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <hr style="margin: 1rem 0; border: 2px solid var(--primary-color)">
+            <div class="squad-stats-layout">
+                <aside id="matchInfoAnalysisRail" class="analysis-rail nav" aria-label="Section navigation">
+                    <p class="analysis-rail-title">Sections</p>
+                    <a class="rail-link nav-link active" href="#sec-match-finder" data-short="Finder"><i class="bi bi-funnel"
+                            aria-hidden="true"></i><span class="rail-link-label">Match Finder</span></a>
+                        <a class="rail-link nav-link" href="#sec-match-detail" data-short="Detail"><i class="bi bi-search"
+                            aria-hidden="true"></i><span class="rail-link-label">Match Detail</span></a>
+                </aside>
 
-            <div class="page-header-filters match-detail-picker-row" style="margin-bottom: 0.75rem;">
-                <div class="filter-item match-detail-picker-item" style="min-width: min(100%, 420px);">
-                    <div class="input-group">
-                        <span class="input-group-text">Match</span>
-                        <select id="matchSelect" class="selectpicker form-control flex-fill" data-live-search="true" data-size="10" title="Select match..."></select>
-                    </div>
-                </div>
-            </div>
+                <main class="squad-stats-main match-info-main">
+                    <section id="sec-match-finder" class="analysis-section chart-section" aria-labelledby="match-finder-heading">
+                        <h2 id="match-finder-heading" class="section-heading">Match Finder</h2>
+                        <p class="section-intro">Filter the fixture list, browse the paginated match table, and open a match below for full detail.</p>
+                        <div id="matchInfoActiveFilters" class="squad-stats-active-filters" aria-live="polite"></div>
 
-            <div id="matchDataInfoPanel" style="margin-top: 0.2rem;">
-                <div style="display: flex; justify-content: flex-end; margin: 0 0 0.55rem;">
-                    <span id="matchDataInfoHeaderAction" class="match-data-info-header-action"></span>
-                </div>
-                <div id="matchDataInfoBody" style="display: grid; gap: 1rem;">
-                    <p class="text-muted" style="margin: 0;">Select a match to load full match information.</p>
-                </div>
+                        <div class="table-responsive database-table-responsive" id="matchDataTableWrap">
+                            <table class="table table-sm table-striped table-hover align-middle database-data-table match-info-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Squad</th>
+                                        <th>Opposition</th>
+                                        <th>Venue</th>
+                                        <th>Game Type</th>
+                                        <th>Result</th>
+                                        <th class="match-table-open-cell" aria-label="View"></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="matchDataTableBody"></tbody>
+                            </table>
+                        </div>
+                        <div class="database-pagination-bar" style="justify-content: space-between;">
+                            <div id="matchDataPaginationSummary" class="database-pagination-summary">0 matches</div>
+                            <div class="btn-group btn-group-sm" role="group" aria-label="Match pagination">
+                                <button id="matchDataPrev" type="button" class="btn btn-outline-secondary">Previous</button>
+                                <button id="matchDataNext" type="button" class="btn btn-outline-secondary">Next</button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="sec-match-detail" class="analysis-section chart-section" aria-labelledby="match-detail-heading">
+                        <h2 id="match-detail-heading" class="section-heading">Match Detail</h2>
+                        <p class="section-intro">Choose a game from the filtered list to load the full match hero, team sheet, scorers, and video-analysis sections.</p>
+
+                        <div class="match-detail-picker-row" style="margin-bottom: 0.75rem;">
+                            <select id="matchSelect" class="selectpicker form-control" data-live-search="true" data-size="10" title="Select match..."></select>
+                        </div>
+
+                        <div id="matchDataInfoPanel" style="margin-top: 0.2rem;">
+                            <div style="display: flex; justify-content: flex-end; margin: 0 0 0.55rem;">
+                                <span id="matchDataInfoHeaderAction" class="match-data-info-header-action"></span>
+                            </div>
+                            <div id="matchDataInfoBody" style="display: grid; gap: 1rem;">
+                                <p class="text-muted" style="margin: 0;">Select a match to load full match information.</p>
+                            </div>
+                        </div>
+                    </section>
+                </main>
             </div>
             <div id="matchDataError" class="alert alert-danger d-none" style="margin-top: 1rem;"></div>
+        </div>
+    </div>
+
+    <div class="offcanvas offcanvas-end squad-filters-offcanvas" tabindex="-1" id="matchInfoFiltersOffcanvas" aria-labelledby="matchInfoFiltersHeading">
+        <div class="offcanvas-header">
+            <div>
+                <h5 id="matchInfoFiltersHeading" class="section-heading section-heading--flush">Filters</h5>
+                <p class="squad-filters-description">Choose squad, season, and opposition to refine the match table and match picker.</p>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div class="squad-filters-grid squad-filters-grid--offcanvas">
+                <div class="squad-filter-control" role="group" aria-label="Squad">
+                    <span class="squad-filter-label">Squad</span>
+                    <div class="squad-filter-segment" id="matchFilterSquadSegment">
+                        <button type="button" class="squad-filter-segment-btn is-active" data-value="All">All</button>
+                        <button type="button" class="squad-filter-segment-btn" data-value="1st">1st XV</button>
+                        <button type="button" class="squad-filter-segment-btn" data-value="2nd">2nd XV</button>
+                    </div>
+                    <select id="matchFilterSquad" class="visually-hidden" aria-hidden="true" tabindex="-1">
+                        <option value="All" selected>All</option>
+                        <option value="1st">1st XV</option>
+                        <option value="2nd">2nd XV</option>
+                    </select>
+                </div>
+                <div class="squad-filter-control" role="group" aria-label="Season">
+                    <span class="squad-filter-label">Season</span>
+                    <div class="squad-filter-season-stepper">
+                        <button type="button" id="matchFilterSeasonPrev" class="squad-filter-stepper-btn" aria-label="Previous season">&#8249;</button>
+                        <span id="matchFilterSeasonLabel" class="squad-filter-stepper-label"></span>
+                        <button type="button" id="matchFilterSeasonNext" class="squad-filter-stepper-btn" aria-label="Next season">&#8250;</button>
+                    </div>
+                    <select id="matchFilterSeason" class="visually-hidden" aria-hidden="true" tabindex="-1">
+                        <option value="All" selected>All</option>
+                    </select>
+                </div>
+                <div class="squad-filter-control" role="group" aria-label="Opposition">
+                    <span class="squad-filter-label">Opposition</span>
+                    <select id="matchFilterOpposition" class="selectpicker form-control flex-fill" data-live-search="true" data-size="10" title="All">
+                        <option value="All" selected>All</option>
+                    </select>
+                </div>
+            </div>
         </div>
     </div>
 

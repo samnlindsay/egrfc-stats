@@ -8,6 +8,9 @@ let setPieceByGameId = new Map();
 let lineoutsByGameId = new Map();
 let isCompactTeamSheetMode = false;
 let clubLogosManifest = {}; // Will be populated by loadLogosManifest()
+let matchInfoAnalysisRailInitialised = false;
+
+const MATCH_INFO_FILTERS_OFFCANVAS_ID = 'matchInfoFiltersOffcanvas';
 
 // Load the logos manifest on page load
 async function loadLogosManifest() {
@@ -78,10 +81,14 @@ function formatDisplayDate(value) {
 
 function normaliseResult(row) {
     const result = String(row?.result || '').toUpperCase();
-    const pf = Number(row?.score_for);
-    const pa = Number(row?.score_against);
+    const pfRaw = row?.score_for;
+    const paRaw = row?.score_against;
+    const pf = Number(pfRaw);
+    const pa = Number(paRaw);
     const prefix = result || '-';
-    if (Number.isFinite(pf) && Number.isFinite(pa)) return `${prefix} ${pf}-${pa}`;
+    const hasScores = pfRaw != null && pfRaw !== '' && Number.isFinite(pf)
+        && paRaw != null && paRaw !== '' && Number.isFinite(pa);
+    if (hasScores) return `${prefix} ${pf}-${pa}`;
     return prefix;
 }
 
@@ -103,6 +110,81 @@ function formatSquadLabel(value) {
 function fixtureLabel(row) {
     const dateLabel = formatDisplayDate(row?.date);
     return `${dateLabel} - ${formatSquadLabel(row?.squad)} v ${String(row?.opposition || 'Unknown')}`;
+}
+
+function parseMatchDateValue(value) {
+    const raw = String(value || '').trim();
+    if (!raw) return null;
+    const isoDateMatch = raw.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    const parsed = isoDateMatch
+        ? new Date(Number(isoDateMatch[1]), Number(isoDateMatch[2]) - 1, Number(isoDateMatch[3]))
+        : new Date(raw);
+    if (Number.isNaN(parsed.getTime())) return null;
+    parsed.setHours(0, 0, 0, 0);
+    return parsed;
+}
+
+function hasRecordedResult(row) {
+    const result = String(row?.result || '').trim().toUpperCase();
+    if (result === 'W' || result === 'L' || result === 'D') return true;
+    const pfRaw = row?.score_for;
+    const paRaw = row?.score_against;
+    return pfRaw != null && pfRaw !== '' && paRaw != null && paRaw !== '';
+}
+
+function findSquadRecentAndNextMatch(squad) {
+    const squadMatches = allMatches
+        .filter(row => String(row?.squad || '').trim() === squad)
+        .map(row => ({ row, date: parseMatchDateValue(row?.date) }))
+        .filter(item => item.date instanceof Date)
+        .sort((a, b) => a.date - b.date);
+
+    if (!squadMatches.length) return { recent: null, next: null };
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const completed = squadMatches
+        .filter(item => item.date <= today || hasRecordedResult(item.row))
+        .sort((a, b) => b.date - a.date);
+    const recent = completed[0]?.row || null;
+
+    const upcoming = squadMatches
+        .filter(item => item.date > today && !hasRecordedResult(item.row))
+        .sort((a, b) => a.date - b.date);
+    const next = upcoming[0]?.row || null;
+
+    return { recent, next };
+}
+
+function renderHeroMatchAction(row) {
+    if (!row) {
+        return '<span class="match-info-hero-action-card is-empty">No fixture</span>';
+    }
+
+    const gameId = String(row?.game_id || '').trim();
+    const opposition = String(row?.opposition || 'Unknown').trim() || 'Unknown';
+    const venue = String(row?.home_away || '').trim().toUpperCase() === 'A' ? 'A' : 'H';
+    const dateText = formatDisplayDate(row?.date);
+    const detail = `${opposition} (${venue})`;
+
+    return `<button type="button" class="match-info-hero-action-card" data-match-hero-jump="${escapeAttribute(gameId)}"><span class="match-info-hero-action-date">${escapeHtml(dateText)}</span><span class="match-info-hero-action-detail">${escapeHtml(detail)}</span></button>`;
+}
+
+function renderMatchInfoHeroQuickLinks() {
+    const firstLastHost = document.getElementById('matchInfoHero1stLast');
+    const firstNextHost = document.getElementById('matchInfoHero1stNext');
+    const secondLastHost = document.getElementById('matchInfoHero2ndLast');
+    const secondNextHost = document.getElementById('matchInfoHero2ndNext');
+    if (!firstLastHost || !firstNextHost || !secondLastHost || !secondNextHost) return;
+
+    const first = findSquadRecentAndNextMatch('1st');
+    const second = findSquadRecentAndNextMatch('2nd');
+
+    firstLastHost.innerHTML = renderHeroMatchAction(first.recent);
+    firstNextHost.innerHTML = renderHeroMatchAction(first.next);
+    secondLastHost.innerHTML = renderHeroMatchAction(second.recent);
+    secondNextHost.innerHTML = renderHeroMatchAction(second.next);
 }
 
 function eastGrinsteadTeamName(row) {
@@ -1063,11 +1145,51 @@ function scoreLogoSlotHtml(src, name, side) {
     `;
 }
 
+function syncMatchInfoSeasonStepperFromSelect() {
+    const select = document.getElementById('matchFilterSeason');
+    const label = document.getElementById('matchFilterSeasonLabel');
+    const prevBtn = document.getElementById('matchFilterSeasonPrev');
+    const nextBtn = document.getElementById('matchFilterSeasonNext');
+    if (!select || !label) return;
+    const selectedOpt = select.options[select.selectedIndex];
+    label.textContent = selectedOpt?.text || selectedOpt?.value || '';
+    if (prevBtn) prevBtn.disabled = select.selectedIndex >= select.options.length - 1;
+    if (nextBtn) nextBtn.disabled = select.selectedIndex <= 0;
+}
+
+function syncMatchInfoSquadSegmentFromSelect() {
+    const select = document.getElementById('matchFilterSquad');
+    const segment = document.getElementById('matchFilterSquadSegment');
+    if (!select || !segment) return;
+    const value = select.value;
+    segment.querySelectorAll('.squad-filter-segment-btn').forEach(btn => {
+        btn.classList.toggle('is-active', btn.dataset.value === value);
+    });
+}
+
 function getFilterValues() {
     const squad = String(document.getElementById('matchFilterSquad')?.value || 'All');
     const season = String(document.getElementById('matchFilterSeason')?.value || 'All');
     const opposition = String(document.getElementById('matchFilterOpposition')?.value || 'All');
     return { squad, season, opposition };
+}
+
+function renderMatchInfoActiveFilters() {
+    const target = document.getElementById('matchInfoActiveFilters');
+    if (!target) return;
+
+    const { squad, season, opposition } = getFilterValues();
+    const squadLabel = squad === 'All' ? 'All' : formatSquadLabel(squad);
+    const seasonLabel = season === 'All' ? 'All' : season;
+    const oppositionLabel = opposition === 'All' ? 'All' : opposition;
+
+    const chips = [
+        `<button type="button" class="squad-stats-filter-chip squad-stats-filter-chip-btn" data-bs-toggle="offcanvas" data-bs-target="#${MATCH_INFO_FILTERS_OFFCANVAS_ID}" aria-controls="${MATCH_INFO_FILTERS_OFFCANVAS_ID}"><strong>Squad</strong> ${escapeHtml(squadLabel)}</button>`,
+        `<button type="button" class="squad-stats-filter-chip squad-stats-filter-chip-btn" data-bs-toggle="offcanvas" data-bs-target="#${MATCH_INFO_FILTERS_OFFCANVAS_ID}" aria-controls="${MATCH_INFO_FILTERS_OFFCANVAS_ID}"><strong>Season</strong> ${escapeHtml(seasonLabel)}</button>`,
+        `<button type="button" class="squad-stats-filter-chip squad-stats-filter-chip-btn" data-bs-toggle="offcanvas" data-bs-target="#${MATCH_INFO_FILTERS_OFFCANVAS_ID}" aria-controls="${MATCH_INFO_FILTERS_OFFCANVAS_ID}"><strong>Opposition</strong> ${escapeHtml(oppositionLabel)}</button>`
+    ];
+
+    target.innerHTML = chips.join('');
 }
 
 function applyFilters() {
@@ -1089,28 +1211,22 @@ function updateSelectPicker(selectEl) {
 }
 
 function populateBaseFilters() {
-    const squadSelect = document.getElementById('matchFilterSquad');
     const seasonSelect = document.getElementById('matchFilterSeason');
     const oppositionSelect = document.getElementById('matchFilterOpposition');
 
-    if (!squadSelect || !seasonSelect || !oppositionSelect) return;
+    if (!seasonSelect || !oppositionSelect) return;
 
-    const squads = [...new Set(allMatches.map(row => String(row?.squad || '').trim()).filter(Boolean))]
-        .sort((a, b) => a.localeCompare(b));
     const seasons = [...new Set(allMatches.map(row => String(row?.season || '').trim()).filter(Boolean))]
         .sort((a, b) => b.localeCompare(a));
     const oppositions = [...new Set(allMatches.map(row => baseClubName(row?.opposition)).filter(Boolean))]
         .sort((a, b) => a.localeCompare(b));
 
-    squadSelect.innerHTML = '<option value="All" selected>All squads</option>'
-        + squads.map(value => `<option value="${escapeHtml(value)}">${escapeHtml(formatSquadLabel(value))}</option>`).join('');
-    seasonSelect.innerHTML = '<option value="All" selected>All seasons</option>'
+    seasonSelect.innerHTML = '<option value="All" selected>All</option>'
         + seasons.map(value => `<option value="${escapeHtml(value)}">${escapeHtml(value)}</option>`).join('');
-    oppositionSelect.innerHTML = '<option value="All" selected>All opposition</option>'
+    oppositionSelect.innerHTML = '<option value="All" selected>All</option>'
         + oppositions.map(value => `<option value="${escapeHtml(value)}">${escapeHtml(value)}</option>`).join('');
 
-    updateSelectPicker(squadSelect);
-    updateSelectPicker(seasonSelect);
+    syncMatchInfoSeasonStepperFromSelect();
     updateSelectPicker(oppositionSelect);
 }
 
@@ -1161,15 +1277,17 @@ function renderTable() {
             : squadKey === '2nd' ? 'squad-pill squad-pill--2nd'
             : 'squad-pill squad-pill--unknown';
         const squadLabel = formatSquadLabel(row?.squad);
+        const homeAway = String(row?.home_away || '').trim().toUpperCase();
+        const venueText = homeAway === 'A' ? 'A' : 'H';
         return `
             <tr class="${rowClass}">
                 <td>${escapeHtml(formatDisplayDate(row?.date))}</td>
-                <td>${escapeHtml(String(row?.season || '-'))}</td>
                 <td><span class="${squadPillClass}">${escapeHtml(squadLabel)}</span></td>
                 <td>${escapeHtml(String(row?.opposition || '-'))}</td>
+                <td class="match-table-venue">${escapeHtml(venueText)}</td>
                 <td>${escapeHtml(String(row?.game_type || '-'))}</td>
                 <td>${resultBadgeHtml(normaliseResult(row))}</td>
-                <td><a class="match-data-link" href="match-info.html?game=${encodeURIComponent(gameId)}"><i class="bi bi-box-arrow-up-right" aria-hidden="true"></i><span>Match Data</span></a></td>
+                <td class="match-table-open-cell"><button type="button" class="btn btn-outline-primary btn-sm rounded-circle p-0 d-inline-flex align-items-center justify-content-center match-open-btn" data-game-id="${escapeAttribute(gameId)}" aria-label="View match detail"><i class="bi bi-search" aria-hidden="true"></i></button></td>
             </tr>
         `;
     }).join('');
@@ -1191,6 +1309,7 @@ function renderTable() {
     const next = document.getElementById('matchDataNext');
     if (prev) prev.disabled = paged.page <= 1;
     if (next) next.disabled = paged.page >= paged.pageCount;
+    bindMatchOpenButtons();
 }
 
 function updateUrlGame(gameId) {
@@ -1274,6 +1393,7 @@ function renderMatchInfo(gameId) {
 
 function refreshFromFilters(preferredGameId) {
     applyFilters();
+    renderMatchInfoActiveFilters();
     updateMatchSelectOptions(preferredGameId);
     renderTable();
 
@@ -1282,12 +1402,68 @@ function refreshFromFilters(preferredGameId) {
     renderMatchInfo(selectedGameId);
 }
 
+function bindMatchOpenButtons() {
+    const wrap = document.getElementById('matchDataTableWrap');
+    if (!wrap || wrap.__matchOpenBound) return;
+    wrap.addEventListener('click', event => {
+        const btn = event.target.closest('.match-open-btn');
+        if (!btn) return;
+        const gameId = btn.dataset.gameId || '';
+        const matchSelect = document.getElementById('matchSelect');
+        if (matchSelect) {
+            matchSelect.value = gameId;
+            matchSelect.dispatchEvent(new Event('change', { bubbles: true }));
+        } else {
+            renderMatchInfo(gameId);
+        }
+        const detail = document.getElementById('sec-match-detail');
+        if (detail) detail.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+    wrap.__matchOpenBound = true;
+}
+
+function openMatchFromQuickLink(gameId) {
+    const safeId = String(gameId || '').trim();
+    if (!safeId) return;
+    const matchSelect = document.getElementById('matchSelect');
+    if (matchSelect) {
+        matchSelect.value = safeId;
+        matchSelect.dispatchEvent(new Event('change', { bubbles: true }));
+    } else {
+        renderMatchInfo(safeId);
+    }
+    const detail = document.getElementById('sec-match-detail');
+    if (detail) detail.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function bindMatchInfoHeroQuickLinks() {
+    const hero = document.querySelector('.match-info-hero-matrix');
+    if (!hero || hero.__quickLinksBound) return;
+
+    hero.addEventListener('click', event => {
+        const trigger = event.target.closest('[data-match-hero-jump]');
+        if (!trigger) return;
+        const gameId = String(trigger.getAttribute('data-match-hero-jump') || '').trim();
+        openMatchFromQuickLink(gameId);
+    });
+
+    hero.__quickLinksBound = true;
+}
+
 function collapseFilteredMatchesPanel() {
     const toggle = document.querySelector('.chart-panel-toggle[data-target="match-list-panel"]');
     const panel = document.getElementById('match-list-panel');
     if (!toggle || !panel) return;
     const isExpanded = toggle.getAttribute('aria-expanded') !== 'false';
     if (isExpanded) toggle.click();
+}
+
+function initialiseMatchInfoAnalysisRail() {
+    if (matchInfoAnalysisRailInitialised) return;
+    matchInfoAnalysisRailInitialised = initialiseAnalysisRail({
+        railId: 'matchInfoAnalysisRail',
+        initialHashDelay: 60,
+    });
 }
 
 function bindTeamSheetModeToggle() {
@@ -1314,21 +1490,69 @@ function bindControls(initialGameId) {
     const prev = document.getElementById('matchDataPrev');
     const next = document.getElementById('matchDataNext');
 
-    // Handle filter changes (squad, season, opposition)
-    [squad, season, opposition].forEach(selectEl => {
-        if (!selectEl) return;
+    // Squad segment buttons
+    const squadSegment = document.getElementById('matchFilterSquadSegment');
+    if (squadSegment) {
+        squadSegment.querySelectorAll('.squad-filter-segment-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (squad) {
+                    squad.value = btn.dataset.value;
+                    squad.dispatchEvent(new Event('change', { bubbles: true }));
+                }
+            });
+        });
+    }
+
+    // Season stepper buttons
+    const seasonPrev = document.getElementById('matchFilterSeasonPrev');
+    const seasonNext = document.getElementById('matchFilterSeasonNext');
+    if (seasonPrev && season) {
+        seasonPrev.addEventListener('click', () => {
+            if (season.selectedIndex < season.options.length - 1) {
+                season.selectedIndex += 1;
+                season.dispatchEvent(new Event('change', { bubbles: true }));
+            }
+        });
+    }
+    if (seasonNext && season) {
+        seasonNext.addEventListener('click', () => {
+            if (season.selectedIndex > 0) {
+                season.selectedIndex -= 1;
+                season.dispatchEvent(new Event('change', { bubbles: true }));
+            }
+        });
+    }
+
+    // Hidden select change listeners for squad and season
+    if (squad) {
+        squad.addEventListener('change', () => {
+            syncMatchInfoSquadSegmentFromSelect();
+            if (!isInitialisingControls) refreshFromFilters('');
+        });
+    }
+    if (season) {
+        season.addEventListener('change', () => {
+            syncMatchInfoSeasonStepperFromSelect();
+            if (!isInitialisingControls) refreshFromFilters('');
+        });
+    }
+
+    // Opposition - selectpicker dropdown
+    if (opposition) {
         if (isSelectPickerEnabled()) {
-            window.jQuery(selectEl)
+            window.jQuery(opposition)
                 .off('changed.bs.select.matchFilters')
                 .on('changed.bs.select.matchFilters', () => {
                     if (isInitialisingControls) return;
                     refreshFromFilters('');
                 });
         } else {
-            selectEl.removeEventListener('change', null);
-            selectEl.addEventListener('change', () => refreshFromFilters(''));
+            opposition.addEventListener('change', () => {
+                if (isInitialisingControls) return;
+                refreshFromFilters('');
+            });
         }
-    });
+    }
 
     // Handle match select changes - single unified listener
     if (matchSelect) {
@@ -1417,6 +1641,9 @@ async function loadPage() {
         allMatches = Array.isArray(games) ? games.filter(row => row && row.game_id) : [];
         allMatches.sort((a, b) => String(b?.date || '').localeCompare(String(a?.date || '')));
 
+        renderMatchInfoHeroQuickLinks();
+        bindMatchInfoHeroQuickLinks();
+
         appearancesByGameId = new Map();
         (Array.isArray(appearances) ? appearances : []).forEach(row => {
             const gameId = String(row?.game_id || '').trim();
@@ -1478,6 +1705,7 @@ async function loadPage() {
         const initialGameId = String(url.searchParams.get('game') || '').trim();
         bindControls(initialGameId);
         bindTeamSheetModeToggle();
+        initialiseMatchInfoAnalysisRail();
 
         initialiseChartPanelToggles();
 
