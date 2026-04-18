@@ -1271,6 +1271,11 @@ function renderTable() {
     const paged = pagedRows();
     const rowsHtml = paged.rows.map(row => {
         const gameId = String(row?.game_id || '').trim();
+        const captain = String(row?.captain || '').trim();
+        const captainLink = captain ? profileLinkHref(captain) : '';
+        const captainHtml = captain
+            ? `<a class="fs-7" href="${escapeAttribute(captainLink)}">${escapeHtml(captain)}</a>`
+            : '-';
         const squadKey = String(row?.squad || '').trim();
         const rowClass = 'full-profile-appearance-row';
         const squadPillClass = squadKey === '1st' ? 'squad-pill squad-pill--1st'
@@ -1287,12 +1292,13 @@ function renderTable() {
                 <td class="match-table-venue">${escapeHtml(venueText)}</td>
                 <td>${escapeHtml(String(row?.game_type || '-'))}</td>
                 <td>${resultBadgeHtml(normaliseResult(row))}</td>
+                <td>${captainHtml}</td>
                 <td class="match-table-open-cell"><button type="button" class="btn btn-outline-primary btn-sm rounded-circle p-0 d-inline-flex align-items-center justify-content-center match-open-btn" data-game-id="${escapeAttribute(gameId)}" aria-label="View match detail"><i class="bi bi-search" aria-hidden="true"></i></button></td>
             </tr>
         `;
     }).join('');
 
-    tbody.innerHTML = rowsHtml || '<tr><td colspan="7" class="text-muted">No matches found for these filters.</td></tr>';
+    tbody.innerHTML = rowsHtml || '<tr><td colspan="8" class="text-muted">No matches found for these filters.</td></tr>';
 
     const summary = document.getElementById('matchDataPaginationSummary');
     if (summary) {
@@ -1319,6 +1325,22 @@ function updateUrlGame(gameId) {
     window.history.replaceState({}, '', url.toString());
 }
 
+function toggleMatchInfoDetailRail(hasSelection, options = {}) {
+    const {
+        hasVideoAnalysis = true,
+    } = options;
+    const detailLinks = document.querySelectorAll('.match-info-rail-detail');
+    detailLinks.forEach((link) => link.classList.toggle('d-none', !hasSelection));
+
+    const videoLink = document.querySelector('.match-info-rail-detail[href="#sec-match-video-analysis"]');
+    if (videoLink) {
+        videoLink.classList.toggle('d-none', !hasSelection || !hasVideoAnalysis);
+    }
+
+    // Trigger shared rail recalculation after visibility change.
+    window.dispatchEvent(new Event('resize'));
+}
+
 function renderMatchInfo(gameId) {
     const body = document.getElementById('matchDataInfoBody');
     const headerAction = document.getElementById('matchDataInfoHeaderAction');
@@ -1326,6 +1348,7 @@ function renderMatchInfo(gameId) {
 
     const selected = allMatches.find(row => String(row?.game_id || '').trim() === String(gameId || '').trim());
     if (!selected) {
+        toggleMatchInfoDetailRail(false);
         body.innerHTML = '<p class="text-muted" style="margin: 0;">Select a match to load full match information.</p>';
         if (headerAction) headerAction.innerHTML = '';
         updateUrlGame('');
@@ -1337,9 +1360,14 @@ function renderMatchInfo(gameId) {
     updateUrlGame(String(selected.game_id || ''));
 
     const hero = buildMatchHeroData(selected);
+    const teamSheetHtml = teamSheetSectionHtml(selected.game_id);
+    const videoAnalysisHtml = renderVideoAnalysisSection(selected);
+    toggleMatchInfoDetailRail(true, {
+        hasVideoAnalysis: !!videoAnalysisHtml,
+    });
 
     body.innerHTML = `
-        <section class="match-info-hero ${hero.resultClass}">
+        <section id="sec-match-hero" class="match-info-hero match-info-subsection ${hero.resultClass}">
             <div class="match-info-hero-grid">
                 <div class="match-info-team match-info-team--home">
                     <div class="match-info-team-shell match-info-team-shell--home">
@@ -1383,8 +1411,8 @@ function renderMatchInfo(gameId) {
                 ${renderScorerMetaRow(selected)}
             </div>
         </section>
-        ${teamSheetSectionHtml(selected.game_id)}
-        ${renderVideoAnalysisSection(selected)}
+        ${teamSheetHtml ? `<div id="sec-match-team-sheet" class="match-info-subsection">${teamSheetHtml}</div>` : ''}
+        ${videoAnalysisHtml ? `<div id="sec-match-video-analysis" class="match-info-subsection">${videoAnalysisHtml}</div>` : ''}
     `;
 
     // Collapse the Filtered Matches panel when a game is selected
@@ -1462,6 +1490,7 @@ function initialiseMatchInfoAnalysisRail() {
     if (matchInfoAnalysisRailInitialised) return;
     matchInfoAnalysisRailInitialised = initialiseAnalysisRail({
         railId: 'matchInfoAnalysisRail',
+        sectionSelector: '.analysis-section[id], .match-info-subsection[id]',
         initialHashDelay: 60,
     });
 }

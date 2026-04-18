@@ -2388,7 +2388,7 @@ def results_chart(db, output_file='data/charts/results.json', facet_by_season=Fa
         color=alt.Color(
             'result:N',
             scale=alt.Scale(domain=['W', 'L'], range=['#146f14', '#981515']),
-            legend=alt.Legend(orient='bottom', title='Result', titleOrient='left', direction='horizontal'),
+            legend=alt.Legend(orient='bottom', title='Result'),
         ),
         opacity=alt.condition(squad_highlight, alt.value(1.0), alt.value(0.2)),
         tooltip=[

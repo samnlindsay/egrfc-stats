@@ -26,7 +26,7 @@
     <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
 </head>
 
-<body>
+<body id="page-opposition-profile">
     <nav class="navbar navbar-expand-lg navbar-dark app-top-navbar">
         <div class="container-fluid">
             <a class="navbar-brand app-navbar-brand" href="index.html">
@@ -71,211 +71,306 @@
     </nav>
 
     <div class="main-content">
-        <div class="page-shell page-shell--default">
-            <div class="page-header page-header--compact">
-                <div class="page-header-text">
-                    <h1 style="margin-bottom: 0.15rem;">Opposition Profile</h1>
-                    <p style="margin-bottom: 0;">Choose a club to view all-time results, team sheets and set-piece head-to-head detail.</p>
+        <div class="page-shell page-shell--sm">
+            <section class="ux-hero squad-stats-hero opposition-profile-page-hero" aria-labelledby="oppositionProfilePageTitle">
+                <div class="ux-hero-main">
+                    <p class="ux-hero-kicker">Team</p>
+                    <h1 id="oppositionProfilePageTitle" class="ux-hero-title">Opposition Profile</h1>
+                    <p class="ux-hero-description">Review the all-time record against each club, then open a focused opposition view with match history, team sheets, and set-piece head-to-head detail.</p>
                 </div>
-            </div>
+                <div class="ux-hero-metrics" aria-live="polite">
+                    <div class="ux-hero-metrics-head">
+                        <h2 class="ux-hero-metrics-title">Quick Links</h2>
+                    </div>
+                    <div class="match-info-hero-matrix" role="group" aria-label="Recent and upcoming opposition fixtures by squad">
+                        <div class="match-info-hero-matrix-corner" aria-hidden="true"></div>
+                        <h3 class="match-info-hero-matrix-colhead">1st XV</h3>
+                        <h3 class="match-info-hero-matrix-colhead">2nd XV</h3>
 
-            <section class="chart-panel" style="margin-bottom: 1rem;">
-                <button type="button" class="chart-panel-toggle chart-panel-toggle--black"
-                    data-target="opposition-top-panel" aria-expanded="true" aria-controls="opposition-top-panel">
-                    <span class="chart-panel-toggle-text">
-                        <span class="chart-panel-toggle-title">Most Played Opposition</span>
-                        <span class="chart-panel-toggle-hint">Across both squads</span>
-                    </span>
-                    <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
-                </button>
-                <div id="opposition-top-panel" class="chart-panel-content">
-                    <div class="chart-panel-card full-profile-table-card">
-                        <div class="table-responsive database-table-responsive">
-                            <table class="table table-striped table-hover align-middle database-data-table opposition-top-table">
-                                <thead>
-                                    <tr>
-                                        <th class="opposition-table-rank">Rank</th>
-                                        <th class="opposition-table-opposition">Opposition</th>
-                                        <th class="opposition-table-games-1st text-end">1st XV</th>
-                                        <th class="opposition-table-games-2nd text-end">2nd XV</th>
-                                        <th class="opposition-table-games-total text-end">Total</th>
-                                        <th class="opposition-table-result opposition-table-result--win text-end">W</th>
-                                        <th class="opposition-table-result opposition-table-result--draw text-end">D</th>
-                                        <th class="opposition-table-result opposition-table-result--loss text-end">L</th>
-                                        <th class="opposition-table-action">Open</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="oppositionTopTableBody"></tbody>
-                            </table>
+                        <p class="match-info-hero-matrix-rowhead">Last</p>
+                        <div id="oppositionHero1stLast" class="match-info-hero-matrix-cell match-info-hero-matrix-cell--1st">
+                            <span class="opposition-hero-action-card is-empty">Loading...</span>
+                        </div>
+                        <div id="oppositionHero2ndLast" class="match-info-hero-matrix-cell match-info-hero-matrix-cell--2nd">
+                            <span class="opposition-hero-action-card is-empty">Loading...</span>
+                        </div>
+
+                        <p class="match-info-hero-matrix-rowhead">Next</p>
+                        <div id="oppositionHero1stNext" class="match-info-hero-matrix-cell match-info-hero-matrix-cell--1st">
+                            <span class="opposition-hero-action-card is-empty">Loading...</span>
+                        </div>
+                        <div id="oppositionHero2ndNext" class="match-info-hero-matrix-cell match-info-hero-matrix-cell--2nd">
+                            <span class="opposition-hero-action-card is-empty">Loading...</span>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <hr style="margin: 1rem 0; border: 2px solid var(--primary-color)">
+            <div class="squad-stats-layout">
+                <aside id="oppositionProfileAnalysisRail" class="analysis-rail nav" aria-label="Section navigation">
+                    <p class="analysis-rail-title">Sections</p>
+                    <a class="rail-link nav-link active" href="#sec-opposition-finder" data-short="Finder"><i class="bi bi-search" aria-hidden="true"></i><span class="rail-link-label">Opposition Finder</span></a>
+                    <a class="rail-link nav-link" href="#sec-opposition-profile" data-short="Profile"><i class="bi bi-shield-shaded" aria-hidden="true"></i><span class="rail-link-label">Opposition Profile</span></a>
+                    <a class="rail-link nav-link opposition-profile-rail-detail d-none" href="#sec-opposition-match-history" data-short="History"><i class="bi bi-clock-history" aria-hidden="true"></i><span class="rail-link-label">Match History</span></a>
+                    <a class="rail-link nav-link opposition-profile-rail-detail d-none" href="#sec-opposition-results" data-short="Results"><i class="bi bi-bar-chart-line" aria-hidden="true"></i><span class="rail-link-label">Results</span></a>
+                    <a class="rail-link nav-link opposition-profile-rail-detail d-none" href="#sec-opposition-team-sheets" data-short="Sheets"><i class="bi bi-grid-3x3-gap" aria-hidden="true"></i><span class="rail-link-label">Team Sheets</span></a>
+                    <a class="rail-link nav-link opposition-profile-rail-detail d-none" href="#sec-opposition-set-piece" data-short="Set"><i class="bi bi-bullseye" aria-hidden="true"></i><span class="rail-link-label">Set Piece</span></a>
+                </aside>
 
-            <div class="page-header-filters" style="margin-bottom: 1rem;">
-                <div class="filter-item" style="min-width: min(100%, 420px);">
-                    <div class="input-group">
-                        <span class="input-group-text">Opposition</span>
-                        <select id="oppositionSelect" class="selectpicker form-control flex-fill" data-live-search="true" data-size="10" title="Select opposition...">
-                            <option value="" disabled selected hidden>Select opposition...</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
+                <main class="squad-stats-main opposition-profile-main">
+                    <section id="sec-opposition-finder" class="analysis-section chart-section" aria-labelledby="opposition-finder-heading">
+                        <h2 id="opposition-finder-heading" class="section-heading">Opposition Finder</h2>
+                        <p class="section-intro">Browse all clubs EGRFC have faced, sorted by total matches played. Click on a row to view that club's full profile below.</p>
 
-            <div id="oppositionProfilePlaceholder" class="alert alert-light">Select an opposition club to load profile content.</div>
-            <div id="oppositionProfileError" class="alert alert-danger d-none"></div>
-
-            <div id="oppositionProfileContent" class="d-none">
-                <section class="match-info-hero opposition-profile-hero" style="margin-bottom: 1rem; border-color: var(--primary-color);">
-                    <div class="match-info-hero-grid opposition-profile-hero-grid">
-                        <section class="match-info-team opposition-profile-team">
-                            <div class="match-info-team-shell opposition-profile-team-shell">
-                                <span id="oppositionProfileHeroLogoWrap" class="match-info-team-logo-wrap match-info-team-logo-wrap--home"></span>
-                                <span class="match-info-team-text">
-                                    <span class="match-info-team-label">Opposition</span>
-                                    <span id="oppositionProfileHeroName" class="match-info-team-name">-</span>
-                                </span>
-                            </div>
-                        </section>
-                        <section class="match-info-meta opposition-profile-meta" aria-label="Opposition summary">
-                            <div class="match-info-meta-row match-info-meta-row--scoring">
-                                <div class="match-info-meta-item">
-                                    <span class="match-info-meta-label">Won</span>
-                                    <span id="opposition-summary-won" class="match-info-meta-value">-</span>
+                        <div class="chart-section-block chart-section-block--panel">
+                            <div class="chart-section-content">
+                                <div id="oppositionTopTableWrap" class="table-responsive database-table-responsive opposition-top-table-wrap">
+                                    <table class="table table-striped table-hover align-middle database-data-table opposition-top-table">
+                                        <thead>
+                                            <tr>
+                                                <th class="opposition-table-rank">Rank</th>
+                                                <th class="opposition-table-opposition" aria-sort="none">
+                                                    <button type="button" class="database-sort-button opposition-table-sort-button" data-opposition-sort="club" data-opposition-sort-label="Club">
+                                                        <span>Club</span>
+                                                        <span class="database-sort-indicator"></span>
+                                                    </button>
+                                                </th>
+                                                <th class="opposition-table-games-1st text-end" aria-sort="none">
+                                                    <button type="button" class="database-sort-button opposition-table-sort-button opposition-table-sort-button--numeric" data-opposition-sort="stats1st.played" data-opposition-sort-label="1st XV">
+                                                        <span>1st XV</span>
+                                                        <span class="database-sort-indicator"></span>
+                                                    </button>
+                                                </th>
+                                                <th class="opposition-table-games-2nd text-end" aria-sort="none">
+                                                    <button type="button" class="database-sort-button opposition-table-sort-button opposition-table-sort-button--numeric" data-opposition-sort="stats2nd.played" data-opposition-sort-label="2nd XV">
+                                                        <span>2nd XV</span>
+                                                        <span class="database-sort-indicator"></span>
+                                                    </button>
+                                                </th>
+                                                <th class="opposition-table-games-total text-end" aria-sort="descending">
+                                                    <button type="button" class="database-sort-button opposition-table-sort-button opposition-table-sort-button--numeric" data-opposition-sort="stats.played" data-opposition-sort-label="Total">
+                                                        <span>Total</span>
+                                                        <span class="database-sort-indicator">▼</span>
+                                                    </button>
+                                                </th>
+                                                <th class="opposition-table-result opposition-table-result--win text-end" aria-sort="none">
+                                                    <button type="button" class="database-sort-button opposition-table-sort-button opposition-table-sort-button--numeric" data-opposition-sort="stats.won" data-opposition-sort-label="W">
+                                                        <span>W</span>
+                                                        <span class="database-sort-indicator"></span>
+                                                    </button>
+                                                </th>
+                                                <th class="opposition-table-result opposition-table-result--draw text-end" aria-sort="none">
+                                                    <button type="button" class="database-sort-button opposition-table-sort-button opposition-table-sort-button--numeric" data-opposition-sort="stats.drawn" data-opposition-sort-label="D">
+                                                        <span>D</span>
+                                                        <span class="database-sort-indicator"></span>
+                                                    </button>
+                                                </th>
+                                                <th class="opposition-table-result opposition-table-result--loss text-end" aria-sort="none">
+                                                    <button type="button" class="database-sort-button opposition-table-sort-button opposition-table-sort-button--numeric" data-opposition-sort="stats.lost" data-opposition-sort-label="L">
+                                                        <span>L</span>
+                                                        <span class="database-sort-indicator"></span>
+                                                    </button>
+                                                </th>
+                                                <th class="opposition-table-win-pct text-end" aria-sort="none">
+                                                    <button type="button" class="database-sort-button opposition-table-sort-button opposition-table-sort-button--numeric" data-opposition-sort="stats.win_pct" data-opposition-sort-label="Win %">
+                                                        <span>Win %</span>
+                                                        <span class="database-sort-indicator"></span>
+                                                    </button>
+                                                </th>
+                                                <th class="opposition-table-action match-table-open-cell" aria-label="Open profile"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="oppositionTopTableBody"></tbody>
+                                    </table>
                                 </div>
-                                <div class="match-info-meta-item">
-                                    <span class="match-info-meta-label">Drawn</span>
-                                    <span id="opposition-summary-drawn" class="match-info-meta-value">-</span>
+                                <div class="database-pagination-bar opposition-top-pagination-bar" style="justify-content: space-between;">
+                                    <div id="oppositionTopPaginationSummary" class="database-pagination-summary">0 clubs</div>
+                                    <div class="btn-group match-finder-pagination-controls" role="group" aria-label="Opposition finder pagination">
+                                        <button id="oppositionTopPrev" type="button" class="btn match-finder-pagination-btn prev-btn">
+                                            <i class="bi bi-chevron-left px-1" aria-hidden="true"></i>
+                                            <span>Previous</span>
+                                        </button>
+                                        <button id="oppositionTopNext" type="button" class="btn match-finder-pagination-btn next-btn">
+                                            <span>Next</span>
+                                            <i class="bi bi-chevron-right px-1" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
                                 </div>
-                                <div class="match-info-meta-item">
-                                    <span class="match-info-meta-label">Lost</span>
-                                    <span id="opposition-summary-lost" class="match-info-meta-value">-</span>
-                                </div>
-                                <div class="match-info-meta-item">
-                                    <span class="match-info-meta-label">Played</span>
-                                    <span id="opposition-summary-played" class="match-info-meta-value">-</span>
-                                </div>
-                            </div>
-                            <div class="match-info-meta-row match-info-meta-row--scoring">
-                                <div class="match-info-meta-item">
-                                    <span class="match-info-meta-label">Home</span>
-                                    <span id="opposition-summary-home-breakdown" class="match-info-meta-value">-</span>
-                                </div>
-                                <div class="match-info-meta-item">
-                                    <span class="match-info-meta-label">Away</span>
-                                    <span id="opposition-summary-away-breakdown" class="match-info-meta-value">-</span>
-                                </div>
-                            </div>
-                            <div class="match-info-meta-row match-info-meta-row--scoring">
-                                <div class="match-info-meta-item">
-                                    <span class="match-info-meta-label">Last Match</span>
-                                    <span id="opposition-summary-last-match" class="match-info-meta-value match-info-meta-value--scorers">-</span>
-                                </div>
-                            </div>
-                        </section>
-                    </div>
-                </section>
-
-                <section class="chart-panel" style="margin-bottom: 1rem;">
-                    <button type="button" class="chart-panel-toggle chart-panel-toggle--black"
-                        data-target="opposition-results-panel" aria-expanded="true" aria-controls="opposition-results-panel">
-                        <span class="chart-panel-toggle-text">
-                            <span class="chart-panel-toggle-title">Previous Matches</span>
-                            <span class="chart-panel-toggle-hint">All matches with links to Match Info</span>
-                        </span>
-                        <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
-                    </button>
-                    <div id="opposition-results-panel" class="chart-panel-content">
-                        <div class="chart-panel-card full-profile-table-card">
-                            <div class="table-responsive database-table-responsive">
-                                <table class="table table-striped table-hover align-middle database-data-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Date</th>
-                                            <th>Season</th>
-                                            <th>Squad</th>
-                                            <th>Competition</th>
-                                            <th>Venue</th>
-                                            <th>Result</th>
-                                            <th>Captain</th>
-                                            <th>Open</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="oppositionResultsTableBody"></tbody>
-                                </table>
                             </div>
                         </div>
-                    </div>
-                </section>
+                    </section>
 
-                <section class="chart-panel" style="margin-bottom: 1rem;">
-                    <button type="button" class="chart-panel-toggle chart-panel-toggle--black"
-                        data-target="opposition-team-sheets-panel" aria-expanded="false" aria-controls="opposition-team-sheets-panel">
-                        <span class="chart-panel-toggle-text">
-                            <span class="chart-panel-toggle-title">Team Sheets</span>
-                            <span class="chart-panel-toggle-hint">Selection grid for all matches vs this club</span>
-                        </span>
-                        <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
-                    </button>
-                    <div id="opposition-team-sheets-panel" class="chart-panel-content" hidden>
-                        <div class="chart-panel-card opposition-team-sheets-card">
-                            <div id="oppositionTeamSheetsChart" class="team-sheets-chart-shell" style="padding: 0;">Loading team sheets...</div>
+                    <section id="sec-opposition-profile" class="analysis-section chart-section" aria-labelledby="opposition-profile-heading">
+                        <h1 id="opposition-profile-heading" class="section-heading">Opposition Profile</h1>
+                        <p class="section-intro">Select a club to load match history, team sheets, results chart, and set-piece head-to-head data for all previous meetings.</p>
+
+                        <div class="match-detail-picker-row" style="margin-bottom: 1.25rem;">
+                            <select id="oppositionSelect" class="selectpicker form-control" data-live-search="true" data-size="10" title="Select opposition..."></select>
                         </div>
-                    </div>
-                </section>
 
-                <div style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-start; margin-bottom: 2rem;">
-                    <div class="chart-panel chart-panel--inline">
-                        <button type="button" class="chart-panel-toggle chart-panel-toggle--black"
-                            data-target="opposition-results-chart-panel" aria-expanded="false" aria-controls="opposition-results-chart-panel">
-                            <span class="chart-panel-toggle-text">
-                                <span class="chart-panel-toggle-title">Results</span>
-                                <span class="chart-panel-toggle-hint">Points for and against in all matches vs this opposition</span>
-                            </span>
-                            <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
-                        </button>
-                        <div id="opposition-results-chart-panel" class="chart-panel-content" hidden>
-                            <div class="chart-panel-card">
-                                <div id="oppositionResultsChart" style="overflow: visible;"></div>
+                        <div id="oppositionProfileContentWrap" class="d-none">
+
+                            <div id="oppositionProfileError" class="alert alert-danger d-none" style="margin-bottom: 1rem;"></div>
+
+                            <div id="oppositionProfileOverviewCard" style="margin-bottom: 1rem;">
+                                <section class="match-info-hero opposition-profile-hero opposition-profile-summary-card" aria-label="Opposition summary">
+                                    <div class="match-info-hero-grid opposition-profile-hero-grid">
+                                        <section class="match-info-team opposition-profile-team">
+                                            <div class="match-info-team-shell opposition-profile-team-shell">
+                                                <span id="oppositionProfileHeroLogoWrap" class="match-info-team-logo-wrap match-info-team-logo-wrap--home"></span>
+                                                <span class="match-info-team-text">
+                                                    <span class="match-info-team-label">Opposition</span>
+                                                    <span id="oppositionProfileHeroName" class="match-info-team-name">-</span>
+                                                </span>
+                                            </div>
+                                        </section>
+                                        <section class="match-info-meta opposition-profile-meta" aria-label="Opposition summary details">
+                                            <div class="match-info-meta-row match-info-meta-row--scoring">
+                                                <div class="match-info-meta-item">
+                                                    <span class="match-info-meta-label">Won</span>
+                                                    <span id="opposition-summary-won" class="match-info-meta-value">-</span>
+                                                </div>
+                                                <div class="match-info-meta-item">
+                                                    <span class="match-info-meta-label">Drawn</span>
+                                                    <span id="opposition-summary-drawn" class="match-info-meta-value">-</span>
+                                                </div>
+                                                <div class="match-info-meta-item">
+                                                    <span class="match-info-meta-label">Lost</span>
+                                                    <span id="opposition-summary-lost" class="match-info-meta-value">-</span>
+                                                </div>
+                                                <div class="match-info-meta-item">
+                                                    <span class="match-info-meta-label">Played</span>
+                                                    <span id="opposition-summary-played" class="match-info-meta-value">-</span>
+                                                </div>
+                                            </div>
+                                            <div class="match-info-meta-row match-info-meta-row--scoring">
+                                                <div class="match-info-meta-item">
+                                                    <span class="match-info-meta-label">Home</span>
+                                                    <span id="opposition-summary-home-breakdown" class="match-info-meta-value">-</span>
+                                                </div>
+                                                <div class="match-info-meta-item">
+                                                    <span class="match-info-meta-label">Away</span>
+                                                    <span id="opposition-summary-away-breakdown" class="match-info-meta-value">-</span>
+                                                </div>
+                                            </div>
+                                            <div class="match-info-meta-row match-info-meta-row--scoring">
+                                                <div class="match-info-meta-item">
+                                                    <span class="match-info-meta-label">Last Match</span>
+                                                    <span id="opposition-summary-last-match" class="match-info-meta-value match-info-meta-value--scorers">-</span>
+                                                </div>
+                                            </div>
+                                        </section>
+                                    </div>
+                                </section>
                             </div>
-                        </div>
-                    </div>
 
-                    <div class="chart-panel chart-panel--inline">
-                        <button type="button" class="chart-panel-toggle chart-panel-toggle--black"
-                            data-target="opposition-lineout-h2h-panel" aria-expanded="false" aria-controls="opposition-lineout-h2h-panel">
-                            <span class="chart-panel-toggle-text">
-                                <span class="chart-panel-toggle-title">Lineouts Head-to-Head</span>
-                                <span class="chart-panel-toggle-hint">Lineouts won and lost by both teams in previous meetings.</span>
-                            </span>
-                            <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
-                        </button>
-                        <div id="opposition-lineout-h2h-panel" class="chart-panel-content" hidden>
-                            <div class="chart-panel-card opposition-h2h-card">
-                                <div id="oppositionLineoutH2HChart" style="overflow: visible;"></div>
+                                                        <h3 id="sec-opposition-match-history" class="section-heading opposition-profile-subsection">Match History</h3>
+                                                        <p class="section-intro">Every recorded meeting with the selected club.</p>
+                                                        <div class="chart-section-block chart-section-block--panel" style="margin-bottom: 1rem;">
+                                <div class="chart-section-content">
+                                    <div id="oppositionHistoryTableWrap" class="table-responsive database-table-responsive">
+                                        <table class="table table-striped table-hover align-middle database-data-table">
+                                            <thead>
+                                                <tr>
+                                                    <th aria-sort="descending">
+                                                        <button type="button" class="database-sort-button" data-opposition-history-sort="date" data-opposition-history-sort-label="Date">
+                                                            <span>Date</span>
+                                                            <span class="database-sort-indicator" aria-hidden="true">▼</span>
+                                                        </button>
+                                                    </th>
+                                                    <th aria-sort="none">
+                                                        <button type="button" class="database-sort-button" data-opposition-history-sort="squad" data-opposition-history-sort-label="Squad">
+                                                            <span>Squad</span>
+                                                            <span class="database-sort-indicator" aria-hidden="true"></span>
+                                                        </button>
+                                                    </th>
+                                                    <th aria-sort="none">
+                                                        <button type="button" class="database-sort-button" data-opposition-history-sort="competition" data-opposition-history-sort-label="Competition">
+                                                            <span>Competition</span>
+                                                            <span class="database-sort-indicator" aria-hidden="true"></span>
+                                                        </button>
+                                                    </th>
+                                                    <th aria-sort="none">
+                                                        <button type="button" class="database-sort-button" data-opposition-history-sort="venue" data-opposition-history-sort-label="Venue">
+                                                            <span>Venue</span>
+                                                            <span class="database-sort-indicator" aria-hidden="true"></span>
+                                                        </button>
+                                                    </th>
+                                                    <th aria-sort="none">
+                                                        <button type="button" class="database-sort-button" data-opposition-history-sort="result" data-opposition-history-sort-label="Result">
+                                                            <span>Result</span>
+                                                            <span class="database-sort-indicator" aria-hidden="true"></span>
+                                                        </button>
+                                                    </th>
+                                                    <th aria-sort="none">
+                                                        <button type="button" class="database-sort-button" data-opposition-history-sort="captain" data-opposition-history-sort-label="Captain">
+                                                            <span>Captain</span>
+                                                            <span class="database-sort-indicator" aria-hidden="true"></span>
+                                                        </button>
+                                                    </th>
+                                                    <th class="match-table-open-cell" aria-label="Open match"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="oppositionResultsTableBody"></tbody>
+                                        </table>
+                                    </div>
+                                    <div class="database-pagination-bar opposition-top-pagination-bar">
+                                        <div id="oppositionHistoryPaginationSummary" class="database-pagination-summary" aria-live="polite">0 matches</div>
+                                        <div class="btn-group match-finder-pagination-controls" role="group" aria-label="Match history pagination">
+                                            <button id="oppositionHistoryPrev" type="button" class="btn match-finder-pagination-btn prev-btn">
+                                                <i class="bi bi-chevron-left px-1" aria-hidden="true"></i>
+                                                <span>Previous</span>
+                                            </button>
+                                            <button id="oppositionHistoryNext" type="button" class="btn match-finder-pagination-btn next-btn">
+                                                <span>Next</span>
+                                                <i class="bi bi-chevron-right px-1" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
 
-                    <div class="chart-panel chart-panel--inline">
-                        <button type="button" class="chart-panel-toggle chart-panel-toggle--black"
-                            data-target="opposition-scrum-h2h-panel" aria-expanded="false" aria-controls="opposition-scrum-h2h-panel">
-                            <span class="chart-panel-toggle-text">
-                                <span class="chart-panel-toggle-title">Scrums Head-to-Head</span>
-                                <span class="chart-panel-toggle-hint">Scrums won and lost by both teams in previous meetings.</span>
-                            </span>
-                            <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
-                        </button>
-                        <div id="opposition-scrum-h2h-panel" class="chart-panel-content" hidden>
-                            <div class="chart-panel-card opposition-h2h-card">
-                                <div id="oppositionScrumH2HChart" style="overflow: visible;"></div>
+                                                        <h3 id="sec-opposition-results" class="section-heading opposition-profile-subsection">Results</h3>
+                                                        <p class="section-intro">Points for and against across recorded meetings with the selected club, shown in fixture date order.</p>
+                                                        <div class="chart-section-block chart-section-block--panel" style="margin-bottom: 1rem;">
+                                <div class="chart-section-content">
+                                    <div class="league-results-chart-card opposition-results-chart-card">
+                                        <div id="oppositionResultsChart" class="chart-host chart-host--overflow-visible chart-host--intrinsic opposition-chart-host"></div>
+                                    </div>
+                                </div>
                             </div>
+
+                            <h3 id="sec-opposition-team-sheets" class="section-heading opposition-profile-subsection">Team Sheets</h3>
+                            <p class="section-intro">Selection grid showing how squads and shirts changed across repeated meetings. Click a player's name to highlight their appearances.</p>
+                            <div class="chart-section-block chart-section-block--panel" style="margin-bottom: 1rem;">
+                                <div class="chart-section-content">
+                                    <div id="oppositionTeamSheetsChart" class="chart-host chart-host--overflow-visible chart-host--intrinsic team-sheets-chart-shell opposition-team-sheets-chart-shell"></div>
+                                </div>
+                            </div>
+
+                            <h3 id="sec-opposition-set-piece" class="section-heading opposition-profile-subsection">Set Piece</h3>
+                            <p id="oppositionSetPieceIntro" class="section-intro">Set piece outcomes from previous meetings. Only available for clubs where data has been recorded.</p>
+                            <p id="oppositionSetPieceNoData" class="section-intro d-none">No set-piece data is available for this opposition.</p>
+                            <div class="chart-section-block chart-section-block--panel" style="margin-bottom: 1rem;">
+                                <div class="chart-section-head">
+                                    <div class="squad-filter-control" role="group" aria-label="Set Piece Type">
+                                        <span class="squad-filter-label">Set Piece</span>
+                                        <div class="squad-filter-segment" id="setpieceTypeSegment">
+                                            <button type="button" class="squad-filter-segment-btn is-active" data-value="lineout">Lineout</button>
+                                            <button type="button" class="squad-filter-segment-btn" data-value="scrums">Scrum</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="oppositionSetPieceCharts" class="opposition-h2h-single">
+                                    <div class="chart-section-content">
+                                        <div id="oppositionSetPieceChart" class="chart-host chart-host--overflow-visible chart-host--intrinsic opposition-chart-host" data-chart-scale-min="0.5" data-chart-scale-min-xs="0.42"></div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
-                    </div>
-                </div>
+                    </section>
+                </main>
             </div>
         </div>
     </div>

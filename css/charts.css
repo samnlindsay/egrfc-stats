@@ -60,67 +60,6 @@
     overflow-y: hidden;
 }
 
-#results-vis,
-#team-sheets-vis,
-#player-stats-vis,
-#set-piece-vis {
-    min-width: 600px;
-    overflow-x: auto;
-}
-
-#league-vis {
-    min-width: 0;
-    width: 100%;
-    background: var(--chart-surface-color);
-}
-
-.league-results-grid {
-    width: 100%;
-    display: grid;
-    grid-template-columns: minmax(520px, 1fr);
-    gap: 1rem;
-    align-items: start;
-}
-
-.league-results-panel {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-    width: 100%;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-.league-results-iframe {
-    width: 100%;
-    min-height: 320px;
-    border: none;
-    background: var(--chart-surface-color);
-    display: block;
-    margin: 0;
-}
-
-.league-table-iframe {
-    width: 100%;
-    max-width: 700px;
-    min-height: 280px;
-    border: none;
-    background: var(--chart-surface-color);
-    display: block;
-    margin: 0;
-}
-
-.league-results-empty {
-    min-height: 220px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--dark-color);
-    border: 1px solid var(--chart-surface-color);
-    background: var(--chart-surface-color);
-    padding: 1rem;
-}
-
 .team-sheets-page-shell {
     padding-top: 1.25rem !important;
 }
@@ -168,10 +107,6 @@
 
 /* ===== MOBILE RESPONSIVE ===== */
 @media (max-width: 768px) {
-
-    .league-results-grid {
-        grid-template-columns: minmax(0, 1fr);
-    }
 
     .chart-scale-mobile-tight .vega-embed {
         transform: scale(var(--chart-mobile-scale));

@@ -196,6 +196,11 @@ const CHART_LAYOUT_INVENTORY = {
     narrow: { legendOrient: "bottom" },
     wide: { legendOrient: "right" },
   },
+  oppositionResultsChart: {
+    narrowMax: 760,
+    narrow: { legendOrient: "bottom", innerWidth: 275 },
+    wide: { legendOrient: "right"},
+  },
   oppositionLineoutH2HChart: {
     narrowMax: 760,
     narrow: { legendOrient: "bottom" },
@@ -617,6 +622,26 @@ function getResponsiveChartBoundary(embed) {
   );
 }
 
+function getResponsiveChartMinScale(embed, boundary) {
+  if (!window || typeof window.innerWidth !== "number") return null;
+  const target =
+    boundary?.closest?.("[data-chart-scale-min], [data-chart-scale-min-xs]") ||
+    embed?.closest?.("[data-chart-scale-min], [data-chart-scale-min-xs]") ||
+    null;
+  if (!target) return null;
+
+  const xsValue = Number.parseFloat(
+    target.getAttribute("data-chart-scale-min-xs") || "",
+  );
+  const defaultValue = Number.parseFloat(
+    target.getAttribute("data-chart-scale-min") || "",
+  );
+  const value = window.innerWidth <= 480 && Number.isFinite(xsValue)
+    ? xsValue
+    : defaultValue;
+  return Number.isFinite(value) ? value : null;
+}
+
 function applyResponsiveChartScale(rootElement = document) {
   if (!rootElement || !window || typeof window.innerWidth !== "number") return;
 
@@ -659,7 +684,12 @@ function applyResponsiveChartScale(rootElement = document) {
     }
 
     const rawScale = availableWidth / intrinsicWidth;
-    const minReadableScale = window.innerWidth <= 480 ? 0.58 : 0.68;
+    const customMinScale = getResponsiveChartMinScale(embed, boundary);
+    const minReadableScale = Number.isFinite(customMinScale)
+      ? customMinScale
+      : window.innerWidth <= 480
+        ? 0.58
+        : 0.68;
     if (rawScale < minReadableScale) {
       resetResponsiveChartScale(embed);
       return;
@@ -1042,6 +1072,26 @@ async function embedChartSpec(containerOrId, spec, options = {}) {
   const containerId = options.containerId || container.id || null;
   const layoutContainerId = options.layoutContainerId || containerId;
   const emptyMessage = options.emptyMessage || "No chart data available.";
+  const containerClasses = []
+    .concat(options.containerClasses || [])
+    .filter(Boolean);
+
+  if (containerClasses.length) {
+    container.classList.add(...containerClasses);
+  }
+
+  if (Number.isFinite(options.responsiveScaleMin)) {
+    container.setAttribute(
+      "data-chart-scale-min",
+      String(options.responsiveScaleMin),
+    );
+  }
+  if (Number.isFinite(options.responsiveScaleMinXs)) {
+    container.setAttribute(
+      "data-chart-scale-min-xs",
+      String(options.responsiveScaleMinXs),
+    );
+  }
 
   if (!spec || !chartSpecHasRows(spec)) {
     container.innerHTML = `<div class="text-center text-muted py-4">${emptyMessage}</div>`;
@@ -1051,8 +1101,12 @@ async function embedChartSpec(containerOrId, spec, options = {}) {
   container.innerHTML = "";
   const embedHost = document.createElement("div");
   embedHost.className = "chart-embed-host";
+  const embedHostClasses = []
+    .concat(options.embedHostClasses || [])
+    .filter(Boolean);
   if (containerId === "teamSheetsChart")
     embedHost.classList.add("chart-embed-host--team-sheets");
+  if (embedHostClasses.length) embedHost.classList.add(...embedHostClasses);
   container.appendChild(embedHost);
 
   const layoutWidth = getChartLayoutWidth(container);
@@ -1371,7 +1425,9 @@ function initialiseAnalysisRail(options = {}) {
   };
 
   const updateActiveOnScroll = () => {
-    const sections = layout.querySelectorAll(sectionSelector);
+    const sections = Array.from(layout.querySelectorAll(sectionSelector)).filter(
+      (section) => section.getClientRects().length > 0,
+    );
     if (!sections.length) return;
 
     let currentSection = sections[0]?.id;
@@ -1464,24 +1520,6 @@ function initialiseAnalysisRail(options = {}) {
         "--nav-offset",
       ),
     ) || 74;
-  const railHeight = rail.getBoundingClientRect().height || 48;
-  const scrollSpy = window.bootstrap?.ScrollSpy
-    ? window.bootstrap.ScrollSpy.getOrCreateInstance(document.body, {
-        target: railId ? `#${railId}` : undefined,
-        offset: Math.ceil(navOffset + railHeight + 12),
-      })
-    : null;
-
-  const syncActiveLink = () => {
-    rail.querySelectorAll(".rail-link").forEach((link) => {
-      if (link.classList.contains("active")) link.setAttribute("aria-current", "true");
-      else link.removeAttribute("aria-current");
-    });
-  };
-
-  document.body.addEventListener("activate.bs.scrollspy", syncActiveLink);
-  syncActiveLink();
-  scrollSpy?.refresh();
 
   const refreshRail = () => {
     updatePinnedState();
@@ -1503,8 +1541,6 @@ function initialiseAnalysisRail(options = {}) {
     recalcRaf = window.requestAnimationFrame(() => {
       recalcRaf = null;
       recalculatePinTrigger();
-      scrollSpy?.refresh();
-      syncActiveLink();
       refreshRail();
     });
   };
@@ -1524,8 +1560,6 @@ function initialiseAnalysisRail(options = {}) {
     if (targetSection) {
       window.setTimeout(() => {
         targetSection.scrollIntoView({ behavior: "smooth", block: "start" });
-        scrollSpy?.refresh();
-        syncActiveLink();
         recalculatePinTrigger();
         refreshRail();
       }, initialHashDelay);

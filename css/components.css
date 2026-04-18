@@ -2266,7 +2266,7 @@ button.match-info-hero-action-card:focus-visible {
 }
 
 .match-team-sheet--compact .match-team-sheet-subtitle {
-    margin-bottom: 0.42rem;
+   margin-bottom: 0.42rem;
     font-size: 0.74rem;
 }
 
@@ -2965,7 +2965,7 @@ table tbody tr:hover {
 }
 
 .database-sort-button:hover {
-    color: var(--accent-color);
+    text-shadow: 0 0 2px white;
 }
 
 .database-sort-indicator {
@@ -3012,11 +3012,46 @@ table tbody tr:hover {
     flex-wrap: wrap;
 }
 
-#matchDataPrev,
-#matchDataNext {
+.database-pagination-bar .btn-group {
     flex: 0 0 auto;
-    width: auto;
-    white-space: nowrap;
+    width: fit-content;
+}
+
+.match-finder-pagination-controls {
+    display: flex;
+    align-items: center;
+}
+
+.match-finder-pagination-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: max-content;
+    font-weight: 900;
+    background-color: var(--primary-color);
+    color: var(--light-color);
+}
+
+
+
+.match-finder-pagination-btn i {
+    font-size: 0.82rem;
+}
+
+.match-finder-pagination-btn:disabled {
+    opacity: 0.45;
+}
+
+.match-finder-pagination-btn:not(:disabled):hover {
+    background-color: var(--accent-color);
+    color: var(--primary-color);
+}
+
+.next-btn {
+    padding-left: 0.75rem !important;
+}
+.prev-btn {
+    padding-right: 0.75rem !important;
 }
 
 @media (max-width: 767.98px) {
@@ -3050,6 +3085,13 @@ table tbody tr:hover {
         width: 1.45rem;
         height: 1.45rem;
         --bs-btn-font-size: 0.72rem;
+    }
+
+    .match-finder-pagination-btn {
+        min-width: 6.3rem;
+        min-height: 2rem;
+        padding: 0.28rem 0.58rem;
+        font-size: 0.85rem;
     }
 }
 
@@ -3367,6 +3409,29 @@ table tbody tr:hover {
 }
 
 #page-league-tables .league-results-chart-card .chart-embed-host {
+    display: block;
+    width: fit-content;
+    max-width: 100%;
+    min-width: 0;
+    overflow: visible;
+}
+
+#page-opposition-profile .opposition-results-chart-card {
+    margin-top: 0.35rem;
+}
+
+#page-opposition-profile .opposition-results-chart-card .chart-host--intrinsic {
+    display: block;
+    width: fit-content;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: var(--chart-surface-color);
+    overflow: hidden;
+}
+
+#page-opposition-profile .opposition-results-chart-card .chart-embed-host {
     display: block;
     width: fit-content;
     max-width: 100%;
@@ -4302,9 +4367,10 @@ table tbody tr:hover {
 .ux-hero-metric-label {
     margin: 0;
     color: white;
-    font-size: 0.86rem;
-    font-weight: 700;
+    font-size: 1rem;
+    font-weight: 900;
 }
+
 .ux-hero-metric--1st .ux-hero-metric-label {
     color: white;
 }
@@ -4315,7 +4381,7 @@ table tbody tr:hover {
 .ux-hero-metric-value {
     margin: 0.22rem 0 0;
     color: white;
-    font-size: clamp(1.9rem, 3.5vw, 2.5rem);
+    font-size: clamp(2rem, 3.5vw, 3rem);
     font-weight: 900;
     line-height: 1;
 }
@@ -4772,6 +4838,154 @@ table tbody tr:hover {
     max-width: 860px;
 }
 
+.opposition-profile-page-hero .ux-hero-description {
+    max-width: 54ch;
+}
+
+.opposition-profile-hero-metrics-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.opposition-hero-action-card {
+    width: 100%;
+    min-height: 3.35rem;
+    border-radius: 0.65rem;
+    border: 2px solid rgba(26, 39, 76, 0.2);
+    background: #ffffff;
+    color: #152042;
+    box-shadow: 0 2px 6px rgba(32, 41, 70, 0.12);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.04rem;
+    padding: 0.34rem 0.4rem;
+    text-align: center;
+    font-family: 'PT Sans Narrow', sans-serif;
+    line-height: 1.1;
+}
+
+.match-info-hero-matrix-cell--1st .opposition-hero-action-card {
+    border-color: color-mix(in srgb, var(--primary-color) 70%, #ffffff);
+    background: var(--primary-color);
+    color: #f4f7ff;
+}
+
+.match-info-hero-matrix-cell--2nd .opposition-hero-action-card {
+    border-color: color-mix(in srgb, var(--accent-color) 75%, var(--primary-color));
+    background: var(--accent-color);
+    color: var(--primary-color);
+}
+
+button.opposition-hero-action-card {
+    cursor: pointer;
+    transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+}
+
+button.opposition-hero-action-card:hover,
+button.opposition-hero-action-card:focus-visible {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 11px rgba(32, 41, 70, 0.18);
+    outline: none;
+}
+
+.opposition-hero-action-card.is-empty {
+    font-size: 0.9rem;
+    font-weight: 700;
+    justify-content: center;
+}
+
+.opposition-hero-action-value {
+    font-size: clamp(1.08rem, 2.1vw, 1.36rem);
+    font-weight: 900;
+    line-height: 1;
+}
+
+.opposition-hero-action-note {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: inherit;
+}
+
+.match-info-hero-matrix-cell--1st .opposition-hero-action-note {
+    color: color-mix(in srgb, #ffffff 82%, var(--primary-color));
+}
+
+.match-info-hero-matrix-cell--2nd .opposition-hero-action-note {
+    color: color-mix(in srgb, var(--primary-color) 88%, #ffffff);
+}
+
+.opposition-profile-hero-metric--last .ux-hero-metric-value {
+    font-size: clamp(1.35rem, 2.7vw, 2.15rem);
+    line-height: 1.05;
+}
+
+.opposition-profile-main {
+    gap: 1rem;
+}
+
+.opposition-profile-empty-state {
+    border-style: dashed;
+    background: linear-gradient(180deg, #fafbff 0%, #f2f5fb 100%);
+}
+
+.opposition-profile-summary-card {
+    margin: 0;
+}
+
+.opposition-chart-host {
+    min-height: 3.5rem;
+}
+
+.chart-host--showing-placeholder {
+    background: none;
+    border-color: transparent;
+    box-shadow: none;
+    padding: 0.1rem 0;
+}
+
+.opposition-team-sheets-chart-shell {
+    padding: 0;
+}
+
+.opposition-h2h-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+}
+
+.opposition-h2h-block {
+    margin-bottom: 0;
+}
+
+.opposition-h2h-single {
+    width: 100%;
+}
+
+#page-opposition-profile #oppositionSetPieceCharts .chart-section-content {
+    width: 100%;
+    min-width: 0;
+}
+
+#page-opposition-profile #oppositionSetPieceCharts .chart-host--intrinsic {
+    display: block;
+    width: fit-content;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: var(--chart-surface-color);
+    overflow: hidden;
+}
+
+#page-opposition-profile #oppositionSetPieceCharts .chart-embed-host {
+    display: block;
+    width: fit-content;
+    max-width: 100%;
+    min-width: 0;
+    overflow: visible;
+}
+
 .opposition-profile-hero {
     border-width: 3px;
     border-color: #d9e0f0;
@@ -4780,9 +4994,10 @@ table tbody tr:hover {
 .opposition-profile-hero-grid {
     display: block;
     background: linear-gradient(to right,
-        color-mix(in srgb, var(--primary-color) 16%, white) 0%,
-        color-mix(in srgb, var(--primary-color) 8%, white) 48%,
-        #ffffff 100%
+        color-mix(in srgb, var(--primary-color) 26%, white) 0%,
+        color-mix(in srgb, var(--primary-color) 14%, white) 42%,
+        color-mix(in srgb, var(--accent-color) 10%, white) 72%,
+        color-mix(in srgb, var(--accent-color) 20%, white) 100%
     );
 }
 
@@ -4819,8 +5034,21 @@ table tbody tr:hover {
     vertical-align: middle;
 }
 
+.opposition-top-table tbody tr.opposition-selectable-row {
+    cursor: pointer;
+}
+
+.opposition-top-table tbody tr.opposition-selectable-row:hover > td {
+    background-color: color-mix(in srgb, var(--primary-color) 7%, white);
+}
+
+.opposition-top-table tbody tr.opposition-selectable-row:focus-visible {
+    outline: 2px solid color-mix(in srgb, var(--primary-color) 55%, white);
+    outline-offset: -2px;
+}
+
 .opposition-select-row-btn {
-    min-width: 5.5rem;
+    min-width: 0;
 }
 
 .opposition-results-row {
@@ -4845,27 +5073,61 @@ table tbody tr:hover {
     font-weight: 900;
     font-size: 1.1rem !important;
     background-color: #f8f9fa;
+    padding: 0.45rem 0.3rem;
+}
+
+.opposition-table-sort-button {
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.3rem;
+    color: inherit;
+    font-weight: inherit;
+}
+
+.opposition-table-sort-button--numeric {
+    justify-content: center;
+}
+
+.opposition-top-table thead th[aria-sort="ascending"] .database-sort-indicator,
+.opposition-top-table thead th[aria-sort="descending"] .database-sort-indicator {
+    color: currentColor;
 }
 
 .opposition-top-table thead th:nth-child(n+3),
 .opposition-top-table tbody td:nth-child(n+3) {
     text-align: center !important;
     font-size: 1.2rem;
+    white-space: nowrap;
+}
+
+.opposition-top-table tbody td {
+    padding: 0.45rem 0.3rem;
 }
 
 .opposition-table-rank {
-    width: 2rem;
+    width: 2.1rem;
     text-align: center;
+    white-space: nowrap;
 }
 
 .opposition-table-opposition {
-    flex: 1;
+    width: auto;
+    min-width: 0;
 }
 
 .opposition-table-opposition-content {
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    min-width: 0;
+}
+
+.opposition-table-opposition-content strong {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .opposition-table-logo {
@@ -4878,20 +5140,28 @@ table tbody tr:hover {
 
 .opposition-table-games-total {
     font-size: 1.1rem;
-    width: 4.5rem;
     font-weight:900;
 }
 
 .opposition-table-games-1st {
-    width: 4rem;
+    min-width: 4.5rem;
 }
 
 .opposition-table-games-2nd {
-    width: 4rem;
+    min-width: 4.5rem;
+}
+
+.opposition-table-games-total {
+    min-width: 4.75rem;
+}
+
+.opposition-table-win-pct {
+    min-width: 4.5rem;
+    font-weight: 900;
 }
 
 .opposition-table-result {
-    width: 4rem;
+    min-width: 3.2rem;
     font-weight: 900;
 }
 
@@ -4967,13 +5237,24 @@ table tbody tr:hover {
 }
 
 .opposition-table-action {
-    width: 5rem;
+    width: 2.75rem;
+    min-width: 2.75rem;
     text-align: center;
+    white-space: nowrap;
 }
 
 /* Ensure opposition top panel matches toggle panel width */
 .opposition-top-table {
     width: 100%;
+    table-layout: auto;
+}
+
+.opposition-top-table-wrap {
+    overflow-x: hidden;
+}
+
+.opposition-top-pagination-bar {
+    margin-top: 0.75rem;
 }
 
 .opposition-h2h-card {

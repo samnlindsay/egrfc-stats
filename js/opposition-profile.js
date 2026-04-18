@@ -14,6 +14,26 @@
     let scrumH2HView = null;
     let currentOppositionClub = null;
     let clubLogosManifest = {};
+    let oppositionProfileAnalysisRailInitialised = false;
+    let oppositionFinderRows = [];
+    let oppositionHistoryRows = [];
+    const oppositionFinderPagination = {
+        page: 1,
+        pageSize: 10,
+    };
+    const oppositionHistoryPagination = {
+        page: 1,
+        pageSize: 10,
+    };
+    const oppositionFinderSort = {
+        key: 'stats.played',
+        direction: 'desc',
+    };
+    const oppositionHistorySort = {
+        key: 'date',
+        direction: 'desc',
+    };
+    let currentSetPieceType = 'lineout';
 
     function normaliseLogoKey(name) {
         return String(name || '')
@@ -182,6 +202,146 @@
         return '<span class="squad-pill squad-pill--unknown">Unknown</span>';
     }
 
+    function updateOppositionUrl(oppositionClub) {
+        const url = new URL(window.location.href);
+        if (oppositionClub) {
+            url.searchParams.set('opposition', oppositionClub);
+        } else {
+            url.searchParams.delete('opposition');
+        }
+        window.history.replaceState({}, '', url.toString());
+    }
+
+    function syncOppositionSelectUI(oppositionClub) {
+        const select = document.getElementById('oppositionSelect');
+        if (!select) return;
+        select.value = oppositionClub || '';
+        rebuildBootstrapSelect(select);
+    }
+
+    function parseIsoDate(value) {
+        const raw = String(value || '').trim();
+        const m = raw.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+        if (m) return new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]));
+        const d = new Date(raw);
+        return Number.isNaN(d.getTime()) ? null : d;
+    }
+
+    function hasRecordedResult(row) {
+        const resultText = String(row?.result || '').trim();
+        return resultText !== '' && resultText !== '-';
+    }
+
+    function findSquadHeroFixtures(squad) {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        const squadGames = gamesRows
+            .filter((row) => String(row?.squad || '').trim() === squad)
+            .map((row) => ({ row, date: parseIsoDate(row?.date) }))
+            .filter((item) => item.date instanceof Date)
+            .sort((a, b) => a.date - b.date);
+
+        if (!squadGames.length) return { next: null, last: null };
+
+        const upcoming = squadGames.filter(
+            (item) => item.date > today && !hasRecordedResult(item.row)
+        );
+        const next = upcoming[0]?.row || null;
+
+        const completed = squadGames
+            .filter((item) => item.date <= today || hasRecordedResult(item.row))
+            .sort((a, b) => b.date - a.date);
+        const last = completed[0]?.row || null;
+
+        return { next, last };
+    }
+
+    function heroFixtureNote(row, fallbackText = '') {
+        if (!row) return fallbackText || '-';
+        const dateText = formatDisplayDate(row?.date);
+        const venue = String(row?.home_away || '').toUpperCase() === 'A' ? 'Away' : 'Home';
+        return `${dateText} | ${venue}`;
+    }
+
+    function renderHeroMetricCard(container, row, fallbackRow = null) {
+        if (!container) return;
+        const clickRow = row || fallbackRow;
+
+        if (!clickRow) {
+            container.innerHTML = '<span class="opposition-hero-action-card is-empty">No fixture</span>';
+            return;
+        }
+
+        const club = toOppositionClubName(clickRow?.opposition);
+        const note = row
+            ? heroFixtureNote(row)
+            : `${heroFixtureNote(fallbackRow)} | latest available`;
+
+        container.innerHTML = `<button type="button" class="opposition-hero-action-card" data-opposition-hero-select="${escapeHtml(club)}"><span class="opposition-hero-action-value">${escapeHtml(club)}</span><span class="opposition-hero-action-note">${escapeHtml(note)}</span></button>`;
+    }
+
+    function renderOppositionHeroQuickLinks() {
+        const first = findSquadHeroFixtures('1st');
+        const second = findSquadHeroFixtures('2nd');
+
+        const firstNextHost = document.getElementById('oppositionHero1stNext');
+        const firstLastHost = document.getElementById('oppositionHero1stLast');
+        const secondNextHost = document.getElementById('oppositionHero2ndNext');
+        const secondLastHost = document.getElementById('oppositionHero2ndLast');
+
+        renderHeroMetricCard(firstNextHost, first.next, first.last);
+        renderHeroMetricCard(firstLastHost, first.last, null);
+        renderHeroMetricCard(secondNextHost, second.next, second.last);
+        renderHeroMetricCard(secondLastHost, second.last, null);
+    }
+
+    function bindOppositionHeroQuickLinks() {
+        const metrics = document.querySelector('.ux-hero-metrics');
+        if (!metrics || metrics.__oppositionHeroLinksBound) return;
+        metrics.__oppositionHeroLinksBound = true;
+        metrics.addEventListener('click', (event) => {
+            const trigger = event.target.closest('[data-opposition-hero-select]');
+            if (!trigger) return;
+            const club = String(trigger.getAttribute('data-opposition-hero-select') || '').trim();
+            if (!club) return;
+            syncOppositionSelectUI(club);
+            renderOppositionProfile(club).catch((error) => {
+                console.error('Failed to render opposition profile:', error);
+                showError('Unable to render opposition profile.');
+            });
+            const profileSection = document.getElementById('sec-opposition-profile');
+            if (profileSection) profileSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+    }
+
+    function renderOppositionActiveFilters(_oppositionClub) {
+        // No per-section filter chips on this page — selection is inline via the dropdown.
+    }
+
+    function setChartPlaceholder(containerId, message) {
+        const container = typeof containerId === 'string' ? document.getElementById(containerId) : containerId;
+        if (!container) return;
+        container.innerHTML = `<p class="chart-section-hint mb-0">${escapeHtml(message)}</p>`;
+        container.classList.add('chart-host--showing-placeholder');
+    }
+
+    function clearChartPlaceholder(container) {
+        container.innerHTML = '';
+        container.classList.remove('chart-host--showing-placeholder');
+    }
+
+    function toggleOverviewState(hasSelection) {
+        const contentWrap = document.getElementById('oppositionProfileContentWrap');
+        if (contentWrap) contentWrap.classList.toggle('d-none', !hasSelection);
+
+        const detailLinks = document.querySelectorAll('.opposition-profile-rail-detail');
+        detailLinks.forEach((link) => link.classList.toggle('d-none', !hasSelection));
+
+        // Nudge the shared rail refresh path after visibility changes.
+        window.dispatchEvent(new Event('resize'));
+    }
+
     function venueLabel(homeAway) {
         return String(homeAway || '').toUpperCase() === 'H' ? 'Home' : 'Away';
     }
@@ -233,8 +393,166 @@
         return String(a).localeCompare(String(b), undefined, { sensitivity: 'base' });
     }
 
+    function getNestedValue(row, path) {
+        return String(path || '').split('.').reduce((value, key) => value?.[key], row);
+    }
+
+    function compareOppositionFinderValues(a, b, key) {
+        const valueA = getNestedValue(a, key);
+        const valueB = getNestedValue(b, key);
+
+        if (typeof valueA === 'number' || typeof valueB === 'number') {
+            const numberA = Number(valueA ?? 0);
+            const numberB = Number(valueB ?? 0);
+            if (numberA !== numberB) return numberA - numberB;
+            return oppositionSort(a.club, b.club);
+        }
+
+        return oppositionSort(String(valueA ?? ''), String(valueB ?? ''));
+    }
+
+    function sortOppositionFinderRows(rows) {
+        const directionFactor = oppositionFinderSort.direction === 'asc' ? 1 : -1;
+        const key = oppositionFinderSort.key;
+        return rows.slice().sort((a, b) => compareOppositionFinderValues(a, b, key) * directionFactor);
+    }
+
+    function updateOppositionFinderSortHeaderUI() {
+        document.querySelectorAll('[data-opposition-sort]').forEach((button) => {
+            const key = String(button.getAttribute('data-opposition-sort') || '');
+            const label = String(button.getAttribute('data-opposition-sort-label') || key);
+            const isActive = key === oppositionFinderSort.key;
+            const direction = isActive ? oppositionFinderSort.direction : 'none';
+            const indicator = button.querySelector('.database-sort-indicator');
+            if (indicator) {
+                indicator.textContent = isActive ? (direction === 'asc' ? '▲' : '▼') : '';
+            }
+            button.setAttribute('aria-label', `${label}${isActive ? ` sorted ${direction === 'asc' ? 'ascending' : 'descending'}` : ''}`);
+            const th = button.closest('th');
+            if (th) th.setAttribute('aria-sort', isActive ? (direction === 'asc' ? 'ascending' : 'descending') : 'none');
+        });
+    }
+
+    function setOppositionFinderSort(key) {
+        if (!key) return;
+        if (oppositionFinderSort.key === key) {
+            oppositionFinderSort.direction = oppositionFinderSort.direction === 'asc' ? 'desc' : 'asc';
+        } else {
+            oppositionFinderSort.key = key;
+            oppositionFinderSort.direction = key === 'club' ? 'asc' : 'desc';
+        }
+        oppositionFinderPagination.page = 1;
+    }
+
     function dateSortDesc(a, b) {
         return String(b?.date || '').localeCompare(String(a?.date || ''));
+    }
+
+    function compareOppositionHistoryValues(a, b, key) {
+        const getCompetition = (row) => String(
+            row?.league || row?.competition || row?.competition_name || row?.game_type || ''
+        ).trim();
+        const getCaptain = (row) => String(row?.captain || '').trim();
+        const getVenue = (row) => venueLabel(row?.home_away);
+        const getResult = (row) => {
+            const result = normaliseResult(row);
+            const order = { W: 3, D: 2, L: 1, '-': 0 };
+            return order[result] ?? -1;
+        };
+
+        if (key === 'date') {
+            return String(a?.date || '').localeCompare(String(b?.date || ''));
+        }
+        if (key === 'squad') {
+            const squadOrder = { '1st': 1, '2nd': 2 };
+            const diff = (squadOrder[a?.squad] ?? 99) - (squadOrder[b?.squad] ?? 99);
+            return diff || String(a?.date || '').localeCompare(String(b?.date || ''));
+        }
+        if (key === 'competition') {
+            const diff = oppositionSort(getCompetition(a), getCompetition(b));
+            return diff || String(a?.date || '').localeCompare(String(b?.date || ''));
+        }
+        if (key === 'venue') {
+            const diff = oppositionSort(getVenue(a), getVenue(b));
+            return diff || String(a?.date || '').localeCompare(String(b?.date || ''));
+        }
+        if (key === 'result') {
+            const diff = getResult(a) - getResult(b);
+            return diff || String(a?.date || '').localeCompare(String(b?.date || ''));
+        }
+        if (key === 'captain') {
+            const diff = oppositionSort(getCaptain(a), getCaptain(b));
+            return diff || String(a?.date || '').localeCompare(String(b?.date || ''));
+        }
+        return 0;
+    }
+
+    function sortOppositionHistoryRows(rows) {
+        const directionFactor = oppositionHistorySort.direction === 'asc' ? 1 : -1;
+        const key = oppositionHistorySort.key;
+        return rows.slice().sort((a, b) => compareOppositionHistoryValues(a, b, key) * directionFactor);
+    }
+
+    function updateOppositionHistorySortHeaderUI() {
+        document.querySelectorAll('[data-opposition-history-sort]').forEach((button) => {
+            const key = String(button.getAttribute('data-opposition-history-sort') || '');
+            const label = String(button.getAttribute('data-opposition-history-sort-label') || key);
+            const isActive = key === oppositionHistorySort.key;
+            const direction = isActive ? oppositionHistorySort.direction : 'none';
+            const indicator = button.querySelector('.database-sort-indicator');
+            if (indicator) {
+                indicator.textContent = isActive ? (direction === 'asc' ? '▲' : '▼') : '';
+            }
+            button.setAttribute('aria-label', `${label}${isActive ? ` sorted ${direction === 'asc' ? 'ascending' : 'descending'}` : ''}`);
+            const th = button.closest('th');
+            if (th) th.setAttribute('aria-sort', isActive ? (direction === 'asc' ? 'ascending' : 'descending') : 'none');
+        });
+    }
+
+    function setOppositionHistorySort(key) {
+        if (!key) return;
+        if (oppositionHistorySort.key === key) {
+            oppositionHistorySort.direction = oppositionHistorySort.direction === 'asc' ? 'desc' : 'asc';
+        } else {
+            oppositionHistorySort.key = key;
+            oppositionHistorySort.direction = key === 'date' ? 'desc' : 'asc';
+        }
+        oppositionHistoryPagination.page = 1;
+    }
+
+    function getOppositionHistoryPagedRows() {
+        const pageSize = oppositionHistoryPagination.pageSize;
+        const total = oppositionHistoryRows.length;
+        const pageCount = Math.max(1, Math.ceil(total / pageSize));
+        const page = Math.min(pageCount, Math.max(1, oppositionHistoryPagination.page));
+        oppositionHistoryPagination.page = page;
+        const start = (page - 1) * pageSize;
+        return {
+            total,
+            page,
+            pageCount,
+            start,
+            rows: oppositionHistoryRows.slice(start, start + pageSize),
+        };
+    }
+
+    function renderOppositionHistoryPaginationSummary(paged) {
+        const summary = document.getElementById('oppositionHistoryPaginationSummary');
+        if (!summary) return;
+        if (!paged.total) {
+            summary.textContent = '0 matches';
+            return;
+        }
+        const from = paged.start + 1;
+        const to = paged.start + paged.rows.length;
+        summary.textContent = `${from}-${to} of ${paged.total} matches`;
+    }
+
+    function syncOppositionHistoryPaginationButtons(paged) {
+        const prevBtn = document.getElementById('oppositionHistoryPrev');
+        const nextBtn = document.getElementById('oppositionHistoryNext');
+        if (prevBtn) prevBtn.disabled = paged.page <= 1;
+        if (nextBtn) nextBtn.disabled = paged.page >= paged.pageCount;
     }
 
     function clubCountsFromGames(rows) {
@@ -249,11 +567,8 @@
         return byClub;
     }
 
-    function renderTopOppositionsTable(rowsByClub) {
-        const body = document.getElementById('oppositionTopTableBody');
-        if (!body) return;
-
-        const topRows = Array.from(rowsByClub.entries())
+    function getOppositionFinderRows(rowsByClub) {
+        const rows = Array.from(rowsByClub.entries())
             .map(([club, rows]) => {
                 const stats = getOppositionStats(rows);
                 const stats1st = rows.reduce((acc, row) => {
@@ -280,16 +595,72 @@
                     }
                     return acc;
                 }, { won: 0, drawn: 0, lost: 0, played: 0 });
-                return { club, stats, stats1st, stats2nd, logo: getClubLogoSrc(club) };
-            })
-            .sort((a, b) => {
-                if (b.stats.played !== a.stats.played) return b.stats.played - a.stats.played;
-                return oppositionSort(a.club, b.club);
-            })
-            .slice(0, 10);
+
+                const winPct = stats.played > 0 ? (stats.won / stats.played) * 100 : null;
+
+                return {
+                    club,
+                    stats: {
+                        ...stats,
+                        win_pct: winPct,
+                    },
+                    stats1st,
+                    stats2nd,
+                    logo: getClubLogoSrc(club),
+                };
+            });
+
+        return sortOppositionFinderRows(rows);
+    }
+
+    function getOppositionFinderPagedRows() {
+        const pageSize = oppositionFinderPagination.pageSize;
+        const total = oppositionFinderRows.length;
+        const pageCount = Math.max(1, Math.ceil(total / pageSize));
+        const page = Math.min(pageCount, Math.max(1, oppositionFinderPagination.page));
+        oppositionFinderPagination.page = page;
+        const start = (page - 1) * pageSize;
+        return {
+            total,
+            page,
+            pageCount,
+            start,
+            rows: oppositionFinderRows.slice(start, start + pageSize),
+        };
+    }
+
+    function renderOppositionFinderPaginationSummary(paged) {
+        const summary = document.getElementById('oppositionTopPaginationSummary');
+        if (!summary) return;
+        if (!paged.total) {
+            summary.textContent = '0 clubs';
+            return;
+        }
+        const from = paged.start + 1;
+        const to = paged.start + paged.rows.length;
+        summary.textContent = `${from}-${to} of ${paged.total} clubs`;
+    }
+
+    function syncOppositionFinderPaginationButtons(paged) {
+        const prevBtn = document.getElementById('oppositionTopPrev');
+        const nextBtn = document.getElementById('oppositionTopNext');
+        if (prevBtn) prevBtn.disabled = paged.page <= 1;
+        if (nextBtn) nextBtn.disabled = paged.page >= paged.pageCount;
+    }
+
+    function renderTopOppositionsTable(rowsByClub) {
+        const body = document.getElementById('oppositionTopTableBody');
+        if (!body) return;
+
+        oppositionFinderRows = getOppositionFinderRows(rowsByClub);
+        updateOppositionFinderSortHeaderUI();
+        const paged = getOppositionFinderPagedRows();
+        const topRows = paged.rows;
 
         if (topRows.length === 0) {
-            body.innerHTML = '<tr><td colspan="9" class="text-center text-muted">No opposition data found.</td></tr>';
+            body.innerHTML = '<tr><td colspan="10" class="text-center text-muted">No opposition data found.</td></tr>';
+            renderOppositionFinderPaginationSummary(paged);
+            syncOppositionFinderPaginationButtons(paged);
             return;
         }
 
@@ -297,13 +668,15 @@
             const logoHtml = row.logo
                 ? `<img src="${escapeHtml(row.logo)}" alt="${escapeHtml(row.club)} logo" class="opposition-table-logo" loading="lazy">`
                 : '';
+            const winPct = Number.isFinite(row?.stats?.win_pct) ? `${row.stats.win_pct.toFixed(0)}%` : '-';
+            const displayRank = paged.start + idx + 1;
             return `
-                <tr>
-                    <td class="opposition-table-rank">${idx + 1}</td>
+                <tr class="opposition-selectable-row" data-opposition-select="${escapeHtml(row.club)}" tabindex="0" aria-label="Open ${escapeHtml(row.club)} opposition profile">
+                    <td class="opposition-table-rank">${displayRank}</td>
                     <td class="opposition-table-opposition">
                         <div class="opposition-table-opposition-content">
                             ${logoHtml}
-                            <strong>${escapeHtml(row.club)}</strong>
+                            <span class="fw-bold">${escapeHtml(row.club)}</span>
                         </div>
                     </td>
                     <td class="opposition-table-games-1st text-end">${row.stats1st.played}</td>
@@ -312,18 +685,18 @@
                     <td class="opposition-table-result opposition-table-result--win text-end">${row.stats.won}</td>
                     <td class="opposition-table-result opposition-table-result--draw text-end">${row.stats.drawn}</td>
                     <td class="opposition-table-result opposition-table-result--loss text-end">${row.stats.lost}</td>
-                    <td class="opposition-table-action">
-                        <a href="opposition-profile.html?opposition=${encodeURIComponent(row.club)}" class="match-data-link" title="Open ${escapeHtml(row.club)} opposition profile">
-                            <i class="bi bi-box-arrow-up-right" aria-hidden="true"></i>
-                            <span>Opposition Profile</span>
-                        </a>
+                    <td class="opposition-table-win-pct text-end">${winPct}</td>
+                    <td class="opposition-table-action match-table-open-cell">
+                        <button type="button" class="btn btn-outline-primary btn-sm rounded-circle p-0 d-inline-flex align-items-center justify-content-center match-open-btn opposition-select-row-btn" data-opposition-select="${escapeHtml(row.club)}" aria-label="Open ${escapeHtml(row.club)} opposition profile">
+                            <i class="bi bi-search" aria-hidden="true"></i>
+                        </button>
                     </td>
                 </tr>
             `;
         }).join('');
 
-        // Re-bind click handlers for the new links if needed (though links already work via href)
-        // The close button in each row should navigate when clicked
+        renderOppositionFinderPaginationSummary(paged);
+        syncOppositionFinderPaginationButtons(paged);
     }
 
     function populateOppositionSelect(rowsByClub) {
@@ -331,7 +704,11 @@
         if (!select) return;
 
         const clubs = Array.from(rowsByClub.keys()).sort(oppositionSort);
-        select.innerHTML = '<option value="" disabled selected hidden>Select opposition...</option>' + clubs.map((club) => `<option value="${club}">${club}</option>`).join('');
+        const previousValue = String(select.value || currentOppositionClub || '').trim();
+        select.innerHTML = '<option value="" selected>All</option>' + clubs.map((club) => `<option value="${club}">${club}</option>`).join('');
+        if (previousValue && clubs.includes(previousValue)) {
+            select.value = previousValue;
+        }
 
         rebuildBootstrapSelect(select);
     }
@@ -348,13 +725,6 @@
         if (!element) return;
         element.textContent = '';
         element.classList.add('d-none');
-    }
-
-    function showContent(show) {
-        const placeholder = document.getElementById('oppositionProfilePlaceholder');
-        const content = document.getElementById('oppositionProfileContent');
-        if (placeholder) placeholder.classList.toggle('d-none', show);
-        if (content) content.classList.toggle('d-none', !show);
     }
 
     function renderSummary(filteredGames) {
@@ -397,14 +767,31 @@
         const body = document.getElementById('oppositionResultsTableBody');
         if (!body) return;
 
-        if (!filteredGames.length) {
-            body.innerHTML = '<tr><td colspan="8" class="text-center text-muted">No matches found for this opposition.</td></tr>';
+        if (!currentOppositionClub) {
+            oppositionHistoryRows = [];
+            updateOppositionHistorySortHeaderUI();
+            renderOppositionHistoryPaginationSummary({ total: 0, start: 0, rows: [] });
+            syncOppositionHistoryPaginationButtons({ page: 1, pageCount: 1 });
+            body.innerHTML = '<tr><td colspan="7" class="text-center text-muted">Select an opposition club to load previous matches.</td></tr>';
             return;
         }
 
-        body.innerHTML = filteredGames
-            .slice()
-            .sort(dateSortDesc)
+        if (!filteredGames.length) {
+            oppositionHistoryRows = [];
+            updateOppositionHistorySortHeaderUI();
+            renderOppositionHistoryPaginationSummary({ total: 0, start: 0, rows: [] });
+            syncOppositionHistoryPaginationButtons({ page: 1, pageCount: 1 });
+            body.innerHTML = '<tr><td colspan="7" class="text-center text-muted">No matches found for this opposition.</td></tr>';
+            return;
+        }
+
+        oppositionHistoryRows = sortOppositionHistoryRows(filteredGames);
+        updateOppositionHistorySortHeaderUI();
+        const paged = getOppositionHistoryPagedRows();
+        renderOppositionHistoryPaginationSummary(paged);
+        syncOppositionHistoryPaginationButtons(paged);
+
+        body.innerHTML = paged.rows
             .map((row) => {
                 const result = normaliseResult(row);
                 const resultClass =
@@ -415,7 +802,9 @@
                       : result === "D"
                         ? "result-badge--draw"
                         : "";
-                const score = String(row?.score_for) && String(row?.score_against) ? `${row.score_for} - ${row.score_against}` : '';
+                                const hasScoreFor = row?.score_for !== null && row?.score_for !== undefined && row?.score_for !== '';
+                                const hasScoreAgainst = row?.score_against !== null && row?.score_against !== undefined && row?.score_against !== '';
+                                const score = hasScoreFor && hasScoreAgainst ? `${row.score_for} - ${row.score_against}` : '-';
                 const competition = String(
                     row?.league || row?.competition || row?.competition_name || row?.game_type || ''
                 ).trim();
@@ -429,18 +818,20 @@
                 const captain = String(row?.captain || '').trim();
                 const captainLink = captain ? createPlayerLink(captain) : null;
                 const captainHtml = captainLink 
-                    ? `<a class="match-team-sheet-player-link" style="font-size: 1rem; font-weight:normal" href="${captainLink}">${escapeHtml(captain)}</a>`
+                    ? `<a class="table-player-link" href="${captainLink}">${escapeHtml(captain)}</a>`
+                    : '-';
+                const openHtml = gameLink
+                    ? `<a class="btn btn-outline-primary btn-sm rounded-circle p-0 d-inline-flex align-items-center justify-content-center match-open-btn" href="${gameLink}" aria-label="View match detail"><i class="bi bi-search" aria-hidden="true"></i></a>`
                     : '-';
                 return `
                     <tr class="${rowClass}">
                         <td>${formatDisplayDate(row?.date)}</td>
-                        <td>${String(row?.season || '-')}</td>
                         <td>${squadPillHtml(row?.squad)}</td>
                         <td>${competition}</td>
                         <td>${venueLabel(row?.home_away)}</td>
-                        <td>${resultClass ? `<span class="result-badge ${resultClass}">${escapeHtml(score)}</span>` : escapeHtml(score)}</td>
+                        <td>${resultClass && score !== '-' ? `<span class="result-badge ${resultClass}">${escapeHtml(score)}</span>` : escapeHtml(score)}</td>
                         <td>${captainHtml}</td>
-                        <td>${gameLink ? `<a class="match-data-link" href="${gameLink}"><i class="bi bi-box-arrow-up-right" aria-hidden="true"></i>Match Info</a>` : '-'}</td>
+                        <td class="match-table-open-cell">${openHtml}</td>
                     </tr>
                 `;
             })
@@ -536,12 +927,26 @@
     }
 
     async function renderH2HCharts(oppositionClub = 'All') {
-        const lineoutContainer = document.getElementById('oppositionLineoutH2HChart');
-        const scrumContainer = document.getElementById('oppositionScrumH2HChart');
-        const lineoutPanel = document.querySelector('[data-target="opposition-lineout-h2h-panel"]')?.closest('.chart-panel');
-        const scrumPanel = document.querySelector('[data-target="opposition-scrum-h2h-panel"]')?.closest('.chart-panel');
+        const chartContainer = document.getElementById('oppositionSetPieceChart');
+        const chartsWrap = document.getElementById('oppositionSetPieceCharts');
+        const intro = document.getElementById('oppositionSetPieceIntro');
+        const noData = document.getElementById('oppositionSetPieceNoData');
 
-        if (!lineoutContainer || !scrumContainer) return;
+        if (!chartContainer) return;
+
+        const showSetPieceState = (hasData) => {
+            if (chartsWrap) chartsWrap.classList.toggle('d-none', !hasData);
+            if (intro) intro.classList.toggle('d-none', !hasData);
+            if (noData) noData.classList.toggle('d-none', hasData);
+        };
+
+        if (!oppositionClub || oppositionClub === 'All') {
+            chartContainer.innerHTML = '';
+            lineoutH2HView = null;
+            scrumH2HView = null;
+            showSetPieceState(false);
+            return;
+        }
 
         const filteredLineoutSpec = filterH2HSpecByClub(lineoutH2HSpec, oppositionClub);
         const filteredScrumSpec = filterH2HSpecByClub(scrumH2HSpec, oppositionClub);
@@ -549,41 +954,40 @@
         // Check if filtered specs include real game rows.
         const lineoutHasData = h2hSpecHasGameRows(filteredLineoutSpec);
         const scrumHasData = h2hSpecHasGameRows(filteredScrumSpec);
+        const hasSetPieceData = lineoutHasData && scrumHasData;
 
-        // Show/hide panels based on data availability
-        if (lineoutPanel) lineoutPanel.style.display = lineoutHasData ? 'block' : 'none';
-        if (scrumPanel) scrumPanel.style.display = scrumHasData ? 'block' : 'none';
-
-        lineoutContainer.innerHTML = '';
-        scrumContainer.innerHTML = '';
+        chartContainer.innerHTML = '';
         lineoutH2HView = null;
         scrumH2HView = null;
 
-        if (lineoutHasData) {
-            await embedChartSpec(lineoutContainer, filteredLineoutSpec, {
-                containerId: 'oppositionLineoutH2HChart',
-                emptyMessage: 'Lineout head-to-head chart unavailable.'
-            })
-                .then(view => {
-                    lineoutH2HView = view;
-                })
-                .catch(error => {
-                    console.error('Error rendering lineout h2h chart:', error);
-                });
+        if (!hasSetPieceData) {
+            showSetPieceState(false);
+            return;
         }
 
-        if (scrumHasData) {
-            await embedChartSpec(scrumContainer, filteredScrumSpec, {
-                containerId: 'oppositionScrumH2HChart',
-                emptyMessage: 'Scrum head-to-head chart unavailable.'
-            })
-                .then(view => {
+        showSetPieceState(true);
+        
+        // Render the currently selected chart type
+        const selectedSpec = currentSetPieceType === 'lineout' ? filteredLineoutSpec : filteredScrumSpec;
+        const chartTitle = currentSetPieceType === 'lineout' ? 'lineout' : 'scrum';
+        
+        await embedChartSpec(chartContainer, selectedSpec, {
+            containerId: 'oppositionSetPieceChart',
+            emptyMessage: `${chartTitle} chart unavailable.`,
+            responsiveScaleMin: 0.5,
+            responsiveScaleMinXs: 0.42
+        })
+            .then(view => {
+                if (currentSetPieceType === 'lineout') {
+                    lineoutH2HView = view;
+                } else {
                     scrumH2HView = view;
-                })
-                .catch(error => {
-                    console.error('Error rendering scrum h2h chart:', error);
-                });
-        }
+                }
+            })
+            .catch(error => {
+                console.error(`Error rendering ${chartTitle} h2h chart:`, error);
+                showSetPieceState(false);
+            });
     }
 
     async function applyH2HFilters(oppositionClub) {
@@ -593,29 +997,50 @@
     async function renderOppositionProfile(oppositionClub) {
         if (!oppositionClub) {
             currentOppositionClub = null;
-            showContent(false);
+            oppositionHistoryPagination.page = 1;
+            updateOppositionUrl('');
+            renderOppositionActiveFilters('');
+            toggleOverviewState(false);
+            renderResultsTable([]);
+            renderStaticSpecChart('oppositionResultsChart', null, 'Select an opposition club to load the results chart.', {
+                responsiveScaleMin: 0.5,
+                responsiveScaleMinXs: 0.42,
+            });
+            renderStaticSpecChart('oppositionTeamSheetsChart', null, 'Select an opposition club to load team sheet data.');
+            await renderH2HCharts('All');
             return;
         }
 
         currentOppositionClub = oppositionClub;
+    oppositionHistoryPagination.page = 1;
+        updateOppositionUrl(oppositionClub);
+        renderOppositionActiveFilters(oppositionClub);
 
         const filteredGames = gamesRows.filter((row) => toOppositionClubName(row?.opposition) === oppositionClub);
         renderSummary(filteredGames);
         renderResultsTable(filteredGames);
+        toggleOverviewState(true);
 
         const filteredResultsSpec = filterResultsSpecByClub(resultsSpec, oppositionClub);
-        renderStaticSpecChart('oppositionResultsChart', filteredResultsSpec, 'No results chart data for this opposition.');
+        renderStaticSpecChart('oppositionResultsChart', filteredResultsSpec, 'No results chart data for this opposition.', {
+            responsiveScaleMin: 0.5,
+            responsiveScaleMinXs: 0.42,
+        });
 
         const filteredTeamSheetsSpec = filterTeamSheetsSpecByClub(teamSheetsSpec, oppositionClub);
         renderStaticSpecChart('oppositionTeamSheetsChart', filteredTeamSheetsSpec, 'No team sheet data for this opposition.');
 
         await applyH2HFilters(oppositionClub);
-
-        showContent(true);
     }
 
     function bindControls(rowsByClub) {
         const oppositionSelect = document.getElementById('oppositionSelect');
+        const prevBtn = document.getElementById('oppositionTopPrev');
+        const nextBtn = document.getElementById('oppositionTopNext');
+        const historyPrevBtn = document.getElementById('oppositionHistoryPrev');
+        const historyNextBtn = document.getElementById('oppositionHistoryNext');
+        const finderTable = document.getElementById('oppositionTopTableWrap');
+        const historyTable = document.getElementById('oppositionHistoryTableWrap');
         if (oppositionSelect) {
             oppositionSelect.addEventListener('change', () => {
                 renderOppositionProfile(oppositionSelect.value).catch((error) => {
@@ -625,24 +1050,139 @@
             });
         }
 
+        if (prevBtn && !prevBtn.__oppositionPaginationBound) {
+            prevBtn.__oppositionPaginationBound = true;
+            prevBtn.addEventListener('click', () => {
+                oppositionFinderPagination.page = Math.max(1, oppositionFinderPagination.page - 1);
+                renderTopOppositionsTable(rowsByClub);
+            });
+        }
+
+        if (nextBtn && !nextBtn.__oppositionPaginationBound) {
+            nextBtn.__oppositionPaginationBound = true;
+            nextBtn.addEventListener('click', () => {
+                oppositionFinderPagination.page += 1;
+                renderTopOppositionsTable(rowsByClub);
+            });
+        }
+
+        if (historyPrevBtn && !historyPrevBtn.__oppositionHistoryPaginationBound) {
+            historyPrevBtn.__oppositionHistoryPaginationBound = true;
+            historyPrevBtn.addEventListener('click', () => {
+                oppositionHistoryPagination.page = Math.max(1, oppositionHistoryPagination.page - 1);
+                renderResultsTable(oppositionHistoryRows);
+            });
+        }
+
+        if (historyNextBtn && !historyNextBtn.__oppositionHistoryPaginationBound) {
+            historyNextBtn.__oppositionHistoryPaginationBound = true;
+            historyNextBtn.addEventListener('click', () => {
+                oppositionHistoryPagination.page += 1;
+                renderResultsTable(oppositionHistoryRows);
+            });
+        }
+
+        if (finderTable && !finderTable.__oppositionSortBound) {
+            finderTable.__oppositionSortBound = true;
+            finderTable.addEventListener('click', (event) => {
+                const sortButton = event.target.closest('[data-opposition-sort]');
+                if (!sortButton) return;
+                const sortKey = String(sortButton.getAttribute('data-opposition-sort') || '');
+                setOppositionFinderSort(sortKey);
+                renderTopOppositionsTable(rowsByClub);
+            });
+        }
+
+        if (historyTable && !historyTable.__oppositionHistorySortBound) {
+            historyTable.__oppositionHistorySortBound = true;
+            historyTable.addEventListener('click', (event) => {
+                const sortButton = event.target.closest('[data-opposition-history-sort]');
+                if (!sortButton) return;
+                const key = sortButton.getAttribute('data-opposition-history-sort');
+                setOppositionHistorySort(key);
+                renderResultsTable(oppositionHistoryRows);
+            });
+        }
+
+        const setpieceTypeSegment = document.getElementById('setpieceTypeSegment');
+        if (setpieceTypeSegment && !setpieceTypeSegment.__setpieceToggleBound) {
+            setpieceTypeSegment.__setpieceToggleBound = true;
+            setpieceTypeSegment.addEventListener('click', (event) => {
+                const btn = event.target.closest('.squad-filter-segment-btn');
+                if (!btn) return;
+                setpieceTypeSegment.querySelectorAll('.squad-filter-segment-btn').forEach(b => b.classList.remove('is-active'));
+                btn.classList.add('is-active');
+                currentSetPieceType = btn.getAttribute('data-value');
+                renderH2HCharts(currentOppositionClub || 'All');
+            });
+        }
+
+
+        const topTableBody = document.getElementById('oppositionTopTableBody');
+        if (topTableBody && !topTableBody.__oppositionPickerBound) {
+            topTableBody.__oppositionPickerBound = true;
+            topTableBody.addEventListener('click', (event) => {
+                const trigger = event.target.closest('[data-opposition-select]');
+                if (!trigger) return;
+                const oppositionClub = String(trigger.getAttribute('data-opposition-select') || '').trim();
+                if (!oppositionClub) return;
+                syncOppositionSelectUI(oppositionClub);
+                renderOppositionProfile(oppositionClub).catch((error) => {
+                    console.error('Failed to render opposition profile:', error);
+                    showError('Unable to render opposition profile.');
+                });
+                const profileSection = document.getElementById('sec-opposition-profile');
+                if (profileSection) {
+                    profileSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+
+            topTableBody.addEventListener('keydown', (event) => {
+                if (event.key !== 'Enter' && event.key !== ' ') return;
+                const row = event.target.closest('tr[data-opposition-select]');
+                if (!row) return;
+                if (event.target.closest('button, a, input, select, textarea')) return;
+                event.preventDefault();
+                const oppositionClub = String(row.getAttribute('data-opposition-select') || '').trim();
+                if (!oppositionClub) return;
+                syncOppositionSelectUI(oppositionClub);
+                renderOppositionProfile(oppositionClub).catch((error) => {
+                    console.error('Failed to render opposition profile:', error);
+                    showError('Unable to render opposition profile.');
+                });
+                const profileSection = document.getElementById('sec-opposition-profile');
+                if (profileSection) {
+                    profileSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        }
+
         const url = new URL(window.location.href);
         const oppositionParam = String(url.searchParams.get('opposition') || '').trim();
         const clubs = new Set(Array.from(rowsByClub.keys()));
         if (oppositionParam && clubs.has(oppositionParam)) {
-            if (oppositionSelect) {
-                oppositionSelect.value = oppositionParam;
-                rebuildBootstrapSelect(oppositionSelect);
-            }
+            syncOppositionSelectUI(oppositionParam);
             renderOppositionProfile(oppositionParam).catch((error) => {
                 console.error('Failed to render opposition profile:', error);
                 showError('Unable to render opposition profile.');
             });
+        } else {
+            renderOppositionActiveFilters('');
         }
+    }
+
+    function initialiseOppositionProfileAnalysisRail() {
+        if (oppositionProfileAnalysisRailInitialised) return;
+        oppositionProfileAnalysisRailInitialised = initialiseAnalysisRail({
+            railId: 'oppositionProfileAnalysisRail',
+            sectionSelector: '.analysis-section[id], .opposition-profile-subsection[id]',
+            initialHashDelay: 60,
+        });
     }
 
     async function initOppositionPage() {
         clearError();
-        showContent(false);
+        toggleOverviewState(false);
 
         // Load logos manifest
         try {
@@ -676,14 +1216,15 @@
         lineoutH2HSpec = loadedLineoutH2HSpec;
         scrumH2HSpec = loadedScrumH2HSpec;
 
-        await renderH2HCharts('All');
-
         const rowsByClub = clubCountsFromGames(gamesRows);
         renderTopOppositionsTable(rowsByClub);
         populateOppositionSelect(rowsByClub);
         bindControls(rowsByClub);
+        renderOppositionHeroQuickLinks();
+        bindOppositionHeroQuickLinks();
+        initialiseOppositionProfileAnalysisRail();
 
-        initialiseChartPanelToggles();
+        await renderOppositionProfile('');
     }
 
     document.addEventListener('DOMContentLoaded', async () => {

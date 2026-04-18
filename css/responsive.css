@@ -23,6 +23,11 @@
 
 @media (max-width: 768px) {
 
+    .table > :not(caption) > * > * {
+        padding-top: 0.25rem;
+        padding-bottom: 0.25rem;
+    }
+
     #page-squad-stats .page-shell,
     #page-player-stats .page-shell,
     #page-league-tables .page-shell {
@@ -104,6 +109,14 @@
         padding: 0.24rem 0.42rem;
     }
 
+    #page-player-stats .player-stats-hero-metric--appearances .desktop-label {
+        display: none;
+    }
+
+    #page-player-stats .player-stats-hero-metric--appearances .mobile-label {
+        display: inline !important;
+    }
+
     .player-profiles-controls-row {
         flex-direction: column;
         align-items: stretch;
@@ -133,7 +146,7 @@
     }
 
     .ux-hero-metrics-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 0.35rem;
     }
 
@@ -141,12 +154,8 @@
         padding: 0.35rem 0.3rem;
     }
 
-    .ux-hero-metric-label {
-        font-size: 0.76rem;
-    }
-
     .ux-hero-metric-value {
-        font-size: clamp(1.45rem, 6.6vw, 1.95rem);
+        font-size: clamp(1.5rem, 6.6vw, 2rem);
     }
 
     .ux-hero-metric-note {
@@ -288,7 +297,8 @@
 
     #page-squad-stats .analysis-rail,
     #page-player-stats .analysis-rail,
-    #page-league-tables .analysis-rail {
+    #page-league-tables .analysis-rail,
+    #page-opposition-profile .analysis-rail {
         gap: 0.2rem;
         padding: 0.3rem;
         margin-bottom: 0.25rem;
@@ -296,7 +306,8 @@
 
     #page-squad-stats .analysis-rail .rail-link,
     #page-player-stats .analysis-rail .rail-link,
-    #page-league-tables .analysis-rail .rail-link {
+    #page-league-tables .analysis-rail .rail-link,
+    #page-opposition-profile .analysis-rail .rail-link {
         gap: 0.26rem;
         padding: 0.22rem 0.4rem;
         font-size: 0.78rem;
@@ -307,25 +318,29 @@
 
     #page-squad-stats .analysis-rail .rail-link i,
     #page-player-stats .analysis-rail .rail-link i,
-    #page-league-tables .analysis-rail .rail-link i {
+    #page-league-tables .analysis-rail .rail-link i,
+    #page-opposition-profile .analysis-rail .rail-link i {
         font-size: 0.78rem;
     }
 
     #page-squad-stats .analysis-rail .rail-link .rail-link-label,
     #page-player-stats .analysis-rail .rail-link .rail-link-label,
-    #page-league-tables .analysis-rail .rail-link .rail-link-label {
+    #page-league-tables .analysis-rail .rail-link .rail-link-label,
+    #page-opposition-profile .analysis-rail .rail-link .rail-link-label {
         display: none;
     }
 
     #page-squad-stats .analysis-rail .rail-link::after,
     #page-player-stats .analysis-rail .rail-link::after,
-    #page-league-tables .analysis-rail .rail-link::after {
+    #page-league-tables .analysis-rail .rail-link::after,
+    #page-opposition-profile .analysis-rail .rail-link::after {
         content: attr(data-short);
     }
 
     #page-squad-stats .analysis-rail-title,
     #page-player-stats .analysis-rail-title,
-    #page-league-tables .analysis-rail-title {
+    #page-league-tables .analysis-rail-title,
+    #page-opposition-profile .analysis-rail-title {
         display: inline-flex;
         align-items: center;
         margin: 0 0.12rem 0 0.08rem;
@@ -535,25 +550,126 @@
 @media (max-width: 480px) {
     #page-squad-stats .page-shell,
     #page-player-stats .page-shell,
-    #page-league-tables .page-shell {
+    #page-league-tables .page-shell,
+    #page-opposition-profile .page-shell {
         padding-left: 0.35rem;
         padding-right: 0.35rem;
     }
 
     #page-squad-stats .chart-section,
     #page-player-stats .chart-section,
-    #page-league-tables .chart-section {
+    #page-league-tables .chart-section,
+    #page-opposition-profile .chart-section {
         margin: 1rem 0;
     }
 
     #page-squad-stats .chart-section-block--panel,
     #page-player-stats .chart-section-block--panel,
-    #page-league-tables .chart-section-block--panel {
+    #page-league-tables .chart-section-block--panel,
+    #page-opposition-profile .chart-section-block--panel {
         padding: 0.5rem;
     }
 
     #page-squad-stats .squad-stats-active-filters {
         margin-bottom: 0.6rem;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .opposition-top-table thead th {
+        font-size: 0.78rem !important;
+        padding: 0.32rem 0.16rem;
+    }
+
+    .opposition-table-sort-button {
+        gap: 0.18rem;
+    }
+
+    .opposition-top-table tbody td {
+        padding: 0.32rem 0.16rem;
+    }
+
+    .opposition-top-table thead th:nth-child(n+3),
+    .opposition-top-table tbody td:nth-child(n+3) {
+        font-size: 0.88rem;
+    }
+
+    .opposition-table-rank {
+        width: 1.5rem;
+        font-size: 0.82rem;
+    }
+
+    .opposition-table-logo {
+        width: 1.15rem;
+        height: 1.15rem;
+    }
+
+    .opposition-table-opposition-content {
+        gap: 0.28rem;
+    }
+
+    .opposition-table-opposition-content strong {
+        font-size: 0.84rem;
+        line-height: 1.1;
+    }
+
+    .opposition-table-games-1st,
+    .opposition-table-games-2nd,
+    .opposition-table-games-total {
+        min-width: 2.1rem;
+    }
+
+    .opposition-table-result {
+        min-width: 1.65rem;
+    }
+
+    .opposition-table-action {
+        width: 1.95rem;
+        min-width: 1.95rem;
+    }
+
+    #oppositionTopTableWrap .match-open-btn {
+        width: 1.45rem;
+        height: 1.45rem;
+        --bs-btn-font-size: 0.72rem;
+    }
+
+    .opposition-profile-hero-metrics-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .opposition-top-table thead th {
+        font-size: 0.72rem !important;
+        padding: 0.28rem 0.12rem;
+    }
+
+    .opposition-top-table tbody td {
+        padding: 0.28rem 0.12rem;
+    }
+
+    .opposition-top-table thead th:nth-child(n+3),
+    .opposition-top-table tbody td:nth-child(n+3) {
+        font-size: 0.8rem;
+    }
+
+    .opposition-table-opposition-content strong {
+        font-size: 0.78rem;
+    }
+
+    .opposition-table-games-1st,
+    .opposition-table-games-2nd,
+    .opposition-table-games-total {
+        min-width: 1.9rem;
+    }
+
+    .opposition-table-result {
+        min-width: 1.5rem;
+    }
+
+    .opposition-top-pagination-bar {
+        gap: 0.5rem;
     }
 }
 
@@ -681,6 +797,44 @@
         align-self: stretch;
     }
 
+    /* Keep Opposition Profile summary hero styling distinct from match-info hero on mobile. */
+    .opposition-profile-hero-grid {
+        grid-template-columns: 1fr;
+        background: linear-gradient(to right,
+            color-mix(in srgb, var(--primary-color) 24%, white) 0%,
+            color-mix(in srgb, var(--primary-color) 12%, white) 46%,
+            color-mix(in srgb, var(--accent-color) 10%, white) 74%,
+            color-mix(in srgb, var(--accent-color) 18%, white) 100%
+        );
+    }
+
+    .opposition-profile-team .match-info-team-name {
+        color: var(--primary-color);
+    }
+
+    .opposition-profile-team .match-info-team-label {
+        color: #5d6780;
+    }
+
+    .opposition-profile-team {
+        padding: 0.7rem 0.85rem;
+    }
+
+    .opposition-profile-team-shell {
+        display: flex;
+        align-items: center;
+        gap: 0.55rem;
+    }
+
+    .opposition-profile-team .match-info-team-text {
+        text-align: left;
+    }
+
+    .opposition-profile-team .match-info-team-logo-wrap {
+        display: inline-flex;
+        width: clamp(2.35rem, 14vw, 2.9rem);
+    }
+
     .match-info-scorers {
         padding: 0.8rem 0.85rem 0.9rem;
     }
@@ -731,7 +885,7 @@
     .match-team-sheet-item {
         grid-template-columns: 4.35rem minmax(0, 1fr);
         gap: 0.5rem;
-        padding: 0.32rem 0;
+        padding: 0.1rem 0;
     }
 
     .match-team-sheet-number-wrap {
@@ -829,16 +983,16 @@
 
     .match-team-sheet-item {
         grid-template-columns: 3.7rem minmax(0, 1fr);
-        gap: 0.42rem;
+        gap: 0.2rem;
     }
 
     .match-team-sheet-number-wrap {
         width: 3.7rem;
-        min-height: 3.35rem;
+        min-height: 3rem;
     }
 
     .match-team-sheet-number {
-        font-size: clamp(30px, 10vw, 40px);
+        font-size: 2rem;
     }
 
     .match-team-sheet-avatar,

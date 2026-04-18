@@ -70,12 +70,15 @@
         <div class="page-shell page-shell--sm">
             <section class="ux-hero squad-stats-hero" aria-labelledby="matchInfoHeroTitle">
                 <div class="ux-hero-main">
-                    <p class="ux-hero-kicker">Team Analytics</p>
+                    <p class="ux-hero-kicker">Team</p>
                     <h1 id="matchInfoHeroTitle" class="ux-hero-title">Match Info</h1>
                     <p class="ux-hero-description">Open full match detail from the fixture list, with team sheets, scorers, and video analysis context.</p>
                     <p class="ux-hero-description">Use quick links for each squad to jump straight to the most recent fixture or the next scheduled match.</p>
                 </div>
                 <div class="ux-hero-metrics" aria-live="polite">
+                    <div class="ux-hero-metrics-head">
+                        <h2 class="ux-hero-metrics-title">Quick Links</h2>
+                    </div>
                     <div class="match-info-hero-matrix" role="group" aria-label="Recent and upcoming fixtures by squad">
                         <div class="match-info-hero-matrix-corner" aria-hidden="true"></div>
                         <h3 class="match-info-hero-matrix-colhead">1st XV</h3>
@@ -107,15 +110,19 @@
                             aria-hidden="true"></i><span class="rail-link-label">Match Finder</span></a>
                         <a class="rail-link nav-link" href="#sec-match-detail" data-short="Detail"><i class="bi bi-search"
                             aria-hidden="true"></i><span class="rail-link-label">Match Detail</span></a>
+                    <a class="rail-link nav-link match-info-rail-detail d-none" href="#sec-match-hero" data-short="Summary"><i class="bi bi-card-heading" aria-hidden="true"></i><span class="rail-link-label">Match Summary</span></a>
+                    <a class="rail-link nav-link match-info-rail-detail d-none" href="#sec-match-team-sheet" data-short="Sheet"><i class="bi bi-grid-3x3-gap" aria-hidden="true"></i><span class="rail-link-label">Team Sheet</span></a>
+                    <a class="rail-link nav-link match-info-rail-detail d-none" href="#sec-match-video-analysis" data-short="Video"><i class="bi bi-camera-video" aria-hidden="true"></i><span class="rail-link-label">Video Analysis</span></a>
                 </aside>
 
                 <main class="squad-stats-main match-info-main">
                     <section id="sec-match-finder" class="analysis-section chart-section" aria-labelledby="match-finder-heading">
                         <h2 id="match-finder-heading" class="section-heading">Match Finder</h2>
-                        <p class="section-intro">Filter the fixture list, browse the paginated match table, and open a match below for full detail.</p>
+                        <p class="section-intro">Filter the fixture list, browse the selected matches, and click on the magnifying glass icon to load the match details.</p>
                         <div id="matchInfoActiveFilters" class="squad-stats-active-filters" aria-live="polite"></div>
 
-                        <div class="table-responsive database-table-responsive" id="matchDataTableWrap">
+                            <div class="chart-section-block chart-section-block--panel">
+                            <div class="table-responsive database-table-responsive" id="matchDataTableWrap">
                             <table class="table table-sm table-striped table-hover align-middle database-data-table match-info-table">
                                 <thead>
                                     <tr>
@@ -125,6 +132,7 @@
                                         <th>Venue</th>
                                         <th>Game Type</th>
                                         <th>Result</th>
+                                        <th>Captain</th>
                                         <th class="match-table-open-cell" aria-label="View"></th>
                                     </tr>
                                 </thead>
@@ -133,15 +141,22 @@
                         </div>
                         <div class="database-pagination-bar" style="justify-content: space-between;">
                             <div id="matchDataPaginationSummary" class="database-pagination-summary">0 matches</div>
-                            <div class="btn-group btn-group-sm" role="group" aria-label="Match pagination">
-                                <button id="matchDataPrev" type="button" class="btn btn-outline-secondary">Previous</button>
-                                <button id="matchDataNext" type="button" class="btn btn-outline-secondary">Next</button>
+                            <div class="btn-group match-finder-pagination-controls" role="group" aria-label="Match pagination">
+                                <button id="matchDataPrev" type="button" class="btn match-finder-pagination-btn prev-btn">
+                                    <i class="bi bi-chevron-left px-1" aria-hidden="true"></i>
+                                    <span>Previous</span>
+                                </button>
+                                <button id="matchDataNext" type="button" class="btn match-finder-pagination-btn next-btn">
+                                    <span>Next</span>
+                                    <i class="bi bi-chevron-right px-1" aria-hidden="true"></i>
+                                </button>
                             </div>
                         </div>
-                    </section>
+                            </div>
+                        </section>
 
                     <section id="sec-match-detail" class="analysis-section chart-section" aria-labelledby="match-detail-heading">
-                        <h2 id="match-detail-heading" class="section-heading">Match Detail</h2>
+                        <h1 id="match-detail-heading" class="section-heading">Match Detail</h1>
                         <p class="section-intro">Choose a game from the filtered list to load the full match hero, team sheet, scorers, and video-analysis sections.</p>
 
                         <div class="match-detail-picker-row" style="margin-bottom: 0.75rem;">
