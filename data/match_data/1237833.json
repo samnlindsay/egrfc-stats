@@ -1,0 +1,59 @@
+{
+    "match_id": "1237833",
+    "season": "2025-2026",
+    "league": "Counties 2 Sussex",
+    "date": "2026-04-18",
+    "teams": [
+        "Brighton II",
+        "Ditchling"
+    ],
+    "score": [
+        21,
+        56
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/3218.png",
+        "https://images.englandrugby.com/club_images/6541.png"
+    ],
+    "players": [
+        {
+            "15": "McCauley Medhurst",
+            "14": "Ibrahim Bangura",
+            "13": "Zane Hanna",
+            "12": "Charlie Maskrey",
+            "11": "alexander basson",
+            "10": "Pete Carter",
+            "9": "Hayden Quigg",
+            "8": "Adam Butler",
+            "7": "Zak Ellenger",
+            "6": "Max Suttner",
+            "5": "Dillon Stingemore",
+            "4": "Artur Scrivener",
+            "3": "Nicolas Lewis",
+            "2": "Luke Booth",
+            "1": "Frederick Tilley",
+            "S1": "Toby Duncan",
+            "S2": "Andrew Forrester",
+            "S3": "Tom Foster"
+        },
+        {
+            "15": "Nick Whitley-Jones",
+            "14": "Oscar Wiseman",
+            "13": "Connor Nolan",
+            "12": "James Turner",
+            "11": "Name withheld",
+            "10": "Sonny Smyth",
+            "9": "Jamie Hutchings",
+            "8": "Alex Taylor",
+            "7": "Jarrell Bobo",
+            "6": "Ollie Van Hoeken",
+            "5": "Alex Hinchliffe",
+            "4": "Murray Jardine",
+            "3": "Gordon Costick",
+            "2": "Sean Laroche",
+            "1": "Perry Winstone",
+            "S1": "Rufus Nolan",
+            "S2": "Oliver Stern"
+        }
+    ]
+}

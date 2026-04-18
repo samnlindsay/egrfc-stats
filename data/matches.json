@@ -32666,5 +32666,361 @@
             {},
             {}
         ]
+    },
+    {
+        "match_id": "1237833",
+        "season": "2025-2026",
+        "league": "Counties 2 Sussex",
+        "date": "2026-04-18",
+        "teams": [
+            "Brighton II",
+            "Ditchling"
+        ],
+        "score": [
+            21,
+            56
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/3218.png",
+            "https://images.englandrugby.com/club_images/6541.png"
+        ],
+        "players": [
+            {
+                "15": "McCauley Medhurst",
+                "14": "Ibrahim Bangura",
+                "13": "Zane Hanna",
+                "12": "Charlie Maskrey",
+                "11": "alexander basson",
+                "10": "Pete Carter",
+                "9": "Hayden Quigg",
+                "8": "Adam Butler",
+                "7": "Zak Ellenger",
+                "6": "Max Suttner",
+                "5": "Dillon Stingemore",
+                "4": "Artur Scrivener",
+                "3": "Nicolas Lewis",
+                "2": "Luke Booth",
+                "1": "Frederick Tilley",
+                "S1": "Toby Duncan",
+                "S2": "Andrew Forrester",
+                "S3": "Tom Foster"
+            },
+            {
+                "15": "Nick Whitley-Jones",
+                "14": "Oscar Wiseman",
+                "13": "Connor Nolan",
+                "12": "James Turner",
+                "11": "Name withheld",
+                "10": "Sonny Smyth",
+                "9": "Jamie Hutchings",
+                "8": "Alex Taylor",
+                "7": "Jarrell Bobo",
+                "6": "Ollie Van Hoeken",
+                "5": "Alex Hinchliffe",
+                "4": "Murray Jardine",
+                "3": "Gordon Costick",
+                "2": "Sean Laroche",
+                "1": "Perry Winstone",
+                "S1": "Rufus Nolan",
+                "S2": "Oliver Stern"
+            }
+        ]
+    },
+    {
+        "match_id": "1220125",
+        "season": "2025-2026",
+        "league": "Counties 2 Sussex",
+        "date": "2026-04-18",
+        "teams": [
+            "Shoreham",
+            "Royals RFC"
+        ],
+        "score": [
+            38,
+            17
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/19257.png",
+            "https://images.englandrugby.com/club_images/94051.png"
+        ],
+        "players": [
+            {
+                "15": "Darren Locke",
+                "14": "Paul Mamoany",
+                "13": "Joel Carter",
+                "12": "Ryan Morlen",
+                "11": "David Ayres",
+                "10": "Adam Fear",
+                "9": "Schaeff Potter",
+                "8": "Gavin Cox",
+                "7": "Alex Hall",
+                "6": "Name withheld",
+                "5": "Daniel Adams",
+                "4": "Steven Goater",
+                "3": "Michael Shaw",
+                "2": "Mark Lavery",
+                "1": "Daryn Clarke",
+                "S1": "Finnbar Broxup",
+                "S2": "Noah Rudge",
+                "S3": "Connor Fairhall"
+            },
+            {
+                "15": "Aidan Loane",
+                "14": "George Burke",
+                "13": "Daniel Baker",
+                "12": "Hamish Mackie",
+                "11": "Corne Visagie",
+                "10": "Jake Bates",
+                "9": "Pearse Moloney",
+                "8": "Cameron Queree",
+                "7": "Harry Cruickshank",
+                "6": "John James Le Feuvre",
+                "5": "Brodie Sutton",
+                "4": "Lewis Ham-Howes",
+                "3": "Patrick Crossley",
+                "2": "Tristan Burns",
+                "1": "Thibaud Calohard",
+                "S1": "David Bailey"
+            }
+        ]
+    },
+    {
+        "match_id": "1220127",
+        "season": "2025-2026",
+        "league": "Counties 2 Sussex",
+        "date": "2026-04-18",
+        "teams": [
+            "Eastbourne II",
+            "Pulborough"
+        ],
+        "score": [
+            0,
+            48
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/7213.png",
+            "https://images.englandrugby.com/club_images/17255.png"
+        ],
+        "players": [
+            {
+                "15": "Carl Slaughter",
+                "14": "Name withheld",
+                "13": "Louis Paal",
+                "12": "Maximus Smith",
+                "11": "Louis Nicholls",
+                "10": "Morgan Treacher",
+                "9": "Joshua Buckwell",
+                "8": "Joshua King",
+                "7": "Trystan Mocke",
+                "6": "Daniel Keen",
+                "5": "Tom Line",
+                "4": "Toby Slaughter",
+                "3": "Teddy Groves",
+                "2": "Joshua Clarke",
+                "1": "Brandon Foot",
+                "S1": "George Rydon",
+                "S2": "William Scrase",
+                "S3": "Ralph Robson"
+            },
+            {
+                "15": "Bryan Woodhouse",
+                "14": "Patrick Burnett",
+                "13": "Matthew Sprigge",
+                "12": "Archie Sadler",
+                "11": "Joseph Serna",
+                "10": "Dylan Townsend",
+                "9": "Benjamin Monsey",
+                "8": "George Harwood",
+                "7": "Carl Brewster",
+                "6": "Douglas Ludlow-monk",
+                "5": "Jake Parker",
+                "4": "Thomas Brackley",
+                "3": "Johny-joe Staples",
+                "2": "Ewan Callaway",
+                "1": "Kieron Martin"
+            }
+        ]
+    },
+    {
+        "match_id": "1220126",
+        "season": "2025-2026",
+        "league": "Counties 2 Sussex",
+        "date": "2026-04-18",
+        "teams": [
+            "Lewes",
+            "Crawley"
+        ],
+        "score": [
+            66,
+            10
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/12206.png",
+            "https://images.englandrugby.com/club_images/5807.png"
+        ],
+        "players": [
+            {
+                "15": "Jack Soltermann",
+                "14": "Daryl Benson",
+                "13": "Rafferty Green",
+                "12": "Ben Goode",
+                "11": "Name withheld",
+                "10": "Thomas Moore",
+                "9": "Joseph Lacy",
+                "8": "Charlie Moran",
+                "7": "Harry Weston",
+                "6": "Matthew Henshaw",
+                "5": "Thomas Petty",
+                "4": "James Sale",
+                "3": "Fearghus Gage",
+                "2": "Benjamin Simmonds",
+                "1": "Ian Thomas",
+                "S1": "Harry Carr",
+                "S2": "Adam Hutchings",
+                "S3": "Alexander Bray"
+            },
+            {
+                "15": "Kristian Dean",
+                "14": "Charles Dennis",
+                "13": "Vincenzo Dessena",
+                "12": "Aaron O'Callaghan",
+                "11": "Gorm Young",
+                "10": "Callum Hankin",
+                "9": "Dominic Woods",
+                "8": "Jonathan McGurk",
+                "7": "Adam Dealhoy",
+                "6": "Andrew Jagger",
+                "5": "Robert Higgins",
+                "4": "Joel Fisher",
+                "3": "David Taylor",
+                "2": "Bradley Davies",
+                "1": "Nathan Cox"
+            }
+        ]
+    },
+    {
+        "match_id": "1220129",
+        "season": "2025-2026",
+        "league": "Counties 2 Sussex",
+        "date": "2026-04-18",
+        "teams": [
+            "East Grinstead",
+            "Seaford"
+        ],
+        "score": [
+            40,
+            27
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/7134.png",
+            "https://images.englandrugby.com/club_images/18868.png"
+        ],
+        "players": [
+            {
+                "15": "Luke Maker",
+                "14": "Ted Hardisty",
+                "13": "Benjamin Marelli",
+                "12": "Max Crawley-Moore",
+                "11": "Jack Andrews",
+                "10": "Noah Roberts",
+                "9": "Mark Lewis",
+                "8": "Connor Leggat",
+                "7": "Rory evans",
+                "6": "Daniel Harding",
+                "5": "John Peaty",
+                "4": "Samuel Lindsay-McCall",
+                "3": "Benjamin Tottman",
+                "2": "Mark Oliver",
+                "1": "Guy Collins",
+                "S1": "Thomas McMahon",
+                "S2": "Aaronn Boczek",
+                "S3": "Oscar Staples"
+            },
+            {
+                "15": "Jack Armstrong",
+                "14": "Charlie Crossgrove",
+                "13": "william joy",
+                "11": "Paddy Powney",
+                "10": "Oscar Weisz",
+                "9": "Jack Cullinane",
+                "8": "Geoffrey Bridges",
+                "7": "Elliott Curl",
+                "6": "Harvey Joy",
+                "5": "Lee Furminger",
+                "4": "Bradley Newby",
+                "3": "Joseph Drew",
+                "2": "Andrew Fry",
+                "1": "Nathan Roberts",
+                "S1": "Name withheld",
+                "S2": "Corey Digby-Clarke",
+                "S3": "John Paul Kwun"
+            }
+        ]
+    },
+    {
+        "match_id": "1255059",
+        "season": "2025-2026",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "date": "2026-04-18",
+        "teams": [
+            "Uckfield",
+            "Shoreham II"
+        ],
+        "score": [
+            64,
+            14
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/23445.png",
+            "https://images.englandrugby.com/club_images/19262.png"
+        ],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1233174",
+        "season": "2025-2026",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "date": "2026-04-18",
+        "teams": [
+            "Burgess Hill",
+            "Crowborough II"
+        ],
+        "score": [
+            47,
+            7
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/3659.png",
+            "https://images.englandrugby.com/club_images/5919.png"
+        ],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1233173",
+        "season": "2025-2026",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "date": "2026-04-18",
+        "teams": [
+            "Horsham Barbarians",
+            "East Grinstead II"
+        ],
+        "score": [
+            38,
+            41
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/10451.png",
+            "https://images.englandrugby.com/club_images/7136.png"
+        ],
+        "players": [
+            {},
+            {}
+        ]
     }
 ]

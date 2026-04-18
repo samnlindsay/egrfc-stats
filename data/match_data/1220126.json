@@ -1,0 +1,57 @@
+{
+    "match_id": "1220126",
+    "season": "2025-2026",
+    "league": "Counties 2 Sussex",
+    "date": "2026-04-18",
+    "teams": [
+        "Lewes",
+        "Crawley"
+    ],
+    "score": [
+        66,
+        10
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/12206.png",
+        "https://images.englandrugby.com/club_images/5807.png"
+    ],
+    "players": [
+        {
+            "15": "Jack Soltermann",
+            "14": "Daryl Benson",
+            "13": "Rafferty Green",
+            "12": "Ben Goode",
+            "11": "Name withheld",
+            "10": "Thomas Moore",
+            "9": "Joseph Lacy",
+            "8": "Charlie Moran",
+            "7": "Harry Weston",
+            "6": "Matthew Henshaw",
+            "5": "Thomas Petty",
+            "4": "James Sale",
+            "3": "Fearghus Gage",
+            "2": "Benjamin Simmonds",
+            "1": "Ian Thomas",
+            "S1": "Harry Carr",
+            "S2": "Adam Hutchings",
+            "S3": "Alexander Bray"
+        },
+        {
+            "15": "Kristian Dean",
+            "14": "Charles Dennis",
+            "13": "Vincenzo Dessena",
+            "12": "Aaron O'Callaghan",
+            "11": "Gorm Young",
+            "10": "Callum Hankin",
+            "9": "Dominic Woods",
+            "8": "Jonathan McGurk",
+            "7": "Adam Dealhoy",
+            "6": "Andrew Jagger",
+            "5": "Robert Higgins",
+            "4": "Joel Fisher",
+            "3": "David Taylor",
+            "2": "Bradley Davies",
+            "1": "Nathan Cox"
+        }
+    ]
+}

@@ -1,0 +1,58 @@
+{
+    "match_id": "1220125",
+    "season": "2025-2026",
+    "league": "Counties 2 Sussex",
+    "date": "2026-04-18",
+    "teams": [
+        "Shoreham",
+        "Royals RFC"
+    ],
+    "score": [
+        38,
+        17
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/19257.png",
+        "https://images.englandrugby.com/club_images/94051.png"
+    ],
+    "players": [
+        {
+            "15": "Darren Locke",
+            "14": "Paul Mamoany",
+            "13": "Joel Carter",
+            "12": "Ryan Morlen",
+            "11": "David Ayres",
+            "10": "Adam Fear",
+            "9": "Schaeff Potter",
+            "8": "Gavin Cox",
+            "7": "Alex Hall",
+            "6": "Name withheld",
+            "5": "Daniel Adams",
+            "4": "Steven Goater",
+            "3": "Michael Shaw",
+            "2": "Mark Lavery",
+            "1": "Daryn Clarke",
+            "S1": "Finnbar Broxup",
+            "S2": "Noah Rudge",
+            "S3": "Connor Fairhall"
+        },
+        {
+            "15": "Aidan Loane",
+            "14": "George Burke",
+            "13": "Daniel Baker",
+            "12": "Hamish Mackie",
+            "11": "Corne Visagie",
+            "10": "Jake Bates",
+            "9": "Pearse Moloney",
+            "8": "Cameron Queree",
+            "7": "Harry Cruickshank",
+            "6": "John James Le Feuvre",
+            "5": "Brodie Sutton",
+            "4": "Lewis Ham-Howes",
+            "3": "Patrick Crossley",
+            "2": "Tristan Burns",
+            "1": "Thibaud Calohard",
+            "S1": "David Bailey"
+        }
+    ]
+}

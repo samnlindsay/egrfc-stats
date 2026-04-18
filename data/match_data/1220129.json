@@ -1,0 +1,59 @@
+{
+    "match_id": "1220129",
+    "season": "2025-2026",
+    "league": "Counties 2 Sussex",
+    "date": "2026-04-18",
+    "teams": [
+        "East Grinstead",
+        "Seaford"
+    ],
+    "score": [
+        40,
+        27
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7134.png",
+        "https://images.englandrugby.com/club_images/18868.png"
+    ],
+    "players": [
+        {
+            "15": "Luke Maker",
+            "14": "Ted Hardisty",
+            "13": "Benjamin Marelli",
+            "12": "Max Crawley-Moore",
+            "11": "Jack Andrews",
+            "10": "Noah Roberts",
+            "9": "Mark Lewis",
+            "8": "Connor Leggat",
+            "7": "Rory evans",
+            "6": "Daniel Harding",
+            "5": "John Peaty",
+            "4": "Samuel Lindsay-McCall",
+            "3": "Benjamin Tottman",
+            "2": "Mark Oliver",
+            "1": "Guy Collins",
+            "S1": "Thomas McMahon",
+            "S2": "Aaronn Boczek",
+            "S3": "Oscar Staples"
+        },
+        {
+            "15": "Jack Armstrong",
+            "14": "Charlie Crossgrove",
+            "13": "william joy",
+            "11": "Paddy Powney",
+            "10": "Oscar Weisz",
+            "9": "Jack Cullinane",
+            "8": "Geoffrey Bridges",
+            "7": "Elliott Curl",
+            "6": "Harvey Joy",
+            "5": "Lee Furminger",
+            "4": "Bradley Newby",
+            "3": "Joseph Drew",
+            "2": "Andrew Fry",
+            "1": "Nathan Roberts",
+            "S1": "Name withheld",
+            "S2": "Corey Digby-Clarke",
+            "S3": "John Paul Kwun"
+        }
+    ]
+}

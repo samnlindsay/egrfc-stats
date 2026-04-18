@@ -1,0 +1,57 @@
+{
+    "match_id": "1220127",
+    "season": "2025-2026",
+    "league": "Counties 2 Sussex",
+    "date": "2026-04-18",
+    "teams": [
+        "Eastbourne II",
+        "Pulborough"
+    ],
+    "score": [
+        0,
+        48
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7213.png",
+        "https://images.englandrugby.com/club_images/17255.png"
+    ],
+    "players": [
+        {
+            "15": "Carl Slaughter",
+            "14": "Name withheld",
+            "13": "Louis Paal",
+            "12": "Maximus Smith",
+            "11": "Louis Nicholls",
+            "10": "Morgan Treacher",
+            "9": "Joshua Buckwell",
+            "8": "Joshua King",
+            "7": "Trystan Mocke",
+            "6": "Daniel Keen",
+            "5": "Tom Line",
+            "4": "Toby Slaughter",
+            "3": "Teddy Groves",
+            "2": "Joshua Clarke",
+            "1": "Brandon Foot",
+            "S1": "George Rydon",
+            "S2": "William Scrase",
+            "S3": "Ralph Robson"
+        },
+        {
+            "15": "Bryan Woodhouse",
+            "14": "Patrick Burnett",
+            "13": "Matthew Sprigge",
+            "12": "Archie Sadler",
+            "11": "Joseph Serna",
+            "10": "Dylan Townsend",
+            "9": "Benjamin Monsey",
+            "8": "George Harwood",
+            "7": "Carl Brewster",
+            "6": "Douglas Ludlow-monk",
+            "5": "Jake Parker",
+            "4": "Thomas Brackley",
+            "3": "Johny-joe Staples",
+            "2": "Ewan Callaway",
+            "1": "Kieron Martin"
+        }
+    ]
+}
