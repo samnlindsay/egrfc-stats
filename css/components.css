@@ -3795,6 +3795,7 @@ table tbody tr:hover {
 
 .player-stats-hero {
     margin-bottom: 1rem;
+    color: var(--primary-color);
 }
 
 .player-stats-hero-head {
@@ -3803,11 +3804,13 @@ table tbody tr:hover {
     justify-content: space-between;
     gap: 0.9rem;
     flex-wrap: wrap;
+    color: var(--primary-color);
 }
 
 .player-stats-hero-metric {
     background: #ffffff;
     border-width: 3px;
+    color: var(--primary-color);
 }
 
 .player-stats-hero-metric .ux-hero-metric-label,
@@ -3827,8 +3830,41 @@ table tbody tr:hover {
     border-color: var(--red-color);
 }
 
-.player-stats-hero-metric--motm {
-    border-color: var(--accent-color);
+#page-team-sheets .team-sheets-hero {
+    margin-bottom: 1rem;
+}
+
+.team-sheets-filter-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: 'PT Sans Narrow', sans-serif;
+    font-weight: 700;
+}
+
+.team-sheets-filters-offcanvas .team-sheets-replacements-toggle {
+    margin: 0;
+    background-color: #f1f4fc;
+    border: 1px solid #cdd8f6;
+    border-radius: 0.65rem;
+    padding: 0.45rem 0.6rem;
+    min-height: 2.8rem;
+}
+
+.team-sheets-filters-offcanvas .team-sheets-replacements-toggle .form-check-label {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 0.95rem;
+    line-height: 1;
+}
+
+.team-sheets-filters-offcanvas .team-sheets-replacements-toggle:has(:checked) {
+    background-color: #dff5df;
+    border-color: #b7e0b7;
+}
+
+.team-sheets-filters-offcanvas .team-sheets-replacements-toggle:has(:checked) .form-check-label {
+    color: #125e12;
 }
 
 .player-filters-offcanvas {
@@ -3934,6 +3970,55 @@ table tbody tr:hover {
     color: var(--primary-color);
 }
 
+/* Team Sheets Segment Button Styling */
+#teamSheetsSquadSegment .squad-filter-segment-btn[data-value="All"].is-active {
+    background: #000;
+    border-color: #000;
+    color: #fff;
+}
+
+#teamSheetsSquadSegment .squad-filter-segment-btn[data-value="All"]:not(.is-active) {
+    background: rgba(0, 0, 0, 0.06);
+    border-color: rgba(0, 0, 0, 0.22);
+    color: #111;
+}
+
+#teamSheetsSquadSegment .squad-filter-segment-btn[data-value="1st"].is-active {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    color: #fff;
+}
+
+#teamSheetsSquadSegment .squad-filter-segment-btn[data-value="1st"]:not(.is-active) {
+    background: rgba(32, 41, 70, 0.08);
+    border-color: rgba(32, 41, 70, 0.24);
+    color: var(--primary-color);
+}
+
+#teamSheetsSquadSegment .squad-filter-segment-btn[data-value="2nd"].is-active {
+    background: var(--accent-color);
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+#teamSheetsSquadSegment .squad-filter-segment-btn[data-value="2nd"]:not(.is-active) {
+    background: rgba(125, 150, 232, 0.16);
+    border-color: rgba(32, 41, 70, 0.2);
+    color: var(--primary-color);
+}
+
+#teamSheetsGameTypeSegment .squad-filter-segment-btn {
+    background: rgba(0, 0, 0, 0.06);
+    border-color: rgba(0, 0, 0, 0.22);
+    color: #111;
+}
+
+#teamSheetsGameTypeSegment .squad-filter-segment-btn.is-active {
+    background: #000;
+    border-color: #000;
+    color: #fff;
+}
+
 .squad-filter-control--player-positions {
     grid-column: 1 / -1;
 }
@@ -3949,7 +4034,7 @@ table tbody tr:hover {
     width: 100%;
 }
 
-.position-picker__top-row .position-picker__total {
+.position-picker__top-row .position-picker__starter-btn {
     flex: 1.7 1 0;
 }
 
@@ -3958,7 +4043,7 @@ table tbody tr:hover {
     font-weight: 500;
 }
 
-.position-picker__total {
+.position-picker__starter-btn {
     font-weight: 700;
     font-size: 0.9rem;
     text-transform: uppercase;
@@ -3969,7 +4054,7 @@ table tbody tr:hover {
     color: #1f2937;
 }
 
-.position-picker__total.is-active {
+.position-picker__starter-btn.is-active {
     background: linear-gradient(180deg, #111827 0%, #1f2937 100%);
     border-color: #111827;
     color: #fff;
@@ -4278,6 +4363,21 @@ table tbody tr:hover {
     border: 1px solid #d9deef;
     border-radius: 0.9rem;
     background-image: url("../img/EGRFC Background.png");
+    background-size: cover;
+    background-position: center 32%;
+    background-repeat: no-repeat;
+    box-shadow: 0 6px 18px rgba(32, 41, 70, 0.1);
+}
+
+.player-stats-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+    gap: 1rem;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border: 1px solid #d9deef;
+    border-radius: 0.9rem;
+    background-image: url("../img/EGRFC\ Background.png");
     background-size: cover;
     background-position: center 32%;
     background-repeat: no-repeat;

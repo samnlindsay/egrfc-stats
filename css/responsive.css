@@ -30,7 +30,8 @@
 
     #page-squad-stats .page-shell,
     #page-player-stats .page-shell,
-    #page-league-tables .page-shell {
+    #page-league-tables .page-shell,
+    #page-team-sheets .page-shell {
         padding-left: 0.5rem;
         padding-right: 0.5rem;
     }
@@ -65,6 +66,17 @@
         flex-wrap: wrap;
         align-items: stretch;
         gap: 0.6rem;
+    }
+
+    #page-team-sheets .chart-section-head {
+        flex-wrap: wrap;
+        align-items: stretch;
+        gap: 0.6rem;
+    }
+
+    #page-team-sheets .team-sheets-filter-btn {
+        width: 100%;
+        justify-content: center;
     }
 
     #page-player-stats .player-stats-main .chart-panel-filters {

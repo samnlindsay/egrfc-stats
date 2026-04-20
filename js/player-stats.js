@@ -9,7 +9,7 @@ const PLAYER_STATS_DEFAULT_GAME_TYPE = 'All';
 const PLAYER_STATS_DEFAULT_SCORE_TYPE = 'Total';
 const PLAYER_STATS_DEFAULT_MOTM_AGGREGATE = false;
 const PLAYER_STATS_ALL_SEASONS_VALUE = '__all_seasons__';
-const PLAYER_STATS_ALL_POSITIONS_VALUE = 'All';
+const PLAYER_STATS_STARTER_POSITIONS_VALUE = 'Starters';
 const PLAYER_STATS_FORWARD_POSITIONS = ['Prop', 'Hooker', 'Second Row', 'Flanker', 'Number 8'];
 const PLAYER_STATS_BACK_POSITIONS = ['Scrum Half', 'Fly Half', 'Centre', 'Wing', 'Full Back'];
 
@@ -66,6 +66,9 @@ function getPlayerStatsSelectedPositions() {
 
 function getPlayerStatsPositionChipLabel(selectedPositions) {
     if (!Array.isArray(selectedPositions) || selectedPositions.length === 0) return 'All';
+    const hasStarters = selectedPositions.includes(PLAYER_STATS_STARTER_POSITIONS_VALUE);
+    const hasBench = selectedPositions.includes('Bench');
+    if (hasStarters && hasBench) return 'All';
     const positions = selectedPositions.slice().sort();
     const forwards = PLAYER_STATS_FORWARD_POSITIONS.slice().sort();
     const backs = PLAYER_STATS_BACK_POSITIONS.slice().sort();
@@ -92,6 +95,29 @@ function getPlayerStatsSelectedState() {
     };
 }
 
+function normalizePlayerStatsSeasonFilter(selectedSeasons) {
+    const seasons = Array.isArray(selectedSeasons) ? selectedSeasons.filter(Boolean) : [];
+    if (seasons.includes(PLAYER_STATS_ALL_SEASONS_VALUE)) return [];
+    return seasons;
+}
+
+function resolvePlayerStatsPositions(selectedPositions) {
+    const positions = Array.isArray(selectedPositions) ? selectedPositions.filter(Boolean) : [];
+    if (positions.length === 0) return [];
+
+    const resolved = new Set();
+    positions.forEach(position => {
+        if (position === PLAYER_STATS_STARTER_POSITIONS_VALUE) {
+            PLAYER_STATS_FORWARD_POSITIONS.forEach(value => resolved.add(value));
+            PLAYER_STATS_BACK_POSITIONS.forEach(value => resolved.add(value));
+            return;
+        }
+        resolved.add(position);
+    });
+
+    return Array.from(resolved);
+}
+
 function getPlayerStatsDatasetRows(spec) {
     if (!spec || typeof spec !== 'object' || !spec.datasets) return [];
     const rows = [];
@@ -104,7 +130,7 @@ function getPlayerStatsDatasetRows(spec) {
 }
 
 function filterPlayerStatsRowsByScope(rows, selectedSeasons, gameTypeMode, selectedSquad) {
-    const seasons = Array.isArray(selectedSeasons) ? selectedSeasons : [];
+    const seasons = normalizePlayerStatsSeasonFilter(selectedSeasons);
     const allowedGameTypes = getAllowedGameTypes(gameTypeMode);
     return (rows || []).filter(row => {
         if (!row || typeof row !== 'object') return false;
@@ -244,20 +270,20 @@ function syncPlayerStatsPositionButtons() {
     if (!grid) return;
     const selectedPositions = getPlayerStatsSelectedPositions();
     const selectedSet = new Set(selectedPositions);
-    const isAll = selectedPositions.length === 0;
+    const hasStarters = selectedSet.has('Starters');
+    const hasBench = selectedSet.has('Bench');
     const isForwards = PLAYER_STATS_FORWARD_POSITIONS.every(p => selectedSet.has(p))
-        && selectedPositions.length === PLAYER_STATS_FORWARD_POSITIONS.length;
+        && selectedPositions.filter(p => !['Starters', 'Bench'].includes(p)).length === PLAYER_STATS_FORWARD_POSITIONS.length;
     const isBacks = PLAYER_STATS_BACK_POSITIONS.every(p => selectedSet.has(p))
-        && selectedPositions.length === PLAYER_STATS_BACK_POSITIONS.length;
-    const isBench = selectedPositions.length === 1 && selectedSet.has('Bench');
+        && selectedPositions.filter(p => !['Starters', 'Bench'].includes(p)).length === PLAYER_STATS_BACK_POSITIONS.length;
 
     grid.querySelectorAll('.squad-filter-segment-btn').forEach(btn => {
         const value = btn.dataset.value;
         let active = false;
-        if (value === PLAYER_STATS_ALL_POSITIONS_VALUE) active = isAll;
+        if (value === PLAYER_STATS_STARTER_POSITIONS_VALUE) active = hasStarters;
         else if (value === 'Forwards') active = isForwards;
         else if (value === 'Backs') active = isBacks;
-        else if (value === 'Bench') active = isBench;
+        else if (value === 'Bench') active = hasBench;
         else active = selectedSet.has(value);
         btn.classList.toggle('is-active', active);
     });
@@ -343,14 +369,16 @@ function renderPlayerStatsHero(state) {
         meta.textContent = `${getPlayerStatsSelectedSeasonLabel(selectedSeasonValue)} | ${selectedGameType} | ${squadLabel}`;
     }
 
+    const resolvedPositions = resolvePlayerStatsPositions(selectedPositions);
+
     const appearancesRows = filterPlayerStatsRowsByScope(
         getPlayerStatsDatasetRows(playerStatsBaseSpecs?.appearancesSpec),
         selectedSeasons,
         selectedGameType,
         selectedSquad
     ).filter(row => {
-        if (!Array.isArray(selectedPositions) || selectedPositions.length === 0) return true;
-        return selectedPositions.includes(row?.position);
+        if (!Array.isArray(resolvedPositions) || resolvedPositions.length === 0) return true;
+        return resolvedPositions.includes(row?.position);
     });
     const appearancesLeader = getTopPlayerAggregate(
         appearancesRows.filter(row => eligiblePlayers.has(row?.player)),
@@ -410,34 +438,64 @@ function setPlayerStatsPositionSelection(nextPositions) {
 }
 
 function handlePlayerStatsPositionButton(value) {
-    if (value === PLAYER_STATS_ALL_POSITIONS_VALUE) {
-        setPlayerStatsPositionSelection([]);
+    const currentPositions = new Set(playerStatsSelectedPositions);
+
+    if (value === PLAYER_STATS_STARTER_POSITIONS_VALUE) {
+        // Toggle Starters independently
+        if (currentPositions.has('Starters')) {
+            currentPositions.delete('Starters');
+        } else {
+            currentPositions.add('Starters');
+        }
+        setPlayerStatsPositionSelection(Array.from(currentPositions));
         handlePlayerStatsControlChange();
         return;
     }
 
     if (value === 'Forwards') {
-        setPlayerStatsPositionSelection(PLAYER_STATS_FORWARD_POSITIONS);
+        const currentForwards = PLAYER_STATS_FORWARD_POSITIONS.filter(p => currentPositions.has(p));
+        if (currentForwards.length === PLAYER_STATS_FORWARD_POSITIONS.length) {
+            // Remove all forwards
+            PLAYER_STATS_FORWARD_POSITIONS.forEach(p => currentPositions.delete(p));
+        } else {
+            // Add all forwards
+            PLAYER_STATS_FORWARD_POSITIONS.forEach(p => currentPositions.add(p));
+        }
+        setPlayerStatsPositionSelection(Array.from(currentPositions));
         handlePlayerStatsControlChange();
         return;
     }
 
     if (value === 'Backs') {
-        setPlayerStatsPositionSelection(PLAYER_STATS_BACK_POSITIONS);
+        const currentBacks = PLAYER_STATS_BACK_POSITIONS.filter(p => currentPositions.has(p));
+        if (currentBacks.length === PLAYER_STATS_BACK_POSITIONS.length) {
+            // Remove all backs
+            PLAYER_STATS_BACK_POSITIONS.forEach(p => currentPositions.delete(p));
+        } else {
+            // Add all backs
+            PLAYER_STATS_BACK_POSITIONS.forEach(p => currentPositions.add(p));
+        }
+        setPlayerStatsPositionSelection(Array.from(currentPositions));
         handlePlayerStatsControlChange();
         return;
     }
 
     if (value === 'Bench') {
-        setPlayerStatsPositionSelection(['Bench']);
+        // Toggle Bench independently
+        if (currentPositions.has('Bench')) {
+            currentPositions.delete('Bench');
+        } else {
+            currentPositions.add('Bench');
+        }
+        setPlayerStatsPositionSelection(Array.from(currentPositions));
         handlePlayerStatsControlChange();
         return;
     }
 
-    const nextPositions = new Set(playerStatsSelectedPositions);
-    if (nextPositions.has(value)) nextPositions.delete(value);
-    else nextPositions.add(value);
-    setPlayerStatsPositionSelection(Array.from(nextPositions));
+    // Regular position - toggle
+    if (currentPositions.has(value)) currentPositions.delete(value);
+    else currentPositions.add(value);
+    setPlayerStatsPositionSelection(Array.from(currentPositions));
     handlePlayerStatsControlChange();
 }
 
@@ -478,7 +536,7 @@ function initialisePlayerStatsControls() {
     scoreTypeSelect.value = PLAYER_STATS_DEFAULT_SCORE_TYPE;
     motmAggregateSwitch.checked = PLAYER_STATS_DEFAULT_MOTM_AGGREGATE;
     minAppearancesInput.value = '10';
-    setPlayerStatsPositionSelection([]);
+    setPlayerStatsPositionSelection(['Starters', 'Bench']);
 
     seasonSelect.addEventListener('change', handlePlayerStatsControlChange);
     gameTypeSelect.addEventListener('change', handlePlayerStatsControlChange);
@@ -575,7 +633,7 @@ function filterPlayerStatsCaptainsSpec(spec, selectedSeasons, gameTypeMode, sele
         });
     }
     const predicate = row => {
-        const seasons = Array.isArray(selectedSeasons) ? selectedSeasons : [];
+        const seasons = normalizePlayerStatsSeasonFilter(selectedSeasons);
         if (seasons.length === 0) {
             if (row?.season === 'Total') return false;
         } else if (row?.season === 'Total' || !seasons.includes(row?.season)) {
@@ -591,7 +649,7 @@ function filterPlayerStatsCaptainsSpec(spec, selectedSeasons, gameTypeMode, sele
 
 function filterPlayerStatsMotmSpec(spec, selectedSeasons, gameTypeMode, selectedSquad, eligiblePlayers) {
     const clonedSpec = JSON.parse(JSON.stringify(spec));
-    const seasonValue = Array.isArray(selectedSeasons) ? selectedSeasons : [];
+    const seasonValue = normalizePlayerStatsSeasonFilter(selectedSeasons);
     const allowedGameTypes = getAllowedGameTypes(gameTypeMode);
     const gameTypesValue = allowedGameTypes ? Array.from(allowedGameTypes) : [];
     const squadColors = getPlayerStatsSquadColors();
@@ -627,7 +685,7 @@ function filterPlayerStatsMotmSpec(spec, selectedSeasons, gameTypeMode, selected
 
 function filterPlayerStatsMotmUnitsSpec(spec, selectedSeasons, gameTypeMode, selectedSquad, eligiblePlayers) {
     const clonedSpec = JSON.parse(JSON.stringify(spec));
-    const seasonValue = Array.isArray(selectedSeasons) ? selectedSeasons : [];
+    const seasonValue = normalizePlayerStatsSeasonFilter(selectedSeasons);
     const allowedGameTypes = getAllowedGameTypes(gameTypeMode);
     const gameTypesValue = allowedGameTypes ? Array.from(allowedGameTypes) : [];
 
@@ -659,10 +717,10 @@ function filterPlayerStatsAppearancesSpec(spec, selectedSeasons, gameTypeMode, s
             if (layer?.encoding?.color?.scale) layer.encoding.color.scale.range = squadColors;
         });
     }
-    const seasonValue = Array.isArray(selectedSeasons) ? selectedSeasons : [];
+    const seasonValue = normalizePlayerStatsSeasonFilter(selectedSeasons);
     const allowedGameTypes = getAllowedGameTypes(gameTypeMode);
     const gameTypesValue = allowedGameTypes ? Array.from(allowedGameTypes) : [];
-    const positionsValue = Array.isArray(positions) && positions.length > 0 ? positions : [];
+    const positionsValue = resolvePlayerStatsPositions(positions);
     const threshold = Number.isFinite(minimumAppearances) ? Math.max(0, Math.floor(minimumAppearances)) : 10;
     if (Array.isArray(clonedSpec.params)) {
         clonedSpec.params.forEach(param => {
@@ -680,7 +738,7 @@ function filterPlayerStatsAppearancesSpec(spec, selectedSeasons, gameTypeMode, s
 
 function filterPlayerStatsPointsSpec(spec, selectedSeasons, gameTypeMode, selectedSquad, scoreType, eligiblePlayers) {
     const clonedSpec = JSON.parse(JSON.stringify(spec));
-    const seasonValue = Array.isArray(selectedSeasons) ? selectedSeasons : [];
+    const seasonValue = normalizePlayerStatsSeasonFilter(selectedSeasons);
     const allowedGameTypes = getAllowedGameTypes(gameTypeMode);
     const gameTypesValue = allowedGameTypes ? Array.from(allowedGameTypes) : [];
     const nextScoreType = scoreType || PLAYER_STATS_DEFAULT_SCORE_TYPE;

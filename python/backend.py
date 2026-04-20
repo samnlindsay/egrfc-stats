@@ -3137,7 +3137,7 @@ class BackendDatabase:
         home_away = str(game.get("home_away") or "?")
         return f"{self._format_debut_date(appearance_row.get('date'))} v {opposition} ({home_away})"
 
-    _GAME_TYPE_MODES = ["All games", "League + Cup", "League only"]
+    _GAME_TYPE_MODES = ["All", "League + Cup", "League only"]
 
     @staticmethod
     def _get_allowed_game_types(mode: str) -> set | None:
