@@ -121,22 +121,52 @@
         padding: 0.24rem 0.42rem;
     }
 
+    #page-player-info .player-info-toolbar {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    #page-player-info .player-info-toolbar .player-info-active-switch {
+        width: 100%;
+        justify-content: center;
+    }
+
+    #page-player-info .player-info-toolbar .player-info-active-switch {
+        padding-left: 0.72rem;
+    }
+
+    #page-player-info .player-info-captain-cards {
+        grid-template-columns: 1fr;
+    }
+
+    #page-player-info .player-info-captain-main {
+        grid-template-columns: 76px minmax(0, 1fr);
+    }
+
+    #page-player-info .player-info-captain-headshot {
+        min-height: 88px;
+    }
+
+    #page-player-info .player-profiles-position-pane-head {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.25rem;
+    }
+
+    #page-player-info .player-gallery-profile-wrap {
+        margin-bottom: 0.8rem;
+    }
+
+    #page-player-info .player-profiles-position-section-title {
+        font-size: 2rem;
+    }
+
     #page-player-stats .player-stats-hero-metric--appearances .desktop-label {
         display: none;
     }
 
     #page-player-stats .player-stats-hero-metric--appearances .mobile-label {
         display: inline !important;
-    }
-
-    .player-profiles-controls-row {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .player-profiles-sort-action {
-        width: 100%;
-        min-width: 0;
     }
 
     .squad-stats-hero {

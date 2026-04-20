@@ -272,10 +272,8 @@ function syncPlayerStatsPositionButtons() {
     const selectedSet = new Set(selectedPositions);
     const hasStarters = selectedSet.has('Starters');
     const hasBench = selectedSet.has('Bench');
-    const isForwards = PLAYER_STATS_FORWARD_POSITIONS.every(p => selectedSet.has(p))
-        && selectedPositions.filter(p => !['Starters', 'Bench'].includes(p)).length === PLAYER_STATS_FORWARD_POSITIONS.length;
-    const isBacks = PLAYER_STATS_BACK_POSITIONS.every(p => selectedSet.has(p))
-        && selectedPositions.filter(p => !['Starters', 'Bench'].includes(p)).length === PLAYER_STATS_BACK_POSITIONS.length;
+    const isForwards = PLAYER_STATS_FORWARD_POSITIONS.every(p => selectedSet.has(p));
+    const isBacks = PLAYER_STATS_BACK_POSITIONS.every(p => selectedSet.has(p));
 
     grid.querySelectorAll('.squad-filter-segment-btn').forEach(btn => {
         const value = btn.dataset.value;

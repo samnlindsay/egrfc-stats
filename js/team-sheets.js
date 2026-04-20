@@ -140,10 +140,8 @@ function syncTeamSheetsPositionButtons() {
     const selectedSet = new Set(selectedPositions);
     const hasStarters = selectedSet.has('Starters');
     const hasBench = selectedSet.has('Bench');
-    const isForwards = ['Prop', 'Hooker', 'Second Row', 'Flanker', 'Number 8'].every(p => selectedSet.has(p))
-        && selectedPositions.length === 5 + (hasStarters ? 1 : 0) + (hasBench ? 1 : 0);
-    const isBacksAll = ['Scrum Half', 'Fly Half', 'Centre', 'Wing', 'Full Back'].every(p => selectedSet.has(p))
-        && selectedPositions.length === 5 + (hasStarters ? 1 : 0) + (hasBench ? 1 : 0);
+    const isForwards = ['Prop', 'Hooker', 'Second Row', 'Flanker', 'Number 8'].every(p => selectedSet.has(p));
+    const isBacksAll = ['Scrum Half', 'Fly Half', 'Centre', 'Wing', 'Full Back'].every(p => selectedSet.has(p));
 
     grid.querySelectorAll('.squad-filter-segment-btn').forEach(btn => {
         const value = btn.dataset.value;
@@ -279,7 +277,7 @@ function initialiseTeamSheetsControls(seasons) {
             } else if (value === 'Forwards') {
                 const forwards = ['Prop', 'Hooker', 'Second Row', 'Flanker', 'Number 8'];
                 const hasAll = forwards.every(p => currentValues.includes(p));
-                if (hasAll && currentValues.filter(v => forwards.includes(v)).length === 5) {
+                if (hasAll) {
                     // Remove all forwards
                     $(select).val(currentValues.filter(v => !forwards.includes(v)));
                 } else {
@@ -290,7 +288,7 @@ function initialiseTeamSheetsControls(seasons) {
             } else if (value === 'Backs') {
                 const backs = ['Scrum Half', 'Fly Half', 'Centre', 'Wing', 'Full Back'];
                 const hasAll = backs.every(p => currentValues.includes(p));
-                if (hasAll && currentValues.filter(v => backs.includes(v)).length === 5) {
+                if (hasAll) {
                     // Remove all backs
                     $(select).val(currentValues.filter(v => !backs.includes(v)));
                 } else {

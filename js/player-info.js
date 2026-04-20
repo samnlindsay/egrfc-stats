@@ -2,6 +2,8 @@ let playerProfilesData = [];
 let playerProfilesControlsInitialised = false;
 let gamesById = new Map();
 let appearancesByPlayer = new Map();
+let appearancesByGame = new Map();
+let playerProfilesByName = new Map();
 
 const SIX_MONTHS_MS = 182 * 24 * 60 * 60 * 1000;
 
@@ -122,6 +124,21 @@ function compareByPositionThenName(a, b) {
 }
 
 function compareByAppearancesDesc(a, b) {
+    const byAppearances = Number(b?.totalAppearances || 0) - Number(a?.totalAppearances || 0);
+    if (byAppearances !== 0) return byAppearances;
+    return compareBySurnameThenName(a, b);
+}
+
+function squadRank(squad) {
+    const value = String(squad || '').trim();
+    if (value === '1st') return 0;
+    if (value === '2nd') return 1;
+    return 2;
+}
+
+function compareBySquadThenAppearancesDesc(a, b) {
+    const bySquad = squadRank(a?.squad) - squadRank(b?.squad);
+    if (bySquad !== 0) return bySquad;
     const byAppearances = Number(b?.totalAppearances || 0) - Number(a?.totalAppearances || 0);
     if (byAppearances !== 0) return byAppearances;
     return compareBySurnameThenName(a, b);
@@ -540,52 +557,116 @@ function renderGroupedByPosition(profiles) {
             return String(a[0]).localeCompare(String(b[0]));
         })
         .map(([sectionTitle, groupProfiles]) => {
-            const cards = groupProfiles.map(profileCardMarkup).join('');
+            const count = groupProfiles.length;
+            const cards = groupProfiles
+                .slice()
+                .sort(compareBySquadThenAppearancesDesc)
+                .map(profileCardMarkup)
+                .join('');
             return `
                 <section class="player-profiles-position-section">
-                    <h2 class="player-profiles-position-section-title">${escapeHtml(sectionTitle)}</h2>
-                    <div class="player-profiles-grid">${cards}</div>
+                    <div class="player-profiles-position-pane border rounded-3 bg-body-tertiary">
+                        <div class="player-profiles-position-pane-head">
+                            <h2 class="player-profiles-position-section-title">${escapeHtml(sectionTitle)} <span class="player-profiles-position-count">(${count})</span></h2>
+                            <p class="player-profiles-position-scroll-hint"><i class="bi bi-arrows-expand" aria-hidden="true"></i><span>Scroll sideways to view all players</span></p>
+                        </div>
+                        <div class="player-profiles-position-row overflow-auto">${cards}</div>
+                    </div>
                 </section>
             `;
         })
         .join('');
 }
 
+function isCaptainAppearance(value) {
+    if (typeof value === 'boolean') return value;
+    if (typeof value === 'number') return value === 1;
+    const normalized = String(value || '').trim().toLowerCase();
+    return normalized === 'true' || normalized === '1' || normalized === 'y' || normalized === 'yes';
+}
+
+function findCurrentCaptainProfile(squad) {
+    const games = Array.from(gamesById.values())
+        .filter(game => String(game?.squad || '').trim() === squad)
+        .sort((a, b) => String(b?.date || '').localeCompare(String(a?.date || '')));
+
+    for (const game of games) {
+        const gameId = String(game?.game_id || '').trim();
+        const appearances = appearancesByGame.get(gameId) || [];
+        const captainAppearance = appearances.find(row => (
+            String(row?.squad || '').trim() === squad && isCaptainAppearance(row?.is_captain)
+        ));
+
+        const captainName = String(captainAppearance?.player || game?.captain || '').trim();
+        if (!captainName) continue;
+
+        const profile = playerProfilesByName.get(captainName);
+        if (profile) return profile;
+    }
+
+    return null;
+}
+
+function captainCardMarkup(profile, squad) {
+    const label = `${squad} XV Captain`;
+
+    if (!profile) {
+        return `
+            <article class="player-info-captain-card player-info-captain-card-empty">
+                <p class="player-info-captain-label">${escapeHtml(label)}</p>
+                <p class="player-info-captain-empty">No captain data available.</p>
+            </article>
+        `;
+    }
+
+    const playerName = escapeHtml(profile.name || 'Unknown');
+    const position = escapeHtml(profile.position || 'Unknown');
+    const apps = Number(profile.totalAppearances || 0);
+    const playerHref = `player-profile.html?player=${encodeURIComponent(String(profile.name || ''))}`;
+
+    return `
+        <article class="player-info-captain-card player-info-captain-card-${squadRank(profile.squad) === 0 ? '1st' : '2nd'}">
+            <p class="player-info-captain-label">${escapeHtml(label)}</p>
+            <a class="player-info-captain-main" href="${playerHref}">
+                <div class="player-info-captain-headshot ${headshotBackgroundClass(profile)}">
+                    ${createAvatarMarkup(profile)}
+                </div>
+                <div class="player-info-captain-meta">
+                    <p class="player-info-captain-name">${playerName}</p>
+                    <p class="player-info-captain-position">${position}</p>
+                    <p class="player-info-captain-apps">${apps} apps</p>
+                </div>
+            </a>
+        </article>
+    `;
+}
+
+function renderPlayerInfoCaptains() {
+    const host = document.getElementById('playerInfoCaptainCards');
+    if (!host) return;
+
+    const firstCaptain = findCurrentCaptainProfile('1st');
+    const secondCaptain = findCurrentCaptainProfile('2nd');
+
+    host.innerHTML = [
+        captainCardMarkup(firstCaptain, '1st'),
+        captainCardMarkup(secondCaptain, '2nd')
+    ].join('');
+}
+
 function renderPlayerProfiles() {
     const grid = document.getElementById('playerProfilesGrid');
     const emptyState = document.getElementById('playerProfilesEmptyState');
-    const playerSelect = document.getElementById('playerProfileNameFilter');
-    const squadSelect = document.getElementById('playerProfileSquadFilter');
-    const positionSelect = document.getElementById('playerProfilePositionFilter');
-    const sortSelect = document.getElementById('playerProfileSortFilter');
     const activeOnlyToggle = document.getElementById('playerProfileActiveOnly');
 
     if (!grid || !emptyState) return;
 
-    const selectedPlayers = new Set(
-        Array.from(playerSelect?.selectedOptions || [])
-            .map(option => String(option?.value || '').trim())
-            .filter(Boolean)
-    );
-    const squadFilter = String(squadSelect?.value || 'All');
-    const positionFilter = String(positionSelect?.value || 'All');
-    const sortMode = String(sortSelect?.value || 'firstName');
     const activeOnly = Boolean(activeOnlyToggle?.checked);
 
-    const filteredBase = playerProfilesData
-        .filter(profile => {
-            const name = String(profile.name || '');
-            const position = String(profile.position || 'Unknown');
-            const squad = String(profile.squad || 'Unknown');
-
-            if (selectedPlayers.size > 0 && !selectedPlayers.has(name)) return false;
-            if (squadFilter !== 'All' && squad !== squadFilter) return false;
-            if (positionFilter !== 'All' && position !== positionFilter) return false;
-            if (activeOnly && !profile.isActive) return false;
-            return true;
-        });
-
-    const filtered = sortedProfiles(filteredBase, sortMode);
+    const filtered = playerProfilesData.filter(profile => {
+        if (activeOnly && !profile.isActive) return false;
+        return true;
+    });
 
     if (filtered.length === 0) {
         grid.innerHTML = '';
@@ -595,101 +676,16 @@ function renderPlayerProfiles() {
 
     emptyState.classList.add('d-none');
 
-    if (sortMode === 'position') {
-        grid.innerHTML = `<div class="player-profiles-position-sections">${renderGroupedByPosition(filtered)}</div>`;
-        initializeLastTenTooltips(grid);
-        return;
-    }
-
-    grid.innerHTML = filtered.map(profileCardMarkup).join('');
+    grid.innerHTML = `<div class="player-profiles-position-sections">${renderGroupedByPosition(filtered)}</div>`;
     initializeLastTenTooltips(grid);
-}
-
-function populateFilters() {
-    const playerSelect = document.getElementById('playerProfileNameFilter');
-    const squadSelect = document.getElementById('playerProfileSquadFilter');
-    const positionSelect = document.getElementById('playerProfilePositionFilter');
-    const sortSelect = document.getElementById('playerProfileSortFilter');
-    if (!playerSelect || !squadSelect || !positionSelect) return;
-
-    const playerNames = playerProfilesData
-        .map(row => String(row.name || '').trim())
-        .filter(Boolean)
-        .sort((a, b) => a.localeCompare(b));
-    const squads = Array.from(new Set(playerProfilesData.map(row => String(row.squad || 'Unknown'))))
-        .filter(squad => {
-            const normalized = String(squad || '').trim().toLowerCase();
-            return normalized !== 'all' && normalized !== 'all squads';
-        })
-        .sort();
-    const positions = Array.from(new Set(playerProfilesData.map(row => String(row.position || 'Unknown'))))
-        .filter(position => {
-            const normalized = String(position || '').trim().toLowerCase();
-            return normalized !== 'all' && normalized !== 'all positions';
-        })
-        .sort();
-
-    playerSelect.innerHTML = playerNames
-        .map(name => `<option value="${escapeHtml(name)}">${escapeHtml(name)}</option>`)
-        .join('');
-    squadSelect.innerHTML = '<option value="All">All squads</option>' +
-        squads.map(squad => `<option value="${escapeHtml(squad)}">${escapeHtml(squad)}</option>`).join('');
-    positionSelect.innerHTML = '<option value="All">All positions</option>' +
-        positions.map(position => `<option value="${escapeHtml(position)}">${escapeHtml(position)}</option>`).join('');
-
-    if (window.jQuery && window.jQuery.fn && window.jQuery.fn.selectpicker) {
-        const $playerSelect = window.jQuery(playerSelect);
-        const $squadSelect = window.jQuery(squadSelect);
-        const $positionSelect = window.jQuery(positionSelect);
-        const selectedSort = String(sortSelect?.value || 'firstName');
-
-        [$playerSelect, $squadSelect, $positionSelect].forEach($el => {
-            if ($el.data('selectpicker')) $el.selectpicker('destroy');
-            $el.selectpicker();
-            $el.off('changed.bs.select.playerProfiles').on('changed.bs.select.playerProfiles', renderPlayerProfiles);
-        });
-        $playerSelect.selectpicker('deselectAll');
-        $squadSelect.selectpicker('val', 'All');
-        $positionSelect.selectpicker('val', 'All');
-
-        if (sortSelect) {
-            const $sortSelect = window.jQuery(sortSelect);
-            if ($sortSelect.data('selectpicker')) $sortSelect.selectpicker('destroy');
-            $sortSelect.selectpicker();
-            $sortSelect.selectpicker('val', selectedSort);
-            $sortSelect.off('changed.bs.select.playerProfiles').on('changed.bs.select.playerProfiles', renderPlayerProfiles);
-        }
-    }
 }
 
 function initialisePlayerProfilesControls() {
     if (playerProfilesControlsInitialised) return;
 
-    const playerSelect = document.getElementById('playerProfileNameFilter');
-    const squadSelect = document.getElementById('playerProfileSquadFilter');
-    const positionSelect = document.getElementById('playerProfilePositionFilter');
-    const sortSelect = document.getElementById('playerProfileSortFilter');
     const activeOnlyToggle = document.getElementById('playerProfileActiveOnly');
 
-    if (!playerSelect || !squadSelect || !positionSelect || !sortSelect) return;
-
-    if (window.jQuery && window.jQuery.fn && window.jQuery.fn.selectpicker) {
-        const $playerSelect = window.jQuery(playerSelect);
-        const $squadSelect = window.jQuery(squadSelect);
-        const $positionSelect = window.jQuery(positionSelect);
-        const $sortSelect = window.jQuery(sortSelect);
-
-        [$playerSelect, $squadSelect, $positionSelect, $sortSelect].forEach($el => {
-            if ($el.data('selectpicker')) $el.selectpicker('destroy');
-            $el.selectpicker();
-            $el.off('changed.bs.select.playerProfiles').on('changed.bs.select.playerProfiles', renderPlayerProfiles);
-        });
-    } else {
-        playerSelect.addEventListener('change', renderPlayerProfiles);
-        squadSelect.addEventListener('change', renderPlayerProfiles);
-        positionSelect.addEventListener('change', renderPlayerProfiles);
-        sortSelect.addEventListener('change', renderPlayerProfiles);
-    }
+    if (!activeOnlyToggle) return;
 
     activeOnlyToggle?.addEventListener('change', renderPlayerProfiles);
     playerProfilesControlsInitialised = true;
@@ -742,18 +738,28 @@ async function loadPlayerProfilesPage() {
         });
 
         appearancesByPlayer = new Map();
+        appearancesByGame = new Map();
         (Array.isArray(rawAppearances) ? rawAppearances : []).forEach(appearance => {
             const playerName = String(appearance?.player || '').trim();
             if (!playerName) return;
             if (!appearancesByPlayer.has(playerName)) appearancesByPlayer.set(playerName, []);
             appearancesByPlayer.get(playerName).push(appearance);
+
+            const gameId = String(appearance?.game_id || '').trim();
+            if (!gameId) return;
+            if (!appearancesByGame.has(gameId)) appearancesByGame.set(gameId, []);
+            appearancesByGame.get(gameId).push(appearance);
         });
 
         playerProfilesData = (Array.isArray(rawProfiles) ? rawProfiles : [])
             .filter(row => String(row?.name || '').trim())
             .sort(compareBySurnameThenName);
 
-        populateFilters();
+        playerProfilesByName = new Map(
+            playerProfilesData.map(profile => [String(profile?.name || '').trim(), profile])
+        );
+
+        renderPlayerInfoCaptains();
         renderPlayerProfiles();
 
         if (loadingState) loadingState.classList.add('d-none');

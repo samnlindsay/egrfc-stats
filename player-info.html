@@ -4,14 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EGRFC Statistics - Player Info</title>
+    <title>EGRFC Statistics - Player Gallery</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=PT+Sans+Narrow:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/css/bootstrap-select.min.css" rel="stylesheet">
 
     <link rel="stylesheet" href="css/variables.css">
     <link rel="stylesheet" href="css/base.css">
@@ -22,7 +21,7 @@
     <link rel="stylesheet" href="css/responsive.css">
 </head>
 
-<body>
+<body id="page-player-info">
     <nav class="navbar navbar-expand-lg navbar-dark app-top-navbar">
         <div class="container-fluid">
             <a class="navbar-brand app-navbar-brand" href="index.html">
@@ -50,7 +49,7 @@
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="player-stats.html"><i class="bi bi-graph-up-arrow" aria-hidden="true"></i>Player Stats</a></li>
                             <li><a class="dropdown-item" href="team-sheets.html"><i class="bi bi-clipboard2-check" aria-hidden="true"></i>Team Sheets</a></li>
-                            <li><a class="dropdown-item active" href="player-info.html"><i class="bi bi-person-lines-fill" aria-hidden="true"></i>Player Info</a></li>
+                            <li><a class="dropdown-item active" href="player-info.html"><i class="bi bi-person-lines-fill" aria-hidden="true"></i>Player Gallery</a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
@@ -67,89 +66,44 @@
     </nav>
 
     <div class="main-content">
-        <div class="page-shell">
-            <div class="page-header page-header--compact">
-                <div class="page-header-text">
-                    <h1 style="margin-bottom: 0.35rem;">Player Info</h1>
-                    <p>Search and filter player profile cards to find detailed information about each player.</p>
+        <div class="page-shell page-shell--sm">
+            <section class="ux-hero squad-stats-hero player-info-hero" aria-labelledby="playerInfoHeroTitle">
+                <div class="ux-hero-main">
+                    <p class="ux-hero-kicker">Players</p>
+                    <div class="player-info-hero-head">
+                        <h1 id="playerInfoHeroTitle" class="ux-hero-title">Player Gallery</h1>
+                    </div>
+                    <p class="ux-hero-description">Get a quick visual scan of the squad before diving into a specific player profile.</p>
+                    <p class="ux-hero-description">Players are grouped by their main position, then ordered by 1st XV and 2nd XV with highest appearance totals first.</p>
                 </div>
-                <div class="page-header-actions" style="padding-top: 0;">
-                    <a class="page-header-link" href="player-profile.html">
+
+                <div class="player-info-hero-captains" aria-live="polite">
+                    <div id="playerInfoCaptainCards" class="player-info-captain-cards"></div>
+                </div>
+            </section>
+
+            <section class="player-info-toolbar" aria-label="Player Gallery Controls">
+                <div class="form-check form-switch player-info-active-switch">
+                    <input class="form-check-input" type="checkbox" value="1" id="playerProfileActiveOnly" checked>
+                    <label class="form-check-label" for="playerProfileActiveOnly">
+                        Active only
+                        <i class="bi bi-info-circle" tabindex="0" data-bs-toggle="tooltip" data-bs-placement="top" title="Players who have appeared this season or in the last 6 months" aria-label="Active means appeared this season or in the last 6 months"></i>
+                    </label>
+                </div>
+            </section>
+
+            <section class="player-gallery-profile-wrap" aria-label="Player Profiles Guidance">
+                <article class="player-gallery-profile-panel" aria-label="Player Profiles">
+                    <h2 class="player-gallery-profile-panel-title">Need Full Detail?</h2>
+                    <p class="player-gallery-profile-panel-copy">Open Player Profiles for full match logs, breakdown charts, and deeper career context for each player.</p>
+                    <a class="player-gallery-profile-panel-link" href="player-profile.html">
                         <i class="bi bi-person-vcard" aria-hidden="true"></i>
-                        <span>Player Profiles</span>
+                        <span>Go To Player Profiles</span>
                     </a>
-                </div>
-            </div>
+                </article>
+            </section>
 
-            <div class="player-profiles-controls-row" style="margin-bottom: 1.5rem;">
-                <div class="page-header-filters player-profiles-filters">
-                    <div class="filter-item">
-                        <div class="input-group">
-                            <span class="input-group-text">Player</span>
-                            <select
-                                id="playerProfileNameFilter"
-                                class="selectpicker form-control flex-fill"
-                                multiple
-                                data-live-search="true"
-                                data-actions-box="true"
-                                data-selected-text-format="count > 2"
-                                title="Filter players..."
-                            ></select>
-                        </div>
-                    </div>
-                    <div class="filter-item">
-                        <div class="input-group">
-                            <span class="input-group-text">Squad</span>
-                            <select
-                                id="playerProfileSquadFilter"
-                                class="selectpicker form-control flex-fill"
-                                data-size="4"
-                            >
-                                <option value="All">All squads</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="filter-item">
-                        <div class="input-group">
-                            <span class="input-group-text">Position</span>
-                            <select
-                                id="playerProfilePositionFilter"
-                                class="selectpicker form-control flex-fill"
-                                data-size="8"
-                            >
-                                <option value="All">All positions</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="filter-item">
-                        <div class="form-check player-profiles-active-toggle">
-                            <input class="form-check-input player-profiles-active-toggle-input" type="checkbox" value="1" id="playerProfileActiveOnly" checked>
-                            <label class="form-check-label" for="playerProfileActiveOnly">
-                                Active only
-                                <i class="bi bi-info-circle" tabindex="0" data-bs-toggle="tooltip" data-bs-placement="top" title="Players who have appeared this season or in the last 6 months" aria-label="Active means appeared this season or in the last 6 months" style="cursor:help; font-size:0.85em; opacity:0.65;"></i>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="player-profiles-sort-action" role="group" aria-label="Sort controls">
-                    <div class="input-group">
-                        <span class="input-group-text"><i class="bi bi-sort-down" aria-hidden="true"></i><span>Sort by</span></span>
-                        <select
-                            id="playerProfileSortFilter"
-                            class="selectpicker form-control flex-fill"
-                            data-size="6"
-                        >
-                            <option value="surname">Surname</option>
-                            <option value="firstName" selected>First name</option>
-                            <option value="position">Position</option>
-                            <option value="appearances">Appearances</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <div id="playerProfilesLoadingState" class="alert alert-light" role="status">Loading player info...</div>
+            <div id="playerProfilesLoadingState" class="alert alert-light" role="status">Loading player gallery...</div>
             <div id="playerProfilesErrorState" class="alert alert-danger d-none" role="alert"></div>
 
             <div class="player-profiles-grid" id="playerProfilesGrid"></div>
@@ -159,14 +113,13 @@
                 class="d-none"
                 style="background: white; padding: 2rem; border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); text-align: center; color: #666; margin-top: 0.5rem;"
             >
-                No players match the current filters.
+                No players match the current selection.
             </div>
         </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/js/bootstrap-select.min.js"></script>
     <script src="js/nav-layout.js"></script>
     <script src="js/player-info.js"></script>
     <script>
