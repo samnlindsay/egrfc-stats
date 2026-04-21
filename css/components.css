@@ -186,7 +186,7 @@
 .player-profiles-grid {
     display: flex;
     flex-wrap: wrap;
-    gap: 1rem;
+    gap: 0.5rem;
     align-items: flex-start;
 }
 
@@ -212,15 +212,32 @@
 }
 
 .player-profile-grid-item {
-    flex: 0 0 var(--player-profile-card-width, 280px);
-    width: var(--player-profile-card-width, 280px);
+    flex: 0 0 var(--player-profile-card-width);
+    width: var(--player-profile-card-width);
 }
 
 .player-profile-card {
-    width: var(--player-profile-card-width, 280px);
+    display: block;
+    width: var(--player-profile-card-width);
     overflow: hidden;
     border: 1px solid #d9deef;
     box-shadow: 0 1px 4px rgba(32, 41, 70, 0.12);
+    color: inherit;
+    text-decoration: none;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.player-profile-card:hover,
+.player-profile-card:focus {
+    color: inherit;
+    text-decoration: none;
+    box-shadow: 0 6px 16px rgba(32, 41, 70, 0.14);
+    transform: translateY(-2px);
+}
+
+.player-profile-card:focus-visible {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 2px;
 }
 
 .player-profile-card-1st {
@@ -378,24 +395,6 @@
     color: inherit;
     opacity: 0.88;
     margin-top: -0.05rem;
-}
-
-.player-profile-chevron {
-    margin-top: 0.2rem;
-    font-size: 0.78rem;
-    color: inherit;
-    opacity: 0.9;
-    transition: transform 0.15s ease;
-}
-
-.player-profile-card.is-expanded .player-profile-chevron {
-    transform: rotate(180deg);
-}
-
-.player-profile-details {
-    border-top: 1px solid #e4e9f7;
-    background: #f9fbff;
-    padding: 0.62rem 0.8rem;
 }
 
 .player-profile-detail-line {
@@ -890,29 +889,29 @@
 }
 
 /* Player Info card variant for Last 10 row */
-.player-info-last-ten-row {
+.player-gallery-last-ten-row {
     display: flex;
     align-items: center;
     gap: 0.35rem;
     flex-wrap: wrap;
 }
 
-.player-info-last-ten-row .last-ten-results-strip {
+.player-gallery-last-ten-row .last-ten-results-strip {
     gap: 0.08rem;
 }
 
-.player-info-last-ten-row .last-ten-results-strip--single-row {
+.player-gallery-last-ten-row .last-ten-results-strip--single-row {
     padding-top: 0;
 }
 
-.player-info-last-ten-row .last-ten-results-strip--single-row > .last-ten-result:last-child::before,
-.player-info-last-ten-row .last-ten-results-strip--single-row > .last-ten-result-link:last-child .last-ten-result::before {
+.player-gallery-last-ten-row .last-ten-results-strip--single-row > .last-ten-result:last-child::before,
+.player-gallery-last-ten-row .last-ten-results-strip--single-row > .last-ten-result-link:last-child .last-ten-result::before {
     top: -0.65rem;
     font-size: 0.5rem;
     letter-spacing: 1.4px;
 }
 
-.player-info-last-ten-row .last-ten-result {
+.player-gallery-last-ten-row .last-ten-result {
     width: 1rem;
     height: 1rem;
     font-size: 0.65rem;
@@ -3775,11 +3774,28 @@ table tbody tr:hover {
     gap: 0.35rem;
 }
 
-#page-player-info .player-info-hero {
+#page-player-gallery .player-gallery-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+    align-items: start;
+    gap: 1rem;
     margin-bottom: 1rem;
+    padding: 1rem;
+    border: 1px solid #d9deef;
+    border-radius: 0.9rem;
+    background-image: url("../img/EGRFC Background.png");
+    background-size: cover;
+    background-position: center 32%;
+    background-repeat: no-repeat;
+    box-shadow: 0 6px 18px rgba(32, 41, 70, 0.1);
 }
 
-#page-player-info .player-info-hero-head {
+#page-player-gallery .player-gallery-hero .ux-hero-main,
+#page-player-gallery .player-gallery-hero .player-gallery-hero-captains {
+    min-width: 0;
+}
+
+#page-player-gallery .player-gallery-hero-head {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
@@ -3787,21 +3803,21 @@ table tbody tr:hover {
     flex-wrap: wrap;
 }
 
-#page-player-info .player-info-header-actions {
+#page-player-gallery .player-gallery-header-actions {
     display: inline-flex;
     align-items: center;
     gap: 0.55rem;
     flex-wrap: wrap;
 }
 
-#page-player-info .player-info-hero-captains {
+#page-player-gallery .player-gallery-hero-captains {
     display: flex;
     flex-direction: column;
     gap: 0.95rem;
     color: var(--primary-color);
 }
 
-#page-player-info .player-info-toolbar {
+#page-player-gallery .player-gallery-toolbar {
     margin: 0 0 0.9rem;
     display: flex;
     align-items: center;
@@ -3810,45 +3826,47 @@ table tbody tr:hover {
     flex-wrap: wrap;
 }
 
-#page-player-info .player-info-captain-cards {
+#page-player-gallery .player-gallery-captain-cards {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.85rem;
 }
 
-#page-player-info .player-info-captain-card {
+#page-player-gallery .player-gallery-captain-card {
     border-radius: 0.9rem;
-    border: 2px solid #d5dcee;
-    background: #ffffff;
+    border: 2px solid black;
+    background: transparent;
     padding: 0.75rem;
     box-shadow: 0 6px 16px rgba(20, 30, 58, 0.12);
 }
 
-#page-player-info .player-info-captain-card-1st {
-    border-color: rgba(32, 41, 70, 0.48);
+#page-player-gallery .player-gallery-captain-card-1st {
+    background-color: var(--primary-color);
 }
 
-#page-player-info .player-info-captain-card-2nd {
-    border-color: rgba(125, 150, 232, 0.85);
+#page-player-gallery .player-gallery-captain-card-2nd {
+    background-color: var(--accent-color);
 }
 
-#page-player-info .player-info-captain-card-empty {
+#page-player-gallery .player-gallery-captain-card-empty {
     display: flex;
     flex-direction: column;
     justify-content: center;
     min-height: 6rem;
 }
 
-#page-player-info .player-info-captain-label {
-    margin: 0 0 0.45rem;
-    font-size: 0.78rem;
+#page-player-gallery .player-gallery-captain-label {
+    margin: 0 0 0.35rem;
+    text-align: center;
+    font-size: 1rem;
     font-weight: 700;
-    color: #2f3b62;
+    color: var(--light-color);
+    opacity: 0.85;
     text-transform: uppercase;
     letter-spacing: 0.06em;
 }
 
-#page-player-info .player-info-captain-main {
+#page-player-gallery .player-gallery-captain-main {
     display: grid;
     grid-template-columns: 94px minmax(0, 1fr);
     gap: 0.75rem;
@@ -3856,7 +3874,7 @@ table tbody tr:hover {
     color: inherit;
 }
 
-#page-player-info .player-info-captain-headshot {
+#page-player-gallery .player-gallery-captain-headshot {
     min-height: 104px;
     border-radius: 0.7rem;
     padding: 0.3rem;
@@ -3865,94 +3883,110 @@ table tbody tr:hover {
     display: flex;
     align-items: flex-end;
     justify-content: center;
+    border-right: 2px solid black;
 }
 
-#page-player-info .player-info-captain-headshot .player-profile-avatar {
+#page-player-gallery .player-gallery-captain-headshot .player-profile-avatar {
     max-width: 92px;
 }
 
-#page-player-info .player-info-captain-headshot .player-profile-avatar-placeholder {
+#page-player-gallery .player-gallery-captain-headshot .player-profile-avatar-placeholder {
     width: 68px;
     height: 68px;
     font-size: 1.8rem;
 }
 
-#page-player-info .player-info-captain-meta {
+#page-player-gallery .player-gallery-captain-meta {
     min-width: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
-#page-player-info .player-info-captain-name,
-#page-player-info .player-info-captain-position,
-#page-player-info .player-info-captain-apps,
-#page-player-info .player-info-captain-empty {
+#page-player-gallery .player-gallery-captain-name,
+#page-player-gallery .player-gallery-captain-position,
+#page-player-gallery .player-gallery-captain-apps,
+#page-player-gallery .player-gallery-captain-empty {
     margin: 0;
-    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
-#page-player-info .player-info-captain-name {
+#page-player-gallery .player-gallery-captain-name {
     font-size: 1.38rem;
     font-weight: 800;
-    color: #202946;
+    line-height: 1.2;
 }
 
-#page-player-info .player-info-captain-position {
+.player-gallery-captain-card-1st {
+    color: var(--light-color);
+}   
+
+#page-player-gallery .player-gallery-captain-position {
     font-size: 0.96rem;
-    color: #4e5875;
 }
 
-#page-player-info .player-info-captain-apps,
-#page-player-info .player-info-captain-empty {
+#page-player-gallery .player-gallery-captain-apps,
+#page-player-gallery .player-gallery-captain-empty {
     font-size: 0.86rem;
-    color: #647092;
 }
 
-#page-player-info .player-gallery-profile-wrap {
+#page-player-gallery .player-gallery-profile-wrap {
     margin-bottom: 1rem;
 }
 
-#page-player-info .player-gallery-profile-panel {
-    background: #ffffff;
-    border: 1px solid #d9deef;
-    border-radius: 0.8rem;
-    padding: 0.85rem 0.95rem;
+#page-player-gallery .player-gallery-profile-panel {
+    background: var(--dark-color);
+    border: 2px solid black;
+    border-radius: 2rem;
+    padding: 0.8rem;
     box-shadow: 0 3px 10px rgba(20, 30, 58, 0.08);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+        "title link"
+        "copy copy";
+    align-items: center;
 }
 
-#page-player-info .player-gallery-profile-panel-title {
-    margin: 0 0 0.35rem;
-    color: #202946;
-    font-size: 1.15rem;
+#page-player-gallery .player-gallery-profile-panel-title {
+    grid-area: title;
+    margin: 0;
+    padding-left: 0.5rem;
+    color: var(--light-color);
+    font-size: 1.5rem;
     font-weight: 800;
 }
 
-#page-player-info .player-gallery-profile-panel-copy {
-    margin: 0 0 0.7rem;
+#page-player-gallery .player-gallery-profile-panel-copy {
+    grid-area: copy;
+    margin: 0;
     color: #4e5875;
     font-size: 0.95rem;
 }
 
-#page-player-info .player-gallery-profile-panel-link {
+#page-player-gallery .player-gallery-profile-panel-link {
+    grid-area: link;
     display: inline-flex;
     align-items: center;
     gap: 0.45rem;
     background: #202946;
-    border: 1px solid #202946;
-    color: #fff;
+    border: 2px solid var(--accent-color);
+    color: var(--light-color);
     border-radius: 999px;
     padding: 0.42rem 0.85rem;
     text-decoration: none;
     font-weight: 700;
+    justify-self: end;
 }
 
-#page-player-info .player-gallery-profile-panel-link:hover {
+#page-player-gallery .player-gallery-profile-panel-link:hover {
     color: #fff;
     background: #151d33;
     border-color: #151d33;
 }
 
-#page-player-info .player-info-active-switch {
+#page-player-gallery .player-gallery-active-switch {
     margin: 0;
     background-color: #f1f4fc;
     border: 1px solid #cdd8f6;
@@ -3966,33 +4000,33 @@ table tbody tr:hover {
     padding-left: 0.72rem;
 }
 
-#page-player-info .player-info-active-switch.form-check,
-#page-player-info .player-info-active-switch.form-switch {
+#page-player-gallery .player-gallery-active-switch.form-check,
+#page-player-gallery .player-gallery-active-switch.form-switch {
     padding-left: 0.72rem;
 }
 
-#page-player-info .player-info-active-switch .form-check-input {
+#page-player-gallery .player-gallery-active-switch .form-check-input {
     margin: 0 !important;
     float: none;
     position: static;
     flex: 0 0 auto;
 }
 
-#page-player-info .player-info-active-switch .form-check-label {
+#page-player-gallery .player-gallery-active-switch .form-check-label {
     margin-left: 0 !important;
 }
 
-#page-player-info .player-profiles-grid {
+#page-player-gallery .player-profiles-grid {
     display: block;
 }
 
-#page-player-info .player-profiles-position-pane {
+#page-player-gallery .player-profiles-position-pane {
     padding: 0.55rem 0.55rem 0.45rem;
     background: #f5f7fc;
     border-color: #d9deef !important;
 }
 
-#page-player-info .player-profiles-position-pane-head {
+#page-player-gallery .player-profiles-position-pane-head {
     display: flex;
     align-items: baseline;
     justify-content: space-between;
@@ -4000,9 +4034,9 @@ table tbody tr:hover {
     padding: 0 0.2rem;
 }
 
-#page-player-info .player-profiles-position-row {
+#page-player-gallery .player-profiles-position-row {
     display: flex;
-    gap: 0.9rem;
+    gap: 0.5rem;
     overflow-x: auto;
     padding: 0.6rem 0.35rem 0.45rem;
     border: none;
@@ -4013,42 +4047,42 @@ table tbody tr:hover {
     scrollbar-color: #7d96e8 #e5eaf8;
 }
 
-#page-player-info .player-profiles-position-row::-webkit-scrollbar {
+#page-player-gallery .player-profiles-position-row::-webkit-scrollbar {
     height: 0.62rem;
 }
 
-#page-player-info .player-profiles-position-row::-webkit-scrollbar-track {
+#page-player-gallery .player-profiles-position-row::-webkit-scrollbar-track {
     background: #e5eaf8;
     border-radius: 999px;
 }
 
-#page-player-info .player-profiles-position-row::-webkit-scrollbar-thumb {
+#page-player-gallery .player-profiles-position-row::-webkit-scrollbar-thumb {
     background: linear-gradient(90deg, #202946, #7d96e8);
     border-radius: 999px;
 }
 
-#page-player-info .player-profiles-position-row .player-profile-grid-item {
+#page-player-gallery .player-profiles-position-row .player-profile-grid-item {
     scroll-snap-align: start;
 }
 
-#page-player-info .player-profile-grid-item--legend {
+#page-player-gallery .player-profile-grid-item--legend {
     opacity: 0.95;
 }
 
-#page-player-info .player-profile-legend-card {
+#page-player-gallery .player-profile-legend-card {
     border-style: dashed;
     box-shadow: none;
 }
 
-#page-player-info .player-profile-summary--legend {
+#page-player-gallery .player-profile-summary--legend {
     cursor: default;
 }
 
-#page-player-info .player-profile-summary--legend .player-profile-summary-name {
+#page-player-gallery .player-profile-summary--legend .player-profile-summary-name {
     letter-spacing: 0.01em;
 }
 
-#page-player-info .player-profiles-position-scroll-hint {
+#page-player-gallery .player-profiles-position-scroll-hint {
     margin: 0;
     font-size: 0.86rem;
     color: #5d6888;
@@ -4057,13 +4091,13 @@ table tbody tr:hover {
     gap: 0.35rem;
 }
 
-#page-player-info .player-profiles-position-count {
+#page-player-gallery .player-profiles-position-count {
     font-size: 0.78em;
     color: #66739b;
     font-weight: 700;
 }
 
-#page-player-info .player-info-active-switch .form-check-label {
+#page-player-gallery .player-gallery-active-switch .form-check-label {
     margin: 0;
     color: var(--primary-color);
     font-size: 0.95rem;
@@ -4073,18 +4107,18 @@ table tbody tr:hover {
     gap: 0.4rem;
 }
 
-#page-player-info .player-info-active-switch .bi-info-circle {
+#page-player-gallery .player-gallery-active-switch .bi-info-circle {
     cursor: help;
     font-size: 0.85em;
     opacity: 0.65;
 }
 
-#page-player-info .player-info-active-switch:has(:checked) {
+#page-player-gallery .player-gallery-active-switch:has(:checked) {
     background-color: #dff5df;
     border-color: #b7e0b7;
 }
 
-#page-player-info .player-info-active-switch:has(:checked) .form-check-label {
+#page-player-gallery .player-gallery-active-switch:has(:checked) .form-check-label {
     color: #125e12;
 }
 

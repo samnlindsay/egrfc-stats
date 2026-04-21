@@ -23,6 +23,40 @@
 
 @media (max-width: 768px) {
 
+    #page-player-gallery {
+        --player-profile-card-width: 160px;
+    }
+
+    #page-player-gallery .player-profile-summary {
+        padding: 0.4rem 0.5rem;
+        gap: 0.5rem;
+    }
+
+    #page-player-gallery .player-profile-summary-name {
+        font-size: 0.8rem;
+        margin-bottom: 0.08rem;
+    }
+
+    #page-player-gallery .player-profile-summary-subtitle {
+        font-size: 0.65rem;
+    }
+
+    #page-player-gallery .player-profile-summary-count {
+        font-size: 1.35rem;
+        letter-spacing: -0.02em;
+    }
+
+    #page-player-gallery .player-profile-summary-label {
+        font-size: 0.7rem;
+    }
+
+    #page-player-gallery .player-profile-active-tag {
+        font-size: 0.6rem;
+        padding: 0.06rem 0.35rem;
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+
     .table > :not(caption) > * > * {
         padding-top: 0.25rem;
         padding-bottom: 0.25rem;
@@ -31,7 +65,9 @@
     #page-squad-stats .page-shell,
     #page-player-stats .page-shell,
     #page-league-tables .page-shell,
-    #page-team-sheets .page-shell {
+    #page-team-sheets .page-shell,
+    #page-opposition-profile .page-shell,
+    #page-player-gallery .page-shell {
         padding-left: 0.5rem;
         padding-right: 0.5rem;
     }
@@ -121,17 +157,37 @@
         padding: 0.24rem 0.42rem;
     }
 
-    #page-player-info .player-info-toolbar {
+    #page-player-gallery .player-gallery-toolbar {
         width: 100%;
         justify-content: flex-start;
     }
 
-    #page-player-info .player-info-toolbar .player-info-active-switch {
-        width: 100%;
-        justify-content: center;
+    #page-player-gallery .player-gallery-profile-panel-title {
+        font-size: 1rem;
     }
 
-    #page-player-info .player-info-toolbar .player-info-active-switch {
+    #page-player-gallery .player-gallery-profile-panel {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-areas:
+            "title"
+            "copy"
+            "link";
+        gap: 0.45rem;
+    }
+
+    #page-player-gallery .player-gallery-profile-panel-link {
+        justify-self: start;
+        font-size: 0.9rem;
+        padding: 0.3rem 0.5rem;
+    }
+
+    #page-player-gallery .player-gallery-hero {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 0.75rem;
+    }
+
+    #page-player-gallery .player-gallery-toolbar .player-gallery-active-switch {
+        width: 100%;
         padding-left: 0.72rem;
     }
 
@@ -139,25 +195,29 @@
         grid-template-columns: 1fr;
     }
 
-    #page-player-info .player-info-captain-main {
+    #page-player-gallery .player-gallery-captain-main {
         grid-template-columns: 76px minmax(0, 1fr);
     }
 
-    #page-player-info .player-info-captain-headshot {
+    #page-player-gallery .player-gallery-captain-headshot {
         min-height: 88px;
     }
 
-    #page-player-info .player-profiles-position-pane-head {
+    #page-player-gallery .player-gallery-captain-name {
+        font-size: 1.2rem;
+    }
+
+    #page-player-gallery .player-profiles-position-pane-head {
         flex-direction: column;
         align-items: flex-start;
         gap: 0.25rem;
     }
 
-    #page-player-info .player-gallery-profile-wrap {
+    #page-player-gallery .player-gallery-profile-wrap {
         margin-bottom: 0.8rem;
     }
 
-    #page-player-info .player-profiles-position-section-title {
+    #page-player-gallery .player-profiles-position-section-title {
         font-size: 2rem;
     }
 

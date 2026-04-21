@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="css/responsive.css">
 </head>
 
-<body id="page-player-info">
+<body id="page-player-gallery">
     <nav class="navbar navbar-expand-lg navbar-dark app-top-navbar">
         <div class="container-fluid">
             <a class="navbar-brand app-navbar-brand" href="index.html">
@@ -49,7 +49,7 @@
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="player-stats.html"><i class="bi bi-graph-up-arrow" aria-hidden="true"></i>Player Stats</a></li>
                             <li><a class="dropdown-item" href="team-sheets.html"><i class="bi bi-clipboard2-check" aria-hidden="true"></i>Team Sheets</a></li>
-                            <li><a class="dropdown-item active" href="player-info.html"><i class="bi bi-person-lines-fill" aria-hidden="true"></i>Player Gallery</a></li>
+                            <li><a class="dropdown-item active" href="player-gallery.html"><i class="bi bi-person-lines-fill" aria-hidden="true"></i>Player Gallery</a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
@@ -67,26 +67,26 @@
 
     <div class="main-content">
         <div class="page-shell page-shell--sm">
-            <section class="ux-hero squad-stats-hero player-info-hero" aria-labelledby="playerInfoHeroTitle">
+            <section class="ux-hero player-gallery-hero" aria-labelledby="playerInfoHeroTitle">
                 <div class="ux-hero-main">
                     <p class="ux-hero-kicker">Players</p>
-                    <div class="player-info-hero-head">
+                    <div class="player-gallery-hero-head">
                         <h1 id="playerInfoHeroTitle" class="ux-hero-title">Player Gallery</h1>
                     </div>
                     <p class="ux-hero-description">Get a quick visual scan of the squad before diving into a specific player profile.</p>
                     <p class="ux-hero-description">Players are grouped by their main position, then ordered by 1st XV and 2nd XV with highest appearance totals first.</p>
                 </div>
 
-                <div class="player-info-hero-captains" aria-live="polite">
-                    <div id="playerInfoCaptainCards" class="player-info-captain-cards"></div>
+                <div class="player-gallery-hero-captains" aria-live="polite">
+                    <div id="playerInfoCaptainCards" class="player-gallery-captain-cards"></div>
                 </div>
             </section>
 
-            <section class="player-info-toolbar" aria-label="Player Gallery Controls">
-                <div class="form-check form-switch player-info-active-switch">
+            <section class="player-gallery-toolbar" aria-label="Player Gallery Controls">
+                <div class="form-check form-switch player-gallery-active-switch">
                     <input class="form-check-input" type="checkbox" value="1" id="playerProfileActiveOnly" checked>
                     <label class="form-check-label" for="playerProfileActiveOnly">
-                        Active only
+                        Active players only
                         <i class="bi bi-info-circle" tabindex="0" data-bs-toggle="tooltip" data-bs-placement="top" title="Players who have appeared this season or in the last 6 months" aria-label="Active means appeared this season or in the last 6 months"></i>
                     </label>
                 </div>
@@ -94,11 +94,11 @@
 
             <section class="player-gallery-profile-wrap" aria-label="Player Profiles Guidance">
                 <article class="player-gallery-profile-panel" aria-label="Player Profiles">
-                    <h2 class="player-gallery-profile-panel-title">Need Full Detail?</h2>
-                    <p class="player-gallery-profile-panel-copy">Open Player Profiles for full match logs, breakdown charts, and deeper career context for each player.</p>
+                    <h2 class="player-gallery-profile-panel-title">Know who you're looking for?</h2>
                     <a class="player-gallery-profile-panel-link" href="player-profile.html">
+                        <i class="bi bi-arrow-right" aria-hidden="true"></i>
+                        <span>Go to Player Profiles</span>
                         <i class="bi bi-person-vcard" aria-hidden="true"></i>
-                        <span>Go To Player Profiles</span>
                     </a>
                 </article>
             </section>
@@ -121,7 +121,7 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/nav-layout.js"></script>
-    <script src="js/player-info.js"></script>
+    <script src="js/player-gallery.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(el => new bootstrap.Tooltip(el));

@@ -230,7 +230,7 @@ Legend:
 | opposition-profile | Embedded team sheets panel | Chart/table-like | Exempt Candidate | Yes | Team-sheet matrix behavior is inherently wide; keep scroll intentional and isolated. |
 | opposition-profile | Results and H2H charts | Charts | At Risk | No | Some likely fixable with responsive width + axis density adjustments. |
 | player-stats | Appearances / points / captains / MOTM charts | Charts | At Risk | No | Chart containers are panelized, but spec widths/step may still overflow at 360. |
-| player-info | Profile card grid | Card grid | Likely Pass | No | Card-based format should fit with stacked layout; verify filter row wrapping. |
+| player-gallery | Profile card grid | Card grid | Likely Pass | No | Card-based format should fit with stacked layout; verify filter row wrapping. |
 | player-profile | Full profile panels and history table | Mixed | At Risk | No | History table likely needs column prioritization or stacked mobile format. |
 | team-sheets | Team Sheets visualization | Chart/table-like | Exempt Candidate | Yes | Explicitly accepted wide-density view; preserve horizontal scrolling with improved affordance. |
 | performance-stats | Lineout/scrum/red-zone summary charts | Charts | At Risk | No | Likely solvable with responsive chart policy; verify each panel output at 360/390. |
@@ -371,7 +371,7 @@ Deliverable:
 4. `league-tables.html`
 5. `opposition-profile.html`
 6. `match-info.html`
-7. `player-info.html` and `player-profile.html`
+7. `player-gallery.html` and `player-profile.html`
 
 ### Rollout Progress Log
 #### `player-stats.html` (Phase 1 + Phase 2: Shared Foundations, Hybrid Filters, Scoped Chips)

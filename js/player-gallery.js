@@ -54,7 +54,6 @@ const POSITION_SECTION_ORDER = [
     'Centre',
     'Wing',
     'Full Back',
-    'Bench',
     'Other'
 ];
 
@@ -83,7 +82,7 @@ function positionSectionTitle(position) {
     if (normalized.includes('centre')) return 'Centre';
     if (normalized.includes('wing') || normalized.includes('back three')) return 'Wing';
     if (normalized.includes('full back') || normalized.includes('fullback')) return 'Full Back';
-    if (normalized.includes('bench')) return 'Bench';
+    if (normalized.includes('bench')) return 'Other';
 
     return 'Other';
 }
@@ -615,10 +614,12 @@ function captainCardMarkup(profile, squad) {
     const position = escapeHtml(profile.position || 'Unknown');
     const apps = Number(profile.totalAppearances || 0);
     const playerHref = `player-profile.html?player=${encodeURIComponent(String(profile.name || ''))}`;
+    const squadClass = String(profile.squad || '').trim().toLowerCase() === '2nd' ? '2nd' : '1st';
 
     return `
-        <article class="player-gallery-captain-card player-gallery-captain-card-${squadRank(profile.squad) === 0 ? '1st' : '2nd'}">
-            <p class="player-gallery-captain-label">${escapeHtml(label)}</p>
+    <div class="flex-column align-items-center m-0 p-0">
+        <p class="player-gallery-captain-label">${escapeHtml(label)}</p>
+        <article class="player-gallery-captain-card player-gallery-captain-card-${squadClass} p-0">
             <a class="player-gallery-captain-main" href="${playerHref}">
                 <div class="player-gallery-captain-headshot ${headshotBackgroundClass(profile)}">
                     ${createAvatarMarkup(profile)}
@@ -630,7 +631,8 @@ function captainCardMarkup(profile, squad) {
                 </div>
             </a>
         </article>
-    `;
+    </div>
+`;
 }
 
 function renderPlayerInfoCaptains() {
