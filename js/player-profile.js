@@ -1,6 +1,8 @@
 let fullProfiles = [];
 let fullGamesById = new Map();
 let fullAppearancesByPlayer = new Map();
+let fullAppearancesByGame = new Map();
+let fullProfilesByName = new Map();
 let fullSponsorHistoryByPlayer = new Map();
 let fullCurrentSeason = '';
 let fullProfileAppearancesBySeasonSpecs = {
@@ -39,6 +41,22 @@ function initializeLastTenTooltips(containerEl) {
             trigger: 'hover focus',
         });
     });
+}
+
+function createAvatarMarkup(profile) {
+    const name = escapeHtml(profile?.name || 'Player');
+    const photoUrl = String(profile?.photo_url || '').trim();
+
+    if (photoUrl) {
+        return `<img src="${escapeHtml(photoUrl)}" alt="${name}" class="player-profile-avatar" loading="lazy">`;
+    }
+
+    return '<div class="player-profile-avatar-placeholder"><i class="bi bi-person-fill" aria-hidden="true"></i></div>';
+}
+
+function headshotBackgroundClass(profile) {
+    const squad = String(profile?.squad || '').trim().toLowerCase();
+    return squad === '2nd' ? 'player-profile-headshot-wrap-2nd' : 'player-profile-headshot-wrap-1st';
 }
 
 function parseScoringPayload(value) {
@@ -245,6 +263,85 @@ function squadTagMarkup(squadValue) {
     const label = formatSquadLabel(raw);
     const variant = raw === '2nd' ? 'full-profile-squad-tag--2nd' : 'full-profile-squad-tag--1st';
     return `<span class="player-profile-active-tag full-profile-active-tag full-profile-squad-tag ${variant}">${escapeHtml(label)}</span>`;
+}
+
+function isCaptainAppearance(value) {
+    if (typeof value === 'boolean') return value;
+    if (typeof value === 'number') return value === 1;
+    const normalized = String(value || '').trim().toLowerCase();
+    return normalized === 'true' || normalized === '1' || normalized === 'y' || normalized === 'yes';
+}
+
+function findCurrentCaptainProfile(squad) {
+    const games = Array.from(fullGamesById.values())
+        .filter(game => String(game?.squad || '').trim() === squad)
+        .sort((a, b) => String(b?.date || '').localeCompare(String(a?.date || '')));
+
+    for (const game of games) {
+        const gameId = String(game?.game_id || '').trim();
+        const appearances = fullAppearancesByGame.get(gameId) || [];
+        const captainAppearance = appearances.find(row => (
+            String(row?.squad || '').trim() === squad && isCaptainAppearance(row?.is_captain)
+        ));
+
+        const captainName = String(captainAppearance?.player || game?.captain || '').trim();
+        if (!captainName) continue;
+
+        const profile = fullProfilesByName.get(captainName);
+        if (profile) return profile;
+    }
+
+    return null;
+}
+
+function captainCardMarkup(profile, squad) {
+    const label = `${squad} XV Captain`;
+
+    if (!profile) {
+        return `
+            <article class="player-gallery-captain-card player-gallery-captain-card-empty">
+                <p class="player-gallery-captain-label">${escapeHtml(label)}</p>
+                <p class="player-gallery-captain-empty">No captain data available.</p>
+            </article>
+        `;
+    }
+
+    const playerName = escapeHtml(profile.name || 'Unknown');
+    const position = escapeHtml(profile.position || 'Unknown');
+    const apps = Number(profile.totalAppearances || 0);
+    const playerHref = `player-profile.html?player=${encodeURIComponent(String(profile.name || ''))}`;
+    const squadClass = String(profile.squad || '').trim().toLowerCase() === '2nd' ? '2nd' : '1st';
+
+    return `
+    <div class="flex-column align-items-center m-0 p-0">
+        <p class="player-gallery-captain-label">${escapeHtml(label)}</p>
+        <article class="player-gallery-captain-card player-gallery-captain-card-${squadClass} p-0">
+            <a class="player-gallery-captain-main" href="${playerHref}">
+                <div class="player-gallery-captain-headshot ${headshotBackgroundClass(profile)}">
+                    ${createAvatarMarkup(profile)}
+                </div>
+                <div class="player-gallery-captain-meta">
+                    <p class="player-gallery-captain-name">${playerName}</p>
+                    <p class="player-gallery-captain-position">${position}</p>
+                    <p class="player-gallery-captain-apps">${apps} apps</p>
+                </div>
+            </a>
+        </article>
+    </div>
+`;
+}
+
+function renderPlayerProfileCaptains() {
+    const host = document.getElementById('playerProfileCaptainCards');
+    if (!host) return;
+
+    const firstCaptain = findCurrentCaptainProfile('1st');
+    const secondCaptain = findCurrentCaptainProfile('2nd');
+
+    host.innerHTML = [
+        captainCardMarkup(firstCaptain, '1st'),
+        captainCardMarkup(secondCaptain, '2nd')
+    ].join('');
 }
 
 function canonicalizeName(value) {
@@ -639,17 +736,17 @@ function renderProfile(player) {
     }
     const positionsListHtml = positionLines.length > 0
         ? `<div class="full-profile-positions-stack">${positionLines.join('')}</div>`
-        : '<p style="margin:0.18rem 0;">No positions recorded</p>';
+        : '<p class="full-profile-copy-line">No positions recorded</p>';
     const sponsorshipSectionHtml = (() => {
         const sponsorshipLines = [];
-        sponsorshipLines.push(`<p style="margin:0.18rem 0;"><strong>Current sponsor:</strong> ${escapeHtml(sponsorSnapshot.currentSponsor || '-')}</p>`);
+        sponsorshipLines.push(`<p class="full-profile-copy-line"><strong>Current sponsor:</strong> ${escapeHtml(sponsorSnapshot.currentSponsor || '-')}</p>`);
         if (sponsorSnapshot.previousSponsors.length > 0) {
-            sponsorshipLines.push(`<p style="margin:0.18rem 0;"><strong>Previous sponsors:</strong> ${sponsorSnapshot.previousSponsors.map(item => `${escapeHtml(item.sponsor)} (${escapeHtml(item.seasons.join(', '))})`).join('; ')}</p>`);
+            sponsorshipLines.push(`<p class="full-profile-copy-line"><strong>Previous sponsors:</strong> ${sponsorSnapshot.previousSponsors.map(item => `${escapeHtml(item.sponsor)} (${escapeHtml(item.seasons.join(', '))})`).join('; ')}</p>`);
         }
         return `<section class="full-profile-section-block"><div class="full-profile-section-title">Sponsorship</div>${sponsorshipLines.join('')}</section>`;
     })();
     root.innerHTML = `
-        <article class="card" style="border-radius:0.85rem; overflow:hidden; border:1px solid #d9e0f0;">
+        <article class="card full-profile-shell">
             <div class="player-profile-headshot-wrap ${bannerBackgroundClass} full-profile-banner">
                 <div class="full-profile-banner-copy">
                     <h2 class="full-profile-banner-name">${escapeHtml(String(player?.name || 'Unknown'))}</h2>
@@ -664,26 +761,26 @@ function renderProfile(player) {
                 </div>
             </div>
 
-            <div class="full-profile-sections-grid" style="padding:1rem 1.1rem;">
+            <div class="full-profile-sections-grid full-profile-sections-grid--body">
                 <div class="full-profile-sections-column">
                     <section class="full-profile-section-block">
                         <div class="full-profile-section-title">Career Summary</div>
-                        <p style="margin:0.18rem 0;"><strong>Total appearances:</strong> ${totalAppearances} (${totalStarts} starts)</p>
+                        <p class="full-profile-copy-line"><strong>Total appearances:</strong> ${totalAppearances} (${totalStarts} starts)</p>
                         ${primarySquadAppearances > 0
-                            ? `<p style="margin:0.18rem 0;"><strong>${escapeHtml(primarySquadLabel)} appearances:</strong> ${primarySquadAppearances} (${primarySquadStarts} starts)</p>`
+                            ? `<p class="full-profile-copy-line"><strong>${escapeHtml(primarySquadLabel)} appearances:</strong> ${primarySquadAppearances} (${primarySquadStarts} starts)</p>`
                             : ''}
-                        <p style="margin:0.18rem 0;"><strong>This season:</strong> ${Number(player?.seasonAppearances || 0)} apps (${Number(player?.seasonStarts || 0)} starts)</p>
-                        <p style="margin:0.18rem 0;"><strong>Win record:</strong> ${winRecordMarkup(wins, losses, draws)}</p>
+                        <p class="full-profile-copy-line"><strong>This season:</strong> ${Number(player?.seasonAppearances || 0)} apps (${Number(player?.seasonStarts || 0)} starts)</p>
+                        <p class="full-profile-copy-line"><strong>Win record:</strong> ${winRecordMarkup(wins, losses, draws)}</p>
                         ${lastTenResultsMarkup(history)}
                     </section>
 
                     <section class="full-profile-section-block">
                         <div class="full-profile-section-title">First and Last Appearances</div>
-                        <p style="margin:0.18rem 0;"><strong>Club debut:</strong> ${firstGame ? fixtureAndResultLink(firstGame, true) : escapeHtml(String(player?.debutOverall || 'Unknown'))}</p>
+                        <p class="full-profile-copy-line"><strong>Club debut:</strong> ${firstGame ? fixtureAndResultLink(firstGame, true) : escapeHtml(String(player?.debutOverall || 'Unknown'))}</p>
                         ${firstXVAppearances > 0
-                            ? `<p style="margin:0.18rem 0;"><strong>1st XV debut:</strong> ${firstXVGame ? fixtureAndResultLink(firstXVGame, false) : escapeHtml(String(player?.debutFirstXV || 'Unknown'))}</p>`
+                            ? `<p class="full-profile-copy-line"><strong>1st XV debut:</strong> ${firstXVGame ? fixtureAndResultLink(firstXVGame, false) : escapeHtml(String(player?.debutFirstXV || 'Unknown'))}</p>`
                             : ''}
-                        <p style="margin:0.18rem 0;"><strong>Last appearance:</strong> ${latestGame ? fixtureAndResultLink(latestGame, true) : escapeHtml(String(player?.lastAppearanceDate || 'Unknown'))}</p>
+                        <p class="full-profile-copy-line"><strong>Last appearance:</strong> ${latestGame ? fixtureAndResultLink(latestGame, true) : escapeHtml(String(player?.lastAppearanceDate || 'Unknown'))}</p>
                     </section>
 
                     ${sponsorshipSectionHtml}
@@ -692,9 +789,9 @@ function renderProfile(player) {
                 <div class="full-profile-sections-column">
                     <section class="full-profile-section-block">
                         <div class="full-profile-section-title">Scoring</div>
-                        <p style="margin:0.18rem 0;"><strong>Scoring record:</strong> ${escapeHtml(scoringRecord)}</p>
-                        <p style="margin:0.18rem 0;"><strong>Career points:</strong> ${Number(scoringCareer.points || 0)}</p>
-                        <p style="margin:0.18rem 0;"><strong>This season:</strong> ${seasonRecord}</p>
+                        <p class="full-profile-copy-line"><strong>Scoring record:</strong> ${escapeHtml(scoringRecord)}</p>
+                        <p class="full-profile-copy-line"><strong>Career points:</strong> ${Number(scoringCareer.points || 0)}</p>
+                        <p class="full-profile-copy-line"><strong>This season:</strong> ${seasonRecord}</p>
                     </section>
 
                     <section class="full-profile-section-block">
@@ -703,101 +800,82 @@ function renderProfile(player) {
                     </section>
                 </div>
 
-                <div class="full-profile-section-full full-profile-panels-grid" style="margin-top:0.2rem;">
-                    <div class="chart-panel chart-panel--inline full-profile-chart-panel">
-                        <button type="button" class="chart-panel-toggle chart-panel-toggle--black"
-                            data-target="full-profile-season-apps-panel" data-accordion-group="full-profile-panels"
-                            aria-expanded="false" aria-controls="full-profile-season-apps-panel">
-                            <span class="chart-panel-toggle-text">
-                                <span class="chart-panel-toggle-title">Appearances Per Season</span>
-                                <span class="chart-panel-toggle-hint">Toggle colour by result, position, or squad</span>
-                            </span>
-                            <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
-                        </button>
-                        <div id="full-profile-season-apps-panel" class="chart-panel-content" hidden>
-                            <div class="chart-panel-card">
-                                <div class="chart-panel-filters" style="margin-bottom:0.85rem;">
-                                    <div class="filter-item league-season-picker" style="margin-bottom:0;">
-                                        <div class="input-group">
-                                            <span class="input-group-text">Colour By</span>
-                                            <select id="fullProfileChartColorBy" class="selectpicker form-control flex-fill" data-size="8" title="Colour By" aria-label="Colour appearances chart by">
-                                                <option value="Squad" selected>Squad</option>
-                                                <option value="Result">Result</option>
-                                                <option value="Position">Position</option>
-                                            </select>
-                                        </div>
-                                    </div>
+                <section class="full-profile-section-full chart-section" aria-labelledby="playerProfileSeasonAppsHeading">
+                    <h2 id="playerProfileSeasonAppsHeading" class="section-heading">Appearances Per Season</h2>
+                    <p class="section-intro">Visual breakdown of appearances across seasons with interactive colour options.</p>
+                    <div class="chart-section-block chart-section-block--panel">
+                        <div class="chart-section-head">
+                            <div class="filter-item league-season-picker full-profile-chart-filter-item">
+                                <div class="input-group">
+                                    <span class="input-group-text">Colour By</span>
+                                    <select id="fullProfileChartColorBy" class="selectpicker form-control flex-fill" data-size="8" title="Colour By" aria-label="Colour appearances chart by">
+                                        <option value="Squad" selected>Squad</option>
+                                        <option value="Result">Result</option>
+                                        <option value="Position">Position</option>
+                                    </select>
                                 </div>
-                                <div id="fullProfileAppearancesPerSeasonChart" class="player-stats-chart-container">Loading appearances chart...</div>
                             </div>
                         </div>
+                        <div class="chart-section-content">
+                            <div id="fullProfileAppearancesPerSeasonChart" class="chart-host chart-host--overflow-visible chart-host--intrinsic player-stats-chart-container">Loading appearances chart...</div>
+                        </div>
                     </div>
+                </section>
 
-                    <div class="chart-panel full-profile-panel-full">
-                        <button type="button" class="chart-panel-toggle chart-panel-toggle--black"
-                            data-target="full-profile-all-apps-panel" data-accordion-group="full-profile-panels"
-                            aria-expanded="false" aria-controls="full-profile-all-apps-panel">
-                            <span class="chart-panel-toggle-text">
-                                <span class="chart-panel-toggle-title">All Appearances</span>
-                                <span class="chart-panel-toggle-hint">Searchable, sortable, and paginated appearance history</span>
-                            </span>
-                            <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
-                        </button>
-                        <div id="full-profile-all-apps-panel" class="chart-panel-content" hidden>
-                            <div class="chart-panel-card full-profile-table-card">
-                                <div class="chart-panel-filters" style="margin-bottom:0.6rem;">
-                                    <div class="filter-item database-search-item" style="margin-bottom:0;">
-                                        <div class="input-group">
-                                            <span class="input-group-text">Search</span>
-                                            <input id="fullProfileAppearancesSearch" type="search" class="form-control flex-fill" placeholder="Filter rows..." autocomplete="off">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="table-responsive database-table-responsive" id="fullProfileAppearancesTable">
-                                    <table class="table table-striped table-hover align-middle database-data-table">
-                                        <thead>
-                                            <tr>
-                                                <th><button type="button" class="database-sort-button full-profile-sort-button" data-appearance-sort="date" data-appearance-label="Date"><span>Date</span></button></th>
-                                                <th><button type="button" class="database-sort-button full-profile-sort-button" data-appearance-sort="season" data-appearance-label="Season"><span>Season</span></button></th>
-                                                <th><button type="button" class="database-sort-button full-profile-sort-button" data-appearance-sort="gameType" data-appearance-label="Game Type"><span>Game Type</span></button></th>
-                                                <th><button type="button" class="database-sort-button full-profile-sort-button" data-appearance-sort="competition" data-appearance-label="Competition"><span>Competition</span></button></th>
-                                                <th><button type="button" class="database-sort-button full-profile-sort-button" data-appearance-sort="squad" data-appearance-label="Squad"><span>Squad</span></button></th>
-                                                <th><button type="button" class="database-sort-button full-profile-sort-button" data-appearance-sort="opposition" data-appearance-label="Opposition"><span>Opposition</span></button></th>
-                                                <th><button type="button" class="database-sort-button full-profile-sort-button" data-appearance-sort="homeAway" data-appearance-label="H/A"><span>H/A</span></button></th>
-                                                <th><button type="button" class="database-sort-button full-profile-sort-button" data-appearance-sort="position" data-appearance-label="Position"><span>Position</span></button></th>
-                                                <th><button type="button" class="database-sort-button full-profile-sort-button" data-appearance-sort="shirtNumber" data-appearance-label="Number"><span>Number</span></button></th>
-                                                <th><button type="button" class="database-sort-button full-profile-sort-button" data-appearance-sort="result" data-appearance-label="Result"><span>Result</span></button></th>
-                                                <th>Match Data</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="fullProfileAppearancesTableBody"></tbody>
-                                    </table>
-                                </div>
-                                <div class="database-pagination-bar" style="justify-content:space-between;">
-                                    <div class="d-flex align-items-center" style="gap:0.4rem;">
-                                        <label for="fullProfileAppearancesPageSize" style="font-size:0.9rem; color:#44506b;">Rows</label>
-                                        <select id="fullProfileAppearancesPageSize" class="form-select form-select-sm" style="width:86px;">
-                                            <option value="10">10</option>
-                                            <option value="15">15</option>
-                                            <option value="25" selected>25</option>
-                                            <option value="50">50</option>
-                                        </select>
-                                    </div>
-                                    <div id="fullProfileAppearancesPaginationSummary" class="database-pagination-summary">0 appearances</div>
-                                    <div class="btn-group btn-group-sm" role="group" aria-label="Appearances pagination">
-                                        <button id="fullProfileAppearancesPrev" type="button" class="btn btn-outline-secondary">Previous</button>
-                                        <button id="fullProfileAppearancesNext" type="button" class="btn btn-outline-secondary">Next</button>
-                                    </div>
+                <section class="full-profile-section-full chart-section" aria-labelledby="playerProfileAppearancesHeading">
+                    <h2 id="playerProfileAppearancesHeading" class="section-heading">All Appearances</h2>
+                    <p class="section-intro">Complete appearance history with search, sorting by any column, and pagination control.</p>
+                    <div class="chart-section-block chart-section-block--panel full-profile-table-card">
+                        <div class="chart-panel-filters full-profile-table-filters">
+                            <div class="filter-item database-search-item full-profile-table-filter-item">
+                                <div class="input-group">
+                                    <span class="input-group-text">Search</span>
+                                    <input id="fullProfileAppearancesSearch" type="search" class="form-control flex-fill" placeholder="Filter rows..." autocomplete="off">
                                 </div>
                             </div>
                         </div>
+                        <div class="table-responsive database-table-responsive" id="fullProfileAppearancesTable">
+                            <table class="table table-striped table-hover align-middle database-data-table">
+                                <thead>
+                                    <tr>
+                                        <th><button type="button" class="database-sort-button full-profile-sort-button" data-appearance-sort="date" data-appearance-label="Date"><span>Date</span></button></th>
+                                        <th><button type="button" class="database-sort-button full-profile-sort-button" data-appearance-sort="season" data-appearance-label="Season"><span>Season</span></button></th>
+                                        <th><button type="button" class="database-sort-button full-profile-sort-button" data-appearance-sort="gameType" data-appearance-label="Game Type"><span>Game Type</span></button></th>
+                                        <th><button type="button" class="database-sort-button full-profile-sort-button" data-appearance-sort="competition" data-appearance-label="Competition"><span>Competition</span></button></th>
+                                        <th><button type="button" class="database-sort-button full-profile-sort-button" data-appearance-sort="squad" data-appearance-label="Squad"><span>Squad</span></button></th>
+                                        <th><button type="button" class="database-sort-button full-profile-sort-button" data-appearance-sort="opposition" data-appearance-label="Opposition"><span>Opposition</span></button></th>
+                                        <th><button type="button" class="database-sort-button full-profile-sort-button" data-appearance-sort="homeAway" data-appearance-label="H/A"><span>H/A</span></button></th>
+                                        <th><button type="button" class="database-sort-button full-profile-sort-button" data-appearance-sort="position" data-appearance-label="Position"><span>Position</span></button></th>
+                                        <th><button type="button" class="database-sort-button full-profile-sort-button" data-appearance-sort="shirtNumber" data-appearance-label="Number"><span>Number</span></button></th>
+                                        <th><button type="button" class="database-sort-button full-profile-sort-button" data-appearance-sort="result" data-appearance-label="Result"><span>Result</span></button></th>
+                                        <th>Match Data</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="fullProfileAppearancesTableBody"></tbody>
+                            </table>
+                        </div>
+                        <div class="database-pagination-bar full-profile-pagination-bar">
+                            <div class="d-flex align-items-center full-profile-page-size-wrap">
+                                <label for="fullProfileAppearancesPageSize" class="full-profile-page-size-label">Rows</label>
+                                <select id="fullProfileAppearancesPageSize" class="form-select form-select-sm full-profile-page-size-select">
+                                    <option value="10">10</option>
+                                    <option value="15">15</option>
+                                    <option value="25" selected>25</option>
+                                    <option value="50">50</option>
+                                </select>
+                            </div>
+                            <div id="fullProfileAppearancesPaginationSummary" class="database-pagination-summary">0 appearances</div>
+                            <div class="btn-group btn-group-sm" role="group" aria-label="Appearances pagination">
+                                <button id="fullProfileAppearancesPrev" type="button" class="btn btn-outline-secondary">Previous</button>
+                                <button id="fullProfileAppearancesNext" type="button" class="btn btn-outline-secondary">Next</button>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                </section>
             </div>
         </article>
     `;
 
-    initialiseChartPanelToggles();
     initializeLastTenTooltips(root);
     bindAppearancePanelControls(String(player?.name || '').trim());
     renderAppearanceTable();
@@ -899,12 +977,22 @@ async function loadPage() {
         });
 
         fullAppearancesByPlayer = new Map();
+        fullAppearancesByGame = new Map();
         (Array.isArray(appearances) ? appearances : []).forEach(row => {
             const key = String(row?.player || '').trim();
             if (!key) return;
             if (!fullAppearancesByPlayer.has(key)) fullAppearancesByPlayer.set(key, []);
             fullAppearancesByPlayer.get(key).push(row);
+
+            const gameId = String(row?.game_id || '').trim();
+            if (!gameId) return;
+            if (!fullAppearancesByGame.has(gameId)) fullAppearancesByGame.set(gameId, []);
+            fullAppearancesByGame.get(gameId).push(row);
         });
+
+        fullProfilesByName = new Map(
+            fullProfiles.map(profile => [String(profile?.name || '').trim(), profile])
+        );
 
         fullSponsorHistoryByPlayer = buildSponsorHistoryMap(sponsorsBySeason);
         fullCurrentSeason = deriveCurrentSeason(games);
@@ -923,6 +1011,7 @@ async function loadPage() {
             console.warn('Unable to load one or more full profile appearances chart specs:', chartSpecEntries);
         }
 
+        renderPlayerProfileCaptains();
         initPlayerSelect();
 
         if (loadingState) loadingState.classList.add('d-none');

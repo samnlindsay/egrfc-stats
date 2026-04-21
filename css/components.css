@@ -560,6 +560,13 @@
     padding: 0.75rem 1rem;
 }
 
+.full-profile-shell {
+    border-radius: 0.85rem;
+    overflow: hidden;
+    border: 1px solid #d9e0f0;
+    box-shadow: 0 6px 18px rgba(32, 41, 70, 0.08);
+}
+
 .full-profile-panel-full {
     display: flex;
     flex-direction: column;
@@ -614,6 +621,10 @@
     align-items: start;
 }
 
+.full-profile-sections-grid--body {
+    padding: 1rem 1.1rem;
+}
+
 .full-profile-sections-column {
     display: flex;
     flex-direction: column;
@@ -639,17 +650,54 @@
 
 .full-profile-section-full {
     grid-column: 1 / -1;
-    margin-top: 0.25rem;
+    margin-top: 1.5rem;
 }
 
-.full-profile-panels-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.95rem;
+.full-profile-section-full > .section-heading {
+    margin-bottom: 0.35rem;
+    font-size: 1.45rem;
 }
 
-.full-profile-panels-grid > .full-profile-panel-full:has(> .chart-panel-toggle[aria-expanded="true"]) {
-    grid-column: 1 / -1;
+.full-profile-section-full > .section-intro {
+    font-size: 0.95rem;
+    color: #666;
+    margin-bottom: 1rem;
+}
+
+.full-profile-chart-filters {
+    margin-bottom: 0.85rem;
+}
+
+.full-profile-chart-filter-item,
+.full-profile-table-filter-item {
+    margin-bottom: 0;
+}
+
+.full-profile-table-filters {
+    margin-bottom: 0.6rem;
+}
+
+.full-profile-pagination-bar {
+    justify-content: space-between;
+}
+
+.full-profile-page-size-wrap {
+    gap: 0.4rem;
+}
+
+.full-profile-page-size-label {
+    font-size: 0.9rem;
+    color: #44506b;
+}
+
+.full-profile-page-size-select {
+    width: 86px;
+}
+
+.full-profile-copy-line {
+    margin: 0.18rem 0;
+    color: #2a3555;
+    line-height: 1.28;
 }
 
 #fullProfileAppearancesPerSeasonChart {
@@ -4729,6 +4777,140 @@ table tbody tr:hover {
     background-position: center 32%;
     background-repeat: no-repeat;
     box-shadow: 0 6px 18px rgba(32, 41, 70, 0.1);
+}
+
+#page-player-profile .player-profile-hero {
+    margin-bottom: 1rem;
+}
+
+#page-player-profile .player-profile-hero-captains {
+    display: flex;
+    flex-direction: column;
+    gap: 0.95rem;
+    color: var(--primary-color);
+}
+
+#page-player-profile .player-profile-toolbar {
+    margin: 0 0 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.7rem;
+    flex-wrap: wrap;
+}
+
+#page-player-profile .player-profile-back-link {
+    align-self: center;
+}
+
+#page-player-profile .player-profile-hero-filter-item {
+    min-width: min(100%, 420px);
+    margin-bottom: 0;
+}
+
+#page-player-profile .player-gallery-captain-cards {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.85rem;
+}
+
+#page-player-profile .player-gallery-captain-card {
+    border-radius: 0.9rem;
+    border: 2px solid black;
+    background: transparent;
+    padding: 0.75rem;
+    box-shadow: 0 6px 16px rgba(20, 30, 58, 0.12);
+}
+
+#page-player-profile .player-gallery-captain-card-1st {
+    background-color: var(--primary-color);
+}
+
+#page-player-profile .player-gallery-captain-card-2nd {
+    background-color: var(--accent-color);
+}
+
+#page-player-profile .player-gallery-captain-card-empty {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 6rem;
+}
+
+#page-player-profile .player-gallery-captain-label {
+    margin: 0 0 0.35rem;
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--light-color);
+    opacity: 0.85;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+#page-player-profile .player-gallery-captain-main {
+    display: grid;
+    grid-template-columns: 94px minmax(0, 1fr);
+    gap: 0.75rem;
+    text-decoration: none;
+    color: inherit;
+}
+
+#page-player-profile .player-gallery-captain-headshot {
+    min-height: 104px;
+    border-radius: 0.7rem;
+    padding: 0.3rem;
+    background-size: cover;
+    background-position: center top;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    border-right: 2px solid black;
+}
+
+#page-player-profile .player-gallery-captain-headshot .player-profile-avatar {
+    max-width: 92px;
+}
+
+#page-player-profile .player-gallery-captain-headshot .player-profile-avatar-placeholder {
+    width: 68px;
+    height: 68px;
+    font-size: 1.8rem;
+}
+
+#page-player-profile .player-gallery-captain-meta {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#page-player-profile .player-gallery-captain-name,
+#page-player-profile .player-gallery-captain-position,
+#page-player-profile .player-gallery-captain-apps,
+#page-player-profile .player-gallery-captain-empty {
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#page-player-profile .player-gallery-captain-name {
+    font-size: 1.38rem;
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+#page-player-profile .player-gallery-captain-card-1st {
+    color: var(--light-color);
+}
+
+#page-player-profile .player-gallery-captain-position {
+    font-size: 0.96rem;
+}
+
+#page-player-profile .player-gallery-captain-apps,
+#page-player-profile .player-gallery-captain-empty {
+    font-size: 0.86rem;
 }
 
 .ux-hero-kicker {
