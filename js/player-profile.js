@@ -10,6 +10,8 @@ let fullProfileAppearancesBySeasonSpecs = {
     Result: null,
     Position: null,
 };
+let fullProfilePositionDonutSpec = null;
+let fullProfileCareerTimelineSpec = null;
 let fullProfileAppearanceRows = [];
 let fullProfileSortState = { key: 'date', direction: 'desc' };
 let fullProfilePaginationState = { page: 1, pageSize: 25 };
@@ -581,6 +583,82 @@ function renderAppearancesPerSeasonChart(playerName) {
     );
 }
 
+function renderProfileFilteredChart(containerId, spec, playerName, emptyMessage) {
+    if (!spec) {
+        renderStaticSpecChart(containerId, null, emptyMessage);
+        return;
+    }
+
+    const filteredSpec = filterChartSpecDataset(
+        JSON.parse(JSON.stringify(spec)),
+        row => String(row?.player || '').trim() === playerName
+    );
+
+    renderStaticSpecChart(containerId, filteredSpec, emptyMessage);
+}
+
+function renderPositionDonutChart(playerName) {
+    renderProfileFilteredChart(
+        'fullProfilePositionDonutChart',
+        fullProfilePositionDonutSpec,
+        playerName,
+        'No position data available for this player.'
+    );
+}
+
+function fullProfileMilestoneLegendHtml() {
+    const icon = (scopeClass, levelClass, text, title) => {
+        const inner = text ? `<span class="match-team-sheet-milestone-text">${text}</span>` : '';
+        return `<span class="match-team-sheet-milestone ${scopeClass} ${levelClass}" aria-hidden="true" title="${escapeAttribute(title)}"><span class="match-team-sheet-milestone-core">${inner}</span></span>`;
+    };
+
+    const pairedIcon = (levelClass, text, label) => `
+        <span class="match-team-sheet-legend-pair" aria-hidden="true">
+            <span class="match-team-sheet-legend-pair-icon match-team-sheet-legend-pair-icon--club">${icon('match-team-sheet-milestone--scope-club', levelClass, text, `Club ${label}`)}</span>
+            <span class="match-team-sheet-legend-pair-icon match-team-sheet-legend-pair-icon--first-xv">${icon('match-team-sheet-milestone--scope-first-xv', levelClass, text, `1st XV ${label}`)}</span>
+        </span>
+    `;
+
+    const eventGlyph = (letter, color, title) =>
+        `<span class="full-profile-timeline-event-glyph" style="color:${color}" aria-hidden="true" title="${escapeAttribute(title)}">${letter}</span>`;
+
+    return `
+        <div class="match-team-sheet-legend full-profile-timeline-legend-block" aria-label="Timeline milestone key">
+            <h4 class="match-team-sheet-legend-title">Appearance milestones</h4>
+            <div class="match-team-sheet-legend-row">
+                <span class="match-team-sheet-legend-scopes">Club<br><strong>1st XV</strong></span>
+                <span class="match-team-sheet-legend-item">${pairedIcon('match-team-sheet-milestone--debut', '1', 'debut')}<span class="match-team-sheet-legend-text">Debut</span></span>
+                <span class="match-team-sheet-legend-item">${pairedIcon('match-team-sheet-milestone--25', '25', '25th appearance')}<span class="match-team-sheet-legend-text">25th</span></span>
+                <span class="match-team-sheet-legend-item">${pairedIcon('match-team-sheet-milestone--50', '50', '50th appearance')}<span class="match-team-sheet-legend-text">50th</span></span>
+                <span class="match-team-sheet-legend-item">${pairedIcon('match-team-sheet-milestone--100', '100', '100th appearance')}<span class="match-team-sheet-legend-text">100th</span></span>
+                <span class="match-team-sheet-legend-item">${icon('match-team-sheet-milestone--last', '', 'last appearance')}<span class="match-team-sheet-legend-text">Last</span></span>
+            </div>
+        </div>
+        <div class="match-team-sheet-legend full-profile-timeline-legend-block" aria-label="Event milestone key">
+            <h4 class="match-team-sheet-legend-title">Career events</h4>
+            <div class="match-team-sheet-legend-row full-profile-timeline-event-row">
+                <span class="match-team-sheet-legend-item">${eventGlyph('T', '#991515', 'First try')}<span class="match-team-sheet-legend-text">1st try</span></span>
+                <span class="match-team-sheet-legend-item">${eventGlyph('C', '#7d96e8', 'First captaincy')}<span class="match-team-sheet-legend-text">1st captain</span></span>
+                <span class="match-team-sheet-legend-item"><span class="full-profile-timeline-event-glyph full-profile-timeline-event-glyph--star" aria-hidden="true" title="First Man of the Match">★</span><span class="match-team-sheet-legend-text">MOTM</span></span>
+            </div>
+        </div>
+    `;
+}
+
+function renderCareerTimelineChart(playerName) {
+    renderProfileFilteredChart(
+        'fullProfileCareerTimelineChart',
+        fullProfileCareerTimelineSpec,
+        playerName,
+        'No career milestones available for this player yet.'
+    );
+
+    const legendHost = document.getElementById('fullProfileCareerTimelineLegend');
+    if (legendHost) {
+        legendHost.innerHTML = fullProfileMilestoneLegendHtml();
+    }
+}
+
 function bindAppearancePanelControls(playerName) {
     const colorBySelect = document.getElementById('fullProfileChartColorBy');
     if (colorBySelect) {
@@ -597,15 +675,6 @@ function bindAppearancePanelControls(playerName) {
             });
         }
     }
-
-    const seasonPanelToggle = document.querySelector('[data-target="full-profile-season-apps-panel"]');
-    if (seasonPanelToggle) {
-        seasonPanelToggle.addEventListener('click', () => {
-            // Re-render after panel visibility changes so width='container' resolves correctly.
-            window.setTimeout(() => renderAppearancesPerSeasonChart(playerName), 60);
-        });
-    }
-
     const tableHost = document.getElementById('fullProfileAppearancesTable');
     if (tableHost) {
         tableHost.addEventListener('click', event => {
@@ -795,10 +864,23 @@ function renderProfile(player) {
                     </section>
 
                     <section class="full-profile-section-block">
-                        <div class="full-profile-section-title">Positions</div>
-                        ${positionsListHtml}
+                        <div class="full-profile-section-title">Positions Played</div>
+                        <p class="full-profile-copy-line">Position mix across all recorded appearances, with bench usage included where applicable.</p>
+                        <div id="fullProfilePositionDonutChart" class="chart-host chart-host--overflow-visible chart-host--intrinsic full-profile-inline-chart">Loading position chart...</div>
+                        <div class="full-profile-position-notes">${positionsListHtml}</div>
                     </section>
                 </div>
+
+                <section class="full-profile-section-full chart-section" aria-labelledby="playerProfileCareerTimelineHeading">
+                    <h2 id="playerProfileCareerTimelineHeading" class="section-heading">Career Timeline</h2>
+                    <p class="section-intro">Major milestones from first appearance through captaincy, scoring, and appearance landmarks.</p>
+                    <div class="chart-section-block chart-section-block--panel">
+                        <div class="chart-section-content">
+                            <div id="fullProfileCareerTimelineChart" class="chart-host chart-host--overflow-visible chart-host--intrinsic full-profile-timeline-chart">Loading career timeline...</div>
+                            <div id="fullProfileCareerTimelineLegend" class="full-profile-timeline-legend"></div>
+                        </div>
+                    </div>
+                </section>
 
                 <section class="full-profile-section-full chart-section" aria-labelledby="playerProfileSeasonAppsHeading">
                     <h2 id="playerProfileSeasonAppsHeading" class="section-heading">Appearances Per Season</h2>
@@ -879,6 +961,8 @@ function renderProfile(player) {
     initializeLastTenTooltips(root);
     bindAppearancePanelControls(String(player?.name || '').trim());
     renderAppearanceTable();
+    renderPositionDonutChart(String(player?.name || '').trim());
+    renderCareerTimelineChart(String(player?.name || '').trim());
     renderAppearancesPerSeasonChart(String(player?.name || '').trim());
 }
 
@@ -1000,13 +1084,17 @@ async function loadPage() {
         const chartSpecEntries = await Promise.allSettled([
             loadChartSpec('data/charts/player_full_profile_appearances_per_season_squad.json'),
             loadChartSpec('data/charts/player_full_profile_appearances_per_season_result.json'),
-            loadChartSpec('data/charts/player_full_profile_appearances_per_season_position.json')
+            loadChartSpec('data/charts/player_full_profile_appearances_per_season_position.json'),
+            loadChartSpec('data/charts/player_full_profile_position_donut.json'),
+            loadChartSpec('data/charts/player_full_profile_career_timeline.json')
         ]);
         fullProfileAppearancesBySeasonSpecs = {
             Squad: chartSpecEntries[0].status === 'fulfilled' ? chartSpecEntries[0].value : null,
             Result: chartSpecEntries[1].status === 'fulfilled' ? chartSpecEntries[1].value : null,
             Position: chartSpecEntries[2].status === 'fulfilled' ? chartSpecEntries[2].value : null,
         };
+        fullProfilePositionDonutSpec = chartSpecEntries[3].status === 'fulfilled' ? chartSpecEntries[3].value : null;
+        fullProfileCareerTimelineSpec = chartSpecEntries[4].status === 'fulfilled' ? chartSpecEntries[4].value : null;
         if (!fullProfileAppearancesBySeasonSpecs.Squad || !fullProfileAppearancesBySeasonSpecs.Result || !fullProfileAppearancesBySeasonSpecs.Position) {
             console.warn('Unable to load one or more full profile appearances chart specs:', chartSpecEntries);
         }
