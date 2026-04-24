@@ -518,11 +518,12 @@ function renderAppearanceTable() {
             : squadKey === '2nd' ? 'squad-pill squad-pill--2nd'
             : 'squad-pill squad-pill--unknown';
         const squadLabel = squadKey === '1st' || squadKey === '2nd' ? `${squadKey} XV` : (squadKey || '-');
+        const openMatchHtml = row.gameId
+            ? `<a class="btn btn-outline-primary btn-sm rounded-circle p-0 d-inline-flex align-items-center justify-content-center match-open-btn" href="match-info.html?game=${encodeURIComponent(row.gameId)}" aria-label="View match detail"><i class="bi bi-search" aria-hidden="true"></i></a>`
+            : '<span class="text-muted">-</span>';
         return `
         <tr class="${rowClass}">
             <td>${escapeHtml(row.dateDisplay || '-')}</td>
-            <td>${escapeHtml(row.season || '-')}</td>
-            <td>${escapeHtml(row.gameType || '-')}</td>
             <td>${escapeHtml(row.competition || '-')}</td>
             <td><span class="${squadPillClass}">${escapeHtml(squadLabel)}</span></td>
             <td>${escapeHtml(row.opposition || '-')}</td>
@@ -530,12 +531,12 @@ function renderAppearanceTable() {
             <td>${escapeHtml(row.position || '-')}</td>
             <td>${escapeHtml(row.shirtNumber || '-')}</td>
             <td>${resultBadgeHtml(row.result || '-')}</td>
-            <td>${row.gameId ? `<a class="match-data-link" href="match-info.html?game=${encodeURIComponent(row.gameId)}"><i class="bi bi-box-arrow-up-right" aria-hidden="true"></i><span>Match Data</span></a>` : '<span class="text-muted">-</span>'}</td>
+            <td class="match-table-open-cell">${openMatchHtml}</td>
         </tr>
     `;
     }).join('');
 
-    tbody.innerHTML = html || '<tr><td colspan="11" class="text-muted">No appearances found for this player.</td></tr>';
+    tbody.innerHTML = html || '<tr><td colspan="9" class="text-muted">No appearances found for this player.</td></tr>';
 
     const summary = document.getElementById('fullProfileAppearancesPaginationSummary');
     if (summary) {
@@ -631,11 +632,11 @@ function fullProfileMilestoneLegendHtml() {
                 <span class="match-team-sheet-legend-item">${pairedIcon('match-team-sheet-milestone--25', '25', '25th appearance')}<span class="match-team-sheet-legend-text">25th</span></span>
                 <span class="match-team-sheet-legend-item">${pairedIcon('match-team-sheet-milestone--50', '50', '50th appearance')}<span class="match-team-sheet-legend-text">50th</span></span>
                 <span class="match-team-sheet-legend-item">${pairedIcon('match-team-sheet-milestone--100', '100', '100th appearance')}<span class="match-team-sheet-legend-text">100th</span></span>
-                <span class="match-team-sheet-legend-item">${icon('match-team-sheet-milestone--last', '', 'last appearance')}<span class="match-team-sheet-legend-text">Last</span></span>
+                <span class="match-team-sheet-legend-item">${icon('match-team-sheet-milestone--last', '', '')}<span class="match-team-sheet-legend-text">Latest</span></span>
             </div>
         </div>
         <div class="match-team-sheet-legend full-profile-timeline-legend-block" aria-label="Event milestone key">
-            <h4 class="match-team-sheet-legend-title">Career events</h4>
+            <h4 class="match-team-sheet-legend-title">Other events</h4>
             <div class="match-team-sheet-legend-row full-profile-timeline-event-row">
                 <span class="match-team-sheet-legend-item">${eventGlyph('T', '#991515', 'First try')}<span class="match-team-sheet-legend-text">1st try</span></span>
                 <span class="match-team-sheet-legend-item">${eventGlyph('C', '#7d96e8', 'First captaincy')}<span class="match-team-sheet-legend-text">1st captain</span></span>
@@ -646,11 +647,59 @@ function fullProfileMilestoneLegendHtml() {
 }
 
 function renderCareerTimelineChart(playerName) {
-    renderProfileFilteredChart(
-        'fullProfileCareerTimelineChart',
-        fullProfileCareerTimelineSpec,
-        playerName,
-        'No career milestones available for this player yet.'
+    const containerId = 'fullProfileCareerTimelineChart';
+    if (!fullProfileCareerTimelineSpec) {
+        renderStaticSpecChart(containerId, null, 'No career milestones available for this player yet.');
+        return;
+    }
+
+    const filteredSpec = filterChartSpecDataset(
+        JSON.parse(JSON.stringify(fullProfileCareerTimelineSpec)),
+        row => String(row?.player || '').trim() === playerName
+    );
+
+    // Desktop: use the actual host width so the chart fills the container.
+    // Mobile: keep a larger intrinsic width so responsive scaling can shrink
+    // precisely to the available width without horizontal overflow.
+    const timelineHost = document.getElementById(containerId);
+    const timelineSection = timelineHost?.closest('.full-profile-timeline-section');
+
+    let containerWidth = Math.floor(timelineHost?.clientWidth || 0);
+    if (!containerWidth && timelineSection && window?.getComputedStyle) {
+        const sectionStyles = window.getComputedStyle(timelineSection);
+        const sectionPaddingLeft = parseFloat(sectionStyles.paddingLeft || '0') || 0;
+        const sectionPaddingRight = parseFloat(sectionStyles.paddingRight || '0') || 0;
+        const sectionInnerWidth = Math.floor(
+            (timelineSection.clientWidth || 0) - sectionPaddingLeft - sectionPaddingRight
+        );
+        containerWidth = Math.max(0, sectionInnerWidth);
+    }
+
+    const isMobileViewport = typeof window !== 'undefined' && window.innerWidth <= 900;
+    const minMobileIntrinsicWidth = 500;
+    const viewportWidth = Math.floor((typeof window !== 'undefined' ? window.innerWidth : 0) || 0);
+    const desktopFallbackWidth = Math.max(
+        minMobileIntrinsicWidth,
+        Math.floor(viewportWidth * 0.75) || 860
+    );
+    const resolvedContainerWidth = containerWidth > 0 ? containerWidth : desktopFallbackWidth;
+
+    // Mobile: use a smaller intrinsic base (500px) then scale-to-fit so marks
+    // and labels stay more legible.
+    // Desktop: match the container width natively to avoid right-side whitespace.
+    filteredSpec.width = isMobileViewport
+        ? Math.max(minMobileIntrinsicWidth, resolvedContainerWidth)
+        : resolvedContainerWidth;
+
+    renderStaticSpecChart(
+        containerId,
+        filteredSpec,
+        'No career milestones available for this player yet.',
+        {
+            // Always allow fitting to container width on small screens.
+            responsiveScaleMin: 0.01,
+            responsiveScaleMinXs: 0.01,
+        }
     );
 
     const legendHost = document.getElementById('fullProfileCareerTimelineLegend');
@@ -696,15 +745,6 @@ function bindAppearancePanelControls(playerName) {
     if (searchInput) {
         searchInput.addEventListener('input', () => {
             fullProfileTableSearch = String(searchInput.value || '');
-            fullProfilePaginationState.page = 1;
-            renderAppearanceTable();
-        });
-    }
-
-    const pageSizeSelect = document.getElementById('fullProfileAppearancesPageSize');
-    if (pageSizeSelect) {
-        pageSizeSelect.addEventListener('change', () => {
-            fullProfilePaginationState.pageSize = Number(pageSizeSelect.value) || 15;
             fullProfilePaginationState.page = 1;
             renderAppearanceTable();
         });
@@ -803,9 +843,6 @@ function renderProfile(player) {
     if (benchAppearances > 0) {
         positionLines.push(`<p class="full-profile-position-line"><strong>Bench:</strong> ${benchAppearances} appearances</p>`);
     }
-    const positionsListHtml = positionLines.length > 0
-        ? `<div class="full-profile-positions-stack">${positionLines.join('')}</div>`
-        : '<p class="full-profile-copy-line">No positions recorded</p>';
     const sponsorshipSectionHtml = (() => {
         const sponsorshipLines = [];
         sponsorshipLines.push(`<p class="full-profile-copy-line"><strong>Current sponsor:</strong> ${escapeHtml(sponsorSnapshot.currentSponsor || '-')}</p>`);
@@ -814,30 +851,40 @@ function renderProfile(player) {
         }
         return `<section class="full-profile-section-block"><div class="full-profile-section-title">Sponsorship</div>${sponsorshipLines.join('')}</section>`;
     })();
+    
     root.innerHTML = `
         <article class="card full-profile-shell">
             <div class="player-profile-headshot-wrap ${bannerBackgroundClass} full-profile-banner">
                 <div class="full-profile-banner-copy">
-                    <h2 class="full-profile-banner-name">${escapeHtml(String(player?.name || 'Unknown'))}</h2>
-                    <p class="full-profile-banner-subtitle">${escapeHtml(String(player?.position || 'Unknown'))}</p>
+                    <h2 class="full-profile-banner-name">${escapeHtml(String(player?.name || "Unknown"))}</h2>
+                    <p class="full-profile-banner-subtitle">${escapeHtml(String(player?.position || "Unknown"))}</p>
                     <div class="full-profile-active-row">${activeTagMarkup(player?.isActive)}${squadTagMarkup(squadValue)}</div>
                 </div>
                 <div class="full-profile-banner-headshot">
-                    ${avatarUrl
-                        ? `<img src="${escapeHtml(avatarUrl)}" alt="${escapeHtml(player?.name || 'Player')}" class="player-profile-avatar" loading="lazy">`
+                    ${
+                      avatarUrl
+                        ? `<img src="${escapeHtml(avatarUrl)}" alt="${escapeHtml(player?.name || "Player")}" class="player-profile-avatar" loading="lazy">`
                         : '<div class="player-profile-avatar-placeholder"><i class="bi bi-person-fill" aria-hidden="true"></i></div>'
                     }
                 </div>
             </div>
+
+            <section class="full-profile-timeline-section" aria-labelledby="playerProfileCareerTimelineHeading">
+                <div id="playerProfileCareerTimelineHeading" class="full-profile-section-title">Career Timeline</div>
+                <div id="fullProfileCareerTimelineChart" class="chart-host chart-host--intrinsic full-profile-timeline-chart">Loading career timeline...</div>
+                <div id="fullProfileCareerTimelineLegend" class="full-profile-timeline-legend"></div>
+            </section>
 
             <div class="full-profile-sections-grid full-profile-sections-grid--body">
                 <div class="full-profile-sections-column">
                     <section class="full-profile-section-block">
                         <div class="full-profile-section-title">Career Summary</div>
                         <p class="full-profile-copy-line"><strong>Total appearances:</strong> ${totalAppearances} (${totalStarts} starts)</p>
-                        ${primarySquadAppearances > 0
+                        ${
+                          primarySquadAppearances > 0
                             ? `<p class="full-profile-copy-line"><strong>${escapeHtml(primarySquadLabel)} appearances:</strong> ${primarySquadAppearances} (${primarySquadStarts} starts)</p>`
-                            : ''}
+                            : ""
+                        }
                         <p class="full-profile-copy-line"><strong>This season:</strong> ${Number(player?.seasonAppearances || 0)} apps (${Number(player?.seasonStarts || 0)} starts)</p>
                         <p class="full-profile-copy-line"><strong>Win record:</strong> ${winRecordMarkup(wins, losses, draws)}</p>
                         ${lastTenResultsMarkup(history)}
@@ -845,17 +892,15 @@ function renderProfile(player) {
 
                     <section class="full-profile-section-block">
                         <div class="full-profile-section-title">First and Last Appearances</div>
-                        <p class="full-profile-copy-line"><strong>Club debut:</strong> ${firstGame ? fixtureAndResultLink(firstGame, true) : escapeHtml(String(player?.debutOverall || 'Unknown'))}</p>
-                        ${firstXVAppearances > 0
-                            ? `<p class="full-profile-copy-line"><strong>1st XV debut:</strong> ${firstXVGame ? fixtureAndResultLink(firstXVGame, false) : escapeHtml(String(player?.debutFirstXV || 'Unknown'))}</p>`
-                            : ''}
-                        <p class="full-profile-copy-line"><strong>Last appearance:</strong> ${latestGame ? fixtureAndResultLink(latestGame, true) : escapeHtml(String(player?.lastAppearanceDate || 'Unknown'))}</p>
+                        <p class="full-profile-copy-line"><strong>Club debut:</strong> ${firstGame ? fixtureAndResultLink(firstGame, true) : escapeHtml(String(player?.debutOverall || "Unknown"))}</p>
+                        ${
+                          firstXVAppearances > 0
+                            ? `<p class="full-profile-copy-line"><strong>1st XV debut:</strong> ${firstXVGame ? fixtureAndResultLink(firstXVGame, false) : escapeHtml(String(player?.debutFirstXV || "Unknown"))}</p>`
+                            : ""
+                        }
+                        <p class="full-profile-copy-line"><strong>Last appearance:</strong> ${latestGame ? fixtureAndResultLink(latestGame, true) : escapeHtml(String(player?.lastAppearanceDate || "Unknown"))}</p>
                     </section>
 
-                    ${sponsorshipSectionHtml}
-                </div>
-
-                <div class="full-profile-sections-column">
                     <section class="full-profile-section-block">
                         <div class="full-profile-section-title">Scoring</div>
                         <p class="full-profile-copy-line"><strong>Scoring record:</strong> ${escapeHtml(scoringRecord)}</p>
@@ -863,29 +908,19 @@ function renderProfile(player) {
                         <p class="full-profile-copy-line"><strong>This season:</strong> ${seasonRecord}</p>
                     </section>
 
-                    <section class="full-profile-section-block">
-                        <div class="full-profile-section-title">Positions Played</div>
-                        <p class="full-profile-copy-line">Position mix across all recorded appearances, with bench usage included where applicable.</p>
-                        <div id="fullProfilePositionDonutChart" class="chart-host chart-host--overflow-visible chart-host--intrinsic full-profile-inline-chart">Loading position chart...</div>
-                        <div class="full-profile-position-notes">${positionsListHtml}</div>
-                    </section>
+                    ${sponsorshipSectionHtml}
                 </div>
 
-                <section class="full-profile-section-full chart-section" aria-labelledby="playerProfileCareerTimelineHeading">
-                    <h2 id="playerProfileCareerTimelineHeading" class="section-heading">Career Timeline</h2>
-                    <p class="section-intro">Major milestones from first appearance through captaincy, scoring, and appearance landmarks.</p>
-                    <div class="chart-section-block chart-section-block--panel">
-                        <div class="chart-section-content">
-                            <div id="fullProfileCareerTimelineChart" class="chart-host chart-host--overflow-visible chart-host--intrinsic full-profile-timeline-chart">Loading career timeline...</div>
-                            <div id="fullProfileCareerTimelineLegend" class="full-profile-timeline-legend"></div>
-                        </div>
-                    </div>
-                </section>
+                <div class="full-profile-sections-column">
+                    <section class="full-profile-section-block">
+                        <div class="full-profile-section-title">Position</div>
+                        <p class="full-profile-copy-line">Positions played across all recorded starts, along with bench appearances.</p>
+                        <div id="fullProfilePositionDonutChart" class="chart-host chart-host--overflow-visible chart-host--intrinsic full-profile-inline-chart">Loading position chart...</div>
+                    </section>
 
-                <section class="full-profile-section-full chart-section" aria-labelledby="playerProfileSeasonAppsHeading">
-                    <h2 id="playerProfileSeasonAppsHeading" class="section-heading">Appearances Per Season</h2>
-                    <p class="section-intro">Visual breakdown of appearances across seasons with interactive colour options.</p>
-                    <div class="chart-section-block chart-section-block--panel">
+                    <section class="full-profile-section-block" aria-labelledby="playerProfileSeasonAppsHeading">
+                        <div id="playerProfileSeasonAppsHeading" class="full-profile-section-title">Appearances Per Season</div>
+                        <p class="full-profile-copy-line">Visual breakdown of appearances across seasons with interactive colour options.</p>
                         <div class="chart-section-head">
                             <div class="filter-item league-season-picker full-profile-chart-filter-item">
                                 <div class="input-group">
@@ -898,11 +933,9 @@ function renderProfile(player) {
                                 </div>
                             </div>
                         </div>
-                        <div class="chart-section-content">
-                            <div id="fullProfileAppearancesPerSeasonChart" class="chart-host chart-host--overflow-visible chart-host--intrinsic player-stats-chart-container">Loading appearances chart...</div>
-                        </div>
-                    </div>
-                </section>
+                        <div id="fullProfileAppearancesPerSeasonChart" class="chart-host chart-host--overflow-visible chart-host--intrinsic player-stats-chart-container">Loading appearances chart...</div>
+                    </section>
+                </div>
 
                 <section class="full-profile-section-full chart-section" aria-labelledby="playerProfileAppearancesHeading">
                     <h2 id="playerProfileAppearancesHeading" class="section-heading">All Appearances</h2>
@@ -921,8 +954,6 @@ function renderProfile(player) {
                                 <thead>
                                     <tr>
                                         <th><button type="button" class="database-sort-button full-profile-sort-button" data-appearance-sort="date" data-appearance-label="Date"><span>Date</span></button></th>
-                                        <th><button type="button" class="database-sort-button full-profile-sort-button" data-appearance-sort="season" data-appearance-label="Season"><span>Season</span></button></th>
-                                        <th><button type="button" class="database-sort-button full-profile-sort-button" data-appearance-sort="gameType" data-appearance-label="Game Type"><span>Game Type</span></button></th>
                                         <th><button type="button" class="database-sort-button full-profile-sort-button" data-appearance-sort="competition" data-appearance-label="Competition"><span>Competition</span></button></th>
                                         <th><button type="button" class="database-sort-button full-profile-sort-button" data-appearance-sort="squad" data-appearance-label="Squad"><span>Squad</span></button></th>
                                         <th><button type="button" class="database-sort-button full-profile-sort-button" data-appearance-sort="opposition" data-appearance-label="Opposition"><span>Opposition</span></button></th>
@@ -930,26 +961,17 @@ function renderProfile(player) {
                                         <th><button type="button" class="database-sort-button full-profile-sort-button" data-appearance-sort="position" data-appearance-label="Position"><span>Position</span></button></th>
                                         <th><button type="button" class="database-sort-button full-profile-sort-button" data-appearance-sort="shirtNumber" data-appearance-label="Number"><span>Number</span></button></th>
                                         <th><button type="button" class="database-sort-button full-profile-sort-button" data-appearance-sort="result" data-appearance-label="Result"><span>Result</span></button></th>
-                                        <th>Match Data</th>
+                                        <th class="match-table-open-cell"><span class="visually-hidden">Open match</span></th>
                                     </tr>
                                 </thead>
                                 <tbody id="fullProfileAppearancesTableBody"></tbody>
                             </table>
                         </div>
                         <div class="database-pagination-bar full-profile-pagination-bar">
-                            <div class="d-flex align-items-center full-profile-page-size-wrap">
-                                <label for="fullProfileAppearancesPageSize" class="full-profile-page-size-label">Rows</label>
-                                <select id="fullProfileAppearancesPageSize" class="form-select form-select-sm full-profile-page-size-select">
-                                    <option value="10">10</option>
-                                    <option value="15">15</option>
-                                    <option value="25" selected>25</option>
-                                    <option value="50">50</option>
-                                </select>
-                            </div>
                             <div id="fullProfileAppearancesPaginationSummary" class="database-pagination-summary">0 appearances</div>
-                            <div class="btn-group btn-group-sm" role="group" aria-label="Appearances pagination">
-                                <button id="fullProfileAppearancesPrev" type="button" class="btn btn-outline-secondary">Previous</button>
-                                <button id="fullProfileAppearancesNext" type="button" class="btn btn-outline-secondary">Next</button>
+                            <div class="match-finder-pagination-controls" role="group" aria-label="Appearances pagination">
+                                <button id="fullProfileAppearancesPrev" type="button" class="btn match-finder-pagination-btn prev-btn">Previous</button>
+                                <button id="fullProfileAppearancesNext" type="button" class="btn match-finder-pagination-btn next-btn">Next</button>
                             </div>
                         </div>
                     </div>

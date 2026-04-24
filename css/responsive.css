@@ -71,14 +71,19 @@
     #page-league-tables .page-shell,
     #page-team-sheets .page-shell,
     #page-opposition-profile .page-shell,
-    #page-player-gallery .page-shell {
+    #page-player-gallery .page-shell,
+    #page-player-profile .page-shell {
         padding-left: 0.5rem;
         padding-right: 0.5rem;
     }
 
     #page-squad-stats .squad-stats-layout,
     #page-player-stats .squad-stats-layout,
-    #page-league-tables .squad-stats-layout {
+    #page-league-tables .squad-stats-layout,
+    #page-team-sheets .squad-stats-layout,
+    #page-opposition-profile .squad-stats-layout,
+    #page-player-gallery .squad-stats-layout,
+    #page-player-profile .squad-stats-layout {
         gap: 0.45rem;
     }
 

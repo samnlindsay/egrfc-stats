@@ -609,7 +609,10 @@ function resetResponsiveChartScale(embed) {
     wrapper.style.height = "";
   }
   const boundary = getResponsiveChartBoundary(embed);
-  if (boundary) boundary.style.overflowX = "";
+  if (boundary) {
+    boundary.style.overflowX = "";
+    boundary.style.overflowY = "";
+  }
 }
 
 function getResponsiveChartBoundary(embed) {
@@ -711,6 +714,7 @@ function applyResponsiveChartScale(rootElement = document) {
     // creating a scrollable whitespace gap beyond the scaled visual.
     // Clip that overflow now that the visual content fits the boundary.
     boundary.style.overflowX = "hidden";
+    boundary.style.overflowY = "hidden";
   });
 }
 

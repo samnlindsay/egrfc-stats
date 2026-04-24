@@ -43,6 +43,10 @@ squad_scale = alt.Scale(
     range=["#202947", "#146f14"]
 )
 
+FULL_PROFILE_POSITION_PALETTE_BY_RANK = ['#202946', '#7d96e8', '#146f14', '#991515', '#333333', '#000000']
+FULL_PROFILE_POSITION_BENCH_COLOR = '#6b7280'
+FULL_PROFILE_POSITION_UNKNOWN_COLOR = '#99151520'
+
 def lineout_success_by_zone(df=None, squad="1st", min_total=20, file=None):
 
     if df is None or len(df) == 0:
@@ -964,9 +968,9 @@ def player_full_profile_appearances_per_season_chart(db, output_file='data/chart
     by_position['color_mode'] = 'Position'
     by_position['color_value'] = by_position['position']
 
-    palette_by_rank = ['#202946', '#7d96e8', '#146f14', '#991515', '#333333', '#000000']
-    bench_color = '#6b7280'
-    unknown_color = '#99151520'
+    palette_by_rank = FULL_PROFILE_POSITION_PALETTE_BY_RANK
+    bench_color = FULL_PROFILE_POSITION_BENCH_COLOR
+    unknown_color = FULL_PROFILE_POSITION_UNKNOWN_COLOR
 
     position_totals = (
         by_position
@@ -1211,114 +1215,103 @@ def player_full_profile_position_donut_chart(db, output_file='data/charts/player
             player,
             COALESCE(NULLIF(position, ''), 'Unknown') AS position,
             COUNT(*) AS appearances,
-            SUM(CASE WHEN is_starter THEN 1 ELSE 0 END) AS starts
         FROM player_appearances
         GROUP BY 1, 2
         """
     ).df()
 
-    if df.empty:
-        df = pd.DataFrame(columns=['player', 'position', 'appearances', 'starts', 'sort_order', 'label', 'label_order'])
-    else:
-        df['position'] = df['position'].fillna('Unknown').astype(str).str.strip().replace({'': 'Unknown'})
-        totals = (
-            df.groupby('position', as_index=False)['appearances']
-            .sum()
-            .sort_values(['appearances', 'position'], ascending=[False, True])
-            .reset_index(drop=True)
-        )
-        sort_order_map = {row['position']: idx for idx, row in totals.iterrows()}
-        df['sort_order'] = df['position'].map(sort_order_map).fillna(999).astype(int)
-        df['label'] = df.apply(
-            lambda row: f"{row['position']} ({int(row['appearances'])})",
-            axis=1,
-        )
-        df['label_order'] = df['sort_order'] + 1
+    df['position'] = df['position'].astype(str).str.strip()
+    totals = (
+        df.groupby('position', as_index=False)['appearances']
+        .sum()
+        .sort_values(['appearances', 'position'], ascending=[False, True])
+        .reset_index(drop=True)
+    )
+    palette_by_rank = FULL_PROFILE_POSITION_PALETTE_BY_RANK
+    bench_color = FULL_PROFILE_POSITION_BENCH_COLOR
+    unknown_color = FULL_PROFILE_POSITION_UNKNOWN_COLOR
 
-    palette_by_rank = ['#202946', '#7d96e8', '#146f14', '#c48b14', '#981515', '#5b657d']
-    bench_color = '#8b93a7'
-    unknown_color = '#d7dce8'
+    regular_positions = [
+        position for position in totals['position'].tolist()
+        if position.lower() not in {'bench', 'unknown'}
+    ]
+    bench_positions = [position for position in totals['position'].tolist() if position.lower() == 'bench']
+    unknown_positions = [position for position in totals['position'].tolist() if position.lower() == 'unknown']
 
-    if not df.empty:
-        regular_positions = [
-            position for position in df.sort_values('sort_order')['position'].unique().tolist()
-            if position.lower() not in {'bench', 'unknown'}
-        ]
-        color_domain = regular_positions.copy()
-        color_range = [palette_by_rank[min(idx, len(palette_by_rank) - 1)] for idx, _ in enumerate(regular_positions)]
-        if any(df['position'].str.lower() == 'bench'):
-            color_domain.append('Bench')
-            color_range.append(bench_color)
-        if any(df['position'].str.lower() == 'unknown'):
-            color_domain.append('Unknown')
-            color_range.append(unknown_color)
-    else:
-        color_domain = ['Unknown']
-        color_range = [unknown_color]
+    color_domain = regular_positions + bench_positions + unknown_positions
+    color_range = (
+        [palette_by_rank[min(idx, len(palette_by_rank) - 1)] for idx, _ in enumerate(regular_positions)]
+        + [bench_color for _ in bench_positions]
+        + [unknown_color for _ in unknown_positions]
+    )
+
+    sort_order_map = {}
+    for idx, position in enumerate(regular_positions, start=1):
+        sort_order_map[position] = idx
+    for position in bench_positions:
+        sort_order_map[position] = 100
+    for position in unknown_positions:
+        sort_order_map[position] = 101
+
+    df['sort_order'] = df['position'].map(sort_order_map).fillna(101).astype(int)
+
+    base = alt.Chart(df).encode(
+        order=alt.Order('appearances:Q', sort='ascending'),
+        theta=alt.Theta('appearances:Q', title='Appearances', sort="descending", stack=True)
+    )
 
     arc = (
-        alt.Chart(df)
-        .mark_arc(innerRadius=62, outerRadius=108, stroke='#ffffff', strokeWidth=2)
+        base
+        .mark_arc(innerRadius=40, outerRadius=120, stroke='#ffffff', strokeWidth=2)
         .encode(
-            theta=alt.Theta('appearances:Q', title='Appearances'),
             color=alt.Color(
                 'position:N',
                 sort=alt.EncodingSortField(field='sort_order', op='min', order='ascending'),
                 scale=alt.Scale(domain=color_domain, range=color_range),
                 legend=None,
             ),
-            order=alt.Order('sort_order:Q', sort='ascending'),
             tooltip=[
                 alt.Tooltip('player:N', title='Player'),
                 alt.Tooltip('position:N', title='Position'),
                 alt.Tooltip('appearances:Q', title='Appearances'),
-                alt.Tooltip('starts:Q', title='Starts'),
             ],
         )
-        .properties(width=280, height=280)
     )
 
-    label_base = alt.Chart(df).transform_window(
-        label_row_number='row_number()',
-        sort=[alt.SortField('sort_order', order='ascending')],
-        groupby=['player'],
-    ).transform_calculate(
-        label_y='datum.label_row_number - 1'
-    )
-
-    label_swatches = label_base.mark_point(filled=True, shape='circle', size=180).encode(
-        y=alt.Y('label_y:Q', axis=None, title=None),
-        color=alt.Color(
-            'position:N',
-            sort=alt.EncodingSortField(field='sort_order', op='min', order='ascending'),
-            scale=alt.Scale(domain=color_domain, range=color_range),
-            legend=None,
-        ),
-        tooltip=[
-            alt.Tooltip('position:N', title='Position'),
-            alt.Tooltip('appearances:Q', title='Appearances'),
-            alt.Tooltip('starts:Q', title='Starts'),
-        ],
-    ).properties(width=18, height=280)
-
-    label_text = label_base.mark_text(
-        align='left',
-        baseline='middle',
-        dx=0,
-        fontSize=12,
-        color='#202946',
+    position_labels = base.mark_text(
+        font='PT Sans Narrow',
+        fontSize=18,
         fontWeight='bold',
+        radius=145,
+        dy=-5
     ).encode(
-        y=alt.Y('label_y:Q', axis=None, title=None),
-        text=alt.Text('label:N'),
-    ).properties(width=170, height=280)
+        color=alt.Color('position:N', scale=alt.Scale(domain=color_domain, range=color_range), legend=None),
+        text=alt.Text('position_label:N'),
+        opacity=alt.condition("datum.appearances > 2", alt.value(1), alt.value(0))
+    ).transform_calculate(
+        position_label="split(datum.position, ' ')"
+    )
 
-    chart = alt.hconcat(
-        arc,
-        label_swatches,
-        label_text,
-        spacing=8,
-    ).resolve_scale(color='shared').configure_view(strokeWidth=0)
+    count_labels = base.mark_text(
+        fontSize=18,
+        color='white',
+        radius=80
+    ).encode(
+        text=alt.Text('appearances:N')
+    )
+
+    chart = (
+        arc + position_labels + count_labels
+    ).resolve_scale(
+        color='shared'
+    ).configure_view(
+        strokeWidth=0
+    ).configure(
+        background='#f2f1f4'
+    ).properties(
+        title="Position"
+    )
+
 
     chart.save(output_file)
     return chart
@@ -1331,7 +1324,7 @@ def player_full_profile_career_timeline_chart(db, output_file='data/charts/playe
       • Appearance milestones (debut, 25/50/100 club + 1st XV, last game)
         joined by a subtle horizontal connecting line.
       • Event milestones (first try, first 1st XV try, first captaincy,
-        first 1st XV captaincy, first MOTM) offset above the appearance track.
+        first 1st XV captaincy, MOTM) offset above the appearance track.
     """
     appearances_df = db.con.execute(
         """
@@ -1505,7 +1498,7 @@ def player_full_profile_career_timeline_chart(db, output_file='data/charts/playe
             motm_val = game.get('motm')
             if motm_val and pd.notna(motm_val) and clean_name(str(motm_val)) == player_key:
                 g = game
-                add_event('motm', 'First Man of the Match', 'event',
+                add_event('motm', 'Man of the Match', 'event',
                           g['date'], f"v {g['opposition']} ({g['home_away']})",
                           '', g['game_id'], g.get('result'), g.get('score_for'), g.get('score_against'))
                 break
@@ -1528,29 +1521,28 @@ def player_full_profile_career_timeline_chart(db, output_file='data/charts/playe
         ).fillna('Club')
         # row_y: 1 = appearance track (lower, near x-axis), 0 = event track (upper)
         timeline_df['row_y'] = timeline_df['row_type'].map({'appearance': 1, 'event': 0}).fillna(0)
-
         event_style_map = {
             # ── Appearance milestones ─────────────────────────────────────
             'debut':             {'symbol_text': '1',   'fill': '#ffffff', 'stroke': '#202946', 'text_color': '#202946'},
             'first_xv_debut':    {'symbol_text': '1',   'fill': '#202946', 'stroke': '#7d96e8', 'text_color': '#ffffff'},
-            'milestone_25':      {'symbol_text': '25',  'fill': '#c6894a', 'stroke': 'none',    'text_color': '#3d230f'},
-            'milestone_50':      {'symbol_text': '50',  'fill': '#b9c2cf', 'stroke': 'none',    'text_color': '#1f2833'},
-            'milestone_100':     {'symbol_text': '100', 'fill': '#c6894a', 'stroke': 'none',    'text_color': '#4a3500'},
+            'milestone_25':      {'symbol_text': '25',  'fill': '#c6894a', 'stroke': 'transparent',    'text_color': '#3d230f'},
+            'milestone_50':      {'symbol_text': '50',  'fill': '#b9c2cf', 'stroke': 'transparent',    'text_color': '#1f2833'},
+            'milestone_100':     {'symbol_text': '100', 'fill': '#c6894a', 'stroke': 'transparent',    'text_color': '#4a3500'},
             'milestone_25_1st':  {'symbol_text': '25',  'fill': '#c6894a', 'stroke': '#9f6b37', 'text_color': '#3d230f'},
             'milestone_50_1st':  {'symbol_text': '50',  'fill': '#b9c2cf', 'stroke': '#8e98a8', 'text_color': '#1f2833'},
             'milestone_100_1st': {'symbol_text': '100', 'fill': '#c6894a', 'stroke': '#d39d00', 'text_color': '#4a3500'},
             'last_game':         {'symbol_text': '',    'fill': '#ffffff', 'stroke': '#000000', 'text_color': '#000000'},
             # ── Event milestones ──────────────────────────────────────────
-            'first_try':         {'symbol_text': 'T',  'fill': '#991515', 'stroke': 'none',    'text_color': '#991515'},
-            'first_xv_try':      {'symbol_text': 'T',  'fill': '#991515', 'stroke': 'none',    'text_color': '#991515'},
-            'first_captaincy':   {'symbol_text': 'C',  'fill': '#7d96e8', 'stroke': 'none',    'text_color': '#7d96e8'},
-            'motm':              {'symbol_text': '',    'fill': '#c6894a', 'stroke': '#d39d00', 'text_color': ''},
+            'first_try':         {'symbol_text': 'T',  'fill': '#991515', 'stroke': 'transparent',    'text_color': '#991515'},
+            'first_xv_try':      {'symbol_text': 'T',  'fill': '#991515', 'stroke': 'transparent',    'text_color': '#991515'},
+            'first_captaincy':   {'symbol_text': 'C',  'fill': '#7d96e8', 'stroke': 'transparent',    'text_color': '#7d96e8'},
+            'motm':              {'symbol_text': '',    'fill': '#c6894a', 'stroke': '#202946', 'text_color': '#c6894a'},
         }
-
         timeline_df['symbol_text']       = timeline_df['event_key'].map(lambda k: event_style_map.get(k, {}).get('symbol_text', ''))
         timeline_df['symbol_fill']       = timeline_df['event_key'].map(lambda k: event_style_map.get(k, {}).get('fill', '#202946'))
         timeline_df['symbol_stroke']     = timeline_df['event_key'].map(lambda k: event_style_map.get(k, {}).get('stroke', 'none'))
         timeline_df['symbol_text_color'] = timeline_df['event_key'].map(lambda k: event_style_map.get(k, {}).get('text_color', ''))
+        timeline_df['symbol_shape']      = timeline_df['event_key'].map(lambda k: 'M-.5206-6.2483-.3929-6.5554-.277-6.834C-.1745-7.0804.1745-7.0804.277-6.834L.3929-6.5554.5206-6.2483.5415-6.198 1.9134-2.8996C1.9566-2.7957 2.0543-2.7248 2.1664-2.7158L5.7274-2.4303 5.7816-2.426 6.1132-2.3994 6.414-2.3753C6.68-2.354 6.7878-2.022 6.5852-1.8484L6.356-1.6521 6.1034-1.4357 6.062-1.4003 3.349.9237C3.2636.9969 3.2263 1.1117 3.2524 1.2211L4.0812 4.6959 4.0939 4.7489 4.171 5.0724 4.2411 5.3659C4.303 5.6255 4.0206 5.8307 3.7929 5.6916L3.5354 5.5343 3.2515 5.3609 3.205 5.3325.1564 3.4704C.0604 3.4118-.0603 3.4118-.1563 3.4704L-3.2049 5.3325-3.2514 5.3609-3.5352 5.5343-3.7927 5.6916C-4.0204 5.8307-4.3028 5.6255-4.2409 5.3659L-4.1709 5.0724-4.0937 4.7489-4.0811 4.6959-3.2522 1.2211C-3.2261 1.1117-3.2634.9968-3.3488.9237L-6.0618-1.4003-6.1032-1.4357-6.3558-1.6521-6.585-1.8484C-6.7877-2.022-6.6798-2.354-6.4138-2.3753L-6.113-2.3994-5.7815-2.426-5.7272-2.4303-2.1663-2.7158C-2.0542-2.7248-1.9565-2.7958-1.9133-2.8996L-.5414-6.198-.5205-6.2483Z' if k == 'motm' else 'circle')   
 
     # ── Chart ─────────────────────────────────────────────────────────────
     tooltip_encoding = [
@@ -1561,7 +1553,6 @@ def player_full_profile_career_timeline_chart(db, output_file='data/charts/playe
         alt.Tooltip('result_label:N',     title='Result'),
         alt.Tooltip('squad_label:N',      title='Squad'),
     ]
-
     year_axis = alt.Axis(
         format='%Y',
         grid=False,
@@ -1572,41 +1563,40 @@ def player_full_profile_career_timeline_chart(db, output_file='data/charts/playe
         labelFontSize=18,
         domainWidth=3,
         tickWidth=2,
+        title=None
+    )
+    # y scale: row_y=1 → appearance track (lower), row_y=0 → event track (upper)
+    y_enc = alt.Y(
+        'row_type:N', 
+        scale=alt.Scale(
+            domain=['event', 'appearance'], 
+            range=[0, 1]
+        ), 
+        axis=alt.Axis(title=None, values=['event', 'appearance'], labels=False, ticks=False, domain=False)  
     )
 
-    # y scale: row_y=1 → appearance track (lower), row_y=0 → event track (upper)
-    y_scale = alt.Scale(domain=[-0.35, 1.45])
-    y_enc   = alt.Y('row_y:Q', scale=y_scale, axis=None)
-
-    source = alt.Chart(timeline_df)
+    source = alt.Chart(timeline_df).encode(
+        x=alt.X('date:T', axis=year_axis),
+        y=alt.Y('row_type:N', axis=None),
+        tooltip=tooltip_encoding,
+    )
 
     # Connecting line through appearance milestones (debut → last_game)
     connecting_line = (
         source
         .transform_filter(alt.datum.row_type == 'appearance')
-        .mark_line(color='rgba(100,140,200,0.75)', strokeWidth=2, opacity=1)
-        .encode(
-            x=alt.X('date:T', title=None, axis=year_axis),
-            y=y_enc,
-            detail=alt.Detail('player:N'),
-            order=alt.Order('event_sort:Q'),
-        )
+        .mark_line(color='#202946', strokeWidth=5, opacity=0.1)
     )
-
     # Circles for appearance milestones
     appearance_circles = (
         source
         .transform_filter(alt.datum.row_type == 'appearance')
         .mark_point(filled=True, shape='circle', size=600, strokeWidth=2.2, opacity=1)
         .encode(
-            x=alt.X('date:T', title=None, axis=None),
-            y=y_enc,
             color=alt.Color('symbol_fill:N', scale=None, legend=None),
-            stroke=alt.Stroke('symbol_stroke:N', scale=None, legend=None),
-            tooltip=tooltip_encoding,
+            stroke=alt.Stroke('symbol_stroke:N', scale=None, legend=None)
         )
     )
-
     # Numbers/label inside circles
     circle_text = (
         source
@@ -1618,14 +1608,10 @@ def player_full_profile_career_timeline_chart(db, output_file='data/charts/playe
             font='PT Sans Narrow', fontWeight='bold', fontSize=13,
         )
         .encode(
-            x=alt.X('date:T', title=None, axis=None),
-            y=y_enc,
             text=alt.Text('symbol_text:N'),
             color=alt.Color('symbol_text_color:N', scale=None, legend=None),
-            tooltip=tooltip_encoding,
         )
     )
-
     # Bold letter glyphs for event milestones (T, C)
     event_letters = (
         source
@@ -1637,11 +1623,8 @@ def player_full_profile_career_timeline_chart(db, output_file='data/charts/playe
             font='PT Sans Narrow', fontWeight='bold', fontSize=20,
         )
         .encode(
-            x=alt.X('date:T', title=None, axis=None),
-            y=y_enc,
             text=alt.Text('symbol_text:N'),
             color=alt.Color('symbol_text_color:N', scale=None, legend=None),
-            tooltip=tooltip_encoding,
         )
     )
 
@@ -1649,83 +1632,40 @@ def player_full_profile_career_timeline_chart(db, output_file='data/charts/playe
     motm_stars = (
         source
         .transform_filter(alt.datum.event_key == 'motm')
-        .mark_point(shape='star', filled=True, size=350, strokeWidth=2, opacity=1)
+        .mark_point(size=10, strokeWidth=1, opacity=1)
         .encode(
-            x=alt.X('date:T', title=None, axis=None),
-            y=y_enc,
-            color=alt.Color('symbol_fill:N', scale=None, legend=None),
+            fill=alt.Color('symbol_fill:N', scale=None, legend=None),
             stroke=alt.Stroke('symbol_stroke:N', scale=None, legend=None),
-            tooltip=tooltip_encoding,
+            shape=alt.Shape('symbol_shape:N', scale=None, legend=None)
+
         )
     )
-
     # Diagonal detail labels (match reference, e.g. "v Horsham (A)")
     detail_text = (
         source
-        .transform_filter(alt.datum.row_type == 'appearance')
         .mark_text(
-            align='center', baseline='bottom', angle=0, color='#4a5568',
-            font='PT Sans Narrow', fontSize=9, dx=0, dy=-22,
+            align='left', baseline='bottom', angle=300, color='#4a5568',
+            font='PT Sans Narrow', fontSize=12,
+            yOffset=-15, xOffset=15,
         )
         .encode(
-            x=alt.X('date:T', title=None, axis=None),
-            y=y_enc,
             text=alt.Text('detail:N'),
-            tooltip=tooltip_encoding,
+            color=alt.Color('symbol_text_color:N', scale=None, legend=None)
         )
     )
-
     chart = (
         alt.layer(
-            connecting_line, appearance_circles, circle_text,
-            event_letters, motm_stars, detail_text,
+            connecting_line, 
+            appearance_circles, 
+            circle_text,
+            event_letters, 
+            motm_stars, 
+            detail_text,
         )
-        .properties(width=750, height=280)
-        .configure_axis(
-            labelFont='PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif',
-            titleFont='PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif',
-            labelFontSize=13,
-            titleFontSize=24,
-            gridColor='#202947',
-            gridOpacity=0.2,
-            zindex=1,
-        )
-        .configure_axisX(labelAngle=0)
-        .configure_text(font='Lato, sans-serif')
-        .configure_header(
-            labelFont='PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif',
-            titleFont='PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif',
-            labelFontSize=24,
-            titleFontSize=28,
-            labelFontWeight='bold',
-            orient='left',
-        )
-        .configure_legend(
-            labelFont='PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif',
-            titleFont='PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif',
-            labelFontSize=14,
-            titleFontSize=16,
-            titlePadding=5,
-            fillColor='white',
-            strokeColor='black',
-            padding=10,
-            titleFontWeight='lighter',
-            titleFontStyle='italic',
-            titleColor='gray',
-            offset=10,
-        )
-        .configure_title(
-            font='PT Sans Narrow, Helvetica Neue, Helvetica, Arial, sans-serif',
-            fontSize=48,
-            fontWeight='bold',
-            anchor='start',
-            align='center',
-            offset=15,
-            color='black',
-            subtitleFontSize=13,
-            subtitleFontStyle='italic',
-        )
-        .configure(background='#f2f1f4', view={'strokeWidth': 0})
+        .properties(width='container', height=60)
+        .resolve_scale(y='shared', x='shared', shape='independent')
+        .configure_view(strokeWidth=0)
+        .configure(background='#f2f1f4')
     )
 
     chart.save(output_file)
