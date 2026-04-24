@@ -14,7 +14,7 @@ let fullProfilePositionDonutSpec = null;
 let fullProfileCareerTimelineSpec = null;
 let fullProfileAppearanceRows = [];
 let fullProfileSortState = { key: 'date', direction: 'desc' };
-let fullProfilePaginationState = { page: 1, pageSize: 25 };
+let fullProfilePaginationState = { page: 1, pageSize: 10 };
 let fullProfileTableSearch = '';
 
 function escapeHtml(value) {
@@ -560,8 +560,7 @@ function renderAppearanceTable() {
 }
 
 function renderAppearancesPerSeasonChart(playerName) {
-    const chartColorBy = document.getElementById('fullProfileChartColorBy');
-    const colorByValue = String(chartColorBy?.value || 'Squad');
+    const colorByValue = String(document.querySelector('input[name="fullProfileColorBy"]:checked')?.value || 'Squad');
     const selectedSpec = fullProfileAppearancesBySeasonSpecs[colorByValue] || null;
     if (!selectedSpec) {
         renderStaticSpecChart(
@@ -714,21 +713,11 @@ function renderCareerTimelineChart(playerName) {
 }
 
 function bindAppearancePanelControls(playerName) {
-    const colorBySelect = document.getElementById('fullProfileChartColorBy');
-    if (colorBySelect) {
-        const useSelectPicker = rebuildBootstrapSelect(colorBySelect);
-        if (useSelectPicker) {
-            window.jQuery(colorBySelect)
-                .off('changed.bs.select.fullProfileColorBy')
-                .on('changed.bs.select.fullProfileColorBy', () => {
-                    renderAppearancesPerSeasonChart(playerName);
-                });
-        } else {
-            colorBySelect.addEventListener('change', () => {
-                renderAppearancesPerSeasonChart(playerName);
-            });
-        }
-    }
+    document.querySelectorAll('input[name="fullProfileColorBy"]').forEach(radio => {
+        radio.addEventListener('change', () => {
+            renderAppearancesPerSeasonChart(playerName);
+        });
+    });
     const tableHost = document.getElementById('fullProfileAppearancesTable');
     if (tableHost) {
         tableHost.addEventListener('click', event => {
@@ -814,7 +803,7 @@ function renderProfile(player) {
 
     fullProfileAppearanceRows = buildAppearanceRows(history);
     fullProfileSortState = { key: 'date', direction: 'desc' };
-    fullProfilePaginationState = { page: 1, pageSize: 25 };
+    fullProfilePaginationState = { page: 1, pageSize: 10};
     fullProfileTableSearch = '';
 
     const scoringParts = [];
@@ -873,14 +862,17 @@ function renderProfile(player) {
                     }
                 </div>
             </div>
-
-            <section class="full-profile-timeline-section" aria-labelledby="playerProfileCareerTimelineHeading">
-                <div id="playerProfileCareerTimelineHeading" class="full-profile-section-title">Career Timeline</div>
+            
+            <div class="full-profile-sections-grid full-profile-sections-grid--body">
+            <section class="full-profile-section-full chart-section" aria-labelledby="playerProfileCareerTimelineHeading">
+                    <div class="chart-section-block chart-section-block--panel full-profile-table-card">
+                    <h2 id="playerProfileCareerTimelineHeading" class="full-profile-section-title">Career Timeline</h2>
+                    <p class="section-intro">Key milestones and events across the player's career</p>
                 <div id="fullProfileCareerTimelineChart" class="chart-host chart-host--intrinsic full-profile-timeline-chart">Loading career timeline...</div>
                 <div id="fullProfileCareerTimelineLegend" class="full-profile-timeline-legend"></div>
+                </div>
             </section>
 
-            <div class="full-profile-sections-grid full-profile-sections-grid--body">
                 <div class="full-profile-sections-column">
                     <section class="full-profile-section-block">
                         <div class="full-profile-section-title">Career Summary</div>
@@ -927,14 +919,14 @@ function renderProfile(player) {
                         <div id="playerProfileSeasonAppsHeading" class="full-profile-section-title">Appearances Per Season</div>
                         <p class="full-profile-copy-line">Visual breakdown of appearances across seasons with interactive colour options.</p>
                         <div class="chart-section-head">
-                            <div class="filter-item league-season-picker full-profile-chart-filter-item">
-                                <div class="input-group">
-                                    <span class="input-group-text">Colour By</span>
-                                    <select id="fullProfileChartColorBy" class="selectpicker form-control flex-fill" data-size="8" title="Colour By" aria-label="Colour appearances chart by">
-                                        <option value="Squad" selected>Squad</option>
-                                        <option value="Result">Result</option>
-                                        <option value="Position">Position</option>
-                                    </select>
+                            <div class="filter-item full-profile-chart-filter-item">
+                                <div class="btn-group btn-group-sm" role="group" aria-label="Colour appearances chart by">
+                                    <input type="radio" class="btn-check" name="fullProfileColorBy" id="fullProfileColorBySquad" value="Squad" checked autocomplete="off">
+                                    <label class="btn btn-filter-segment" for="fullProfileColorBySquad">Squad</label>
+                                    <input type="radio" class="btn-check" name="fullProfileColorBy" id="fullProfileColorByResult" value="Result" autocomplete="off">
+                                    <label class="btn btn-filter-segment" for="fullProfileColorByResult">Result</label>
+                                    <input type="radio" class="btn-check" name="fullProfileColorBy" id="fullProfileColorByPosition" value="Position" autocomplete="off">
+                                    <label class="btn btn-filter-segment" for="fullProfileColorByPosition">Position</label>
                                 </div>
                             </div>
                         </div>
@@ -943,9 +935,9 @@ function renderProfile(player) {
                 </div>
 
                 <section class="full-profile-section-full chart-section" aria-labelledby="playerProfileAppearancesHeading">
-                    <h2 id="playerProfileAppearancesHeading" class="section-heading">All Appearances</h2>
-                    <p class="section-intro">Complete appearance history with search, sorting by any column, and pagination control.</p>
                     <div class="chart-section-block chart-section-block--panel full-profile-table-card">
+                    <h2 id="playerProfileAppearancesHeading" class="full-profile-section-title">All Appearances</h2>
+                    <p class="section-intro">Complete appearance history with search, sorting by any column, and pagination control.</p>
                         <div class="chart-panel-filters full-profile-table-filters">
                             <div class="filter-item database-search-item full-profile-table-filter-item">
                                 <div class="input-group">

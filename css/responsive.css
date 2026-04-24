@@ -1269,6 +1269,7 @@
     .btn-group .btn {
         font-size: 0.7rem;
         padding: 0.25rem 0.1rem;
+        height: min-content;
     }
 
     .league-season-picker {

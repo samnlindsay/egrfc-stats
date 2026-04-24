@@ -625,10 +625,6 @@
     padding: 0.5rem 0.5rem;
 }
 
-.full-profile-timeline-section {
-    padding: 0.5rem 0.5rem 0;
-}
-
 .full-profile-sections-column {
     display: flex;
     flex-direction: column;
@@ -654,18 +650,16 @@
 
 .full-profile-section-full {
     grid-column: 1 / -1;
-    margin-top: 1.5rem;
+    margin-top: 1rem;
 }
 
-.full-profile-section-full > .section-heading {
-    margin-bottom: 0.35rem;
+.full-profile-section-full > .full-profile-section-title {
     font-size: 1.45rem;
 }
 
 .full-profile-section-full > .section-intro {
     font-size: 0.95rem;
     color: #666;
-    margin-bottom: 1rem;
 }
 
 .full-profile-chart-filters {
@@ -699,6 +693,8 @@
     width: 100%;
     min-width: 300px;
     max-width: 900px;
+    background: transparent !important;
+    border: 0 !important;
 }
 
 #fullProfileAppearancesSearch {
@@ -714,8 +710,15 @@
 }
 
 .full-profile-inline-chart {
+    width: 100%;
     min-height: 280px;
-    background: #f2f1f4;
+    background: transparent;
+}
+
+#fullProfilePositionDonutChart {
+    width: 100% !important;
+    background: transparent !important;
+    border: 0 !important;
 }
 
 .full-profile-timeline-chart {
@@ -729,11 +732,12 @@
 
 .full-profile-timeline-legend {
     margin-top: 0.45rem;
+    margin-left: auto;
     display: flex;
     flex-wrap: wrap;
     gap: 0.35rem;
     width: fit-content;
-
+    justify-content: flex-end;
 }
 
 .full-profile-timeline-legend-block {
@@ -4887,6 +4891,48 @@ table tbody tr:hover {
     gap: 0.35rem;
 }
 
+/* Standard btn-check radio button style — use .btn-filter-segment on the <label> */
+.btn-filter-segment {
+    border: 1px solid #c9d3f2;
+    border-radius: 0 !important;
+    background: #fff;
+    color: #25325f;
+    font-family: 'PT Sans Narrow', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    padding: 0.3rem 0.75rem;
+    transition: all 0.15s ease;
+}
+
+.btn-filter-segment:nth-child(2) {
+    border-top-left-radius: 0.6rem !important;
+    border-bottom-left-radius: 0.6rem !important;
+}
+
+.btn-filter-segment:last-child {
+    border-top-right-radius: 0.6rem !important;
+    border-bottom-right-radius: 0.6rem !important;
+}
+
+.btn-check:checked + .btn-filter-segment,
+.btn-check:active + .btn-filter-segment {
+    border-color: #202946;
+    background: #202946;
+    color: #f4f6ff;
+}
+
+.btn-check:focus + .btn-filter-segment {
+    outline: 2px solid #7d96e8;
+    outline-offset: 2px;
+    box-shadow: none;
+}
+
+.btn-filter-segment:hover {
+    border-color: #202946;
+    background: #eef1fc;
+    color: #202946;
+}
+
 .squad-filter-segment-btn {
     min-height: 2.5rem;
     border: 1px solid #c9d3f2;
@@ -6101,10 +6147,6 @@ button.opposition-hero-action-card:focus-visible {
 .chart-section > .section-heading,
 .chart-section > .section-intro {
     margin-bottom: 0.5rem;
-}
-
-.chart-section-block {
-    margin-bottom: 1.5rem;
 }
 
 .chart-section-block--panel {

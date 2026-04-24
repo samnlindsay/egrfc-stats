@@ -1082,6 +1082,12 @@ def player_full_profile_appearances_per_season_chart(db, output_file='data/chart
                 width=400,
                 height=alt.Step(30),
             )
+            .configure_view(
+                strokeWidth=0
+            )
+            .configure(
+                background='transparent'
+            )
         )
 
     def build_position_chart():
@@ -1153,6 +1159,12 @@ def player_full_profile_appearances_per_season_chart(db, output_file='data/chart
                 title=alt.Title('Appearances Breakdown', subtitle='Games per season, coloured by position'),
                 width=400,
                 height=alt.Step(30),
+            )
+            .configure_view(
+                strokeWidth=0
+            )
+            .configure(
+                background='transparent'
             )
         )
 
@@ -1307,9 +1319,11 @@ def player_full_profile_position_donut_chart(db, output_file='data/charts/player
     ).configure_view(
         strokeWidth=0
     ).configure(
-        background='#f2f1f4'
+        background='transparent'
     ).properties(
-        title="Position"
+        title="Position",
+        width=300,
+        height=300
     )
 
 
