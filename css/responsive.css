@@ -80,10 +80,7 @@
     #page-squad-stats .squad-stats-layout,
     #page-player-stats .squad-stats-layout,
     #page-league-tables .squad-stats-layout,
-    #page-team-sheets .squad-stats-layout,
-    #page-opposition-profile .squad-stats-layout,
-    #page-player-gallery .squad-stats-layout,
-    #page-player-profile .squad-stats-layout {
+    #page-team-sheets .squad-stats-layout {
         gap: 0.45rem;
     }
 
@@ -180,6 +177,40 @@
     #page-player-profile .player-gallery-captain-apps,
     #page-player-profile .player-gallery-captain-empty {
         font-size: 0.8rem;
+    }
+
+    #page-player-profile .full-profile-shell {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: clip;
+    }
+
+    #page-player-profile .full-profile-sections-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 0.75rem;
+    }
+
+    #page-player-profile .full-profile-sections-grid--body {
+        padding: 0.5rem;
+    }
+
+    #page-player-profile .full-profile-sections-column,
+    #page-player-profile .full-profile-section-full {
+        min-width: 0;
+    }
+
+    #page-player-profile .full-profile-section-full {
+        grid-column: 1;
+        margin-top: 1rem;
+    }
+
+    #page-player-profile .full-profile-timeline-legend-groups {
+        flex-wrap: wrap;
+        gap: 0.35rem;
+    }
+
+    #page-player-profile .full-profile-timeline-legend-group {
+        flex: 1 1 100%;
     }
 
     #page-player-stats .position-picker__columns {

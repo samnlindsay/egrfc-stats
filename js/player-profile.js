@@ -624,23 +624,27 @@ function fullProfileMilestoneLegendHtml() {
         `<span class="full-profile-timeline-event-glyph" style="color:${color}" aria-hidden="true" title="${escapeAttribute(title)}">${letter}</span>`;
 
     return `
-        <div class="match-team-sheet-legend full-profile-timeline-legend-block" aria-label="Timeline milestone key">
-            <h4 class="match-team-sheet-legend-title">Appearance milestones</h4>
-            <div class="match-team-sheet-legend-row">
-                <span class="match-team-sheet-legend-scopes">Club<br><strong>1st XV</strong></span>
-                <span class="match-team-sheet-legend-item">${pairedIcon('match-team-sheet-milestone--debut', '1', 'debut')}<span class="match-team-sheet-legend-text">Debut</span></span>
-                <span class="match-team-sheet-legend-item">${pairedIcon('match-team-sheet-milestone--25', '25', '25th appearance')}<span class="match-team-sheet-legend-text">25th</span></span>
-                <span class="match-team-sheet-legend-item">${pairedIcon('match-team-sheet-milestone--50', '50', '50th appearance')}<span class="match-team-sheet-legend-text">50th</span></span>
-                <span class="match-team-sheet-legend-item">${pairedIcon('match-team-sheet-milestone--100', '100', '100th appearance')}<span class="match-team-sheet-legend-text">100th</span></span>
-                <span class="match-team-sheet-legend-item">${icon('match-team-sheet-milestone--last', '', '')}<span class="match-team-sheet-legend-text">Latest</span></span>
-            </div>
-        </div>
-        <div class="match-team-sheet-legend full-profile-timeline-legend-block" aria-label="Event milestone key">
-            <h4 class="match-team-sheet-legend-title">Other events</h4>
-            <div class="match-team-sheet-legend-row full-profile-timeline-event-row">
-                <span class="match-team-sheet-legend-item">${eventGlyph('T', '#991515', 'First try')}<span class="match-team-sheet-legend-text">1st try</span></span>
-                <span class="match-team-sheet-legend-item">${eventGlyph('C', '#7d96e8', 'First captaincy')}<span class="match-team-sheet-legend-text">1st captain</span></span>
-                <span class="match-team-sheet-legend-item"><span class="full-profile-timeline-event-glyph full-profile-timeline-event-glyph--star" aria-hidden="true" title="First Man of the Match">★</span><span class="match-team-sheet-legend-text">MOTM</span></span>
+        <div class="match-team-sheet-legend full-profile-timeline-legend-block full-profile-timeline-legend-block--combined" aria-label="Timeline milestone and event key">
+            <div class="full-profile-timeline-legend-groups">
+                <div class="full-profile-timeline-legend-group full-profile-timeline-legend-group--appearance">
+                    <h4 class="match-team-sheet-legend-title">Appearance milestones</h4>
+                    <div class="match-team-sheet-legend-row full-profile-timeline-appearance-row">
+                        <span class="match-team-sheet-legend-scopes">Club<br><strong>1st XV</strong></span>
+                        <span class="match-team-sheet-legend-item">${pairedIcon('match-team-sheet-milestone--debut', '1', 'debut')}<span class="match-team-sheet-legend-text">Debut</span></span>
+                        <span class="match-team-sheet-legend-item">${pairedIcon('match-team-sheet-milestone--25', '25', '25th appearance')}<span class="match-team-sheet-legend-text">25th</span></span>
+                        <span class="match-team-sheet-legend-item">${pairedIcon('match-team-sheet-milestone--50', '50', '50th appearance')}<span class="match-team-sheet-legend-text">50th</span></span>
+                        <span class="match-team-sheet-legend-item">${pairedIcon('match-team-sheet-milestone--100', '100', '100th appearance')}<span class="match-team-sheet-legend-text">100th</span></span>
+                        <span class="match-team-sheet-legend-item">${icon('match-team-sheet-milestone--last', '', '')}<span class="match-team-sheet-legend-text">Latest</span></span>
+                    </div>
+                </div>
+                <div class="full-profile-timeline-legend-group full-profile-timeline-legend-group--events">
+                    <h4 class="match-team-sheet-legend-title">Other events</h4>
+                    <div class="match-team-sheet-legend-row full-profile-timeline-event-row">
+                        <span class="match-team-sheet-legend-item">${eventGlyph('T', '#991515', 'First try')}<span class="match-team-sheet-legend-text">1st try</span></span>
+                        <span class="match-team-sheet-legend-item">${eventGlyph('C', '#7d96e8', 'First captaincy')}<span class="match-team-sheet-legend-text">1st captain</span></span>
+                        <span class="match-team-sheet-legend-item"><span class="full-profile-timeline-event-glyph full-profile-timeline-event-glyph--star" aria-hidden="true" title="First Man of the Match">★</span><span class="match-team-sheet-legend-text">MOTM</span></span>
+                    </div>
+                </div>
             </div>
         </div>
     `;
@@ -696,6 +700,7 @@ function renderCareerTimelineChart(playerName) {
         filteredSpec,
         'No career milestones available for this player yet.',
         {
+            actions: false,
             // Always allow fitting to container width on small screens.
             responsiveScaleMin: 0.01,
             responsiveScaleMinXs: 0.01,

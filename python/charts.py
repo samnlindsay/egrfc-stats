@@ -1665,7 +1665,7 @@ def player_full_profile_career_timeline_chart(db, output_file='data/charts/playe
         .properties(width='container', height=60)
         .resolve_scale(y='shared', x='shared', shape='independent')
         .configure_view(strokeWidth=0)
-        .configure(background='#f2f1f4')
+        .configure(background='transparent')
     )
 
     chart.save(output_file)

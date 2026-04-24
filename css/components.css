@@ -720,9 +720,9 @@
 
 .full-profile-timeline-chart {
     width: 100%;
-    background: #f2f1f4;
+    background: transparent;
     border-radius: 0.5rem;
-    border: 1px solid rgba(32, 41, 70, 0.08);
+    border: 0 !important;
     overflow-y: clip;
     overflow-x: clip;
 }
@@ -732,6 +732,8 @@
     display: flex;
     flex-wrap: wrap;
     gap: 0.35rem;
+    width: fit-content;
+
 }
 
 .full-profile-timeline-legend-block {
@@ -739,6 +741,35 @@
     min-width: 0;
     border-radius: 0.6rem;
     border: 1px solid #dbe2f4;
+}
+
+.full-profile-timeline-legend-block--combined {
+    width: 100%;
+}
+
+.full-profile-timeline-legend-groups {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: start;
+    gap: 3rem;
+}
+
+.full-profile-timeline-legend-group {
+    min-width: 0;
+}
+
+.full-profile-timeline-appearance-row {
+    flex-wrap: nowrap;
+    align-items: flex-end;
+    justify-content: flex-start;
+    gap: 0.22rem;
+}
+
+.full-profile-timeline-event-row {
+    flex-wrap: nowrap;
+    align-items: flex-end;
+    justify-content: flex-start;
+    gap: 0.22rem;
 }
 
 /* "Last appearance" milestone — white circle with black border */
@@ -775,6 +806,82 @@
 .full-profile-timeline-event-row .match-team-sheet-legend-item {
     flex-direction: column-reverse;
     gap: 0.14rem;
+}
+
+@media (max-width: 900px) {
+
+    .full-profile-timeline-legend {
+        width: 100%;
+    }
+
+    .full-profile-tu
+
+    .full-profile-timeline-legend-block--combined {
+        padding: 0.5rem 0.75rem !important;
+    }
+
+    .full-profile-timeline-legend-block--combined .match-team-sheet-legend-title {
+        margin-bottom: 0.12rem;
+        font-size: 0.6rem;
+        letter-spacing: 0.05em;
+    }
+
+    .full-profile-timeline-legend-groups {
+        gap: 3rem !important;
+        flex-wrap: nowrap !important;
+    }
+
+    .full-profile-timeline-appearance-row, .full-profile-timeline-event-row {
+        gap: 0.4rem !important;
+        width: max-content;
+    }
+
+    .full-profile-timeline-appearance-row .match-team-sheet-legend-item,
+    .full-profile-timeline-event-row .match-team-sheet-legend-item {
+        gap: 0.02rem !important;
+    }
+
+    .full-profile-timeline-appearance-row .match-team-sheet-legend-text,
+    .full-profile-timeline-event-row .match-team-sheet-legend-text {
+        font-size: 0.6rem;
+        line-height: 1;
+    }
+
+    .full-profile-timeline-appearance-row .match-team-sheet-legend-pair {
+        width: 1.1rem;
+        height: 1rem;
+    }
+
+    .full-profile-timeline-appearance-row .match-team-sheet-legend-pair-icon--first-xv {
+        left: 0.3rem;
+        top: 0.24rem;
+    }
+
+    .full-profile-timeline-appearance-row .match-team-sheet-milestone,
+    .full-profile-timeline-appearance-row .match-team-sheet-milestone--last,
+    .full-profile-timeline-event-row .full-profile-timeline-event-glyph {
+        width: 0.82rem;
+        height: 0.82rem;
+        font-size: 0.68rem;
+    }
+
+    .full-profile-timeline-appearance-row .match-team-sheet-milestone--100 .match-team-sheet-milestone-text {
+        font-size: 0.34rem;
+    }
+
+    .full-profile-timeline-appearance-row .match-team-sheet-milestone-text {
+        font-size: 0.36rem;
+    }
+
+    .full-profile-timeline-appearance-row .match-team-sheet-legend-scopes {
+        font-size: 0.55rem;
+        min-width: 2.05rem;
+        line-height: 0.84;
+    }
+
+    .full-profile-timeline-event-row .full-profile-timeline-event-glyph--star {
+        font-size: 0.7rem;
+    }
 }
 
 .full-profile-position-notes {
