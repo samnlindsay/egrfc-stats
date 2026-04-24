@@ -1161,7 +1161,7 @@ def player_full_profile_appearances_per_season_chart(db, output_file='data/chart
                 height=alt.Step(30),
             )
             .configure_view(
-                strokeWidth=0
+                stroke=None
             )
             .configure(
                 background='transparent'
@@ -1317,7 +1317,7 @@ def player_full_profile_position_donut_chart(db, output_file='data/charts/player
     ).resolve_scale(
         color='shared'
     ).configure_view(
-        strokeWidth=0
+        stroke=None
     ).configure(
         background='transparent'
     ).properties(
@@ -1363,7 +1363,7 @@ def player_full_profile_career_timeline_chart(db, output_file='data/charts/playe
     games_df = db.con.execute(
         """
         SELECT
-            game_id, date, opposition, home_away,
+            game_id, date, opposition, home_away, squad,
             tries_scorers, motm, result, score_for, score_against
         FROM games
         ORDER BY date, game_id
@@ -1507,15 +1507,39 @@ def player_full_profile_career_timeline_chart(db, output_file='data/charts/playe
                       cap['squad'], cap['game_id'],
                       cap.get('result'), cap.get('score_for'), cap.get('score_against'))
 
-        # MOTM (first occurrence)
+        # MOTM (all known occurrences, including joint awards in one field)
+        invalid_motm_names = {'', 'none', 'null', 'nan', 'n/a', 'na', 'tbc', '-', 'unknown'}
         for _, game in player_games_sorted.iterrows():
             motm_val = game.get('motm')
-            if motm_val and pd.notna(motm_val) and clean_name(str(motm_val)) == player_key:
+            if not motm_val or pd.isna(motm_val):
+                continue
+
+            motm_raw = str(motm_val).strip()
+            if not motm_raw or motm_raw.lower() in invalid_motm_names:
+                continue
+
+            # Match the splitter used in player_stats_motm_chart.
+            motm_parts = [
+                part.strip() for part in re.split(r'\s*(?:,|/|&|\band\b|\+)\s*', motm_raw)
+                if part and part.strip()
+            ]
+
+            matched_player = False
+            for motm_name in motm_parts:
+                canonical_name = other_names.get(motm_name, motm_name)
+                try:
+                    if clean_name(canonical_name) == player_key:
+                        matched_player = True
+                        break
+                except Exception:
+                    # Ignore malformed names; they should not block valid MOTM records.
+                    continue
+
+            if matched_player:
                 g = game
                 add_event('motm', 'Man of the Match', 'event',
                           g['date'], f"v {g['opposition']} ({g['home_away']})",
-                          '', g['game_id'], g.get('result'), g.get('score_for'), g.get('score_against'))
-                break
+                          g['squad'], g['game_id'], g.get('result'), g.get('score_for'), g.get('score_against'))
 
     # ── Build timeline DataFrame ──────────────────────────────────────────
     timeline_df = pd.DataFrame(rows)
@@ -1678,7 +1702,7 @@ def player_full_profile_career_timeline_chart(db, output_file='data/charts/playe
         )
         .properties(width='container', height=60)
         .resolve_scale(y='shared', x='shared', shape='independent')
-        .configure_view(strokeWidth=0)
+        .configure_view(stroke=None)
         .configure(background='transparent')
     )
 
@@ -2665,7 +2689,7 @@ def team_sheets_chart(db, output_file='data/charts/team_sheets.json'):
         row=alt.Row('season:N', title=None, sort=alt.EncodingSortField(field='season', order='descending')),
         column=alt.Column('squad:N', title=None, header=alt.Header(title=None, labelFontSize=36, labelExpr="datum.value + ' XV'", labelAnchor="start")),
         spacing=10
-    ).resolve_scale(y='independent', x='independent').configure_view(strokeWidth=0)
+    ).resolve_scale(y='independent', x='independent').configure_view(stroke=None)
 
     team_sheets.save(output_file)
 

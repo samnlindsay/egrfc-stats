@@ -116,11 +116,6 @@
         gap: 0.6rem;
     }
 
-    #page-team-sheets .team-sheets-filter-btn {
-        width: 100%;
-        justify-content: center;
-    }
-
     #page-player-stats .player-stats-main .chart-panel-filters {
         width: 100%;
     }
@@ -152,33 +147,6 @@
         width: 100%;
     }
 
-    #page-player-profile .player-gallery-captain-main {
-        grid-template-columns: 76px minmax(0, 1fr);
-        gap: 0.55rem;
-    }
-
-    #page-player-profile .player-gallery-captain-headshot {
-        min-height: 90px;
-        border-radius: 0.6rem;
-    }
-
-    #page-player-profile .player-gallery-captain-headshot .player-profile-avatar {
-        max-width: 76px;
-    }
-
-    #page-player-profile .player-gallery-captain-name {
-        font-size: 1.1rem;
-    }
-
-    #page-player-profile .player-gallery-captain-position {
-        font-size: 0.88rem;
-    }
-
-    #page-player-profile .player-gallery-captain-apps,
-    #page-player-profile .player-gallery-captain-empty {
-        font-size: 0.8rem;
-    }
-
     #page-player-profile .full-profile-shell {
         width: 100%;
         max-width: 100%;
@@ -201,7 +169,7 @@
 
     #page-player-profile .full-profile-section-full {
         grid-column: 1;
-        margin-top: 1rem;
+        margin-top: 0;
     }
 
     #page-player-profile .full-profile-timeline-legend-groups {
@@ -273,19 +241,19 @@
         padding-left: 0.72rem;
     }
 
-    #page-player-info .player-info-captain-cards {
+    .player-info-captain-cards {
         grid-template-columns: 1fr;
     }
 
-    #page-player-gallery .player-gallery-captain-main {
+    .player-gallery-captain-main {
         grid-template-columns: 76px minmax(0, 1fr);
     }
 
-    #page-player-gallery .player-gallery-captain-headshot {
+    .player-gallery-captain-headshot {
         min-height: 88px;
     }
 
-    #page-player-gallery .player-gallery-captain-name {
+    .player-gallery-captain-name {
         font-size: 1.2rem;
     }
 
@@ -582,24 +550,6 @@
         min-height: 2em;
     }
 
-    .squad-position-panel {
-        min-width: 100%;
-        flex-basis: 100%;
-    }
-
-    .squad-position-cards-row {
-        grid-template-columns: repeat(5, minmax(0, 1fr));
-        gap: 0.4rem;
-    }
-
-    .squad-position-card-title {
-        padding: 0.3rem 0.2rem;
-    }
-
-    .squad-position-card-value {
-        padding: 0.4rem 0.15rem;
-    }
-
     .input-group {
         min-width: 100%;
         flex-direction: row;
@@ -818,9 +768,6 @@
         --bs-btn-font-size: 0.72rem;
     }
 
-    .opposition-profile-hero-metrics-grid {
-        grid-template-columns: 1fr;
-    }
 }
 
 @media (max-width: 480px) {
@@ -1242,10 +1189,6 @@
         font-size: 0.65rem;
     }
 
-    .squad-position-cards-row {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
     h2 {
         font-size: 1.25rem;
     }
@@ -1290,51 +1233,285 @@
     }
 }
 
-/* Squad Stats Page Responsive Refinements */
-@media (max-width: 1200px) {
-    .squad-stats-filters {
-        flex-wrap: wrap;
-        gap: 0.5rem;
+/* ===== RESPONSIVE RULES MOVED FROM COMPONENTS ===== */
+@media (max-width: 1100px) {
+    .database-two-column-grid {
+        grid-template-columns: minmax(240px, 0.8fr) minmax(0, 1.2fr);
     }
 
-    .squad-stats-filters .filter-item {
-        min-width: 150px;
+    .database-two-column-grid--guide-collapsed {
+        grid-template-columns: minmax(190px, 0.45fr) minmax(0, 1.55fr);
+    }
+}
+
+@media (max-width: 900px) {
+    .full-profile-timeline-legend {
+        width: 100%;
+    }
+
+    .full-profile-timeline-legend-block--combined {
+        padding: 0.5rem 0.75rem !important;
+    }
+
+    .full-profile-timeline-legend-block--combined .match-team-sheet-legend-title {
+        margin-bottom: 0.12rem;
+        font-size: 0.6rem;
+        letter-spacing: 0.05em;
+    }
+
+    .full-profile-timeline-legend-groups {
+        gap: 3rem !important;
+        flex-wrap: nowrap !important;
+    }
+
+    .full-profile-timeline-appearance-row,
+    .full-profile-timeline-event-row {
+        gap: 0.4rem !important;
+        width: max-content;
+    }
+
+    .full-profile-timeline-appearance-row .match-team-sheet-legend-item,
+    .full-profile-timeline-event-row .match-team-sheet-legend-item {
+        gap: 0.02rem !important;
+    }
+
+    .full-profile-timeline-appearance-row .match-team-sheet-legend-text,
+    .full-profile-timeline-event-row .match-team-sheet-legend-text {
+        font-size: 0.6rem;
+        line-height: 1;
+    }
+
+    .full-profile-timeline-appearance-row .match-team-sheet-legend-pair {
+        width: 1.1rem;
+        height: 1rem;
+    }
+
+    .full-profile-timeline-appearance-row .match-team-sheet-legend-pair-icon--first-xv {
+        left: 0.3rem;
+        top: 0.24rem;
+    }
+
+    .full-profile-timeline-appearance-row .match-team-sheet-milestone,
+    .full-profile-timeline-appearance-row .match-team-sheet-milestone--last,
+    .full-profile-timeline-event-row .full-profile-timeline-event-glyph {
+        width: 0.82rem;
+        height: 0.82rem;
+        font-size: 0.68rem;
+    }
+
+    .full-profile-timeline-appearance-row .match-team-sheet-milestone--100 .match-team-sheet-milestone-text {
+        font-size: 0.34rem;
+    }
+
+    .full-profile-timeline-appearance-row .match-team-sheet-milestone-text {
+        font-size: 0.36rem;
+    }
+
+    .full-profile-timeline-appearance-row .match-team-sheet-legend-scopes {
+        font-size: 0.55rem;
+        min-width: 2.05rem;
+        line-height: 0.84;
+    }
+
+    .full-profile-timeline-event-row .full-profile-timeline-event-glyph--star {
+        font-size: 0.7rem;
+    }
+
+    .database-two-column-grid {
+        grid-template-columns: 1fr;
     }
 }
 
 @media (max-width: 768px) {
-    .squad-stats-filters {
-        gap: 0.4rem;
-        flex-direction: column;
+    .database-page-shell {
+        padding: 1.25rem 0.75rem;
     }
 
-    .squad-stats-filters .filter-item {
-        width: 100%;
-        min-width: 0;
+    .database-toolbar-actions {
+        margin-left: 0;
     }
 
-    .squad-stats-filters .filter-item .input-group {
-        width: 100%;
+    .database-data-table td,
+    .database-columns-table td {
+        white-space: normal;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .match-info-hero-matrix {
+        grid-template-columns: 2.8rem repeat(2, minmax(0, 1fr));
+        gap: 0.3rem;
     }
 
-    .card-filters {
-        gap: 0.4rem;
-        padding: 0.5rem 0;
+    .match-info-hero-matrix-colhead {
+        font-size: 0.82rem;
+        padding-top: 0.18rem;
     }
 
-    .card-filters .filter-item {
-        min-width: 140px;
+    .match-info-hero-matrix-rowhead {
+        font-size: 0.72rem;
+        letter-spacing: 0.06em;
     }
 
-    .chart-section-title {
-        font-size: 1.2rem;
+    .match-info-hero-action-card {
+        min-height: 3rem;
+        padding: 0.24rem 0.25rem;
     }
 
-    .chart-section-hint {
+    .match-info-hero-action-date {
+        font-size: 0.82rem;
+    }
+
+    .match-info-hero-action-detail {
+        font-size: 0.72rem;
+    }
+
+    .video-analysis-tables {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 0.65rem;
+        padding: 0 0.35rem 0.7rem;
+    }
+
+    .video-analysis-team-logo {
+        width: 2rem;
+        height: 2rem;
+    }
+
+    .video-analysis-score {
+        font-size: 2rem;
+    }
+
+    .video-analysis-matchup-row th {
+        padding: 0.4rem;
+    }
+
+    .video-analysis-lineout-detail-table thead th,
+    .video-analysis-lineout-detail-table tbody td {
+        font-size: 0.78rem;
+        padding: 0.3rem 0.32rem;
+    }
+
+    .video-analysis-lineout-detail-table tbody td:first-child {
+        width: 2rem;
+        min-width: 2rem;
+    }
+
+    .video-analysis-lineout-detail-table thead th:nth-child(1) { width: 1.8rem; }
+    .video-analysis-lineout-detail-table thead th:nth-child(2) { width: 2.8rem; }
+    .video-analysis-lineout-detail-table thead th:nth-child(3) { width: 3.2rem; }
+    .video-analysis-lineout-detail-table thead th:nth-child(4) { width: 4.4rem; }
+    .video-analysis-lineout-detail-table thead th:nth-child(5) { width: 4.4rem; }
+    .video-analysis-lineout-detail-table thead th:nth-child(6) { width: auto; }
+
+    .full-profile-sections-grid {
+        grid-template-columns: 1fr;
+    }
+
+    #matchDataTableWrap {
+        border-radius: 0.5rem;
+    }
+
+    #matchDataTableWrap .database-data-table tbody td {
+        max-width: 9rem;
+    }
+
+    #matchDataTableWrap .database-data-table tbody td:nth-child(3) {
+        max-width: 7.25rem;
+    }
+
+    #matchDataTableWrap .database-data-table tbody td:nth-child(5) {
+        max-width: 5.8rem;
+    }
+
+    #matchDataTableWrap .squad-pill {
+        font-size: 0.78rem;
+        padding: 0.1rem 0.38rem;
+    }
+
+    #matchDataTableWrap .match-table-venue {
+        font-size: 0.76rem;
+        font-weight: 700;
+    }
+
+    #matchDataTableWrap .match-open-btn {
+        width: 1.45rem;
+        height: 1.45rem;
+        --bs-btn-font-size: 0.72rem;
+    }
+
+    .match-finder-pagination-btn {
+        min-width: 6.3rem;
+        min-height: 2rem;
+        padding: 0.28rem 0.58rem;
         font-size: 0.85rem;
     }
 }
-/* Squad Stats Page Responsive Refinements */
+
+@media (max-width: 720px) {
+    .full-profile-banner {
+        min-height: 230px;
+        padding: 0.9rem 0.9rem 0;
+    }
+
+    .full-profile-banner-copy {
+        max-width: 58%;
+        padding-bottom: 0.7rem;
+    }
+
+    .full-profile-banner-headshot {
+        min-width: 145px;
+        max-width: 42%;
+    }
+}
+
+@media (max-width: 576px) {
+    .database-toolbar {
+        align-items: stretch;
+    }
+
+    .database-toolbar-group {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .database-toolbar-actions {
+        justify-content: flex-start;
+    }
+
+    .home-data-notes-wrap {
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+    }
+
+    .home-data-notes {
+        padding: 0.95rem 0.9rem;
+        border-left-width: 0.32rem;
+    }
+
+    .home-data-notes-list li {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 360px) {
+    .player-profile-grid-item,
+    .player-profile-card {
+        width: 100%;
+        flex: 1 1 100%;
+    }
+}
+
+@media (min-width: 1200px) {
+    .video-analysis-tables {
+        grid-template-columns: minmax(0, 600px) minmax(0, 560px);
+    }
+
+    .video-analysis-table-wrap,
+    .video-analysis-lineout-detail-wrap {
+        max-width: none;
+    }
+}
+
 @media (max-width: 1200px) {
     .squad-stats-layout {
         grid-template-columns: 1fr;
@@ -1346,29 +1523,6 @@
 }
 
 @media (max-width: 768px) {
-    .squad-stats-filters {
-        gap: 0.4rem;
-        flex-direction: column;
-    }
-
-    .squad-stats-filters .filter-item {
-        width: 100%;
-        min-width: 0;
-    }
-
-    .squad-stats-filters .filter-item .input-group {
-        width: 100%;
-    }
-
-    .card-filters {
-        gap: 0.4rem;
-        padding: 0.5rem 0;
-    }
-
-    .card-filters .filter-item {
-        min-width: 140px;
-    }
-
     .analysis-section-head h2 {
         font-size: 1.25rem;
     }

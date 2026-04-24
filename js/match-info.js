@@ -767,6 +767,13 @@ function optionalNumberIfFinite(value) {
     return Number.isFinite(n) ? n : null;
 }
 
+function normalizeSuccessRate(won, total, fallbackRate) {
+    if (won !== null && total !== null && total > 0) {
+        return won / total;
+    }
+    return numberIfFinite(fallbackRate);
+}
+
 function formatVideoStatValue(value, formatter) {
     if (value === null || value === undefined || Number.isNaN(value)) return '-';
     if (formatter === 'percent') return `${Math.round(Number(value) * 100)}%`;
@@ -1325,6 +1332,22 @@ function updateUrlGame(gameId) {
     window.history.replaceState({}, '', url.toString());
 }
 
+function toggleMatchInfoDetailRail(hasSelection, options = {}) {
+    const {
+        hasVideoAnalysis = true,
+    } = options;
+    const detailLinks = document.querySelectorAll('.match-info-rail-detail');
+    detailLinks.forEach((link) => link.classList.toggle('d-none', !hasSelection));
+
+    const videoLink = document.querySelector('.match-info-rail-detail[href="#sec-match-video-analysis"]');
+    if (videoLink) {
+        videoLink.classList.toggle('d-none', !hasSelection || !hasVideoAnalysis);
+    }
+
+    // Trigger shared rail recalculation after visibility change.
+    window.dispatchEvent(new Event('resize'));
+}
+
 function renderMatchInfo(gameId) {
     const body = document.getElementById('matchDataInfoBody');
     const headerAction = document.getElementById('matchDataInfoHeaderAction');
@@ -1332,6 +1355,7 @@ function renderMatchInfo(gameId) {
 
     const selected = allMatches.find(row => String(row?.game_id || '').trim() === String(gameId || '').trim());
     if (!selected) {
+        toggleMatchInfoDetailRail(false);
         body.innerHTML = '<p class="text-muted" style="margin: 0;">Select a match to load full match information.</p>';
         if (headerAction) headerAction.innerHTML = '';
         updateUrlGame('');
@@ -1343,9 +1367,14 @@ function renderMatchInfo(gameId) {
     updateUrlGame(String(selected.game_id || ''));
 
     const hero = buildMatchHeroData(selected);
+    const teamSheetHtml = teamSheetSectionHtml(selected.game_id);
+    const videoAnalysisHtml = renderVideoAnalysisSection(selected);
+    toggleMatchInfoDetailRail(true, {
+        hasVideoAnalysis: !!videoAnalysisHtml,
+    });
 
     body.innerHTML = `
-        <section class="match-info-hero ${hero.resultClass}">
+        <section id="sec-match-hero" class="match-info-hero match-info-subsection ${hero.resultClass}">
             <div class="match-info-hero-grid">
                 <div class="match-info-team match-info-team--home">
                     <div class="match-info-team-shell match-info-team-shell--home">
@@ -1389,8 +1418,8 @@ function renderMatchInfo(gameId) {
                 ${renderScorerMetaRow(selected)}
             </div>
         </section>
-        ${teamSheetSectionHtml(selected.game_id)}
-        ${renderVideoAnalysisSection(selected)}
+        ${teamSheetHtml ? `<div id="sec-match-team-sheet" class="match-info-subsection">${teamSheetHtml}</div>` : ''}
+        ${videoAnalysisHtml ? `<div id="sec-match-video-analysis" class="match-info-subsection">${videoAnalysisHtml}</div>` : ''}
     `;
 
     // Collapse the Filtered Matches panel when a game is selected
@@ -1468,6 +1497,7 @@ function initialiseMatchInfoAnalysisRail() {
     if (matchInfoAnalysisRailInitialised) return;
     matchInfoAnalysisRailInitialised = initialiseAnalysisRail({
         railId: 'matchInfoAnalysisRail',
+        sectionSelector: '.analysis-section[id], .match-info-subsection[id]',
         initialHashDelay: 60,
     });
 }
@@ -1680,11 +1710,11 @@ async function loadPage() {
                 lineouts_won: lineoutsWon,
                 lineouts_total: lineoutsTotal,
                 lineouts_lost: lineoutsWon !== null && lineoutsTotal !== null ? Math.max(0, lineoutsTotal - lineoutsWon) : null,
-                lineouts_success_rate: numberIfFinite(row?.lineouts_success_rate),
+                lineouts_success_rate: normalizeSuccessRate(lineoutsWon, lineoutsTotal, row?.lineouts_success_rate),
                 scrums_won: scrumsWon,
                 scrums_total: scrumsTotal,
                 scrums_lost: scrumsWon !== null && scrumsTotal !== null ? Math.max(0, scrumsTotal - scrumsWon) : null,
-                scrums_success_rate: numberIfFinite(row?.scrums_success_rate),
+                scrums_success_rate: normalizeSuccessRate(scrumsWon, scrumsTotal, row?.scrums_success_rate),
                 entries_22m: optionalNumberIfFinite(row?.entries_22m),
                 tries: optionalNumberIfFinite(row?.tries),
                 tries_per_entry: optionalNumberIfFinite(row?.tries_per_entry),

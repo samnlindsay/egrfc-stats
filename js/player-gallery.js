@@ -559,7 +559,7 @@ function renderGroupedByPosition(profiles) {
                     <div class="player-profiles-position-pane border rounded-3 bg-body-tertiary">
                         <div class="player-profiles-position-pane-head">
                             <h2 class="player-profiles-position-section-title">${escapeHtml(sectionTitle)} <span class="player-profiles-position-count">(${count})</span></h2>
-                            <p class="player-profiles-position-scroll-hint"><i class="bi bi-arrows-expand" aria-hidden="true"></i><span>Scroll sideways to view all players</span></p>
+                            <p class="player-profiles-position-scroll-hint"><i class="bi bi-arrows-expand-vertical" aria-hidden="true"></i><span>Scroll sideways to view all players</span></p>
                         </div>
                         <div class="player-profiles-position-row overflow-auto">${cards}</div>
                     </div>
@@ -569,83 +569,8 @@ function renderGroupedByPosition(profiles) {
         .join('');
 }
 
-function isCaptainAppearance(value) {
-    if (typeof value === 'boolean') return value;
-    if (typeof value === 'number') return value === 1;
-    const normalized = String(value || '').trim().toLowerCase();
-    return normalized === 'true' || normalized === '1' || normalized === 'y' || normalized === 'yes';
-}
-
-function findCurrentCaptainProfile(squad) {
-    const games = Array.from(gamesById.values())
-        .filter(game => String(game?.squad || '').trim() === squad)
-        .sort((a, b) => String(b?.date || '').localeCompare(String(a?.date || '')));
-
-    for (const game of games) {
-        const gameId = String(game?.game_id || '').trim();
-        const appearances = appearancesByGame.get(gameId) || [];
-        const captainAppearance = appearances.find(row => (
-            String(row?.squad || '').trim() === squad && isCaptainAppearance(row?.is_captain)
-        ));
-
-        const captainName = String(captainAppearance?.player || game?.captain || '').trim();
-        if (!captainName) continue;
-
-        const profile = playerProfilesByName.get(captainName);
-        if (profile) return profile;
-    }
-
-    return null;
-}
-
-function captainCardMarkup(profile, squad) {
-    const label = `${squad} XV Captain`;
-
-    if (!profile) {
-        return `
-            <article class="player-gallery-captain-card player-gallery-captain-card-empty">
-                <p class="player-gallery-captain-label">${escapeHtml(label)}</p>
-                <p class="player-gallery-captain-empty">No captain data available.</p>
-            </article>
-        `;
-    }
-
-    const playerName = escapeHtml(profile.name || 'Unknown');
-    const position = escapeHtml(profile.position || 'Unknown');
-    const apps = Number(profile.totalAppearances || 0);
-    const playerHref = `player-profile.html?player=${encodeURIComponent(String(profile.name || ''))}`;
-    const squadClass = String(profile.squad || '').trim().toLowerCase() === '2nd' ? '2nd' : '1st';
-
-    return `
-    <div class="flex-column align-items-center m-0 p-0">
-        <p class="player-gallery-captain-label">${escapeHtml(label)}</p>
-        <article class="player-gallery-captain-card player-gallery-captain-card-${squadClass} p-0">
-            <a class="player-gallery-captain-main" href="${playerHref}">
-                <div class="player-gallery-captain-headshot ${headshotBackgroundClass(profile)}">
-                    ${createAvatarMarkup(profile)}
-                </div>
-                <div class="player-gallery-captain-meta">
-                    <p class="player-gallery-captain-name">${playerName}</p>
-                    <p class="player-gallery-captain-position">${position}</p>
-                    <p class="player-gallery-captain-apps">${apps} apps</p>
-                </div>
-            </a>
-        </article>
-    </div>
-`;
-}
-
 function renderPlayerInfoCaptains() {
-    const host = document.getElementById('playerInfoCaptainCards');
-    if (!host) return;
-
-    const firstCaptain = findCurrentCaptainProfile('1st');
-    const secondCaptain = findCurrentCaptainProfile('2nd');
-
-    host.innerHTML = [
-        captainCardMarkup(firstCaptain, '1st'),
-        captainCardMarkup(secondCaptain, '2nd')
-    ].join('');
+    renderCaptainCards('captainCards', gamesById, appearancesByGame, playerProfilesByName);
 }
 
 function renderPlayerProfiles() {

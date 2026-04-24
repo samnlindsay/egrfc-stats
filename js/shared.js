@@ -1573,3 +1573,152 @@ function initialiseAnalysisRail(options = {}) {
   rail.__analysisRailInitialised = true;
   return true;
 }
+
+// ============================================================
+// Captain Cards - Unified Shared Functions
+// ============================================================
+
+/**
+ * Escape HTML special characters to prevent XSS.
+ * @param {*} value - The value to escape
+ * @returns {string} Escaped HTML-safe string
+ */
+function escapeHtml(value) {
+  if (value === null || value === undefined) return '';
+  const div = document.createElement('div');
+  div.textContent = String(value);
+  return div.innerHTML;
+}
+
+/**
+ * Determine the headshot background class based on player's squad.
+ * @param {Object} profile - Player profile object
+ * @returns {string} CSS class for background styling
+ */
+function headshotBackgroundClass(profile) {
+  const squad = String(profile?.squad || '').trim().toLowerCase();
+  return squad === '2nd'
+    ? 'player-profile-headshot-wrap-2nd'
+    : 'player-profile-headshot-wrap-1st';
+}
+
+/**
+ * Create avatar markup with image or initials fallback.
+ * @param {Object} profile - Player profile object
+ * @returns {string} HTML markup for avatar
+ */
+function createAvatarMarkup(profile) {
+  const name = escapeHtml(profile?.name || 'Player');
+  const photoUrl = String(profile?.photo_url || '').trim();
+
+  if (photoUrl) {
+    return `<img src="${escapeHtml(photoUrl)}" alt="${name}" class="player-profile-avatar" loading="lazy">`;
+  }
+
+  return '<div class="player-profile-avatar-placeholder"><i class="bi bi-person-fill" aria-hidden="true"></i></div>';
+}
+
+/**
+ * Check if a value represents a captain appearance.
+ * @param {*} value - The is_captain value to check
+ * @returns {boolean} True if this is a captain appearance
+ */
+function isCaptainAppearance(value) {
+  if (typeof value === 'boolean') return value;
+  if (typeof value === 'number') return value === 1;
+  const normalized = String(value || '').trim().toLowerCase();
+  return normalized === 'true' || normalized === '1' || normalized === 'y' || normalized === 'yes';
+}
+
+/**
+ * Find the current captain for a given squad from games data.
+ * @param {string} squad - Squad identifier ('1st' or '2nd')
+ * @param {Map} gamesById - Map of game_id to game objects
+ * @param {Map} appearancesByGame - Map of game_id to array of appearance objects
+ * @param {Map} profilesByName - Map of player name to profile object
+ * @returns {Object|null} Current captain profile or null
+ */
+function findCurrentCaptainProfile(squad, gamesById, appearancesByGame, profilesByName) {
+  const games = Array.from(gamesById.values())
+    .filter(game => String(game?.squad || '').trim() === squad)
+    .sort((a, b) => String(b?.date || '').localeCompare(String(a?.date || '')));
+
+  for (const game of games) {
+    const gameId = String(game?.game_id || '').trim();
+    const appearances = appearancesByGame.get(gameId) || [];
+    const captainAppearance = appearances.find(row => (
+      String(row?.squad || '').trim() === squad && isCaptainAppearance(row?.is_captain)
+    ));
+
+    const captainName = String(captainAppearance?.player || game?.captain || '').trim();
+    if (!captainName) continue;
+
+    const profile = profilesByName.get(captainName);
+    if (profile) return profile;
+  }
+
+  return null;
+}
+
+/**
+ * Generate HTML markup for a single captain card.
+ * @param {Object} profile - Captain profile object
+ * @param {string} squad - Squad identifier ('1st' or '2nd')
+ * @returns {string} HTML markup for captain card
+ */
+function generateCaptainCardMarkup(profile, squad) {
+  const label = `${squad} XV Captain`;
+
+  if (!profile) {
+    return `
+      <article class="player-gallery-captain-card player-gallery-captain-card-empty">
+        <p class="player-gallery-captain-label">${escapeHtml(label)}</p>
+        <p class="player-gallery-captain-empty">No captain data available.</p>
+      </article>
+    `;
+  }
+
+  const playerName = escapeHtml(profile.name || 'Unknown');
+  const position = escapeHtml(profile.position || 'Unknown');
+  const apps = Number(profile.totalAppearances || 0);
+  const playerHref = `player-profile.html?player=${encodeURIComponent(String(profile.name || ''))}`;
+  const squadClass = String(profile.squad || '').trim().toLowerCase() === '2nd' ? '2nd' : '1st';
+
+  return `
+  <div class="flex-column align-items-center m-0 p-0">
+    <p class="player-gallery-captain-label">${escapeHtml(label)}</p>
+    <article class="player-gallery-captain-card player-gallery-captain-card-${squadClass} p-0">
+      <a class="player-gallery-captain-main" href="${playerHref}">
+        <div class="player-gallery-captain-headshot ${headshotBackgroundClass(profile)}">
+          ${createAvatarMarkup(profile)}
+        </div>
+        <div class="player-gallery-captain-meta">
+          <p class="player-gallery-captain-name">${playerName}</p>
+          <p class="player-gallery-captain-position">${position}</p>
+          <p class="player-gallery-captain-apps">${apps} apps</p>
+        </div>
+      </a>
+    </article>
+  </div>
+  `;
+}
+
+/**
+ * Render captain cards to a specified container element.
+ * @param {string} containerId - ID of the container element
+ * @param {Map} gamesById - Map of game_id to game objects
+ * @param {Map} appearancesByGame - Map of game_id to array of appearance objects
+ * @param {Map} profilesByName - Map of player name to profile object
+ */
+function renderCaptainCards(containerId, gamesById, appearancesByGame, profilesByName) {
+  const host = document.getElementById(containerId);
+  if (!host) return;
+
+  const firstCaptain = findCurrentCaptainProfile('1st', gamesById, appearancesByGame, profilesByName);
+  const secondCaptain = findCurrentCaptainProfile('2nd', gamesById, appearancesByGame, profilesByName);
+
+  host.innerHTML = [
+    generateCaptainCardMarkup(firstCaptain, '1st'),
+    generateCaptainCardMarkup(secondCaptain, '2nd')
+  ].join('');
+}

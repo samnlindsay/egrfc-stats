@@ -560,7 +560,7 @@ function renderGroupedByPosition(profiles) {
                     <div class="player-profiles-position-pane border rounded-3 bg-body-tertiary">
                         <div class="player-profiles-position-pane-head">
                             <h2 class="player-profiles-position-section-title">${escapeHtml(sectionTitle)} <span class="player-profiles-position-count">(${count})</span></h2>
-                            <p class="player-profiles-position-scroll-hint"><i class="bi bi-arrows-expand" aria-hidden="true"></i><span>Scroll sideways to view all players</span></p>
+                            <p class="player-profiles-position-scroll-hint"><i class="bi bi-arrows-expand-vertical" aria-hidden="true"></i><span>Scroll sideways to view all players</span></p>
                         </div>
                         <div class="player-profiles-position-row overflow-auto">${cards}</div>
                     </div>

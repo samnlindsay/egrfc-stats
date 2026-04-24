@@ -347,6 +347,10 @@ def alt_theme():
             "scale": {
                 "offsetBandPaddingOuter": 0.2,
                 "offsetBandPaddingInner": 0.1,
+            },
+            "view": {
+                "stroke": None,
+                "background": "transparent",
             }
         }
     }
