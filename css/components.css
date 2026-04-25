@@ -586,7 +586,7 @@
 .full-profile-sections-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 0.95rem;
+    gap: 0.5rem;
     align-items: start;
 }
 
@@ -621,7 +621,7 @@
 .full-profile-section-title {
     margin: 0 0 0.4rem;
     color: var(--primary-color);
-    font-size: 1.25rem;
+    font-size: 1.75rem;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               rem;
     font-weight:900;
 }
 
@@ -657,14 +657,296 @@
 }
 
 .full-profile-copy-line {
-    margin: 0.18rem 0;
+    margin: 0.2rem 0;
     color: #2a3555;
-    line-height: 1.28;
+    line-height: 1.18;
+}
+
+.full-profile-copy-line--inline-results {
+    display: flex;
+    align-items: flex-end;
+    gap: 0.2rem;
+    flex-wrap: wrap;
+}
+
+.full-profile-copy-line--inline-results strong {
+    flex: 0 0 auto;
+}
+
+.full-profile-summary-section,
+.full-profile-chart-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.95rem;
+}
+
+.full-profile-subsection {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+}
+.full-profile-subsection-heading {
+    display: flex;
+    flex-direction: column;
+    gap: 0.08rem;
+    margin: 0;
+}
+
+.full-profile-subsection-heading .full-profile-subsection-subtitle {
+    margin: 0;
+}
+
+.full-profile-subsection + .full-profile-subsection,
+.full-profile-summary-results + .full-profile-subsection,
+.full-profile-chart-subsection + .full-profile-chart-subsection {
+    border-top: 1px solid #d9e3f1;
+    padding-top: 0.95rem;
+}
+
+.full-profile-subsection-title {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.02rem;
+    font-weight: 800;
+}
+
+.full-profile-title-with-subtitle {
+    margin: 0 0 0.06rem;
+    line-height: 1.14;
+}
+
+.full-profile-subsection-intro {
+    margin: 0;
+    color: #5c6887;
+    font-size: 0.92rem;
+    line-height: 1.35;
+}
+
+.full-profile-subsection-subtitle {
+    margin: -0.12rem 0 0.32rem;
+    color: #7a8499;
+    font-size: 0.95rem;
+    font-weight: 500;
+    line-height: 1.3;
+    font-style: italic;
+}
+
+.full-profile-title-with-subtitle + .full-profile-subsection-subtitle {
+    margin: 0 0 0.42rem;
+    font-size: 1rem;
+}
+
+.full-profile-subsection-heading .full-profile-title-with-subtitle {
+    margin: 0;
+}
+
+.full-profile-subsection-heading .full-profile-title-with-subtitle + .full-profile-subsection-subtitle {
+    margin: 0;
+    font-size: 1rem;
+}
+
+.full-profile-summary-results {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+}
+
+.full-profile-stat-groups {
+    display: grid;
+    gap: 0.5rem;
+}
+
+.full-profile-stat-split {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 0.65rem;
+    align-items: start;
+}
+
+.full-profile-stat-column {
+    min-width: 0;
+}
+
+.full-profile-stat-column--club {
+    min-width: 0;
+}
+
+.full-profile-stat-group {
+    border: 1px solid #d8e2f3;
+    border-radius: 0.55rem;
+    background: #fff;
+    padding: 0.55rem 0.65rem;
+}
+
+.full-profile-stat-group--plain {
+    border-color: transparent;
+    background: transparent;
+    box-shadow: none;
+    padding: 0.4rem 0;
+}
+
+.full-profile-stat-group-title {
+    margin: 0 0 0.35rem;
+    color: #23325a;
+    font-size: 1.2rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.full-profile-stat-group-lines {
+    display: grid;
+    gap: 0.08rem;
+}
+
+.full-profile-stat-group--first-xv {
+    border-color: var(--primary-color);
+    background: hsl(from var(--primary-color) h s l / 0.9 ); 
+    color: white;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+    padding: 0.4rem 0.55rem;
+    padding-right: 0;
+}
+
+.full-profile-stat-group--first-xv .full-profile-stat-group-title {
+    color: var(--light-color);
+}
+
+.full-profile-stat-group--first-xv .full-profile-copy-line {
+    color: var(--light-color);
+}
+
+.full-profile-stat-group--first-xv .full-profile-copy-line strong {
+    color: var(--light-color);
+}
+
+.full-profile-stat-group .record-chip-group {
+    justify-content: flex-start;
+}
+
+.full-profile-detail-grid {
+    display: grid;
+    gap: 0.25rem;
+}
+
+.full-profile-detail-row {
+    display: grid;
+    grid-template-columns: minmax(0, 160px) minmax(0, 1fr);
+    gap: 0.25rem;
+    align-items: start;
+}
+
+.full-profile-detail-label {
+    color: #5f6d8f;
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.full-profile-detail-value {
+    color: #24314f;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+}
+
+.full-profile-position-list {
+    display: grid;
+    gap: 0.2rem;
+}
+
+.full-profile-subsection-title--position {
+    font-size: 1.12rem;
+    font-weight: 900;
+    color: #1d2a4b;
+}
+
+.full-profile-two-column-grid {
+    display: grid;
+    grid-column: 1 / -1;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.6rem;
+    margin-bottom: 0.95rem;
+}
+
+.full-profile-left-column,
+.full-profile-right-column {
+    display: flex;
+    flex-direction: column;
+    gap: 0.95rem;
+}
+
+.full-profile-last-ten-inline {
+    display: inline-flex;
+    align-items: center;
+    margin-top: 0;
+    vertical-align: middle;
+}
+
+.full-profile-last-ten-inline .last-ten-results-strip {
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.22rem;
+}
+
+.full-profile-chart-help {
+    margin: 0.05rem 0 0.35rem;
+    padding: 0.45rem 0.55rem;
+    border: 1px solid #d6dfef;
+    border-radius: 0.5rem;
+    background: #f7f9fc;
+}
+
+.full-profile-chart-help-text {
+    margin: 0;
+    color: #3a4768;
+    font-size: 0.88rem;
+    line-height: 1.3;
+}
+
+.full-profile-chart-help-text + .full-profile-chart-help-text {
+    margin-top: 0.22rem;
+}
+
+.full-profile-colour-key {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.22rem;
+    margin-left: 0.4rem;
+    white-space: nowrap;
+}
+
+.full-profile-colour-swatch {
+    width: 0.7rem;
+    height: 0.7rem;
+    border-radius: 999px;
+    display: inline-block;
+    border: 1px solid rgba(32, 41, 70, 0.2);
+}
+
+.full-profile-colour-swatch--squad-1st {
+    background: #202946;
+}
+
+.full-profile-colour-swatch--squad-2nd {
+    background: #7d96e8;
+}
+
+.full-profile-colour-swatch--result-win {
+    background: #146f14;
+}
+
+.full-profile-colour-swatch--result-loss {
+    background: #981515;
+}
+
+.full-profile-colour-swatch--result-draw {
+    background: goldenrod;
 }
 
 #fullProfileAppearancesPerSeasonChart {
     width: 100%;
-    min-width: 300px;
     max-width: 900px;
     background: transparent !important;
     border: 0 !important;
@@ -947,6 +1229,11 @@
     letter-spacing: 2px;
     color: var(--primary-color);
     font-weight: 700;
+}
+
+.full-profile-stat-group--first-xv .last-ten-results-strip--single-row > .last-ten-result:last-child::before,
+.full-profile-stat-group--first-xv .last-ten-results-strip--single-row > .last-ten-result-link:last-child .last-ten-result::before {
+    color: var(--light-color);
 }
 
 .last-ten-result-tooltip .tooltip-inner {

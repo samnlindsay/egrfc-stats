@@ -172,6 +172,26 @@
         margin-top: 0;
     }
 
+    #page-player-profile .full-profile-stat-group-title,
+    #page-player-profile .full-profile-copy-line,
+    #page-player-profile .full-profile-detail-value {
+        font-size: 0.88rem;
+    }
+
+    #page-player-profile .full-profile-detail-row {
+        grid-template-columns: 1fr;
+        gap: 0.2rem;
+    }
+
+    #page-player-profile .full-profile-two-column-grid {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+
+    #page-player-profile .full-profile-detail-label {
+        font-size: 0.72rem;
+    }
+
     #page-player-profile .full-profile-timeline-legend-groups {
         flex-wrap: wrap;
         gap: 0.35rem;
@@ -179,6 +199,53 @@
 
     #page-player-profile .full-profile-timeline-legend-group {
         flex: 1 1 100%;
+    }
+
+    /* Chart containers: fill container, no overflow */
+    #page-player-profile .chart-host--intrinsic,
+    #page-player-profile .chart-host--overflow-visible {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        overflow: hidden;
+        padding: 0;
+        background: none;
+        border: none;
+    }
+
+    #page-player-profile .full-profile-inline-chart,
+    #page-player-profile .full-profile-timeline-chart,
+    #page-player-profile #fullProfilePositionDonutChart,
+    #page-player-profile #fullProfileAppearancesPerSeasonChart,
+    #page-player-profile #fullProfileCareerTimelineChart {
+        width: 100% !important;
+        min-width: 0 !important;
+        max-width: 100% !important;
+        overflow: hidden !important;
+    }
+
+    /* Force vega-embed and its canvas to not exceed container */
+    #page-player-profile .vega-embed,
+    #page-player-profile .vega-embed > div,
+    #page-player-profile .vega-embed canvas,
+    #page-player-profile .vega-embed svg {
+        max-width: 100% !important;
+        width: 100% !important;
+        height: auto !important;
+    }
+
+    /* Reduce section title sizes */
+    #page-player-profile .full-profile-section-title {
+        font-size: 1.25rem;
+    }
+
+    /* Reduce chart help text */
+    #page-player-profile .full-profile-chart-help {
+        padding: 0.35rem 0.45rem;
+    }
+
+    #page-player-profile .full-profile-chart-help-text {
+        font-size: 0.8rem;
     }
 
     #page-player-stats .position-picker__columns {
@@ -700,7 +767,8 @@
     #page-squad-stats .chart-section-block--panel,
     #page-player-stats .chart-section-block--panel,
     #page-league-tables .chart-section-block--panel,
-    #page-opposition-profile .chart-section-block--panel {
+    #page-opposition-profile .chart-section-block--panel,
+    #page-player-profile .chart-section-block--panel {
         padding: 0.5rem;
     }
 
