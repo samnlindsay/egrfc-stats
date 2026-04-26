@@ -343,7 +343,8 @@ def alt_theme():
                     "facet": "independent"
                 }
             },
-            "background": "#f2f1f4",
+            # "background": "#f2f1f4",
+            "background": "transparent",
             "scale": {
                 "offsetBandPaddingOuter": 0.2,
                 "offsetBandPaddingInner": 0.1,

@@ -72,7 +72,8 @@
     #page-team-sheets .page-shell,
     #page-opposition-profile .page-shell,
     #page-player-gallery .page-shell,
-    #page-player-profile .page-shell {
+    #page-player-profile .page-shell,
+    #page-performance-stats .page-shell {
         padding-left: 0.5rem;
         padding-right: 0.5rem;
     }
@@ -80,13 +81,15 @@
     #page-squad-stats .squad-stats-layout,
     #page-player-stats .squad-stats-layout,
     #page-league-tables .squad-stats-layout,
-    #page-team-sheets .squad-stats-layout {
+    #page-team-sheets .squad-stats-layout,
+    #page-performance-stats .squad-stats-layout {
         gap: 0.45rem;
     }
 
     #page-squad-stats .squad-stats-main,
     #page-player-stats .squad-stats-main,
-    #page-league-tables .squad-stats-main {
+    #page-league-tables .squad-stats-main,
+    #page-performance-stats .squad-stats-main {
         gap: 0.55rem;
     }
 
@@ -114,6 +117,28 @@
         flex-wrap: wrap;
         align-items: stretch;
         gap: 0.6rem;
+    }
+
+    #page-performance-stats .performance-section-head {
+        flex-wrap: wrap;
+        align-items: stretch;
+        gap: 0.55rem;
+    }
+
+    #page-performance-stats .chart-section-content--split.performance-set-piece-split {
+        display: block;
+    }
+
+    #page-performance-stats .performance-set-piece-split .chart-section-meta {
+        margin-bottom: 0.55rem;
+    }
+
+    #page-performance-stats .performance-section-link {
+        width: fit-content;
+    }
+
+    #page-performance-stats .performance-chart-grid {
+        grid-template-columns: minmax(0, 1fr);
     }
 
     #page-player-stats .player-stats-main .chart-panel-filters {
@@ -517,7 +542,8 @@
     #page-squad-stats .analysis-rail,
     #page-player-stats .analysis-rail,
     #page-league-tables .analysis-rail,
-    #page-opposition-profile .analysis-rail {
+    #page-opposition-profile .analysis-rail,
+    #page-performance-stats .analysis-rail {
         gap: 0.2rem;
         padding: 0.3rem;
         margin-bottom: 0.25rem;
@@ -526,7 +552,8 @@
     #page-squad-stats .analysis-rail .rail-link,
     #page-player-stats .analysis-rail .rail-link,
     #page-league-tables .analysis-rail .rail-link,
-    #page-opposition-profile .analysis-rail .rail-link {
+    #page-opposition-profile .analysis-rail .rail-link,
+    #page-performance-stats .analysis-rail .rail-link {
         gap: 0.26rem;
         padding: 0.22rem 0.4rem;
         font-size: 0.78rem;
@@ -538,28 +565,32 @@
     #page-squad-stats .analysis-rail .rail-link i,
     #page-player-stats .analysis-rail .rail-link i,
     #page-league-tables .analysis-rail .rail-link i,
-    #page-opposition-profile .analysis-rail .rail-link i {
+    #page-opposition-profile .analysis-rail .rail-link i,
+    #page-performance-stats .analysis-rail .rail-link i {
         font-size: 0.78rem;
     }
 
     #page-squad-stats .analysis-rail .rail-link .rail-link-label,
     #page-player-stats .analysis-rail .rail-link .rail-link-label,
     #page-league-tables .analysis-rail .rail-link .rail-link-label,
-    #page-opposition-profile .analysis-rail .rail-link .rail-link-label {
+    #page-opposition-profile .analysis-rail .rail-link .rail-link-label,
+    #page-performance-stats .analysis-rail .rail-link .rail-link-label {
         display: none;
     }
 
     #page-squad-stats .analysis-rail .rail-link::after,
     #page-player-stats .analysis-rail .rail-link::after,
     #page-league-tables .analysis-rail .rail-link::after,
-    #page-opposition-profile .analysis-rail .rail-link::after {
+    #page-opposition-profile .analysis-rail .rail-link::after,
+    #page-performance-stats .analysis-rail .rail-link::after {
         content: attr(data-short);
     }
 
     #page-squad-stats .analysis-rail-title,
     #page-player-stats .analysis-rail-title,
     #page-league-tables .analysis-rail-title,
-    #page-opposition-profile .analysis-rail-title {
+    #page-opposition-profile .analysis-rail-title,
+    #page-performance-stats .analysis-rail-title {
         display: inline-flex;
         align-items: center;
         margin: 0 0.12rem 0 0.08rem;

@@ -8,6 +8,7 @@ if str(project_root) not in sys.path:
 
 import json
 from collections import defaultdict
+import math
 import altair as alt
 import pandas as pd
 import re
@@ -3036,57 +3037,126 @@ def set_piece_success_by_season_chart(
     """Generate seasonal set-piece success charts with crossover-aware area shading.
 
     layout="faceted" writes one faceted chart to output_file.
-    layout="separate" writes four charts split by squad and set piece type.
+    layout="separate" writes one chart per set piece type. The chart structure stays
+    the same as the original implementation; the backing dataset now includes
+    precomputed variants for season and game-type filters used by the frontend.
     """
 
     if _using_canonical_backend(db):
-        set_piece_df = db.con.execute(
+        raw_df = db.con.execute(
             """
-            WITH totals AS (
-                SELECT
-                    team,
-                    season,
-                    squad,
-                    SUM(lineouts_won) AS lineouts_won,
-                    SUM(lineouts_total) AS lineouts_total,
-                    SUM(scrums_won) AS scrums_won,
-                    SUM(scrums_total) AS scrums_total
-                FROM set_piece
-                GROUP BY team, season, squad
-            )
             SELECT
-                team,
-                CONCAT(squad, ' XV') AS squad,
-                season,
-                'Lineout' AS set_piece_type,
-                lineouts_won::DOUBLE / NULLIF(lineouts_total, 0) AS success_rate,
-                lineouts_total AS lineouts_total
-            FROM totals
-
-            UNION ALL
-
-            SELECT
-                team,
-                CONCAT(squad, ' XV') AS squad,
-                season,
-                'Scrum' AS set_piece_type,
-                scrums_won::DOUBLE / NULLIF(scrums_total, 0) AS success_rate,
-                lineouts_total AS lineouts_total
-            FROM totals
-
-            ORDER BY team, season, squad, set_piece_type
+                CASE WHEN sp.team = 'EGRFC' THEN 'EGRFC' ELSE 'Opposition' END AS team,
+                COALESCE(sp.season, g.season) AS season,
+                COALESCE(sp.squad, g.squad) AS squad,
+                COALESCE(g.game_type, 'Unknown') AS game_type,
+                COALESCE(sp.lineouts_won, 0) AS lineouts_won,
+                COALESCE(sp.lineouts_total, 0) AS lineouts_total,
+                COALESCE(sp.scrums_won, 0) AS scrums_won,
+                COALESCE(sp.scrums_total, 0) AS scrums_total
+            FROM set_piece sp
+            LEFT JOIN games g USING (game_id)
             """
         ).df()
     else:
-        # Legacy backend is unsupported for update flow, but keep a safe fallback.
-        set_piece_df = pd.DataFrame(
-            columns=["team", "squad", "season", "set_piece_type", "success_rate", "lineouts_total"]
+        raw_df = pd.DataFrame(
+            columns=[
+                "team",
+                "season",
+                "squad",
+                "game_type",
+                "lineouts_won",
+                "lineouts_total",
+                "scrums_won",
+                "scrums_total",
+            ]
         )
 
-    if set_piece_df.empty:
+    if raw_df.empty:
         print("Skipping set_piece_success_by_season_chart: no set piece data available.")
         return None
 
+    raw_df["team"] = raw_df["team"].fillna("Opposition").astype(str)
+    raw_df["season"] = raw_df["season"].fillna("Unknown").astype(str)
+    raw_df["squad"] = raw_df["squad"].fillna("Unknown").astype(str).str.replace(r"\s*XV$", "", regex=True)
+    raw_df["game_type"] = raw_df["game_type"].fillna("Unknown").astype(str)
+
+    def _season_sort_key(value):
+        season_text = str(value)
+        year_prefix = "".join(ch for ch in season_text[:4] if ch.isdigit())
+        return (int(year_prefix) if year_prefix else 0, season_text)
+
+    season_order = sorted(raw_df["season"].unique().tolist(), key=_season_sort_key)
+    season_pos = {season: i for i, season in enumerate(season_order)}
+    season_ticks = list(season_pos.values())
+    season_label_expr = " : ".join(
+        [f"datum.value == {idx} ? '{season}'" for season, idx in season_pos.items()] + ["''"]
+    )
+
+    expanded_rows = []
+    for _, row in raw_df.iterrows():
+        squad_label = f"{row['squad']} XV"
+        expanded_rows.append(
+            {
+                "team": row["team"],
+                "squad": squad_label,
+                "season": row["season"],
+                "game_type": row["game_type"],
+                "set_piece_type": "Lineout",
+                "won": float(row.get("lineouts_won", 0) or 0),
+                "lineouts_total": float(row.get("lineouts_total", 0) or 0),
+            }
+        )
+        expanded_rows.append(
+            {
+                "team": row["team"],
+                "squad": squad_label,
+                "season": row["season"],
+                "game_type": row["game_type"],
+                "set_piece_type": "Scrum",
+                "won": float(row.get("scrums_won", 0) or 0),
+                "lineouts_total": float(row.get("scrums_total", 0) or 0),
+            }
+        )
+
+    expanded_df = pd.DataFrame(expanded_rows)
+    expanded_df = expanded_df[expanded_df["lineouts_total"] > 0].copy()
+
+    if expanded_df.empty:
+        print("Skipping set_piece_success_by_season_chart: no valid success-rate rows available.")
+        return None
+
+    game_type_modes = {
+        "All": lambda df: df,
+        "League + Cup": lambda df: df[df["game_type"].isin(["League", "Cup"])],
+        "League only": lambda df: df[df["game_type"].eq("League")],
+    }
+
+    seasonal_frames = []
+    for mode_label, mode_filter in game_type_modes.items():
+        mode_df = mode_filter(expanded_df).copy()
+        if mode_df.empty:
+            continue
+
+        for season_filter in ["All", *season_order]:
+            season_df = mode_df if season_filter == "All" else mode_df[mode_df["season"].eq(season_filter)].copy()
+            if season_df.empty:
+                continue
+
+            grouped = (
+                season_df.groupby(["team", "season", "squad", "set_piece_type"], as_index=False)
+                .agg(lineouts_total=("lineouts_total", "sum"), won=("won", "sum"))
+            )
+            grouped["success_rate"] = grouped["won"] / grouped["lineouts_total"]
+            grouped["game_type_mode"] = mode_label
+            grouped["season_filter"] = season_filter
+            seasonal_frames.append(grouped)
+
+    if not seasonal_frames:
+        print("Skipping set_piece_success_by_season_chart: no grouped rows available.")
+        return None
+
+    set_piece_df = pd.concat(seasonal_frames, ignore_index=True)
     set_piece_df = set_piece_df.dropna(subset=["success_rate"]).copy()
     if set_piece_df.empty:
         print("Skipping set_piece_success_by_season_chart: no valid success-rate rows available.")
@@ -3094,22 +3164,10 @@ def set_piece_success_by_season_chart(
 
     color_scale = alt.Scale(domain=["EGRFC", "Opposition"], range=["#202946", "#991515"])
 
-    def _season_sort_key(value):
-        season_text = str(value)
-        year_prefix = "".join(ch for ch in season_text[:4] if ch.isdigit())
-        return (int(year_prefix) if year_prefix else 0, season_text)
-
-    season_order = sorted(set_piece_df["season"].astype(str).unique(), key=_season_sort_key)
-    season_pos = {season: i for i, season in enumerate(season_order)}
-    season_ticks = list(season_pos.values())
-    season_label_expr = " : ".join(
-        [f"datum.value == {idx} ? '{season}'" for season, idx in season_pos.items()] + ["''"]
-    )
-
     wide_rates = (
         set_piece_df
         .pivot_table(
-            index=["squad", "set_piece_type", "season"],
+            index=["game_type_mode", "season_filter", "squad", "set_piece_type", "season"],
             columns="team",
             values="success_rate",
             aggfunc="first",
@@ -3120,7 +3178,7 @@ def set_piece_success_by_season_chart(
     wide_lineouts = (
         set_piece_df
         .pivot_table(
-            index=["squad", "set_piece_type", "season"],
+            index=["game_type_mode", "season_filter", "squad", "set_piece_type", "season"],
             columns="team",
             values="lineouts_total",
             aggfunc="first",
@@ -3129,15 +3187,24 @@ def set_piece_success_by_season_chart(
         .rename(columns={"EGRFC": "EGRFC_lineouts", "Opposition": "Opposition_lineouts"})
     )
 
-    wide = wide_rates.merge(wide_lineouts, on=["squad", "set_piece_type", "season"], how="left")
+    wide = wide_rates.merge(
+        wide_lineouts,
+        on=["game_type_mode", "season_filter", "squad", "set_piece_type", "season"],
+        how="left",
+    )
     wide["season"] = wide["season"].astype(str)
     wide["season_pos"] = wide["season"].map(season_pos)
-    wide = wide.dropna(subset=["EGRFC", "Opposition"]).sort_values(["squad", "set_piece_type", "season_pos"])
+    wide = wide.dropna(subset=["EGRFC", "Opposition"]).sort_values(
+        ["game_type_mode", "season_filter", "squad", "set_piece_type", "season_pos"]
+    )
 
     long_rows = []
     steps_per_segment = 30
 
-    for (squad, set_piece_type), grp in wide.groupby(["squad", "set_piece_type"], sort=False):
+    for (game_type_mode, season_filter, squad, set_piece_type), grp in wide.groupby(
+        ["game_type_mode", "season_filter", "squad", "set_piece_type"],
+        sort=False,
+    ):
         grp = grp.sort_values("season_pos").reset_index(drop=True)
         if grp.empty:
             continue
@@ -3167,6 +3234,8 @@ def set_piece_success_by_season_chart(
 
                 long_rows.append(
                     {
+                        "game_type_mode": game_type_mode,
+                        "season_filter": season_filter,
                         "squad": squad,
                         "set_piece_type": set_piece_type,
                         "season_pos": season_pos_i,
@@ -3181,6 +3250,8 @@ def set_piece_success_by_season_chart(
                 )
                 long_rows.append(
                     {
+                        "game_type_mode": game_type_mode,
+                        "season_filter": season_filter,
                         "squad": squad,
                         "set_piece_type": set_piece_type,
                         "season_pos": season_pos_i,
@@ -3222,7 +3293,7 @@ def set_piece_success_by_season_chart(
                 "leading_team:N",
                 title="Team",
                 scale=color_scale,
-                legend=alt.Legend(orient="right", title=None, labelFont="PT Sans Narrow"),
+                legend=None,
             ),
         )
 
@@ -3234,12 +3305,12 @@ def set_piece_success_by_season_chart(
                 axis=alt.Axis(values=season_ticks, labelExpr=season_label_expr),
             ),
             y=alt.Y(
-                "success_rate:Q",   
+                "success_rate:Q",
                 title=None,
                 scale=alt.Scale(domain=[0.0, 1.0]),
                 axis=alt.Axis(format="%", orient="right"),
             ),
-            color=alt.Color("team:N", title="Team", scale=color_scale),
+            color=alt.Color("team:N", title="Team", scale=color_scale, legend=None),
         )
 
         points = base.transform_filter(
@@ -3247,12 +3318,12 @@ def set_piece_success_by_season_chart(
         ).mark_point(size=55, filled=True, opacity=1.0).encode(
             x=alt.X("season_pos:Q", title="Season"),
             y=alt.Y("success_rate:Q", title="Success Rate", scale=alt.Scale(domain=[0.0, 1.0]), axis=None),
-            color=alt.Color("team:N", title="Team", scale=color_scale),
+            color=alt.Color("team:N", title="Team", scale=color_scale, legend=None),
             tooltip=[
                 alt.Tooltip("team:N", title="Team"),
                 alt.Tooltip("squad:N", title="Squad"),
                 alt.Tooltip("set_piece_type:N", title="Set Piece"),
-                alt.Tooltip("lineouts_total:Q", title=f"Total {alt.datum.set_piece_type}", format=",.0f"),
+                alt.Tooltip("lineouts_total:Q", title="Total", format=",.0f"),
                 alt.Tooltip("success_rate:Q", title="Success Rate", format=".0%"),
             ],
         )
@@ -3261,7 +3332,10 @@ def set_piece_success_by_season_chart(
 
     layout_value = str(layout).strip().lower()
     if layout_value == "faceted":
-        chart = _build_chart(dense_long_df, width=150, height=220).facet(
+        faceted_df = dense_long_df[
+            dense_long_df["game_type_mode"].eq("All") & dense_long_df["season_filter"].eq("All")
+        ].copy()
+        chart = _build_chart(faceted_df, width=150, height=220).facet(
             row=alt.Row("set_piece_type:N", title=None),
             column=alt.Column("squad:N", title=None, header=alt.Header(labelFontSize=24)),
         ).properties(
@@ -3285,6 +3359,8 @@ def set_piece_success_by_season_chart(
     ]
 
     squad_param = alt.param(name="spSquadParam", value="1st")
+    season_param = alt.param(name="spSeasonParam", value="All")
+    game_type_param = alt.param(name="spGameTypeParam", value="League + Cup")
     subtitle_text = "Seasonal success for EGRFC and opposition, with the performance gap highlighted.."
 
     charts = {}
@@ -3297,9 +3373,11 @@ def set_piece_success_by_season_chart(
 
         chart = (
             _build_chart(type_df, width=200, height=300)
-            .add_params(squad_param)
+            .add_params(squad_param, season_param, game_type_param)
             .transform_filter("datum.squad == (spSquadParam + ' XV')")
-            .properties(title=alt.Title(text=f"{set_piece_type} Success", subtitle=subtitle_text))
+            .transform_filter("datum.season_filter == spSeasonParam")
+            .transform_filter("datum.game_type_mode == spGameTypeParam")
+            .properties(title=alt.Title(text=set_piece_type, subtitle=subtitle_text))
         )
 
         chart_path = output_root / filename
@@ -4775,6 +4853,7 @@ def red_zone_performance_chart(db, metric="points", output_file=None, bind_param
         SELECT
             g.game_id,
             g.date,
+            g.squad,
             g.season,
             COALESCE(g.game_type, 'Unknown') AS game_type,
             g.opposition || ' (' || COALESCE(g.home_away, '?') || ')' AS label,
@@ -4801,6 +4880,7 @@ def red_zone_performance_chart(db, metric="points", output_file=None, bind_param
         print(f"Skipping red_zone_performance_chart ({metric_key}): no valid rows after null filtering.")
         return None
 
+    df["squad"] = df["squad"].fillna("Unknown").astype(str)
     df["season"] = df["season"].fillna("Unknown").astype(str)
     df["game_type"] = df["game_type"].fillna("Unknown").astype(str)
     df["label"] = df["label"].fillna("Unknown").astype(str)
@@ -4808,7 +4888,7 @@ def red_zone_performance_chart(db, metric="points", output_file=None, bind_param
 
     df_wide = (
         df.pivot_table(
-            index=["game_id", "date", "season", "game_type", "label", "score"],
+            index=["game_id", "date", "squad", "season", "game_type", "label", "score"],
             values=["entries_22m", "points", "tries", "points_per_entry", "tries_per_entry"],
             columns=["team"],
             aggfunc="first",
@@ -4863,12 +4943,13 @@ def red_zone_performance_chart(db, metric="points", output_file=None, bind_param
         return alt.param(name=name, value=value)
 
     squad_param = _param("rzSquad", "All", ["All", "1st", "2nd"], "Squad ")
-    season_param = _param("rzSeason", "All", ["All", *seasons], "Season ")
+    # Season param is now an array for multi-select support
+    season_param = _param("rzSeason", list(seasons) if seasons else ["2024/25", "2025/26"], None, "Season ")
     game_type_param = _param("rzGameType", "All", ["All", "League + Cup", "League only"], "Game Type ")
 
     filter_expr = (
         f"({squad_param.name} == 'All' || datum.squad == {squad_param.name})"
-        f" && ({season_param.name} == 'All' || datum.season == {season_param.name})"
+        f" && (indexof({season_param.name}, datum.season) >= 0)"
         f" && ("
         f"{game_type_param.name} == 'All'"
         f" || ({game_type_param.name} == 'League + Cup' && (datum.game_type == 'League' || datum.game_type == 'Cup'))"
@@ -4902,13 +4983,10 @@ def red_zone_performance_chart(db, metric="points", output_file=None, bind_param
                 color_field,
                 scale=alt.Scale(scheme="redyellowgreen", domain=color_domain, zero=True, clamp=True),
                 legend=alt.Legend(
-                    orient="right",
-                    direction="vertical",
                     title=color_title,
-                    titleOrient="left",
                     format="+.2f",
                     padding=5,
-                    offset=20,
+                    offset=40,
                 ),
             ),
             tooltip=[
@@ -4985,6 +5063,438 @@ def red_zone_performance_chart(db, metric="points", output_file=None, bind_param
             height=500,
         )
         .resolve_scale(x="shared", y="shared", color="independent")
+    )
+
+    chart.save(output_file)
+    return chart
+
+
+def set_piece_attacking_volume_chart(
+    db,
+    output_file="data/charts/set_piece_attacking_volume.json",
+    output_dir="data/charts",
+    layout="separate",
+    bind_params=False,
+):
+    """Average attacking lineout/scrum volume by season for EGRFC vs opposition.
+
+    layout="separate" writes one chart per set-piece type:
+    - data/charts/set_piece_attacking_volume_lineout.json
+    - data/charts/set_piece_attacking_volume_scrum.json
+
+    layout="faceted" writes a single faceted chart to output_file.
+    """
+    df = db.con.execute(
+        """
+        SELECT
+            g.game_id,
+            g.squad,
+            g.season,
+            COALESCE(g.game_type, 'Unknown') AS game_type,
+            CASE WHEN sp.team = 'EGRFC' THEN 'EGRFC' ELSE 'Opposition' END AS team,
+            sp.lineouts_total::DOUBLE AS lineouts_total,
+            sp.scrums_total::DOUBLE AS scrums_total
+        FROM set_piece sp
+        LEFT JOIN games g USING (game_id)
+        WHERE g.game_id IS NOT NULL
+        ORDER BY g.season, g.squad, g.game_id, sp.team
+        """
+    ).df()
+
+    if df.empty:
+        print("Skipping set_piece_attacking_volume_chart: no rows available.")
+        return None
+
+    for col in ["squad", "season", "game_type", "team"]:
+        df[col] = df[col].fillna("Unknown").astype(str)
+
+    season_order = sorted(df["season"].dropna().unique().tolist(), key=lambda s: int(str(s)[:4]) if str(s)[:4].isdigit() else 0)
+
+    lineout_df = df[["squad", "season", "game_type", "team", "lineouts_total"]].copy()
+    lineout_df["set_piece"] = "Lineout"
+    lineout_df["attempts"] = lineout_df["lineouts_total"].fillna(0.0)
+
+    scrum_df = df[["squad", "season", "game_type", "team", "scrums_total"]].copy()
+    scrum_df["set_piece"] = "Scrum"
+    scrum_df["attempts"] = scrum_df["scrums_total"].fillna(0.0)
+
+    long_df = pd.concat(
+        [
+            lineout_df[["squad", "season", "game_type", "team", "set_piece", "attempts"]],
+            scrum_df[["squad", "season", "game_type", "team", "set_piece", "attempts"]],
+        ],
+        ignore_index=True,
+    )
+
+    game_type_modes = {
+        "All": lambda d: d,
+        "League + Cup": lambda d: d[d["game_type"].isin(["League", "Cup"])],
+        "League only": lambda d: d[d["game_type"].eq("League")],
+    }
+
+    mode_frames = []
+    for mode_label, mode_filter in game_type_modes.items():
+        mode_df = mode_filter(long_df).copy()
+        if mode_df.empty:
+            continue
+        grouped = (
+            mode_df.groupby(["squad", "season", "team", "set_piece"], as_index=False)
+            .agg(avg_attempts=("attempts", "mean"))
+        )
+        grouped["game_type_mode"] = mode_label
+        mode_frames.append(grouped)
+
+    if not mode_frames:
+        print("Skipping set_piece_attacking_volume_chart: no grouped rows available.")
+        return None
+
+    agg = pd.concat(mode_frames, ignore_index=True)
+
+    if agg.empty:
+        print("Skipping set_piece_attacking_volume_chart: no aggregated rows available.")
+        return None
+
+    def _param(name, value, options=None, label=None):
+        bind = alt.binding_select(options=options, name=label) if bind_params and options is not None else None
+        if bind is not None:
+            return alt.param(name=name, bind=bind, value=value)
+        return alt.param(name=name, value=value)
+
+    squad_param = _param("spSquadParam", "1st", ["1st", "2nd"], "Squad ")
+    season_param = _param("spSeasonParam", "All", ["All", *sorted(agg["season"].unique().tolist(), reverse=True)], "Season ")
+    game_type_param = _param("spGameTypeParam", "League + Cup", ["All", "League + Cup", "League only"], "Game Type ")
+
+    filter_expr = (
+        f"datum.squad == {squad_param.name}"
+        f" && ({season_param.name} == 'All' || datum.season == {season_param.name})"
+        f" && datum.game_type_mode == {game_type_param.name}"
+    )
+
+    team_scale = alt.Scale(domain=["EGRFC", "Opposition"], range=["#202946", "#981515"])
+
+    def _base_chart(chart_df, y_title, title_text, subtitle_text):
+        return (
+            alt.Chart(chart_df)
+            .transform_filter(filter_expr)
+            .mark_bar()
+            .encode(
+                x=alt.X("season:N", title="Season", sort=season_order, axis=alt.Axis(labelAngle=0)),
+                xOffset=alt.XOffset("team:N", sort=["EGRFC", "Opposition"]),
+                y=alt.Y("avg_attempts:Q", title=y_title, axis=alt.Axis(format=".0f")),
+                color=alt.Color("team:N", title="Team", scale=team_scale, legend=None),
+                tooltip=[
+                    alt.Tooltip("set_piece:N", title="Set Piece"),
+                    alt.Tooltip("season:N", title="Season"),
+                    alt.Tooltip("team:N", title="Team"),
+                    alt.Tooltip("avg_attempts:Q", title="Avg Attempts", format=".2f"),
+                ],
+            )
+            .add_params(squad_param, season_param, game_type_param)
+            .properties(
+                title=alt.TitleParams(text=title_text, subtitle=[subtitle_text]),
+                width=300,
+                height=300,
+            )
+        )
+
+    layout_value = str(layout).strip().lower()
+    if layout_value == "faceted":
+        chart = (
+            alt.Chart(agg)
+            .transform_filter(filter_expr)
+            .mark_bar()
+            .encode(
+                x=alt.X("season:N", title="Season", sort=season_order, axis=alt.Axis(labelAngle=0)),
+                xOffset=alt.XOffset("team:N", sort=["EGRFC", "Opposition"]),
+                y=alt.Y("avg_attempts:Q", title="Average attacking set pieces", axis=alt.Axis(format=".0f")),
+                color=alt.Color("team:N", title="Team", scale=team_scale, legend=None),
+                column=alt.Column("set_piece:N", title=None, sort=["Lineout", "Scrum"], header=alt.Header(labelFontSize=16)),
+                tooltip=[
+                    alt.Tooltip("set_piece:N", title="Set Piece"),
+                    alt.Tooltip("season:N", title="Season"),
+                    alt.Tooltip("team:N", title="Team"),
+                    alt.Tooltip("avg_attempts:Q", title="Avg Attempts", format=".2f"),
+                ],
+            )
+            .add_params(squad_param, season_param, game_type_param)
+            .properties(
+                title=alt.TitleParams(
+                    text="Average Attacking Set Piece Volume",
+                    subtitle=["Average attacking lineout and scrum volume per game by season"],
+                ),
+                width=250,
+                height=300,
+            )
+        )
+        chart.save(output_file)
+        return chart
+
+    if layout_value != "separate":
+        raise ValueError("layout must be either 'separate' or 'faceted'")
+
+    output_root = Path(output_dir)
+    output_root.mkdir(parents=True, exist_ok=True)
+
+    type_targets = [
+        ("Lineout", "set_piece_attacking_volume_lineout.json", "Average attacking lineouts", "Average attacking lineout volume per game by season"),
+        ("Scrum", "set_piece_attacking_volume_scrum.json", "Average attacking scrums", "Average attacking scrum volume per game by season"),
+    ]
+
+    charts = {}
+    for set_piece_type, filename, y_title, subtitle in type_targets:
+        type_df = agg[agg["set_piece"].eq(set_piece_type)].copy()
+        if type_df.empty:
+            print(f"Skipping {filename}: no rows for {set_piece_type}.")
+            continue
+
+        chart = _base_chart(
+            type_df,
+            y_title=y_title,
+            title_text=f"{set_piece_type} Volume",
+            subtitle_text=subtitle,
+        )
+        chart_path = output_root / filename
+        chart.save(str(chart_path))
+        charts[set_piece_type.lower()] = chart
+
+    return charts if charts else None
+
+
+def red_zone_entries_efficiency_chart(db, output_file="data/charts/red_zone_entries_efficiency.json", bind_params=False):
+    """Seasonal red-zone entries (bars) and efficiency (line+point) by team.
+
+    Efficiency metric is toggled via `rzEfficiencyMetricParam` between:
+    - Points per 22m entry
+    - Try-scoring efficiency (%)
+    """
+    df = db.con.execute(
+        """
+        SELECT
+            g.game_id,
+            g.squad,
+            g.season,
+            COALESCE(g.game_type, 'Unknown') AS game_type,
+            CASE WHEN r.team = 'EGRFC' THEN 'EGRFC' ELSE 'Opposition' END AS team,
+            r.entries_22m::DOUBLE AS entries_22m,
+            r.points::DOUBLE AS points,
+            r.tries::DOUBLE AS tries
+        FROM v_red_zone r
+        LEFT JOIN games g USING (game_id)
+        WHERE g.game_id IS NOT NULL
+          AND r.entries_22m IS NOT NULL
+        ORDER BY g.season, g.game_id, r.team
+        """
+    ).df()
+
+    if df.empty:
+        print("Skipping red_zone_entries_efficiency_chart: no rows available.")
+        return None
+
+    for col in ["squad", "season", "game_type", "team"]:
+        df[col] = df[col].fillna("Unknown").astype(str)
+
+    df["entries_22m"] = df["entries_22m"].fillna(0.0)
+    df["points"] = df["points"].fillna(0.0)
+    df["tries"] = df["tries"].fillna(0.0)
+
+    game_type_modes = {
+        "All": lambda d: d,
+        "League + Cup": lambda d: d[d["game_type"].isin(["League", "Cup"])],
+        "League only": lambda d: d[d["game_type"].eq("League")],
+    }
+
+    mode_frames = []
+    for mode_label, mode_filter in game_type_modes.items():
+        mode_df = mode_filter(df).copy()
+        if mode_df.empty:
+            continue
+
+        grouped = (
+            mode_df.groupby(["squad", "season", "team"], as_index=False)
+            .agg(
+                games=("game_id", "nunique"),
+                sum_entries=("entries_22m", "sum"),
+                sum_points=("points", "sum"),
+                sum_tries=("tries", "sum"),
+            )
+        )
+        grouped["avg_entries"] = grouped["sum_entries"] / grouped["games"].where(grouped["games"] > 0, float("nan"))
+        grouped["avg_points_per_entry"] = grouped["sum_points"] / grouped["sum_entries"].where(grouped["sum_entries"] > 0, float("nan"))
+        grouped["avg_tries_eff_pct"] = (grouped["sum_tries"] / grouped["sum_entries"].where(grouped["sum_entries"] > 0, float("nan"))) * 100.0
+        grouped["game_type_mode"] = mode_label
+        mode_frames.append(grouped[["squad", "season", "team", "avg_entries", "avg_points_per_entry", "avg_tries_eff_pct", "game_type_mode"]])
+
+    if not mode_frames:
+        print("Skipping red_zone_entries_efficiency_chart: no grouped rows available.")
+        return None
+
+    agg = pd.concat(mode_frames, ignore_index=True)
+
+    if agg.empty:
+        print("Skipping red_zone_entries_efficiency_chart: no aggregated rows available.")
+        return None
+
+    entries_max = float(agg["avg_entries"].max()) if not agg["avg_entries"].dropna().empty else 0.0
+    points_eff_max = float(agg["avg_points_per_entry"].max()) if not agg["avg_points_per_entry"].dropna().empty else 0.0
+    entries_axis_max = max(5.0, math.ceil(entries_max / 5.0) * 5.0)
+    points_axis_max = max(1.0, math.ceil(points_eff_max / 0.5) * 0.5)
+    aligned_tick_count = 6
+
+    seasons = sorted(agg["season"].dropna().unique().tolist(), key=lambda s: int(str(s)[:4]) if str(s)[:4].isdigit() else 0)
+
+    def _param(name, value, options=None, label=None):
+        bind = alt.binding_select(options=options, name=label) if bind_params and options is not None else None
+        if bind is not None:
+            return alt.param(name=name, bind=bind, value=value)
+        return alt.param(name=name, value=value)
+
+    squad_param = _param("rzSquad", "All", ["All", "1st", "2nd"], "Squad ")
+    season_param = _param("rzSeason", list(reversed(seasons)) if seasons else ["2024/25", "2025/26"], None, "Season ")
+    game_type_param = _param("rzGameType", "All", ["All", "League + Cup", "League only"], "Game Type ")
+    efficiency_metric_param = _param(
+        "rzEfficiencyMetricParam",
+        "Points per 22m entry",
+        ["Points per 22m entry", "Try-scoring efficiency (%)"],
+        "Efficiency Metric ",
+    )
+
+    filter_expr = (
+        f"({squad_param.name} == 'All' || datum.squad == {squad_param.name})"
+        f" && (indexof({season_param.name}, datum.season) >= 0)"
+        f" && datum.game_type_mode == {game_type_param.name}"
+    )
+
+    team_scale = alt.Scale(domain=["EGRFC", "Opposition"], range=["#202946", "#981515"])
+
+    base = (
+        alt.Chart(agg)
+        .transform_filter(filter_expr)
+        .transform_calculate(
+            efficiency_value=(
+                f"{efficiency_metric_param.name} == 'Points per 22m entry'"
+                " ? datum.avg_points_per_entry"
+                " : datum.avg_tries_eff_pct"
+            ),
+            efficiency_plot=(
+                f"{efficiency_metric_param.name} == 'Points per 22m entry'"
+                f" ? datum.avg_points_per_entry * (100 / {points_axis_max})"
+                " : datum.avg_tries_eff_pct"
+            ),
+            efficiency_label=(
+                f"{efficiency_metric_param.name} == 'Points per 22m entry'"
+                " ? 'Pts/entry'"
+                " : 'Try efficiency (%)'"
+            ),
+            efficiency_text=(
+                f"{efficiency_metric_param.name} == 'Points per 22m entry'"
+                " ? format(datum.avg_points_per_entry, '.1f')"
+                " : format(datum.avg_tries_eff_pct, '.0f') + '%'"
+            ),
+            entries_text="format(datum.avg_entries, '.1f')",
+            efficiency_text_y="datum.team == 'EGRFC' ? datum.efficiency_plot + 2 : datum.efficiency_plot - 2",
+        )
+    )
+
+    bars = base.mark_bar(opacity=0.7).encode(
+        x=alt.X("season:N", title="Season", sort=seasons, axis=alt.Axis(labelAngle=0)),
+        xOffset=alt.XOffset("team:N", sort=["EGRFC", "Opposition"]),
+        y=alt.Y(
+            "avg_entries:Q",
+            title="Average 22m entries",
+            scale=alt.Scale(domain=[0, entries_axis_max], nice=False),
+            axis=alt.Axis(format=".0f", tickCount=aligned_tick_count, grid=True),
+        ),
+        color=alt.Color("team:N", title="Team", scale=team_scale),
+        tooltip=[
+            alt.Tooltip("season:N", title="Season"),
+            alt.Tooltip("team:N", title="Team"),
+            alt.Tooltip("avg_entries:Q", title="Avg 22m Entries", format=".2f"),
+            alt.Tooltip("avg_points_per_entry:Q", title="Avg Pts/Entry", format=".2f"),
+            alt.Tooltip("avg_tries_eff_pct:Q", title="Avg Try Efficiency", format=".1f"),
+        ],
+    )
+
+    bars_text = base.mark_text(fontSize=11, fontWeight="bold", dy=-8).encode(
+        x=alt.X("season:N", sort=seasons),
+        xOffset=alt.XOffset("team:N", sort=["EGRFC", "Opposition"]),
+        y=alt.Y("avg_entries:Q", scale=alt.Scale(domain=[0, entries_axis_max], nice=False), axis=None),
+        text=alt.Text("entries_text:N"),
+        color=alt.Color("team:N", scale=team_scale, legend=None),
+    )
+
+    line = base.mark_line(size=2.2).encode(
+        x=alt.X("season:N", sort=seasons),
+        y=alt.Y(
+            "efficiency_plot:Q",
+            title="Average efficiency",
+            scale=alt.Scale(domain=[0, 100], nice=False),
+            axis=alt.Axis(
+                orient="right",
+                tickCount=aligned_tick_count,
+                grid=False,
+                labelExpr=(
+                    f"{efficiency_metric_param.name} == 'Try-scoring efficiency (%)'"
+                    " ? format(datum.value, '.0f') + '%'"
+                    f" : format(datum.value * ({points_axis_max} / 100), '.1f')"
+                ),
+            ),
+        ),
+        color=alt.Color("team:N", scale=team_scale, legend=None),
+        detail=alt.Detail("team:N"),
+        tooltip=[
+            alt.Tooltip("season:N", title="Season"),
+            alt.Tooltip("team:N", title="Team"),
+            alt.Tooltip("efficiency_label:N", title="Metric"),
+            alt.Tooltip("efficiency_value:Q", title="Efficiency", format=".2f"),
+        ],
+    )
+
+    points = base.mark_point(filled=True, size=80).encode(
+        x=alt.X("season:N", sort=seasons),
+        y=alt.Y(
+            "efficiency_plot:Q",
+            title="Average efficiency",
+            scale=alt.Scale(domain=[0, 100], nice=False),
+            axis=alt.Axis(
+                orient="right",
+                tickCount=aligned_tick_count,
+                grid=False,
+                labelExpr=(
+                    f"{efficiency_metric_param.name} == 'Try-scoring efficiency (%)'"
+                    " ? format(datum.value, '.0f') + '%'"
+                    f" : format(datum.value * ({points_axis_max} / 100), '.1f')"
+                ),
+            ),
+        ),
+        color=alt.Color("team:N", scale=team_scale, legend=None),
+        tooltip=[
+            alt.Tooltip("season:N", title="Season"),
+            alt.Tooltip("team:N", title="Team"),
+            alt.Tooltip("efficiency_label:N", title="Metric"),
+            alt.Tooltip("efficiency_value:Q", title="Efficiency", format=".2f"),
+        ],
+    )
+
+    points_text = base.mark_text(fontSize=11, fontWeight="bold").encode(
+        x=alt.X("season:N", sort=seasons),
+        y=alt.Y("efficiency_text_y:Q", scale=alt.Scale(domain=[0, 100], nice=False), axis=None),
+        text=alt.Text("efficiency_text:N"),
+        color=alt.Color("team:N", scale=team_scale, legend=None),
+        detail=alt.Detail("team:N"),
+    )
+
+    chart = (
+        alt.layer(bars, bars_text, line, points, points_text)
+        .add_params(squad_param, season_param, game_type_param, efficiency_metric_param)
+        .resolve_scale(y="independent")
+        .properties(
+            title=alt.TitleParams(
+                text="22m Entries and Seasonal Efficiency",
+                subtitle=["Bars show average entries; line/points show selected efficiency metric"],
+            ),
+            width=400,
+            height=350,
+        )
     )
 
     chart.save(output_file)

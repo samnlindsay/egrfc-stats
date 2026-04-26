@@ -24,56 +24,6 @@
     let scrumH2HLayoutKey = null;
     let scrumSuccessView = null;
 
-    async function renderChartSpec(containerId, path, emptyMessage) {
-        const container = document.getElementById(containerId);
-        if (!container) return null;
-        try {
-            const spec = await loadChartSpec(path);
-            return await embedChartSpec(container, spec, { containerId, emptyMessage });
-        } catch (error) {
-            console.error(`Unable to render chart from ${path}:`, error);
-            container.innerHTML = `<div class="text-center text-muted py-4">${emptyMessage}</div>`;
-            return null;
-        }
-    }
-
-    async function renderSplitSetPiecePanelsFromSingleSpec(path, panelConfigs) {
-        let baseSpec = null;
-        try {
-            baseSpec = await loadChartSpec(path);
-        } catch (error) {
-            console.error(`Unable to load shared chart spec from ${path}:`, error);
-            panelConfigs.forEach(({ containerId, emptyMessage }) => {
-                const container = document.getElementById(containerId);
-                if (container) {
-                    container.innerHTML = `<div class="text-center text-muted py-4">${emptyMessage}</div>`;
-                }
-            });
-            return;
-        }
-
-        await Promise.all(panelConfigs.map(async ({ containerId, squad, emptyMessage }) => {
-            const container = document.getElementById(containerId);
-            if (!container) return;
-
-            try {
-                const spec = cloneSpec(baseSpec);
-                const view = await embedChartSpec(container, spec, { containerId, emptyMessage });
-                if (view) {
-                    view.signal('spSquadParam', squad);
-                    await view.runAsync();
-                }
-            } catch (error) {
-                console.error(`Unable to render split set-piece panel for ${containerId}:`, error);
-                container.innerHTML = `<div class="text-center text-muted py-4">${emptyMessage}</div>`;
-            }
-        }));
-    }
-
-    function cloneSpec(spec) {
-        return JSON.parse(JSON.stringify(spec));
-    }
-
     function getScrumH2HLayoutKey() {
         const teamValue = document.getElementById('scrumFilterTeamHighlight')?.value || 'All';
         const outcomeValue = document.getElementById('scrumFilterOutcomeHighlight')?.value || 'All';
@@ -121,7 +71,7 @@
             return scrumH2HView;
         }
 
-        const layoutSpec = applyScrumH2HLayout(cloneSpec(scrumH2HBaseSpec), layoutKey);
+        const layoutSpec = applyScrumH2HLayout(cloneChartSpec(scrumH2HBaseSpec), layoutKey);
         scrumH2HLayoutKey = layoutKey;
         scrumH2HView = await embedChartSpec(container, layoutSpec, {
             containerId: 'scrumH2HChart',
@@ -246,7 +196,7 @@
         try {
             scrumH2HView = await ensureScrumH2HViewLayout();
         } catch (error) {
-            scrumH2HView = await renderChartSpec('scrumH2HChart', SCRUM_H2H_SPEC_PATH, 'Scrums head-to-head chart unavailable.');
+            scrumH2HView = await renderChartSpecFromPath('scrumH2HChart', SCRUM_H2H_SPEC_PATH, 'Scrums head-to-head chart unavailable.');
         }
         await applyScrumFilters();
 
@@ -263,7 +213,7 @@
     }
 
     document.addEventListener('DOMContentLoaded', async function () {
-        scrumSuccessView = await renderChartSpec('setPieceScrumChart', 'data/charts/set_piece_success_scrum.json', 'Scrum success chart unavailable.');
+        scrumSuccessView = await renderChartSpecFromPath('setPieceScrumChart', 'data/charts/set_piece_success_scrum.json', 'Scrum success chart unavailable.');
 
         await renderSplitSetPiecePanelsFromSingleSpec('data/charts/set_piece_success_scrum.json', [
             { containerId: 'setPiece1stScrumChart', squad: '1st', emptyMessage: '1st XV scrum chart unavailable.' },

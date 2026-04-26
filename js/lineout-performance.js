@@ -124,10 +124,6 @@
         return escapeHtml(value).replace(/`/g, '&#96;');
     }
 
-    function cloneSpec(spec) {
-        return JSON.parse(JSON.stringify(spec));
-    }
-
     async function fetchJson(path) {
         const separator = path.includes('?') ? '&' : '?';
         const requestPath = `${path}${separator}v=${encodeURIComponent(String(Date.now()))}`;
@@ -136,52 +132,6 @@
             throw new Error(`Failed to fetch ${path} (${response.status})`);
         }
         return response.json();
-    }
-
-    async function renderChartSpec(containerId, path, emptyMessage) {
-        const container = document.getElementById(containerId);
-        if (!container) return null;
-        try {
-            const spec = await loadChartSpec(path);
-            return await embedChartSpec(container, spec, { containerId, emptyMessage });
-        } catch (error) {
-            console.error(`Unable to render chart from ${path}:`, error);
-            container.innerHTML = `<div class="text-center text-muted py-4">${emptyMessage}</div>`;
-            return null;
-        }
-    }
-
-    async function renderSplitSetPiecePanelsFromSingleSpec(path, panelConfigs) {
-        let baseSpec = null;
-        try {
-            baseSpec = await loadChartSpec(path);
-        } catch (error) {
-            console.error(`Unable to load shared chart spec from ${path}:`, error);
-            panelConfigs.forEach(({ containerId, emptyMessage }) => {
-                const container = document.getElementById(containerId);
-                if (container) {
-                    container.innerHTML = `<div class="text-center text-muted py-4">${emptyMessage}</div>`;
-                }
-            });
-            return;
-        }
-
-        await Promise.all(panelConfigs.map(async ({ containerId, squad, emptyMessage }) => {
-            const container = document.getElementById(containerId);
-            if (!container) return;
-
-            try {
-                const spec = cloneSpec(baseSpec);
-                const view = await embedChartSpec(container, spec, { containerId, emptyMessage });
-                if (view) {
-                    view.signal('spSquadParam', squad);
-                    await view.runAsync();
-                }
-            } catch (error) {
-                console.error(`Unable to render split set-piece panel for ${containerId}:`, error);
-                container.innerHTML = `<div class="text-center text-muted py-4">${emptyMessage}</div>`;
-            }
-        }));
     }
 
     function populateSelect(id, values, allLabel) {
@@ -529,11 +479,11 @@
 
     async function loadInteractiveCharts() {
         await Promise.all(PANEL_SPECS.map(async ({ containerId, path, emptyMessage, trendContainerId, trendPath }) => {
-            const view = await renderChartSpec(containerId, path, emptyMessage);
+            const view = await renderChartSpecFromPath(containerId, path, emptyMessage);
             if (view) views.set(containerId, view);
 
             if (trendContainerId && trendPath) {
-                const trendView = await renderChartSpec(trendContainerId, trendPath, `${emptyMessage.replace('breakdown', 'trend')}`);
+                const trendView = await renderChartSpecFromPath(trendContainerId, trendPath, `${emptyMessage.replace('breakdown', 'trend')}`);
                 if (trendView) views.set(trendContainerId, trendView);
             }
         }));
@@ -567,7 +517,7 @@
     }
 
     document.addEventListener('DOMContentLoaded', async function () {
-        const lineoutSuccessView = await renderChartSpec('setPieceLineoutChart', 'data/charts/set_piece_success_lineout.json', 'Lineout success chart unavailable.');
+        const lineoutSuccessView = await renderChartSpecFromPath('setPieceLineoutChart', 'data/charts/set_piece_success_lineout.json', 'Lineout success chart unavailable.');
         if (lineoutSuccessView) views.set('setPieceLineoutChart', lineoutSuccessView);
 
         await renderSplitSetPiecePanelsFromSingleSpec('data/charts/set_piece_success_lineout.json', [

@@ -35,6 +35,13 @@ let availableSeasons = [
 const chartSpecCache = new Map();
 const chartSpecRequestVersion = String(Date.now());
 let responsiveChartResizeBound = false;
+const SET_PIECE_LAYOUT_ENTRY = Object.freeze({
+  narrowMax: 760,
+  responsiveScaleMin: 0.62,
+  responsiveScaleMinXs: 0.56,
+  narrow: { legendOrient: "bottom", width: 250 },
+  wide: { legendOrient: "right", width: 300 },
+});
 
 // Methodical inventory of chart containers present across HTML pages.
 // Use this to track responsive layout coverage in CHART_LAYOUT_INVENTORY.
@@ -61,6 +68,9 @@ const CHART_CONTAINER_INVENTORY = Object.freeze([
   "playerStatsMotmUnitsChart",
   "playerStatsPointsChart",
   "rzPointsChart",
+  "rzSeasonalEntriesEfficiencyChart",
+  "setPieceAttackingLineoutVolumeChart",
+  "setPieceAttackingScrumVolumeChart",
   "setPiece1stLineoutChart",
   "setPiece1stScrumChart",
   "setPiece2ndLineoutChart",
@@ -88,6 +98,7 @@ const CHART_CONTAINER_INVENTORY = Object.freeze([
 // - spacing / padding / autosize: top-level layout values
 // - specPath: override chart spec path for a given mode
 // - panelSizing: per-panel width/height for concat charts
+// - responsiveScaleMin / responsiveScaleMinXs: minimum scale thresholds used by applyResponsiveChartScale
 //
 // Supported entry-level fields:
 // - narrowMax / wideMin: mode breakpoints
@@ -248,44 +259,45 @@ const CHART_LAYOUT_INVENTORY = {
   },
   redZone1stChart: {
     narrowMax: 720,
+    responsiveScaleMin: 0.62,
+    responsiveScaleMinXs: 0.56,
     narrow: { legendOrient: "bottom" },
     wide: { legendOrient: "right" },
   },
   rzPointsChart: {
     narrowMax: 720,
-    narrow: { legendOrient: "bottom" },
-    wide: { legendOrient: "right" },
+    responsiveScaleMin: 0.62,
+    responsiveScaleMinXs: 0.56,
+    narrow: { legendOrient: "bottom", legendTitleOrient: "top" },
+    wide: { legendOrient: "right", legendTitleOrient: "left", width: 600, height: 500 },
   },
-  setPieceLineoutChart: {
+  rzSeasonalEntriesEfficiencyChart: {
+    narrowMax: 720,
+    responsiveScaleMin: 0.64,
+    responsiveScaleMinXs: 0.58,
+    narrow: { legendOrient: "bottom", legendTitleOrient: "top" },
+    wide: { legendOrient: "right", legendTitleOrient: "left", width: 640, height: 360 },
+  },
+  setPieceAttackingLineoutVolumeChart: {
     narrowMax: 760,
-    narrow: { legendOrient: "bottom" },
-    wide: { legendOrient: "right" },
+    responsiveScaleMin: 0.62,
+    responsiveScaleMinXs: 0.56,
+    narrow: { legendOrient: "bottom", legendTitleOrient: "top" },
+    wide: { legendOrient: "right", legendTitleOrient: "top", width: 300, height: 300 },
   },
-  setPiece1stLineoutChart: {
+  setPieceAttackingScrumVolumeChart: {
     narrowMax: 760,
-    narrow: { legendOrient: "bottom" },
-    wide: { legendOrient: "right" },
+    responsiveScaleMin: 0.62,
+    responsiveScaleMinXs: 0.56,
+    narrow: { legendOrient: "bottom", legendTitleOrient: "top" },
+    wide: { legendOrient: "right", legendTitleOrient: "top", width: 300, height: 300 },
   },
-  setPiece2ndLineoutChart: {
-    narrowMax: 760,
-    narrow: { legendOrient: "bottom" },
-    wide: { legendOrient: "right" },
-  },
-  setPieceScrumChart: {
-    narrowMax: 760,
-    narrow: { legendOrient: "bottom" },
-    wide: { legendOrient: "right" },
-  },
-  setPiece1stScrumChart: {
-    narrowMax: 760,
-    narrow: { legendOrient: "bottom" },
-    wide: { legendOrient: "right" },
-  },
-  setPiece2ndScrumChart: {
-    narrowMax: 760,
-    narrow: { legendOrient: "bottom" },
-    wide: { legendOrient: "right" },
-  },
+  setPieceLineoutChart: { ...SET_PIECE_LAYOUT_ENTRY },
+  setPiece1stLineoutChart: { ...SET_PIECE_LAYOUT_ENTRY },
+  setPiece2ndLineoutChart: { ...SET_PIECE_LAYOUT_ENTRY },
+  setPieceScrumChart: { ...SET_PIECE_LAYOUT_ENTRY },
+  setPiece1stScrumChart: { ...SET_PIECE_LAYOUT_ENTRY },
+  setPiece2ndScrumChart: { ...SET_PIECE_LAYOUT_ENTRY },
 };
 
 function getChartLayoutCoverage() {
@@ -845,6 +857,56 @@ async function loadChartSpec(path) {
   return spec;
 }
 
+async function renderChartSpecFromPath(containerId, path, emptyMessage, options = {}) {
+  const container = document.getElementById(containerId);
+  if (!container) return null;
+  try {
+    const spec = await loadChartSpec(path);
+    return await embedChartSpec(container, spec, {
+      ...options,
+      containerId,
+      emptyMessage,
+    });
+  } catch (error) {
+    console.error(`Unable to render chart from ${path}:`, error);
+    container.innerHTML = `<div class="text-center text-muted py-4">${emptyMessage}</div>`;
+    return null;
+  }
+}
+
+async function renderSplitSetPiecePanelsFromSingleSpec(path, panelConfigs) {
+  let baseSpec = null;
+  try {
+    baseSpec = await loadChartSpec(path);
+  } catch (error) {
+    console.error(`Unable to load shared chart spec from ${path}:`, error);
+    panelConfigs.forEach(({ containerId, emptyMessage }) => {
+      const container = document.getElementById(containerId);
+      if (container) {
+        container.innerHTML = `<div class="text-center text-muted py-4">${emptyMessage}</div>`;
+      }
+    });
+    return;
+  }
+
+  await Promise.all(panelConfigs.map(async ({ containerId, squad, emptyMessage }) => {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    try {
+      const spec = cloneChartSpec(baseSpec);
+      const view = await embedChartSpec(container, spec, { containerId, emptyMessage });
+      if (view) {
+        view.signal("spSquadParam", squad);
+        await view.runAsync();
+      }
+    } catch (error) {
+      console.error(`Unable to render split set-piece panel for ${containerId}:`, error);
+      container.innerHTML = `<div class="text-center text-muted py-4">${emptyMessage}</div>`;
+    }
+  }));
+}
+
 function filterChartSpecDataset(spec, predicate) {
   const clonedSpec = cloneChartSpec(spec);
   const filteredRows = [];
@@ -1075,6 +1137,8 @@ async function embedChartSpec(containerOrId, spec, options = {}) {
 
   const containerId = options.containerId || container.id || null;
   const layoutContainerId = options.layoutContainerId || containerId;
+  const layoutWidth = getChartLayoutWidth(container);
+  const layoutState = resolveChartLayoutState(layoutContainerId, layoutWidth);
   const emptyMessage = options.emptyMessage || "No chart data available.";
   const containerClasses = []
     .concat(options.containerClasses || [])
@@ -1097,6 +1161,27 @@ async function embedChartSpec(containerOrId, spec, options = {}) {
     );
   }
 
+  if (!Number.isFinite(options.responsiveScaleMin)) {
+    const inventoryScaleMin = Number.isFinite(layoutState?.profile?.responsiveScaleMin)
+      ? layoutState.profile.responsiveScaleMin
+      : layoutState?.entry?.responsiveScaleMin;
+    if (Number.isFinite(inventoryScaleMin)) {
+      container.setAttribute("data-chart-scale-min", String(inventoryScaleMin));
+    }
+  }
+
+  if (!Number.isFinite(options.responsiveScaleMinXs)) {
+    const inventoryScaleMinXs = Number.isFinite(layoutState?.profile?.responsiveScaleMinXs)
+      ? layoutState.profile.responsiveScaleMinXs
+      : layoutState?.entry?.responsiveScaleMinXs;
+    if (Number.isFinite(inventoryScaleMinXs)) {
+      container.setAttribute(
+        "data-chart-scale-min-xs",
+        String(inventoryScaleMinXs),
+      );
+    }
+  }
+
   if (!spec || !chartSpecHasRows(spec)) {
     container.innerHTML = `<div class="text-center text-muted py-4">${emptyMessage}</div>`;
     return null;
@@ -1113,7 +1198,6 @@ async function embedChartSpec(containerOrId, spec, options = {}) {
   if (embedHostClasses.length) embedHost.classList.add(...embedHostClasses);
   container.appendChild(embedHost);
 
-  const layoutWidth = getChartLayoutWidth(container);
   const sourcePath = options.sourcePath || spec?.__sourcePath || null;
   const variantPath = resolveChartVariantPath(
     layoutContainerId,

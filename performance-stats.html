@@ -26,7 +26,7 @@
     <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
 </head>
 
-<body>
+<body id="page-performance-stats">
 <nav class="navbar navbar-expand-lg navbar-dark app-top-navbar">
             <div class="container-fluid">
                 <a class="navbar-brand app-navbar-brand" href="index.html">
@@ -71,108 +71,208 @@
         </nav>
 
         <div class="main-content">
-            <div class="page-shell page-shell--default">
-                <div class="page-header">
-                    <div class="page-header-text">
-                        <h1>Performance Stats</h1>
-                        <p>Lineout success, scrum success, and red-zone efficiency.<br>Use the dedicated Lineout Deep Dive page for extra detail.</p>
+            <div class="page-shell page-shell--sm">
+                <section class="ux-hero squad-stats-hero performance-stats-hero" aria-labelledby="performanceStatsHeroTitle">
+                    <div class="ux-hero-main">
+                        <p class="ux-hero-kicker">Performance</p>
+                        <h1 id="performanceStatsHeroTitle" class="ux-hero-title">Performance Stats</h1>
+                        <p class="ux-hero-description">Track set-piece reliability and red-zone efficiency across both squads.</p>
+                        <p class="ux-hero-description">Use the sections below to review seasonal trend charts for lineout, scrum, and attacking output inside the 22.</p>
                     </div>
-                </div>
-
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-                    <div>
-                        <h2 class="section-heading section-heading--flush">Lineout</h2>
-                    </div>
-                    <div class="page-header-actions" style="margin-left: 1rem;">
-                        <a class="page-header-link" href="lineout-performance.html">
-                            <span>Lineout Deep Dive</span>
-                            <i class="bi bi-arrow-right" aria-hidden="true"></i>
-                        </a>
-                    </div>
-                </div>
-                <div style="margin-bottom: 1rem;"></div>
-
-                <div style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-start; margin-bottom: 2rem;">
-                    <div class="chart-panel chart-panel--inline">
-                        <button type="button" class="chart-panel-toggle chart-panel-toggle--primary"
-                            data-target="lineout-success-panel-1st"
-                            aria-expanded="false" aria-controls="lineout-success-panel-1st">
-                            <span class="chart-panel-toggle-text">
-                                <span class="chart-panel-toggle-title">1st XV Success Trend</span>
-                                <span class="chart-panel-toggle-hint">Seasonal lineout success for 1st XV</span>
-                            </span>
-                            <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
-                        </button>
-                        <div id="lineout-success-panel-1st" class="chart-panel-content" hidden>
-                            <div class="chart-panel-card"><div id="setPiece1stLineoutChart" style="overflow: visible;"></div></div>
+                    <div class="ux-hero-metrics" aria-live="polite">
+                        <div class="ux-hero-metrics-head">
+                            <h2 class="ux-hero-metrics-title">Current Season Summary</h2>
+                            <p id="performanceStatsHeroMetricsMeta" class="ux-hero-metrics-meta">1st XV</p>
+                        </div>
+                        <div class="ux-hero-metrics-grid">
+                            <article class="ux-hero-metric ux-hero-metric--1st">
+                                <h3 class="ux-hero-metric-label">Lineout Success</h3>
+                                <p id="performanceHeroLineoutValue" class="ux-hero-metric-value">-</p>
+                                <p id="performanceHeroLineoutNote" class="ux-hero-metric-note">Opposition -</p>
+                            </article>
+                            <article class="ux-hero-metric ux-hero-metric--2nd">
+                                <h3 class="ux-hero-metric-label">Scrum Success</h3>
+                                <p id="performanceHeroScrumValue" class="ux-hero-metric-value">-</p>
+                                <p id="performanceHeroScrumNote" class="ux-hero-metric-note">Opposition -</p>
+                            </article>
+                            <article class="ux-hero-metric ux-hero-metric--total">
+                                <h3 class="ux-hero-metric-label">Pts per 22m entry</h3>
+                                <p id="performanceHeroRedZoneValue" class="ux-hero-metric-value">-</p>
+                                <p id="performanceHeroRedZoneNote" class="ux-hero-metric-note">Opposition -</p>
+                            </article>
                         </div>
                     </div>
-                    <div class="chart-panel chart-panel--inline">
-                        <button type="button" class="chart-panel-toggle chart-panel-toggle--accent"
-                            data-target="lineout-success-panel-2nd"
-                            aria-expanded="false" aria-controls="lineout-success-panel-2nd">
-                            <span class="chart-panel-toggle-text">
-                                <span class="chart-panel-toggle-title">2nd XV Success Trend</span>
-                                <span class="chart-panel-toggle-hint">Seasonal lineout success for 2nd XV</span>
-                            </span>
-                            <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
-                        </button>
-                        <div id="lineout-success-panel-2nd" class="chart-panel-content" hidden>
-                            <div class="chart-panel-card"><div id="setPiece2ndLineoutChart" style="overflow: visible;"></div></div>
-                        </div>
-                    </div>
-                </div>
+                </section>
 
-                <h2 class="section-heading">Scrum</h2>
+                <div class="squad-stats-layout">
+                    <aside id="performanceStatsAnalysisRail" class="analysis-rail nav" aria-label="Section navigation">
+                        <p class="analysis-rail-title">Sections</p>
+                        <a class="rail-link nav-link active" href="#sec-set-piece-performance" data-short="Set Piece"><i class="bi bi-diagram-3-fill" aria-hidden="true"></i><span class="rail-link-label">Set Piece</span></a>
+                        <a class="rail-link nav-link" href="#sec-red-zone-performance" data-short="22m"><i class="bi bi-lightning-charge-fill" aria-hidden="true"></i><span class="rail-link-label">Red Zone</span></a>
+                    </aside>
 
-                <div style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-start; margin-bottom: 2rem;">
-                    <div class="chart-panel chart-panel--inline">
-                        <button type="button" class="chart-panel-toggle chart-panel-toggle--primary"
-                            data-target="scrum-success-panel-1st"
-                            aria-expanded="false" aria-controls="scrum-success-panel-1st">
-                            <span class="chart-panel-toggle-text">
-                                <span class="chart-panel-toggle-title">1st XV Success Trend</span>
-                                <span class="chart-panel-toggle-hint">Seasonal scrum success for 1st XV</span>
-                            </span>
-                            <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
-                        </button>
-                        <div id="scrum-success-panel-1st" class="chart-panel-content" hidden>
-                            <div class="chart-panel-card"><div id="setPiece1stScrumChart" style="overflow: visible;"></div></div>
-                        </div>
-                    </div>
-                    <div class="chart-panel chart-panel--inline">
-                        <button type="button" class="chart-panel-toggle chart-panel-toggle--accent"
-                            data-target="scrum-success-panel-2nd"
-                            aria-expanded="false" aria-controls="scrum-success-panel-2nd">
-                            <span class="chart-panel-toggle-text">
-                                <span class="chart-panel-toggle-title">2nd XV Success Trend</span>
-                                <span class="chart-panel-toggle-hint">Seasonal scrum success for 2nd XV</span>
-                            </span>
-                            <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
-                        </button>
-                        <div id="scrum-success-panel-2nd" class="chart-panel-content" hidden>
-                            <div class="chart-panel-card"><div id="setPiece2ndScrumChart" style="overflow: visible;"></div></div>
-                        </div>
-                    </div>
-                </div>
+                    <main class="squad-stats-main performance-stats-main">
+                        <div id="performanceStatsActiveFilters" class="squad-stats-active-filters" aria-live="polite"></div>
 
-                <h2 class="section-heading section-heading--tight">Red Zone</h2>
-                <div style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-start; margin-bottom: 2rem;">
-                    <div class="chart-panel chart-panel--inline">
-                        <button type="button" class="chart-panel-toggle chart-panel-toggle--primary"
-                            data-target="rz-success-panel" data-accordion-group="red-zone-section"
-                            aria-expanded="false" aria-controls="rz-success-panel">
-                            <span class="chart-panel-toggle-text">
-                                <span class="chart-panel-toggle-title">Red Zone Success</span>
-                                <span class="chart-panel-toggle-hint">22m entries converted into points</span>
-                            </span>
-                            <span class="chart-panel-toggle-icon" aria-hidden="true"></span>
-                        </button>
-                        <div id="rz-success-panel" class="chart-panel-content" hidden>
-                            <div class="chart-panel-card">
-                                <div id="rzPointsChart" style="overflow: visible;"></div>
+                        <section id="sec-set-piece-performance" class="analysis-section chart-section" aria-labelledby="set-piece-performance-heading">
+                            <h2 id="set-piece-performance-heading" class="section-heading">Set Piece</h2>
+                            <p class="section-intro">Filterable seasonal success trends for lineout and scrum, shown side-by-side for quick comparison.</p>
+                            <a class="page-header-link performance-section-link" href="lineout-performance.html" style="margin-bottom: 0.75rem; display: inline-flex;">
+                                <span>Lineout Deep Dive</span>
+                                <i class="bi bi-arrow-right" aria-hidden="true"></i>
+                            </a>
+                            <div class="chart-section-block chart-section-block--panel">
+                                <h3 class="chart-section-title">Set Piece Success</h3>
+                                <div class="chart-section-content chart-section-content--split performance-set-piece-split">
+                                    <div class="chart-section-meta">
+                                        <p class="chart-section-hint">These trends compare EGRFC and opposition success across seasons for lineouts and scrums.</p>
+                                        <p class="chart-section-hint">Use filters to switch squad, season scope, and game type scope. The shaded band highlights the performance gap.</p>
+                                        <div class="performance-set-piece-legend" aria-label="Set piece chart legend">
+                                            <span class="performance-set-piece-legend-item">
+                                                <span class="performance-set-piece-legend-swatch performance-set-piece-legend-swatch--egrfc" aria-hidden="true"></span>
+                                                <span>EGRFC</span>
+                                            </span>
+                                            <span class="performance-set-piece-legend-item">
+                                                <span class="performance-set-piece-legend-swatch performance-set-piece-legend-swatch--opposition" aria-hidden="true"></span>
+                                                <span>Opposition</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="performance-chart-grid">
+                                        <div class="performance-chart-titled">
+                                            <h3 class="performance-chart-title">Lineout</h3>
+                                            <div id="setPiece1stLineoutChart" class="chart-host chart-host--intrinsic chart-host--overflow-visible performance-chart-host"></div>
+                                        </div>
+                                        <div class="performance-chart-titled">
+                                            <h3 class="performance-chart-title">Scrum</h3>
+                                            <div id="setPiece1stScrumChart" class="chart-host chart-host--intrinsic chart-host--overflow-visible performance-chart-host"></div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
+                            <div class="chart-section-block chart-section-block--panel">
+                                <h3 class="chart-section-title">Set Piece Volume</h3>
+                                <div class="chart-section-content chart-section-content--split">
+                                    <div class="chart-section-meta">
+                                        <p class="chart-section-hint">Grouped seasonal bars show average attacking lineout and scrum volume per game for EGRFC and opposition.</p>
+                                        <p class="chart-section-hint">Use the global squad and game-type filters to focus on different competition scopes.</p>
+                                        <div class="performance-set-piece-legend" aria-label="Set piece volume chart legend">
+                                            <span class="performance-set-piece-legend-item">
+                                                <span class="performance-set-piece-legend-swatch performance-set-piece-legend-swatch--egrfc" aria-hidden="true"></span>
+                                                <span>EGRFC</span>
+                                            </span>
+                                            <span class="performance-set-piece-legend-item">
+                                                <span class="performance-set-piece-legend-swatch performance-set-piece-legend-swatch--opposition" aria-hidden="true"></span>
+                                                <span>Opposition</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="performance-chart-grid">
+                                        <div class="performance-chart-titled">
+                                            <h3 class="performance-chart-title">Lineout</h3>
+                                            <div id="setPieceAttackingLineoutVolumeChart" class="chart-host chart-host--intrinsic chart-host--overflow-visible performance-chart-host"></div>
+                                        </div>
+                                        <div class="performance-chart-titled">
+                                            <h3 class="performance-chart-title">Scrum</h3>
+                                            <div id="setPieceAttackingScrumVolumeChart" class="chart-host chart-host--intrinsic chart-host--overflow-visible performance-chart-host"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section id="sec-red-zone-performance" class="analysis-section chart-section" aria-labelledby="red-zone-performance-heading">
+                            <h2 id="red-zone-performance-heading" class="section-heading">Red Zone</h2>
+                            <p class="section-intro">Conversion efficiency from entries into the opposition 22 into scoreboard impact. Red-zone data is currently available for 1st XV only.</p>
+                            <div class="chart-section-block chart-section-block--panel">
+                                <div class="chart-section-head">
+                                    <h3 class="chart-section-title">22m Entries vs Results</h3>
+                                    <div class="squad-filter-control squad-filter-control--trend-view" role="group" aria-label="Red Zone Season">
+                                        <span class="squad-filter-label">Season</span>
+                                        <div class="squad-filter-segment" id="redZoneSeasonSegment">
+                                            <button type="button" class="squad-filter-segment-btn is-active" data-value="2024/25">2024/25</button>
+                                            <button type="button" class="squad-filter-segment-btn is-active" data-value="2025/26">2025/26</button>
+                                        </div>
+                                        <select id="redZoneSeason" class="visually-hidden" aria-hidden="true" tabindex="-1" multiple>
+                                            <option value="2024/25" selected>2024/25</option>
+                                            <option value="2025/26" selected>2025/26</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="chart-section-content chart-section-content--split">
+                                    <div class="chart-section-meta">
+                                        <p class="chart-section-hint">Comparing the difference between entries into the opposition 22m for both teams, and the resulting points difference.</p>
+                                        <p class="chart-section-hint">There is a strong correlation, with the winning team almost always being the one with more 22m entries. Games bucking this trend suggest exceptional defensive or efficient attacking performance.</p>
+                                        <div id="rzPointsMessage" class="text-muted" hidden></div>
+                                    </div>
+                                    <div class="performance-chart-grid performance-chart-grid--single">
+                                        <div id="rzPointsChart" class="chart-host chart-host--intrinsic chart-host--overflow-visible performance-chart-host"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="chart-section-block chart-section-block--panel">
+                                <div class="chart-section-head">
+                                    <h3 class="chart-section-title">Entries and Efficiency</h3>
+                                    <div class="squad-filter-control squad-filter-control--trend-view" role="group" aria-label="Red Zone Efficiency Metric">
+                                        <span class="squad-filter-label">Efficiency Metric</span>
+                                        <div class="squad-filter-segment" id="redZoneEfficiencyMetricSegment">
+                                            <button type="button" class="squad-filter-segment-btn is-active" data-value="Points per 22m entry">Points / Entry</button>
+                                            <button type="button" class="squad-filter-segment-btn" data-value="Try-scoring efficiency (%)">Try %</button>
+                                        </div>
+                                        <select id="redZoneEfficiencyMetric" class="visually-hidden" aria-hidden="true" tabindex="-1">
+                                            <option value="Points per 22m entry" selected>Points per 22m entry</option>
+                                            <option value="Try-scoring efficiency (%)">Try-scoring efficiency (%)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="chart-section-content chart-section-content--split">
+                                    <div class="chart-section-meta">
+                                        <p class="chart-section-hint">Bars show average 22m entries per game by season for EGRFC and opposition.</p>
+                                        <p class="chart-section-hint">Line and points show seasonal average efficiency for the selected metric.</p>
+                                        <div id="rzSeasonalMessage" class="text-muted" hidden></div>
+                                    </div>
+                                        <div id="rzSeasonalEntriesEfficiencyChart" class="chart-host chart-host--intrinsic chart-host--overflow-visible performance-chart-host"></div>
+                                </div>
+                            </div>
+                        </section>
+                    </main>
+                </div>
+            </div>
+        </div>
+
+        <div class="offcanvas offcanvas-end squad-filters-offcanvas" tabindex="-1" id="performanceStatsFiltersOffcanvas" aria-labelledby="performanceStatsFiltersHeading">
+            <div class="offcanvas-header">
+                <div>
+                    <h5 id="performanceStatsFiltersHeading" class="section-heading section-heading--flush">Filters</h5>
+                    <p class="squad-filters-description">Choose squad and game scope. These filters apply across Performance Stats.</p>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <div class="squad-filters-grid squad-filters-grid--offcanvas">
+                    <div class="squad-filter-control" role="group" aria-label="Squad">
+                        <span class="squad-filter-label">Squad</span>
+                        <div class="squad-filter-segment" id="performanceStatsSquadSegment">
+                            <button type="button" class="squad-filter-segment-btn is-active" data-value="1st">1st XV</button>
+                            <button type="button" class="squad-filter-segment-btn" data-value="2nd">2nd XV</button>
                         </div>
+                        <select id="performanceStatsSquad" class="visually-hidden" aria-hidden="true" tabindex="-1">
+                            <option value="1st" selected>1st XV</option>
+                            <option value="2nd">2nd XV</option>
+                        </select>
+                    </div>
+                    <div class="squad-filter-control" role="group" aria-label="Game Type">
+                        <span class="squad-filter-label">Game Type</span>
+                        <div class="squad-filter-segment" id="performanceStatsGameTypeSegment">
+                            <button type="button" class="squad-filter-segment-btn" data-value="All">All games</button>
+                            <button type="button" class="squad-filter-segment-btn is-active" data-value="League + Cup">League + Cup</button>
+                            <button type="button" class="squad-filter-segment-btn" data-value="League only">League only</button>
+                        </div>
+                        <select id="performanceStatsGameType" class="visually-hidden" aria-hidden="true" tabindex="-1">
+                            <option value="All">All games</option>
+                            <option value="League + Cup" selected>League + Cup</option>
+                            <option value="League only">League only</option>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -183,9 +283,8 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/js/bootstrap-select.min.js"></script>
         <script src="js/nav-layout.js"></script>
         <script src="js/shared.js"></script>
-        <script src="js/lineout-performance.js"></script>
-        <script src="js/scrum-performance.js"></script>
-        <script src="js/red-zone-performance.js"></script>
+        <script src="js/performance-stats-layout.js"></script>
+        <script src="js/performance-stats.js"></script>
     </body>
 
     </html>
