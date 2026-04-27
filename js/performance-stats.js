@@ -44,6 +44,7 @@
             redZone: null,
             redZoneEntriesEfficiency: null,
         },
+        seasonalEfficiencyAxisTitle: null,
     };
 
     function getElement(id) {
@@ -219,6 +220,55 @@
         }
     }
 
+    function getEfficiencyAxisTitle(efficiencyMetric) {
+        return efficiencyMetric === 'Try-scoring efficiency (%)'
+            ? 'Average try conversion %'
+            : 'Average points per entry';
+    }
+
+    function applyEfficiencyAxisTitleToSpec(spec, axisTitle) {
+        if (!spec || !Array.isArray(spec.layer)) return spec;
+
+        spec.layer.forEach((layer) => {
+            const yEncoding = layer?.encoding?.y;
+            if (!yEncoding || typeof yEncoding !== 'object') return;
+            const axis = yEncoding.axis;
+            if (!axis || typeof axis !== 'object') return;
+            if (axis.orient === 'right') {
+                yEncoding.title = axisTitle;
+            }
+        });
+
+        return spec;
+    }
+
+    async function ensureSeasonalEfficiencyView(efficiencyMetric) {
+        const desiredTitle = getEfficiencyAxisTitle(efficiencyMetric);
+        if (state.views.redZoneEntriesEfficiency && state.seasonalEfficiencyAxisTitle === desiredTitle) {
+            return state.views.redZoneEntriesEfficiency;
+        }
+
+        const container = getElement('rzSeasonalEntriesEfficiencyChart');
+        if (!container) return null;
+
+        try {
+            const spec = await loadChartSpec(CHART_PATHS.redZoneEntriesEfficiency);
+            applyEfficiencyAxisTitleToSpec(spec, desiredTitle);
+            const view = await embedChartSpec(container, spec, {
+                containerId: 'rzSeasonalEntriesEfficiencyChart',
+                emptyMessage: 'Red zone seasonal chart unavailable.',
+            });
+            state.views.redZoneEntriesEfficiency = view;
+            state.seasonalEfficiencyAxisTitle = desiredTitle;
+            return view;
+        } catch (error) {
+            console.error('Unable to render seasonal red-zone chart with dynamic axis title:', error);
+            container.innerHTML = '<div class="text-center text-muted py-4">Red zone seasonal chart unavailable.</div>';
+            state.views.redZoneEntriesEfficiency = null;
+            return null;
+        }
+    }
+
     async function ensureViews() {
         for (const chart of SET_PIECE_CHARTS) {
             if (!state.views[chart.key]) {
@@ -279,7 +329,7 @@
         seasonalMessageEl.innerHTML = '';
 
         const view = state.views.redZone;
-        const seasonalView = state.views.redZoneEntriesEfficiency;
+        const seasonalView = await ensureSeasonalEfficiencyView(efficiencyMetric);
         const runTasks = [];
 
         if (view) {

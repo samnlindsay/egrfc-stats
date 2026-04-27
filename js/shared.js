@@ -275,8 +275,18 @@ const CHART_LAYOUT_INVENTORY = {
     narrowMax: 720,
     responsiveScaleMin: 0.64,
     responsiveScaleMinXs: 0.58,
-    narrow: { legendOrient: "bottom", legendTitleOrient: "top" },
-    wide: { legendOrient: "right", legendTitleOrient: "left", width: 640, height: 360 },
+    narrow: {
+      legendOrient: "bottom",
+      legendTitleOrient: "top",
+      padding: { top: 8, right: 96, bottom: 8, left: 8 },
+    },
+    wide: {
+      legendOrient: "right",
+      legendTitleOrient: "left",
+      width: { step: 50 },
+      height: 360,
+      padding: { top: 8, right: 96, bottom: 8, left: 8 },
+    },
   },
   setPieceAttackingLineoutVolumeChart: {
     narrowMax: 760,

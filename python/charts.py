@@ -5391,11 +5391,11 @@ def red_zone_entries_efficiency_chart(db, output_file="data/charts/red_zone_entr
                 " : format(datum.avg_tries_eff_pct, '.0f') + '%'"
             ),
             entries_text="format(datum.avg_entries, '.1f')",
-            efficiency_text_y="datum.team == 'EGRFC' ? datum.efficiency_plot + 2 : datum.efficiency_plot - 2",
+            efficiency_text_y="datum.team == 'EGRFC' ? datum.efficiency_plot + 5 : datum.efficiency_plot - 5",
         )
     )
 
-    bars = base.mark_bar(opacity=0.7).encode(
+    bars = base.mark_bar(opacity=0.5).encode(
         x=alt.X("season:N", title="Season", sort=seasons, axis=alt.Axis(labelAngle=0)),
         xOffset=alt.XOffset("team:N", sort=["EGRFC", "Opposition"]),
         y=alt.Y(
@@ -5404,7 +5404,7 @@ def red_zone_entries_efficiency_chart(db, output_file="data/charts/red_zone_entr
             scale=alt.Scale(domain=[0, entries_axis_max], nice=False),
             axis=alt.Axis(format=".0f", tickCount=aligned_tick_count, grid=True),
         ),
-        color=alt.Color("team:N", title="Team", scale=team_scale),
+        color=alt.Color("team:N", title="Team", scale=team_scale, legend=None),
         tooltip=[
             alt.Tooltip("season:N", title="Season"),
             alt.Tooltip("team:N", title="Team"),
@@ -5414,7 +5414,7 @@ def red_zone_entries_efficiency_chart(db, output_file="data/charts/red_zone_entr
         ],
     )
 
-    bars_text = base.mark_text(fontSize=11, fontWeight="bold", dy=-8).encode(
+    bars_text = base.mark_text(fontSize=14, fontWeight="bold", dy=-8, opacity=0.5).encode(
         x=alt.X("season:N", sort=seasons),
         xOffset=alt.XOffset("team:N", sort=["EGRFC", "Opposition"]),
         y=alt.Y("avg_entries:Q", scale=alt.Scale(domain=[0, entries_axis_max], nice=False), axis=None),
@@ -5422,7 +5422,7 @@ def red_zone_entries_efficiency_chart(db, output_file="data/charts/red_zone_entr
         color=alt.Color("team:N", scale=team_scale, legend=None),
     )
 
-    line = base.mark_line(size=2.2).encode(
+    line = base.mark_line(size=3).encode(
         x=alt.X("season:N", sort=seasons),
         y=alt.Y(
             "efficiency_plot:Q",
@@ -5449,7 +5449,7 @@ def red_zone_entries_efficiency_chart(db, output_file="data/charts/red_zone_entr
         ],
     )
 
-    points = base.mark_point(filled=True, size=80).encode(
+    points = base.mark_point(filled=True, size=100, opacity=1.0).encode(
         x=alt.X("season:N", sort=seasons),
         y=alt.Y(
             "efficiency_plot:Q",
@@ -5475,9 +5475,10 @@ def red_zone_entries_efficiency_chart(db, output_file="data/charts/red_zone_entr
         ],
     )
 
-    points_text = base.mark_text(fontSize=11, fontWeight="bold").encode(
+    points_text = base.mark_text(fontSize=14, fontWeight="bold").encode(
         x=alt.X("season:N", sort=seasons),
         y=alt.Y("efficiency_text_y:Q", scale=alt.Scale(domain=[0, 100], nice=False), axis=None),
+        yOffset=alt.YOffset("team:N", sort=["EGRFC", "Opposition"], scale=alt.Scale(range=[-20, 20])),
         text=alt.Text("efficiency_text:N"),
         color=alt.Color("team:N", scale=team_scale, legend=None),
         detail=alt.Detail("team:N"),
@@ -5492,7 +5493,7 @@ def red_zone_entries_efficiency_chart(db, output_file="data/charts/red_zone_entr
                 text="22m Entries and Seasonal Efficiency",
                 subtitle=["Bars show average entries; line/points show selected efficiency metric"],
             ),
-            width=400,
+            width=alt.Step(40),
             height=350,
         )
     )
