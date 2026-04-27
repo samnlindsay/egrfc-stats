@@ -125,11 +125,11 @@
         gap: 0.55rem;
     }
 
-    #page-performance-stats .chart-section-content--split.performance-set-piece-split {
+    #page-performance-stats .performance-stats-main .chart-section-content--split {
         display: block;
     }
 
-    #page-performance-stats .performance-set-piece-split .chart-section-meta {
+    #page-performance-stats .performance-stats-main .chart-section-meta {
         margin-bottom: 0.55rem;
     }
 
