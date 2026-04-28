@@ -807,7 +807,7 @@ async function renderPlayerStatsPage() {
         const motmSpecToRender = selectedMotmAggregate ? filteredMotmUnits : filteredMotm;
         const motmEmptyMessage = selectedMotmAggregate
             ? 'No MOTM unit breakdown available for the selected filters.'
-            : 'No player of the match awards available for the selected filters.';
+            : 'No MOTM awards available for the selected filters.';
         const motmLayoutContainerId = selectedMotmAggregate ? 'playerStatsMotmUnitsChart' : 'playerStatsMotmChart';
 
         renderPlayerStatsHero(state);
@@ -818,7 +818,7 @@ async function renderPlayerStatsPage() {
     } catch (error) {
         console.warn('Unable to load Player Stats charts:', error);
         renderStaticSpecChart('playerStatsCaptainsChart', null, 'Unable to load captains chart.');
-        renderStaticSpecChart('playerStatsMotmChart', null, 'Unable to load player of the match chart.');
+        renderStaticSpecChart('playerStatsMotmChart', null, 'Unable to load MOTM chart.');
         renderStaticSpecChart('playerStatsAppearancesChart', null, 'Unable to load appearances chart.');
         renderStaticSpecChart('playerStatsPointsChart', null, 'Unable to load point scorers chart.');
     }

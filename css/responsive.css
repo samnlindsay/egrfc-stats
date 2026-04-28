@@ -66,31 +66,15 @@
         padding-bottom: 0.25rem;
     }
 
-    #page-squad-stats .page-shell,
-    #page-player-stats .page-shell,
-    #page-league-tables .page-shell,
-    #page-opposition-profile .page-shell,
-    #page-player-gallery .page-shell,
-    #page-player-profile .page-shell,
-    #page-performance-stats .page-shell {
+    .page-shell {
         padding-left: 0.5rem;
         padding-right: 0.5rem;
     }
-
-    #page-squad-stats .squad-stats-layout,
-    #page-player-stats .squad-stats-layout,
-    #page-league-tables .squad-stats-layout,
-    #page-performance-stats .squad-stats-layout {
-        gap: 0.45rem;
+    
+    .squad-stats-layout, .squad-stats-main {
+        gap: 0.5rem;
     }
-
-    #page-squad-stats .squad-stats-main,
-    #page-player-stats .squad-stats-main,
-    #page-league-tables .squad-stats-main,
-    #page-performance-stats .squad-stats-main {
-        gap: 0.55rem;
-    }
-
+    
     /* Page header: stack title/desc above filters on narrow screens */
     .page-header {
         flex-direction: column;
@@ -471,18 +455,18 @@
         flex: 1 1 auto;
     }
 
-    #page-squad-stats .league-context-section-head {
+    #page-squad-stats .league-comparison-section-head {
         margin-bottom: 0.65rem;
         flex-wrap: wrap;
         gap: 0.5rem;
     }
 
-    #page-squad-stats .league-context-section-head .squad-stats-active-filters {
+    #page-squad-stats .league-comparison-section-head .squad-stats-active-filters {
         width: 100%;
         flex: 1 1 100%;
     }
 
-    #page-squad-stats .league-context-section-head .squad-filter-control--unit {
+    #page-squad-stats .league-comparison-section-head .squad-filter-control--unit {
         width: 100%;
         flex: 1 1 100%;
     }
@@ -623,23 +607,6 @@
         font-size: 0.8rem;
     }
 
-    /* Compact Squad Metrics cards */
-    .squad-metric-card .card-header {
-        line-height: 1.15;
-    }
-
-    .squad-metric-card .card-body {
-        padding: 0.2rem 0.15rem;
-    }
-
-    .squad-metric-value {
-        margin-bottom: 0.15rem;
-    }
-
-    .squad-metric-card .card-text {
-        min-height: 2em;
-    }
-
     .input-group {
         min-width: 100%;
         flex-direction: row;
@@ -690,23 +657,6 @@
         min-height: 34px;
         line-height: 1.1;
         white-space: nowrap !important;
-    }
-
-    /* Compact W/D/L/P cells on Season Summary while keeping one-row layout */
-    #seasonSummary1stResults .squad-metric-card-header,
-    #seasonSummary2ndResults .squad-metric-card-header {
-        padding: 0.2rem 0.1rem;
-        line-height: 1.1;
-    }
-
-    #seasonSummary1stResults .season-result-cell-body,
-    #seasonSummary2ndResults .season-result-cell-body {
-        padding: 0.2rem 0.1rem;
-    }
-
-    #seasonSummary1stResults .squad-metric-value,
-    #seasonSummary2ndResults .squad-metric-value {
-        line-height: 1;
     }
 
     .row {
@@ -1262,24 +1212,6 @@
         font-size: 1.35rem;
     }
 
-    /* Even more compact Squad Metrics cards on very small screens */
-    .squad-metric-card .card-header {
-        font-size: 1rem;
-        line-height: 1.1;
-    }
-
-    .squad-metric-card .card-body {
-        padding: 0.2rem 0.1rem;
-    }
-
-    .squad-metric-value {
-        font-size: 2rem;
-    }
-
-    .squad-metric-card .card-text {
-        font-size: 0.65rem;
-    }
-
     h2 {
         font-size: 1.25rem;
     }
@@ -1311,17 +1243,6 @@
         max-width: 240px !important;
     }
 
-    #seasonSummary1stResults .squad-metric-card-header,
-    #seasonSummary2ndResults .squad-metric-card-header {
-        font-size: 1.5rem;
-        padding: 0.15rem 0.05rem;
-        line-height: 1.05;
-    }
-
-    #seasonSummary1stResults .squad-metric-value,
-    #seasonSummary2ndResults .squad-metric-value {
-        font-size: 2rem;
-    }
 }
 
 /* ===== RESPONSIVE RULES MOVED FROM COMPONENTS ===== */
@@ -1414,12 +1335,28 @@
 }
 
 @media (max-width: 768px) {
-    .database-page-shell {
-        padding: 1.25rem 0.75rem;
+    .database-table-bar {
+        grid-template-columns: 1fr;
+        align-items: stretch;
     }
 
-    .database-toolbar-actions {
-        margin-left: 0;
+    .database-table-bar {
+        align-items: stretch;
+    }
+
+    .database-table-bar .filter-item,
+    .database-table-bar .database-search-item {
+        width: 100%;
+        min-width: 0;
+        flex: 1 1 100%;
+    }
+
+    .database-filter-chips-bar {
+        align-items: stretch;
+    }
+
+    .database-reset-btn {
+        align-self: flex-start;
     }
 
     .database-data-table td,
@@ -1556,32 +1493,14 @@
 }
 
 @media (max-width: 576px) {
-    .database-toolbar {
-        align-items: stretch;
+    .database-filter-chips-bar {
+        gap: 0.35rem;
     }
 
-    .database-toolbar-group {
+    .database-filter-chips-bar .squad-stats-active-filters {
         width: 100%;
-        justify-content: space-between;
     }
 
-    .database-toolbar-actions {
-        justify-content: flex-start;
-    }
-
-    .home-data-notes-wrap {
-        padding-left: 0.75rem;
-        padding-right: 0.75rem;
-    }
-
-    .home-data-notes {
-        padding: 0.95rem 0.9rem;
-        border-left-width: 0.32rem;
-    }
-
-    .home-data-notes-list li {
-        font-size: 0.9rem;
-    }
 }
 
 @media (max-width: 360px) {

@@ -6236,7 +6236,7 @@ def export_league_context_chart_specs(db, output_dir="data/charts", squads=("1st
         ).df()
 
         if players_per_team.empty or average_retention.empty:
-            print(f"Skipping league context chart specs for {squad_label}: no RFU context rows available.")
+            print(f"Skipping league comparison chart specs for {squad_label}: no RFU context rows available.")
             continue
 
         players_per_team["IsEGR"] = players_per_team["Team"].astype(str).str.startswith("East Grinstead")
@@ -6245,7 +6245,7 @@ def export_league_context_chart_specs(db, output_dir="data/charts", squads=("1st
         eg_players = players_per_team[players_per_team["IsEGR"]].copy()
         eg_retention = average_retention[average_retention["IsEGR"]].copy()
         if eg_players.empty or eg_retention.empty:
-            print(f"Skipping league context chart specs for {squad_label}: no East Grinstead rows available.")
+            print(f"Skipping league comparison chart specs for {squad_label}: no East Grinstead rows available.")
             continue
 
         squad_size_trend = (

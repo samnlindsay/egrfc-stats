@@ -53,8 +53,7 @@ const POSITION_SECTION_ORDER = [
     'Fly Half',
     'Centre',
     'Wing',
-    'Full Back',
-    'Other'
+    'Full Back'
 ];
 
 const POSITION_SECTION_ID_MAP = {
@@ -67,8 +66,7 @@ const POSITION_SECTION_ID_MAP = {
     'Fly Half': 'player-gallery-pos-fly-half',
     'Centre': 'player-gallery-pos-centre',
     'Wing': 'player-gallery-pos-wing',
-    'Full Back': 'player-gallery-pos-full-back',
-    'Other': 'player-gallery-pos-other'
+    'Full Back': 'player-gallery-pos-full-back'
 };
 
 function positionRank(position) {
@@ -84,7 +82,7 @@ function positionRank(position) {
 
 function positionSectionTitle(position) {
     const normalized = String(position || '').trim().toLowerCase();
-    if (!normalized) return 'Other';
+    if (!normalized) return null;
 
     if (normalized.includes('prop')) return 'Prop';
     if (normalized.includes('hooker')) return 'Hooker';
@@ -96,9 +94,8 @@ function positionSectionTitle(position) {
     if (normalized.includes('centre')) return 'Centre';
     if (normalized.includes('wing') || normalized.includes('back three')) return 'Wing';
     if (normalized.includes('full back') || normalized.includes('fullback')) return 'Full Back';
-    if (normalized.includes('bench')) return 'Other';
 
-    return 'Other';
+    return null;
 }
 
 function positionSectionRank(sectionTitle) {
@@ -108,7 +105,7 @@ function positionSectionRank(sectionTitle) {
 }
 
 function positionSectionAnchorId(sectionTitle) {
-    return POSITION_SECTION_ID_MAP[sectionTitle] || 'player-gallery-pos-other';
+    return POSITION_SECTION_ID_MAP[sectionTitle] || 'player-gallery-pos-prop';
 }
 
 function compareBySurnameThenName(a, b) {
@@ -528,7 +525,7 @@ function profileCardMarkup(profile) {
 
     return `
         <div class="player-profile-grid-item">
-            <a class="card player-profile-card player-profile-card-${squadClass} squad-metric-card-${squadClass}" href="${playerHref}">
+            <a class="card player-profile-card player-profile-card-${squadClass}" href="${playerHref}">
                 <div class="player-profile-headshot-wrap ${headshotBackgroundClass(profile)}">
                     ${avatarMarkup}
                     ${activeTag ? `<span class="player-profile-active-tag player-profile-active-tag-headshot">Active</span>` : ''}
@@ -555,6 +552,7 @@ function renderGroupedByPosition(profiles) {
 
     profiles.forEach(profile => {
         const sectionTitle = positionSectionTitle(profile?.position);
+        if (!sectionTitle) return;
         if (!groups.has(sectionTitle)) groups.set(sectionTitle, []);
         groups.get(sectionTitle).push(profile);
     });

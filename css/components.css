@@ -2960,13 +2960,26 @@ button.match-info-hero-action-card:focus-visible {
     padding-left: 0.95rem;
     display: flex;
     flex-direction: column;
-    gap: 0.12rem;
+    gap: 0.08rem;
 }
 
 .nav-page-card-sections li {
     color: #2f3a58;
     font-size: 0.82rem;
     line-height: 1.18;
+}
+
+.nav-page-card-sections--content-columns {
+    padding-left: 0;
+    display: grid;
+    grid-template-columns: max-content max-content;
+    gap: 0.08rem 0.6rem;
+    list-style-position: inside;
+    justify-content: start;
+}
+
+.nav-page-card-sections--content-columns li {
+    padding-left: 0.2rem;
 }
 
 .nav-page-card-sections a {
@@ -3032,6 +3045,7 @@ button.match-info-hero-action-card:focus-visible {
     display: flex;
     align-self: flex-start;
     margin: 0 auto;
+    width: 100%;
 }
 
 .home-data-notes {
@@ -3043,47 +3057,7 @@ button.match-info-hero-action-card:focus-visible {
     border-radius: 0.85rem;
     padding: 1.15rem 1.25rem;
     box-shadow: 0 8px 24px rgba(32, 41, 70, 0.08);
-}
-
-.home-data-notes-title {
-    color: var(--primary-color);
-    font-weight: 700;
-    margin-bottom: 0.45rem;
-    font-size: 0.95rem;
-    text-transform: uppercase;
-    letter-spacing: 0.55px;
-}
-
-.home-data-notes-intro {
-    margin: 0 0 0.85rem;
-    color: #2a3557;
-    font-size: 0.95rem;
-    line-height: 1.4;
-}
-
-.home-data-notes-list,
-.home-data-notes-list ul {
-    margin: 0;
-    padding-left: 1.2rem;
-}
-
-.home-data-notes-list > li {
-    margin-bottom: 0.65rem;
-}
-
-.home-data-notes-list li {
-    color: #223054;
-    font-size: 0.93rem;
-    line-height: 1.45;
-}
-
-.home-data-notes-list li::marker {
-    color: var(--accent-color);
-}
-
-.home-data-notes-list ul {
-    margin-top: 0.35rem;
-    margin-bottom: 0.45rem;
+    font-size: 0.8rem;
 }
 
 /* Table styling */
@@ -3164,51 +3138,83 @@ table tbody tr:hover {
     margin-bottom: 1.25rem;
 }
 
-.database-filter-grid {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    justify-content: flex-start;
-    gap: 0.85rem;
-    margin-bottom: 1rem;
+.database-table-bar {
+    display: grid;
+    grid-template-columns: minmax(14rem, 22rem) minmax(20rem, 1fr);
+    align-items: stretch;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
 }
 
-.database-filter-grid .filter-item {
-    width: auto;
-    flex: 0 0 auto;
+.database-table-bar .filter-item {
+    min-width: 0;
 }
 
-.database-filter-grid .input-group {
-    width: auto;
-}
-
-.database-filter-grid .bootstrap-select {
-    width: auto !important;
+.database-table-bar .database-table-item .bootstrap-select {
+    width: 100% !important;
     max-width: 100% !important;
-    flex: 0 1 auto !important;
 }
 
-.database-search-item {
-    min-width: 280px;
+.database-table-bar .database-table-item .input-group {
+    flex-wrap: nowrap;
 }
 
-.database-toolbar {
+.database-table-bar .database-table-item .input-group-text {
+    white-space: nowrap;
+}
+
+.database-table-bar .database-search-item {
+    min-width: 0;
+}
+
+.database-table-bar .database-search-item .input-group {
+    width: 100%;
+}
+
+.database-table-bar .database-search-item .form-control {
+    min-width: 34ch;
+}
+
+.database-filter-chips-bar {
     display: flex;
     align-items: center;
-    gap: 1rem;
     flex-wrap: wrap;
+    gap: 0.45rem;
     margin-bottom: 1rem;
 }
 
-.database-toolbar-group {
-    display: flex;
-    align-items: center;
-    gap: 0.65rem;
+.database-filter-chips-bar .squad-stats-active-filters {
+    flex: 1 1 auto;
+    margin-bottom: 0;
+    min-width: 0;
 }
 
-.database-toolbar-actions {
-    margin-left: 0;
-    justify-content: flex-start;
+.database-reset-btn {
+    appearance: none;
+    -webkit-appearance: none;
+    font-family: inherit;
+    flex-shrink: 0;
+    background: none;
+    border: 1px solid #c8d0e8;
+    border-radius: 999px;
+    color: #6b748f;
+    font-size: 0.88rem;
+    padding: 0.28rem 0.65rem;
+    cursor: pointer;
+    white-space: nowrap;
+    line-height: 1;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.database-reset-btn:hover {
+    background: #f3f4f9;
+    border-color: #a0aac8;
+    color: var(--primary-color);
+}
+
+.database-reset-btn:focus-visible {
+    outline: 2px solid rgba(125, 150, 232, 0.45);
+    outline-offset: 2px;
 }
 
 .database-two-column-grid {
@@ -3229,25 +3235,16 @@ table tbody tr:hover {
 .database-section-heading-wrap {
     display: flex;
     align-items: center;
-    /* justify-content: space-between; */
+    justify-content: space-between;
     gap: 1rem;
     margin-bottom: 0.85rem;
     flex-wrap: wrap;
-}
-
-.database-section-heading-wrap--compact {
-    margin-bottom: 0.55rem;
 }
 
 .database-column-guide-toggle {
     white-space: nowrap;
 }
 
-.database-section-heading {
-    margin: 0;
-    color: var(--primary-color);
-    font-size: 2rem;
-}
 
 .database-doc-card {
     border: 1px solid rgba(32, 41, 70, 0.08);
@@ -3585,17 +3582,13 @@ table tbody tr:hover {
 
 /* Shared team colour tokens mapped onto existing classes */
 .league-team-title-1st,
-.league-highlight-row-1st,
-.squad-metric-card-1st,
-.squad-metric-card-header-1st {
+.league-highlight-row-1st {
     --team-bg: var(--primary-color);
     --team-fg: var(--light-color);
 }
 
 .league-team-title-2nd,
-.league-highlight-row-2nd,
-.squad-metric-card-2nd,
-.squad-metric-card-header-2nd {
+.league-highlight-row-2nd {
     --team-bg: var(--accent-color);
     --team-fg: var(--primary-color);
 }
@@ -3693,168 +3686,6 @@ table tbody tr:hover {
     max-width: 100%;
     min-width: 0;
     overflow: visible;
-}
-
-.squad-metric-card {
-    overflow: hidden;
-    background: white;
-}
-
-.squad-metric-card-header {
-    font-size: 2rem;
-    font-weight: 900;
-    letter-spacing: 0.01em;
-    text-align: center;
-}
-
-.squad-metric-card-1st {
-    border-top: 4px solid var(--team-bg);
-}
-
-.squad-metric-card-2nd {
-    border-top: 4px solid var(--team-bg);
-}
-
-.squad-metric-card-header-1st {
-    background: var(--team-bg);
-    color: var(--team-fg);
-}
-
-.squad-metric-card-header-2nd {
-    background: var(--team-bg);
-    color: var(--team-fg);
-}
-
-.squad-metric-card-1st .squad-metric-value {
-    color: var(--team-bg);
-}
-
-.squad-metric-card-2nd .squad-metric-value {
-    color: var(--team-bg);
-}
-
-.squad-metric-value {
-    font-size: 4rem;
-    font-weight: 800;
-    margin: 0;
-    padding: 0;
-}
-
-.squad-metric-card .card-text {
-    white-space: normal;
-    overflow-wrap: anywhere;
-    line-height: 1.2;
-    min-height: 2.4em;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-}
-
-.season-result-card--won {
-    border-top: 4px solid var(--green-color);
-}
-
-.season-result-card--won .squad-metric-card-header {
-    background: var(--green-color);
-    color: #fff;
-}
-
-.season-result-card--won .squad-metric-value {
-    color: var(--green-color);
-}
-
-.season-result-card--drawn {
-    border-top: 4px solid var(--amber-color);
-}
-
-.season-result-card--drawn .squad-metric-card-header {
-    background: var(--amber-color);
-    color: #fff;
-}
-
-.season-result-card--drawn .squad-metric-value {
-    color: var(--amber-color);
-}
-
-.season-result-card--lost {
-    border-top: 4px solid var(--red-color);
-}
-
-.season-result-card--lost .squad-metric-card-header {
-    background: var(--red-color);
-    color: #fff;
-}
-
-.season-result-card--lost .squad-metric-value {
-    color: var(--red-color);
-}
-
-.season-result-card--played {
-    border-top: 4px solid var(--dark-color);
-}
-
-.season-result-card--played .squad-metric-card-header {
-    background: var(--dark-color);
-    color: #fff;
-}
-
-.season-result-card--played .squad-metric-value {
-    color: var(--dark-color);
-}
-
-/* Season Record inline W/D/L/P row */
-.season-results-row {
-    display: flex;
-    width: 100%;
-}
-
-.season-result-cell {
-    flex: 1;
-    min-width: 0;
-    overflow: hidden;
-}
-
-/* Suppress per-cell top accent border — the outer panel provides it */
-.season-results-row .season-result-card--won,
-.season-results-row .season-result-card--drawn,
-.season-results-row .season-result-card--lost,
-.season-results-row .season-result-card--played {
-    border-top: none;
-}
-
-.season-result-cell-body {
-    text-align: center;
-    padding: 0.25rem 0.1rem;
-}
-
-/* Season Summary player stat cards */
-#seasonSummary1stTopPointScorer .card-body,
-#seasonSummary1stTopTryScorer .card-body,
-#seasonSummary1stMostAppearances .card-body,
-#seasonSummary2ndTopPointScorer .card-body,
-#seasonSummary2ndTopTryScorer .card-body,
-#seasonSummary2ndMostAppearances .card-body {
-    padding: 0.25rem 0.25rem;
-}
-
-#seasonSummary1stTopPointScorer .squad-metric-value,
-#seasonSummary1stTopTryScorer .squad-metric-value,
-#seasonSummary1stMostAppearances .squad-metric-value,
-#seasonSummary2ndTopPointScorer .squad-metric-value,
-#seasonSummary2ndTopTryScorer .squad-metric-value,
-#seasonSummary2ndMostAppearances .squad-metric-value {
-    font-size: 3.5rem;
-}
-
-#seasonSummary1stTopPointScorer .card-text,
-#seasonSummary1stTopTryScorer .card-text,
-#seasonSummary1stMostAppearances .card-text,
-#seasonSummary2ndTopPointScorer .card-text,
-#seasonSummary2ndTopTryScorer .card-text,
-#seasonSummary2ndMostAppearances .card-text {
-    font-size: 1.1rem;
-    margin-bottom: 0;
 }
 
 /* ===== PAGE HEADER LAYOUT ===== */
@@ -3959,9 +3790,10 @@ table tbody tr:hover {
     color: var(--primary-color);
     font-weight: 700;
     margin: 0;
-    font-size: 0.8rem;
+    font-size: 1rem;
     text-transform: uppercase;
     letter-spacing: 0.7px;
+    margin-left: 0.5rem;
 }
 
 @media (max-width: 575.98px) {
@@ -5111,8 +4943,8 @@ table tbody tr:hover {
     font-weight: 700;
 }
 
-/* League context: chips + unit filter as a flex row without a background box */
-.league-context-section-head {
+/* League comparison: chips + unit filter as a flex row without a background box */
+.league-comparison-section-head {
     display: flex;
     align-items: flex-start;
     gap: 1rem;
@@ -5120,7 +4952,7 @@ table tbody tr:hover {
     margin-bottom: 1rem;
 }
 
-.league-context-section-head .squad-stats-active-filters {
+.league-comparison-section-head .squad-stats-active-filters {
     flex: 1 1 auto;
     margin-bottom: 0;
     min-width: 0;
@@ -5210,8 +5042,6 @@ table tbody tr:hover {
 }
 
 .chart-panel-filters input.form-control {
-    min-width: 4rem;
-    max-width: 5rem;
     flex: 0 0 auto;
 }
 
@@ -5389,10 +5219,6 @@ table tbody tr:hover {
 
 .player-stats-main .player-stats-chart-container {
     min-width: 0;
-}
-
-.squad-metric-card > .card-body {
-    padding: 0.125rem 0.15rem;
 }
 
 .opposition-profile-page-hero .ux-hero-description {

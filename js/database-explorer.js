@@ -238,8 +238,14 @@ const DatabaseExplorer = (() => {
         elements.squadFilter = document.getElementById('databaseSquadFilter');
         elements.gameTypeFilter = document.getElementById('databaseGameTypeFilter');
         elements.searchInput = document.getElementById('databaseSearchInput');
+        elements.seasonPrevButton = document.getElementById('databaseSeasonPrevOffcanvas');
+        elements.seasonNextButton = document.getElementById('databaseSeasonNextOffcanvas');
+        elements.seasonLabel = document.getElementById('databaseSeasonLabelOffcanvas');
+        elements.squadSegment = document.getElementById('databaseSquadSegment');
+        elements.gameTypeSegment = document.getElementById('databaseGameTypeSegment');
         elements.resetButton = document.getElementById('databaseResetFilters');
         elements.downloadButton = document.getElementById('databaseDownloadFiltered');
+        elements.activeFilters = document.getElementById('databaseActiveFilters');
         elements.summaryCards = document.getElementById('databaseSummaryCards');
         elements.documentation = document.getElementById('databaseDocumentation');
         elements.tableBadge = document.getElementById('databaseTableBadge');
@@ -288,18 +294,21 @@ const DatabaseExplorer = (() => {
         elements.seasonFilter.addEventListener('change', event => {
             state.filters.season = event.target.value;
             state.page = 1;
+            syncFilterControls();
             render();
         });
 
         elements.squadFilter.addEventListener('change', event => {
             state.filters.squad = event.target.value;
             state.page = 1;
+            syncFilterControls();
             render();
         });
 
         elements.gameTypeFilter.addEventListener('change', event => {
             state.filters.gameType = event.target.value;
             state.page = 1;
+            syncFilterControls();
             render();
         });
 
@@ -308,6 +317,40 @@ const DatabaseExplorer = (() => {
             state.page = 1;
             render();
         });
+
+        if (elements.squadSegment) {
+            elements.squadSegment.addEventListener('click', event => {
+                const button = event.target.closest('.squad-filter-segment-btn[data-value]');
+                if (!button) return;
+                const value = button.getAttribute('data-value');
+                if (value === null || value === state.filters.squad) return;
+                elements.squadFilter.value = value;
+                elements.squadFilter.dispatchEvent(new Event('change', { bubbles: true }));
+            });
+        }
+
+        if (elements.gameTypeSegment) {
+            elements.gameTypeSegment.addEventListener('click', event => {
+                const button = event.target.closest('.squad-filter-segment-btn[data-value]');
+                if (!button) return;
+                const value = button.getAttribute('data-value');
+                if (value === null || value === state.filters.gameType) return;
+                elements.gameTypeFilter.value = value;
+                elements.gameTypeFilter.dispatchEvent(new Event('change', { bubbles: true }));
+            });
+        }
+
+        if (elements.seasonPrevButton) {
+            elements.seasonPrevButton.addEventListener('click', () => {
+                stepSeason(-1);
+            });
+        }
+
+        if (elements.seasonNextButton) {
+            elements.seasonNextButton.addEventListener('click', () => {
+                stepSeason(1);
+            });
+        }
 
         elements.resetButton.addEventListener('click', () => {
             resetFilters();
@@ -464,12 +507,16 @@ const DatabaseExplorer = (() => {
         const rows = getCurrentRows();
         const definition = getCurrentDefinition();
 
-        populateFilterSelect(elements.seasonFilter, getOptionsForColumn(rows, 'season'), state.filters.season, 'All seasons');
-        populateFilterSelect(elements.squadFilter, getOptionsForColumn(rows, 'squad'), state.filters.squad, 'All squads');
-        populateFilterSelect(elements.gameTypeFilter, getOptionsForColumn(rows, 'gameType'), state.filters.gameType, 'All game types');
+        const seasonOptions = populateFilterSelect(elements.seasonFilter, getOptionsForColumn(rows, 'season'), state.filters.season, 'All (2017-)');
+        const squadOptions = populateFilterSelect(elements.squadFilter, getOptionsForColumn(rows, 'squad'), state.filters.squad, 'All squads');
+        const gameTypeOptions = populateFilterSelect(elements.gameTypeFilter, getOptionsForColumn(rows, 'gameType'), state.filters.gameType, 'All game types');
 
         elements.searchInput.value = state.filters.search;
         setSelectpickerValue(elements.tableSelect, state.currentTableKey);
+
+        syncSeasonStepper();
+        renderSegmentControl(elements.squadSegment, squadOptions, state.filters.squad, value => value === 'All' ? 'All' : value);
+        renderSegmentControl(elements.gameTypeSegment, gameTypeOptions, state.filters.gameType, value => value === 'All' ? 'All' : value);
 
         if (elements.tableHeading) {
             elements.tableHeading.textContent = definition.label;
@@ -496,8 +543,61 @@ const DatabaseExplorer = (() => {
             state.filters.gameType = nextValue;
         }
 
-        rebuildSelectpicker(select);
+        return safeOptions;
 
+    }
+
+    function stepSeason(direction) {
+        if (!elements.seasonFilter) return;
+
+        const options = Array.from(elements.seasonFilter.options || []).map(option => option.value);
+        if (!options.length) return;
+
+        const currentIndex = Math.max(0, options.indexOf(state.filters.season));
+        const nextIndex = Math.min(options.length - 1, Math.max(0, currentIndex + direction));
+        if (nextIndex === currentIndex) return;
+
+        const nextValue = options[nextIndex];
+        elements.seasonFilter.value = nextValue;
+        elements.seasonFilter.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+
+    function syncSeasonStepper() {
+        if (!elements.seasonLabel || !elements.seasonFilter) return;
+
+        const safeOptions = Array.from(elements.seasonFilter.options || []).map(option => option.value);
+        if (!safeOptions.length) {
+            elements.seasonLabel.textContent = 'All (2017-)';
+            if (elements.seasonPrevButton) elements.seasonPrevButton.disabled = true;
+            if (elements.seasonNextButton) elements.seasonNextButton.disabled = true;
+            return;
+        }
+
+        const currentValue = elements.seasonFilter.value || state.filters.season || 'All';
+        const rawIndex = safeOptions.indexOf(currentValue);
+        const index = rawIndex >= 0 ? rawIndex : 0;
+        const displayValue = safeOptions[index] || 'All';
+
+        elements.seasonLabel.textContent = displayValue === 'All' ? 'All (2017-)' : displayValue;
+
+        if (elements.seasonPrevButton) {
+            elements.seasonPrevButton.disabled = index <= 0;
+        }
+        if (elements.seasonNextButton) {
+            elements.seasonNextButton.disabled = index >= safeOptions.length - 1;
+        }
+    }
+
+    function renderSegmentControl(container, options, currentValue, labelFormatter) {
+        if (!container) return;
+
+        const safeOptions = Array.isArray(options) ? options : [];
+        const formatLabel = typeof labelFormatter === 'function' ? labelFormatter : value => value;
+
+        container.innerHTML = safeOptions.map(value => {
+            const activeClass = value === currentValue ? ' is-active' : '';
+            return `<button type="button" class="squad-filter-segment-btn${activeClass}" data-value="${escapeAttribute(value)}">${escapeHtml(formatLabel(value))}</button>`;
+        }).join('');
     }
 
     function getOptionsForColumn(rows, column) {
@@ -539,6 +639,24 @@ const DatabaseExplorer = (() => {
         renderMeta(rows, filteredRows, columns, totalPages);
         renderDataTable(columns, pagedRows);
         updatePagination(sortedRows, totalPages);
+        renderFilterChips();
+    }
+
+    function makeFilterChip(label, value) {
+        return `<button type="button" class="squad-stats-filter-chip squad-stats-filter-chip-btn" data-bs-toggle="offcanvas" data-bs-target="#databaseFiltersOffcanvas" aria-controls="databaseFiltersOffcanvas"><strong>${escapeHtml(label)}</strong>\u00a0${escapeHtml(value)}</button>`;
+    }
+
+    function renderFilterChips() {
+        if (!elements.activeFilters) return;
+        const seasonValue = state.filters.season === 'All' ? 'All (2017-)' : state.filters.season;
+        const squadValue = state.filters.squad === 'All' ? 'All squads' : state.filters.squad;
+        const gameTypeValue = state.filters.gameType === 'All' ? 'All game types' : state.filters.gameType;
+
+        elements.activeFilters.innerHTML = [
+            makeFilterChip('Season', seasonValue),
+            makeFilterChip('Squad', squadValue),
+            makeFilterChip('Game type', gameTypeValue)
+        ].join('');
     }
 
     function renderColumnsTable(rows, columns) {
@@ -906,12 +1024,7 @@ const DatabaseExplorer = (() => {
             return;
         }
 
-        [
-            elements.tableSelect,
-            elements.seasonFilter,
-            elements.squadFilter,
-            elements.gameTypeFilter,
-        ].filter(Boolean).forEach(select => {
+        [elements.tableSelect].filter(Boolean).forEach(select => {
             rebuildSelectpicker(select);
         });
 

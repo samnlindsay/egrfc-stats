@@ -91,7 +91,7 @@
                             <ul class="nav-page-card-sections">
                                 <li><a href="squad-stats.html#squad-overview">Squad Overview</a></li>
                                 <li><a href="squad-stats.html#squad-continuity">Continuity & Composition</a></li>
-                                <li><a href="squad-stats.html#league-context">League Context</a></li>
+                                <li><a href="squad-stats.html#league-comparison">League Comparison</a> (1st XV only)</li>
                             </ul>
                         </div>
                     </div>
@@ -156,7 +156,7 @@
                                 <li><a href="player-stats.html#player-appearances">Appearances</a></li>
                                 <li><a href="player-stats.html#player-points">Points</a></li>
                                 <li><a href="player-stats.html#player-captains">Captains</a></li>
-                                <li><a href="player-stats.html#player-motm">Player of the Match</a></li>
+                                <li><a href="player-stats.html#player-motm">Man of the Match</a></li>
                                 <li><a href="player-stats.html#team-sheets-board">Team Sheets</a></li>
                             </ul>
                         </div>
@@ -168,7 +168,7 @@
                             <i class="bi bi-person-lines-fill nav-page-card-icon" aria-hidden="true"></i>
                             <h3 class="card-title"><a class="nav-page-card-title-link" href="player-gallery.html">Player Gallery</a></h3>
                             <p class="card-text">Browse player cards grouped by primary position before opening an individual profile.</p>
-                            <ul class="nav-page-card-sections">
+                            <ul class="nav-page-card-sections nav-page-card-sections--content-columns">
                                 <li><a href="player-gallery.html#player-gallery-pos-prop">Prop</a></li>
                                 <li><a href="player-gallery.html#player-gallery-pos-hooker">Hooker</a></li>
                                 <li><a href="player-gallery.html#player-gallery-pos-second-row">Second Row</a></li>
@@ -179,7 +179,6 @@
                                 <li><a href="player-gallery.html#player-gallery-pos-centre">Centre</a></li>
                                 <li><a href="player-gallery.html#player-gallery-pos-wing">Wing</a></li>
                                 <li><a href="player-gallery.html#player-gallery-pos-full-back">Full Back</a></li>
-                                <li><a href="player-gallery.html#player-gallery-pos-other">Other</a></li>
                             </ul>
                         </div>
                     </div>
@@ -190,7 +189,7 @@
                             <i class="bi bi-person-vcard-fill nav-page-card-icon" aria-hidden="true"></i>
                             <h3 class="card-title"><a class="nav-page-card-title-link" href="player-profile.html">Player Profiles</a></h3>
                             <p class="card-text">Browse player profile cards and open a specific player to view their detailed profile sections.</p>
-                            <ul class="nav-page-card-sections nav-page-card-sections--muted">
+                            <ul class="nav-page-card-sections nav-page-card-sections--content-columns">
                                 <li>Career Timeline</li>
                                 <li>Career Summary</li>
                                 <li>This Season</li>
@@ -198,6 +197,7 @@
                                 <li>Appearances per season</li>
                                 <li>All Appearances</li>
                             </ul>
+                            <p class="nav-page-card-exception">Select a player to populate this page.</p>
                         </div>
                     </div>
                 </div>
@@ -225,7 +225,7 @@
                             <i class="bi bi-bullseye nav-page-card-icon" aria-hidden="true"></i>
                             <h3 class="card-title"><a class="nav-page-card-title-link" href="lineout-performance.html">Lineout Deep Dive</a></h3>
                             <p class="card-text">Detailed lineout breakdown and trend views across squads and seasons.</p>
-                            <ul class="nav-page-card-sections">
+                            <ul class="nav-page-card-sections nav-page-card-sections--content-columns">
                                 <li><a href="lineout-performance.html#lineout-numbers">Numbers</a></li>
                                 <li><a href="lineout-performance.html#lineout-zone">Zone</a></li>
                                 <li><a href="lineout-performance.html#lineout-jumper">Jumper</a></li>
@@ -257,9 +257,9 @@
         <!-- Sources: Google Sheets, Pitchero, RFU (englandrugby.com) -->
         <div class="home-data-notes-wrap">
             <section class="home-data-notes" aria-labelledby="homeDataNotesTitle">
-                <h4 id="homeDataNotesTitle" class="home-data-notes-title">Data Notes</h4>
-                <p class="home-data-notes-intro">Data is sourced from multiple systems, each with limitations, and combined to provide the most complete view currently available.</p>
-                <ul class="home-data-notes-list">
+                <h3 id="homeDataNotesTitle" class="chart-section-title">Data Notes</h3>
+                <p>Data is sourced from multiple systems, each with limitations, and combined to provide the most complete view currently available.</p>
+                <ul>
                     <li>
                         <strong>Google Sheets:</strong> Primary source since 2020 (when I joined the club). For every 1st and 2nd XV game in that period it includes:
                         <ul>
@@ -288,7 +288,8 @@
                 <div class="alert alert-warning" role="alert">
                     This <u>does not</u> include games before 2017.<br>
                     This <u>does not</u> include games for the Vets or Colts.<br>
-                    If the team sheet or tries weren't logged on Pitchero (pre-2021), they're <u>not included</u>.
+                    If the team sheet, tries or MOTM weren't logged on Pitchero (pre-2021), they're <u>not included</u>.<br>
+                    If Veo footage wasn't available, the set piece stats aren't included.
                 </div>
 
                 <p>If you spot any gaps or errors, please let me know!<br>But remember, I do all this manually in my spare time - it's a labour of love, not an official club record.</p>

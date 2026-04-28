@@ -511,7 +511,7 @@ function profileCardMarkup(profile) {
 
     return `
         <div class="player-profile-grid-item">
-            <a class="card player-profile-card player-profile-card-${squadClass} squad-metric-card-${squadClass}" href="${playerHref}">
+            <a class="card player-profile-card player-profile-card-${squadClass}" href="${playerHref}">
                 <div class="player-profile-headshot-wrap ${headshotBackgroundClass(profile)}">
                     ${avatarMarkup}
                     ${activeTag ? `<span class="player-profile-active-tag player-profile-active-tag-headshot">Active</span>` : ''}
