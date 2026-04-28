@@ -26,6 +26,16 @@ function escapeHtml(value) {
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;");
 }
+function toOppositionClubName(opposition) {
+  const text = String(opposition || "").trim();
+  const club = text.replace(/\s+(?:I{1,6}|[1-6](?:st|nd|rd|th)?|A|B)(?:\s+XV)?$/i, "").trim();
+  return club || text || "Unknown";
+}
+
+function oppositionProfileLinkHref(opposition) {
+  const club = toOppositionClubName(opposition);
+  return `opposition-profile.html?opposition=${encodeURIComponent(club)}`;
+}
 
 function escapeAttribute(value) {
   return String(value ?? "")
@@ -801,12 +811,16 @@ function renderAppearanceTable() {
       const openMatchHtml = row.gameId
         ? `<a class="btn btn-outline-primary btn-sm rounded-circle p-0 d-inline-flex align-items-center justify-content-center match-open-btn" href="match-info.html?game=${encodeURIComponent(row.gameId)}" aria-label="View match detail"><i class="bi bi-search" aria-hidden="true"></i></a>`
         : '<span class="text-muted">-</span>';
+      const oppositionText = String(row.opposition || "-").trim() || "-";
+      const oppositionHtml = oppositionText === "-"
+        ? "-"
+        : `<a href="${escapeAttribute(oppositionProfileLinkHref(oppositionText))}" class="player-profile-opposition-link">${escapeHtml(oppositionText)}</a>`;
       return `
         <tr class="${rowClass}">
             <td>${escapeHtml(row.dateDisplay || "-")}</td>
             <td>${escapeHtml(row.competition || "-")}</td>
             <td><span class="${squadPillClass}">${escapeHtml(squadLabel)}</span></td>
-            <td>${escapeHtml(row.opposition || "-")}</td>
+            <td>${oppositionHtml}</td>
             <td>${escapeHtml(row.homeAway || "-")}</td>
             <td>${escapeHtml(row.position || "-")}</td>
             <td>${escapeHtml(row.shirtNumber || "-")}</td>

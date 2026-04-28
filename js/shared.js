@@ -52,12 +52,19 @@ const CHART_CONTAINER_INVENTORY = Object.freeze([
   "lineoutPerfBreakdownAreaChart",
   "lineoutPerfBreakdownJumperChart",
   "lineoutPerfBreakdownNumbersChart",
+  "lineoutPerfBreakdownPlayChart",
+  "lineoutPerfBreakdownSeasonChart",
   "lineoutPerfBreakdownThrowerChart",
-  "lineoutTrendAreaChart",
-  "lineoutTrendJumperChart",
-  "lineoutTrendNumbersChart",
-  "lineoutTrendPlayChart",
-  "lineoutTrendThrowerChart",
+  "lineoutTrendAreaBarChart",
+  "lineoutTrendAreaLineChart",
+  "lineoutTrendJumperBarChart",
+  "lineoutTrendJumperLineChart",
+  "lineoutTrendNumbersBarChart",
+  "lineoutTrendNumbersLineChart",
+  "lineoutTrendPlayBarChart",
+  "lineoutTrendPlayLineChart",
+  "lineoutTrendThrowerBarChart",
+  "lineoutTrendThrowerLineChart",
   "oppositionLineoutH2HChart",
   "oppositionResultsChart",
   "oppositionScrumH2HChart",
@@ -308,6 +315,118 @@ const CHART_LAYOUT_INVENTORY = {
   setPieceScrumChart: { ...SET_PIECE_LAYOUT_ENTRY },
   setPiece1stScrumChart: { ...SET_PIECE_LAYOUT_ENTRY },
   setPiece2ndScrumChart: { ...SET_PIECE_LAYOUT_ENTRY },
+  lineoutPerfBreakdownNumbersChart: {
+    narrowMax: 760,
+    responsiveScaleMin: 0.62,
+    responsiveScaleMinXs: 0.56,
+    narrow: { width: 280 },
+    wide: { width: 225 },
+  },
+  lineoutPerfBreakdownAreaChart: {
+    narrowMax: 760,
+    responsiveScaleMin: 0.62,
+    responsiveScaleMinXs: 0.56,
+    narrow: { width: 280 },
+    wide: { width: 460 },
+  },
+  lineoutPerfBreakdownJumperChart: {
+    narrowMax: 760,
+    responsiveScaleMin: 0.62,
+    responsiveScaleMinXs: 0.56,
+    narrow: { width: 280 },
+    wide: { width: 460 },
+  },
+  lineoutPerfBreakdownThrowerChart: {
+    narrowMax: 760,
+    responsiveScaleMin: 0.62,
+    responsiveScaleMinXs: 0.56,
+    narrow: { width: 280 },
+    wide: { width: 460 },
+  },
+  lineoutPerfBreakdownPlayChart: {
+    narrowMax: 760,
+    responsiveScaleMin: 0.62,
+    responsiveScaleMinXs: 0.56,
+    narrow: { width: 280 },
+    wide: { width: 460 },
+  },
+  lineoutPerfBreakdownSeasonChart: {
+    narrowMax: 760,
+    responsiveScaleMin: 0.62,
+    responsiveScaleMinXs: 0.56,
+    narrow: { width: 280 },
+    wide: { width: 500 },
+  },
+  lineoutTrendNumbersBarChart: {
+    narrowMax: 760,
+    responsiveScaleMin: 0.62,
+    responsiveScaleMinXs: 0.56,
+    narrow: { width: 280 },
+    wide: { width: 320 },
+  },
+  lineoutTrendNumbersLineChart: {
+    narrowMax: 760,
+    responsiveScaleMin: 0.62,
+    responsiveScaleMinXs: 0.56,
+    narrow: { width: 280 },
+    wide: { width: 320 },
+  },
+  lineoutTrendAreaBarChart: {
+    narrowMax: 760,
+    responsiveScaleMin: 0.62,
+    responsiveScaleMinXs: 0.56,
+    narrow: { width: 280 },
+    wide: { width: 320 },
+  },
+  lineoutTrendAreaLineChart: {
+    narrowMax: 760,
+    responsiveScaleMin: 0.62,
+    responsiveScaleMinXs: 0.56,
+    narrow: { width: 280 },
+    wide: { width: 320 },
+  },
+  lineoutTrendJumperBarChart: {
+    narrowMax: 760,
+    responsiveScaleMin: 0.62,
+    responsiveScaleMinXs: 0.56,
+    narrow: { width: 280 },
+    wide: { width: 320 },
+  },
+  lineoutTrendJumperLineChart: {
+    narrowMax: 760,
+    responsiveScaleMin: 0.62,
+    responsiveScaleMinXs: 0.56,
+    narrow: { width: 280 },
+    wide: { width: 320 },
+  },
+  lineoutTrendThrowerBarChart: {
+    narrowMax: 760,
+    responsiveScaleMin: 0.62,
+    responsiveScaleMinXs: 0.56,
+    narrow: { width: 280 },
+    wide: { width: 320 },
+  },
+  lineoutTrendThrowerLineChart: {
+    narrowMax: 760,
+    responsiveScaleMin: 0.62,
+    responsiveScaleMinXs: 0.56,
+    narrow: { width: 280 },
+    wide: { width: 320 },
+  },
+  lineoutTrendPlayBarChart: {
+    narrowMax: 760,
+    responsiveScaleMin: 0.62,
+    responsiveScaleMinXs: 0.56,
+    narrow: { width: 280 },
+    wide: { width: 320 },
+  },
+  lineoutTrendPlayLineChart: {
+    narrowMax: 760,
+    responsiveScaleMin: 0.62,
+    responsiveScaleMinXs: 0.56,
+    narrow: { width: 280 },
+    wide: { width: 320 },
+  },
 };
 
 function getChartLayoutCoverage() {
@@ -1683,6 +1802,210 @@ function escapeHtml(value) {
   div.textContent = String(value);
   return div.innerHTML;
 }
+
+// ============================================================
+// Shared UI Helpers - Segment Controls, Chips, and Steppers
+// ============================================================
+
+const sharedUi = window.sharedUi || (window.sharedUi = {});
+
+sharedUi.resolveElement = function resolveElement(elementOrId) {
+  if (!elementOrId) return null;
+  if (typeof elementOrId === 'string') return document.getElementById(elementOrId);
+  return elementOrId;
+};
+
+sharedUi.syncSegmentButtons = function syncSegmentButtons(segmentOrId, value, options = {}) {
+  const segment = sharedUi.resolveElement(segmentOrId);
+  if (!segment) return;
+
+  const {
+    multi = Array.isArray(value),
+    activeClass = 'is-active',
+    valueAttribute = 'data-value',
+    buttonSelector = '.squad-filter-segment-btn',
+  } = options;
+
+  const selectedValues = multi
+    ? new Set((Array.isArray(value) ? value : []).map((v) => String(v)))
+    : new Set([String(value ?? '')]);
+
+  segment.querySelectorAll(buttonSelector).forEach((button) => {
+    const buttonValue = String(button.getAttribute(valueAttribute) ?? button.dataset.value ?? '');
+    button.classList.toggle(activeClass, selectedValues.has(buttonValue));
+  });
+};
+
+sharedUi.bindSegmentToSelect = function bindSegmentToSelect(config = {}) {
+  const segment = sharedUi.resolveElement(config.segment);
+  const select = sharedUi.resolveElement(config.select);
+  if (!segment || !select) return null;
+
+  const {
+    multi = !!select.multiple,
+    activeClass = 'is-active',
+    valueAttribute = 'data-value',
+    buttonSelector = '.squad-filter-segment-btn',
+    dispatchChange = true,
+    requireOne = false,
+    onSync,
+  } = config;
+
+  const getSelectValue = () => {
+    if (multi) return Array.from(select.selectedOptions).map((option) => String(option.value));
+    return String(select.value ?? '');
+  };
+
+  const setSelectValue = (nextValue) => {
+    if (multi) {
+      const nextSet = new Set((Array.isArray(nextValue) ? nextValue : []).map((v) => String(v)));
+      Array.from(select.options).forEach((option) => {
+        option.selected = nextSet.has(String(option.value));
+      });
+    } else {
+      select.value = String(nextValue ?? '');
+    }
+  };
+
+  const syncFromSelect = () => {
+    const value = getSelectValue();
+    sharedUi.syncSegmentButtons(segment, value, { multi, activeClass, valueAttribute, buttonSelector });
+    if (typeof onSync === 'function') onSync(value, { segment, select });
+    return value;
+  };
+
+  const segmentBindKey = `__sharedSegmentBind_${select.id || 'select'}`;
+  if (!segment[segmentBindKey]) {
+    segment[segmentBindKey] = true;
+    segment.addEventListener('click', (event) => {
+      const button = event.target.closest(buttonSelector);
+      if (!button || !segment.contains(button)) return;
+
+      const clickedValue = String(button.getAttribute(valueAttribute) ?? button.dataset.value ?? '');
+      if (!clickedValue) return;
+
+      if (multi) {
+        const nextValues = new Set(getSelectValue());
+        if (nextValues.has(clickedValue)) nextValues.delete(clickedValue);
+        else nextValues.add(clickedValue);
+        if (requireOne && nextValues.size === 0) nextValues.add(clickedValue);
+        setSelectValue(Array.from(nextValues));
+      } else {
+        setSelectValue(clickedValue);
+      }
+
+      syncFromSelect();
+      if (dispatchChange) select.dispatchEvent(new Event('change', { bubbles: true }));
+    });
+  }
+
+  const selectBindKey = `__sharedSegmentSelectBind_${segment.id || 'segment'}`;
+  if (!select[selectBindKey]) {
+    select[selectBindKey] = true;
+    select.addEventListener('change', syncFromSelect);
+  }
+
+  syncFromSelect();
+  return { segment, select, sync: syncFromSelect };
+};
+
+sharedUi.renderOffcanvasFilterChips = function renderOffcanvasFilterChips(config = {}) {
+  const host = sharedUi.resolveElement(config.host);
+  if (!host) return '';
+
+  const offcanvasId = String(config.offcanvasId || '').trim();
+  const chipClass = String(config.chipClass || 'squad-stats-filter-chip squad-stats-filter-chip-btn').trim();
+  const chips = Array.isArray(config.chips) ? config.chips : [];
+
+  const html = chips
+    .map((chip) => {
+      const label = String(chip?.label || '').trim();
+      const value = chip?.value === undefined || chip?.value === null ? '' : String(chip.value);
+      const mobileValue = chip?.mobileValue === undefined || chip?.mobileValue === null
+        ? value
+        : String(chip.mobileValue);
+      const clickable = chip?.clickable !== false && !!offcanvasId;
+      const labelHtml = `<strong>${escapeHtml(label)}</strong>`;
+      const valueHtml = mobileValue !== value
+        ? `<span class="d-none d-md-inline">${escapeHtml(value)}</span><span class="d-inline d-md-none">${escapeHtml(mobileValue)}</span>`
+        : escapeHtml(value);
+      const contentHtml = `${labelHtml}${valueHtml ? ` ${valueHtml}` : ''}`;
+
+      if (!clickable) return `<span class="squad-stats-filter-chip">${contentHtml}</span>`;
+
+      return `<button type="button" class="${chipClass}" data-bs-toggle="offcanvas" data-bs-target="#${escapeHtml(offcanvasId)}" aria-controls="${escapeHtml(offcanvasId)}">${contentHtml}</button>`;
+    })
+    .join('');
+
+  host.innerHTML = html;
+  return html;
+};
+
+sharedUi.attachSeasonStepper = function attachSeasonStepper(config = {}) {
+  const select = sharedUi.resolveElement(config.select);
+  const label = sharedUi.resolveElement(config.label);
+  const prevButton = sharedUi.resolveElement(config.prevButton || config.prev);
+  const nextButton = sharedUi.resolveElement(config.nextButton || config.next);
+  if (!select || !label) return null;
+
+  const {
+    prevDelta = 1,
+    nextDelta = -1,
+    dispatchChange = true,
+    formatLabel,
+    onChange,
+  } = config;
+
+  const update = () => {
+    const index = select.selectedIndex;
+    const values = Array.from(select.options).map((option) => String(option.value));
+    const selectedValue = index >= 0 ? values[index] : String(select.value || '');
+
+    label.textContent = typeof formatLabel === 'function'
+      ? String(formatLabel(selectedValue, select) || '')
+      : selectedValue;
+
+    if (prevButton) {
+      const prevIndex = index + prevDelta;
+      prevButton.disabled = prevIndex < 0 || prevIndex >= values.length;
+    }
+    if (nextButton) {
+      const nextIndex = index + nextDelta;
+      nextButton.disabled = nextIndex < 0 || nextIndex >= values.length;
+    }
+    if (typeof onChange === 'function') onChange(selectedValue, { select, index });
+  };
+
+  const moveBy = (delta) => {
+    const values = Array.from(select.options).map((option) => String(option.value));
+    const nextIndex = select.selectedIndex + delta;
+    if (nextIndex < 0 || nextIndex >= values.length) return;
+    select.value = values[nextIndex];
+    update();
+    if (dispatchChange) select.dispatchEvent(new Event('change', { bubbles: true }));
+  };
+
+  const prevBindKey = `__sharedSeasonPrev_${select.id || 'select'}`;
+  if (prevButton && !prevButton[prevBindKey]) {
+    prevButton[prevBindKey] = true;
+    prevButton.addEventListener('click', () => moveBy(prevDelta));
+  }
+
+  const nextBindKey = `__sharedSeasonNext_${select.id || 'select'}`;
+  if (nextButton && !nextButton[nextBindKey]) {
+    nextButton[nextBindKey] = true;
+    nextButton.addEventListener('click', () => moveBy(nextDelta));
+  }
+
+  const selectBindKey = `__sharedSeasonSelect_${label.id || 'label'}`;
+  if (!select[selectBindKey]) {
+    select[selectBindKey] = true;
+    select.addEventListener('change', update);
+  }
+
+  update();
+  return { select, label, prevButton, nextButton, refresh: update };
+};
 
 /**
  * Determine the headshot background class based on player's squad.

@@ -214,27 +214,18 @@ function initialiseTeamSheetsControls(seasons) {
         }
     });
 
-    // Squad segment buttons
-    squadSegment.querySelectorAll('button').forEach(btn => {
-        btn.addEventListener('click', () => {
-            squadSegment.querySelectorAll('button').forEach(b => b.classList.remove('is-active'));
-            btn.classList.add('is-active');
-            const value = btn.dataset.value;
-            document.getElementById('teamSheetsSquadSelect').value = value;
-            renderTeamSheetsPage();
+    if (window.sharedUi?.bindSegmentToSelect) {
+        window.sharedUi.bindSegmentToSelect({
+            segment: squadSegment,
+            select: 'teamSheetsSquadSelect',
+            onSync: () => renderTeamSheetsPage(),
         });
-    });
-
-    // Game Type segment buttons
-    gameTypeSegment.querySelectorAll('button').forEach(btn => {
-        btn.addEventListener('click', () => {
-            gameTypeSegment.querySelectorAll('button').forEach(b => b.classList.remove('is-active'));
-            btn.classList.add('is-active');
-            const value = btn.dataset.value;
-            document.getElementById('teamSheetsGameTypeSelect').value = value;
-            renderTeamSheetsPage();
+        window.sharedUi.bindSegmentToSelect({
+            segment: gameTypeSegment,
+            select: 'teamSheetsGameTypeSelect',
+            onSync: () => renderTeamSheetsPage(),
         });
-    });
+    }
 
     // Initialize position select with all available positions
     const positionSelect = document.getElementById('teamSheetsPositionSelect');

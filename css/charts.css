@@ -1,13 +1,14 @@
+
+/* Consolidated legends for Lineout Jumper and Thrower sections */
+.lineout-section-legend {
+    margin: 0 0 0.7rem;
+}
 /* ===== CHART CONTENT ===== */
 #league-content {
     width: 100% !important;
     min-width: 0 !important;
     align-items: stretch;
     background: var(--chart-surface-color);
-}
-
-#team-sheets-content {
-    min-width: 1000px !important;
 }
 
 .vega-embed {
@@ -58,14 +59,6 @@
     max-width: 100%;
     overflow-x: auto;
     overflow-y: hidden;
-}
-
-.team-sheets-page-shell {
-    padding-top: 1.25rem !important;
-}
-
-.team-sheets-header {
-    margin-bottom: 0.9rem !important;
 }
 
 .team-sheets-chart-shell {
@@ -120,13 +113,6 @@
         max-width: 100%;
     }
 
-    .team-sheets-page-shell {
-        padding-top: 0.85rem !important;
-    }
-
-    .team-sheets-header {
-        margin-bottom: 0.65rem !important;
-    }
 }
 
 /* Very narrow screens */

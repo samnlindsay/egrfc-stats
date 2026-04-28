@@ -417,6 +417,10 @@ function initialiseLeagueTableSeasonControls() {
 function syncLeagueTablesSquadSegmentUI(value) {
     const segment = document.getElementById('leagueTablesSquadSegment');
     if (!segment) return;
+    if (window.sharedUi?.syncSegmentButtons) {
+        window.sharedUi.syncSegmentButtons(segment, value);
+        return;
+    }
     segment.querySelectorAll('.squad-filter-segment-btn').forEach(btn => {
         btn.classList.toggle('is-active', btn.dataset.value === value);
     });
@@ -439,11 +443,18 @@ function initialiseLeagueTablesSquadControls() {
     const segment = document.getElementById('leagueTablesSquadSegment');
     if (!squadSelect || !segment) return;
 
-    segment.querySelectorAll('.squad-filter-segment-btn').forEach(btn => {
-        if (btn.__leagueTablesBound) return;
-        btn.__leagueTablesBound = true;
-        btn.addEventListener('click', () => setLeagueTablesSquadFilter(btn.dataset.value));
-    });
+    if (window.sharedUi?.bindSegmentToSelect) {
+        window.sharedUi.bindSegmentToSelect({
+            segment,
+            select: squadSelect,
+        });
+    } else {
+        segment.querySelectorAll('.squad-filter-segment-btn').forEach(btn => {
+            if (btn.__leagueTablesBound) return;
+            btn.__leagueTablesBound = true;
+            btn.addEventListener('click', () => setLeagueTablesSquadFilter(btn.dataset.value));
+        });
+    }
 
     squadSelect.addEventListener('change', () => {
         syncLeagueTablesSquadSegmentUI(squadSelect.value);

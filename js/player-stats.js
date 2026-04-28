@@ -240,9 +240,10 @@ function syncPlayerStatsGameTypeSegmentFromSelect() {
     const segment = document.getElementById('playerStatsGameTypeSegment');
     if (!select || !segment) return;
     const value = select.value || PLAYER_STATS_DEFAULT_GAME_TYPE;
-    segment.querySelectorAll('.squad-filter-segment-btn').forEach(btn => {
-        btn.classList.toggle('is-active', btn.dataset.value === value);
-    });
+    if (window.sharedUi?.syncSegmentButtons) {
+        window.sharedUi.syncSegmentButtons(segment, value);
+        return;
+    }
 }
 
 function syncPlayerStatsSquadSegmentFromSelect() {
@@ -250,9 +251,10 @@ function syncPlayerStatsSquadSegmentFromSelect() {
     const segment = document.getElementById('playerStatsSquadSegment');
     if (!select || !segment) return;
     const value = select.value || 'All';
-    segment.querySelectorAll('.squad-filter-segment-btn').forEach(btn => {
-        btn.classList.toggle('is-active', btn.dataset.value === value);
-    });
+    if (window.sharedUi?.syncSegmentButtons) {
+        window.sharedUi.syncSegmentButtons(segment, value);
+        return;
+    }
 }
 
 function syncPlayerStatsScoreTypeSegmentFromSelect() {
@@ -260,9 +262,10 @@ function syncPlayerStatsScoreTypeSegmentFromSelect() {
     const segment = document.getElementById('playerStatsScoreTypeSegment');
     if (!select || !segment) return;
     const value = select.value || PLAYER_STATS_DEFAULT_SCORE_TYPE;
-    segment.querySelectorAll('.squad-filter-segment-btn').forEach(btn => {
-        btn.classList.toggle('is-active', btn.dataset.value === value);
-    });
+    if (window.sharedUi?.syncSegmentButtons) {
+        window.sharedUi.syncSegmentButtons(segment, value);
+        return;
+    }
 }
 
 function syncPlayerStatsPositionButtons() {
@@ -562,37 +565,28 @@ function initialisePlayerStatsControls() {
         });
     }
 
-    if (gameTypeSegment) {
-        gameTypeSegment.querySelectorAll('.squad-filter-segment-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const value = btn.dataset.value;
-                if (!value) return;
-                gameTypeSelect.value = value;
-                handlePlayerStatsControlChange();
+    if (window.sharedUi?.bindSegmentToSelect) {
+        if (gameTypeSegment) {
+            window.sharedUi.bindSegmentToSelect({
+                segment: gameTypeSegment,
+                select: gameTypeSelect,
+                onSync: () => handlePlayerStatsControlChange(),
             });
-        });
-    }
-
-    if (squadSegment) {
-        squadSegment.querySelectorAll('.squad-filter-segment-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const value = btn.dataset.value;
-                if (!value) return;
-                squadSelect.value = value;
-                handlePlayerStatsControlChange();
+        }
+        if (squadSegment) {
+            window.sharedUi.bindSegmentToSelect({
+                segment: squadSegment,
+                select: squadSelect,
+                onSync: () => handlePlayerStatsControlChange(),
             });
-        });
-    }
-
-    if (scoreTypeSegment) {
-        scoreTypeSegment.querySelectorAll('.squad-filter-segment-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const value = btn.dataset.value;
-                if (!value) return;
-                scoreTypeSelect.value = value;
-                handlePlayerStatsControlChange();
+        }
+        if (scoreTypeSegment) {
+            window.sharedUi.bindSegmentToSelect({
+                segment: scoreTypeSegment,
+                select: scoreTypeSelect,
+                onSync: () => handlePlayerStatsControlChange(),
             });
-        });
+        }
     }
 
     if (positionGrid) {

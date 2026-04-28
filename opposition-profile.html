@@ -355,10 +355,14 @@
                                 <div class="chart-section-head">
                                     <div class="squad-filter-control" role="group" aria-label="Set Piece Type">
                                         <span class="squad-filter-label">Set Piece</span>
-                                        <div class="squad-filter-segment" id="setpieceTypeSegment">
+                                        <div class="squad-filter-segment squad-filter-segment--neutral" id="setpieceTypeSegment">
                                             <button type="button" class="squad-filter-segment-btn is-active" data-value="lineout">Lineout</button>
                                             <button type="button" class="squad-filter-segment-btn" data-value="scrums">Scrum</button>
                                         </div>
+                                        <select id="setpieceTypeSelect" class="visually-hidden" aria-hidden="true" tabindex="-1">
+                                            <option value="lineout" selected>Lineout</option>
+                                            <option value="scrums">Scrum</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div id="oppositionSetPieceCharts" class="opposition-h2h-single">

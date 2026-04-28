@@ -1152,16 +1152,38 @@ function scoreLogoSlotHtml(src, name, side) {
     `;
 }
 
+function oppositionProfileLinkHref(oppositionName) {
+    const club = baseClubName(oppositionName);
+    return `opposition-profile.html?opposition=${encodeURIComponent(club || 'Unknown')}`;
+}
+
+function oppositionTeamLinkHtml(teamName) {
+    const text = String(teamName || '').trim();
+    if (!text) return '-';
+    if (baseClubName(text) === 'EGRFC') return escapeHtml(text);
+    const href = oppositionProfileLinkHref(text);
+    return `<a href="${escapeAttribute(href)}" class="match-info-opposition-link">${escapeHtml(text)}</a>`;
+}
+
 function syncMatchInfoSeasonStepperFromSelect() {
     const select = document.getElementById('matchFilterSeason');
-    const label = document.getElementById('matchFilterSeasonLabel');
-    const prevBtn = document.getElementById('matchFilterSeasonPrev');
-    const nextBtn = document.getElementById('matchFilterSeasonNext');
-    if (!select || !label) return;
-    const selectedOpt = select.options[select.selectedIndex];
-    label.textContent = selectedOpt?.text || selectedOpt?.value || '';
-    if (prevBtn) prevBtn.disabled = select.selectedIndex >= select.options.length - 1;
-    if (nextBtn) nextBtn.disabled = select.selectedIndex <= 0;
+    if (!select) return;
+    if (window.sharedUi?.attachSeasonStepper) {
+        window.sharedUi.attachSeasonStepper({
+            select,
+            label: 'matchFilterSeasonLabel',
+            prev: 'matchFilterSeasonPrev',
+            next: 'matchFilterSeasonNext',
+            prevDelta: 1,
+            nextDelta: -1,
+            dispatchChange: false,
+            formatLabel: (_value, selectEl) => {
+                const selectedOpt = selectEl.options[selectEl.selectedIndex];
+                return selectedOpt?.text || selectedOpt?.value || '';
+            },
+        });
+        return;
+    }
 }
 
 function syncMatchInfoSquadSegmentFromSelect() {
@@ -1169,6 +1191,10 @@ function syncMatchInfoSquadSegmentFromSelect() {
     const segment = document.getElementById('matchFilterSquadSegment');
     if (!select || !segment) return;
     const value = select.value;
+    if (window.sharedUi?.syncSegmentButtons) {
+        window.sharedUi.syncSegmentButtons(segment, value);
+        return;
+    }
     segment.querySelectorAll('.squad-filter-segment-btn').forEach(btn => {
         btn.classList.toggle('is-active', btn.dataset.value === value);
     });
@@ -1190,12 +1216,24 @@ function renderMatchInfoActiveFilters() {
     const seasonLabel = season === 'All' ? 'All' : season;
     const oppositionLabel = opposition === 'All' ? 'All' : opposition;
 
+    if (window.sharedUi?.renderOffcanvasFilterChips) {
+        window.sharedUi.renderOffcanvasFilterChips({
+            host: target,
+            offcanvasId: MATCH_INFO_FILTERS_OFFCANVAS_ID,
+            chips: [
+                { label: 'Squad', value: squadLabel },
+                { label: 'Season', value: seasonLabel },
+                { label: 'Opposition', value: oppositionLabel },
+            ],
+        });
+        return;
+    }
+
     const chips = [
         `<button type="button" class="squad-stats-filter-chip squad-stats-filter-chip-btn" data-bs-toggle="offcanvas" data-bs-target="#${MATCH_INFO_FILTERS_OFFCANVAS_ID}" aria-controls="${MATCH_INFO_FILTERS_OFFCANVAS_ID}"><strong>Squad</strong> ${escapeHtml(squadLabel)}</button>`,
         `<button type="button" class="squad-stats-filter-chip squad-stats-filter-chip-btn" data-bs-toggle="offcanvas" data-bs-target="#${MATCH_INFO_FILTERS_OFFCANVAS_ID}" aria-controls="${MATCH_INFO_FILTERS_OFFCANVAS_ID}"><strong>Season</strong> ${escapeHtml(seasonLabel)}</button>`,
         `<button type="button" class="squad-stats-filter-chip squad-stats-filter-chip-btn" data-bs-toggle="offcanvas" data-bs-target="#${MATCH_INFO_FILTERS_OFFCANVAS_ID}" aria-controls="${MATCH_INFO_FILTERS_OFFCANVAS_ID}"><strong>Opposition</strong> ${escapeHtml(oppositionLabel)}</button>`
     ];
-
     target.innerHTML = chips.join('');
 }
 
@@ -1291,11 +1329,16 @@ function renderTable() {
         const squadLabel = formatSquadLabel(row?.squad);
         const homeAway = String(row?.home_away || '').trim().toUpperCase();
         const venueText = homeAway === 'A' ? 'A' : 'H';
+        const oppositionText = String(row?.opposition || '-');
+        const oppositionCell = oppositionText === '-'
+            ? '-'
+            : `<a href="${escapeAttribute(oppositionProfileLinkHref(oppositionText))}" class="match-info-opposition-link">${escapeHtml(oppositionText)}</a>`;
+
         return `
             <tr class="${rowClass}">
                 <td>${escapeHtml(formatDisplayDate(row?.date))}</td>
                 <td><span class="${squadPillClass}">${escapeHtml(squadLabel)}</span></td>
-                <td>${escapeHtml(String(row?.opposition || '-'))}</td>
+                <td>${oppositionCell}</td>
                 <td class="match-table-venue">${escapeHtml(venueText)}</td>
                 <td>${escapeHtml(String(row?.game_type || '-'))}</td>
                 <td>${resultBadgeHtml(normaliseResult(row))}</td>
@@ -1381,7 +1424,7 @@ function renderMatchInfo(gameId) {
                         ${teamLogoSlotHtml(hero.homeLogoSrc, hero.homeTeam, 'home')}
                         <div class="match-info-team-text">
                             <div class="match-info-team-label">Home</div>
-                            <div class="match-info-team-name">${escapeHtml(hero.homeTeam)}</div>
+                            <div class="match-info-team-name">${oppositionTeamLinkHtml(hero.homeTeam)}</div>
                         </div>
                     </div>
                 </div>
@@ -1397,7 +1440,7 @@ function renderMatchInfo(gameId) {
                         ${teamLogoSlotHtml(hero.awayLogoSrc, hero.awayTeam, 'away')}
                         <div class="match-info-team-text">
                             <div class="match-info-team-label">Away</div>
-                            <div class="match-info-team-name">${escapeHtml(hero.awayTeam)}</div>
+                            <div class="match-info-team-name">${oppositionTeamLinkHtml(hero.awayTeam)}</div>
                         </div>
                     </div>
                 </div>
@@ -1526,36 +1569,24 @@ function bindControls(initialGameId) {
     const prev = document.getElementById('matchDataPrev');
     const next = document.getElementById('matchDataNext');
 
-    // Squad segment buttons
     const squadSegment = document.getElementById('matchFilterSquadSegment');
-    if (squadSegment) {
-        squadSegment.querySelectorAll('.squad-filter-segment-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                if (squad) {
-                    squad.value = btn.dataset.value;
-                    squad.dispatchEvent(new Event('change', { bubbles: true }));
-                }
-            });
+    if (window.sharedUi?.bindSegmentToSelect && squadSegment && squad) {
+        window.sharedUi.bindSegmentToSelect({
+            segment: squadSegment,
+            select: squad,
         });
     }
 
-    // Season stepper buttons
     const seasonPrev = document.getElementById('matchFilterSeasonPrev');
     const seasonNext = document.getElementById('matchFilterSeasonNext');
-    if (seasonPrev && season) {
-        seasonPrev.addEventListener('click', () => {
-            if (season.selectedIndex < season.options.length - 1) {
-                season.selectedIndex += 1;
-                season.dispatchEvent(new Event('change', { bubbles: true }));
-            }
-        });
-    }
-    if (seasonNext && season) {
-        seasonNext.addEventListener('click', () => {
-            if (season.selectedIndex > 0) {
-                season.selectedIndex -= 1;
-                season.dispatchEvent(new Event('change', { bubbles: true }));
-            }
+    if (window.sharedUi?.attachSeasonStepper && season) {
+        window.sharedUi.attachSeasonStepper({
+            select: season,
+            label: 'matchFilterSeasonLabel',
+            prev: seasonPrev,
+            next: seasonNext,
+            prevDelta: 1,
+            nextDelta: -1,
         });
     }
 

@@ -621,8 +621,8 @@
 .full-profile-section-title {
     margin: 0 0 0.4rem;
     color: var(--primary-color);
-    font-size: 1.75rem;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               rem;
-    font-weight:900;
+    font-size: 1.75rem;
+    font-weight: 900;
 }
 
 .full-profile-section-full {
@@ -4262,10 +4262,6 @@ table tbody tr:hover {
     border-color: var(--red-color);
 }
 
-#page-team-sheets .team-sheets-hero {
-    margin-bottom: 1rem;
-}
-
 .player-filters-offcanvas {
     top: var(--navbar-height) !important;
     height: calc(100vh - var(--navbar-height)) !important;
@@ -4312,107 +4308,58 @@ table tbody tr:hover {
     color: #202946;
 }
 
-#playerStatsSquadSegment .squad-filter-segment-btn[data-value="All"].is-active {
+:is(.squad-filter-segment--squad, #playerStatsSquadSegment, #leagueTablesSquadSegment, #teamSheetsSquadSegment) .squad-filter-segment-btn[data-value="All"].is-active {
     background: #000;
     border-color: #000;
     color: #fff;
 }
 
-#playerStatsSquadSegment .squad-filter-segment-btn[data-value="All"]:not(.is-active),
-#leagueTablesSquadSegment .squad-filter-segment-btn[data-value="All"]:not(.is-active) {
+/* Shared segment variants used across offcanvas and panel controls.
+ * Keep legacy ID selectors in place so existing pages work before migration.
+ */
+:is(.squad-filter-segment--squad, #playerStatsSquadSegment, #leagueTablesSquadSegment, #teamSheetsSquadSegment) .squad-filter-segment-btn[data-value="All"]:not(.is-active) {
     background: rgba(0, 0, 0, 0.06);
     border-color: rgba(0, 0, 0, 0.22);
     color: #111;
 }
 
-#playerStatsSquadSegment .squad-filter-segment-btn[data-value="1st"].is-active {
+:is(.squad-filter-segment--squad, #playerStatsSquadSegment, #leagueTablesSquadSegment, #teamSheetsSquadSegment) .squad-filter-segment-btn[data-value="1st"].is-active {
     background: var(--primary-color);
     border-color: var(--primary-color);
     color: #fff;
 }
 
-#playerStatsSquadSegment .squad-filter-segment-btn[data-value="1st"]:not(.is-active),
-#leagueTablesSquadSegment .squad-filter-segment-btn[data-value="1st"]:not(.is-active) {
+:is(.squad-filter-segment--squad, #playerStatsSquadSegment, #leagueTablesSquadSegment, #teamSheetsSquadSegment) .squad-filter-segment-btn[data-value="1st"]:not(.is-active) {
     background: rgba(32, 41, 70, 0.08);
     border-color: rgba(32, 41, 70, 0.24);
     color: var(--primary-color);
 }
 
-#playerStatsSquadSegment .squad-filter-segment-btn[data-value="2nd"].is-active {
+:is(.squad-filter-segment--squad, #playerStatsSquadSegment, #leagueTablesSquadSegment, #teamSheetsSquadSegment) .squad-filter-segment-btn[data-value="2nd"].is-active {
     background: var(--accent-color);
     border-color: var(--primary-color);
     color: var(--primary-color);
 }
 
-#playerStatsSquadSegment .squad-filter-segment-btn[data-value="2nd"]:not(.is-active),
-#leagueTablesSquadSegment .squad-filter-segment-btn[data-value="2nd"]:not(.is-active) {
+:is(.squad-filter-segment--squad, #playerStatsSquadSegment, #leagueTablesSquadSegment, #teamSheetsSquadSegment) .squad-filter-segment-btn[data-value="2nd"]:not(.is-active) {
     background: rgba(125, 150, 232, 0.16);
     border-color: rgba(32, 41, 70, 0.2);
     color: var(--primary-color);
 }
 
-#leagueTablesSquadSegment .squad-filter-segment-btn[data-value="All"].is-active {
+:is(.squad-filter-segment--squad, #playerStatsSquadSegment, #leagueTablesSquadSegment, #teamSheetsSquadSegment) .squad-filter-segment-btn[data-value="All"].is-active {
     background: #000;
     border-color: #000;
     color: #fff;
 }
 
-#leagueTablesSquadSegment .squad-filter-segment-btn[data-value="1st"].is-active {
-    background: var(--primary-color);
-    border-color: var(--primary-color);
-    color: #fff;
-}
-
-#leagueTablesSquadSegment .squad-filter-segment-btn[data-value="2nd"].is-active {
-    background: var(--accent-color);
-    border-color: var(--primary-color);
-    color: var(--primary-color);
-}
-
-/* Team Sheets Segment Button Styling */
-#teamSheetsSquadSegment .squad-filter-segment-btn[data-value="All"].is-active {
-    background: #000;
-    border-color: #000;
-    color: #fff;
-}
-
-#teamSheetsSquadSegment .squad-filter-segment-btn[data-value="All"]:not(.is-active) {
+:is(.squad-filter-segment--neutral, #teamSheetsGameTypeSegment) .squad-filter-segment-btn {
     background: rgba(0, 0, 0, 0.06);
     border-color: rgba(0, 0, 0, 0.22);
     color: #111;
 }
 
-#teamSheetsSquadSegment .squad-filter-segment-btn[data-value="1st"].is-active {
-    background: var(--primary-color);
-    border-color: var(--primary-color);
-    color: #fff;
-}
-
-#teamSheetsSquadSegment .squad-filter-segment-btn[data-value="1st"]:not(.is-active) {
-    background: rgba(32, 41, 70, 0.08);
-    border-color: rgba(32, 41, 70, 0.24);
-    color: var(--primary-color);
-}
-
-#teamSheetsSquadSegment .squad-filter-segment-btn[data-value="2nd"].is-active {
-    background: var(--accent-color);
-    border-color: var(--primary-color);
-    color: var(--primary-color);
-}
-
-#teamSheetsSquadSegment .squad-filter-segment-btn[data-value="2nd"]:not(.is-active) {
-    background: rgba(125, 150, 232, 0.16);
-    border-color: rgba(32, 41, 70, 0.2);
-    color: var(--primary-color);
-}
-
-#teamSheetsGameTypeSegment .squad-filter-segment-btn {
-    background: rgba(0, 0, 0, 0.06);
-    border-color: rgba(0, 0, 0, 0.22);
-    color: #111;
-}
-
-#teamSheetsGameTypeSegment .squad-filter-segment-btn.is-active {
+:is(.squad-filter-segment--neutral, #teamSheetsGameTypeSegment) .squad-filter-segment-btn.is-active {
     background: #000;
     border-color: #000;
     color: #fff;
@@ -5119,52 +5066,130 @@ table tbody tr:hover {
     flex: 0 0 auto;
 }
 
-.lineout-analysis-panel {
-    min-width: 0;
+.lineout-breakdown-sections {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 2rem;
 }
 
-.lineout-analysis-panel .chart-panel-toggle {
-    min-width: 0;
-    width: 100%;
-    max-width: 100%;
+.lineout-breakdown-section {
+    margin: 0;
 }
 
-.lineout-analysis-panel .chart-panel-card {
-    width: 100%;
+.lineout-breakdown-section > .section-heading {
+    margin-bottom: 0.3rem;
 }
 
-.lineout-analysis-panel--breakdown .chart-panel-toggle-hint {
-    font-style: italic;
+.lineout-breakdown-section .section-intro {
+    margin-bottom: 0.85rem;
 }
 
-.lineout-analysis-pairs {
-    overflow-x: visible;
-    padding-bottom: 0.25rem;
+/* ===== LINEOUT DEEP DIVE ===== */
+
+#page-lineout-performance .lineout-deep-dive-hero {
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border: 1px solid #d9deef;
+    border-radius: 0.9rem;
+    background-image: url("../img/EGRFC Background.png");
+    background-size: cover;
+    background-position: center 32%;
+    background-repeat: no-repeat;
+    box-shadow: 0 6px 18px rgba(32, 41, 70, 0.1);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: start;
+    gap: 0.8rem;
 }
 
-.lineout-breakdown-panels .lineout-analysis-panel--breakdown .chart-panel-toggle,
-.lineout-breakdown-panels .lineout-analysis-panel--breakdown .chart-panel-toggle[aria-expanded="false"] {
-    border-top-right-radius: 14px;
-    border-bottom-right-radius: 14px;
+#page-lineout-performance .lineout-hero-actions {
+    align-self: start;
+    justify-content: flex-end;
+    padding-top: 0;
 }
 
-.lineout-breakdown-panels .lineout-analysis-panel--breakdown .chart-panel-card {
-    border-top-right-radius: 18px;
-    border-bottom-right-radius: 18px;
+#page-lineout-performance .lineout-section-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
 }
 
-.lineout-breakdown-layout {
+#page-lineout-performance .lineout-subsection {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+}
+
+#page-lineout-performance .lineout-subsection + .lineout-subsection {
+    border-top: 1px solid rgba(32, 41, 70, 0.12);
+    padding-top: 0.75rem;
+}
+
+
+
+#page-lineout-performance .lineout-focus-grid {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
-    gap: 1rem;
+}
+
+#page-lineout-performance .lineout-focus-grid--with-hint {
+    grid-template-columns: minmax(18rem, 1fr) minmax(0, 2fr);
+    gap: 0.85rem;
     align-items: start;
 }
 
-.lineout-breakdown-chart {
+#page-lineout-performance .lineout-focus-grid--with-hint .chart-section-hint {
+    margin: 0;
+    max-width: 62ch;
+}
+
+#page-lineout-performance .lineout-trend-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.85rem;
+    align-items: start;
+}
+
+#page-lineout-performance .lineout-chart-host {
+    min-width: 0;
+    max-width: 100%;
+}
+
+#page-lineout-performance .squad-stats-main {
     min-width: 0;
 }
 
+/* Table sits between the hint and the panel; add breathing room */
+#page-lineout-performance .lineout-breakdown-table-wrap {
+    margin-bottom: 0.75rem;
+}
+
+#page-lineout-performance .lineout-section-active-filters {
+    margin-bottom: 0.7rem;
+}
+
+@media (max-width: 991.98px) {
+    #page-lineout-performance .lineout-deep-dive-hero {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    #page-lineout-performance .lineout-hero-actions {
+        justify-content: flex-start;
+    }
+
+    #page-lineout-performance .lineout-trend-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    #page-lineout-performance .lineout-focus-grid--with-hint {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
 .lineout-breakdown-table-wrap {
+    width: fit-content;
+    max-width: 100%;
     overflow: auto;
     border-radius: 14px;
     background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(242, 241, 244, 0.98));
@@ -5173,7 +5198,9 @@ table tbody tr:hover {
 
 .lineout-breakdown-table {
     margin-bottom: 0;
-    width: 100%;
+    width: max-content;
+    min-width: 0;
+    table-layout: auto;
     font-size: 0.88rem;
 }
 
@@ -5185,6 +5212,15 @@ table tbody tr:hover {
 
 .lineout-breakdown-table tbody td {
     font-family: 'Lato', sans-serif;
+}
+
+.lineout-breakdown-table th.lineout-breakdown-col-highlight {
+    background: color-mix(in srgb, var(--accent-color) 50%, #10151f) !important;
+    color: #fff;
+}
+
+.lineout-breakdown-table td.lineout-breakdown-col-highlight {
+    background: color-mix(in srgb, var(--accent-color) 16%, #ffffff) !important;
 }
 
 .lineout-breakdown-table .badge {
@@ -5796,7 +5832,7 @@ button.opposition-hero-action-card:focus-visible {
         width: var(--analysis-rail-fixed-width, calc(100vw - 1rem));
         max-width: var(--analysis-rail-fixed-width, calc(100vw - 1rem));
         margin: 0;
-        z-index: 1050;
+        z-index: 1030;
     }
 
     .analysis-rail-placeholder {
@@ -5901,32 +5937,62 @@ button.opposition-hero-action-card:focus-visible {
     align-self: start;
 }
 
-#page-performance-stats .performance-set-piece-legend {
+/* Shared chart legend pattern (Performance Stats + Lineout sections) */
+#page-performance-stats .performance-set-piece-legend,
+.lineout-section-legend-box {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.65rem 1rem;
+    gap: 0.3rem 0.85rem;
+    align-items: center;
     margin-top: 0.8rem;
-    font-size: 1rem;
-    color: var(--primary-color);
-    padding: 0.5rem;
-    border: 1px solid black;
+    padding: 0.45rem 0.6rem;
+    border: 1px solid #cfd7eb;
+    background: #ffffff;
     width: fit-content;
-    align-self: center;
 }
 
-#page-performance-stats .performance-set-piece-legend-item {
+#page-performance-stats .performance-set-piece-legend-item,
+.lineout-section-legend-item {
     display: inline-flex;
     align-items: center;
     gap: 0.45rem;
-    font-weight: 600;
+    color: #2f3a58;
+    font-size: 0.95rem;
+    line-height: 1;
 }
 
-#page-performance-stats .performance-set-piece-legend-swatch {
+#page-performance-stats .performance-set-piece-legend-swatch,
+.lineout-section-legend-symbol {
     display: inline-block;
-    width: 0.6rem;
-    height: 0.6rem;
-    border-radius: 999px;
+    width: 12px;
+    height: 12px;
+    border-radius: 2px;
+    border: 1px solid rgba(31, 42, 74, 0.35);
     flex: 0 0 auto;
+}
+
+#page-performance-stats .performance-set-piece-legend {
+    align-self: center;
+}
+
+.lineout-section-legend-box {
+    margin-top: 0;
+}
+
+.lineout-section-legend-title {
+    margin: 0 0 0.35rem;
+    color: var(--dark-color);
+    opacity: 0.8;
+    font-size: 1rem;
+    font-style: italic;
+    flex-basis: 100%;
+}
+
+.lineout-section-legend-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem 0.85rem;
+    align-items: center;
 }
 
 #page-performance-stats .performance-set-piece-legend-swatch--egrfc {

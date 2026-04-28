@@ -218,6 +218,18 @@
                             </div>
                         </div>
                     </section>
+
+                    <section id="sec-team-sheets-board" class="analysis-section chart-section" aria-labelledby="team-sheets-board-heading">
+                        <h2 id="team-sheets-board-heading" class="section-heading">Team Sheets</h2>
+                        <p class="section-intro">Selection for every match in reverse chronological order, with the most recent game at the top.</p>
+                        <div id="teamSheetsActiveFilters" class="squad-stats-active-filters" aria-live="polite"></div>
+                        <div class="chart-section-block chart-section-block--panel">
+                            <div id="teamSheetsChart"
+                                class="team-sheets-chart-shell chart-host chart-host--overflow-visible chart-host--intrinsic player-stats-chart-container chart-scale-mobile-tight">
+                                Loading team sheets chart...
+                            </div>
+                        </div>
+                    </section>
                 </main>
             </div>
         </div>
@@ -247,7 +259,7 @@
                 </div>
                 <div class="squad-filter-control" role="group" aria-label="Game Type">
                     <span class="squad-filter-label">Game Type</span>
-                    <div class="squad-filter-segment" id="playerStatsGameTypeSegment">
+                    <div class="squad-filter-segment squad-filter-segment--neutral" id="playerStatsGameTypeSegment">
                         <button type="button" class="squad-filter-segment-btn is-active" data-value="All">All</button>
                         <button type="button" class="squad-filter-segment-btn" data-value="League + Cup">League + Cup</button>
                         <button type="button" class="squad-filter-segment-btn" data-value="League only">League</button>
@@ -260,7 +272,7 @@
                 </div>
                 <div class="squad-filter-control" role="group" aria-label="Squad">
                     <span class="squad-filter-label">Squad</span>
-                    <div class="squad-filter-segment" id="playerStatsSquadSegment">
+                    <div class="squad-filter-segment squad-filter-segment--squad" id="playerStatsSquadSegment">
                         <button type="button" class="squad-filter-segment-btn is-active" data-value="All">All</button>
                         <button type="button" class="squad-filter-segment-btn" data-value="1st">1st XV</button>
                         <button type="button" class="squad-filter-segment-btn" data-value="2nd">2nd XV</button>
@@ -318,12 +330,99 @@
         </div>
     </div>
 
+    <div class="offcanvas offcanvas-end squad-filters-offcanvas team-sheets-filters-offcanvas" tabindex="-1"
+        id="teamSheetsFiltersOffcanvas" aria-labelledby="teamSheetsFiltersHeading">
+        <div class="offcanvas-header">
+            <div>
+                <h5 id="teamSheetsFiltersHeading" class="section-heading section-heading--flush">Team Sheets Filters</h5>
+                <p class="squad-filters-description">Choose season, game type, squad, and position to refine the team sheet board.</p>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div class="squad-filters-grid squad-filters-grid--offcanvas">
+                <div class="squad-filter-control" role="group" aria-label="Season">
+                    <span class="squad-filter-label">Season</span>
+                    <div class="squad-filter-season-stepper">
+                        <button type="button" id="teamSheetsSeasonPrev" class="squad-filter-stepper-btn" aria-label="Previous season">&#8249;</button>
+                        <span id="teamSheetsSeasonLabel" class="squad-filter-stepper-label"></span>
+                        <button type="button" id="teamSheetsSeasonNext" class="squad-filter-stepper-btn" aria-label="Next season">&#8250;</button>
+                    </div>
+                    <select id="teamSheetsSeasonSelect" class="visually-hidden" aria-hidden="true" tabindex="-1" multiple>
+                    </select>
+                </div>
+                <div class="squad-filter-control" role="group" aria-label="Squad">
+                    <span class="squad-filter-label">Squad</span>
+                    <div class="squad-filter-segment squad-filter-segment--squad" id="teamSheetsSquadSegment">
+                        <button type="button" class="squad-filter-segment-btn is-active" data-value="All">All</button>
+                        <button type="button" class="squad-filter-segment-btn" data-value="1st">1st XV</button>
+                        <button type="button" class="squad-filter-segment-btn" data-value="2nd">2nd XV</button>
+                    </div>
+                    <select id="teamSheetsSquadSelect" class="visually-hidden" aria-hidden="true" tabindex="-1">
+                        <option value="All" selected>All</option>
+                        <option value="1st">1st XV</option>
+                        <option value="2nd">2nd XV</option>
+                    </select>
+                </div>
+                <div class="squad-filter-control" role="group" aria-label="Game Type">
+                    <span class="squad-filter-label">Game Type</span>
+                    <div class="squad-filter-segment squad-filter-segment--neutral" id="teamSheetsGameTypeSegment">
+                        <button type="button" class="squad-filter-segment-btn is-active" data-value="All">All</button>
+                        <button type="button" class="squad-filter-segment-btn" data-value="League + Cup">League + Cup</button>
+                        <button type="button" class="squad-filter-segment-btn" data-value="League only">League</button>
+                    </div>
+                    <select id="teamSheetsGameTypeSelect" class="visually-hidden" aria-hidden="true" tabindex="-1">
+                        <option value="All" selected>All games</option>
+                        <option value="League + Cup">League + Cup</option>
+                        <option value="League only">League only</option>
+                    </select>
+                </div>
+                <div class="squad-filter-control squad-filter-control--player-positions" role="group" aria-label="Position">
+                    <span class="squad-filter-label">Position</span>
+                    <div id="teamSheetsPositionGrid" class="position-picker">
+                        <div class="btn-group btn-group-sm position-picker__top-row" role="group" aria-label="Overall position scope">
+                            <button type="button" class="btn squad-filter-segment-btn position-picker__starter-btn is-active" data-value="Starters">Starting XV</button>
+                            <button type="button" class="btn squad-filter-segment-btn position-picker__bench-btn" data-value="Bench">Bench</button>
+                        </div>
+                        <div class="position-picker__group position-picker__group--fwds">
+                            <div class="position-picker__group-items">
+                                <div class="btn-group-vertical btn-group-sm position-picker__row" role="group" aria-label="Forwards">
+                                    <button type="button" class="btn squad-filter-segment-btn position-picker__group-btn" data-value="Forwards">Forwards</button>
+                                    <button type="button" class="btn squad-filter-segment-btn position-picker__pos-btn" data-value="Prop">Prop</button>
+                                    <button type="button" class="btn squad-filter-segment-btn position-picker__pos-btn" data-value="Hooker">Hooker</button>
+                                    <button type="button" class="btn squad-filter-segment-btn position-picker__pos-btn" data-value="Second Row">Second Row</button>
+                                    <button type="button" class="btn squad-filter-segment-btn position-picker__pos-btn" data-value="Flanker">Flanker</button>
+                                    <button type="button" class="btn squad-filter-segment-btn position-picker__pos-btn" data-value="Number 8">No. 8</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="position-picker__group position-picker__group--bks">
+                            <div class="position-picker__group-items">
+                                <div class="btn-group-vertical btn-group-sm position-picker__row" role="group" aria-label="Backs">
+                                    <button type="button" class="btn squad-filter-segment-btn position-picker__group-btn" data-value="Backs">Backs</button>
+                                    <button type="button" class="btn squad-filter-segment-btn position-picker__pos-btn" data-value="Scrum Half">Scrum Half</button>
+                                    <button type="button" class="btn squad-filter-segment-btn position-picker__pos-btn" data-value="Fly Half">Fly Half</button>
+                                    <button type="button" class="btn squad-filter-segment-btn position-picker__pos-btn" data-value="Centre">Centre</button>
+                                    <button type="button" class="btn squad-filter-segment-btn position-picker__pos-btn" data-value="Wing">Wing</button>
+                                    <button type="button" class="btn squad-filter-segment-btn position-picker__pos-btn" data-value="Full Back">Full Back</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <select id="teamSheetsPositionSelect" class="visually-hidden" aria-hidden="true" tabindex="-1" multiple>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/js/bootstrap-select.min.js"></script>
     <script src="js/nav-layout.js?v=20260404"></script>
     <script src="js/shared.js?v=20260404"></script>
     <script src="js/player-stats.js?v=20260404"></script>
+    <script src="js/team-sheets.js?v=20260404"></script>
 </body>
 
 </html>

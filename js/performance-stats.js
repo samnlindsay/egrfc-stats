@@ -72,6 +72,10 @@
     function syncSegmentButtons(segmentId, value) {
         const segment = getElement(segmentId);
         if (!segment) return;
+        if (window.sharedUi?.syncSegmentButtons) {
+            window.sharedUi.syncSegmentButtons(segment, value);
+            return;
+        }
         // For multi-select segments (like redZoneSeasonSegment), value is an array
         if (Array.isArray(value)) {
             segment.querySelectorAll('.squad-filter-segment-btn').forEach((btn) => {
@@ -368,17 +372,24 @@
             const segment = getElement(segmentId);
             const select = getElement(selectId);
             if (!segment || !select) return;
-            segment.querySelectorAll('.squad-filter-segment-btn').forEach((btn) => {
-                btn.addEventListener('click', () => {
-                    if (!btn.dataset.value) return;
-                    select.value = btn.dataset.value;
-                    syncSegmentButtons(segmentId, select.value);
-                    applyAllFilters().catch((error) => {
-                        console.error('Unable to apply performance filters:', error);
+            if (window.sharedUi?.bindSegmentToSelect) {
+                window.sharedUi.bindSegmentToSelect({
+                    segment,
+                    select,
+                });
+            } else {
+                segment.querySelectorAll('.squad-filter-segment-btn').forEach((btn) => {
+                    btn.addEventListener('click', () => {
+                        if (!btn.dataset.value) return;
+                        select.value = btn.dataset.value;
+                        syncSegmentButtons(segmentId, select.value);
+                        applyAllFilters().catch((error) => {
+                            console.error('Unable to apply performance filters:', error);
+                        });
                     });
                 });
-            });
-            syncSegmentButtons(segmentId, select.value);
+                syncSegmentButtons(segmentId, select.value);
+            }
         });
 
         // Multi-select segment binding (Red Zone Season)

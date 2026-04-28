@@ -676,7 +676,7 @@
                     <td class="opposition-table-opposition">
                         <div class="opposition-table-opposition-content">
                             ${logoHtml}
-                            <span class="fw-bold">${escapeHtml(row.club)}</span>
+                            <a class="fw-bold" href="opposition-profile.html?opposition=${encodeURIComponent(String(row.club || '').trim())}">${escapeHtml(row.club)}</a>
                         </div>
                     </td>
                     <td class="opposition-table-games-1st text-end">${row.stats1st.played}</td>
@@ -1105,15 +1105,15 @@
         }
 
         const setpieceTypeSegment = document.getElementById('setpieceTypeSegment');
-        if (setpieceTypeSegment && !setpieceTypeSegment.__setpieceToggleBound) {
-            setpieceTypeSegment.__setpieceToggleBound = true;
-            setpieceTypeSegment.addEventListener('click', (event) => {
-                const btn = event.target.closest('.squad-filter-segment-btn');
-                if (!btn) return;
-                setpieceTypeSegment.querySelectorAll('.squad-filter-segment-btn').forEach(b => b.classList.remove('is-active'));
-                btn.classList.add('is-active');
-                currentSetPieceType = btn.getAttribute('data-value');
-                renderH2HCharts(currentOppositionClub || 'All');
+        const setpieceTypeSelect = document.getElementById('setpieceTypeSelect');
+        if (setpieceTypeSegment && setpieceTypeSelect && window.sharedUi?.bindSegmentToSelect) {
+            window.sharedUi.bindSegmentToSelect({
+                segment: setpieceTypeSegment,
+                select: setpieceTypeSelect,
+                onSync: (value) => {
+                    currentSetPieceType = String(value || 'lineout');
+                    renderH2HCharts(currentOppositionClub || 'All');
+                },
             });
         }
 

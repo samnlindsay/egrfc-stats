@@ -1,4 +1,5 @@
 (function () {
+    const FILTERS_OFFCANVAS_ID = 'lineoutFiltersOffcanvas';
     const LINEOUT_H2H_SPEC_PATH = 'data/charts/lineout_h2h.json';
     const LINEOUT_BREAKDOWN_SOURCE_PATH = 'data/charts/lineout_breakdown_source.json';
     const BREAKDOWN_MIN_ATTEMPTS = 10;
@@ -7,11 +8,14 @@
         {
             field: 'numbers',
             fieldLabel: 'Numbers',
+            linkField: 'numbers',
+            isDualAxis: true,
             containerId: 'lineoutPerfBreakdownNumbersChart',
             tableHeadId: 'lineoutPerfBreakdownNumbersTableHead',
             tableBodyId: 'lineoutPerfBreakdownNumbersTableBody',
             path: 'data/charts/lineout_breakdown_numbers.json',
-            trendContainerId: 'lineoutTrendNumbersChart',
+            trendBarContainerId: 'lineoutTrendNumbersBarChart',
+            trendLineContainerId: 'lineoutTrendNumbersLineChart',
             trendPath: 'data/charts/lineout_trend_numbers.json',
             emptyMessage: 'Numbers breakdown unavailable.',
             emptyTableMessage: 'No numbers breakdown rows match the current filters.',
@@ -20,11 +24,14 @@
         {
             field: 'area',
             fieldLabel: 'Zone',
+            linkField: 'area',
+            isDualAxis: true,
             containerId: 'lineoutPerfBreakdownAreaChart',
             tableHeadId: 'lineoutPerfBreakdownAreaTableHead',
             tableBodyId: 'lineoutPerfBreakdownAreaTableBody',
             path: 'data/charts/lineout_breakdown_area.json',
-            trendContainerId: 'lineoutTrendAreaChart',
+            trendBarContainerId: 'lineoutTrendAreaBarChart',
+            trendLineContainerId: 'lineoutTrendAreaLineChart',
             trendPath: 'data/charts/lineout_trend_area.json',
             emptyMessage: 'Zone breakdown unavailable.',
             emptyTableMessage: 'No zone breakdown rows match the current filters.',
@@ -33,11 +40,15 @@
         {
             field: 'jumper',
             fieldLabel: 'Jumper',
+            linkField: 'jumper_tier',
+            isDualAxis: true,
+            singleLegendSection: true,
             containerId: 'lineoutPerfBreakdownJumperChart',
             tableHeadId: 'lineoutPerfBreakdownJumperTableHead',
             tableBodyId: 'lineoutPerfBreakdownJumperTableBody',
             path: 'data/charts/lineout_breakdown_jumper.json',
-            trendContainerId: 'lineoutTrendJumperChart',
+            trendBarContainerId: 'lineoutTrendJumperBarChart',
+            trendLineContainerId: 'lineoutTrendJumperLineChart',
             trendPath: 'data/charts/lineout_trend_jumper.json',
             emptyMessage: 'Jumper breakdown unavailable.',
             emptyTableMessage: 'No jumper breakdown rows match the current filters.',
@@ -47,11 +58,15 @@
         {
             field: 'thrower',
             fieldLabel: 'Thrower',
+            linkField: 'thrower_tier',
+            isDualAxis: true,
+            singleLegendSection: true,
             containerId: 'lineoutPerfBreakdownThrowerChart',
             tableHeadId: 'lineoutPerfBreakdownThrowerTableHead',
             tableBodyId: 'lineoutPerfBreakdownThrowerTableBody',
             path: 'data/charts/lineout_breakdown_thrower.json',
-            trendContainerId: 'lineoutTrendThrowerChart',
+            trendBarContainerId: 'lineoutTrendThrowerBarChart',
+            trendLineContainerId: 'lineoutTrendThrowerLineChart',
             trendPath: 'data/charts/lineout_trend_thrower.json',
             emptyMessage: 'Thrower breakdown unavailable.',
             emptyTableMessage: 'No thrower breakdown rows match the current filters.',
@@ -61,11 +76,14 @@
         {
             field: 'play',
             fieldLabel: 'Play',
+            linkField: 'play',
+            isDualAxis: true,
             containerId: 'lineoutPerfBreakdownPlayChart',
             tableHeadId: 'lineoutPerfBreakdownPlayTableHead',
             tableBodyId: 'lineoutPerfBreakdownPlayTableBody',
             path: 'data/charts/lineout_breakdown_play.json',
-            trendContainerId: 'lineoutTrendPlayChart',
+            trendBarContainerId: 'lineoutTrendPlayBarChart',
+            trendLineContainerId: 'lineoutTrendPlayLineChart',
             trendPath: 'data/charts/lineout_trend_play.json',
             emptyMessage: 'Play breakdown unavailable.',
             emptyTableMessage: 'No play breakdown rows match the current filters.',
@@ -75,11 +93,14 @@
         {
             field: 'season',
             fieldLabel: 'Season',
+            linkField: 'season',
+            isDualAxis: false,
             containerId: 'lineoutPerfBreakdownSeasonChart',
             tableHeadId: 'lineoutPerfBreakdownSeasonTableHead',
             tableBodyId: 'lineoutPerfBreakdownSeasonTableBody',
             path: 'data/charts/lineout_breakdown_season.json',
-            trendContainerId: null,
+            trendBarContainerId: null,
+            trendLineContainerId: null,
             trendPath: null,
             emptyMessage: 'Season breakdown unavailable.',
             emptyTableMessage: 'No season breakdown rows match the current filters.',
@@ -107,9 +128,14 @@
     };
 
     const views = new Map();
+    const sectionViewGroups = new Map();
+    const sectionLegendDefs = new Map();
+    const SECTION_HIGHLIGHT_SIGNAL = '__sectionHighlightKey';
     let lineoutH2HBaseSpec = null;
     let lineoutH2HLayoutKey = null;
     let lineoutBreakdownSourceRows = [];
+    let lineoutSeasonStepper = null;
+    let lineoutAnalysisRailInitialised = false;
 
     function escapeHtml(value) {
         return String(value ?? '')
@@ -134,6 +160,201 @@
         return response.json();
     }
 
+    function cloneJson(value) {
+        return JSON.parse(JSON.stringify(value));
+    }
+
+    function splitTrendSpec(baseSpec) {
+        const spec = baseSpec && typeof baseSpec === 'object' ? baseSpec : null;
+        if (!spec || !Array.isArray(spec.hconcat) || spec.hconcat.length < 2) {
+            return { barSpec: spec, lineSpec: null };
+        }
+
+        const [barChild, lineChild] = spec.hconcat;
+        const base = cloneJson(spec);
+        delete base.hconcat;
+
+        const barSpec = { ...cloneJson(base), ...cloneJson(barChild) };
+        const lineSpec = { ...cloneJson(base), ...cloneJson(lineChild) };
+        return { barSpec, lineSpec };
+    }
+
+    function applyAxisOrientation(spec, orient = 'left') {
+        if (!spec || typeof spec !== 'object') return;
+
+        if (spec.encoding && spec.encoding.y && spec.encoding.y.axis !== null) {
+            spec.encoding.y.axis = {
+                ...(spec.encoding.y.axis || {}),
+                orient,
+            };
+        }
+
+        ['layer', 'hconcat', 'vconcat', 'concat'].forEach((key) => {
+            const childSpecs = spec[key];
+            if (Array.isArray(childSpecs)) {
+                childSpecs.forEach((child) => applyAxisOrientation(child, orient));
+            }
+        });
+
+        if (spec.spec) {
+            applyAxisOrientation(spec.spec, orient);
+        }
+    }
+
+    function disableLegendsDeep(spec) {
+        if (!spec || typeof spec !== 'object') return;
+
+        const legendChannels = ['color', 'fill', 'stroke', 'shape', 'size', 'opacity'];
+        if (spec.encoding && typeof spec.encoding === 'object') {
+            legendChannels.forEach((channel) => {
+                const enc = spec.encoding[channel];
+                if (enc && typeof enc === 'object') {
+                    enc.legend = null;
+                }
+            });
+        }
+
+        ['layer', 'hconcat', 'vconcat', 'concat'].forEach((key) => {
+            const childSpecs = spec[key];
+            if (Array.isArray(childSpecs)) {
+                childSpecs.forEach((child) => disableLegendsDeep(child));
+            }
+        });
+
+        if (spec.spec) {
+            disableLegendsDeep(spec.spec);
+        }
+    }
+
+    function getDatumLinkValue(item, linkField, panelField) {
+        const datum = item && item.datum ? item.datum : null;
+        if (!datum) return null;
+
+        const nested = datum && typeof datum === 'object' && datum.datum && typeof datum.datum === 'object'
+            ? datum.datum
+            : null;
+
+        const directCandidates = [
+            linkField,
+            panelField,
+            `${panelField}_tier`,
+            `${panelField}_name`,
+            `${panelField}_tier_name`,
+        ].filter(Boolean);
+
+        const readFrom = (row) => {
+            if (!row || typeof row !== 'object') return null;
+            for (const key of directCandidates) {
+                if (Object.prototype.hasOwnProperty.call(row, key) && row[key] != null) {
+                    return String(row[key]);
+                }
+            }
+            return null;
+        };
+
+        return readFrom(datum) || readFrom(nested);
+    }
+
+    function addSectionHighlightParam(spec, linkField) {
+        if (!spec || typeof spec !== 'object' || !linkField) return;
+
+        if (!Array.isArray(spec.params)) {
+            spec.params = [];
+        }
+
+        if (!spec.params.some((param) => param && param.name === SECTION_HIGHLIGHT_SIGNAL)) {
+            spec.params.push({ name: SECTION_HIGHLIGHT_SIGNAL, value: null });
+        }
+
+        if (spec.encoding && typeof spec.encoding === 'object') {
+            const existingOpacity = spec.encoding.opacity;
+            const existingConditions = [];
+            let existingFallback = 1;
+
+            if (existingOpacity && typeof existingOpacity === 'object') {
+                if (Array.isArray(existingOpacity.condition)) {
+                    existingConditions.push(...existingOpacity.condition);
+                } else if (existingOpacity.condition && typeof existingOpacity.condition === 'object') {
+                    existingConditions.push(existingOpacity.condition);
+                }
+
+                if (typeof existingOpacity.value !== 'undefined') {
+                    existingFallback = existingOpacity.value;
+                }
+            } else if (typeof existingOpacity !== 'undefined') {
+                existingFallback = existingOpacity;
+            }
+
+            spec.encoding.opacity = {
+                condition: [
+                    {
+                        test: `isValid(${SECTION_HIGHLIGHT_SIGNAL}) && datum["${linkField}"] === ${SECTION_HIGHLIGHT_SIGNAL}`,
+                        value: 1,
+                    },
+                    {
+                        test: `isValid(${SECTION_HIGHLIGHT_SIGNAL})`,
+                        value: 0.2,
+                    },
+                    ...existingConditions,
+                ],
+                value: existingFallback,
+            };
+        }
+
+        ['layer', 'hconcat', 'vconcat', 'concat'].forEach((key) => {
+            const childSpecs = spec[key];
+            if (Array.isArray(childSpecs)) {
+                childSpecs.forEach((child) => addSectionHighlightParam(child, linkField));
+            }
+        });
+
+        if (spec.spec) {
+            addSectionHighlightParam(spec.spec, linkField);
+        }
+    }
+
+    function registerSectionViews(spec, viewIds) {
+        const ids = viewIds.filter(Boolean);
+        if (!ids.length) return;
+        sectionViewGroups.set(spec.field, {
+            linkField: spec.linkField,
+            viewIds: ids,
+        });
+    }
+
+    function wireSectionInteractivity(spec) {
+        const group = sectionViewGroups.get(spec.field);
+        if (!group || !group.linkField || !group.viewIds.length) return;
+
+        const linkField = group.linkField;
+        const groupViews = group.viewIds.map((id) => views.get(id)).filter(Boolean);
+        if (!groupViews.length) return;
+
+        const applyHighlight = (value) => {
+            groupViews.forEach((chartView) => {
+                try {
+                    chartView.signal(SECTION_HIGHLIGHT_SIGNAL, value == null ? null : String(value));
+                    chartView.runAsync();
+                } catch (error) {
+                    console.warn('Unable to update section highlight signal:', error);
+                }
+            });
+        };
+
+        groupViews.forEach((chartView) => {
+            if (chartView.__lineoutSectionLinkBound) return;
+            chartView.__lineoutSectionLinkBound = true;
+
+            chartView.addEventListener('click', (_event, item) => {
+                applyHighlight(getDatumLinkValue(item, linkField, spec.field));
+            });
+
+            chartView.addEventListener('dblclick', () => {
+                applyHighlight(null);
+            });
+        });
+    }
+
     function populateSelect(id, values, allLabel) {
         const select = document.getElementById(id);
         if (!select) return;
@@ -150,7 +371,9 @@
             select.appendChild(option);
         });
         select.value = Array.from(select.options).some((option) => option.value === currentValue) ? currentValue : 'All';
-        rebuildBootstrapSelect(select);
+        if (select.classList.contains('selectpicker')) {
+            rebuildBootstrapSelect(select);
+        }
     }
 
     function seasonSort(a, b) {
@@ -190,12 +413,69 @@
         return element ? element.value : fallback;
     }
 
-    function rowMatchesAnalysisFilters(row) {
+    function seasonDisplayLabel(value) {
+        const text = String(value || 'All');
+        return text === 'All' ? 'All (2017-)' : text;
+    }
+
+    function syncLineoutSeasonStepperFromSelect() {
+        if (lineoutSeasonStepper && typeof lineoutSeasonStepper.sync === 'function') {
+            lineoutSeasonStepper.sync();
+            return;
+        }
+
+        const label = document.getElementById('lineoutSeasonLabel');
+        if (!label) return;
+        label.textContent = seasonDisplayLabel(getControlValue('lineoutFilterSeason', 'All'));
+    }
+
+    function renderLineoutActiveFilters() {
+        const hosts = Array.from(document.querySelectorAll('[data-lineout-active-filters]'));
+        if (!hosts.length) return;
+
+        const gameTypeValue = getControlValue('lineoutFilterGameType', 'All');
+        const gameTypeLabel = gameTypeValue === 'League + Cup' ? 'League+Cup' : gameTypeValue;
+
+        const chips = [
+            { label: 'Squad', value: `${getControlValue('lineoutFilterSquad', '1st')} XV` },
+            { label: 'Season', value: seasonDisplayLabel(getControlValue('lineoutFilterSeason', 'All')) },
+            { label: 'Game Type', value: gameTypeLabel },
+            { label: 'Numbers', value: getControlValue('lineoutFilterNumbers', 'All') },
+            { label: 'Zone', value: getControlValue('lineoutFilterArea', 'All') },
+            { label: 'Thrower', value: getControlValue('lineoutFilterThrower', 'All') },
+            { label: 'Jumper', value: getControlValue('lineoutFilterJumper', 'All') },
+        ].filter((chip) => String(chip.value || '').trim());
+
+        if (window.sharedUi && typeof window.sharedUi.renderOffcanvasFilterChips === 'function') {
+            hosts.forEach((host) => {
+                window.sharedUi.renderOffcanvasFilterChips({
+                    host,
+                    offcanvasId: FILTERS_OFFCANVAS_ID,
+                    chips,
+                    chipClass: 'squad-stats-filter-chip squad-stats-filter-chip-btn',
+                });
+            });
+            return;
+        }
+
+        const chipsHtml = chips
+            .map((chip) => `<button type="button" class="squad-stats-filter-chip squad-stats-filter-chip-btn" data-bs-toggle="offcanvas" data-bs-target="#${escapeHtml(FILTERS_OFFCANVAS_ID)}" aria-controls="${escapeHtml(FILTERS_OFFCANVAS_ID)}"><strong>${escapeHtml(chip.label)}</strong> ${escapeHtml(chip.value)}</button>`)
+            .join('');
+        hosts.forEach((host) => {
+            host.innerHTML = chipsHtml;
+        });
+    }
+
+    function rowMatchesAnalysisFilters(row, options = {}) {
+        const { includeSeason = true } = options;
+
         const squad = getControlValue('lineoutFilterSquad');
         if (squad !== 'All' && String(row?.squad || '') !== squad) return false;
 
-        const season = getControlValue('lineoutFilterSeason');
-        if (season !== 'All' && String(row?.season || '') !== season) return false;
+        if (includeSeason) {
+            const season = getControlValue('lineoutFilterSeason');
+            if (season !== 'All' && String(row?.season || '') !== season) return false;
+        }
 
         const gameType = getControlValue('lineoutFilterGameType');
         const allowedGameTypes = getAllowedGameTypes(gameType);
@@ -246,7 +526,7 @@
     function aggregateLineoutBreakdownRows(spec) {
         const grouped = new Map();
 
-        lineoutBreakdownSourceRows.filter(rowMatchesAnalysisFilters).forEach((row) => {
+        lineoutBreakdownSourceRows.filter((row) => rowMatchesAnalysisFilters(row, { includeSeason: false })).forEach((row) => {
             const value = String(row?.[spec.field] || 'Unknown');
             const fullNameValue = spec.fullNameField ? String(row?.[spec.fullNameField] || value) : null;
             const key = spec.fullNameField ? `${value}||${fullNameValue}` : value;
@@ -324,6 +604,8 @@
         tableHead.classList.add('table-dark');
 
         const rows = aggregateLineoutBreakdownRows(spec);
+        const selectedSeason = getControlValue('lineoutFilterSeason', 'All');
+        const highlightTotal = selectedSeason === 'All';
         const seasonColumns = spec.field === 'season'
             ? []
             : Array.from(
@@ -335,13 +617,13 @@
         if (spec.attemptsOnly) {
             // Play table: show attempts only (no won/attempts ratio or success rate).
             const seasonHeaderCells = seasonColumns
-                .map((season) => `<th class="text-center">${escapeHtml(season)}</th>`)
+                .map((season) => `<th class="text-center ${selectedSeason === season ? 'lineout-breakdown-col-highlight' : ''}">${escapeHtml(season)}</th>`)
                 .join('');
 
             tableHead.innerHTML = `
                 <tr>
                     <th>${escapeHtml(spec.fieldLabel)}</th>
-                    <th class="text-center">Total</th>
+                    <th class="text-center ${highlightTotal ? 'lineout-breakdown-col-highlight' : ''}">Total</th>
                     ${seasonHeaderCells}
                 </tr>
             `;
@@ -355,13 +637,14 @@
             tableBody.innerHTML = rows.map((row) => `
                 <tr>
                     <td>${renderBreakdownValueCell(spec, row)}</td>
-                    <td class="text-end border-end fw-bold">${row.attempts}</td>
+                    <td class="text-end border-end fw-bold ${highlightTotal ? 'lineout-breakdown-col-highlight' : ''}">${row.attempts}</td>
                     ${seasonColumns.map((season) => {
                         const stats = row.bySeason?.[season] || null;
+                        const highlightClass = selectedSeason === season ? 'lineout-breakdown-col-highlight' : '';
                         if (!stats || !stats.attempts) {
-                            return '<td class="text-end text-muted border-end">-</td>';
+                            return `<td class="text-end text-muted border-end ${highlightClass}">-</td>`;
                         }
-                        return `<td class="text-end border-end">${stats.attempts}</td>`;
+                        return `<td class="text-end border-end ${highlightClass}">${stats.attempts}</td>`;
                     }).join('')}
                 </tr>
             `).join('');
@@ -369,13 +652,13 @@
         }
 
         const seasonHeaderCells = seasonColumns
-            .map((season) => `<th class="text-center" colspan="2">${escapeHtml(season)}</th>`)
+            .map((season) => `<th class="text-center ${selectedSeason === season ? 'lineout-breakdown-col-highlight' : ''}" colspan="2">${escapeHtml(season)}</th>`)
             .join('');
 
         tableHead.innerHTML = `
             <tr>
                 <th>${escapeHtml(spec.fieldLabel)}</th>
-                <th class="text-center" colspan="2">Total Success</th>
+                <th class="text-center ${highlightTotal ? 'lineout-breakdown-col-highlight' : ''}" colspan="2">Total Success</th>
                 ${seasonHeaderCells}
             </tr>
         `;
@@ -389,15 +672,16 @@
         tableBody.innerHTML = rows.map((row) => `
             <tr>
                 <td>${renderBreakdownValueCell(spec, row)}</td>
-                <td class="text-end">${row.won}/${row.attempts}</td>
-                <td class="border-end text-end fw-bold" title="${escapeAttribute(formatPercentage(row.successRate))}">${escapeHtml(formatPercentage(row.successRate))}</td>
+                <td class="text-end ${highlightTotal ? 'lineout-breakdown-col-highlight' : ''}">${row.won}/${row.attempts}</td>
+                <td class="border-end text-end fw-bold ${highlightTotal ? 'lineout-breakdown-col-highlight' : ''}" title="${escapeAttribute(formatPercentage(row.successRate))}">${escapeHtml(formatPercentage(row.successRate))}</td>
                 ${seasonColumns.map((season) => {
                     const stats = row.bySeason?.[season] || null;
+                    const highlightClass = selectedSeason === season ? 'lineout-breakdown-col-highlight' : '';
                     if (!stats || !stats.attempts) {
-                        return '<td class="text-end text-muted">-</td><td class="text-end text-muted">-</td>';
+                        return `<td class="text-end text-muted ${highlightClass}">-</td><td class="text-end text-muted ${highlightClass}">-</td>`;
                     }
                     const seasonSuccess = stats.won / stats.attempts;
-                    return `<td class="text-end">${stats.won}/${stats.attempts}</td><td class="border-end text-end fw-bold" title="${escapeAttribute(formatPercentage(seasonSuccess))}">${escapeHtml(formatPercentage(seasonSuccess))}</td>`;
+                    return `<td class="text-end ${highlightClass}">${stats.won}/${stats.attempts}</td><td class="border-end text-end fw-bold ${highlightClass}" title="${escapeAttribute(formatPercentage(seasonSuccess))}">${escapeHtml(formatPercentage(seasonSuccess))}</td>`;
                 }).join('')}
             </tr>
         `).join('');
@@ -410,8 +694,8 @@
     async function applyFiltersToViews() {
         const pending = [];
 
-        PANEL_SPECS.forEach(({ containerId, trendContainerId }) => {
-            [containerId, trendContainerId].forEach((id) => {
+        PANEL_SPECS.forEach(({ containerId, trendBarContainerId, trendLineContainerId }) => {
+            [containerId, trendBarContainerId, trendLineContainerId].forEach((id) => {
                 if (!id) return;
                 const view = views.get(id);
                 if (!view) return;
@@ -430,6 +714,8 @@
 
         await Promise.all(pending);
         renderBreakdownTables();
+        renderLineoutActiveFilters();
+        refreshConsolidatedLegends();
     }
 
     async function loadFilterOptions() {
@@ -439,7 +725,7 @@
         populateSelect(
             'lineoutFilterSeason',
             Array.from(new Set(lineoutBreakdownSourceRows.map((row) => String(row?.season || '')).filter(Boolean))).sort(seasonSort).reverse(),
-            'All Seasons',
+            'All (2017-)',
         );
         populateSelect(
             'lineoutFilterThrower',
@@ -477,16 +763,208 @@
         }
     }
 
-    async function loadInteractiveCharts() {
-        await Promise.all(PANEL_SPECS.map(async ({ containerId, path, emptyMessage, trendContainerId, trendPath }) => {
-            const view = await renderChartSpecFromPath(containerId, path, emptyMessage);
-            if (view) views.set(containerId, view);
+    function getLegendContainerId(field) {
+        if (field === 'jumper') return 'lineoutJumperLegend';
+        if (field === 'thrower') return 'lineoutThrowerLegend';
+        return null;
+    }
 
-            if (trendContainerId && trendPath) {
-                const trendView = await renderChartSpecFromPath(trendContainerId, trendPath, `${emptyMessage.replace('breakdown', 'trend')}`);
-                if (trendView) views.set(trendContainerId, trendView);
+    function findColorEncoding(spec) {
+        if (!spec || typeof spec !== 'object') return null;
+
+        if (spec.encoding && spec.encoding.color && typeof spec.encoding.color === 'object') {
+            return spec.encoding.color;
+        }
+
+        const childKeys = ['layer', 'hconcat', 'vconcat', 'concat'];
+        for (const key of childKeys) {
+            const children = spec[key];
+            if (!Array.isArray(children)) continue;
+            for (const child of children) {
+                const found = findColorEncoding(child);
+                if (found) return found;
+            }
+        }
+
+        if (spec.spec) {
+            return findColorEncoding(spec.spec);
+        }
+
+        return null;
+    }
+
+    function extractLegendDefinitionFromSpec(spec) {
+        const colorEncoding = findColorEncoding(spec);
+        if (!colorEncoding) return null;
+
+        const scale = colorEncoding.scale && typeof colorEncoding.scale === 'object'
+            ? colorEncoding.scale
+            : {};
+        const domain = Array.isArray(scale.domain) ? scale.domain : [];
+        const range = Array.isArray(scale.range) ? scale.range : [];
+        if (!domain.length) return null;
+
+        return {
+            title: String(colorEncoding.title || ''),
+            items: domain.map((value, index) => ({
+                label: String(value),
+                color: typeof range[index] === 'string' ? range[index] : '#7d96e8',
+            })),
+        };
+    }
+
+    function refreshConsolidatedLegends() {
+        ['jumper', 'thrower'].forEach((field) => {
+            const containerId = getLegendContainerId(field);
+            const legendDef = sectionLegendDefs.get(field);
+            if (!containerId || !legendDef) return;
+            renderConsolidatedLegend(containerId, legendDef);
+        });
+    }
+
+    function renderConsolidatedLegend(containerId, legendDef) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+
+        const items = legendDef && Array.isArray(legendDef.items) ? legendDef.items : [];
+        if (!items.length) {
+            container.innerHTML = '';
+            return;
+        }
+
+        const title = legendDef && legendDef.title ? legendDef.title : 'Legend';
+        const legendHtml = `
+            <div class="lineout-section-legend-box" role="group" aria-label="${escapeAttribute(title)} legend">
+                <p class="lineout-section-legend-title">${escapeHtml(title)}</p>
+                <div class="lineout-section-legend-row">
+                    ${items.map((item) => `
+                        <span class="lineout-section-legend-item">
+                            <span class="lineout-section-legend-symbol" style="background:${escapeAttribute(item.color)};"></span>
+                            <span class="lineout-section-legend-text">${escapeHtml(item.label)}</span>
+                        </span>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+        container.innerHTML = legendHtml;
+    }
+
+    async function loadInteractiveCharts() {
+        await Promise.all(PANEL_SPECS.map(async (panelSpec) => {
+            const {
+                field,
+                isDualAxis,
+                singleLegendSection,
+                linkField,
+                containerId,
+                path,
+                emptyMessage,
+                trendContainerId,
+                trendPath,
+                trendBarContainerId,
+                trendLineContainerId,
+            } = panelSpec;
+
+            const viewIds = [];
+            const breakdownContainer = document.getElementById(containerId);
+            const breakdownSpec = await fetchJson(path);
+            let legendSourceSpec = breakdownSpec;
+            addSectionHighlightParam(breakdownSpec, linkField);
+            if (singleLegendSection) {
+                disableLegendsDeep(breakdownSpec);
+            }
+            if (!isDualAxis) {
+                applyAxisOrientation(breakdownSpec, 'left');
+            }
+
+            if (breakdownContainer) {
+                const breakdownView = await embedChartSpec(breakdownContainer, breakdownSpec, {
+                    containerId,
+                    emptyMessage,
+                });
+                if (breakdownView) {
+                    views.set(containerId, breakdownView);
+                    viewIds.push(containerId);
+                }
+            }
+
+            if (trendPath && (trendBarContainerId || trendContainerId)) {
+                const trendSpec = await fetchJson(trendPath);
+                const { barSpec, lineSpec } = splitTrendSpec(trendSpec);
+                const trendBarId = trendBarContainerId || trendContainerId;
+                const trendBarContainer = document.getElementById(trendBarId);
+
+                if (barSpec) {
+                    addSectionHighlightParam(barSpec, linkField);
+                    applyAxisOrientation(barSpec, 'left');
+                    legendSourceSpec = barSpec;
+                    if (singleLegendSection) {
+                        disableLegendsDeep(barSpec);
+                    }
+                }
+
+                if (trendBarContainer && barSpec) {
+                    const barView = await embedChartSpec(trendBarContainer, barSpec, {
+                        containerId: trendBarId,
+                        emptyMessage: `${emptyMessage.replace('breakdown', 'trend')} (bar panel unavailable).`,
+                    });
+                    if (barView) {
+                        views.set(trendBarId, barView);
+                        viewIds.push(trendBarId);
+                    }
+                }
+
+                if (trendLineContainerId) {
+                    const trendLineContainer = document.getElementById(trendLineContainerId);
+                    if (trendLineContainer) {
+                        if (lineSpec) {
+                            addSectionHighlightParam(lineSpec, linkField);
+                            applyAxisOrientation(lineSpec, 'left');
+                            if (singleLegendSection) {
+                                disableLegendsDeep(lineSpec);
+                            }
+
+                            const lineView = await embedChartSpec(trendLineContainer, lineSpec, {
+                                containerId: trendLineContainerId,
+                                emptyMessage: `${emptyMessage.replace('breakdown', 'trend')} (line panel unavailable).`,
+                            });
+                            if (lineView) {
+                                views.set(trendLineContainerId, lineView);
+                                viewIds.push(trendLineContainerId);
+                            }
+                        } else {
+                            trendLineContainer.innerHTML = '<div class="text-center text-muted py-4">Line trend unavailable.</div>';
+                        }
+                    }
+                }
+            }
+
+            registerSectionViews(panelSpec, viewIds);
+            if (field !== 'season') {
+                wireSectionInteractivity(panelSpec);
+            }
+
+            // Render a single section legend from chart tier domains (top names + Other)
+            if (singleLegendSection) {
+                const legendDef = extractLegendDefinitionFromSpec(legendSourceSpec);
+                if (legendDef) {
+                    sectionLegendDefs.set(field, legendDef);
+                    const legendContainerId = getLegendContainerId(field);
+                    if (legendContainerId) {
+                        renderConsolidatedLegend(legendContainerId, legendDef);
+                    }
+                }
             }
         }));
+    }
+
+    function initialiseLineoutAnalysisRail() {
+        if (lineoutAnalysisRailInitialised || typeof initialiseAnalysisRail !== 'function') {
+            return;
+        }
+        lineoutAnalysisRailInitialised = initialiseAnalysisRail({
+            railId: 'lineoutDeepDiveAnalysisRail',
+        });
     }
 
     async function setupLineoutPage() {
@@ -498,9 +976,34 @@
         ];
 
         await loadFilterOptions();
-        controlIds.forEach((id) => {
-            rebuildBootstrapSelect(document.getElementById(id));
+
+        if (window.sharedUi && typeof window.sharedUi.bindSegmentToSelect === 'function') {
+            window.sharedUi.bindSegmentToSelect({
+                segment: 'lineoutSquadSegment',
+                select: 'lineoutFilterSquad',
+            });
+
+            window.sharedUi.bindSegmentToSelect({
+                segment: 'lineoutGameTypeSegment',
+                select: 'lineoutFilterGameType',
+            });
+        }
+
+        if (window.sharedUi && typeof window.sharedUi.attachSeasonStepper === 'function') {
+            lineoutSeasonStepper = window.sharedUi.attachSeasonStepper({
+                select: 'lineoutFilterSeason',
+                label: 'lineoutSeasonLabel',
+                prevButton: 'lineoutSeasonPrev',
+                nextButton: 'lineoutSeasonNext',
+                formatLabel: (value) => seasonDisplayLabel(value),
+            });
+        }
+        syncLineoutSeasonStepperFromSelect();
+
+        document.querySelectorAll('#lineoutFiltersOffcanvas .selectpicker').forEach((select) => {
+            rebuildBootstrapSelect(select);
         });
+
         await loadInteractiveCharts();
         await applyFiltersToViews();
 
@@ -509,6 +1012,9 @@
             if (!element) return;
             element.addEventListener('change', () => {
                 enforceH2HFilterExclusivity(id);
+                if (id === 'lineoutFilterSeason') {
+                    syncLineoutSeasonStepperFromSelect();
+                }
                 applyFiltersToViews().catch((error) => {
                     console.error('Unable to apply lineout page filters:', error);
                 });
@@ -532,6 +1038,7 @@
             await setupLineoutPage();
         }
 
+        initialiseLineoutAnalysisRail();
         initialiseChartPanelToggles();
     });
 })();

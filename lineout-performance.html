@@ -27,7 +27,7 @@
     <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
 </head>
 
-<body>
+<body id="page-lineout-performance">
     <nav class="navbar navbar-expand-lg navbar-dark app-top-navbar">
         <div class="container-fluid">
             <a class="navbar-brand app-navbar-brand" href="index.html">
@@ -87,207 +87,286 @@
 
     <div class="main-content">
         <div class="page-shell page-shell--default">
-            <div class="page-header">
-                <div class="page-header-text">
-                    <h1>Lineout Deep Dive</h1>
-                    <p>Detailed lineout breakdown and trend views across squads and seasons.</p>
-                    <div class="page-header-actions" style="padding-top: 0; margin-top: 1rem;">
-                        <a class="page-header-link" href="performance-stats.html">
-                            <i class="bi bi-arrow-left" aria-hidden="true"></i>
-                            <span>Performance Stats</span>
-                        </a>
-                    </div>
+            <section class="lineout-deep-dive-hero" aria-label="Lineout Deep Dive">
+                <div class="ux-hero-main">
+                    <p class="ux-hero-kicker">Performance Analysis</p>
+                    <h1 class="ux-hero-title">Lineout Deep Dive</h1>
+                    <p class="ux-hero-description">Filterable breakdown views for setup, zone, jumper, thrower, play profile and season, with aggregated tables and linked charts in each section.</p>
                 </div>
-                <div class="page-header-filters">
-                    <div class="filter-item">
-                        <div class="input-group input-group-sm"><span class="input-group-text">Squad</span><select
-                                id="lineoutFilterSquad" class="selectpicker form-control flex-fill" data-size="8">
-                                <option value="1st">1st XV</option>
-                                <option value="2nd">2nd XV</option>
-                            </select></div>
-                    </div>
-                    <div class="filter-item">
-                        <div class="input-group input-group-sm"><span class="input-group-text">Season</span><select
-                                id="lineoutFilterSeason" class="selectpicker form-control flex-fill" data-size="8">
-                                <option value="All">All Seasons</option>
-                            </select></div>
-                    </div>
-                    <div class="filter-item">
-                        <div class="input-group input-group-sm"><span class="input-group-text">Game Type</span><select
-                                id="lineoutFilterGameType" class="selectpicker form-control flex-fill" data-size="8">
-                                <option value="All">All games</option>
-                                <option value="League + Cup">League + Cup</option>
-                                <option value="League only">League only</option>
-                            </select></div>
-                    </div>
+                <div class="page-header-actions lineout-hero-actions">
+                    <a class="page-header-link" href="performance-stats.html">
+                        <i class="bi bi-arrow-left" aria-hidden="true"></i>
+                        <span>Performance Stats</span>
+                    </a>
                 </div>
-            </div>
+            </section>
 
-            <h2 class="section-heading">Lineout Deep Dive</h2>
-            <p style="margin-bottom: 1rem; color: #666; font-size: 0.9rem;">Filterable breakdown views for setup, zone,
-                jumper, thrower, play profile and season, with the aggregated data shown alongside each chart.</p>
-            <div class="perf-filter-groups page-header-filters">
-                <div class="perf-filter-row">
-                    <div class="filter-item">
-                        <div class="input-group input-group-sm"><span class="input-group-text">Numbers</span><select
-                                id="lineoutFilterNumbers" class="selectpicker form-control flex-fill" data-size="8">
-                                <option value="All">All Numbers</option>
-                            </select></div>
+            <div class="squad-stats-layout">
+                <aside id="lineoutDeepDiveAnalysisRail" class="analysis-rail nav" aria-label="Section navigation">
+                    <p class="analysis-rail-title">Sections</p>
+                    <a class="rail-link nav-link active" href="#sec-lineout-numbers" data-short="Numbers"><i class="bi bi-123" aria-hidden="true"></i><span class="rail-link-label">Numbers</span></a>
+                    <a class="rail-link nav-link" href="#sec-lineout-zone" data-short="Zone"><i class="bi bi-grid-3x3-gap-fill" aria-hidden="true"></i><span class="rail-link-label">Zone</span></a>
+                    <a class="rail-link nav-link" href="#sec-lineout-jumper" data-short="Jumper"><i class="bi bi-person-fill-up" aria-hidden="true"></i><span class="rail-link-label">Jumper</span></a>
+                    <a class="rail-link nav-link" href="#sec-lineout-thrower" data-short="Thrower"><i class="bi bi-person-bounding-box" aria-hidden="true"></i><span class="rail-link-label">Thrower</span></a>
+                    <a class="rail-link nav-link" href="#sec-lineout-play" data-short="Play"><i class="bi bi-lightning-charge-fill" aria-hidden="true"></i><span class="rail-link-label">Play</span></a>
+                    <a class="rail-link nav-link" href="#sec-lineout-season" data-short="Season"><i class="bi bi-calendar-event-fill" aria-hidden="true"></i><span class="rail-link-label">Season</span></a>
+                </aside>
+
+                <main class="squad-stats-main">
+                    <div class="lineout-breakdown-sections">
+
+                        <section id="sec-lineout-numbers" class="analysis-section lineout-breakdown-section" aria-labelledby="lineout-breakdown-numbers-title">
+                            <h2 id="lineout-breakdown-numbers-title" class="section-heading section-heading--tight">Numbers</h2>
+                            <p class="section-intro">Usage and success by setup.</p>
+                            <div class="lineout-section-active-filters squad-stats-active-filters" data-lineout-active-filters></div>
+                            <div class="lineout-breakdown-table-wrap">
+                                <table class="table table-striped table-hover align-middle database-data-table lineout-breakdown-table">
+                                    <thead id="lineoutPerfBreakdownNumbersTableHead"></thead>
+                                    <tbody id="lineoutPerfBreakdownNumbersTableBody"></tbody>
+                                </table>
+                            </div>
+                            <div class="chart-section-block chart-section-block--panel">
+                                <div class="chart-section-content lineout-section-content">
+                                    <div class="lineout-subsection">
+                                        <h3 class="chart-section-title">Count and Success Rate</h3>
+                                        <div class="lineout-focus-grid lineout-focus-grid--with-hint">
+                                            <p class="chart-section-hint">Read this row as the in-season snapshot: attempts by setup and the corresponding success rate for the selected season. Use the trends below to see whether current setup choices are above or below long-term levels.</p>
+                                            <div id="lineoutPerfBreakdownNumbersChart" class="lineout-chart-host" style="overflow: visible;"></div>
+                                        </div>
+                                    </div>
+                                    <div class="lineout-subsection">
+                                        <h3 class="chart-section-title">Trends</h3>
+                                        <div class="lineout-trend-grid">
+                                            <div id="lineoutTrendNumbersBarChart" class="lineout-chart-host" style="overflow: visible;"></div>
+                                            <div id="lineoutTrendNumbersLineChart" class="lineout-chart-host" style="overflow: visible;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section id="sec-lineout-zone" class="analysis-section lineout-breakdown-section" aria-labelledby="lineout-breakdown-zone-title">
+                            <h2 id="lineout-breakdown-zone-title" class="section-heading section-heading--tight">Zone</h2>
+                            <p class="section-intro">Front, middle and back profiles.</p>
+                            <div class="lineout-section-active-filters squad-stats-active-filters" data-lineout-active-filters></div>
+                            <div class="lineout-breakdown-table-wrap">
+                                <table class="table table-striped table-hover align-middle database-data-table lineout-breakdown-table">
+                                    <thead id="lineoutPerfBreakdownAreaTableHead"></thead>
+                                    <tbody id="lineoutPerfBreakdownAreaTableBody"></tbody>
+                                </table>
+                            </div>
+                            <div class="chart-section-block chart-section-block--panel">
+                                <div class="chart-section-content lineout-section-content">
+                                    <div class="lineout-subsection">
+                                        <h3 class="chart-section-title">Count and Success Rate</h3>
+                                        <div class="lineout-focus-grid lineout-focus-grid--with-hint">
+                                            <p class="chart-section-hint">This view compares front, middle and back usage and success in the selected season. The trend row below separates long-run volume from efficiency to reveal whether zone balance is changing over time.</p>
+                                            <div id="lineoutPerfBreakdownAreaChart" class="lineout-chart-host" style="overflow: visible;"></div>
+                                        </div>
+                                    </div>
+                                    <div class="lineout-subsection">
+                                        <h3 class="chart-section-title">Trends</h3>
+                                        <div class="lineout-trend-grid">
+                                            <div id="lineoutTrendAreaBarChart" class="lineout-chart-host" style="overflow: visible;"></div>
+                                            <div id="lineoutTrendAreaLineChart" class="lineout-chart-host" style="overflow: visible;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section id="sec-lineout-jumper" class="analysis-section lineout-breakdown-section" aria-labelledby="lineout-breakdown-jumper-title">
+                            <h2 id="lineout-breakdown-jumper-title" class="section-heading section-heading--tight">Jumper</h2>
+                            <p class="section-intro">Usage and success by jumper.</p>
+                            <div class="lineout-section-active-filters squad-stats-active-filters" data-lineout-active-filters></div>
+                            <div class="lineout-breakdown-table-wrap">
+                                <table class="table table-striped table-hover align-middle database-data-table lineout-breakdown-table">
+                                    <thead id="lineoutPerfBreakdownJumperTableHead"></thead>
+                                    <tbody id="lineoutPerfBreakdownJumperTableBody"></tbody>
+                                </table>
+                            </div>
+                            <div class="chart-section-block chart-section-block--panel">
+                                <div class="chart-section-content lineout-section-content">
+                                    <div class="lineout-subsection">
+                                        <h3 class="chart-section-title">Count and Success Rate</h3>
+                                        <div class="lineout-focus-grid lineout-focus-grid--with-hint">
+                                            <p class="chart-section-hint">Use this chart to compare jumper workload and accuracy for the selected season. The all-season pair below helps separate temporary form from sustained jumper performance and role share.</p>
+                                            <div id="lineoutPerfBreakdownJumperChart" class="lineout-chart-host" style="overflow: visible;"></div>
+                                        </div>
+                                    </div>
+                                    <div class="lineout-subsection">
+                                        <h3 class="chart-section-title">Trends</h3>
+                                        <div id="lineoutJumperLegend" class="lineout-section-legend" aria-label="Jumper legend"></div>
+                                        <div class="lineout-trend-grid">
+                                            <div id="lineoutTrendJumperBarChart" class="lineout-chart-host" style="overflow: visible;"></div>
+                                            <div id="lineoutTrendJumperLineChart" class="lineout-chart-host" style="overflow: visible;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section id="sec-lineout-thrower" class="analysis-section lineout-breakdown-section" aria-labelledby="lineout-breakdown-thrower-title">
+                            <h2 id="lineout-breakdown-thrower-title" class="section-heading section-heading--tight">Thrower</h2>
+                            <p class="section-intro">Usage and success by thrower.</p>
+                            <div class="lineout-section-active-filters squad-stats-active-filters" data-lineout-active-filters></div>
+                            <div class="lineout-breakdown-table-wrap">
+                                <table class="table table-striped table-hover align-middle database-data-table lineout-breakdown-table">
+                                    <thead id="lineoutPerfBreakdownThrowerTableHead"></thead>
+                                    <tbody id="lineoutPerfBreakdownThrowerTableBody"></tbody>
+                                </table>
+                            </div>
+                            <div class="chart-section-block chart-section-block--panel">
+                                <div class="chart-section-content lineout-section-content">
+                                    <div class="lineout-subsection">
+                                        <h3 class="chart-section-title">Count and Success Rate</h3>
+                                        <div class="lineout-focus-grid lineout-focus-grid--with-hint">
+                                            <p class="chart-section-hint">This panel shows selected-season throwing volume and efficiency by thrower. Compare with the long-run trends below to spot whether current conversion rates are matching each thrower&apos;s historical baseline.</p>
+                                            <div id="lineoutPerfBreakdownThrowerChart" class="lineout-chart-host" style="overflow: visible;"></div>
+                                        </div>
+                                    </div>
+                                    <div class="lineout-subsection">
+                                        <h3 class="chart-section-title">Trends</h3>
+                                        <div id="lineoutThrowerLegend" class="lineout-section-legend" aria-label="Thrower legend"></div>
+                                        <div class="lineout-trend-grid">
+                                            <div id="lineoutTrendThrowerBarChart" class="lineout-chart-host" style="overflow: visible;"></div>
+                                            <div id="lineoutTrendThrowerLineChart" class="lineout-chart-host" style="overflow: visible;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section id="sec-lineout-play" class="analysis-section lineout-breakdown-section" aria-labelledby="lineout-breakdown-play-title">
+                            <h2 id="lineout-breakdown-play-title" class="section-heading section-heading--tight">Play</h2>
+                            <p class="section-intro">Hot, cold and lost outcomes.</p>
+                            <div class="lineout-section-active-filters squad-stats-active-filters" data-lineout-active-filters></div>
+                            <div class="lineout-breakdown-table-wrap">
+                                <table class="table table-striped table-hover align-middle database-data-table lineout-breakdown-table">
+                                    <thead id="lineoutPerfBreakdownPlayTableHead"></thead>
+                                    <tbody id="lineoutPerfBreakdownPlayTableBody"></tbody>
+                                </table>
+                            </div>
+                            <div class="chart-section-block chart-section-block--panel">
+                                <div class="chart-section-content lineout-section-content">
+                                    <div class="lineout-subsection">
+                                        <h3 class="chart-section-title">Count and Success Rate</h3>
+                                        <div class="lineout-focus-grid lineout-focus-grid--with-hint">
+                                            <p class="chart-section-hint">Read hot, cold and lost outcomes here for the selected season to understand current play-call reliability. The trend charts below show if each outcome profile is stabilising, improving or drifting over time.</p>
+                                            <div id="lineoutPerfBreakdownPlayChart" class="lineout-chart-host" style="overflow: visible;"></div>
+                                        </div>
+                                    </div>
+                                    <div class="lineout-subsection">
+                                        <h3 class="chart-section-title">Trends</h3>
+                                        <div class="lineout-trend-grid">
+                                            <div id="lineoutTrendPlayBarChart" class="lineout-chart-host" style="overflow: visible;"></div>
+                                            <div id="lineoutTrendPlayLineChart" class="lineout-chart-host" style="overflow: visible;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section id="sec-lineout-season" class="analysis-section lineout-breakdown-section" aria-labelledby="lineout-breakdown-season-title">
+                            <h2 id="lineout-breakdown-season-title" class="section-heading section-heading--tight">Season</h2>
+                            <p class="section-intro">Totals and success by season.</p>
+                            <div class="lineout-section-active-filters squad-stats-active-filters" data-lineout-active-filters></div>
+                            <div class="lineout-breakdown-table-wrap">
+                                <table class="table table-striped table-hover align-middle database-data-table lineout-breakdown-table">
+                                    <thead id="lineoutPerfBreakdownSeasonTableHead"></thead>
+                                    <tbody id="lineoutPerfBreakdownSeasonTableBody"></tbody>
+                                </table>
+                            </div>
+                            <div class="chart-section-block chart-section-block--panel">
+                                <div class="chart-section-content">
+                                    <div class="lineout-focus-grid lineout-focus-grid--with-hint">
+                                        <p class="chart-section-hint">This chart compares total lineout volume and success season by season for the current squad and game-type scope. Use it with the highlighted table season column to anchor year-on-year context.</p>
+                                        <div id="lineoutPerfBreakdownSeasonChart" class="lineout-chart-host" style="overflow: visible;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
                     </div>
-                    <div class="filter-item">
-                        <div class="input-group input-group-sm"><span class="input-group-text">Zone</span><select
-                                id="lineoutFilterArea" class="selectpicker form-control flex-fill" data-size="8">
-                                <option value="All">All Zones</option>
-                            </select></div>
-                    </div>
-                    <div class="filter-item">
-                        <div class="input-group input-group-sm"><span class="input-group-text">Thrower</span><select
-                                id="lineoutFilterThrower" class="selectpicker form-control flex-fill" data-size="8">
-                                <option value="All">All Throwers</option>
-                            </select></div>
-                    </div>
-                    <div class="filter-item">
-                        <div class="input-group input-group-sm"><span class="input-group-text">Jumper</span><select
-                                id="lineoutFilterJumper" class="selectpicker form-control flex-fill" data-size="8">
-                                <option value="All">All Jumpers</option>
-                            </select></div>
-                    </div>
-                </div>
+                </main>
             </div>
-            <div class="lineout-analysis-pairs lineout-breakdown-panels"
-                style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem;">
-                <div class="chart-panel chart-panel--inline lineout-analysis-panel lineout-analysis-panel--breakdown">
-                    <button type="button" class="chart-panel-toggle chart-panel-toggle--black"
-                        data-target="lineout-breakdown-numbers-panel" data-accordion-group="lineout-breakdown-explorer"
-                        aria-expanded="false" aria-controls="lineout-breakdown-numbers-panel"><span
-                            class="chart-panel-toggle-text"><span class="chart-panel-toggle-title">Numbers</span><span
-                                class="chart-panel-toggle-hint">Usage and success by setup</span></span><span
-                            class="chart-panel-toggle-icon" aria-hidden="true"></span></button>
-                    <div id="lineout-breakdown-numbers-panel" class="chart-panel-content" hidden>
-                        <div class="chart-panel-card">
-                            <div class="lineout-breakdown-layout">
-                                <div class="lineout-breakdown-table-wrap">
-                                    <table
-                                        class="table table-striped table-hover align-middle database-data-table lineout-breakdown-table">
-                                        <thead id="lineoutPerfBreakdownNumbersTableHead"></thead>
-                                        <tbody id="lineoutPerfBreakdownNumbersTableBody"></tbody>
-                                    </table>
-                                </div>
-                                <div id="lineoutPerfBreakdownNumbersChart" class="lineout-breakdown-chart"
-                                    style="overflow: visible;"></div>
-                            </div>
-                            <div class="lineout-trend-section">
-                                <div id="lineoutTrendNumbersChart" class="lineout-trend-chart"
-                                    style="overflow: visible;"></div>
-                            </div>
-                        </div>
+        </div>
+    </div>
+
+    <div class="offcanvas offcanvas-end squad-filters-offcanvas" tabindex="-1" id="lineoutFiltersOffcanvas" aria-labelledby="lineoutFiltersHeading">
+        <div class="offcanvas-header">
+            <div>
+                <h5 id="lineoutFiltersHeading" class="section-heading section-heading--flush">Filters</h5>
+                <p class="squad-filters-description">Choose squad, season and breakdown scope. These filters apply across Lineout Deep Dive.</p>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div class="squad-filters-grid squad-filters-grid--offcanvas">
+                <div class="squad-filter-control" role="group" aria-label="Squad">
+                    <span class="squad-filter-label">Squad</span>
+                    <div class="squad-filter-segment squad-filter-segment--squad" id="lineoutSquadSegment">
+                        <button type="button" class="squad-filter-segment-btn is-active" data-value="1st">1st XV</button>
+                        <button type="button" class="squad-filter-segment-btn" data-value="2nd">2nd XV</button>
                     </div>
+                    <select id="lineoutFilterSquad" class="visually-hidden" aria-hidden="true" tabindex="-1">
+                        <option value="1st" selected>1st XV</option>
+                        <option value="2nd">2nd XV</option>
+                    </select>
                 </div>
-                <div class="chart-panel chart-panel--inline lineout-analysis-panel lineout-analysis-panel--breakdown">
-                    <button type="button" class="chart-panel-toggle chart-panel-toggle--black"
-                        data-target="lineout-breakdown-area-panel" data-accordion-group="lineout-breakdown-explorer"
-                        aria-expanded="false" aria-controls="lineout-breakdown-area-panel"><span
-                            class="chart-panel-toggle-text"><span class="chart-panel-toggle-title">Zone</span><span
-                                class="chart-panel-toggle-hint">Front, middle and back</span></span><span
-                            class="chart-panel-toggle-icon" aria-hidden="true"></span></button>
-                    <div id="lineout-breakdown-area-panel" class="chart-panel-content" hidden>
-                        <div class="chart-panel-card">
-                            <div class="lineout-breakdown-layout">
-                                <div class="lineout-breakdown-table-wrap">
-                                    <table
-                                        class="table table-striped table-hover align-middle database-data-table lineout-breakdown-table">
-                                        <thead id="lineoutPerfBreakdownAreaTableHead"></thead>
-                                        <tbody id="lineoutPerfBreakdownAreaTableBody"></tbody>
-                                    </table>
-                                </div>
-                                <div id="lineoutPerfBreakdownAreaChart" class="lineout-breakdown-chart"
-                                    style="overflow: visible;"></div>
-                            </div>
-                            <div class="lineout-trend-section">
-                                <div id="lineoutTrendAreaChart" class="lineout-trend-chart" style="overflow: visible;">
-                                </div>
-                            </div>
-                        </div>
+
+                <div class="squad-filter-control" role="group" aria-label="Season">
+                    <span class="squad-filter-label">Season</span>
+                    <div class="squad-filter-season-stepper" id="lineoutSeasonStepper">
+                        <button type="button" class="squad-filter-stepper-btn" id="lineoutSeasonPrev" aria-label="Previous season">&#8249;</button>
+                        <span id="lineoutSeasonLabel" class="squad-filter-stepper-label">All (2017-)</span>
+                        <button type="button" class="squad-filter-stepper-btn" id="lineoutSeasonNext" aria-label="Next season">&#8250;</button>
                     </div>
+                    <select id="lineoutFilterSeason" class="visually-hidden" aria-hidden="true" tabindex="-1">
+                        <option value="All">All (2017-)</option>
+                    </select>
                 </div>
-                <div class="chart-panel chart-panel--inline lineout-analysis-panel lineout-analysis-panel--breakdown">
-                    <button type="button" class="chart-panel-toggle chart-panel-toggle--black"
-                        data-target="lineout-breakdown-jumper-panel" data-accordion-group="lineout-breakdown-explorer"
-                        aria-expanded="false" aria-controls="lineout-breakdown-jumper-panel"><span
-                            class="chart-panel-toggle-text"><span class="chart-panel-toggle-title">Jumper</span><span
-                                class="chart-panel-toggle-hint">Usage and success by jumper</span></span><span
-                            class="chart-panel-toggle-icon" aria-hidden="true"></span></button>
-                    <div id="lineout-breakdown-jumper-panel" class="chart-panel-content" hidden>
-                        <div class="chart-panel-card">
-                            <div class="lineout-breakdown-layout">
-                                <div class="lineout-breakdown-table-wrap">
-                                    <table
-                                        class="table table-striped table-hover align-middle database-data-table lineout-breakdown-table">
-                                        <thead id="lineoutPerfBreakdownJumperTableHead"></thead>
-                                        <tbody id="lineoutPerfBreakdownJumperTableBody"></tbody>
-                                    </table>
-                                </div>
-                                <div id="lineoutPerfBreakdownJumperChart" class="lineout-breakdown-chart"
-                                    style="overflow: visible;"></div>
-                            </div>
-                            <div class="lineout-trend-section">
-                                <div id="lineoutTrendJumperChart" class="lineout-trend-chart"
-                                    style="overflow: visible;"></div>
-                            </div>
-                        </div>
+
+                <div class="squad-filter-control" role="group" aria-label="Game Type">
+                    <span class="squad-filter-label">Game Type</span>
+                    <div class="squad-filter-segment squad-filter-segment--neutral" id="lineoutGameTypeSegment">
+                        <button type="button" class="squad-filter-segment-btn" data-value="All">All games</button>
+                        <button type="button" class="squad-filter-segment-btn is-active" data-value="League + Cup">League + Cup</button>
+                        <button type="button" class="squad-filter-segment-btn" data-value="League only">League only</button>
                     </div>
+                    <select id="lineoutFilterGameType" class="visually-hidden" aria-hidden="true" tabindex="-1">
+                        <option value="All">All games</option>
+                        <option value="League + Cup" selected>League + Cup</option>
+                        <option value="League only">League only</option>
+                    </select>
                 </div>
-                <div class="chart-panel chart-panel--inline lineout-analysis-panel lineout-analysis-panel--breakdown">
-                    <button type="button" class="chart-panel-toggle chart-panel-toggle--black"
-                        data-target="lineout-breakdown-thrower-panel" data-accordion-group="lineout-breakdown-explorer"
-                        aria-expanded="false" aria-controls="lineout-breakdown-thrower-panel"><span
-                            class="chart-panel-toggle-text"><span class="chart-panel-toggle-title">Thrower</span><span
-                                class="chart-panel-toggle-hint">Usage and success by thrower</span></span><span
-                            class="chart-panel-toggle-icon" aria-hidden="true"></span></button>
-                    <div id="lineout-breakdown-thrower-panel" class="chart-panel-content" hidden>
-                        <div class="chart-panel-card">
-                            <div class="lineout-breakdown-layout">
-                                <div class="lineout-breakdown-table-wrap">
-                                    <table
-                                        class="table table-striped table-hover align-middle database-data-table lineout-breakdown-table">
-                                        <thead id="lineoutPerfBreakdownThrowerTableHead"></thead>
-                                        <tbody id="lineoutPerfBreakdownThrowerTableBody"></tbody>
-                                    </table>
-                                </div>
-                                <div id="lineoutPerfBreakdownThrowerChart" class="lineout-breakdown-chart"
-                                    style="overflow: visible;"></div>
-                            </div>
-                            <div class="lineout-trend-section">
-                                <div id="lineoutTrendThrowerChart" class="lineout-trend-chart"
-                                    style="overflow: visible;"></div>
-                            </div>
-                        </div>
-                    </div>
+
+                <div class="squad-filter-control" role="group" aria-label="Numbers">
+                    <span class="squad-filter-label">Numbers</span>
+                    <select id="lineoutFilterNumbers" class="selectpicker form-control flex-fill" data-size="8">
+                        <option value="All">All Numbers</option>
+                    </select>
                 </div>
-                <div class="chart-panel chart-panel--inline lineout-analysis-panel lineout-analysis-panel--breakdown">
-                    <button type="button" class="chart-panel-toggle chart-panel-toggle--black"
-                        data-target="lineout-breakdown-play-panel" data-accordion-group="lineout-breakdown-explorer"
-                        aria-expanded="false" aria-controls="lineout-breakdown-play-panel"><span
-                            class="chart-panel-toggle-text"><span class="chart-panel-toggle-title">Play</span><span
-                                class="chart-panel-toggle-hint">Hot, cold and lost outcomes</span></span><span
-                            class="chart-panel-toggle-icon" aria-hidden="true"></span></button>
-                    <div id="lineout-breakdown-play-panel" class="chart-panel-content" hidden>
-                        <div class="chart-panel-card">
-                            <div class="lineout-breakdown-layout">
-                                <div class="lineout-breakdown-table-wrap">
-                                    <table
-                                        class="table table-striped table-hover align-middle database-data-table lineout-breakdown-table">
-                                        <thead id="lineoutPerfBreakdownPlayTableHead"></thead>
-                                        <tbody id="lineoutPerfBreakdownPlayTableBody"></tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <div class="lineout-trend-section">
-                                <div id="lineoutTrendPlayChart" class="lineout-trend-chart" style="overflow: visible;">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
+                <div class="squad-filter-control" role="group" aria-label="Zone">
+                    <span class="squad-filter-label">Zone</span>
+                    <select id="lineoutFilterArea" class="selectpicker form-control flex-fill" data-size="8">
+                        <option value="All">All Zones</option>
+                    </select>
+                </div>
+
+                <div class="squad-filter-control" role="group" aria-label="Thrower">
+                    <span class="squad-filter-label">Thrower</span>
+                    <select id="lineoutFilterThrower" class="selectpicker form-control flex-fill" data-size="8">
+                        <option value="All">All Throwers</option>
+                    </select>
+                </div>
+
+                <div class="squad-filter-control" role="group" aria-label="Jumper">
+                    <span class="squad-filter-label">Jumper</span>
+                    <select id="lineoutFilterJumper" class="selectpicker form-control flex-fill" data-size="8">
+                        <option value="All">All Jumpers</option>
+                    </select>
                 </div>
             </div>
         </div>
