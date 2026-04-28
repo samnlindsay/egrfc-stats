@@ -1041,7 +1041,7 @@ def player_stats_starting_combinations_chart(db, output_file='data/charts/player
         color=alt.Color(
             'squad:N',
             scale=alt.Scale(domain=['1st', '2nd'], range=['#202946', '#7d96e8']),
-            legend=alt.Legend(title='Squad')
+            legend=alt.Legend(title='Squad', labelExpr="datum.value + ' XV'")
         ),
         tooltip=[
             alt.Tooltip('combination:N', title='Combination'),
@@ -3892,10 +3892,12 @@ def lineout_breakdown_chart(db=None, df=None, breakdown="numbers", output_file=N
             grouped = grouped.transform_calculate(numbers_display="datum.numbers + '-man'")
             tooltip_dimension = alt.Tooltip("numbers_display:N", title=field_label)
 
+    bar_color = alt.value("#7d96e8") if breakdown_key == "season" else color_encoding
+
     bar = grouped.mark_bar(opacity=0.9, size=bar_size).encode(
         x=x_encoding,
         y=alt.Y("attempts:Q", title="Lineouts Taken"),
-        color=color_encoding,
+        color=bar_color,
         stroke=stroke_encoding,
         tooltip=[
             tooltip_dimension,
@@ -3904,6 +3906,8 @@ def lineout_breakdown_chart(db=None, df=None, breakdown="numbers", output_file=N
             alt.Tooltip("success_rate:Q", title="Success Rate", format=".1%"),
         ],
     )
+
+    success_rate_axis = alt.Axis(format="%", orient="right")
 
     line = grouped.mark_line(
         point=alt.OverlayMarkDef(
@@ -3919,7 +3923,7 @@ def lineout_breakdown_chart(db=None, df=None, breakdown="numbers", output_file=N
         y=alt.Y(
             "success_rate:Q",
             title="Success Rate",
-            axis=alt.Axis(format="%"),
+            axis=success_rate_axis,
             scale=alt.Scale(domain=[0, 1]),
         ),
         tooltip=[
@@ -3942,21 +3946,31 @@ def lineout_breakdown_chart(db=None, df=None, breakdown="numbers", output_file=N
         y=alt.Y(
             "success_rate:Q",
             title="Success Rate",
-            axis=alt.Axis(format="%"),
+            axis=success_rate_axis,
             scale=alt.Scale(domain=[0, 1]),
         ),
         text=alt.Text("success_rate:Q", format=".0%"),
     )
 
-    chart = (
-        alt.layer(bar, line, text)
-        .resolve_scale(y="independent")
-        .properties(
+    if breakdown_key == "play":
+        chart = bar.properties(
             width=alt.Step(chart_step),
             height=300,
-            title=alt.Title(text=f"{field_label} Breakdown", subtitle=f"Minimum {int(min_attempts)} attempts. Hover for details. Adjust filters to explore different subsets."),
+            title=alt.Title(
+                text=f"{field_label} Breakdown",
+                subtitle=f"Minimum {int(min_attempts)} attempts. Hover for details. Adjust filters to explore different subsets.",
+            ),
         )
-    )
+    else:
+        chart = (
+            alt.layer(bar, line, text)
+            .resolve_scale(y="independent")
+            .properties(
+                width=alt.Step(chart_step),
+                height=300,
+                title=alt.Title(text=f"{field_label} Breakdown", subtitle=f"Minimum {int(min_attempts)} attempts. Hover for details. Adjust filters to explore different subsets."),
+            )
+        )
 
     chart.save(output_file)
     return chart

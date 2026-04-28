@@ -381,7 +381,6 @@
 
         if (seasonalView) {
             seasonalView.signal('rzSquad', squad);
-            seasonalView.signal('rzSeason', seasons);
             seasonalView.signal('rzGameType', gameType);
             seasonalView.signal('rzEfficiencyMetricParam', efficiencyMetric);
             runTasks.push(seasonalView.runAsync());

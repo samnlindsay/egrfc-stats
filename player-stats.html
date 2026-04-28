@@ -131,7 +131,7 @@
                         aria-hidden="true"></i><span class="rail-link-label">Captains</span></a>
                     <a class="rail-link nav-link" href="#player-motm" data-short="MOTM"><i class="bi bi-star-fill"
                         aria-hidden="true"></i><span class="rail-link-label">Man of the Match</span></a>
-                    <a class="rail-link nav-link" href="#player-starting-combinations" data-short="Combos"><i class="bi bi-diagram-3-fill"
+                    <a class="rail-link nav-link" href="#player-starting-combinations" data-short="Combinations"><i class="bi bi-diagram-3-fill"
                         aria-hidden="true"></i><span class="rail-link-label">Starting Combinations</span></a>
                     <a class="rail-link nav-link" href="#team-sheets-board" data-short="Sheets"><i class="bi bi-clipboard2-check"
                         aria-hidden="true"></i><span class="rail-link-label">Team Sheets</span></a>
@@ -144,12 +144,12 @@
                         <p class="section-intro">Player appearances by squad and position, with a minimum appearances threshold to keep the leaderboard readable.</p>
                         <div id="playerStatsAppearancesActiveFilters" class="squad-stats-active-filters" aria-live="polite"></div>
 
-                        <div class="chart-section-block chart-section-block--panel">
+                        <div class="chart-section-block chart-section-block--panel chart-section-block--controls-aside">
                             <div class="chart-section-head chart-section-head--right-only">
                                 <label class="squad-filter-control player-stats-threshold-control" for="playerStatsMinAppearancesInput">
-                                    <span class="squad-filter-label">Min Appearances <strong id="playerStatsMinAppearancesValue">10</strong></span>
+                                    <span class="squad-filter-label">Min Appearances <strong id="playerStatsMinAppearancesValue">50</strong></span>
                                     <div class="squad-filter-range-wrap">
-                                        <input id="playerStatsMinAppearancesInput" type="range" class="squad-filter-range" min="1" max="100" step="1" value="10">
+                                        <input id="playerStatsMinAppearancesInput" type="range" class="squad-filter-range" min="0" max="100" step="5" value="50">
                                     </div>
                                 </label>
                             </div>
@@ -167,7 +167,7 @@
                         <p class="section-intro">Top scorers across tries, kicks, and total points, filtered to the current season, squad, and game scope.</p>
                         <div id="playerStatsPointsActiveFilters" class="squad-stats-active-filters" aria-live="polite"></div>
 
-                        <div class="chart-section-block chart-section-block--panel">
+                        <div class="chart-section-block chart-section-block--panel chart-section-block--controls-aside">
                             <div class="chart-section-head">
                                 <div class="squad-filter-control player-stats-section-filter" role="group" aria-label="Score Type">
                                     <span class="squad-filter-label">Score Type</span>
@@ -183,9 +183,9 @@
                                     </select>
                                 </div>
                                 <label class="squad-filter-control player-stats-threshold-control" for="playerStatsMinPointsInput">
-                                    <span class="squad-filter-label"><span id="playerStatsMinPointsLabel">Min Points</span> <strong id="playerStatsMinPointsValue">10</strong></span>
+                                    <span class="squad-filter-label"><span id="playerStatsMinPointsLabel">Min Points</span> <strong id="playerStatsMinPointsValue">100</strong></span>
                                     <div class="squad-filter-range-wrap">
-                                        <input id="playerStatsMinPointsInput" type="range" class="squad-filter-range" min="1" max="200" step="1" value="10">
+                                        <input id="playerStatsMinPointsInput" type="range" class="squad-filter-range" min="0" max="200" step="10" value="100">
                                     </div>
                                 </label>
                             </div>
@@ -203,12 +203,12 @@
                         <p class="section-intro">Which players have led each squad on match day, including both captains and VCs.</p>
                         <div id="playerStatsCaptainsActiveFilters" class="squad-stats-active-filters" aria-live="polite"></div>
 
-                        <div class="chart-section-block chart-section-block--panel">
+                        <div class="chart-section-block chart-section-block--panel chart-section-block--controls-aside">
                             <div class="chart-section-head chart-section-head--right-only">
                                 <label class="squad-filter-control player-stats-threshold-control" for="playerStatsMinCaptainsInput">
-                                    <span class="squad-filter-label">Min Captain Apps <strong id="playerStatsMinCaptainsValue">1</strong></span>
+                                    <span class="squad-filter-label">Min Captain Apps <strong id="playerStatsMinCaptainsValue">10</strong></span>
                                     <div class="squad-filter-range-wrap">
-                                        <input id="playerStatsMinCaptainsInput" type="range" class="squad-filter-range" min="1" max="50" step="1" value="1">
+                                        <input id="playerStatsMinCaptainsInput" type="range" class="squad-filter-range" min="0" max="50" step="5" value="10">
                                     </div>
                                 </label>
                             </div>
@@ -226,7 +226,7 @@
                         <p class="section-intro"> MOTM awards by player and squad for the selected seasons and competition scope.</p>
                         <div id="playerStatsMotmActiveFilters" class="squad-stats-active-filters" aria-live="polite"></div>
 
-                        <div class="chart-section-block chart-section-block--panel">
+                        <div class="chart-section-block chart-section-block--panel chart-section-block--controls-aside">
                             <div class="chart-section-head chart-section-head--motm-toggle">
                                 <div class="squad-filter-control player-stats-section-filter player-stats-section-filter--motm" role="group" aria-label="MOTM View">
                                     <div class="form-check form-switch player-stats-motm-switch">
@@ -235,9 +235,9 @@
                                     </div>
                                 </div>
                                 <label class="squad-filter-control player-stats-threshold-control" for="playerStatsMinMotmInput">
-                                    <span class="squad-filter-label">Min MOTM Awards <strong id="playerStatsMinMotmValue">1</strong></span>
+                                    <span class="squad-filter-label">Min MOTM Awards <strong id="playerStatsMinMotmValue">3</strong></span>
                                     <div class="squad-filter-range-wrap">
-                                        <input id="playerStatsMinMotmInput" type="range" class="squad-filter-range" min="1" max="30" step="1" value="1">
+                                        <input id="playerStatsMinMotmInput" type="range" class="squad-filter-range" min="0" max="30" step="1" value="3">
                                     </div>
                                 </label>
                             </div>
@@ -255,7 +255,7 @@
                         <p class="section-intro">Most frequent selected units for the chosen combination type. Frequency is filtered by season, game type, squad and minimum appearances.</p>
                         <div id="playerStatsStartingCombinationsActiveFilters" class="squad-stats-active-filters" aria-live="polite"></div>
 
-                        <div class="chart-section-block chart-section-block--panel">
+                        <div class="chart-section-block chart-section-block--panel chart-section-block--controls-aside">
                             <div class="chart-section-head">
                                 <div class="squad-filter-control player-stats-section-filter" role="group" aria-label="Starting Combination Unit">
                                     <span class="squad-filter-label">Combination</span>
@@ -277,9 +277,9 @@
                                     </select>
                                 </div>
                                 <label class="squad-filter-control player-stats-threshold-control" for="playerStatsMinCombinationsInput">
-                                    <span class="squad-filter-label">Min Starts <strong id="playerStatsMinCombinationsValue">10</strong></span>
+                                    <span class="squad-filter-label">Min Starts <strong id="playerStatsMinCombinationsValue">5</strong></span>
                                     <div class="squad-filter-range-wrap">
-                                        <input id="playerStatsMinCombinationsInput" type="range" class="squad-filter-range" min="1" max="50" step="1" value="10">
+                                        <input id="playerStatsMinCombinationsInput" type="range" class="squad-filter-range" min="0" max="50" step="5" value="5">
                                     </div>
                                 </label>
                             </div>

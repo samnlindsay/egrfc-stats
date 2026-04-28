@@ -3,6 +3,14 @@
 let teamSheetsControlsInitialised = false;
 let teamSheetsSpec = null;
 const TEAM_SHEETS_ALL_SEASONS_VALUE = '__all_seasons__';
+const TEAM_SHEETS_FORWARD_POSITIONS = ['Prop', 'Hooker', 'Second Row', 'Flanker', 'Number 8'];
+const TEAM_SHEETS_BACK_POSITIONS = ['Scrum Half', 'Fly Half', 'Centre', 'Wing', 'Full Back'];
+
+function getTeamSheetsSpecificStarterSelections(values) {
+    const selected = Array.isArray(values) ? values : [];
+    const starterPositions = new Set([...TEAM_SHEETS_FORWARD_POSITIONS, ...TEAM_SHEETS_BACK_POSITIONS]);
+    return selected.filter(value => starterPositions.has(value));
+}
 
 function renderTeamSheetsActiveFilterChips() {
     const host = document.getElementById('teamSheetsActiveFilters');
@@ -88,11 +96,12 @@ function filterTeamSheetSpec(spec, seasons, squad, gameType, positions) {
         if (Array.isArray(positions) && positions.length > 0) {
             const hasStarters = positions.includes('Starters');
             const hasBench = positions.includes('Bench');
-            const selectedPositions = positions.filter(p => !['Starters', 'Bench', 'Forwards', 'Backs'].includes(p));
+            const selectedPositions = getTeamSheetsSpecificStarterSelections(positions);
+            const hasSpecificStarterSelection = selectedPositions.length > 0;
             const isStarter = Number(row?.shirt_number) <= 15;
             const isBench = Number(row?.shirt_number) > 15;
 
-            const matchesStarters = hasStarters && isStarter;
+            const matchesStarters = hasStarters && !hasSpecificStarterSelection && isStarter;
             const matchesBench = hasBench && isBench;
             const matchesSpecificPosition = selectedPositions.length > 0 && selectedPositions.includes(row?.position);
 
@@ -138,10 +147,11 @@ function syncTeamSheetsPositionButtons() {
     if (!grid) return;
     const selectedPositions = $('#teamSheetsPositionSelect').val() || [];
     const selectedSet = new Set(selectedPositions);
-    const hasStarters = selectedSet.has('Starters');
+    const hasSpecificStarterSelection = getTeamSheetsSpecificStarterSelections(selectedPositions).length > 0;
+    const hasStarters = selectedSet.has('Starters') && !hasSpecificStarterSelection;
     const hasBench = selectedSet.has('Bench');
-    const isForwards = ['Prop', 'Hooker', 'Second Row', 'Flanker', 'Number 8'].every(p => selectedSet.has(p));
-    const isBacksAll = ['Scrum Half', 'Fly Half', 'Centre', 'Wing', 'Full Back'].every(p => selectedSet.has(p));
+    const isForwards = TEAM_SHEETS_FORWARD_POSITIONS.every(p => selectedSet.has(p));
+    const isBacksAll = TEAM_SHEETS_BACK_POSITIONS.every(p => selectedSet.has(p));
 
     grid.querySelectorAll('.squad-filter-segment-btn').forEach(btn => {
         const value = btn.dataset.value;
@@ -250,13 +260,21 @@ function initialiseTeamSheetsControls(seasons) {
             const value = btn.dataset.value;
             const select = document.getElementById('teamSheetsPositionSelect');
             const currentValues = ($(select).val() || []).slice();
+            const currentSpecificStarterSelections = getTeamSheetsSpecificStarterSelections(currentValues);
 
             if (value === 'Starters') {
-                // Toggle Starters independently
-                if (currentValues.includes('Starters')) {
-                    $(select).val(currentValues.filter(v => v !== 'Starters'));
+                // If specific starter positions are selected, clear them and enable fallback Starters mode.
+                if (currentSpecificStarterSelections.length > 0) {
+                    const starterPositions = new Set([...TEAM_SHEETS_FORWARD_POSITIONS, ...TEAM_SHEETS_BACK_POSITIONS]);
+                    const nextValues = currentValues.filter(v => !starterPositions.has(v));
+                    if (!nextValues.includes('Starters')) nextValues.push('Starters');
+                    $(select).val(nextValues);
                 } else {
-                    $(select).val([...currentValues, 'Starters']);
+                    if (currentValues.includes('Starters')) {
+                        $(select).val(currentValues.filter(v => v !== 'Starters'));
+                    } else {
+                        $(select).val([...currentValues, 'Starters']);
+                    }
                 }
             } else if (value === 'Bench') {
                 // Toggle Bench independently
@@ -266,7 +284,7 @@ function initialiseTeamSheetsControls(seasons) {
                     $(select).val([...currentValues, 'Bench']);
                 }
             } else if (value === 'Forwards') {
-                const forwards = ['Prop', 'Hooker', 'Second Row', 'Flanker', 'Number 8'];
+                const forwards = TEAM_SHEETS_FORWARD_POSITIONS;
                 const hasAll = forwards.every(p => currentValues.includes(p));
                 if (hasAll) {
                     // Remove all forwards
@@ -276,8 +294,13 @@ function initialiseTeamSheetsControls(seasons) {
                     const newValues = currentValues.filter(v => !forwards.includes(v));
                     $(select).val([...new Set([...newValues, ...forwards])]);
                 }
+
+                const nextValues = ($(select).val() || []).slice();
+                if (getTeamSheetsSpecificStarterSelections(nextValues).length > 0) {
+                    $(select).val(nextValues.filter(v => v !== 'Starters'));
+                }
             } else if (value === 'Backs') {
-                const backs = ['Scrum Half', 'Fly Half', 'Centre', 'Wing', 'Full Back'];
+                const backs = TEAM_SHEETS_BACK_POSITIONS;
                 const hasAll = backs.every(p => currentValues.includes(p));
                 if (hasAll) {
                     // Remove all backs
@@ -287,6 +310,11 @@ function initialiseTeamSheetsControls(seasons) {
                     const newValues = currentValues.filter(v => !backs.includes(v));
                     $(select).val([...new Set([...newValues, ...backs])]);
                 }
+
+                const nextValues = ($(select).val() || []).slice();
+                if (getTeamSheetsSpecificStarterSelections(nextValues).length > 0) {
+                    $(select).val(nextValues.filter(v => v !== 'Starters'));
+                }
             } else {
                 // Regular position - toggle
                 const idx = currentValues.indexOf(value);
@@ -295,7 +323,12 @@ function initialiseTeamSheetsControls(seasons) {
                 } else {
                     currentValues.push(value);
                 }
-                $(select).val(currentValues);
+
+                if (getTeamSheetsSpecificStarterSelections(currentValues).length > 0) {
+                    $(select).val(currentValues.filter(v => v !== 'Starters'));
+                } else {
+                    $(select).val(currentValues);
+                }
             }
 
             syncTeamSheetsPositionButtons();

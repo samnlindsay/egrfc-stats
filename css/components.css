@@ -3555,16 +3555,13 @@ table tbody tr:hover {
     border-radius: 0.5rem;
     background: var(--chart-surface-color);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-#page-league-tables .league-results-chart-card .chart-host--intrinsic {
     display: block;
     width: fit-content;
     max-width: 100%;
-    margin: 0;
-    padding: 0;
     border: none;
-    background: var(--chart-surface-color);
+}
+
+#page-league-tables .league-results-chart-card {
     overflow: hidden;
 }
 
@@ -3576,27 +3573,12 @@ table tbody tr:hover {
     overflow: visible;
 }
 
-#page-opposition-profile .opposition-results-chart-card {
+.opposition-results-chart-card {
     margin-top: 0.35rem;
 }
 
-#page-opposition-profile .opposition-results-chart-card .chart-host--intrinsic {
-    display: block;
-    width: fit-content;
-    max-width: 100%;
-    margin: 0;
-    padding: 0;
-    border: none;
-    background: var(--chart-surface-color);
+#page-opposition-profile .opposition-results-chart-card {
     overflow: hidden;
-}
-
-#page-opposition-profile .opposition-results-chart-card .chart-embed-host {
-    display: block;
-    width: fit-content;
-    max-width: 100%;
-    min-width: 0;
-    overflow: visible;
 }
 
 /* ===== PAGE HEADER LAYOUT ===== */
@@ -4194,6 +4176,8 @@ table tbody tr:hover {
 .player-stats-motm-switch {
     display: flex;
     align-items: center;
+    flex-direction: row;
+    justify-content: flex-end;
     gap: 0.55rem;
     margin-left: auto;
 }
@@ -4550,17 +4534,39 @@ table tbody tr:hover {
 }
 
 #playerStatsCombinationSegment {
-    display: flex;
-    flex-wrap: nowrap;
-    gap: 0;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
 }
 
+/* Collapse borders between adjacent buttons */
 #playerStatsCombinationSegment .squad-filter-segment-btn {
-    flex: 0 0 auto;
+    margin-left: -1px;
+    margin-top: -1px;
     white-space: nowrap;
     padding-inline: 0.65rem;
+}
+
+/* Corner radii for 2×3 grid */
+#playerStatsCombinationSegment .squad-filter-segment-btn:nth-child(1) {
+    margin-left: 0;
+    margin-top: 0;
+    border-top-left-radius: 0.5rem;
+}
+#playerStatsCombinationSegment .squad-filter-segment-btn:nth-child(3) {
+    margin-top: 0;
+    border-top-right-radius: 0.5rem;
+}
+#playerStatsCombinationSegment .squad-filter-segment-btn:nth-child(3n+1) {
+    margin-left: 0;
+}
+#playerStatsCombinationSegment .squad-filter-segment-btn:nth-child(4) {
+    margin-left: 0;
+}
+#playerStatsCombinationSegment .squad-filter-segment-btn:nth-last-child(3) {
+    border-bottom-left-radius: 0.5rem;
+}
+#playerStatsCombinationSegment .squad-filter-segment-btn:last-child {
+    border-bottom-right-radius: 0.5rem;
 }
 
 /* Standard btn-check radio button style — use .btn-filter-segment on the <label> */
@@ -4614,7 +4620,7 @@ table tbody tr:hover {
     font-family: 'PT Sans Narrow', sans-serif;
     font-size: 0.95rem;
     font-weight: 700;
-    padding: 0.3rem 0.4rem;
+    padding: 0.3rem;
     transition: all 0.15s ease;
     position: relative;
     flex: 1 1 auto;
@@ -5693,6 +5699,42 @@ button.opposition-hero-action-card:focus-visible {
 .chart-section-content--split .chart-section-meta .card-filters {
     margin-bottom: 0 !important;
     padding-top: 0.35rem;
+}
+
+@media (min-width: 992px) {
+    #page-player-stats .chart-section-block--controls-aside {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(16rem, 22rem);
+        grid-template-areas: "content controls";
+        column-gap: 1rem;
+        align-items: start;
+    }
+
+    #page-player-stats .chart-section-block--controls-aside .chart-section-content {
+        grid-area: content;
+        min-width: 0;
+    }
+
+    #page-player-stats .chart-section-block--controls-aside .chart-section-head {
+        grid-area: controls;
+        margin-bottom: 0;
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: flex-start;
+        gap: 0.6rem;
+    }
+
+    #page-player-stats .chart-section-block--controls-aside .player-stats-section-filter,
+    #page-player-stats .chart-section-block--controls-aside .player-stats-section-filter--motm,
+    #page-player-stats .chart-section-block--controls-aside .player-stats-threshold-control {
+        width: 100%;
+        min-width: 0;
+        margin-left: 0;
+    }
+
+    #page-player-stats .chart-section-block--controls-aside .player-stats-motm-switch {
+        margin-left: 0;
+    }
 }
 
 /* Vertical stacked segment buttons (used for count mode inside panels) */

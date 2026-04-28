@@ -273,14 +273,13 @@ function syncUnitSegmentFromSelect() {
     });
 }
 
-function renderSquadStatsActiveFilterChips(targetId, selectedSeason, gameTypeMode, minimumAppearances, positionCountMode, unitMode, options = {}) {
+function renderSquadStatsActiveFilterChips(targetId, selectedSeason, gameTypeMode, minimumAppearances, options = {}) {
     const host = document.getElementById(targetId);
     if (!host) return;
     const {
         includeSeason = true,
         includeGameType = true,
         includeMinAppearances = true,
-        includeUnit = true,
     } = options;
 
     const chips = [];
@@ -294,10 +293,7 @@ function renderSquadStatsActiveFilterChips(targetId, selectedSeason, gameTypeMod
     if (includeMinAppearances) {
         chips.push(`<button type="button" class="squad-stats-filter-chip squad-stats-filter-chip-btn" data-bs-toggle="offcanvas" data-bs-target="#squadStatsFiltersOffcanvas" aria-controls="squadStatsFiltersOffcanvas"><strong><span class="d-none d-md-inline">Min Appearances</span><span class="d-inline d-md-none">Min Apps</span></strong> ${minimumAppearances}</button>`);
     }
-    if (includeUnit) {
-        chips.push(`<button type="button" class="squad-stats-filter-chip squad-stats-filter-chip-btn" data-bs-toggle="offcanvas" data-bs-target="#squadStatsFiltersOffcanvas" aria-controls="squadStatsFiltersOffcanvas"><strong>Unit</strong> ${unitMode}</button>`);
-    }
-    
+
     host.innerHTML = chips.join('');
 }
 
@@ -621,9 +617,9 @@ function renderSquadStatsPage() {
         const trendViewMode = getSquadSizeTrendViewMode();
         const fallbackSeason = getCurrentSeasonLabel();
         renderSquadStatsHeroStats();
-        renderSquadStatsActiveFilterChips('squadCompositionActiveFilters', fallbackSeason, gameTypeMode, minimumAppearances, positionCountMode, selectedUnit);
-        renderSquadStatsActiveFilterChips('squadContinuityActiveFilters', fallbackSeason, gameTypeMode, minimumAppearances, positionCountMode, selectedUnit);
-        renderSquadStatsActiveFilterChips('leagueContextActiveFilters', fallbackSeason, gameTypeMode, minimumAppearances, positionCountMode, selectedUnit, {
+        renderSquadStatsActiveFilterChips('squadCompositionActiveFilters', fallbackSeason, gameTypeMode, minimumAppearances);
+        renderSquadStatsActiveFilterChips('squadContinuityActiveFilters', fallbackSeason, gameTypeMode, minimumAppearances);
+        renderSquadStatsActiveFilterChips('leagueContextActiveFilters', fallbackSeason, gameTypeMode, minimumAppearances, {
             includeGameType: false,
             includeMinAppearances: false,
         });
@@ -640,9 +636,9 @@ function renderSquadStatsPage() {
     const trendViewMode = getSquadSizeTrendViewMode();
     applySquadStatsControlState({ season: selectedSeason, gameType: gameTypeMode, minimumAppearances, positionCountMode, unit: selectedUnit });
     renderSquadStatsHeroStats();
-    renderSquadStatsActiveFilterChips('squadCompositionActiveFilters', selectedSeason, gameTypeMode, minimumAppearances, positionCountMode, selectedUnit);
-    renderSquadStatsActiveFilterChips('squadContinuityActiveFilters', selectedSeason, gameTypeMode, minimumAppearances, positionCountMode, selectedUnit);
-    renderSquadStatsActiveFilterChips('leagueContextActiveFilters', selectedSeason, gameTypeMode, minimumAppearances, positionCountMode, selectedUnit, {
+    renderSquadStatsActiveFilterChips('squadCompositionActiveFilters', selectedSeason, gameTypeMode, minimumAppearances);
+    renderSquadStatsActiveFilterChips('squadContinuityActiveFilters', selectedSeason, gameTypeMode, minimumAppearances);
+    renderSquadStatsActiveFilterChips('leagueContextActiveFilters', selectedSeason, gameTypeMode, minimumAppearances, {
         includeGameType: false,
         includeMinAppearances: false,
     });
@@ -1001,15 +997,17 @@ function _ltScaleResultsEmbedToFit(container) {
     const embedHost = container.querySelector('.chart-embed-host');
     if (!embedHost) return false;
 
-    const boundary = container.closest('.league-results-chart-card') || container;
-    const availableWidth = Math.floor(boundary.clientWidth || container.clientWidth || 0);
+    const widthBoundary = container.parentElement || container;
+    const viewportWidth = window.innerWidth || document.documentElement.clientWidth || 0;
 
+    embedHost.style.zoom = '';
     embedHost.style.transform = 'none';
     embedHost.style.transformOrigin = 'top left';
     embedHost.style.width = '';
     embedHost.style.height = '';
     container.style.width = '';
     container.style.height = '';
+    container.style.maxWidth = '';
 
     const measureIntrinsicSize = () => {
         const svg = embedHost.querySelector('svg');
@@ -1033,16 +1031,23 @@ function _ltScaleResultsEmbedToFit(container) {
         return { width, height };
     };
 
+    const boundaryStyles = window.getComputedStyle(widthBoundary);
+    const boundaryPaddingLeft = parseFloat(boundaryStyles.paddingLeft) || 0;
+    const boundaryPaddingRight = parseFloat(boundaryStyles.paddingRight) || 0;
+    const boundaryContentWidth = Math.max(0, (widthBoundary.clientWidth || 0) - boundaryPaddingLeft - boundaryPaddingRight);
+    const rawAvailableWidth = Math.min(boundaryContentWidth, viewportWidth || Number.MAX_SAFE_INTEGER);
+    const widthSafetyGutter = viewportWidth <= 768 ? 6 : 2;
+    const availableWidth = Math.max(0, Math.floor(rawAvailableWidth - widthSafetyGutter));
     const intrinsicSize = measureIntrinsicSize();
     if (!availableWidth || !intrinsicSize.width) return false;
 
     const scale = Math.min(1, availableWidth / intrinsicSize.width);
-    const scaledWidth = Math.ceil(intrinsicSize.width * scale);
+    const scaledWidth = Math.floor(intrinsicSize.width * scale);
     const scaledHeight = Math.ceil(intrinsicSize.height * scale);
 
     embedHost.style.width = `${intrinsicSize.width}px`;
     embedHost.style.height = `${intrinsicSize.height}px`;
-    embedHost.style.transform = `scale(${scale})`;
+    embedHost.style.zoom = `${scale}`;
     container.style.maxWidth = '100%';
     container.style.width = `${Math.min(availableWidth, scaledWidth)}px`;
     container.style.height = `${scaledHeight}px`;
@@ -1050,17 +1055,17 @@ function _ltScaleResultsEmbedToFit(container) {
     window.requestAnimationFrame(() => {
         const refreshed = measureIntrinsicSize();
         const nextScale = Math.min(1, availableWidth / Math.max(1, refreshed.width));
-        const nextScaledWidth = Math.ceil(refreshed.width * nextScale);
+        const nextScaledWidth = Math.floor(refreshed.width * nextScale);
         const nextScaledHeight = Math.ceil(refreshed.height * nextScale);
         embedHost.style.width = `${refreshed.width}px`;
         embedHost.style.height = `${refreshed.height}px`;
-        embedHost.style.transform = `scale(${nextScale})`;
+        embedHost.style.zoom = `${nextScale}`;
         container.style.width = `${Math.min(availableWidth, nextScaledWidth)}px`;
         container.style.height = `${nextScaledHeight}px`;
     });
 
-    boundary.style.overflowX = 'hidden';
-    boundary.style.overflowY = 'visible';
+    container.style.overflowX = 'hidden';
+    container.style.overflowY = 'hidden';
     return true;
 }
 
@@ -1091,7 +1096,6 @@ async function _ltRenderResultsChartsForSeason(season) {
                 emptyMessage: `No ${squad === 1 ? '1st' : '2nd'} XV league results available for this season.`,
             });
             _ltScaleResultsEmbedToFit(chartHost);
-            window.requestAnimationFrame(() => _ltScaleResultsEmbedToFit(chartHost));
         } catch (error) {
             console.error(`Failed to load league results chart spec: ${specPath}`, error);
             renderStaticSpecChart(containerId, null, `Unable to load ${squad === 1 ? '1st' : '2nd'} XV league results chart.`);
@@ -1252,9 +1256,7 @@ async function renderLeagueTables() {
                         </div>
                     </div>
                 </div>
-                <div class="league-results-chart-card">
-                    <div id="leagueResultsChart1" class="chart-host chart-host--overflow-visible chart-host--intrinsic">Loading 1st XV league results chart...</div>
-                </div>
+                <div id="leagueResultsChart1" class="chart-host chart-host--overflow-visible chart-host--intrinsic league-results-chart-card">Loading 1st XV league results chart...</div>
             </div>`;
     }
 
@@ -1320,9 +1322,7 @@ async function renderLeagueTables() {
                         </div>
                     </div>
                 </div>
-                <div class="league-results-chart-card">
-                    <div id="leagueResultsChart2" class="chart-host chart-host--overflow-visible chart-host--intrinsic">Loading 2nd XV league results chart...</div>
-                </div>
+                <div id="leagueResultsChart2" class="chart-host chart-host--overflow-visible chart-host--intrinsic league-results-chart-card">Loading 2nd XV league results chart...</div>
             </div>`;
     }
 

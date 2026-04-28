@@ -1,11 +1,6 @@
 // Shared constants, utilities and chart helpers used across all pages.
 
-const VEGA_EMBED_ACTIONS = {
-  export: true,
-  source: false,
-  compiled: false,
-  editor: false,
-};
+const VEGA_EMBED_ACTIONS = false;
 const FORWARD_POSITIONS = [
   "Prop",
   "Hooker",
@@ -46,7 +41,6 @@ const SET_PIECE_LAYOUT_ENTRY = Object.freeze({
 // Methodical inventory of chart containers present across HTML pages.
 // Use this to track responsive layout coverage in CHART_LAYOUT_INVENTORY.
 const CHART_CONTAINER_INVENTORY = Object.freeze([
-  "focusModalChart",
   "leagueContinuityContextChart",
   "leagueSquadSizeContextChart",
   "lineoutPerfBreakdownAreaChart",
@@ -74,6 +68,7 @@ const CHART_CONTAINER_INVENTORY = Object.freeze([
   "playerStatsMotmChart",
   "playerStatsMotmUnitsChart",
   "playerStatsPointsChart",
+  "playerStatsStartingCombinationsChart",
   "rzPointsChart",
   "rzSeasonalEntriesEfficiencyChart",
   "setPieceAttackingLineoutVolumeChart",
@@ -256,13 +251,18 @@ const CHART_LAYOUT_INVENTORY = {
   },
   playerStatsMotmChart: {
     narrowMax: 760,
-    narrow: { legendOrient: "bottom", width: 275 },
+    narrow: { legendOrient: "bottom", legendTitleOrient: "left", width: 275 },
     wide: { legendOrient: "right", width: 500 },
   },
   playerStatsMotmUnitsChart: {
     narrowMax: 760,
-    narrow: { legendOrient: "bottom" },
+    narrow: { legendOrient: "bottom", legendTitleOrient: "left" },
     wide: { legendOrient: "right", width: 500, height: { step: 50 } },
+  },
+  playerStatsStartingCombinationsChart: {
+    narrowMax: 760,
+    narrow: { legendOrient: "bottom", legendTitleOrient: "left", width: 250 },
+    wide: { legendOrient: "right", width: 400 },
   },
   redZone1stChart: {
     narrowMax: 720,
@@ -320,7 +320,7 @@ const CHART_LAYOUT_INVENTORY = {
     responsiveScaleMin: 0.62,
     responsiveScaleMinXs: 0.56,
     narrow: { width: 280 },
-    wide: { width: 22 },
+    wide: { width: 250 },
   },
   lineoutPerfBreakdownAreaChart: {
     narrowMax: 760,
@@ -333,14 +333,14 @@ const CHART_LAYOUT_INVENTORY = {
     narrowMax: 760,
     responsiveScaleMin: 0.62,
     responsiveScaleMinXs: 0.56,
-    narrow: { width: 280 },
+    narrow: { width: 350 },
     wide: { width: 460 },
   },
   lineoutPerfBreakdownThrowerChart: {
     narrowMax: 760,
     responsiveScaleMin: 0.62,
     responsiveScaleMinXs: 0.56,
-    narrow: { width: 280 },
+    narrow: { width: 350 },
     wide: { width: 460 },
   },
   lineoutPerfBreakdownPlayChart: {
@@ -746,6 +746,7 @@ function resetResponsiveChartScale(embed) {
   embed.classList.remove("chart-responsive-scaled");
   const wrapper = embed.parentElement;
   if (wrapper) {
+    wrapper.style.zoom = "";
     wrapper.style.width = "";
     wrapper.style.height = "";
   }
@@ -790,6 +791,16 @@ function applyResponsiveChartScale(rootElement = document) {
   if (!rootElement || !window || typeof window.innerWidth !== "number") return;
 
   rootElement.querySelectorAll(".vega-embed").forEach((embed) => {
+    const wrapper = embed.parentElement;
+    embed.style.transform = "none";
+    embed.style.transformOrigin = "top left";
+    embed.classList.remove("chart-responsive-scaled");
+    if (wrapper) {
+      wrapper.style.zoom = "";
+      wrapper.style.width = "";
+      wrapper.style.height = "";
+    }
+
     if (
       embed.closest(
         "#teamSheetsChart, .chart-embed-host--team-sheets, .team-sheets-chart-shell",
@@ -810,7 +821,23 @@ function applyResponsiveChartScale(rootElement = document) {
       return;
     }
 
-    const availableWidth = Math.floor(boundary.clientWidth || 0);
+    const boundaryStyles = window.getComputedStyle(boundary);
+    const boundaryPaddingLeft = Number.parseFloat(boundaryStyles.paddingLeft) || 0;
+    const boundaryPaddingRight = Number.parseFloat(boundaryStyles.paddingRight) || 0;
+    const boundaryContentWidth = Math.max(
+      0,
+      (boundary.clientWidth || 0) - boundaryPaddingLeft - boundaryPaddingRight,
+    );
+    const widthSafetyGutter = window.innerWidth <= 768 ? 6 : 2;
+    const availableWidth = Math.max(
+      0,
+      Math.floor(
+        Math.min(
+          boundaryContentWidth,
+          window.innerWidth || Number.MAX_SAFE_INTEGER,
+        ) - widthSafetyGutter,
+      ),
+    );
     if (!availableWidth || window.innerWidth > 900) {
       resetResponsiveChartScale(embed);
       return;
@@ -840,20 +867,14 @@ function applyResponsiveChartScale(rootElement = document) {
     }
 
     const scale = Math.min(1, rawScale);
-    embed.style.transformOrigin = "top left";
-    embed.style.transform = `scale(${scale})`;
     embed.classList.add("chart-responsive-scaled");
 
-    const wrapper = embed.parentElement;
     if (wrapper) {
-      wrapper.style.width = `${Math.ceil(intrinsicWidth * scale)}px`;
-      wrapper.style.height = `${Math.ceil(intrinsicHeight * scale)}px`;
+      wrapper.style.zoom = `${scale}`;
+      wrapper.style.width = `${intrinsicWidth}px`;
+      wrapper.style.height = `${intrinsicHeight}px`;
     }
 
-    // CSS transform does not affect layout width, so the unscaled SVG
-    // still occupies its full layout width inside the container,
-    // creating a scrollable whitespace gap beyond the scaled visual.
-    // Clip that overflow now that the visual content fits the boundary.
     boundary.style.overflowX = "hidden";
     boundary.style.overflowY = "hidden";
   });

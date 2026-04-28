@@ -101,6 +101,30 @@
         margin-left: 0;
     }
 
+    #page-player-stats .chart-section-block--controls-aside .chart-section-head {
+        flex-direction: column;
+        align-items: flex-end;
+        justify-content: flex-start;
+        margin-bottom: 0.7rem;
+    }
+
+    #page-player-stats .chart-section-block--controls-aside .player-stats-section-filter,
+    #page-player-stats .chart-section-block--controls-aside .player-stats-section-filter--motm {
+        width: min(100%, 20rem);
+        min-width: 0;
+        margin-left: 0;
+    }
+
+    #page-player-stats .chart-section-block--controls-aside .player-stats-threshold-control {
+        width: min(100%, 18rem);
+        min-width: 0;
+        margin-left: 0;
+    }
+
+    #page-player-stats .chart-section-block--controls-aside .player-stats-motm-switch {
+        margin-left: 0;
+    }
+
     #page-performance-stats .performance-section-head {
         flex-wrap: wrap;
         align-items: stretch;
@@ -403,9 +427,11 @@
         grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 
-    #page-squad-stats .squad-filter-segment-btn {
-        font-size: 0.86rem;
-        min-height: 2.25rem;
+    #page-squad-stats .squad-filter-segment-btn,
+    #page-player-stats .squad-filter-segment-btn {
+        font-size: 0.8rem;
+        padding: 0.2rem 0.3rem;
+        min-height: 1.75rem;
     }
 
     #page-squad-stats .chart-section-content--split {
@@ -521,23 +547,57 @@
         margin-top: 0.55rem;
     }
 
-    .analysis-rail {
-        gap: 0.2rem;
-        padding: 0.3rem;
-        margin-bottom: 0.25rem;
+    /* League Results Matrix - Constraint charts on mobile */
+    #leagueResultsChart1,
+    #leagueResultsChart2 {
+        max-width: 100% !important;
+        overflow: hidden;
     }
 
-    .analysis-rail .rail-link {
-        gap: 0.26rem;
-        padding: 0.22rem 0.4rem;
-        font-size: 0.78rem;
+    #leagueResultsChart1 .chart-embed-host,
+    #leagueResultsChart2 .chart-embed-host {
+        display: block !important;
+        width: auto !important;
+        min-width: 0 !important;
+        height: auto !important;
+        max-width: none !important;
+        overflow: hidden;
+    }
+
+    #leagueResultsChart1 .vega-embed,
+    #leagueResultsChart2 .vega-embed,
+    #leagueResultsChart1 .vega-embed > div,
+    #leagueResultsChart2 .vega-embed > div {
+        width: max-content !important;
+        max-width: none !important;
+        height: auto !important;
+    }
+
+
+
+    #page-squad-stats .analysis-rail,
+    #page-player-stats .analysis-rail {
+        gap: 0.28rem;
+        padding: 0.4rem;
+    }
+
+    #page-squad-stats .analysis-rail .rail-link,
+    #page-player-stats .analysis-rail .rail-link {
+        gap: 0.2rem;
+        padding: 0.18rem 0.34rem;
+        font-size: 0.74rem;
         border-radius: 0.5rem;
         line-height: 1.1;
         white-space: nowrap;
     }
 
+    #page-squad-stats .analysis-rail .rail-link i,
+    #page-player-stats .analysis-rail .rail-link i {
+        display: none;
+    }
+
     .analysis-rail .rail-link i {
-        font-size: 0.78rem;
+        font-size: 0.75rem;
     }
 
     .analysis-rail .rail-link .rail-link-label {
@@ -551,19 +611,12 @@
     #page-player-gallery .analysis-rail .rail-link .rail-shirt-icon {
         display: none;
     }
-
-    #page-player-gallery .analysis-rail {
-        gap: 0;
-        font-size: 0.7rem;
-    }
-
     
     .analysis-rail-title {
         display: inline-flex;
         align-items: center;
         margin: 0 0.12rem 0 0.08rem;
-        font-size: 0.66rem;
-        letter-spacing: 0.04em;
+        font-size: 0.6rem;
     }
 
     .chart-panel-filters {
@@ -1514,15 +1567,6 @@
     }
 }
 
-@media (max-width: 1200px) {
-    .squad-stats-layout {
-        grid-template-columns: 1fr;
-    }
-
-    .squad-stats-layout .analysis-rail {
-        display: flex;
-    }
-}
 
 @media (max-width: 768px) {
     .analysis-section-head h2 {

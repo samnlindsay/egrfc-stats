@@ -145,7 +145,6 @@ async function renderLeagueResultsChartsForSeason(season) {
                 emptyMessage: `No ${squad === 1 ? '1st' : '2nd'} XV league results available for this season.`
             });
             scaleLeagueResultsEmbedToFit(chartHost);
-            window.requestAnimationFrame(() => scaleLeagueResultsEmbedToFit(chartHost));
         } catch (error) {
             console.error(`Failed to load league results chart spec: ${specPath}`, error);
             renderStaticSpecChart(containerId, null, `Unable to load ${squad === 1 ? '1st' : '2nd'} XV league results chart.`);
@@ -162,16 +161,17 @@ function scaleLeagueResultsEmbedToFit(container) {
     const embedHost = container.querySelector('.chart-embed-host');
     if (!embedHost) return false;
 
-    const boundary = container.closest('.league-results-chart-card') || container;
-    const availableWidth = Math.floor(boundary.clientWidth || container.clientWidth || 0);
+    const widthBoundary = container.parentElement || container;
+    const viewportWidth = window.innerWidth || document.documentElement.clientWidth || 0;
 
-    // Reset prior inline sizing so we can measure intrinsic unscaled bounds.
+    embedHost.style.zoom = '';
     embedHost.style.transform = 'none';
     embedHost.style.transformOrigin = 'top left';
     embedHost.style.width = '';
     embedHost.style.height = '';
     container.style.width = '';
     container.style.height = '';
+    container.style.maxWidth = '';
 
     const measureIntrinsicSize = () => {
         const svg = embedHost.querySelector('svg');
@@ -200,6 +200,13 @@ function scaleLeagueResultsEmbedToFit(container) {
         return { width, height };
     };
 
+    const boundaryStyles = window.getComputedStyle(widthBoundary);
+    const boundaryPaddingLeft = parseFloat(boundaryStyles.paddingLeft) || 0;
+    const boundaryPaddingRight = parseFloat(boundaryStyles.paddingRight) || 0;
+    const boundaryContentWidth = Math.max(0, (widthBoundary.clientWidth || 0) - boundaryPaddingLeft - boundaryPaddingRight);
+    const rawAvailableWidth = Math.min(boundaryContentWidth, viewportWidth || Number.MAX_SAFE_INTEGER);
+    const widthSafetyGutter = viewportWidth <= 768 ? 6 : 2;
+    const availableWidth = Math.max(0, Math.floor(rawAvailableWidth - widthSafetyGutter));
     const intrinsicSize = measureIntrinsicSize();
     const intrinsicWidth = intrinsicSize.width;
     const intrinsicHeight = intrinsicSize.height;
@@ -209,37 +216,34 @@ function scaleLeagueResultsEmbedToFit(container) {
     }
 
     const scale = Math.min(1, availableWidth / intrinsicWidth);
-    const scaledWidth = Math.ceil(intrinsicWidth * scale);
+    const scaledWidth = Math.floor(intrinsicWidth * scale);
     const scaledHeight = Math.ceil(intrinsicHeight * scale);
 
-    // Fix the unscaled host box first, then transform it.
     embedHost.style.width = `${intrinsicWidth}px`;
     embedHost.style.height = `${intrinsicHeight}px`;
-    embedHost.style.transform = `scale(${scale})`;
+    embedHost.style.zoom = `${scale}`;
 
     container.style.maxWidth = '100%';
-
-    // Keep container tightly wrapped to transformed bounds.
     container.style.width = `${Math.min(availableWidth, scaledWidth)}px`;
     container.style.height = `${scaledHeight}px`;
 
-    // Re-apply once on next frame in case font/layout settles late.
     window.requestAnimationFrame(() => {
         const refreshed = measureIntrinsicSize();
         const nextScale = Math.min(1, availableWidth / Math.max(1, refreshed.width));
-        const nextScaledWidth = Math.ceil(refreshed.width * nextScale);
+        const nextScaledWidth = Math.floor(refreshed.width * nextScale);
         const nextScaledHeight = Math.ceil(refreshed.height * nextScale);
 
         embedHost.style.width = `${refreshed.width}px`;
         embedHost.style.height = `${refreshed.height}px`;
-        embedHost.style.transform = `scale(${nextScale})`;
+        embedHost.style.zoom = `${nextScale}`;
 
         container.style.width = `${Math.min(availableWidth, nextScaledWidth)}px`;
         container.style.height = `${nextScaledHeight}px`;
     });
 
-    boundary.style.overflowX = 'hidden';
-    boundary.style.overflowY = 'visible';
+    container.style.maxWidth = `${availableWidth}px`;
+    container.style.overflowX = 'hidden';
+    container.style.overflowY = 'hidden';
     return true;
 }
 
@@ -611,9 +615,7 @@ async function renderLeagueTables() {
                         </div>
                     </div>
                 </div>
-                <div class="league-results-chart-card">
-                    <div id="leagueResultsChart1" class="chart-host chart-host--overflow-visible chart-host--intrinsic">Loading 1st XV league results chart...</div>
-                </div>
+                <div id="leagueResultsChart1" class="chart-host chart-host--overflow-visible chart-host--intrinsic league-results-chart-card">Loading 1st XV league results chart...</div>
             </div>
         `;
     }
@@ -683,9 +685,7 @@ async function renderLeagueTables() {
                         </div>
                     </div>
                 </div>
-                <div class="league-results-chart-card">
-                    <div id="leagueResultsChart2" class="chart-host chart-host--overflow-visible chart-host--intrinsic">Loading 2nd XV league results chart...</div>
-                </div>
+                <div id="leagueResultsChart2" class="chart-host chart-host--overflow-visible chart-host--intrinsic league-results-chart-card">Loading 2nd XV league results chart...</div>
             </div>
         `;
     }
