@@ -11,7 +11,7 @@ It complements the existing [FRONTEND_HOUSE_STYLE_AND_MOBILE_PLAN.md](FRONTEND_H
 3. Make filter visibility adaptive by screen size: persistent on desktop, tucked behind offcanvas on mobile.
 4. Treat filter scope transparency as non-negotiable: each chart/table container must display its own active filter chips.
 5. Prioritise high-signal KPI framing (for example win rate) before detailed breakdowns.
-6. Maintain one canonical prototype only (`ux-lab.html`) and evolve it across breakpoints rather than splitting concepts across multiple prototype pages.
+6. Keep one canonical interaction model and evolve it across breakpoints rather than splitting concepts across multiple prototype pages.
 
 ## Core UX Decisions
 

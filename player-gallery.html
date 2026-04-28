@@ -40,7 +40,7 @@
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="squad-stats.html"><i class="bi bi-people-fill" aria-hidden="true"></i>Squad Stats</a></li>
                             <li><a class="dropdown-item" href="league-tables.html"><i class="bi bi-table" aria-hidden="true"></i>League Tables</a></li>
-                            <li><a class="dropdown-item" href="match-info.html"><i class="bi bi-calendar-event" aria-hidden="true"></i>Match Info</a></li>
+                            <li><a class="dropdown-item" href="match-info.html"><i class="bi bi-calendar-event" aria-hidden="true"></i>Match Detail</a></li>
                             <li><a class="dropdown-item" href="opposition-profile.html"><i class="bi bi-shield-shaded" aria-hidden="true"></i>Opposition Profile</a></li>
                         </ul>
                     </li>
@@ -48,7 +48,6 @@
                         <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-person-vcard-fill" aria-hidden="true"></i>Players</a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="player-stats.html"><i class="bi bi-graph-up-arrow" aria-hidden="true"></i>Player Stats</a></li>
-                            <li><a class="dropdown-item" href="team-sheets.html"><i class="bi bi-clipboard2-check" aria-hidden="true"></i>Team Sheets</a></li>
                             <li><a class="dropdown-item active" href="player-gallery.html"><i class="bi bi-person-lines-fill" aria-hidden="true"></i>Player Gallery</a></li>
                         </ul>
                     </li>
@@ -82,38 +81,57 @@
                 </div>
             </section>
 
-            <section class="player-gallery-toolbar" aria-label="Player Gallery Controls">
-                <div class="form-check form-switch player-gallery-active-switch">
-                    <input class="form-check-input" type="checkbox" value="1" id="playerProfileActiveOnly" checked>
-                    <label class="form-check-label" for="playerProfileActiveOnly">
-                        Active players only
-                        <i class="bi bi-info-circle" tabindex="0" data-bs-toggle="tooltip" data-bs-placement="top" title="Players who have appeared this season or in the last 6 months" aria-label="Active means appeared this season or in the last 6 months"></i>
-                    </label>
-                </div>
-            </section>
+            <div class="squad-stats-layout">
+                <aside id="playerGalleryAnalysisRail" class="analysis-rail nav" aria-label="Position navigation">
+                    <p class="analysis-rail-title">Positions</p>
+                    <a class="rail-link nav-link active" href="#player-gallery-pos-prop" data-short="Prop"><i class="bi bi-shield" aria-hidden="true"></i><span class="rail-link-label">Prop</span></a>
+                    <a class="rail-link nav-link" href="#player-gallery-pos-hooker" data-short="Hooker"><i class="bi bi-shield" aria-hidden="true"></i><span class="rail-link-label">Hooker</span></a>
+                    <a class="rail-link nav-link" href="#player-gallery-pos-second-row" data-short="2nd"><i class="bi bi-shield" aria-hidden="true"></i><span class="rail-link-label">Second Row</span></a>
+                    <a class="rail-link nav-link" href="#player-gallery-pos-flanker" data-short="Flanker"><i class="bi bi-shield" aria-hidden="true"></i><span class="rail-link-label">Flanker</span></a>
+                    <a class="rail-link nav-link" href="#player-gallery-pos-number-8" data-short="8"><i class="bi bi-shield" aria-hidden="true"></i><span class="rail-link-label">Number 8</span></a>
+                    <a class="rail-link nav-link" href="#player-gallery-pos-scrum-half" data-short="9"><i class="bi bi-shield" aria-hidden="true"></i><span class="rail-link-label">Scrum Half</span></a>
+                    <a class="rail-link nav-link" href="#player-gallery-pos-fly-half" data-short="10"><i class="bi bi-shield" aria-hidden="true"></i><span class="rail-link-label">Fly Half</span></a>
+                    <a class="rail-link nav-link" href="#player-gallery-pos-centre" data-short="Centre"><i class="bi bi-shield" aria-hidden="true"></i><span class="rail-link-label">Centre</span></a>
+                    <a class="rail-link nav-link" href="#player-gallery-pos-wing" data-short="Wing"><i class="bi bi-shield" aria-hidden="true"></i><span class="rail-link-label">Wing</span></a>
+                    <a class="rail-link nav-link" href="#player-gallery-pos-full-back" data-short="FB"><i class="bi bi-shield" aria-hidden="true"></i><span class="rail-link-label">Full Back</span></a>
+                    <a class="rail-link nav-link" href="#player-gallery-pos-other" data-short="Other"><i class="bi bi-shield" aria-hidden="true"></i><span class="rail-link-label">Other</span></a>
+                </aside>
 
-            <section class="player-gallery-profile-wrap" aria-label="Player Profiles Guidance">
-                <article class="player-gallery-profile-panel" aria-label="Player Profiles">
-                    <h2 class="player-gallery-profile-panel-title">Know who you're looking for?</h2>
-                    <a class="player-gallery-profile-panel-link" href="player-profile.html">
-                        <i class="bi bi-arrow-right" aria-hidden="true"></i>
-                        <span>Go to Player Profiles</span>
-                        <i class="bi bi-person-vcard" aria-hidden="true"></i>
-                    </a>
-                </article>
-            </section>
+                <main class="squad-stats-main player-gallery-main">
+                    <section class="player-gallery-toolbar" aria-label="Player Gallery Controls">
+                        <div class="form-check form-switch player-gallery-active-switch">
+                            <input class="form-check-input" type="checkbox" value="1" id="playerProfileActiveOnly" checked>
+                            <label class="form-check-label" for="playerProfileActiveOnly">
+                                Active players only
+                                <i class="bi bi-info-circle" tabindex="0" data-bs-toggle="tooltip" data-bs-placement="top" title="Players who have appeared this season or in the last 6 months" aria-label="Active means appeared this season or in the last 6 months"></i>
+                            </label>
+                        </div>
+                    </section>
 
-            <div id="playerProfilesLoadingState" class="alert alert-light" role="status">Loading player gallery...</div>
-            <div id="playerProfilesErrorState" class="alert alert-danger d-none" role="alert"></div>
+                    <section class="player-gallery-profile-wrap" aria-label="Player Profiles Guidance">
+                        <article class="player-gallery-profile-panel" aria-label="Player Profiles">
+                            <h2 class="player-gallery-profile-panel-title">Know who you're looking for?</h2>
+                            <a class="player-gallery-profile-panel-link" href="player-profile.html">
+                                <i class="bi bi-arrow-right" aria-hidden="true"></i>
+                                <span>Go to Player Profiles</span>
+                                <i class="bi bi-person-vcard" aria-hidden="true"></i>
+                            </a>
+                        </article>
+                    </section>
 
-            <div class="player-profiles-grid" id="playerProfilesGrid"></div>
+                    <div id="playerProfilesLoadingState" class="alert alert-light" role="status">Loading player gallery...</div>
+                    <div id="playerProfilesErrorState" class="alert alert-danger d-none" role="alert"></div>
 
-            <div
-                id="playerProfilesEmptyState"
-                class="d-none"
-                style="background: white; padding: 2rem; border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); text-align: center; color: #666; margin-top: 0.5rem;"
-            >
-                No players match the current selection.
+                    <div class="player-profiles-grid" id="playerProfilesGrid"></div>
+
+                    <div
+                        id="playerProfilesEmptyState"
+                        class="d-none"
+                        style="background: white; padding: 2rem; border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); text-align: center; color: #666; margin-top: 0.5rem;"
+                    >
+                        No players match the current selection.
+                    </div>
+                </main>
             </div>
         </div>
     </div>

@@ -51,7 +51,7 @@
                             <li><a class="dropdown-item" href="league-tables.html"><i class="bi bi-table"
                                         aria-hidden="true"></i>League Tables</a></li>
                             <li><a class="dropdown-item" href="match-info.html"><i class="bi bi-calendar-event"
-                                        aria-hidden="true"></i>Match Info</a></li>
+                                        aria-hidden="true"></i>Match Detail</a></li>
                             <li><a class="dropdown-item" href="opposition-profile.html"><i class="bi bi-shield-shaded"
                                         aria-hidden="true"></i>Opposition Profile</a></li>
                         </ul>
@@ -62,8 +62,6 @@
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item active" href="player-stats.html"><i class="bi bi-graph-up-arrow"
                                         aria-hidden="true"></i>Player Stats</a></li>
-                            <li><a class="dropdown-item" href="team-sheets.html"><i class="bi bi-clipboard2-check"
-                                        aria-hidden="true"></i>Team Sheets</a></li>
                             <li><a class="dropdown-item" href="player-gallery.html"><i class="bi bi-person-lines-fill"
                                         aria-hidden="true"></i>Player Gallery</a></li>
                         </ul>
@@ -125,18 +123,20 @@
             <div class="squad-stats-layout">
                 <aside id="playerStatsAnalysisRail" class="analysis-rail nav" aria-label="Section navigation">
                     <p class="analysis-rail-title">Sections</p>
-                    <a class="rail-link nav-link active" href="#sec-player-appearances" data-short="Apps"><i class="bi bi-person-lines-fill"
+                    <a class="rail-link nav-link active" href="#player-appearances" data-short="Apps"><i class="bi bi-person-lines-fill"
                         aria-hidden="true"></i><span class="rail-link-label">Appearances</span></a>
-                    <a class="rail-link nav-link" href="#sec-player-points" data-short="Points"><i class="bi bi-lightning-charge-fill"
+                    <a class="rail-link nav-link" href="#player-points" data-short="Points"><i class="bi bi-lightning-charge-fill"
                         aria-hidden="true"></i><span class="rail-link-label">Point Scorers</span></a>
-                    <a class="rail-link nav-link" href="#sec-player-captains" data-short="Captains"><i class="bi bi-award-fill"
+                    <a class="rail-link nav-link" href="#player-captains" data-short="Captains"><i class="bi bi-award-fill"
                         aria-hidden="true"></i><span class="rail-link-label">Captains</span></a>
-                    <a class="rail-link nav-link" href="#sec-player-motm" data-short="MOTM"><i class="bi bi-star-fill"
+                    <a class="rail-link nav-link" href="#player-motm" data-short="MOTM"><i class="bi bi-star-fill"
                         aria-hidden="true"></i><span class="rail-link-label">Man of the Match</span></a>
+                    <a class="rail-link nav-link" href="#team-sheets-board" data-short="Sheets"><i class="bi bi-clipboard2-check"
+                        aria-hidden="true"></i><span class="rail-link-label">Team Sheets</span></a>
                 </aside>
 
                 <main class="squad-stats-main player-stats-main">
-                    <section id="sec-player-appearances" class="analysis-section chart-section"
+                    <section id="player-appearances" class="analysis-section chart-section"
                         aria-labelledby="player-appearances-heading">
                         <h2 id="player-appearances-heading" class="section-heading">Appearances</h2>
                         <p class="section-intro">Player appearances by squad and position, with a minimum appearances threshold to keep the leaderboard readable.</p>
@@ -151,7 +151,7 @@
                         </div>
                     </section>
 
-                    <section id="sec-player-points" class="analysis-section chart-section"
+                    <section id="player-points" class="analysis-section chart-section"
                         aria-labelledby="player-points-heading">
                         <h2 id="player-points-heading" class="section-heading">Point Scorers</h2>
                         <p class="section-intro">Top scorers across tries, kicks, and total points, filtered to the current season, squad, and game scope.</p>
@@ -181,7 +181,7 @@
                         </div>
                     </section>
 
-                    <section id="sec-player-captains" class="analysis-section chart-section"
+                    <section id="player-captains" class="analysis-section chart-section"
                         aria-labelledby="player-captains-heading">
                         <h2 id="player-captains-heading" class="section-heading">Match Day Captains</h2>
                         <p class="section-intro">Which players have led each squad on match day, including both captains and VCs.</p>
@@ -196,7 +196,7 @@
                         </div>
                     </section>
 
-                    <section id="sec-player-motm" class="analysis-section chart-section"
+                    <section id="player-motm" class="analysis-section chart-section"
                         aria-labelledby="player-motm-heading">
                         <h2 id="player-motm-heading" class="section-heading">Man of the Match</h2>
                         <p class="section-intro">Player of the match awards by player and squad for the selected seasons and competition scope.</p>
@@ -219,7 +219,7 @@
                         </div>
                     </section>
 
-                    <section id="sec-team-sheets-board" class="analysis-section chart-section" aria-labelledby="team-sheets-board-heading">
+                    <section id="team-sheets-board" class="analysis-section chart-section" aria-labelledby="team-sheets-board-heading">
                         <h2 id="team-sheets-board-heading" class="section-heading">Team Sheets</h2>
                         <p class="section-intro">Selection for every match in reverse chronological order, with the most recent game at the top.</p>
                         <div id="teamSheetsActiveFilters" class="squad-stats-active-filters" aria-live="polite"></div>

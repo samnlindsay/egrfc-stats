@@ -41,7 +41,7 @@
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="squad-stats.html"><i class="bi bi-people-fill" aria-hidden="true"></i>Squad Stats</a></li>
                             <li><a class="dropdown-item" href="league-tables.html"><i class="bi bi-table" aria-hidden="true"></i>League Tables</a></li>
-                            <li><a class="dropdown-item active" href="match-info.html"><i class="bi bi-calendar-event" aria-hidden="true"></i>Match Info</a></li>
+                            <li><a class="dropdown-item active" href="match-info.html"><i class="bi bi-calendar-event" aria-hidden="true"></i>Match Detail</a></li>
                             <li><a class="dropdown-item" href="opposition-profile.html"><i class="bi bi-shield-shaded" aria-hidden="true"></i>Opposition Profile</a></li>
                         </ul>
                     </li>
@@ -49,7 +49,6 @@
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-person-vcard-fill" aria-hidden="true"></i>Players</a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="player-stats.html"><i class="bi bi-graph-up-arrow" aria-hidden="true"></i>Player Stats</a></li>
-                            <li><a class="dropdown-item" href="team-sheets.html"><i class="bi bi-clipboard2-check" aria-hidden="true"></i>Team Sheets</a></li>
                             <li><a class="dropdown-item" href="player-gallery.html"><i class="bi bi-person-lines-fill" aria-hidden="true"></i>Player Gallery</a></li>
                         </ul>
                     </li>
@@ -71,7 +70,7 @@
             <section class="ux-hero squad-stats-hero" aria-labelledby="matchInfoHeroTitle">
                 <div class="ux-hero-main">
                     <p class="ux-hero-kicker">Team</p>
-                    <h1 id="matchInfoHeroTitle" class="ux-hero-title">Match Info</h1>
+                    <h1 id="matchInfoHeroTitle" class="ux-hero-title">Match Detail</h1>
                     <p class="ux-hero-description">Open full match detail from the fixture list, with team sheets, scorers, and video analysis context.</p>
                     <p class="ux-hero-description">Use quick links for each squad to jump straight to the most recent fixture or the next scheduled match.</p>
                 </div>
@@ -106,17 +105,17 @@
             <div class="squad-stats-layout">
                 <aside id="matchInfoAnalysisRail" class="analysis-rail nav" aria-label="Section navigation">
                     <p class="analysis-rail-title">Sections</p>
-                    <a class="rail-link nav-link active" href="#sec-match-finder" data-short="Finder"><i class="bi bi-funnel"
+                    <a class="rail-link nav-link active" href="#match-finder" data-short="Finder"><i class="bi bi-funnel"
                             aria-hidden="true"></i><span class="rail-link-label">Match Finder</span></a>
-                        <a class="rail-link nav-link" href="#sec-match-detail" data-short="Detail"><i class="bi bi-search"
+                        <a class="rail-link nav-link" href="#match-detail" data-short="Detail"><i class="bi bi-search"
                             aria-hidden="true"></i><span class="rail-link-label">Match Detail</span></a>
-                    <a class="rail-link nav-link match-info-rail-detail d-none" href="#sec-match-hero" data-short="Summary"><i class="bi bi-card-heading" aria-hidden="true"></i><span class="rail-link-label">Match Summary</span></a>
-                    <a class="rail-link nav-link match-info-rail-detail d-none" href="#sec-match-team-sheet" data-short="Sheet"><i class="bi bi-grid-3x3-gap" aria-hidden="true"></i><span class="rail-link-label">Team Sheet</span></a>
-                    <a class="rail-link nav-link match-info-rail-detail d-none" href="#sec-match-video-analysis" data-short="Video"><i class="bi bi-camera-video" aria-hidden="true"></i><span class="rail-link-label">Video Analysis</span></a>
+                    <a class="rail-link nav-link match-info-rail-detail d-none" href="#match-hero" data-short="Summary"><i class="bi bi-card-heading" aria-hidden="true"></i><span class="rail-link-label">Match Summary</span></a>
+                    <a class="rail-link nav-link match-info-rail-detail d-none" href="#match-team-sheet" data-short="Sheet"><i class="bi bi-grid-3x3-gap" aria-hidden="true"></i><span class="rail-link-label">Team Sheet</span></a>
+                    <a class="rail-link nav-link match-info-rail-detail d-none" href="#match-video-analysis" data-short="Video"><i class="bi bi-camera-video" aria-hidden="true"></i><span class="rail-link-label">Video Analysis</span></a>
                 </aside>
 
                 <main class="squad-stats-main match-info-main">
-                    <section id="sec-match-finder" class="analysis-section chart-section" aria-labelledby="match-finder-heading">
+                    <section id="match-finder" class="analysis-section chart-section" aria-labelledby="match-finder-heading">
                         <h2 id="match-finder-heading" class="section-heading">Match Finder</h2>
                         <p class="section-intro">Filter the fixture list, browse the selected matches, and click on the magnifying glass icon to load the match details.</p>
                         <div id="matchInfoActiveFilters" class="squad-stats-active-filters" aria-live="polite"></div>
@@ -155,7 +154,7 @@
                             </div>
                         </section>
 
-                    <section id="sec-match-detail" class="analysis-section chart-section" aria-labelledby="match-detail-heading">
+                    <section id="match-detail" class="analysis-section chart-section" aria-labelledby="match-detail-heading">
                         <h1 id="match-detail-heading" class="section-heading">Match Detail</h1>
                         <p class="section-intro">Choose a game from the filtered list to load the full match hero, team sheet, scorers, and video-analysis sections.</p>
 

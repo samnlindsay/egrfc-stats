@@ -1382,7 +1382,7 @@ function toggleMatchInfoDetailRail(hasSelection, options = {}) {
     const detailLinks = document.querySelectorAll('.match-info-rail-detail');
     detailLinks.forEach((link) => link.classList.toggle('d-none', !hasSelection));
 
-    const videoLink = document.querySelector('.match-info-rail-detail[href="#sec-match-video-analysis"]');
+    const videoLink = document.querySelector('.match-info-rail-detail[href="#match-video-analysis"]');
     if (videoLink) {
         videoLink.classList.toggle('d-none', !hasSelection || !hasVideoAnalysis);
     }
@@ -1417,7 +1417,7 @@ function renderMatchInfo(gameId) {
     });
 
     body.innerHTML = `
-        <section id="sec-match-hero" class="match-info-hero match-info-subsection ${hero.resultClass}">
+        <section id="match-hero" class="match-info-hero match-info-subsection ${hero.resultClass}">
             <div class="match-info-hero-grid">
                 <div class="match-info-team match-info-team--home">
                     <div class="match-info-team-shell match-info-team-shell--home">
@@ -1461,8 +1461,8 @@ function renderMatchInfo(gameId) {
                 ${renderScorerMetaRow(selected)}
             </div>
         </section>
-        ${teamSheetHtml ? `<div id="sec-match-team-sheet" class="match-info-subsection">${teamSheetHtml}</div>` : ''}
-        ${videoAnalysisHtml ? `<div id="sec-match-video-analysis" class="match-info-subsection">${videoAnalysisHtml}</div>` : ''}
+        ${teamSheetHtml ? `<div id="match-team-sheet" class="match-info-subsection">${teamSheetHtml}</div>` : ''}
+        ${videoAnalysisHtml ? `<div id="match-video-analysis" class="match-info-subsection">${videoAnalysisHtml}</div>` : ''}
     `;
 
     // Collapse the Filtered Matches panel when a game is selected
@@ -1494,7 +1494,7 @@ function bindMatchOpenButtons() {
         } else {
             renderMatchInfo(gameId);
         }
-        const detail = document.getElementById('sec-match-detail');
+        const detail = document.getElementById('match-detail');
         if (detail) detail.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
     wrap.__matchOpenBound = true;
@@ -1510,7 +1510,7 @@ function openMatchFromQuickLink(gameId) {
     } else {
         renderMatchInfo(safeId);
     }
-    const detail = document.getElementById('sec-match-detail');
+    const detail = document.getElementById('match-detail');
     if (detail) detail.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 

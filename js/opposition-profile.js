@@ -310,7 +310,7 @@
                 console.error('Failed to render opposition profile:', error);
                 showError('Unable to render opposition profile.');
             });
-            const profileSection = document.getElementById('sec-opposition-profile');
+            const profileSection = document.getElementById('opposition-profile');
             if (profileSection) profileSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
         });
     }
@@ -1131,7 +1131,7 @@
                     console.error('Failed to render opposition profile:', error);
                     showError('Unable to render opposition profile.');
                 });
-                const profileSection = document.getElementById('sec-opposition-profile');
+                const profileSection = document.getElementById('opposition-profile');
                 if (profileSection) {
                     profileSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
@@ -1150,7 +1150,7 @@
                     console.error('Failed to render opposition profile:', error);
                     showError('Unable to render opposition profile.');
                 });
-                const profileSection = document.getElementById('sec-opposition-profile');
+                const profileSection = document.getElementById('opposition-profile');
                 if (profileSection) {
                     profileSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }

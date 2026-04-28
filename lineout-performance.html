@@ -51,7 +51,7 @@
                             <li><a class="dropdown-item" href="league-tables.html"><i class="bi bi-table"
                                         aria-hidden="true"></i>League Tables</a></li>
                             <li><a class="dropdown-item" href="match-info.html"><i class="bi bi-calendar-event"
-                                        aria-hidden="true"></i>Match Info</a></li>
+                                        aria-hidden="true"></i>Match Detail</a></li>
                             <li><a class="dropdown-item" href="opposition-profile.html"><i class="bi bi-shield-shaded"
                                         aria-hidden="true"></i>Opposition Profile</a></li>
                         </ul>
@@ -62,8 +62,6 @@
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="player-stats.html"><i class="bi bi-graph-up-arrow"
                                         aria-hidden="true"></i>Player Stats</a></li>
-                            <li><a class="dropdown-item" href="team-sheets.html"><i class="bi bi-clipboard2-check"
-                                        aria-hidden="true"></i>Team Sheets</a></li>
                             <li><a class="dropdown-item" href="player-gallery.html"><i class="bi bi-person-lines-fill"
                                         aria-hidden="true"></i>Player Gallery</a></li>
                         </ul>
@@ -104,18 +102,18 @@
             <div class="squad-stats-layout">
                 <aside id="lineoutDeepDiveAnalysisRail" class="analysis-rail nav" aria-label="Section navigation">
                     <p class="analysis-rail-title">Sections</p>
-                    <a class="rail-link nav-link active" href="#sec-lineout-numbers" data-short="Numbers"><i class="bi bi-123" aria-hidden="true"></i><span class="rail-link-label">Numbers</span></a>
-                    <a class="rail-link nav-link" href="#sec-lineout-zone" data-short="Zone"><i class="bi bi-grid-3x3-gap-fill" aria-hidden="true"></i><span class="rail-link-label">Zone</span></a>
-                    <a class="rail-link nav-link" href="#sec-lineout-jumper" data-short="Jumper"><i class="bi bi-person-fill-up" aria-hidden="true"></i><span class="rail-link-label">Jumper</span></a>
-                    <a class="rail-link nav-link" href="#sec-lineout-thrower" data-short="Thrower"><i class="bi bi-person-bounding-box" aria-hidden="true"></i><span class="rail-link-label">Thrower</span></a>
-                    <a class="rail-link nav-link" href="#sec-lineout-play" data-short="Play"><i class="bi bi-lightning-charge-fill" aria-hidden="true"></i><span class="rail-link-label">Play</span></a>
-                    <a class="rail-link nav-link" href="#sec-lineout-season" data-short="Season"><i class="bi bi-calendar-event-fill" aria-hidden="true"></i><span class="rail-link-label">Season</span></a>
+                    <a class="rail-link nav-link active" href="#lineout-numbers" data-short="Numbers"><i class="bi bi-123" aria-hidden="true"></i><span class="rail-link-label">Numbers</span></a>
+                    <a class="rail-link nav-link" href="#lineout-zone" data-short="Zone"><i class="bi bi-grid-3x3-gap-fill" aria-hidden="true"></i><span class="rail-link-label">Zone</span></a>
+                    <a class="rail-link nav-link" href="#lineout-jumper" data-short="Jumper"><i class="bi bi-person-fill-up" aria-hidden="true"></i><span class="rail-link-label">Jumper</span></a>
+                    <a class="rail-link nav-link" href="#lineout-thrower" data-short="Thrower"><i class="bi bi-person-bounding-box" aria-hidden="true"></i><span class="rail-link-label">Thrower</span></a>
+                    <a class="rail-link nav-link" href="#lineout-play" data-short="Play"><i class="bi bi-lightning-charge-fill" aria-hidden="true"></i><span class="rail-link-label">Play</span></a>
+                    <a class="rail-link nav-link" href="#lineout-season" data-short="Season"><i class="bi bi-calendar-event-fill" aria-hidden="true"></i><span class="rail-link-label">Season</span></a>
                 </aside>
 
                 <main class="squad-stats-main">
                     <div class="lineout-breakdown-sections">
 
-                        <section id="sec-lineout-numbers" class="analysis-section lineout-breakdown-section" aria-labelledby="lineout-breakdown-numbers-title">
+                        <section id="lineout-numbers" class="analysis-section lineout-breakdown-section" aria-labelledby="lineout-breakdown-numbers-title">
                             <h2 id="lineout-breakdown-numbers-title" class="section-heading section-heading--tight">Numbers</h2>
                             <p class="section-intro">Usage and success by setup.</p>
                             <div class="lineout-section-active-filters squad-stats-active-filters" data-lineout-active-filters></div>
@@ -145,7 +143,7 @@
                             </div>
                         </section>
 
-                        <section id="sec-lineout-zone" class="analysis-section lineout-breakdown-section" aria-labelledby="lineout-breakdown-zone-title">
+                        <section id="lineout-zone" class="analysis-section lineout-breakdown-section" aria-labelledby="lineout-breakdown-zone-title">
                             <h2 id="lineout-breakdown-zone-title" class="section-heading section-heading--tight">Zone</h2>
                             <p class="section-intro">Front, middle and back profiles.</p>
                             <div class="lineout-section-active-filters squad-stats-active-filters" data-lineout-active-filters></div>
@@ -175,7 +173,7 @@
                             </div>
                         </section>
 
-                        <section id="sec-lineout-jumper" class="analysis-section lineout-breakdown-section" aria-labelledby="lineout-breakdown-jumper-title">
+                        <section id="lineout-jumper" class="analysis-section lineout-breakdown-section" aria-labelledby="lineout-breakdown-jumper-title">
                             <h2 id="lineout-breakdown-jumper-title" class="section-heading section-heading--tight">Jumper</h2>
                             <p class="section-intro">Usage and success by jumper.</p>
                             <div class="lineout-section-active-filters squad-stats-active-filters" data-lineout-active-filters></div>
@@ -206,7 +204,7 @@
                             </div>
                         </section>
 
-                        <section id="sec-lineout-thrower" class="analysis-section lineout-breakdown-section" aria-labelledby="lineout-breakdown-thrower-title">
+                        <section id="lineout-thrower" class="analysis-section lineout-breakdown-section" aria-labelledby="lineout-breakdown-thrower-title">
                             <h2 id="lineout-breakdown-thrower-title" class="section-heading section-heading--tight">Thrower</h2>
                             <p class="section-intro">Usage and success by thrower.</p>
                             <div class="lineout-section-active-filters squad-stats-active-filters" data-lineout-active-filters></div>
@@ -237,7 +235,7 @@
                             </div>
                         </section>
 
-                        <section id="sec-lineout-play" class="analysis-section lineout-breakdown-section" aria-labelledby="lineout-breakdown-play-title">
+                        <section id="lineout-play" class="analysis-section lineout-breakdown-section" aria-labelledby="lineout-breakdown-play-title">
                             <h2 id="lineout-breakdown-play-title" class="section-heading section-heading--tight">Play</h2>
                             <p class="section-intro">Hot, cold and lost outcomes.</p>
                             <div class="lineout-section-active-filters squad-stats-active-filters" data-lineout-active-filters></div>
@@ -267,7 +265,7 @@
                             </div>
                         </section>
 
-                        <section id="sec-lineout-season" class="analysis-section lineout-breakdown-section" aria-labelledby="lineout-breakdown-season-title">
+                        <section id="lineout-season" class="analysis-section lineout-breakdown-section" aria-labelledby="lineout-breakdown-season-title">
                             <h2 id="lineout-breakdown-season-title" class="section-heading section-heading--tight">Season</h2>
                             <p class="section-intro">Totals and success by season.</p>
                             <div class="lineout-section-active-filters squad-stats-active-filters" data-lineout-active-filters></div>

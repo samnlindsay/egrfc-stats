@@ -57,6 +57,20 @@ const POSITION_SECTION_ORDER = [
     'Other'
 ];
 
+const POSITION_SECTION_ID_MAP = {
+    'Prop': 'player-gallery-pos-prop',
+    'Hooker': 'player-gallery-pos-hooker',
+    'Second Row': 'player-gallery-pos-second-row',
+    'Flanker': 'player-gallery-pos-flanker',
+    'Number 8': 'player-gallery-pos-number-8',
+    'Scrum Half': 'player-gallery-pos-scrum-half',
+    'Fly Half': 'player-gallery-pos-fly-half',
+    'Centre': 'player-gallery-pos-centre',
+    'Wing': 'player-gallery-pos-wing',
+    'Full Back': 'player-gallery-pos-full-back',
+    'Other': 'player-gallery-pos-other'
+};
+
 function positionRank(position) {
     const normalized = String(position || '').trim().toLowerCase();
     if (!normalized) return 999;
@@ -91,6 +105,10 @@ function positionSectionRank(sectionTitle) {
     const index = POSITION_SECTION_ORDER.indexOf(sectionTitle);
     if (index === -1) return 999;
     return index + 1;
+}
+
+function positionSectionAnchorId(sectionTitle) {
+    return POSITION_SECTION_ID_MAP[sectionTitle] || 'player-gallery-pos-other';
 }
 
 function compareBySurnameThenName(a, b) {
@@ -549,16 +567,17 @@ function renderGroupedByPosition(profiles) {
         })
         .map(([sectionTitle, groupProfiles]) => {
             const count = groupProfiles.length;
+            const sectionId = positionSectionAnchorId(sectionTitle);
             const cards = groupProfiles
                 .slice()
                 .sort(compareBySquadThenAppearancesDesc)
                 .map(profileCardMarkup)
                 .join('');
             return `
-                <section class="player-profiles-position-section">
+                <section id="${escapeAttribute(sectionId)}" class="player-profiles-position-section analysis-section" aria-labelledby="${escapeAttribute(sectionId)}-heading">
                     <div class="player-profiles-position-pane border rounded-3 bg-body-tertiary">
                         <div class="player-profiles-position-pane-head">
-                            <h2 class="player-profiles-position-section-title">${escapeHtml(sectionTitle)} <span class="player-profiles-position-count">(${count})</span></h2>
+                            <h2 id="${escapeAttribute(sectionId)}-heading" class="player-profiles-position-section-title">${escapeHtml(sectionTitle)} <span class="player-profiles-position-count">(${count})</span></h2>
                             <p class="player-profiles-position-scroll-hint"><i class="bi bi-arrows-expand-vertical" aria-hidden="true"></i><span>Scroll sideways to view all players</span></p>
                         </div>
                         <div class="player-profiles-position-row overflow-auto">${cards}</div>
@@ -596,6 +615,10 @@ function renderPlayerProfiles() {
     emptyState.classList.add('d-none');
 
     grid.innerHTML = `<div class="player-profiles-position-sections">${renderGroupedByPosition(filtered)}</div>`;
+
+    if (typeof initialiseAnalysisRail === 'function') {
+        initialiseAnalysisRail({ railId: 'playerGalleryAnalysisRail' });
+    }
 }
 
 function initialisePlayerProfilesControls() {
