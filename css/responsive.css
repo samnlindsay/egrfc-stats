@@ -472,12 +472,6 @@
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
-    /* #page-squad-stats .chart-section-head--position-count .squad-filter-control--panel-head {
-        width: 100%;
-        align-items: stretch;
-        margin-left: 0;
-    } */
-
     #page-squad-stats .chart-section-hint {
         margin-bottom: 0.4rem;
         line-height: 1.3;
@@ -576,13 +570,15 @@
 
 
     #page-squad-stats .analysis-rail,
-    #page-player-stats .analysis-rail {
+    #page-player-stats .analysis-rail,
+    #page-lineout-performance .analysis-rail {
         gap: 0.28rem;
         padding: 0.4rem;
     }
 
     #page-squad-stats .analysis-rail .rail-link,
-    #page-player-stats .analysis-rail .rail-link {
+    #page-player-stats .analysis-rail .rail-link,
+    #page-lineout-performance .analysis-rail .rail-link {
         gap: 0.2rem;
         padding: 0.18rem 0.34rem;
         font-size: 0.74rem;
@@ -593,8 +589,7 @@
 
     #page-squad-stats .analysis-rail .rail-link i,
     #page-player-stats .analysis-rail .rail-link i,
-    #page-lineout-performance .analysis-rail .rail-link i,
-    #page-lineout-performance .analysis-rail .rail-link svg {
+    #page-lineout-performance .analysis-rail .rail-link i {
         display: none;
     }
 
