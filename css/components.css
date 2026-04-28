@@ -5783,6 +5783,34 @@ button.opposition-hero-action-card:focus-visible {
         font-size: 0.95rem;
     }
 
+    .rail-shirt-icon {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 1.15rem;
+        height: 1.1rem;
+    }
+
+    .rail-shirt-number {
+        position: absolute;
+        top: 0.55rem;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 2;
+        font-size: 0.45rem;
+        font-family: Helvetica, Arial, sans-serif;
+        line-height: 1;
+        color: #ffffff;
+        letter-spacing: -0.04em;
+        pointer-events: none;
+    }
+
+    .rail-link.active .rail-shirt-icon .rail-shirt-number {
+        color: var(--primary-color);
+        font-size: 0.5rem;
+    }
+
     /* Analysis Sections */
     .analysis-section {
         margin: 0;

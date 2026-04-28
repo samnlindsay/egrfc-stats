@@ -11,6 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=PT+Sans+Narrow:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
 
     <link rel="stylesheet" href="css/variables.css">
     <link rel="stylesheet" href="css/base.css">
@@ -47,7 +48,7 @@
                         <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-person-vcard-fill" aria-hidden="true"></i>Players</a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="player-stats.html"><i class="bi bi-graph-up-arrow" aria-hidden="true"></i>Player Stats</a></li>
-                            <li><a class="dropdown-item active" href="player-gallery.html"><i class="bi bi-person-lines-fill" aria-hidden="true"></i>Player Gallery</a></li>
+                            <li><a class="dropdown-item active" href="player-gallery.html"><i class="bi bi-person-circle" aria-hidden="true"></i>Player Gallery</a></li>
                             <li><a class="dropdown-item" href="player-profile.html"><i class="bi bi-person-vcard-fill" aria-hidden="true"></i>Player Profiles</a></li>
                         </ul>
                     </li>
@@ -84,16 +85,16 @@
             <div class="squad-stats-layout">
                 <aside id="playerGalleryAnalysisRail" class="analysis-rail nav" aria-label="Position navigation">
                     <p class="analysis-rail-title">Positions</p>
-                    <a class="rail-link nav-link active" href="#player-gallery-pos-prop" data-short="Prop"><i class="bi bi-shield" aria-hidden="true"></i><span class="rail-link-label">Prop</span></a>
-                    <a class="rail-link nav-link" href="#player-gallery-pos-hooker" data-short="Hooker"><i class="bi bi-shield" aria-hidden="true"></i><span class="rail-link-label">Hooker</span></a>
-                    <a class="rail-link nav-link" href="#player-gallery-pos-second-row" data-short="2nd"><i class="bi bi-shield" aria-hidden="true"></i><span class="rail-link-label">Second Row</span></a>
-                    <a class="rail-link nav-link" href="#player-gallery-pos-flanker" data-short="Flanker"><i class="bi bi-shield" aria-hidden="true"></i><span class="rail-link-label">Flanker</span></a>
-                    <a class="rail-link nav-link" href="#player-gallery-pos-number-8" data-short="8"><i class="bi bi-shield" aria-hidden="true"></i><span class="rail-link-label">Number 8</span></a>
-                    <a class="rail-link nav-link" href="#player-gallery-pos-scrum-half" data-short="9"><i class="bi bi-shield" aria-hidden="true"></i><span class="rail-link-label">Scrum Half</span></a>
-                    <a class="rail-link nav-link" href="#player-gallery-pos-fly-half" data-short="10"><i class="bi bi-shield" aria-hidden="true"></i><span class="rail-link-label">Fly Half</span></a>
-                    <a class="rail-link nav-link" href="#player-gallery-pos-centre" data-short="Centre"><i class="bi bi-shield" aria-hidden="true"></i><span class="rail-link-label">Centre</span></a>
-                    <a class="rail-link nav-link" href="#player-gallery-pos-wing" data-short="Wing"><i class="bi bi-shield" aria-hidden="true"></i><span class="rail-link-label">Wing</span></a>
-                    <a class="rail-link nav-link" href="#player-gallery-pos-full-back" data-short="FB"><i class="bi bi-shield" aria-hidden="true"></i><span class="rail-link-label">Full Back</span></a>
+                    <a class="rail-link nav-link active" href="#player-gallery-pos-prop" data-short="Prop"><span class="rail-shirt-icon" aria-hidden="true"><i class="fa-solid fa-shirt" aria-hidden="true"></i><span class="rail-shirt-number">1</span></span><span class="rail-link-label">Prop</span></a>
+                    <a class="rail-link nav-link" href="#player-gallery-pos-hooker" data-short="Hooker"><span class="rail-shirt-icon" aria-hidden="true"><i class="fa-solid fa-shirt" aria-hidden="true"></i><span class="rail-shirt-number">2</span></span><span class="rail-link-label">Hooker</span></a>
+                    <a class="rail-link nav-link" href="#player-gallery-pos-second-row" data-short="2nd"><span class="rail-shirt-icon" aria-hidden="true"><i class="fa-solid fa-shirt" aria-hidden="true"></i><span class="rail-shirt-number">5</span></span><span class="rail-link-label">Second Row</span></a>
+                    <a class="rail-link nav-link" href="#player-gallery-pos-flanker" data-short="Flanker"><span class="rail-shirt-icon" aria-hidden="true"><i class="fa-solid fa-shirt" aria-hidden="true"></i><span class="rail-shirt-number">7</span></span><span class="rail-link-label">Flanker</span></a>
+                    <a class="rail-link nav-link" href="#player-gallery-pos-number-8" data-short="8"><span class="rail-shirt-icon" aria-hidden="true"><i class="fa-solid fa-shirt" aria-hidden="true"></i><span class="rail-shirt-number">8</span></span><span class="rail-link-label">Number 8</span></a>
+                    <a class="rail-link nav-link" href="#player-gallery-pos-scrum-half" data-short="9"><span class="rail-shirt-icon" aria-hidden="true"><i class="fa-solid fa-shirt" aria-hidden="true"></i><span class="rail-shirt-number">9</span></span><span class="rail-link-label">Scrum Half</span></a>
+                    <a class="rail-link nav-link" href="#player-gallery-pos-fly-half" data-short="10"><span class="rail-shirt-icon" aria-hidden="true"><i class="fa-solid fa-shirt" aria-hidden="true"></i><span class="rail-shirt-number">10</span></span><span class="rail-link-label">Fly Half</span></a>
+                    <a class="rail-link nav-link" href="#player-gallery-pos-centre" data-short="Centre"><span class="rail-shirt-icon" aria-hidden="true"><i class="fa-solid fa-shirt" aria-hidden="true"></i><span class="rail-shirt-number">12</span></span><span class="rail-link-label">Centre</span></a>
+                    <a class="rail-link nav-link" href="#player-gallery-pos-wing" data-short="Wing"><span class="rail-shirt-icon" aria-hidden="true"><i class="fa-solid fa-shirt" aria-hidden="true"></i><span class="rail-shirt-number">11</span></span><span class="rail-link-label">Wing</span></a>
+                    <a class="rail-link nav-link" href="#player-gallery-pos-full-back" data-short="FB"><span class="rail-shirt-icon" aria-hidden="true"><i class="fa-solid fa-shirt" aria-hidden="true"></i><span class="rail-shirt-number">15</span></span><span class="rail-link-label">Full Back</span></a>
                 </aside>
 
                 <main class="squad-stats-main player-gallery-main">
