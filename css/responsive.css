@@ -592,7 +592,9 @@
     }
 
     #page-squad-stats .analysis-rail .rail-link i,
-    #page-player-stats .analysis-rail .rail-link i {
+    #page-player-stats .analysis-rail .rail-link i,
+    #page-lineout-performance .analysis-rail .rail-link i,
+    #page-lineout-performance .analysis-rail .rail-link svg {
         display: none;
     }
 

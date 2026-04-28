@@ -94,7 +94,7 @@
             field: 'season',
             fieldLabel: 'Season',
             linkField: 'season',
-            isDualAxis: false,
+            isDualAxis: true,
             containerId: 'lineoutPerfBreakdownSeasonChart',
             tableHeadId: 'lineoutPerfBreakdownSeasonTableHead',
             tableBodyId: 'lineoutPerfBreakdownSeasonTableBody',
