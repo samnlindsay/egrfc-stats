@@ -234,6 +234,6 @@
             await setupScrumFilters();
         }
 
-        initialiseChartPanelToggles();
+        
     });
 })();

@@ -1039,6 +1039,6 @@
         }
 
         initialiseLineoutAnalysisRail();
-        initialiseChartPanelToggles();
+        
     });
 })();

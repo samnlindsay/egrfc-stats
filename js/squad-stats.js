@@ -680,6 +680,7 @@ function initialiseSquadStatsControlsOnce() {
             unit: squadStatsUnitSelect.value || 'Total'
         });
         renderSquadStatsPage();
+        renderLeagueTables().catch(err => console.warn('League tables re-render on season change failed:', err));
     });
 
     const stepSeason = (direction) => {
@@ -695,6 +696,7 @@ function initialiseSquadStatsControlsOnce() {
             unit: squadStatsUnitSelect.value || 'Total'
         });
         renderSquadStatsPage();
+        renderLeagueTables().catch(err => console.warn('League tables re-render on season step failed:', err));
     };
 
     // Offcanvas season stepper buttons
@@ -839,4 +841,515 @@ function initialiseSquadStatsControlsOnce() {
 document.addEventListener('DOMContentLoaded', async function () {
     await loadAvailableSeasons();
     loadSquadStatsPage();
+    initLeagueTablesEmbed().catch(err => console.error('League tables embed init failed:', err));
 });
+// Renders League Standings and League Results sections on Squad Stats page.
+// Season is shared with the main squadStatsSeasonSelect.
+// Squad filter is independent (leagueTablesSquadSelect / leagueTablesSquadSegment).
+
+let _ltData = null;
+let _ltResultsIndexData = null;
+let _ltResultsScaleResizeBound = false;
+const LT_RESULTS_COLOUR_UNEXPECTED = 'unexpected';
+const LT_RESULTS_COLOUR_RESULT = 'result';
+
+function _ltGetCurrentSeason() {
+    const select = document.getElementById('squadStatsSeasonSelect');
+    return select?.value || getCurrentSeasonLabel();
+}
+
+function _ltGetSelectedSquadFilter() {
+    const select = document.getElementById('leagueTablesSquadSelect');
+    return select?.value || 'All';
+}
+
+function _ltShouldIncludeSquad(squadLabel, selectedFilter) {
+    if (selectedFilter === 'All') return true;
+    return selectedFilter === squadLabel;
+}
+
+function _ltFormatSeasonShort(season) {
+    if (!season || !season.includes('/')) return season || 'Unknown';
+    const parts = season.split('/');
+    if (parts.length !== 2) return season;
+    return `${parts[0].slice(-2)}/${parts[1].slice(-2)}`;
+}
+
+function _ltGetSquadFilterLabel(value) {
+    if (value === '1st') return '1st XV';
+    if (value === '2nd') return '2nd XV';
+    return 'Both squads';
+}
+
+function _ltGetOrdinalSuffix(value) {
+    const number = Number(value);
+    if (!Number.isFinite(number)) return 'th';
+    const mod100 = number % 100;
+    if (mod100 >= 11 && mod100 <= 13) return 'th';
+    switch (number % 10) {
+    case 1: return 'st';
+    case 2: return 'nd';
+    case 3: return 'rd';
+    default: return 'th';
+    }
+}
+
+function _ltCloneResultsSpec(spec) {
+    if (typeof window.structuredClone === 'function') return window.structuredClone(spec);
+    return JSON.parse(JSON.stringify(spec));
+}
+
+function _ltGetSelectedColourEncoding() {
+    const toggle1 = document.getElementById('leagueTablesUnexpectedToggle1');
+    const toggle2 = document.getElementById('leagueTablesUnexpectedToggle2');
+    const toggle = toggle1 || toggle2;
+    return toggle?.checked ? LT_RESULTS_COLOUR_UNEXPECTED : LT_RESULTS_COLOUR_RESULT;
+}
+
+function _ltDetectSelectionBinding(spec) {
+    const specText = JSON.stringify(spec || {});
+    const match = specText.match(/(param_\d+)\['([^']+)'\]/);
+    if (!match) return null;
+    return { paramName: match[1], field: match[2] };
+}
+
+function _ltApplyColourEncoding(spec, colourEncoding) {
+    const nextSpec = _ltCloneResultsSpec(spec);
+    if (!Array.isArray(nextSpec?.layer)) return nextSpec;
+
+    const rectLayer = nextSpec.layer.find(layer => {
+        const markType = typeof layer?.mark === 'string' ? layer.mark : layer?.mark?.type;
+        return markType === 'rect';
+    });
+
+    if (!rectLayer?.encoding) return nextSpec;
+
+    const selectionBinding = _ltDetectSelectionBinding(nextSpec);
+    const selectionTest = selectionBinding
+        ? `datum.home_team == ${selectionBinding.paramName}['${selectionBinding.field}'] || datum.away_team == ${selectionBinding.paramName}['${selectionBinding.field}'] || !isValid(${selectionBinding.paramName}['${selectionBinding.field}'])`
+        : 'true';
+
+    if (colourEncoding !== LT_RESULTS_COLOUR_RESULT) return nextSpec;
+
+    rectLayer.encoding.color = {
+        field: 'result_simple',
+        type: 'nominal',
+        title: null,
+        legend: {
+            labelLimit: 220,
+            offset: 16,
+            orient: 'bottom',
+            symbolStrokeColor: 'black',
+            symbolStrokeWidth: 1,
+            values: ['Home Win', 'Draw', 'Away Win'],
+        },
+        scale: {
+            domain: ['Home Win', 'Draw', 'Away Win', 'To be played', 'N/A'],
+            range: ['#146f14', '#d4a017', '#991515', 'white', 'black'],
+        },
+    };
+
+    rectLayer.encoding.opacity = {
+        condition: [
+            {
+                test: `(${selectionTest}) && isValid(datum.home_score) && isValid(datum.away_score) && datum.home_score != datum.away_score && abs(datum.home_score - datum.away_score) <= 7`,
+                value: 0.55,
+            },
+            { test: selectionTest, value: 1.0 },
+        ],
+        value: 0.1,
+    };
+
+    nextSpec.layer.forEach(layer => {
+        const markType = typeof layer?.mark === 'string' ? layer.mark : layer?.mark?.type;
+        const textField = layer?.encoding?.text?.field;
+        const isScoreLabel = markType === 'text' && (textField === 'away_score_text' || textField === 'home_score_text');
+        if (!isScoreLabel || !layer?.encoding) return;
+        layer.encoding.color = { value: 'white' };
+    });
+
+    return nextSpec;
+}
+
+async function _ltLoadResultsIndex() {
+    if (_ltResultsIndexData) return _ltResultsIndexData;
+    try {
+        const response = await fetch('data/charts/league_results_index.json');
+        if (!response.ok) {
+            console.warn(`Unable to load league results index (${response.status}).`);
+            _ltResultsIndexData = {};
+            return _ltResultsIndexData;
+        }
+        _ltResultsIndexData = await response.json();
+    } catch (err) {
+        console.error('Error loading league results index:', err);
+        _ltResultsIndexData = {};
+    }
+    return _ltResultsIndexData;
+}
+
+function _ltGetResultsSpecPath(season, squad) {
+    const normalizedSeason = toLeagueSeasonFormat(season);
+    const seasonEntry = _ltResultsIndexData?.[normalizedSeason];
+    const squadEntry = seasonEntry?.[String(squad)];
+    if (squadEntry?.file) return `data/charts/${squadEntry.file}`;
+    return `data/charts/league_results_${squad}s_${normalizedSeason}.json`;
+}
+
+function _ltScaleResultsEmbedToFit(container) {
+    if (!container) return false;
+    const embedHost = container.querySelector('.chart-embed-host');
+    if (!embedHost) return false;
+
+    const boundary = container.closest('.league-results-chart-card') || container;
+    const availableWidth = Math.floor(boundary.clientWidth || container.clientWidth || 0);
+
+    embedHost.style.transform = 'none';
+    embedHost.style.transformOrigin = 'top left';
+    embedHost.style.width = '';
+    embedHost.style.height = '';
+    container.style.width = '';
+    container.style.height = '';
+
+    const measureIntrinsicSize = () => {
+        const svg = embedHost.querySelector('svg');
+        let svgWidth = 0, svgHeight = 0;
+        if (svg) {
+            const vb = svg.viewBox?.baseVal;
+            svgWidth = Number(vb?.width) || Number(svg.getAttribute('width')) || svg.width?.baseVal?.value || 0;
+            svgHeight = Number(vb?.height) || Number(svg.getAttribute('height')) || svg.height?.baseVal?.value || 0;
+        }
+        const canvas = embedHost.querySelector('canvas');
+        let canvasWidth = 0, canvasHeight = 0;
+        if (canvas) {
+            canvasWidth = Number(canvas.width) || Number(canvas.getAttribute('width')) || 0;
+            canvasHeight = Number(canvas.height) || Number(canvas.getAttribute('height')) || 0;
+        }
+        const hostRect = embedHost.getBoundingClientRect();
+        const scrollWidth = Math.ceil(embedHost.scrollWidth || 0);
+        const scrollHeight = Math.ceil(embedHost.scrollHeight || 0);
+        const width = Math.ceil(Math.max(svgWidth, canvasWidth, scrollWidth, hostRect.width || 0));
+        const height = Math.ceil(Math.max(svgHeight, canvasHeight, scrollHeight, hostRect.height || 0));
+        return { width, height };
+    };
+
+    const intrinsicSize = measureIntrinsicSize();
+    if (!availableWidth || !intrinsicSize.width) return false;
+
+    const scale = Math.min(1, availableWidth / intrinsicSize.width);
+    const scaledWidth = Math.ceil(intrinsicSize.width * scale);
+    const scaledHeight = Math.ceil(intrinsicSize.height * scale);
+
+    embedHost.style.width = `${intrinsicSize.width}px`;
+    embedHost.style.height = `${intrinsicSize.height}px`;
+    embedHost.style.transform = `scale(${scale})`;
+    container.style.maxWidth = '100%';
+    container.style.width = `${Math.min(availableWidth, scaledWidth)}px`;
+    container.style.height = `${scaledHeight}px`;
+
+    window.requestAnimationFrame(() => {
+        const refreshed = measureIntrinsicSize();
+        const nextScale = Math.min(1, availableWidth / Math.max(1, refreshed.width));
+        const nextScaledWidth = Math.ceil(refreshed.width * nextScale);
+        const nextScaledHeight = Math.ceil(refreshed.height * nextScale);
+        embedHost.style.width = `${refreshed.width}px`;
+        embedHost.style.height = `${refreshed.height}px`;
+        embedHost.style.transform = `scale(${nextScale})`;
+        container.style.width = `${Math.min(availableWidth, nextScaledWidth)}px`;
+        container.style.height = `${nextScaledHeight}px`;
+    });
+
+    boundary.style.overflowX = 'hidden';
+    boundary.style.overflowY = 'visible';
+    return true;
+}
+
+function _ltApplyScalingAll() {
+    _ltScaleResultsEmbedToFit(document.getElementById('leagueResultsChart1'));
+    _ltScaleResultsEmbedToFit(document.getElementById('leagueResultsChart2'));
+}
+
+function _ltBindScaleResize() {
+    if (_ltResultsScaleResizeBound) return;
+    _ltResultsScaleResizeBound = true;
+    window.addEventListener('resize', () => window.requestAnimationFrame(_ltApplyScalingAll));
+}
+
+async function _ltRenderResultsChartsForSeason(season) {
+    const colourEncoding = _ltGetSelectedColourEncoding();
+    const tasks = [1, 2].map(async squad => {
+        const containerId = `leagueResultsChart${squad}`;
+        const chartHost = document.getElementById(containerId);
+        if (!chartHost) return;
+        const specPath = _ltGetResultsSpecPath(season, squad);
+        try {
+            const baseSpec = await loadChartSpec(specPath);
+            await embedChartSpec(containerId, baseSpec, {
+                containerId,
+                actions: false,
+                specCustomizer: (spec) => _ltApplyColourEncoding(spec, colourEncoding),
+                emptyMessage: `No ${squad === 1 ? '1st' : '2nd'} XV league results available for this season.`,
+            });
+            _ltScaleResultsEmbedToFit(chartHost);
+            window.requestAnimationFrame(() => _ltScaleResultsEmbedToFit(chartHost));
+        } catch (error) {
+            console.error(`Failed to load league results chart spec: ${specPath}`, error);
+            renderStaticSpecChart(containerId, null, `Unable to load ${squad === 1 ? '1st' : '2nd'} XV league results chart.`);
+        }
+    });
+    await Promise.all(tasks);
+    _ltBindScaleResize();
+}
+
+function _ltInitResultsTooltips() {
+    const tooltipText = 'By default, results are shown in green for a home win and red for an away win. Unexpected results (or "upsets") are those where a lower-ranked team beats a higher ranked team.';
+    ['1', '2'].forEach(squadNum => {
+        const btn = document.getElementById(`leagueTablesColourInfoBtn${squadNum}`);
+        if (btn) {
+            btn.setAttribute('data-bs-toggle', 'tooltip');
+            btn.setAttribute('data-bs-placement', 'top');
+            btn.setAttribute('data-bs-html', 'true');
+            btn.title = tooltipText;
+            try { if (window.bootstrap?.Tooltip) new window.bootstrap.Tooltip(btn); }
+            catch (e) { console.warn('Could not initialize tooltip:', e); }
+        }
+    });
+}
+
+function _ltInitResultColourControls() {
+    _ltInitResultsTooltips();
+    const toggle1 = document.getElementById('leagueTablesUnexpectedToggle1');
+    const toggle2 = document.getElementById('leagueTablesUnexpectedToggle2');
+
+    const syncToggles = (sourceToggle) => {
+        if (!toggle1 || !toggle2 || !sourceToggle) return;
+        if (sourceToggle === toggle1) toggle2.checked = toggle1.checked;
+        else if (sourceToggle === toggle2) toggle1.checked = toggle2.checked;
+    };
+
+    const handleToggleChange = (event) => {
+        syncToggles(event?.currentTarget || null);
+        _ltRenderResultsChartsForSeason(_ltGetCurrentSeason());
+    };
+
+    if (toggle1) toggle1.addEventListener('change', handleToggleChange);
+    if (toggle2) toggle2.addEventListener('change', handleToggleChange);
+}
+
+function _ltRenderActiveFilterChips(season) {
+    const standingsTarget = document.getElementById('leagueTablesStandingsActiveFilters');
+    if (!standingsTarget) return;
+
+    const shortSeason = _ltFormatSeasonShort(season);
+    const MAIN_OFFCANVAS = 'squadStatsFiltersOffcanvas';
+    const seasonChip = `<button type="button" class="squad-stats-filter-chip squad-stats-filter-chip-btn" data-bs-toggle="offcanvas" data-bs-target="#${MAIN_OFFCANVAS}" aria-controls="${MAIN_OFFCANVAS}"><strong>Season</strong> <span class="d-none d-md-inline">${season}</span><span class="d-inline d-md-none">${shortSeason}</span></button>`;
+
+    standingsTarget.innerHTML = seasonChip;
+}
+
+function _ltSyncSquadSegmentUI(value) {
+    const segment = document.getElementById('leagueTablesSquadSegment');
+    if (!segment) return;
+    if (window.sharedUi?.syncSegmentButtons) {
+        window.sharedUi.syncSegmentButtons(segment, value);
+        return;
+    }
+    segment.querySelectorAll('.squad-filter-segment-btn').forEach(btn => {
+        btn.classList.toggle('is-active', btn.dataset.value === value);
+    });
+}
+
+function _ltInitSquadControls() {
+    // Squad filter removed — both squads are always shown.
+}
+
+function _ltGetSquadTableRow(squadRows = [], squadNumber) {
+    return squadRows.find(row => {
+        if (!row?.team) return false;
+        const teamName = String(row.team).toLowerCase();
+        if (!teamName.includes('east grinstead')) return false;
+        return squadNumber === 1 ? !teamName.toLowerCase().includes('ii') : true;
+    }) || null;
+}
+
+async function renderLeagueTables() {
+    const season = _ltGetCurrentSeason();
+    const standingsContainer = document.getElementById('leagueTablesStandingsContainer');
+    const resultsContainer = document.getElementById('leagueTablesResultsContainer');
+    if (!standingsContainer || !resultsContainer) return;
+
+    _ltRenderActiveFilterChips(season);
+
+    if (!_ltData || !_ltData[season]) {
+        standingsContainer.innerHTML = '<p>No league table data available for this season.</p>';
+        resultsContainer.innerHTML = '<p>No league results chart data available for this season.</p>';
+        return;
+    }
+
+    const seasonData = _ltData[season];
+    let standingsHtml = '';
+    let resultsHtml = '';
+
+    if (seasonData['1']) {
+        const squad1 = seasonData['1'];
+        standingsHtml += `
+            <div class="col-lg-6 mb-4 league-results-column" data-league-results-squad="1">
+                <h3 class="league-team-title league-section-title league-team-title-1st">1st XV</h3>
+                <p class="league-division-title league-division-title-1st">${squad1.division}</p>
+                <div style="background: white; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); overflow-x: auto;">
+                    <table class="table table-sm mb-0">
+                        <thead>
+                            <tr style="background: #e5e4e7;">
+                                <th style="text-align: center;">#</th>
+                                <th>Team</th>
+                                <th style="text-align: center;">P</th>
+                                <th style="text-align: center;">W</th>
+                                <th style="text-align: center;">D</th>
+                                <th style="text-align: center;">L</th>
+                                <th style="text-align: center;">PF</th>
+                                <th style="text-align: center;">PA</th>
+                                <th style="text-align: center;">PD</th>
+                                <th style="text-align: center;">BP</th>
+                                <th style="text-align: center;">Pts</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${squad1.tables.map(row => {
+                                const isEGRFC = row.team.toLowerCase().includes('east grinstead') && !row.team.toLowerCase().includes('ii');
+                                const rowClass = isEGRFC ? 'league-highlight-row league-highlight-row-1st' : '';
+                                const bonusPoints = row.bonusPoints ?? ((row.triesBefore || 0) + (row.triesLost || 0));
+                                return `<tr class="${rowClass}">
+                                    <td style="text-align: center;">${row.position}</td>
+                                    <td>${row.team}</td>
+                                    <td style="text-align: center;">${row.played}</td>
+                                    <td style="text-align: center;">${row.won}</td>
+                                    <td style="text-align: center;">${row.drawn}</td>
+                                    <td style="text-align: center;">${row.lost}</td>
+                                    <td style="text-align: center;">${row.pointsFor}</td>
+                                    <td style="text-align: center;">${row.pointsAgainst}</td>
+                                    <td style="text-align: center;">${row.pointsDifference}</td>
+                                    <td style="text-align: center;">${bonusPoints}</td>
+                                    <td style="text-align: center;">${row.points}</td>
+                                </tr>`;
+                            }).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            </div>`;
+
+        resultsHtml += `
+            <div class="col-12 mb-4 league-results-column" data-league-results-squad="1">
+                <h3 class="league-team-title league-section-title league-team-title-1st">1st XV</h3>
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
+                    <p class="league-division-title league-division-title-1st">${squad1.division}</p>
+                    <div class="chart-section-head chart-section-head--league-results-toggle">
+                        <div class="squad-filter-control player-stats-section-filter" style="flex-direction: row; align-items: center; gap: 0.5rem;" role="group" aria-label="Results View">
+                            <div class="form-check form-switch player-stats-motm-switch" style="margin-left: auto;">
+                                <input class="form-check-input" type="checkbox" role="switch" id="leagueTablesUnexpectedToggle1" aria-label="Highlight unexpected results">
+                                <label class="form-check-label" for="leagueTablesUnexpectedToggle1">Highlight upsets</label>
+                            </div>
+                            <button type="button" class="btn btn-link btn-sm p-0" id="leagueTablesColourInfoBtn1" title="Colour scheme explanation"><i class="bi bi-info-circle"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="league-results-chart-card">
+                    <div id="leagueResultsChart1" class="chart-host chart-host--overflow-visible chart-host--intrinsic">Loading 1st XV league results chart...</div>
+                </div>
+            </div>`;
+    }
+
+    if (seasonData['2']) {
+        const squad2 = seasonData['2'];
+        standingsHtml += `
+            <div class="col-lg-6 mb-4 league-results-column" data-league-results-squad="2">
+                <h3 class="league-team-title league-section-title league-team-title-2nd">2nd XV</h3>
+                <p class="league-division-title league-division-title-2nd">${squad2.division}</p>
+                <div style="background: white; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); overflow-x: auto;">
+                    <table class="table table-sm mb-0">
+                        <thead>
+                            <tr style="background: #e5e4e7;">
+                                <th style="text-align: center;">#</th>
+                                <th>Team</th>
+                                <th style="text-align: center;">P</th>
+                                <th style="text-align: center;">W</th>
+                                <th style="text-align: center;">D</th>
+                                <th style="text-align: center;">L</th>
+                                <th style="text-align: center;">PF</th>
+                                <th style="text-align: center;">PA</th>
+                                <th style="text-align: center;">PD</th>
+                                <th style="text-align: center;">BP</th>
+                                <th style="text-align: center;">Pts</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${squad2.tables.map(row => {
+                                const isEGRFC = row.team.toLowerCase().includes('east grinstead');
+                                const rowClass = isEGRFC ? 'league-highlight-row league-highlight-row-2nd' : '';
+                                const bonusPoints = row.bonusPoints ?? ((row.triesBefore || 0) + (row.triesLost || 0));
+                                return `<tr class="${rowClass}">
+                                    <td style="text-align: center;">${row.position}</td>
+                                    <td>${row.team}</td>
+                                    <td style="text-align: center;">${row.played}</td>
+                                    <td style="text-align: center;">${row.won}</td>
+                                    <td style="text-align: center;">${row.drawn}</td>
+                                    <td style="text-align: center;">${row.lost}</td>
+                                    <td style="text-align: center;">${row.pointsFor}</td>
+                                    <td style="text-align: center;">${row.pointsAgainst}</td>
+                                    <td style="text-align: center;">${row.pointsDifference}</td>
+                                    <td style="text-align: center;">${bonusPoints}</td>
+                                    <td style="text-align: center;">${row.points}</td>
+                                </tr>`;
+                            }).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            </div>`;
+
+        resultsHtml += `
+            <div class="col-12 mb-4 league-results-column" data-league-results-squad="2">
+                <h3 class="league-team-title league-section-title league-team-title-2nd">2nd XV</h3>
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
+                    <p class="league-division-title league-division-title-2nd">${squad2.division}</p>
+                    <div class="chart-section-head chart-section-head--league-results-toggle">
+                        <div class="squad-filter-control player-stats-section-filter" style="flex-direction: row; align-items: center; gap: 0.5rem;" role="group" aria-label="Results View">
+                            <div class="form-check form-switch player-stats-motm-switch" style="margin-left: auto;">
+                                <input class="form-check-input" type="checkbox" role="switch" id="leagueTablesUnexpectedToggle2" aria-label="Highlight unexpected results">
+                                <label class="form-check-label" for="leagueTablesUnexpectedToggle2">Highlight upsets</label>
+                            </div>
+                            <button type="button" class="btn btn-link btn-sm p-0" id="leagueTablesColourInfoBtn2" title="Colour scheme explanation"><i class="bi bi-info-circle"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="league-results-chart-card">
+                    <div id="leagueResultsChart2" class="chart-host chart-host--overflow-visible chart-host--intrinsic">Loading 2nd XV league results chart...</div>
+                </div>
+            </div>`;
+    }
+
+    if (!standingsHtml) standingsHtml = '<div class="col-12"><p>No league table data available for the selected squad in this season.</p></div>';
+    if (!resultsHtml) resultsHtml = '<div class="col-12"><p>No league results chart data available for the selected squad in this season.</p></div>';
+
+    standingsContainer.innerHTML = standingsHtml;
+    resultsContainer.innerHTML = resultsHtml;
+
+    await _ltRenderResultsChartsForSeason(season);
+    _ltInitResultColourControls();
+}
+
+async function initLeagueTablesEmbed() {
+    const standingsContainer = document.getElementById('leagueTablesStandingsContainer');
+    if (!standingsContainer) return; // Not on squad-stats page
+
+    try {
+        const response = await fetch('data/league_tables.json');
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        _ltData = await response.json();
+    } catch (err) {
+        console.error('Error loading league tables data:', err);
+        return;
+    }
+
+    await _ltLoadResultsIndex();
+    _ltInitSquadControls();
+    await renderLeagueTables();
+}

@@ -1076,14 +1076,6 @@ function refreshFromFilters(preferredGameId) {
     renderMatchInfo(selectedGameId);
 }
 
-function collapseFilteredMatchesPanel() {
-    const toggle = document.querySelector('.chart-panel-toggle[data-target="match-list-panel"]');
-    const panel = document.getElementById('match-list-panel');
-    if (!toggle || !panel) return;
-    const isExpanded = toggle.getAttribute('aria-expanded') !== 'false';
-    if (isExpanded) toggle.click();
-}
-
 function bindTeamSheetModeToggle() {
     const infoBody = document.getElementById('matchDataInfoBody');
     if (!infoBody || infoBody.__teamSheetToggleBound) return;
@@ -1243,7 +1235,7 @@ async function loadPage() {
         bindControls(initialGameId);
         bindTeamSheetModeToggle();
 
-        initialiseChartPanelToggles();
+        
 
         if (initialGameId && allMatches.some(row => String(row?.game_id || '').trim() === initialGameId)) {
             collapseFilteredMatchesPanel();

@@ -90,14 +90,50 @@
     }
 
     function renderActiveFilterChips() {
-        const host = getElement('performanceStatsActiveFilters');
-        if (!host) return;
+        const setPieceHost = getElement('setPieceActiveFilters');
+        const redZoneHost = getElement('redZoneActiveFilters');
         const { squad, gameType } = readSetPieceFilterState();
         const squadLabel = `${squad} XV`;
-        host.innerHTML = [
-            `<button type="button" class="squad-stats-filter-chip squad-stats-filter-chip-btn" data-bs-toggle="offcanvas" data-bs-target="#${FILTERS_OFFCANVAS_ID}" aria-controls="${FILTERS_OFFCANVAS_ID}"><strong>Squad</strong> ${escapeHtml(squadLabel)}</button>`,
-            `<button type="button" class="squad-stats-filter-chip squad-stats-filter-chip-btn" data-bs-toggle="offcanvas" data-bs-target="#${FILTERS_OFFCANVAS_ID}" aria-controls="${FILTERS_OFFCANVAS_ID}"><strong>Game Type</strong> ${escapeHtml(gameType)}</button>`,
-        ].join('');
+
+        const setPieceChips = [
+            { label: 'Squad', value: squadLabel },
+            { label: 'Game Type', value: gameType },
+        ];
+
+        if (setPieceHost) {
+            if (window.sharedUi?.renderOffcanvasFilterChips) {
+                window.sharedUi.renderOffcanvasFilterChips({
+                    host: setPieceHost,
+                    offcanvasId: FILTERS_OFFCANVAS_ID,
+                    chips: setPieceChips,
+                });
+            } else {
+                setPieceHost.innerHTML = [
+                    `<button type="button" class="squad-stats-filter-chip squad-stats-filter-chip-btn" data-bs-toggle="offcanvas" data-bs-target="#${FILTERS_OFFCANVAS_ID}" aria-controls="${FILTERS_OFFCANVAS_ID}"><strong>Squad</strong> ${escapeHtml(squadLabel)}</button>`,
+                    `<button type="button" class="squad-stats-filter-chip squad-stats-filter-chip-btn" data-bs-toggle="offcanvas" data-bs-target="#${FILTERS_OFFCANVAS_ID}" aria-controls="${FILTERS_OFFCANVAS_ID}"><strong>Game Type</strong> ${escapeHtml(gameType)}</button>`,
+                ].join('');
+            }
+        }
+
+        if (redZoneHost) {
+            const redZoneChips = [
+                { label: 'Squad', value: squadLabel },
+                { label: 'Game Type', value: gameType },
+            ];
+
+            if (window.sharedUi?.renderOffcanvasFilterChips) {
+                window.sharedUi.renderOffcanvasFilterChips({
+                    host: redZoneHost,
+                    offcanvasId: FILTERS_OFFCANVAS_ID,
+                    chips: redZoneChips,
+                });
+            } else {
+                redZoneHost.innerHTML = [
+                    `<button type="button" class="squad-stats-filter-chip squad-stats-filter-chip-btn" data-bs-toggle="offcanvas" data-bs-target="#${FILTERS_OFFCANVAS_ID}" aria-controls="${FILTERS_OFFCANVAS_ID}"><strong>Squad</strong> ${escapeHtml(squadLabel)}</button>`,
+                    `<button type="button" class="squad-stats-filter-chip squad-stats-filter-chip-btn" data-bs-toggle="offcanvas" data-bs-target="#${FILTERS_OFFCANVAS_ID}" aria-controls="${FILTERS_OFFCANVAS_ID}"><strong>Game Type</strong> ${escapeHtml(gameType)}</button>`,
+                ].join('');
+            }
+        }
     }
 
     function formatPercent(value) {

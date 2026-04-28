@@ -882,7 +882,7 @@ function playerShortNameLinkHtml(fullName) {
     if (!name) return '-';
     const shortName = getPlayerShortName(name);
     const href = profileLinkHref(name);
-    return `<a class="match-team-sheet-player-link" href="${escapeAttribute(href)}">${escapeHtml(shortName)}</a>`;
+    return `<a class="player-link" href="${escapeAttribute(href)}">${escapeHtml(shortName)}</a>`;
 }
 
 function lineoutResultWithNote(row, includeNote = true) {
@@ -1162,7 +1162,7 @@ function oppositionTeamLinkHtml(teamName) {
     if (!text) return '-';
     if (baseClubName(text) === 'EGRFC') return escapeHtml(text);
     const href = oppositionProfileLinkHref(text);
-    return `<a href="${escapeAttribute(href)}" class="match-info-opposition-link">${escapeHtml(text)}</a>`;
+    return `<a href="${escapeAttribute(href)}" class="table-link">${escapeHtml(text)}</a>`;
 }
 
 function syncMatchInfoSeasonStepperFromSelect() {
@@ -1319,7 +1319,7 @@ function renderTable() {
         const captain = String(row?.captain || '').trim();
         const captainLink = captain ? profileLinkHref(captain) : '';
         const captainHtml = captain
-            ? `<a class="fs-7" href="${escapeAttribute(captainLink)}">${escapeHtml(captain)}</a>`
+            ? `<a class="table-link" href="${escapeAttribute(captainLink)}">${escapeHtml(captain)}</a>`
             : '-';
         const squadKey = String(row?.squad || '').trim();
         const rowClass = 'full-profile-appearance-row';
@@ -1332,7 +1332,7 @@ function renderTable() {
         const oppositionText = String(row?.opposition || '-');
         const oppositionCell = oppositionText === '-'
             ? '-'
-            : `<a href="${escapeAttribute(oppositionProfileLinkHref(oppositionText))}" class="match-info-opposition-link">${escapeHtml(oppositionText)}</a>`;
+            : `<a href="${escapeAttribute(oppositionProfileLinkHref(oppositionText))}" class="opposition-link">${escapeHtml(oppositionText)}</a>`;
 
         return `
             <tr class="${rowClass}">
@@ -1774,7 +1774,7 @@ async function loadPage() {
         bindTeamSheetModeToggle();
         initialiseMatchInfoAnalysisRail();
 
-        initialiseChartPanelToggles();
+        
 
         if (initialGameId && allMatches.some(row => String(row?.game_id || '').trim() === initialGameId)) {
             collapseFilteredMatchesPanel();

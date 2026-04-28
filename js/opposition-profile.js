@@ -676,7 +676,7 @@
                     <td class="opposition-table-opposition">
                         <div class="opposition-table-opposition-content">
                             ${logoHtml}
-                            <a class="fw-bold" href="opposition-profile.html?opposition=${encodeURIComponent(String(row.club || '').trim())}">${escapeHtml(row.club)}</a>
+                            <a class="opposition-link" href="opposition-profile.html?opposition=${encodeURIComponent(String(row.club || '').trim())}">${escapeHtml(row.club)}</a>
                         </div>
                     </td>
                     <td class="opposition-table-games-1st text-end">${row.stats1st.played}</td>
@@ -818,7 +818,7 @@
                 const captain = String(row?.captain || '').trim();
                 const captainLink = captain ? createPlayerLink(captain) : null;
                 const captainHtml = captainLink 
-                    ? `<a class="table-player-link" href="${captainLink}">${escapeHtml(captain)}</a>`
+                    ? `<a class="table-link" href="${captainLink}">${escapeHtml(captain)}</a>`
                     : '-';
                 const openHtml = gameLink
                     ? `<a class="btn btn-outline-primary btn-sm rounded-circle p-0 d-inline-flex align-items-center justify-content-center match-open-btn" href="${gameLink}" aria-label="View match detail"><i class="bi bi-search" aria-hidden="true"></i></a>`

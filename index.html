@@ -26,85 +26,38 @@
     <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
 </head>
 
-<body>
-    <nav class="navbar navbar-expand-lg navbar-dark app-top-navbar">
-        <div class="container-fluid">
-            <a class="navbar-brand app-navbar-brand" href="index.html">
-                <img src="img/logos/EastGrinstead.png" alt="EGRFC logo" class="app-navbar-brand-logo">
-                <strong>EGRFC Statistics</strong>
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link active" href="index.html"><i class="bi bi-house-door-fill" aria-hidden="true"></i>Home</a></li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-people-fill" aria-hidden="true"></i>Team</a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="squad-stats.html"><i class="bi bi-people-fill" aria-hidden="true"></i>Squad Stats</a></li>
-                            <li><a class="dropdown-item" href="league-tables.html"><i class="bi bi-table" aria-hidden="true"></i>League Tables</a></li>
-                            <li><a class="dropdown-item" href="match-info.html"><i class="bi bi-calendar-event" aria-hidden="true"></i>Match Detail</a></li>
-                            <li><a class="dropdown-item" href="opposition-profile.html"><i class="bi bi-shield-shaded" aria-hidden="true"></i>Opposition Profile</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-person-vcard-fill" aria-hidden="true"></i>Players</a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="player-stats.html"><i class="bi bi-graph-up-arrow" aria-hidden="true"></i>Player Stats</a></li>
-                            <li><a class="dropdown-item" href="player-gallery.html"><i class="bi bi-person-lines-fill" aria-hidden="true"></i>Player Gallery</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-speedometer2" aria-hidden="true"></i>Performance</a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="performance-stats.html"><i class="bi bi-activity" aria-hidden="true"></i>Performance Stats</a></li>
-                            <li><a class="dropdown-item" href="lineout-performance.html"><i class="bi bi-bullseye" aria-hidden="true"></i>Lineout Deep Dive</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item"><a class="nav-link" href="database.html"><i class="bi bi-database-fill" aria-hidden="true"></i>Data Explorer</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+<body class="home-no-navbar">
 
     <div class="main-content">
         <div class="page-shell page-shell--sm">
             <section class="home-hero-mini" aria-labelledby="homeHeroTitle">
-                <p class="ux-hero-kicker">Home</p>
-                <h1 id="homeHeroTitle" class="ux-hero-title">East Grinstead RFC Statistics</h1>
-                <p class="ux-hero-description">Team, player, performance, and data views in one place.</p>
+                                <div class="home-hero-mini-logo-wrap" aria-hidden="true">
+                                    <img src="img/logos/EastGrinstead.png" alt="" class="home-hero-mini-logo">
+                                </div>
+                <div class="home-hero-mini-main">
+                    <p class="ux-hero-kicker">Home</p>
+                    <h1 id="homeHeroTitle" class="ux-hero-title">East Grinstead RFC Statistics</h1>
+                    <p class="ux-hero-description">Team, player, performance, and data views in one place.</p>
+                </div>
             </section>
 
             <div class="row g-2 home-nav-grid">
                 <!-- Team Section -->
                 <div class="col-12 home-nav-category-row">
                     <h4 class="nav-category-label">Team</h4>
+                    <p class="nav-category-description">Data at a whole-team level, including squad statistics, league results, individual match results and club performance against specific opposition.</p>
                 </div>
                 <div class="col-6 col-lg-3 mb-2">
                     <div class="card h-100 nav-page-card">
                         <div class="card-body">
                             <i class="bi bi-people-fill nav-page-card-icon" aria-hidden="true"></i>
                             <h3 class="card-title"><a class="nav-page-card-title-link" href="squad-stats.html">Squad Stats</a></h3>
-                            <p class="card-text">Squad composition, continuity analysis, league standings, and team-level performance metrics.</p>
+                            <p class="card-text">Squad composition, continuity analysis, league results.</p>
                             <ul class="nav-page-card-sections">
                                 <li><a href="squad-stats.html#squad-overview">Squad Overview</a></li>
                                 <li><a href="squad-stats.html#squad-continuity">Continuity & Composition</a></li>
                                 <li><a href="squad-stats.html#league-comparison">League Comparison</a> (1st XV only)</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-6 col-lg-3 mb-2">
-                    <div class="card h-100 nav-page-card">
-                        <div class="card-body">
-                            <i class="bi bi-table nav-page-card-icon" aria-hidden="true"></i>
-                            <h3 class="card-title"><a class="nav-page-card-title-link" href="league-tables.html">League Tables</a></h3>
-                            <p class="card-text">League standings, results matrix, and historical league position trends by season.</p>
-                            <ul class="nav-page-card-sections">
-                                <li><a href="league-tables.html#league-standings">Standings</a></li>
-                                <li><a href="league-tables.html#league-results">Results Matrix</a></li>
+                                <li><a href="squad-stats.html#league-results">League Results</a></li>
                             </ul>
                         </div>
                     </div>
@@ -114,7 +67,7 @@
                         <div class="card-body">
                             <i class="bi bi-calendar-event nav-page-card-icon" aria-hidden="true"></i>
                             <h3 class="card-title"><a class="nav-page-card-title-link" href="match-info.html">Match Detail</a></h3>
-                            <p class="card-text">Browse match-by-match fixture details, results, and game information across all squads and seasons.</p>
+                            <p class="card-text">Browse match-by-match data, including team sheets and performance metrics.</p>
                             <ul class="nav-page-card-sections">
                                 <li><a href="match-info.html#match-finder">Match Finder</a></li>
                                 <li>
@@ -142,9 +95,12 @@
                     </div>
                 </div>
 
+                <hr class="home-nav-section-divider">
+
                 <!-- Players Section -->
                 <div class="col-12 home-nav-category-row">
-                    <h4 class="nav-category-label">Players</h4>
+                    <h2 class="nav-category-label">Players</h2>
+                    <p class="nav-category-description">Individual player data, where available, including all team sheets, top scorers, MOTM results and full player profiles for a closer look at a given player</p>
                 </div>
                 <div class="col-6 col-lg-3 mb-2">
                     <div class="card h-100 nav-page-card">
@@ -202,9 +158,11 @@
                     </div>
                 </div>
 
+                <hr class="home-nav-section-divider">
                 <!-- Performance Section -->
                 <div class="col-12 home-nav-category-row">
                     <h4 class="nav-category-label">Performance</h4>
+                    <p class="nav-category-description">Analysis from match video, where available, including lineouts, scrums and red zone efficiency.</p>
                 </div>
                 <div class="col-6 col-lg-3 mb-2">
                     <div class="card h-100 nav-page-card">
@@ -236,6 +194,8 @@
                         </div>
                     </div>
                 </div>
+
+                <hr class="home-nav-section-divider">
 
                 <!-- Data Section -->
                 <div class="col-12 home-nav-category-row">
@@ -285,7 +245,7 @@
 
 
                 <!-- Warning using bootstrap alert -->
-                <div class="alert alert-warning" role="alert">
+                <div class="alert alert-danger" role="alert">
                     This <u>does not</u> include games before 2017.<br>
                     This <u>does not</u> include games for the Vets or Colts.<br>
                     If the team sheet, tries or MOTM weren't logged on Pitchero (pre-2021), they're <u>not included</u>.<br>
@@ -297,6 +257,12 @@
                 <p><strong><em>Sam Lindsay-McCall</em></strong><br>(Second Row, Lineout Coach, <u>not</u> a web developer)</p>
             </section>
         </div>
+
+    <footer class="app-footer">
+        <div class="page-shell page-shell--wide">
+            <p class="app-footer-text">Questions or feedback? <a class="app-footer-link" href="https://wa.me/447961955086?text=Hi%20Sam%2C%20I%20have%20a%20question%20about%20EGRFC%20Stats." target="_blank" rel="noopener"><i class="bi bi-whatsapp" aria-hidden="true"></i>Message me on WhatsApp</a>.</p>
+        </div>
+    </footer>
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

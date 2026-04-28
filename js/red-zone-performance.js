@@ -114,7 +114,7 @@
         }
 
         await applyFilters();
-        initialiseChartPanelToggles();
+        
 
         ['rzFilterSquad', 'rzFilterSeason', 'rzFilterGameType', 'lineoutFilterSquad', 'lineoutFilterSeason', 'lineoutFilterGameType'].forEach((id) => {
             getControlElement(id)?.addEventListener('change', () => {
@@ -132,7 +132,7 @@
             if (el) {
                 el.innerHTML = '<div class="text-center text-muted py-4">Red zone data unavailable.</div>';
             }
-            initialiseChartPanelToggles();
+            
         });
     });
 })();
