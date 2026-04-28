@@ -95,6 +95,12 @@
         gap: 0.6rem;
     }
 
+    #page-player-stats .player-stats-threshold-control {
+        min-width: 0;
+        width: 100%;
+        margin-left: 0;
+    }
+
     #page-performance-stats .performance-section-head {
         flex-wrap: wrap;
         align-items: stretch;
@@ -515,21 +521,13 @@
         margin-top: 0.55rem;
     }
 
-    #page-squad-stats .analysis-rail,
-    #page-player-stats .analysis-rail,
-    #page-league-tables .analysis-rail,
-    #page-opposition-profile .analysis-rail,
-    #page-performance-stats .analysis-rail {
+    .analysis-rail {
         gap: 0.2rem;
         padding: 0.3rem;
         margin-bottom: 0.25rem;
     }
 
-    #page-squad-stats .analysis-rail .rail-link,
-    #page-player-stats .analysis-rail .rail-link,
-    #page-league-tables .analysis-rail .rail-link,
-    #page-opposition-profile .analysis-rail .rail-link,
-    #page-performance-stats .analysis-rail .rail-link {
+    .analysis-rail .rail-link {
         gap: 0.26rem;
         padding: 0.22rem 0.4rem;
         font-size: 0.78rem;
@@ -538,35 +536,29 @@
         white-space: nowrap;
     }
 
-    #page-squad-stats .analysis-rail .rail-link i,
-    #page-player-stats .analysis-rail .rail-link i,
-    #page-league-tables .analysis-rail .rail-link i,
-    #page-opposition-profile .analysis-rail .rail-link i,
-    #page-performance-stats .analysis-rail .rail-link i {
+    .analysis-rail .rail-link i {
         font-size: 0.78rem;
     }
 
-    #page-squad-stats .analysis-rail .rail-link .rail-link-label,
-    #page-player-stats .analysis-rail .rail-link .rail-link-label,
-    #page-league-tables .analysis-rail .rail-link .rail-link-label,
-    #page-opposition-profile .analysis-rail .rail-link .rail-link-label,
-    #page-performance-stats .analysis-rail .rail-link .rail-link-label {
+    .analysis-rail .rail-link .rail-link-label {
         display: none;
     }
 
-    #page-squad-stats .analysis-rail .rail-link::after,
-    #page-player-stats .analysis-rail .rail-link::after,
-    #page-league-tables .analysis-rail .rail-link::after,
-    #page-opposition-profile .analysis-rail .rail-link::after,
-    #page-performance-stats .analysis-rail .rail-link::after {
+    .analysis-rail .rail-link::after {
         content: attr(data-short);
     }
 
-    #page-squad-stats .analysis-rail-title,
-    #page-player-stats .analysis-rail-title,
-    #page-league-tables .analysis-rail-title,
-    #page-opposition-profile .analysis-rail-title,
-    #page-performance-stats .analysis-rail-title {
+    #page-player-gallery .analysis-rail .rail-link .rail-shirt-icon {
+        display: none;
+    }
+
+    #page-player-gallery .analysis-rail {
+        gap: 0;
+        font-size: 0.7rem;
+    }
+
+    
+    .analysis-rail-title {
         display: inline-flex;
         align-items: center;
         margin: 0 0.12rem 0 0.08rem;

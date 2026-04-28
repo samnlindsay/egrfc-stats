@@ -1,0 +1,6 @@
+gspread
+pandas
+duckdb
+altair
+beautifulsoup4
+requests

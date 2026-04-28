@@ -65,11 +65,11 @@ function extractSeasonsFromSpec(spec) {
 
 function getTeamSheetsAllSeasonsLabel() {
     const seasons = extractSeasonsFromSpec(teamSheetsSpec);
-    if (!seasons || seasons.length === 0) return 'All';
+    if (!seasons || seasons.length === 0) return 'All (2017-)';
     const earliestSeason = seasons[0];
-    if (!earliestSeason) return 'All';
+    if (!earliestSeason) return 'All (2017-)';
     const [startYear, endYear] = String(earliestSeason).split('/');
-    if (!startYear || !endYear) return `All (${earliestSeason})`;
+    if (!startYear || !endYear) return 'All (2017-)';
     const centuryPrefix = String(startYear).slice(0, 2);
     const normalizedEndYear = endYear.length === 2 ? `${centuryPrefix}${endYear}` : endYear;
     return `All (${normalizedEndYear}-)`;

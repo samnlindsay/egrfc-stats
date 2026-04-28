@@ -1,0 +1,2 @@
+[console_scripts]
+sync-headshots = python.sync_headshots:main

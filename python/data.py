@@ -199,7 +199,7 @@ _EGRFC_TEAM_ALIASES = (
 def clean_name(name):
     name_dict = {
         "Sam Lindsay": "S Lindsay 2",
-        "Sam Lindsay-McCall": "S Lindsay",
+        "Sam Lindsay-McCall": "S Lindsay-McCall",
         "James Mitchell": "T Mitchell",
     }
     

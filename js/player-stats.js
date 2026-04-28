@@ -10,8 +10,25 @@ const PLAYER_STATS_DEFAULT_SCORE_TYPE = 'Total';
 const PLAYER_STATS_DEFAULT_MOTM_AGGREGATE = false;
 const PLAYER_STATS_ALL_SEASONS_VALUE = '__all_seasons__';
 const PLAYER_STATS_STARTER_POSITIONS_VALUE = 'Starters';
+const PLAYER_STATS_DEFAULT_COMBINATION = 'front_row';
+const PLAYER_STATS_COMBINATION_OPTIONS = [
+    { value: 'front_row', label: 'Front Row' },
+    { value: 'second_row', label: 'Second Row' },
+    { value: 'back_row', label: 'Back Row' },
+    { value: 'half_backs', label: 'Half Backs' },
+    { value: 'centres', label: 'Centre' },
+    { value: 'back_three', label: 'Back Three' },
+];
 const PLAYER_STATS_FORWARD_POSITIONS = ['Prop', 'Hooker', 'Second Row', 'Flanker', 'Number 8'];
 const PLAYER_STATS_BACK_POSITIONS = ['Scrum Half', 'Fly Half', 'Centre', 'Wing', 'Full Back'];
+
+const PLAYER_STATS_MIN_THRESHOLDS = {
+    appearances: { inputId: 'playerStatsMinAppearancesInput', valueId: 'playerStatsMinAppearancesValue', min: 1, max: 100, defaultValue: 10 },
+    points: { inputId: 'playerStatsMinPointsInput', valueId: 'playerStatsMinPointsValue', min: 1, max: 200, defaultValue: 10 },
+    captains: { inputId: 'playerStatsMinCaptainsInput', valueId: 'playerStatsMinCaptainsValue', min: 1, max: 50, defaultValue: 1 },
+    motm: { inputId: 'playerStatsMinMotmInput', valueId: 'playerStatsMinMotmValue', min: 1, max: 30, defaultValue: 1 },
+    combinations: { inputId: 'playerStatsMinCombinationsInput', valueId: 'playerStatsMinCombinationsValue', min: 1, max: 50, defaultValue: 10 },
+};
 
 let playerStatsSelectedPositions = new Set();
 
@@ -45,9 +62,9 @@ function getPlayerStatsSeasonOptions() {
 function getPlayerStatsAllSeasonsLabel() {
     const seasons = getPlayerStatsSeasonOptions();
     const earliestSeason = seasons[seasons.length - 1];
-    if (!earliestSeason) return 'All';
+    if (!earliestSeason) return 'All (2017-)';
     const [startYear, endYear] = String(earliestSeason).split('/');
-    if (!startYear || !endYear) return `All (${earliestSeason})`;
+    if (!startYear || !endYear) return 'All (2017-)';
     const centuryPrefix = String(startYear).slice(0, 2);
     const normalizedEndYear = endYear.length === 2 ? `${centuryPrefix}${endYear}` : endYear;
     return `All (${normalizedEndYear}-)`;
@@ -90,9 +107,29 @@ function getPlayerStatsSelectedState() {
         selectedSquad: document.getElementById('playerStatsSquadSelect')?.value || 'All',
         selectedMotmAggregate: document.getElementById('playerStatsMotmAggregateSwitch')?.checked ?? PLAYER_STATS_DEFAULT_MOTM_AGGREGATE,
         selectedPositions: getPlayerStatsSelectedPositions(),
+        selectedCombination: document.getElementById('playerStatsCombinationSelect')?.value || PLAYER_STATS_DEFAULT_COMBINATION,
         selectedScoreType: document.getElementById('playerStatsScoreTypeSelect')?.value || PLAYER_STATS_DEFAULT_SCORE_TYPE,
-        minimumAppearances: getPlayerStatsMinimumAppearances()
+        minAppearances: getPlayerStatsThresholdValue('appearances'),
+        minPoints: getPlayerStatsThresholdValue('points'),
+        minCaptains: getPlayerStatsThresholdValue('captains'),
+        minMotm: getPlayerStatsThresholdValue('motm'),
+        minCombinations: getPlayerStatsThresholdValue('combinations'),
     };
+}
+
+function getPlayerStatsCombinationLabel(combinationValue) {
+    return PLAYER_STATS_COMBINATION_OPTIONS.find(option => option.value === combinationValue)?.label || 'Front Row';
+}
+
+function getPlayerStatsPointsThresholdLabel(scoreType) {
+    switch (scoreType) {
+        case 'Tries':
+            return 'Min Tries';
+        case 'Kicks':
+            return 'Min Kicks';
+        default:
+            return 'Min Points';
+    }
 }
 
 function normalizePlayerStatsSeasonFilter(selectedSeasons) {
@@ -119,7 +156,21 @@ function resolvePlayerStatsPositions(selectedPositions) {
 }
 
 function getPlayerStatsDatasetRows(spec) {
-    if (!spec || typeof spec !== 'object' || !spec.datasets) return [];
+    if (!spec) return [];
+
+    // Support source files that are exported as raw JSON arrays.
+    if (Array.isArray(spec)) {
+        return spec.filter(row => row && typeof row === 'object');
+    }
+
+    if (typeof spec !== 'object') return [];
+
+    // Support inline Vega-Lite values objects.
+    if (Array.isArray(spec.data?.values)) {
+        return spec.data.values.filter(row => row && typeof row === 'object');
+    }
+
+    if (!spec.datasets) return [];
     const rows = [];
     const datasetNames = collectChartDatasetNames(spec);
     datasetNames.forEach(name => {
@@ -180,26 +231,21 @@ function getTopPlayerScopedAggregate(rows, valueField) {
         .sort((a, b) => b.value - a.value || a.player.localeCompare(b.player))[0] || null;
 }
 
-function getPlayerStatsEligiblePlayersByMinAppearances(selectedSeasons, gameTypeMode, selectedSquad, minimumAppearances) {
-    const threshold = Number.isFinite(minimumAppearances) ? Math.max(0, Math.floor(minimumAppearances)) : 10;
-    const scopedRows = filterPlayerStatsRowsByScope(
-        getPlayerStatsDatasetRows(playerStatsBaseSpecs?.appearancesSpec),
-        selectedSeasons,
-        gameTypeMode,
-        selectedSquad
-    );
-
+function getPlayersMeetingThreshold(rows, valueField, minimumValue, predicate = null) {
+    const threshold = Number.isFinite(minimumValue) ? Math.max(0, Math.floor(minimumValue)) : 0;
     const totals = new Map();
-    scopedRows.forEach(row => {
-        const player = row?.player;
-        const games = Number(row?.games ?? 0);
-        if (!player || !Number.isFinite(games)) return;
-        totals.set(player, (totals.get(player) || 0) + games);
+    (rows || []).forEach(row => {
+        if (!row || typeof row !== 'object') return;
+        if (typeof predicate === 'function' && !predicate(row)) return;
+        const player = row.player;
+        const value = Number(row?.[valueField] ?? 0);
+        if (!player || !Number.isFinite(value)) return;
+        totals.set(player, (totals.get(player) || 0) + value);
     });
 
     return new Set(
         Array.from(totals.entries())
-            .filter(([, total]) => Number(total) >= threshold)
+            .filter(([, total]) => total >= threshold)
             .map(([player]) => player)
     );
 }
@@ -211,17 +257,20 @@ function getPlayerStatsSquadColors() {
     return [primary, accent];
 }
 
-function normalizePlayerStatsMinAppearances(value) {
+function normalizePlayerStatsThreshold(value, config) {
+    const min = Number(config?.min ?? 0);
+    const max = Number(config?.max ?? 100);
+    const fallback = Number(config?.defaultValue ?? min);
     const numericValue = Number(value);
-    if (!Number.isFinite(numericValue)) return 10;
-    const clamped = Math.min(100, Math.max(1, Math.floor(numericValue)));
-    if (clamped <= 2) return 1;
-    return Math.max(5, Math.round(clamped / 5) * 5);
+    if (!Number.isFinite(numericValue)) return fallback;
+    return Math.min(max, Math.max(min, Math.floor(numericValue)));
 }
 
-function getPlayerStatsMinimumAppearances() {
-    const minAppearancesInput = document.getElementById('playerStatsMinAppearancesInput');
-    return normalizePlayerStatsMinAppearances(minAppearancesInput?.value ?? 10);
+function getPlayerStatsThresholdValue(key) {
+    const config = PLAYER_STATS_MIN_THRESHOLDS[key];
+    if (!config) return 0;
+    const input = document.getElementById(config.inputId);
+    return normalizePlayerStatsThreshold(input?.value ?? config.defaultValue, config);
 }
 
 function syncPlayerStatsSeasonStepperFromSelect() {
@@ -268,6 +317,16 @@ function syncPlayerStatsScoreTypeSegmentFromSelect() {
     }
 }
 
+function syncPlayerStatsCombinationSegmentFromSelect() {
+    const select = document.getElementById('playerStatsCombinationSelect');
+    const segment = document.getElementById('playerStatsCombinationSegment');
+    if (!select || !segment) return;
+    const value = select.value || PLAYER_STATS_DEFAULT_COMBINATION;
+    if (window.sharedUi?.syncSegmentButtons) {
+        window.sharedUi.syncSegmentButtons(segment, value);
+    }
+}
+
 function syncPlayerStatsPositionButtons() {
     const grid = document.getElementById('playerStatsPositionGrid');
     if (!grid) return;
@@ -290,15 +349,20 @@ function syncPlayerStatsPositionButtons() {
     });
 }
 
-function updatePlayerStatsMinAppsDisplay() {
-    const normalizedValue = getPlayerStatsMinimumAppearances();
-    const value = String(normalizedValue);
-    const minAppearancesInput = document.getElementById('playerStatsMinAppearancesInput');
-    if (minAppearancesInput && minAppearancesInput.value !== value) {
-        minAppearancesInput.value = value;
-    }
-    const offcanvasValue = document.getElementById('playerStatsMinAppearancesValue');
-    if (offcanvasValue) offcanvasValue.textContent = value;
+function updatePlayerStatsMinThresholdDisplays() {
+    Object.keys(PLAYER_STATS_MIN_THRESHOLDS).forEach(key => {
+        const config = PLAYER_STATS_MIN_THRESHOLDS[key];
+        const normalizedValue = getPlayerStatsThresholdValue(key);
+        const value = String(normalizedValue);
+        const input = document.getElementById(config.inputId);
+        if (input && input.value !== value) input.value = value;
+        const valueEl = document.getElementById(config.valueId);
+        if (valueEl) valueEl.textContent = value;
+    });
+
+    const scoreType = document.getElementById('playerStatsScoreTypeSelect')?.value || PLAYER_STATS_DEFAULT_SCORE_TYPE;
+    const minPointsLabel = document.getElementById('playerStatsMinPointsLabel');
+    if (minPointsLabel) minPointsLabel.textContent = getPlayerStatsPointsThresholdLabel(scoreType);
 }
 
 function renderPlayerStatsActiveFilterChips(state) {
@@ -308,8 +372,13 @@ function renderPlayerStatsActiveFilterChips(state) {
         selectedSquad,
         selectedMotmAggregate,
         selectedPositions,
+        selectedCombination,
         selectedScoreType,
-        minimumAppearances
+        minAppearances,
+        minPoints,
+        minCaptains,
+        minMotm,
+        minCombinations,
     } = state;
 
     const _seasonLabel = getPlayerStatsSelectedSeasonLabel(selectedSeasonValue);
@@ -319,7 +388,11 @@ function renderPlayerStatsActiveFilterChips(state) {
     const squadLabel = selectedSquad === 'All' ? 'All' : `${selectedSquad} XV`;
     const squadChip = `<button type="button" class="squad-stats-filter-chip squad-stats-filter-chip-btn" data-bs-toggle="offcanvas" data-bs-target="#playerStatsFiltersOffcanvas" aria-controls="playerStatsFiltersOffcanvas"><strong>Squad</strong> ${squadLabel}</button>`;
     const positionsChip = `<button type="button" class="squad-stats-filter-chip squad-stats-filter-chip-btn" data-bs-toggle="offcanvas" data-bs-target="#playerStatsFiltersOffcanvas" aria-controls="playerStatsFiltersOffcanvas"><strong>Position</strong> ${getPlayerStatsPositionChipLabel(selectedPositions)}</button>`;
-    const minAppsChip = `<button type="button" class="squad-stats-filter-chip squad-stats-filter-chip-btn" data-bs-toggle="offcanvas" data-bs-target="#playerStatsFiltersOffcanvas" aria-controls="playerStatsFiltersOffcanvas"><strong><span class="d-none d-md-inline">Min Appearances</span><span class="d-inline d-md-none">Min Apps</span></strong> ${minimumAppearances}</button>`;
+    const minAppsChip = `<span class="squad-stats-filter-chip"><strong><span class="d-none d-md-inline">Min Appearances</span><span class="d-inline d-md-none">Min Apps</span></strong> ${minAppearances}</span>`;
+    const minPointsChip = `<span class="squad-stats-filter-chip"><strong>${getPlayerStatsPointsThresholdLabel(selectedScoreType || PLAYER_STATS_DEFAULT_SCORE_TYPE)}</strong> ${minPoints}</span>`;
+    const minCaptainsChip = `<span class="squad-stats-filter-chip"><strong>Min Captain Apps</strong> ${minCaptains}</span>`;
+    const minMotmChip = `<span class="squad-stats-filter-chip"><strong>Min MOTM Awards</strong> ${minMotm}</span>`;
+    const minCombinationsChip = `<span class="squad-stats-filter-chip"><strong>Min Starts</strong> ${minCombinations}</span>`;
     const scoreTypeChip = `<span class="squad-stats-filter-chip"><strong>Scoring</strong> ${selectedScoreType || PLAYER_STATS_DEFAULT_SCORE_TYPE}</span>`;
     const motmViewChip = selectedMotmAggregate
         ? '<span class="squad-stats-filter-chip"><strong>Aggregate by position</strong></span>'
@@ -332,18 +405,25 @@ function renderPlayerStatsActiveFilterChips(state) {
 
     const pointsHost = document.getElementById('playerStatsPointsActiveFilters');
     if (pointsHost) {
-        pointsHost.innerHTML = [seasonChip, gameTypeChip, squadChip, minAppsChip, scoreTypeChip].join('');
+        pointsHost.innerHTML = [seasonChip, gameTypeChip, squadChip, minPointsChip, scoreTypeChip].join('');
     }
 
     const captainsHost = document.getElementById('playerStatsCaptainsActiveFilters');
     if (captainsHost) {
-        captainsHost.innerHTML = [seasonChip, gameTypeChip, squadChip, minAppsChip].join('');
+        captainsHost.innerHTML = [seasonChip, gameTypeChip, squadChip, minCaptainsChip].join('');
     }
 
     const motmHost = document.getElementById('playerStatsMotmActiveFilters');
     if (motmHost) {
-        motmHost.innerHTML = [seasonChip, gameTypeChip, squadChip, minAppsChip, motmViewChip].filter(Boolean).join('');
+        motmHost.innerHTML = [seasonChip, gameTypeChip, squadChip, minMotmChip, motmViewChip].filter(Boolean).join('');
     }
+
+    const combinationChip = `<button type="button" class="squad-stats-filter-chip squad-stats-filter-chip-btn" data-bs-toggle="offcanvas" data-bs-target="#playerStatsFiltersOffcanvas" aria-controls="playerStatsFiltersOffcanvas"><strong>Combination</strong> ${getPlayerStatsCombinationLabel(selectedCombination)}</button>`;
+    const startingCombinationsHost = document.getElementById('playerStatsStartingCombinationsActiveFilters');
+    if (startingCombinationsHost) {
+        startingCombinationsHost.innerHTML = [seasonChip, gameTypeChip, squadChip, minCombinationsChip, combinationChip].join('');
+    }
+
 }
 
 function renderPlayerStatsHero(state) {
@@ -353,16 +433,8 @@ function renderPlayerStatsHero(state) {
         selectedGameType,
         selectedSquad,
         selectedPositions,
-        selectedScoreType,
-        minimumAppearances
+        selectedScoreType
     } = state;
-
-    const eligiblePlayers = getPlayerStatsEligiblePlayersByMinAppearances(
-        selectedSeasons,
-        selectedGameType,
-        selectedSquad,
-        minimumAppearances
-    );
 
     const meta = document.getElementById('playerStatsHeroMeta');
     if (meta) {
@@ -382,7 +454,7 @@ function renderPlayerStatsHero(state) {
         return resolvedPositions.includes(row?.position);
     });
     const appearancesLeader = getTopPlayerAggregate(
-        appearancesRows.filter(row => eligiblePlayers.has(row?.player)),
+        appearancesRows,
         'games'
     );
 
@@ -391,7 +463,7 @@ function renderPlayerStatsHero(state) {
         selectedSeasons,
         selectedGameType,
         selectedSquad
-    ).filter(row => row?.score_type === 'Total' && eligiblePlayers.has(row?.player));
+    ).filter(row => row?.score_type === 'Total');
     const pointsLeader = getTopPlayerScopedAggregate(pointsRows, 'total_points');
 
     const triesRows = filterPlayerStatsRowsByScope(
@@ -399,7 +471,7 @@ function renderPlayerStatsHero(state) {
         selectedSeasons,
         selectedGameType,
         selectedSquad
-    ).filter(row => row?.score_type === 'Total' && eligiblePlayers.has(row?.player));
+    ).filter(row => row?.score_type === 'Total');
     const triesLeader = getTopPlayerScopedAggregate(triesRows, 'tries');
 
     const appearancesValue = document.getElementById('playerStatsHeroAppearancesValue');
@@ -429,8 +501,9 @@ function handlePlayerStatsControlChange() {
     syncPlayerStatsGameTypeSegmentFromSelect();
     syncPlayerStatsSquadSegmentFromSelect();
     syncPlayerStatsScoreTypeSegmentFromSelect();
+    syncPlayerStatsCombinationSegmentFromSelect();
     syncPlayerStatsPositionButtons();
-    updatePlayerStatsMinAppsDisplay();
+    updatePlayerStatsMinThresholdDisplays();
     renderPlayerStatsPage();
 }
 
@@ -507,16 +580,22 @@ function initialisePlayerStatsControls() {
     const gameTypeSelect = document.getElementById('playerStatsGameTypeSelect');
     const squadSelect = document.getElementById('playerStatsSquadSelect');
     const scoreTypeSelect = document.getElementById('playerStatsScoreTypeSelect');
+    const combinationSelect = document.getElementById('playerStatsCombinationSelect');
     const motmAggregateSwitch = document.getElementById('playerStatsMotmAggregateSwitch');
     const minAppearancesInput = document.getElementById('playerStatsMinAppearancesInput');
+    const minPointsInput = document.getElementById('playerStatsMinPointsInput');
+    const minCaptainsInput = document.getElementById('playerStatsMinCaptainsInput');
+    const minMotmInput = document.getElementById('playerStatsMinMotmInput');
+    const minCombinationsInput = document.getElementById('playerStatsMinCombinationsInput');
     const seasonPrevButton = document.getElementById('playerStatsSeasonPrevOffcanvas');
     const seasonNextButton = document.getElementById('playerStatsSeasonNextOffcanvas');
     const gameTypeSegment = document.getElementById('playerStatsGameTypeSegment');
     const squadSegment = document.getElementById('playerStatsSquadSegment');
     const scoreTypeSegment = document.getElementById('playerStatsScoreTypeSegment');
+    const combinationSegment = document.getElementById('playerStatsCombinationSegment');
     const positionGrid = document.getElementById('playerStatsPositionGrid');
 
-    if (!seasonSelect || !gameTypeSelect || !squadSelect || !scoreTypeSelect || !motmAggregateSwitch || !minAppearancesInput) return;
+    if (!seasonSelect || !gameTypeSelect || !squadSelect || !scoreTypeSelect || !combinationSelect || !motmAggregateSwitch) return;
 
     const seasons = getPlayerStatsSeasonOptions();
     seasonSelect.innerHTML = '';
@@ -535,17 +614,27 @@ function initialisePlayerStatsControls() {
     gameTypeSelect.value = PLAYER_STATS_DEFAULT_GAME_TYPE;
     squadSelect.value = 'All';
     scoreTypeSelect.value = PLAYER_STATS_DEFAULT_SCORE_TYPE;
+    combinationSelect.value = PLAYER_STATS_DEFAULT_COMBINATION;
     motmAggregateSwitch.checked = PLAYER_STATS_DEFAULT_MOTM_AGGREGATE;
-    minAppearancesInput.value = '10';
+    Object.keys(PLAYER_STATS_MIN_THRESHOLDS).forEach(key => {
+        const config = PLAYER_STATS_MIN_THRESHOLDS[key];
+        const input = document.getElementById(config.inputId);
+        if (input) input.value = String(config.defaultValue);
+    });
     setPlayerStatsPositionSelection(['Starters', 'Bench']);
 
     seasonSelect.addEventListener('change', handlePlayerStatsControlChange);
     gameTypeSelect.addEventListener('change', handlePlayerStatsControlChange);
     squadSelect.addEventListener('change', handlePlayerStatsControlChange);
     scoreTypeSelect.addEventListener('change', handlePlayerStatsControlChange);
+    combinationSelect.addEventListener('change', handlePlayerStatsControlChange);
     motmAggregateSwitch.addEventListener('change', handlePlayerStatsControlChange);
-    minAppearancesInput.addEventListener('input', handlePlayerStatsControlChange);
-    minAppearancesInput.addEventListener('change', handlePlayerStatsControlChange);
+    [minAppearancesInput, minPointsInput, minCaptainsInput, minMotmInput, minCombinationsInput]
+        .filter(Boolean)
+        .forEach(input => {
+            input.addEventListener('input', handlePlayerStatsControlChange);
+            input.addEventListener('change', handlePlayerStatsControlChange);
+        });
 
     if (seasonPrevButton) {
         seasonPrevButton.addEventListener('click', () => {
@@ -587,6 +676,13 @@ function initialisePlayerStatsControls() {
                 onSync: () => handlePlayerStatsControlChange(),
             });
         }
+        if (combinationSegment) {
+            window.sharedUi.bindSegmentToSelect({
+                segment: combinationSegment,
+                select: combinationSelect,
+                onSync: () => handlePlayerStatsControlChange(),
+            });
+        }
     }
 
     if (positionGrid) {
@@ -603,8 +699,9 @@ function initialisePlayerStatsControls() {
     syncPlayerStatsGameTypeSegmentFromSelect();
     syncPlayerStatsSquadSegmentFromSelect();
     syncPlayerStatsScoreTypeSegmentFromSelect();
+    syncPlayerStatsCombinationSegmentFromSelect();
     syncPlayerStatsPositionButtons();
-    updatePlayerStatsMinAppsDisplay();
+    updatePlayerStatsMinThresholdDisplays();
     playerStatsControlsInitialised = true;
 }
 
@@ -615,7 +712,7 @@ function initialisePlayerStatsAnalysisRail() {
     });
 }
 
-function filterPlayerStatsCaptainsSpec(spec, selectedSeasons, gameTypeMode, selectedSquad, eligiblePlayers) {
+function filterPlayerStatsCaptainsSpec(spec, selectedSeasons, gameTypeMode, selectedSquad, minCaptains) {
     const clonedSpec = JSON.parse(JSON.stringify(spec));
     const allowedGameTypes = getAllowedGameTypes(gameTypeMode);
     const squadColors = getPlayerStatsSquadColors();
@@ -624,7 +721,7 @@ function filterPlayerStatsCaptainsSpec(spec, selectedSeasons, gameTypeMode, sele
             if (layer?.encoding?.color?.scale) layer.encoding.color.scale.range = squadColors;
         });
     }
-    const predicate = row => {
+    const scopePredicate = row => {
         const seasons = normalizePlayerStatsSeasonFilter(selectedSeasons);
         if (seasons.length === 0) {
             if (row?.season === 'Total') return false;
@@ -633,13 +730,19 @@ function filterPlayerStatsCaptainsSpec(spec, selectedSeasons, gameTypeMode, sele
         }
         if (allowedGameTypes && !allowedGameTypes.has(row?.game_type)) return false;
         if (selectedSquad !== 'All' && row?.squad !== selectedSquad) return false;
-        if (eligiblePlayers instanceof Set && !eligiblePlayers.has(row?.player)) return false;
         return true;
     };
-    return filterChartSpecDataset(clonedSpec, predicate);
+    const rows = getPlayerStatsDatasetRows(clonedSpec).filter(scopePredicate);
+    const qualifyingPlayers = getPlayersMeetingThreshold(rows, 'games', minCaptains);
+
+    return filterChartSpecDataset(clonedSpec, row => {
+        if (!scopePredicate(row)) return false;
+        if (!(qualifyingPlayers instanceof Set) || qualifyingPlayers.size === 0) return false;
+        return qualifyingPlayers.has(row?.player);
+    });
 }
 
-function filterPlayerStatsMotmSpec(spec, selectedSeasons, gameTypeMode, selectedSquad, eligiblePlayers) {
+function filterPlayerStatsMotmSpec(spec, selectedSeasons, gameTypeMode, selectedSquad, minMotm) {
     const clonedSpec = JSON.parse(JSON.stringify(spec));
     const seasonValue = normalizePlayerStatsSeasonFilter(selectedSeasons);
     const allowedGameTypes = getAllowedGameTypes(gameTypeMode);
@@ -665,17 +768,21 @@ function filterPlayerStatsMotmSpec(spec, selectedSeasons, gameTypeMode, selected
         });
     }
 
-    if (eligiblePlayers instanceof Set) {
-        return filterChartSpecDataset(clonedSpec, row => {
-            if (!row || typeof row !== 'object' || !('player' in row)) return true;
-            return eligiblePlayers.has(row.player);
-        });
-    }
+    const scopedRows = filterPlayerStatsRowsByScope(
+        getPlayerStatsDatasetRows(clonedSpec),
+        selectedSeasons,
+        gameTypeMode,
+        selectedSquad
+    );
+    const qualifyingPlayers = getPlayersMeetingThreshold(scopedRows, 'motm_awards', minMotm);
 
-    return clonedSpec;
+    return filterChartSpecDataset(clonedSpec, row => {
+        if (!row || typeof row !== 'object' || !('player' in row)) return true;
+        return qualifyingPlayers.has(row.player);
+    });
 }
 
-function filterPlayerStatsMotmUnitsSpec(spec, selectedSeasons, gameTypeMode, selectedSquad, eligiblePlayers) {
+function filterPlayerStatsMotmUnitsSpec(spec, selectedSeasons, gameTypeMode, selectedSquad, minMotm) {
     const clonedSpec = JSON.parse(JSON.stringify(spec));
     const seasonValue = normalizePlayerStatsSeasonFilter(selectedSeasons);
     const allowedGameTypes = getAllowedGameTypes(gameTypeMode);
@@ -691,14 +798,18 @@ function filterPlayerStatsMotmUnitsSpec(spec, selectedSeasons, gameTypeMode, sel
         });
     }
 
-    if (eligiblePlayers instanceof Set) {
-        return filterChartSpecDataset(clonedSpec, row => {
-            if (!row || typeof row !== 'object' || !('player' in row)) return true;
-            return eligiblePlayers.has(row.player);
-        });
-    }
+    const scopedRows = filterPlayerStatsRowsByScope(
+        getPlayerStatsDatasetRows(clonedSpec),
+        selectedSeasons,
+        gameTypeMode,
+        selectedSquad
+    );
+    const qualifyingPlayers = getPlayersMeetingThreshold(scopedRows, 'motm_awards', minMotm);
 
-    return clonedSpec;
+    return filterChartSpecDataset(clonedSpec, row => {
+        if (!row || typeof row !== 'object' || !('player' in row)) return true;
+        return qualifyingPlayers.has(row.player);
+    });
 }
 
 function filterPlayerStatsAppearancesSpec(spec, selectedSeasons, gameTypeMode, selectedSquad, positions, minimumAppearances) {
@@ -728,7 +839,7 @@ function filterPlayerStatsAppearancesSpec(spec, selectedSeasons, gameTypeMode, s
     return clonedSpec;
 }
 
-function filterPlayerStatsPointsSpec(spec, selectedSeasons, gameTypeMode, selectedSquad, scoreType, eligiblePlayers) {
+function filterPlayerStatsPointsSpec(spec, selectedSeasons, gameTypeMode, selectedSquad, scoreType, minPoints) {
     const clonedSpec = JSON.parse(JSON.stringify(spec));
     const seasonValue = normalizePlayerStatsSeasonFilter(selectedSeasons);
     const allowedGameTypes = getAllowedGameTypes(gameTypeMode);
@@ -754,14 +865,51 @@ function filterPlayerStatsPointsSpec(spec, selectedSeasons, gameTypeMode, select
             }
         });
     }
-    if (allowedGameTypes || eligiblePlayers instanceof Set) {
-        return filterChartSpecDataset(clonedSpec, row => {
-            if (!row || typeof row !== 'object' || !('game_type' in row)) return true;
-            if (allowedGameTypes && !allowedGameTypes.has(row.game_type)) return false;
-            if (eligiblePlayers instanceof Set && !eligiblePlayers.has(row?.player)) return false;
-            return true;
+    const scopedRows = filterPlayerStatsRowsByScope(
+        getPlayerStatsDatasetRows(clonedSpec),
+        selectedSeasons,
+        gameTypeMode,
+        selectedSquad
+    ).filter(row => row?.score_type === nextScoreType);
+    const qualifyingPlayers = getPlayersMeetingThreshold(scopedRows, 'value', minPoints);
+
+    return filterChartSpecDataset(clonedSpec, row => {
+        if (!row || typeof row !== 'object' || !('player' in row)) return true;
+        return qualifyingPlayers.has(row.player);
+    });
+}
+
+function filterPlayerStatsStartingCombinationsSpec(spec, selectedSeasons, gameTypeMode, selectedSquad, selectedCombination, minimumAppearances) {
+    const clonedSpec = JSON.parse(JSON.stringify(spec));
+    const seasonValue = normalizePlayerStatsSeasonFilter(selectedSeasons);
+    const allowedGameTypes = getAllowedGameTypes(gameTypeMode);
+    const gameTypesValue = allowedGameTypes ? Array.from(allowedGameTypes) : [];
+    const threshold = Number.isFinite(minimumAppearances) ? Math.max(0, Math.floor(minimumAppearances)) : 10;
+
+    if (Array.isArray(clonedSpec.params)) {
+        clonedSpec.params.forEach(param => {
+            switch (param.name) {
+                case 'seasonParam': param.value = seasonValue; break;
+                case 'gameTypesParam': param.value = gameTypesValue; break;
+                case 'gameTypeParam': param.value = gameTypeMode || PLAYER_STATS_DEFAULT_GAME_TYPE; break;
+                case 'squadParam': param.value = selectedSquad; break;
+                case 'combinationParam': param.value = selectedCombination || PLAYER_STATS_DEFAULT_COMBINATION; break;
+                case 'minAppsParam': param.value = threshold; break;
+            }
         });
     }
+
+    const combinationLabel = getPlayerStatsCombinationLabel(selectedCombination);
+    clonedSpec.title = {
+        text: `${combinationLabel} Starting Combinations`,
+        subtitle: `Minimum ${threshold} appearances`,
+    };
+
+    const squadColors = getPlayerStatsSquadColors();
+    if (clonedSpec?.encoding?.color?.scale) {
+        clonedSpec.encoding.color.scale.range = squadColors;
+    }
+
     return clonedSpec;
 }
 
@@ -773,37 +921,45 @@ async function renderPlayerStatsPage() {
         selectedSquad,
         selectedMotmAggregate,
         selectedPositions,
+        selectedCombination,
         selectedScoreType,
-        minimumAppearances
+        minAppearances,
+        minPoints,
+        minCaptains,
+        minMotm,
+        minCombinations,
     } = state;
 
     renderPlayerStatsActiveFilterChips(state);
 
     try {
         if (!playerStatsBaseSpecs) {
-            const [captainsSpec, motmSpec, motmUnitsSpec, appearancesSpec, pointsSpec] = await Promise.all([
+            const [captainsSpec, motmSpec, motmUnitsSpec, appearancesSpec, pointsSpec, startingCombinationsSpec] = await Promise.all([
                 loadChartSpec('data/charts/player_stats_captains.json'),
                 loadChartSpec('data/charts/player_stats_motm.json'),
                 loadChartSpec('data/charts/player_stats_motm_units.json'),
                 loadChartSpec('data/charts/player_stats_appearances.json'),
-                loadChartSpec('data/charts/point_scorers.json')
+                loadChartSpec('data/charts/point_scorers.json'),
+                loadChartSpec('data/charts/player_stats_starting_combinations.json')
             ]);
-            playerStatsBaseSpecs = { captainsSpec, motmSpec, motmUnitsSpec, appearancesSpec, pointsSpec };
+            playerStatsBaseSpecs = { captainsSpec, motmSpec, motmUnitsSpec, appearancesSpec, pointsSpec, startingCombinationsSpec };
         }
 
-        const { captainsSpec, motmSpec, motmUnitsSpec, appearancesSpec, pointsSpec } = playerStatsBaseSpecs;
-        const eligiblePlayers = getPlayerStatsEligiblePlayersByMinAppearances(
+        const { captainsSpec, motmSpec, motmUnitsSpec, appearancesSpec, pointsSpec, startingCombinationsSpec } = playerStatsBaseSpecs;
+
+        const filteredCaptains = filterPlayerStatsCaptainsSpec(captainsSpec, selectedSeasons, selectedGameType, selectedSquad, minCaptains);
+        const filteredMotm = filterPlayerStatsMotmSpec(motmSpec, selectedSeasons, selectedGameType, selectedSquad, minMotm);
+        const filteredMotmUnits = filterPlayerStatsMotmUnitsSpec(motmUnitsSpec, selectedSeasons, selectedGameType, selectedSquad, minMotm);
+        const filteredAppearances = filterPlayerStatsAppearancesSpec(appearancesSpec, selectedSeasons, selectedGameType, selectedSquad, selectedPositions, minAppearances);
+        const filteredPoints = filterPlayerStatsPointsSpec(pointsSpec, selectedSeasons, selectedGameType, selectedSquad, selectedScoreType, minPoints);
+        const filteredStartingCombinations = filterPlayerStatsStartingCombinationsSpec(
+            startingCombinationsSpec,
             selectedSeasons,
             selectedGameType,
             selectedSquad,
-            minimumAppearances
+            selectedCombination,
+            minCombinations
         );
-
-        const filteredCaptains = filterPlayerStatsCaptainsSpec(captainsSpec, selectedSeasons, selectedGameType, selectedSquad, eligiblePlayers);
-        const filteredMotm = filterPlayerStatsMotmSpec(motmSpec, selectedSeasons, selectedGameType, selectedSquad, eligiblePlayers);
-        const filteredMotmUnits = filterPlayerStatsMotmUnitsSpec(motmUnitsSpec, selectedSeasons, selectedGameType, selectedSquad, eligiblePlayers);
-        const filteredAppearances = filterPlayerStatsAppearancesSpec(appearancesSpec, selectedSeasons, selectedGameType, selectedSquad, selectedPositions, minimumAppearances);
-        const filteredPoints = filterPlayerStatsPointsSpec(pointsSpec, selectedSeasons, selectedGameType, selectedSquad, selectedScoreType, eligiblePlayers);
         const motmSpecToRender = selectedMotmAggregate ? filteredMotmUnits : filteredMotm;
         const motmEmptyMessage = selectedMotmAggregate
             ? 'No MOTM unit breakdown available for the selected filters.'
@@ -814,12 +970,14 @@ async function renderPlayerStatsPage() {
         renderStaticSpecChart('playerStatsCaptainsChart', filteredCaptains, 'No captains or vice-captains data available for the selected season.');
         renderStaticSpecChart('playerStatsMotmChart', motmSpecToRender, motmEmptyMessage, { layoutContainerId: motmLayoutContainerId });
         renderStaticSpecChart('playerStatsAppearancesChart', filteredAppearances, 'No player appearances available for the selected filters.');
+        renderStaticSpecChart('playerStatsStartingCombinationsChart', filteredStartingCombinations, 'No starting combinations available for the selected filters and threshold.');
         renderStaticSpecChart('playerStatsPointsChart', filteredPoints, 'No point scorers available for the selected filters.');
     } catch (error) {
         console.warn('Unable to load Player Stats charts:', error);
         renderStaticSpecChart('playerStatsCaptainsChart', null, 'Unable to load captains chart.');
         renderStaticSpecChart('playerStatsMotmChart', null, 'Unable to load MOTM chart.');
         renderStaticSpecChart('playerStatsAppearancesChart', null, 'Unable to load appearances chart.');
+        renderStaticSpecChart('playerStatsStartingCombinationsChart', null, 'Unable to load starting combinations chart.');
         renderStaticSpecChart('playerStatsPointsChart', null, 'Unable to load point scorers chart.');
     }
 }
@@ -827,23 +985,25 @@ async function renderPlayerStatsPage() {
 document.addEventListener('DOMContentLoaded', async function () {
     await loadAvailableSeasons();
     if (!playerStatsBaseSpecs) {
-        const [captainsSpec, motmSpec, motmUnitsSpec, appearancesSpec, pointsSpec] = await Promise.all([
+        const [captainsSpec, motmSpec, motmUnitsSpec, appearancesSpec, pointsSpec, startingCombinationsSpec] = await Promise.all([
             loadChartSpec('data/charts/player_stats_captains.json'),
             loadChartSpec('data/charts/player_stats_motm.json'),
             loadChartSpec('data/charts/player_stats_motm_units.json'),
             loadChartSpec('data/charts/player_stats_appearances.json'),
-            loadChartSpec('data/charts/point_scorers.json')
+            loadChartSpec('data/charts/point_scorers.json'),
+            loadChartSpec('data/charts/player_stats_starting_combinations.json')
         ]);
-        playerStatsBaseSpecs = { captainsSpec, motmSpec, motmUnitsSpec, appearancesSpec, pointsSpec };
+        playerStatsBaseSpecs = { captainsSpec, motmSpec, motmUnitsSpec, appearancesSpec, pointsSpec, startingCombinationsSpec };
     }
 
-    const { captainsSpec, motmSpec, motmUnitsSpec, appearancesSpec, pointsSpec } = playerStatsBaseSpecs;
+    const { captainsSpec, motmSpec, motmUnitsSpec, appearancesSpec, pointsSpec, startingCombinationsSpec } = playerStatsBaseSpecs;
     playerStatsDataSeasons = sortSeasonLabelsDescending([
         ...extractSeasonsFromSpec(captainsSpec),
         ...extractSeasonsFromSpec(motmSpec),
         ...extractSeasonsFromSpec(motmUnitsSpec),
         ...extractSeasonsFromSpec(appearancesSpec),
-        ...extractSeasonsFromSpec(pointsSpec)
+        ...extractSeasonsFromSpec(pointsSpec),
+        ...extractSeasonsFromSpec(startingCombinationsSpec)
     ]);
 
     initialisePlayerStatsControls();

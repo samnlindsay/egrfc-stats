@@ -315,7 +315,7 @@
     color: inherit;
     line-height: 1.2;
     margin-bottom: 0.15rem;
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -323,7 +323,7 @@
 
 .player-profile-summary-subtitle {
     color: inherit;
-    font-size: 1.2rem;
+    font-size: 1rem;
     /* opacity: 0.9; */
     white-space: nowrap;
     overflow: hidden;
@@ -2897,8 +2897,8 @@ button.match-info-hero-action-card:focus-visible {
 /* Large background icon: positioned behind content, low opacity */
 .nav-page-card .nav-page-card-icon {
     position: absolute;
-    bottom: 0.1rem;
-    right: 0.1rem;
+    bottom: 0.2rem;
+    right: 0.3rem;
     font-size: 4.7rem;
     line-height: 1;
     color: var(--accent-color);
@@ -2916,8 +2916,8 @@ button.match-info-hero-action-card:focus-visible {
 
 .nav-page-card .card-title {
     margin-bottom: 0;
-    font-size: 1.02rem;
-    line-height: 1.05;
+    font-size: 1.5rem;
+    line-height: 1;
 }
 
 .nav-page-card .card-text {
@@ -3720,7 +3720,7 @@ table tbody tr:hover {
     }
 
     .nav-page-card .card-title {
-        font-size: 0.95rem;
+        font-size: 1.25rem;
     }
 
     .nav-page-card .card-text {
@@ -4172,6 +4172,16 @@ table tbody tr:hover {
     min-width: min(100%, 20rem);
 }
 
+.player-stats-threshold-control {
+    flex: 0 1 min(100%, 18rem);
+    min-width: min(100%, 16rem);
+    margin-left: auto;
+}
+
+.player-stats-main .chart-section-head--right-only {
+    justify-content: flex-end;
+}
+
 .chart-section-head--motm-toggle {
     justify-content: flex-end;
     margin-bottom: 0.55rem;
@@ -4535,9 +4545,22 @@ table tbody tr:hover {
 }
 
 .squad-filter-segment {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 0.35rem;
+    display: flex;
+    gap: 0;
+}
+
+#playerStatsCombinationSegment {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+#playerStatsCombinationSegment .squad-filter-segment-btn {
+    flex: 0 0 auto;
+    white-space: nowrap;
+    padding-inline: 0.65rem;
 }
 
 /* Standard btn-check radio button style — use .btn-filter-segment on the <label> */
@@ -4585,7 +4608,7 @@ table tbody tr:hover {
 .squad-filter-segment-btn {
     min-height: 2.5rem;
     border: 1px solid #c9d3f2;
-    border-radius: 0.6rem;
+    border-radius: 0;
     background: #fff;
     color: #25325f;
     font-family: 'PT Sans Narrow', sans-serif;
@@ -4593,12 +4616,31 @@ table tbody tr:hover {
     font-weight: 700;
     padding: 0.3rem 0.4rem;
     transition: all 0.15s ease;
+    position: relative;
+    flex: 1 1 auto;
 }
 
 .squad-filter-segment-btn.is-active {
     border-color: #202946;
     background: #202946;
     color: #f4f6ff;
+}
+
+/* Joined btn-group layout — applied to horizontal segments only */
+.squad-filter-segment:not(.squad-filter-segment--vertical) > .squad-filter-segment-btn + .squad-filter-segment-btn {
+    margin-left: -1px;
+}
+
+.squad-filter-segment:not(.squad-filter-segment--vertical) > .squad-filter-segment-btn:first-child {
+    border-radius: 0.5rem 0 0 0.5rem;
+}
+
+.squad-filter-segment:not(.squad-filter-segment--vertical) > .squad-filter-segment-btn:last-child {
+    border-radius: 0 0.5rem 0.5rem 0;
+}
+
+.squad-filter-segment:not(.squad-filter-segment--vertical) > .squad-filter-segment-btn.is-active {
+    z-index: 1;
 }
 
 .squad-filter-range {

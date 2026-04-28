@@ -209,6 +209,24 @@ def _canonical_player_name(name: Any) -> Any:
     return PITCHERO_TO_GOOGLE_CANONICAL_NAMES.get(str(name).strip(), str(name).strip())
 
 
+def _canonical_player_name_for_season(name: Any, season: Any) -> Any:
+    """Resolve scorer aliases that are ambiguous across eras.
+
+    Pitchero uses "S Lindsay" for two different players:
+    - pre-2021/22: Sam Lindsay
+    - 2021/22 onward: Sam Lindsay-McCall
+    """
+    canonical = _canonical_player_name(name)
+    text = str(name or "").strip()
+    if text != "S Lindsay":
+        return canonical
+
+    season_text = str(season or "").strip()
+    if season_text and season_text < "2021/22":
+        return "Sam Lindsay"
+    return "Sam Lindsay-McCall"
+
+
 def _canonical_pitchero_opposition_name(name: Any) -> Any:
     return canonical_pitchero_opposition(name)
 
@@ -2809,7 +2827,7 @@ class BackendDatabase:
                     continue
 
                 for raw_player, count in payload.items():
-                    canonical_name = _canonical_player_name(raw_player)
+                    canonical_name = _canonical_player_name_for_season(raw_player, season)
                     player_join = clean_name(canonical_name)
                     resolved_player = player_lookup.get(player_join, canonical_name)
                     rows.append(
@@ -2908,10 +2926,6 @@ class BackendDatabase:
                     if metric_info is None:
                         continue
                     metric, multiplier = metric_info
-                    canonical_name = _canonical_player_name(scorer.player)
-                    player_join = clean_name(canonical_name)
-                    resolved_player = player_lookup.get(player_join, canonical_name)
-
                     season = "2025/26"
                     game_type = "Unknown"
                     scorer_date = getattr(scorer, "date", pd.NaT)
@@ -2932,6 +2946,10 @@ class BackendDatabase:
                         if not match.empty:
                             season = str(match.iloc[0]["season"] or season).strip() or season
                             game_type = str(match.iloc[0]["game_type"] or game_type).strip() or game_type
+
+                    canonical_name = _canonical_player_name_for_season(scorer.player, season)
+                    player_join = clean_name(canonical_name)
+                    resolved_player = player_lookup.get(player_join, canonical_name)
 
                     rows.append(
                         {

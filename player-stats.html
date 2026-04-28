@@ -131,6 +131,8 @@
                         aria-hidden="true"></i><span class="rail-link-label">Captains</span></a>
                     <a class="rail-link nav-link" href="#player-motm" data-short="MOTM"><i class="bi bi-star-fill"
                         aria-hidden="true"></i><span class="rail-link-label">Man of the Match</span></a>
+                    <a class="rail-link nav-link" href="#player-starting-combinations" data-short="Combos"><i class="bi bi-diagram-3-fill"
+                        aria-hidden="true"></i><span class="rail-link-label">Starting Combinations</span></a>
                     <a class="rail-link nav-link" href="#team-sheets-board" data-short="Sheets"><i class="bi bi-clipboard2-check"
                         aria-hidden="true"></i><span class="rail-link-label">Team Sheets</span></a>
                 </aside>
@@ -143,6 +145,14 @@
                         <div id="playerStatsAppearancesActiveFilters" class="squad-stats-active-filters" aria-live="polite"></div>
 
                         <div class="chart-section-block chart-section-block--panel">
+                            <div class="chart-section-head chart-section-head--right-only">
+                                <label class="squad-filter-control player-stats-threshold-control" for="playerStatsMinAppearancesInput">
+                                    <span class="squad-filter-label">Min Appearances <strong id="playerStatsMinAppearancesValue">10</strong></span>
+                                    <div class="squad-filter-range-wrap">
+                                        <input id="playerStatsMinAppearancesInput" type="range" class="squad-filter-range" min="1" max="100" step="1" value="10">
+                                    </div>
+                                </label>
+                            </div>
                             <div class="chart-section-content">
                                 <div id="playerStatsAppearancesChart" class="chart-host chart-host--overflow-visible chart-host--intrinsic player-stats-chart-container">
                                     Loading appearances chart...
@@ -172,6 +182,12 @@
                                         <option value="Kicks">Kicks</option>
                                     </select>
                                 </div>
+                                <label class="squad-filter-control player-stats-threshold-control" for="playerStatsMinPointsInput">
+                                    <span class="squad-filter-label"><span id="playerStatsMinPointsLabel">Min Points</span> <strong id="playerStatsMinPointsValue">10</strong></span>
+                                    <div class="squad-filter-range-wrap">
+                                        <input id="playerStatsMinPointsInput" type="range" class="squad-filter-range" min="1" max="200" step="1" value="10">
+                                    </div>
+                                </label>
                             </div>
                             <div class="chart-section-content">
                                 <div id="playerStatsPointsChart" class="chart-host chart-host--overflow-visible chart-host--intrinsic player-stats-chart-container">
@@ -188,6 +204,14 @@
                         <div id="playerStatsCaptainsActiveFilters" class="squad-stats-active-filters" aria-live="polite"></div>
 
                         <div class="chart-section-block chart-section-block--panel">
+                            <div class="chart-section-head chart-section-head--right-only">
+                                <label class="squad-filter-control player-stats-threshold-control" for="playerStatsMinCaptainsInput">
+                                    <span class="squad-filter-label">Min Captain Apps <strong id="playerStatsMinCaptainsValue">1</strong></span>
+                                    <div class="squad-filter-range-wrap">
+                                        <input id="playerStatsMinCaptainsInput" type="range" class="squad-filter-range" min="1" max="50" step="1" value="1">
+                                    </div>
+                                </label>
+                            </div>
                             <div class="chart-section-content">
                                 <div id="playerStatsCaptainsChart" class="chart-host chart-host--overflow-visible chart-host--intrinsic player-stats-chart-container">
                                     Loading captains chart...
@@ -199,7 +223,7 @@
                     <section id="player-motm" class="analysis-section chart-section"
                         aria-labelledby="player-motm-heading">
                         <h2 id="player-motm-heading" class="section-heading">Man of the Match</h2>
-                        <p class="section-intro"> awards by player and squad for the selected seasons and competition scope.</p>
+                        <p class="section-intro"> MOTM awards by player and squad for the selected seasons and competition scope.</p>
                         <div id="playerStatsMotmActiveFilters" class="squad-stats-active-filters" aria-live="polite"></div>
 
                         <div class="chart-section-block chart-section-block--panel">
@@ -210,10 +234,58 @@
                                         <label class="form-check-label" for="playerStatsMotmAggregateSwitch">Aggregate by position</label>
                                     </div>
                                 </div>
+                                <label class="squad-filter-control player-stats-threshold-control" for="playerStatsMinMotmInput">
+                                    <span class="squad-filter-label">Min MOTM Awards <strong id="playerStatsMinMotmValue">1</strong></span>
+                                    <div class="squad-filter-range-wrap">
+                                        <input id="playerStatsMinMotmInput" type="range" class="squad-filter-range" min="1" max="30" step="1" value="1">
+                                    </div>
+                                </label>
                             </div>
                             <div class="chart-section-content">
                                 <div id="playerStatsMotmChart" class="chart-host chart-host--overflow-visible chart-host--intrinsic player-stats-chart-container">
                                     Loading MOTM chart...
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="player-starting-combinations" class="analysis-section chart-section"
+                        aria-labelledby="player-starting-combinations-heading">
+                        <h2 id="player-starting-combinations-heading" class="section-heading">Starting Combinations</h2>
+                        <p class="section-intro">Most frequent selected units for the chosen combination type. Frequency is filtered by season, game type, squad and minimum appearances.</p>
+                        <div id="playerStatsStartingCombinationsActiveFilters" class="squad-stats-active-filters" aria-live="polite"></div>
+
+                        <div class="chart-section-block chart-section-block--panel">
+                            <div class="chart-section-head">
+                                <div class="squad-filter-control player-stats-section-filter" role="group" aria-label="Starting Combination Unit">
+                                    <span class="squad-filter-label">Combination</span>
+                                    <div class="squad-filter-segment" id="playerStatsCombinationSegment">
+                                        <button type="button" class="squad-filter-segment-btn is-active" data-value="front_row">Front Row</button>
+                                        <button type="button" class="squad-filter-segment-btn" data-value="second_row">Second Row</button>
+                                        <button type="button" class="squad-filter-segment-btn" data-value="back_row">Back Row</button>
+                                        <button type="button" class="squad-filter-segment-btn" data-value="half_backs">Half Backs</button>
+                                        <button type="button" class="squad-filter-segment-btn" data-value="centres">Centre</button>
+                                        <button type="button" class="squad-filter-segment-btn" data-value="back_three">Back Three</button>
+                                    </div>
+                                    <select id="playerStatsCombinationSelect" class="visually-hidden" aria-hidden="true" tabindex="-1">
+                                        <option value="front_row" selected>Front Row</option>
+                                        <option value="second_row">Second Row</option>
+                                        <option value="back_row">Back Row</option>
+                                        <option value="half_backs">Half Backs</option>
+                                        <option value="centres">Centre</option>
+                                        <option value="back_three">Back Three</option>
+                                    </select>
+                                </div>
+                                <label class="squad-filter-control player-stats-threshold-control" for="playerStatsMinCombinationsInput">
+                                    <span class="squad-filter-label">Min Starts <strong id="playerStatsMinCombinationsValue">10</strong></span>
+                                    <div class="squad-filter-range-wrap">
+                                        <input id="playerStatsMinCombinationsInput" type="range" class="squad-filter-range" min="1" max="50" step="1" value="10">
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="chart-section-content">
+                                <div id="playerStatsStartingCombinationsChart" class="chart-host chart-host--overflow-visible chart-host--intrinsic player-stats-chart-container">
+                                    Loading starting combinations chart...
                                 </div>
                             </div>
                         </div>
@@ -240,7 +312,7 @@
         <div class="offcanvas-header">
             <div>
                 <h5 id="playerStatsFiltersHeading" class="section-heading section-heading--flush">Filters</h5>
-                <p class="squad-filters-description">Choose season, competition scope, squad, position group, and minimum appearances. These apply where relevant across the page.</p>
+                <p class="squad-filters-description">Choose season, competition scope, squad, and position group. These apply where relevant across the page.</p>
             </div>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
@@ -319,13 +391,6 @@
                         </div>
                     </div>
                 </div>
-                <label class="squad-filter-control" for="playerStatsMinAppearancesInput">
-                    <span class="squad-filter-label">Min Appearances <strong id="playerStatsMinAppearancesValue">10</strong></span>
-                    <div class="squad-filter-range-wrap">
-                        <input id="playerStatsMinAppearancesInput" type="range" class="squad-filter-range" min="1" max="100"
-                            step="1" value="10">
-                    </div>
-                </label>
             </div>
         </div>
     </div>

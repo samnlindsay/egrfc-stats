@@ -23,6 +23,7 @@ from python.charts import (
     captains_chart,
     player_stats_motm_chart,
     player_stats_appearances_chart,
+    player_stats_starting_combinations_chart,
     player_full_profile_appearances_per_season_chart,
     player_full_profile_position_donut_chart,
     player_full_profile_career_timeline_chart,
@@ -101,6 +102,7 @@ def main(refresh_pitchero=False, backend_mode="canonical", backend_db_path="data
     captains_chart(db)
     player_stats_motm_chart(db)
     player_stats_appearances_chart(db)
+    player_stats_starting_combinations_chart(db)
     player_full_profile_appearances_per_season_chart(db)
     player_full_profile_position_donut_chart(db)
     player_full_profile_career_timeline_chart(db)

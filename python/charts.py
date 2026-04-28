@@ -913,6 +913,173 @@ def player_stats_appearances_chart(db, output_file='data/charts/player_stats_app
     return chart
 
 
+def player_stats_starting_combinations_chart(db, output_file='data/charts/player_stats_starting_combinations.json'):
+    """Starting XV sub-unit combinations for Player Stats.
+
+    Supported filters in the generated Vega spec:
+        seasonParam       – [] (all seasons) or an array of season labels
+        gameTypesParam    – [] (all) or an array of allowed game_type strings
+        gameTypeParam     – optional companion param for frontend compatibility
+        squadParam        – 'All', '1st', or '2nd'
+        combinationParam  – tactical unit key (front_row, second_row, back_row, half_backs, centres, back_three)
+        minAppsParam      – minimum combination frequency threshold (integer)
+    """
+
+    df = db.con.execute(
+        """
+        SELECT
+            P.game_id,
+            COALESCE(G.squad, P.squad) AS squad,
+            COALESCE(G.season, P.season) AS season,
+            COALESCE(G.game_type, 'Unknown') AS game_type,
+            P.number,
+            P.player
+        FROM player_appearances P
+        LEFT JOIN games G USING (game_id)
+        WHERE P.is_starter = TRUE
+          AND P.number BETWEEN 1 AND 15
+        """
+    ).df()
+
+    if df.empty:
+        chart_rows = pd.DataFrame(
+            columns=['game_id', 'squad', 'season', 'game_type', 'unit_key', 'unit_label', 'combination']
+        )
+    else:
+        unit_lookup = {
+            1: ('front_row', 'Front Row'),
+            2: ('front_row', 'Front Row'),
+            3: ('front_row', 'Front Row'),
+            4: ('second_row', 'Second Row'),
+            5: ('second_row', 'Second Row'),
+            6: ('back_row', 'Back Row'),
+            7: ('back_row', 'Back Row'),
+            8: ('back_row', 'Back Row'),
+            9: ('half_backs', 'Half Backs'),
+            10: ('half_backs', 'Half Backs'),
+            11: ('back_three', 'Back Three'),
+            12: ('centres', 'Centre'),
+            13: ('centres', 'Centre'),
+            14: ('back_three', 'Back Three'),
+            15: ('back_three', 'Back Three'),
+        }
+
+        df = df.copy()
+        df['number'] = pd.to_numeric(df['number'], errors='coerce')
+        df = df[df['number'].between(1, 15)].copy()
+        df['number'] = df['number'].astype(int)
+        df['unit_key'] = df['number'].map(lambda n: unit_lookup.get(n, (None, None))[0])
+        df['unit_label'] = df['number'].map(lambda n: unit_lookup.get(n, (None, None))[1])
+        df = df[df['unit_key'].notna()].copy()
+        df['player_short'] = df['player'].map(clean_name)
+
+        grouped = []
+        for (game_id, squad, season, game_type, unit_key, unit_label), chunk in df.groupby(
+            ['game_id', 'squad', 'season', 'game_type', 'unit_key', 'unit_label'],
+            dropna=False
+        ):
+            ordered = chunk.sort_values('number')
+            names = [name for name in ordered['player_short'].tolist() if isinstance(name, str) and name.strip()]
+            if not names:
+                continue
+            canonical_names = tuple(sorted(names))
+            grouped.append(
+                {
+                    'game_id': game_id,
+                    'squad': squad,
+                    'season': season,
+                    'game_type': game_type,
+                    'unit_key': unit_key,
+                    'unit_label': unit_label,
+                    'combination_ordered': ' / '.join(names),
+                    'combination_canonical': ' / '.join(canonical_names),
+                }
+            )
+
+        grouped_df = pd.DataFrame(grouped)
+        if grouped_df.empty:
+            chart_rows = pd.DataFrame(
+                columns=['game_id', 'squad', 'season', 'game_type', 'unit_key', 'unit_label', 'combination']
+            )
+        else:
+            label_records = []
+            for (unit_key, combination_canonical), chunk in grouped_df.groupby(
+                ['unit_key', 'combination_canonical'],
+                dropna=False,
+            ):
+                counts = chunk.groupby('combination_ordered').size().reset_index(name='n')
+                max_n = counts['n'].max()
+                # Deterministic tie-break: alphabetical among equally common orderings.
+                preferred_label = sorted(counts.loc[counts['n'] == max_n, 'combination_ordered'].tolist())[0]
+                label_records.append(
+                    {
+                        'unit_key': unit_key,
+                        'combination_canonical': combination_canonical,
+                        'combination': preferred_label,
+                    }
+                )
+
+            label_df = pd.DataFrame(label_records)
+            chart_rows = grouped_df.merge(
+                label_df,
+                on=['unit_key', 'combination_canonical'],
+                how='left',
+            )[
+                ['game_id', 'squad', 'season', 'game_type', 'unit_key', 'unit_label', 'combination']
+            ]
+
+    season_param = alt.param(name='seasonParam', value=[])
+    game_types_param = alt.param(name='gameTypesParam', value=[])
+    game_type_param = alt.param(name='gameTypeParam', value='All')
+    squad_param = alt.param(name='squadParam', value='All')
+    combination_param = alt.param(name='combinationParam', value='front_row')
+    min_apps_param = alt.param(name='minAppsParam', value=10)
+
+    bars = alt.Chart(chart_rows).mark_bar().encode(
+        x=alt.X('frequency:Q', title='Starts', axis=alt.Axis(orient='top', tickMinStep=5)),
+        y=alt.Y('combination:N', sort='-x', title=None, axis=alt.Axis(labelLimit=360)),
+        color=alt.Color(
+            'squad:N',
+            scale=alt.Scale(domain=['1st', '2nd'], range=['#202946', '#7d96e8']),
+            legend=alt.Legend(title='Squad')
+        ),
+        tooltip=[
+            alt.Tooltip('combination:N', title='Combination'),
+            alt.Tooltip('frequency:Q', title='Starts'),
+            alt.Tooltip('squad:N', title='Squad'),
+        ]
+    )
+
+    chart = (
+        bars
+        .transform_filter('length(seasonParam) === 0 || indexof(seasonParam, datum.season) >= 0')
+        .transform_filter('length(gameTypesParam) === 0 || indexof(gameTypesParam, datum.game_type) >= 0')
+        .transform_filter('squadParam === "All" || datum.squad === squadParam')
+        .transform_filter('datum.unit_key === combinationParam')
+        .transform_aggregate(
+            frequency='count()',
+            groupby=['combination', 'squad']
+        )
+        .transform_filter('datum.frequency >= minAppsParam')
+        .add_params(
+            season_param,
+            game_types_param,
+            game_type_param,
+            squad_param,
+            combination_param,
+            min_apps_param,
+        )
+        .properties(
+            title=alt.Title('Starting Combinations'),
+            width=500,
+            height=alt.Step(20)
+        )
+    )
+
+    chart.save(output_file)
+    return chart
+
+
 def player_full_profile_appearances_per_season_chart(db, output_file='data/charts/player_full_profile_appearances_per_season'):
     """Generate per-player appearances-by-season specs for the full profile page.
 
@@ -2527,7 +2694,7 @@ def clean_name(name):
 
     name_dict = {
         "Sam Lindsay": "S Lindsay 2",
-        "Sam Lindsay-McCall": "S Lindsay",
+        "Sam Lindsay-McCall": "S Lindsay-McCall",
         "James Mitchell": "T Mitchell",
     }
 

@@ -1,0 +1,11 @@
+Metadata-Version: 2.4
+Name: egrfc-stats
+Version: 1.0.0
+Summary: Rugby club statistics tracking system for East Grinstead RFC
+Requires-Python: >=3.8
+Requires-Dist: gspread
+Requires-Dist: pandas
+Requires-Dist: duckdb
+Requires-Dist: altair
+Requires-Dist: beautifulsoup4
+Requires-Dist: requests

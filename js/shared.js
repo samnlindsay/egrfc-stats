@@ -1316,6 +1316,11 @@ async function embedChartSpec(containerOrId, spec, options = {}) {
     return null;
   }
 
+  // Preserve the current height before clearing to prevent layout collapse
+  // during async re-render, which would cause the page to jump to the next section.
+  const _prevHeight = container.offsetHeight;
+  if (_prevHeight > 0) container.style.minHeight = `${_prevHeight}px`;
+
   container.innerHTML = "";
   const embedHost = document.createElement("div");
   embedHost.className = "chart-embed-host";
@@ -1358,6 +1363,7 @@ async function embedChartSpec(containerOrId, spec, options = {}) {
 
   const result = await vegaEmbed(embedHost, chartSpec, embedOptions);
 
+  container.style.minHeight = "";
   pinVegaActionsInElement(container);
   return result?.view || null;
 }

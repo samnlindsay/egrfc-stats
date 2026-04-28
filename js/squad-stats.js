@@ -843,7 +843,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     loadSquadStatsPage();
     initLeagueTablesEmbed().catch(err => console.error('League tables embed init failed:', err));
 });
-// Renders League Standings and League Results sections on Squad Stats page.
+// Renders League Tables and League Results sections on Squad Stats page.
 // Season is shared with the main squadStatsSeasonSelect.
 // Squad filter is independent (leagueTablesSquadSelect / leagueTablesSquadSegment).
 
