@@ -1982,3 +1982,149 @@ function renderCaptainCards(containerId, gamesById, appearancesByGame, profilesB
     generateCaptainCardMarkup(secondCaptain, '2nd')
   ].join('');
 }
+
+function analyticsReady() {
+  return typeof window !== "undefined" && typeof window.gtag === "function";
+}
+
+function getAnalyticsPagePath() {
+  if (typeof window === "undefined" || !window.location) return "";
+  return String(window.location.pathname || "") || "/";
+}
+
+function sanitizeAnalyticsText(value, maxLength = 80) {
+  const text = String(value || "").replace(/\s+/g, " ").trim();
+  return text.slice(0, maxLength);
+}
+
+function trackAnalyticsEvent(eventName, params = {}) {
+  if (!analyticsReady() || !eventName) return;
+  window.gtag("event", eventName, params);
+}
+
+function getLinkArea(link) {
+  if (!link || !link.closest) return "content";
+  if (link.closest(".app-top-navbar, .navbar")) return "top_nav";
+  if (link.closest(".analysis-rail")) return "analysis_rail";
+  if (link.closest(".app-footer, footer")) return "footer";
+  if (link.closest(".page-header-filters, .filter-item, .offcanvas, .filters-row"))
+    return "filters";
+  return "content";
+}
+
+function parseInternalTarget(link) {
+  if (!link || typeof window === "undefined") return null;
+  const href = String(link.getAttribute("href") || "").trim();
+  if (!href || href.startsWith("javascript:") || href.startsWith("mailto:") || href.startsWith("tel:")) {
+    return null;
+  }
+
+  try {
+    const url = new URL(href, window.location.href);
+    if (url.origin !== window.location.origin) return null;
+    return {
+      path: String(url.pathname || "") || "/",
+      hash: String(url.hash || ""),
+    };
+  } catch (_error) {
+    return null;
+  }
+}
+
+function initAnalyticsTracking() {
+  if (typeof document === "undefined" || document.__analyticsTrackingInitialised)
+    return;
+  document.__analyticsTrackingInitialised = true;
+
+  if (analyticsReady()) {
+    trackAnalyticsEvent("page_context", {
+      page_path: getAnalyticsPagePath(),
+      page_title: sanitizeAnalyticsText(document.title, 120),
+    });
+  }
+
+  document.addEventListener("click", (event) => {
+    const link = event.target.closest("a[href]");
+    if (!link) return;
+
+    const target = parseInternalTarget(link);
+    if (!target) return;
+
+    const fromPath = getAnalyticsPagePath();
+    const toPath = target.path;
+    const targetHash = String(target.hash || "").replace("#", "");
+    const linkText = sanitizeAnalyticsText(
+      link.getAttribute("data-short") || link.getAttribute("aria-label") || link.textContent,
+    );
+
+    if (targetHash && fromPath === toPath) {
+      trackAnalyticsEvent("section_navigation_click", {
+        page_path: fromPath,
+        section_id: targetHash,
+        link_area: getLinkArea(link),
+        link_text: linkText || "(no label)",
+      });
+      return;
+    }
+
+    trackAnalyticsEvent("internal_navigation_click", {
+      from_path: fromPath,
+      to_path: toPath,
+      to_has_hash: targetHash ? "yes" : "no",
+      link_area: getLinkArea(link),
+      link_text: linkText || "(no label)",
+    });
+  });
+
+  document.addEventListener("change", (event) => {
+    const control = event.target;
+    if (!(control instanceof HTMLElement)) return;
+    if (!control.matches("select, input[type='radio'], input[type='checkbox'], input[type='range']"))
+      return;
+    if (!control.closest(".filter-item, .page-header-filters, .offcanvas, .squad-filter-segment, .filters-row"))
+      return;
+
+    const controlId = sanitizeAnalyticsText(control.id || control.name || "(anonymous_filter)", 60);
+    const controlType = control instanceof HTMLSelectElement
+      ? (control.multiple ? "select_multiple" : "select_single")
+      : control.getAttribute("type") || control.tagName.toLowerCase();
+
+    let selectedCount = 0;
+    if (control instanceof HTMLSelectElement) {
+      selectedCount = Array.from(control.selectedOptions || []).filter((option) => option.value !== "").length;
+    } else if (control instanceof HTMLInputElement && (control.type === "checkbox" || control.type === "radio")) {
+      selectedCount = control.checked ? 1 : 0;
+    } else if (control instanceof HTMLInputElement) {
+      selectedCount = String(control.value || "").trim() ? 1 : 0;
+    }
+
+    trackAnalyticsEvent("filter_change", {
+      page_path: getAnalyticsPagePath(),
+      filter_id: controlId,
+      filter_type: controlType,
+      selected_count: selectedCount,
+    });
+  });
+
+  document.addEventListener("click", (event) => {
+    const toggle = event.target.closest(".chart-panel-toggle");
+    if (!toggle) return;
+
+    const panel = toggle.closest(".chart-panel");
+    const panelId = sanitizeAnalyticsText(panel?.id || toggle.getAttribute("aria-controls") || "(panel)", 80);
+    window.setTimeout(() => {
+      const expanded = toggle.classList.contains("is-open") || toggle.getAttribute("aria-expanded") === "true";
+      trackAnalyticsEvent("panel_toggle", {
+        page_path: getAnalyticsPagePath(),
+        panel_id: panelId,
+        state: expanded ? "open" : "closed",
+      });
+    }, 0);
+  });
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initAnalyticsTracking);
+} else {
+  initAnalyticsTracking();
+}
