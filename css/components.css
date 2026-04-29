@@ -2477,6 +2477,16 @@ button.match-info-hero-action-card:focus-visible {
     min-width: 0;
 }
 
+.match-team-sheet-avatar-wrap {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 4.35rem;
+    height: 4.35rem;
+    flex: 0 0 auto;
+}
+
 .match-team-sheet-avatar,
 .match-team-sheet-avatar-placeholder {
     width: 4.35rem;
@@ -2521,6 +2531,31 @@ button.match-info-hero-action-card:focus-visible {
     transform: translateY(0.02rem);
 }
 
+.match-team-sheet-player-trailing-overlay {
+    position: absolute;
+    right: -0.22rem;
+    bottom: -0.18rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.1rem;
+    z-index: 2;
+}
+
+.match-team-sheet-player-trailing-overlay--appearance .match-team-sheet-appearance-count {
+    margin: 0;
+    opacity: 1;
+    font-size: 0.7rem;
+    line-height: 1;
+    font-weight: 800;
+    color: #2b3552;
+    background: rgba(255, 255, 255, 0.94);
+    border: 1px solid #d6deef;
+    border-radius: 999px;
+    padding: 0.12rem 0.35rem;
+    box-shadow: 0 1px 3px rgba(16, 26, 54, 0.2);
+}
+
 .match-team-sheet-appearance-count {
     display: inline-flex;
     flex-direction: column;
@@ -2536,14 +2571,6 @@ button.match-info-hero-action-card:focus-visible {
 
 .match-team-sheet-appearance-count-line {
     display: block;
-}
-
-.match-team-sheet-appearance-count-line--first-xv {
-    font-weight: 800;
-}
-
-.match-team-sheet-appearance-count-line--club {
-    font-weight: 500;
 }
 
 .match-team-sheet--compact .match-team-sheet-appearance-count {
@@ -2637,6 +2664,10 @@ button.match-info-hero-action-card:focus-visible {
     display: none;
 }
 
+.match-team-sheet--compact .match-team-sheet-avatar-wrap {
+    display: none;
+}
+
 .match-team-sheet--compact .match-team-sheet-player-link,
 .match-team-sheet--compact .match-team-sheet-player-name {
     font-size: 0.98rem;
@@ -2646,6 +2677,11 @@ button.match-info-hero-action-card:focus-visible {
 .match-team-sheet--compact .match-team-sheet-badge {
     font-size: 0.58rem;
     padding: 0.06rem 0.28rem;
+}
+
+.match-team-sheet--compact .match-team-sheet-appearance-count {
+    margin-top: 0;
+    margin-bottom: auto;
 }
 
 .match-team-sheet--pitch .match-team-sheet-starting-header {
@@ -2759,6 +2795,30 @@ button.match-info-hero-action-card:focus-visible {
     justify-content: center;
     gap: 0.12rem;
     z-index: 3;
+}
+
+.match-team-sheet-pitch-appearance-overlay {
+    position: absolute;
+    right: -0.3rem;
+    bottom: -0.25rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+}
+
+.match-team-sheet--pitch .match-team-sheet-pitch-appearance-overlay .match-team-sheet-appearance-count {
+    margin: 0;
+    opacity: 1;
+    font-size: 0.72rem;
+    line-height: 1;
+    font-weight: 800;
+    color: #2b3552;
+    background: rgba(255, 255, 255, 0.94);
+    border: 1px solid #d6deef;
+    border-radius: 999px;
+    padding: 0.12rem 0.38rem;
+    box-shadow: 0 1px 3px rgba(16, 26, 54, 0.2);
 }
 
 .match-team-sheet-pitch-body {

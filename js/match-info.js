@@ -584,7 +584,7 @@ function appearanceCountHtml(row) {
     if (!clubCount) return '';
 
     const title = `Club appearance #${clubCount}`;
-    const clubLine = `<span class="match-team-sheet-appearance-count-line match-team-sheet-appearance-count-line--club">${escapeHtml(clubCount)}</span>`;
+    const clubLine = `<span class="match-team-sheet-appearance-count-line">${escapeHtml(clubCount)}</span>`;
     return `<span class="match-team-sheet-appearance-count" title="${escapeHtml(title)}" aria-label="${escapeHtml(title)}">${clubLine}</span>`;
 }
 
@@ -627,7 +627,19 @@ function playerIdentityHtml(playerName, profile, isCaptain, isViceCaptain, row) 
     const photoUrl = String(profile?.photo_url || '').trim();
     const hasProfile = !!profile;
     const milestoneMarkup = milestoneBadgeHtml(row);
-    const trailingMetaMarkup = milestoneMarkup || appearanceCountHtml(row);
+    const appearanceMarkup = appearanceCountHtml(row);
+    const trailingMetaMarkup = milestoneMarkup || appearanceMarkup;
+    const useAvatarOverlay = teamSheetDisplayMode !== 'compact';
+
+    const avatarTrailingOverlay = useAvatarOverlay
+        ? (milestoneMarkup
+            ? `<span class="match-team-sheet-player-trailing-overlay match-team-sheet-player-trailing-overlay--milestones">${milestoneMarkup}</span>`
+            : (appearanceMarkup
+                ? `<span class="match-team-sheet-player-trailing-overlay match-team-sheet-player-trailing-overlay--appearance">${appearanceMarkup}</span>`
+                : ''))
+        : '';
+
+    const inlineMetaMarkup = useAvatarOverlay ? '' : trailingMetaMarkup;
 
     const avatar = photoUrl
         ? `<img class="match-team-sheet-avatar" src="${escapeHtml(photoUrl)}" alt="${safeName}" loading="lazy">`
@@ -639,10 +651,13 @@ function playerIdentityHtml(playerName, profile, isCaptain, isViceCaptain, row) 
 
     return `
         <span class="match-team-sheet-player-wrap">
-            ${avatar}
+            <span class="match-team-sheet-avatar-wrap">
+                ${avatar}
+                ${avatarTrailingOverlay}
+            </span>
             <span class="match-team-sheet-player-text">
                 ${nameMarkup}
-                ${trailingMetaMarkup}
+                ${inlineMetaMarkup}
                 ${captainBadgeHtml(isCaptain, isViceCaptain)}
             </span>
         </span>
@@ -792,10 +807,12 @@ function pitchStarterTileHtml(row, fallbackNumber, options = {}) {
 
     const milestoneBadges = row ? milestoneBadgeHtml(row) : '';
     const captainOverlay = row ? captainOverlayHtml(!!row?.is_captain, !!row?.is_vice_captain) : '';
-    const milestoneOverlay = milestoneBadges
+    const appearanceOverlay = row ? appearanceCountHtml(row) : '';
+    const trailingOverlay = milestoneBadges
         ? `<span class="match-team-sheet-pitch-milestones">${milestoneBadges}</span>`
-        : '';
-    const inlineMeta = milestoneBadges ? '' : (row ? appearanceCountHtml(row) : '');
+        : (appearanceOverlay
+            ? `<span class="match-team-sheet-pitch-appearance-overlay">${appearanceOverlay}</span>`
+            : '');
     const numberDisplay = number > 0 ? String(number) : '-';
     const positionLabel = row ? positionLabelHtml(row?.position) : '';
     const replacementClass = isReplacement ? ' match-team-sheet-pitch-player--replacement' : '';
@@ -806,14 +823,13 @@ function pitchStarterTileHtml(row, fallbackNumber, options = {}) {
             <span class="match-team-sheet-pitch-avatar-wrap">
                 ${avatar}
                 ${captainOverlay}
-                ${milestoneOverlay}
+                ${trailingOverlay}
             </span>
             <span class="match-team-sheet-pitch-body">
                     <span class="match-team-sheet-number">${escapeHtml(numberDisplay)}</span>
                 <span class="match-team-sheet-pitch-name-wrap">
                     ${row ? pitchNameHtml(playerName, profile) : '<span class="match-team-sheet-pitch-name"><span class="match-team-sheet-pitch-name-line match-team-sheet-pitch-name-line--first">Not</span><span class="match-team-sheet-pitch-name-line match-team-sheet-pitch-name-line--surname">listed</span></span>'}
                 </span>
-                ${inlineMeta}
             </span>
         </li>
     `;
