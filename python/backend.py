@@ -78,6 +78,13 @@ MANUAL_PITCHERO_URL_OVERRIDES = {
 }
 
 
+PITCHERO_PRIMARY_SOURCE_SEASONS = {
+    season
+    for season in HISTORIC_PITCHERO_SEASON_IDS.keys()
+    if re.match(r"^\d{4}/\d{2}$", str(season)) and int(str(season)[:4]) <= 2023
+}
+
+
 def _mode_or_none(series: pd.Series) -> str | None:
     values = series.dropna()
     if values.empty:
@@ -2098,8 +2105,7 @@ class BackendDatabase:
             if col not in df.columns:
                 df[col] = None
         df["date"] = _safe_date(df["date"])
-        historic_seasons = set(HISTORIC_PITCHERO_SEASON_IDS.keys())
-        historic_mask = df["season"].isin(historic_seasons)
+        pitchero_primary_source_seasons = PITCHERO_PRIMARY_SOURCE_SEASONS
         # Apply opposition canonicalization to all rows so Google Sheets entries
         # (e.g. "Heathfield II") are normalised the same way as Pitchero entries.
         df["opposition"] = df["opposition"].map(_canonical_pitchero_opposition_name)
@@ -2274,7 +2280,9 @@ class BackendDatabase:
         _google_seasons = set(
             df.loc[df["_source"] == "google", "season"].dropna().astype(str).str.strip().tolist()
         )
-        _google_modern_seasons = {season for season in _google_seasons if season not in historic_seasons}
+        _google_modern_seasons = {
+            season for season in _google_seasons if season not in pitchero_primary_source_seasons
+        }
         if _google_modern_seasons:
             _pitchero_google_season_rows = (
                 (df["_source"] == "pitchero")

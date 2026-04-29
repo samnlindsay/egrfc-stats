@@ -1014,14 +1014,12 @@ function renderCareerTimelineChart(playerName) {
   const resolvedContainerWidth =
     containerWidth > 0 ? containerWidth : desktopFallbackWidth;
 
-  // Mobile: keep a larger intrinsic width so scale-to-fit preserves legibility.
-  // Desktop: only force an explicit pixel width when we can measure the host;
-  // otherwise keep Vega-Lite container sizing to avoid overshooting the column.
+  // Mobile: use measured or calculated width for responsive scaling to fit container.
+  // Desktop: use a fixed reasonable width (850px) and let responsive scaling in shared.js
+  // adjust it down if the actual column is narrower.
   filteredSpec.width = isMobileViewport
     ? Math.max(minMobileIntrinsicWidth, resolvedContainerWidth)
-    : containerWidth > 0
-      ? resolvedContainerWidth
-      : "container";
+    : 950;
 
   renderStaticSpecChart(
     containerId,
