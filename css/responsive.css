@@ -4,6 +4,37 @@
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
+    .match-team-sheet--pitch .match-team-sheet-pitch {
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+        column-gap: 0.14rem;
+        row-gap: 0.26rem;
+    }
+
+    .match-team-sheet--pitch .match-team-sheet-pitch-player {
+        width: min(100%, 7.8rem);
+    }
+
+    .match-team-sheet--pitch .match-team-sheet-pitch-avatar-wrap {
+        width: 4.45rem;
+        height: 4.45rem;
+    }
+
+    .match-team-sheet--pitch .match-team-sheet-pitch-avatar,
+    .match-team-sheet--pitch .match-team-sheet-pitch-avatar-placeholder {
+        width: 4.15rem;
+        height: 4.15rem;
+    }
+
+    .match-team-sheet--pitch .match-team-sheet-pitch-body {
+        grid-template-columns: 3.75rem minmax(0, 1fr) auto;
+        gap: 0.14rem;
+    }
+
+    .match-team-sheet--pitch .match-team-sheet-pitch-name-link,
+    .match-team-sheet--pitch .match-team-sheet-pitch-name {
+        font-size: 0.98rem;
+    }
+
     .squad-stats-hero {
         grid-template-columns: minmax(0, 1fr);
     }
@@ -1090,6 +1121,124 @@
         grid-template-columns: 1fr;
     }
 
+    .match-team-sheet--pitch .match-team-sheet-pitch-wrap {
+        padding: 0 0.85rem 0.9rem;
+    }
+
+    .match-team-sheet--pitch .match-team-sheet-pitch {
+        display: flex;
+        flex-direction: column;
+        grid-template-columns: none;
+        grid-template-rows: none;
+        padding: 0.75rem 0.5rem 0.88rem;
+        gap: 0.5rem;
+    }
+
+    .match-team-sheet--pitch .match-team-sheet-pitch-avatar-wrap {
+        width: 4.45rem;
+        height: 4.45rem;
+    }
+
+    .match-team-sheet--pitch .match-team-sheet-pitch-avatar,
+    .match-team-sheet--pitch .match-team-sheet-pitch-avatar-placeholder {
+        width: 4.2rem;
+        height: 4.2rem;
+    }
+
+    .match-team-sheet--pitch .match-team-sheet-pitch-player {
+        width: 100%;
+        min-width: 0;
+        padding: 0.2rem 0;
+    }
+
+    .match-team-sheet--pitch .match-team-sheet-pitch-body {
+        grid-template-columns: 3.35rem minmax(0, 1fr) auto;
+        gap: 0.35rem;
+    }
+
+    .match-team-sheet--pitch .match-team-sheet-pitch-player[class*='match-team-sheet-pitch-player--n'] {
+        grid-column: auto;
+        grid-row: auto;
+        transform: none;
+    }
+
+    .match-team-sheet--pitch .match-team-sheet-number-wrap--pitch {
+        width: 3.35rem;
+        min-height: 3rem;
+    }
+
+    .match-team-sheet--pitch .match-team-sheet-number-wrap--pitch .match-team-sheet-number {
+        font-size: 38px;
+    }
+
+    .match-team-sheet--pitch .match-team-sheet-pitch-name-link,
+    .match-team-sheet--pitch .match-team-sheet-pitch-name {
+        font-size: 0.94rem;
+    }
+
+    .match-team-sheet--pitch .match-team-sheet-pitch-badges {
+        min-height: 1.18rem;
+    }
+
+    .match-team-sheet--pitch .match-team-sheet-badge {
+        font-size: 0.5rem;
+        padding: 0.03rem 0.24rem;
+    }
+
+    .match-team-sheet--pitch .match-team-sheet-milestone {
+        width: 1rem;
+        height: 1rem;
+    }
+
+    .match-team-sheet--pitch .match-team-sheet-milestone-text {
+        font-size: 0.45rem;
+    }
+
+    .match-team-sheet--pitch .match-team-sheet-milestone--100 .match-team-sheet-milestone-text {
+        font-size: 0.4rem;
+    }
+
+    .match-team-sheet--pitch .match-team-sheet-panel--pitch-replacements {
+        position: static;
+        top: auto;
+        right: auto;
+        width: auto;
+        max-height: none;
+        overflow: visible;
+        padding: 0.7rem 0.8rem 0.78rem;
+        border: 1px solid #d8e0f0;
+        border-radius: 0.8rem;
+        background: #f8fafe;
+        box-shadow: none;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+    }
+
+    .match-team-sheet--pitch .match-team-sheet-pitch-layout .match-team-sheet-pitch-wrap {
+        padding-right: 0;
+    }
+
+    .match-team-sheet--pitch .match-team-sheet-pitch-replacements {
+        grid-template-columns: repeat(auto-fit, minmax(5.7rem, 1fr));
+        gap: 0.5rem 0.35rem;
+    }
+
+    .match-team-sheet--pitch .match-team-sheet-pitch-replacements .match-team-sheet-pitch-avatar-wrap {
+        width: 3.65rem;
+        height: 3.65rem;
+    }
+
+    .match-team-sheet--pitch .match-team-sheet-pitch-replacements .match-team-sheet-pitch-avatar,
+    .match-team-sheet--pitch .match-team-sheet-pitch-replacements .match-team-sheet-pitch-avatar-placeholder {
+        width: 3.45rem;
+        height: 3.45rem;
+    }
+
+    .match-team-sheet--pitch .match-team-sheet-pitch-replacements .match-team-sheet-pitch-name-link,
+    .match-team-sheet--pitch .match-team-sheet-pitch-replacements .match-team-sheet-pitch-name {
+        font-size: 0.74rem;
+    }
+
     .match-team-sheet-header {
         padding: 0.72rem 0.9rem;
         font-size: 0.92rem;
@@ -1258,6 +1407,58 @@
     .match-team-sheet--compact .match-team-sheet-player-link,
     .match-team-sheet--compact .match-team-sheet-player-name {
         font-size: 0.84rem;
+    }
+
+    .match-team-sheet--pitch .match-team-sheet-pitch-wrap {
+        padding: 0 0.58rem 0.76rem;
+    }
+
+    .match-team-sheet--pitch .match-team-sheet-pitch {
+        padding: 0.65rem 0.3rem 0.7rem;
+        gap: 0.5rem;
+    }
+
+    .match-team-sheet--pitch .match-team-sheet-pitch-avatar-wrap {
+        width: 3.72rem;
+        height: 3.72rem;
+    }
+
+    .match-team-sheet--pitch .match-team-sheet-pitch-avatar,
+    .match-team-sheet--pitch .match-team-sheet-pitch-avatar-placeholder {
+        width: 3.52rem;
+        height: 3.52rem;
+    }
+
+    .match-team-sheet--pitch .match-team-sheet-pitch-body {
+        grid-template-columns: 3.15rem minmax(0, 1fr);
+        gap: 0.3rem;
+    }
+
+    .match-team-sheet--pitch .match-team-sheet-number-wrap--pitch {
+        width: 3.15rem;
+        min-height: 2.65rem;
+    }
+
+    .match-team-sheet--pitch .match-team-sheet-number-wrap--pitch .match-team-sheet-number {
+        font-size: 30px;
+    }
+
+    .match-team-sheet--pitch .match-team-sheet-pitch-name-link,
+    .match-team-sheet--pitch .match-team-sheet-pitch-name {
+        font-size: 0.75rem;
+    }
+
+    .match-team-sheet--pitch .match-team-sheet-pitch-badges {
+        min-height: 1.04rem;
+        gap: 0.1rem;
+    }
+
+    .match-team-sheet--pitch .match-team-sheet-pitch-player--empty .match-team-sheet-pitch-body {
+        grid-template-columns: 3.15rem minmax(0, 1fr);
+    }
+
+    .match-team-sheet--pitch .match-team-sheet-pitch-replacements {
+        grid-template-columns: repeat(auto-fit, minmax(5.05rem, 1fr));
     }
 }
 

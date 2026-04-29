@@ -6,7 +6,8 @@ let appearancesByGameId = new Map();
 let profilesByName = new Map();
 let setPieceByGameId = new Map();
 let lineoutsByGameId = new Map();
-let isCompactTeamSheetMode = false;
+const TEAM_SHEET_MODES = ['bold', 'compact', 'pitch'];
+let teamSheetDisplayMode = 'bold';
 let clubLogosManifest = {}; // Will be populated by loadLogosManifest()
 let matchInfoAnalysisRailInitialised = false;
 
@@ -578,6 +579,15 @@ function milestoneBadgeHtml(row) {
     return markers.join('');
 }
 
+function appearanceCountHtml(row) {
+    const clubCount = Number(row?.club_appearance_number || 0);
+    if (!clubCount) return '';
+
+    const title = `Club appearance #${clubCount}`;
+    const clubLine = `<span class="match-team-sheet-appearance-count-line match-team-sheet-appearance-count-line--club">${escapeHtml(clubCount)}</span>`;
+    return `<span class="match-team-sheet-appearance-count" title="${escapeHtml(title)}" aria-label="${escapeHtml(title)}">${clubLine}</span>`;
+}
+
 function hasAnyMilestone(rows) {
     return rows.some(row => [1, 25, 50, 100].includes(Number(row?.club_appearance_number || 0))
         || [1, 25, 50, 100].includes(Number(row?.first_xv_appearance_number || 0)));
@@ -616,6 +626,8 @@ function playerIdentityHtml(playerName, profile, isCaptain, isViceCaptain, row) 
     const safeName = escapeHtml(playerName || 'Unknown');
     const photoUrl = String(profile?.photo_url || '').trim();
     const hasProfile = !!profile;
+    const milestoneMarkup = milestoneBadgeHtml(row);
+    const trailingMetaMarkup = milestoneMarkup || appearanceCountHtml(row);
 
     const avatar = photoUrl
         ? `<img class="match-team-sheet-avatar" src="${escapeHtml(photoUrl)}" alt="${safeName}" loading="lazy">`
@@ -630,8 +642,8 @@ function playerIdentityHtml(playerName, profile, isCaptain, isViceCaptain, row) 
             ${avatar}
             <span class="match-team-sheet-player-text">
                 ${nameMarkup}
+                ${trailingMetaMarkup}
                 ${captainBadgeHtml(isCaptain, isViceCaptain)}
-                ${milestoneBadgeHtml(row)}
             </span>
         </span>
     `;
@@ -643,8 +655,30 @@ function positionLabelHtml(position) {
     return `<span class="match-team-sheet-position-label" aria-label="${escapeHtml(raw)}"><span class="match-team-sheet-position-label-text">${formatPositionLabel(raw)}</span></span>`;
 }
 
+function teamSheetModeTitle(mode) {
+    if (mode === 'compact') return 'Compact';
+    if (mode === 'pitch') return 'Pitch';
+    return 'Bold';
+}
+
+function nextTeamSheetMode(mode) {
+    const currentIndex = TEAM_SHEET_MODES.indexOf(mode);
+    if (currentIndex < 0) return TEAM_SHEET_MODES[0];
+    return TEAM_SHEET_MODES[(currentIndex + 1) % TEAM_SHEET_MODES.length];
+}
+
+function teamSheetModeClass() {
+    if (teamSheetDisplayMode === 'compact') return 'match-team-sheet--compact';
+    if (teamSheetDisplayMode === 'pitch') return 'match-team-sheet--pitch';
+    return 'match-team-sheet--bold';
+}
+
 function teamSheetModeToggleLabel() {
-    return isCompactTeamSheetMode ? 'Bold mode' : 'Compact mode';
+    return `View: ${teamSheetModeTitle(teamSheetDisplayMode)}`;
+}
+
+function teamSheetModeToggleTitle() {
+    return `Switch to ${teamSheetModeTitle(nextTeamSheetMode(teamSheetDisplayMode))} view`;
 }
 
 function buildTeamSheetRows(rows, startNumber, endNumberInclusive) {
@@ -701,18 +735,184 @@ function buildReplacementsRows(rows) {
     }).join('');
 }
 
+function playerNameMarkup(playerName, profile, linkClass = 'match-team-sheet-player-link', nameClass = 'match-team-sheet-player-name') {
+    const safeName = escapeHtml(playerName || 'Unknown');
+    if (profile) {
+        return `<a class="${linkClass}" href="${profileLinkHref(playerName)}">${safeName}</a>`;
+    }
+    return `<span class="${nameClass}">${safeName}</span>`;
+}
+
+function splitPitchDisplayName(playerName) {
+    const tokens = String(playerName || '').trim().split(/\s+/).filter(Boolean);
+    if (!tokens.length) {
+        return { firstName: 'Not', surname: 'listed' };
+    }
+    if (tokens.length === 1) {
+        return { firstName: tokens[0], surname: '' };
+    }
+    return {
+        firstName: tokens[0],
+        surname: tokens.slice(1).join(' '),
+    };
+}
+
+function pitchNameHtml(playerName, profile) {
+    const { firstName, surname } = splitPitchDisplayName(playerName);
+    const firstLine = `<span class="match-team-sheet-pitch-name-line match-team-sheet-pitch-name-line--first">${escapeHtml(firstName)}</span>`;
+    const secondLine = surname
+        ? `<span class="match-team-sheet-pitch-name-line match-team-sheet-pitch-name-line--surname">${escapeHtml(surname)}</span>`
+        : '';
+    const inner = `${firstLine}${secondLine}`;
+
+    if (profile) {
+        return `<a class="match-team-sheet-pitch-name-link" href="${profileLinkHref(playerName)}">${inner}</a>`;
+    }
+    return `<span class="match-team-sheet-pitch-name">${inner}</span>`;
+}
+
+function captainOverlayHtml(isCaptain, isViceCaptain) {
+    const badges = captainBadgeHtml(isCaptain, isViceCaptain);
+    if (!badges) return '';
+    return `<span class="match-team-sheet-pitch-captain-overlay">${badges}</span>`;
+}
+
+function pitchStarterTileHtml(row, fallbackNumber, options = {}) {
+    const { isReplacement = false } = options;
+    const number = Number(row?.number || fallbackNumber || 0);
+    const playerName = String(row?.player || '').trim();
+    const profile = profilesByName.get(canonicalizeName(playerName));
+    const safeName = escapeHtml(playerName || 'Not listed');
+    const photoUrl = String(profile?.photo_url || '').trim();
+    const avatar = row
+        ? (photoUrl
+            ? `<img class="match-team-sheet-pitch-avatar" src="${escapeHtml(photoUrl)}" alt="${safeName}" loading="lazy">`
+            : '<span class="match-team-sheet-pitch-avatar-placeholder" aria-hidden="true"><i class="bi bi-person-fill"></i></span>')
+        : '<span class="match-team-sheet-pitch-avatar-placeholder" aria-hidden="true"><i class="bi bi-dash"></i></span>';
+
+    const milestoneBadges = row ? milestoneBadgeHtml(row) : '';
+    const captainOverlay = row ? captainOverlayHtml(!!row?.is_captain, !!row?.is_vice_captain) : '';
+    const milestoneOverlay = milestoneBadges
+        ? `<span class="match-team-sheet-pitch-milestones">${milestoneBadges}</span>`
+        : '';
+    const inlineMeta = milestoneBadges ? '' : (row ? appearanceCountHtml(row) : '');
+    const numberDisplay = number > 0 ? String(number) : '-';
+    const positionLabel = row ? positionLabelHtml(row?.position) : '';
+    const replacementClass = isReplacement ? ' match-team-sheet-pitch-player--replacement' : '';
+    const numberClass = number > 0 ? ` match-team-sheet-pitch-player--n${number}` : '';
+
+    return `
+        <li class="match-team-sheet-pitch-player${replacementClass}${numberClass}${row ? '' : ' match-team-sheet-pitch-player--empty'}">
+            <span class="match-team-sheet-pitch-avatar-wrap">
+                ${avatar}
+                ${captainOverlay}
+                ${milestoneOverlay}
+            </span>
+            <span class="match-team-sheet-pitch-body">
+                    <span class="match-team-sheet-number">${escapeHtml(numberDisplay)}</span>
+                <span class="match-team-sheet-pitch-name-wrap">
+                    ${row ? pitchNameHtml(playerName, profile) : '<span class="match-team-sheet-pitch-name"><span class="match-team-sheet-pitch-name-line match-team-sheet-pitch-name-line--first">Not</span><span class="match-team-sheet-pitch-name-line match-team-sheet-pitch-name-line--surname">listed</span></span>'}
+                </span>
+                ${inlineMeta}
+            </span>
+        </li>
+    `;
+}
+
+function pitchFormationHtml(rows) {
+    const rowsByNumber = new Map(rows.map(row => [Number(row?.number), row]));
+    return `
+        <div class="match-team-sheet-pitch-wrap">
+            <ol class="match-team-sheet-pitch" role="group" aria-label="Starting XV pitch formation">
+                ${Array.from({ length: 15 }, (_value, index) => {
+                    const number = index + 1;
+                    return pitchStarterTileHtml(rowsByNumber.get(number), number);
+                }).join('')}
+            </ol>
+        </div>
+    `;
+}
+
+function pitchReplacementsHtml(rows) {
+    const replacements = rows
+        .filter(row => Number(row?.number) >= 16)
+        .sort((a, b) => Number(a?.number || 0) - Number(b?.number || 0));
+
+    if (!replacements.length) {
+        return '<p class="match-team-sheet-empty-note">No replacements listed.</p>';
+    }
+
+    return `
+        <ol class="match-team-sheet-pitch-replacements">
+            ${replacements.map(row => pitchStarterTileHtml(row, Number(row?.number || 0), { isReplacement: true })).join('')}
+        </ol>
+    `;
+}
+
+function teamSheetMainContentHtml(rows) {
+    if (teamSheetDisplayMode === 'pitch') {
+        return `
+            <div class="match-team-sheet-starting-header">
+                <h3 class="match-team-sheet-title">Starting XV</h3>
+            </div>
+            <div class="match-team-sheet-pitch-layout">
+                ${pitchFormationHtml(rows)}
+                <div class="match-team-sheet-panel match-team-sheet-panel--replacements match-team-sheet-panel--pitch-replacements">
+                    <div class="match-team-sheet-replacements-header-wrap">
+                        <h3 class="match-team-sheet-title">Replacements</h3>
+                    </div>
+                    ${pitchReplacementsHtml(rows)}
+                </div>
+            </div>
+        `;
+    }
+
+    return `
+        <div class="match-team-sheet-starting-header">
+            <h3 class="match-team-sheet-title">Starting XV</h3>
+        </div>
+        <div class="match-team-sheet-top-grid">
+            <div class="match-team-sheet-panel match-team-sheet-panel--forwards">
+                <h4 class="match-team-sheet-subtitle">Forwards</h4>
+                <ol class="match-team-sheet-list" start="1">
+                    ${buildTeamSheetRows(rows, 1, 8)}
+                </ol>
+            </div>
+            <div class="match-team-sheet-panel match-team-sheet-panel--backs">
+                <h4 class="match-team-sheet-subtitle">Backs</h4>
+                <ol class="match-team-sheet-list" start="9">
+                    ${buildTeamSheetRows(rows, 9, 15)}
+                </ol>
+            </div>
+        </div>
+        <div class="match-team-sheet-panel match-team-sheet-panel--replacements">
+            <div class="match-team-sheet-replacements-header-wrap">
+                <h3 class="match-team-sheet-title">Replacements</h3>
+            </div>
+            <ol class="match-team-sheet-list" start="16">
+                ${buildReplacementsRows(rows)}
+            </ol>
+        </div>
+    `;
+}
+
 function teamSheetSectionHtml(gameId) {
     const rows = (appearancesByGameId.get(String(gameId || '').trim()) || [])
         .slice()
         .sort((a, b) => Number(a?.number || 0) - Number(b?.number || 0));
     const showMilestoneLegend = hasAnyMilestone(rows);
+    const selectedMatch = allMatches.find(
+        row => String(row?.game_id || '').trim() === String(gameId || '').trim(),
+    );
+    const squad = String(selectedMatch?.squad || rows[0]?.squad || '').trim();
+    const squadClass = squad === '2nd' ? 'match-team-sheet--squad-2nd' : 'match-team-sheet--squad-1st';
 
     if (!rows.length) {
         return `
-            <section class="match-team-sheet ${isCompactTeamSheetMode ? 'match-team-sheet--compact' : 'match-team-sheet--bold'}" aria-label="Team sheet">
+            <section class="match-team-sheet ${teamSheetModeClass()} match-team-sheet--squad-1st" aria-label="Team sheet">
                 <div class="match-team-sheet-header-wrap">
                     <div class="match-team-sheet-header">Team Sheet</div>
-                    <button type="button" class="match-team-sheet-mode-toggle" data-team-sheet-mode-toggle aria-pressed="${isCompactTeamSheetMode ? 'true' : 'false'}">${teamSheetModeToggleLabel()}</button>
+                    <button type="button" class="match-team-sheet-mode-toggle" data-team-sheet-mode-toggle title="${escapeAttribute(teamSheetModeToggleTitle())}" aria-label="${escapeAttribute(teamSheetModeToggleTitle())}">${teamSheetModeToggleLabel()}</button>
                 </div>
                 <p class="match-team-sheet-empty-note">No team-sheet data is available for this match.</p>
             </section>
@@ -720,36 +920,12 @@ function teamSheetSectionHtml(gameId) {
     }
 
     return `
-        <section class="match-team-sheet ${isCompactTeamSheetMode ? 'match-team-sheet--compact' : 'match-team-sheet--bold'}" aria-label="Team sheet">
+        <section class="match-team-sheet ${teamSheetModeClass()} ${squadClass}" aria-label="Team sheet">
             <div class="match-team-sheet-header-wrap">
                 <div class="match-team-sheet-header">Team Sheet</div>
-                <button type="button" class="match-team-sheet-mode-toggle" data-team-sheet-mode-toggle aria-pressed="${isCompactTeamSheetMode ? 'true' : 'false'}">${teamSheetModeToggleLabel()}</button>
+                <button type="button" class="match-team-sheet-mode-toggle" data-team-sheet-mode-toggle title="${escapeAttribute(teamSheetModeToggleTitle())}" aria-label="${escapeAttribute(teamSheetModeToggleTitle())}">${teamSheetModeToggleLabel()}</button>
             </div>
-            <div class="match-team-sheet-starting-header">
-                <h3 class="match-team-sheet-title">Starting XV</h3>
-            </div>
-            <div class="match-team-sheet-top-grid">
-                <div class="match-team-sheet-panel match-team-sheet-panel--forwards">
-                    <h4 class="match-team-sheet-subtitle">Forwards</h4>
-                    <ol class="match-team-sheet-list" start="1">
-                        ${buildTeamSheetRows(rows, 1, 8)}
-                    </ol>
-                </div>
-                <div class="match-team-sheet-panel match-team-sheet-panel--backs">
-                    <h4 class="match-team-sheet-subtitle">Backs</h4>
-                    <ol class="match-team-sheet-list" start="9">
-                        ${buildTeamSheetRows(rows, 9, 15)}
-                    </ol>
-                </div>
-            </div>
-            <div class="match-team-sheet-panel match-team-sheet-panel--replacements">
-                <div class="match-team-sheet-replacements-header-wrap">
-                    <h3 class="match-team-sheet-title">Replacements</h3>
-                </div>
-                <ol class="match-team-sheet-list" start="16">
-                    ${buildReplacementsRows(rows)}
-                </ol>
-            </div>
+            ${teamSheetMainContentHtml(rows)}
             ${milestoneLegendHtml(showMilestoneLegend)}
         </section>
     `;
@@ -1552,7 +1728,7 @@ function bindTeamSheetModeToggle() {
     infoBody.addEventListener('click', event => {
         const toggle = event.target.closest('[data-team-sheet-mode-toggle]');
         if (!toggle) return;
-        isCompactTeamSheetMode = !isCompactTeamSheetMode;
+        teamSheetDisplayMode = nextTeamSheetMode(teamSheetDisplayMode);
         const matchSelect = document.getElementById('matchSelect');
         const selectedGameId = String(matchSelect?.value || '').trim();
         renderMatchInfo(selectedGameId);
