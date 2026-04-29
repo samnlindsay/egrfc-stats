@@ -576,9 +576,14 @@
         padding: 0.4rem;
     }
 
-    #page-squad-stats .analysis-rail .rail-link,
-    #page-player-stats .analysis-rail .rail-link,
-    #page-lineout-performance .analysis-rail .rail-link {
+    .analysis-rail-title {
+        display: inline-flex;
+        align-items: center;
+        margin: 0 0.12rem 0 0.08rem;
+        font-size: 0.5rem;
+    }
+
+    .analysis-rail .rail-link {
         gap: 0.2rem;
         padding: 0.18rem 0.34rem;
         font-size: 0.74rem;
@@ -587,9 +592,7 @@
         white-space: nowrap;
     }
 
-    #page-squad-stats .analysis-rail .rail-link i,
-    #page-player-stats .analysis-rail .rail-link i,
-    #page-lineout-performance .analysis-rail .rail-link i {
+    .rail-link i {
         display: none;
     }
 
@@ -607,13 +610,6 @@
 
     #page-player-gallery .analysis-rail .rail-link .rail-shirt-icon {
         display: none;
-    }
-    
-    .analysis-rail-title {
-        display: inline-flex;
-        align-items: center;
-        margin: 0 0.12rem 0 0.08rem;
-        font-size: 0.6rem;
     }
 
     .chart-panel-filters {
@@ -789,6 +785,33 @@
 
     #page-squad-stats .squad-stats-active-filters {
         margin-bottom: 0.6rem;
+    }
+
+    .match-info-meta {
+        padding: 0.25rem;
+    }
+
+    .match-info-scorer-lines {
+        gap: 0.1rem;
+    }
+    .match-info-scorer-line .match-team-sheet-player-link {
+        font-size: 0.8rem;
+    }
+
+    .match-info-score-multiplier {
+        font-size: 0.65rem;
+        font-weight: normal;
+        padding: 0.1rem 0.15rem;
+    }
+
+     /* Further reduce navbar padding on very small screens */
+     .navbar {
+        padding: 0.4rem 0.5rem !important;
+    }
+
+     .navbar-nav .nav-link {
+        font-size: 0.9rem;
+        padding: 0.4rem !important;
     }
 }
 
