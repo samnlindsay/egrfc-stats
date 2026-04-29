@@ -1,0 +1,55 @@
+{
+    "match_id": "1273878",
+    "season": "2025-2026",
+    "league": "Counties 2 Sussex",
+    "date": "2026-04-25",
+    "teams": [
+        "Ditchling",
+        "Crawley"
+    ],
+    "score": [
+        41,
+        24
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/6541.png",
+        "https://images.englandrugby.com/club_images/5807.png"
+    ],
+    "players": [
+        {
+            "15": "Nick Whitley-Jones",
+            "14": "Luke Dobson",
+            "13": "Rufus Nolan",
+            "12": "James Turner",
+            "11": "oliver sutherland",
+            "10": "Name withheld",
+            "9": "Stan Robinson",
+            "8": "Jamie Hutchings",
+            "7": "Alex Taylor",
+            "6": "James Goodsell",
+            "5": "Alex Hinchliffe",
+            "4": "Murray Jardine",
+            "3": "Gordon Costick",
+            "2": "Sean Laroche",
+            "1": "Perry Winstone",
+            "S1": "Ben Poulton",
+            "S2": "Kristian Dean"
+        },
+        {
+            "15": "Gorm Young",
+            "14": "Guy Craddock",
+            "13": "Dino Gomez Ruiz",
+            "12": "Vincenzo Dessena",
+            "11": "Callum Hankin",
+            "10": "William Ofosuhene",
+            "9": "Jake Jackson",
+            "8": "Andrew Griffiths",
+            "7": "Andrew Jagger",
+            "6": "Daniel Davis",
+            "5": "Joel Fisher",
+            "4": "Nathan Cox",
+            "3": "Stuart McKenzie",
+            "2": "Jonathan McGurk"
+        }
+    ]
+}

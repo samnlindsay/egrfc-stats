@@ -1014,12 +1014,14 @@ function renderCareerTimelineChart(playerName) {
   const resolvedContainerWidth =
     containerWidth > 0 ? containerWidth : desktopFallbackWidth;
 
-  // Mobile: use a smaller intrinsic base (500px) then scale-to-fit so marks
-  // and labels stay more legible.
-  // Desktop: match the container width natively to avoid right-side whitespace.
+  // Mobile: keep a larger intrinsic width so scale-to-fit preserves legibility.
+  // Desktop: only force an explicit pixel width when we can measure the host;
+  // otherwise keep Vega-Lite container sizing to avoid overshooting the column.
   filteredSpec.width = isMobileViewport
     ? Math.max(minMobileIntrinsicWidth, resolvedContainerWidth)
-    : resolvedContainerWidth;
+    : containerWidth > 0
+      ? resolvedContainerWidth
+      : "container";
 
   renderStaticSpecChart(
     containerId,
@@ -1635,12 +1637,12 @@ async function loadPage() {
       console.warn("Unable to load player scoring rows for full profile summaries.");
     }
 
-    renderPlayerProfileCaptains();
-    initPlayerSelect();
-
     if (loadingState) loadingState.classList.add("d-none");
     if (errorState) errorState.classList.add("d-none");
     if (root) root.classList.remove("d-none");
+
+    renderPlayerProfileCaptains();
+    initPlayerSelect();
   } catch (error) {
     console.error(error);
     if (loadingState) loadingState.classList.add("d-none");
