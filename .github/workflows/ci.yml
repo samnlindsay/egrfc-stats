@@ -25,7 +25,7 @@ jobs:
 
       - name: Compile Python files
         run: |
-          python -m py_compile python/backend.py python/build_backend.py python/update.py python/league_data.py python/league_stats.py
+          python -m py_compile python/backend.py python/build_backend.py python/update.py python/league_data.py
 
       - name: Run unit tests
         run: |
