@@ -1157,18 +1157,6 @@
             });
         }
 
-        const url = new URL(window.location.href);
-        const oppositionParam = String(url.searchParams.get('opposition') || '').trim();
-        const clubs = new Set(Array.from(rowsByClub.keys()));
-        if (oppositionParam && clubs.has(oppositionParam)) {
-            syncOppositionSelectUI(oppositionParam);
-            renderOppositionProfile(oppositionParam).catch((error) => {
-                console.error('Failed to render opposition profile:', error);
-                showError('Unable to render opposition profile.');
-            });
-        } else {
-            renderOppositionActiveFilters('');
-        }
     }
 
     function initialiseOppositionProfileAnalysisRail() {
@@ -1224,7 +1212,13 @@
         bindOppositionHeroQuickLinks();
         initialiseOppositionProfileAnalysisRail();
 
-        await renderOppositionProfile('');
+        const urlParam = String(new URL(window.location.href).searchParams.get('opposition') || '').trim();
+        const validClubs = new Set(Array.from(rowsByClub.keys()));
+        const initialOpposition = urlParam && validClubs.has(urlParam) ? urlParam : '';
+        if (initialOpposition) {
+            syncOppositionSelectUI(initialOpposition);
+        }
+        await renderOppositionProfile(initialOpposition);
     }
 
     document.addEventListener('DOMContentLoaded', async () => {
