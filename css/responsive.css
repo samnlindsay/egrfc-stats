@@ -1155,21 +1155,21 @@
         gap: 0.35rem;
     }
 
-    .match-team-sheet--pitch .match-team-sheet-pitch-player--n1 { grid-column: 2; grid-row: 1; transform: translateY(0%); }
-    .match-team-sheet--pitch .match-team-sheet-pitch-player--n2 { grid-column: 4; grid-row: 1; transform: translateY(0%); }
-    .match-team-sheet--pitch .match-team-sheet-pitch-player--n3 { grid-column: 6; grid-row: 1; transform: translateY(0%); }
-    .match-team-sheet--pitch .match-team-sheet-pitch-player--n4 { grid-column: 3; grid-row: 2; transform: translateY(-6%); }
-    .match-team-sheet--pitch .match-team-sheet-pitch-player--n5 { grid-column: 5; grid-row: 2; transform: translateY(-6%); }
-    .match-team-sheet--pitch .match-team-sheet-pitch-player--n6 { grid-column: 2; grid-row: 3; transform: translateY(-12%); }
-    .match-team-sheet--pitch .match-team-sheet-pitch-player--n8 { grid-column: 4; grid-row: 3; transform: translateY(-12%); }
-    .match-team-sheet--pitch .match-team-sheet-pitch-player--n7 { grid-column: 6; grid-row: 3; transform: translateY(-12%); }
-    .match-team-sheet--pitch .match-team-sheet-pitch-player--n9 { grid-column: 2; grid-row: 4; transform: translateY(-18%); }
-    .match-team-sheet--pitch .match-team-sheet-pitch-player--n10 { grid-column: 3; grid-row: 5; transform: translateY(-24%); }
-    .match-team-sheet--pitch .match-team-sheet-pitch-player--n12 { grid-column: 4; grid-row: 6; transform: translateY(-30%); }
-    .match-team-sheet--pitch .match-team-sheet-pitch-player--n13 { grid-column: 5; grid-row: 7; transform: translateY(-36%); }
-    .match-team-sheet--pitch .match-team-sheet-pitch-player--n11 { grid-column: 1; grid-row: 8; transform: translateY(-42%); }
-    .match-team-sheet--pitch .match-team-sheet-pitch-player--n15 { grid-column: 4; grid-row: 8; transform: translateY(-42%); }
-    .match-team-sheet--pitch .match-team-sheet-pitch-player--n14 { grid-column: 7; grid-row: 8; transform: translateY(-42%); }
+    .match-team-sheet--pitch .match-team-sheet-pitch-player--n1 {grid-column: 1;grid-row: 1;transform: translateY(0%);}
+    .match-team-sheet--pitch .match-team-sheet-pitch-player--n2 {grid-column: 3;grid-row: 1;transform: translateY(0%);}
+    .match-team-sheet--pitch .match-team-sheet-pitch-player--n3 {grid-column: 5;grid-row: 1;transform: translateY(0%);}
+    .match-team-sheet--pitch .match-team-sheet-pitch-player--n4 {grid-column: 2;grid-row: 2;transform: translateY(-10%);}
+    .match-team-sheet--pitch .match-team-sheet-pitch-player--n5 {grid-column: 4;grid-row: 2;transform: translateY(-10%);}
+    .match-team-sheet--pitch .match-team-sheet-pitch-player--n6 {grid-column: 1;grid-row: 3;transform: translateY(-20%);}
+    .match-team-sheet--pitch .match-team-sheet-pitch-player--n8 {grid-column: 3;grid-row: 3;transform: translateY(-20%);}
+    .match-team-sheet--pitch .match-team-sheet-pitch-player--n7 {grid-column: 5;grid-row: 3;transform: translateY(-20%);}
+    .match-team-sheet--pitch .match-team-sheet-pitch-player--n9 {grid-column: 2;grid-row: 4;transform: translate(-10%, -20%);}
+    .match-team-sheet--pitch .match-team-sheet-pitch-player--n10 {grid-column: 3;grid-row: 5;transform: translate(10%, -40%);}
+    .match-team-sheet--pitch .match-team-sheet-pitch-player--n12 {grid-column: 4;grid-row: 6;transform: translate(30%, -60%);}
+    .match-team-sheet--pitch .match-team-sheet-pitch-player--n13 {grid-column: 5;grid-row: 7;transform: translate(50%, -80%);}
+    .match-team-sheet--pitch .match-team-sheet-pitch-player--n11 {grid-column: 1;grid-row: 7;transform: translate(20%, 0);}
+    .match-team-sheet--pitch .match-team-sheet-pitch-player--n15 {grid-column: 4;grid-row: 7;transform: translateY(10%);}
+    .match-team-sheet--pitch .match-team-sheet-pitch-player--n14 {grid-column: 7;grid-row: 7;transform: translate(-20%, 0);}
 
     .match-team-sheet--pitch .match-team-sheet-number-wrap--pitch {
         width: 3.35rem;
@@ -1177,7 +1177,7 @@
     }
 
     .match-team-sheet--pitch .match-team-sheet-number {
-        font-size: 14px;
+        font-size: 1.5rem;
     }
 
     .match-team-sheet--pitch .match-team-sheet-pitch-name-link,
@@ -1210,11 +1210,11 @@
     }
 
     .match-team-sheet--pitch .match-team-sheet-milestone-text {
-        font-size: 0.5rem;
+        font-size: 0.6rem;
     }
 
     .match-team-sheet--pitch .match-team-sheet-milestone--100 .match-team-sheet-milestone-text {
-        font-size: 0.45rem;
+        font-size: 0.55rem;
     }
 
     .match-team-sheet--pitch .match-team-sheet-panel--pitch-replacements {
@@ -1453,8 +1453,8 @@
     }
 
     .match-team-sheet--pitch .match-team-sheet-pitch-avatar-wrap {
-        width: 3.72rem;
-        height: 3.72rem;
+        width: 3.5rem;
+        height: 3.5rem;
     }
 
     .match-team-sheet--pitch .match-team-sheet-pitch-player {
@@ -1464,18 +1464,18 @@
     .match-team-sheet--pitch .match-team-sheet-pitch-player--n1 { grid-column: 1; grid-row: 1; transform: translateY(0%); }
     .match-team-sheet--pitch .match-team-sheet-pitch-player--n2 { grid-column: 3; grid-row: 1; transform: translateY(0%); }
     .match-team-sheet--pitch .match-team-sheet-pitch-player--n3 { grid-column: 5; grid-row: 1; transform: translateY(0%); }
-    .match-team-sheet--pitch .match-team-sheet-pitch-player--n4 { grid-column: 2; grid-row: 2; transform: translateY(-5%); }
-    .match-team-sheet--pitch .match-team-sheet-pitch-player--n5 { grid-column: 4; grid-row: 2; transform: translateY(-5%); }
-    .match-team-sheet--pitch .match-team-sheet-pitch-player--n6 { grid-column: 1; grid-row: 3; transform: translateY(-10%); }
-    .match-team-sheet--pitch .match-team-sheet-pitch-player--n8 { grid-column: 3; grid-row: 3; transform: translateY(-10%); }
-    .match-team-sheet--pitch .match-team-sheet-pitch-player--n7 { grid-column: 5; grid-row: 3; transform: translateY(-10%); }
-    .match-team-sheet--pitch .match-team-sheet-pitch-player--n9 { grid-column: 2; grid-row: 4; transform: translate(-10%, -15%); }
-    .match-team-sheet--pitch .match-team-sheet-pitch-player--n10 { grid-column: 3; grid-row: 5; transform: translate(10%, -30%); }
-    .match-team-sheet--pitch .match-team-sheet-pitch-player--n12 { grid-column: 4; grid-row: 6; transform: translate(30%, -45%); }
-    .match-team-sheet--pitch .match-team-sheet-pitch-player--n13 { grid-column: 5; grid-row: 7; transform: translate(50%, -60%); }
-    .match-team-sheet--pitch .match-team-sheet-pitch-player--n11 { grid-column: 1; grid-row: 8; transform: translate(20%, -75%); }
-    .match-team-sheet--pitch .match-team-sheet-pitch-player--n15 { grid-column: 4; grid-row: 8; transform: translateY(-10%); }
-    .match-team-sheet--pitch .match-team-sheet-pitch-player--n14 { grid-column: 7; grid-row: 8; transform: translate(-20%,-75%); }
+    .match-team-sheet--pitch .match-team-sheet-pitch-player--n4 { grid-column: 2; grid-row: 2; transform: translateY(-10%); }
+    .match-team-sheet--pitch .match-team-sheet-pitch-player--n5 { grid-column: 4; grid-row: 2; transform: translateY(-10%); }
+    .match-team-sheet--pitch .match-team-sheet-pitch-player--n6 { grid-column: 1; grid-row: 3; transform: translateY(-20%); }
+    .match-team-sheet--pitch .match-team-sheet-pitch-player--n8 { grid-column: 3; grid-row: 3; transform: translateY(-20%); }
+    .match-team-sheet--pitch .match-team-sheet-pitch-player--n7 { grid-column: 5; grid-row: 3; transform: translateY(-20%); }
+    .match-team-sheet--pitch .match-team-sheet-pitch-player--n9 { grid-column: 2; grid-row: 4; transform: translate(-10%, -20%); }
+    .match-team-sheet--pitch .match-team-sheet-pitch-player--n10 { grid-column: 3; grid-row: 5; transform: translate(10%, -40%); }
+    .match-team-sheet--pitch .match-team-sheet-pitch-player--n12 { grid-column: 4; grid-row: 6; transform: translate(30%, -60%); }
+    .match-team-sheet--pitch .match-team-sheet-pitch-player--n13 { grid-column: 5; grid-row: 7; transform: translate(50%, -80%); }
+    .match-team-sheet--pitch .match-team-sheet-pitch-player--n11 { grid-column: 1; grid-row: 7; transform: translate(20%, 0); }
+    .match-team-sheet--pitch .match-team-sheet-pitch-player--n15 { grid-column: 4; grid-row: 7; transform: translateY(10%); }
+    .match-team-sheet--pitch .match-team-sheet-pitch-player--n14 { grid-column: 7; grid-row: 7; transform: translate(-20%,0); }
 
     .match-team-sheet--pitch .match-team-sheet-pitch-avatar,
     .match-team-sheet--pitch .match-team-sheet-pitch-avatar-placeholder {
