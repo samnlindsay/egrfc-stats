@@ -627,19 +627,7 @@ function playerIdentityHtml(playerName, profile, isCaptain, isViceCaptain, row) 
     const photoUrl = String(profile?.photo_url || '').trim();
     const hasProfile = !!profile;
     const milestoneMarkup = milestoneBadgeHtml(row);
-    const appearanceMarkup = appearanceCountHtml(row);
-    const trailingMetaMarkup = milestoneMarkup || appearanceMarkup;
-    const useAvatarOverlay = teamSheetDisplayMode !== 'compact';
-
-    const avatarTrailingOverlay = useAvatarOverlay
-        ? (milestoneMarkup
-            ? `<span class="match-team-sheet-player-trailing-overlay match-team-sheet-player-trailing-overlay--milestones">${milestoneMarkup}</span>`
-            : (appearanceMarkup
-                ? `<span class="match-team-sheet-player-trailing-overlay match-team-sheet-player-trailing-overlay--appearance">${appearanceMarkup}</span>`
-                : ''))
-        : '';
-
-    const inlineMetaMarkup = useAvatarOverlay ? '' : trailingMetaMarkup;
+    const trailingMetaMarkup = milestoneMarkup || appearanceCountHtml(row);
 
     const avatar = photoUrl
         ? `<img class="match-team-sheet-avatar" src="${escapeHtml(photoUrl)}" alt="${safeName}" loading="lazy">`
@@ -651,13 +639,10 @@ function playerIdentityHtml(playerName, profile, isCaptain, isViceCaptain, row) 
 
     return `
         <span class="match-team-sheet-player-wrap">
-            <span class="match-team-sheet-avatar-wrap">
-                ${avatar}
-                ${avatarTrailingOverlay}
-            </span>
+            ${avatar}
             <span class="match-team-sheet-player-text">
                 ${nameMarkup}
-                ${inlineMetaMarkup}
+                ${trailingMetaMarkup}
                 ${captainBadgeHtml(isCaptain, isViceCaptain)}
             </span>
         </span>
