@@ -1,0 +1,55 @@
+{
+    "match_id": "909510",
+    "season": "2021-2022",
+    "league": "Harvey\u2019s Brewery Sussex 1",
+    "date": "2021-09-25",
+    "teams": [
+        "Uckfield",
+        "Seaford"
+    ],
+    "score": [
+        "WO",
+        ""
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/23445.png",
+        "https://images.englandrugby.com/club_images/18868.png"
+    ],
+    "players": [
+        {
+            "15": "Kian Saunders",
+            "14": "Ian Page mitchell",
+            "13": "Joel Andrews",
+            "12": "Joseph Pratt",
+            "11": "Callum Harvey",
+            "10": "Charlie Buckland",
+            "9": "Name withheld",
+            "8": "Luke Austin",
+            "7": "Matthew Evans",
+            "6": "Harvey Stonebridge",
+            "5": "Guy Cornick",
+            "4": "Stephen Hartfield",
+            "3": "Jack Harvey",
+            "2": "Alfie Richardson",
+            "1": "Davy Armstrong",
+            "S1": "Archie Bell",
+            "S2": "Kieron Martin",
+            "S3": "Martin Chappell"
+        },
+        {
+            "15": "Oscar Weisz",
+            "13": "Stuart Cotter",
+            "12": "Corey Digby-Clarke",
+            "11": "Jason Staples",
+            "10": "Rhys Jones",
+            "9": "Luke Taylor",
+            "8": "Benjamin Clarke",
+            "7": "Rhys Roberts",
+            "6": "Jasper Cooper",
+            "5": "Lee Furminger",
+            "4": "Andrew Salter",
+            "3": "Andrew Fry",
+            "2": "Josh Hennessy"
+        }
+    ]
+}

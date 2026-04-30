@@ -1,0 +1,58 @@
+{
+    "match_id": "1111743",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2024-02-24",
+    "teams": [
+        "Twickenham",
+        "Hove"
+    ],
+    "score": [
+        "WO",
+        ""
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/23336.png",
+        "https://images.englandrugby.com/club_images/10503.png"
+    ],
+    "players": [
+        {
+            "15": "Thomas Foster",
+            "14": "Arthur Polley",
+            "13": "Samuel Griffin",
+            "12": "Joe Ash",
+            "11": "Archie Lamont",
+            "10": "Jamie See",
+            "9": "Samuel Goddard",
+            "8": "Nicholas Smith",
+            "7": "Jack Fullicks",
+            "6": "Jasper Bhamra",
+            "5": "Scott Davidson",
+            "4": "Louie Banks",
+            "3": "Jordan Fyles",
+            "2": "Ben Goddard",
+            "1": "Alex Bennett",
+            "S1": "Richard Moses",
+            "S2": "Oscar Jansen",
+            "S3": "Louis Chapman"
+        },
+        {
+            "15": "Name withheld",
+            "14": "Joey Magill",
+            "13": "Guy Patton",
+            "12": "Leo Robertson",
+            "11": "Tom Holborn",
+            "10": "Jack Edwards",
+            "9": "Charlie Knight",
+            "8": "Tobias Brown",
+            "7": "Ian Saunders",
+            "6": "Thomas Baker",
+            "5": "George Brown",
+            "4": "Adrian Shergold",
+            "3": "Tyler Hooper",
+            "2": "Ryan Storer",
+            "1": "Aled Davies",
+            "S1": "Rhowan Braybrook"
+        }
+    ]
+}

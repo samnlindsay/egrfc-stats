@@ -1,0 +1,41 @@
+{
+    "match_id": "1104774",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2024-02-03",
+    "teams": [
+        "East Grinstead",
+        "Old Cranleighans"
+    ],
+    "score": [
+        "WO",
+        ""
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7134.png",
+        "https://images.englandrugby.com/club_images/15615.png"
+    ],
+    "players": [
+        {},
+        {
+            "15": "Oliver Billin",
+            "14": "Luke Maker",
+            "13": "Samuel Musgrave",
+            "12": "Benjamin Saunders",
+            "11": "Jake Radcliffe",
+            "10": "Daniel Poulton",
+            "9": "Noah Roberts",
+            "8": "Aaronn Boczek",
+            "7": "Ryland Thomas",
+            "6": "John Peaty",
+            "5": "Samuel Lindsay-McCall",
+            "4": "Daniel Billin",
+            "3": "Joshua Brimecombe",
+            "2": "Benjamin Tottman",
+            "1": "Guy Collins",
+            "S1": "David Bridges",
+            "S2": "Connor Leggat",
+            "S3": "Name withheld"
+        }
+    ]
+}

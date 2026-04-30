@@ -1,0 +1,41 @@
+{
+    "match_id": "1220117",
+    "season": "2025-2026",
+    "league": "Counties 2 Sussex",
+    "date": "2026-03-28",
+    "teams": [
+        "Lewes",
+        "Brighton II"
+    ],
+    "score": [
+        "WO",
+        ""
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/12206.png",
+        "https://images.englandrugby.com/club_images/3218.png"
+    ],
+    "players": [
+        {},
+        {
+            "15": "Jack Soltermann",
+            "14": "Name withheld",
+            "13": "Rafferty Green",
+            "12": "Ben Goode",
+            "11": "Thomas Roy",
+            "10": "Jordan Smith",
+            "9": "Matthew Henshaw",
+            "8": "Kane Dadswell",
+            "7": "Harry Weston",
+            "6": "William Cross",
+            "5": "Thomas Petty",
+            "4": "James Sale",
+            "3": "Fearghus Gage",
+            "2": "Benjamin Simmonds",
+            "1": "Ian Thomas",
+            "S1": "Charlie Moran",
+            "S2": "Harry Carr",
+            "S3": "Harry Rees"
+        }
+    ]
+}

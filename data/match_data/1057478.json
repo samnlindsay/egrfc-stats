@@ -1,0 +1,41 @@
+{
+    "match_id": "1057478",
+    "season": "2023-2024",
+    "league": "Counties 1 Surrey/Sussex",
+    "date": "2023-11-04",
+    "teams": [
+        "East Grinstead",
+        "Old Cranleighans"
+    ],
+    "score": [
+        "WO",
+        ""
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7134.png",
+        "https://images.englandrugby.com/club_images/15615.png"
+    ],
+    "players": [
+        {},
+        {
+            "15": "Oliver Billin",
+            "14": "Alistair Moffatt",
+            "13": "Colm Geraghty",
+            "12": "Benjamin Saunders",
+            "11": "Jake Radcliffe",
+            "10": "Daniel Poulton",
+            "9": "Harry White",
+            "8": "Aaronn Boczek",
+            "7": "Ryland Thomas",
+            "6": "John Peaty",
+            "5": "Samuel Lindsay-McCall",
+            "4": "Guy Collins",
+            "3": "Joshua Brimecombe",
+            "2": "Benjamin Tottman",
+            "1": "Connor Leggat",
+            "S1": "David Bridges",
+            "S2": "Harrison Griffiths",
+            "S3": "Samuel Spriddell"
+        }
+    ]
+}

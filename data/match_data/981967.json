@@ -1,0 +1,54 @@
+{
+    "match_id": "981967",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2022-09-24",
+    "teams": [
+        "Lewes",
+        "Haywards Heath"
+    ],
+    "score": [
+        "",
+        "WO"
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/12206.png",
+        "https://images.englandrugby.com/club_images/9776.png"
+    ],
+    "players": [
+        {
+            "15": "Tyler Edwards",
+            "14": "Alexander Audsley-Mckenna",
+            "13": "James Shafi",
+            "11": "Declan Over",
+            "10": "Jordan Whiting",
+            "9": "Elliot Moule",
+            "8": "Lewis Evans",
+            "6": "Damian Pye",
+            "5": "James Sale",
+            "4": "Edward King",
+            "3": "Fearghus Gage",
+            "2": "Oliver Bowry",
+            "S1": "Nick Needham"
+        },
+        {
+            "15": "Douglas Kern",
+            "14": "Roscoe Atkins",
+            "13": "Jack Flower",
+            "12": "Henry Verbi",
+            "11": "Samuela Bulitokaivale-Lancaster",
+            "10": "Thomas Wharton",
+            "9": "Alexander Chard",
+            "8": "Fraser Russell",
+            "7": "Geoffrey Bridges",
+            "6": "Jack Bull",
+            "5": "Henry Dickson",
+            "4": "Name withheld",
+            "3": "Elliott Higgin",
+            "2": "Jack Herbert",
+            "1": "Matthew Cains",
+            "S1": "Harrison Thomas Edwards",
+            "S2": "Ellis Dubois"
+        }
+    ]
+}

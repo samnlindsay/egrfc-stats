@@ -1,0 +1,41 @@
+{
+    "match_id": "909543",
+    "season": "2021-2022",
+    "league": "Harvey\u2019s Brewery Sussex 1",
+    "date": "2022-01-15",
+    "teams": [
+        "East Grinstead",
+        "Hove II"
+    ],
+    "score": [
+        "WO",
+        ""
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7134.png",
+        "https://images.englandrugby.com/club_images/10504.png"
+    ],
+    "players": [
+        {},
+        {
+            "15": "Samuel Spriddell",
+            "14": "Jack Skipworth",
+            "13": "Max Crawley-Moore",
+            "12": "Richard Dodgson",
+            "11": "Fergus Wood",
+            "10": "Daniel Poulton",
+            "9": "George Johnson",
+            "8": "James Busby",
+            "7": "Liam Casey",
+            "6": "John Peaty",
+            "5": "Samuel Lindsay-McCall",
+            "4": "Peter Morley",
+            "3": "Devon Frost",
+            "2": "Benjamin Tottman",
+            "1": "James Funnell",
+            "S1": "Joshua Brimecombe",
+            "S2": "Jake Radcliffe",
+            "S3": "Ryan Morlen"
+        }
+    ]
+}

@@ -1,0 +1,57 @@
+{
+    "match_id": "982007",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2022-12-03",
+    "teams": [
+        "Haywards Heath",
+        "Lewes"
+    ],
+    "score": [
+        "WO",
+        ""
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/9776.png",
+        "https://images.englandrugby.com/club_images/12206.png"
+    ],
+    "players": [
+        {
+            "15": "Matthew Cains",
+            "14": "Casper Cordeschi",
+            "13": "Jack Flower",
+            "12": "Alexander Chard",
+            "11": "Mitchell Day",
+            "10": "Thomas Wharton",
+            "9": "Charles Miller",
+            "8": "Geoffrey Bridges",
+            "7": "Jack Herbert",
+            "6": "Jack Hart",
+            "5": "Ellis Dubois",
+            "4": "Henry Dickson",
+            "3": "John Robertson",
+            "2": "Harrison Thomas Edwards",
+            "1": "Elliott Higgin",
+            "S1": "Sebastian Broster",
+            "S2": "Name withheld",
+            "S3": "James Thurston"
+        },
+        {
+            "15": "Joshua Leigh",
+            "13": "Tyler Edwards",
+            "12": "Harry Pryer",
+            "11": "Joe Reid",
+            "10": "Roberto Bello Hurtado",
+            "9": "Adam Hutchings",
+            "8": "George Gribble",
+            "7": "Stewart Dickens",
+            "6": "Zac Ozeren",
+            "5": "Edward King",
+            "4": "James Sale",
+            "3": "Henry Bishop",
+            "2": "Damian Pye",
+            "1": "Kane Dadswell",
+            "S2": "Simon Coe"
+        }
+    ]
+}

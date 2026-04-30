@@ -1,0 +1,60 @@
+{
+    "match_id": "981995",
+    "season": "2022-2023",
+    "league": "Counties 2 Sussex",
+    "date": "2022-11-12",
+    "teams": [
+        "Lewes",
+        "Eastbourne"
+    ],
+    "score": [
+        "",
+        "WO"
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/12206.png",
+        "https://images.englandrugby.com/club_images/7209.png"
+    ],
+    "players": [
+        {
+            "15": "Daniel Elmes",
+            "14": "Dante Maguire",
+            "13": "Karl Neale-Shutte",
+            "12": "Elliot Moule",
+            "11": "Declan Over",
+            "10": "William Shiell",
+            "9": "Angus Taylor",
+            "8": "Nathaniel Vine",
+            "7": "Stewart Dickens",
+            "6": "George Gribble",
+            "5": "James Sale",
+            "4": "Lewis Evans",
+            "3": "Edward King",
+            "2": "Damian Pye",
+            "1": "Kane Dadswell",
+            "S1": "Mouhammed Bacha",
+            "S2": "Simon Coe",
+            "S3": "Cian Furlong"
+        },
+        {
+            "15": "Mason Dowle",
+            "14": "Gianluca Bianchi",
+            "13": "Ben Perrott",
+            "12": "Jake Howe",
+            "11": "Dylan Becker",
+            "10": "Harrison Gibbons",
+            "9": "Name withheld",
+            "8": "Jeremy Montes",
+            "7": "Vincent Morse",
+            "6": "Carl Slaughter",
+            "5": "Joshua Buckwell",
+            "4": "Owen Davies",
+            "3": "Paul Smith",
+            "2": "Joseph Bettles",
+            "1": "Daniel Keen",
+            "S1": "Luke Thomas",
+            "S2": "Oliver Horley",
+            "S3": "Christopher Hosking"
+        }
+    ]
+}

@@ -1,5 +1,87 @@
 [
     {
+        "match_id": "861249",
+        "season": "2019-2020",
+        "league": "Harvey's of Sussex 1",
+        "date": "2020-03-07",
+        "teams": [
+            "Lewes",
+            "Eastbourne"
+        ],
+        "score": [
+            "",
+            "WO"
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/12206.png",
+            "https://images.englandrugby.com/club_images/7209.png"
+        ],
+        "players": [
+            {
+                "15": "Name withheld",
+                "14": "Stephen Mills",
+                "13": "Adam Hutchings",
+                "12": "James Shafi",
+                "11": "Charlie Buglass",
+                "10": "Thomas Rourke",
+                "9": "Matthew Henshaw",
+                "8": "Finn Spalding",
+                "7": "Dominic Lunniss",
+                "6": "Calvin Jansz",
+                "5": "Thomas Petty",
+                "4": "James Sale",
+                "3": "Sean Sayers",
+                "2": "Oliver Bowry",
+                "1": "Claudio Cosimetti",
+                "S1": "Angus Taylor",
+                "S2": "Jordan Whiting",
+                "S3": "Josh Ellis-Smith"
+            },
+            {
+                "15": "Shaun Everett",
+                "14": "Carl Slaughter",
+                "13": "James Monk",
+                "12": "Nathan Ring",
+                "11": "William Bettles",
+                "10": "Liam Pyle",
+                "9": "Siddarth Davangere Hiremutt",
+                "8": "Tom Redman",
+                "7": "Stefan Cousins",
+                "6": "Conrad Major",
+                "5": "Christopher Chilvers",
+                "4": "Joshua Buckwell",
+                "3": "Travis James",
+                "2": "Joseph Bettles",
+                "1": "Leigh Williams",
+                "S1": "Daniel Keen",
+                "S2": "William Bacon",
+                "S3": "Pedro Sousa"
+            }
+        ]
+    },
+    {
+        "match_id": "859675",
+        "season": "2019-2020",
+        "league": "Harvey's of Sussex 1",
+        "date": "2020-03-14",
+        "teams": [
+            "Barns Green",
+            "Eastbourne"
+        ],
+        "score": [
+            "",
+            "WO"
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/1452.png",
+            "https://images.englandrugby.com/club_images/7209.png"
+        ],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
         "match_id": "931679",
         "season": "2021-2022",
         "league": "Harvey\u2019s Brewery Sussex 1",
@@ -233,6 +315,61 @@
                 "1": "Benjamin Trevorrow",
                 "S1": "Daniel Puttick",
                 "S2": "Alex Bray"
+            }
+        ]
+    },
+    {
+        "match_id": "909510",
+        "season": "2021-2022",
+        "league": "Harvey\u2019s Brewery Sussex 1",
+        "date": "2021-09-25",
+        "teams": [
+            "Uckfield",
+            "Seaford"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/23445.png",
+            "https://images.englandrugby.com/club_images/18868.png"
+        ],
+        "players": [
+            {
+                "15": "Kian Saunders",
+                "14": "Ian Page mitchell",
+                "13": "Joel Andrews",
+                "12": "Joseph Pratt",
+                "11": "Callum Harvey",
+                "10": "Charlie Buckland",
+                "9": "Name withheld",
+                "8": "Luke Austin",
+                "7": "Matthew Evans",
+                "6": "Harvey Stonebridge",
+                "5": "Guy Cornick",
+                "4": "Stephen Hartfield",
+                "3": "Jack Harvey",
+                "2": "Alfie Richardson",
+                "1": "Davy Armstrong",
+                "S1": "Archie Bell",
+                "S2": "Kieron Martin",
+                "S3": "Martin Chappell"
+            },
+            {
+                "15": "Oscar Weisz",
+                "13": "Stuart Cotter",
+                "12": "Corey Digby-Clarke",
+                "11": "Jason Staples",
+                "10": "Rhys Jones",
+                "9": "Luke Taylor",
+                "8": "Benjamin Clarke",
+                "7": "Rhys Roberts",
+                "6": "Jasper Cooper",
+                "5": "Lee Furminger",
+                "4": "Andrew Salter",
+                "3": "Andrew Fry",
+                "2": "Josh Hennessy"
             }
         ]
     },
@@ -890,6 +1027,28 @@
         ]
     },
     {
+        "match_id": "909520",
+        "season": "2021-2022",
+        "league": "Harvey\u2019s Brewery Sussex 1",
+        "date": "2021-10-23",
+        "teams": [
+            "Hove II",
+            "East Grinstead"
+        ],
+        "score": [
+            "",
+            "WO"
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/10504.png",
+            "https://images.englandrugby.com/club_images/7134.png"
+        ],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
         "match_id": "909523",
         "season": "2021-2022",
         "league": "Harvey\u2019s Brewery Sussex 1",
@@ -1004,6 +1163,28 @@
                 "2": "James Maunder",
                 "1": "Alexander Hawkins"
             }
+        ]
+    },
+    {
+        "match_id": "909524",
+        "season": "2021-2022",
+        "league": "Harvey\u2019s Brewery Sussex 1",
+        "date": "2021-10-30",
+        "teams": [
+            "Hove II",
+            "Uckfield"
+        ],
+        "score": [
+            "",
+            "WO"
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/10504.png",
+            "https://images.englandrugby.com/club_images/23445.png"
+        ],
+        "players": [
+            {},
+            {}
         ]
     },
     {
@@ -1598,6 +1779,28 @@
         ]
     },
     {
+        "match_id": "909536",
+        "season": "2021-2022",
+        "league": "Harvey\u2019s Brewery Sussex 1",
+        "date": "2021-12-04",
+        "teams": [
+            "East Grinstead",
+            "Hellingly"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/7134.png",
+            "https://images.englandrugby.com/club_images/9891.png"
+        ],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
         "match_id": "952676",
         "season": "2021-2022",
         "league": "Sussex 3 Premier",
@@ -2003,6 +2206,47 @@
         ]
     },
     {
+        "match_id": "909543",
+        "season": "2021-2022",
+        "league": "Harvey\u2019s Brewery Sussex 1",
+        "date": "2022-01-15",
+        "teams": [
+            "East Grinstead",
+            "Hove II"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/7134.png",
+            "https://images.englandrugby.com/club_images/10504.png"
+        ],
+        "players": [
+            {},
+            {
+                "15": "Samuel Spriddell",
+                "14": "Jack Skipworth",
+                "13": "Max Crawley-Moore",
+                "12": "Richard Dodgson",
+                "11": "Fergus Wood",
+                "10": "Daniel Poulton",
+                "9": "George Johnson",
+                "8": "James Busby",
+                "7": "Liam Casey",
+                "6": "John Peaty",
+                "5": "Samuel Lindsay-McCall",
+                "4": "Peter Morley",
+                "3": "Devon Frost",
+                "2": "Benjamin Tottman",
+                "1": "James Funnell",
+                "S1": "Joshua Brimecombe",
+                "S2": "Jake Radcliffe",
+                "S3": "Ryan Morlen"
+            }
+        ]
+    },
+    {
         "match_id": "952685",
         "season": "2021-2022",
         "league": "Harvey's Olympia Sussex 3 Premier",
@@ -2243,6 +2487,28 @@
                 "S2": "Charlie Guest",
                 "S3": "Brendan Strick"
             }
+        ]
+    },
+    {
+        "match_id": "909548",
+        "season": "2021-2022",
+        "league": "Harvey\u2019s Brewery Sussex 1",
+        "date": "2022-01-22",
+        "teams": [
+            "Uckfield",
+            "Hove II"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/23445.png",
+            "https://images.englandrugby.com/club_images/10504.png"
+        ],
+        "players": [
+            {},
+            {}
         ]
     },
     {
@@ -2487,6 +2753,47 @@
         ]
     },
     {
+        "match_id": "909552",
+        "season": "2021-2022",
+        "league": "Harvey\u2019s Brewery Sussex 1",
+        "date": "2022-01-29",
+        "teams": [
+            "Seaford",
+            "Hove II"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/18868.png",
+            "https://images.englandrugby.com/club_images/10504.png"
+        ],
+        "players": [
+            {},
+            {
+                "15": "Charlie Crossgrove",
+                "14": "Rhys Roberts",
+                "13": "Paddy Powney",
+                "12": "Corey Digby-Clarke",
+                "11": "Stuart Cotter",
+                "10": "Rhys Jones",
+                "9": "Oscar Weisz",
+                "8": "Daniel Newby",
+                "7": "Name withheld",
+                "6": "Sam Diplock",
+                "5": "Andrew Salter",
+                "4": "Lee Furminger",
+                "3": "Matt Read",
+                "2": "Luke Read",
+                "1": "Philip Innis",
+                "S1": "Mark Tait",
+                "S2": "Bradley Newby",
+                "S3": "Paul Burns"
+            }
+        ]
+    },
+    {
         "match_id": "955082",
         "season": "2021-2022",
         "league": "Sussex 3 Premier",
@@ -2618,6 +2925,47 @@
                 "4": "Kyle Tucker",
                 "3": "Andrew Mackay",
                 "2": "Robert Blake"
+            }
+        ]
+    },
+    {
+        "match_id": "954944",
+        "season": "2021-2022",
+        "league": "Harvey\u2019s Brewery Sussex 1",
+        "date": "2022-02-05",
+        "teams": [
+            "Lewes",
+            "Hove II"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/12206.png",
+            "https://images.englandrugby.com/club_images/10504.png"
+        ],
+        "players": [
+            {},
+            {
+                "15": "Ben Poole",
+                "14": "Daniel Basquill",
+                "13": "William Shiell",
+                "12": "James Shafi",
+                "11": "Joe Reid",
+                "10": "Angelo Errigo",
+                "9": "Angus Taylor",
+                "8": "Lewis Evans",
+                "7": "Stewart Dickens",
+                "6": "Dominic Lunniss",
+                "5": "Ethan Edwards",
+                "4": "James Sale",
+                "3": "Kane Dadswell",
+                "2": "Jacob Bishop",
+                "1": "Charlie Moran",
+                "S1": "Fearghus Gage",
+                "S2": "Damian Pye",
+                "S3": "Alexander Audsley-Mckenna"
             }
         ]
     },
@@ -2861,6 +3209,47 @@
                 "1": "Max Currums",
                 "S1": "Ryan Bate",
                 "S2": "Adam Palmer"
+            }
+        ]
+    },
+    {
+        "match_id": "909556",
+        "season": "2021-2022",
+        "league": "Harvey\u2019s Brewery Sussex 1",
+        "date": "2022-02-12",
+        "teams": [
+            "Hove II",
+            "Eastbourne"
+        ],
+        "score": [
+            "",
+            "WO"
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/10504.png",
+            "https://images.englandrugby.com/club_images/7209.png"
+        ],
+        "players": [
+            {},
+            {
+                "15": "No lineup to show.",
+                "14": "Oliver Horley",
+                "13": "Sebastian Gleave",
+                "12": "Dylan Becker",
+                "11": "Jeremy Montes",
+                "10": "Mason Dowle",
+                "9": "Martial Chaput",
+                "8": "Harrison Gibbons",
+                "7": "Name withheld",
+                "6": "Carl Slaughter",
+                "5": "Ryan Shields",
+                "4": "Joshua Buckwell",
+                "3": "Luke Thomas",
+                "2": "Toby Slaughter",
+                "1": "Joseph Bettles",
+                "S1": "Daniel Keen",
+                "S2": "Ben Perrott",
+                "S3": "Jake Howe"
             }
         ]
     },
@@ -4001,6 +4390,60 @@
         "players": [
             {},
             {}
+        ]
+    },
+    {
+        "match_id": "981967",
+        "season": "2022-2023",
+        "league": "Counties 2 Sussex",
+        "date": "2022-09-24",
+        "teams": [
+            "Lewes",
+            "Haywards Heath"
+        ],
+        "score": [
+            "",
+            "WO"
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/12206.png",
+            "https://images.englandrugby.com/club_images/9776.png"
+        ],
+        "players": [
+            {
+                "15": "Tyler Edwards",
+                "14": "Alexander Audsley-Mckenna",
+                "13": "James Shafi",
+                "11": "Declan Over",
+                "10": "Jordan Whiting",
+                "9": "Elliot Moule",
+                "8": "Lewis Evans",
+                "6": "Damian Pye",
+                "5": "James Sale",
+                "4": "Edward King",
+                "3": "Fearghus Gage",
+                "2": "Oliver Bowry",
+                "S1": "Nick Needham"
+            },
+            {
+                "15": "Douglas Kern",
+                "14": "Roscoe Atkins",
+                "13": "Jack Flower",
+                "12": "Henry Verbi",
+                "11": "Samuela Bulitokaivale-Lancaster",
+                "10": "Thomas Wharton",
+                "9": "Alexander Chard",
+                "8": "Fraser Russell",
+                "7": "Geoffrey Bridges",
+                "6": "Jack Bull",
+                "5": "Henry Dickson",
+                "4": "Name withheld",
+                "3": "Elliott Higgin",
+                "2": "Jack Herbert",
+                "1": "Matthew Cains",
+                "S1": "Harrison Thomas Edwards",
+                "S2": "Ellis Dubois"
+            }
         ]
     },
     {
@@ -5908,6 +6351,66 @@
         ]
     },
     {
+        "match_id": "981995",
+        "season": "2022-2023",
+        "league": "Counties 2 Sussex",
+        "date": "2022-11-12",
+        "teams": [
+            "Lewes",
+            "Eastbourne"
+        ],
+        "score": [
+            "",
+            "WO"
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/12206.png",
+            "https://images.englandrugby.com/club_images/7209.png"
+        ],
+        "players": [
+            {
+                "15": "Daniel Elmes",
+                "14": "Dante Maguire",
+                "13": "Karl Neale-Shutte",
+                "12": "Elliot Moule",
+                "11": "Declan Over",
+                "10": "William Shiell",
+                "9": "Angus Taylor",
+                "8": "Nathaniel Vine",
+                "7": "Stewart Dickens",
+                "6": "George Gribble",
+                "5": "James Sale",
+                "4": "Lewis Evans",
+                "3": "Edward King",
+                "2": "Damian Pye",
+                "1": "Kane Dadswell",
+                "S1": "Mouhammed Bacha",
+                "S2": "Simon Coe",
+                "S3": "Cian Furlong"
+            },
+            {
+                "15": "Mason Dowle",
+                "14": "Gianluca Bianchi",
+                "13": "Ben Perrott",
+                "12": "Jake Howe",
+                "11": "Dylan Becker",
+                "10": "Harrison Gibbons",
+                "9": "Name withheld",
+                "8": "Jeremy Montes",
+                "7": "Vincent Morse",
+                "6": "Carl Slaughter",
+                "5": "Joshua Buckwell",
+                "4": "Owen Davies",
+                "3": "Paul Smith",
+                "2": "Joseph Bettles",
+                "1": "Daniel Keen",
+                "S1": "Luke Thomas",
+                "S2": "Oliver Horley",
+                "S3": "Christopher Hosking"
+            }
+        ]
+    },
+    {
         "match_id": "981998",
         "season": "2022-2023",
         "league": "Counties 2 Sussex",
@@ -6163,6 +6666,28 @@
         "logos": [
             "https://images.englandrugby.com/club_images/20374.png",
             "https://images.englandrugby.com/club_images/5810.png"
+        ],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "981999",
+        "season": "2022-2023",
+        "league": "Counties 2 Sussex",
+        "date": "2022-11-26",
+        "teams": [
+            "Pulborough",
+            "Lewes"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/17255.png",
+            "https://images.englandrugby.com/club_images/12206.png"
         ],
         "players": [
             {},
@@ -6470,6 +6995,63 @@
         ]
     },
     {
+        "match_id": "982007",
+        "season": "2022-2023",
+        "league": "Counties 2 Sussex",
+        "date": "2022-12-03",
+        "teams": [
+            "Haywards Heath",
+            "Lewes"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/9776.png",
+            "https://images.englandrugby.com/club_images/12206.png"
+        ],
+        "players": [
+            {
+                "15": "Matthew Cains",
+                "14": "Casper Cordeschi",
+                "13": "Jack Flower",
+                "12": "Alexander Chard",
+                "11": "Mitchell Day",
+                "10": "Thomas Wharton",
+                "9": "Charles Miller",
+                "8": "Geoffrey Bridges",
+                "7": "Jack Herbert",
+                "6": "Jack Hart",
+                "5": "Ellis Dubois",
+                "4": "Henry Dickson",
+                "3": "John Robertson",
+                "2": "Harrison Thomas Edwards",
+                "1": "Elliott Higgin",
+                "S1": "Sebastian Broster",
+                "S2": "Name withheld",
+                "S3": "James Thurston"
+            },
+            {
+                "15": "Joshua Leigh",
+                "13": "Tyler Edwards",
+                "12": "Harry Pryer",
+                "11": "Joe Reid",
+                "10": "Roberto Bello Hurtado",
+                "9": "Adam Hutchings",
+                "8": "George Gribble",
+                "7": "Stewart Dickens",
+                "6": "Zac Ozeren",
+                "5": "Edward King",
+                "4": "James Sale",
+                "3": "Henry Bishop",
+                "2": "Damian Pye",
+                "1": "Kane Dadswell",
+                "S2": "Simon Coe"
+            }
+        ]
+    },
+    {
         "match_id": "982010",
         "season": "2022-2023",
         "league": "Counties 2 Sussex",
@@ -6757,6 +7339,61 @@
         "players": [
             {},
             {}
+        ]
+    },
+    {
+        "match_id": "1031321",
+        "season": "2022-2023",
+        "league": "Counties 2 Sussex",
+        "date": "2023-01-07",
+        "teams": [
+            "Pulborough",
+            "Shoreham"
+        ],
+        "score": [
+            "",
+            "WO"
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/17255.png",
+            "https://images.englandrugby.com/club_images/19257.png"
+        ],
+        "players": [
+            {
+                "15": "Raiph Robson",
+                "14": "Archie Sadler",
+                "13": "Frazer Oliphant-Hope",
+                "12": "Bryan Woodhouse",
+                "11": "Thomas Garnett",
+                "10": "Ludo Milne",
+                "8": "Henry Lee",
+                "7": "Kieran Mellor",
+                "6": "Michael Woodhouse",
+                "4": "Ben Sadler",
+                "3": "Johny-joe Staples",
+                "2": "Coby Coy",
+                "1": "Harry O'Brien"
+            },
+            {
+                "15": "Toby Gale",
+                "14": "Paul Mamoany",
+                "13": "Sean Shepherd",
+                "12": "Adam Fear",
+                "11": "Nathan Funnell",
+                "10": "Ethan Bannister",
+                "9": "Schaeff Potter",
+                "8": "Gavin Cox",
+                "7": "Samuel Kentell",
+                "6": "Steven Goater",
+                "5": "Alex Hall",
+                "4": "Ben French",
+                "3": "Mathew Bellenie",
+                "2": "Mark Lavery",
+                "1": "Daryn Clarke",
+                "S1": "Max Tozer",
+                "S2": "Christopher Reynolds",
+                "S3": "Toby Reed"
+            }
         ]
     },
     {
@@ -8298,6 +8935,28 @@
         ]
     },
     {
+        "match_id": "982034",
+        "season": "2022-2023",
+        "league": "Counties 2 Sussex",
+        "date": "2023-02-18",
+        "teams": [
+            "Eastbourne",
+            "Lewes"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/7209.png",
+            "https://images.englandrugby.com/club_images/12206.png"
+        ],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
         "match_id": "1034989",
         "season": "2022-2023",
         "league": "Counties 2 Sussex",
@@ -8425,6 +9084,28 @@
         "logos": [
             "https://images.englandrugby.com/club_images/7213.png",
             "https://images.englandrugby.com/club_images/20374.png"
+        ],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1038113",
+        "season": "2022-2023",
+        "league": "Counties 2 Sussex",
+        "date": "2023-02-25",
+        "teams": [
+            "Pulborough",
+            "Lewes"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/17255.png",
+            "https://images.englandrugby.com/club_images/12206.png"
         ],
         "players": [
             {},
@@ -9005,6 +9686,28 @@
         ]
     },
     {
+        "match_id": "982043",
+        "season": "2022-2023",
+        "league": "Counties 2 Sussex",
+        "date": "2023-03-11",
+        "teams": [
+            "East Grinstead",
+            "Lewes"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/7134.png",
+            "https://images.englandrugby.com/club_images/12206.png"
+        ],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
         "match_id": "1036127",
         "season": "2022-2023",
         "league": "Counties 2 Sussex",
@@ -9373,6 +10076,47 @@
                 "1": "Dominic Plumb",
                 "S1": "Alexander Scott",
                 "S2": "Benjamin Telfer"
+            }
+        ]
+    },
+    {
+        "match_id": "1057442",
+        "season": "2023-2024",
+        "league": "Counties 1 Surrey/Sussex",
+        "date": "2023-09-16",
+        "teams": [
+            "Old Tiffinians",
+            "Old Cranleighans"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/16068.png",
+            "https://images.englandrugby.com/club_images/15615.png"
+        ],
+        "players": [
+            {},
+            {
+                "15": "Stefan Frost",
+                "14": "Rory Coats",
+                "13": "Maximilian Talman",
+                "12": "Sebastion Kay",
+                "11": "Austen Dunster",
+                "10": "George Taylor",
+                "9": "Harry Jowett",
+                "8": "Jaewon Jang",
+                "7": "Toby Sydenham",
+                "6": "Daniel Blackman",
+                "5": "Noah-Vincenz Noeh",
+                "4": "Hugh Turnbull",
+                "3": "Name withheld",
+                "2": "Sam Rumball",
+                "1": "Ross Hobbs",
+                "S1": "Timothy Fawcett",
+                "S2": "William Staples",
+                "S3": "Tomos Croxon"
             }
         ]
     },
@@ -11418,6 +12162,47 @@
         ]
     },
     {
+        "match_id": "1057478",
+        "season": "2023-2024",
+        "league": "Counties 1 Surrey/Sussex",
+        "date": "2023-11-04",
+        "teams": [
+            "East Grinstead",
+            "Old Cranleighans"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/7134.png",
+            "https://images.englandrugby.com/club_images/15615.png"
+        ],
+        "players": [
+            {},
+            {
+                "15": "Oliver Billin",
+                "14": "Alistair Moffatt",
+                "13": "Colm Geraghty",
+                "12": "Benjamin Saunders",
+                "11": "Jake Radcliffe",
+                "10": "Daniel Poulton",
+                "9": "Harry White",
+                "8": "Aaronn Boczek",
+                "7": "Ryland Thomas",
+                "6": "John Peaty",
+                "5": "Samuel Lindsay-McCall",
+                "4": "Guy Collins",
+                "3": "Joshua Brimecombe",
+                "2": "Benjamin Tottman",
+                "1": "Connor Leggat",
+                "S1": "David Bridges",
+                "S2": "Harrison Griffiths",
+                "S3": "Samuel Spriddell"
+            }
+        ]
+    },
+    {
         "match_id": "1104314",
         "season": "2023-2024",
         "league": "Counties 1 Surrey/Sussex",
@@ -12969,6 +13754,28 @@
         ]
     },
     {
+        "match_id": "1057502",
+        "season": "2023-2024",
+        "league": "Counties 1 Surrey/Sussex",
+        "date": "2023-12-09",
+        "teams": [
+            "Eastbourne",
+            "Old Cranleighans"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/7209.png",
+            "https://images.englandrugby.com/club_images/15615.png"
+        ],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
         "match_id": "1057511",
         "season": "2023-2024",
         "league": "Counties 1 Surrey/Sussex",
@@ -13218,6 +14025,28 @@
         "logos": [
             "https://images.englandrugby.com/club_images/9891.png",
             "https://images.englandrugby.com/club_images/14523.png"
+        ],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1057513",
+        "season": "2023-2024",
+        "league": "Counties 1 Surrey/Sussex",
+        "date": "2023-12-16",
+        "teams": [
+            "Weybridge Vandals",
+            "Old Cranleighans"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/25094.png",
+            "https://images.englandrugby.com/club_images/15615.png"
         ],
         "players": [
             {},
@@ -14666,6 +15495,47 @@
         ]
     },
     {
+        "match_id": "1104774",
+        "season": "2023-2024",
+        "league": "Counties 1 Surrey/Sussex",
+        "date": "2024-02-03",
+        "teams": [
+            "East Grinstead",
+            "Old Cranleighans"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/7134.png",
+            "https://images.englandrugby.com/club_images/15615.png"
+        ],
+        "players": [
+            {},
+            {
+                "15": "Oliver Billin",
+                "14": "Luke Maker",
+                "13": "Samuel Musgrave",
+                "12": "Benjamin Saunders",
+                "11": "Jake Radcliffe",
+                "10": "Daniel Poulton",
+                "9": "Noah Roberts",
+                "8": "Aaronn Boczek",
+                "7": "Ryland Thomas",
+                "6": "John Peaty",
+                "5": "Samuel Lindsay-McCall",
+                "4": "Daniel Billin",
+                "3": "Joshua Brimecombe",
+                "2": "Benjamin Tottman",
+                "1": "Guy Collins",
+                "S1": "David Bridges",
+                "S2": "Connor Leggat",
+                "S3": "Name withheld"
+            }
+        ]
+    },
+    {
         "match_id": "1111741",
         "season": "2023-2024",
         "league": "Counties 1 Surrey/Sussex",
@@ -15234,6 +16104,28 @@
         ]
     },
     {
+        "match_id": "1057546",
+        "season": "2023-2024",
+        "league": "Counties 1 Surrey/Sussex",
+        "date": "2024-02-17",
+        "teams": [
+            "Weybridge Vandals",
+            "Kingston"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/25094.png",
+            "https://images.englandrugby.com/club_images/11663.png"
+        ],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
         "match_id": "1113118",
         "season": "2023-2024",
         "league": "Counties 1 Surrey/Sussex",
@@ -15290,6 +16182,64 @@
                 "S1": "Lloyd Pullen",
                 "S2": "Lewis Razey",
                 "S3": "David Loubser"
+            }
+        ]
+    },
+    {
+        "match_id": "1111743",
+        "season": "2023-2024",
+        "league": "Counties 1 Surrey/Sussex",
+        "date": "2024-02-24",
+        "teams": [
+            "Twickenham",
+            "Hove"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/23336.png",
+            "https://images.englandrugby.com/club_images/10503.png"
+        ],
+        "players": [
+            {
+                "15": "Thomas Foster",
+                "14": "Arthur Polley",
+                "13": "Samuel Griffin",
+                "12": "Joe Ash",
+                "11": "Archie Lamont",
+                "10": "Jamie See",
+                "9": "Samuel Goddard",
+                "8": "Nicholas Smith",
+                "7": "Jack Fullicks",
+                "6": "Jasper Bhamra",
+                "5": "Scott Davidson",
+                "4": "Louie Banks",
+                "3": "Jordan Fyles",
+                "2": "Ben Goddard",
+                "1": "Alex Bennett",
+                "S1": "Richard Moses",
+                "S2": "Oscar Jansen",
+                "S3": "Louis Chapman"
+            },
+            {
+                "15": "Name withheld",
+                "14": "Joey Magill",
+                "13": "Guy Patton",
+                "12": "Leo Robertson",
+                "11": "Tom Holborn",
+                "10": "Jack Edwards",
+                "9": "Charlie Knight",
+                "8": "Tobias Brown",
+                "7": "Ian Saunders",
+                "6": "Thomas Baker",
+                "5": "George Brown",
+                "4": "Adrian Shergold",
+                "3": "Tyler Hooper",
+                "2": "Ryan Storer",
+                "1": "Aled Davies",
+                "S1": "Rhowan Braybrook"
             }
         ]
     },
@@ -15486,6 +16436,28 @@
             7
         ],
         "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1057555",
+        "season": "2023-2024",
+        "league": "Counties 1 Surrey/Sussex",
+        "date": "2024-03-02",
+        "teams": [
+            "Old Cranleighans",
+            "Teddington"
+        ],
+        "score": [
+            "",
+            "WO"
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/15615.png",
+            "https://images.englandrugby.com/club_images/21732.png"
+        ],
         "players": [
             {},
             {}
@@ -15928,6 +16900,28 @@
         ]
     },
     {
+        "match_id": "1057561",
+        "season": "2023-2024",
+        "league": "Counties 1 Surrey/Sussex",
+        "date": "2024-03-16",
+        "teams": [
+            "KCS Old Boys",
+            "Old Cranleighans"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/11188.png",
+            "https://images.englandrugby.com/club_images/15615.png"
+        ],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
         "match_id": "1057562",
         "season": "2023-2024",
         "league": "Counties 1 Surrey/Sussex",
@@ -16217,6 +17211,28 @@
                 "S2": "Alexander Scott",
                 "S3": "Fuad Agbalaya"
             }
+        ]
+    },
+    {
+        "match_id": "1107467",
+        "season": "2023-2024",
+        "league": "Counties 1 Surrey/Sussex",
+        "date": "2024-03-23",
+        "teams": [
+            "Eastbourne",
+            "Old Cranleighans"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/7209.png",
+            "https://images.englandrugby.com/club_images/15615.png"
+        ],
+        "players": [
+            {},
+            {}
         ]
     },
     {
@@ -32025,6 +33041,91 @@
         ]
     },
     {
+        "match_id": "1220110",
+        "season": "2025-2026",
+        "league": "Counties 2 Sussex",
+        "date": "2026-03-21",
+        "teams": [
+            "Seaford",
+            "Lewes"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/18868.png",
+            "https://images.englandrugby.com/club_images/12206.png"
+        ],
+        "players": [
+            {},
+            {
+                "15": "Jack Armstrong",
+                "14": "Charlie Crossgrove",
+                "13": "william joy",
+                "12": "Corey Digby-Clarke",
+                "11": "Paddy Powney",
+                "10": "Oscar Weisz",
+                "9": "Oli Simmons",
+                "8": "Elliott Curl",
+                "7": "Harvey Joy",
+                "6": "Name withheld",
+                "5": "Bradley Newby",
+                "4": "Lee Furminger",
+                "3": "Joseph Drew",
+                "2": "Geoffrey Bridges",
+                "1": "Joshua Hennessy",
+                "S1": "Dominic Joy",
+                "S2": "Jake Davey",
+                "S3": "Nathan Roberts"
+            }
+        ]
+    },
+    {
+        "match_id": "1233158",
+        "season": "2025-2026",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "date": "2026-03-21",
+        "teams": [
+            "Shoreham II",
+            "Burgess Hill"
+        ],
+        "score": [
+            "",
+            "WO"
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/19262.png",
+            "https://images.englandrugby.com/club_images/3659.png"
+        ],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1233161",
+        "season": "2025-2026",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "date": "2026-03-21",
+        "teams": [
+            "Hove II",
+            "Worthing III"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/10504.png",
+            "https://images.englandrugby.com/club_images/127674.png"
+        ],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
         "match_id": "1220115",
         "season": "2025-2026",
         "league": "Counties 2 Sussex",
@@ -32262,6 +33363,91 @@
         "logos": [
             "https://images.englandrugby.com/club_images/10504.png",
             "https://images.englandrugby.com/club_images/23445.png"
+        ],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1220117",
+        "season": "2025-2026",
+        "league": "Counties 2 Sussex",
+        "date": "2026-03-28",
+        "teams": [
+            "Lewes",
+            "Brighton II"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/12206.png",
+            "https://images.englandrugby.com/club_images/3218.png"
+        ],
+        "players": [
+            {},
+            {
+                "15": "Jack Soltermann",
+                "14": "Name withheld",
+                "13": "Rafferty Green",
+                "12": "Ben Goode",
+                "11": "Thomas Roy",
+                "10": "Jordan Smith",
+                "9": "Matthew Henshaw",
+                "8": "Kane Dadswell",
+                "7": "Harry Weston",
+                "6": "William Cross",
+                "5": "Thomas Petty",
+                "4": "James Sale",
+                "3": "Fearghus Gage",
+                "2": "Benjamin Simmonds",
+                "1": "Ian Thomas",
+                "S1": "Charlie Moran",
+                "S2": "Harry Carr",
+                "S3": "Harry Rees"
+            }
+        ]
+    },
+    {
+        "match_id": "1220116",
+        "season": "2025-2026",
+        "league": "Counties 2 Sussex",
+        "date": "2026-03-28",
+        "teams": [
+            "Shoreham",
+            "Pulborough"
+        ],
+        "score": [
+            "",
+            "WO"
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/19257.png",
+            "https://images.englandrugby.com/club_images/17255.png"
+        ],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1233166",
+        "season": "2025-2026",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "date": "2026-03-28",
+        "teams": [
+            "Worthing III",
+            "Shoreham II"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/127674.png",
+            "https://images.englandrugby.com/club_images/19262.png"
         ],
         "players": [
             {},
@@ -33017,6 +34203,50 @@
         "logos": [
             "https://images.englandrugby.com/club_images/10451.png",
             "https://images.englandrugby.com/club_images/7136.png"
+        ],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1233175",
+        "season": "2025-2026",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "date": "2026-04-18",
+        "teams": [
+            "Worthing III",
+            "Haywards Heath II"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/127674.png",
+            "https://images.englandrugby.com/club_images/9777.png"
+        ],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1233176",
+        "season": "2025-2026",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "date": "2026-04-18",
+        "teams": [
+            "Hove II",
+            "Hellingly"
+        ],
+        "score": [
+            "WO",
+            ""
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/10504.png",
+            "https://images.englandrugby.com/club_images/9891.png"
         ],
         "players": [
             {},

@@ -872,8 +872,8 @@ def fetch_match_data(match_id):
 
     soup = BeautifulSoup(response.text, 'html.parser')
 
-    # Extract score
-    score_tag = soup.find(class_='c042-match-score')
+    # Extract score — normal matches use c042-match-score; walkovers use c042-score
+    score_tag = soup.find(class_='c042-match-score') or soup.find(class_='c042-score')
     if not score_tag:
         logging.warning(f"Match {match_id} has no score available yet.")
         return None

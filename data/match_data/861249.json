@@ -1,0 +1,60 @@
+{
+    "match_id": "861249",
+    "season": "2019-2020",
+    "league": "Harvey's of Sussex 1",
+    "date": "2020-03-07",
+    "teams": [
+        "Lewes",
+        "Eastbourne"
+    ],
+    "score": [
+        "",
+        "WO"
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/12206.png",
+        "https://images.englandrugby.com/club_images/7209.png"
+    ],
+    "players": [
+        {
+            "15": "Name withheld",
+            "14": "Stephen Mills",
+            "13": "Adam Hutchings",
+            "12": "James Shafi",
+            "11": "Charlie Buglass",
+            "10": "Thomas Rourke",
+            "9": "Matthew Henshaw",
+            "8": "Finn Spalding",
+            "7": "Dominic Lunniss",
+            "6": "Calvin Jansz",
+            "5": "Thomas Petty",
+            "4": "James Sale",
+            "3": "Sean Sayers",
+            "2": "Oliver Bowry",
+            "1": "Claudio Cosimetti",
+            "S1": "Angus Taylor",
+            "S2": "Jordan Whiting",
+            "S3": "Josh Ellis-Smith"
+        },
+        {
+            "15": "Shaun Everett",
+            "14": "Carl Slaughter",
+            "13": "James Monk",
+            "12": "Nathan Ring",
+            "11": "William Bettles",
+            "10": "Liam Pyle",
+            "9": "Siddarth Davangere Hiremutt",
+            "8": "Tom Redman",
+            "7": "Stefan Cousins",
+            "6": "Conrad Major",
+            "5": "Christopher Chilvers",
+            "4": "Joshua Buckwell",
+            "3": "Travis James",
+            "2": "Joseph Bettles",
+            "1": "Leigh Williams",
+            "S1": "Daniel Keen",
+            "S2": "William Bacon",
+            "S3": "Pedro Sousa"
+        }
+    ]
+}
