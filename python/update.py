@@ -31,6 +31,7 @@ from python.charts import (
     team_sheets_chart,
     opposition_profile_team_sheets_chart,
     results_chart,
+    team_stats_results_chart,
     set_piece_success_by_season_chart,
     lineout_success_by_zone_chart,
     lineout_breakdown_chart_suite,
@@ -111,6 +112,7 @@ def main(refresh_pitchero=False, backend_mode="canonical", backend_db_path="data
     opposition_profile_team_sheets_chart(db)
     results_chart(db)
     results_chart(db, output_file='data/charts/opposition_results.json', facet_by_season=True)
+    team_stats_results_chart(db)
 
     set_piece_success_by_season_chart(db, layout="separate")
     set_piece_attacking_volume_chart(db, layout="separate", bind_params=False)

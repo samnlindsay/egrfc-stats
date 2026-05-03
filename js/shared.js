@@ -80,6 +80,7 @@ const CHART_CONTAINER_INVENTORY = Object.freeze([
   "squadContinuityTrendChart",
   "squadOverlapChart",
   "squadPositionCompositionChart",
+  "squadResultsChart",
   "squadSizeTrendChart",
   "teamSheetsChart",
   "leagueResultsChart1",
@@ -120,6 +121,7 @@ const CHART_LAYOUT_INVENTORY = {
     narrowMax: 680,
     wideMin: 1000,
     narrow: { legendOrient: "bottom", legendTitleOrient: "left" },
+      innerWidth: 275,
     wide: { legendOrient: "right", width: 500 },
   },
   squadSizeTrendChart: {
@@ -129,6 +131,7 @@ const CHART_LAYOUT_INVENTORY = {
   },
   squadContinuityTrendChart: {
     narrowMax: 680,
+      innerWidth: 400,
     narrow: { legendOrient: "bottom" },
     wide: { legendOrient: "right", innerWidth: 275 },
   },
@@ -156,7 +159,7 @@ const CHART_LAYOUT_INVENTORY = {
         horizontal: {
           spacing: 20,
           panels: [
-            { width: 275, height: 300 },
+            { width: 300, height: 300 },
             { width: { step: 60 }, height: 300 },
           ],
         },
@@ -187,7 +190,7 @@ const CHART_LAYOUT_INVENTORY = {
         horizontal: {
           spacing: 20,
           panels: [
-            { width: 275, height: 300 },
+            { width: 300, height: 300 },
             { width: { step: 60 }, height: 300 },
           ],
         },
@@ -213,6 +216,29 @@ const CHART_LAYOUT_INVENTORY = {
     narrowMax: 760,
     narrow: { legendOrient: "bottom", innerWidth: 275 },
     wide: { legendOrient: "right"},
+  },
+  squadResultsChart: {
+    narrowMax: 760,
+    narrow: {
+      legendOrient: "bottom",
+      innerWidth: 275,
+      panelSizing: {
+        vertical: {
+          spacing: 18,
+          panels: [{ width: 275 }, { width: 275 }],
+        },
+      },
+    },
+    wide: {
+      legendOrient: "right",
+      innerWidth: 400,
+      panelSizing: {
+        vertical: {
+          spacing: 24,
+          panels: [{ width: 400 }, { width: 400 }],
+        },
+      },
+    },
   },
   oppositionLineoutH2HChart: {
     narrowMax: 760,

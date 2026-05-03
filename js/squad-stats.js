@@ -7,11 +7,14 @@ let squadSizeTrendTemplateSpec = null;
 let squadContinuityTrendTemplateSpec = null;
 let squadOverlapTemplateSpec = null;
 let squadPositionCompositionTemplateSpec = null;
+let squadResultsGameSpec = null;
+let squadResultsAggregateSpec = null;
 let squadStatsControlsInitialised = false;
 let syncingSquadStatsControls = false;
 let squadStatsAnalysisRailInitialised = false;
 let suppressGameTypeSegmentSync = false;
 const DEFAULT_GAME_TYPE_MODE = 'League + Cup';
+const ALL_SEASONS_OPTION = 'All (2017-)';
 
 async function loadSquadStatsCanonicalData() {
     if (squadStatsWithThresholdsEnrichedData && squadContinuityEnrichedData && squadPositionCompositionTemplateSpec) return;
@@ -54,6 +57,17 @@ async function loadSquadStatsCanonicalData() {
             if (res.ok) squadPositionCompositionTemplateSpec = await res.json();
         } catch (e) { console.warn('Unable to load squad position composition template spec:', e); }
     }
+
+    if (!squadResultsGameSpec || !squadResultsAggregateSpec) {
+        try {
+            const [gameRes, aggRes] = await Promise.all([
+                fetch('data/charts/team_stats_results_game.json'),
+                fetch('data/charts/team_stats_results_season_aggregate.json'),
+            ]);
+            if (gameRes.ok) squadResultsGameSpec = await gameRes.json();
+            if (aggRes.ok) squadResultsAggregateSpec = await aggRes.json();
+        } catch (e) { console.warn('Unable to load squad results specs:', e); }
+    }
 }
 
 function createSquadMetricBucket() {
@@ -92,7 +106,7 @@ async function loadSquadStatsPage() {
         renderSquadStatsPage();
     } catch (err) {
         console.error('Error loading squad metrics data:', err);
-        ['squadSizeTrendChart', 'squadContinuityTrendChart', 'leagueSquadSizeContextChart', 'leagueContinuityContextChart'].forEach(id => {
+        ['squadSizeTrendChart', 'squadContinuityTrendChart', 'squadResultsChart', 'leagueSquadSizeContextChart', 'leagueContinuityContextChart'].forEach(id => {
             const el = document.getElementById(id);
             if (el) el.innerHTML = '<div class="text-center text-danger py-4">Unable to load chart.</div>';
         });
@@ -297,6 +311,17 @@ function renderSquadStatsActiveFilterChips(targetId, selectedSeason, gameTypeMod
     host.innerHTML = chips.join('');
 }
 
+function renderSquadResultsActiveFilterChips(selectedSeason, gameTypeMode) {
+    const host = document.getElementById('squadResultsActiveFilters');
+    if (!host) return;
+    const seasonShort = /^\d{4}\//.test(selectedSeason) ? selectedSeason.replace(/^20/, '') : selectedSeason;
+
+    host.innerHTML = [
+        `<button type="button" class="squad-stats-filter-chip squad-stats-filter-chip-btn" data-bs-toggle="offcanvas" data-bs-target="#squadStatsFiltersOffcanvas" aria-controls="squadStatsFiltersOffcanvas"><strong>Season</strong> <span class="d-none d-md-inline">${selectedSeason}</span><span class="d-inline d-md-none">${seasonShort}</span></button>`,
+        `<button type="button" class="squad-stats-filter-chip squad-stats-filter-chip-btn" data-bs-toggle="offcanvas" data-bs-target="#squadStatsFiltersOffcanvas" aria-controls="squadStatsFiltersOffcanvas"><strong>Game Type</strong> ${gameTypeMode}</button>`
+    ].join('');
+}
+
 function syncOffcanvasFiltersFromMain() {
     // Since offcanvas controls are now the primary controls,
     // just ensure the UI state is consistent with the hidden select values
@@ -371,7 +396,8 @@ function populateSquadStatsSeasonDropdownOptions() {
     const seasonSelect = document.getElementById('squadStatsSeasonSelect');
     if (!seasonSelect) return [];
     const seasons = getSquadStatsSeasonOptions();
-    const finalSeasons = seasons.length > 0 ? seasons : [getCurrentSeasonLabel()];
+    const baseSeasons = seasons.length > 0 ? seasons : [getCurrentSeasonLabel()];
+    const finalSeasons = [ALL_SEASONS_OPTION, ...baseSeasons];
     seasonSelect.innerHTML = '';
     finalSeasons.forEach(season => {
         const option = document.createElement('option');
@@ -380,7 +406,7 @@ function populateSquadStatsSeasonDropdownOptions() {
         seasonSelect.appendChild(option);
     });
     const currentSeason = getCurrentSeasonLabel();
-    seasonSelect.value = finalSeasons.includes(currentSeason) ? currentSeason : finalSeasons[0];
+    seasonSelect.value = finalSeasons.includes(currentSeason) ? currentSeason : (baseSeasons[0] || ALL_SEASONS_OPTION);
     syncSeasonStepperFromSelect();
     return finalSeasons;
 }
@@ -507,8 +533,97 @@ function syncSquadSizeTrendViewSegmentFromSelect() {
     });
 }
 
-async function renderLeagueContextCharts() {
-    const selectedSeason = document.getElementById('squadStatsSeasonSelect')?.value || getCurrentSeasonLabel();
+function _squadResultsGameTypeFilter(mode) {
+    if (mode === 'League + Cup') return row => ['League', 'Cup'].includes(row?.game_type);
+    if (mode === 'League only') return row => row?.game_type === 'League';
+    return () => true;
+}
+
+function _squadResultsSeasonStart(seasonLabel) {
+    const match = String(seasonLabel || '').match(/^(\d{4})\//);
+    return match ? Number(match[1]) : NaN;
+}
+
+function _getRowsFromInlineOrDataset(spec) {
+    if (Array.isArray(spec?.data?.values)) {
+        return spec.data.values;
+    }
+    const namedDataset = spec?.data?.name;
+    if (namedDataset && Array.isArray(spec?.datasets?.[namedDataset])) {
+        return spec.datasets[namedDataset];
+    }
+    if (spec?.datasets && typeof spec.datasets === 'object') {
+        const firstDataset = Object.values(spec.datasets).find(rows => Array.isArray(rows));
+        if (firstDataset) return firstDataset;
+    }
+    return [];
+}
+
+function _setRowsOnInlineOrDataset(spec, rows) {
+    if (Array.isArray(spec?.data?.values)) {
+        spec.data.values = rows;
+        return;
+    }
+    const namedDataset = spec?.data?.name;
+    if (namedDataset && spec?.datasets && typeof spec.datasets === 'object') {
+        spec.datasets[namedDataset] = rows;
+        return;
+    }
+    spec.data = { values: rows };
+}
+
+function renderSquadResultsChart(selectedSeason, gameTypeMode) {
+    const container = document.getElementById('squadResultsChart');
+    if (!container) return;
+
+    // Check which spec to use
+    const isAggregated = selectedSeason === ALL_SEASONS_OPTION;
+    const baseSpec = isAggregated ? squadResultsAggregateSpec : squadResultsGameSpec;
+
+    if (!baseSpec) {
+        container.innerHTML = '<div class="text-center text-muted py-4">Squad results chart specs not available. Run <code>python update.py</code> to generate charts.</div>';
+        return;
+    }
+
+    const spec = JSON.parse(JSON.stringify(baseSpec));
+
+    if (isAggregated) {
+        spec.title.text = 'Results by Season (Average)';
+        spec.title.subtitle = [gameTypeMode];
+        renderStaticSpecChart('squadResultsChart', spec, 'No results data available for the selected filters.', { hideTitle: true });
+        return;
+    }
+
+    // Clone and filter data based on season and game type
+    const gameTypeFilter = _squadResultsGameTypeFilter(gameTypeMode);
+
+    const sourceRows = _getRowsFromInlineOrDataset(spec);
+
+    // Filter the data
+    const filteredData = sourceRows.filter(row => {
+        if (!gameTypeFilter(row)) return false;
+        return row?.season === selectedSeason;
+    });
+
+    if (!filteredData.length) {
+        container.innerHTML = '<div class="text-center text-muted py-4">No results data available for the selected filters.</div>';
+        return;
+    }
+
+    _setRowsOnInlineOrDataset(spec, filteredData);
+
+    // Update title with current filters
+    const titleSuffix = isAggregated 
+        ? ' by Season (Average)'
+        : ` - ${selectedSeason}`;
+    spec.title.text = `Results${titleSuffix}`;
+    spec.title.subtitle = [gameTypeMode];
+
+    renderStaticSpecChart('squadResultsChart', spec, 'No results data available for the selected filters.', { hideTitle: true });
+}
+
+async function renderLeagueContextCharts(selectedSeason = null) {
+    const effectiveSeason = selectedSeason || document.getElementById('squadStatsSeasonSelect')?.value || getCurrentSeasonLabel();
     const selectedUnit = getLeagueContextUnit();
 
     // Helper: inject isSelected into the trend panel's datasets based on Season field.
@@ -520,7 +635,7 @@ async function renderLeagueContextCharts() {
             if (Array.isArray(rows)) {
                 filteredSpec.datasets[name] = rows.map(row => ({
                     ...row,
-                    isSelected: row.Season === selectedSeason
+                    isSelected: row.Season === effectiveSeason
                 }));
             }
         });
@@ -531,20 +646,20 @@ async function renderLeagueContextCharts() {
         {
             containerId: 'leagueSquadSizeContextChart',
             path: 'data/charts/league_squad_size_context_1s.json',
-            emptyMessage: `No league squad size data available for ${selectedSeason} (${selectedUnit}).`,
+            emptyMessage: `No league squad size data available for ${effectiveSeason} (${selectedUnit}).`,
             filterSpec: spec => addIsSelectedToTrendDatasets(filterLeagueContextCombinedSpec(
                 spec,
-                row => row?.Season === selectedSeason && row?.Unit === selectedUnit,
+                row => row?.Season === effectiveSeason && row?.Unit === selectedUnit,
                 row => row?.Unit === selectedUnit
             ))
         },
         {
             containerId: 'leagueContinuityContextChart',
             path: 'data/charts/league_continuity_context_1s.json',
-            emptyMessage: `No league returners data available for ${selectedSeason} (${selectedUnit}).`,
+            emptyMessage: `No league returners data available for ${effectiveSeason} (${selectedUnit}).`,
             filterSpec: spec => addIsSelectedToTrendDatasets(filterLeagueContextCombinedSpec(
                 spec,
-                row => row?.Season === selectedSeason && row?.Unit === selectedUnit,
+                row => row?.Season === effectiveSeason && row?.Unit === selectedUnit,
                 row => row?.Unit === selectedUnit
             ))
         }
@@ -552,8 +667,8 @@ async function renderLeagueContextCharts() {
     await Promise.all(charts.map(async chart => {
         try {
             const spec = await loadChartSpec(chart.path);
-            if (!leagueSpecHasSeasonRows(spec, selectedSeason)) {
-                renderStaticSpecChart(chart.containerId, null, `No league data available for ${selectedSeason}.`);
+            if (!leagueSpecHasSeasonRows(spec, effectiveSeason)) {
+                renderStaticSpecChart(chart.containerId, null, `No league data available for ${effectiveSeason}.`);
                 return;
             }
             const filteredSpec = chart.filterSpec ? chart.filterSpec(spec) : spec;
@@ -565,11 +680,12 @@ async function renderLeagueContextCharts() {
     }));
 }
 
-function renderSquadStatsCharts(selectedSeason, minimumAppearances, selectedUnit, trendViewMode) {
-    renderSquadSizeTrendChart(selectedSeason, minimumAppearances, selectedUnit, trendViewMode);
-    renderSquadContinuityTrendChart(selectedSeason, selectedUnit);
+function renderSquadStatsCharts(selectedSeasonScoped, selectedSeasonRaw, minimumAppearances, selectedUnit, trendViewMode, gameTypeMode) {
+    renderSquadSizeTrendChart(selectedSeasonScoped, minimumAppearances, selectedUnit, trendViewMode);
+    renderSquadContinuityTrendChart(selectedSeasonScoped, selectedUnit);
     renderSquadOverlapChart(selectedUnit);
-    renderLeagueContextCharts();
+    renderSquadResultsChart(selectedSeasonRaw, gameTypeMode);
+    renderLeagueContextCharts(selectedSeasonScoped);
 }
 
 function renderSquadOverlapChart(selectedUnit) {
@@ -623,28 +739,32 @@ function renderSquadStatsPage() {
             includeGameType: false,
             includeMinAppearances: false,
         });
+        renderSquadResultsActiveFilterChips(fallbackSeason, gameTypeMode);
         renderSquadPositionCompositionChart(fallbackSeason, minimumAppearances, positionCountMode, selectedUnit);
-        renderSquadStatsCharts(fallbackSeason, minimumAppearances, selectedUnit, trendViewMode);
+        renderSquadStatsCharts(fallbackSeason, fallbackSeason, minimumAppearances, selectedUnit, trendViewMode, gameTypeMode);
         return;
     }
-    const selectedSeasonFromControls = getSquadStatsSelectedSeason();
-    const selectedSeason = selectedSeasonFromControls || (seasons.includes(getCurrentSeasonLabel()) ? getCurrentSeasonLabel() : seasons[0]);
+    const selectedSeasonRaw = getSquadStatsSelectedSeason() || (seasons.includes(getCurrentSeasonLabel()) ? getCurrentSeasonLabel() : seasons[0]);
+    const selectedSeasonForSeasonScopedCharts = selectedSeasonRaw === ALL_SEASONS_OPTION
+        ? (seasons.includes(getCurrentSeasonLabel()) ? getCurrentSeasonLabel() : seasons[0])
+        : selectedSeasonRaw;
     const minimumAppearances = getSquadStatsMinimumAppearances();
     const gameTypeMode = getSquadStatsGameTypeMode();
     const positionCountMode = getSquadStatsPositionCountMode();
     const selectedUnit = getLeagueContextUnit();
     const trendViewMode = getSquadSizeTrendViewMode();
-    applySquadStatsControlState({ season: selectedSeason, gameType: gameTypeMode, minimumAppearances, positionCountMode, unit: selectedUnit });
+    applySquadStatsControlState({ season: selectedSeasonRaw, gameType: gameTypeMode, minimumAppearances, positionCountMode, unit: selectedUnit });
     renderSquadStatsHeroStats();
-    renderSquadStatsActiveFilterChips('squadCompositionActiveFilters', selectedSeason, gameTypeMode, minimumAppearances);
-    renderSquadStatsActiveFilterChips('squadContinuityActiveFilters', selectedSeason, gameTypeMode, minimumAppearances);
-    renderSquadStatsActiveFilterChips('leagueContextActiveFilters', selectedSeason, gameTypeMode, minimumAppearances, {
+    renderSquadStatsActiveFilterChips('squadCompositionActiveFilters', selectedSeasonForSeasonScopedCharts, gameTypeMode, minimumAppearances);
+    renderSquadStatsActiveFilterChips('squadContinuityActiveFilters', selectedSeasonForSeasonScopedCharts, gameTypeMode, minimumAppearances);
+    renderSquadStatsActiveFilterChips('leagueContextActiveFilters', selectedSeasonForSeasonScopedCharts, gameTypeMode, minimumAppearances, {
         includeGameType: false,
         includeMinAppearances: false,
     });
+    renderSquadResultsActiveFilterChips(selectedSeasonRaw, gameTypeMode);
     initialiseSquadStatsAnalysisRail();
-    renderSquadPositionCompositionChart(selectedSeason, minimumAppearances, positionCountMode, selectedUnit);
-    renderSquadStatsCharts(selectedSeason, minimumAppearances, selectedUnit, trendViewMode);
+    renderSquadPositionCompositionChart(selectedSeasonForSeasonScopedCharts, minimumAppearances, positionCountMode, selectedUnit);
+    renderSquadStatsCharts(selectedSeasonForSeasonScopedCharts, selectedSeasonRaw, minimumAppearances, selectedUnit, trendViewMode, gameTypeMode);
 }
 
 function initialiseSquadStatsControlsOnce() {
@@ -851,7 +971,8 @@ const LT_RESULTS_COLOUR_RESULT = 'result';
 
 function _ltGetCurrentSeason() {
     const select = document.getElementById('squadStatsSeasonSelect');
-    return select?.value || getCurrentSeasonLabel();
+    const value = select?.value || getCurrentSeasonLabel();
+    return value === ALL_SEASONS_OPTION ? getCurrentSeasonLabel() : value;
 }
 
 function _ltGetSelectedSquadFilter() {
