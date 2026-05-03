@@ -1893,7 +1893,7 @@ button.match-info-hero-action-card:focus-visible {
 
 .video-analysis-lineout-detail-wrap {
     width: 100%;
-    max-width: 450px !important;
+    max-width: 600px !important;
     margin-left: auto;
     border: 2px solid var(--primary-color);
     border-radius: 1rem;
