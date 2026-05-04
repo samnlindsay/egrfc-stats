@@ -257,19 +257,21 @@
 
                     <section id="squad-results" class="analysis-section chart-section"
                         aria-labelledby="squad-results-heading">
-                        <h2 id="squad-results-heading" class="section-heading">Squad Results</h2>
-                        <p class="section-intro">Results view for the selected season and game type. Use the local squad filter to view 1st XV, 2nd XV, or both squads.</p>
+                        <h2 id="squad-results-heading" class="section-heading">Results</h2>
+                        <p class="section-intro">Individual results view, visualising the score, winning margin and result through the season (or averages per season).</p>
                         <div id="squadResultsActiveFilters" class="squad-stats-active-filters" aria-live="polite"
                             style="margin-bottom: 1rem;"></div>
 
                         <div class="chart-section-block chart-section-block--panel">
-                            <div class="chart-section-head">
-                                <h3 class="chart-section-title">Results</h3>
-                            </div>
                             <div class="chart-section-content chart-section-content--split">
                                 <div class="chart-section-meta">
-                                    <p class="chart-section-hint">Results are split by squad, so 1st XV and 2nd XV can be compared directly.</p>
-                                    <p class="chart-section-hint">Selecting <strong>All (2017-)</strong> in the season filter switches to an aggregated by-season average view (PF vs PA).</p>
+                                    <p class="chart-section-hint">A quick snapshot view of the results through the season:</p>
+                                    <ul class="chart-section-hint" style="list-style-type: disc; padding-left: 1.5rem;">
+                                        <li><strong>Green bars</strong> indicate wins, <strong>red bars</strong> indicate losses.</li>
+                                        <li>The size of the bar indicates the margin of victory or defeat.</li>
+                                        <li>The most recent game is at the top, and the first game of the season is at the bottom.</li>
+                                    </ul>
+                                    <p class="chart-section-hint">Select <strong>All (2017-)</strong> in the season filter to view an aggregated by-season average (PF vs PA).</p>
                                 </div>
                                 <div id="squadResultsChart"
                                     class="chart-host chart-host--overflow-visible chart-host--intrinsic"></div>
