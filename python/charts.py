@@ -5437,6 +5437,62 @@ def red_zone_performance_chart(db, metric="points", output_file=None, bind_param
     df_wide["pp22_diff"] = df_wide["points_per_entry_EGRFC"] - df_wide["points_per_entry_Opposition"]
     df_wide["tp22_diff"] = df_wide["tries_per_entry_EGRFC"] - df_wide["tries_per_entry_Opposition"]
 
+    def _linear_trend_rows(source_df, squad_value, game_type_mode, n_points=60):
+        if source_df is None or source_df.empty:
+            return []
+
+        trend_df = source_df[["entries_diff", "PD"]].dropna().copy()
+        if len(trend_df) < 2:
+            return []
+
+        x_values = trend_df["entries_diff"].astype(float)
+        y_values = trend_df["PD"].astype(float)
+        x_denom = float((x_values ** 2).sum())
+        if x_denom <= 0:
+            return []
+
+        # Fit a constrained linear model through the origin: y = slope * x
+        slope = float(((x_values * y_values).sum()) / x_denom)
+
+        # Ensure the rendered segment includes (0, 0) as part of the trend line.
+        x_min = min(0.0, float(x_values.min()))
+        x_max = max(0.0, float(x_values.max()))
+        if x_max <= x_min:
+            return []
+
+        step_count = max(2, int(n_points))
+        x_points = [x_min + ((x_max - x_min) * i / (step_count - 1)) for i in range(step_count)]
+        return [
+            {
+                "entries_diff": float(x_point),
+                "PD": float(slope * x_point),
+                "squad": squad_value,
+                "game_type_mode": game_type_mode,
+            }
+            for x_point in x_points
+        ]
+
+    trend_rows = []
+    squad_modes = ["All", *sorted(df_wide["squad"].dropna().unique().tolist())]
+    game_type_modes = ["All", "League + Cup", "League only"]
+
+    for squad_mode in squad_modes:
+        if squad_mode == "All":
+            squad_df = df_wide
+        else:
+            squad_df = df_wide[df_wide["squad"] == squad_mode]
+
+        for game_type_mode in game_type_modes:
+            if game_type_mode == "All":
+                mode_df = squad_df
+            elif game_type_mode == "League + Cup":
+                mode_df = squad_df[squad_df["game_type"].isin(["League", "Cup"])]
+            else:
+                mode_df = squad_df[squad_df["game_type"] == "League"]
+            trend_rows.extend(_linear_trend_rows(mode_df, squad_mode, game_type_mode))
+
+    trend_df = pd.DataFrame(trend_rows)
+
     x_extent = max(5.0, float(df_wide["entries_diff"].abs().max()) * 1.15)
     y_extent = max(20.0, float(df_wide["PD"].abs().max()) * 1.15)
 
@@ -5513,6 +5569,21 @@ def red_zone_performance_chart(db, metric="points", output_file=None, bind_param
         )
     )
 
+    trend_filter_expr = (
+        f"(({squad_param.name} == 'All' && datum.squad == 'All') || datum.squad == {squad_param.name})"
+        f" && (({game_type_param.name} == 'All' && datum.game_type_mode == 'All') || datum.game_type_mode == {game_type_param.name})"
+    )
+
+    trend_line = (
+        alt.Chart(trend_df)
+        .transform_filter(trend_filter_expr)
+        .mark_line(color="#111111", strokeWidth=2, opacity=0.65)
+        .encode(
+            x=alt.X("entries_diff:Q"),
+            y=alt.Y("PD:Q"),
+        )
+    )
+
     zero_x = alt.Chart(pd.DataFrame({"x": [0]})).mark_rule(color="black", strokeWidth=1, strokeDash=[10, 5], opacity=0.5).encode(x="x:Q")
     zero_y = alt.Chart(pd.DataFrame({"y": [0]})).mark_rule(color="black", strokeWidth=1, strokeDash=[10, 5], opacity=0.5).encode(y="y:Q")
 
@@ -5561,7 +5632,7 @@ def red_zone_performance_chart(db, metric="points", output_file=None, bind_param
     subtitle_text = "Difference in attacking chances vs points difference by game"
 
     chart = (
-        alt.layer(zero_x, zero_y, point, labels, text_y, text_x)
+        alt.layer(zero_x, zero_y, trend_line, point, labels, text_y, text_x)
         .add_params(squad_param, season_param, game_type_param)
         .properties(
             title=alt.TitleParams(text=title_text, subtitle=[subtitle_text]),
