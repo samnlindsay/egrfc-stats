@@ -5,9 +5,17 @@
         scrum: 'data/charts/set_piece_success_scrum.json',
         setPieceAttackingLineoutVolume: 'data/charts/set_piece_attacking_volume_lineout.json',
         setPieceAttackingScrumVolume: 'data/charts/set_piece_attacking_volume_scrum.json',
+        matchTrends: 'data/charts/season_match_metric_trends.json',
         redZone: 'data/charts/red_zone_points.json',
         redZoneEntriesEfficiency: 'data/charts/red_zone_entries_efficiency.json',
     };
+    const DEFAULT_MATCH_TREND_METRICS = [
+        'points_difference',
+        'retained_starters',
+        'avg_squad_apps',
+        'lineout_success_pct',
+        'points_per_entry',
+    ];
     const SET_PIECE_CHARTS = [
         {
             key: 'lineout',
@@ -41,11 +49,31 @@
             scrum: null,
             setPieceAttackingLineoutVolume: null,
             setPieceAttackingScrumVolume: null,
+            matchTrends: null,
             redZone: null,
             redZoneEntriesEfficiency: null,
         },
         seasonalEfficiencyAxisTitle: null,
     };
+
+    function rebuildSelectPicker(select) {
+        if (!select || !window.jQuery || !window.jQuery.fn || !window.jQuery.fn.selectpicker) {
+            return;
+        }
+        const $select = window.jQuery(select);
+        const currentValue = select.multiple
+            ? Array.from(select.selectedOptions || []).map((option) => option.value)
+            : select.value;
+        if ($select.data('selectpicker')) {
+            $select.selectpicker('destroy');
+        }
+        $select.selectpicker();
+        if (select.multiple) {
+            $select.selectpicker('val', Array.isArray(currentValue) ? currentValue : []);
+        } else if (currentValue) {
+            $select.selectpicker('val', currentValue);
+        }
+    }
 
     function getElement(id) {
         return document.getElementById(id);
@@ -67,6 +95,42 @@
             gameType: getElement('performanceStatsGameType')?.value || 'League + Cup',
             efficiencyMetric: getElement('redZoneEfficiencyMetric')?.value || 'Points per 22m entry',
         };
+    }
+
+    function readMatchTrendFilterState() {
+        const metricsSelect = getElement('performanceTrendMetrics');
+        let selectedMetrics = metricsSelect
+            ? Array.from(metricsSelect.selectedOptions || []).map((option) => option.value)
+            : [];
+
+        if (metricsSelect && window.jQuery && window.jQuery.fn && window.jQuery.fn.selectpicker) {
+            const pickerValues = window.jQuery(metricsSelect).selectpicker('val');
+            if (Array.isArray(pickerValues) && pickerValues.length) {
+                selectedMetrics = pickerValues.map((value) => String(value));
+            }
+        }
+
+        const seasonSelect = getElement('performanceTrendSeason');
+        let selectedSeason = seasonSelect?.value || '2025/26';
+        if (seasonSelect && window.jQuery && window.jQuery.fn && window.jQuery.fn.selectpicker) {
+            const pickerSeason = window.jQuery(seasonSelect).selectpicker('val');
+            if (typeof pickerSeason === 'string' && pickerSeason) {
+                selectedSeason = pickerSeason;
+            }
+        }
+
+        return {
+            squad: getElement('performanceStatsSquad')?.value || '1st',
+            season: selectedSeason,
+            gameType: getElement('performanceStatsGameType')?.value || 'League + Cup',
+            metrics: selectedMetrics.length > 0 ? selectedMetrics : [...DEFAULT_MATCH_TREND_METRICS],
+        };
+    }
+
+    function cloneSpec(spec) {
+        if (!spec || typeof spec !== 'object') return spec;
+        if (typeof structuredClone === 'function') return structuredClone(spec);
+        return JSON.parse(JSON.stringify(spec));
     }
 
     function syncSegmentButtons(segmentId, value) {
@@ -91,8 +155,10 @@
 
     function renderActiveFilterChips() {
         const setPieceHost = getElement('setPieceActiveFilters');
+        const matchTrendsHost = getElement('matchTrendsActiveFilters');
         const redZoneHost = getElement('redZoneActiveFilters');
         const { squad, gameType } = readSetPieceFilterState();
+        const { season } = readMatchTrendFilterState();
         const squadLabel = `${squad} XV`;
 
         const setPieceChips = [
@@ -113,6 +179,14 @@
                     `<button type="button" class="squad-stats-filter-chip squad-stats-filter-chip-btn" data-bs-toggle="offcanvas" data-bs-target="#${FILTERS_OFFCANVAS_ID}" aria-controls="${FILTERS_OFFCANVAS_ID}"><strong>Game Type</strong> ${escapeHtml(gameType)}</button>`,
                 ].join('');
             }
+        }
+
+        if (matchTrendsHost) {
+            matchTrendsHost.innerHTML = [
+                `<button type="button" class="squad-stats-filter-chip squad-stats-filter-chip-btn" data-bs-toggle="offcanvas" data-bs-target="#${FILTERS_OFFCANVAS_ID}" aria-controls="${FILTERS_OFFCANVAS_ID}"><strong>Squad</strong> ${escapeHtml(squadLabel)}</button>`,
+                `<button type="button" class="squad-stats-filter-chip squad-stats-filter-chip-btn" data-bs-toggle="offcanvas" data-bs-target="#${FILTERS_OFFCANVAS_ID}" aria-controls="${FILTERS_OFFCANVAS_ID}"><strong>Season</strong> ${escapeHtml(season)}</button>`,
+                `<button type="button" class="squad-stats-filter-chip squad-stats-filter-chip-btn" data-bs-toggle="offcanvas" data-bs-target="#${FILTERS_OFFCANVAS_ID}" aria-controls="${FILTERS_OFFCANVAS_ID}"><strong>Game Type</strong> ${escapeHtml(gameType)}</button>`,
+            ].join('');
         }
 
         if (redZoneHost) {
@@ -247,6 +321,22 @@
         }
     }
 
+    async function populateMatchTrendSeasonOptions() {
+        const seasonSelect = getElement('performanceTrendSeason');
+        if (!seasonSelect) return;
+
+        const seasons = await fetchSeasons();
+        if (!seasons.length) {
+            rebuildSelectPicker(seasonSelect);
+            return;
+        }
+
+        const currentValue = seasonSelect.value;
+        seasonSelect.innerHTML = seasons.map((season) => `<option value="${escapeHtml(season)}">${escapeHtml(season)}</option>`).join('');
+        seasonSelect.value = seasons.includes(currentValue) ? currentValue : seasons[0];
+        rebuildSelectPicker(seasonSelect);
+    }
+
     async function renderChartSpec(containerId, path, emptyMessage) {
         const container = getElement(containerId);
         if (!container) return null;
@@ -256,6 +346,84 @@
         } catch (error) {
             console.error(`Unable to render chart from ${path}:`, error);
             container.innerHTML = `<div class="text-center text-muted py-4">${emptyMessage}</div>`;
+            return null;
+        }
+    }
+
+    function filterMatchTrendRows(rows, filters) {
+        const { squad, season, gameType, metrics } = filters;
+        return (Array.isArray(rows) ? rows : []).filter((row) => {
+            if (String(row?.squad || '') !== squad) return false;
+            if (String(row?.season || '') !== season) return false;
+            if (!metrics.includes(String(row?.facet_key || ''))) return false;
+
+            const rowGameType = String(row?.game_type || 'Unknown');
+            if (gameType === 'All') return true;
+            if (gameType === 'League + Cup') return rowGameType === 'League' || rowGameType === 'Cup';
+            if (gameType === 'League only') return rowGameType === 'League';
+            return rowGameType === gameType;
+        });
+    }
+
+    function applyMatchTrendSpecFilters(spec, filters) {
+        if (!spec || !spec.datasets || typeof spec.datasets !== 'object') {
+            return { spec, filteredRows: [] };
+        }
+
+        const datasetName = spec.data?.name || Object.keys(spec.datasets)[0];
+        if (!datasetName || !Array.isArray(spec.datasets[datasetName])) {
+            return { spec, filteredRows: [] };
+        }
+
+        const filteredRows = filterMatchTrendRows(spec.datasets[datasetName], filters);
+        spec.datasets[datasetName] = filteredRows;
+
+        if (Array.isArray(spec.params)) {
+            spec.params.forEach((param) => {
+                if (!param || typeof param !== 'object') return;
+                if (param.name === 'mtSquad') param.value = filters.squad;
+                if (param.name === 'mtSeason') param.value = filters.season;
+                if (param.name === 'mtGameType') param.value = filters.gameType;
+                if (param.name === 'mtMetrics') param.value = [...filters.metrics];
+            });
+        }
+
+        return { spec, filteredRows };
+    }
+
+    async function renderFilteredMatchTrendChart(filters) {
+        const container = getElement('seasonMatchMetricTrendsChart');
+        const messageEl = getElement('matchTrendsMessage');
+        if (!container || !messageEl) return null;
+
+        try {
+            const sourceSpec = await loadChartSpec(CHART_PATHS.matchTrends);
+            const spec = cloneSpec(sourceSpec);
+            const { spec: filteredSpec, filteredRows } = applyMatchTrendSpecFilters(spec, filters);
+
+            if (!filteredRows.length) {
+                container.style.display = 'none';
+                messageEl.hidden = false;
+                messageEl.textContent = 'No match trend data is available for the selected filters.';
+                state.views.matchTrends = null;
+                return null;
+            }
+
+            container.style.display = '';
+            messageEl.hidden = true;
+            messageEl.textContent = '';
+
+            const view = await embedChartSpec(container, filteredSpec, {
+                containerId: 'seasonMatchMetricTrendsChart',
+                emptyMessage: 'Match trends chart unavailable.',
+            });
+
+            state.views.matchTrends = view;
+            return view;
+        } catch (error) {
+            console.error('Unable to render filtered match trends chart:', error);
+            container.innerHTML = '<div class="text-center text-muted py-4">Match trends chart unavailable.</div>';
+            state.views.matchTrends = null;
             return null;
         }
     }
@@ -343,6 +511,23 @@
         await Promise.all(runTasks);
     }
 
+    async function applyMatchTrendFilters() {
+        const chartEl = getElement('seasonMatchMetricTrendsChart');
+        const messageEl = getElement('matchTrendsMessage');
+        if (!chartEl || !messageEl) return;
+
+        const { squad, season, gameType, metrics } = readMatchTrendFilterState();
+        if (!metrics.length) {
+            chartEl.style.display = 'none';
+            messageEl.hidden = false;
+            messageEl.textContent = 'Select at least one metric to render the match trends chart.';
+            state.views.matchTrends = null;
+            return;
+        }
+
+        await renderFilteredMatchTrendChart({ squad, season, gameType, metrics });
+    }
+
     async function applyRedZoneFilters() {
         const { squad, seasons, gameType, efficiencyMetric } = readRedZoneFilterState();
         const chartEl = getElement('rzPointsChart');
@@ -392,10 +577,14 @@
     async function applyAllFilters() {
         renderActiveFilterChips();
         await applyLineoutAndScrumFilters();
+        await applyMatchTrendFilters();
         await applyRedZoneFilters();
     }
 
     async function initialiseControls() {
+        rebuildSelectPicker(getElement('performanceTrendSeason'));
+        rebuildSelectPicker(getElement('performanceTrendMetrics'));
+
         // Single-select segment bindings (Squad, Game Type)
         const singleSelectBindings = [
             { segmentId: 'performanceStatsSquadSegment', selectId: 'performanceStatsSquad' },
@@ -470,9 +659,32 @@
                 });
             });
         });
+
+        ['performanceTrendSeason', 'performanceTrendMetrics'].forEach((id) => {
+            const element = getElement(id);
+            if (!element) return;
+            const onMatchTrendControlChange = () => {
+                if (id === 'performanceTrendMetrics' && !Array.from(element.selectedOptions || []).length) {
+                    Array.from(element.options).forEach((option) => {
+                        option.selected = DEFAULT_MATCH_TREND_METRICS.includes(option.value);
+                    });
+                    rebuildSelectPicker(element);
+                }
+                applyAllFilters().catch((error) => {
+                    console.error('Unable to apply match trend filters:', error);
+                });
+            };
+
+            element.addEventListener('change', onMatchTrendControlChange);
+
+            if (window.jQuery && window.jQuery.fn && window.jQuery.fn.selectpicker) {
+                window.jQuery(element).on('changed.bs.select', onMatchTrendControlChange);
+            }
+        });
     }
 
     async function init() {
+        await populateMatchTrendSeasonOptions();
         await updateHeroMetrics();
         await initialiseControls();
         await ensureViews();

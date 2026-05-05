@@ -4959,6 +4959,696 @@ def lineout_analysis_panel_chart_suite(db, output_dir="data/charts"):
     return charts
 
 
+def season_match_metric_trends_chart(db, output_file="data/charts/season_match_metric_trends.json", bind_params=False):
+    """Export a faceted per-game metric trend chart for a selected squad and season.
+
+    The exported spec carries a long-form dataset so the frontend can drive:
+    - squad filtering via `mtSquad`
+    - season filtering via `mtSeason`
+    - game-type filtering via `mtGameType`
+    - metric multi-select via `mtMetrics`
+    """
+
+    del bind_params
+
+    def _season_sort_key(value):
+        text = str(value or "")
+        head = text[:4]
+        return int(head) if head.isdigit() else -1
+
+    def _clean_opposition_name(value):
+        text = str(value or "").strip()
+        if not text:
+            return "Unknown"
+        text = re.sub(r"\s+(?:I{1,6}|[1-6](?:st|nd|rd|th)?|A|B)(?:\s+XV)?$", "", text).strip()
+        return text or "Unknown"
+
+    def _safe_rate(numerator, denominator, multiplier=1.0):
+        if pd.isna(numerator) or pd.isna(denominator) or float(denominator) <= 0:
+            return None
+        return (float(numerator) / float(denominator)) * multiplier
+
+    def _format_metric_value(value, value_format):
+        if pd.isna(value):
+            return "-"
+        numeric_value = float(value)
+        if value_format == "int":
+            return f"{numeric_value:.0f}"
+        if value_format == "signed_int":
+            return f"{numeric_value:+.0f}"
+        if value_format == "float1":
+            return f"{numeric_value:.1f}"
+        if value_format == "float2":
+            return f"{numeric_value:.2f}"
+        if value_format == "percent1":
+            return f"{numeric_value:.1f}%"
+        if value_format == "signed_percent1":
+            return f"{numeric_value:+.1f}%"
+        return f"{numeric_value}"
+
+    def _safe_difference(minuend, subtrahend):
+        if pd.isna(minuend) or pd.isna(subtrahend):
+            return None
+        return float(minuend) - float(subtrahend)
+
+    base_df = db.con.execute(
+        """
+        WITH appearance_avg AS (
+            SELECT
+                game_id,
+                AVG(club_appearance_number)::DOUBLE AS avg_squad_club_apps,
+                AVG(first_xv_appearance_number)::DOUBLE AS avg_squad_first_xv_apps,
+                COUNT(*)::DOUBLE AS squad_size
+            FROM player_appearances
+            WHERE game_id IS NOT NULL
+              AND COALESCE(is_backfill, FALSE) = FALSE
+            GROUP BY game_id
+        )
+        SELECT
+            g.game_id,
+            g.date,
+            g.squad,
+            g.season,
+            COALESCE(g.game_type, 'Unknown') AS game_type,
+            g.opposition,
+            COALESCE(g.home_away, '?') AS home_away,
+            COALESCE(g.result, '?') AS result,
+            g.score_for::DOUBLE AS score_for,
+            g.score_against::DOUBLE AS score_against,
+            eg.lineouts_total::DOUBLE AS egrfc_lineouts_taken,
+            eg.lineouts_won::DOUBLE AS egrfc_lineouts_won,
+            opp.lineouts_total::DOUBLE AS opposition_lineouts_taken,
+            opp.lineouts_won::DOUBLE AS opposition_lineouts_won,
+            eg.scrums_total::DOUBLE AS egrfc_scrums_taken,
+            eg.scrums_won::DOUBLE AS egrfc_scrums_won,
+            opp.scrums_total::DOUBLE AS opposition_scrums_taken,
+            opp.scrums_won::DOUBLE AS opposition_scrums_won,
+            rz_eg.entries_22m::DOUBLE AS egrfc_entries_22m,
+            rz_eg.points_per_entry::DOUBLE AS egrfc_points_per_entry,
+            rz_eg.tries_per_entry::DOUBLE AS egrfc_try_efficiency,
+            rz_opp.entries_22m::DOUBLE AS opposition_entries_22m,
+            rz_opp.points_per_entry::DOUBLE AS opposition_points_per_entry,
+            rz_opp.tries_per_entry::DOUBLE AS opposition_try_efficiency,
+            appearance_avg.avg_squad_club_apps,
+            appearance_avg.avg_squad_first_xv_apps
+        FROM games g
+        LEFT JOIN set_piece eg
+            ON eg.game_id = g.game_id
+           AND eg.team = 'EGRFC'
+        LEFT JOIN set_piece opp
+            ON opp.game_id = g.game_id
+           AND opp.team = 'Opposition'
+        LEFT JOIN v_red_zone rz_eg
+            ON rz_eg.game_id = g.game_id
+           AND rz_eg.team = 'EGRFC'
+        LEFT JOIN v_red_zone rz_opp
+            ON rz_opp.game_id = g.game_id
+           AND rz_opp.team = 'Opposition'
+        LEFT JOIN appearance_avg
+            ON appearance_avg.game_id = g.game_id
+        WHERE g.season IS NOT NULL
+        ORDER BY g.squad, g.season, g.date, g.game_id
+        """
+    ).df()
+
+    if base_df.empty:
+        print("Skipping season_match_metric_trends_chart: no games available.")
+        return None
+
+    for column in ["game_id", "squad", "season", "game_type", "opposition", "home_away", "result"]:
+        base_df[column] = base_df[column].fillna("Unknown").astype(str)
+
+    base_df["date"] = pd.to_datetime(base_df["date"], errors="coerce")
+    base_df["opposition_short"] = base_df["opposition"].apply(_clean_opposition_name)
+    base_df["fixture_label"] = base_df["opposition_short"] + " (" + base_df["home_away"] + ")"
+    base_df["scoreline"] = (
+        base_df["score_for"].fillna(0).astype(int).astype(str)
+        + " - "
+        + base_df["score_against"].fillna(0).astype(int).astype(str)
+    )
+
+    base_df = base_df.sort_values(["squad", "season", "date", "game_id"], kind="stable").reset_index(drop=True)
+    base_df["game_sort"] = base_df.groupby(["squad", "season"]).cumcount() + 1
+
+    starters_df = db.con.execute(
+        """
+        SELECT
+            pa.game_id,
+            pa.player,
+            pa.squad,
+            pa.unit,
+            g.season,
+            g.date
+        FROM player_appearances pa
+        JOIN games g
+            ON g.game_id = pa.game_id
+        WHERE pa.is_starter = TRUE
+          AND pa.game_id IS NOT NULL
+          AND COALESCE(pa.is_backfill, FALSE) = FALSE
+          AND g.season IS NOT NULL
+        ORDER BY pa.squad, g.season, g.date, pa.game_id, pa.player
+        """
+    ).df()
+
+    retained_maps = {
+        "Total": {},
+        "Forwards": {},
+        "Backs": {},
+    }
+    if not starters_df.empty:
+        starters_df["date"] = pd.to_datetime(starters_df["date"], errors="coerce")
+        grouped_rows = []
+        for (squad, season, game_id, date), group in starters_df.groupby(["squad", "season", "game_id", "date"], sort=False):
+            group = group.copy()
+            grouped_rows.append(
+                {
+                    "squad": squad,
+                    "season": season,
+                    "game_id": game_id,
+                    "date": date,
+                    "players_total": set(group["player"].dropna().astype(str)),
+                    "players_forwards": set(group.loc[group["unit"] == "Forwards", "player"].dropna().astype(str)),
+                    "players_backs": set(group.loc[group["unit"] == "Backs", "player"].dropna().astype(str)),
+                }
+            )
+
+        grouped_starters = pd.DataFrame(grouped_rows).sort_values(["squad", "season", "date", "game_id"], kind="stable")
+
+        for (_, _), group in grouped_starters.groupby(["squad", "season"], sort=False):
+            previous_sets = None
+            for row in group.itertuples(index=False):
+                current_sets = {
+                    "Total": row.players_total,
+                    "Forwards": row.players_forwards,
+                    "Backs": row.players_backs,
+                }
+                for unit, players in current_sets.items():
+                    retained_maps[unit][row.game_id] = None if previous_sets is None else float(len(previous_sets[unit] & players))
+                previous_sets = current_sets
+
+    base_df["retained_total_starters"] = base_df["game_id"].map(retained_maps["Total"])
+    base_df["retained_forwards_starters"] = base_df["game_id"].map(retained_maps["Forwards"])
+    base_df["retained_backs_starters"] = base_df["game_id"].map(retained_maps["Backs"])
+    base_df["points_difference"] = base_df["score_for"] - base_df["score_against"]
+    base_df["total_match_points"] = base_df["score_for"] + base_df["score_against"]
+    base_df["egrfc_lineout_turnovers"] = base_df.apply(lambda row: _safe_difference(row["opposition_lineouts_taken"], row["opposition_lineouts_won"]), axis=1)
+    base_df["opposition_lineout_turnovers"] = base_df.apply(lambda row: _safe_difference(row["egrfc_lineouts_taken"], row["egrfc_lineouts_won"]), axis=1)
+    base_df["egrfc_scrum_turnovers"] = base_df.apply(lambda row: _safe_difference(row["opposition_scrums_taken"], row["opposition_scrums_won"]), axis=1)
+    base_df["opposition_scrum_turnovers"] = base_df.apply(lambda row: _safe_difference(row["egrfc_scrums_taken"], row["egrfc_scrums_won"]), axis=1)
+
+    base_df["egrfc_lineout_success_pct"] = base_df.apply(
+        lambda row: _safe_rate(row["egrfc_lineouts_won"], row["egrfc_lineouts_taken"], 100.0),
+        axis=1,
+    )
+    base_df["opposition_lineout_success_pct"] = base_df.apply(
+        lambda row: _safe_rate(row["opposition_lineouts_won"], row["opposition_lineouts_taken"], 100.0),
+        axis=1,
+    )
+    base_df["lineout_success_diff_pct"] = base_df["egrfc_lineout_success_pct"] - base_df["opposition_lineout_success_pct"]
+
+    base_df["egrfc_scrum_success_pct"] = base_df.apply(
+        lambda row: _safe_rate(row["egrfc_scrums_won"], row["egrfc_scrums_taken"], 100.0),
+        axis=1,
+    )
+    base_df["opposition_scrum_success_pct"] = base_df.apply(
+        lambda row: _safe_rate(row["opposition_scrums_won"], row["opposition_scrums_taken"], 100.0),
+        axis=1,
+    )
+    base_df["scrum_success_diff_pct"] = base_df["egrfc_scrum_success_pct"] - base_df["opposition_scrum_success_pct"]
+
+    base_df["egrfc_try_efficiency_pct"] = base_df["egrfc_try_efficiency"] * 100.0
+    base_df["opposition_try_efficiency_pct"] = base_df["opposition_try_efficiency"] * 100.0
+    base_df["entries_22m_diff"] = base_df["egrfc_entries_22m"] - base_df["opposition_entries_22m"]
+    base_df["points_per_entry_diff"] = base_df["egrfc_points_per_entry"] - base_df["opposition_points_per_entry"]
+    base_df["try_efficiency_diff_pct"] = base_df["egrfc_try_efficiency_pct"] - base_df["opposition_try_efficiency_pct"]
+
+    facet_definitions = [
+        {
+            "facet_key": "points_for_against",
+            "facet_label": "Points For / Against",
+            "facet_group": "Results",
+            "value_format": "int",
+            "series": [
+                ("egrfc", "EGRFC", "#202946", "solid", lambda row: row.score_for),
+                ("opposition", "Opposition", "#991515", "solid", lambda row: row.score_against),
+            ],
+        },
+        {
+            "facet_key": "points_difference",
+            "facet_label": "Points Difference",
+            "facet_group": "Results",
+            "value_format": "signed_int",
+            "series": [
+                ("points_difference", "Difference", "#111111", "solid", lambda row: row.points_difference),
+            ],
+        },
+        {
+            "facet_key": "total_match_points",
+            "facet_label": "Total Match Points",
+            "facet_group": "Results",
+            "value_format": "int",
+            "series": [
+                ("total_match_points", "Total", "#111111", "solid", lambda row: row.total_match_points),
+            ],
+        },
+        {
+            "facet_key": "retained_starters",
+            "facet_label": "Retained Starters",
+            "facet_group": "Continuity",
+            "value_format": "int",
+            "series": [
+                ("retained_total", "Total", "#111111", "solid", lambda row: row.retained_total_starters),
+                ("retained_forwards", "Forwards", "#202946", "dash", lambda row: row.retained_forwards_starters),
+                ("retained_backs", "Backs", "#7d96e8", "dot", lambda row: row.retained_backs_starters),
+            ],
+        },
+        {
+            "facet_key": "avg_squad_apps",
+            "facet_label": "Average Squad Appearances",
+            "facet_group": "Experience",
+            "value_format": "float1",
+            "series": [
+                ("club_apps", "Total Apps", "#111111", "solid", lambda row: row.avg_squad_club_apps),
+                ("first_xv_apps", "1st XV Apps", "#202946", "dash", lambda row: row.avg_squad_first_xv_apps),
+            ],
+        },
+        {
+            "facet_key": "lineouts_taken",
+            "facet_label": "Lineouts Taken",
+            "facet_group": "Lineout",
+            "value_format": "int",
+            "series": [
+                ("egrfc_lineouts_taken", "EGRFC", "#202946", "solid", lambda row: row.egrfc_lineouts_taken),
+                ("opposition_lineouts_taken", "Opposition", "#991515", "solid", lambda row: row.opposition_lineouts_taken),
+            ],
+        },
+        {
+            "facet_key": "lineouts_won",
+            "facet_label": "Lineouts Won",
+            "facet_group": "Lineout",
+            "value_format": "int",
+            "series": [
+                ("egrfc_lineouts_won", "EGRFC", "#202946", "solid", lambda row: row.egrfc_lineouts_won),
+                ("opposition_lineouts_won", "Opposition", "#991515", "solid", lambda row: row.opposition_lineouts_won),
+            ],
+        },
+        {
+            "facet_key": "lineout_turnovers",
+            "facet_label": "Lineout Turnovers",
+            "facet_group": "Lineout",
+            "value_format": "int",
+            "series": [
+                ("egrfc_lineout_turnovers", "EGRFC", "#202946", "solid", lambda row: row.egrfc_lineout_turnovers),
+                ("opposition_lineout_turnovers", "Opposition", "#991515", "solid", lambda row: row.opposition_lineout_turnovers),
+            ],
+        },
+        {
+            "facet_key": "lineout_success_pct",
+            "facet_label": "Lineout Success %",
+            "facet_group": "Lineout",
+            "value_format": "percent1",
+            "series": [
+                ("egrfc_lineout_success_pct", "EGRFC", "#202946", "solid", lambda row: row.egrfc_lineout_success_pct),
+                ("opposition_lineout_success_pct", "Opposition", "#991515", "solid", lambda row: row.opposition_lineout_success_pct),
+            ],
+        },
+        {
+            "facet_key": "lineout_success_diff_pct",
+            "facet_label": "Lineout Success Diff %",
+            "facet_group": "Lineout",
+            "value_format": "signed_percent1",
+            "series": [
+                ("lineout_success_diff_pct", "Difference", "#111111", "solid", lambda row: row.lineout_success_diff_pct),
+            ],
+        },
+        {
+            "facet_key": "scrums_taken",
+            "facet_label": "Scrums Taken",
+            "facet_group": "Scrum",
+            "value_format": "int",
+            "series": [
+                ("egrfc_scrums_taken", "EGRFC", "#202946", "solid", lambda row: row.egrfc_scrums_taken),
+                ("opposition_scrums_taken", "Opposition", "#991515", "solid", lambda row: row.opposition_scrums_taken),
+            ],
+        },
+        {
+            "facet_key": "scrums_won",
+            "facet_label": "Scrums Won",
+            "facet_group": "Scrum",
+            "value_format": "int",
+            "series": [
+                ("egrfc_scrums_won", "EGRFC", "#202946", "solid", lambda row: row.egrfc_scrums_won),
+                ("opposition_scrums_won", "Opposition", "#991515", "solid", lambda row: row.opposition_scrums_won),
+            ],
+        },
+        {
+            "facet_key": "scrum_turnovers",
+            "facet_label": "Scrum Turnovers",
+            "facet_group": "Scrum",
+            "value_format": "int",
+            "series": [
+                ("egrfc_scrum_turnovers", "EGRFC", "#202946", "solid", lambda row: row.egrfc_scrum_turnovers),
+                ("opposition_scrum_turnovers", "Opposition", "#991515", "solid", lambda row: row.opposition_scrum_turnovers),
+            ],
+        },
+        {
+            "facet_key": "scrum_success_pct",
+            "facet_label": "Scrum Success %",
+            "facet_group": "Scrum",
+            "value_format": "percent1",
+            "series": [
+                ("egrfc_scrum_success_pct", "EGRFC", "#202946", "solid", lambda row: row.egrfc_scrum_success_pct),
+                ("opposition_scrum_success_pct", "Opposition", "#991515", "solid", lambda row: row.opposition_scrum_success_pct),
+            ],
+        },
+        {
+            "facet_key": "scrum_success_diff_pct",
+            "facet_label": "Scrum Success Diff %",
+            "facet_group": "Scrum",
+            "value_format": "signed_percent1",
+            "series": [
+                ("scrum_success_diff_pct", "Difference", "#111111", "solid", lambda row: row.scrum_success_diff_pct),
+            ],
+        },
+        {
+            "facet_key": "entries_22m",
+            "facet_label": "22m Entries",
+            "facet_group": "22m",
+            "value_format": "int",
+            "series": [
+                ("egrfc_entries_22m", "EGRFC", "#202946", "solid", lambda row: row.egrfc_entries_22m),
+                ("opposition_entries_22m", "Opposition", "#991515", "solid", lambda row: row.opposition_entries_22m),
+            ],
+        },
+        {
+            "facet_key": "entries_22m_diff",
+            "facet_label": "22m Entries Diff",
+            "facet_group": "22m",
+            "value_format": "signed_int",
+            "series": [
+                ("entries_22m_diff", "Difference", "#111111", "solid", lambda row: row.entries_22m_diff),
+            ],
+        },
+        {
+            "facet_key": "points_per_entry",
+            "facet_label": "Points / 22m Entry",
+            "facet_group": "22m",
+            "value_format": "float2",
+            "series": [
+                ("egrfc_points_per_entry", "EGRFC", "#202946", "solid", lambda row: row.egrfc_points_per_entry),
+                ("opposition_points_per_entry", "Opposition", "#991515", "solid", lambda row: row.opposition_points_per_entry),
+            ],
+        },
+        {
+            "facet_key": "points_per_entry_diff",
+            "facet_label": "Points / Entry Diff",
+            "facet_group": "22m",
+            "value_format": "float2",
+            "series": [
+                ("points_per_entry_diff", "Difference", "#111111", "solid", lambda row: row.points_per_entry_diff),
+            ],
+        },
+        {
+            "facet_key": "try_efficiency_pct",
+            "facet_label": "Try Efficiency %",
+            "facet_group": "22m",
+            "value_format": "percent1",
+            "series": [
+                ("egrfc_try_efficiency_pct", "EGRFC", "#202946", "solid", lambda row: row.egrfc_try_efficiency_pct),
+                ("opposition_try_efficiency_pct", "Opposition", "#991515", "solid", lambda row: row.opposition_try_efficiency_pct),
+            ],
+        },
+        {
+            "facet_key": "try_efficiency_diff_pct",
+            "facet_label": "Try Efficiency Diff %",
+            "facet_group": "22m",
+            "value_format": "signed_percent1",
+            "series": [
+                ("try_efficiency_diff_pct", "Difference", "#111111", "solid", lambda row: row.try_efficiency_diff_pct),
+            ],
+        },
+    ]
+
+    long_records = []
+    for facet_order, facet in enumerate(facet_definitions, start=1):
+        for series_order, (series_key, series_label, series_color, series_dash, accessor) in enumerate(facet["series"], start=1):
+            for row in base_df.itertuples(index=False):
+                metric_value = accessor(row)
+                if pd.isna(metric_value):
+                    continue
+                long_records.append(
+                    {
+                        "game_id": row.game_id,
+                        "date": row.date.strftime("%Y-%m-%d") if not pd.isna(row.date) else "Unknown",
+                        "season": row.season,
+                        "squad": row.squad,
+                        "game_type": row.game_type,
+                        "game_sort": int(row.game_sort),
+                        "game_axis_label": row.fixture_label,
+                        "fixture_label": row.fixture_label,
+                        "opposition": row.opposition,
+                        "home_away": row.home_away,
+                        "result": row.result,
+                        "scoreline": row.scoreline,
+                        "facet_key": facet["facet_key"],
+                        "facet_label": facet["facet_label"],
+                        "facet_group": facet["facet_group"],
+                        "facet_order": facet_order,
+                        "series_key": series_key,
+                        "series_label": series_label,
+                        "series_order": series_order,
+                        "series_color": series_color,
+                        "series_dash": series_dash,
+                        "metric_value": float(metric_value),
+                        "metric_value_text": _format_metric_value(metric_value, facet["value_format"]),
+                        "metric_format": facet["value_format"],
+                    }
+                )
+
+    long_df = pd.DataFrame(long_records)
+    if long_df.empty:
+        print("Skipping season_match_metric_trends_chart: no metric rows available.")
+        return None
+
+    zero_crossing = (
+        long_df.groupby(["squad", "season", "facet_key"], as_index=False)["metric_value"]
+        .agg(metric_min="min", metric_max="max")
+    )
+    zero_crossing["has_zero_line"] = (
+        (zero_crossing["metric_min"] <= 0.0) & (zero_crossing["metric_max"] >= 0.0)
+    )
+    long_df = long_df.merge(
+        zero_crossing[["squad", "season", "facet_key", "has_zero_line"]],
+        on=["squad", "season", "facet_key"],
+        how="left",
+    )
+    long_df["has_zero_line"] = long_df["has_zero_line"].fillna(False)
+    long_df["zero_reference"] = 0.0
+
+    ordered_seasons = sorted(long_df["season"].dropna().unique().tolist(), key=_season_sort_key)
+    latest_season = ordered_seasons[-1] if ordered_seasons else "2025/26"
+    default_metrics = [
+        "points_difference",
+        "retained_starters",
+        "avg_squad_apps",
+        "lineout_success_pct",
+        "points_per_entry",
+    ]
+
+    mt_squad = alt.param(name="mtSquad", value="1st")
+    mt_season = alt.param(name="mtSeason", value=latest_season)
+    mt_game_type = alt.param(name="mtGameType", value="League + Cup")
+    mt_metrics = alt.param(name="mtMetrics", value=default_metrics)
+    hover = alt.selection_point(name="mtHover", nearest=True, on="pointermove", fields=["game_id"], empty=False, clear="pointerout")
+
+    filter_expr = (
+        f"datum.squad == {mt_squad.name}"
+        f" && datum.season == {mt_season.name}"
+        f" && indexof({mt_metrics.name}, datum.facet_key) >= 0"
+        f" && ("
+        f"{mt_game_type.name} == 'All'"
+        f" || ({mt_game_type.name} == 'League + Cup' && (datum.game_type == 'League' || datum.game_type == 'Cup'))"
+        f" || ({mt_game_type.name} == 'League only' && datum.game_type == 'League')"
+        f" || datum.game_type == {mt_game_type.name}"
+        f")"
+    )
+
+    bottom_x_encoding = alt.X(
+        "game_axis_label:N",
+        sort=alt.SortField(field="game_sort", order="ascending"),
+        title=None,
+        axis=alt.Axis(orient="bottom", labelAngle=-40, labelAlign="right", labelLimit=120, ticks=True, domain=True),
+    )
+    top_x_encoding = alt.X(
+        "game_axis_label:N",
+        sort=alt.SortField(field="game_sort", order="ascending"),
+        title=None,
+        axis=alt.Axis(
+            orient="top",
+            labelAngle=-40,
+            labelAlign="left",
+            labelLimit=120,
+            ticks=True,
+            domain=True,
+            offset=10,
+        ),
+    )
+    plot_x_encoding = alt.X(
+        "game_axis_label:N",
+        sort=alt.SortField(field="game_sort", order="ascending"),
+        title=None,
+        axis=None,
+    )
+    plot_y_encoding = alt.Y(
+        "metric_value:Q",
+        title="Value",
+        scale=alt.Scale(zero=False, nice=True),
+        axis=alt.Axis(
+            grid=True,  
+            gridColor="#9ca3af",
+            gridOpacity=0.35,
+            gridWidth=0.7,
+            tickCount=3,
+            domain=True,
+            domainColor="#6b7280",
+            domainOpacity=0.35,
+            ticks=True,
+            tickColor="#6b7280",
+            tickOpacity=0.35,
+            tickSize=3,
+            labelLimit=70,
+            labelFontSize=11,
+            titleFontSize=12,
+            titlePadding=8,
+        ),
+    )
+
+    tooltip = [
+        alt.Tooltip("fixture_label:N", title="Fixture"),
+        alt.Tooltip("date:N", title="Date"),
+        alt.Tooltip("scoreline:N", title="Score"),
+        alt.Tooltip("result:N", title="Result"),
+        alt.Tooltip("facet_label:N", title="Metric"),
+        alt.Tooltip("series_label:N", title="Series"),
+        alt.Tooltip("metric_value_text:N", title="Value"),
+    ]
+
+    base = (
+        alt.Chart(long_df)
+        .add_params(mt_squad, mt_season, mt_game_type, mt_metrics, hover)
+        .transform_filter(filter_expr)
+    )
+
+    selectors = base.mark_point(opacity=0, size=160).encode(
+        x=plot_x_encoding,
+        y=plot_y_encoding,
+        tooltip=tooltip,
+    )
+
+    top_axis = base.mark_point(opacity=0, size=1).encode(
+        x=top_x_encoding,
+        y=alt.Y("metric_value:Q", title=None),
+    )
+
+    bottom_axis = base.mark_point(opacity=0, size=1).encode(
+        x=bottom_x_encoding,
+        y=alt.Y("metric_value:Q", title=None),
+    )
+
+    y_axis_layer = base.mark_point(opacity=0, size=1).encode(
+        x=alt.X("game_axis_label:N", sort=alt.SortField(field="game_sort", order="ascending"), title=None, axis=None),
+        y=plot_y_encoding,
+    )
+
+    rule = base.transform_filter(hover).mark_rule(color="#6b7280", strokeDash=[4, 4], opacity=0.8).encode(
+        x=plot_x_encoding,
+    )
+
+    zero_rule = (
+        base.transform_filter("datum.has_zero_line")
+        .mark_rule(color="#111111", strokeWidth=2.0, opacity=0.85)
+        .encode(y=alt.Y("zero_reference:Q"))
+    )
+
+    line = base.mark_line(strokeWidth=2.5).encode(
+        x=plot_x_encoding,
+        y=plot_y_encoding,
+        color=alt.Color("series_color:N", scale=None, legend=None),
+        strokeDash=alt.StrokeDash("series_dash:N", scale=alt.Scale(domain=["solid", "dash", "dot"], range=[[1, 0], [8, 4], [2, 4]]), legend=None),
+        detail=alt.Detail("series_key:N"),
+    )
+
+    points = base.mark_point(filled=True, size=52, opacity=0.9, stroke="white", strokeWidth=1.4).encode(
+        x=plot_x_encoding,
+        y=plot_y_encoding,
+        color=alt.Color("series_color:N", scale=None, legend=None),
+        tooltip=tooltip,
+    )
+
+    highlighted = base.transform_filter(hover).mark_point(filled=True, size=180, stroke="white", strokeWidth=2.4).encode(
+        x=plot_x_encoding,
+        y=plot_y_encoding,
+        color=alt.Color("series_color:N", scale=None, legend=None),
+        tooltip=tooltip,
+    )
+
+    text_labels = base.mark_text(
+        dx=8,
+        dy=-10,
+        align="left",
+        baseline="bottom",
+        fontSize=10,
+        opacity=0.1,
+    ).encode(
+        x=plot_x_encoding,
+        y=plot_y_encoding,
+        text=alt.Text("metric_value_text:N"),
+        color=alt.Color("series_color:N", scale=None, legend=None),
+    )
+
+    highlighted_text = base.transform_filter(hover).mark_text(dx=8, dy=-10, align="left", baseline="bottom", fontSize=11, fontWeight="bold").encode(
+        x=plot_x_encoding,
+        y=plot_y_encoding,
+        text=alt.Text("metric_value_text:N"),
+        color=alt.Color("series_color:N", scale=None, legend=None),
+    )
+
+    chart = (
+        alt.layer(y_axis_layer, top_axis, bottom_axis, zero_rule, rule, line, points, text_labels, highlighted, highlighted_text, selectors)
+        .properties(
+            width=alt.Step(34),
+            height=78,
+        )
+        .facet(
+            row=alt.Row(
+                "facet_label:N",
+                sort=alt.SortField(field="facet_order", order="ascending"),
+                title=None,
+                header=alt.Header(
+                    labelOrient="top",
+                    labelAnchor="start",
+                    labelFontSize=14,
+                    labelLimit=260,
+                    labelPadding=-10,
+                ),
+            )
+        )
+        .resolve_scale(y="independent")
+        .properties(
+            title=alt.Title(
+                text="Match Trends Explorer",
+                subtitle=[
+                    "Compare selected match metrics across one season with shared hover and per-metric scales.",
+                    "Use the page controls to change squad, game type, season, and the metrics shown.",
+                ],
+            ),
+        )
+    )
+
+    chart.save(output_file)
+    return chart
+
+
 def set_piece_h2h_chart_backend(db, set_piece="Lineout", output_file=None):
     """Game-by-game set piece chart using canonical backend data.
 

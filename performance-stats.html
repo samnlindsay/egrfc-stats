@@ -117,6 +117,8 @@
                         <p class="analysis-rail-title">Sections</p>
                         <a class="rail-link nav-link active" href="#set-piece-performance" data-short="Set Piece"><i class="bi bi-diagram-3-fill" aria-hidden="true"></i><span class="rail-link-label">Set Piece</span></a>
                         <a class="rail-link nav-link" href="#red-zone-performance" data-short="22m"><i class="bi bi-lightning-charge-fill" aria-hidden="true"></i><span class="rail-link-label">Red Zone</span></a>
+                        <a class="rail-link nav-link" href="#match-trends-performance" data-short="Trends"><i class="bi bi-graph-up-arrow"
+                                aria-hidden="true"></i><span class="rail-link-label">Match Trends</span></a>
                     </aside>
 
                     <main class="squad-stats-main performance-stats-main">
@@ -212,6 +214,20 @@
                                     <div class="chart-section-meta">
                                         <p class="chart-section-hint">Comparing the difference between entries into the opposition 22m for both teams, and the resulting points difference.</p>
                                         <p class="chart-section-hint">There is a strong correlation, with the winning team almost always being the one with more 22m entries. Games bucking this trend suggest exceptional defensive or efficient attacking performance.</p>
+                                        <div class="performance-set-piece-legend" aria-label="Red zone entries versus results legend">
+                                            <span class="performance-set-piece-legend-item">
+                                                <span class="performance-set-piece-legend-swatch performance-set-piece-legend-swatch--egrfc" aria-hidden="true"></span>
+                                                <span>EGRFC entries</span>
+                                            </span>
+                                            <span class="performance-set-piece-legend-item">
+                                                <span class="performance-set-piece-legend-swatch performance-set-piece-legend-swatch--opposition" aria-hidden="true"></span>
+                                                <span>Opposition entries</span>
+                                            </span>
+                                            <span class="performance-set-piece-legend-item">
+                                                <span class="performance-set-piece-legend-swatch" aria-hidden="true" style="background:#111111;"></span>
+                                                <span>Points difference</span>
+                                            </span>
+                                        </div>
                                         <div id="rzPointsMessage" class="text-muted" hidden></div>
                                     </div>
                                     <div class="performance-chart-grid performance-chart-grid--single">
@@ -255,6 +271,61 @@
                                 </div>
                             </div>
                         </section>
+
+<section id="match-trends-performance" class="analysis-section chart-section"
+    aria-labelledby="match-trends-performance-heading">
+    <h2 id="match-trends-performance-heading" class="section-heading">Match Trends</h2>
+    <p class="section-intro">A multi-purpose match-by-match explorer for scores, squad continuity, squad experience, and set-piece stats, across a single season.</p>
+    <div id="matchTrendsActiveFilters" class="squad-stats-active-filters" aria-live="polite"
+        style="margin-bottom: 1rem;"></div>
+    <div class="chart-section-block chart-section-block--panel">
+        <div class="chart-section-head">
+            <h3 class="chart-section-title">Season Match Trends</h3>
+            <div class="chart-panel-filters" aria-label="Match trends controls">
+                <div class="filter-item">
+                    <div class="input-group input-group-sm">
+                        <label class="input-group-text" for="performanceTrendMetrics">Metrics</label>
+                        <select id="performanceTrendMetrics" class="selectpicker" multiple data-actions-box="true"
+                            data-selected-text-format="count > 3" data-size="12" title="Select metrics">
+                            <option value="points_for_against">Points For/Against</option>
+                            <option value="points_difference" selected>Points Difference</option>
+                            <option value="total_match_points">Total Match Points</option>
+                            <option value="retained_starters" selected>Retained Starters</option>
+                            <option value="avg_squad_apps" selected>Average Squad Appearances</option>
+                            <option value="lineouts_taken">Lineouts Taken</option>
+                            <option value="lineouts_won">Lineouts Won</option>
+                            <option value="lineout_turnovers">Lineout Turnovers</option>
+                            <option value="lineout_success_pct" selected>Lineout Success %</option>
+                            <option value="lineout_success_diff_pct">Lineout Success Diff %</option>
+                            <option value="scrums_taken">Scrums Taken</option>
+                            <option value="scrums_won">Scrums Won</option>
+                            <option value="scrum_turnovers">Scrum Turnovers</option>
+                            <option value="scrum_success_pct">Scrum Success %</option>
+                            <option value="scrum_success_diff_pct">Scrum Success Diff %</option>
+                            <option value="entries_22m">22m Entries</option>
+                            <option value="entries_22m_diff">22m Entries Diff</option>
+                            <option value="points_per_entry" selected>Points per 22m Entry</option>
+                            <option value="points_per_entry_diff">Points per 22m Entry Diff</option>
+                            <option value="try_efficiency_pct">Try Efficiency %</option>
+                            <option value="try_efficiency_diff_pct">Try Efficiency Diff %</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="chart-section-content chart-section-content--split">
+            <div class="chart-section-meta">
+                <p class="chart-section-hint">Select metrics to display through the selected season.</p>
+                <p class="chart-section-hint">Hover over a point to see more match information, or anywhere else to highlight the various metrics for the nearest game.</p>
+                <div id="matchTrendsMessage" class="text-muted" hidden></div>
+            </div>
+            <div class="performance-chart-grid performance-chart-grid--single">
+                <div id="seasonMatchMetricTrendsChart"
+                    class="chart-host chart-host--intrinsic chart-host--overflow-visible performance-chart-host"></div>
+            </div>
+        </div>
+    </div>
+</section>
                     </main>
                 </div>
             </div>
@@ -293,6 +364,10 @@
                             <option value="League + Cup" selected>League + Cup</option>
                             <option value="League only">League only</option>
                         </select>
+                    </div>
+                    <div class="squad-filter-control" role="group" aria-label="Match Trends Season">
+                        <span class="squad-filter-label">Match Trends Season</span>
+                        <select id="performanceTrendSeason" class="selectpicker" data-size="8" title="Select season"></select>
                     </div>
                 </div>
             </div>
