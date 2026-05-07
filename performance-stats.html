@@ -119,6 +119,7 @@
                         <a class="rail-link nav-link" href="#red-zone-performance" data-short="22m"><i class="bi bi-lightning-charge-fill" aria-hidden="true"></i><span class="rail-link-label">Red Zone</span></a>
                         <a class="rail-link nav-link" href="#match-trends-performance" data-short="Trends"><i class="bi bi-graph-up-arrow"
                                 aria-hidden="true"></i><span class="rail-link-label">Match Trends</span></a>
+                        <a class="rail-link nav-link" href="#metric-compare-performance" data-short="Compare"><i class="bi bi-bezier2" aria-hidden="true"></i><span class="rail-link-label">Metric Compare</span></a>
                     </aside>
 
                     <main class="squad-stats-main performance-stats-main">
@@ -370,6 +371,192 @@
             </div>
             <div class="performance-chart-grid performance-chart-grid--single">
                 <div id="seasonMatchMetricAggregateChart"
+                    class="chart-host chart-host--intrinsic chart-host--overflow-visible performance-chart-host"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="metric-compare-performance" class="analysis-section chart-section"
+    aria-labelledby="metric-compare-performance-heading">
+    <h2 id="metric-compare-performance-heading" class="section-heading">Metric Compare</h2>
+    <p class="section-intro">Explore relationships between any two selected match metrics, with a third metric encoded by point color.</p>
+    <div id="metricCompareActiveFilters" class="squad-stats-active-filters" aria-live="polite"
+        style="margin-bottom: 1rem;"></div>
+    <div class="chart-section-block chart-section-block--panel">
+        <div class="chart-section-head">
+            <h3 class="chart-section-title">Flexible Metric Compare</h3>
+        </div>
+        <div class="chart-section-content chart-section-content--split">
+            <div class="chart-section-meta">
+                <p class="chart-section-hint">Compare any two selected game-level metrics with optional color encoding for a third metric.</p>
+                <p class="chart-section-hint">Use the chart controls to choose x-axis, y-axis, and color fields, and toggle game labels on/off.</p>
+                <div class="metric-compare-controls">
+                    <div class="squad-filter-control" role="group" aria-label="Metric Compare X axis">
+                        <span class="squad-filter-label">X Axis</span>
+                        <select id="metricCompareXField" class="selectpicker" data-size="12" title="Select x-axis metric">
+                            <optgroup label="Scores">
+                                <option value="points_difference">Points Difference</option>
+                                <option value="total_match_points">Total Match Points</option>
+                            </optgroup>
+                            <optgroup label="Lineout Volume">
+                                <option value="egrfc_lineouts_taken">Lineouts Taken (EGRFC)</option>
+                                <option value="opposition_lineouts_taken">Lineouts Taken (Opposition)</option>
+                                <option value="lineouts_taken_diff">Lineouts Taken Diff</option>
+                                <option value="egrfc_lineouts_won">Lineouts Won (EGRFC)</option>
+                                <option value="opposition_lineouts_won">Lineouts Won (Opposition)</option>
+                                <option value="lineouts_won_diff">Lineouts Won Diff</option>
+                            </optgroup>
+                            <optgroup label="Lineout Efficiency">
+                                <option value="lineout_success_pct_egrfc">Lineout Success % (EGRFC)</option>
+                                <option value="lineout_success_pct_opp">Lineout Success % (Opposition)</option>
+                                <option value="lineout_success_diff_pct">Lineout Success Diff (pp)</option>
+                            </optgroup>
+                            <optgroup label="Scrum Volume">
+                                <option value="egrfc_scrums_taken">Scrums Taken (EGRFC)</option>
+                                <option value="opposition_scrums_taken">Scrums Taken (Opposition)</option>
+                                <option value="scrums_taken_diff">Scrums Taken Diff</option>
+                                <option value="egrfc_scrums_won">Scrums Won (EGRFC)</option>
+                                <option value="opposition_scrums_won">Scrums Won (Opposition)</option>
+                                <option value="scrums_won_diff">Scrums Won Diff</option>
+                            </optgroup>
+                            <optgroup label="Scrum Efficiency">
+                                <option value="scrum_success_pct_egrfc">Scrum Success % (EGRFC)</option>
+                                <option value="scrum_success_pct_opp">Scrum Success % (Opposition)</option>
+                                <option value="scrum_success_diff_pct" selected>Scrum Success Diff (pp)</option>
+                            </optgroup>
+                            <optgroup label="Red Zone">
+                                <option value="egrfc_entries_22m">22m Entries (EGRFC)</option>
+                                <option value="opposition_entries_22m">22m Entries (Opposition)</option>
+                                <option value="entries_22m_diff">22m Entries Diff</option>
+                                <option value="egrfc_points_per_entry">Points / Entry (EGRFC)</option>
+                                <option value="opposition_points_per_entry">Points / Entry (Opposition)</option>
+                                <option value="points_per_entry_diff">Points / Entry Diff</option>
+                            </optgroup>
+                            <optgroup label="Continuity">
+                                <option value="retained_total">Retained Starters (Total)</option>
+                                <option value="retained_forwards">Retained Starters (Forwards)</option>
+                                <option value="retained_backs">Retained Starters (Backs)</option>
+                            </optgroup>
+                            <optgroup label="Experience">
+                                <option value="avg_squad_club_apps">Average Club Apps</option>
+                                <option value="avg_squad_first_xv_apps">Average 1st XV Apps</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                    <div class="squad-filter-control" role="group" aria-label="Metric Compare Y axis">
+                        <span class="squad-filter-label">Y Axis</span>
+                        <select id="metricCompareYField" class="selectpicker" data-size="12" title="Select y-axis metric">
+                            <optgroup label="Scores">
+                                <option value="points_difference">Points Difference</option>
+                                <option value="total_match_points">Total Match Points</option>
+                            </optgroup>
+                            <optgroup label="Lineout Volume">
+                                <option value="egrfc_lineouts_taken">Lineouts Taken (EGRFC)</option>
+                                <option value="opposition_lineouts_taken">Lineouts Taken (Opposition)</option>
+                                <option value="lineouts_taken_diff">Lineouts Taken Diff</option>
+                                <option value="egrfc_lineouts_won">Lineouts Won (EGRFC)</option>
+                                <option value="opposition_lineouts_won">Lineouts Won (Opposition)</option>
+                                <option value="lineouts_won_diff">Lineouts Won Diff</option>
+                            </optgroup>
+                            <optgroup label="Lineout Efficiency">
+                                <option value="lineout_success_pct_egrfc">Lineout Success % (EGRFC)</option>
+                                <option value="lineout_success_pct_opp">Lineout Success % (Opposition)</option>
+                                <option value="lineout_success_diff_pct" selected>Lineout Success Diff (pp)</option>
+                            </optgroup>
+                            <optgroup label="Scrum Volume">
+                                <option value="egrfc_scrums_taken">Scrums Taken (EGRFC)</option>
+                                <option value="opposition_scrums_taken">Scrums Taken (Opposition)</option>
+                                <option value="scrums_taken_diff">Scrums Taken Diff</option>
+                                <option value="egrfc_scrums_won">Scrums Won (EGRFC)</option>
+                                <option value="opposition_scrums_won">Scrums Won (Opposition)</option>
+                                <option value="scrums_won_diff">Scrums Won Diff</option>
+                            </optgroup>
+                            <optgroup label="Scrum Efficiency">
+                                <option value="scrum_success_pct_egrfc">Scrum Success % (EGRFC)</option>
+                                <option value="scrum_success_pct_opp">Scrum Success % (Opposition)</option>
+                                <option value="scrum_success_diff_pct">Scrum Success Diff (pp)</option>
+                            </optgroup>
+                            <optgroup label="Red Zone">
+                                <option value="egrfc_entries_22m">22m Entries (EGRFC)</option>
+                                <option value="opposition_entries_22m">22m Entries (Opposition)</option>
+                                <option value="entries_22m_diff">22m Entries Diff</option>
+                                <option value="egrfc_points_per_entry">Points / Entry (EGRFC)</option>
+                                <option value="opposition_points_per_entry">Points / Entry (Opposition)</option>
+                                <option value="points_per_entry_diff">Points / Entry Diff</option>
+                            </optgroup>
+                            <optgroup label="Continuity">
+                                <option value="retained_total">Retained Starters (Total)</option>
+                                <option value="retained_forwards">Retained Starters (Forwards)</option>
+                                <option value="retained_backs">Retained Starters (Backs)</option>
+                            </optgroup>
+                            <optgroup label="Experience">
+                                <option value="avg_squad_club_apps">Average Club Apps</option>
+                                <option value="avg_squad_first_xv_apps">Average 1st XV Apps</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                    <div class="squad-filter-control" role="group" aria-label="Metric Compare Color">
+                        <span class="squad-filter-label">Color</span>
+                        <select id="metricCompareColorField" class="selectpicker" data-size="12" title="Select color metric">
+                            <optgroup label="Scores">
+                                <option value="points_difference" selected>Points Difference</option>
+                                <option value="total_match_points">Total Match Points</option>
+                            </optgroup>
+                            <optgroup label="Lineout Volume">
+                                <option value="egrfc_lineouts_taken">Lineouts Taken (EGRFC)</option>
+                                <option value="opposition_lineouts_taken">Lineouts Taken (Opposition)</option>
+                                <option value="lineouts_taken_diff">Lineouts Taken Diff</option>
+                                <option value="egrfc_lineouts_won">Lineouts Won (EGRFC)</option>
+                                <option value="opposition_lineouts_won">Lineouts Won (Opposition)</option>
+                                <option value="lineouts_won_diff">Lineouts Won Diff</option>
+                            </optgroup>
+                            <optgroup label="Lineout Efficiency">
+                                <option value="lineout_success_pct_egrfc">Lineout Success % (EGRFC)</option>
+                                <option value="lineout_success_pct_opp">Lineout Success % (Opposition)</option>
+                                <option value="lineout_success_diff_pct">Lineout Success Diff (pp)</option>
+                            </optgroup>
+                            <optgroup label="Scrum Volume">
+                                <option value="egrfc_scrums_taken">Scrums Taken (EGRFC)</option>
+                                <option value="opposition_scrums_taken">Scrums Taken (Opposition)</option>
+                                <option value="scrums_taken_diff">Scrums Taken Diff</option>
+                                <option value="egrfc_scrums_won">Scrums Won (EGRFC)</option>
+                                <option value="opposition_scrums_won">Scrums Won (Opposition)</option>
+                                <option value="scrums_won_diff">Scrums Won Diff</option>
+                            </optgroup>
+                            <optgroup label="Scrum Efficiency">
+                                <option value="scrum_success_pct_egrfc">Scrum Success % (EGRFC)</option>
+                                <option value="scrum_success_pct_opp">Scrum Success % (Opposition)</option>
+                                <option value="scrum_success_diff_pct">Scrum Success Diff (pp)</option>
+                            </optgroup>
+                            <optgroup label="Red Zone">
+                                <option value="egrfc_entries_22m">22m Entries (EGRFC)</option>
+                                <option value="opposition_entries_22m">22m Entries (Opposition)</option>
+                                <option value="entries_22m_diff">22m Entries Diff</option>
+                                <option value="egrfc_points_per_entry">Points / Entry (EGRFC)</option>
+                                <option value="opposition_points_per_entry">Points / Entry (Opposition)</option>
+                                <option value="points_per_entry_diff">Points / Entry Diff</option>
+                            </optgroup>
+                            <optgroup label="Continuity">
+                                <option value="retained_total">Retained Starters (Total)</option>
+                                <option value="retained_forwards">Retained Starters (Forwards)</option>
+                                <option value="retained_backs">Retained Starters (Backs)</option>
+                            </optgroup>
+                            <optgroup label="Experience">
+                                <option value="avg_squad_club_apps">Average Club Apps</option>
+                                <option value="avg_squad_first_xv_apps">Average 1st XV Apps</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                    <div class="form-check form-switch metric-compare-toggle">
+                        <input class="form-check-input" type="checkbox" id="metricCompareShowLabels" checked>
+                        <label class="form-check-label mx-2" for="metricCompareShowLabels">Show labels</label>
+                    </div>
+                </div>
+                <div id="matchMetricCompareMessage" class="text-muted" hidden></div>
+            </div>
+            <div class="performance-chart-grid performance-chart-grid--single">
+                <div id="matchMetricCompareChart"
                     class="chart-host chart-host--intrinsic chart-host--overflow-visible performance-chart-host"></div>
             </div>
         </div>

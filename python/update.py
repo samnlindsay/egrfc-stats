@@ -38,6 +38,7 @@ from python.charts import (
     lineout_trend_chart_suite,
     set_piece_h2h_chart_backend,
     season_match_metric_trends_chart,
+    match_metric_compare_scatter_chart,
     red_zone_performance_chart,
     set_piece_attacking_volume_chart,
     red_zone_entries_efficiency_chart,
@@ -120,6 +121,7 @@ def main(refresh_pitchero=False, backend_mode="canonical", backend_db_path="data
     set_piece_h2h_chart_backend(db, set_piece="Lineout", output_file="data/charts/lineout_h2h.json")
     set_piece_h2h_chart_backend(db, set_piece="Scrum", output_file="data/charts/scrum_h2h.json")
     season_match_metric_trends_chart(db, output_file="data/charts/season_match_metric_trends.json")
+    match_metric_compare_scatter_chart(db, output_file="data/charts/match_metric_compare_scatter.json")
     red_zone_performance_chart(db, metric="points", output_file="data/charts/red_zone_points.json", bind_params=False)
     red_zone_entries_efficiency_chart(db, output_file="data/charts/red_zone_entries_efficiency.json", bind_params=False)
     lineout_success_by_zone_chart(db)

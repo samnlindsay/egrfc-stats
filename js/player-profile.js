@@ -227,7 +227,7 @@ function lastTenResultsMarkup(history) {
         .join("\n");
       const chip = `<span class="last-ten-result ${variant}" data-bs-toggle="tooltip" data-bs-custom-class="last-ten-result-tooltip" data-bs-title="${escapeAttribute(tooltipText)}">${result}</span>`;
       return gameId
-        ? `<a class="last-ten-result-link" href="match-info.html?game=${encodeURIComponent(gameId)}" aria-label="Open Match Info for ${escapeHtml(title)}">${chip}</a>`
+        ? `<a class="last-ten-result-link" href="match-info.html?game=${encodeURIComponent(gameId)}#match-detail" aria-label="Open Match Info for ${escapeHtml(title)}">${chip}</a>`
         : chip;
     })
     .join("");
@@ -575,7 +575,7 @@ function lastTenResultsStripHtml(history) {
         .join("\n");
       const chip = `<span class="last-ten-result ${variant}" data-bs-toggle="tooltip" data-bs-custom-class="last-ten-result-tooltip" data-bs-title="${escapeAttribute(tooltipText)}">${result}</span>`;
       return gameId
-        ? `<a class="last-ten-result-link" href="match-info.html?game=${encodeURIComponent(gameId)}" aria-label="Open Match Info for ${escapeHtml(title)}">${chip}</a>`
+        ? `<a class="last-ten-result-link" href="match-info.html?game=${encodeURIComponent(gameId)}#match-detail" aria-label="Open Match Info for ${escapeHtml(title)}">${chip}</a>`
         : chip;
     })
     .join("");

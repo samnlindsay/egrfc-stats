@@ -73,6 +73,7 @@ const CHART_CONTAINER_INVENTORY = Object.freeze([
   "rzSeasonalEntriesEfficiencyChart",
   "seasonMatchMetricTrendsChart",
   "seasonMatchMetricAggregateChart",
+  "matchMetricCompareChart",
   "setPieceAttackingLineoutVolumeChart",
   "setPieceAttackingScrumVolumeChart",
   "setPiece1stLineoutChart",
@@ -334,6 +335,26 @@ const CHART_LAYOUT_INVENTORY = {
     responsiveScaleMin: 0.65,
     responsiveScaleMinXs: 0.55,
     narrow: { innerHeight: 125 },
+    wide: { innerWidth: { step: 25 }, innerHeight: 150 },
+  },
+  matchMetricCompareChart: {
+    narrowMax: 760,
+    responsiveScaleMin: 0.64,
+    responsiveScaleMinXs: 0.58,
+    narrow: {
+      legendOrient: "bottom",
+      legendTitleOrient: "top",
+      width: 300,
+      height: 300,
+      padding: { top: 8, right: 8, bottom: 8, left: 8 },
+    },
+    wide: {
+      legendOrient: "right",
+      legendTitleOrient: "left",
+      width: 640,
+      height: 420,
+      padding: { top: 8, right: 8, bottom: 8, left: 8 },
+    },
   },
   setPieceAttackingLineoutVolumeChart: {
     narrowMax: 760,
@@ -1004,7 +1025,7 @@ function getAllowedGameTypes(mode) {
 
 function createGameLink(gameId) {
   if (!gameId) return null;
-  return `match-info.html?game=${encodeURIComponent(String(gameId || "").trim())}`;
+  return `match-info.html?game=${encodeURIComponent(String(gameId || "").trim())}#match-detail`;
 }
 
 function createPlayerLink(playerName) {

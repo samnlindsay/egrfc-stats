@@ -4981,8 +4981,8 @@ def _build_mt_shared_parameters(ordered_seasons):
         "mt_season": alt.param(name="mtSeason", value=latest_season),
         "mt_game_type": alt.param(name="mtGameType", value="League + Cup"),
         "mt_metrics": alt.param(name="mtMetrics", value=default_metrics),
-        "hover": alt.selection_point(name="mtHover", nearest=True, on="pointermove", fields=["game_id"], empty=False, clear="pointerout"),
-        "season_hover": alt.selection_point(name="mtSeasonHover", nearest=True, on="pointermove", fields=["season"], empty=False, clear="pointerout"),
+        "hover": alt.selection_point(name="mtHover", nearest=True, on="pointerover", fields=["game_id"], empty=False, clear="pointerout"),
+        "season_hover": alt.selection_point(name="mtSeasonHover", nearest=True, on="pointerover", fields=["season"], empty=False, clear="pointerout"),
         "latest_season": latest_season,
     }
 
@@ -5341,7 +5341,7 @@ def season_match_metric_trends_chart(db, output_file="data/charts/season_match_m
         },
         {
             "facet_key": "lineout_success_diff_pct",
-            "facet_label": "Lineout Success Diff %",
+            "facet_label": "Lineout Success Diff (pp)",
             "facet_group": "Lineout",
             "value_format": "signed_percent1",
             "series": [
@@ -5390,7 +5390,7 @@ def season_match_metric_trends_chart(db, output_file="data/charts/season_match_m
         },
         {
             "facet_key": "scrum_success_diff_pct",
-            "facet_label": "Scrum Success Diff %",
+            "facet_label": "Scrum Success Diff (pp)",
             "facet_group": "Scrum",
             "value_format": "signed_percent1",
             "series": [
@@ -5447,7 +5447,7 @@ def season_match_metric_trends_chart(db, output_file="data/charts/season_match_m
         },
         {
             "facet_key": "try_efficiency_diff_pct",
-            "facet_label": "Try Efficiency Diff %",
+            "facet_label": "Try Efficiency Diff (pp)",
             "facet_group": "22m",
             "value_format": "signed_percent1",
             "series": [
@@ -6690,6 +6690,347 @@ def red_zone_performance_chart(db, metric="points", output_file=None, bind_param
             height=500,
         )
         .resolve_scale(x="shared", y="shared", color="independent")
+    )
+
+    chart.save(output_file)
+    return chart
+
+
+def match_metric_compare_scatter_chart(db, output_file="data/charts/match_metric_compare_scatter.json", bind_params=False):
+    """Flexible game-level metric-vs-metric scatter with selectable x/y/color fields."""
+    del bind_params
+
+    def _clean_opposition_name(value):
+        text = str(value or "").strip()
+        if not text:
+            return "Unknown"
+        text = re.sub(r"\s+(?:I{1,6}|[1-6](?:st|nd|rd|th)?|A|B)(?:\s+XV)?$", "", text).strip()
+        return text or "Unknown"
+
+    def _safe_rate(numerator, denominator, multiplier=1.0):
+        if pd.isna(numerator) or pd.isna(denominator) or float(denominator) <= 0:
+            return None
+        return (float(numerator) / float(denominator)) * multiplier
+
+    base_df = db.con.execute(
+        """
+        WITH appearance_avg AS (
+            SELECT
+                pa.game_id,
+                AVG(NULLIF(pa.club_appearance_number, 0)) AS avg_squad_club_apps,
+                AVG(NULLIF(pa.first_xv_appearance_number, 0)) AS avg_squad_first_xv_apps
+            FROM player_appearances pa
+            WHERE pa.is_starter = TRUE
+              AND pa.game_id IS NOT NULL
+              AND COALESCE(pa.is_backfill, FALSE) = FALSE
+            GROUP BY pa.game_id
+        ),
+        set_piece_base AS (
+            SELECT
+                game_id,
+                team,
+                lineouts_won,
+                lineouts_total,
+                scrums_won,
+                scrums_total
+            FROM set_piece
+        )
+        SELECT
+            g.game_id,
+            g.date,
+            g.season,
+            g.squad,
+            COALESCE(g.game_type, 'Unknown') AS game_type,
+            g.opposition,
+            COALESCE(g.home_away, '?') AS home_away,
+            COALESCE(g.result, '?') AS result,
+            g.score_for::DOUBLE AS score_for,
+            g.score_against::DOUBLE AS score_against,
+            eg.lineouts_total::DOUBLE AS egrfc_lineouts_taken,
+            eg.lineouts_won::DOUBLE AS egrfc_lineouts_won,
+            opp.lineouts_total::DOUBLE AS opposition_lineouts_taken,
+            opp.lineouts_won::DOUBLE AS opposition_lineouts_won,
+            eg.scrums_total::DOUBLE AS egrfc_scrums_taken,
+            eg.scrums_won::DOUBLE AS egrfc_scrums_won,
+            opp.scrums_total::DOUBLE AS opposition_scrums_taken,
+            opp.scrums_won::DOUBLE AS opposition_scrums_won,
+            rz_eg.entries_22m::DOUBLE AS egrfc_entries_22m,
+            rz_eg.points_per_entry::DOUBLE AS egrfc_points_per_entry,
+            rz_opp.entries_22m::DOUBLE AS opposition_entries_22m,
+            rz_opp.points_per_entry::DOUBLE AS opposition_points_per_entry,
+            appearance_avg.avg_squad_club_apps,
+            appearance_avg.avg_squad_first_xv_apps
+        FROM games g
+        LEFT JOIN set_piece_base eg
+            ON eg.game_id = g.game_id
+           AND eg.team = 'EGRFC'
+        LEFT JOIN set_piece_base opp
+            ON opp.game_id = g.game_id
+           AND opp.team = 'Opposition'
+        LEFT JOIN v_red_zone rz_eg
+            ON rz_eg.game_id = g.game_id
+           AND rz_eg.team = 'EGRFC'
+        LEFT JOIN v_red_zone rz_opp
+            ON rz_opp.game_id = g.game_id
+           AND rz_opp.team = 'Opposition'
+        LEFT JOIN appearance_avg
+            ON appearance_avg.game_id = g.game_id
+        WHERE g.season IS NOT NULL
+        ORDER BY g.squad, g.season, g.date, g.game_id
+        """
+    ).df()
+
+    if base_df.empty:
+        print("Skipping match_metric_compare_scatter_chart: no games available.")
+        return None
+
+    base_df["date"] = pd.to_datetime(base_df["date"], errors="coerce")
+    base_df["opposition_clean"] = base_df["opposition"].apply(_clean_opposition_name)
+    base_df["fixture_label"] = base_df.apply(
+        lambda row: f"{row['opposition_clean']} ({row['home_away']})",
+        axis=1,
+    )
+    base_df["scoreline"] = base_df.apply(
+        lambda row: (
+            f"{int(row['score_for'])}-{int(row['score_against'])}"
+            if pd.notna(row["score_for"]) and pd.notna(row["score_against"])
+            else "?-?"
+        ),
+        axis=1,
+    )
+
+    base_df["points_difference"] = base_df["score_for"] - base_df["score_against"]
+    base_df["total_match_points"] = base_df["score_for"] + base_df["score_against"]
+
+    base_df["lineouts_taken_diff"] = base_df["egrfc_lineouts_taken"] - base_df["opposition_lineouts_taken"]
+    base_df["lineouts_won_diff"] = base_df["egrfc_lineouts_won"] - base_df["opposition_lineouts_won"]
+    base_df["scrums_taken_diff"] = base_df["egrfc_scrums_taken"] - base_df["opposition_scrums_taken"]
+    base_df["scrums_won_diff"] = base_df["egrfc_scrums_won"] - base_df["opposition_scrums_won"]
+
+    base_df["lineout_success_pct_egrfc"] = base_df.apply(
+        lambda row: _safe_rate(row.egrfc_lineouts_won, row.egrfc_lineouts_taken, 100.0),
+        axis=1,
+    )
+    base_df["lineout_success_pct_opp"] = base_df.apply(
+        lambda row: _safe_rate(row.opposition_lineouts_won, row.opposition_lineouts_taken, 100.0),
+        axis=1,
+    )
+    base_df["scrum_success_pct_egrfc"] = base_df.apply(
+        lambda row: _safe_rate(row.egrfc_scrums_won, row.egrfc_scrums_taken, 100.0),
+        axis=1,
+    )
+    base_df["scrum_success_pct_opp"] = base_df.apply(
+        lambda row: _safe_rate(row.opposition_scrums_won, row.opposition_scrums_taken, 100.0),
+        axis=1,
+    )
+    base_df["lineout_success_diff_pct"] = base_df["lineout_success_pct_egrfc"] - base_df["lineout_success_pct_opp"]
+    base_df["scrum_success_diff_pct"] = base_df["scrum_success_pct_egrfc"] - base_df["scrum_success_pct_opp"]
+
+    base_df["entries_22m_diff"] = base_df["egrfc_entries_22m"] - base_df["opposition_entries_22m"]
+    base_df["points_per_entry_diff"] = base_df["egrfc_points_per_entry"] - base_df["opposition_points_per_entry"]
+
+    starters_df = db.con.execute(
+        """
+        SELECT
+            pa.game_id,
+            pa.player,
+            pa.squad,
+            pa.unit,
+            g.season,
+            g.date
+        FROM player_appearances pa
+        JOIN games g
+            ON g.game_id = pa.game_id
+        WHERE pa.is_starter = TRUE
+          AND pa.game_id IS NOT NULL
+          AND COALESCE(pa.is_backfill, FALSE) = FALSE
+          AND g.season IS NOT NULL
+        ORDER BY pa.squad, g.season, g.date, pa.game_id, pa.player
+        """
+    ).df()
+
+    retained_maps = {"Total": {}, "Forwards": {}, "Backs": {}}
+    if not starters_df.empty:
+        starters_df["date"] = pd.to_datetime(starters_df["date"], errors="coerce")
+        grouped_rows = []
+        for (squad, season, game_id, date), group in starters_df.groupby(["squad", "season", "game_id", "date"], sort=False):
+            group = group.copy()
+            grouped_rows.append(
+                {
+                    "squad": squad,
+                    "season": season,
+                    "game_id": game_id,
+                    "date": date,
+                    "players_total": set(group["player"].dropna().astype(str)),
+                    "players_forwards": set(group.loc[group["unit"] == "Forwards", "player"].dropna().astype(str)),
+                    "players_backs": set(group.loc[group["unit"] == "Backs", "player"].dropna().astype(str)),
+                }
+            )
+
+        grouped_df = pd.DataFrame(grouped_rows)
+        grouped_df = grouped_df.sort_values(["squad", "season", "date", "game_id"])
+
+        for (squad, season), season_games in grouped_df.groupby(["squad", "season"], sort=False):
+            prev_total = None
+            prev_forwards = None
+            prev_backs = None
+            for _, row in season_games.iterrows():
+                game_id = row["game_id"]
+                current_total = row["players_total"]
+                current_forwards = row["players_forwards"]
+                current_backs = row["players_backs"]
+
+                retained_maps["Total"][game_id] = len(current_total.intersection(prev_total)) if prev_total is not None else None
+                retained_maps["Forwards"][game_id] = len(current_forwards.intersection(prev_forwards)) if prev_forwards is not None else None
+                retained_maps["Backs"][game_id] = len(current_backs.intersection(prev_backs)) if prev_backs is not None else None
+
+                prev_total = current_total
+                prev_forwards = current_forwards
+                prev_backs = current_backs
+
+    base_df["retained_total"] = base_df["game_id"].map(retained_maps["Total"])
+    base_df["retained_forwards"] = base_df["game_id"].map(retained_maps["Forwards"])
+    base_df["retained_backs"] = base_df["game_id"].map(retained_maps["Backs"])
+
+    metric_meta = [
+        ("points_difference", "Points Difference", "diverging"),
+        ("total_match_points", "Total Match Points", "sequential"),
+        ("egrfc_lineouts_taken", "Lineouts Taken (EGRFC)", "sequential"),
+        ("opposition_lineouts_taken", "Lineouts Taken (Opposition)", "sequential"),
+        ("lineouts_taken_diff", "Lineouts Taken Diff", "diverging"),
+        ("egrfc_lineouts_won", "Lineouts Won (EGRFC)", "sequential"),
+        ("opposition_lineouts_won", "Lineouts Won (Opposition)", "sequential"),
+        ("lineouts_won_diff", "Lineouts Won Diff", "diverging"),
+        ("egrfc_scrums_taken", "Scrums Taken (EGRFC)", "sequential"),
+        ("opposition_scrums_taken", "Scrums Taken (Opposition)", "sequential"),
+        ("scrums_taken_diff", "Scrums Taken Diff", "diverging"),
+        ("egrfc_scrums_won", "Scrums Won (EGRFC)", "sequential"),
+        ("opposition_scrums_won", "Scrums Won (Opposition)", "sequential"),
+        ("scrums_won_diff", "Scrums Won Diff", "diverging"),
+        ("lineout_success_pct_egrfc", "Lineout Success % (EGRFC)", "sequential"),
+        ("lineout_success_pct_opp", "Lineout Success % (Opposition)", "sequential"),
+        ("lineout_success_diff_pct", "Lineout Success Diff (pp)", "diverging"),
+        ("scrum_success_pct_egrfc", "Scrum Success % (EGRFC)", "sequential"),
+        ("scrum_success_pct_opp", "Scrum Success % (Opposition)", "sequential"),
+        ("scrum_success_diff_pct", "Scrum Success Diff (pp)", "diverging"),
+        ("egrfc_entries_22m", "22m Entries (EGRFC)", "sequential"),
+        ("opposition_entries_22m", "22m Entries (Opposition)", "sequential"),
+        ("entries_22m_diff", "22m Entries Diff", "diverging"),
+        ("egrfc_points_per_entry", "Points per Entry (EGRFC)", "sequential"),
+        ("opposition_points_per_entry", "Points per Entry (Opposition)", "sequential"),
+        ("points_per_entry_diff", "Points per Entry Diff", "diverging"),
+        ("retained_total", "Retained Starters (Total)", "sequential"),
+        ("retained_forwards", "Retained Starters (Forwards)", "sequential"),
+        ("retained_backs", "Retained Starters (Backs)", "sequential"),
+        ("avg_squad_club_apps", "Average Club Apps", "sequential"),
+        ("avg_squad_first_xv_apps", "Average 1st XV Apps", "sequential"),
+    ]
+
+    metric_label_expr = "{" + ",".join([f"'{key}':'{label}'" for key, label, _ in metric_meta]) + "}"
+
+    ordered_seasons = sorted(base_df["season"].dropna().astype(str).unique().tolist(), key=lambda s: int(str(s)[:4]) if str(s)[:4].isdigit() else 0)
+    latest_season = ordered_seasons[-1] if ordered_seasons else "2025/26"
+
+    mc_squad = alt.param(name="mcSquad", value="1st")
+    mc_season = alt.param(name="mcSeason", value=latest_season)
+    mc_game_type = alt.param(name="mcGameType", value="League + Cup")
+    mc_x_field = alt.param(name="mcXField", value="scrum_success_diff_pct")
+    mc_y_field = alt.param(name="mcYField", value="lineout_success_diff_pct")
+    mc_color_field = alt.param(name="mcColorField", value="points_difference")
+    mc_show_labels = alt.param(name="mcShowLabels", value=True)
+
+    game_type_filter_expr = (
+        f"("
+        f"{mc_game_type.name} == 'All'"
+        f" || ({mc_game_type.name} == 'League + Cup' && (datum.game_type == 'League' || datum.game_type == 'Cup'))"
+        f" || ({mc_game_type.name} == 'League only' && datum.game_type == 'League')"
+        f" || datum.game_type == {mc_game_type.name}"
+        f")"
+    )
+
+    filter_expr = (
+        f"datum.squad == {mc_squad.name}"
+        f" && datum.season == {mc_season.name}"
+        f" && {game_type_filter_expr}"
+    )
+
+    base = (
+        alt.Chart(base_df)
+        .add_params(mc_squad, mc_season, mc_game_type, mc_x_field, mc_y_field, mc_color_field, mc_show_labels)
+        .transform_filter(filter_expr)
+        .transform_calculate(
+            x_value=f"datum[{mc_x_field.name}]",
+            y_value=f"datum[{mc_y_field.name}]",
+            color_value=f"datum[{mc_color_field.name}]",
+            x_label=f"{metric_label_expr}[{mc_x_field.name}]",
+            y_label=f"{metric_label_expr}[{mc_y_field.name}]",
+            color_label=f"{metric_label_expr}[{mc_color_field.name}]",
+        )
+        .transform_filter("isValid(datum.x_value) && isValid(datum.y_value) && isValid(datum.color_value)")
+    )
+
+    x_encoding = alt.X(
+        "x_value:Q",
+        title="X metric",
+        axis=alt.Axis(grid=False, tickCount=6),
+    )
+    y_encoding = alt.Y(
+        "y_value:Q",
+        title="Y metric",
+        axis=alt.Axis(grid=False, tickCount=6),
+    )
+
+    points = base.mark_circle(
+        size=130,
+        stroke="#111111",
+        strokeWidth=1.0,
+        fillOpacity=0.92,
+    ).encode(
+        x=x_encoding,
+        y=y_encoding,
+        color=alt.Color(
+            "color_value:Q",
+            title="Color metric",
+            scale=alt.Scale(scheme="blues"),
+            legend=alt.Legend(format=".0f"),
+        ),
+        tooltip=[
+            alt.Tooltip("fixture_label:N", title="Fixture"),
+            alt.Tooltip("date:T", title="Date"),
+            alt.Tooltip("scoreline:N", title="Score"),
+            alt.Tooltip("result:N", title="Result"),
+            alt.Tooltip("x_label:N", title="X Metric"),
+            alt.Tooltip("x_value:Q", title="X Value", format=".2f"),
+            alt.Tooltip("y_label:N", title="Y Metric"),
+            alt.Tooltip("y_value:Q", title="Y Value", format=".2f"),
+            alt.Tooltip("color_label:N", title="Color Metric"),
+            alt.Tooltip("color_value:Q", title="Color Value", format=".2f"),
+        ],
+    )
+
+    labels = base.mark_text(align="left", baseline="middle", dx=8, dy=-7, fontSize=9).encode(
+        x=alt.X("x_value:Q"),
+        y=alt.Y("y_value:Q"),
+        text=alt.Text("fixture_label:N"),
+        opacity=alt.condition(mc_show_labels, alt.value(0.85), alt.value(0)),
+    )
+
+    x_zero = alt.Chart(pd.DataFrame({"x": [0]})).mark_rule(color="#111111", strokeDash=[3, 2], strokeWidth=2.0, opacity=0.85).encode(x="x:Q")
+    y_zero = alt.Chart(pd.DataFrame({"y": [0]})).mark_rule(color="#111111", strokeDash=[3, 2], strokeWidth=2.0, opacity=0.85).encode(y="y:Q")
+
+    chart = (
+        alt.layer(x_zero, y_zero, points, labels)
+        .properties(
+            title=alt.TitleParams(
+                text="Flexible Metric Compare",
+                subtitle=[
+                    "Select x/y/color metrics from the chart controls to compare game-level relationships.",
+                ],
+            ),
+            width=640,
+            height=420,
+        )
+        .resolve_scale(color="independent")
     )
 
     chart.save(output_file)

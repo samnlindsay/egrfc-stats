@@ -963,7 +963,7 @@ function renderTable() {
                 <td>${escapeHtml(String(row?.opposition || '-'))}</td>
                 <td>${escapeHtml(String(row?.game_type || '-'))}</td>
                 <td>${resultBadgeHtml(normaliseResult(row))}</td>
-                <td><a class="match-data-link" href="match-data.html?game=${encodeURIComponent(gameId)}"><i class="bi bi-box-arrow-up-right" aria-hidden="true"></i><span>Match Data</span></a></td>
+                <td><a class="match-data-link" href="match-data.html?game=${encodeURIComponent(gameId)}#match-detail"><i class="bi bi-box-arrow-up-right" aria-hidden="true"></i><span>Match Data</span></a></td>
             </tr>
         `;
     }).join('');

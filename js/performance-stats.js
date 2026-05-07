@@ -7,6 +7,7 @@
         setPieceAttackingScrumVolume: 'data/charts/set_piece_attacking_volume_scrum.json',
         matchTrendsInSeason: 'data/charts/season_match_metric_trends_in_season.json',
         matchTrendsAggregate: 'data/charts/season_match_metric_trends_aggregate.json',
+        metricCompare: 'data/charts/match_metric_compare_scatter.json',
         redZone: 'data/charts/red_zone_points.json',
         redZoneEntriesEfficiency: 'data/charts/red_zone_entries_efficiency.json',
     };
@@ -76,6 +77,7 @@
             setPieceAttackingScrumVolume: null,
             matchTrendsSeason: null,
             matchTrendsAggregate: null,
+            metricCompare: null,
             redZone: null,
             redZoneEntriesEfficiency: null,
         },
@@ -153,6 +155,99 @@
         };
     }
 
+    function getMetricCompareControlState() {
+        const getPickerOrValue = (id, fallback) => {
+            const el = getElement(id);
+            if (!el) return fallback;
+            if (window.jQuery && window.jQuery.fn && window.jQuery.fn.selectpicker) {
+                const pickerVal = window.jQuery(el).selectpicker('val');
+                if (typeof pickerVal === 'string' && pickerVal) return pickerVal;
+            }
+            return el.value || fallback;
+        };
+
+        return {
+            xField: getPickerOrValue('metricCompareXField', 'scrum_success_diff_pct'),
+            yField: getPickerOrValue('metricCompareYField', 'lineout_success_diff_pct'),
+            colorField: getPickerOrValue('metricCompareColorField', 'points_difference'),
+            showLabels: Boolean(getElement('metricCompareShowLabels')?.checked),
+        };
+    }
+
+    function getMetricCompareLabelMap() {
+        const ids = ['metricCompareXField', 'metricCompareYField', 'metricCompareColorField'];
+        const map = new Map();
+        ids.forEach((id) => {
+            const select = getElement(id);
+            if (!select) return;
+            Array.from(select.options || []).forEach((option) => {
+                if (!map.has(String(option.value))) {
+                    map.set(String(option.value), String(option.textContent || option.label || option.value || '').trim());
+                }
+            });
+        });
+        return map;
+    }
+
+    function isDivergingMetric(metricKey) {
+        const key = String(metricKey || '').toLowerCase();
+        return key.includes('diff') || key.includes('difference');
+    }
+
+    function applyMetricCompareSpecCustomizations(spec, controls) {
+        if (!spec || typeof spec !== 'object') return spec;
+
+        const labelMap = getMetricCompareLabelMap();
+        const xLabel = labelMap.get(String(controls.xField)) || String(controls.xField || 'X metric');
+        const yLabel = labelMap.get(String(controls.yField)) || String(controls.yField || 'Y metric');
+        const colorLabel = labelMap.get(String(controls.colorField)) || String(controls.colorField || 'Color metric');
+
+        if (Array.isArray(spec.params)) {
+            spec.params.forEach((param) => {
+                if (!param || typeof param !== 'object') return;
+                if (param.name === 'mcXField') param.value = controls.xField;
+                if (param.name === 'mcYField') param.value = controls.yField;
+                if (param.name === 'mcColorField') param.value = controls.colorField;
+                if (param.name === 'mcShowLabels') param.value = controls.showLabels;
+            });
+        }
+
+        const showXZeroLine = isDivergingMetric(controls.xField);
+        const showYZeroLine = isDivergingMetric(controls.yField);
+
+        if (Array.isArray(spec.layer)) {
+            spec.layer = spec.layer.filter((item) => {
+                const markType = typeof item?.mark === 'string' ? item.mark : item?.mark?.type;
+                if (markType !== 'rule') return true;
+                const hasXEncoding = Boolean(item?.encoding?.x);
+                const hasYEncoding = Boolean(item?.encoding?.y);
+                if (hasXEncoding && !hasYEncoding) return showXZeroLine;
+                if (hasYEncoding && !hasXEncoding) return showYZeroLine;
+                return true;
+            });
+        }
+
+        const layer = Array.isArray(spec.layer) ? spec.layer : [];
+        layer.forEach((item) => {
+            const markType = typeof item?.mark === 'string' ? item.mark : item?.mark?.type;
+            if (markType !== 'circle') return;
+            const x = item?.encoding?.x;
+            const y = item?.encoding?.y;
+            const color = item?.encoding?.color;
+            if (x && typeof x === 'object') x.title = xLabel;
+            if (y && typeof y === 'object') y.title = yLabel;
+            if (color && typeof color === 'object') {
+                color.title = colorLabel;
+                color.legend = { ...(color.legend || {}), title: colorLabel };
+                color.scale = isDivergingMetric(controls.colorField)
+                    ? { scheme: 'redyellowgreen', domainMid: 0 }
+                    : { scheme: 'blues' };
+            }
+        });
+
+        return spec;
+    }
+
     function cloneSpec(spec) {
         if (!spec || typeof spec !== 'object') return spec;
         if (typeof structuredClone === 'function') return structuredClone(spec);
@@ -182,6 +277,7 @@
     function renderActiveFilterChips() {
         const setPieceHost = getElement('setPieceActiveFilters');
         const matchTrendsHost = getElement('matchTrendsActiveFilters');
+        const metricCompareHost = getElement('metricCompareActiveFilters');
         const redZoneHost = getElement('redZoneActiveFilters');
         const { squad, gameType } = readSetPieceFilterState();
         const { season, metrics } = readMatchTrendFilterState();
@@ -215,6 +311,28 @@
                 `<button type="button" class="squad-stats-filter-chip squad-stats-filter-chip-btn" data-bs-toggle="offcanvas" data-bs-target="#${FILTERS_OFFCANVAS_ID}" aria-controls="${FILTERS_OFFCANVAS_ID}"><strong>Game Type</strong> ${escapeHtml(gameType)}</button>`,
                 `<button type="button" class="squad-stats-filter-chip squad-stats-filter-chip-btn" data-bs-toggle="offcanvas" data-bs-target="#${FILTERS_OFFCANVAS_ID}" aria-controls="${FILTERS_OFFCANVAS_ID}" data-offcanvas-focus="performanceTrendMetricsControl"><strong>Metrics</strong> ${escapeHtml(matchTrendMetricsLabel)}</button>`,
             ].join('');
+        }
+
+        if (metricCompareHost) {
+            const metricCompareChips = [
+                { label: 'Squad', value: squadLabel },
+                { label: 'Season', value: season },
+                { label: 'Game Type', value: gameType },
+            ];
+
+            if (window.sharedUi?.renderOffcanvasFilterChips) {
+                window.sharedUi.renderOffcanvasFilterChips({
+                    host: metricCompareHost,
+                    offcanvasId: FILTERS_OFFCANVAS_ID,
+                    chips: metricCompareChips,
+                });
+            } else {
+                metricCompareHost.innerHTML = [
+                    `<button type="button" class="squad-stats-filter-chip squad-stats-filter-chip-btn" data-bs-toggle="offcanvas" data-bs-target="#${FILTERS_OFFCANVAS_ID}" aria-controls="${FILTERS_OFFCANVAS_ID}"><strong>Squad</strong> ${escapeHtml(squadLabel)}</button>`,
+                    `<button type="button" class="squad-stats-filter-chip squad-stats-filter-chip-btn" data-bs-toggle="offcanvas" data-bs-target="#${FILTERS_OFFCANVAS_ID}" aria-controls="${FILTERS_OFFCANVAS_ID}"><strong>Season</strong> ${escapeHtml(season)}</button>`,
+                    `<button type="button" class="squad-stats-filter-chip squad-stats-filter-chip-btn" data-bs-toggle="offcanvas" data-bs-target="#${FILTERS_OFFCANVAS_ID}" aria-controls="${FILTERS_OFFCANVAS_ID}"><strong>Game Type</strong> ${escapeHtml(gameType)}</button>`,
+                ].join('');
+            }
         }
 
         if (redZoneHost) {
@@ -650,6 +768,13 @@
                 'Red zone seasonal chart unavailable.',
             );
         }
+        if (!state.views.metricCompare) {
+            state.views.metricCompare = await renderChartSpec(
+                'matchMetricCompareChart',
+                CHART_PATHS.metricCompare,
+                'Metric comparison chart unavailable.',
+            );
+        }
     }
 
     async function applyLineoutAndScrumFilters() {
@@ -689,6 +814,46 @@
         }
 
         await renderFilteredMatchTrendCharts({ squad, season, gameType, metrics });
+    }
+
+    async function applyMetricCompareFilters() {
+        const chartEl = getElement('matchMetricCompareChart');
+        const messageEl = getElement('matchMetricCompareMessage');
+        if (!chartEl || !messageEl) return;
+        const { squad, season, gameType } = readMatchTrendFilterState();
+        const controls = getMetricCompareControlState();
+
+        try {
+            const spec = cloneSpec(await loadChartSpec(CHART_PATHS.metricCompare));
+            if (!spec) throw new Error('Metric comparison chart spec unavailable.');
+
+            if (Array.isArray(spec.params)) {
+                spec.params.forEach((param) => {
+                    if (!param || typeof param !== 'object') return;
+                    if (param.name === 'mcSquad') param.value = squad;
+                    if (param.name === 'mcSeason') param.value = season;
+                    if (param.name === 'mcGameType') param.value = gameType;
+                });
+            }
+
+            applyMetricCompareSpecCustomizations(spec, controls);
+
+            const view = await embedChartSpec(chartEl, spec, {
+                containerId: 'matchMetricCompareChart',
+                emptyMessage: 'Metric comparison chart unavailable.',
+            });
+            state.views.metricCompare = view;
+
+            chartEl.style.display = '';
+            messageEl.hidden = true;
+            messageEl.textContent = '';
+        } catch (error) {
+            console.error('Unable to render metric comparison chart:', error);
+            chartEl.style.display = 'none';
+            messageEl.hidden = false;
+            messageEl.textContent = 'Metric comparison chart unavailable.';
+            state.views.metricCompare = null;
+        }
     }
 
     async function applyRedZoneFilters() {
@@ -741,12 +906,16 @@
         renderActiveFilterChips();
         await applyLineoutAndScrumFilters();
         await applyMatchTrendFilters();
+        await applyMetricCompareFilters();
         await applyRedZoneFilters();
     }
 
     async function initialiseControls() {
         rebuildSelectPicker(getElement('performanceTrendSeason'));
         rebuildSelectPicker(getElement('performanceTrendMetrics'));
+        rebuildSelectPicker(getElement('metricCompareXField'));
+        rebuildSelectPicker(getElement('metricCompareYField'));
+        rebuildSelectPicker(getElement('metricCompareColorField'));
 
         // Single-select segment bindings (Squad, Game Type)
         const singleSelectBindings = [
@@ -842,6 +1011,22 @@
 
             if (window.jQuery && window.jQuery.fn && window.jQuery.fn.selectpicker) {
                 window.jQuery(element).on('changed.bs.select', onMatchTrendControlChange);
+            }
+        });
+
+        ['metricCompareXField', 'metricCompareYField', 'metricCompareColorField', 'metricCompareShowLabels'].forEach((id) => {
+            const element = getElement(id);
+            if (!element) return;
+            const onMetricCompareControlChange = () => {
+                applyAllFilters().catch((error) => {
+                    console.error('Unable to apply metric compare filters:', error);
+                });
+            };
+
+            element.addEventListener('change', onMetricCompareControlChange);
+
+            if (window.jQuery && window.jQuery.fn && window.jQuery.fn.selectpicker && element.tagName === 'SELECT') {
+                window.jQuery(element).on('changed.bs.select', onMetricCompareControlChange);
             }
         });
     }

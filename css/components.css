@@ -6531,6 +6531,52 @@ button.opposition-hero-action-card:focus-visible {
     max-width: 100%;
 }
 
+#page-performance-stats .metric-compare-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    margin-top: 0.8rem;
+}
+
+#page-performance-stats .metric-compare-controls .bootstrap-select .dropdown-toggle {
+    border: 2px solid rgba(32, 41, 70, 0.5) !important;
+    border-radius: 0.5rem !important;
+    background: #ffffff !important;
+    box-shadow: 0 0 0 1px rgba(125, 150, 232, 0.2), 0 4px 10px rgba(32, 41, 70, 0.12) !important;
+}
+
+#page-performance-stats .metric-compare-controls .bootstrap-select.show .dropdown-toggle,
+#page-performance-stats .metric-compare-controls .bootstrap-select .dropdown-toggle:focus,
+#page-performance-stats .metric-compare-controls .bootstrap-select .dropdown-toggle:active {
+    border-color: var(--primary-color) !important;
+    box-shadow: 0 0 0 0.2rem rgba(125, 150, 232, 0.3), 0 6px 14px rgba(32, 41, 70, 0.18) !important;
+}
+
+#page-performance-stats .metric-compare-controls .bootstrap-select .dropdown-menu {
+    border: 1px solid rgba(32, 41, 70, 0.25) !important;
+}
+
+#page-performance-stats .metric-compare-controls .bootstrap-select .dropdown-header {
+    padding: 0.35rem 1rem 0.2rem !important;
+    color: #202946 !important;
+    font-family: 'PT Sans Narrow', sans-serif !important;
+    font-size: 0.86rem !important;
+    font-weight: 700 !important;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    opacity: 0.9;
+}
+
+#page-performance-stats .metric-compare-toggle {
+    margin-top: 0.1rem;
+    color: #2f3a58;
+    font-family: 'PT Sans Narrow', sans-serif;
+}
+
+#page-performance-stats #matchMetricCompareChart .vega-bindings {
+    display: none;
+}
+
 #page-performance-stats .performance-chart-titled {
     display: flex;
     flex-direction: column;
