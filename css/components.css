@@ -6392,6 +6392,97 @@ button.opposition-hero-action-card:focus-visible {
     align-self: center;
 }
 
+#page-performance-stats .performance-trend-legend {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.4rem;
+    width: 100%;
+    max-width: 24rem;
+}
+
+#page-performance-stats .performance-trend-legend-title {
+    margin: 0;
+    color: var(--dark-color);
+    opacity: 0.8;
+    font-size: 0.92rem;
+    font-style: italic;
+    line-height: 1.2;
+}
+
+#page-performance-stats .performance-trend-legend-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 0.9rem;
+    align-items: center;
+}
+
+#page-performance-stats .performance-trend-legend-item {
+    min-height: 18px;
+}
+
+#page-performance-stats .performance-trend-legend-key {
+    --trend-key-color: #111111;
+    position: relative;
+    display: inline-block;
+    width: 28px;
+    height: 12px;
+    flex: 0 0 auto;
+}
+
+#page-performance-stats .performance-trend-legend-key::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 0;
+    border-top: 2px solid var(--trend-key-color);
+    transform: translateY(-50%);
+}
+
+#page-performance-stats .performance-trend-legend-key::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: var(--trend-key-color);
+    border: 1.4px solid #ffffff;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--trend-key-color) 25%, transparent);
+}
+
+#page-performance-stats .performance-trend-legend-key--solid::before {
+    border-top-style: solid;
+}
+
+#page-performance-stats .performance-trend-legend-key--dash::before {
+    border-top-style: dashed;
+}
+
+#page-performance-stats .performance-trend-legend-key--dot::before {
+    border-top-style: dotted;
+}
+
+#page-performance-stats .performance-trend-legend-key--egrfc {
+    --trend-key-color: var(--primary-color);
+}
+
+#page-performance-stats .performance-trend-legend-key--opposition {
+    --trend-key-color: var(--red-color);
+}
+
+#page-performance-stats .performance-trend-legend-key--backs {
+    --trend-key-color: var(--accent-color);
+}
+
+#page-performance-stats .performance-trend-legend-key--neutral {
+    --trend-key-color: #111111;
+}
+
 .lineout-section-legend-box {
     margin-top: 0;
 }

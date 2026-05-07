@@ -4959,6 +4959,73 @@ def lineout_analysis_panel_chart_suite(db, output_dir="data/charts"):
     return charts
 
 
+def _build_mt_shared_parameters(ordered_seasons):
+    """Build shared Altair parameters and selections for match trends charts.
+    
+    Args:
+        ordered_seasons: List of seasons in order
+        
+    Returns dict with: mt_squad, mt_season, mt_game_type, mt_metrics, hover, season_hover
+    """
+    latest_season = ordered_seasons[-1] if ordered_seasons else "2025/26"
+    default_metrics = [
+        "points_difference",
+        "retained_starters",
+        "avg_squad_apps",
+        "lineout_success_pct",
+        "points_per_entry",
+    ]
+    
+    return {
+        "mt_squad": alt.param(name="mtSquad", value="1st"),
+        "mt_season": alt.param(name="mtSeason", value=latest_season),
+        "mt_game_type": alt.param(name="mtGameType", value="League + Cup"),
+        "mt_metrics": alt.param(name="mtMetrics", value=default_metrics),
+        "hover": alt.selection_point(name="mtHover", nearest=True, on="pointermove", fields=["game_id"], empty=False, clear="pointerout"),
+        "season_hover": alt.selection_point(name="mtSeasonHover", nearest=True, on="pointermove", fields=["season"], empty=False, clear="pointerout"),
+        "latest_season": latest_season,
+    }
+
+
+def _build_mt_metric_domains():
+    """Build hard-coded domain ranges for match trend metrics."""
+    return {
+        "points_for_against": [0, 55],
+        "points_difference": [-35, 35],
+        "total_match_points": [0, 105],
+        "retained_starters": [0, 15],
+        "avg_squad_apps": [0, 50],
+        "lineouts_taken": [0, 25],
+        "lineouts_won": [0, 20],
+        "lineout_turnovers": [0, 10],
+        "lineout_success_pct": [20, 100],
+        "lineout_success_diff_pct": [-60, 60],
+        "scrums_taken": [0, 20],
+        "scrums_won": [0, 15],
+        "scrum_turnovers": [0, 10],
+        "scrum_success_pct": [20, 100],
+        "scrum_success_diff_pct": [-60, 60],
+        "entries_22m": [0, 30],
+        "entries_22m_diff": [-15, 15],
+        "points_per_entry": [0, 4],
+        "points_per_entry_diff": [-2, 2],
+        "try_efficiency_pct": [0, 100],
+        "try_efficiency_diff_pct": [-100, 100],
+    }
+
+
+def _build_mt_game_type_filter(mt_game_type_param):
+    """Build game type filter expression for match trends."""
+    return (
+        f"("
+        f"{mt_game_type_param.name} == 'All'"
+        f" || ({mt_game_type_param.name} == 'League + Cup' && (datum.game_type == 'League' || datum.game_type == 'Cup'))"
+        f" || ({mt_game_type_param.name} == 'League only' && datum.game_type == 'League')"
+        f" || datum.game_type == {mt_game_type_param.name}"
+        f")"
+    )
+
+
 def season_match_metric_trends_chart(db, output_file="data/charts/season_match_metric_trends.json", bind_params=False):
     """Export a faceted per-game metric trend chart for a selected squad and season.
 
@@ -5224,7 +5291,7 @@ def season_match_metric_trends_chart(db, output_file="data/charts/season_match_m
         },
         {
             "facet_key": "avg_squad_apps",
-            "facet_label": "Average Squad Appearances",
+            "facet_label": "Average Player Experience",
             "facet_group": "Experience",
             "value_format": "float1",
             "series": [
@@ -5351,7 +5418,7 @@ def season_match_metric_trends_chart(db, output_file="data/charts/season_match_m
         },
         {
             "facet_key": "points_per_entry",
-            "facet_label": "Points / 22m Entry",
+            "facet_label": "Points per 22m Entry",
             "facet_group": "22m",
             "value_format": "float2",
             "series": [
@@ -5446,31 +5513,30 @@ def season_match_metric_trends_chart(db, output_file="data/charts/season_match_m
     long_df["zero_reference"] = 0.0
 
     ordered_seasons = sorted(long_df["season"].dropna().unique().tolist(), key=_season_sort_key)
-    latest_season = ordered_seasons[-1] if ordered_seasons else "2025/26"
-    default_metrics = [
-        "points_difference",
-        "retained_starters",
-        "avg_squad_apps",
-        "lineout_success_pct",
-        "points_per_entry",
-    ]
+    
+    # Build shared parameters using helper
+    params = _build_mt_shared_parameters(ordered_seasons)
+    mt_squad = params["mt_squad"]
+    mt_season = params["mt_season"]
+    mt_game_type = params["mt_game_type"]
+    mt_metrics = params["mt_metrics"]
+    hover = params["hover"]
+    season_hover = params["season_hover"]
+    latest_season = params["latest_season"]
 
-    mt_squad = alt.param(name="mtSquad", value="1st")
-    mt_season = alt.param(name="mtSeason", value=latest_season)
-    mt_game_type = alt.param(name="mtGameType", value="League + Cup")
-    mt_metrics = alt.param(name="mtMetrics", value=default_metrics)
-    hover = alt.selection_point(name="mtHover", nearest=True, on="pointermove", fields=["game_id"], empty=False, clear="pointerout")
+    game_type_filter_expr = _build_mt_game_type_filter(mt_game_type)
 
     filter_expr = (
         f"datum.squad == {mt_squad.name}"
         f" && datum.season == {mt_season.name}"
         f" && indexof({mt_metrics.name}, datum.facet_key) >= 0"
-        f" && ("
-        f"{mt_game_type.name} == 'All'"
-        f" || ({mt_game_type.name} == 'League + Cup' && (datum.game_type == 'League' || datum.game_type == 'Cup'))"
-        f" || ({mt_game_type.name} == 'League only' && datum.game_type == 'League')"
-        f" || datum.game_type == {mt_game_type.name}"
-        f")"
+        f" && {game_type_filter_expr}"
+    )
+
+    aggregate_filter_expr = (
+        f"datum.squad == {mt_squad.name}"
+        f" && indexof({mt_metrics.name}, datum.facet_key) >= 0"
+        f" && {game_type_filter_expr}"
     )
 
     bottom_x_encoding = alt.X(
@@ -5502,7 +5568,7 @@ def season_match_metric_trends_chart(db, output_file="data/charts/season_match_m
     plot_y_encoding = alt.Y(
         "metric_value:Q",
         title="Value",
-        scale=alt.Scale(zero=False, nice=True),
+        scale=alt.Scale(zero=True, nice=True),
         axis=alt.Axis(
             grid=True,  
             gridColor="#9ca3af",
@@ -5533,10 +5599,19 @@ def season_match_metric_trends_chart(db, output_file="data/charts/season_match_m
         alt.Tooltip("metric_value_text:N", title="Value"),
     ]
 
-    base = (
+    root_base = (
         alt.Chart(long_df)
-        .add_params(mt_squad, mt_season, mt_game_type, mt_metrics, hover)
+        .add_params(mt_squad, mt_season, mt_game_type, mt_metrics, hover, season_hover)
+    )
+
+    base = (
+        root_base
         .transform_filter(filter_expr)
+    )
+
+    aggregate_base = (
+        root_base
+        .transform_filter(aggregate_filter_expr)
     )
 
     selectors = base.mark_point(opacity=0, size=160).encode(
@@ -5613,14 +5688,290 @@ def season_match_metric_trends_chart(db, output_file="data/charts/season_match_m
         color=alt.Color("series_color:N", scale=None, legend=None),
     )
 
-    chart = (
+    row_facet = alt.Row(
+        "facet_label:N",
+        sort=alt.SortField(field="facet_order", order="ascending"),
+        title=None,
+        header=alt.Header(
+            labelOrient="top",
+            labelAnchor="start",
+            labelFontSize=14,
+            labelLimit=260,
+            labelPadding=-5,
+        )
+    )
+
+    game_trend_chart = (
         alt.layer(y_axis_layer, top_axis, bottom_axis, zero_rule, rule, line, points, text_labels, highlighted, highlighted_text, selectors)
         .properties(
-            width=alt.Step(34),
-            height=78,
+            width=alt.Step(35),
+            height=100,
         )
         .facet(
-            row=alt.Row(
+            row=row_facet,
+        )
+        .resolve_scale(y="independent")
+    )
+
+    # Hard-coded domains per metric for consistency with main chart
+    metric_domains = _build_mt_metric_domains()
+
+    # Build domain lookup case statement
+    domain_min_cases = "".join(
+        f"datum.facet_key === '{fk}' ? {domain[0]} : "
+        for fk, domain in metric_domains.items()
+    ) + "0"
+    
+    domain_max_cases = "".join(
+        f"datum.facet_key === '{fk}' ? {domain[1]} : "
+        for fk, domain in metric_domains.items()
+    ) + "100"
+
+    aggregate_season_stats = aggregate_base.transform_aggregate(
+        season_min="min(metric_value)",
+        season_max="max(metric_value)",
+        season_avg="mean(metric_value)",
+        groupby=[
+            "season",
+            "facet_key",
+            "facet_label",
+            "facet_order",
+            "series_key",
+            "series_label",
+            "series_order",
+            "series_color",
+            "series_dash",
+            "has_zero_line",
+        ],
+    ).transform_calculate(
+        is_selected=f"datum.season == {mt_season.name}",
+        domain_min=domain_min_cases,
+        domain_max=domain_max_cases,
+        zero_reference="0",
+    )
+
+    agg_x_axis = alt.X(
+        "season:N",
+        sort=ordered_seasons,
+        title=None,
+        axis=alt.Axis(labels=True, ticks=True, domain=True, labelAngle=-40, labelAlign="right", labelLimit=70, labelFontSize=11),
+    )
+
+    agg_x_plot = alt.X(
+        "season:N",
+        sort=ordered_seasons,
+        title=None,
+        axis=None,
+    )
+
+    agg_y = alt.Y(
+        "season_avg:Q",
+        title="Value",
+        axis=alt.Axis(
+            orient="left",
+            grid=True,
+            gridColor="#9ca3af",
+            gridOpacity=0.35,
+            gridWidth=0.7,
+            tickCount=3,
+            domain=True,
+            domainColor="#6b7280",
+            domainOpacity=0.35,
+            ticks=True,
+            tickColor="#6b7280",
+            tickOpacity=0.35,
+            tickSize=3,
+            labelLimit=70,
+            labelFontSize=11,
+            titleFontSize=12,
+            titlePadding=8,
+        ),
+        scale=alt.Scale(zero=True, nice=True),
+    )
+
+    season_band = aggregate_season_stats.copy().mark_area(opacity=0.16).encode(
+        x=agg_x_plot,
+        y=alt.Y("season_min:Q", title=None),
+        y2="season_max:Q",
+        color=alt.Color("series_color:N", scale=None, legend=None),
+        detail=alt.Detail("series_key:N"),
+        tooltip=[
+            alt.Tooltip("season:N", title="Season"),
+            alt.Tooltip("facet_label:N", title="Metric"),
+            alt.Tooltip("series_label:N", title="Series"),
+            alt.Tooltip("season_min:Q", title="Season Min", format=".2f"),
+            alt.Tooltip("season_avg:Q", title="Season Avg", format=".2f"),
+            alt.Tooltip("season_max:Q", title="Season Max", format=".2f"),
+        ],
+    )
+
+    season_avg_line = aggregate_season_stats.copy().mark_line(strokeWidth=2.2).encode(
+        x=agg_x_axis,
+        y=agg_y,
+        color=alt.Color("series_color:N", scale=None, legend=None),
+        strokeDash=alt.StrokeDash(
+            "series_dash:N",
+            scale=alt.Scale(domain=["solid", "dash", "dot"], range=[[1, 0], [8, 4], [2, 4]]),
+            legend=None,
+        ),
+        detail=alt.Detail("series_key:N"),
+    )
+
+    season_avg_points = aggregate_season_stats.copy().mark_point(filled=True, size=36, stroke="white", strokeWidth=1.0).encode(
+        x=agg_x_plot,
+        y=agg_y,
+        color=alt.Color("series_color:N", scale=None, legend=None),
+        detail=alt.Detail("series_key:N"),
+        tooltip=[
+            alt.Tooltip("season:N", title="Season"),
+            alt.Tooltip("facet_label:N", title="Metric"),
+            alt.Tooltip("series_label:N", title="Series"),
+            alt.Tooltip("season_min:Q", title="Season Min", format=".2f"),
+            alt.Tooltip("season_avg:Q", title="Season Avg", format=".2f"),
+            alt.Tooltip("season_max:Q", title="Season Max", format=".2f"),
+        ],
+    )
+
+    season_text_labels = aggregate_season_stats.copy().mark_text(
+        dx=6,
+        dy=-8,
+        align="left",
+        baseline="bottom",
+        fontSize=10,
+        opacity=0.1,
+    ).encode(
+        x=agg_x_plot,
+        y=agg_y,
+        text=alt.Text("season_avg:Q", format=".2f"),
+        color=alt.Color("series_color:N", scale=None, legend=None),
+        detail=alt.Detail("series_key:N"),
+    )
+
+    season_selected_point = aggregate_season_stats.copy().transform_filter("datum.is_selected").mark_point(
+        filled=True,
+        size=120,
+        stroke="#7d96e8",
+        strokeWidth=2.2,
+    ).encode(
+        x=agg_x_plot,
+        y=agg_y,
+        color=alt.Color("series_color:N", scale=None, legend=None),
+        detail=alt.Detail("series_key:N"),
+    )
+
+    season_hover_rule = aggregate_season_stats.copy().transform_filter(season_hover).mark_rule(
+        color="#6b7280",
+        strokeDash=[4, 4],
+        opacity=0.8,
+    ).encode(
+        x=agg_x_plot,
+    )
+
+    season_hover_points = aggregate_season_stats.copy().transform_filter(season_hover).mark_point(
+        filled=True,
+        size=180,
+        stroke="white",
+        strokeWidth=2.4,
+    ).encode(
+        x=agg_x_plot,
+        y=agg_y,
+        color=alt.Color("series_color:N", scale=None, legend=None),
+        detail=alt.Detail("series_key:N"),
+        tooltip=[
+            alt.Tooltip("season:N", title="Season"),
+            alt.Tooltip("facet_label:N", title="Metric"),
+            alt.Tooltip("series_label:N", title="Series"),
+            alt.Tooltip("season_min:Q", title="Season Min", format=".2f"),
+            alt.Tooltip("season_avg:Q", title="Season Avg", format=".2f"),
+            alt.Tooltip("season_max:Q", title="Season Max", format=".2f"),
+        ],
+    )
+
+    season_hover_text = aggregate_season_stats.copy().transform_filter(season_hover).mark_text(
+        dx=6,
+        dy=-8,
+        align="left",
+        baseline="bottom",
+        fontSize=11,
+        fontWeight="bold",
+    ).encode(
+        x=agg_x_plot,
+        y=agg_y,
+        text=alt.Text("season_avg:Q", format=".2f"),
+        color=alt.Color("series_color:N", scale=None, legend=None),
+        detail=alt.Detail("series_key:N"),
+    )
+
+    agg_zero_rule = (
+        aggregate_season_stats.copy()
+        .transform_filter("datum.has_zero_line")
+        .mark_rule(color="#111111", strokeWidth=2.0, opacity=0.85)
+        .encode(y=alt.Y("zero_reference:Q"))
+    )
+
+    # Top and bottom x-axes for seasonal chart (matching game_trend_chart pattern)
+    agg_top_axis = aggregate_season_stats.copy().mark_point(opacity=0, size=1).encode(
+        x=alt.X(
+            "season:N",
+            sort=ordered_seasons,
+            title=None,
+            axis=alt.Axis(
+                orient="top",
+                labels=True,
+                ticks=True,
+                domain=True,
+                labelAngle=-40,
+                labelAlign="left",
+                labelLimit=70,
+                labelFontSize=11,
+                offset=10,
+            ),
+        ),
+        y=alt.Y("season_avg:Q", title=None),
+    )
+
+    agg_bottom_axis = aggregate_season_stats.copy().mark_point(opacity=0, size=1).encode(
+        x=alt.X(
+            "season:N",
+            sort=ordered_seasons,
+            title=None,
+            axis=alt.Axis(
+                orient="bottom",
+                labels=True,
+                ticks=True,
+                domain=True,
+                labelAngle=-40,
+                labelAlign="right",
+                labelLimit=70,
+                labelFontSize=11,
+            ),
+        ),
+        y=alt.Y("season_avg:Q", title=None),
+    )
+
+    agg_y_axis_layer = aggregate_season_stats.copy().mark_point(opacity=0, size=1).encode(
+        x=agg_x_plot,
+        y=agg_y,
+    )
+
+    seasonal_context_chart = (
+        alt.layer(
+            agg_y_axis_layer,
+            agg_top_axis,
+            agg_bottom_axis,
+            agg_zero_rule,
+            season_hover_rule,
+            season_band,
+            season_avg_line,
+            season_avg_points,
+            season_text_labels,
+            season_selected_point,
+            season_hover_points,
+            season_hover_text,
+        )
+        .properties(width=alt.Step(30), height=100)
+        .facet(
+            facet=alt.Facet(
                 "facet_label:N",
                 sort=alt.SortField(field="facet_order", order="ascending"),
                 title=None,
@@ -5629,24 +5980,33 @@ def season_match_metric_trends_chart(db, output_file="data/charts/season_match_m
                     labelAnchor="start",
                     labelFontSize=14,
                     labelLimit=260,
-                    labelPadding=-10,
-                ),
-            )
+                    labelPadding=-5,
+                )
+            ),
+            columns=3
         )
         .resolve_scale(y="independent")
-        .properties(
-            title=alt.Title(
-                text="Match Trends Explorer",
-                subtitle=[
-                    "Compare selected match metrics across one season with shared hover and per-metric scales.",
-                    "Use the page controls to change squad, game type, season, and the metrics shown.",
-                ],
-            ),
-        )
     )
 
-    chart.save(output_file)
-    return chart
+    # Export in-season chart separately
+    in_season_output = output_file.replace(".json", "").replace("season_match_metric_trends", "season_match_metric_trends_in_season") + ".json"
+    game_trend_chart.properties(
+        title=alt.Title(
+            text="Match Trends - In Season",
+            subtitle=["Per-game metrics for selected season with shared hover and per-metric scales."],
+        ),
+    ).save(in_season_output)
+    
+    # Export aggregate chart separately
+    agg_output = output_file.replace(".json", "").replace("season_match_metric_trends", "season_match_metric_trends_aggregate") + ".json"
+    seasonal_context_chart.properties(
+        title=alt.Title(
+            text="Match Trends - Season Aggregate",
+            subtitle=["Per-season min-max band and average line across all seasons, with selected season highlighted."],
+        ),
+    ).save(agg_output)
+
+    return game_trend_chart, seasonal_context_chart
 
 
 def set_piece_h2h_chart_backend(db, set_piece="Lineout", output_file=None):

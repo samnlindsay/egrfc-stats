@@ -71,6 +71,8 @@ const CHART_CONTAINER_INVENTORY = Object.freeze([
   "playerStatsStartingCombinationsChart",
   "rzPointsChart",
   "rzSeasonalEntriesEfficiencyChart",
+  "seasonMatchMetricTrendsChart",
+  "seasonMatchMetricAggregateChart",
   "setPieceAttackingLineoutVolumeChart",
   "setPieceAttackingScrumVolumeChart",
   "setPiece1stLineoutChart",
@@ -320,6 +322,18 @@ const CHART_LAYOUT_INVENTORY = {
       height: 360,
       padding: { top: 8, right: 96, bottom: 8, left: 8 },
     },
+  },
+  seasonMatchMetricTrendsChart: {
+    narrowMax: 760,
+    responsiveScaleMin: 0.65,
+    responsiveScaleMinXs: 0.55,
+    narrow: { innerWidth: 400, innerHeight: 125 },
+  },
+  seasonMatchMetricAggregateChart: {
+    narrowMax: 760,
+    responsiveScaleMin: 0.65,
+    responsiveScaleMinXs: 0.55,
+    narrow: { innerHeight: 125 },
   },
   setPieceAttackingLineoutVolumeChart: {
     narrowMax: 760,
@@ -719,10 +733,23 @@ function applyConcatPanelSizing(spec, panelSizing, layoutWidth) {
   modeSizing.panels.forEach((panelDims, index) => {
     const panelSpec = concatPanels[index];
     if (!panelSpec || typeof panelSpec !== "object" || !panelDims) return;
-    if (panelDims.width !== undefined)
-      panelSpec.width = resolveDim(panelDims.width);
-    if (panelDims.height !== undefined)
-      panelSpec.height = resolveDim(panelDims.height);
+    const resolvedWidth =
+      panelDims.width !== undefined ? resolveDim(panelDims.width) : undefined;
+    const resolvedHeight =
+      panelDims.height !== undefined ? resolveDim(panelDims.height) : undefined;
+
+    if (resolvedWidth !== undefined) {
+      panelSpec.width = resolvedWidth;
+      if (panelSpec.spec && typeof panelSpec.spec === "object") {
+        panelSpec.spec.width = resolvedWidth;
+      }
+    }
+    if (resolvedHeight !== undefined) {
+      panelSpec.height = resolvedHeight;
+      if (panelSpec.spec && typeof panelSpec.spec === "object") {
+        panelSpec.spec.height = resolvedHeight;
+      }
+    }
   });
 
   if (Number.isFinite(modeSizing.spacing)) spec.spacing = modeSizing.spacing;

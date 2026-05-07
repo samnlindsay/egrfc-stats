@@ -5,7 +5,8 @@
         scrum: 'data/charts/set_piece_success_scrum.json',
         setPieceAttackingLineoutVolume: 'data/charts/set_piece_attacking_volume_lineout.json',
         setPieceAttackingScrumVolume: 'data/charts/set_piece_attacking_volume_scrum.json',
-        matchTrends: 'data/charts/season_match_metric_trends.json',
+        matchTrendsInSeason: 'data/charts/season_match_metric_trends_in_season.json',
+        matchTrendsAggregate: 'data/charts/season_match_metric_trends_aggregate.json',
         redZone: 'data/charts/red_zone_points.json',
         redZoneEntriesEfficiency: 'data/charts/red_zone_entries_efficiency.json',
     };
@@ -16,6 +17,30 @@
         'lineout_success_pct',
         'points_per_entry',
     ];
+    const MATCH_TREND_PANEL_CONFIG = {
+        season: {
+            containerId: 'seasonMatchMetricTrendsChart',
+            messageId: 'matchTrendsSeasonMessage',
+            stateKey: 'matchTrendsSeason',
+            title: 'In-Season Trends',
+            subtitle: [
+                'Track the selected metrics across fixtures in the chosen season.',
+            ],
+            panelIndex: 0,
+            emptyMessage: 'In-season match trends chart unavailable.',
+        },
+        aggregate: {
+            containerId: 'seasonMatchMetricAggregateChart',
+            messageId: 'matchTrendsAggregateMessage',
+            stateKey: 'matchTrendsAggregate',
+            title: 'Season Aggregates',
+            subtitle: [
+                'Compare each selected metric across seasons, with the selected season highlighted.',
+            ],
+            panelIndex: 1,
+            emptyMessage: 'Season aggregate chart unavailable.',
+        },
+    };
     const SET_PIECE_CHARTS = [
         {
             key: 'lineout',
@@ -49,7 +74,8 @@
             scrum: null,
             setPieceAttackingLineoutVolume: null,
             setPieceAttackingScrumVolume: null,
-            matchTrends: null,
+            matchTrendsSeason: null,
+            matchTrendsAggregate: null,
             redZone: null,
             redZoneEntriesEfficiency: null,
         },
@@ -158,8 +184,9 @@
         const matchTrendsHost = getElement('matchTrendsActiveFilters');
         const redZoneHost = getElement('redZoneActiveFilters');
         const { squad, gameType } = readSetPieceFilterState();
-        const { season } = readMatchTrendFilterState();
+        const { season, metrics } = readMatchTrendFilterState();
         const squadLabel = `${squad} XV`;
+        const matchTrendMetricsLabel = summarizeMatchTrendMetrics(metrics);
 
         const setPieceChips = [
             { label: 'Squad', value: squadLabel },
@@ -186,6 +213,7 @@
                 `<button type="button" class="squad-stats-filter-chip squad-stats-filter-chip-btn" data-bs-toggle="offcanvas" data-bs-target="#${FILTERS_OFFCANVAS_ID}" aria-controls="${FILTERS_OFFCANVAS_ID}"><strong>Squad</strong> ${escapeHtml(squadLabel)}</button>`,
                 `<button type="button" class="squad-stats-filter-chip squad-stats-filter-chip-btn" data-bs-toggle="offcanvas" data-bs-target="#${FILTERS_OFFCANVAS_ID}" aria-controls="${FILTERS_OFFCANVAS_ID}"><strong>Season</strong> ${escapeHtml(season)}</button>`,
                 `<button type="button" class="squad-stats-filter-chip squad-stats-filter-chip-btn" data-bs-toggle="offcanvas" data-bs-target="#${FILTERS_OFFCANVAS_ID}" aria-controls="${FILTERS_OFFCANVAS_ID}"><strong>Game Type</strong> ${escapeHtml(gameType)}</button>`,
+                `<button type="button" class="squad-stats-filter-chip squad-stats-filter-chip-btn" data-bs-toggle="offcanvas" data-bs-target="#${FILTERS_OFFCANVAS_ID}" aria-controls="${FILTERS_OFFCANVAS_ID}" data-offcanvas-focus="performanceTrendMetricsControl"><strong>Metrics</strong> ${escapeHtml(matchTrendMetricsLabel)}</button>`,
             ].join('');
         }
 
@@ -208,6 +236,81 @@
                 ].join('');
             }
         }
+    }
+
+    function getMatchTrendMetricLabelMap() {
+        const select = getElement('performanceTrendMetrics');
+        const map = new Map();
+        if (!select) return map;
+        Array.from(select.options || []).forEach((option) => {
+            map.set(String(option.value), String(option.textContent || option.label || option.value || '').trim());
+        });
+        return map;
+    }
+
+    function summarizeMatchTrendMetrics(metrics) {
+        const selectedMetrics = Array.isArray(metrics) ? metrics : [];
+        if (!selectedMetrics.length) return 'Select metrics';
+
+        const labelMap = getMatchTrendMetricLabelMap();
+        if (selectedMetrics.length <= 2) {
+            return selectedMetrics
+                .map((metric) => labelMap.get(String(metric)) || String(metric))
+                .join(' + ');
+        }
+
+        return `${selectedMetrics.length} selected`;
+    }
+
+    function focusOffcanvasControl(controlId) {
+        const control = getElement(controlId);
+        if (!control) return;
+        control.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+        const select = control.querySelector('select');
+        const pickerButton = control.querySelector('.bootstrap-select .dropdown-toggle');
+        const focusTarget = pickerButton || select;
+        if (focusTarget && typeof focusTarget.focus === 'function') {
+            window.setTimeout(() => focusTarget.focus(), 180);
+        }
+    }
+
+    function initialiseOffcanvasFocusLinks() {
+        document.addEventListener('click', (event) => {
+            const trigger = event.target.closest('[data-offcanvas-focus]');
+            if (!trigger) return;
+            const controlId = String(trigger.getAttribute('data-offcanvas-focus') || '').trim();
+            if (!controlId) return;
+
+            const offcanvasEl = getElement(FILTERS_OFFCANVAS_ID);
+            if (!offcanvasEl) return;
+
+            const handleShown = () => {
+                offcanvasEl.removeEventListener('shown.bs.offcanvas', handleShown);
+                focusOffcanvasControl(controlId);
+            };
+
+            offcanvasEl.addEventListener('shown.bs.offcanvas', handleShown);
+        });
+    }
+
+    function buildMatchTrendPanelSpec(sourceSpec, panelConfig) {
+        if (!sourceSpec || !Array.isArray(sourceSpec.hconcat)) return null;
+        const panelSpec = sourceSpec.hconcat[panelConfig.panelIndex];
+        if (!panelSpec || typeof panelSpec !== 'object') return null;
+
+        const standaloneSpec = cloneSpec(panelSpec);
+        standaloneSpec.$schema = sourceSpec.$schema;
+        standaloneSpec.config = cloneSpec(sourceSpec.config);
+        standaloneSpec.data = cloneSpec(sourceSpec.data);
+        standaloneSpec.datasets = cloneSpec(sourceSpec.datasets);
+        standaloneSpec.params = cloneSpec(sourceSpec.params);
+        standaloneSpec.background = sourceSpec.background;
+        standaloneSpec.title = {
+            text: panelConfig.title,
+            subtitle: panelConfig.subtitle,
+        };
+        return standaloneSpec;
     }
 
     function formatPercent(value) {
@@ -350,11 +453,12 @@
         }
     }
 
+    // NOTE: filterMatchTrendRows is no longer used; filtering is handled by Vega's transform_filter
+    // Kept for reference only
     function filterMatchTrendRows(rows, filters) {
-        const { squad, season, gameType, metrics } = filters;
+        const { squad, gameType, metrics } = filters;
         return (Array.isArray(rows) ? rows : []).filter((row) => {
             if (String(row?.squad || '') !== squad) return false;
-            if (String(row?.season || '') !== season) return false;
             if (!metrics.includes(String(row?.facet_key || ''))) return false;
 
             const rowGameType = String(row?.game_type || 'Unknown');
@@ -375,7 +479,22 @@
             return { spec, filteredRows: [] };
         }
 
-        const filteredRows = filterMatchTrendRows(spec.datasets[datasetName], filters);
+        // Check if there's any data for the selected filters (for empty message logic)
+        // Filter by squad and metrics; season filtering is handled by Vega's transform_filter
+        const allRows = spec.datasets[datasetName];
+        const filteredRows = allRows.filter((row) => {
+            if (String(row?.squad || '') !== filters.squad) return false;
+            if (!filters.metrics.includes(String(row?.facet_key || ''))) return false;
+
+            const rowGameType = String(row?.game_type || 'Unknown');
+            if (filters.gameType === 'All') return true;
+            if (filters.gameType === 'League + Cup') return rowGameType === 'League' || rowGameType === 'Cup';
+            if (filters.gameType === 'League only') return rowGameType === 'League';
+            return rowGameType === filters.gameType;
+        });
+
+        // Limit dataset to selected squad/game-type/metrics so facet rows only show selected metrics.
+        // Season filtering is still handled by Vega params (mtSeason) inside each chart spec.
         spec.datasets[datasetName] = filteredRows;
 
         if (Array.isArray(spec.params)) {
@@ -391,39 +510,77 @@
         return { spec, filteredRows };
     }
 
-    async function renderFilteredMatchTrendChart(filters) {
-        const container = getElement('seasonMatchMetricTrendsChart');
-        const messageEl = getElement('matchTrendsMessage');
-        if (!container || !messageEl) return null;
+    function applyAggregateFacetLayoutForViewport(spec) {
+        if (!spec || typeof spec !== 'object') return spec;
+
+        const isMobile = window.matchMedia && window.matchMedia('(max-width: 767.98px)').matches;
+        if (!isMobile) return spec;
+
+        // Aggregate trend spec is a wrapped facet chart; force single column on mobile.
+        spec.columns = 1;
+        if (spec.facet && typeof spec.facet === 'object') {
+            spec.facet.columns = 1;
+        }
+
+        return spec;
+    }
+
+    async function renderFilteredMatchTrendCharts(filters) {
+        const seasonContainer = getElement(MATCH_TREND_PANEL_CONFIG.season.containerId);
+        const seasonMessageEl = getElement(MATCH_TREND_PANEL_CONFIG.season.messageId);
+        const aggregateContainer = getElement(MATCH_TREND_PANEL_CONFIG.aggregate.containerId);
+        const aggregateMessageEl = getElement(MATCH_TREND_PANEL_CONFIG.aggregate.messageId);
+        if (!seasonContainer || !seasonMessageEl || !aggregateContainer || !aggregateMessageEl) return null;
 
         try {
-            const sourceSpec = await loadChartSpec(CHART_PATHS.matchTrends);
-            const spec = cloneSpec(sourceSpec);
-            const { spec: filteredSpec, filteredRows } = applyMatchTrendSpecFilters(spec, filters);
+            // Load two separate chart specs directly
+            const seasonSpec = cloneSpec(await loadChartSpec(CHART_PATHS.matchTrendsInSeason));
+            const aggregateSpec = cloneSpec(await loadChartSpec(CHART_PATHS.matchTrendsAggregate));
+            if (!seasonSpec || !aggregateSpec) {
+                throw new Error('Unable to load match trends chart specs.');
+            }
+
+            const { spec: filteredSeasonSpec, filteredRows } = applyMatchTrendSpecFilters(seasonSpec, filters);
+            const { spec: filteredAggregateSpec } = applyMatchTrendSpecFilters(aggregateSpec, filters);
+            applyAggregateFacetLayoutForViewport(filteredAggregateSpec);
 
             if (!filteredRows.length) {
-                container.style.display = 'none';
-                messageEl.hidden = false;
-                messageEl.textContent = 'No match trend data is available for the selected filters.';
-                state.views.matchTrends = null;
+                seasonContainer.style.display = 'none';
+                aggregateContainer.style.display = 'none';
+                seasonMessageEl.hidden = false;
+                aggregateMessageEl.hidden = false;
+                seasonMessageEl.textContent = 'No match trend data is available for the selected filters.';
+                aggregateMessageEl.textContent = 'No season aggregate data is available for the selected filters.';
+                state.views.matchTrendsSeason = null;
+                state.views.matchTrendsAggregate = null;
                 return null;
             }
 
-            container.style.display = '';
-            messageEl.hidden = true;
-            messageEl.textContent = '';
+            seasonContainer.style.display = '';
+            aggregateContainer.style.display = '';
+            seasonMessageEl.hidden = true;
+            aggregateMessageEl.hidden = true;
+            seasonMessageEl.textContent = '';
+            aggregateMessageEl.textContent = '';
 
-            const view = await embedChartSpec(container, filteredSpec, {
-                containerId: 'seasonMatchMetricTrendsChart',
-                emptyMessage: 'Match trends chart unavailable.',
+            const seasonView = await embedChartSpec(seasonContainer, filteredSeasonSpec, {
+                containerId: MATCH_TREND_PANEL_CONFIG.season.containerId,
+                emptyMessage: MATCH_TREND_PANEL_CONFIG.season.emptyMessage,
+            });
+            const aggregateView = await embedChartSpec(aggregateContainer, filteredAggregateSpec, {
+                containerId: MATCH_TREND_PANEL_CONFIG.aggregate.containerId,
+                emptyMessage: MATCH_TREND_PANEL_CONFIG.aggregate.emptyMessage,
             });
 
-            state.views.matchTrends = view;
-            return view;
+            state.views.matchTrendsSeason = seasonView;
+            state.views.matchTrendsAggregate = aggregateView;
+            return { seasonView, aggregateView };
         } catch (error) {
-            console.error('Unable to render filtered match trends chart:', error);
-            container.innerHTML = '<div class="text-center text-muted py-4">Match trends chart unavailable.</div>';
-            state.views.matchTrends = null;
+            console.error('Unable to render filtered match trends charts:', error);
+            seasonContainer.innerHTML = '<div class="text-center text-muted py-4">In-season trends chart unavailable.</div>';
+            aggregateContainer.innerHTML = '<div class="text-center text-muted py-4">Season aggregate chart unavailable.</div>';
+            state.views.matchTrendsSeason = null;
+            state.views.matchTrendsAggregate = null;
             return null;
         }
     }
@@ -512,20 +669,26 @@
     }
 
     async function applyMatchTrendFilters() {
-        const chartEl = getElement('seasonMatchMetricTrendsChart');
-        const messageEl = getElement('matchTrendsMessage');
-        if (!chartEl || !messageEl) return;
+        const seasonChartEl = getElement(MATCH_TREND_PANEL_CONFIG.season.containerId);
+        const seasonMessageEl = getElement(MATCH_TREND_PANEL_CONFIG.season.messageId);
+        const aggregateChartEl = getElement(MATCH_TREND_PANEL_CONFIG.aggregate.containerId);
+        const aggregateMessageEl = getElement(MATCH_TREND_PANEL_CONFIG.aggregate.messageId);
+        if (!seasonChartEl || !seasonMessageEl || !aggregateChartEl || !aggregateMessageEl) return;
 
         const { squad, season, gameType, metrics } = readMatchTrendFilterState();
         if (!metrics.length) {
-            chartEl.style.display = 'none';
-            messageEl.hidden = false;
-            messageEl.textContent = 'Select at least one metric to render the match trends chart.';
-            state.views.matchTrends = null;
+            seasonChartEl.style.display = 'none';
+            aggregateChartEl.style.display = 'none';
+            seasonMessageEl.hidden = false;
+            aggregateMessageEl.hidden = false;
+            seasonMessageEl.textContent = 'Select at least one metric to render the in-season chart.';
+            aggregateMessageEl.textContent = 'Select at least one metric to render the season aggregate chart.';
+            state.views.matchTrendsSeason = null;
+            state.views.matchTrendsAggregate = null;
             return;
         }
 
-        await renderFilteredMatchTrendChart({ squad, season, gameType, metrics });
+        await renderFilteredMatchTrendCharts({ squad, season, gameType, metrics });
     }
 
     async function applyRedZoneFilters() {
@@ -686,6 +849,7 @@
     async function init() {
         await populateMatchTrendSeasonOptions();
         await updateHeroMetrics();
+        initialiseOffcanvasFocusLinks();
         await initialiseControls();
         await ensureViews();
         await applyAllFilters();

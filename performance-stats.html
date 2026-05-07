@@ -213,21 +213,7 @@
                                 <div class="chart-section-content chart-section-content--split">
                                     <div class="chart-section-meta">
                                         <p class="chart-section-hint">Comparing the difference between entries into the opposition 22m for both teams, and the resulting points difference.</p>
-                                        <p class="chart-section-hint">There is a strong correlation, with the winning team almost always being the one with more 22m entries. Games bucking this trend suggest exceptional defensive or efficient attacking performance.</p>
-                                        <div class="performance-set-piece-legend" aria-label="Red zone entries versus results legend">
-                                            <span class="performance-set-piece-legend-item">
-                                                <span class="performance-set-piece-legend-swatch performance-set-piece-legend-swatch--egrfc" aria-hidden="true"></span>
-                                                <span>EGRFC entries</span>
-                                            </span>
-                                            <span class="performance-set-piece-legend-item">
-                                                <span class="performance-set-piece-legend-swatch performance-set-piece-legend-swatch--opposition" aria-hidden="true"></span>
-                                                <span>Opposition entries</span>
-                                            </span>
-                                            <span class="performance-set-piece-legend-item">
-                                                <span class="performance-set-piece-legend-swatch" aria-hidden="true" style="background:#111111;"></span>
-                                                <span>Points difference</span>
-                                            </span>
-                                        </div>
+                                        <p class="chart-section-hint">There is a strong correlation, with the winning team almost always being the one with more 22m entries. Games bucking this trend suggest exceptional defensive or efficient attacking performance.</p>    
                                         <div id="rzPointsMessage" class="text-muted" hidden></div>
                                     </div>
                                     <div class="performance-chart-grid performance-chart-grid--single">
@@ -280,47 +266,110 @@
         style="margin-bottom: 1rem;"></div>
     <div class="chart-section-block chart-section-block--panel">
         <div class="chart-section-head">
-            <h3 class="chart-section-title">Season Match Trends</h3>
-            <div class="chart-panel-filters" aria-label="Match trends controls">
-                <div class="filter-item">
-                    <div class="input-group input-group-sm">
-                        <label class="input-group-text" for="performanceTrendMetrics">Metrics</label>
-                        <select id="performanceTrendMetrics" class="selectpicker" multiple data-actions-box="true"
-                            data-selected-text-format="count > 3" data-size="12" title="Select metrics">
-                            <option value="points_for_against">Points For/Against</option>
-                            <option value="points_difference" selected>Points Difference</option>
-                            <option value="total_match_points">Total Match Points</option>
-                            <option value="retained_starters" selected>Retained Starters</option>
-                            <option value="avg_squad_apps" selected>Average Squad Appearances</option>
-                            <option value="lineouts_taken">Lineouts Taken</option>
-                            <option value="lineouts_won">Lineouts Won</option>
-                            <option value="lineout_turnovers">Lineout Turnovers</option>
-                            <option value="lineout_success_pct" selected>Lineout Success %</option>
-                            <option value="lineout_success_diff_pct">Lineout Success Diff %</option>
-                            <option value="scrums_taken">Scrums Taken</option>
-                            <option value="scrums_won">Scrums Won</option>
-                            <option value="scrum_turnovers">Scrum Turnovers</option>
-                            <option value="scrum_success_pct">Scrum Success %</option>
-                            <option value="scrum_success_diff_pct">Scrum Success Diff %</option>
-                            <option value="entries_22m">22m Entries</option>
-                            <option value="entries_22m_diff">22m Entries Diff</option>
-                            <option value="points_per_entry" selected>Points per 22m Entry</option>
-                            <option value="points_per_entry_diff">Points per 22m Entry Diff</option>
-                            <option value="try_efficiency_pct">Try Efficiency %</option>
-                            <option value="try_efficiency_diff_pct">Try Efficiency Diff %</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
+            <h3 class="chart-section-title">In-Season Match Trends</h3>
         </div>
         <div class="chart-section-content chart-section-content--split">
             <div class="chart-section-meta">
-                <p class="chart-section-hint">Select metrics to display through the selected season.</p>
+                <p class="chart-section-hint">Track the selected metrics across fixtures in the chosen season.</p>
                 <p class="chart-section-hint">Hover over a point to see more match information, or anywhere else to highlight the various metrics for the nearest game.</p>
-                <div id="matchTrendsMessage" class="text-muted" hidden></div>
+                <div class="performance-set-piece-legend performance-trend-legend" aria-label="In-season match trends chart legend">
+                    <p class="performance-trend-legend-title">Team</p>
+                    <div class="performance-trend-legend-row">
+                        <span class="performance-set-piece-legend-item performance-trend-legend-item">
+                            <span class="performance-trend-legend-key performance-trend-legend-key--egrfc performance-trend-legend-key--solid" aria-hidden="true"></span>
+                            <span>EGRFC</span>
+                        </span>
+                        <span class="performance-set-piece-legend-item performance-trend-legend-item">
+                            <span class="performance-trend-legend-key performance-trend-legend-key--opposition performance-trend-legend-key--solid" aria-hidden="true"></span>
+                            <span>Opposition</span>
+                        </span>
+                    </div>
+                    <p class="performance-trend-legend-title">Retained Starters</p>
+                    <div class="performance-trend-legend-row">
+                        <span class="performance-set-piece-legend-item performance-trend-legend-item">
+                            <span class="performance-trend-legend-key performance-trend-legend-key--neutral performance-trend-legend-key--solid" aria-hidden="true"></span>
+                            <span>Total</span>
+                        </span>
+                        <span class="performance-set-piece-legend-item performance-trend-legend-item">
+                            <span class="performance-trend-legend-key performance-trend-legend-key--egrfc performance-trend-legend-key--dash" aria-hidden="true"></span>
+                            <span>Forwards</span>
+                        </span>
+                        <span class="performance-set-piece-legend-item performance-trend-legend-item">
+                            <span class="performance-trend-legend-key performance-trend-legend-key--backs performance-trend-legend-key--dot" aria-hidden="true"></span>
+                            <span>Backs</span>
+                        </span>
+                    </div>
+                    <p class="performance-trend-legend-title">Player Experience</p>
+                    <div class="performance-trend-legend-row">
+                        <span class="performance-set-piece-legend-item performance-trend-legend-item">
+                            <span class="performance-trend-legend-key performance-trend-legend-key--neutral performance-trend-legend-key--solid" aria-hidden="true"></span>
+                            <span>Club Apps</span>
+                        </span>
+                        <span class="performance-set-piece-legend-item performance-trend-legend-item">
+                            <span class="performance-trend-legend-key performance-trend-legend-key--egrfc performance-trend-legend-key--dash" aria-hidden="true"></span>
+                            <span>1st XV Apps</span>
+                        </span>
+                    </div>
+                </div>
+                <div id="matchTrendsSeasonMessage" class="text-muted" hidden></div>
             </div>
             <div class="performance-chart-grid performance-chart-grid--single">
                 <div id="seasonMatchMetricTrendsChart"
+                    class="chart-host chart-host--intrinsic chart-host--overflow-visible performance-chart-host"></div>
+            </div>
+        </div>
+    </div>
+    <div class="chart-section-block chart-section-block--panel">
+        <div class="chart-section-head">
+            <h3 class="chart-section-title">Season Aggregates</h3>
+        </div>
+        <div class="chart-section-content chart-section-content--split">
+            <div class="chart-section-meta">
+                <p class="chart-section-hint">Compare each selected metric across seasons with the selected season highlighted.</p>
+                <p class="chart-section-hint">The band shows the min-max range for the season, with the mean shown as the main line.</p>
+                <div class="performance-set-piece-legend performance-trend-legend" aria-label="Season aggregates chart legend">
+                    <p class="performance-trend-legend-title">Team</p>
+                    <div class="performance-trend-legend-row">
+                        <span class="performance-set-piece-legend-item performance-trend-legend-item">
+                            <span class="performance-trend-legend-key performance-trend-legend-key--egrfc performance-trend-legend-key--solid" aria-hidden="true"></span>
+                            <span>EGRFC</span>
+                        </span>
+                        <span class="performance-set-piece-legend-item performance-trend-legend-item">
+                            <span class="performance-trend-legend-key performance-trend-legend-key--opposition performance-trend-legend-key--solid" aria-hidden="true"></span>
+                            <span>Opposition</span>
+                        </span>
+                    </div>
+                    <p class="performance-trend-legend-title">Retained Starters</p>
+                    <div class="performance-trend-legend-row">
+                        <span class="performance-set-piece-legend-item performance-trend-legend-item">
+                            <span class="performance-trend-legend-key performance-trend-legend-key--neutral performance-trend-legend-key--solid" aria-hidden="true"></span>
+                            <span>Total</span>
+                        </span>
+                        <span class="performance-set-piece-legend-item performance-trend-legend-item">
+                            <span class="performance-trend-legend-key performance-trend-legend-key--egrfc performance-trend-legend-key--dash" aria-hidden="true"></span>
+                            <span>Forwards</span>
+                        </span>
+                        <span class="performance-set-piece-legend-item performance-trend-legend-item">
+                            <span class="performance-trend-legend-key performance-trend-legend-key--backs performance-trend-legend-key--dot" aria-hidden="true"></span>
+                            <span>Backs</span>
+                        </span>
+                    </div>
+                    <p class="performance-trend-legend-title">Player Experience</p>
+                    <div class="performance-trend-legend-row">
+                        <span class="performance-set-piece-legend-item performance-trend-legend-item">
+                            <span class="performance-trend-legend-key performance-trend-legend-key--neutral performance-trend-legend-key--solid" aria-hidden="true"></span>
+                            <span>Club Apps</span>
+                        </span>
+                        <span class="performance-set-piece-legend-item performance-trend-legend-item">
+                            <span class="performance-trend-legend-key performance-trend-legend-key--egrfc performance-trend-legend-key--dash" aria-hidden="true"></span>
+                            <span>1st XV Apps</span>
+                        </span>
+                    </div>
+                </div>
+                <div id="matchTrendsAggregateMessage" class="text-muted" hidden></div>
+            </div>
+            <div class="performance-chart-grid performance-chart-grid--single">
+                <div id="seasonMatchMetricAggregateChart"
                     class="chart-host chart-host--intrinsic chart-host--overflow-visible performance-chart-host"></div>
             </div>
         </div>
@@ -368,6 +417,33 @@
                     <div class="squad-filter-control" role="group" aria-label="Match Trends Season">
                         <span class="squad-filter-label">Match Trends Season</span>
                         <select id="performanceTrendSeason" class="selectpicker" data-size="8" title="Select season"></select>
+                    </div>
+                    <div class="squad-filter-control" role="group" aria-label="Match Trends Metrics" id="performanceTrendMetricsControl">
+                        <span class="squad-filter-label">Match Trends Metrics</span>
+                        <select id="performanceTrendMetrics" class="selectpicker" multiple data-actions-box="true"
+                            data-selected-text-format="count > 3" data-size="12" title="Select metrics">
+                            <option value="points_for_against">Points Scored</option>
+                            <option value="points_difference">Points Difference</option>
+                            <option value="total_match_points">Total Match Points</option>
+                            <option value="retained_starters" selected>Retained Starters</option>
+                            <option value="avg_squad_apps" selected>Average Player Experience</option>
+                            <option value="lineouts_taken">Lineouts Taken</option>
+                            <option value="lineouts_won">Lineouts Won</option>
+                            <option value="lineout_turnovers">Lineout Turnovers</option>
+                            <option value="lineout_success_pct" selected>Lineout Success (%)</option>
+                            <option value="lineout_success_diff_pct">Lineout Success Difference (pp)</option>
+                            <option value="scrums_taken">Scrums Taken</option>
+                            <option value="scrums_won">Scrums Won</option>
+                            <option value="scrum_turnovers">Scrum Turnovers</option>
+                            <option value="scrum_success_pct" selected>Scrum Success (%)</option>
+                            <option value="scrum_success_diff_pct">Scrum Success Difference (pp)</option>
+                            <option value="entries_22m">22m Entries</option>
+                            <option value="entries_22m_diff">22m Entries Diff</option>
+                            <option value="points_per_entry" selected>Points per 22m Entry</option>
+                            <option value="points_per_entry_diff">Points per 22m Entry Difference</option>
+                            <option value="try_efficiency_pct">Try Efficiency (%)</option>
+                            <option value="try_efficiency_diff_pct">Try Efficiency Difference (pp)</option>
+                        </select>
                     </div>
                 </div>
             </div>

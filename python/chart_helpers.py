@@ -336,6 +336,7 @@ def alt_theme():
                 "title": None,
                 "header": None,
                 "align": {"row": "each", "column": "each"},  
+                "spacing": 10,
             },
             "resolve": {
                 "scale": {

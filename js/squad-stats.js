@@ -66,7 +66,7 @@ async function loadSquadStatsCanonicalData() {
             ]);
             if (gameRes.ok) squadResultsGameSpec = await gameRes.json();
             if (aggRes.ok) squadResultsAggregateSpec = await aggRes.json();
-        } catch (e) { console.warn('Unable to load squad results specs:', e); }
+        } catch (e) { console.warn('Unable to load results specs:', e); }
     }
 }
 
@@ -581,7 +581,7 @@ function renderSquadResultsChart(selectedSeason, gameTypeMode) {
     const baseSpec = isAggregated ? squadResultsAggregateSpec : squadResultsGameSpec;
 
     if (!baseSpec) {
-        container.innerHTML = '<div class="text-center text-muted py-4">Squad results chart specs not available. Run <code>python update.py</code> to generate charts.</div>';
+        container.innerHTML = '<div class="text-center text-muted py-4">Results chart specs not available. Run <code>python update.py</code> to generate charts.</div>';
         return;
     }
 
