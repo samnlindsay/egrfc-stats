@@ -2,6 +2,7 @@ import json
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import Mock
 
 import pandas as pd
 
@@ -407,6 +408,82 @@ class BackendCacheAndReconciliationTests(unittest.TestCase):
         games = self.backend._build_games(games_raw)
         self.assertEqual(len(games), 1)
         self.assertEqual(games.iloc[0]["opposition"], "Ditchling")
+
+    def test_build_league_history_normalises_types_and_deduplicates(self):
+        league_history_raw = pd.DataFrame(
+            [
+                {
+                    "season": "2023/24",
+                    "squad": "1st",
+                    "league": "Counties 1 Surrey/Sussex",
+                    "level": "7",
+                    "rank": "2",
+                },
+                {
+                    "season": "2023/24",
+                    "squad": "1st",
+                    "league": "Counties 1 Surrey/Sussex",
+                    "level": 7,
+                    "rank": 1,
+                },
+                {
+                    "season": "2023/24",
+                    "squad": "2nd",
+                    "league": "Counties 4 Sussex",
+                    "level": "10",
+                    "rank": "4",
+                },
+            ]
+        )
+
+        result = self.backend._build_league_history(league_history_raw)
+
+        self.assertEqual(len(result), 2)
+        first_xv = result[result["squad"] == "1st"].iloc[0]
+        self.assertEqual(first_xv["season_start_year"], 2023)
+        self.assertEqual(first_xv["rank"], 1)
+        self.assertEqual(first_xv["level"], 7)
+
+    def test_extract_league_history_parses_wide_sheet(self):
+        worksheet = Mock()
+        worksheet.get.return_value = [
+            ["2023/24", "Counties 1 Surrey/Sussex", "7", "2", "Counties 4 Sussex", "10", "4"],
+            ["2024/25", "Regional 2 South East", "6", "11", "", "", ""],
+            ["", "", "", "", "", "", ""],
+        ]
+
+        spreadsheet = Mock()
+        spreadsheet.worksheet.return_value = worksheet
+
+        extractor = DataExtractor.__new__(DataExtractor)
+        extractor.client = Mock()
+        extractor.client.open_by_url.return_value = spreadsheet
+        extractor.sheet_url = "https://example.com/sheet"
+
+        result = extractor.extract_league_history()
+
+        self.assertEqual(len(result), 3)
+        self.assertEqual(list(result.columns), ["season", "squad", "league", "level", "rank"])
+        self.assertEqual(
+            result.iloc[0].to_dict(),
+            {
+                "season": "2023/24",
+                "squad": "1st",
+                "league": "Counties 1 Surrey/Sussex",
+                "level": 7,
+                "rank": 2,
+            },
+        )
+        self.assertEqual(
+            result.iloc[2].to_dict(),
+            {
+                "season": "2024/25",
+                "squad": "1st",
+                "league": "Regional 2 South East",
+                "level": 6,
+                "rank": 11,
+            },
+        )
 
     def test_season_scorers_aggregate_match_level_scorer_payloads(self):
         appearances = pd.DataFrame(

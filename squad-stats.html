@@ -143,6 +143,8 @@
                     aria-hidden="true"></i><span class="rail-link-label">1st XV League Comparison</span></a>
                     <a class="rail-link nav-link" href="#league-results" data-short="League Results"><i class="bi bi-table"
                         aria-hidden="true"></i><span class="rail-link-label">League Results</span></a>
+                    <a class="rail-link nav-link" href="#league-history" data-short="League History"><i class="bi bi-signpost-split-fill"
+                        aria-hidden="true"></i><span class="rail-link-label">League History</span></a>
                 </aside>
 
                 <main class="squad-stats-main">
@@ -333,6 +335,24 @@
                             <p class="chart-section-hint" style="margin-bottom: 0.75rem;">Click a team name to highlight all their results. Toggle to colour unexpected results (upsets) instead of home/away wins.</p>
                             <div class="row" id="leagueTablesResultsContainer">
                                 <!-- League results charts populated by JavaScript -->
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="league-history" class="analysis-section chart-section"
+                        aria-labelledby="league-history-heading">
+                        <h2 id="league-history-heading" class="section-heading">League History</h2>
+                        <p class="section-intro">How each squad has moved through league levels over time, with final league position shown inside each season marker.</p>
+
+                        <div class="chart-section-block chart-section-block--panel">
+                            <h3 class="chart-section-title">League Progression</h3>
+                            <div class="chart-section-content chart-section-content--split">
+                                <div class="chart-section-meta">
+                                    <p class="chart-section-hint">Each point shows the final table position for that season and level. A star marks seasons where the squad finished top of the league.</p>
+                                    <p class="chart-section-hint">Historic competition names are annotated on the left and current names on the right for levels 5-11.</p>
+                                </div>
+                                <div id="leagueHistoryChart"
+                                    class="chart-host chart-host--overflow-visible chart-host--intrinsic"></div>
                             </div>
                         </div>
                     </section>

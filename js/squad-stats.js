@@ -9,6 +9,7 @@ let squadOverlapTemplateSpec = null;
 let squadPositionCompositionTemplateSpec = null;
 let squadResultsGameSpec = null;
 let squadResultsAggregateSpec = null;
+let leagueHistoryTemplateSpec = null;
 let squadStatsControlsInitialised = false;
 let syncingSquadStatsControls = false;
 let squadStatsAnalysisRailInitialised = false;
@@ -68,6 +69,13 @@ async function loadSquadStatsCanonicalData() {
             if (aggRes.ok) squadResultsAggregateSpec = await aggRes.json();
         } catch (e) { console.warn('Unable to load results specs:', e); }
     }
+
+    if (!leagueHistoryTemplateSpec) {
+        try {
+            const res = await fetch('data/charts/league_history_progression.json');
+            if (res.ok) leagueHistoryTemplateSpec = await res.json();
+        } catch (e) { console.warn('Unable to load league history spec:', e); }
+    }
 }
 
 function createSquadMetricBucket() {
@@ -106,7 +114,7 @@ async function loadSquadStatsPage() {
         renderSquadStatsPage();
     } catch (err) {
         console.error('Error loading squad metrics data:', err);
-        ['squadSizeTrendChart', 'squadContinuityTrendChart', 'squadResultsChart', 'leagueSquadSizeContextChart', 'leagueContinuityContextChart'].forEach(id => {
+        ['squadSizeTrendChart', 'squadContinuityTrendChart', 'squadResultsChart', 'leagueSquadSizeContextChart', 'leagueContinuityContextChart', 'leagueHistoryChart'].forEach(id => {
             const el = document.getElementById(id);
             if (el) el.innerHTML = '<div class="text-center text-danger py-4">Unable to load chart.</div>';
         });
@@ -680,12 +688,25 @@ async function renderLeagueContextCharts(selectedSeason = null) {
     }));
 }
 
+function renderLeagueHistoryChart() {
+    const container = document.getElementById('leagueHistoryChart');
+    if (!container) return;
+    if (!leagueHistoryTemplateSpec) {
+        container.innerHTML = '<div class="text-center text-muted py-4">League history chart not available. Run <code>python update.py</code> to generate charts.</div>';
+        return;
+    }
+
+    const spec = JSON.parse(JSON.stringify(leagueHistoryTemplateSpec));
+    renderStaticSpecChart('leagueHistoryChart', spec, 'No league history data available.', { hideTitle: true });
+}
+
 function renderSquadStatsCharts(selectedSeasonScoped, selectedSeasonRaw, minimumAppearances, selectedUnit, trendViewMode, gameTypeMode) {
     renderSquadSizeTrendChart(selectedSeasonScoped, minimumAppearances, selectedUnit, trendViewMode);
     renderSquadContinuityTrendChart(selectedSeasonScoped, selectedUnit);
     renderSquadOverlapChart(selectedUnit);
     renderSquadResultsChart(selectedSeasonRaw, gameTypeMode);
     renderLeagueContextCharts(selectedSeasonScoped);
+    renderLeagueHistoryChart();
 }
 
 function renderSquadOverlapChart(selectedUnit) {

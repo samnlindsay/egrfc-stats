@@ -210,6 +210,14 @@ def _season_sort_key(season: Any) -> tuple[int, str]:
     return (-1, season_text)
 
 
+def _season_start_year(season: Any) -> int | None:
+    season_text = str(season or "").strip()
+    match = re.match(r"^(\d{4})[-/](\d{2}|\d{4})$", season_text)
+    if match:
+        return int(match.group(1))
+    return None
+
+
 def _canonical_player_name(name: Any) -> Any:
     if pd.isna(name):
         return name
@@ -680,6 +688,7 @@ class BackendDatabase:
         self.con.execute("DROP TABLE IF EXISTS player_profiles_enriched")
         self.con.execute("DROP TABLE IF EXISTS player_appearances_rfu")
         self.con.execute("DROP TABLE IF EXISTS players")
+        self.con.execute("DROP TABLE IF EXISTS league_history")
         self.con.execute("DROP TABLE IF EXISTS season_scorers")
         self.con.execute("DROP TABLE IF EXISTS lineouts")
         self.con.execute("DROP TABLE IF EXISTS set_piece")
@@ -881,6 +890,20 @@ class BackendDatabase:
 
         self.con.execute(
             """
+            CREATE TABLE league_history (
+                season TEXT NOT NULL,
+                season_start_year INTEGER,
+                squad TEXT NOT NULL,
+                league TEXT,
+                level INTEGER,
+                rank INTEGER,
+                PRIMARY KEY(season, squad)
+            )
+            """
+        )
+
+        self.con.execute(
+            """
             CREATE TABLE players (
                 name TEXT PRIMARY KEY,
                 short_name TEXT,
@@ -1037,6 +1060,7 @@ class BackendDatabase:
 
         lineouts_raw = self._extract_lineouts(extractor)
         set_piece_raw = extractor.extract_set_piece_stats()
+        league_history_raw = extractor.extract_league_history()
         pitchero_stats_source = self._load_pitchero(extractor, refresh_pitchero)
         scorers_2526_raw = self._extract_2526_scorers(extractor)
         rfu_matches_raw = load_consolidated_matches(self.rfu_matches_file.as_posix())
@@ -1066,6 +1090,7 @@ class BackendDatabase:
         appearances = self._build_player_appearances(appearances_raw, games)
         lineouts = self._build_lineouts(lineouts_raw, games)
         set_piece = self._build_set_piece(set_piece_raw, games)
+        league_history = self._build_league_history(league_history_raw)
         season_scorers = self._build_season_scorers(scorers_2526_raw, pitchero_stats_clean, appearances, games)
         appearances = self._annotate_appearance_numbers(appearances)
         players = self._build_players(appearances, games, lineouts, season_scorers)
@@ -1095,6 +1120,7 @@ class BackendDatabase:
         self._insert("player_appearances_rfu", appearances_rfu)
         self._insert("lineouts", lineouts)
         self._insert("set_piece", set_piece)
+        self._insert("league_history", league_history)
         self._insert("season_scorers", season_scorers)
         self._insert("players", players)
         self._insert("squad_stats_enriched", squad_stats_enriched)
@@ -1406,6 +1432,7 @@ class BackendDatabase:
             "player_appearances_rfu",
             "lineouts",
             "set_piece",
+            "league_history",
             "season_scorers",
             "players",
             "season_summary_enriched",
@@ -1508,6 +1535,30 @@ class BackendDatabase:
             for game_id, url in sorted(MANUAL_PITCHERO_URL_OVERRIDES.items())
         ]
         return pd.DataFrame(rows, columns=["game_id", "pitchero_match_url"])
+
+    def _build_league_history(self, league_history_raw: pd.DataFrame) -> pd.DataFrame:
+        columns = ["season", "season_start_year", "squad", "league", "level", "rank"]
+        if league_history_raw.empty:
+            return pd.DataFrame(columns=columns)
+
+        df = league_history_raw.copy()
+        for column in ("season", "squad", "league", "level", "rank"):
+            if column not in df.columns:
+                df[column] = None
+
+        df["season"] = df["season"].fillna("").astype(str).str.strip()
+        df["squad"] = df["squad"].fillna("").astype(str).str.strip()
+        df["league"] = df["league"].where(df["league"].notna(), None)
+        df["league"] = df["league"].map(lambda value: str(value).strip() if value is not None else None)
+        df["league"] = df["league"].replace("", None)
+        df["level"] = pd.to_numeric(df["level"], errors="coerce").astype("Int64")
+        df["rank"] = pd.to_numeric(df["rank"], errors="coerce").astype("Int64")
+        df = df[(df["season"] != "") & (df["squad"] != "")].copy()
+        df["season_start_year"] = df["season"].map(_season_start_year).astype("Int64")
+        df = df.sort_values(["season_start_year", "season", "squad"], na_position="last")
+        df = df.drop_duplicates(subset=["season", "squad"], keep="last")
+
+        return df[columns]
 
     def _build_pitchero_games_raw(self, historic_games_raw: pd.DataFrame) -> pd.DataFrame:
         columns = [

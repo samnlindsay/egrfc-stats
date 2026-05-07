@@ -7686,6 +7686,131 @@ def lineout_analysis_chart_suite(db, output_dir="data/charts"):
 #################################
 # League Analysis Charts
 #################################
+def league_history_progression_chart(db, output_file="data/charts/league_history_progression.json"):
+    """Plot 1st/2nd XV movement through league levels by season."""
+
+    df = db.con.execute(
+        """
+        SELECT
+            season,
+            season_start_year,
+            squad,
+            league,
+            level,
+            rank
+        FROM league_history
+        WHERE squad IN ('1st', '2nd')
+          AND level IS NOT NULL
+          AND level BETWEEN 5 AND 11
+        ORDER BY season_start_year, season, squad
+        """
+    ).df()
+
+    if df.empty:
+        print("No league_history rows with levels found; skipping league history chart export.")
+        return None
+
+    df["level"] = pd.to_numeric(df["level"], errors="coerce")
+    df["rank"] = pd.to_numeric(df["rank"], errors="coerce")
+    df = df.dropna(subset=["level"]).copy()
+    if df.empty:
+        print("No valid league_history levels after numeric coercion; skipping league history chart export.")
+        return None
+
+    df["level"] = df["level"].astype(int)
+    df["rank"] = df["rank"].astype("Int64")
+    df = df.sort_values(["season_start_year", "season", "squad"]).copy()
+    season_order = df["season"].drop_duplicates().tolist()
+
+    star_shape = "M-.1041-1.2497-.0786-1.3111-.0554-1.3668C-.0349-1.4161.0349-1.4161.0554-1.3668L.0786-1.3111.1041-1.2497.1083-1.2396.3827-.5799C.3913-.5591.4109-.545.4333-.5432L1.1455-.4861 1.1563-.4852 1.2226-.4799 1.2828-.4751C1.336-.4708 1.3576-.4044 1.317-.3697L1.2712-.3304 1.2207-.2871 1.2124-.2801.6698.1847C.6527.1994.6453.2223.6505.2442L.8162.9392.8188.9498.8342 1.0145.8482 1.0732C.8606 1.1251.8041 1.1661.7586 1.1383L.7071 1.1069.6503 1.0722.641 1.0665.0313.6941C.0121.6824-.0121.6824-.0313.6941L-.641 1.0665-.6503 1.0722-.707 1.1069-.7585 1.1383C-.8041 1.1661-.8606 1.1251-.8482 1.0732L-.8342 1.0145-.8187.9498-.8162.9392-.6504.2442C-.6452.2223-.6527.1994-.6698.1847L-1.2124-.2801-1.2206-.2871-1.2712-.3304-1.317-.3697C-1.3575-.4044-1.336-.4708-1.2828-.4751L-1.2226-.4799-1.1563-.4852-1.1454-.4861-.4333-.5432C-.4108-.545-.3913-.5592-.3827-.5799L-.1083-1.2396-.1041-1.2497Z"
+
+    df["marker_shape"] = df["rank"].map(lambda value: star_shape if pd.notna(value) and int(value) == 1 else "circle")
+    df["rank_label"] = df["rank"].map(lambda value: str(int(value)) if pd.notna(value) else "")
+    df["rank_text_color"] = df["squad"].map({"1st": "#ffffff", "2nd": "#202946"}).fillna("#ffffff")
+
+    level_name_df = pd.DataFrame(
+        [
+            {"level": 5, "historic": "National 3", "current": "Regional 1"},
+            {"level": 6, "historic": "London 1", "current": "Regional 2"},
+            {"level": 7, "historic": "London 2", "current": "Counties 1"},
+            {"level": 8, "historic": "London 3", "current": "Counties 2"},
+            {"level": 9, "historic": "Sussex 1", "current": "Counties 3"},
+            {"level": 10, "historic": "Sussex 2", "current": "Counties 4"},
+            {"level": 11, "historic": "Sussex 3", "current": "Counties 5"},
+        ]
+    )
+    level_name_df["left_anchor"] = int(season_order[0][:4])
+    level_name_df["right_anchor"] = int(season_order[-1][:4])
+
+    color_scale = alt.Scale(domain=["1st", "2nd"], range=["#202946", "#7d96e8"])
+
+    base = alt.Chart(df).encode(
+        x=alt.X(
+            "season_start_year:T",
+            title="Season", 
+            axis=alt.Axis(
+                labelAngle=-45, 
+                labelExpr="datum.value + '/' + (datum.value + 1 - 2000)", 
+                labelAlign="right", 
+                offset=10, 
+                tickCount=len(season_order)
+            ),
+        ),
+        y=alt.Y(
+            "level:O",
+            title=None,
+            axis=alt.Axis(labelExpr="'Level ' + datum.value", grid=True, gridOpacity=0.5, gridColor="#d1d5db", gridWidth=2, ticks=False, domain=False, labelFontWeight="bold", labelFontSize=14),
+        ),
+        color=alt.Color("squad:N", scale=color_scale, legend=None),
+        tooltip=[
+            alt.Tooltip("season:N", title="Season"),
+            alt.Tooltip("squad:N", title="Squad"),
+            alt.Tooltip("league:N", title="League"),
+            alt.Tooltip("level:O", title="Level"),
+            alt.Tooltip("rank:O", title="Position"),
+        ],
+    )
+
+    lines = base.mark_line(strokeWidth=3)
+    points = base.mark_point(filled=True, strokeWidth=2, opacity=1, size=800).encode(
+        fill=alt.Color("squad:N", scale=color_scale, legend=None),
+        stroke=alt.condition("datum.squad == '1st'", alt.value("#7d96e8"), alt.value("#202946")),
+        shape=alt.Shape("marker_shape:N", scale=None, legend=None),
+    )
+    point_text = base.mark_text(font="PT Sans Narrow", fontSize=18, fontWeight="bold").encode(
+        text=alt.Text("rank_label:N"),
+        color=alt.Color("rank_text_color:N", scale=None, legend=None),
+    )
+
+    left_level_labels = alt.Chart(level_name_df).mark_text(
+        align="left", baseline="middle", dx=-12, dy=10, color="#6b7280", fontSize=10, opacity=1.0, fontStyle="italic"
+    ).encode(
+        x=alt.X("left_anchor:N", sort=season_order),
+        y=alt.Y("level:O"),
+        text=alt.Text("historic:N"),
+    )
+
+    right_level_labels = alt.Chart(level_name_df).mark_text(
+        align="right", baseline="middle", dx=12, dy=10, color="#6b7280", fontSize=10, opacity=1.0, fontStyle="italic"
+    ).encode(
+        x=alt.X("right_anchor:N", sort=season_order),
+        y=alt.Y("level:O"),
+        text=alt.Text("current:N"),
+    )
+
+    chart = alt.layer(left_level_labels, right_level_labels,lines, points, point_text).properties(
+        width=700,
+        height=alt.Step(50),
+        title=alt.Title(
+            text="League History",
+            subtitle="League level by season for 1st and 2nd XV.",
+        ),
+    ).resolve_scale(color="independent")
+
+    chart.save(output_file)
+    return chart
+
+
 def _infer_egr_squad(team_name):
     if not isinstance(team_name, str):
         return None

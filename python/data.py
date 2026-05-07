@@ -1013,6 +1013,48 @@ class DataExtractor:
         df_merged = df_merged[df_merged['game_id'].notnull()] # keep only rows with game_id
         
         return df_merged
+
+    def extract_league_history(self):
+        """Extract season-by-season league history for both squads."""
+        ss = self.client.open_by_url(self.sheet_url)
+        rows = []
+
+        try:
+            sheet = ss.worksheet("League History")
+            data = sheet.get("A4:G")
+        except Exception as e:
+            print(f"Error extracting league history: {e}")
+            return pd.DataFrame(columns=["season", "squad", "league", "level", "rank"])
+
+        squad_columns = {
+            "1st": (1, 2, 3),
+            "2nd": (4, 5, 6),
+        }
+
+        for row in data:
+            season = str(row[0]).strip() if len(row) > 0 else ""
+            if not season:
+                continue
+
+            for squad, (league_idx, level_idx, rank_idx) in squad_columns.items():
+                league = str(row[league_idx]).strip() if len(row) > league_idx and row[league_idx] is not None else ""
+                level = self._safe_int(row[level_idx] if len(row) > level_idx else None)
+                rank = self._safe_int(row[rank_idx] if len(row) > rank_idx else None)
+
+                if not league and level is None and rank is None:
+                    continue
+
+                rows.append(
+                    {
+                        "season": season,
+                        "squad": squad,
+                        "league": league or None,
+                        "level": level,
+                        "rank": rank,
+                    }
+                )
+
+        return pd.DataFrame(rows, columns=["season", "squad", "league", "level", "rank"])
     
     def extract_league_data(self, season="2024-2025", league="Counties 1 Surrey/Sussex", comp="London & SE Division"):
         """Extract league data using league_data functions"""

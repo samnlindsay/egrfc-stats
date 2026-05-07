@@ -43,6 +43,7 @@ from python.charts import (
     set_piece_attacking_volume_chart,
     red_zone_entries_efficiency_chart,
     lineout_analysis_chart_suite,
+    league_history_progression_chart,
     export_league_context_chart_specs,
     export_league_results_chart_specs,
 )
@@ -132,6 +133,7 @@ def main(refresh_pitchero=False, backend_mode="canonical", backend_db_path="data
     squad_position_composition_chart(db)
     squad_overlap_chart(db)
     squad_continuity_average_chart(db)
+    league_history_progression_chart(db)
     export_league_context_chart_specs(db, squads=("1st",))
     export_league_results_chart_specs(db)
 
