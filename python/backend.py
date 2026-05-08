@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import json
+import logging
 import os
 import re
 from datetime import date, datetime
@@ -3181,24 +3182,21 @@ class BackendDatabase:
         df = appearances_raw.copy()
         if "_source" not in df.columns:
             df["_source"] = "unknown"
+        df["_row_order"] = range(len(df))
+        source_priority = {"google": 0, "pitchero": 1, "rfu": 2}
+        df["_source_rank"] = df["_source"].astype(str).map(source_priority).fillna(len(source_priority)).astype(int)
 
         # Remap appearances from alias game_ids to canonical retained game_ids.
         alias_map = getattr(self, "_game_id_alias_map", {})
         if alias_map:
             df["game_id"] = df["game_id"].astype(str).map(lambda gid: alias_map.get(gid, gid))
 
-        # Google Sheets is authoritative for lineups. If a canonical game_id has
-        # any Google rows, discard Pitchero appearance rows for that same game.
-        google_game_ids = set(
-            df.loc[df["_source"].astype(str) == "google", "game_id"].dropna().astype(str)
-        )
-        if google_game_ids:
-            df = df[
-                ~(
-                    df["_source"].astype(str).eq("pitchero")
-                    & df["game_id"].astype(str).isin(google_game_ids)
-                )
-            ]
+        # Team sheets follow explicit source precedence per canonical game:
+        # Google Sheets -> Pitchero -> RFU. Once a higher-priority source exists
+        # for a game, discard lower-priority lineups for that same game.
+        if df["game_id"].notna().any():
+            game_source_rank = df.groupby("game_id")["_source_rank"].transform("min")
+            df = df[df["game_id"].isna() | df["_source_rank"].eq(game_source_rank)]
 
         df = df.merge(games[["game_id", "squad", "date", "season", "game_type"]], on="game_id", how="left")
         df = df[df["player"].notna()]
@@ -3220,10 +3218,34 @@ class BackendDatabase:
         df["is_captain"] = df["is_captain"].fillna(False).astype(bool)
         df["is_vc"] = df["is_vc"].fillna(False).astype(bool)
         df["is_starter"] = df["is_starter"].fillna(False).astype(bool)
+
+        # RFU fallback lineups can contain conflicting names for the same shirt.
+        # After source precedence is applied, retain a single canonical row per
+        # game/number, preferring non-placeholder names and stable earlier rows.
+        slot_mask = df["game_id"].notna() & df["shirt_number"].notna()
+        if slot_mask.any():
+            placeholder_names = {"name withheld", "unknown", "unnamed player"}
+            df["_player_is_placeholder"] = (
+                df["player"].astype(str).str.strip().str.lower().isin(placeholder_names)
+            )
+            slot_rows = (
+                df.loc[slot_mask]
+                .sort_values(
+                    ["game_id", "shirt_number", "_player_is_placeholder", "_source_rank", "_row_order"],
+                    kind="stable",
+                )
+                .drop_duplicates(subset=["game_id", "shirt_number"], keep="first")
+            )
+            df = pd.concat([slot_rows, df.loc[~slot_mask]], ignore_index=True)
+
         df["is_backfill"] = False
         df["club_appearance_number"] = pd.Series(pd.NA, index=df.index, dtype="Int64")
         df["first_xv_appearance_number"] = pd.Series(pd.NA, index=df.index, dtype="Int64")
-        df = df.dropna(subset=["squad", "date", "player"]).drop_duplicates(subset=["squad", "date", "player"])
+        df = (
+            df.dropna(subset=["squad", "date", "player"])
+            .sort_values(["squad", "date", "player", "_source_rank", "_row_order"], kind="stable")
+            .drop_duplicates(subset=["squad", "date", "player"], keep="first")
+        )
         return df[
             [
                 "squad",

@@ -5865,14 +5865,24 @@ def season_match_metric_trends_chart(db, output_file="data/charts/season_match_m
         f" && {game_type_filter_expr}"
     )
 
+    # Build game_id → fixture label mapping for axis labelExpr so that
+    # game_id:O is used as the x key (guaranteeing uniqueness when the same
+    # fixture appears twice in a season) while the tick labels still show the
+    # human-readable fixture name.
+    _label_map_entries = ", ".join(
+        f'"{gid}": "{lbl.replace(chr(34), chr(39))}"'
+        for gid, lbl in base_df.drop_duplicates(subset=["game_id"])[["game_id", "fixture_label"]].itertuples(index=False)
+    )
+    _label_expr = "{" + _label_map_entries + "}[datum.value] || datum.value"
+
     bottom_x_encoding = alt.X(
-        "game_axis_label:N",
+        "game_id:O",
         sort=alt.SortField(field="game_sort", order="ascending"),
         title=None,
-        axis=alt.Axis(orient="bottom", labelAngle=-40, labelAlign="right", labelLimit=120, ticks=True, domain=True),
+        axis=alt.Axis(orient="bottom", labelAngle=-40, labelAlign="right", labelLimit=120, ticks=True, domain=True, labelExpr=_label_expr),
     )
     top_x_encoding = alt.X(
-        "game_axis_label:N",
+        "game_id:O",
         sort=alt.SortField(field="game_sort", order="ascending"),
         title=None,
         axis=alt.Axis(
@@ -5883,10 +5893,11 @@ def season_match_metric_trends_chart(db, output_file="data/charts/season_match_m
             ticks=True,
             domain=True,
             offset=10,
+            labelExpr=_label_expr,
         ),
     )
     plot_x_encoding = alt.X(
-        "game_axis_label:N",
+        "game_id:O",
         sort=alt.SortField(field="game_sort", order="ascending"),
         title=None,
         axis=None,
@@ -5957,7 +5968,7 @@ def season_match_metric_trends_chart(db, output_file="data/charts/season_match_m
     )
 
     y_axis_layer = base.mark_point(opacity=0, size=1).encode(
-        x=alt.X("game_axis_label:N", sort=alt.SortField(field="game_sort", order="ascending"), title=None, axis=None),
+        x=alt.X("game_id:O", sort=alt.SortField(field="game_sort", order="ascending"), title=None, axis=None),
         y=plot_y_encoding,
     )
 
