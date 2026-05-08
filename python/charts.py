@@ -7722,7 +7722,11 @@ def league_history_progression_chart(db, output_file="data/charts/league_history
     df = df.sort_values(["season_start_year", "season", "squad"]).copy()
     season_order = df["season"].drop_duplicates().tolist()
 
-    star_shape = "M-.1041-1.2497-.0786-1.3111-.0554-1.3668C-.0349-1.4161.0349-1.4161.0554-1.3668L.0786-1.3111.1041-1.2497.1083-1.2396.3827-.5799C.3913-.5591.4109-.545.4333-.5432L1.1455-.4861 1.1563-.4852 1.2226-.4799 1.2828-.4751C1.336-.4708 1.3576-.4044 1.317-.3697L1.2712-.3304 1.2207-.2871 1.2124-.2801.6698.1847C.6527.1994.6453.2223.6505.2442L.8162.9392.8188.9498.8342 1.0145.8482 1.0732C.8606 1.1251.8041 1.1661.7586 1.1383L.7071 1.1069.6503 1.0722.641 1.0665.0313.6941C.0121.6824-.0121.6824-.0313.6941L-.641 1.0665-.6503 1.0722-.707 1.1069-.7585 1.1383C-.8041 1.1661-.8606 1.1251-.8482 1.0732L-.8342 1.0145-.8187.9498-.8162.9392-.6504.2442C-.6452.2223-.6527.1994-.6698.1847L-1.2124-.2801-1.2206-.2871-1.2712-.3304-1.317-.3697C-1.3575-.4044-1.336-.4708-1.2828-.4751L-1.2226-.4799-1.1563-.4852-1.1454-.4861-.4333-.5432C-.4108-.545-.3913-.5592-.3827-.5799L-.1083-1.2396-.1041-1.2497Z"
+    # Add 2020/21 placeholder for visual gap during COVID-19 disruption
+    if "2020/21" not in season_order:
+        season_order.insert(season_order.index("2019/20") + 1, "2020/21")
+
+    star_shape = "M-.1041-1.3497-.0786-1.4111-.0554-1.4668C-.0349-1.5161.0349-1.5161.0554-1.4668L.0786-1.4111.1041-1.3497.1083-1.3396.3827-.6799C.3913-.6591.4109-.645.4333-.6432L1.1455-.5861 1.1563-.5852 1.2226-.5799 1.2828-.5751C1.336-.5708 1.3576-.5044 1.317-.4697L1.2712-.4304 1.2207-.3871 1.2124-.3801.6698.0847C.6527.0994.6453.1223.6505.1442L.8162.8392.8188.8498.8342.9145.8482.9732C.8606 1.0251.8041 1.0661.7586 1.0383L.7071 1.0069.6503.9722.641.9665.0313.5941C.0121.5824-.0121.5824-.0313.5941L-.641.9665-.6503.9722-.707 1.0069-.7585 1.0383C-.8041 1.0661-.8606 1.0251-.8482.9732L-.8342.9145-.8187.8498-.8162.8392-.6504.1442C-.6452.1223-.6527.0994-.6698.0847L-1.2124-.3801-1.2206-.3871-1.2712-.4304-1.317-.4697C-1.3575-.5044-1.336-.5708-1.2828-.5751L-1.2226-.5799-1.1563-.5852-1.1454-.5861-.4333-.6432C-.4108-.645-.3913-.6592-.3827-.6799L-.1083-1.3396-.1041-1.3497Z"
 
     df["marker_shape"] = df["rank"].map(lambda value: star_shape if pd.notna(value) and int(value) == 1 else "circle")
     df["rank_label"] = df["rank"].map(lambda value: str(int(value)) if pd.notna(value) else "")
@@ -7739,22 +7743,21 @@ def league_history_progression_chart(db, output_file="data/charts/league_history
             {"level": 11, "historic": "Sussex 3", "current": "Counties 5"},
         ]
     )
-    level_name_df["left_anchor"] = int(season_order[0][:4])
-    level_name_df["right_anchor"] = int(season_order[-1][:4])
+    level_name_df["left_anchor"] = season_order[0]
+    level_name_df["right_anchor"] = season_order[-1]
 
     color_scale = alt.Scale(domain=["1st", "2nd"], range=["#202946", "#7d96e8"])
 
     base = alt.Chart(df).encode(
         x=alt.X(
-            "season_start_year:T",
+            "season:O",
             title="Season", 
             axis=alt.Axis(
                 labelAngle=-45, 
-                labelExpr="datum.value + '/' + (datum.value + 1 - 2000)", 
                 labelAlign="right", 
-                offset=10, 
-                tickCount=len(season_order)
+                offset=10,
             ),
+            scale=alt.Scale(domain=season_order)
         ),
         y=alt.Y(
             "level:O",
@@ -7799,7 +7802,7 @@ def league_history_progression_chart(db, output_file="data/charts/league_history
     )
 
     chart = alt.layer(left_level_labels, right_level_labels,lines, points, point_text).properties(
-        width=700,
+        width=alt.Step(40),
         height=alt.Step(50),
         title=alt.Title(
             text="League History",

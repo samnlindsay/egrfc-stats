@@ -342,14 +342,55 @@
                     <section id="league-history" class="analysis-section chart-section"
                         aria-labelledby="league-history-heading">
                         <h2 id="league-history-heading" class="section-heading">League History</h2>
-                        <p class="section-intro">How each squad has moved through league levels over time, with final league position shown inside each season marker.</p>
+                        <p class="section-intro">How each squad has moved through league levels over time, with final league position shown inside each season marker. Each point shows the final table position for that season and level, and a star marks seasons where the squad finished top of the league. Historic competition names are annotated on the left and current names on the right for levels 5-11.</p>
 
                         <div class="chart-section-block chart-section-block--panel">
-                            <h3 class="chart-section-title">League Progression</h3>
                             <div class="chart-section-content chart-section-content--split">
                                 <div class="chart-section-meta">
-                                    <p class="chart-section-hint">Each point shows the final table position for that season and level. A star marks seasons where the squad finished top of the league.</p>
-                                    <p class="chart-section-hint">Historic competition names are annotated on the left and current names on the right for levels 5-11.</p>
+                                    <div class="performance-set-piece-legend performance-trend-legend league-history-legend" aria-label="League history chart legend">
+                                        <!-- <div class="performance-trend-legend-row"> -->
+                                            <span class="performance-set-piece-legend-item performance-trend-legend-item">
+                                                <span class="league-history-legend-symbol" aria-hidden="true">
+                                                    <svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="6" fill="#202946" stroke="#7d96e8" stroke-width="1"/></svg>
+                                                </span>
+                                                <span>1st XV</span>
+                                            </span>
+                                            <span class="performance-set-piece-legend-item performance-trend-legend-item">
+                                                <span class="league-history-legend-symbol" aria-hidden="true">
+                                                    <svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="6" fill="#7d96e8" stroke="#202946" stroke-width="1"/></svg>
+                                                </span>
+                                                <span>2nd XV</span>
+                                            </span>
+                                            <span class="performance-set-piece-legend-item performance-trend-legend-item">
+                                                <span class="league-history-legend-symbol" aria-hidden="true">
+                                                    <svg viewBox="-8 -8 16 16"><g transform="scale(5)"><path d="M-.1041-1.3497-.0786-1.4111-.0554-1.4668C-.0349-1.5161.0349-1.5161.0554-1.4668L.0786-1.4111.1041-1.3497.1083-1.3396.3827-.6799C.3913-.6591.4109-.645.4333-.6432L1.1455-.5861 1.1563-.5852 1.2226-.5799 1.2828-.5751C1.336-.5708 1.3576-.5044 1.317-.4697L1.2712-.4304 1.2207-.3871 1.2124-.3801.6698.0847C.6527.0994.6453.1223.6505.1442L.8162.8392.8188.8498.8342.9145.8482.9732C.8606 1.0251.8041 1.0661.7586 1.0383L.7071 1.0069.6503.9722.641.9665.0313.5941C.0121.5824-.0121.5824-.0313.5941L-.641.9665-.6503.9722-.707 1.0069-.7585 1.0383C-.8041 1.0661-.8606 1.0251-.8482.9732L-.8342.9145-.8187.8498-.8162.8392-.6504.1442C-.6452.1223-.6527.0994-.6698.0847L-1.2124-.3801-1.2206-.3871-1.2712-.4304-1.317-.4697C-1.3575-.5044-1.336-.5708-1.2828-.5751L-1.2226-.5799-1.1563-.5852-1.1454-.5861-.4333-.6432C-.4108-.645-.3913-.6592-.3827-.6799L-.1083-1.3396-.1041-1.3497 Z" fill="#202946" stroke="#7d96e8" stroke-width="0.2"/></g>
+                                                </svg>
+                                                </span>    
+                                                <span class="league-history-legend-symbol" aria-hidden="true">
+                                                    <svg viewBox="-8 -8 16 16">
+                                                        <g transform="scale(5)">
+                                                            <path
+                                                                d="M-.1041-1.3497-.0786-1.4111-.0554-1.4668C-.0349-1.5161.0349-1.5161.0554-1.4668L.0786-1.4111.1041-1.3497.1083-1.3396.3827-.6799C.3913-.6591.4109-.645.4333-.6432L1.1455-.5861 1.1563-.5852 1.2226-.5799 1.2828-.5751C1.336-.5708 1.3576-.5044 1.317-.4697L1.2712-.4304 1.2207-.3871 1.2124-.3801.6698.0847C.6527.0994.6453.1223.6505.1442L.8162.8392.8188.8498.8342.9145.8482.9732C.8606 1.0251.8041 1.0661.7586 1.0383L.7071 1.0069.6503.9722.641.9665.0313.5941C.0121.5824-.0121.5824-.0313.5941L-.641.9665-.6503.9722-.707 1.0069-.7585 1.0383C-.8041 1.0661-.8606 1.0251-.8482.9732L-.8342.9145-.8187.8498-.8162.8392-.6504.1442C-.6452.1223-.6527.0994-.6698.0847L-1.2124-.3801-1.2206-.3871-1.2712-.4304-1.317-.4697C-1.3575-.5044-1.336-.5708-1.2828-.5751L-1.2226-.5799-1.1563-.5852-1.1454-.5861-.4333-.6432C-.4108-.645-.3913-.6592-.3827-.6799L-.1083-1.3396-.1041-1.3497 Z"
+                                                                stroke="#202946" fill="#7d96e8" stroke-width="0.2" />
+                                                        </g>
+                                                    </svg>
+                                                </span>
+                                                <span>League Champions</span>
+                                            </span>
+                                            <span class="performance-set-piece-legend-item performance-trend-legend-item">
+                                                <span class="league-history-legend-symbol" aria-hidden="true">
+                                                    <svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="8" fill="#202946"/><text class="league-history-legend-position-text" x="8" y="12" text-anchor="middle" fill="#ffffff">3</text></svg>
+                                                </span>
+                                                <span class="league-history-legend-symbol" aria-hidden="true">
+                                                <svg viewBox="0 0 16 16">
+                                                    <circle cx="8" cy="8" r="8" fill="#7d96e8"/><text
+                                                        class="league-history-legend-position-text" x="8" y="12" text-anchor="middle" fill="#202946">3</text>
+                                                </svg>
+                                                </span>
+                                                <span>League Position</span>
+                                            </span>
+                                        <!-- </div> -->
+                                    </div>
                                 </div>
                                 <div id="leagueHistoryChart"
                                     class="chart-host chart-host--overflow-visible chart-host--intrinsic"></div>

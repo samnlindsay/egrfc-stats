@@ -6356,6 +6356,7 @@ button.opposition-hero-action-card:focus-visible {
 
 /* Shared chart legend pattern (Performance Stats + Lineout sections) */
 #page-performance-stats .performance-set-piece-legend,
+#page-squad-stats .performance-set-piece-legend,
 .lineout-section-legend-box {
     display: flex;
     flex-wrap: wrap;
@@ -6369,6 +6370,7 @@ button.opposition-hero-action-card:focus-visible {
 }
 
 #page-performance-stats .performance-set-piece-legend-item,
+#page-squad-stats .performance-set-piece-legend-item,
 .lineout-section-legend-item {
     display: inline-flex;
     align-items: center;
@@ -6388,11 +6390,13 @@ button.opposition-hero-action-card:focus-visible {
     flex: 0 0 auto;
 }
 
-#page-performance-stats .performance-set-piece-legend {
+#page-performance-stats .performance-set-piece-legend,
+#page-squad-stats .performance-set-piece-legend {
     align-self: center;
 }
 
-#page-performance-stats .performance-trend-legend {
+#page-performance-stats .performance-trend-legend,
+#page-squad-stats .performance-trend-legend {
     display: flex;
     flex-direction: column;
     align-items: stretch;
@@ -6401,7 +6405,8 @@ button.opposition-hero-action-card:focus-visible {
     max-width: 24rem;
 }
 
-#page-performance-stats .performance-trend-legend-title {
+#page-performance-stats .performance-trend-legend-title,
+#page-squad-stats .performance-trend-legend-title {
     margin: 0;
     color: var(--dark-color);
     opacity: 0.8;
@@ -6410,15 +6415,42 @@ button.opposition-hero-action-card:focus-visible {
     line-height: 1.2;
 }
 
-#page-performance-stats .performance-trend-legend-row {
+#page-performance-stats .performance-trend-legend-row,
+#page-squad-stats .performance-trend-legend-row {
     display: flex;
     flex-wrap: wrap;
     gap: 0.35rem 0.9rem;
     align-items: center;
 }
 
-#page-performance-stats .performance-trend-legend-item {
+#page-performance-stats .performance-trend-legend-item,
+#page-squad-stats .performance-trend-legend-item {
     min-height: 18px;
+}
+
+#page-squad-stats .league-history-legend {
+    margin-top: 0.75rem;
+}
+
+#page-squad-stats .league-history-legend-symbol {
+    width: 18px;
+    height: 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+}
+
+#page-squad-stats .league-history-legend-symbol svg {
+    width: 18px;
+    height: 18px;
+    display: block;
+}
+
+#page-squad-stats .league-history-legend-position-text {
+    font-family: "PT Sans Narrow", sans-serif;
+    font-size: 12px;
+    font-weight: 700;
 }
 
 #page-performance-stats .performance-trend-legend-key {
