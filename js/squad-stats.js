@@ -36,6 +36,10 @@ const SQUAD_STATS_HISTORICAL_SEASONS = [
     '2003/04',
 ];
 
+function fetchJsonNoCache(path) {
+    return fetch(path, { cache: 'no-store' });
+}
+
 async function loadSquadStatsCanonicalData() {
     if (squadStatsWithThresholdsEnrichedData && squadContinuityEnrichedData && squadPositionCompositionTemplateSpec) return;
 
@@ -81,8 +85,8 @@ async function loadSquadStatsCanonicalData() {
     if (!squadResultsGameSpec || !squadResultsAggregateSpec) {
         try {
             const [gameRes, aggRes] = await Promise.all([
-                fetch('data/charts/team_stats_results_game.json'),
-                fetch('data/charts/team_stats_results_season_aggregate.json'),
+                fetchJsonNoCache('data/charts/team_stats_results_game.json'),
+                fetchJsonNoCache('data/charts/team_stats_results_season_aggregate.json'),
             ]);
             if (gameRes.ok) squadResultsGameSpec = await gameRes.json();
             if (aggRes.ok) squadResultsAggregateSpec = await aggRes.json();
@@ -91,7 +95,7 @@ async function loadSquadStatsCanonicalData() {
 
     if (!leagueHistoryTemplateSpec) {
         try {
-            const res = await fetch('data/charts/league_history_progression.json');
+            const res = await fetchJsonNoCache('data/charts/league_history_progression.json');
             if (res.ok) leagueHistoryTemplateSpec = await res.json();
         } catch (e) { console.warn('Unable to load league history spec:', e); }
     }
