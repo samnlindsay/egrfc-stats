@@ -17,12 +17,60 @@ const DatabaseExplorer = (() => {
             sourceNote: 'Defined in backend.py and derived from the consolidated RFU scrape in data/matches.json plus supplemental RFU team-results files.'
         },
         {
+            key: 'games_stage_google',
+            label: 'games_stage_google',
+            path: 'data/backend/games_stage_google.json',
+            grain: 'One row per Google game before canonical merge',
+            description: 'Standardized Google-source games staged prior to canonical merge, including scoreline, result, and scorer payload fields where available.',
+            sourceNote: 'Defined in backend.py as a source-staging table produced directly from Google team-sheet extraction.'
+        },
+        {
+            key: 'games_stage_pitchero',
+            label: 'games_stage_pitchero',
+            path: 'data/backend/games_stage_pitchero.json',
+            grain: 'One row per Pitchero game before canonical merge',
+            description: 'Standardized Pitchero-source games staged prior to canonical merge, including match URL and scorer payload fields where available.',
+            sourceNote: 'Defined in backend.py as a source-staging table produced from cleaned historic Pitchero match data.'
+        },
+        {
+            key: 'games_stage_rfu',
+            label: 'games_stage_rfu',
+            path: 'data/backend/games_stage_rfu.json',
+            grain: 'One row per RFU game before canonical merge',
+            description: 'Standardized RFU-source games staged prior to canonical merge, including historical RFU supplementation and inferred game metadata.',
+            sourceNote: 'Defined in backend.py as a source-staging table built from RFU scrape data plus historic RFU CSV supplements.'
+        },
+        {
             key: 'player_appearances',
             label: 'player_appearances',
             path: 'data/backend/player_appearances.json',
             grain: 'One row per player per game',
             description: 'Canonical appearance table with shirt number, position, unit, starter flag, captaincy metadata, and reconciliation backfill rows where historic Pitchero totals exceed scraped selections.',
             sourceNote: 'Defined in backend.py and derived from canonical selections linked back to games, then adjusted with Pitchero reconciliation.'
+        },
+        {
+            key: 'player_appearances_stage_google',
+            label: 'player_appearances_stage_google',
+            path: 'data/backend/player_appearances_stage_google.json',
+            grain: 'One row per Google appearance before canonical merge',
+            description: 'Standardized Google-source player appearances staged prior to canonical merge, including shirt number, role, captaincy flags, and starter flag.',
+            sourceNote: 'Defined in backend.py as a source-staging table produced from Google team-sheet appearance rows.'
+        },
+        {
+            key: 'player_appearances_stage_pitchero',
+            label: 'player_appearances_stage_pitchero',
+            path: 'data/backend/player_appearances_stage_pitchero.json',
+            grain: 'One row per Pitchero appearance before canonical merge',
+            description: 'Standardized Pitchero-source player appearances staged prior to canonical merge, aligned to canonical appearance fields.',
+            sourceNote: 'Defined in backend.py as a source-staging table produced from cleaned historic Pitchero selections.'
+        },
+        {
+            key: 'player_appearances_stage_rfu',
+            label: 'player_appearances_stage_rfu',
+            path: 'data/backend/player_appearances_stage_rfu.json',
+            grain: 'One row per RFU appearance before canonical merge',
+            description: 'Standardized RFU-source player appearances staged prior to canonical merge, mapped to canonical game ids and appearance fields.',
+            sourceNote: 'Defined in backend.py as a source-staging table produced from RFU lineup extraction and canonicalization.'
         },
         {
             key: 'player_appearances_rfu',
@@ -222,6 +270,7 @@ const DatabaseExplorer = (() => {
 
     const TABLE_DROPDOWN_GROUPS = [
         { key: 'core', label: 'Core Canonical Tables' },
+        { key: 'staging', label: 'Source Staging Tables' },
         { key: 'rfu', label: 'RFU Tables' },
         { key: 'enriched', label: 'Enriched Tables' },
         { key: 'pitchero', label: 'Pitchero Staging & Reference' },
@@ -418,6 +467,10 @@ const DatabaseExplorer = (() => {
         }
 
         const key = definition.key;
+
+        if (key.includes('_stage_')) {
+            return 'staging';
+        }
 
         if (key.startsWith('v_')) {
             return 'views';

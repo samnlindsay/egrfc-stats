@@ -101,6 +101,7 @@ const CHART_CONTAINER_INVENTORY = Object.freeze([
   "teamSheetsChart",
   "leagueResultsChart1",
   "leagueResultsChart2",
+  "leagueHistoryChart",
 ]);
 
 // Centralized responsive layout inventory for chart-level structural tweaks.
@@ -222,6 +223,19 @@ const CHART_LAYOUT_INVENTORY = {
     narrowMax: 760,
     narrow: { legendOrient: "bottom", width: { step: 42 }, height: { step: 32 } },
     wide: { legendOrient: "right" },
+  },
+  leagueHistoryChart: {
+    narrowMax: 900,
+    responsiveScaleMin: 0.4,
+    responsiveScaleMinXs: 0.34,
+    narrow: {
+      width: { step: 35 },
+      height: { step: 40 },
+    },
+    wide: {
+      width: { step: 40 },
+      height: { step: 50 },
+    },
   },
   scrumH2HChart: {
     narrowMax: 760,

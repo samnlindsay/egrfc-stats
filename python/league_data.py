@@ -215,75 +215,6 @@ def _coerce_rfu_score_value(value):
     return pd.NA, False
 
 
-def _load_supplemental_rfu_team_results(data_dir: Path | None = None):
-    base_dir = data_dir or _DATA_DIR
-    supplemental_matches = []
-    for path in sorted(base_dir.glob("east_grinstead_*_rfu_results.json")):
-        try:
-            with path.open("r", encoding="utf-8") as handle:
-                payload = json.load(handle)
-            if isinstance(payload, list):
-                supplemental_matches.extend(payload)
-        except Exception as exc:
-            logging.warning("Unable to load supplemental RFU results file %s: %s", path, exc)
-    return supplemental_matches
-
-
-def _dedupe_matches_by_match_id(matches):
-    def _quality(match):
-        teams = match.get("teams") or []
-        has_teams = int(isinstance(teams, list) and len(teams) >= 2)
-        has_home_away = int(bool(str(match.get("home_team") or "").strip()) and bool(str(match.get("away_team") or "").strip()))
-        score = match.get("score") or []
-        has_score = int(isinstance(score, list) and len(score) >= 2 and any(str(v or "").strip() for v in score))
-        has_home_away_score = int(bool(str(match.get("home_score") or "").strip()) and bool(str(match.get("away_score") or "").strip()))
-        has_players = int(bool(match.get("players")))
-        has_date = int(bool(str(match.get("date") or "").strip()))
-        return has_players * 10 + max(has_teams, has_home_away) * 5 + max(has_score, has_home_away_score) * 4 + has_date
-
-    deduped = {}
-    for match in matches:
-        match_id = str(match.get("match_id") or "").strip()
-        if not match_id:
-            continue
-        existing = deduped.get(match_id)
-        if existing is None or _quality(match) >= _quality(existing):
-            deduped[match_id] = match
-    return list(deduped.values())
-
-
-def _extract_rfu_teams(match):
-    teams = match.get("teams") or []
-    if isinstance(teams, list) and len(teams) >= 2:
-        return str(teams[0]).strip(), str(teams[1]).strip()
-    home_team = str(match.get("home_team") or "").strip()
-    away_team = str(match.get("away_team") or "").strip()
-    if home_team and away_team:
-        return home_team, away_team
-    return "", ""
-
-
-def _extract_rfu_score_pair(match):
-    score = match.get("score") or []
-    if isinstance(score, list) and len(score) >= 2:
-        return score[0], score[1]
-    return match.get("home_score"), match.get("away_score")
-
-
-def _extract_egrfc_squad_number(team_name):
-    normalized = re.sub(r"[^a-z0-9]+", " ", str(team_name or "").lower())
-    normalized = re.sub(r"\s+", " ", normalized).strip()
-    if not normalized:
-        return None
-    if not any(alias in normalized for alias in ("east grinstead", "e grinstead", "eg men", "egrfc")):
-        return None
-    if re.search(r"\biii\b|\b3rd\b|\b3\b", normalized):
-        return 3
-    if re.search(r"\bii\b|\b2nd\b|\b2\b", normalized):
-        return 2
-    return 1
-
-
 def build_rfu_games_dataframe(matches=None, consolidated_file=None):
     if consolidated_file is None:
         consolidated_file = str(_DATA_DIR / "matches.json")
@@ -294,30 +225,26 @@ def build_rfu_games_dataframe(matches=None, consolidated_file=None):
     rows = []
     for match in matches:
         match_id = str(match.get("match_id", "")).strip()
-        home_team, away_team = _extract_rfu_teams(match)
-        if not match_id or not home_team or not away_team:
+        teams = match.get("teams", []) or []
+        if not match_id or len(teams) < 2:
             continue
 
         season = season_to_short_label(match.get("season"))
-        league = normalize_league_name(match.get("league") or match.get("competition"))
+        league = normalize_league_name(match.get("league"))
         date_value = pd.to_datetime(match.get("date"), errors="coerce")
         if not season or pd.isna(date_value):
             continue
 
-        score_home_raw, score_away_raw = _extract_rfu_score_pair(match)
-        home_score, home_walkover = _coerce_rfu_score_value(score_home_raw)
-        away_score, away_walkover = _coerce_rfu_score_value(score_away_raw)
+        score = match.get("score", []) or []
+        home_score, home_walkover = _coerce_rfu_score_value(score[0] if len(score) > 0 else None)
+        away_score, away_walkover = _coerce_rfu_score_value(score[1] if len(score) > 1 else None)
 
         players = match.get("players", []) or []
         home_players = players[0] if len(players) > 0 and isinstance(players[0], dict) else {}
         away_players = players[1] if len(players) > 1 and isinstance(players[1], dict) else {}
 
-        tracked_squad = _extract_egrfc_squad_number(home_team) or _extract_egrfc_squad_number(away_team)
-        if tracked_squad is None and league:
-            tracked_squad = squad_lookup(season, league)
+        tracked_squad = squad_lookup(season, league) if league else None
         tracked_squad_label = f"{tracked_squad}st" if tracked_squad == 1 else f"{tracked_squad}nd" if tracked_squad else None
-        if tracked_squad == 3:
-            tracked_squad_label = "3rd"
 
         rows.append(
             {
@@ -326,8 +253,8 @@ def build_rfu_games_dataframe(matches=None, consolidated_file=None):
                 "league": league,
                 "tracked_squad": tracked_squad_label,
                 "date": date_value.date(),
-                "home_team": home_team,
-                "away_team": away_team,
+                "home_team": str(teams[0]).strip(),
+                "away_team": str(teams[1]).strip(),
                 "home_score": home_score,
                 "away_score": away_score,
                 "home_walkover": bool(home_walkover),
@@ -691,15 +618,8 @@ def load_consolidated_matches(consolidated_file=None):
     try:
         with open(consolidated_file, 'r') as f:
             matches = json.load(f)
-        supplemental_matches = _load_supplemental_rfu_team_results(_DATA_DIR)
-        merged = _dedupe_matches_by_match_id((matches or []) + supplemental_matches)
-        logging.info(
-            "Loaded %d consolidated matches (+%d supplemental) => %d unique",
-            len(matches or []),
-            len(supplemental_matches),
-            len(merged),
-        )
-        return merged
+        logging.info(f"Loaded {len(matches)} matches from consolidated file")
+        return matches
     except Exception as e:
         logging.error(f"Error loading consolidated file: {e}")
         return []

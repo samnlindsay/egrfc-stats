@@ -2621,7 +2621,7 @@ def squad_overlap_chart(db, output_file='data/charts/squad_overlap.json'):
         x=alt.X(
             'percentage_start:Q',
             title='Percentage',
-            axis=alt.Axis(format='%', grid=False),
+            axis=alt.Axis(format='%', grid=False, labelExpr="datum.value > 0 ? datum.value + '%' : -datum.value + '%'"),
             scale=alt.Scale(nice=False)
         ),
         x2=alt.X2('percentage_end:Q'),
@@ -3643,6 +3643,8 @@ def team_stats_results_chart(
         axis_orient: str = 'top',
     ):
         squad_df = agg_df[agg_df['squad'] == squad_label].copy()
+        x_axis_max = int(math.ceil(float(agg_x_max) / 10.0) * 10) if float(agg_x_max) > 0 else 10
+        x_tick_values = list(range(0, x_axis_max + 1, 10))
         season_domain = squad_df.sort_values(['season_start', 'season'], ascending=[False, False])['season'].tolist()
         level_blocks_df = _build_level_blocks(squad_df, squad_label)
         squad_base = alt.Chart(squad_df).encode(
@@ -3674,23 +3676,49 @@ def team_stats_results_chart(
         ].copy()
         level_bg_df = level_bg_df[level_bg_df['level_label'] != 'No league'].copy()
         level_bg_df['x_start'] = 0.0
-        level_bg_df['x_end'] = float(agg_x_max)
+        # Round up to nearest 10 for cleaner axis alignment - use overall max across squads to ensure alignment between them
+        level_bg_df['x_end'] = float(agg_x_max) // 10 * 10 + 10
+        level_bg_df['bg_color'] = pd.NA 
+        level_bg_df.loc[level_bg_df['level_label'] == 'Non-RFU league', 'bg_color'] = '#2d4268'
+        level_bg_df.loc[
+            (level_bg_df['bg_color'].isna()) & (level_bg_df['level'] >= 9),
+            'bg_color',
+        ] = '#7d96e8'
+        level_bg_df.loc[
+            (level_bg_df['bg_color'].isna()) & (level_bg_df['level'].between(5, 8)),
+            'bg_color',
+        ] = '#202946'
+        level_bg_df['bg_opacity'] = level_bg_df['level'].map(
+            {
+                12: 0.05,
+                11: 0.1,
+                10: 0.15,
+                9: 0.2,
+                8: 0.05,
+                7: 0.1,
+                6: 0.15,
+                5: 0.2,
+            }
+        )
+        level_bg_df = level_bg_df[
+            level_bg_df['bg_color'].notna() & level_bg_df['bg_opacity'].notna()
+        ].copy()
 
-        level_fill = '#202946' if squad_label == '1st' else '#7d96e8'
-        level_background = alt.Chart(level_bg_df).mark_rect(color=level_fill).encode(
+        level_background = alt.Chart(level_bg_df).mark_rect().encode(
             x=alt.X(
                 'x_start:Q',
-                scale=alt.Scale(domain=[0, agg_x_max]),
-                axis=alt.Axis(labels=False, ticks=False, domain=False, title=None),
+                scale=alt.Scale(domain=[0, x_axis_max]),
+                axis=alt.Axis(labels=False, ticks=False, domain=False, title=None, grid=False, values=x_tick_values, tickMinStep=10),
             ),
             x2=alt.X2('x_end:Q'),
             y=alt.Y(
                 'season:N',
                 sort=season_domain,
                 scale=alt.Scale(domain=season_domain),
-                axis=None,
+                axis=None
             ),
-            opacity=alt.Opacity('level:Q', scale=alt.Scale(range=[0.25, 0.05]), legend=None),
+            opacity=alt.Opacity('bg_opacity:Q', scale=None, legend=None),
+            color=alt.Color('bg_color:N', scale=None, legend=None),
             tooltip=[
                 alt.Tooltip('level:Q', title='League Level'),
                 alt.Tooltip('from_season:N', title='From'),
@@ -3703,14 +3731,14 @@ def team_stats_results_chart(
             baseline='middle',
             dx=5,
             fontSize=11,
-            color=level_fill,
-            opacity=0.5,
             font='PT Sans Narrow',
+            opacity=0.5,
+            color="black",
         ).encode(
             x=alt.X(
                 'x_start:Q',
-                scale=alt.Scale(domain=[0, agg_x_max]),
-                axis=None,
+                scale=alt.Scale(domain=[0, x_axis_max]),
+                axis=alt.Axis(labels=False, ticks=False, domain=False, title=None, grid=False, values=x_tick_values, tickMinStep=10),
             ),
             y=alt.Y(
                 'season:N',
@@ -3721,12 +3749,12 @@ def team_stats_results_chart(
             text=alt.Text('level_label:N'),
         )
 
-        squad_bar = squad_base.mark_bar(size=16, stroke='black', strokeWidth=0.5).encode(
+        squad_bar = squad_base.mark_bar(size=16).encode(
             x=alt.X(
                 'avg_pf:Q',
                 title='Average Points',
-                scale=alt.Scale(domain=[0, agg_x_max]),
-                axis=alt.Axis(orient=axis_orient, offset=5, grid=False),
+                scale=alt.Scale(domain=[0, x_axis_max]),
+                axis=alt.Axis(orient=axis_orient, offset=5, grid=True, values=x_tick_values, tickCount=len(x_tick_values), tickMinStep=10),
             ),
             x2=alt.X2('avg_pa:Q'),
             y=alt.Y(
@@ -3749,8 +3777,8 @@ def team_stats_results_chart(
             x=alt.X(
                 'avg_min:Q',
                 title='Average Points',
-                scale=alt.Scale(domain=[0, agg_x_max]),
-                axis=alt.Axis(labels=False, ticks=False, domain=False, title=None),
+                scale=alt.Scale(domain=[0, x_axis_max]),
+                axis=alt.Axis(labels=False, ticks=False, domain=False, title=None, grid=False, values=x_tick_values, tickMinStep=10),
             ),
             y=alt.Y(
                 'season:N',
@@ -3758,7 +3786,7 @@ def team_stats_results_chart(
                 scale=alt.Scale(domain=season_domain),
                 axis=None,
             ),
-            text=alt.Text('avg_min:Q', format='.1f'),
+            text=alt.Text('avg_min:Q', format='.0f'),
             color=alt.value('black'),
         )
 
@@ -3766,8 +3794,8 @@ def team_stats_results_chart(
             x=alt.X(
                 'avg_max:Q',
                 title=None,
-                scale=alt.Scale(domain=[0, agg_x_max]),
-                axis=alt.Axis(labels=False, ticks=False, domain=False, title=None),
+                scale=alt.Scale(domain=[0, x_axis_max]),
+                axis=alt.Axis(labels=False, ticks=False, domain=False, title=None, grid=False, values=x_tick_values, tickMinStep=10),
             ),
             y=alt.Y(
                 'season:N',
@@ -3782,7 +3810,7 @@ def team_stats_results_chart(
                     labels=False,
                 ),
             ),
-            text=alt.Text('avg_max:Q', format='.1f'),
+            text=alt.Text('avg_max:Q', format='.0f'),
             color=alt.value('black'),
         )
 
@@ -8011,7 +8039,7 @@ def league_history_progression_chart(db, output_file="data/charts/league_history
 
     non_rfu_seasons = {'2012/13', '2013/14', '2014/15', '2015/16'}
     df['is_non_rfu'] = (df['squad'] == '2nd') & (df['season'].isin(non_rfu_seasons))
-    df['is_no_league'] = (df['season'] == '2016/17') & (df['squad'].isin(['1st', '2nd']))
+    df['is_no_league'] = df['season'] == '2016/17'
     df['is_special'] = df['is_non_rfu'] | df['is_no_league']
 
     shield2_mask = df['is_non_rfu'] & df['league'].astype(str).str.contains('Shield 2', case=False, na=False)
@@ -8048,6 +8076,7 @@ def league_history_progression_chart(db, output_file="data/charts/league_history
     df.loc[df['is_no_league'], 'special_label'] = 'No league'
     df['level_display_label'] = df['level'].map(lambda value: f"Level {int(value)}")
     df.loc[df['special_label'] != '', 'level_display_label'] = df.loc[df['special_label'] != '', 'special_label']
+    plot_df = df[~df['is_no_league']].copy()
 
     level_name_df = pd.DataFrame(
         [
@@ -8066,7 +8095,7 @@ def league_history_progression_chart(db, output_file="data/charts/league_history
 
     color_scale = alt.Scale(domain=["1st", "2nd", "3rd"], range=["#202946", "#7d96e8", "#9ca3af"])
 
-    base = alt.Chart(df).encode(
+    base = alt.Chart(plot_df).encode(
         x=alt.X(
             "season:O",
             title="Season", 
@@ -8092,26 +8121,83 @@ def league_history_progression_chart(db, output_file="data/charts/league_history
         ],
     )
 
-    lines = base.mark_line(strokeWidth=3)
-    special_outline = alt.Chart(df[df['is_special']]).mark_point(
-        shape='square',
-        filled=False,
-        stroke='#111111',
-        strokeWidth=2,
-        size=1200,
-    ).encode(
-        x=alt.X("season:O", scale=alt.Scale(domain=season_order)),
-        y=alt.Y("level:O"),
-    )
+    non_rfu_2nd_filter = "datum.is_non_rfu && datum.squad == '2nd'"
+
+    lines = base.mark_line(strokeWidth=3).transform_filter(f"!({non_rfu_2nd_filter})")
+    non_rfu_lines = base.mark_line(strokeWidth=3, yOffset=25).transform_filter(non_rfu_2nd_filter)
     points = base.mark_point(filled=True, strokeWidth=2, opacity=1, size=800).encode(
         fill=alt.condition("datum.squad == '3rd'", alt.value("#ffffff"), alt.Color("squad:N", scale=color_scale, legend=None)),
         stroke=alt.condition("datum.squad == '1st'", alt.value("#7d96e8"), alt.value("#202946")),
         shape=alt.Shape("marker_shape:N", scale=None, legend=None),
+    ).transform_filter(f"!({non_rfu_2nd_filter})")
+    non_rfu_points = base.mark_point(filled=True, strokeWidth=2, opacity=1, size=800, yOffset=25).encode(
+        fill=alt.condition("datum.squad == '3rd'", alt.value("#ffffff"), alt.Color("squad:N", scale=color_scale, legend=None)),
+        stroke=alt.condition("datum.squad == '1st'", alt.value("#7d96e8"), alt.value("#202946")),
+        shape=alt.Shape("marker_shape:N", scale=None, legend=None),
+    ).transform_filter(non_rfu_2nd_filter)
+
+    special_cluster = plot_df[plot_df['is_non_rfu'] & (plot_df['squad'] == '2nd')].copy()
+    if not special_cluster.empty:
+        season_index = {season: idx for idx, season in enumerate(season_order)}
+        special_cluster['season_idx'] = special_cluster['season'].map(season_index)
+        season_start = season_order[int(special_cluster['season_idx'].min())]
+        season_end = season_order[int(special_cluster['season_idx'].max())]
+        level_start = int(special_cluster['level'].min())
+        level_end = int(special_cluster['level'].max())
+        special_enclosure_df = pd.DataFrame(
+            [
+                {
+                    'season_start': season_start,
+                    'season_end': season_end,
+                    'level_start': level_start,
+                    'level_end': level_end,
+                    'label': 'Non-RFU leagues',
+                }
+            ]
+        )
+    else:
+        special_enclosure_df = pd.DataFrame(columns=['season_start', 'season_end', 'level_start', 'level_end', 'label'])
+
+    special_outline = alt.Chart(special_enclosure_df).mark_rect(
+        fill="white",
+        fillOpacity=0.5,
+        stroke='#111111',
+        strokeWidth=2,
+        xOffset=-20,
+        x2Offset=25,
+        yOffset=0,
+        y2Offset=50,
+        cornerRadius=10,
+    ).encode(
+        x=alt.X('season_start:O', scale=alt.Scale(domain=season_order)),
+        x2=alt.X2('season_end:O'),
+        y=alt.Y('level_start:O'),
+        y2=alt.Y2('level_end:O'),
     )
+
+    special_outline_label = alt.Chart(special_enclosure_df).mark_text(
+        align='right',
+        baseline='top',
+        color='#111111',
+        fontSize=12,
+        font='PT Sans Narrow',
+        fontWeight='bold',
+        dx=10,
+        dy=5,
+    ).encode(
+        x=alt.X('season_end:O', scale=alt.Scale(domain=season_order)),
+        y=alt.Y('level_start:O'),
+        text=alt.Text('label:N'),
+    )
+
     point_text = base.mark_text(font="PT Sans Narrow", fontSize=18, fontWeight="bold").encode(
         text=alt.Text("rank_label:N"),
         color=alt.Color("rank_text_color:N", scale=None, legend=None),
-    )
+    ).transform_filter(f"!({non_rfu_2nd_filter})")
+    non_rfu_text = base.mark_text(font="PT Sans Narrow", fontSize=18, fontWeight="bold", yOffset=25).encode(
+        text=alt.Text("rank_label:N"),
+        color=alt.Color("rank_text_color:N", scale=None, legend=None),
+    ).transform_filter(non_rfu_2nd_filter)
 
     left_level_labels = alt.Chart(level_name_df).mark_text(
         align="left", baseline="middle", dx=-12, dy=10, color="#6b7280", fontSize=10, opacity=1.0, fontStyle="italic"
@@ -8129,8 +8215,8 @@ def league_history_progression_chart(db, output_file="data/charts/league_history
         text=alt.Text("current:N"),
     )
 
-    chart = alt.layer(left_level_labels, right_level_labels, lines, special_outline, points, point_text).properties(
-        width=alt.Step(40),
+    chart = alt.layer(left_level_labels, right_level_labels, lines, non_rfu_lines, special_outline, special_outline_label, points, non_rfu_points, point_text, non_rfu_text).properties(
+        width=alt.Step(35),
         height=alt.Step(50),
         title=alt.Title(
             text="League History",

@@ -101,36 +101,6 @@
       "file": "league_results_2s_2015-2016.json"
     }
   },
-  "2017-2018": {
-    "1": {
-      "league": "Harvey's of Sussex 1",
-      "file": "league_results_1s_2017-2018.json"
-    },
-    "2": {
-      "league": "Sussex 3 'Forwards Choice'",
-      "file": "league_results_2s_2017-2018.json"
-    }
-  },
-  "2018-2019": {
-    "1": {
-      "league": "Sussex 4 EAST Albion Ale'",
-      "file": "league_results_1s_2018-2019.json"
-    },
-    "2": {
-      "league": "Sussex 3 EAST Bonfire Boy",
-      "file": "league_results_2s_2018-2019.json"
-    }
-  },
-  "2019-2020": {
-    "1": {
-      "league": "Harvey's of Sussex 1",
-      "file": "league_results_1s_2019-2020.json"
-    },
-    "2": {
-      "league": "Sussex Div. 3 East",
-      "file": "league_results_2s_2019-2020.json"
-    }
-  },
   "2021-2022": {
     "1": {
       "league": "Sussex 1",
