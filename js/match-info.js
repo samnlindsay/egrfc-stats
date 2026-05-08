@@ -1342,27 +1342,6 @@ function oppositionTeamLinkHtml(teamName) {
     return `<a href="${escapeAttribute(href)}" class="table-link">${escapeHtml(text)}</a>`;
 }
 
-function syncMatchInfoSeasonStepperFromSelect() {
-    const select = document.getElementById('matchFilterSeason');
-    if (!select) return;
-    if (window.sharedUi?.attachSeasonStepper) {
-        window.sharedUi.attachSeasonStepper({
-            select,
-            label: 'matchFilterSeasonLabel',
-            prev: 'matchFilterSeasonPrev',
-            next: 'matchFilterSeasonNext',
-            prevDelta: 1,
-            nextDelta: -1,
-            dispatchChange: false,
-            formatLabel: (_value, selectEl) => {
-                const selectedOpt = selectEl.options[selectEl.selectedIndex];
-                return selectedOpt?.text || selectedOpt?.value || '';
-            },
-        });
-        return;
-    }
-}
-
 function syncMatchInfoSquadSegmentFromSelect() {
     const select = document.getElementById('matchFilterSquad');
     const segment = document.getElementById('matchFilterSquadSegment');
@@ -1379,18 +1358,20 @@ function syncMatchInfoSquadSegmentFromSelect() {
 
 function getFilterValues() {
     const squad = String(document.getElementById('matchFilterSquad')?.value || 'All');
-    const season = String(document.getElementById('matchFilterSeason')?.value || 'All');
+    const seasonSelect = document.getElementById('matchFilterSeason');
+    // Get all selected seasons from multi-select
+    const selectedSeasons = seasonSelect ? Array.from(seasonSelect.selectedOptions).map(opt => opt.value) : [];
     const opposition = String(document.getElementById('matchFilterOpposition')?.value || 'All');
-    return { squad, season, opposition };
+    return { squad, selectedSeasons, opposition };
 }
 
 function renderMatchInfoActiveFilters() {
     const target = document.getElementById('matchInfoActiveFilters');
     if (!target) return;
 
-    const { squad, season, opposition } = getFilterValues();
+    const { squad, selectedSeasons, opposition } = getFilterValues();
     const squadLabel = squad === 'All' ? 'All' : formatSquadLabel(squad);
-    const seasonLabel = season === 'All' ? 'All' : season;
+    const seasonLabel = selectedSeasons.length === 0 ? 'All' : selectedSeasons.length === 1 ? selectedSeasons[0] : `${selectedSeasons.length} seasons`;
     const oppositionLabel = opposition === 'All' ? 'All' : opposition;
 
     if (window.sharedUi?.renderOffcanvasFilterChips) {
@@ -1415,10 +1396,11 @@ function renderMatchInfoActiveFilters() {
 }
 
 function applyFilters() {
-    const { squad, season, opposition } = getFilterValues();
+    const { squad, selectedSeasons, opposition } = getFilterValues();
+    const seasonSet = new Set(selectedSeasons);
     filteredMatches = allMatches.filter(row => {
         if (squad !== 'All' && String(row?.squad || '') !== squad) return false;
-        if (season !== 'All' && String(row?.season || '') !== season) return false;
+        if (seasonSet.size > 0 && !seasonSet.has(String(row?.season || ''))) return false;
         if (opposition !== 'All' && baseClubName(String(row?.opposition || '')) !== opposition) return false;
         return true;
     });
@@ -1443,12 +1425,15 @@ function populateBaseFilters() {
     const oppositions = [...new Set(allMatches.map(row => baseClubName(row?.opposition)).filter(Boolean))]
         .sort((a, b) => a.localeCompare(b));
 
-    seasonSelect.innerHTML = '<option value="All" selected>All</option>'
+    seasonSelect.innerHTML = '<option value="">All</option>'
         + seasons.map(value => `<option value="${escapeHtml(value)}">${escapeHtml(value)}</option>`).join('');
     oppositionSelect.innerHTML = '<option value="All" selected>All</option>'
         + oppositions.map(value => `<option value="${escapeHtml(value)}">${escapeHtml(value)}</option>`).join('');
 
-    syncMatchInfoSeasonStepperFromSelect();
+    // Initialize selectpicker for multi-select
+    if (window.jQuery && window.jQuery.fn && window.jQuery.fn.selectpicker) {
+        window.jQuery(seasonSelect).selectpicker('refresh');
+    }
     updateSelectPicker(oppositionSelect);
 }
 
@@ -1763,19 +1748,6 @@ function bindControls(initialGameId) {
         });
     }
 
-    const seasonPrev = document.getElementById('matchFilterSeasonPrev');
-    const seasonNext = document.getElementById('matchFilterSeasonNext');
-    if (window.sharedUi?.attachSeasonStepper && season) {
-        window.sharedUi.attachSeasonStepper({
-            select: season,
-            label: 'matchFilterSeasonLabel',
-            prev: seasonPrev,
-            next: seasonNext,
-            prevDelta: 1,
-            nextDelta: -1,
-        });
-    }
-
     // Hidden select change listeners for squad and season
     if (squad) {
         squad.addEventListener('change', () => {
@@ -1785,7 +1757,6 @@ function bindControls(initialGameId) {
     }
     if (season) {
         season.addEventListener('change', () => {
-            syncMatchInfoSeasonStepperFromSelect();
             if (!isInitialisingControls) refreshFromFilters('');
         });
     }

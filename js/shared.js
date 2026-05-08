@@ -26,6 +26,19 @@ let availableSeasons = [
   "2018/19",
   "2017/18",
   "2016/17",
+  "2015/16",
+  "2014/15",
+  "2013/14",
+  "2012/13",
+  "2011/12",
+  "2010/11",
+  "2009/10",
+  "2008/09",
+  "2007/08",
+  "2006/07",
+  "2005/06",
+  "2004/05",
+  "2003/04",
 ];
 const chartSpecCache = new Map();
 const chartSpecRequestVersion = String(Date.now());
@@ -984,7 +997,17 @@ async function loadAvailableSeasons() {
       Array.isArray(data.seasons) &&
       data.seasons.length > 0
     ) {
-      availableSeasons = data.seasons;
+      availableSeasons = Array.from(
+        new Set(
+          data.seasons
+            .map((season) => normalizeSeasonLabel(season))
+            .filter((season) => Boolean(season)),
+        ),
+      ).sort((a, b) => {
+        const aYear = Number(String(a).split("/")[0]) || 0;
+        const bYear = Number(String(b).split("/")[0]) || 0;
+        return bYear - aYear;
+      });
     }
   } catch (err) {
     console.error(

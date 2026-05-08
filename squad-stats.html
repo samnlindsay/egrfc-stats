@@ -273,7 +273,7 @@
                                         <li>The size of the bar indicates the margin of victory or defeat.</li>
                                         <li>The most recent game is at the top, and the first game of the season is at the bottom.</li>
                                     </ul>
-                                    <p class="chart-section-hint">Select <strong>All (2017-)</strong> in the season filter to view an aggregated by-season average (PF vs PA).</p>
+                                    <p class="chart-section-hint">Select <strong>All (2003/04-)</strong> in the season filter to view an aggregated by-season average (PF vs PA).</p>
                                 </div>
                                 <div id="squadResultsChart"
                                     class="chart-host chart-host--overflow-visible chart-host--intrinsic"></div>
@@ -415,15 +415,8 @@
             <div class="squad-filters-grid squad-filters-grid--offcanvas">
                 <div class="squad-filter-control" role="group" aria-label="Season">
                     <span class="squad-filter-label">Season</span>
-                    <div class="squad-filter-season-stepper">
-                        <button type="button" id="squadStatsSeasonPrevOffcanvas" class="squad-filter-stepper-btn"
-                            aria-label="Previous season">&#8249;</button>
-                        <span id="squadStatsSeasonLabelOffcanvas" class="squad-filter-stepper-label"></span>
-                        <button type="button" id="squadStatsSeasonNextOffcanvas" class="squad-filter-stepper-btn"
-                            aria-label="Next season">&#8250;</button>
-                    </div>
-                    <select id="squadStatsSeasonSelect" class="visually-hidden" aria-hidden="true"
-                        tabindex="-1"></select>
+                    <select id="squadStatsSeasonSelect" class="selectpicker" data-size="8" title="Select season">
+                    </select>
                 </div>
                 <div class="squad-filter-control" role="group" aria-label="Game Type">
                     <span class="squad-filter-label">Game Type</span>

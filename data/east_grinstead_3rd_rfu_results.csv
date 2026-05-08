@@ -1,0 +1,44 @@
+match_id,season,date,date_raw,competition,home_team,away_team,home_score,away_score
+651656,2017-2018,2017-09-16,"Saturday, 16 Sep 2017",Sussex 4 EAST 'Bonfire Boy',Hove III,East Grinstead III,46,24
+651661,2017-2018,2017-09-23,"Saturday, 23 Sep 2017",Sussex 4 EAST 'Bonfire Boy',East Grinstead III,Crowborough III,10,24
+651666,2017-2018,2017-09-30,"Saturday, 30 Sep 2017",Sussex 4 EAST 'Bonfire Boy',Heathfield & Waldron III,East Grinstead III,51,12
+651670,2017-2018,2017-10-07,"Saturday, 07 Oct 2017",Sussex 4 EAST 'Bonfire Boy',St Francis II,East Grinstead III,29,5
+651674,2017-2018,2017-10-21,"Saturday, 21 Oct 2017",Sussex 4 EAST 'Bonfire Boy',East Grinstead III,Crawley III,22,0
+651678,2017-2018,2017-10-28,"Saturday, 28 Oct 2017",Sussex 4 EAST 'Bonfire Boy',Sea Serpents,East Grinstead III,33,31
+651685,2017-2018,2017-11-04,"Saturday, 04 Nov 2017",Sussex 4 EAST 'Bonfire Boy',East Grinstead III,Lewes II,26,24
+651701,2017-2018,2017-12-09,"Saturday, 09 Dec 2017",Sussex 4 EAST 'Bonfire Boy',East Grinstead III,Hove III,12,37
+651706,2017-2018,2018-01-06,"Saturday, 06 Jan 2018",Sussex 4 EAST 'Bonfire Boy',Crowborough III,East Grinstead III,19,0
+651711,2017-2018,2018-01-13,"Saturday, 13 Jan 2018",Sussex 4 EAST 'Bonfire Boy',East Grinstead III,Heathfield & Waldron III,10,26
+651715,2017-2018,2018-02-03,"Saturday, 03 Feb 2018",Sussex 4 EAST 'Bonfire Boy',East Grinstead III,St Francis II,14,28
+651719,2017-2018,2018-02-17,"Saturday, 17 Feb 2018",Sussex 4 EAST 'Bonfire Boy',Crawley III,East Grinstead III,,
+651723,2017-2018,2018-03-03,"Saturday, 03 Mar 2018",Sussex 4 EAST 'Bonfire Boy',East Grinstead III,Sea Serpents,31,33
+651730,2017-2018,2018-03-10,"Saturday, 10 Mar 2018",Sussex 4 EAST 'Bonfire Boy',Lewes II,East Grinstead III,,
+741884,2018-2019,2018-09-08,"Saturday, 08 Sep 2018",Sussex 4 EAST Albion Ale',Uckfield II,East Grinstead III,69,17
+741888,2018-2019,2018-09-15,"Saturday, 15 Sep 2018",Sussex 4 EAST Albion Ale',East Grinstead III,Crowborough III,21,47
+741892,2018-2019,2018-09-22,"Saturday, 22 Sep 2018",Sussex 4 EAST Albion Ale',BYE2,East Grinstead III,,
+741895,2018-2019,2018-09-29,"Saturday, 29 Sep 2018",Sussex 4 EAST Albion Ale',East Grinstead III,Eastbourne III,,
+741899,2018-2019,2018-10-06,"Saturday, 06 Oct 2018",Sussex 4 EAST Albion Ale',BYE1,East Grinstead III,,
+741906,2018-2019,2018-10-27,"Saturday, 27 Oct 2018",Sussex 4 EAST Albion Ale',Mid Sussex Barbarians,East Grinstead III,60,7
+741912,2018-2019,2018-11-03,"Saturday, 03 Nov 2018",Sussex 4 EAST Albion Ale',Crowborough III,East Grinstead III,,
+741914,2018-2019,2018-11-17,"Saturday, 17 Nov 2018",Sussex 4 EAST Albion Ale',East Grinstead III,BYE2,,
+741919,2018-2019,2018-12-01,"Saturday, 01 Dec 2018",Sussex 4 EAST Albion Ale',Eastbourne III,East Grinstead III,,
+741921,2018-2019,2018-12-08,"Saturday, 08 Dec 2018",Sussex 4 EAST Albion Ale',East Grinstead III,BYE1,,
+741931,2018-2019,2019-01-05,"Saturday, 05 Jan 2019",Sussex 4 EAST Albion Ale',East Grinstead III,Mid Sussex Barbarians,,
+741933,2018-2019,2019-01-12,"Saturday, 12 Jan 2019",Sussex 4 EAST Albion Ale',East Grinstead III,Uckfield II,,
+750542,2018-2019,2019-02-09,"Saturday, 09 Feb 2019",Sussex 4 EAST Albion Ale',East Grinstead III,Uckfield II,,
+750537,2018-2019,2019-02-16,"Saturday, 16 Feb 2019",Sussex 4 EAST Albion Ale',Mid Sussex Barbarians,East Grinstead III,10,51
+750544,2018-2019,2019-03-09,"Saturday, 09 Mar 2019",Sussex 4 EAST Albion Ale',East Grinstead III,Crowborough III,22,26
+750546,2018-2019,2019-03-23,"Saturday, 23 Mar 2019",Sussex 4 EAST Albion Ale',Eastbourne III,East Grinstead III,70,17
+821943,2019-2020,2019-09-28,"Saturday, 28 Sep 2019",Sussex Div. 4,East Grinstead III,St Francis II,15,22
+851007,2019-2020,2019-11-08,"Friday, 08 Nov 2019",Harveys Sussex Vase/Salver,Littlehampton,East Grinstead III,26,24
+821949,2019-2020,2019-11-09,"Saturday, 09 Nov 2019",Sussex Div. 4,East Grinstead III,Brighton & Sussex Medics,5,19
+821952,2019-2020,2019-11-23,"Saturday, 23 Nov 2019",Sussex Div. 4,Seaford II,East Grinstead III,5,19
+850997,2019-2020,2019-11-30,"Saturday, 30 Nov 2019",Harveys Sussex Vase/Salver,East Grinstead III,Brighton & Sussex Medics,31,5
+846476,2019-2020,2019-12-14,"Saturday, 14 Dec 2019",Sussex Div. 4,East Grinstead III,Bognor III,,
+851004,2019-2020,2020-01-04,"Saturday, 04 Jan 2020",Harveys Sussex Vase/Salver,East Grinstead III,Winner of Match 4,88,0
+821958,2019-2020,2020-01-11,"Saturday, 11 Jan 2020",Sussex Div. 4,St Francis II,East Grinstead III,,
+821964,2019-2020,2020-02-15,"Saturday, 15 Feb 2020",Sussex Div. 4,Brighton & Sussex Medics,East Grinstead III,,
+862344,2019-2020,2020-02-22,"Saturday, 22 Feb 2020",Sussex Div. 4,Brighton and Hove Sea Serpents,East Grinstead III,5,45
+821967,2019-2020,2020-02-29,"Saturday, 29 Feb 2020",Sussex Div. 4,East Grinstead III,Seaford II,,
+846867,2019-2020,2020-03-14,"Saturday, 14 Mar 2020",Sussex Div. 4,Bognor III,East Grinstead III,,
+855145,2019-2020,2026-05-08,"Friday, 08 May 2026",Sussex Div. 4,Brighton and Hove Sea Serpents,East Grinstead III,0,40

@@ -8,7 +8,6 @@ let playerStatsAnalysisRailInitialised = false;
 const PLAYER_STATS_DEFAULT_GAME_TYPE = 'All';
 const PLAYER_STATS_DEFAULT_SCORE_TYPE = 'Total';
 const PLAYER_STATS_DEFAULT_MOTM_AGGREGATE = false;
-const PLAYER_STATS_ALL_SEASONS_VALUE = '__all_seasons__';
 const PLAYER_STATS_STARTER_POSITIONS_VALUE = 'Starters';
 const PLAYER_STATS_DEFAULT_COMBINATION = 'front_row';
 const PLAYER_STATS_COMBINATION_OPTIONS = [
@@ -56,7 +55,10 @@ function extractSeasonsFromSpec(spec) {
 }
 
 function getPlayerStatsSeasonOptions() {
-    return sortSeasonLabelsDescending([...(availableSeasons || []), ...playerStatsDataSeasons]);
+    return sortSeasonLabelsDescending(
+        [...(availableSeasons || []), ...playerStatsDataSeasons]
+            .filter(season => season && season !== 'Total')
+    );
 }
 
 function getPlayerStatsAllSeasonsLabel() {
@@ -70,11 +72,15 @@ function getPlayerStatsAllSeasonsLabel() {
     return `All (${normalizedEndYear}-)`;
 }
 
-function getPlayerStatsSelectedSeasonLabel(selectedSeasonValue) {
-    if (!selectedSeasonValue || selectedSeasonValue === PLAYER_STATS_ALL_SEASONS_VALUE) {
+function getPlayerStatsSelectedSeasonLabel(selectedSeasons) {
+    const seasons = Array.isArray(selectedSeasons) ? selectedSeasons : [];
+    if (seasons.length === 0) {
         return getPlayerStatsAllSeasonsLabel();
     }
-    return selectedSeasonValue;
+    if (seasons.length === 1) {
+        return seasons[0];
+    }
+    return `${seasons.length} seasons`;
 }
 
 function getPlayerStatsSelectedPositions() {
@@ -99,10 +105,9 @@ function getPlayerStatsPositionChipLabel(selectedPositions) {
 
 function getPlayerStatsSelectedState() {
     const seasonSelect = document.getElementById('playerStatsSeasonSelect');
-    const selectedSeasonValue = seasonSelect?.value || PLAYER_STATS_ALL_SEASONS_VALUE;
+    const selectedSeasons = seasonSelect ? Array.from(seasonSelect.selectedOptions).map(opt => opt.value) : [];
     return {
-        selectedSeasonValue,
-        selectedSeasons: selectedSeasonValue === PLAYER_STATS_ALL_SEASONS_VALUE ? [] : [selectedSeasonValue],
+        selectedSeasons: selectedSeasons.length === 0 ? [] : selectedSeasons,
         selectedGameType: document.getElementById('playerStatsGameTypeSelect')?.value || PLAYER_STATS_DEFAULT_GAME_TYPE,
         selectedSquad: document.getElementById('playerStatsSquadSelect')?.value || 'All',
         selectedMotmAggregate: document.getElementById('playerStatsMotmAggregateSwitch')?.checked ?? PLAYER_STATS_DEFAULT_MOTM_AGGREGATE,
@@ -134,7 +139,6 @@ function getPlayerStatsPointsThresholdLabel(scoreType) {
 
 function normalizePlayerStatsSeasonFilter(selectedSeasons) {
     const seasons = Array.isArray(selectedSeasons) ? selectedSeasons.filter(Boolean) : [];
-    if (seasons.includes(PLAYER_STATS_ALL_SEASONS_VALUE)) return [];
     return seasons;
 }
 
@@ -286,17 +290,6 @@ function getPlayerStatsThresholdValue(key) {
     return normalizePlayerStatsThreshold(input?.value ?? config.defaultValue, config);
 }
 
-function syncPlayerStatsSeasonStepperFromSelect() {
-    const select = document.getElementById('playerStatsSeasonSelect');
-    const label = document.getElementById('playerStatsSeasonLabelOffcanvas');
-    const prevBtn = document.getElementById('playerStatsSeasonPrevOffcanvas');
-    const nextBtn = document.getElementById('playerStatsSeasonNextOffcanvas');
-    if (!select || !label) return;
-    label.textContent = select.options[select.selectedIndex]?.text || getPlayerStatsAllSeasonsLabel();
-    if (prevBtn) prevBtn.disabled = select.selectedIndex >= select.options.length - 1;
-    if (nextBtn) nextBtn.disabled = select.selectedIndex <= 0;
-}
-
 function syncPlayerStatsGameTypeSegmentFromSelect() {
     const select = document.getElementById('playerStatsGameTypeSelect');
     const segment = document.getElementById('playerStatsGameTypeSegment');
@@ -382,13 +375,13 @@ function updatePlayerStatsMinThresholdDisplays() {
 
 function renderPlayerStatsActiveFilterChips(state) {
     const {
-        selectedSeasonValue,
+        selectedSeasons,
         selectedGameType,
         selectedSquad,
         selectedPositions,
     } = state;
 
-    const _seasonLabel = getPlayerStatsSelectedSeasonLabel(selectedSeasonValue);
+    const _seasonLabel = getPlayerStatsSelectedSeasonLabel(selectedSeasons);
     const _seasonShort = /^\d{4}\//.test(_seasonLabel) ? _seasonLabel.replace(/^20/, '') : _seasonLabel;
     const seasonChip = `<button type="button" class="squad-stats-filter-chip squad-stats-filter-chip-btn" data-bs-toggle="offcanvas" data-bs-target="#playerStatsFiltersOffcanvas" aria-controls="playerStatsFiltersOffcanvas"><strong>Season</strong> <span class="d-none d-md-inline">${_seasonLabel}</span><span class="d-inline d-md-none">${_seasonShort}</span></button>`;
     const gameTypeChip = `<button type="button" class="squad-stats-filter-chip squad-stats-filter-chip-btn" data-bs-toggle="offcanvas" data-bs-target="#playerStatsFiltersOffcanvas" aria-controls="playerStatsFiltersOffcanvas"><strong>Game Type</strong> ${selectedGameType || PLAYER_STATS_DEFAULT_GAME_TYPE}</button>`;
@@ -425,7 +418,6 @@ function renderPlayerStatsActiveFilterChips(state) {
 
 function renderPlayerStatsHero(state) {
     const {
-        selectedSeasonValue,
         selectedSeasons,
         selectedGameType,
         selectedSquad,
@@ -436,7 +428,7 @@ function renderPlayerStatsHero(state) {
     const meta = document.getElementById('playerStatsHeroMeta');
     if (meta) {
         const squadLabel = selectedSquad === 'All' ? 'All' : `${selectedSquad} XV`;
-        meta.textContent = `${getPlayerStatsSelectedSeasonLabel(selectedSeasonValue)} | ${selectedGameType} | ${squadLabel}`;
+        meta.textContent = `${getPlayerStatsSelectedSeasonLabel(selectedSeasons)} | ${selectedGameType} | ${squadLabel}`;
     }
 
     const resolvedPositions = resolvePlayerStatsPositions(selectedPositions);
@@ -494,7 +486,6 @@ function renderPlayerStatsHero(state) {
 }
 
 function handlePlayerStatsControlChange() {
-    syncPlayerStatsSeasonStepperFromSelect();
     syncPlayerStatsGameTypeSegmentFromSelect();
     syncPlayerStatsSquadSegmentFromSelect();
     syncPlayerStatsScoreTypeSegmentFromSelect();
@@ -604,8 +595,6 @@ function initialisePlayerStatsControls() {
     const minCaptainsInput = document.getElementById('playerStatsMinCaptainsInput');
     const minMotmInput = document.getElementById('playerStatsMinMotmInput');
     const minCombinationsInput = document.getElementById('playerStatsMinCombinationsInput');
-    const seasonPrevButton = document.getElementById('playerStatsSeasonPrevOffcanvas');
-    const seasonNextButton = document.getElementById('playerStatsSeasonNextOffcanvas');
     const gameTypeSegment = document.getElementById('playerStatsGameTypeSegment');
     const squadSegment = document.getElementById('playerStatsSquadSegment');
     const scoreTypeSegment = document.getElementById('playerStatsScoreTypeSegment');
@@ -616,18 +605,18 @@ function initialisePlayerStatsControls() {
 
     const seasons = getPlayerStatsSeasonOptions();
     seasonSelect.innerHTML = '';
-    const allSeasonsOption = document.createElement('option');
-    allSeasonsOption.value = PLAYER_STATS_ALL_SEASONS_VALUE;
-    allSeasonsOption.textContent = getPlayerStatsAllSeasonsLabel();
-    seasonSelect.appendChild(allSeasonsOption);
     seasons.forEach(season => {
         const option = document.createElement('option');
         option.value = season;
         option.textContent = season;
+        option.selected = true;
         seasonSelect.appendChild(option);
     });
 
-    seasonSelect.value = PLAYER_STATS_ALL_SEASONS_VALUE;
+    if (window.jQuery && typeof window.jQuery.fn?.selectpicker === 'function') {
+        window.jQuery(seasonSelect).selectpicker('refresh');
+    }
+
     gameTypeSelect.value = PLAYER_STATS_DEFAULT_GAME_TYPE;
     squadSelect.value = 'All';
     scoreTypeSelect.value = PLAYER_STATS_DEFAULT_SCORE_TYPE;
@@ -652,24 +641,6 @@ function initialisePlayerStatsControls() {
             input.addEventListener('input', handlePlayerStatsControlChange);
             input.addEventListener('change', handlePlayerStatsControlChange);
         });
-
-    if (seasonPrevButton) {
-        seasonPrevButton.addEventListener('click', () => {
-            if (seasonSelect.selectedIndex < seasonSelect.options.length - 1) {
-                seasonSelect.selectedIndex += 1;
-                handlePlayerStatsControlChange();
-            }
-        });
-    }
-
-    if (seasonNextButton) {
-        seasonNextButton.addEventListener('click', () => {
-            if (seasonSelect.selectedIndex > 0) {
-                seasonSelect.selectedIndex -= 1;
-                handlePlayerStatsControlChange();
-            }
-        });
-    }
 
     if (window.sharedUi?.bindSegmentToSelect) {
         if (gameTypeSegment) {
@@ -712,7 +683,6 @@ function initialisePlayerStatsControls() {
         });
     }
 
-    syncPlayerStatsSeasonStepperFromSelect();
     syncPlayerStatsGameTypeSegmentFromSelect();
     syncPlayerStatsSquadSegmentFromSelect();
     syncPlayerStatsScoreTypeSegmentFromSelect();

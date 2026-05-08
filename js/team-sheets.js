@@ -2,7 +2,6 @@
 
 let teamSheetsControlsInitialised = false;
 let teamSheetsSpec = null;
-const TEAM_SHEETS_ALL_SEASONS_VALUE = '__all_seasons__';
 const TEAM_SHEETS_FORWARD_POSITIONS = ['Prop', 'Hooker', 'Second Row', 'Flanker', 'Number 8'];
 const TEAM_SHEETS_BACK_POSITIONS = ['Scrum Half', 'Fly Half', 'Centre', 'Wing', 'Full Back'];
 
@@ -22,13 +21,9 @@ function renderTeamSheetsActiveFilterChips() {
     const selectedPositions = $('#teamSheetsPositionSelect').val() || [];
 
     // Build season label
-    let seasonLabel = 'All';
+    let seasonLabel = getTeamSheetsAllSeasonsLabel();
     if (Array.isArray(selectedSeasons) && selectedSeasons.length > 0) {
-        if (selectedSeasons.length === 1 && selectedSeasons[0] === TEAM_SHEETS_ALL_SEASONS_VALUE) {
-            seasonLabel = getTeamSheetsAllSeasonsLabel();
-        } else {
-            seasonLabel = selectedSeasons.length === 1 ? selectedSeasons[0] : `${selectedSeasons.length} selected`;
-        }
+        seasonLabel = selectedSeasons.length === 1 ? selectedSeasons[0] : `${selectedSeasons.length} selected`;
     }
 
     // Build position label
@@ -119,11 +114,6 @@ async function renderTeamSheetsPage() {
     const selectedGameType = document.getElementById('teamSheetsGameTypeSelect')?.value || 'All games';
     const selectedPositions = $('#teamSheetsPositionSelect').val() || [];
 
-    // Convert all seasons value to empty array (show all)
-    if (Array.isArray(selectedSeasons) && selectedSeasons.length === 1 && selectedSeasons[0] === TEAM_SHEETS_ALL_SEASONS_VALUE) {
-        selectedSeasons = [];
-    }
-
     renderTeamSheetsActiveFilterChips();
 
     try {
@@ -184,45 +174,20 @@ function initialiseTeamSheetsControls(seasons) {
 
     if (!seasonSelect || !squadSegment || !gameTypeSegment || !positionGrid) return;
 
-    // Populate season select (hidden, for state management)
-    // First add the "All seasons" option
+    // Populate season select and select all seasons by default.
     seasonSelect.innerHTML = '';
-    const allSeasonsOption = document.createElement('option');
-    allSeasonsOption.value = TEAM_SHEETS_ALL_SEASONS_VALUE;
-    allSeasonsOption.textContent = getTeamSheetsAllSeasonsLabel();
-    seasonSelect.appendChild(allSeasonsOption);
-    
-    // Then add individual seasons (oldest-to-newest for stepper)
     seasons.forEach(season => {
         const option = document.createElement('option');
         option.value = season;
         option.textContent = season;
+        option.selected = true;
         seasonSelect.appendChild(option);
     });
 
-    // Set initial season to "All"
-    $('#teamSheetsSeasonSelect').val([TEAM_SHEETS_ALL_SEASONS_VALUE]);
-
-    // Season stepper buttons (prev = older, next = newer in chronological order)
-    document.getElementById('teamSheetsSeasonPrev').addEventListener('click', () => {
-        const currentVal = getCurrentSelectedTeamSheetsSeason();
-        const currentIdx = currentVal === TEAM_SHEETS_ALL_SEASONS_VALUE ? -1 : seasons.indexOf(currentVal);
-        if (currentIdx > 0) {
-            $('#teamSheetsSeasonSelect').val([seasons[currentIdx - 1]]);
-            updateTeamSheetsSeasonLabel(seasons);
-            renderTeamSheetsPage();
-        }
-    });
-
-    document.getElementById('teamSheetsSeasonNext').addEventListener('click', () => {
-        const currentVal = getCurrentSelectedTeamSheetsSeason();
-        const currentIdx = currentVal === TEAM_SHEETS_ALL_SEASONS_VALUE ? -1 : seasons.indexOf(currentVal);
-        if (currentIdx < seasons.length - 1) {
-            $('#teamSheetsSeasonSelect').val([seasons[currentIdx + 1]]);
-            updateTeamSheetsSeasonLabel(seasons);
-            renderTeamSheetsPage();
-        }
-    });
+    if (window.jQuery && typeof window.jQuery.fn?.selectpicker === 'function') {
+        window.jQuery(seasonSelect).selectpicker('refresh');
+    }
+    seasonSelect.addEventListener('change', () => renderTeamSheetsPage());
 
     if (window.sharedUi?.bindSegmentToSelect) {
         window.sharedUi.bindSegmentToSelect({
@@ -336,28 +301,9 @@ function initialiseTeamSheetsControls(seasons) {
         });
     });
 
-    // Update season label display
-    updateTeamSheetsSeasonLabel(seasons);
     syncTeamSheetsPositionButtons();
 
     teamSheetsControlsInitialised = true;
-}
-
-function getCurrentSelectedTeamSheetsSeason() {
-    const val = $('#teamSheetsSeasonSelect').val();
-    return Array.isArray(val) && val.length > 0 ? val[0] : '';
-}
-
-function updateTeamSheetsSeasonLabel(seasons) {
-    const seasonLabel = document.getElementById('teamSheetsSeasonLabel');
-    if (seasonLabel) {
-        const current = getCurrentSelectedTeamSheetsSeason();
-        if (current === TEAM_SHEETS_ALL_SEASONS_VALUE) {
-            seasonLabel.textContent = getTeamSheetsAllSeasonsLabel();
-        } else {
-            seasonLabel.textContent = current || 'Select';
-        }
-    }
 }
 
 document.addEventListener('DOMContentLoaded', async function () {

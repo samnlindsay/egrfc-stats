@@ -132,10 +132,8 @@
     const sectionLegendDefs = new Map();
     const SECTION_HIGHLIGHT_SIGNAL = '__sectionHighlightKey';
     let lineoutH2HBaseSpec = null;
-    let lineoutH2HLayoutKey = null;
-    let lineoutBreakdownSourceRows = [];
-    let lineoutSeasonStepper = null;
     let lineoutAnalysisRailInitialised = false;
+    let lineoutAvailableSeasons = [];
 
     function escapeHtml(value) {
         return String(value ?? '')
@@ -355,22 +353,58 @@
         });
     }
 
-    function populateSelect(id, values, allLabel) {
+    function getSelectedValues(element) {
+        if (!element) return [];
+        if (element.multiple) {
+            return Array.from(element.selectedOptions || []).map((option) => option.value).filter(Boolean);
+        }
+        return element.value ? [element.value] : [];
+    }
+
+    function normalizeSelectedSeasons(values) {
+        const seasons = Array.isArray(values) ? values.filter(Boolean) : [];
+        if (!lineoutAvailableSeasons.length) return seasons;
+        if (!seasons.length || seasons.length === lineoutAvailableSeasons.length) {
+            return [];
+        }
+        return seasons;
+    }
+
+    function getSelectedSeasonValues() {
+        const element = document.getElementById('lineoutFilterSeason');
+        return normalizeSelectedSeasons(getSelectedValues(element));
+    }
+
+    function populateSelect(id, values, allLabel, options = {}) {
         const select = document.getElementById(id);
         if (!select) return;
-        const currentValue = select.value;
+
+        const currentValues = getSelectedValues(select);
+        const isMultiSelect = Boolean(options.multiple || select.multiple);
         select.innerHTML = '';
-        const allOption = document.createElement('option');
-        allOption.value = 'All';
-        allOption.textContent = allLabel;
-        select.appendChild(allOption);
+
+        if (!isMultiSelect) {
+            const allOption = document.createElement('option');
+            allOption.value = 'All';
+            allOption.textContent = allLabel;
+            select.appendChild(allOption);
+        }
+
         values.forEach((value) => {
             const option = document.createElement('option');
             option.value = value;
             option.textContent = value;
+            if (isMultiSelect) {
+                option.selected = currentValues.length ? currentValues.includes(value) : true;
+            }
             select.appendChild(option);
         });
-        select.value = Array.from(select.options).some((option) => option.value === currentValue) ? currentValue : 'All';
+
+        if (!isMultiSelect) {
+            const currentValue = currentValues[0] || 'All';
+            select.value = Array.from(select.options).some((option) => option.value === currentValue) ? currentValue : 'All';
+        }
+
         if (select.classList.contains('selectpicker')) {
             rebuildBootstrapSelect(select);
         }
@@ -388,9 +422,59 @@
         return club || 'Unknown';
     }
 
+    function replaceSeasonFilterExpression(value, signalName) {
+        if (typeof value !== 'string') return value;
+        return value.replaceAll(
+            `(${signalName} == 'All' || datum.season == ${signalName})`,
+            `(length(${signalName}) == 0 || indexof(${signalName}, datum.season) >= 0)`,
+        );
+    }
+
+    function adaptSeasonSignalSpec(spec) {
+        if (!spec || typeof spec !== 'object') return spec;
+
+        const seasonSignalNames = new Set(['loSeason', 'h2hSeasonFilter']);
+
+        function visit(node) {
+            if (Array.isArray(node)) {
+                node.forEach(visit);
+                return;
+            }
+            if (!node || typeof node !== 'object') return;
+
+            if (Array.isArray(node.params)) {
+                node.params.forEach((param) => {
+                    if (seasonSignalNames.has(param?.name)) {
+                        param.value = [];
+                    }
+                });
+            }
+
+            Object.keys(node).forEach((key) => {
+                const value = node[key];
+                if (typeof value === 'string') {
+                    let nextValue = value;
+                    seasonSignalNames.forEach((signalName) => {
+                        nextValue = replaceSeasonFilterExpression(nextValue, signalName);
+                    });
+                    node[key] = nextValue;
+                } else {
+                    visit(value);
+                }
+            });
+        }
+
+        visit(spec);
+        return spec;
+    }
+
     function setSignalFromControl(view, signalName, controlId, fallback = 'All') {
         if (!view) return;
         const element = document.getElementById(controlId);
+        if (controlId === 'lineoutFilterSeason') {
+            view.signal(signalName, element ? getSelectedSeasonValues() : []);
+            return;
+        }
         view.signal(signalName, element ? element.value : fallback);
     }
 
@@ -413,20 +497,15 @@
         return element ? element.value : fallback;
     }
 
-    function seasonDisplayLabel(value) {
-        const text = String(value || 'All');
-        return text === 'All' ? 'All (2017-)' : text;
-    }
-
-    function syncLineoutSeasonStepperFromSelect() {
-        if (lineoutSeasonStepper && typeof lineoutSeasonStepper.sync === 'function') {
-            lineoutSeasonStepper.sync();
-            return;
+    function seasonDisplayLabel(values) {
+        const seasons = normalizeSelectedSeasons(Array.isArray(values) ? values : []);
+        if (!seasons.length) {
+            const earliestSeason = lineoutAvailableSeasons[lineoutAvailableSeasons.length - 1] || '2017/18';
+            const startYear = String(earliestSeason).slice(0, 4);
+            return `All (${startYear}+)`;
         }
-
-        const label = document.getElementById('lineoutSeasonLabel');
-        if (!label) return;
-        label.textContent = seasonDisplayLabel(getControlValue('lineoutFilterSeason', 'All'));
+        if (seasons.length === 1) return seasons[0];
+        return `${seasons.length} selected`;
     }
 
     function renderLineoutActiveFilters() {
@@ -438,7 +517,7 @@
 
         const chips = [
             { label: 'Squad', value: `${getControlValue('lineoutFilterSquad', '1st')} XV` },
-            { label: 'Season', value: seasonDisplayLabel(getControlValue('lineoutFilterSeason', 'All')) },
+            { label: 'Season', value: seasonDisplayLabel(getSelectedSeasonValues()) },
             { label: 'Game Type', value: gameTypeLabel },
             { label: 'Numbers', value: getControlValue('lineoutFilterNumbers', 'All') },
             { label: 'Zone', value: getControlValue('lineoutFilterArea', 'All') },
@@ -473,8 +552,8 @@
         if (squad !== 'All' && String(row?.squad || '') !== squad) return false;
 
         if (includeSeason) {
-            const season = getControlValue('lineoutFilterSeason');
-            if (season !== 'All' && String(row?.season || '') !== season) return false;
+            const seasons = getSelectedSeasonValues();
+            if (seasons.length && !seasons.includes(String(row?.season || ''))) return false;
         }
 
         const gameType = getControlValue('lineoutFilterGameType');
@@ -604,8 +683,9 @@
         tableHead.classList.add('table-dark');
 
         const rows = aggregateLineoutBreakdownRows(spec);
-        const selectedSeason = getControlValue('lineoutFilterSeason', 'All');
-        const highlightTotal = selectedSeason === 'All';
+        const selectedSeasons = getSelectedSeasonValues();
+        const selectedSeason = selectedSeasons.length === 1 ? selectedSeasons[0] : null;
+        const highlightTotal = selectedSeasons.length === 0;
         const seasonColumns = spec.field === 'season'
             ? []
             : Array.from(
@@ -722,10 +802,15 @@
         const lineoutSource = await fetchJson(LINEOUT_BREAKDOWN_SOURCE_PATH);
         lineoutBreakdownSourceRows = Array.isArray(lineoutSource) ? lineoutSource : [];
 
+        lineoutAvailableSeasons = Array.from(
+            new Set(lineoutBreakdownSourceRows.map((row) => String(row?.season || '')).filter(Boolean)),
+        ).sort(seasonSort).reverse();
+
         populateSelect(
             'lineoutFilterSeason',
-            Array.from(new Set(lineoutBreakdownSourceRows.map((row) => String(row?.season || '')).filter(Boolean))).sort(seasonSort).reverse(),
-            'All (2017-)',
+            lineoutAvailableSeasons,
+            'All',
+            { multiple: true },
         );
         populateSelect(
             'lineoutFilterThrower',
@@ -867,7 +952,7 @@
 
             const viewIds = [];
             const breakdownContainer = document.getElementById(containerId);
-            const breakdownSpec = await fetchJson(path);
+            const breakdownSpec = adaptSeasonSignalSpec(await fetchJson(path));
             let legendSourceSpec = breakdownSpec;
             addSectionHighlightParam(breakdownSpec, linkField);
             if (singleLegendSection) {
@@ -889,7 +974,7 @@
             }
 
             if (trendPath && (trendBarContainerId || trendContainerId)) {
-                const trendSpec = await fetchJson(trendPath);
+                const trendSpec = adaptSeasonSignalSpec(await fetchJson(trendPath));
                 const { barSpec, lineSpec } = splitTrendSpec(trendSpec);
                 const trendBarId = trendBarContainerId || trendContainerId;
                 const trendBarContainer = document.getElementById(trendBarId);
@@ -989,17 +1074,6 @@
             });
         }
 
-        if (window.sharedUi && typeof window.sharedUi.attachSeasonStepper === 'function') {
-            lineoutSeasonStepper = window.sharedUi.attachSeasonStepper({
-                select: 'lineoutFilterSeason',
-                label: 'lineoutSeasonLabel',
-                prevButton: 'lineoutSeasonPrev',
-                nextButton: 'lineoutSeasonNext',
-                formatLabel: (value) => seasonDisplayLabel(value),
-            });
-        }
-        syncLineoutSeasonStepperFromSelect();
-
         document.querySelectorAll('#lineoutFiltersOffcanvas .selectpicker').forEach((select) => {
             rebuildBootstrapSelect(select);
         });
@@ -1012,9 +1086,6 @@
             if (!element) return;
             element.addEventListener('change', () => {
                 enforceH2HFilterExclusivity(id);
-                if (id === 'lineoutFilterSeason') {
-                    syncLineoutSeasonStepperFromSelect();
-                }
                 applyFiltersToViews().catch((error) => {
                     console.error('Unable to apply lineout page filters:', error);
                 });

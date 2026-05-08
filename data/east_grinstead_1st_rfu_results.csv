@@ -1,0 +1,468 @@
+match_id,season,date,date_raw,competition,home_team,away_team,home_score,away_score
+62047,2003-2004,2003-09-13,"Saturday, 13 Sep 2003",London 4 South East,Folkestone,East Grinstead,36,5
+62055,2003-2004,2003-09-27,"Saturday, 27 Sep 2003",London 4 South East,East Grinstead,Betteshanger,19,15
+62059,2003-2004,2003-10-04,"Saturday, 04 Oct 2003",London 4 South East,Uckfield,East Grinstead,14,18
+62065,2003-2004,2003-10-11,"Saturday, 11 Oct 2003",London 4 South East,East Grinstead,Eastbourne,16,12
+62067,2003-2004,2003-10-25,"Saturday, 25 Oct 2003",London 4 South East,Crawley,East Grinstead,28,17
+62075,2003-2004,2003-11-01,"Saturday, 01 Nov 2003",London 4 South East,East Grinstead,Old Dunstonians,29,12
+62079,2003-2004,2003-11-08,"Saturday, 08 Nov 2003",London 4 South East,Aylesford Bulls,East Grinstead,27,22
+62085,2003-2004,2003-11-29,"Saturday, 29 Nov 2003",London 4 South East,East Grinstead,Ashford,12,8
+62086,2003-2004,2003-12-06,"Saturday, 06 Dec 2003",London 4 South East,Bromley,East Grinstead,14,10
+62095,2003-2004,2003-12-20,"Saturday, 20 Dec 2003",London 4 South East,East Grinstead,Aylesford Bulls,3,23
+62098,2003-2004,2004-01-10,"Saturday, 10 Jan 2004",London 4 South East,Old Dunstonians,East Grinstead,16,20
+62105,2003-2004,2004-01-24,"Saturday, 24 Jan 2004",London 4 South East,East Grinstead,Crawley,12,0
+62110,2003-2004,2004-01-31,"Saturday, 31 Jan 2004",London 4 South East,Eastbourne,East Grinstead,17,10
+62115,2003-2004,2004-02-14,"Saturday, 14 Feb 2004",London 4 South East,East Grinstead,Uckfield,59,8
+62118,2003-2004,2004-02-21,"Saturday, 21 Feb 2004",London 4 South East,Betteshanger,East Grinstead,8,13
+62125,2003-2004,2004-03-13,"Saturday, 13 Mar 2004",London 4 South East,East Grinstead,Folkestone,18,10
+62130,2003-2004,2004-04-03,"Saturday, 03 Apr 2004",London 4 South East,East Grinstead,Bromley,18,10
+62135,2003-2004,2004-04-17,"Saturday, 17 Apr 2004",London 4 South East,Ashford,East Grinstead,12,12
+75265,2004-2005,2004-09-11,"Saturday, 11 Sep 2004",London 4 South East,East Grinstead,Bromley,18,18
+75270,2004-2005,2004-09-25,"Saturday, 25 Sep 2004",London 4 South East,Lordswood,East Grinstead,15,9
+75275,2004-2005,2004-10-02,"Saturday, 02 Oct 2004",London 4 South East,East Grinstead,Old Dunstonians,7,25
+75277,2004-2005,2004-10-09,"Saturday, 09 Oct 2004",London 4 South East,Ashford,East Grinstead,,
+75285,2004-2005,2004-10-23,"Saturday, 23 Oct 2004",London 4 South East,East Grinstead,Eastbourne,24,25
+75289,2004-2005,2004-10-30,"Saturday, 30 Oct 2004",London 4 South East,East Grinstead,Old Elthamians,20,22
+75296,2004-2005,2004-11-13,"Saturday, 13 Nov 2004",London 4 South East,Crawley,East Grinstead,13,38
+75299,2004-2005,2004-11-20,"Saturday, 20 Nov 2004",London 4 South East,East Grinstead,Hove,20,10
+75304,2004-2005,2004-12-04,"Saturday, 04 Dec 2004",London 4 South East,Betteshanger,East Grinstead,16,11
+75309,2004-2005,2004-12-18,"Saturday, 18 Dec 2004",London 4 South East,East Grinstead,Crawley,27,0
+75312,2004-2005,2005-01-08,"Saturday, 08 Jan 2005",London 4 South East,Old Elthamians,East Grinstead,23,0
+75318,2004-2005,2005-01-22,"Saturday, 22 Jan 2005",London 4 South East,Eastbourne,East Grinstead,19,7
+75325,2004-2005,2005-01-29,"Saturday, 29 Jan 2005",London 4 South East,East Grinstead,Ashford,22,13
+75331,2004-2005,2005-02-19,"Saturday, 19 Feb 2005",London 4 South East,Old Dunstonians,East Grinstead,37,3
+75335,2004-2005,2005-02-26,"Saturday, 26 Feb 2005",London 4 South East,East Grinstead,Lordswood,36,12
+75339,2004-2005,2005-03-12,"Saturday, 12 Mar 2005",London 4 South East,Bromley,East Grinstead,15,16
+75344,2004-2005,2005-04-02,"Saturday, 02 Apr 2005",London 4 South East,East Grinstead,Betteshanger,15,20
+75348,2004-2005,2005-04-09,"Saturday, 09 Apr 2005",London 4 South East,Hove,East Grinstead,37,5
+94263,2005-2006,2005-09-10,"Saturday, 10 Sep 2005",London 4 South East,Charlton Park,East Grinstead,15,16
+94271,2005-2006,2005-09-24,"Saturday, 24 Sep 2005",London 4 South East,East Grinstead,Sittingbourne,23,24
+94275,2005-2006,2005-10-01,"Saturday, 01 Oct 2005",London 4 South East,Dover,East Grinstead,31,13
+94281,2005-2006,2005-10-08,"Saturday, 08 Oct 2005",London 4 South East,East Grinstead,Eastbourne,17,22
+94283,2005-2006,2005-10-22,"Saturday, 22 Oct 2005",London 4 South East,Hove,East Grinstead,23,14
+94291,2005-2006,2005-10-29,"Saturday, 29 Oct 2005",London 4 South East,East Grinstead,Betteshanger,3,17
+94295,2005-2006,2005-11-12,"Saturday, 12 Nov 2005",London 4 South East,Old Elthamians,East Grinstead,49,0
+94301,2005-2006,2005-12-03,"Saturday, 03 Dec 2005",London 4 South East,East Grinstead,Bromley,3,14
+94302,2005-2006,2005-12-10,"Saturday, 10 Dec 2005",London 4 South East,Horsham,East Grinstead,41,26
+94311,2005-2006,2006-01-07,"Saturday, 07 Jan 2006",London 4 South East,East Grinstead,Old Elthamians,10,27
+94314,2005-2006,2006-01-21,"Saturday, 21 Jan 2006",London 4 South East,Betteshanger,East Grinstead,37,14
+94321,2005-2006,2006-01-28,"Saturday, 28 Jan 2006",London 4 South East,East Grinstead,Hove,15,36
+94326,2005-2006,2006-02-11,"Saturday, 11 Feb 2006",London 4 South East,Eastbourne,East Grinstead,11,0
+94331,2005-2006,2006-02-18,"Saturday, 18 Feb 2006",London 4 South East,East Grinstead,Dover,3,24
+94334,2005-2006,2006-03-04,"Saturday, 04 Mar 2006",London 4 South East,Sittingbourne,East Grinstead,39,3
+94341,2005-2006,2006-03-11,"Saturday, 11 Mar 2006",London 4 South East,East Grinstead,Charlton Park,0,50
+94346,2005-2006,2006-03-25,"Saturday, 25 Mar 2006",London 4 South East,East Grinstead,Horsham,8,32
+94351,2005-2006,2006-04-08,"Saturday, 08 Apr 2006",London 4 South East,Bromley,East Grinstead,53,0
+110441,2006-2007,2006-09-23,"Saturday, 23 Sep 2006",Sussex 1,East Grinstead,Hastings & Bexhill,17,48
+110448,2006-2007,2006-09-30,"Saturday, 30 Sep 2006",Sussex 1,Pulborough,East Grinstead,13,10
+110451,2006-2007,2006-10-14,"Saturday, 14 Oct 2006",Sussex 1,East Grinstead,Heathfield & Waldron,8,7
+110455,2006-2007,2006-10-21,"Saturday, 21 Oct 2006",Sussex 1,East Grinstead,Horsham,7,10
+110462,2006-2007,2006-11-04,"Saturday, 04 Nov 2006",Sussex 1,Plumpton,East Grinstead,7,75
+110465,2006-2007,2006-11-11,"Saturday, 11 Nov 2006",Sussex 1,East Grinstead,Crawley,15,14
+110470,2006-2007,2006-11-25,"Saturday, 25 Nov 2006",Sussex 1,Burgess Hill,East Grinstead,18,17
+110475,2006-2007,2006-12-02,"Saturday, 02 Dec 2006",Sussex 1,East Grinstead,Seaford,32,7
+110482,2006-2007,2006-12-16,"Saturday, 16 Dec 2006",Sussex 1,Uckfield,East Grinstead,6,20
+110485,2006-2007,2007-01-06,"Saturday, 06 Jan 2007",Sussex 1,East Grinstead,Burgess Hill,0,10
+110493,2006-2007,2007-01-13,"Saturday, 13 Jan 2007",Sussex 1,Crawley,East Grinstead,5,38
+110495,2006-2007,2007-01-27,"Saturday, 27 Jan 2007",Sussex 1,East Grinstead,Plumpton,15,12
+110499,2006-2007,2007-02-17,"Saturday, 17 Feb 2007",Sussex 1,Horsham,East Grinstead,31,23
+110504,2006-2007,2007-02-24,"Saturday, 24 Feb 2007",Sussex 1,Heathfield & Waldron,East Grinstead,25,8
+110511,2006-2007,2007-03-03,"Saturday, 03 Mar 2007",Sussex 1,East Grinstead,Pulborough,19,8
+110517,2006-2007,2007-03-17,"Saturday, 17 Mar 2007",Sussex 1,Hastings & Bexhill,East Grinstead,48,0
+110520,2006-2007,2007-03-31,"Saturday, 31 Mar 2007",Sussex 1,East Grinstead,Uckfield,20,33
+110526,2006-2007,2007-04-14,"Saturday, 14 Apr 2007",Sussex 1,Seaford,East Grinstead,29,24
+133846,2007-2008,2007-09-15,"Saturday, 15 Sep 2007",Sussex 1,East Grinstead,Burgess Hill,39,15
+133850,2007-2008,2007-09-29,"Saturday, 29 Sep 2007",Sussex 1,TBC,East Grinstead,,
+133854,2007-2008,2007-10-20,"Saturday, 20 Oct 2007",Sussex 1,East Grinstead,Brighton,33,3
+133858,2007-2008,2007-10-27,"Saturday, 27 Oct 2007",Sussex 1,East Grinstead,Pulborough,25,5
+133864,2007-2008,2007-11-03,"Saturday, 03 Nov 2007",Sussex 1,Seaford,East Grinstead,14,18
+133870,2007-2008,2007-11-10,"Saturday, 10 Nov 2007",Sussex 1,East Grinstead,Uckfield,27,8
+133876,2007-2008,2007-11-24,"Saturday, 24 Nov 2007",Sussex 1,Heathfield & Waldron,East Grinstead,23,16
+133882,2007-2008,2007-12-01,"Saturday, 01 Dec 2007",Sussex 1,East Grinstead,Hellingly,55,0
+133887,2007-2008,2007-12-15,"Saturday, 15 Dec 2007",Sussex 1,Crawley,East Grinstead,7,30
+133891,2007-2008,2008-01-05,"Saturday, 05 Jan 2008",Sussex 1,East Grinstead,Heathfield & Waldron,5,44
+133895,2007-2008,2008-01-19,"Saturday, 19 Jan 2008",Sussex 1,Uckfield,East Grinstead,10,10
+133899,2007-2008,2008-01-26,"Saturday, 26 Jan 2008",Sussex 1,East Grinstead,Seaford,20,0
+133903,2007-2008,2008-02-09,"Saturday, 09 Feb 2008",Sussex 1,Pulborough,East Grinstead,5,59
+133909,2007-2008,2008-02-16,"Saturday, 16 Feb 2008",Sussex 1,Brighton,East Grinstead,15,29
+133915,2007-2008,2008-03-01,"Saturday, 01 Mar 2008",Sussex 1,East Grinstead,TBC,,
+133921,2007-2008,2008-03-08,"Saturday, 08 Mar 2008",Sussex 1,Burgess Hill,East Grinstead,30,29
+133927,2007-2008,2008-03-29,"Saturday, 29 Mar 2008",Sussex 1,East Grinstead,Crawley,17,7
+133932,2007-2008,2008-04-12,"Saturday, 12 Apr 2008",Sussex 1,Hellingly,East Grinstead,0,44
+143468,2007-2008,2008-04-26,"Saturday, 26 Apr 2008",London & SE Division,Old Gravesendians,East Grinstead,8,14
+150174,2008-2009,2008-09-13,"Saturday, 13 Sep 2008",London 4 South East,Folkestone,East Grinstead,27,8
+150180,2008-2009,2008-09-20,"Saturday, 20 Sep 2008",London 4 South East,East Grinstead,Hastings & Bexhill,40,8
+150185,2008-2009,2008-09-27,"Saturday, 27 Sep 2008",London 4 South East,Heathfield & Waldron,East Grinstead,40,18
+150190,2008-2009,2008-10-04,"Saturday, 04 Oct 2008",London 4 South East,East Grinstead,Whitstable,20,6
+150195,2008-2009,2008-10-11,"Saturday, 11 Oct 2008",London 4 South East,Beccehamian,East Grinstead,22,41
+150200,2008-2009,2008-10-25,"Saturday, 25 Oct 2008",London 4 South East,East Grinstead,Charlton Park,51,14
+150205,2008-2009,2008-11-01,"Saturday, 01 Nov 2008",London 4 South East,Crowborough,East Grinstead,6,3
+150212,2008-2009,2008-11-08,"Saturday, 08 Nov 2008",London 4 South East,Tonbridge Juddians,East Grinstead,57,16
+150219,2008-2009,2008-11-15,"Saturday, 15 Nov 2008",London 4 South East,East Grinstead,Horsham,5,10
+150226,2008-2009,2008-11-29,"Saturday, 29 Nov 2008",London 4 South East,Bromley,East Grinstead,27,10
+150233,2008-2009,2008-12-06,"Saturday, 06 Dec 2008",London 4 South East,East Grinstead,Park House,0,5
+150237,2008-2009,2008-12-20,"Saturday, 20 Dec 2008",London 4 South East,Horsham,East Grinstead,32,22
+178417,2008-2009,2009-01-17,"Saturday, 17 Jan 2009",London 4 South East,East Grinstead,Tonbridge Juddians,7,19
+150247,2008-2009,2009-01-24,"Saturday, 24 Jan 2009",London 4 South East,East Grinstead,Crowborough,13,23
+150254,2008-2009,2009-01-31,"Saturday, 31 Jan 2009",London 4 South East,Charlton Park,East Grinstead,5,17
+150261,2008-2009,2009-02-14,"Saturday, 14 Feb 2009",London 4 South East,East Grinstead,Beccehamian,18,3
+150268,2008-2009,2009-02-21,"Saturday, 21 Feb 2009",London 4 South East,Whitstable,East Grinstead,25,22
+150275,2008-2009,2009-03-07,"Saturday, 07 Mar 2009",London 4 South East,East Grinstead,Heathfield & Waldron,6,20
+150282,2008-2009,2009-03-14,"Saturday, 14 Mar 2009",London 4 South East,Hastings & Bexhill,East Grinstead,0,39
+150288,2008-2009,2009-03-28,"Saturday, 28 Mar 2009",London 4 South East,East Grinstead,Folkestone,17,5
+150293,2008-2009,2009-04-04,"Saturday, 04 Apr 2009",London 4 South East,Park House,East Grinstead,15,14
+150298,2008-2009,2009-04-18,"Saturday, 18 Apr 2009",London 4 South East,East Grinstead,Bromley,12,39
+202836,2009-2010,2009-09-12,"Saturday, 12 Sep 2009",London 3 South East,East Grinstead,Heathfield & Wald'n,5,20
+202838,2009-2010,2009-09-19,"Saturday, 19 Sep 2009",London 3 South East,Crowborough,East Grinstead,13,29
+202847,2009-2010,2009-09-26,"Saturday, 26 Sep 2009",London 3 South East,East Grinstead,Park House,75,8
+202852,2009-2010,2009-10-10,"Saturday, 10 Oct 2009",London 3 South East,Brighton,East Grinstead,5,22
+202858,2009-2010,2009-10-17,"Saturday, 17 Oct 2009",London 3 South East,East Grinstead,Old Gravesendians,62,5
+202861,2009-2010,2009-10-24,"Saturday, 24 Oct 2009",London 3 South East,Folkestone,East Grinstead,13,14
+212993,2009-2010,2009-10-31,"Saturday, 31 Oct 2009",London & SE Senior Vase Round 2,Old Alleynians,East Grinstead,,
+202869,2009-2010,2009-11-07,"Saturday, 07 Nov 2009",London 3 South East,East Grinstead,Whitstable,81,0
+202875,2009-2010,2009-11-14,"Saturday, 14 Nov 2009",London 3 South East,Medway,East Grinstead,13,10
+202880,2009-2010,2009-11-28,"Saturday, 28 Nov 2009",London 3 South East,East Grinstead,Horsham,34,5
+202889,2009-2010,2009-12-05,"Saturday, 05 Dec 2009",London 3 South East,Charlton Park,East Grinstead,10,31
+202891,2009-2010,2009-12-12,"Saturday, 12 Dec 2009",London 3 South East,East Grinstead,Hastings & Bexhill,69,0
+202912,2009-2010,2010-01-16,"Saturday, 16 Jan 2010",London 3 South East,East Grinstead,Brighton,9,32
+202919,2009-2010,2010-01-23,"Saturday, 23 Jan 2010",London 3 South East,Old Gravesendians,East Grinstead,6,47
+230693,2009-2010,2010-02-06,"Saturday, 06 Feb 2010",London 3 South East,East Grinstead,Crowborough,25,12
+202934,2009-2010,2010-02-20,"Saturday, 20 Feb 2010",London 3 South East,East Grinstead,Medway,39,8
+231559,2009-2010,2010-02-27,"Saturday, 27 Feb 2010",London 3 South East,Park House,East Grinstead,5,80
+202942,2009-2010,2010-03-06,"Saturday, 06 Mar 2010",London 3 South East,Horsham,East Grinstead,5,66
+202945,2009-2010,2010-03-20,"Saturday, 20 Mar 2010",London 3 South East,East Grinstead,Charlton Park,23,10
+202956,2009-2010,2010-03-27,"Saturday, 27 Mar 2010",London 3 South East,Hastings & Bexhill,East Grinstead,0,53
+235210,2009-2010,2010-04-03,"Saturday, 03 Apr 2010",London 3 South East,Whitstable,East Grinstead,3,105
+202957,2009-2010,2010-04-10,"Saturday, 10 Apr 2010",London 3 South East,Heathfield & Wald'n,East Grinstead,13,16
+234575,2009-2010,2010-04-17,"Saturday, 17 Apr 2010",London 3 South East,East Grinstead,Folkestone,33,21
+250688,2010-2011,2010-09-11,"Saturday, 11 Sep 2010",London 2 South East,Warlingham,East Grinstead,10,54
+250690,2010-2011,2010-09-18,"Saturday, 18 Sep 2010",London 2 South East,East Grinstead,Purley John Fisher,77,0
+250699,2010-2011,2010-09-25,"Saturday, 25 Sep 2010",London 2 South East,Brighton,East Grinstead,34,34
+250704,2010-2011,2010-10-02,"Saturday, 02 Oct 2010",London 2 South East,East Grinstead,Old Dunstonians,10,3
+250710,2010-2011,2010-10-09,"Saturday, 09 Oct 2010",London 2 South East,Aylesford Bulls,East Grinstead,31,19
+250713,2010-2011,2010-10-23,"Saturday, 23 Oct 2010",London 2 South East,East Grinstead,Maidstone,29,19
+250721,2010-2011,2010-10-30,"Saturday, 30 Oct 2010",London 2 South East,Deal & Betteshanger,East Grinstead,,
+250727,2010-2011,2010-11-13,"Saturday, 13 Nov 2010",London 2 South East,East Grinstead,Sevenoaks,8,45
+250732,2010-2011,2010-11-20,"Saturday, 20 Nov 2010",London 2 South East,Old Elthamians,East Grinstead,14,5
+278429,2010-2011,2010-12-11,"Saturday, 11 Dec 2010",London 2 South East,East Grinstead,Trinity,71,10
+250757,2010-2011,2011-01-08,"Saturday, 08 Jan 2011",London 2 South East,East Grinstead,Brighton,34,17
+250764,2010-2011,2011-01-15,"Saturday, 15 Jan 2011",London 2 South East,Old Dunstonians,East Grinstead,19,38
+250771,2010-2011,2011-01-22,"Saturday, 22 Jan 2011",London 2 South East,East Grinstead,Aylesford Bulls,41,7
+250775,2010-2011,2011-01-29,"Saturday, 29 Jan 2011",London 2 South East,Maidstone,East Grinstead,5,31
+250780,2010-2011,2011-02-05,"Saturday, 05 Feb 2011",London 2 South East,East Grinstead,Deal & Betteshanger,53,18
+250741,2010-2011,2011-02-12,"Saturday, 12 Feb 2011",London 2 South East,East Grinstead,Lewes,15,6
+250786,2010-2011,2011-02-19,"Saturday, 19 Feb 2011",London 2 South East,Sevenoaks,East Grinstead,17,42
+250753,2010-2011,2011-02-26,"Saturday, 26 Feb 2011",London 2 South East,Purley John Fisher,East Grinstead,0,101
+250794,2010-2011,2011-03-05,"Saturday, 05 Mar 2011",London 2 South East,East Grinstead,Old Elthamians,62,31
+250797,2010-2011,2011-03-12,"Saturday, 12 Mar 2011",London 2 South East,Lewes,East Grinstead,16,12
+278430,2010-2011,2011-03-26,"Saturday, 26 Mar 2011",London 2 South East,Trinity,East Grinstead,12,57
+250809,2010-2011,2011-04-09,"Saturday, 09 Apr 2011",London 2 South East,East Grinstead,Warlingham,93,0
+295600,2011-2012,2011-09-10,"Saturday, 10 Sep 2011",London 2 South East,East Grinstead,Trinity,46,16
+295608,2011-2012,2011-09-17,"Saturday, 17 Sep 2011",London 2 South East,Heathfield & Waldron,East Grinstead,18,19
+295611,2011-2012,2011-09-24,"Saturday, 24 Sep 2011",London 2 South East,East Grinstead,Aylesford Bulls,24,14
+295617,2011-2012,2011-10-01,"Saturday, 01 Oct 2011",London 2 South East,Deal & Betteshanger,East Grinstead,19,34
+295622,2011-2012,2011-10-08,"Saturday, 08 Oct 2011",London 2 South East,East Grinstead,Sevenoaks,53,15
+295630,2011-2012,2011-10-22,"Saturday, 22 Oct 2011",London 2 South East,East Grinstead,Warlingham,29,0
+295635,2011-2012,2011-10-29,"Saturday, 29 Oct 2011",London 2 South East,Old Dunstonians,East Grinstead,19,21
+312343,2011-2012,2011-11-05,"Saturday, 05 Nov 2011",London & SE Intermediate Cup Round 2,East Grinstead,London Cornish,38,13
+295642,2011-2012,2011-11-12,"Saturday, 12 Nov 2011",London 2 South East,East Grinstead,Lewes,25,13
+295648,2011-2012,2011-11-19,"Saturday, 19 Nov 2011",London 2 South East,Tunbridge Wells,East Grinstead,10,24
+321681,2011-2012,2011-11-26,"Saturday, 26 Nov 2011",London & SE Intermediate Cup Round 3,East Grinstead,Woodford,,
+295654,2011-2012,2011-12-03,"Saturday, 03 Dec 2011",London 2 South East,East Grinstead,Brighton,17,11
+295661,2011-2012,2011-12-10,"Saturday, 10 Dec 2011",London 2 South East,Charlton Park,East Grinstead,20,31
+295665,2011-2012,2011-12-17,"Saturday, 17 Dec 2011",London 2 South East,East Grinstead,Heathfield & Waldron,33,13
+295670,2011-2012,2012-01-07,"Saturday, 07 Jan 2012",London 2 South East,Aylesford Bulls,East Grinstead,21,14
+295676,2011-2012,2012-01-14,"Saturday, 14 Jan 2012",London 2 South East,East Grinstead,Deal & Betteshanger,70,8
+295687,2011-2012,2012-01-28,"Saturday, 28 Jan 2012",London 2 South East,Sevenoaks,East Grinstead,21,26
+322409,2011-2012,2012-02-18,"Saturday, 18 Feb 2012",London & SE Intermediate Cup Round 4,East Grinstead,Charlton Park,35,15
+323727,2011-2012,2012-02-25,"Saturday, 25 Feb 2012",London & SE Intermediate Cup Semi Final,Aylesford Bulls,East Grinstead,11,25
+295701,2011-2012,2012-03-03,"Saturday, 03 Mar 2012",London 2 South East,Lewes,East Grinstead,22,42
+295708,2011-2012,2012-03-10,"Saturday, 10 Mar 2012",London 2 South East,East Grinstead,Tunbridge Wells,36,12
+323938,2011-2012,2012-03-17,"Saturday, 17 Mar 2012","London & SE Intermediate Cup, Final",Enfield Ignatians,East Grinstead,0,42
+295714,2011-2012,2012-03-24,"Saturday, 24 Mar 2012",London 2 South East,Brighton,East Grinstead,33,39
+295720,2011-2012,2012-03-31,"Saturday, 31 Mar 2012",London 2 South East,East Grinstead,Charlton Park,31,10
+324263,2011-2012,2012-04-07,"Saturday, 07 Apr 2012",RFU Intermediate Cup,East Grinstead,North Bristol,58,3
+295727,2011-2012,2012-04-14,"Saturday, 14 Apr 2012",London 2 South East,Trinity,East Grinstead,12,48
+295696,2011-2012,2012-04-21,"Saturday, 21 Apr 2012",London 2 South East,East Grinstead,Old Dunstonians,,
+295688,2011-2012,2012-04-28,"Saturday, 28 Apr 2012",London 2 South East,Warlingham,East Grinstead,7,48
+324428,2011-2012,2012-05-05,"Saturday, 05 May 2012",RFU Intermediate Cup Final,East Grinstead,Ilkley,34,18
+334520,2012-2013,2012-09-01,"Saturday, 01 Sep 2012",London 1 South,Basingstoke,East Grinstead,23,38
+334527,2012-2013,2012-09-08,"Saturday, 08 Sep 2012",London 1 South,East Grinstead,Haywards Heath,59,3
+334535,2012-2013,2012-09-15,"Saturday, 15 Sep 2012",London 1 South,Cobham,East Grinstead,31,68
+334541,2012-2013,2012-09-22,"Saturday, 22 Sep 2012",London 1 South,East Grinstead,Beckenham,63,8
+334550,2012-2013,2012-09-29,"Saturday, 29 Sep 2012",London 1 South,Sidcup,East Grinstead,6,50
+334555,2012-2013,2012-10-06,"Saturday, 06 Oct 2012",London 1 South,East Grinstead,Old Colfeians,77,0
+334565,2012-2013,2012-10-13,"Saturday, 13 Oct 2012",London 1 South,Wimbledon,East Grinstead,0,22
+334572,2012-2013,2012-10-20,"Saturday, 20 Oct 2012",London 1 South,Dover,East Grinstead,12,44
+334579,2012-2013,2012-10-27,"Saturday, 27 Oct 2012",London 1 South,East Grinstead,Trojans,95,5
+334585,2012-2013,2012-11-03,"Saturday, 03 Nov 2012",London 1 South,Gosport & Fareham,East Grinstead,5,66
+334592,2012-2013,2012-11-17,"Saturday, 17 Nov 2012",London 1 South,East Grinstead,Chichester,45,10
+334595,2012-2013,2012-11-24,"Saturday, 24 Nov 2012",London 1 South,Hove,East Grinstead,5,30
+334605,2012-2013,2012-12-08,"Saturday, 08 Dec 2012",London 1 South,East Grinstead,Havant,67,0
+334611,2012-2013,2012-12-15,"Saturday, 15 Dec 2012",London 1 South,Haywards Heath,East Grinstead,8,34
+334618,2012-2013,2013-01-05,"Saturday, 05 Jan 2013",London 1 South,East Grinstead,Cobham,40,5
+334626,2012-2013,2013-01-12,"Saturday, 12 Jan 2013",London 1 South,Beckenham,East Grinstead,5,31
+334632,2012-2013,2013-02-02,"Saturday, 02 Feb 2013",London 1 South,East Grinstead,Sidcup,40,0
+334646,2012-2013,2013-02-09,"Saturday, 09 Feb 2013",London 1 South,East Grinstead,Wimbledon,24,5
+334654,2012-2013,2013-02-16,"Saturday, 16 Feb 2013",London 1 South,East Grinstead,Dover,48,10
+334641,2012-2013,2013-02-23,"Saturday, 23 Feb 2013",London 1 South,Old Colfeians,East Grinstead,0,76
+334661,2012-2013,2013-03-02,"Saturday, 02 Mar 2013",London 1 South,Trojans,East Grinstead,5,93
+334669,2012-2013,2013-03-09,"Saturday, 09 Mar 2013",London 1 South,East Grinstead,Gosport & Fareham,58,10
+334671,2012-2013,2013-03-23,"Saturday, 23 Mar 2013",London 1 South,Chichester,East Grinstead,15,29
+334682,2012-2013,2013-04-06,"Saturday, 06 Apr 2013",London 1 South,East Grinstead,Hove,46,12
+334687,2012-2013,2013-04-13,"Saturday, 13 Apr 2013",London 1 South,Havant,East Grinstead,7,17
+334695,2012-2013,2013-04-20,"Saturday, 20 Apr 2013",London 1 South,East Grinstead,Basingstoke,17,17
+375405,2013-2014,2013-09-07,"Saturday, 07 Sep 2013",National League 3 London & SE,East Grinstead,Basingstoke,73,5
+375414,2013-2014,2013-09-14,"Saturday, 14 Sep 2013",National League 3 London & SE,Guernsey,East Grinstead,16,31
+375420,2013-2014,2013-09-21,"Saturday, 21 Sep 2013",National League 3 London & SE,East Grinstead,Westcombe Park,28,22
+375428,2013-2014,2013-09-28,"Saturday, 28 Sep 2013",National League 3 London & SE,CS Stags 1863,East Grinstead,16,14
+375435,2013-2014,2013-10-05,"Saturday, 05 Oct 2013",National League 3 London & SE,East Grinstead,Hertford,34,12
+375442,2013-2014,2013-10-12,"Saturday, 12 Oct 2013",National League 3 London & SE,Barking,East Grinstead,5,49
+375450,2013-2014,2013-10-26,"Saturday, 26 Oct 2013",National League 3 London & SE,East Grinstead,Tring,26,0
+375456,2013-2014,2013-11-02,"Saturday, 02 Nov 2013",National League 3 London & SE,Barnes,East Grinstead,5,39
+375465,2013-2014,2013-11-09,"Saturday, 09 Nov 2013",National League 3 London & SE,East Grinstead,Tonbridge Juddians,13,13
+375472,2013-2014,2013-11-23,"Saturday, 23 Nov 2013",National League 3 London & SE,East Grinstead,Bury St Edmunds,22,17
+375479,2013-2014,2013-11-30,"Saturday, 30 Nov 2013",National League 3 London & SE,Dorking,East Grinstead,25,13
+375480,2013-2014,2013-12-07,"Saturday, 07 Dec 2013",National League 3 London & SE,East Grinstead,Old Elthamians,20,14
+375492,2013-2014,2013-12-14,"Saturday, 14 Dec 2013",National League 3 London & SE,Thurrock,East Grinstead,23,40
+375496,2013-2014,2013-12-21,"Saturday, 21 Dec 2013",National League 3 London & SE,East Grinstead,Guernsey,3,19
+375511,2013-2014,2014-01-11,"Saturday, 11 Jan 2014",National League 3 London & SE,East Grinstead,CS Stags 1863,26,14
+375519,2013-2014,2014-01-18,"Saturday, 18 Jan 2014",National League 3 London & SE,Hertford,East Grinstead,26,35
+375526,2013-2014,2014-01-25,"Saturday, 25 Jan 2014",National League 3 London & SE,East Grinstead,Barking,45,10
+375505,2013-2014,2014-02-01,"Saturday, 01 Feb 2014",National League 3 London & SE,Westcombe Park,East Grinstead,18,17
+375533,2013-2014,2014-02-08,"Saturday, 08 Feb 2014",National League 3 London & SE,Tring,East Grinstead,5,18
+375542,2013-2014,2014-02-15,"Saturday, 15 Feb 2014",National League 3 London & SE,East Grinstead,Barnes,43,12
+375547,2013-2014,2014-03-01,"Saturday, 01 Mar 2014",National League 3 London & SE,Tonbridge Juddians,East Grinstead,12,14
+375556,2013-2014,2014-03-08,"Saturday, 08 Mar 2014",National League 3 London & SE,Bury St Edmunds,East Grinstead,13,8
+375562,2013-2014,2014-03-22,"Saturday, 22 Mar 2014",National League 3 London & SE,East Grinstead,Dorking,35,17
+375569,2013-2014,2014-03-29,"Saturday, 29 Mar 2014",National League 3 London & SE,Old Elthamians,East Grinstead,25,19
+375572,2013-2014,2014-04-05,"Saturday, 05 Apr 2014",National League 3 London & SE,East Grinstead,Thurrock,66,14
+375582,2013-2014,2014-04-12,"Saturday, 12 Apr 2014",National League 3 London & SE,Basingstoke,East Grinstead,21,61
+419771,2014-2015,2014-09-06,"Saturday, 06 Sep 2014",National League 3 London & SE,East Grinstead,CS Stags 1863,22,14
+419781,2014-2015,2014-09-13,"Saturday, 13 Sep 2014",National League 3 London & SE,Guernsey,East Grinstead,33,28
+419784,2014-2015,2014-09-20,"Saturday, 20 Sep 2014",National League 3 London & SE,East Grinstead,Tonbridge Juddians,25,19
+419791,2014-2015,2014-09-27,"Saturday, 27 Sep 2014",National League 3 London & SE,Westcombe Park,East Grinstead,30,20
+419797,2014-2015,2014-10-04,"Saturday, 04 Oct 2014",National League 3 London & SE,East Grinstead,Tring,55,3
+419806,2014-2015,2014-10-11,"Saturday, 11 Oct 2014",National League 3 London & SE,East Grinstead,Chichester,27,5
+419812,2014-2015,2014-10-18,"Saturday, 18 Oct 2014",National League 3 London & SE,Barnes,East Grinstead,18,23
+419820,2014-2015,2014-10-25,"Saturday, 25 Oct 2014",National League 3 London & SE,East Grinstead,Gravesend,27,24
+419827,2014-2015,2014-11-01,"Saturday, 01 Nov 2014",National League 3 London & SE,Hertford,East Grinstead,23,16
+419834,2014-2015,2014-11-15,"Saturday, 15 Nov 2014",National League 3 London & SE,East Grinstead,Amersham & Chiltern,18,5
+419842,2014-2015,2014-11-22,"Saturday, 22 Nov 2014",National League 3 London & SE,Bury St Edmunds,East Grinstead,7,18
+419848,2014-2015,2014-12-06,"Saturday, 06 Dec 2014",National League 3 London & SE,East Grinstead,Westcliff,28,12
+419857,2014-2015,2014-12-13,"Saturday, 13 Dec 2014",National League 3 London & SE,London Irish Wild Geese,East Grinstead,21,6
+419861,2014-2015,2014-12-20,"Saturday, 20 Dec 2014",National League 3 London & SE,East Grinstead,Guernsey,23,16
+419867,2014-2015,2015-01-03,"Saturday, 03 Jan 2015",National League 3 London & SE,Tonbridge Juddians,East Grinstead,23,22
+419874,2014-2015,2015-01-10,"Saturday, 10 Jan 2015",National League 3 London & SE,East Grinstead,Westcombe Park,18,3
+419887,2014-2015,2015-01-17,"Saturday, 17 Jan 2015",National League 3 London & SE,Tring,East Grinstead,14,19
+419888,2014-2015,2015-01-31,"Saturday, 31 Jan 2015",National League 3 London & SE,Chichester,East Grinstead,23,6
+419897,2014-2015,2015-02-07,"Saturday, 07 Feb 2015",National League 3 London & SE,East Grinstead,Barnes,11,14
+419903,2014-2015,2015-02-21,"Saturday, 21 Feb 2015",National League 3 London & SE,Gravesend,East Grinstead,12,15
+419911,2014-2015,2015-02-28,"Saturday, 28 Feb 2015",National League 3 London & SE,East Grinstead,Hertford,29,3
+419918,2014-2015,2015-03-07,"Saturday, 07 Mar 2015",National League 3 London & SE,Amersham & Chiltern,East Grinstead,14,36
+419925,2014-2015,2015-03-21,"Saturday, 21 Mar 2015",National League 3 London & SE,East Grinstead,Bury St Edmunds,7,17
+419933,2014-2015,2015-03-28,"Saturday, 28 Mar 2015",National League 3 London & SE,Westcliff,East Grinstead,23,21
+419939,2014-2015,2015-04-11,"Saturday, 11 Apr 2015",National League 3 London & SE,East Grinstead,London Irish Wild Geese,29,34
+419948,2014-2015,2015-04-18,"Saturday, 18 Apr 2015",National League 3 London & SE,CS Stags 1863,East Grinstead,19,50
+483230,2015-2016,2015-09-05,"Saturday, 05 Sep 2015",National League 3 London & SE,Westcliff,East Grinstead,10,29
+483237,2015-2016,2015-09-12,"Saturday, 12 Sep 2015",National League 3 London & SE,Gravesend,East Grinstead,7,33
+483244,2015-2016,2015-09-19,"Saturday, 19 Sep 2015",National League 3 London & SE,East Grinstead,Westcombe Park,10,11
+483247,2015-2016,2015-09-26,"Saturday, 26 Sep 2015",National League 3 London & SE,Shelford,East Grinstead,8,29
+483257,2015-2016,2015-10-03,"Saturday, 03 Oct 2015",National League 3 London & SE,East Grinstead,Hertford,43,20
+483263,2015-2016,2015-10-10,"Saturday, 10 Oct 2015",National League 3 London & SE,Tonbridge Juddians,East Grinstead,33,20
+483270,2015-2016,2015-10-24,"Saturday, 24 Oct 2015",National League 3 London & SE,East Grinstead,Guernsey,18,10
+483273,2015-2016,2015-11-07,"Saturday, 07 Nov 2015",National League 3 London & SE,Colchester,East Grinstead,18,17
+525302,2015-2016,2015-11-14,"Saturday, 14 Nov 2015",National League 3 London & SE,London Irish Wild Geese,East Grinstead,16,16
+483289,2015-2016,2015-11-21,"Saturday, 21 Nov 2015",National League 3 London & SE,Chichester,East Grinstead,17,26
+483296,2015-2016,2015-11-28,"Saturday, 28 Nov 2015",National League 3 London & SE,East Grinstead,Eton Manor,67,12
+483305,2015-2016,2015-12-05,"Saturday, 05 Dec 2015",National League 3 London & SE,Wimbledon,East Grinstead,8,18
+483309,2015-2016,2015-12-12,"Saturday, 12 Dec 2015",National League 3 London & SE,East Grinstead,Bracknell,45,16
+483321,2015-2016,2015-12-19,"Saturday, 19 Dec 2015",National League 3 London & SE,East Grinstead,Gravesend,27,0
+483323,2015-2016,2016-01-09,"Saturday, 09 Jan 2016",National League 3 London & SE,Westcombe Park,East Grinstead,21,17
+483334,2015-2016,2016-01-16,"Saturday, 16 Jan 2016",National League 3 London & SE,East Grinstead,Shelford,24,10
+483339,2015-2016,2016-01-23,"Saturday, 23 Jan 2016",National League 3 London & SE,Hertford,East Grinstead,15,23
+483347,2015-2016,2016-01-30,"Saturday, 30 Jan 2016",National League 3 London & SE,East Grinstead,Tonbridge Juddians,14,8
+483355,2015-2016,2016-02-13,"Saturday, 13 Feb 2016",National League 3 London & SE,Guernsey,East Grinstead,11,25
+483360,2015-2016,2016-02-20,"Saturday, 20 Feb 2016",National League 3 London & SE,East Grinstead,Colchester,15,11
+525303,2015-2016,2016-03-05,"Saturday, 05 Mar 2016",National League 3 London & SE,East Grinstead,London Irish Wild Geese,7,20
+483373,2015-2016,2016-03-19,"Saturday, 19 Mar 2016",National League 3 London & SE,East Grinstead,Chichester,40,18
+483381,2015-2016,2016-04-02,"Saturday, 02 Apr 2016",National League 3 London & SE,Eton Manor,East Grinstead,5,45
+483386,2015-2016,2016-04-09,"Saturday, 09 Apr 2016",National League 3 London & SE,East Grinstead,Wimbledon,20,15
+483397,2015-2016,2016-04-16,"Saturday, 16 Apr 2016",National League 3 London & SE,Bracknell,East Grinstead,14,24
+483399,2015-2016,2016-04-23,"Saturday, 23 Apr 2016",National League 3 London & SE,East Grinstead,Westcliff,35,3
+652918,2017-2018,2017-09-09,"Saturday, 09 Sep 2017",Harvey's of Sussex 1,East Grinstead,Ditchling,50,5
+624112,2017-2018,2017-09-16,"Saturday, 16 Sep 2017",Harvey's of Sussex 1,East Grinstead,Burgess Hill,23,21
+624116,2017-2018,2017-09-23,"Saturday, 23 Sep 2017",Harvey's of Sussex 1,Barns Green,East Grinstead,5,61
+624120,2017-2018,2017-09-30,"Saturday, 30 Sep 2017",Harvey's of Sussex 1,East Grinstead,Seaford,14,6
+663802,2017-2018,2017-10-07,"Saturday, 07 Oct 2017",Harvey's of Sussex 1,East Grinstead,Hellingly,18,20
+624129,2017-2018,2017-10-21,"Saturday, 21 Oct 2017",Harvey's of Sussex 1,Uckfield,East Grinstead,17,24
+624133,2017-2018,2017-10-28,"Saturday, 28 Oct 2017",Harvey's of Sussex 1,East Grinstead,Eastbourne,62,0
+624135,2017-2018,2017-11-04,"Saturday, 04 Nov 2017",Harvey's of Sussex 1,Burgess Hill,East Grinstead,10,22
+624140,2017-2018,2017-11-11,"Saturday, 11 Nov 2017",Harvey's of Sussex 1,East Grinstead,Barns Green,24,12
+624144,2017-2018,2017-11-25,"Saturday, 25 Nov 2017",Harvey's of Sussex 1,Seaford,East Grinstead,17,31
+663803,2017-2018,2017-12-09,"Saturday, 09 Dec 2017",Harvey's of Sussex 1,Hellingly,East Grinstead,26,5
+624153,2017-2018,2017-12-16,"Saturday, 16 Dec 2017",Harvey's of Sussex 1,East Grinstead,Uckfield,23,27
+624154,2017-2018,2018-01-06,"Saturday, 06 Jan 2018",Harvey's of Sussex 1,Eastbourne,East Grinstead,5,13
+652919,2017-2018,2018-01-13,"Saturday, 13 Jan 2018",Harvey's of Sussex 1,Ditchling,East Grinstead,0,59
+676596,2017-2018,2018-02-03,"Saturday, 03 Feb 2018",Harvey's of Sussex Division 1A,East Grinstead,Uckfield,7,17
+676598,2017-2018,2018-02-17,"Saturday, 17 Feb 2018",Harvey's of Sussex Division 1A,Hellingly,East Grinstead,29,0
+676602,2017-2018,2018-03-10,"Saturday, 10 Mar 2018",Harvey's of Sussex Division 1A,East Grinstead,Hellingly,3,17
+676600,2017-2018,2018-03-17,"Saturday, 17 Mar 2018",Harvey's of Sussex Division 1A,Burgess Hill,East Grinstead,0,0
+676604,2017-2018,2018-03-24,"Saturday, 24 Mar 2018",Harvey's of Sussex Division 1A,East Grinstead,Burgess Hill,18,13
+676606,2017-2018,2018-04-07,"Saturday, 07 Apr 2018",Harvey's of Sussex Division 1A,Uckfield,East Grinstead,25,14
+699291,2018-2019,2018-09-08,"Saturday, 08 Sep 2018",Harvey's of Sussex 1,East Grinstead,Eastbourne,17,17
+699294,2018-2019,2018-09-15,"Saturday, 15 Sep 2018",Harvey's of Sussex 1,Uckfield,East Grinstead,45,24
+699300,2018-2019,2018-09-22,"Saturday, 22 Sep 2018",Harvey's of Sussex 1,East Grinstead,Plumpton,14,19
+699304,2018-2019,2018-09-29,"Saturday, 29 Sep 2018",Harvey's of Sussex 1,East Grinstead,Burgess Hill,27,29
+699308,2018-2019,2018-10-06,"Saturday, 06 Oct 2018",Harvey's of Sussex 1,Seaford,East Grinstead,15,12
+704252,2018-2019,2018-10-20,"Saturday, 20 Oct 2018",Harvey's of Sussex 1,Crawley,East Grinstead,29,5
+699315,2018-2019,2018-10-27,"Saturday, 27 Oct 2018",Harvey's of Sussex 1,Ditchling,East Grinstead,,
+699319,2018-2019,2018-11-03,"Saturday, 03 Nov 2018",Harvey's of Sussex 1,East Grinstead,Uckfield,6,13
+746719,2018-2019,2018-11-10,"Saturday, 10 Nov 2018",London & SE Junior Vase Round 2,Cranleigh,East Grinstead,64,0
+699322,2018-2019,2018-11-17,"Saturday, 17 Nov 2018",Harvey's of Sussex 1,Plumpton,East Grinstead,7,24
+699331,2018-2019,2018-12-08,"Saturday, 08 Dec 2018",Harvey's of Sussex 1,East Grinstead,Seaford,22,3
+704253,2018-2019,2018-12-15,"Saturday, 15 Dec 2018",Harvey's of Sussex 1,East Grinstead,Crawley,10,30
+699338,2018-2019,2019-01-05,"Saturday, 05 Jan 2019",Harvey's of Sussex 1,East Grinstead,Ditchling,39,5
+699342,2018-2019,2019-01-12,"Saturday, 12 Jan 2019",Harvey's of Sussex 1,Eastbourne,East Grinstead,60,8
+749980,2018-2019,2019-01-19,"Saturday, 19 Jan 2019",Harvey's of Sussex 1,Burgess Hill,East Grinstead,31,26
+749958,2018-2019,2019-01-26,"Saturday, 26 Jan 2019",Harvey's of Sussex Division 1B,East Grinstead,Ditchling,17,15
+749961,2018-2019,2019-02-09,"Saturday, 09 Feb 2019",Harvey's of Sussex Division 1B,East Grinstead,Seaford,44,7
+749962,2018-2019,2019-02-16,"Saturday, 16 Feb 2019",Harvey's of Sussex Division 1B,Plumpton,East Grinstead,7,45
+749965,2018-2019,2019-03-02,"Saturday, 02 Mar 2019",Harvey's of Sussex Division 1B,Seaford,East Grinstead,14,7
+749966,2018-2019,2019-03-09,"Saturday, 09 Mar 2019",Harvey's of Sussex Division 1B,East Grinstead,Plumpton,,
+749968,2018-2019,2019-03-23,"Saturday, 23 Mar 2019",Harvey's of Sussex Division 1B,Ditchling,East Grinstead,36,30
+841275,2019-2020,2019-09-21,"Saturday, 21 Sep 2019",Harvey's of Sussex 1,Eastbourne,East Grinstead,14,20
+793913,2019-2020,2019-10-05,"Saturday, 05 Oct 2019",Harvey's of Sussex 1,East Grinstead,Seaford,42,26
+793922,2019-2020,2019-10-19,"Saturday, 19 Oct 2019",Harvey's of Sussex 1,Hellingly,East Grinstead,41,22
+793928,2019-2020,2019-10-26,"Saturday, 26 Oct 2019",Harvey's of Sussex 1,Hove II,East Grinstead,0,46
+793934,2019-2020,2019-11-09,"Saturday, 09 Nov 2019",Harvey's of Sussex 1,East Grinstead,Barns Green,19,3
+793945,2019-2020,2019-11-23,"Saturday, 23 Nov 2019",Harvey's of Sussex 1,East Grinstead,Lewes,27,10
+793948,2019-2020,2019-12-07,"Saturday, 07 Dec 2019",Harvey's of Sussex 1,Burgess Hill,East Grinstead,22,12
+793956,2019-2020,2019-12-14,"Saturday, 14 Dec 2019",Harvey's of Sussex 1,East Grinstead,Crawley,10,28
+850947,2019-2020,2020-01-04,"Saturday, 04 Jan 2020",Harveys Sussex Shield,East Grinstead,Hove II,,
+841276,2019-2020,2020-01-11,"Saturday, 11 Jan 2020",Harvey's of Sussex 1,East Grinstead,Eastbourne,15,12
+793975,2019-2020,2020-01-25,"Saturday, 25 Jan 2020",Harvey's of Sussex 1,Seaford,East Grinstead,7,25
+793979,2019-2020,2020-02-01,"Saturday, 01 Feb 2020",Harvey's of Sussex 1,East Grinstead,Hellingly,44,24
+850949,2019-2020,2020-02-08,"Saturday, 08 Feb 2020",Harveys Sussex Shield,Haywards Heath II,East Grinstead,,
+793992,2019-2020,2020-02-22,"Saturday, 22 Feb 2020",Harvey's of Sussex 1,Barns Green,East Grinstead,23,35
+861850,2019-2020,2020-03-07,"Saturday, 07 Mar 2020",Harvey's of Sussex 1,East Grinstead,Hove II,35,8
+850950,2019-2020,2020-03-14,"Saturday, 14 Mar 2020",Harveys Sussex Shield,Crawley,East Grinstead,37,34
+794001,2019-2020,2020-03-21,"Saturday, 21 Mar 2020",Harvey's of Sussex 1,Lewes,East Grinstead,,
+794010,2019-2020,2020-03-28,"Saturday, 28 Mar 2020",Harvey's of Sussex 1,East Grinstead,Burgess Hill,,
+794015,2019-2020,2020-04-04,"Saturday, 04 Apr 2020",Harvey's of Sussex 1,Crawley,East Grinstead,,
+909509,2021-2022,2021-09-25,"Saturday, 25 Sep 2021",Harvey’s Brewery Sussex 1,East Grinstead,Eastbourne,47,0
+909513,2021-2022,2021-10-02,"Saturday, 02 Oct 2021",Harvey’s Brewery Sussex 1,Hellingly,East Grinstead,12,27
+909516,2021-2022,2021-10-16,"Saturday, 16 Oct 2021",Harvey’s Brewery Sussex 1,East Grinstead,Burgess Hill,64,15
+909520,2021-2022,2021-10-23,"Saturday, 23 Oct 2021",Harvey’s Brewery Sussex 1,Hove II,East Grinstead,,
+909523,2021-2022,2021-10-30,"Saturday, 30 Oct 2021",Harvey’s Brewery Sussex 1,East Grinstead,Lewes,87,10
+909529,2021-2022,2021-11-13,"Saturday, 13 Nov 2021",Harvey’s Brewery Sussex 1,East Grinstead,Uckfield,43,0
+909532,2021-2022,2021-11-27,"Saturday, 27 Nov 2021",Harvey’s Brewery Sussex 1,Seaford,East Grinstead,21,36
+909536,2021-2022,2021-12-04,"Saturday, 04 Dec 2021",Harvey’s Brewery Sussex 1,East Grinstead,Hellingly,,
+909543,2021-2022,2022-01-15,"Saturday, 15 Jan 2022",Harvey’s Brewery Sussex 1,East Grinstead,Hove II,,
+909550,2021-2022,2022-01-22,"Saturday, 22 Jan 2022",Harvey’s Brewery Sussex 1,Lewes,East Grinstead,12,36
+909551,2021-2022,2022-01-29,"Saturday, 29 Jan 2022",Harvey’s Brewery Sussex 1,Uckfield,East Grinstead,19,21
+909557,2021-2022,2022-02-12,"Saturday, 12 Feb 2022",Harvey’s Brewery Sussex 1,East Grinstead,Seaford,67,5
+909560,2021-2022,2022-02-19,"Saturday, 19 Feb 2022",Harvey’s Brewery Sussex 1,Eastbourne,East Grinstead,3,36
+954941,2021-2022,2022-02-26,"Saturday, 26 Feb 2022",Harvey’s Brewery Sussex 1,Burgess Hill,East Grinstead,30,64
+959290,2021-2022,2022-03-05,"Saturday, 05 Mar 2022",Harvey's Brewery Sussex 1 Cup QF,Hove II,East Grinstead,,
+960314,2021-2022,2022-03-26,"Saturday, 26 Mar 2022",Harvey's Brewery Sussex 1 Cup SF,Eastbourne,East Grinstead,31,35
+961754,2021-2022,2022-04-02,"Saturday, 02 Apr 2022",Harvey's Brewery Sussex 1 Cup F,East Grinstead,Uckfield,57,7
+981962,2022-2023,2022-09-17,"Saturday, 17 Sep 2022",Counties 2 Sussex,Lewes,East Grinstead,7,69
+981964,2022-2023,2022-09-24,"Saturday, 24 Sep 2022",Counties 2 Sussex,East Grinstead,Uckfield,58,3
+981971,2022-2023,2022-10-01,"Saturday, 01 Oct 2022",Counties 2 Sussex,Crawley,East Grinstead,36,39
+981976,2022-2023,2022-10-15,"Saturday, 15 Oct 2022",Counties 2 Sussex,East Grinstead,Shoreham,72,11
+981980,2022-2023,2022-10-22,"Saturday, 22 Oct 2022",Counties 2 Sussex,Seaford,East Grinstead,17,62
+981984,2022-2023,2022-10-29,"Saturday, 29 Oct 2022",Counties 2 Sussex,East Grinstead,Burgess Hill,53,5
+981989,2022-2023,2022-11-05,"Saturday, 05 Nov 2022",Counties 2 Sussex,Eastbourne,East Grinstead,29,15
+981996,2022-2023,2022-11-12,"Saturday, 12 Nov 2022",Counties 2 Sussex,East Grinstead,Pulborough,27,31
+981998,2022-2023,2022-11-26,"Saturday, 26 Nov 2022",Counties 2 Sussex,Haywards Heath,East Grinstead,17,35
+982006,2022-2023,2022-12-03,"Saturday, 03 Dec 2022",Counties 2 Sussex,Uckfield,East Grinstead,13,22
+982010,2022-2023,2022-12-10,"Saturday, 10 Dec 2022",Counties 2 Sussex,East Grinstead,Crawley,75,12
+982015,2022-2023,2023-01-14,"Saturday, 14 Jan 2023",Counties 2 Sussex,Shoreham,East Grinstead,14,57
+982018,2022-2023,2023-01-21,"Saturday, 21 Jan 2023",Counties 2 Sussex,East Grinstead,Seaford,43,5
+982024,2022-2023,2023-01-28,"Saturday, 28 Jan 2023",Counties 2 Sussex,Burgess Hill,East Grinstead,0,63
+982030,2022-2023,2023-02-11,"Saturday, 11 Feb 2023",Counties 2 Sussex,East Grinstead,Eastbourne,36,30
+982033,2022-2023,2023-02-18,"Saturday, 18 Feb 2023",Counties 2 Sussex,Pulborough,East Grinstead,14,35
+982042,2022-2023,2023-03-04,"Saturday, 04 Mar 2023",Counties 2 Sussex,East Grinstead,Haywards Heath,54,17
+982043,2022-2023,2023-03-11,"Saturday, 11 Mar 2023",Counties 2 Sussex,East Grinstead,Lewes,,
+1039934,2022-2023,2023-03-25,"Saturday, 25 Mar 2023",Bob Rogers Cup Rd 1,Seaford,East Grinstead,,
+1039782,2022-2023,2023-04-01,"Saturday, 01 Apr 2023",Counties 2 Championship - Round 1,Old Rutlishians,East Grinstead,22,26
+1040372,2022-2023,2023-04-15,"Saturday, 15 Apr 2023",Counties 2 Championship - Round 2,East Grinstead,Oakmeadians,,
+1040965,2022-2023,2023-04-22,"Saturday, 22 Apr 2023",Counties 2 Championship - Quarter Finals,East Grinstead,Cheshunt,29,25
+1041418,2022-2023,2023-04-29,"Saturday, 29 Apr 2023",Counties 2 Championship - Semi Finals,Wensleydale,East Grinstead,35,21
+1057445,2023-2024,2023-09-16,"Saturday, 16 Sep 2023",Counties 1 Surrey/Sussex,East Grinstead,Twickenham,8,48
+1057451,2023-2024,2023-09-23,"Saturday, 23 Sep 2023",Counties 1 Surrey/Sussex,Trinity,East Grinstead,22,25
+1057456,2023-2024,2023-09-30,"Saturday, 30 Sep 2023",Counties 1 Surrey/Sussex,East Grinstead,KCS Old Boys,22,26
+1057460,2023-2024,2023-10-07,"Saturday, 07 Oct 2023",Counties 1 Surrey/Sussex,Old Tiffinians,East Grinstead,63,14
+1057467,2023-2024,2023-10-14,"Saturday, 14 Oct 2023",Counties 1 Surrey/Sussex,East Grinstead,Kingston,20,11
+1057474,2023-2024,2023-10-21,"Saturday, 21 Oct 2023",Counties 1 Surrey/Sussex,Old Walcountians,East Grinstead,34,25
+1057478,2023-2024,2023-11-04,"Saturday, 04 Nov 2023",Counties 1 Surrey/Sussex,East Grinstead,Old Cranleighans,,
+1057487,2023-2024,2023-11-11,"Saturday, 11 Nov 2023",Counties 1 Surrey/Sussex,East Grinstead,Teddington,10,27
+1057491,2023-2024,2023-11-18,"Saturday, 18 Nov 2023",Counties 1 Surrey/Sussex,Eastbourne,East Grinstead,26,24
+1094227,2023-2024,2023-11-25,"Saturday, 25 Nov 2023",Bob Rogers Cup QF,Horsham Lions (2nd XV),East Grinstead,31,20
+1057499,2023-2024,2023-12-02,"Saturday, 02 Dec 2023",Counties 1 Surrey/Sussex,East Grinstead,Weybridge Vandals,24,28
+1057504,2023-2024,2023-12-09,"Saturday, 09 Dec 2023",Counties 1 Surrey/Sussex,Hove,East Grinstead,12,26
+1057510,2023-2024,2023-12-16,"Saturday, 16 Dec 2023",Counties 1 Surrey/Sussex,East Grinstead,Trinity,41,10
+1057518,2023-2024,2024-01-06,"Saturday, 06 Jan 2024",Counties 1 Surrey/Sussex,KCS Old Boys,East Grinstead,44,28
+1057521,2023-2024,2024-01-13,"Saturday, 13 Jan 2024",Counties 1 Surrey/Sussex,East Grinstead,Old Tiffinians,18,39
+1057532,2023-2024,2024-01-27,"Saturday, 27 Jan 2024",Counties 1 Surrey/Sussex,East Grinstead,Old Walcountians,38,19
+1104774,2023-2024,2024-02-03,"Saturday, 03 Feb 2024",Counties 1 Surrey/Sussex,East Grinstead,Old Cranleighans,,
+1111740,2023-2024,2024-02-10,"Saturday, 10 Feb 2024",Counties 1 Surrey/Sussex,Kingston,East Grinstead,7,48
+1057544,2023-2024,2024-02-17,"Saturday, 17 Feb 2024",Counties 1 Surrey/Sussex,Teddington,East Grinstead,26,0
+1057553,2023-2024,2024-03-02,"Saturday, 02 Mar 2024",Counties 1 Surrey/Sussex,East Grinstead,Eastbourne,15,14
+1113613,2023-2024,2024-03-09,"Saturday, 09 Mar 2024",Bob Rogers Plate F,Brighton II,East Grinstead,13,19
+1057557,2023-2024,2024-03-16,"Saturday, 16 Mar 2024",Counties 1 Surrey/Sussex,Weybridge Vandals,East Grinstead,71,26
+1057565,2023-2024,2024-03-23,"Saturday, 23 Mar 2024",Counties 1 Surrey/Sussex,East Grinstead,Hove,13,15
+1057570,2023-2024,2024-04-06,"Saturday, 06 Apr 2024",Counties 1 Surrey/Sussex,Twickenham,East Grinstead,35,10
+1114645,2023-2024,2024-04-13,"Saturday, 13 Apr 2024",Counties 1 South Plate - Round 1,Dover,East Grinstead,36,42
+1118608,2023-2024,2024-04-27,"Saturday, 27 Apr 2024",Counties 1 South Plate - Quarter Finals,Bromley,East Grinstead,36,15
+1136405,2024-2025,2024-09-07,"Saturday, 07 Sep 2024",Counties 1 Surrey/Sussex,East Grinstead,London Cornish,16,18
+1136414,2024-2025,2024-09-14,"Saturday, 14 Sep 2024",Counties 1 Surrey/Sussex,Old Haileyburians,East Grinstead,60,0
+1136418,2024-2025,2024-09-21,"Saturday, 21 Sep 2024",Counties 1 Surrey/Sussex,East Grinstead,Haywards Heath,24,19
+1136426,2024-2025,2024-09-28,"Saturday, 28 Sep 2024",Counties 1 Surrey/Sussex,Weybridge Vandals,East Grinstead,48,15
+1136431,2024-2025,2024-10-12,"Saturday, 12 Oct 2024",Counties 1 Surrey/Sussex,East Grinstead,Hove,21,34
+1136438,2024-2025,2024-10-19,"Saturday, 19 Oct 2024",Counties 1 Surrey/Sussex,Twickenham,East Grinstead,41,33
+1136444,2024-2025,2024-10-26,"Saturday, 26 Oct 2024",Counties 1 Surrey/Sussex,East Grinstead,KCS Old Boys,29,33
+1136450,2024-2025,2024-11-09,"Saturday, 09 Nov 2024",Counties 1 Surrey/Sussex,Eastbourne,East Grinstead,33,36
+1136457,2024-2025,2024-11-16,"Saturday, 16 Nov 2024",Counties 1 Surrey/Sussex,East Grinstead,Trinity,12,48
+1136463,2024-2025,2024-11-23,"Saturday, 23 Nov 2024",Counties 1 Surrey/Sussex,East Grinstead,Old Rutlishians,19,23
+1175596,2024-2025,2024-11-30,"Saturday, 30 Nov 2024",Bob Rogers Cup QF,East Grinstead,Worthing Raiders A (2nd XV),,
+1136469,2024-2025,2024-12-07,"Saturday, 07 Dec 2024",Counties 1 Surrey/Sussex,Cobham,East Grinstead,26,7
+1136471,2024-2025,2024-12-14,"Saturday, 14 Dec 2024",Counties 1 Surrey/Sussex,East Grinstead,Old Haileyburians,18,5
+1136480,2024-2025,2024-12-21,"Saturday, 21 Dec 2024",Counties 1 Surrey/Sussex,Haywards Heath,East Grinstead,33,5
+1136484,2024-2025,2025-01-04,"Saturday, 04 Jan 2025",Counties 1 Surrey/Sussex,East Grinstead,Weybridge Vandals,14,20
+1136497,2024-2025,2025-01-18,"Saturday, 18 Jan 2025",Counties 1 Surrey/Sussex,East Grinstead,Twickenham,10,47
+1136504,2024-2025,2025-02-01,"Saturday, 01 Feb 2025",Counties 1 Surrey/Sussex,KCS Old Boys,East Grinstead,27,22
+1190744,2024-2025,2025-02-08,"Saturday, 08 Feb 2025",Counties 1 Surrey/Sussex,Hove,East Grinstead,18,11
+1136511,2024-2025,2025-02-15,"Saturday, 15 Feb 2025",Counties 1 Surrey/Sussex,East Grinstead,Eastbourne,14,15
+1136516,2024-2025,2025-03-01,"Saturday, 01 Mar 2025",Counties 1 Surrey/Sussex,Trinity,East Grinstead,34,18
+1136523,2024-2025,2025-03-08,"Saturday, 08 Mar 2025",Counties 1 Surrey/Sussex,Old Rutlishians,East Grinstead,77,14
+1136524,2024-2025,2025-03-22,"Saturday, 22 Mar 2025",Counties 1 Surrey/Sussex,East Grinstead,Cobham,21,43
+1136534,2024-2025,2025-04-05,"Saturday, 05 Apr 2025",Counties 1 Surrey/Sussex,London Cornish,East Grinstead,21,21
+1192178,2024-2025,2025-04-12,"Saturday, 12 Apr 2025",Counties 1 South Shield - Round 1,East Grinstead,Haywards Heath,45,37
+1197812,2024-2025,2025-04-26,"Saturday, 26 Apr 2025",Counties 1 South Shield - Round 2,East Grinstead,Hove,,
+1198793,2024-2025,2025-05-03,"Saturday, 03 May 2025",Counties 1 South Shield - Quarter Finals,Ashford,East Grinstead,27,16
+1248730,2025-2026,2025-09-20,"Saturday, 20 Sep 2025",Counties 2 Championship - Round 1,Chipstead,East Grinstead,26,40
+1239679,2025-2026,2025-09-27,"Saturday, 27 Sep 2025",Bob Rogers Cup QF,To be arranged 8,East Grinstead,,
+1220040,2025-2026,2025-10-04,"Saturday, 04 Oct 2025",Counties 2 Sussex,Seaford,East Grinstead,10,27
+1220049,2025-2026,2025-10-11,"Saturday, 11 Oct 2025",Counties 2 Sussex,East Grinstead,Shoreham,69,12
+1220050,2025-2026,2025-10-18,"Saturday, 18 Oct 2025",Counties 2 Sussex,Brighton II,East Grinstead,21,61
+1256967,2025-2026,2025-10-25,"Saturday, 25 Oct 2025",Counties 2 Championship - Round 2,East Grinstead,OH Exiles,,
+1220059,2025-2026,2025-11-08,"Saturday, 08 Nov 2025",Counties 2 Sussex,East Grinstead,Lewes,43,14
+1258065,2025-2026,2025-11-15,"Saturday, 15 Nov 2025",Bob Rogers Cup SF,East Grinstead,Hove,15,32
+1220060,2025-2026,2025-11-22,"Saturday, 22 Nov 2025",Counties 2 Sussex,Pulborough,East Grinstead,12,5
+1220069,2025-2026,2025-11-29,"Saturday, 29 Nov 2025",Counties 2 Sussex,East Grinstead,Eastbourne II,56,0
+1220070,2025-2026,2025-12-13,"Saturday, 13 Dec 2025",Counties 2 Sussex,Crawley,East Grinstead,0,58
+1220079,2025-2026,2025-12-20,"Saturday, 20 Dec 2025",Counties 2 Sussex,East Grinstead,Ditchling,29,17
+1261764,2025-2026,2026-01-10,"Saturday, 10 Jan 2026",Counties 2 Sussex,East Grinstead,Royals RFC,49,5
+1220089,2025-2026,2026-01-17,"Saturday, 17 Jan 2026",Counties 2 Sussex,Shoreham,East Grinstead,14,38
+1220094,2025-2026,2026-01-24,"Saturday, 24 Jan 2026",Counties 2 Sussex,East Grinstead,Brighton II,0,50
+1262611,2025-2026,2026-01-31,"Saturday, 31 Jan 2026",Counties 2 Championship - Round 3,Basildon,East Grinstead,19,39
+1220099,2025-2026,2026-02-14,"Saturday, 14 Feb 2026",Counties 2 Sussex,Lewes,East Grinstead,22,39
+1220104,2025-2026,2026-02-28,"Saturday, 28 Feb 2026",Counties 2 Sussex,East Grinstead,Pulborough,14,13
+1220108,2025-2026,2026-03-07,"Saturday, 07 Mar 2026",Counties 2 Sussex,Eastbourne II,East Grinstead,0,29
+1220114,2025-2026,2026-03-21,"Saturday, 21 Mar 2026",Counties 2 Sussex,East Grinstead,Crawley,118,14
+1220119,2025-2026,2026-03-28,"Saturday, 28 Mar 2026",Counties 2 Sussex,Ditchling,East Grinstead,3,27
+1261765,2025-2026,2026-04-11,"Saturday, 11 Apr 2026",Counties 2 Sussex,Royals RFC,East Grinstead,27,45
+1220129,2025-2026,2026-04-18,"Saturday, 18 Apr 2026",Counties 2 Sussex,East Grinstead,Seaford,40,27
+1271627,2025-2026,2026-05-02,"Saturday, 02 May 2026",Counties 2 Championship - Quarter Finals,East Grinstead,Trojans,15,16

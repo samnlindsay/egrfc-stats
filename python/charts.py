@@ -2274,10 +2274,7 @@ def squad_position_composition_chart(db, output_file='data/charts/squad_position
     ]
     position_order_map = {name: idx + 1 for idx, name in enumerate(position_order)}
 
-    count_modes = {
-        'appearance_position': 'Appearance position',
-        'primary_position': 'Player primary position',
-    }
+    all_seasons_label = 'All'
 
     rows = []
     
@@ -2291,6 +2288,21 @@ def squad_position_composition_chart(db, output_file='data/charts/squad_position
     grouped_appearance['countMode'] = 'appearance_position'
     grouped_appearance['countModeLabel'] = 'Appearance position'
     rows.append(grouped_appearance)
+
+    appearance_player_all = (
+        base_df
+        .groupby(['squad', 'unit', 'position', 'game_type', 'player'], as_index=False)
+        .agg(games=('games', 'sum'))
+    )
+    grouped_appearance_all = (
+        appearance_player_all
+        .groupby(['squad', 'unit', 'position', 'games', 'game_type'], as_index=False)
+        .agg(players=('player', 'nunique'))
+    )
+    grouped_appearance_all['season'] = all_seasons_label
+    grouped_appearance_all['countMode'] = 'appearance_position'
+    grouped_appearance_all['countModeLabel'] = 'Appearance position'
+    rows.append(grouped_appearance_all)
 
     # Primary position: collapse each player to one primary position per season/squad,
     # then aggregate the same way
@@ -2311,6 +2323,25 @@ def squad_position_composition_chart(db, output_file='data/charts/squad_position
     grouped_primary['countMode'] = 'primary_position'
     grouped_primary['countModeLabel'] = 'Player primary position'
     rows.append(grouped_primary)
+
+    ranked_all = appearance_player_all.copy()
+    ranked_all['position_order'] = ranked_all['position'].map(position_order_map).fillna(999).astype(int)
+    ranked_all = ranked_all.sort_values(
+        by=['squad', 'player', 'games', 'position_order'],
+        ascending=[True, True, False, True],
+    )
+    primary_positions_all = ranked_all.drop_duplicates(['squad', 'player'], keep='first')[
+        ['squad', 'player', 'position', 'unit', 'games', 'game_type']
+    ]
+    grouped_primary_all = (
+        primary_positions_all
+        .groupby(['squad', 'unit', 'position', 'games', 'game_type'], as_index=False)
+        .agg(players=('player', 'nunique'))
+    )
+    grouped_primary_all['season'] = all_seasons_label
+    grouped_primary_all['countMode'] = 'primary_position'
+    grouped_primary_all['countModeLabel'] = 'Player primary position'
+    rows.append(grouped_primary_all)
 
     if not rows:
         print("No grouped rows generated for squad position composition chart.")
@@ -3390,7 +3421,6 @@ def team_stats_results_chart(
     max_abs_margin = float(agg_df['margin'].abs().max())
 
     agg_df['season_start'] = pd.to_numeric(agg_df['season'].astype(str).str.extract(r'^(\d{4})')[0], errors='coerce').fillna(0)
-    agg_df = agg_df[agg_df['season_start'] >= 2017].copy()
     squad_order = {'1st': 0, '2nd': 1}
     agg_df['squad_order'] = agg_df['squad'].map(squad_order).fillna(99)
     agg_df = agg_df.sort_values(['squad_order', 'season_start', 'season'], ascending=[True, False, False]).reset_index(drop=True)

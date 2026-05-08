@@ -1,4 +1,136 @@
 {
+  "2003-2004": {
+    "1": {
+      "league": "London 4 South East",
+      "file": "league_results_1s_2003-2004.json"
+    }
+  },
+  "2004-2005": {
+    "1": {
+      "league": "London 4 South East",
+      "file": "league_results_1s_2004-2005.json"
+    }
+  },
+  "2005-2006": {
+    "1": {
+      "league": "London 4 South East",
+      "file": "league_results_1s_2005-2006.json"
+    }
+  },
+  "2006-2007": {
+    "1": {
+      "league": "Sussex 1",
+      "file": "league_results_1s_2006-2007.json"
+    }
+  },
+  "2007-2008": {
+    "1": {
+      "league": "Sussex 1",
+      "file": "league_results_1s_2007-2008.json"
+    }
+  },
+  "2008-2009": {
+    "1": {
+      "league": "London 4 South East",
+      "file": "league_results_1s_2008-2009.json"
+    }
+  },
+  "2009-2010": {
+    "1": {
+      "league": "London 3 South East",
+      "file": "league_results_1s_2009-2010.json"
+    }
+  },
+  "2010-2011": {
+    "1": {
+      "league": "London 2 South East",
+      "file": "league_results_1s_2010-2011.json"
+    },
+    "2": {
+      "league": "Sussex Spitfire 1",
+      "file": "league_results_2s_2010-2011.json"
+    }
+  },
+  "2011-2012": {
+    "1": {
+      "league": "London 2 South East",
+      "file": "league_results_1s_2011-2012.json"
+    },
+    "2": {
+      "league": "Sussex Spitfire 1",
+      "file": "league_results_2s_2011-2012.json"
+    }
+  },
+  "2012-2013": {
+    "1": {
+      "league": "London 1 South",
+      "file": "league_results_1s_2012-2013.json"
+    },
+    "2": {
+      "league": "Division 3S",
+      "file": "league_results_2s_2012-2013.json"
+    }
+  },
+  "2013-2014": {
+    "1": {
+      "league": "National League 3 London & SE",
+      "file": "league_results_1s_2013-2014.json"
+    },
+    "2": {
+      "league": "Division 2 South",
+      "file": "league_results_2s_2013-2014.json"
+    }
+  },
+  "2014-2015": {
+    "1": {
+      "league": "National League 3 London & SE",
+      "file": "league_results_1s_2014-2015.json"
+    },
+    "2": {
+      "league": "Division 3",
+      "file": "league_results_2s_2014-2015.json"
+    }
+  },
+  "2015-2016": {
+    "1": {
+      "league": "National League 3 London & SE",
+      "file": "league_results_1s_2015-2016.json"
+    },
+    "2": {
+      "league": "Division 3 - Conf 4",
+      "file": "league_results_2s_2015-2016.json"
+    }
+  },
+  "2017-2018": {
+    "1": {
+      "league": "Harvey's of Sussex 1",
+      "file": "league_results_1s_2017-2018.json"
+    },
+    "2": {
+      "league": "Sussex 3 'Forwards Choice'",
+      "file": "league_results_2s_2017-2018.json"
+    }
+  },
+  "2018-2019": {
+    "1": {
+      "league": "Sussex 4 EAST Albion Ale'",
+      "file": "league_results_1s_2018-2019.json"
+    },
+    "2": {
+      "league": "Sussex 3 EAST Bonfire Boy",
+      "file": "league_results_2s_2018-2019.json"
+    }
+  },
+  "2019-2020": {
+    "1": {
+      "league": "Harvey's of Sussex 1",
+      "file": "league_results_1s_2019-2020.json"
+    },
+    "2": {
+      "league": "Sussex Div. 3 East",
+      "file": "league_results_2s_2019-2020.json"
+    }
+  },
   "2021-2022": {
     "1": {
       "league": "Sussex 1",

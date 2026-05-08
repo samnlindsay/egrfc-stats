@@ -80,7 +80,7 @@
                 <div class="ux-hero-main">
                     <p class="ux-hero-kicker">Data</p>
                     <h1 id="databaseHeroTitle" class="ux-hero-title">Data Explorer</h1>
-                    <p class="ux-hero-description">Browse and download the canonical backend data tables powering this site.</p>
+                    <p class="ux-hero-description">Browse and download the canonical backend data tables powering this site, including RFU-backed historic East Grinstead fixtures.</p>
                     <p class="ux-hero-description">Filter, search, and explore the data, or download filtered results as CSV for your own analysis.</p>
                 </div>
             </section>
@@ -178,14 +178,8 @@
             <div class="squad-filters-grid squad-filters-grid--offcanvas">
                 <div class="squad-filter-control">
                     <span class="squad-filter-label">Season</span>
-                    <div class="squad-filter-season-stepper">
-                        <button type="button" id="databaseSeasonPrevOffcanvas" class="squad-filter-stepper-btn"
-                            aria-label="Previous season">&#8249;</button>
-                        <span id="databaseSeasonLabelOffcanvas" class="squad-filter-stepper-label"></span>
-                        <button type="button" id="databaseSeasonNextOffcanvas" class="squad-filter-stepper-btn"
-                            aria-label="Next season">&#8250;</button>
-                    </div>
-                    <select id="databaseSeasonFilter" class="visually-hidden" aria-hidden="true" tabindex="-1"></select>
+                    <select id="databaseSeasonFilter" class="selectpicker" multiple data-actions-box="true" data-selected-text-format="count > 3" data-size="8" title="Select seasons">
+                    </select>
                 </div>
                 <div class="squad-filter-control">
                     <span class="squad-filter-label">Squad</span>

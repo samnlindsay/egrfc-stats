@@ -1064,6 +1064,10 @@ class BackendDatabase:
         pitchero_stats_source = self._load_pitchero(extractor, refresh_pitchero)
         scorers_2526_raw = self._extract_2526_scorers(extractor)
         rfu_matches_raw = load_consolidated_matches(self.rfu_matches_file.as_posix())
+        games_rfu = build_rfu_games_dataframe(
+            matches=rfu_matches_raw,
+            consolidated_file=self.rfu_matches_file.as_posix(),
+        )
 
         pitchero_games_raw = self._build_pitchero_games_raw(historic_games_raw)
         pitchero_games_clean = self._build_pitchero_games_clean(pitchero_games_raw)
@@ -1076,6 +1080,9 @@ class BackendDatabase:
         ref_match_urls = self._build_ref_pitchero_match_url_overrides()
 
         games_raw = pd.concat([games_google_raw, pitchero_games_clean.assign(_source="pitchero")], ignore_index=True)
+        rfu_games_for_canonical = self._build_canonical_games_from_rfu(games_rfu)
+        if not rfu_games_for_canonical.empty:
+            games_raw = pd.concat([games_raw, rfu_games_for_canonical], ignore_index=True)
         appearances_raw = pd.concat(
             [appearances_google_raw, pitchero_appearances_clean.assign(_source="pitchero")],
             ignore_index=True,
@@ -1101,10 +1108,6 @@ class BackendDatabase:
         squad_stats_with_thresholds_enriched = self._build_squad_stats_with_thresholds(appearances, games)
         player_profiles_canonical = self._build_player_profiles_canonical(player_profiles_base)
         season_summary_enriched = self._build_season_summary(games, appearances, season_scorers, set_piece)
-        games_rfu = build_rfu_games_dataframe(
-            matches=rfu_matches_raw,
-            consolidated_file=self.rfu_matches_file.as_posix(),
-        )
         appearances_rfu = build_rfu_player_appearances_dataframe(
             matches=rfu_matches_raw,
             consolidated_file=self.rfu_matches_file.as_posix(),
@@ -2501,6 +2504,147 @@ class BackendDatabase:
                 "vc2": "vice_captain_2",
             }
         )
+
+    def _build_canonical_games_from_rfu(self, games_rfu: pd.DataFrame) -> pd.DataFrame:
+        columns = [
+            "game_id",
+            "date",
+            "season",
+            "squad",
+            "competition",
+            "game_type",
+            "opposition",
+            "home_away",
+            "pf",
+            "pa",
+            "result",
+            "captain",
+            "motm",
+            "vc1",
+            "vc2",
+            "tries_scorers",
+            "conversions_scorers",
+            "penalties_scorers",
+            "drop_goals_scorers",
+            "pitchero_match_url",
+            "_source",
+        ]
+
+        if games_rfu.empty:
+            return pd.DataFrame(columns=columns)
+
+        def _normalise_team_name(value: Any) -> str:
+            text = str(value or "").lower()
+            text = re.sub(r"[^a-z0-9]+", " ", text)
+            return re.sub(r"\s+", " ", text).strip()
+
+        def _is_egrfc_team_name(value: Any) -> bool:
+            normalized = _normalise_team_name(value)
+            if not normalized:
+                return False
+            return any(alias in normalized for alias in ("east grinstead", "e grinstead", "eg men", "egrfc"))
+
+        def _squad_from_team_name(value: Any) -> str | None:
+            normalized = _normalise_team_name(value)
+            if not _is_egrfc_team_name(normalized):
+                return None
+            if re.search(r"\biii\b|\b3rd\b|\b3\b", normalized):
+                return "3rd"
+            if re.search(r"\bii\b|\b2nd\b|\b2\b", normalized):
+                return "2nd"
+            return "1st"
+
+        def _squad_from_tracked(value: Any) -> str | None:
+            text = str(value or "").strip().lower()
+            if text.startswith("1"):
+                return "1st"
+            if text.startswith("2"):
+                return "2nd"
+            if text.startswith("3"):
+                return "3rd"
+            return None
+
+        def _infer_game_type(competition: Any) -> str:
+            text = str(competition or "").strip().lower()
+            if not text:
+                return "League"
+            if any(token in text for token in ("cup", "vase", "shield", "trophy", "plate")):
+                return "Cup"
+            if "friendly" in text:
+                return "Friendly"
+            return "League"
+
+        rows: list[dict[str, Any]] = []
+        for row in games_rfu.itertuples(index=False):
+            home_team = str(getattr(row, "home_team", "") or "").strip()
+            away_team = str(getattr(row, "away_team", "") or "").strip()
+            if not home_team or not away_team:
+                continue
+
+            home_is_egrfc = _is_egrfc_team_name(home_team)
+            away_is_egrfc = _is_egrfc_team_name(away_team)
+            if not home_is_egrfc and not away_is_egrfc:
+                continue
+
+            home_away = "H" if home_is_egrfc else "A"
+            opposition = away_team if home_away == "H" else home_team
+            squad = (
+                _squad_from_team_name(home_team if home_is_egrfc else away_team)
+                or _squad_from_tracked(getattr(row, "tracked_squad", None))
+                or "1st"
+            )
+
+            home_score = pd.to_numeric(getattr(row, "home_score", None), errors="coerce")
+            away_score = pd.to_numeric(getattr(row, "away_score", None), errors="coerce")
+            pf = int(home_score) if home_away == "H" and pd.notna(home_score) else int(away_score) if home_away == "A" and pd.notna(away_score) else pd.NA
+            pa = int(away_score) if home_away == "H" and pd.notna(away_score) else int(home_score) if home_away == "A" and pd.notna(home_score) else pd.NA
+
+            if pd.notna(pf) and pd.notna(pa):
+                result = "W" if int(pf) > int(pa) else "L" if int(pf) < int(pa) else "D"
+            else:
+                result = None
+
+            match_date = pd.to_datetime(getattr(row, "date", None), errors="coerce")
+            if pd.isna(match_date):
+                continue
+            match_date = match_date.date()
+
+            canonical_opposition = _canonical_pitchero_opposition_name(opposition)
+            game_id = _canonical_game_id(match_date, squad, canonical_opposition)
+            competition = str(getattr(row, "league", "") or "").strip() or "League"
+
+            rows.append(
+                {
+                    "game_id": game_id,
+                    "date": match_date,
+                    "season": str(getattr(row, "season", "") or "").strip(),
+                    "squad": squad,
+                    "competition": competition,
+                    "game_type": _infer_game_type(competition),
+                    "opposition": canonical_opposition,
+                    "home_away": home_away,
+                    "pf": pf,
+                    "pa": pa,
+                    "result": result,
+                    "captain": None,
+                    "motm": None,
+                    "vc1": None,
+                    "vc2": None,
+                    "tries_scorers": None,
+                    "conversions_scorers": None,
+                    "penalties_scorers": None,
+                    "drop_goals_scorers": None,
+                    "pitchero_match_url": None,
+                    "_source": "rfu",
+                }
+            )
+
+        if not rows:
+            return pd.DataFrame(columns=columns)
+
+        df = pd.DataFrame(rows)
+        df = df.sort_values(["date", "squad", "opposition"]).drop_duplicates(subset=["game_id"], keep="last")
+        return df.reindex(columns=columns)
 
     def _build_player_appearances(self, appearances_raw: pd.DataFrame, games: pd.DataFrame) -> pd.DataFrame:
         if appearances_raw.empty:

@@ -212,13 +212,7 @@
                 </div>
                 <div class="squad-filter-control" role="group" aria-label="Season">
                     <span class="squad-filter-label">Season</span>
-                    <div class="squad-filter-season-stepper">
-                        <button type="button" id="matchFilterSeasonPrev" class="squad-filter-stepper-btn" aria-label="Previous season">&#8249;</button>
-                        <span id="matchFilterSeasonLabel" class="squad-filter-stepper-label"></span>
-                        <button type="button" id="matchFilterSeasonNext" class="squad-filter-stepper-btn" aria-label="Next season">&#8250;</button>
-                    </div>
-                    <select id="matchFilterSeason" class="visually-hidden" aria-hidden="true" tabindex="-1">
-                        <option value="All" selected>All</option>
+                    <select id="matchFilterSeason" class="selectpicker" multiple data-actions-box="true" data-selected-text-format="count > 3" data-size="8" title="Select seasons">
                     </select>
                 </div>
                 <div class="squad-filter-control" role="group" aria-label="Opposition">

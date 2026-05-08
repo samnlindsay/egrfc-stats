@@ -1021,7 +1021,7 @@ class DataExtractor:
 
         try:
             sheet = ss.worksheet("League History")
-            data = sheet.get("A4:G")
+            data = sheet.get("A4:J")
         except Exception as e:
             print(f"Error extracting league history: {e}")
             return pd.DataFrame(columns=["season", "squad", "league", "level", "rank"])
@@ -1029,6 +1029,7 @@ class DataExtractor:
         squad_columns = {
             "1st": (1, 2, 3),
             "2nd": (4, 5, 6),
+            "3rd": (7, 8, 9),
         }
 
         for row in data:

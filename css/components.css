@@ -4831,6 +4831,17 @@ table tbody tr:hover {
     background-color: #f9f9fa;
     border-bottom: 1px solid #e5e4e7;
     padding: 1rem;
+    z-index: 0;
+    position: relative;
+}
+
+.squad-filters-offcanvas .offcanvas-body {
+    position: relative;
+    z-index: 1;
+}
+
+.squad-filters-offcanvas .dropdown-menu {
+    z-index: 1050 !important;
 }
 
 .squad-filters-offcanvas .offcanvas-header h5 {
