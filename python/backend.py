@@ -1056,6 +1056,29 @@ class BackendDatabase:
 
         self.con.execute(
             """
+            CREATE TABLE league_table_standings (
+                season TEXT NOT NULL,
+                squad TEXT NOT NULL,
+                level INTEGER,
+                league TEXT,
+                position INTEGER,
+                team TEXT NOT NULL,
+                played INTEGER,
+                won INTEGER,
+                drawn INTEGER,
+                lost INTEGER,
+                points_for INTEGER,
+                points_against INTEGER,
+                points_difference INTEGER,
+                bonus_points INTEGER,
+                points INTEGER,
+                PRIMARY KEY(season, squad, team)
+            )
+            """
+        )
+
+        self.con.execute(
+            """
             CREATE TABLE players (
                 name TEXT PRIMARY KEY,
                 short_name TEXT,
@@ -1358,6 +1381,7 @@ class BackendDatabase:
         lineouts = self._build_lineouts(lineouts_raw, games)
         set_piece = self._build_set_piece(set_piece_raw, games)
         league_history = self._build_league_history(league_history_raw)
+        league_table_standings = self._build_league_table_standings(league_history)
         season_scorers = self._build_season_scorers(scorers_2526_raw, pitchero_stats_clean, appearances, games)
         appearances = self._annotate_appearance_numbers(appearances)
         players = self._build_players(appearances, games, lineouts, season_scorers)
@@ -1385,6 +1409,7 @@ class BackendDatabase:
         self._insert("lineouts", lineouts)
         self._insert("set_piece", set_piece)
         self._insert("league_history", league_history)
+        self._insert("league_table_standings", league_table_standings)
         self._insert("season_scorers", season_scorers)
         self._insert("players", players)
         self._insert("squad_stats_enriched", squad_stats_enriched)
@@ -1703,6 +1728,7 @@ class BackendDatabase:
             "lineouts",
             "set_piece",
             "league_history",
+            "league_table_standings",
             "season_scorers",
             "players",
             "season_summary_enriched",
@@ -1829,6 +1855,97 @@ class BackendDatabase:
         df = df.drop_duplicates(subset=["season", "squad"], keep="last")
 
         return df[columns]
+
+    def _build_league_table_standings(self, league_history: pd.DataFrame) -> pd.DataFrame:
+        """Build league_table_standings by loading RFU-scraped league table JSON files
+        for each squad and enriching with season/squad/level/league from league_history.
+
+        Expects files at data/east_grinstead_{squad}_league_tables.json where each file
+        is a flat list of row dicts produced by rfu_team_data.fetch_league_tables_all_seasons.
+        """
+        from python.rfu_team_data import EGRFC_SQUAD_TEAM_IDS
+
+        out_columns = [
+            "season", "squad", "level", "league",
+            "position", "team",
+            "played", "won", "drawn", "lost",
+            "points_for", "points_against", "points_difference",
+            "bonus_points", "points",
+        ]
+
+        def _rfu_season_to_slash(season_str: str) -> str:
+            """Convert RFU YYYY-YYYY season label to YYYY/YY."""
+            m = re.match(r"^(\d{4})-(\d{4})$", str(season_str).strip())
+            if m:
+                return f"{m.group(1)}/{m.group(2)[2:]}"
+            return str(season_str)
+
+        # Build lookup: (season_slash, squad) -> (level, league)
+        history_lookup: dict[tuple[str, str], tuple] = {}
+        if not league_history.empty:
+            for _, row in league_history.iterrows():
+                key = (str(row["season"]), str(row["squad"]))
+                history_lookup[key] = (
+                    row.get("level") if pd.notna(row.get("level")) else None,
+                    row.get("league") if pd.notna(row.get("league")) else None,
+                )
+
+        all_rows: list[dict] = []
+        for squad_label, team_id in EGRFC_SQUAD_TEAM_IDS.items():
+            json_path = self.project_root / "data" / f"east_grinstead_{squad_label}_league_tables.json"
+            if not json_path.exists():
+                continue
+
+            try:
+                with json_path.open("r", encoding="utf-8") as fh:
+                    raw_rows = json.load(fh)
+            except Exception as exc:
+                logging.warning("Could not load %s: %s", json_path, exc)
+                continue
+
+            for row in raw_rows:
+                season_slash = _rfu_season_to_slash(row.get("season", ""))
+                if not season_slash:
+                    continue
+
+                level, league = history_lookup.get((season_slash, squad_label), (None, None))
+
+                team_name = row.get("TEAM") or row.get("team") or ""
+                if not team_name:
+                    continue
+
+                all_rows.append(
+                    {
+                        "season": season_slash,
+                        "squad": squad_label,
+                        "level": level,
+                        "league": league,
+                        "position": row.get("#"),
+                        "team": str(team_name).strip(),
+                        "played": row.get("P"),
+                        "won": row.get("W"),
+                        "drawn": row.get("D"),
+                        "lost": row.get("L"),
+                        "points_for": row.get("PF"),
+                        "points_against": row.get("PA"),
+                        "points_difference": row.get("PD"),
+                        "bonus_points": row.get("BP"),
+                        "points": row.get("Pts"),
+                    }
+                )
+
+        if not all_rows:
+            return pd.DataFrame(columns=out_columns)
+
+        df = pd.DataFrame(all_rows, columns=out_columns)
+        for int_col in ("level", "position", "played", "won", "drawn", "lost",
+                        "points_for", "points_against", "points_difference",
+                        "bonus_points", "points"):
+            df[int_col] = pd.to_numeric(df[int_col], errors="coerce").astype("Int64")
+
+        df = df.sort_values(["season", "squad", "position"], na_position="last")
+        df = df.drop_duplicates(subset=["season", "squad", "team"], keep="last")
+        return df
 
     def _build_pitchero_games_raw(self, historic_games_raw: pd.DataFrame) -> pd.DataFrame:
         columns = [

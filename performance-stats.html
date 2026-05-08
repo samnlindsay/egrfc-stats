@@ -609,27 +609,43 @@
                         <span class="squad-filter-label">Match Trends Metrics</span>
                         <select id="performanceTrendMetrics" class="selectpicker" multiple data-actions-box="true"
                             data-selected-text-format="count > 3" data-size="12" title="Select metrics">
-                            <option value="points_for_against">Points Scored</option>
-                            <option value="points_difference">Points Difference</option>
-                            <option value="total_match_points">Total Match Points</option>
-                            <option value="retained_starters" selected>Retained Starters</option>
-                            <option value="avg_squad_apps" selected>Average Player Experience</option>
-                            <option value="lineouts_taken">Lineouts Taken</option>
-                            <option value="lineouts_won">Lineouts Won</option>
-                            <option value="lineout_turnovers">Lineout Turnovers</option>
-                            <option value="lineout_success_pct" selected>Lineout Success (%)</option>
-                            <option value="lineout_success_diff_pct">Lineout Success Difference (pp)</option>
-                            <option value="scrums_taken">Scrums Taken</option>
-                            <option value="scrums_won">Scrums Won</option>
-                            <option value="scrum_turnovers">Scrum Turnovers</option>
-                            <option value="scrum_success_pct" selected>Scrum Success (%)</option>
-                            <option value="scrum_success_diff_pct">Scrum Success Difference (pp)</option>
-                            <option value="entries_22m">22m Entries</option>
-                            <option value="entries_22m_diff">22m Entries Diff</option>
-                            <option value="points_per_entry" selected>Points per 22m Entry</option>
-                            <option value="points_per_entry_diff">Points per 22m Entry Difference</option>
-                            <option value="try_efficiency_pct">Try Efficiency (%)</option>
-                            <option value="try_efficiency_diff_pct">Try Efficiency Difference (pp)</option>
+                            <optgroup label="Scores">
+                                <option value="points_for_against">Points Scored</option>
+                                <option value="points_difference">Points Difference</option>
+                                <option value="total_match_points">Total Match Points</option>
+                            </optgroup>
+                            <optgroup label="Continuity">
+                                <option value="retained_starters" selected>Retained Starters</option>
+                            </optgroup>
+                            <optgroup label="Experience">
+                                <option value="avg_squad_apps" selected>Average Player Experience</option>
+                            </optgroup>
+                            <optgroup label="Lineout Volume">
+                                <option value="lineouts_taken">Lineouts Taken</option>
+                                <option value="lineouts_won">Lineouts Won</option>
+                                <option value="lineout_turnovers">Lineout Turnovers</option>
+                            </optgroup>
+                            <optgroup label="Lineout Efficiency">
+                                <option value="lineout_success_pct" selected>Lineout Success (%)</option>
+                                <option value="lineout_success_diff_pct">Lineout Success Difference (pp)</option>
+                            </optgroup>
+                            <optgroup label="Scrum Volume">
+                                <option value="scrums_taken">Scrums Taken</option>
+                                <option value="scrums_won">Scrums Won</option>
+                                <option value="scrum_turnovers">Scrum Turnovers</option>
+                            </optgroup>
+                            <optgroup label="Scrum Efficiency">
+                                <option value="scrum_success_pct" selected>Scrum Success (%)</option>
+                                <option value="scrum_success_diff_pct">Scrum Success Difference (pp)</option>
+                            </optgroup>
+                            <optgroup label="Red Zone">
+                                <option value="entries_22m">22m Entries</option>
+                                <option value="entries_22m_diff">22m Entries Diff</option>
+                                <option value="points_per_entry" selected>Points per 22m Entry</option>
+                                <option value="points_per_entry_diff">Points per 22m Entry Difference</option>
+                                <option value="try_efficiency_pct">Try Efficiency (%)</option>
+                                <option value="try_efficiency_diff_pct">Try Efficiency Difference (pp)</option>
+                            </optgroup>
                         </select>
                     </div>
                 </div>

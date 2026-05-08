@@ -8,6 +8,7 @@ import time
 from datetime import datetime
 from pathlib import Path
 
+import pandas as pd
 import requests
 from bs4 import BeautifulSoup
 
@@ -17,6 +18,14 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(
 BASE_URL = "https://www.englandrugby.com/fixtures-and-results/search-results"
 DEFAULT_TEAM_ID = 7134
 DEFAULT_START_SEASON_YEAR = 2003
+
+# RFU team IDs for each EGRFC squad.
+# The 1st XV ID (7134) is confirmed. Set the 2nd and 3rd XV IDs when known.
+EGRFC_SQUAD_TEAM_IDS: dict[str, int | None] = {
+    "1st": 7134,
+    "2nd": 7136, 
+    "3rd": 7137, 
+}
 
 HEADERS = {
     "User-Agent": (
@@ -207,6 +216,122 @@ def fetch_team_results_all_seasons(
     return all_rows
 
 
+# ---------------------------------------------------------------------------
+# League table scraping
+# ---------------------------------------------------------------------------
+
+_LEAGUE_TABLE_COLUMN_RENAMES = {"+/-": "PD", "Unnamed: 0": "#"}
+_LEAGUE_TABLE_FIELDNAMES = ["season", "team_id", "#", "TEAM", "P", "W", "D", "L", "PF", "PA", "PD", "BP", "Pts"]
+
+
+def fetch_league_table_for_season(team_id: int, season: str, timeout: int = 30) -> list[dict]:
+    """Fetch and parse the league table for a team in a given season.
+
+    Uses the same ``?team={team_id}&season={season}`` URL pattern as the results
+    scraper but navigates to the ``#tables`` section of the page.
+
+    Returns a list of row dicts (one per team in the table) with keys:
+    season, team_id, #, TEAM, P, W, D, L, PF, PA, PD, BP, Pts.
+    Returns an empty list on any error or when no table is found.
+    """
+    url = f"{BASE_URL}?team={team_id}&season={season}#tables"
+
+    try:
+        response = requests.get(url, headers=HEADERS, timeout=timeout)
+        response.raise_for_status()
+    except requests.RequestException as exc:
+        logging.error("Failed to fetch league table for season %s team %s: %s", season, team_id, exc)
+        return []
+
+    soup = BeautifulSoup(response.text, "html.parser")
+    tables = soup.find_all("table")
+    if not tables:
+        logging.warning("No league table found for season %s team %s", season, team_id)
+        return []
+
+    try:
+        df = pd.read_html(str(tables[0]))[0]
+    except Exception as exc:
+        logging.error("Failed to parse league table HTML for season %s team %s: %s", season, team_id, exc)
+        return []
+
+    df = df.rename(columns=_LEAGUE_TABLE_COLUMN_RENAMES)
+
+    # Derive bonus points from try bonus + losing bonus columns when BP absent
+    if "BP" not in df.columns:
+        tb = pd.to_numeric(df.get("TB", 0), errors="coerce").fillna(0)
+        lb = pd.to_numeric(df.get("LB", 0), errors="coerce").fillna(0)
+        df["BP"] = (tb + lb).astype(int)
+
+    # Retain only the canonical columns that exist in this table
+    keep = [c for c in _LEAGUE_TABLE_FIELDNAMES if c in df.columns and c not in ("season", "team_id")]
+    if "TEAM" not in keep:
+        # Some RFU table variants use a different team column name
+        for candidate in ("Club", "Team", "NAME"):
+            if candidate in df.columns:
+                df = df.rename(columns={candidate: "TEAM"})
+                keep.append("TEAM")
+                break
+
+    if "TEAM" not in keep or "#" not in keep:
+        logging.warning("League table for season %s team %s missing required columns", season, team_id)
+        return []
+
+    df = df[keep].copy()
+    df.insert(0, "team_id", team_id)
+    df.insert(0, "season", season)
+
+    rows = []
+    for _, row in df.iterrows():
+        entry: dict = {"season": season, "team_id": team_id}
+        for col in keep:
+            val = row[col]
+            if col in ("#", "P", "W", "D", "L", "PF", "PA", "PD", "BP", "Pts"):
+                entry[col] = int(val) if pd.notna(val) else None
+            else:
+                entry[col] = str(val).strip() if pd.notna(val) else None
+        rows.append(entry)
+
+    logging.info("Season %s team %s: parsed %d league table rows", season, team_id, len(rows))
+    return rows
+
+
+def fetch_league_tables_all_seasons(
+    team_id: int = DEFAULT_TEAM_ID,
+    start_year: int = DEFAULT_START_SEASON_YEAR,
+    end_year: int | None = None,
+    delay_seconds: float = 1.0,
+) -> list[dict]:
+    """Fetch league tables for all seasons from start_year to end_year (inclusive)."""
+    if end_year is None:
+        end_year = _current_season_start_year()
+
+    seasons = _iter_seasons(start_year, end_year)
+    all_rows: list[dict] = []
+    for i, season in enumerate(seasons):
+        all_rows.extend(fetch_league_table_for_season(team_id=team_id, season=season))
+        if i < len(seasons) - 1:
+            jitter = random.uniform(0.0, 0.5)
+            time.sleep(max(delay_seconds + jitter, 0.0))
+
+    return all_rows
+
+
+def save_league_tables(rows: list[dict], output_json: Path, output_csv: Path) -> None:
+    """Write league table rows to JSON and CSV output files."""
+    output_json.parent.mkdir(parents=True, exist_ok=True)
+    output_csv.parent.mkdir(parents=True, exist_ok=True)
+
+    with output_json.open("w", encoding="utf-8") as handle:
+        json.dump(rows, handle, indent=2)
+
+    fieldnames = [f for f in _LEAGUE_TABLE_FIELDNAMES if f != "team_id"] + ["team_id"]
+    with output_csv.open("w", newline="", encoding="utf-8") as handle:
+        writer = csv.DictWriter(handle, fieldnames=fieldnames, extrasaction="ignore")
+        writer.writeheader()
+        writer.writerows(rows)
+
+
 def save_results(rows: list[dict], output_json: Path, output_csv: Path) -> None:
     """Write results to JSON and CSV output files."""
     output_json.parent.mkdir(parents=True, exist_ok=True)
@@ -236,7 +361,12 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Scrape RFU fixtures/results pages for a team across multiple seasons."
     )
-    parser.add_argument("--team-id", type=int, default=DEFAULT_TEAM_ID, help="RFU team ID (default: 7134)")
+    parser.add_argument(
+        "--team-id",
+        type=int,
+        default=None,
+        help="RFU team ID for single-team mode (omit to run all squads from EGRFC_SQUAD_TEAM_IDS)",
+    )
     parser.add_argument(
         "--start-year",
         type=int,
@@ -267,21 +397,98 @@ def parse_args() -> argparse.Namespace:
         default=DATA_DIR / "east_grinstead_1st_rfu_results.csv",
         help="Output CSV path",
     )
+    parser.add_argument(
+        "--output-league-table-json",
+        type=Path,
+        default=None,
+        help="Output JSON path for league tables (optional; omit to skip league table scraping)",
+    )
+    parser.add_argument(
+        "--output-league-table-csv",
+        type=Path,
+        default=None,
+        help="Output CSV path for league tables (optional; omit to skip league table scraping)",
+    )
+    parser.add_argument(
+        "--skip-league-tables",
+        action="store_true",
+        help="Do not scrape league tables even when output paths are configured",
+    )
     return parser.parse_args()
+
+
+def _run_single_team(
+    team_id: int,
+    start_year: int,
+    end_year: int | None,
+    delay_seconds: float,
+    output_json: Path,
+    output_csv: Path,
+    output_league_table_json: Path | None,
+    output_league_table_csv: Path | None,
+    skip_league_tables: bool,
+) -> None:
+    rows = fetch_team_results_all_seasons(
+        team_id=team_id,
+        start_year=start_year,
+        end_year=end_year,
+        delay_seconds=delay_seconds,
+    )
+    save_results(rows=rows, output_json=output_json, output_csv=output_csv)
+    logging.info("Saved %d rows", len(rows))
+    logging.info("JSON output: %s", output_json)
+    logging.info("CSV output: %s", output_csv)
+
+    if not skip_league_tables and (output_league_table_json or output_league_table_csv):
+        table_rows = fetch_league_tables_all_seasons(
+            team_id=team_id,
+            start_year=start_year,
+            end_year=end_year,
+            delay_seconds=delay_seconds,
+        )
+        lt_json = output_league_table_json or output_json.with_name(output_json.stem + "_league_tables.json")
+        lt_csv = output_league_table_csv or output_csv.with_name(output_csv.stem + "_league_tables.csv")
+        save_league_tables(rows=table_rows, output_json=lt_json, output_csv=lt_csv)
+        logging.info("Saved %d league table rows", len(table_rows))
+        logging.info("League table JSON: %s", lt_json)
+        logging.info("League table CSV: %s", lt_csv)
 
 
 def main() -> None:
     args = parse_args()
-    rows = fetch_team_results_all_seasons(
-        team_id=args.team_id,
-        start_year=args.start_year,
-        end_year=args.end_year,
-        delay_seconds=args.delay_seconds,
-    )
-    save_results(rows=rows, output_json=args.output_json, output_csv=args.output_csv)
-    logging.info("Saved %d rows", len(rows))
-    logging.info("JSON output: %s", args.output_json)
-    logging.info("CSV output: %s", args.output_csv)
+    # Single-team mode: explicit team id supplied.
+    if args.team_id is not None:
+        _run_single_team(
+            team_id=args.team_id,
+            start_year=args.start_year,
+            end_year=args.end_year,
+            delay_seconds=args.delay_seconds,
+            output_json=args.output_json,
+            output_csv=args.output_csv,
+            output_league_table_json=args.output_league_table_json,
+            output_league_table_csv=args.output_league_table_csv,
+            skip_league_tables=args.skip_league_tables,
+        )
+        return
+
+    # Default mode: run all configured EGRFC squads.
+    for squad, team_id in EGRFC_SQUAD_TEAM_IDS.items():
+        if team_id is None:
+            logging.warning("Skipping %s XV: no team ID configured", squad)
+            continue
+
+        logging.info("=== Running squad %s (team_id=%s) ===", squad, team_id)
+        _run_single_team(
+            team_id=team_id,
+            start_year=args.start_year,
+            end_year=args.end_year,
+            delay_seconds=args.delay_seconds,
+            output_json=DATA_DIR / f"east_grinstead_{squad}_rfu_results.json",
+            output_csv=DATA_DIR / f"east_grinstead_{squad}_rfu_results.csv",
+            output_league_table_json=None if args.skip_league_tables else DATA_DIR / f"east_grinstead_{squad}_league_tables.json",
+            output_league_table_csv=None if args.skip_league_tables else DATA_DIR / f"east_grinstead_{squad}_league_tables.csv",
+            skip_league_tables=args.skip_league_tables,
+        )
 
 
 if __name__ == "__main__":
