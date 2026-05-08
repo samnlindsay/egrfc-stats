@@ -154,18 +154,15 @@ function renderSquadPositionCompositionChart(selectedSeason, minimumAppearances,
     const mode = getSquadStatsGameTypeMode();
     const threshold = Math.max(0, Number(minimumAppearances) || 0);
 
-    const gameTypeFilters = {
-        'All games': row => true,
-        'League + Cup': row => ['League', 'Cup'].includes(row?.game_type),
-        'League only': row => row?.game_type === 'League',
-    };
-
     const includeAllSeasons = selectedSeason === ALL_SQUAD_STATS_SEASON_VALUE;
+    const aggregatedSeasonKey = 'All';
     const aggregationSeasonLabel = getSectionSeasonLabel(ALL_SQUAD_STATS_SEASON_VALUE, SECTION_START_SQUAD);
 
     const rowFilter = row => (
-        normalizeSeasonLabel(row?.season) === (includeAllSeasons ? aggregationSeasonLabel : selectedSeason)
-        && (gameTypeFilters[mode] ? gameTypeFilters[mode](row) : true)
+        (includeAllSeasons
+            ? String(row?.season || '').trim() === aggregatedSeasonKey
+            : normalizeSeasonLabel(row?.season) === selectedSeason)
+        && String(row?.gameTypeMode || 'All games') === mode
         && Number(row?.games || 0) >= threshold
         && (row?.countMode || 'appearance_position') === positionCountMode
         && (selectedUnit === 'Total' || row?.unit === selectedUnit)
