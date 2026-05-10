@@ -1922,7 +1922,7 @@ async function loadPage() {
             const protocol = String(window.location.protocol || '').toLowerCase();
             const detail = String(error?.message || 'Unknown error');
             if (protocol === 'file:') {
-                errorEl.textContent = 'Unable to load match data from file://. Start a local server (for example: python3 -m http.server 8000 in the repo root) and open http://localhost:8000/match-info.html.';
+                errorEl.textContent = 'Unable to load match data from file://. Start a local server (for example: python3 -m http.server 8000 in the repo root) and open http://localhost:8000/match-detail.html.';
             } else {
                 errorEl.textContent = `Unable to load match data (${detail}). Ensure data/backend/games.json exists, then run python/update.py and refresh.`;
             }

@@ -332,7 +332,7 @@ function fixtureSummaryMarkup(game, { includeSquad = false } = {}) {
     const fixtureText = `${squadText}v ${opposition} (${homeAway}) - ${dateText}`;
     
     if (!gameId) return fixtureText;
-    const matchLink = `match-info.html?game=${encodeURIComponent(gameId)}#match-detail`;
+    const matchLink = `match-detail.html?game=${encodeURIComponent(gameId)}#match-detail`;
     return `<a class="fixture-result-link" href="${matchLink}" style="text-decoration: none; color: inherit;">${fixtureText}</a>`;
 }
 
@@ -394,7 +394,7 @@ function lastTenResultsMarkup(history) {
             ].filter(Boolean).join('\n');
             const chip = `<span class="last-ten-result ${variant}" data-bs-toggle="tooltip" data-bs-custom-class="last-ten-result-tooltip" data-bs-title="${escapeAttribute(tooltipText)}">${result}</span>`;
             return gameId
-                ? `<a class="last-ten-result-link" href="match-info.html?game=${encodeURIComponent(gameId)}#match-detail" aria-label="Open Match Info for ${escapeHtml(title)}">${chip}</a>`
+                ? `<a class="last-ten-result-link" href="match-detail.html?game=${encodeURIComponent(gameId)}#match-detail" aria-label="Open Match Info for ${escapeHtml(title)}">${chip}</a>`
                 : chip;
         })
         .join('');

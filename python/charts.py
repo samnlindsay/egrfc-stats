@@ -13,7 +13,7 @@ import altair as alt
 import pandas as pd
 import re
 import duckdb
-from python.chart_helpers import hack_params_css, alt_theme, get_embed_options
+from python.chart_helpers import alt_theme, get_embed_options
 
 pitchero_caveat = f"Using Pitchero data from 2017 to 2019/20. Manually updated records from 2021 onwards"
 
@@ -189,8 +189,6 @@ def lineout_success_by_zone(df=None, squad="1st", min_total=20, file=None):
 
     if file:
         chart.save(file, embed_options=get_embed_options())
-        if str(file).lower().endswith('.html'):
-            hack_params_css(file)
 
     return chart
 

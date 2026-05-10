@@ -156,12 +156,6 @@
         margin-left: 0;
     }
 
-    #page-performance-stats .performance-section-head {
-        flex-wrap: wrap;
-        align-items: stretch;
-        gap: 0.55rem;
-    }
-
     #page-performance-stats .performance-stats-main .chart-section-content--split {
         display: block;
     }
@@ -788,12 +782,40 @@
         height: auto !important;
         display: block;
     }
+
+    .database-table-bar {
+        grid-template-columns: 1fr;
+        align-items: stretch;
+    }
+
+    .database-table-bar .filter-item,
+    .database-table-bar .database-search-item {
+        width: 100%;
+        min-width: 0;
+        flex: 1 1 100%;
+    }
+
+    .database-filter-chips-bar {
+        align-items: stretch;
+    }
+
+    .database-reset-btn {
+        align-self: flex-start;
+    }
+
+    .database-data-table td,
+    .database-columns-table td {
+        white-space: normal;
+    }
+
+    .analysis-section-head h2 {
+        font-size: 1.25rem;
+    }
 }
 
 @media (max-width: 480px) {
     #page-squad-stats .page-shell,
     #page-player-stats .page-shell,
-    #page-league-tables .page-shell,
     #page-opposition-profile .page-shell {
         padding-left: 0.35rem;
         padding-right: 0.35rem;
@@ -801,14 +823,12 @@
 
     #page-squad-stats .chart-section,
     #page-player-stats .chart-section,
-    #page-league-tables .chart-section,
     #page-opposition-profile .chart-section {
         margin: 1rem 0;
     }
 
     #page-squad-stats .chart-section-block--panel,
     #page-player-stats .chart-section-block--panel,
-    #page-league-tables .chart-section-block--panel,
     #page-opposition-profile .chart-section-block--panel,
     #page-player-profile .chart-section-block--panel {
         padding: 0.5rem;
@@ -843,6 +863,38 @@
      .navbar-nav .nav-link {
         font-size: 0.9rem;
         padding: 0.4rem !important;
+    }
+
+    .opposition-top-table thead th {
+        font-size: 0.72rem !important;
+        padding: 0.28rem 0.12rem;
+    }
+
+    .opposition-top-table tbody td {
+        padding: 0.28rem 0.12rem;
+    }
+
+    .opposition-top-table thead th:nth-child(n+3),
+    .opposition-top-table tbody td:nth-child(n+3) {
+        font-size: 0.8rem;
+    }
+
+    .opposition-table-opposition-content strong {
+        font-size: 0.78rem;
+    }
+
+    .opposition-table-games-1st,
+    .opposition-table-games-2nd,
+    .opposition-table-games-total {
+        min-width: 1.9rem;
+    }
+
+    .opposition-table-result {
+        min-width: 1.5rem;
+    }
+
+    .opposition-top-pagination-bar {
+        gap: 0.5rem;
     }
 }
 
@@ -905,43 +957,6 @@
         --bs-btn-font-size: 0.72rem;
     }
 
-}
-
-@media (max-width: 480px) {
-    .opposition-top-table thead th {
-        font-size: 0.72rem !important;
-        padding: 0.28rem 0.12rem;
-    }
-
-    .opposition-top-table tbody td {
-        padding: 0.28rem 0.12rem;
-    }
-
-    .opposition-top-table thead th:nth-child(n+3),
-    .opposition-top-table tbody td:nth-child(n+3) {
-        font-size: 0.8rem;
-    }
-
-    .opposition-table-opposition-content strong {
-        font-size: 0.78rem;
-    }
-
-    .opposition-table-games-1st,
-    .opposition-table-games-2nd,
-    .opposition-table-games-total {
-        min-width: 1.9rem;
-    }
-
-    .opposition-table-result {
-        min-width: 1.5rem;
-    }
-
-    .opposition-top-pagination-bar {
-        gap: 0.5rem;
-    }
-}
-
-@media (max-width: 767.98px) {
     .match-info-hero-grid {
         grid-template-columns: 1fr;
         /* Mobile: rows stack as home -> score -> away (roughly equal thirds).
@@ -1686,37 +1701,6 @@
     }
 }
 
-@media (max-width: 768px) {
-    .database-table-bar {
-        grid-template-columns: 1fr;
-        align-items: stretch;
-    }
-
-    .database-table-bar {
-        align-items: stretch;
-    }
-
-    .database-table-bar .filter-item,
-    .database-table-bar .database-search-item {
-        width: 100%;
-        min-width: 0;
-        flex: 1 1 100%;
-    }
-
-    .database-filter-chips-bar {
-        align-items: stretch;
-    }
-
-    .database-reset-btn {
-        align-self: flex-start;
-    }
-
-    .database-data-table td,
-    .database-columns-table td {
-        white-space: normal;
-    }
-}
-
 @media (max-width: 767.98px) {
     .match-info-hero-matrix {
         grid-template-columns: 2.8rem repeat(2, minmax(0, 1fr));
@@ -1853,6 +1837,17 @@
         width: 100%;
     }
 
+    /* Very narrow screens: collapse hero to single column */
+    #page-player-profile .player-profile-hero {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 0.75rem;
+    }
+
+    #page-player-profile .player-profile-back-link {
+        width: 100%;
+        justify-content: center;
+    }
+
 }
 
 @media (max-width: 360px) {
@@ -1871,25 +1866,5 @@
     .video-analysis-table-wrap,
     .video-analysis-lineout-detail-wrap {
         max-width: none;
-    }
-}
-
-
-@media (max-width: 768px) {
-    .analysis-section-head h2 {
-        font-size: 1.25rem;
-    }
-}
-
-/* Very narrow screens: collapse hero to single column */
-@media (max-width: 576px) {
-    #page-player-profile .player-profile-hero {
-        grid-template-columns: minmax(0, 1fr);
-        gap: 0.75rem;
-    }
-
-    #page-player-profile .player-profile-back-link {
-        width: 100%;
-        justify-content: center;
     }
 }

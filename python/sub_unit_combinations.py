@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 import pandas as pd
 import altair as alt
-from python.chart_helpers import hack_params_css, alt_theme
+from python.chart_helpers import alt_theme
 
 alt.themes.register("my_custom_theme", alt_theme)
 alt.themes.enable("my_custom_theme")
@@ -197,12 +197,6 @@ def sub_unit_combinations_chart(db, output_dir="data/charts", output_file=None):
         
         chart_file = output_path / f"sub_unit_combinations_{unit_key}.json"
         chart.save(str(chart_file))
-        
-        # Apply CSS hack for responsive styling
-        try:
-            hack_params_css(str(chart_file))
-        except Exception as e:
-            print(f"Warning: Could not apply CSS hack to {chart_file}: {e}")
         
         charts[unit_key] = chart
         print(f"Generated chart for {label}: {len(combo_counts)} combinations")

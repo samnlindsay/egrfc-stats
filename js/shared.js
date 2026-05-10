@@ -912,7 +912,7 @@ function applyResponsiveChartScale(rootElement = document) {
     }
 
     if (embed.closest("#leagueResultsChart1, #leagueResultsChart2")) {
-      // League Results uses dedicated page-level scaling in league-tables.js.
+      // League Results uses dedicated page-level scaling in the squad stats module.
       return;
     }
 
@@ -1062,7 +1062,7 @@ function getAllowedGameTypes(mode) {
 
 function createGameLink(gameId) {
   if (!gameId) return null;
-  return `match-info.html?game=${encodeURIComponent(String(gameId || "").trim())}#match-detail`;
+  return `match-detail.html?game=${encodeURIComponent(String(gameId || "").trim())}#match-detail`;
 }
 
 function createPlayerLink(playerName) {

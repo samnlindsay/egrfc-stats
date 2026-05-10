@@ -53,7 +53,7 @@
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-people-fill" aria-hidden="true"></i>Team</a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="squad-stats.html"><i class="bi bi-people-fill" aria-hidden="true"></i>Squad Stats</a></li>
-                                <li><a class="dropdown-item" href="match-info.html"><i class="bi bi-calendar-event" aria-hidden="true"></i>Match Detail</a></li>
+                                <li><a class="dropdown-item" href="match-detail.html"><i class="bi bi-calendar-event" aria-hidden="true"></i>Match Detail</a></li>
                             <li><a class="dropdown-item" href="opposition-profile.html"><i class="bi bi-shield-shaded" aria-hidden="true"></i>Opposition Profile</a></li>
                             </ul>
                         </li>
@@ -72,7 +72,7 @@
                                 <li><a class="dropdown-item" href="lineout-performance.html"><i class="bi bi-bullseye" aria-hidden="true"></i>Lineout Deep Dive</a></li>
                             </ul>
                         </li>
-                        <li class="nav-item"><a class="nav-link" href="database.html"><i class="bi bi-database-fill" aria-hidden="true"></i>Data Explorer</a></li>
+                        <li class="nav-item"><a class="nav-link" href="data-explorer.html"><i class="bi bi-database-fill" aria-hidden="true"></i>Data Explorer</a></li>
                     </ul>
                 </div>
             </div>
@@ -127,8 +127,8 @@
                         <section id="set-piece-performance" class="analysis-section chart-section" aria-labelledby="set-piece-performance-heading">
                             <h2 id="set-piece-performance-heading" class="section-heading">Set Piece</h2>
                             <p class="section-intro">Filterable seasonal success trends for lineout and scrum, shown side-by-side for quick comparison.</p>
-                            <div id="setPieceActiveFilters" class="squad-stats-active-filters" aria-live="polite" style="margin-bottom: 1rem;"></div>
-                            <a class="page-header-link performance-section-link" href="lineout-performance.html" style="margin-bottom: 0.75rem; display: inline-flex;">
+                            <div id="setPieceActiveFilters" class="squad-stats-active-filters mb-3" aria-live="polite"></div>
+                            <a class="page-header-link performance-section-link mb-3 d-inline-flex" href="lineout-performance.html">
                                 <span>Lineout Deep Dive</span>
                                 <i class="bi bi-arrow-right" aria-hidden="true"></i>
                             </a>
@@ -195,7 +195,7 @@
                         <section id="red-zone-performance" class="analysis-section chart-section" aria-labelledby="red-zone-performance-heading">
                             <h2 id="red-zone-performance-heading" class="section-heading">Red Zone</h2>
                             <p class="section-intro">Conversion efficiency from entries into the opposition 22 into scoreboard impact. Red-zone data is currently available for 1st XV only.</p>
-                            <div id="redZoneActiveFilters" class="squad-stats-active-filters" aria-live="polite" style="margin-bottom: 1rem;"></div>
+                            <div id="redZoneActiveFilters" class="squad-stats-active-filters mb-3" aria-live="polite"></div>
                             <div class="chart-section-block chart-section-block--panel">
                                 <div class="chart-section-head">
                                     <h3 class="chart-section-title">22m Entries vs Results</h3>
@@ -263,8 +263,7 @@
     aria-labelledby="match-trends-performance-heading">
     <h2 id="match-trends-performance-heading" class="section-heading">Match Trends</h2>
     <p class="section-intro">A multi-purpose match-by-match explorer for scores, squad continuity, squad experience, and set-piece stats, across a single season.</p>
-    <div id="matchTrendsActiveFilters" class="squad-stats-active-filters" aria-live="polite"
-        style="margin-bottom: 1rem;"></div>
+    <div id="matchTrendsActiveFilters" class="squad-stats-active-filters mb-3" aria-live="polite"></div>
     <div class="chart-section-block chart-section-block--panel">
         <div class="chart-section-head">
             <h3 class="chart-section-title">In-Season Match Trends</h3>
@@ -381,8 +380,7 @@
     aria-labelledby="metric-compare-performance-heading">
     <h2 id="metric-compare-performance-heading" class="section-heading">Metric Compare</h2>
     <p class="section-intro">Explore relationships between any two selected match metrics, with a third metric encoded by point color.</p>
-    <div id="metricCompareActiveFilters" class="squad-stats-active-filters" aria-live="polite"
-        style="margin-bottom: 1rem;"></div>
+    <div id="metricCompareActiveFilters" class="squad-stats-active-filters mb-3" aria-live="polite"></div>
     <div class="chart-section-block chart-section-block--panel">
         <div class="chart-section-head">
             <h3 class="chart-section-title">Flexible Metric Compare</h3>
@@ -663,7 +661,6 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/js/bootstrap-select.min.js"></script>
         <script src="js/nav-layout.js"></script>
         <script src="js/shared.js"></script>
-        <script src="js/performance-stats-layout.js"></script>
         <script src="js/performance-stats.js"></script>
     </body>
 

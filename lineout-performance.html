@@ -57,7 +57,7 @@
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="squad-stats.html"><i class="bi bi-people-fill"
                                         aria-hidden="true"></i>Squad Stats</a></li>
-                            <li><a class="dropdown-item" href="match-info.html"><i class="bi bi-calendar-event"
+                            <li><a class="dropdown-item" href="match-detail.html"><i class="bi bi-calendar-event"
                                         aria-hidden="true"></i>Match Detail</a></li>
                             <li><a class="dropdown-item" href="opposition-profile.html"><i class="bi bi-shield-shaded"
                                         aria-hidden="true"></i>Opposition Profile</a></li>
@@ -85,7 +85,7 @@
                                         class="bi bi-bullseye" aria-hidden="true"></i>Lineout Deep Dive</a></li>
                         </ul>
                     </li>
-                    <li class="nav-item"><a class="nav-link" href="database.html"><i class="bi bi-database-fill"
+                    <li class="nav-item"><a class="nav-link" href="data-explorer.html"><i class="bi bi-database-fill"
                                 aria-hidden="true"></i>Data Explorer</a></li>
                 </ul>
             </div>
@@ -138,14 +138,14 @@
                                         <h3 class="chart-section-title">Count and Success Rate</h3>
                                         <div class="lineout-focus-grid lineout-focus-grid--with-hint">
                                             <p class="chart-section-hint">Read this row as the in-season snapshot: attempts by setup and the corresponding success rate for the selected season.<br><br> Use the trends below to see whether current setup choices are above or below long-term levels.</p>
-                                            <div id="lineoutPerfBreakdownNumbersChart" class="lineout-chart-host" style="overflow: visible;"></div>
+                                            <div id="lineoutPerfBreakdownNumbersChart" class="lineout-chart-host"></div>
                                         </div>
                                     </div>
                                     <div class="lineout-subsection">
                                         <h3 class="chart-section-title">Trends</h3>
                                         <div class="lineout-trend-grid">
-                                            <div id="lineoutTrendNumbersBarChart" class="lineout-chart-host" style="overflow: visible;"></div>
-                                            <div id="lineoutTrendNumbersLineChart" class="lineout-chart-host" style="overflow: visible;"></div>
+                                            <div id="lineoutTrendNumbersBarChart" class="lineout-chart-host"></div>
+                                            <div id="lineoutTrendNumbersLineChart" class="lineout-chart-host"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -168,14 +168,14 @@
                                         <h3 class="chart-section-title">Count and Success Rate</h3>
                                         <div class="lineout-focus-grid lineout-focus-grid--with-hint">
                                             <p class="chart-section-hint">This view compares front, middle and back usage and success in the selected season.<br><br>The trend row below separates long-run volume from efficiency to reveal whether zone balance is changing over time.</p>
-                                            <div id="lineoutPerfBreakdownAreaChart" class="lineout-chart-host" style="overflow: visible;"></div>
+                                            <div id="lineoutPerfBreakdownAreaChart" class="lineout-chart-host"></div>
                                         </div>
                                     </div>
                                     <div class="lineout-subsection">
                                         <h3 class="chart-section-title">Trends</h3>
                                         <div class="lineout-trend-grid">
-                                            <div id="lineoutTrendAreaBarChart" class="lineout-chart-host" style="overflow: visible;"></div>
-                                            <div id="lineoutTrendAreaLineChart" class="lineout-chart-host" style="overflow: visible;"></div>
+                                            <div id="lineoutTrendAreaBarChart" class="lineout-chart-host"></div>
+                                            <div id="lineoutTrendAreaLineChart" class="lineout-chart-host"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -198,15 +198,15 @@
                                         <h3 class="chart-section-title">Count and Success Rate</h3>
                                         <div class="lineout-focus-grid lineout-focus-grid--with-hint">
                                             <p class="chart-section-hint">Use this chart to compare jumper workload and accuracy for the selected season.<br><br>The all-season pair below helps separate temporary form from sustained jumper performance and role share.</p>
-                                            <div id="lineoutPerfBreakdownJumperChart" class="lineout-chart-host" style="overflow: visible;"></div>
+                                            <div id="lineoutPerfBreakdownJumperChart" class="lineout-chart-host"></div>
                                         </div>
                                     </div>
                                     <div class="lineout-subsection">
                                         <h3 class="chart-section-title">Trends</h3>
                                         <div id="lineoutJumperLegend" class="lineout-section-legend" aria-label="Jumper legend"></div>
                                         <div class="lineout-trend-grid">
-                                            <div id="lineoutTrendJumperBarChart" class="lineout-chart-host" style="overflow: visible;"></div>
-                                            <div id="lineoutTrendJumperLineChart" class="lineout-chart-host" style="overflow: visible;"></div>
+                                            <div id="lineoutTrendJumperBarChart" class="lineout-chart-host"></div>
+                                            <div id="lineoutTrendJumperLineChart" class="lineout-chart-host"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -229,15 +229,15 @@
                                         <h3 class="chart-section-title">Count and Success Rate</h3>
                                         <div class="lineout-focus-grid lineout-focus-grid--with-hint">
                                             <p class="chart-section-hint">This panel shows selected-season throwing volume and efficiency by thrower.<br><br>Compare with the long-run trends below to spot whether current conversion rates are matching each thrower&apos;s historical baseline.</p>
-                                                <div id="lineoutPerfBreakdownThrowerChart" class="lineout-chart-host" style="overflow: visible;"></div>
+                                                <div id="lineoutPerfBreakdownThrowerChart" class="lineout-chart-host"></div>
                                         </div>
                                     </div>
                                     <div class="lineout-subsection">
                                         <h3 class="chart-section-title">Trends</h3>
                                         <div id="lineoutThrowerLegend" class="lineout-section-legend" aria-label="Thrower legend"></div>
                                         <div class="lineout-trend-grid">
-                                            <div id="lineoutTrendThrowerBarChart" class="lineout-chart-host" style="overflow: visible;"></div>
-                                            <div id="lineoutTrendThrowerLineChart" class="lineout-chart-host" style="overflow: visible;"></div>
+                                            <div id="lineoutTrendThrowerBarChart" class="lineout-chart-host"></div>
+                                            <div id="lineoutTrendThrowerLineChart" class="lineout-chart-host"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -260,14 +260,14 @@
                                         <h3 class="chart-section-title">Count and Success Rate</h3>
                                         <div class="lineout-focus-grid lineout-focus-grid--with-hint">
                                             <p class="chart-section-hint">Read hot, cold and lost outcomes here for the selected season to understand current play-call reliability.<br><br>The trend charts below show if each outcome profile is stabilising, improving or drifting over time.</p>
-                                            <div id="lineoutPerfBreakdownPlayChart" class="lineout-chart-host" style="overflow: visible;"></div>
+                                            <div id="lineoutPerfBreakdownPlayChart" class="lineout-chart-host"></div>
                                         </div>
                                     </div>
                                     <div class="lineout-subsection">
                                         <h3 class="chart-section-title">Trends</h3>
                                         <div class="lineout-trend-grid">
-                                            <div id="lineoutTrendPlayBarChart" class="lineout-chart-host" style="overflow: visible;"></div>
-                                            <div id="lineoutTrendPlayLineChart" class="lineout-chart-host" style="overflow: visible;"></div>
+                                            <div id="lineoutTrendPlayBarChart" class="lineout-chart-host"></div>
+                                            <div id="lineoutTrendPlayLineChart" class="lineout-chart-host"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -288,7 +288,7 @@
                                 <div class="chart-section-content">
                                     <div class="lineout-focus-grid lineout-focus-grid--with-hint">
                                         <p class="chart-section-hint">This chart compares total lineout volume and success season by season for the current squad and game-type scope.<br><br>Use it with the highlighted table season column to anchor year-on-year context.</p>
-                                        <div id="lineoutPerfBreakdownSeasonChart" class="lineout-chart-host" style="overflow: visible;"></div>
+                                        <div id="lineoutPerfBreakdownSeasonChart" class="lineout-chart-host"></div>
                                     </div>
                                 </div>
                             </div>

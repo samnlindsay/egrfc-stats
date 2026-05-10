@@ -4,12 +4,6 @@
     margin: 0 0 0.7rem;
 }
 /* ===== CHART CONTENT ===== */
-#league-content {
-    width: 100% !important;
-    min-width: 0 !important;
-    align-items: stretch;
-    background: var(--chart-surface-color);
-}
 
 .vega-embed {
     display: block !important;

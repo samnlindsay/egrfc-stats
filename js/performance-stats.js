@@ -18,6 +18,7 @@
         'lineout_success_pct',
         'points_per_entry',
     ];
+    let performanceStatsAnalysisRailInitialised = false;
     const MATCH_TREND_PANEL_CONFIG = {
         season: {
             containerId: 'seasonMatchMetricTrendsChart',
@@ -1032,6 +1033,12 @@
     }
 
     async function init() {
+        if (!performanceStatsAnalysisRailInitialised && typeof initialiseAnalysisRail === 'function') {
+            performanceStatsAnalysisRailInitialised = initialiseAnalysisRail({
+                railId: 'performanceStatsAnalysisRail',
+            });
+        }
+
         await populateMatchTrendSeasonOptions();
         await updateHeroMetrics();
         initialiseOffcanvasFocusLinks();

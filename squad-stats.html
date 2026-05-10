@@ -57,7 +57,7 @@
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item active" href="squad-stats.html"><i class="bi bi-people-fill"
                                         aria-hidden="true"></i>Squad Stats</a></li>
-                            <li><a class="dropdown-item" href="match-info.html"><i class="bi bi-calendar-event"
+                            <li><a class="dropdown-item" href="match-detail.html"><i class="bi bi-calendar-event"
                                         aria-hidden="true"></i>Match Detail</a></li>
                             <li><a class="dropdown-item" href="opposition-profile.html"><i class="bi bi-shield-shaded"
                                         aria-hidden="true"></i>Opposition Profile</a></li>
@@ -85,7 +85,7 @@
                                         aria-hidden="true"></i>Lineout Deep Dive</a></li>
                         </ul>
                     </li>
-                    <li class="nav-item"><a class="nav-link" href="database.html"><i class="bi bi-database-fill"
+                    <li class="nav-item"><a class="nav-link" href="data-explorer.html"><i class="bi bi-database-fill"
                                 aria-hidden="true"></i>Data Explorer</a></li>
                 </ul>
             </div>
@@ -153,7 +153,7 @@
                         <h2 id="squad-overview-heading" class="section-heading">Squad Composition</h2>
                         <p class="section-intro">Squad depth and position coverage, including the overlap between 1st and 2nd XV.</p>
                         <div id="squadCompositionActiveFilters" class="squad-stats-active-filters" aria-live="polite"
-                            style="margin-bottom: 1rem;"></div>
+                            class="mb-3"></div>
 
                         <div class="chart-section-block chart-section-block--panel">
                             <div class="chart-section-head chart-section-head--position-count">
@@ -181,7 +181,7 @@
                                         depth. Darker segments indicate players with more appearances.</p>
                                     <p class="chart-section-hint">
                                         Count mode allows you to switch between views:</p>
-                                    <ul class="chart-section-hint" style="list-style-type: disc; padding-left: 1.5rem;">
+                                    <ul class="chart-section-hint ps-4 mb-0">
                                         <li><strong>Selected position</strong> - view players in the selected position,
                                             so see how many different players have played that position</li>
                                         <li><strong>Primary position</strong> - view what position each player primarily
@@ -214,7 +214,7 @@
                         <p class="section-intro">How many players represent the club from season to season, and how many
                             players return from the previous game, week to week. </p>
                         <div id="squadContinuityActiveFilters" class="squad-stats-active-filters" aria-live="polite"
-                            style="margin-bottom: 1rem;"></div>
+                            class="mb-3"></div>
 
                         <div class="chart-section-block chart-section-block--panel">
                             <div class="chart-section-head">
@@ -262,13 +262,13 @@
                         <h2 id="squad-results-heading" class="section-heading">Results</h2>
                         <p class="section-intro">Individual results view, visualising the score, winning margin and result through the season (or averages per season).</p>
                         <div id="squadResultsActiveFilters" class="squad-stats-active-filters" aria-live="polite"
-                            style="margin-bottom: 1rem;"></div>
+                            class="mb-3"></div>
 
                         <div class="chart-section-block chart-section-block--panel">
                             <div class="chart-section-content chart-section-content--split">
                                 <div class="chart-section-meta">
                                     <p class="chart-section-hint">A quick snapshot view of the results through the season:</p>
-                                    <ul class="chart-section-hint" style="list-style-type: disc; padding-left: 1.5rem;">
+                                    <ul class="chart-section-hint ps-4 mb-0">
                                         <li><strong>Green bars</strong> indicate wins, <strong>red bars</strong> indicate losses.</li>
                                         <li>The size of the bar indicates the margin of victory or defeat.</li>
                                         <li>The most recent game is at the top, and the first game of the season is at the bottom.</li>
@@ -319,7 +319,7 @@
                         aria-labelledby="league-results-heading">
                         <h2 id="league-results-heading" class="section-heading">League Results</h2>
                         <p class="section-intro">League tables and match-by-match results matrix for the selected season.</p>
-                        <div id="leagueTablesStandingsActiveFilters" class="squad-stats-active-filters" aria-live="polite" style="margin-bottom: 1rem;"></div>
+                        <div id="leagueTablesStandingsActiveFilters" class="squad-stats-active-filters" aria-live="polite" class="mb-3"></div>
 
                         <div class="chart-section-block chart-section-block--panel">
                             <h3 class="chart-section-title">League Tables</h3>
@@ -332,7 +332,7 @@
 
                         <div class="chart-section-block chart-section-block--panel">
                             <h3 class="chart-section-title">Results Matrix</h3>
-                            <p class="chart-section-hint" style="margin-bottom: 0.75rem;">Click a team name to highlight all their results. Toggle to colour unexpected results (upsets) instead of home/away wins.</p>
+                            <p class="chart-section-hint mb-3">Click a team name to highlight all their results. Toggle to colour unexpected results (upsets) instead of home/away wins.</p>
                             <div class="row" id="leagueTablesResultsContainer">
                                 <!-- League results charts populated by JavaScript -->
                             </div>

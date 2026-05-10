@@ -227,7 +227,7 @@ function lastTenResultsMarkup(history) {
         .join("\n");
       const chip = `<span class="last-ten-result ${variant}" data-bs-toggle="tooltip" data-bs-custom-class="last-ten-result-tooltip" data-bs-title="${escapeAttribute(tooltipText)}">${result}</span>`;
       return gameId
-        ? `<a class="last-ten-result-link" href="match-info.html?game=${encodeURIComponent(gameId)}#match-detail" aria-label="Open Match Info for ${escapeHtml(title)}">${chip}</a>`
+        ? `<a class="last-ten-result-link" href="match-detail.html?game=${encodeURIComponent(gameId)}#match-detail" aria-label="Open Match Info for ${escapeHtml(title)}">${chip}</a>`
         : chip;
     })
     .join("");
@@ -271,7 +271,7 @@ function resultBadgeHtml(score) {
 }
 
 function gameLinkHref(gameId) {
-  return `match-info.html?game=${encodeURIComponent(String(gameId || "").trim())}`;
+  return `match-detail.html?game=${encodeURIComponent(String(gameId || "").trim())}`;
 }
 
 function fixtureAndResultText(game, includeSquad) {
@@ -575,7 +575,7 @@ function lastTenResultsStripHtml(history) {
         .join("\n");
       const chip = `<span class="last-ten-result ${variant}" data-bs-toggle="tooltip" data-bs-custom-class="last-ten-result-tooltip" data-bs-title="${escapeAttribute(tooltipText)}">${result}</span>`;
       return gameId
-        ? `<a class="last-ten-result-link" href="match-info.html?game=${encodeURIComponent(gameId)}#match-detail" aria-label="Open Match Info for ${escapeHtml(title)}">${chip}</a>`
+        ? `<a class="last-ten-result-link" href="match-detail.html?game=${encodeURIComponent(gameId)}#match-detail" aria-label="Open Match Info for ${escapeHtml(title)}">${chip}</a>`
         : chip;
     })
     .join("");
@@ -809,7 +809,7 @@ function renderAppearanceTable() {
           ? `${squadKey} XV`
           : squadKey || "-";
       const openMatchHtml = row.gameId
-        ? `<a class="btn btn-outline-primary btn-sm rounded-circle p-0 d-inline-flex align-items-center justify-content-center match-open-btn" href="match-info.html?game=${encodeURIComponent(row.gameId)}" aria-label="View match detail"><i class="bi bi-search" aria-hidden="true"></i></a>`
+        ? `<a class="btn btn-outline-primary btn-sm rounded-circle p-0 d-inline-flex align-items-center justify-content-center match-open-btn" href="match-detail.html?game=${encodeURIComponent(row.gameId)}" aria-label="View match detail"><i class="bi bi-search" aria-hidden="true"></i></a>`
         : '<span class="text-muted">-</span>';
       const oppositionText = String(row.opposition || "-").trim() || "-";
       const oppositionHtml = oppositionText === "-"
