@@ -1115,9 +1115,12 @@ function _ltGetSelectedColourEncoding() {
 
 function _ltDetectSelectionBinding(spec) {
     const specText = JSON.stringify(spec || {});
-    const match = specText.match(/(param_\d+)\['([^']+)'\]/);
-    if (!match) return null;
-    return { paramName: match[1], field: match[2] };
+    // Support both dot notation (param_N.field) and bracket notation (param_N['field'])
+    const dotMatch = specText.match(/(param_\d+)\.([a-zA-Z_][a-zA-Z0-9_]*)/);
+    if (dotMatch) return { paramName: dotMatch[1], field: dotMatch[2] };
+    const bracketMatch = specText.match(/(param_\d+)\['([^']+)'\]/);
+    if (bracketMatch) return { paramName: bracketMatch[1], field: bracketMatch[2] };
+    return null;
 }
 
 function _ltApplyColourEncoding(spec, colourEncoding) {
@@ -1133,7 +1136,7 @@ function _ltApplyColourEncoding(spec, colourEncoding) {
 
     const selectionBinding = _ltDetectSelectionBinding(nextSpec);
     const selectionTest = selectionBinding
-        ? `datum.home_team == ${selectionBinding.paramName}['${selectionBinding.field}'] || datum.away_team == ${selectionBinding.paramName}['${selectionBinding.field}'] || !isValid(${selectionBinding.paramName}['${selectionBinding.field}'])`
+        ? `datum.home_team == ${selectionBinding.paramName}.${selectionBinding.field} || datum.away_team == ${selectionBinding.paramName}.${selectionBinding.field} || !isValid(${selectionBinding.paramName}.${selectionBinding.field})`
         : 'true';
 
     if (colourEncoding !== LT_RESULTS_COLOUR_RESULT) return nextSpec;
@@ -1397,7 +1400,37 @@ async function renderLeagueTables() {
 
     if (!_ltData || !_ltData[season]) {
         standingsContainer.innerHTML = '<p>No league table data available for this season.</p>';
-        resultsContainer.innerHTML = '<p>No league results chart data available for this season.</p>';
+        // No standings but we may still have results chart specs — build placeholder divs from index
+        const normalizedSeason = toLeagueSeasonFormat(season);
+        const indexEntry = _ltResultsIndexData?.[normalizedSeason] || {};
+        let fallbackResultsHtml = '';
+        if (indexEntry['1']) {
+            fallbackResultsHtml += `
+                <div class="col-12 mb-4 league-results-column" data-league-results-squad="1">
+                    <div class="form-check form-switch player-stats-motm-switch" style="margin-bottom: 0.5rem;">
+                        <input class="form-check-input" type="checkbox" role="switch" id="leagueTablesUnexpectedToggle1" aria-label="Highlight unexpected results">
+                        <label class="form-check-label" for="leagueTablesUnexpectedToggle1">Highlight upsets</label>
+                    </div>
+                    <div id="leagueResultsChart1" class="chart-host chart-host--overflow-visible chart-host--intrinsic league-results-chart-card">Loading 1st XV league results chart...</div>
+                </div>`;
+        }
+        if (indexEntry['2']) {
+            fallbackResultsHtml += `
+                <div class="col-12 mb-4 league-results-column" data-league-results-squad="2">
+                    <div class="form-check form-switch player-stats-motm-switch" style="margin-bottom: 0.5rem;">
+                        <input class="form-check-input" type="checkbox" role="switch" id="leagueTablesUnexpectedToggle2" aria-label="Highlight unexpected results">
+                        <label class="form-check-label" for="leagueTablesUnexpectedToggle2">Highlight upsets</label>
+                    </div>
+                    <div id="leagueResultsChart2" class="chart-host chart-host--overflow-visible chart-host--intrinsic league-results-chart-card">Loading 2nd XV league results chart...</div>
+                </div>`;
+        }
+        if (!fallbackResultsHtml) {
+            resultsContainer.innerHTML = '<p>No league results chart data available for this season.</p>';
+            return;
+        }
+        resultsContainer.innerHTML = fallbackResultsHtml;
+        await _ltRenderResultsChartsForSeason(season);
+        _ltInitResultColourControls();
         return;
     }
 
