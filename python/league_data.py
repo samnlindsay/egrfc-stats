@@ -1410,106 +1410,148 @@ def save_summary_match_data(matches, output_file=None):
     print(f'Saved to {output_file}')
     print(f'League table data available separately in data/league_table_*.csv files')
 
-def build_league_tables_json(output_file=None):
+def build_league_tables_json(output_file=None, db_path=None, con=None):
     if output_file is None:
         output_file = str(_DATA_DIR / "league_tables.json")
-    """Build league_tables.json from CSV league table files for frontend display."""
-    
-    import glob
-    
-    # Find all league table CSV files
-    csv_pattern = "data/league_table_*.csv"
-    csv_files = sorted(glob.glob(csv_pattern))
-    
-    if not csv_files:
-        logging.warning(f"No league table CSV files found matching {csv_pattern}")
-        return {}
-    
-    # Dictionary to build JSON structure
-    league_data = {"seasons": []}
-    
-    # Parse each CSV file
-    for csv_file in csv_files:
+    """Build league_tables.json from the backend league_table_standings DuckDB table."""
+    import duckdb
+
+    _close_con = False
+    if con is None:
+        if db_path is None:
+            db_path = str(_DATA_DIR / "egrfc_backend.duckdb")
         try:
-            # Extract season and squad from filename
-            # Format: data/league_table_YYYY_YY_squad_N.csv
-            filename = os.path.basename(csv_file)
-            parts = filename.replace('league_table_', '').replace('.csv', '').split('_')
-            
-            if len(parts) < 4:
-                logging.warning(f"Skipping file with unexpected format: {filename}")
-                continue
-            
-            # Reconstruct season string (e.g., 2025_26 -> 2025/26)
-            season_str = f"{parts[0]}/{parts[1]}"
-            
-            # Get squad number (last part after 'squad')
-            squad = parts[-1]
-            
-            # Read CSV
-            df = pd.read_csv(csv_file)
-            
-            # Get division info from the divisions mapping
-            squad_int = int(squad)
-            division = divisions.get(squad_int, {}).get(season_str, "Unknown")
-            
-            # Map to squad name
-            squad_name = f"{'1st' if squad_int == 1 else '2nd'} Team"
-            
-            # Convert DataFrame rows to dictionaries
-            tables = []
-            for _, row in df.iterrows():
-                tb = int(row.get('TB', 0)) if pd.notna(row.get('TB')) else 0
-                lb = int(row.get('LB', 0)) if pd.notna(row.get('LB')) else 0
-                table_entry = {
-                    "position": int(row.get('#', 0)) if pd.notna(row.get('#')) else 0,
-                    "team": row.get('TEAM', ''),
-                    "played": int(row.get('P', 0)) if pd.notna(row.get('P')) else 0,
-                    "won": int(row.get('W', 0)) if pd.notna(row.get('W')) else 0,
-                    "drawn": int(row.get('D', 0)) if pd.notna(row.get('D')) else 0,
-                    "lost": int(row.get('L', 0)) if pd.notna(row.get('L')) else 0,
-                    "pointsFor": int(row.get('PF', 0)) if pd.notna(row.get('PF')) else 0,
-                    "pointsAgainst": int(row.get('PA', 0)) if pd.notna(row.get('PA')) else 0,
-                    "pointsDifference": int(row.get('PD', 0)) if pd.notna(row.get('PD')) else 0,
-                    "triesBefore": tb,
-                    "triesLost": lb,
-                    "bonusPoints": tb + lb,
-                    "points": int(row.get('Pts', 0)) if pd.notna(row.get('Pts')) else 0,
-                }
-                tables.append(table_entry)
-            
-            # Initialize season if needed
-            if season_str not in league_data:
-                league_data[season_str] = {}
-                league_data["seasons"].append(season_str)
-            
-            # Add squad data
-            league_data[season_str][squad] = {
+            con = duckdb.connect(db_path, read_only=True)
+            _close_con = True
+        except Exception as exc:
+            logging.error("Could not open backend connection: %s", exc)
+            return {}
+
+    try:
+        rows = con.execute("""
+            SELECT
+                season,
+                squad,
+                league,
+                position,
+                team,
+                played,
+                won,
+                drawn,
+                lost,
+                points_for,
+                points_against,
+                points_difference,
+                bonus_points,
+                points
+            FROM league_table_standings
+            ORDER BY season, squad, position
+        """).fetchall()
+    except Exception as exc:
+        logging.error("Could not read league_table_standings from backend: %s", exc)
+        return {}
+    finally:
+        if _close_con:
+            con.close()
+
+    # Convert to nested {season: {squad_num: {division, tables}}} structure
+    squad_num_map = {"1st": "1", "2nd": "2", "3rd": "3"}
+    league_data: dict = {"seasons": []}
+    for row in rows:
+        season, squad_label, league, position, team, played, won, drawn, lost, pf, pa, pd_val, bp, pts = row
+        squad_num = squad_num_map.get(squad_label, squad_label)
+        squad_name = f"{squad_label} Team"
+
+        if season not in league_data:
+            league_data[season] = {}
+            league_data["seasons"].append(season)
+
+        if squad_num not in league_data[season]:
+            league_data[season][squad_num] = {
                 "squad": squad_name,
-                "division": division,
-                "tables": tables
+                "division": league or "Unknown",
+                "tables": [],
             }
-            
-            logging.info(f"Loaded {len(tables)} teams from {filename}")
-            
-        except Exception as e:
-            logging.error(f"Error processing {csv_file}: {e}")
-            continue
-    
+
+        league_data[season][squad_num]["tables"].append({
+            "position": int(position) if position is not None else 0,
+            "team": team or "",
+            "played": int(played) if played is not None else 0,
+            "won": int(won) if won is not None else 0,
+            "drawn": int(drawn) if drawn is not None else 0,
+            "lost": int(lost) if lost is not None else 0,
+            "pointsFor": int(pf) if pf is not None else 0,
+            "pointsAgainst": int(pa) if pa is not None else 0,
+            "pointsDifference": int(pd_val) if pd_val is not None else 0,
+            "bonusPoints": int(bp) if bp is not None else 0,
+            "points": int(pts) if pts is not None else 0,
+        })
+
     # Sort seasons in descending order (newer first)
     league_data["seasons"] = sorted(league_data["seasons"], reverse=True)
-    
+
     # Save to JSON
     try:
         os.makedirs(os.path.dirname(output_file) or ".", exist_ok=True)
-        with open(output_file, 'w') as f:
+        with open(output_file, "w") as f:
             json.dump(league_data, f, indent=2)
-        logging.info(f"Successfully generated {output_file} with {len(league_data['seasons'])} seasons")
-        print(f"Generated {output_file}")
+        logging.info("Generated %s with %d seasons", output_file, len(league_data["seasons"]))
+        print(f"Generated {output_file} ({len(league_data['seasons'])} seasons)")
         return league_data
-    except Exception as e:
-        logging.error(f"Error saving {output_file}: {e}")
+    except Exception as exc:
+        logging.error("Error saving %s: %s", output_file, exc)
         return {}
+
+
+
+    # Convert to nested {season: {squad_num: {division, tables}}} structure
+    squad_num_map = {"1st": "1", "2nd": "2", "3rd": "3"}
+    league_data: dict = {"seasons": []}
+    for row in rows:
+        season, squad_label, league, position, team, played, won, drawn, lost, pf, pa, pd_val, bp, pts = row
+        squad_num = squad_num_map.get(squad_label, squad_label)
+        squad_name = f"{squad_label} Team"
+
+        if season not in league_data:
+            league_data[season] = {}
+            league_data["seasons"].append(season)
+
+        if squad_num not in league_data[season]:
+            league_data[season][squad_num] = {
+                "squad": squad_name,
+                "division": league or "Unknown",
+                "tables": [],
+            }
+
+        league_data[season][squad_num]["tables"].append({
+            "position": int(position) if position is not None else 0,
+            "team": team or "",
+            "played": int(played) if played is not None else 0,
+            "won": int(won) if won is not None else 0,
+            "drawn": int(drawn) if drawn is not None else 0,
+            "lost": int(lost) if lost is not None else 0,
+            "pointsFor": int(pf) if pf is not None else 0,
+            "pointsAgainst": int(pa) if pa is not None else 0,
+            "pointsDifference": int(pd_val) if pd_val is not None else 0,
+            "bonusPoints": int(bp) if bp is not None else 0,
+            "points": int(pts) if pts is not None else 0,
+        })
+
+    # Sort seasons in descending order (newer first)
+    league_data["seasons"] = sorted(league_data["seasons"], reverse=True)
+
+    # Save to JSON
+    try:
+        os.makedirs(os.path.dirname(output_file) or ".", exist_ok=True)
+        with open(output_file, "w") as f:
+            json.dump(league_data, f, indent=2)
+        logging.info("Generated %s with %d seasons", output_file, len(league_data["seasons"]))
+        print(f"Generated {output_file} ({len(league_data['seasons'])} seasons)")
+        return league_data
+    except Exception as exc:
+        logging.error("Error saving %s: %s", output_file, exc)
+        return {}
+
 
 def main():
     """Main function to fetch and save match data."""

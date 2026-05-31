@@ -50,6 +50,7 @@ from python.charts import (
 
 from python.sync_headshots import run_sync, HEADSHOTS_DIR, TARGET_FILES
 from python.logos import export_logos_manifest
+from python.league_data import build_league_tables_json
 import altair as alt
 from python.chart_helpers import *
 import pandas as pd
@@ -136,6 +137,7 @@ def main(refresh_pitchero=False, backend_mode="canonical", backend_db_path="data
     league_history_progression_chart(db)
     export_league_context_chart_specs(db, squads=("1st",))
     export_league_results_chart_specs(db)
+    build_league_tables_json(con=db.con)
 
     print("All charts and data generated.")
 
