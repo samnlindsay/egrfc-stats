@@ -1410,86 +1410,115 @@ def save_summary_match_data(matches, output_file=None):
     print(f'Saved to {output_file}')
     print(f'League table data available separately in data/league_table_*.csv files')
 
-def build_league_tables_json(output_file=None, db_path=None, con=None):
+def build_league_tables_json(output_file=None, db_path=None, con=None, league_history_df=None):
+    """Build league_tables.json by fetching all league tables directly from the RFU website
+    using division_id and competition_id from League History (canonical source).
+    
+    Seasons without a league entry are skipped (e.g., 2016/17 when not entered, 2020/21 covid).
+    """
     if output_file is None:
         output_file = str(_DATA_DIR / "league_tables.json")
-    """Build league_tables.json from the backend league_table_standings DuckDB table."""
+    
     import duckdb
-
-    _close_con = False
-    if con is None:
-        if db_path is None:
-            db_path = str(_DATA_DIR / "egrfc_backend.duckdb")
+    import pandas as pd
+    from python.rfu_team_data import fetch_league_table_for_season, EGRFC_SQUAD_TEAM_IDS
+    
+    # Load League History metadata
+    if league_history_df is None:
         try:
-            con = duckdb.connect(db_path, read_only=True)
-            _close_con = True
+            from python.data import DataExtractor
+            extractor = DataExtractor()
+            league_history_df = extractor.extract_league_history()
+            logging.info("Loaded League History with %d rows", len(league_history_df))
         except Exception as exc:
-            logging.error("Could not open backend connection: %s", exc)
+            logging.error("Could not load League History from Google Sheets: %s", exc)
             return {}
-
-    try:
-        rows = con.execute("""
-            SELECT
-                season,
-                squad,
-                league,
-                position,
-                team,
-                played,
-                won,
-                drawn,
-                lost,
-                points_for,
-                points_against,
-                points_difference,
-                bonus_points,
-                points
-            FROM league_table_standings
-            ORDER BY season, squad, position
-        """).fetchall()
-    except Exception as exc:
-        logging.error("Could not read league_table_standings from backend: %s", exc)
+    
+    if league_history_df.empty:
+        logging.error("League History is empty")
         return {}
-    finally:
-        if _close_con:
-            con.close()
-
-    # Convert to nested {season: {squad_num: {division, tables}}} structure
-    squad_num_map = {"1st": "1", "2nd": "2", "3rd": "3"}
+    
+    # Build league tables by fetching from RFU for each season/squad combination
     league_data: dict = {"seasons": []}
-    for row in rows:
-        season, squad_label, league, position, team, played, won, drawn, lost, pf, pa, pd_val, bp, pts = row
-        squad_num = squad_num_map.get(squad_label, squad_label)
-        squad_name = f"{squad_label} Team"
-
-        if season not in league_data:
-            league_data[season] = {}
-            league_data["seasons"].append(season)
-
-        if squad_num not in league_data[season]:
-            league_data[season][squad_num] = {
-                "squad": squad_name,
-                "division": league or "Unknown",
-                "tables": [],
-            }
-
-        league_data[season][squad_num]["tables"].append({
-            "position": int(position) if position is not None else 0,
-            "team": team or "",
-            "played": int(played) if played is not None else 0,
-            "won": int(won) if won is not None else 0,
-            "drawn": int(drawn) if drawn is not None else 0,
-            "lost": int(lost) if lost is not None else 0,
-            "pointsFor": int(pf) if pf is not None else 0,
-            "pointsAgainst": int(pa) if pa is not None else 0,
-            "pointsDifference": int(pd_val) if pd_val is not None else 0,
-            "bonusPoints": int(bp) if bp is not None else 0,
-            "points": int(pts) if pts is not None else 0,
-        })
-
+    squad_num_map = {"1st": "1", "2nd": "2", "3rd": "3"}
+    
+    # Get unique season/squad combinations from League History
+    season_squad_combos = league_history_df[['season', 'squad', 'league', 'competition_id', 'division_id']].drop_duplicates()
+    logging.info("Processing %d season/squad combinations from League History", len(season_squad_combos))
+    
+    for _, row in season_squad_combos.iterrows():
+        season_slash = row['season']
+        squad_label = row['squad']
+        league_name = row['league']
+        competition_id = row['competition_id']
+        division_id = row['division_id']
+        
+        # Skip seasons not entered in a league
+        if league_name == '-' or pd.isna(league_name):
+            logging.info("Skipping %s %s (not entered in league)", season_slash, squad_label)
+            continue
+        
+        try:
+            # Get team_id for this squad
+            team_id = EGRFC_SQUAD_TEAM_IDS.get(squad_label)
+            if not team_id:
+                logging.warning("Unknown squad: %s", squad_label)
+                continue
+            
+            # Convert season format YYYY/YY → YYYY-YYYY for RFU URL
+            season_year = int(season_slash.split('/')[0])
+            season_dash = f"{season_year}-{season_year + 1}"
+            
+            logging.info("Fetching from RFU: %s %s (competition_id=%s, division_id=%s, season=%s)",
+                        season_slash, squad_label, competition_id, division_id, season_dash)
+            
+            # Fetch league table from RFU
+            table_rows = fetch_league_table_for_season(team_id=team_id, season=season_dash)
+            
+            if not table_rows:
+                logging.warning("No league table data returned for %s %s", season_slash, squad_label)
+                continue
+            
+            # Add to league_data
+            squad_num = squad_num_map.get(squad_label, squad_label)
+            squad_name = f"{squad_label} Team"
+            
+            if season_slash not in league_data:
+                league_data[season_slash] = {}
+                league_data["seasons"].append(season_slash)
+            
+            if squad_num not in league_data[season_slash]:
+                league_data[season_slash][squad_num] = {
+                    "squad": squad_name,
+                    "division": league_name,
+                    "tables": [],
+                }
+            
+            # Convert RFU rows to our format
+            for rfu_row in table_rows:
+                league_data[season_slash][squad_num]["tables"].append({
+                    "position": int(rfu_row.get('POSITION', 0)) if rfu_row.get('POSITION') else 0,
+                    "team": rfu_row.get('TEAM', ''),
+                    "played": int(rfu_row.get('P', 0)) if rfu_row.get('P') else 0,
+                    "won": int(rfu_row.get('W', 0)) if rfu_row.get('W') else 0,
+                    "drawn": int(rfu_row.get('D', 0)) if rfu_row.get('D') else 0,
+                    "lost": int(rfu_row.get('L', 0)) if rfu_row.get('L') else 0,
+                    "pointsFor": int(rfu_row.get('PF', 0)) if rfu_row.get('PF') else 0,
+                    "pointsAgainst": int(rfu_row.get('PA', 0)) if rfu_row.get('PA') else 0,
+                    "pointsDifference": int(rfu_row.get('PD', 0)) if rfu_row.get('PD') else 0,
+                    "bonusPoints": int(rfu_row.get('BP', 0)) if rfu_row.get('BP') else 0,
+                    "points": int(rfu_row.get('Pts', 0)) if rfu_row.get('Pts') else 0,
+                })
+            
+            logging.info("Added %d teams for %s %s", len(table_rows), season_slash, squad_label)
+        
+        except Exception as exc:
+            logging.warning("Could not fetch %s %s from RFU: %s", season_slash, squad_label, exc)
+            continue
+    
     # Sort seasons in descending order (newer first)
     league_data["seasons"] = sorted(league_data["seasons"], reverse=True)
-
+    
     # Save to JSON
     try:
         os.makedirs(os.path.dirname(output_file) or ".", exist_ok=True)

@@ -97,9 +97,13 @@ def main(refresh_pitchero=False, backend_mode="canonical", backend_db_path="data
     for result in sync_results:
         print(f"  - {result.path.relative_to(project_root)}: updates={result.updated_rows}")
     
-    # Load league data
+    # Load league data and League History
     print("Loading league data...")
     # db.load_league_data(season="2024-2025", league="Counties 1 Surrey/Sussex")
+    
+    print("Loading League History...")
+    extractor = DataExtractor()
+    league_history_df = extractor.extract_league_history()
     
     print("Generating charts and data...")
     
@@ -137,7 +141,7 @@ def main(refresh_pitchero=False, backend_mode="canonical", backend_db_path="data
     league_history_progression_chart(db)
     export_league_context_chart_specs(db, squads=("1st",))
     export_league_results_chart_specs(db)
-    build_league_tables_json(con=db.con)
+    build_league_tables_json(league_history_df=league_history_df)
 
     print("All charts and data generated.")
 
