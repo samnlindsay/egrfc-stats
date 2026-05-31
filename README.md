@@ -59,9 +59,63 @@ Backend schema and usage notes:
 ./env/bin/python python/update.py --backend-mode canonical
 ```
 
-This one command now runs the canonical backend build/export, syncs and recrops headshots as needed, and regenerates chart specs.
+This one command now runs, in order:
+- RFU refresh for the current season (all active squads from League History) into `data/matches.json`
+- canonical backend build/export
+- headshot sync/recrop
+- chart generation and frontend league table JSON export (current season refresh only; existing historic seasons are preserved)
 
-### 2) Optional: refresh Pitchero caches only when needed
+Default behavior is intentionally incremental: once historic seasons are complete, routine updates only attempt current-season RFU league results/team sheets/tables.
+
+### 2) RFU refresh options (still via update.py)
+
+Refresh all seasons/squads from RFU before backend build:
+
+```bash
+./env/bin/python python/update.py --backend-mode canonical --rfu-all
+```
+
+Use this when you want to refresh historic seasons as well as the current season.
+
+Refresh one season only:
+
+```bash
+./env/bin/python python/update.py --backend-mode canonical --rfu-season 2025/26
+```
+
+Refresh one squad only:
+
+```bash
+./env/bin/python python/update.py --backend-mode canonical --rfu-squad 1
+```
+
+Refresh one season+squad:
+
+```bash
+./env/bin/python python/update.py --backend-mode canonical --rfu-season 2025/26 --rfu-squad 1
+```
+
+Retry played fixtures missing lineups (improves league-wide squad-size/returners where RFU lineups exist):
+
+```bash
+./env/bin/python python/update.py --backend-mode canonical --rfu-all-teams
+```
+
+Skip RFU refresh and build from existing `data/matches.json`:
+
+```bash
+./env/bin/python python/update.py --backend-mode canonical --skip-rfu-refresh
+```
+
+This skips RFU league results/team-sheet scraping and skips RFU league table scraping for that run.
+
+Use an alternate consolidated RFU matches file:
+
+```bash
+./env/bin/python python/update.py --backend-mode canonical --rfu-matches-file data/matches_alt.json
+```
+
+### 3) Optional: refresh Pitchero caches only when needed
 
 ```bash
 ./env/bin/python python/update.py --backend-mode canonical --refresh-pitchero
@@ -69,13 +123,28 @@ This one command now runs the canonical backend build/export, syncs and recrops 
 
 Use this only when intentionally changing Pitchero-derived inputs (or after scraper changes).
 
-### 3) Optional: run headshot sync only
+### 4) Optional: run headshot sync only
 
 ```bash
 sync-headshots --write
 ```
 
 Use this for quick headshot-only maintenance without a full data/chart rebuild.
+
+### update.py CLI reference
+
+```bash
+./env/bin/python python/update.py --help
+```
+
+Key options:
+- `--refresh-pitchero`: force Pitchero web cache refresh
+- `--skip-rfu-refresh`: do not scrape RFU before build
+- `--rfu-all`: refresh all League History seasons/squads
+- `--rfu-season`: constrain RFU refresh to one season (`YYYY/YY` or `YYYY-YYYY`)
+- `--rfu-squad`: constrain RFU refresh to one squad number
+- `--rfu-all-teams`: re-fetch played fixtures missing one/both lineups
+- `--rfu-matches-file`: path to consolidated RFU match JSON used by backend
 
 ## Tests and CI
 

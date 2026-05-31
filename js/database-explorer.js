@@ -33,6 +33,22 @@ const DatabaseExplorer = (() => {
             sourceNote: 'Defined in backend.py and derived from the consolidated RFU scrape in data/matches.json plus supplemental RFU team-results files.'
         },
         {
+            key: 'league_history',
+            label: 'league_history',
+            path: 'data/backend/league_history.json',
+            grain: 'One row per season-squad league assignment',
+            description: 'Canonical league metadata from Google Sheets including league name, level, and RFU IDs (team_id, competition_id, division_id).',
+            sourceNote: 'Defined in backend.py from League History extraction in data.py and used as the canonical source for RFU league routing.'
+        },
+        {
+            key: 'league_table_standings',
+            label: 'league_table_standings',
+            path: 'data/backend/league_table_standings.json',
+            grain: 'One row per team per season-squad league table',
+            description: 'League standings table with position, W/D/L, points for/against, bonus points, and total points.',
+            sourceNote: 'Defined in backend.py and enriched using league_history metadata for season/squad/level context.'
+        },
+        {
             key: 'games_stage_google',
             label: 'games_stage_google',
             path: 'data/backend/games_stage_google.json',

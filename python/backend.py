@@ -1922,6 +1922,8 @@ class BackendDatabase:
             "ref_pitchero_player_name_overrides",
             "ref_pitchero_opposition_overrides",
             "ref_pitchero_match_url_overrides",
+            "league_history",
+            "league_table_standings",
             "games_stage_google",
             "games_stage_pitchero",
             "games_stage_rfu",

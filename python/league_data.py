@@ -633,6 +633,92 @@ def _parse_results_card_date(card):
 
     return None
 
+
+def _score_indicates_played(score):
+    """Return True when a score payload indicates the fixture has been played."""
+    if not score or len(score) < 2:
+        return False
+
+    home, away = score[0], score[1]
+    home_text = "" if home is None else str(home).strip().upper()
+    away_text = "" if away is None else str(away).strip().upper()
+
+    if home_text == "WO" or away_text == "WO":
+        return True
+
+    return home is not None and away is not None
+
+
+def _has_both_lineups(match_data):
+    """Return True when both home/away lineups are present and non-empty."""
+    players = match_data.get("players", []) if isinstance(match_data, dict) else []
+    if len(players) < 2:
+        return False
+    return isinstance(players[0], dict) and bool(players[0]) and isinstance(players[1], dict) and bool(players[1])
+
+
+def _merge_matchcentre_with_results_fallback(matchcentre_match, results_match):
+    """Merge match-centre and results-page rows, preferring match-centre where present."""
+    if not results_match:
+        return matchcentre_match
+    if not matchcentre_match:
+        return results_match
+
+    merged = dict(matchcentre_match)
+
+    if not _score_indicates_played(merged.get("score")) and _score_indicates_played(results_match.get("score")):
+        merged["score"] = results_match.get("score")
+
+    if not merged.get("date") and results_match.get("date"):
+        merged["date"] = results_match.get("date")
+
+    if not merged.get("league") and results_match.get("league"):
+        merged["league"] = results_match.get("league")
+
+    if not merged.get("teams") and results_match.get("teams"):
+        merged["teams"] = results_match.get("teams")
+
+    return merged
+
+
+def get_active_season_squad_pairs(league_history_df=None, seasons=None, squads=None):
+    """Return ordered (season, squad_num) pairs from canonical League History when available."""
+    if league_history_df is not None and not league_history_df.empty:
+        required = {"season", "squad", "league"}
+        if required.issubset(set(league_history_df.columns)):
+            df = league_history_df.copy()
+            df["season"] = df["season"].astype(str).str.strip()
+            df["squad"] = df["squad"].astype(str).str.strip()
+            df["league"] = df["league"].astype(str).str.strip()
+
+            # Skip non-league seasons (e.g. not entered, pandemic).
+            df = df[df["league"] != "-"]
+
+            df["squad_num"] = pd.to_numeric(df["squad"].str.extract(r"^(\d+)", expand=False), errors="coerce")
+            df = df[df["squad_num"].notna()].copy()
+            df["squad_num"] = df["squad_num"].astype(int)
+
+            if seasons:
+                normalized = {normalize_season_arg(season) for season in seasons}
+                df = df[df["season"].isin(normalized)]
+            if squads:
+                df = df[df["squad_num"].isin(set(squads))]
+
+            pairs = sorted({(row.season, int(row.squad_num)) for row in df[["season", "squad_num"]].itertuples(index=False)})
+            if pairs:
+                return pairs
+
+    # Legacy fallback when League History is unavailable.
+    active_squads = squads if squads is not None else sorted(LEGACY_DIVISIONS.keys())
+    active_seasons = seasons if seasons is not None else sorted({season for mapping in LEGACY_DIVISIONS.values() for season in mapping.keys()})
+
+    pairs = []
+    for season in active_seasons:
+        for squad in active_squads:
+            if season in LEGACY_DIVISIONS.get(squad, {}):
+                pairs.append((season, squad))
+    return pairs
+
 def is_match_complete(match_data):
     """Check if match has complete data (score, both team lineups, date)."""
     if not match_data:
@@ -856,7 +942,21 @@ def fetch_matches_from_results_page(squad=2, season="2025/26", league_history_df
     soup = BeautifulSoup(response.text, 'html.parser')
     cards = soup.find_all('div', class_=lambda class_list: class_list and 'dataContainer' in class_list)
 
-    league = divisions.get(squad, {}).get(season, f"Squad {squad}")
+    league = LEGACY_DIVISIONS.get(squad, {}).get(season, f"Squad {squad}")
+    if league_history_df is not None and not league_history_df.empty:
+        try:
+            squad_label = f"{squad}st" if squad == 1 else f"{squad}nd" if squad == 2 else f"{squad}rd"
+            match = league_history_df[
+                (league_history_df["season"].astype(str) == str(season))
+                & (league_history_df["squad"].astype(str) == squad_label)
+            ]
+            if not match.empty:
+                league_val = str(match.iloc[0].get("league", "")).strip()
+                if league_val and league_val != "-":
+                    league = league_val
+        except Exception:
+            # Keep legacy fallback when metadata cannot be resolved.
+            pass
     season_dash = _normalize_season(season)
     match_data_list = []
 
@@ -1025,26 +1125,34 @@ def _get_match_sources(squad=1, season="2025/26", league_history_df=None):
     """Return match ids and optional prefetched match dict for a squad/season."""
     all_match_ids = fetch_match_ids(squad=squad, season=season, league_history_df=league_history_df)
 
-    # Squad 2 historically used results-page summaries because lineups are not required.
-    # Keep those summaries as fallback only; match-centre remains the authoritative source
-    # for home/away score orientation.
-    if squad == 2:
-        results_page_matches = fetch_matches_from_results_page(squad=squad, season=season, league_history_df=league_history_df)
-        results_by_id = {match["match_id"]: match for match in results_page_matches}
-        return all_match_ids, results_by_id
+    # Always parse the results page as a score/date fallback for all squads.
+    results_page_matches = fetch_matches_from_results_page(
+        squad=squad,
+        season=season,
+        league_history_df=league_history_df,
+    )
+    results_by_id = {match["match_id"]: match for match in results_page_matches}
 
-    return all_match_ids, {}
+    if results_by_id:
+        all_match_ids = sorted(set(all_match_ids) | set(results_by_id.keys()))
+
+    return all_match_ids, results_by_id
 
 
 def _fetch_match_for_squad(match_id, squad, results_by_id):
-    """Fetch or retrieve a single match based on squad strategy."""
-    if squad == 2:
-        # Use match-centre parsing only to keep score order aligned with teams.
-        # If unavailable, skip update and retain any existing consolidated record.
-        return fetch_match_data(match_id)
-    return fetch_match_data(match_id)
+    """Fetch one match with match-centre as primary and results page as fallback."""
+    _ = squad  # maintained for signature compatibility with existing callers
+    matchcentre_match = fetch_match_data(match_id)
+    results_match = results_by_id.get(match_id)
+    return _merge_matchcentre_with_results_fallback(matchcentre_match, results_match)
 
-def fetch_new_matches_only(squad=1, season="2025/26", consolidated_file=None, league_history_df=None):
+def fetch_new_matches_only(
+    squad=1,
+    season="2025/26",
+    consolidated_file=None,
+    league_history_df=None,
+    refresh_missing_lineups=False,
+):
     if consolidated_file is None:
         consolidated_file = str(_DATA_DIR / "matches.json")
     """Fetch new matches AND re-fetch incomplete ones."""
@@ -1054,8 +1162,14 @@ def fetch_new_matches_only(squad=1, season="2025/26", consolidated_file=None, le
         logging.warning("No match IDs found for the season.")
         return []
     
-    # Get existing match IDs from consolidated file
-    existing_match_ids = get_existing_match_ids_from_consolidated(consolidated_file)
+    # Get existing match IDs + rows from consolidated file
+    existing_matches = load_consolidated_matches(consolidated_file)
+    existing_by_id = {
+        str(match.get("match_id")): match
+        for match in existing_matches
+        if isinstance(match, dict) and match.get("match_id") is not None
+    }
+    existing_match_ids = set(existing_by_id.keys())
     
     # Get incomplete match IDs (in file but missing data)
     incomplete_match_ids = get_incomplete_match_ids(consolidated_file)
@@ -1063,15 +1177,33 @@ def fetch_new_matches_only(squad=1, season="2025/26", consolidated_file=None, le
     # New matches: not in consolidated file at all
     new_match_ids = [mid for mid in all_match_ids if mid not in existing_match_ids]
     
-    # Incomplete matches: in file but missing data, and still on website
+    # Incomplete matches: in file but missing required baseline data, and still on website
     retry_match_ids = [mid for mid in incomplete_match_ids if mid in all_match_ids]
+
+    # Optional lineup backfill: re-check played fixtures that still lack one/both lineups.
+    lineup_retry_ids = []
+    if refresh_missing_lineups:
+        for mid in all_match_ids:
+            existing = existing_by_id.get(str(mid))
+            if not existing:
+                continue
+            if not _score_indicates_played(existing.get("score")):
+                continue
+            if not _has_both_lineups(existing):
+                lineup_retry_ids.append(mid)
     
-    # Combine both sets (remove duplicates)
-    to_fetch = list(set(new_match_ids + retry_match_ids))
+    # Combine all candidate sets (remove duplicates)
+    to_fetch = sorted(set(new_match_ids + retry_match_ids + lineup_retry_ids))
 
     logging.info(f"Season {season} squad {squad}: {len(all_match_ids)} total matches on website")
     logging.info(f"Found {len(existing_match_ids)} existing matches in consolidated file")
-    logging.info(f"Need to fetch: {len(new_match_ids)} new + {len(retry_match_ids)} incomplete = {len(to_fetch)} total")
+    logging.info(
+        "Need to fetch: %d new + %d incomplete + %d lineup-backfill = %d total",
+        len(new_match_ids),
+        len(retry_match_ids),
+        len(lineup_retry_ids),
+        len(to_fetch),
+    )
     
     if not to_fetch:
         logging.info("All matches already in consolidated file with complete data!")
@@ -1080,7 +1212,12 @@ def fetch_new_matches_only(squad=1, season="2025/26", consolidated_file=None, le
     # Fetch matches
     fetched_matches = []
     for i, match_id in enumerate(to_fetch, 1):
-        match_type = "new" if match_id in new_match_ids else "retry"
+        if match_id in new_match_ids:
+            match_type = "new"
+        elif match_id in lineup_retry_ids:
+            match_type = "lineup-backfill"
+        else:
+            match_type = "retry"
         logging.info(f"Fetching ({match_type}) {i}/{len(to_fetch)}: {match_id}")
 
         match_data = _fetch_match_for_squad(match_id, squad, results_by_id)
@@ -1186,13 +1323,25 @@ def reconcile_consolidated_from_match_cache(consolidated_file=None, cache_dir=No
 
     return updates
 
-def update_league_data(squad=1, season="2025/26", consolidated_file=None):
+def update_league_data(
+    squad=1,
+    season="2025/26",
+    consolidated_file=None,
+    league_history_df=None,
+    refresh_missing_lineups=False,
+):
     if consolidated_file is None:
         consolidated_file = str(_DATA_DIR / "matches.json")
     """Complete workflow: fetch new matches and update consolidated file."""
     
     # Step 1: Fetch only new matches
-    new_matches = fetch_new_matches_only(squad=squad, season=season, consolidated_file=consolidated_file)
+    new_matches = fetch_new_matches_only(
+        squad=squad,
+        season=season,
+        consolidated_file=consolidated_file,
+        league_history_df=league_history_df,
+        refresh_missing_lineups=refresh_missing_lineups,
+    )
     
     # Step 2: Update consolidated file with new matches
     all_matches = update_consolidated_file(new_matches, consolidated_file)
@@ -1202,7 +1351,7 @@ def update_league_data(squad=1, season="2025/26", consolidated_file=None):
     
     # Step 3: Also fetch/update league table
     try:
-        table = fetch_league_table(squad=squad, season=season)
+        table = fetch_league_table(squad=squad, season=season, league_history_df=league_history_df)
         if table is not None:
             table.to_csv(str(_DATA_DIR / f"league_table_{season.replace('/', '_')}_squad_{squad}.csv"), index=False)
             logging.info(f"Saved league table for {season} squad {squad}")
@@ -1211,39 +1360,43 @@ def update_league_data(squad=1, season="2025/26", consolidated_file=None):
     
     return all_matches, new_matches
 
-def update_multiple_seasons_and_squads(seasons=None, squads=None, consolidated_file=None):
+def update_multiple_seasons_and_squads(
+    seasons=None,
+    squads=None,
+    consolidated_file=None,
+    league_history_df=None,
+    refresh_missing_lineups=False,
+):
     """Update data for multiple seasons and squads."""
     if consolidated_file is None:
         consolidated_file = str(_DATA_DIR / "matches.json")
     
-    if squads is None:
-        squads = [1, 2]
-    if seasons is None:
-        # Derive all seasons that have at least one squad defined
-        all_seasons = set()
-        for squad_seasons in divisions.values():
-            all_seasons.update(squad_seasons.keys())
-        seasons = sorted(all_seasons)
+    normalized_seasons = [normalize_season_arg(season) for season in seasons] if seasons else None
+    pairs = get_active_season_squad_pairs(
+        league_history_df=league_history_df,
+        seasons=normalized_seasons,
+        squads=squads,
+    )
+
+    if not pairs:
+        logging.warning("No season/squad combinations found to update.")
+        return load_consolidated_matches(consolidated_file)
     
     total_new_matches = 0
     
-    for season in seasons:
-        for squad in squads:
-            # Skip combinations not defined in the divisions mapping
-            if season not in divisions.get(squad, {}):
-                logging.debug(f"Skipping {season} squad {squad} - not in divisions mapping")
-                continue
-            try:
-                logging.info(f"\n=== Updating {season} Squad {squad} ===")
-                all_matches, new_matches = update_league_data(
-                    squad=squad, 
-                    season=season, 
-                    consolidated_file=consolidated_file
-                )
-                total_new_matches += len(new_matches)
-                
-            except Exception as e:
-                logging.error(f"Error updating {season} squad {squad}: {e}")
+    for season, squad in pairs:
+        try:
+            logging.info(f"\n=== Updating {season} Squad {squad} ===")
+            all_matches, new_matches = update_league_data(
+                squad=squad,
+                season=season,
+                consolidated_file=consolidated_file,
+                league_history_df=league_history_df,
+                refresh_missing_lineups=refresh_missing_lineups,
+            )
+            total_new_matches += len(new_matches)
+        except Exception as e:
+            logging.error(f"Error updating {season} squad {squad}: {e}")
     
     # Generate frontend-ready league tables JSON after all updates
     build_league_tables_json(output_file=str(_DATA_DIR / "league_tables.json"))
@@ -1285,11 +1438,11 @@ def normalize_season_arg(season):
 def get_configured_seasons(squads=None):
     """Return sorted configured seasons, optionally constrained to specific squads."""
     if squads is None:
-        squads = divisions.keys()
+        squads = LEGACY_DIVISIONS.keys()
 
     configured = set()
     for squad in squads:
-        configured.update(divisions.get(squad, {}).keys())
+        configured.update(LEGACY_DIVISIONS.get(squad, {}).keys())
     return sorted(configured)
 
 def ensure_historical_league_table_cache(current_season=None):
@@ -1297,7 +1450,7 @@ def ensure_historical_league_table_cache(current_season=None):
     if current_season is None:
         current_season = get_current_season_label()
 
-    for squad, squad_seasons in divisions.items():
+    for squad, squad_seasons in LEGACY_DIVISIONS.items():
         for season in sorted(squad_seasons.keys()):
             if season == current_season:
                 continue
@@ -1328,11 +1481,21 @@ def update_current_season_with_historical_cache(squads=None, consolidated_file=N
     current_season = get_current_season_label()
     logging.info(f"Current season resolved as {current_season}")
 
+    league_history_df = None
+    try:
+        from python.data import DataExtractor
+
+        extractor = DataExtractor()
+        league_history_df = extractor.extract_league_history()
+    except Exception as exc:
+        logging.warning("Could not load League History for season/squad filtering: %s", exc)
+
     ensure_historical_league_table_cache(current_season=current_season)
     return update_multiple_seasons_and_squads(
         seasons=[current_season],
         squads=squads,
         consolidated_file=consolidated_file,
+        league_history_df=league_history_df,
     )
 
 def generate_data_report(consolidated_file=None):
@@ -1410,11 +1573,21 @@ def save_summary_match_data(matches, output_file=None):
     print(f'Saved to {output_file}')
     print(f'League table data available separately in data/league_table_*.csv files')
 
-def build_league_tables_json(output_file=None, db_path=None, con=None, league_history_df=None):
+def build_league_tables_json(
+    output_file=None,
+    db_path=None,
+    con=None,
+    league_history_df=None,
+    seasons=None,
+    squads=None,
+    preserve_existing=True,
+):
     """Build league_tables.json by fetching all league tables directly from the RFU website
     using division_id and competition_id from League History (canonical source).
     
     Seasons without a league entry are skipped (e.g., 2016/17 when not entered, 2020/21 covid).
+    When seasons/squads filters are provided and preserve_existing=True, previously
+    saved seasons are retained and only refreshed buckets are replaced.
     """
     if output_file is None:
         output_file = str(_DATA_DIR / "league_tables.json")
@@ -1438,12 +1611,36 @@ def build_league_tables_json(output_file=None, db_path=None, con=None, league_hi
         logging.error("League History is empty")
         return {}
     
+    target_seasons = None
+    if seasons:
+        target_seasons = {normalize_season_arg(season) for season in seasons}
+    target_squads = None
+    if squads:
+        target_squads = {int(squad) for squad in squads}
+
     # Build league tables by fetching from RFU for each season/squad combination
-    league_data: dict = {"seasons": []}
+    refreshed_data: dict = {"seasons": []}
     squad_num_map = {"1st": "1", "2nd": "2", "3rd": "3"}
     
     # Get unique season/squad combinations from League History
     season_squad_combos = league_history_df[['season', 'squad', 'league', 'competition_id', 'division_id']].drop_duplicates()
+    if target_seasons is not None:
+        season_squad_combos = season_squad_combos[season_squad_combos['season'].isin(target_seasons)]
+    if target_squads is not None:
+        season_squad_combos = season_squad_combos[
+            season_squad_combos['squad'].astype(str).str.extract(r'^(\d+)', expand=False).astype('Int64').isin(target_squads)
+        ]
+
+    if season_squad_combos.empty:
+        logging.warning("No league table season/squad combinations matched filters; leaving existing JSON unchanged")
+        if preserve_existing and os.path.exists(output_file):
+            try:
+                with open(output_file, "r") as f:
+                    return json.load(f)
+            except Exception:
+                return {}
+        return {}
+
     logging.info("Processing %d season/squad combinations from League History", len(season_squad_combos))
     
     for _, row in season_squad_combos.iterrows():
@@ -1488,12 +1685,12 @@ def build_league_tables_json(output_file=None, db_path=None, con=None, league_hi
             squad_num = squad_num_map.get(squad_label, squad_label)
             squad_name = f"{squad_label} Team"
             
-            if season_slash not in league_data:
-                league_data[season_slash] = {}
-                league_data["seasons"].append(season_slash)
+            if season_slash not in refreshed_data:
+                refreshed_data[season_slash] = {}
+                refreshed_data["seasons"].append(season_slash)
             
-            if squad_num not in league_data[season_slash]:
-                league_data[season_slash][squad_num] = {
+            if squad_num not in refreshed_data[season_slash]:
+                refreshed_data[season_slash][squad_num] = {
                     "squad": squad_name,
                     "division": league_name,
                     "tables": [],
@@ -1501,7 +1698,7 @@ def build_league_tables_json(output_file=None, db_path=None, con=None, league_hi
             
             # Convert RFU rows to our format
             for rfu_row in table_rows:
-                league_data[season_slash][squad_num]["tables"].append({
+                refreshed_data[season_slash][squad_num]["tables"].append({
                     "position": int(rfu_row.get('#', 0)) if rfu_row.get('#') is not None else 0,
                     "team": rfu_row.get('TEAM', ''),
                     "played": int(rfu_row.get('P', 0)) if rfu_row.get('P') is not None else 0,
@@ -1520,68 +1717,37 @@ def build_league_tables_json(output_file=None, db_path=None, con=None, league_hi
         except Exception as exc:
             logging.warning("Could not fetch %s %s from RFU: %s", season_slash, squad_label, exc)
             continue
+
+    # Merge into existing JSON when doing a targeted refresh.
+    use_preserve = bool(preserve_existing and (target_seasons is not None or target_squads is not None) and os.path.exists(output_file))
+    if use_preserve:
+        try:
+            with open(output_file, "r") as f:
+                final_data = json.load(f)
+            if not isinstance(final_data, dict):
+                final_data = {"seasons": []}
+        except Exception:
+            final_data = {"seasons": []}
+    else:
+        final_data = {"seasons": []}
+
+    for season_key in refreshed_data.get("seasons", []):
+        if season_key not in final_data:
+            final_data[season_key] = {}
+        for squad_key, payload in refreshed_data[season_key].items():
+            final_data[season_key][squad_key] = payload
     
     # Sort seasons in descending order (newer first)
-    league_data["seasons"] = sorted(league_data["seasons"], reverse=True)
+    final_data["seasons"] = sorted([key for key in final_data.keys() if key != "seasons"], reverse=True)
     
     # Save to JSON
     try:
         os.makedirs(os.path.dirname(output_file) or ".", exist_ok=True)
         with open(output_file, "w") as f:
-            json.dump(league_data, f, indent=2)
-        logging.info("Generated %s with %d seasons", output_file, len(league_data["seasons"]))
-        print(f"Generated {output_file} ({len(league_data['seasons'])} seasons)")
-        return league_data
-    except Exception as exc:
-        logging.error("Error saving %s: %s", output_file, exc)
-        return {}
-
-
-
-    # Convert to nested {season: {squad_num: {division, tables}}} structure
-    squad_num_map = {"1st": "1", "2nd": "2", "3rd": "3"}
-    league_data: dict = {"seasons": []}
-    for row in rows:
-        season, squad_label, league, position, team, played, won, drawn, lost, pf, pa, pd_val, bp, pts = row
-        squad_num = squad_num_map.get(squad_label, squad_label)
-        squad_name = f"{squad_label} Team"
-
-        if season not in league_data:
-            league_data[season] = {}
-            league_data["seasons"].append(season)
-
-        if squad_num not in league_data[season]:
-            league_data[season][squad_num] = {
-                "squad": squad_name,
-                "division": league or "Unknown",
-                "tables": [],
-            }
-
-        league_data[season][squad_num]["tables"].append({
-            "position": int(position) if position is not None else 0,
-            "team": team or "",
-            "played": int(played) if played is not None else 0,
-            "won": int(won) if won is not None else 0,
-            "drawn": int(drawn) if drawn is not None else 0,
-            "lost": int(lost) if lost is not None else 0,
-            "pointsFor": int(pf) if pf is not None else 0,
-            "pointsAgainst": int(pa) if pa is not None else 0,
-            "pointsDifference": int(pd_val) if pd_val is not None else 0,
-            "bonusPoints": int(bp) if bp is not None else 0,
-            "points": int(pts) if pts is not None else 0,
-        })
-
-    # Sort seasons in descending order (newer first)
-    league_data["seasons"] = sorted(league_data["seasons"], reverse=True)
-
-    # Save to JSON
-    try:
-        os.makedirs(os.path.dirname(output_file) or ".", exist_ok=True)
-        with open(output_file, "w") as f:
-            json.dump(league_data, f, indent=2)
-        logging.info("Generated %s with %d seasons", output_file, len(league_data["seasons"]))
-        print(f"Generated {output_file} ({len(league_data['seasons'])} seasons)")
-        return league_data
+            json.dump(final_data, f, indent=2)
+        logging.info("Generated %s with %d seasons", output_file, len(final_data["seasons"]))
+        print(f"Generated {output_file} ({len(final_data['seasons'])} seasons)")
+        return final_data
     except Exception as exc:
         logging.error("Error saving %s: %s", output_file, exc)
         return {}
@@ -1594,16 +1760,35 @@ def main():
     parser.add_argument("--season", required=False, help="Season (e.g., 2025/26)", default=None)
     parser.add_argument("--file", required=False, help="Consolidated match data file", default=str(_DATA_DIR / "matches.json"))
     parser.add_argument("--all", action="store_true", help="Full refresh for all configured seasons and squads")
+    parser.add_argument(
+        "--all-teams",
+        action="store_true",
+        help="Force lineup backfill for all played fixtures (all teams in each league where RFU lineups exist)",
+    )
 
     args = parser.parse_args()
 
-    if args.squad is not None and args.squad not in divisions:
-        parser.error(f"Invalid --squad value '{args.squad}'. Valid options: {sorted(divisions.keys())}")
+    league_history_df = None
+    try:
+        from python.data import DataExtractor
+
+        extractor = DataExtractor()
+        league_history_df = extractor.extract_league_history()
+    except Exception as exc:
+        logging.warning("Could not load League History from Google Sheets: %s", exc)
+
+    valid_squads = sorted({s for _, s in get_active_season_squad_pairs(league_history_df=league_history_df)})
+    if args.squad is not None and valid_squads and args.squad not in valid_squads:
+        parser.error(f"Invalid --squad value '{args.squad}'. Valid options: {valid_squads}")
 
     normalized_season = normalize_season_arg(args.season)
 
     if normalized_season:
-        valid_seasons = get_configured_seasons([args.squad] if args.squad else None)
+        valid_pairs = get_active_season_squad_pairs(
+            league_history_df=league_history_df,
+            squads=[args.squad] if args.squad else None,
+        )
+        valid_seasons = sorted({season for season, _ in valid_pairs})
         if normalized_season not in valid_seasons:
             parser.error(
                 f"Invalid --season value '{args.season}'. "
@@ -1612,13 +1797,19 @@ def main():
 
     if args.all:
         # Full refresh for all seasons and squads
-        update_multiple_seasons_and_squads(consolidated_file=args.file)
+        update_multiple_seasons_and_squads(
+            consolidated_file=args.file,
+            league_history_df=league_history_df,
+            refresh_missing_lineups=args.all_teams,
+        )
     elif args.squad is not None and normalized_season:
         # Update specific squad and season
         all_matches, new_matches = update_league_data(
-            squad=args.squad, 
+            squad=args.squad,
             season=normalized_season,
-            consolidated_file=args.file
+            consolidated_file=args.file,
+            league_history_df=league_history_df,
+            refresh_missing_lineups=args.all_teams,
         )
         logging.info(f"Update complete: {len(new_matches)} new matches added")
     elif normalized_season:
@@ -1628,6 +1819,8 @@ def main():
             seasons=[normalized_season],
             squads=None,
             consolidated_file=args.file,
+            league_history_df=league_history_df,
+            refresh_missing_lineups=args.all_teams,
         )
     elif args.squad is not None:
         # Update all seasons configured for a specific squad
@@ -1636,12 +1829,14 @@ def main():
             seasons=None,
             squads=[args.squad],
             consolidated_file=args.file,
+            league_history_df=league_history_df,
+            refresh_missing_lineups=args.all_teams,
         )
     else:
         # Default: cache historical seasons once, then update current season only
         logging.info("No specific squad/season specified. Caching historical league tables and updating current season...")
         update_current_season_with_historical_cache(
-            squads=[1, 2],
+            squads=None,
             consolidated_file=args.file,
         )
 
@@ -1656,7 +1851,7 @@ def main():
     # Generate frontend-ready league tables JSON
     print("="*50)
     print("Generating frontend league tables JSON...")
-    build_league_tables_json(output_file=str(_DATA_DIR / "league_tables.json"))
+    build_league_tables_json(output_file=str(_DATA_DIR / "league_tables.json"), league_history_df=league_history_df)
     print("="*50 + "\n")
 
 if __name__ == "__main__":
