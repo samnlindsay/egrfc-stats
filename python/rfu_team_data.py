@@ -365,35 +365,45 @@ def save_rfu_id_references(rows: list[dict], output_json: Path, output_csv: Path
         writer.writerows(rows)
 
 
-def fetch_league_table_for_season(team_id: int, season: str, timeout: int = 30) -> list[dict]:
+def fetch_league_table_for_season(team_id: int, season: str, timeout: int = 30, 
+                                   competition_id: int | None = None, 
+                                   division_id: int | None = None) -> list[dict]:
     """Fetch and parse the league table for a team in a given season.
 
-    Uses the same ``?team={team_id}&season={season}`` URL pattern as the results
-    scraper but navigates to the ``#tables`` section of the page.
+    When competition_id and division_id are provided (preferred), uses the URL pattern:
+        ?competition={competition_id}&season={season}&division={division_id}
+    
+    Otherwise falls back to the team-based pattern:
+        ?team={team_id}&season={season}
 
     Returns a list of row dicts (one per team in the table) with keys:
     season, team_id, #, TEAM, P, W, D, L, PF, PA, PD, BP, Pts.
     Returns an empty list on any error or when no table is found.
     """
-    url = f"{BASE_URL}?team={team_id}&season={season}#tables"
+    # Construct URL using competition/division if available (preferred for league tables)
+    if competition_id is not None and division_id is not None:
+        url = f"{BASE_URL}?competition={competition_id}&season={season}&division={division_id}#tables"
+    else:
+        url = f"{BASE_URL}?team={team_id}&season={season}#tables"
 
     try:
         response = requests.get(url, headers=HEADERS, timeout=timeout)
         response.raise_for_status()
     except requests.RequestException as exc:
-        logging.error("Failed to fetch league table for season %s team %s: %s", season, team_id, exc)
+        logging.error("Failed to fetch league table for season %s: %s", season, exc)
         return []
 
     soup = BeautifulSoup(response.text, "html.parser")
     tables = soup.find_all("table")
     if not tables:
-        logging.warning("No league table found for season %s team %s", season, team_id)
+        logging.warning("No league table found for season %s at %s", season, url)
         return []
 
     try:
-        df = pd.read_html(str(tables[0]))[0]
+        # Don't use index_col to ensure the rank/position column is preserved as a regular column
+        df = pd.read_html(str(tables[0]), index_col=None)[0]
     except Exception as exc:
-        logging.error("Failed to parse league table HTML for season %s team %s: %s", season, team_id, exc)
+        logging.error("Failed to parse league table HTML for season %s: %s", season, exc)
         return []
 
     df = df.rename(columns=_LEAGUE_TABLE_COLUMN_RENAMES)
@@ -415,7 +425,7 @@ def fetch_league_table_for_season(team_id: int, season: str, timeout: int = 30) 
                 break
 
     if "TEAM" not in keep or "#" not in keep:
-        logging.warning("League table for season %s team %s missing required columns", season, team_id)
+        logging.warning("League table for season %s missing required columns (has: %s)", season, keep)
         return []
 
     df = df[keep].copy()
@@ -433,7 +443,7 @@ def fetch_league_table_for_season(team_id: int, season: str, timeout: int = 30) 
                 entry[col] = str(val).strip() if pd.notna(val) else None
         rows.append(entry)
 
-    logging.info("Season %s team %s: parsed %d league table rows", season, team_id, len(rows))
+    logging.info("Season %s: parsed %d league table rows", season, len(rows))
     return rows
 
 

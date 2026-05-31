@@ -1472,8 +1472,13 @@ def build_league_tables_json(output_file=None, db_path=None, con=None, league_hi
             logging.info("Fetching from RFU: %s %s (competition_id=%s, division_id=%s, season=%s)",
                         season_slash, squad_label, competition_id, division_id, season_dash)
             
-            # Fetch league table from RFU
-            table_rows = fetch_league_table_for_season(team_id=team_id, season=season_dash)
+            # Fetch league table from RFU using competition/division IDs (preferred over team-based lookup)
+            table_rows = fetch_league_table_for_season(
+                team_id=team_id, 
+                season=season_dash,
+                competition_id=int(competition_id) if pd.notna(competition_id) else None,
+                division_id=int(division_id) if pd.notna(division_id) else None
+            )
             
             if not table_rows:
                 logging.warning("No league table data returned for %s %s", season_slash, squad_label)
@@ -1497,17 +1502,17 @@ def build_league_tables_json(output_file=None, db_path=None, con=None, league_hi
             # Convert RFU rows to our format
             for rfu_row in table_rows:
                 league_data[season_slash][squad_num]["tables"].append({
-                    "position": int(rfu_row.get('POSITION', 0)) if rfu_row.get('POSITION') else 0,
+                    "position": int(rfu_row.get('#', 0)) if rfu_row.get('#') is not None else 0,
                     "team": rfu_row.get('TEAM', ''),
-                    "played": int(rfu_row.get('P', 0)) if rfu_row.get('P') else 0,
-                    "won": int(rfu_row.get('W', 0)) if rfu_row.get('W') else 0,
-                    "drawn": int(rfu_row.get('D', 0)) if rfu_row.get('D') else 0,
-                    "lost": int(rfu_row.get('L', 0)) if rfu_row.get('L') else 0,
-                    "pointsFor": int(rfu_row.get('PF', 0)) if rfu_row.get('PF') else 0,
-                    "pointsAgainst": int(rfu_row.get('PA', 0)) if rfu_row.get('PA') else 0,
-                    "pointsDifference": int(rfu_row.get('PD', 0)) if rfu_row.get('PD') else 0,
-                    "bonusPoints": int(rfu_row.get('BP', 0)) if rfu_row.get('BP') else 0,
-                    "points": int(rfu_row.get('Pts', 0)) if rfu_row.get('Pts') else 0,
+                    "played": int(rfu_row.get('P', 0)) if rfu_row.get('P') is not None else 0,
+                    "won": int(rfu_row.get('W', 0)) if rfu_row.get('W') is not None else 0,
+                    "drawn": int(rfu_row.get('D', 0)) if rfu_row.get('D') is not None else 0,
+                    "lost": int(rfu_row.get('L', 0)) if rfu_row.get('L') is not None else 0,
+                    "pointsFor": int(rfu_row.get('PF', 0)) if rfu_row.get('PF') is not None else 0,
+                    "pointsAgainst": int(rfu_row.get('PA', 0)) if rfu_row.get('PA') is not None else 0,
+                    "pointsDifference": int(rfu_row.get('PD', 0)) if rfu_row.get('PD') is not None else 0,
+                    "bonusPoints": int(rfu_row.get('BP', 0)) if rfu_row.get('BP') is not None else 0,
+                    "points": int(rfu_row.get('Pts', 0)) if rfu_row.get('Pts') is not None else 0,
                 })
             
             logging.info("Added %d teams for %s %s", len(table_rows), season_slash, squad_label)
