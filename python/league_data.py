@@ -522,7 +522,7 @@ def squad_lookup(season, league):
     """Return the squad number based on season and league."""
     season_key = season_to_short_label(season)
     league_normalized = normalize_league_name(league)
-    for div, seasons in divisions.items():
+    for div, seasons in LEGACY_DIVISIONS.items():
         expected_league = seasons.get(season_key)
         if league_normalized == expected_league:
             return int(div)

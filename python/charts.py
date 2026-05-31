@@ -8583,8 +8583,8 @@ def league_results_chart(db, season="2024-2025", league="Counties 1 Surrey/Susse
     ).fillna(0.25)
 
     highlight = alt.selection_point(fields=["home_team"], on="click", clear="dblclick", empty="none", value=None)
-    predicate = f"datum.home_team == {highlight.name}['home_team'] || datum.away_team == {highlight.name}['home_team']"
-    visible_predicate = f"{predicate} || !isValid({highlight.name}['home_team'])"
+    predicate = f"datum.home_team == {highlight.name}.home_team || datum.away_team == {highlight.name}.home_team"
+    visible_predicate = f"{predicate} || !isValid({highlight.name}.home_team)"
     text_color = alt.condition(
         f"({visible_predicate}) && datum.unexpected_result == 'Expected result'",
         alt.value("black"),
