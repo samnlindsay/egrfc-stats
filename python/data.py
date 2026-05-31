@@ -928,16 +928,25 @@ class DataExtractor:
         return df_merged
 
     def extract_league_history(self):
-        """Extract season-by-season league history for both squads."""
+        """Extract season-by-season league history for both squads.
+
+        Reads columns A–H from the League History sheet:
+          A: season, B: squad, C: league, D: level, E: rank,
+          F: (reserved), G: rfu_division_id, H: rfu_competition_name
+
+        rfu_division_id and rfu_competition_name are optional — they power
+        the RFU scraper URL construction in league_data.get_url() and remove
+        the need to hard-code those values in the Python source.
+        """
         ss = self.client.open_by_url(self.sheet_url)
         rows = []
 
         try:
             sheet = ss.worksheet("League History")
-            data = sheet.get("A2:F")
+            data = sheet.get("A2:H")
         except Exception as e:
             print(f"Error extracting league history: {e}")
-            return pd.DataFrame(columns=["season", "squad", "league", "level", "rank"])
+            return pd.DataFrame(columns=["season", "squad", "league", "level", "rank", "rfu_division_id", "rfu_competition_name"])
 
         for row in data:
             season = str(row[0]).strip() if len(row) > 0 else ""
@@ -945,6 +954,9 @@ class DataExtractor:
             league = str(row[2]).strip() if len(row) > 2 and row[2] is not None else ""
             level = self._safe_int(row[3] if len(row) > 3 else None)
             rank = self._safe_int(row[4] if len(row) > 4 else None)
+            # col F (index 5) is reserved/unused
+            rfu_division_id = self._safe_int(row[6] if len(row) > 6 else None)
+            rfu_competition_name = str(row[7]).strip() if len(row) > 7 and row[7] else None
 
             if not season:
                 continue
@@ -961,10 +973,38 @@ class DataExtractor:
                     "league": league or None,
                     "level": level,
                     "rank": rank,
+                    "rfu_division_id": rfu_division_id,
+                    "rfu_competition_name": rfu_competition_name,
                 }
             )
 
-        return pd.DataFrame(rows, columns=["season", "squad", "league", "level", "rank"])
+        return pd.DataFrame(rows, columns=["season", "squad", "league", "level", "rank", "rfu_division_id", "rfu_competition_name"])
+
+    def extract_sponsors(self):
+        """Extract player sponsor assignments from the Sponsors sheet.
+
+        Reads columns A–C: Season, Player, Sponsor.
+        Returns one row per player-season assignment; the most recent season's
+        entry is used when building the players table.
+        """
+        ss = self.client.open_by_url(self.sheet_url)
+        rows = []
+        try:
+            sheet = ss.worksheet("Sponsors")
+            data = sheet.get("A2:C")
+        except Exception as e:
+            print(f"Sponsors sheet not found or unreadable: {e}")
+            return pd.DataFrame(columns=["season", "player", "sponsor_name"])
+
+        for row in data:
+            season = str(row[0]).strip() if len(row) > 0 else ""
+            player = str(row[1]).strip() if len(row) > 1 else ""
+            sponsor_name = str(row[2]).strip() if len(row) > 2 else ""
+            if not season or not player or not sponsor_name:
+                continue
+            rows.append({"season": season, "player": player, "sponsor_name": sponsor_name})
+
+        return pd.DataFrame(rows, columns=["season", "player", "sponsor_name"])
     
     def extract_league_data(self, season="2024-2025", league="Counties 1 Surrey/Sussex", comp="London & SE Division"):
         """Extract league data using league_data functions"""

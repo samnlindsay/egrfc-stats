@@ -1374,6 +1374,8 @@ class BackendDatabase:
 
         lineouts_raw = self._extract_lineouts(extractor)
         set_piece_raw = extractor.extract_set_piece_stats()
+        sponsors_raw = extractor.extract_sponsors()
+        self._write_sponsors_json(sponsors_raw)
         pitchero_stats_source = self._load_pitchero(extractor, refresh_pitchero)
         scorers_2526_raw = self._extract_2526_scorers(extractor)
         rfu_matches_raw = load_consolidated_matches(self.rfu_matches_file.as_posix())
@@ -1564,7 +1566,7 @@ class BackendDatabase:
         set_piece = self._build_set_piece(set_piece_raw, games)
         season_scorers = self._build_season_scorers(scorers_staged_all, appearances)
         appearances = self._annotate_appearance_numbers(appearances)
-        players = self._build_players(appearances, games, lineouts, season_scorers)
+        players = self._build_players(appearances, games, lineouts, season_scorers, sponsors_raw=sponsors_raw)
         player_profiles_base = self._build_player_profiles_base(players, appearances, games, season_scorers)
         squad_stats_enriched = self._build_squad_stats(appearances, games)
         squad_continuity_enriched = self._build_squad_continuity(appearances, games)
@@ -1604,6 +1606,7 @@ class BackendDatabase:
     
         # Store for post-enrichment scorer rebuild.
         self._last_build_scorers_2526_raw = scorers_2526_raw
+        self._last_build_sponsors_raw = sponsors_raw
 
     def rebuild_post_enrichment(self) -> None:
         """Rebuild scorer-dependent tables after Pitchero supplemental enrichment.
@@ -1628,6 +1631,7 @@ class BackendDatabase:
         they are left intact.
         """
         scorers_2526_raw = getattr(self, "_last_build_scorers_2526_raw", pd.DataFrame())
+        sponsors_raw = getattr(self, "_last_build_sponsors_raw", pd.DataFrame())
 
         games = self.con.execute("SELECT * FROM games").df()
         appearances = self.con.execute("SELECT * FROM player_appearances").df()
@@ -1650,7 +1654,7 @@ class BackendDatabase:
         )
         scorers_staged_all = scorers_google_stage.reindex(columns=SCORER_STAGE_COLUMNS)
         season_scorers = self._build_season_scorers(scorers_staged_all, appearances)
-        players = self._build_players(appearances, games, lineouts, season_scorers)
+        players = self._build_players(appearances, games, lineouts, season_scorers, sponsors_raw=sponsors_raw)
         player_profiles_base = self._build_player_profiles_base(players, appearances, games, season_scorers)
         player_profiles_canonical = self._build_player_profiles_canonical(player_profiles_base)
 
@@ -4297,6 +4301,7 @@ class BackendDatabase:
         games: pd.DataFrame,
         lineouts: pd.DataFrame,
         season_scorers: pd.DataFrame,
+        sponsors_raw: pd.DataFrame | None = None,
     ) -> pd.DataFrame:
         if appearances.empty:
             return pd.DataFrame(
@@ -4406,7 +4411,16 @@ class BackendDatabase:
 
         players["short_name"] = players["name"].map(self._short_name)
         players["photo_url"] = players["name"].map(self._photo_for_player)
-        players["sponsor"] = players["name"].map(self._sponsor_for_player)
+
+        # Build sponsor lookup from extracted sheet data; most recent season per player wins.
+        sponsor_lookup: dict[str, str] = {}
+        if sponsors_raw is not None and not sponsors_raw.empty:
+            for _, srow in sponsors_raw.sort_values("season").iterrows():
+                s_player = str(srow.get("player", "")).strip()
+                s_name = str(srow.get("sponsor_name", "")).strip()
+                if s_player and s_name:
+                    sponsor_lookup[s_player] = s_name
+        players["sponsor"] = players["name"].map(sponsor_lookup) if sponsor_lookup else None
         for c in ["total_lineouts_jumped", "lineouts_won_as_jumper", "career_points"]:
             players[c] = players[c].fillna(0).astype(int)
 
@@ -5350,19 +5364,27 @@ class BackendDatabase:
                 return f"img/headshots/{photo_file.name}"
         return None
 
-    def _sponsor_for_player(self, player_name: str) -> str | None:
-        sponsor_path = self.project_root / "data" / "sponsors.json"
-        if not sponsor_path.exists():
-            return None
-        with sponsor_path.open("r", encoding="utf-8") as handle:
-            sponsors = json.load(handle)
+    def _write_sponsors_json(self, sponsors_raw: pd.DataFrame) -> None:
+        """Write data/sponsors.json from extracted sponsors data.
 
-        seasons = sorted(sponsors.keys(), reverse=True)
-        for season in seasons:
-            season_data = sponsors.get(season, {})
-            if player_name in season_data:
-                return season_data[player_name]
-        return None
+        Converts the flat sponsors DataFrame (season, player, sponsor_name) into
+        the nested ``{season: {player: sponsor_name}}`` structure consumed by the
+        frontend player-profile page.  The file is only written when sponsors_raw
+        is non-empty; a missing Sponsors sheet is silently skipped so the build
+        can run without Google Sheets access.
+        """
+        sponsors_json_path = self.project_root / "data" / "sponsors.json"
+        if sponsors_raw is None or sponsors_raw.empty:
+            return
+        sponsors_by_season: dict[str, dict[str, str]] = {}
+        for _, row in sponsors_raw.iterrows():
+            season = str(row.get("season", "")).strip()
+            player = str(row.get("player", "")).strip()
+            sponsor_name = str(row.get("sponsor_name", "")).strip()
+            if season and player and sponsor_name:
+                sponsors_by_season.setdefault(season, {})[player] = sponsor_name
+        with sponsors_json_path.open("w", encoding="utf-8") as fh:
+            json.dump(sponsors_by_season, fh, ensure_ascii=False, indent=2)
 
 
 def build_backend(

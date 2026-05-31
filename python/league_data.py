@@ -91,14 +91,66 @@ RFU_LEAGUE_PREFIXES = (
 
 base_url = 'https://www.englandrugby.com/fixtures-and-results/'
 
-def get_url(squad=1, season="2025/26"):
-    """Generate URL for fetching match data."""
-    
-    division = divisions[squad].get(season, None)
+
+def build_division_lookup(league_history_df):
+    """Build division and division_id lookup dicts from extracted league history data.
+
+    Accepts the DataFrame returned by DataExtractor.extract_league_history(), which
+    includes optional rfu_division_id and rfu_competition_name columns populated from
+    the League History sheet in Google Sheets.
+
+    Returns (built_divisions, built_division_ids) in the same shape as the
+    hard-coded module-level dicts, or (None, None) if the data is unusable.
+    """
+    if league_history_df is None or league_history_df.empty:
+        return None, None
+    if "rfu_division_id" not in league_history_df.columns or "rfu_competition_name" not in league_history_df.columns:
+        return None, None
+
+    usable = league_history_df.dropna(subset=["rfu_division_id", "rfu_competition_name"]).copy()
+    if usable.empty:
+        return None, None
+
+    built_divisions: dict[int, dict[str, str]] = {}
+    built_division_ids: dict[str, dict[str, int]] = {}
+
+    for _, row in usable.iterrows():
+        squad_raw = str(row["squad"]).strip()
+        try:
+            squad_num = int(squad_raw[0])
+        except (ValueError, IndexError):
+            continue
+
+        season = str(row["season"]).strip()
+        league = str(row["league"]).strip() if row.get("league") else ""
+        rfu_division_id = int(row["rfu_division_id"])
+        rfu_competition_name = str(row["rfu_competition_name"]).strip()
+
+        if league:
+            built_divisions.setdefault(squad_num, {})[season] = league
+            season_str = season.replace("/", "-20")
+            built_division_ids.setdefault(league, {})[season_str] = rfu_division_id
+
+    return built_divisions, built_division_ids
+
+
+def get_url(squad=1, season="2025/26", league_history_df=None):
+    """Generate URL for fetching match data.
+
+    Looks up the RFU division and competition IDs for the given squad/season.
+    When league_history_df is provided (from DataExtractor.extract_league_history()),
+    the lookup is driven by the Google Sheets data; otherwise falls back to the
+    hard-coded module-level dicts.
+    """
+    built_divisions, built_division_ids = build_division_lookup(league_history_df)
+    active_divisions = built_divisions if built_divisions is not None else divisions
+    active_division_ids = built_division_ids if built_division_ids is not None else division_ids
+
+    division = active_divisions.get(squad, {}).get(season, None)
 
     if division is not None:
         season_str = season.replace("/", "-20")
-        division_id = division_ids[division][season_str]
+        division_id = active_division_ids[division][season_str]
 
         if division in ["Counties 3 Sussex", "Counties 4 Sussex", "Sussex 3 Premier"]:
             competition_id = competition_ids["Harvey's Brewery Sussex Leagues"]
@@ -690,10 +742,10 @@ def get_team_stats_from_table(squad=1, season="2025/26"):
         logging.error(f"Error reading league table {csv_file}: {e}")
         return {}
 
-def fetch_league_table(squad=1, season="2025/26"):
+def fetch_league_table(squad=1, season="2025/26", league_history_df=None):
     """Fetch league table from the England Rugby website."""
 
-    url = f"{get_url(squad=squad, season=season)}#tables"
+    url = f"{get_url(squad=squad, season=season, league_history_df=league_history_df)}#tables"
     
     # Add a random delay to avoid being detected as a bot
     time.sleep(random.uniform(1, 3))
@@ -715,10 +767,10 @@ def fetch_league_table(squad=1, season="2025/26"):
 
     return df
 
-def fetch_match_ids(squad=1, season="2025/26"):
+def fetch_match_ids(squad=1, season="2025/26", league_history_df=None):
     """Fetch match IDs from the England Rugby website."""
 
-    url = f"{get_url(squad=squad, season=season)}#results"
+    url = f"{get_url(squad=squad, season=season, league_history_df=league_history_df)}#results"
     
     # Add a random delay to avoid being detected as a bot
     time.sleep(random.uniform(1, 3))
@@ -743,10 +795,10 @@ def fetch_match_ids(squad=1, season="2025/26"):
     return list(links)
 
 
-def fetch_matches_from_results_page(squad=2, season="2025/26"):
+def fetch_matches_from_results_page(squad=2, season="2025/26", league_history_df=None):
     """Fetch match summaries directly from the results list page (used for squad 2)."""
 
-    url = f"{get_url(squad=squad, season=season)}#results"
+    url = f"{get_url(squad=squad, season=season, league_history_df=league_history_df)}#results"
 
     try:
         response = requests.get(url, headers=headers, timeout=30)
@@ -923,15 +975,15 @@ def fetch_match_data(match_id):
     return match_data
 
 
-def _get_match_sources(squad=1, season="2025/26"):
+def _get_match_sources(squad=1, season="2025/26", league_history_df=None):
     """Return match ids and optional prefetched match dict for a squad/season."""
-    all_match_ids = fetch_match_ids(squad=squad, season=season)
+    all_match_ids = fetch_match_ids(squad=squad, season=season, league_history_df=league_history_df)
 
     # Squad 2 historically used results-page summaries because lineups are not required.
     # Keep those summaries as fallback only; match-centre remains the authoritative source
     # for home/away score orientation.
     if squad == 2:
-        results_page_matches = fetch_matches_from_results_page(squad=squad, season=season)
+        results_page_matches = fetch_matches_from_results_page(squad=squad, season=season, league_history_df=league_history_df)
         results_by_id = {match["match_id"]: match for match in results_page_matches}
         return all_match_ids, results_by_id
 
@@ -946,11 +998,11 @@ def _fetch_match_for_squad(match_id, squad, results_by_id):
         return fetch_match_data(match_id)
     return fetch_match_data(match_id)
 
-def fetch_new_matches_only(squad=1, season="2025/26", consolidated_file=None):
+def fetch_new_matches_only(squad=1, season="2025/26", consolidated_file=None, league_history_df=None):
     if consolidated_file is None:
         consolidated_file = str(_DATA_DIR / "matches.json")
     """Fetch new matches AND re-fetch incomplete ones."""
-    all_match_ids, results_by_id = _get_match_sources(squad=squad, season=season)
+    all_match_ids, results_by_id = _get_match_sources(squad=squad, season=season, league_history_df=league_history_df)
     
     if not all_match_ids:
         logging.warning("No match IDs found for the season.")

@@ -692,7 +692,7 @@ class BackendCacheAndReconciliationTests(unittest.TestCase):
 
         # 2023/24 has 2 squads (1st and 2nd) + 2024/25 has 1 squad (1st) = 3 rows
         self.assertEqual(len(result), 3)
-        self.assertEqual(list(result.columns), ["season", "squad", "league", "level", "rank"])
+        self.assertEqual(list(result.columns), ["season", "squad", "league", "level", "rank", "rfu_division_id", "rfu_competition_name"])
         self.assertEqual(
             result.iloc[0].to_dict(),
             {
@@ -701,6 +701,8 @@ class BackendCacheAndReconciliationTests(unittest.TestCase):
                 "league": "Counties 1 Surrey/Sussex",
                 "level": 7,
                 "rank": 2,
+                "rfu_division_id": None,
+                "rfu_competition_name": None,
             },
         )
         last_row = result[result["season"] == "2024/25"].iloc[0].to_dict()
@@ -712,6 +714,8 @@ class BackendCacheAndReconciliationTests(unittest.TestCase):
                 "league": "Regional 2 South East",
                 "level": 6,
                 "rank": 11,
+                "rfu_division_id": None,
+                "rfu_competition_name": None,
             },
         )
 
