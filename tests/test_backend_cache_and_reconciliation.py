@@ -672,11 +672,12 @@ class BackendCacheAndReconciliationTests(unittest.TestCase):
 
     def test_extract_league_history_parses_wide_sheet(self):
         worksheet = Mock()
-        # Narrow format: [season, squad, league, level, rank]
+        # League History schema A-I:
+        # [season, squad, league, level, rank, teams, team_id, competition_id, division_id]
         worksheet.get.return_value = [
-            ["2023/24", "1st", "Counties 1 Surrey/Sussex", "7", "2"],
-            ["2023/24", "2nd", "Counties 4 Sussex", "10", "4"],
-            ["2024/25", "1st", "Regional 2 South East", "6", "11"],
+            ["2023/24", "1st", "Counties 1 Surrey/Sussex", "7", "2", "12", "7134", "261", "47017"],
+            ["2023/24", "2nd", "Counties 4 Sussex", "10", "4", "10", "7136", "206", "56757"],
+            ["2024/25", "1st", "Regional 2 South East", "6", "11", "12", "7134", "261", "56612"],
             ["", "", "", "", ""],
         ]
 
@@ -692,7 +693,10 @@ class BackendCacheAndReconciliationTests(unittest.TestCase):
 
         # 2023/24 has 2 squads (1st and 2nd) + 2024/25 has 1 squad (1st) = 3 rows
         self.assertEqual(len(result), 3)
-        self.assertEqual(list(result.columns), ["season", "squad", "league", "level", "rank", "rfu_division_id", "rfu_competition_name"])
+        self.assertEqual(
+            list(result.columns),
+            ["season", "squad", "league", "level", "rank", "teams", "team_id", "competition_id", "division_id"],
+        )
         self.assertEqual(
             result.iloc[0].to_dict(),
             {
@@ -701,8 +705,10 @@ class BackendCacheAndReconciliationTests(unittest.TestCase):
                 "league": "Counties 1 Surrey/Sussex",
                 "level": 7,
                 "rank": 2,
-                "rfu_division_id": None,
-                "rfu_competition_name": None,
+                "teams": 12,
+                "team_id": 7134,
+                "competition_id": 261,
+                "division_id": 47017,
             },
         )
         last_row = result[result["season"] == "2024/25"].iloc[0].to_dict()
@@ -714,8 +720,10 @@ class BackendCacheAndReconciliationTests(unittest.TestCase):
                 "league": "Regional 2 South East",
                 "level": 6,
                 "rank": 11,
-                "rfu_division_id": None,
-                "rfu_competition_name": None,
+                "teams": 12,
+                "team_id": 7134,
+                "competition_id": 261,
+                "division_id": 56612,
             },
         )
 

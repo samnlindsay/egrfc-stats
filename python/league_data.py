@@ -23,13 +23,13 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(
 _DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 os.makedirs(_DATA_DIR / "match_data", exist_ok=True)
 
-competition_ids = {
+LEGACY_COMPETITION_IDS = {
     "London & SE Division": 261,
     "Harvey's Brewery Sussex Leagues": 206,
     "Women": 1782,
 }
 
-division_ids = {
+LEGACY_DIVISION_IDS = {
     "Counties 1 Surrey/Sussex": {
         "2025-2026": 66548,
         "2024-2025": 56612,
@@ -62,7 +62,7 @@ division_ids = {
     }
 }
 
-divisions = {
+LEGACY_DIVISIONS = {
     1: {
         "2025/26": "Counties 2 Sussex",
         "2024/25": "Counties 1 Surrey/Sussex",
@@ -93,26 +93,42 @@ base_url = 'https://www.englandrugby.com/fixtures-and-results/'
 
 
 def build_division_lookup(league_history_df):
-    """Build division and division_id lookup dicts from extracted league history data.
+    """Build RFU URL lookup dicts from extracted League History rows.
 
-    Accepts the DataFrame returned by DataExtractor.extract_league_history(), which
-    includes optional rfu_division_id and rfu_competition_name columns populated from
-    the League History sheet in Google Sheets.
+        Primary expected columns (League History sheet schema):
+      season, squad, league, team_id, competition_id, division_id
 
-    Returns (built_divisions, built_division_ids) in the same shape as the
-    hard-coded module-level dicts, or (None, None) if the data is unusable.
+        Backward compatibility is retained for older extracted columns:
+      rfu_division_id, rfu_competition_name
+
+    Returns (division_map, season_lookup) where:
+            - division_map shape: {squad_num: {season_short: league_name}}
+      - season_lookup is keyed by (squad_num, season_short) and contains ids used
+        to construct RFU URLs.
     """
     if league_history_df is None or league_history_df.empty:
         return None, None
-    if "rfu_division_id" not in league_history_df.columns or "rfu_competition_name" not in league_history_df.columns:
-        return None, None
-
-    usable = league_history_df.dropna(subset=["rfu_division_id", "rfu_competition_name"]).copy()
-    if usable.empty:
+    if "season" not in league_history_df.columns or "squad" not in league_history_df.columns:
         return None, None
 
     built_divisions: dict[int, dict[str, str]] = {}
-    built_division_ids: dict[str, dict[str, int]] = {}
+    season_lookup: dict[tuple[int, str], dict[str, int | None]] = {}
+
+    has_new_ids = {
+        "team_id", "competition_id", "division_id"
+    }.issubset(set(league_history_df.columns))
+    has_legacy_ids = "rfu_division_id" in league_history_df.columns
+
+    usable = league_history_df.copy()
+    if has_new_ids:
+        usable = usable[usable["division_id"].notna() & usable["competition_id"].notna()].copy()
+    elif has_legacy_ids:
+        usable = usable[usable["rfu_division_id"].notna()].copy()
+    else:
+        usable = usable.iloc[0:0].copy()
+
+    if usable.empty:
+        return None, None
 
     for _, row in usable.iterrows():
         squad_raw = str(row["squad"]).strip()
@@ -122,44 +138,74 @@ def build_division_lookup(league_history_df):
             continue
 
         season = str(row["season"]).strip()
+        if not season:
+            continue
         league = str(row["league"]).strip() if row.get("league") else ""
-        rfu_division_id = int(row["rfu_division_id"])
-        rfu_competition_name = str(row["rfu_competition_name"]).strip()
+        team_id_val = pd.to_numeric(row.get("team_id"), errors="coerce") if has_new_ids else pd.NA
+        comp_id_val = pd.to_numeric(row.get("competition_id"), errors="coerce") if has_new_ids else pd.NA
+        division_id_val = pd.to_numeric(row.get("division_id"), errors="coerce") if has_new_ids else pd.NA
+
+        if pd.isna(division_id_val) and has_legacy_ids:
+            division_id_val = pd.to_numeric(row.get("rfu_division_id"), errors="coerce")
+
+        if pd.isna(division_id_val):
+            continue
+
+        if pd.isna(comp_id_val):
+            # Legacy fallback: infer competition id from league family.
+            if league in ["Counties 3 Sussex", "Counties 4 Sussex", "Sussex 3 Premier"]:
+                comp_id_val = LEGACY_COMPETITION_IDS["Harvey's Brewery Sussex Leagues"]
+            else:
+                comp_id_val = LEGACY_COMPETITION_IDS["London & SE Division"]
 
         if league:
             built_divisions.setdefault(squad_num, {})[season] = league
-            season_str = season.replace("/", "-20")
-            built_division_ids.setdefault(league, {})[season_str] = rfu_division_id
+        season_lookup[(squad_num, season)] = {
+            "team_id": int(team_id_val) if pd.notna(team_id_val) else None,
+            "competition_id": int(comp_id_val) if pd.notna(comp_id_val) else None,
+            "division_id": int(division_id_val),
+        }
 
-    return built_divisions, built_division_ids
+    return built_divisions, season_lookup
 
 
 def get_url(squad=1, season="2025/26", league_history_df=None):
     """Generate URL for fetching match data.
 
-    Looks up the RFU division and competition IDs for the given squad/season.
-    When league_history_df is provided (from DataExtractor.extract_league_history()),
-    the lookup is driven by the Google Sheets data; otherwise falls back to the
-    hard-coded module-level dicts.
+    Looks up RFU IDs for the given squad/season.
+
+    Canonical source is the Google Sheets League History data (A-I schema).
+    Legacy in-module dicts are retained as fallback for historical resilience.
     """
-    built_divisions, built_division_ids = build_division_lookup(league_history_df)
-    active_divisions = built_divisions if built_divisions is not None else divisions
-    active_division_ids = built_division_ids if built_division_ids is not None else division_ids
+    built_divisions, season_lookup = build_division_lookup(league_history_df)
+    active_divisions = built_divisions if built_divisions is not None else LEGACY_DIVISIONS
 
     division = active_divisions.get(squad, {}).get(season, None)
 
+    season_str = season.replace("/", "-20")
+    direct_ids = season_lookup.get((int(squad), season)) if season_lookup is not None else None
+
+    if direct_ids and direct_ids.get("competition_id") and direct_ids.get("division_id"):
+        competition_id = int(direct_ids["competition_id"])
+        division_id = int(direct_ids["division_id"])
+        team_id = direct_ids.get("team_id")
+        team_part = f"&team={int(team_id)}" if team_id else ""
+        return f"{base_url}search-results?competition={competition_id}&season={season_str}&division={division_id}{team_part}"
+
     if division is not None:
-        season_str = season.replace("/", "-20")
-        division_id = active_division_ids[division][season_str]
+        division_id = LEGACY_DIVISION_IDS[division][season_str]
 
         if division in ["Counties 3 Sussex", "Counties 4 Sussex", "Sussex 3 Premier"]:
-            competition_id = competition_ids["Harvey's Brewery Sussex Leagues"]
+            competition_id = LEGACY_COMPETITION_IDS["Harvey's Brewery Sussex Leagues"]
         else:
-            competition_id = competition_ids["London & SE Division"]
+            competition_id = LEGACY_COMPETITION_IDS["London & SE Division"]
 
-        url = f'{base_url}search-results?competition={competition_id}&season={season_str}&division={division_id}'
-        
-        return url
+        return f'{base_url}search-results?competition={competition_id}&season={season_str}&division={division_id}'
+
+    raise ValueError(
+        f"No League History ID mapping found for squad={squad}, season={season}. "
+        "Populate League History columns G/H/I (team_id/competition_id/division_id)."
+    )
 
 # Add headers to mimic a real browser
 headers = {

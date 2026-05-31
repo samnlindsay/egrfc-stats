@@ -930,23 +930,22 @@ class DataExtractor:
     def extract_league_history(self):
         """Extract season-by-season league history for both squads.
 
-        Reads columns A–H from the League History sheet:
-          A: season, B: squad, C: league, D: level, E: rank,
-          F: (reserved), G: rfu_division_id, H: rfu_competition_name
+        Reads columns A-I from the League History sheet:
+          A: season, B: squad, C: league, D: level, E: rank, F: teams,
+          G: team_id, H: competition_id, I: division_id
 
-        rfu_division_id and rfu_competition_name are optional — they power
-        the RFU scraper URL construction in league_data.get_url() and remove
-        the need to hard-code those values in the Python source.
+        Columns A-F are the canonical league history data maintained by the club.
+        Columns G-I are RFU identifiers used for URL construction in league_data.
         """
         ss = self.client.open_by_url(self.sheet_url)
         rows = []
 
         try:
             sheet = ss.worksheet("League History")
-            data = sheet.get("A2:H")
+            data = sheet.get("A2:I")
         except Exception as e:
             print(f"Error extracting league history: {e}")
-            return pd.DataFrame(columns=["season", "squad", "league", "level", "rank", "rfu_division_id", "rfu_competition_name"])
+            return pd.DataFrame(columns=["season", "squad", "league", "level", "rank", "teams", "team_id", "competition_id", "division_id"])
 
         for row in data:
             season = str(row[0]).strip() if len(row) > 0 else ""
@@ -954,16 +953,17 @@ class DataExtractor:
             league = str(row[2]).strip() if len(row) > 2 and row[2] is not None else ""
             level = self._safe_int(row[3] if len(row) > 3 else None)
             rank = self._safe_int(row[4] if len(row) > 4 else None)
-            # col F (index 5) is reserved/unused
-            rfu_division_id = self._safe_int(row[6] if len(row) > 6 else None)
-            rfu_competition_name = str(row[7]).strip() if len(row) > 7 and row[7] else None
+            teams = self._safe_int(row[5] if len(row) > 5 else None)
+            team_id = self._safe_int(row[6] if len(row) > 6 else None)
+            competition_id = self._safe_int(row[7] if len(row) > 7 else None)
+            division_id = self._safe_int(row[8] if len(row) > 8 else None)
 
             if not season:
                 continue
 
             if not squad:
                 continue
-            if not league and level is None and rank is None:
+            if not league and level is None and rank is None and teams is None:
                 continue
 
             rows.append(
@@ -973,12 +973,14 @@ class DataExtractor:
                     "league": league or None,
                     "level": level,
                     "rank": rank,
-                    "rfu_division_id": rfu_division_id,
-                    "rfu_competition_name": rfu_competition_name,
+                    "teams": teams,
+                    "team_id": team_id,
+                    "competition_id": competition_id,
+                    "division_id": division_id,
                 }
             )
 
-        return pd.DataFrame(rows, columns=["season", "squad", "league", "level", "rank", "rfu_division_id", "rfu_competition_name"])
+        return pd.DataFrame(rows, columns=["season", "squad", "league", "level", "rank", "teams", "team_id", "competition_id", "division_id"])
 
     def extract_sponsors(self):
         """Extract player sponsor assignments from the Sponsors sheet.
@@ -1006,19 +1008,24 @@ class DataExtractor:
 
         return pd.DataFrame(rows, columns=["season", "player", "sponsor_name"])
     
-    def extract_league_data(self, season="2024-2025", league="Counties 1 Surrey/Sussex", comp="London & SE Division"):
-        """Extract league data using league_data functions"""
+    def extract_league_data(self, season="2024/25", squad=1):
+        """Extract RFU league table + match payloads using League History IDs.
+
+        Uses ``extract_league_history()`` (Google Sheets A-I schema) as the
+        source of season/squad -> team_id/competition_id/division_id mappings.
+        """
         import sys
         import os
         sys.path.append(os.path.dirname(os.path.abspath(__file__)))
         
         from league_data import fetch_match_ids, fetch_match_data, fetch_league_table
+        league_history_df = self.extract_league_history()
         
         # Get league table
-        table_df = fetch_league_table(season, league, comp)
+        table_df = fetch_league_table(squad=squad, season=season, league_history_df=league_history_df)
         
         # Get all match data
-        match_ids = fetch_match_ids(season, league, comp)
+        match_ids = fetch_match_ids(squad=squad, season=season, league_history_df=league_history_df)
         matches_data = []
         
         for match_id in match_ids:
