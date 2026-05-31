@@ -81,6 +81,104 @@ Backend table naming is intentionally layered:
 
 This keeps extraction, cleanup, and canonical modeling clearly separated while preserving stable table names for downstream consumers.
 
+## Issue 3 Architecture Contract
+
+To make data flow explicit while preserving auditability, the backend now adopts a three-layer model:
+
+1. `stg_*` tables
+- Source-native staging per upstream system (`google`, `pitchero`, `rfu`).
+- Keep ingestion metadata and raw payload so records can be audited/replayed.
+
+2. `int_*` tables
+- Intermediate candidate + resolution layer for source overlap/conflicts.
+- Includes source-to-canonical key mapping for deterministic incremental rebuilds.
+
+3. Canonical tables
+- Stable contract tables used by exports/charts: `games`, `players`, `player_appearances`, `lineouts`.
+- Explicit PK/FK relationships and uniqueness constraints.
+
+Reference SQL contract: `python/schema_contract.sql`
+
+### Canonical relationship rules
+
+- `games.game_id` is the join anchor for match-grain data.
+- `player_appearances.game_id` must reference `games.game_id`.
+- `player_appearances.player_id` must reference `players.player_id`.
+- `lineouts.game_id` must reference `games.game_id`.
+- Lineouts and appearances should never be loaded directly from staging into exports.
+	They must flow through intermediate resolution + canonical keys.
+
+### Staging tables
+
+Staging tables hold source-system-native records after basic normalization (type casting, date parsing, opposition canonicalization) but before any cross-source deduplication or conflict resolution. One set per upstream system. They are persisted in the database for auditability and are exported as part of `data/backend/` for diagnostic use.
+
+### `games_stage_google`
+- Grain: one row per game record from Google Sheets.
+- Derived from: Google Sheets game tabs (`1st XV Players`, `2nd XV Players`) via `DataExtractor`.
+- Key contents: `game_id`, `squad`, `date`, `season`, `opposition`, `pf`, `pa`, `result`, leadership fields, scorer payloads.
+- Notes: Google Sheets is the canonical source for all seasons from 2021/22 onwards. Records here take precedence over Pitchero and RFU in conflict resolution.
+
+### `games_stage_pitchero`
+- Grain: one row per game record from the Pitchero cache.
+- Derived from: `data/pitchero_historic_team_sheets_cache.json` via `_load_pitchero_historic_cache()`.
+- Key contents: `game_id`, `squad`, `date`, `season`, `opposition`, `pf`, `pa`, `result`, `pitchero_match_url`, scorer payloads.
+- Notes: Primary source for historic seasons (`PITCHERO_PRIMARY_SOURCE_SEASONS`). Rows with null scores (walkovers, scrape failures, future fixtures) are dropped before canonical deduplication.
+
+### `games_stage_rfu`
+- Grain: one row per game record from the RFU results dataset.
+- Derived from: `data/matches.json` and RFU CSV exports via `_load_rfu_historic_results_csvs()`.
+- Key contents: `game_id`, `squad`, `date`, `season`, `opposition`, `pf`, `pa`, `result`, `home_away`.
+- Notes: Lowest-priority source (`SOURCE_PRECEDENCE["rfu"] = 2`). Used mainly to fill gaps (scores, home/away) where neither Google nor Pitchero has a record.
+
+### `player_appearances_stage_google`, `player_appearances_stage_pitchero`, `player_appearances_stage_rfu`
+- Grain: one row per player per game per source system.
+- Derived from: equivalent Google Sheets appearance tabs / Pitchero lineup cache / RFU lineup data.
+- Key contents: `game_id`, `player`, `squad`, `shirt_number`, `position`, `unit`, `is_starter`, `is_captain`.
+- Notes: Staging appearance tables are not currently used in the intermediate resolution layer — they feed `_build_player_appearances()` directly. Intermediate resolution for appearances is a planned future phase.
+
+### `scorers_stage_google`, `scorers_stage_pitchero`, `scorers_stage_rfu`
+- Grain: one row per scorer event per game per source system.
+- Derived from: scorer tabs in Google Sheets / Pitchero scorer cache / RFU scorer data.
+- Key contents: `game_id`, `squad`, `date`, `player`, `score_type`, `count`.
+- Notes: Merged into `scorers_staged_all` before `_build_season_scorers()`.
+
+---
+
+### Intermediate tables
+
+Intermediate tables sit between staging and canonical. They make source-overlap and conflict resolution explicit and auditable. Unlike staging tables (which preserve raw source payloads), intermediate tables represent active pipeline decisions — which source wins, and why.
+
+### `int_game_candidates`
+- Grain: one row per source-system candidate for each match. A single real-world fixture can have up to three rows here (one from Google, one from Pitchero, one from RFU).
+- Derived from: `_build_int_game_candidates()` — concatenates the three `games_stage_*` tables, assigns `match_group_key` (= canonical `game_id` based on date + squad + opposition_club), ranks by `SOURCE_PRECEDENCE`, and computes per-row conflict flags by comparing each row against the highest-priority sibling in the same group.
+- Key contents:
+  - `candidate_id` — surrogate PK.
+  - `source_system` — `"google"`, `"pitchero"`, or `"rfu"`.
+  - `source_rank` — `0` (google) / `1` (pitchero) / `2` (rfu); lower wins.
+  - `match_group_key` — shared key linking candidates for the same fixture.
+  - `has_score_conflict` — `TRUE` if this candidate's `pf`/`pa` differ from the best-ranked sibling.
+  - `has_result_conflict` — `TRUE` if `result` differs from best-ranked sibling.
+  - `has_opposition_conflict` — `TRUE` if `opposition_club` differs from best-ranked sibling.
+- Downstream: feeds `int_games_resolved`; useful for investigating data discrepancies between sources.
+- Notes: Conflict flags are relative to the **highest-priority source** in the group, not a consensus. A Pitchero row flagged `has_score_conflict` means it disagrees with the Google record for that fixture.
+
+### `int_games_resolved`
+- Grain: one row per real-world fixture (one winner per `match_group_key`).
+- Derived from: `_build_int_games_resolved()` — selects the candidate with the lowest `source_rank` per group, then aggregates conflict summary across all candidates in the group.
+- Key contents:
+  - `resolved_id` — surrogate PK.
+  - `match_group_key` — same value as in `int_game_candidates`, unique here.
+  - `winning_candidate_id` — FK to `int_game_candidates.candidate_id`.
+  - `source_system` — source system of the winning candidate.
+  - All match payload fields copied from the winning candidate.
+  - `conflict_count` — number of distinct conflict types (`has_score`, `has_result`, `has_opposition`) that fired for any candidate in this group.
+  - `has_any_score_conflict`, `has_any_result_conflict`, `has_any_opposition_conflict` — TRUE if any non-winning candidate disagreed with the winner on that field.
+  - `source_count` — how many source systems contributed a candidate for this fixture.
+- Downstream: `_build_games()` joins against this table to annotate each canonical game row with `_resolved_source`, `_resolved_winning_candidate_id`, and `_resolved_conflict_count`. These `_resolved_*` columns are not exported to the frontend — they are for internal audit and debugging only.
+- Notes: The canonical `games` table still uses its own deduplication logic (quality scoring, appearance-count linkage, source priority). `int_games_resolved` currently supplements rather than replaces that logic. The intent is to incrementally shift deduplication decisions here so that `_build_games()` can simply consume the resolved winner rather than recomputing it.
+
+---
+
 ### Pitchero reference tables
 
 ### `ref_pitchero_player_name_overrides`
@@ -163,23 +261,11 @@ Pitchero raw/clean staging datasets are now in-memory build intermediates only. 
 - Key contents: playerCounts map and playersUsed totals for Total/Forwards/Backs.
 - Downstream: squad stats page squad-size cards/table and threshold filtering.
 
-### `squad_position_profiles_enriched`
-- Grain: one row per season/gameTypeMode/squad/position.
-- Derived from: starter appearances mapped to canonical positions.
-- Key contents: playerCounts map and playersUsed by position.
-- Downstream: squad stats page position cards and minimum-appearance filtering.
-
 ### `squad_continuity_enriched`
 - Grain: one row per season/gameTypeMode/squad/unit.
 - Derived from: match-to-match retained starters in appearances.
 - Key contents: retained average and contributing gamePairs.
 - Downstream: squad stats continuity cards and trend charts.
-
-### `season_summary_enriched`
-- Grain: one row per season/gameTypeMode/squad.
-- Derived from: games + appearances + season_scorers + set_piece.
-- Key contents: W/L/D totals, home/away and overall averages, tied top-scorer arrays, top appearances, set-piece seasonal means.
-- Downstream: season summary page and performance stats red-zone line chart input.
 
 ### `squad_stats_with_thresholds_enriched`
 - Grain: one row per season/gameTypeMode/squad/unit/minimumAppearances.
@@ -210,10 +296,8 @@ Pitchero raw/clean staging datasets are now in-memory build intermediates only. 
 ## Downstream consumer map
 
 - player-profiles page: data/backend/player_profiles_canonical.json (active; dedupe + profile payload owned by backend).
-- squad-stats page: data/backend/squad_stats_enriched.json, data/backend/squad_position_profiles_enriched.json, data/backend/squad_continuity_enriched.json (active).
+- squad-stats page: data/backend/squad_stats_enriched.json, data/backend/squad_continuity_enriched.json (active).
 - squad-stats page: data/backend/squad_stats_with_thresholds_enriched.json (active for threshold filtering; eliminates client-side recalculation).
-- season-summary page: data/backend/season_summary_enriched.json (active).
-- performance-stats red-zone chart: data/backend/season_summary_enriched.json (1st XV, All games rows) (active).
 - database explorer page: all exported tables and views in data/backend/*.json.
 
 ## Maintenance checklist for this live document

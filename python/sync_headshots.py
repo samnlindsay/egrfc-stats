@@ -10,6 +10,7 @@ from typing import Any
 from PIL import Image
 
 from python.process_headshots import process_image
+from python.utils.normalization import normalize_lookup_key
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 HEADSHOTS_DIR = PROJECT_ROOT / "img" / "headshots"
@@ -32,7 +33,7 @@ RECROP_OPTIONS: dict[str, Any] = {
 
 
 def _normalise_key(value: str) -> str:
-    return re.sub(r"[^a-z0-9]", "", value.lower())
+    return normalize_lookup_key(value)
 
 
 def _iter_headshot_files(headshots_dir: Path) -> list[Path]:

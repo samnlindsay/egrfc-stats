@@ -1031,6 +1031,12 @@ async function loadAvailableSeasons() {
   }
 }
 
+// Normalise a season string to canonical YYYY/YY short format.
+// Accepts YYYY-YYYY, YYYY/YYYY, and YYYY/YY inputs.
+// Returns null for empty or unrecognised formats.
+// Python equivalent: utils/normalization.py::season_to_short_label()
+// NOTE: also used as the shared implementation for normalizeSeasonValue()
+//       in database-explorer.js (which wraps this with passthrough semantics).
 function normalizeSeasonLabel(value) {
   if (!value) return null;
   const season = String(value).trim().replace("-", "/");

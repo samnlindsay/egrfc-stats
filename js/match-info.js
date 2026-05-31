@@ -46,6 +46,11 @@ function escapeAttribute(value) {
         .replace(/>/g, '&gt;');
 }
 
+// Normalise a player name for loose matching: lowercase, single spaces, trimmed.
+// Intentionally keeps non-alphanumeric characters (hyphens, apostrophes) so that
+// "O'Brien" and "Smith-Jones" match correctly in display contexts.
+// NOT equivalent to Python's normalize_lookup_key() (which strips all non-alnum).
+// Use this for player name lookups in JS; use normalize_lookup_key() in Python.
 function canonicalizeName(value) {
     return String(value || '').trim().toLowerCase().replace(/\s+/g, ' ');
 }

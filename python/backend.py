@@ -19,7 +19,6 @@ from python.data import (
     HISTORIC_PITCHERO_SEASON_IDS,
     PITCHERO_OPPOSITION_CANONICAL_NAMES,
     DataExtractor,
-    _normalise_pitchero_key,
     canonical_pitchero_opposition,
     clean_name,
 )
@@ -27,6 +26,17 @@ from python.league_data import (
     build_rfu_games_dataframe,
     build_rfu_player_appearances_dataframe,
     load_consolidated_matches,
+)
+from python.utils.normalization import (
+    is_egrfc_team_name,
+    normalize_lookup_key,
+    normalize_team_name,
+    season_start_year,
+)
+from python.utils.opposition import (
+    opposition_club_name,
+    split_opposition_components,
+    team_number_to_ordinal_label,
 )
 
 
@@ -85,6 +95,45 @@ PITCHERO_PRIMARY_SOURCE_SEASONS = {
     if re.match(r"^\d{4}/\d{2}$", str(season)) and int(str(season)[:4]) <= 2023
 }
 
+# Source precedence: lower rank = higher priority.
+#
+# This constant is the single definition of which source wins in all conflict
+# resolution logic across the build pipeline. It is applied in four places:
+#
+#   _build_int_game_candidates()  — assigns source_rank; flags conflicts vs best source
+#   _build_int_games_resolved()   — picks lowest-rank winner per match_group_key
+#   _build_games()                — _quality_score uses _source_priority to dominate dedup
+#   _build_player_appearances()   — keeps only the highest-priority lineup per game_id
+#   _build_season_scorers()       — keeps only the highest-priority scorer row per game+player
+#
+# "google"   (0): Google Sheets. Canonical for all seasons from 2021/22 onwards.
+#                  Manual corrections live here; always preferred when present.
+# "pitchero" (1): Pitchero fixture/event scrape cache. Primary for historic seasons
+#                  (see PITCHERO_PRIMARY_SOURCE_SEASONS). Provides URLs and scorer data
+#                  that Google Sheets does not capture for modern seasons.
+# "rfu"      (2): RFU results feed. Lowest priority; used only to fill gaps that
+#                  neither Google nor Pitchero covers.
+SOURCE_PRECEDENCE = {
+    "google": 0,
+    "pitchero": 1,
+    "rfu": 2,
+}
+
+SCORER_STAGE_COLUMNS = [
+    "game_id",
+    "squad",
+    "date",
+    "season",
+    "game_type",
+    "player",
+    "tries",
+    "conversions",
+    "penalties",
+    "drop_goals",
+    "points",
+    "source",
+]
+
 
 def _mode_or_none(series: pd.Series) -> str | None:
     values = series.dropna()
@@ -135,32 +184,6 @@ def _yes_no_to_bool(series: pd.Series) -> pd.Series:
     return series.fillna("").astype(str).str.strip().str.upper().isin(["Y", "YES", "TRUE", "X", "1"])
 
 
-def _normalise_key(name: str) -> str:
-    return re.sub(r"[^a-z0-9]", "", name.lower())
-
-
-_OPPOSITION_TEAM_SUFFIX_RE = re.compile(
-    r"""
-    ^\s*(?P<club>.*?)\s*
-    (?P<team>
-        (?:(?P<team_num>[1-6])(?:st|nd|rd|th)?(?:\s*(?:xv|s|['\u2019]s))?)
-        |
-        (?P<team_roman>i{1,3}|iv|v|vi)
-    )\s*$
-    """,
-    flags=re.IGNORECASE | re.VERBOSE,
-)
-
-_ROMAN_TO_TEAM_NUMBER = {
-    "I": 1,
-    "II": 2,
-    "III": 3,
-    "IV": 4,
-    "V": 5,
-    "VI": 6,
-}
-
-
 def _split_opposition_club_team(name: Any) -> tuple[str, int | None]:
     """Split opposition display name into (club_name, team_number).
 
@@ -169,38 +192,44 @@ def _split_opposition_club_team(name: Any) -> tuple[str, int | None]:
     - "Haywards Heath II" -> ("Haywards Heath", 2)
     - "Pulborough 2s" -> ("Pulborough", 2)
     """
-    if name is None or pd.isna(name):
-        return "", None
-
-    canonical = str(_canonical_pitchero_opposition_name(name)).strip()
-    if not canonical:
-        return "", None
-
-    collapsed = re.sub(r"\s+", " ", canonical)
-    match = _OPPOSITION_TEAM_SUFFIX_RE.match(collapsed)
-    if not match:
-        return collapsed, None
-
-    club = re.sub(r"\s+", " ", (match.group("club") or "").strip(" -"))
-    if not club:
-        return collapsed, None
-
-    team_num = match.group("team_num")
-    if team_num:
-        return club, int(team_num)
-
-    team_roman = (match.group("team_roman") or "").upper()
-    return club, _ROMAN_TO_TEAM_NUMBER.get(team_roman)
+    return split_opposition_components(name)
 
 
 def _opposition_club_name(name: Any) -> str:
-    club, _team = _split_opposition_club_team(name)
-    return club
+    return opposition_club_name(name)
+
+
+def _team_number_to_label(team_number: int | None) -> str | None:
+    return team_number_to_ordinal_label(team_number)
 
 
 def _canonical_game_id(match_date: Any, squad: Any, opposition: Any) -> str:
     club = _opposition_club_name(opposition)
     return f"{match_date}_{squad}_{club}".replace(" ", "_").replace("/", "")
+
+
+def _canonicalize_game_id(
+    game_id: Any,
+    match_date: Any | None = None,
+    squad: Any | None = None,
+    opposition: Any | None = None,
+) -> str:
+    """Return canonical club-only game_id from available row fields or legacy id text."""
+    if match_date is not None and squad and opposition:
+        return _canonical_game_id(match_date, squad, opposition)
+
+    game_id_text = str(game_id or "").strip()
+    if not game_id_text:
+        return ""
+
+    # Legacy shape: YYYY-MM-DD_<squad>_<opposition_with_optional_team_suffix>
+    match = re.match(r"^(\d{4}-\d{2}-\d{2})_([^_]+)_(.+)$", game_id_text)
+    if not match:
+        return game_id_text
+
+    date_text, squad_text, opposition_text = match.groups()
+    opposition_text = opposition_text.replace("_", " ").strip()
+    return _canonical_game_id(date_text, squad_text, opposition_text)
 
 
 def _season_sort_key(season: Any) -> tuple[int, str]:
@@ -212,11 +241,7 @@ def _season_sort_key(season: Any) -> tuple[int, str]:
 
 
 def _season_start_year(season: Any) -> int | None:
-    season_text = str(season or "").strip()
-    match = re.match(r"^(\d{4})[-/](\d{2}|\d{4})$", season_text)
-    if match:
-        return int(match.group(1))
-    return None
+    return season_start_year(season)
 
 
 def _canonical_player_name(name: Any) -> Any:
@@ -312,7 +337,56 @@ def _normalise_scorer_payload_names(
 
 
 def _apply_pitchero_supplemental_enrichment(db_path: Path, project_root: Path) -> dict[str, int]:
-    """Apply URL/scorer supplements from reconciliation artifacts, if available."""
+    """Apply URL/scorer supplements from optional artefact files to the ``games`` table.
+
+    Why this runs after ``build()``
+    --------------------------------
+    The main build pipeline sources game data from Google Sheets, the Pitchero cache
+    JSON, and the RFU feed.  None of those sources have complete Pitchero match page
+    URLs or full scorer payloads for every historical fixture.  A separate, on-demand
+    scraping workflow (``python/merge_rfu_backend_games.py`` and related scripts) can
+    produce richer artefact CSV/JSON files, but those files only exist when the
+    scraping workflow has been run — they are *not* always present.
+
+    This function is therefore deliberately post-build and optional: the main build
+    produces a correct, internally consistent database without it.  When the artefact
+    files are available, running this function backfills additional metadata that the
+    main pipeline cannot supply.
+
+    It is safe to re-run: every UPDATE checks that the target field is NULL before
+    writing, so it will never overwrite data that the main build already populated.
+
+    After this function returns, ``rebuild_post_enrichment()`` must be called to
+    propagate backfilled scorer data into ``season_scorers``, ``players``,
+    and ``player_profiles_canonical``.
+
+    Sub-steps
+    ---------
+    1. **Manual URL overrides** — hard-coded ``MANUAL_PITCHERO_URL_OVERRIDES`` dict.
+       No external files required.  Applied unconditionally.
+
+    2. **Candidate URL backfill** — reads one of:
+       - ``data/full_scrape_remaining_best_candidates.csv``  (preferred)
+       - ``data/full_scrape_reconcile_candidates.csv``  (fallback)
+       Generated by the full-scrape reconciliation workflow.  Skipped if neither
+       file exists.  Only rows with ``candidate_score >= 0.90`` (or score+opposition
+       match above threshold) are applied.
+
+    3. **Scorer backfill from scrape artefact** — reads:
+       - ``data/full_scrape_pitchero_games.csv``
+       Matches games by ``pitchero_match_url`` (populated in step 1/2) and fills in
+       empty scorer JSON columns.  Skipped if the file does not exist.
+
+    4. **Historic Pitchero cache backfill** — reads:
+       - ``data/pitchero_historic_team_sheets_cache.json``
+       Matches games by canonical ``game_id`` and fills in empty scorer JSON,
+       captain, MOTM, vice-captain, and URL fields.  Skipped if the file does not
+       exist or is unreadable.
+
+    Returns
+    -------
+    dict with integer counts of records updated per step, useful for logging/auditing.
+    """
     report = {
         "manual_url_overrides_applied": 0,
         "candidate_url_updates_applied": 0,
@@ -670,10 +744,8 @@ class BackendDatabase:
         self.con.execute("DROP VIEW IF EXISTS v_rfu_squad_size")
         self.con.execute("DROP VIEW IF EXISTS v_rfu_team_games")
         self.con.execute("DROP TABLE IF EXISTS squad_continuity_enriched")
-        self.con.execute("DROP TABLE IF EXISTS squad_position_profiles_enriched")
         self.con.execute("DROP TABLE IF EXISTS squad_stats_enriched")
         self.con.execute("DROP TABLE IF EXISTS squad_stats_with_thresholds_enriched")
-        self.con.execute("DROP TABLE IF EXISTS season_summary_enriched")
         self.con.execute("DROP TABLE IF EXISTS player_profiles_canonical")
         self.con.execute("DROP TABLE IF EXISTS pitchero_appearance_backfill")
         self.con.execute("DROP TABLE IF EXISTS pitchero_appearance_reconciliation")
@@ -689,7 +761,9 @@ class BackendDatabase:
         self.con.execute("DROP TABLE IF EXISTS player_profiles_enriched")
         self.con.execute("DROP TABLE IF EXISTS player_appearances_rfu")
         self.con.execute("DROP TABLE IF EXISTS players")
-        self.con.execute("DROP TABLE IF EXISTS league_history")
+        self.con.execute("DROP TABLE IF EXISTS scorers_stage_google")
+        self.con.execute("DROP TABLE IF EXISTS scorers_stage_pitchero")
+        self.con.execute("DROP TABLE IF EXISTS scorers_stage_rfu")
         self.con.execute("DROP TABLE IF EXISTS season_scorers")
         self.con.execute("DROP TABLE IF EXISTS lineouts")
         self.con.execute("DROP TABLE IF EXISTS set_piece")
@@ -700,6 +774,7 @@ class BackendDatabase:
         self.con.execute("DROP TABLE IF EXISTS games_stage_google")
         self.con.execute("DROP TABLE IF EXISTS games_stage_pitchero")
         self.con.execute("DROP TABLE IF EXISTS games_stage_rfu")
+        self.con.execute("DROP TABLE IF EXISTS int_game_candidates")
         self.con.execute("DROP TABLE IF EXISTS games_rfu")
         self.con.execute("DROP TABLE IF EXISTS games")
 
@@ -740,6 +815,8 @@ class BackendDatabase:
                 competition TEXT,
                 game_type TEXT,
                 opposition TEXT,
+                opposition_club TEXT,
+                opposition_squad TEXT,
                 home_away TEXT,
                 score_for INTEGER,
                 score_against INTEGER,
@@ -753,7 +830,10 @@ class BackendDatabase:
                 penalties_scorers TEXT,
                 drop_goals_scorers TEXT,
                 pitchero_match_url TEXT,
-                UNIQUE(squad, date, opposition)
+                _resolved_source TEXT,
+                _resolved_winning_candidate_id TEXT,
+                _resolved_conflict_count INTEGER,
+                UNIQUE(squad, date, opposition_club)
             )
             """
         )
@@ -769,6 +849,8 @@ class BackendDatabase:
                 competition TEXT,
                 game_type TEXT,
                 opposition TEXT,
+                opposition_club TEXT,
+                opposition_squad TEXT,
                 home_away TEXT,
                 pf INTEGER,
                 pa INTEGER,
@@ -797,6 +879,8 @@ class BackendDatabase:
                 competition TEXT,
                 game_type TEXT,
                 opposition TEXT,
+                opposition_club TEXT,
+                opposition_squad TEXT,
                 home_away TEXT,
                 pf INTEGER,
                 pa INTEGER,
@@ -825,6 +909,8 @@ class BackendDatabase:
                 competition TEXT,
                 game_type TEXT,
                 opposition TEXT,
+                opposition_club TEXT,
+                opposition_squad TEXT,
                 home_away TEXT,
                 pf INTEGER,
                 pa INTEGER,
@@ -839,6 +925,84 @@ class BackendDatabase:
                 drop_goals_scorers TEXT,
                 pitchero_match_url TEXT,
                 source TEXT
+            )
+            """
+        )
+
+        self.con.execute(
+            """
+            CREATE TABLE int_game_candidates (
+                candidate_id BIGINT PRIMARY KEY,
+                source_system TEXT,
+                source_record_id TEXT,
+                match_date DATE,
+                season TEXT,
+                squad TEXT,
+                competition TEXT,
+                game_type TEXT,
+                opposition TEXT,
+                opposition_club TEXT,
+                opposition_squad TEXT,
+                home_away TEXT,
+                pf INTEGER,
+                pa INTEGER,
+                result TEXT,
+                captain TEXT,
+                motm TEXT,
+                vc1 TEXT,
+                vc2 TEXT,
+                tries_scorers TEXT,
+                conversions_scorers TEXT,
+                penalties_scorers TEXT,
+                drop_goals_scorers TEXT,
+                pitchero_match_url TEXT,
+                match_group_key TEXT,
+                source_rank INTEGER,
+                confidence_score DOUBLE,
+                -- Conflict flags (set relative to highest-priority sibling in same match_group_key)
+                has_score_conflict BOOLEAN DEFAULT FALSE,
+                has_result_conflict BOOLEAN DEFAULT FALSE,
+                has_opposition_conflict BOOLEAN DEFAULT FALSE
+            )
+            """
+        )
+
+        # Intermediate resolved table: one best row per match_group_key.
+        self.con.execute("DROP TABLE IF EXISTS int_games_resolved")
+        self.con.execute(
+            """
+            CREATE TABLE int_games_resolved (
+                resolved_id BIGINT PRIMARY KEY,
+                match_group_key TEXT NOT NULL UNIQUE,
+                winning_candidate_id BIGINT,
+                source_system TEXT,
+                match_date DATE,
+                season TEXT,
+                squad TEXT,
+                competition TEXT,
+                game_type TEXT,
+                opposition TEXT,
+                opposition_club TEXT,
+                opposition_squad TEXT,
+                home_away TEXT,
+                pf INTEGER,
+                pa INTEGER,
+                result TEXT,
+                captain TEXT,
+                motm TEXT,
+                vc1 TEXT,
+                vc2 TEXT,
+                tries_scorers TEXT,
+                conversions_scorers TEXT,
+                penalties_scorers TEXT,
+                drop_goals_scorers TEXT,
+                pitchero_match_url TEXT,
+                -- Conflict summary across all candidates for this match
+                conflict_count INTEGER DEFAULT 0,
+                has_any_score_conflict BOOLEAN DEFAULT FALSE,
+                has_any_result_conflict BOOLEAN DEFAULT FALSE,
+                has_any_opposition_conflict BOOLEAN DEFAULT FALSE,
+                source_count INTEGER DEFAULT 1
             )
             """
         )
@@ -1025,6 +1189,63 @@ class BackendDatabase:
 
         self.con.execute(
             """
+            CREATE TABLE scorers_stage_google (
+                game_id TEXT,
+                squad TEXT,
+                date DATE,
+                season TEXT,
+                game_type TEXT,
+                player TEXT,
+                tries BIGINT,
+                conversions BIGINT,
+                penalties BIGINT,
+                drop_goals BIGINT,
+                points BIGINT,
+                source TEXT
+            )
+            """
+        )
+
+        self.con.execute(
+            """
+            CREATE TABLE scorers_stage_pitchero (
+                game_id TEXT,
+                squad TEXT,
+                date DATE,
+                season TEXT,
+                game_type TEXT,
+                player TEXT,
+                tries BIGINT,
+                conversions BIGINT,
+                penalties BIGINT,
+                drop_goals BIGINT,
+                points BIGINT,
+                source TEXT
+            )
+            """
+        )
+
+        self.con.execute(
+            """
+            CREATE TABLE scorers_stage_rfu (
+                game_id TEXT,
+                squad TEXT,
+                date DATE,
+                season TEXT,
+                game_type TEXT,
+                player TEXT,
+                tries BIGINT,
+                conversions BIGINT,
+                penalties BIGINT,
+                drop_goals BIGINT,
+                points BIGINT,
+                source TEXT
+            )
+            """
+        )
+
+        self.con.execute(
+            """
             CREATE TABLE season_scorers (
                 squad TEXT NOT NULL,
                 season TEXT NOT NULL,
@@ -1037,43 +1258,6 @@ class BackendDatabase:
                 points BIGINT,
                 source TEXT,
                 PRIMARY KEY(squad, season, player, game_type)
-            )
-            """
-        )
-
-        self.con.execute(
-            """
-            CREATE TABLE league_history (
-                season TEXT NOT NULL,
-                season_start_year INTEGER,
-                squad TEXT NOT NULL,
-                league TEXT,
-                level INTEGER,
-                rank INTEGER,
-                PRIMARY KEY(season, squad)
-            )
-            """
-        )
-
-        self.con.execute(
-            """
-            CREATE TABLE league_table_standings (
-                season TEXT NOT NULL,
-                squad TEXT NOT NULL,
-                level INTEGER,
-                league TEXT,
-                position INTEGER,
-                team TEXT NOT NULL,
-                played INTEGER,
-                won INTEGER,
-                drawn INTEGER,
-                lost INTEGER,
-                points_for INTEGER,
-                points_against INTEGER,
-                points_difference INTEGER,
-                bonus_points INTEGER,
-                points INTEGER,
-                PRIMARY KEY(season, squad, team)
             )
             """
         )
@@ -1111,20 +1295,6 @@ class BackendDatabase:
                 playerCounts TEXT,
                 playersUsed INTEGER,
                 PRIMARY KEY(season, gameTypeMode, squad, unit)
-            )
-            """
-        )
-
-        self.con.execute(
-            """
-            CREATE TABLE squad_position_profiles_enriched (
-                season TEXT NOT NULL,
-                gameTypeMode TEXT NOT NULL,
-                squad TEXT NOT NULL,
-                position TEXT NOT NULL,
-                playerCounts TEXT,
-                playersUsed INTEGER,
-                PRIMARY KEY(season, gameTypeMode, squad, position)
             )
             """
         )
@@ -1186,38 +1356,6 @@ class BackendDatabase:
             """
         )
 
-        self.con.execute(
-            """
-            CREATE TABLE season_summary_enriched (
-                season TEXT NOT NULL,
-                gameTypeMode TEXT NOT NULL,
-                squad TEXT NOT NULL,
-                gamesPlayed INTEGER,
-                gamesWon INTEGER,
-                gamesLost INTEGER,
-                gamesDrawn INTEGER,
-                avgPointsForHome DOUBLE,
-                avgPointsAgainstHome DOUBLE,
-                avgPointsForAway DOUBLE,
-                avgPointsAgainstAway DOUBLE,
-                avgPointsForOverall DOUBLE,
-                avgPointsAgainstOverall DOUBLE,
-                topPointScorerValue BIGINT,
-                topPointScorerPlayers TEXT,
-                topTryScorerValue BIGINT,
-                topTryScorerPlayers TEXT,
-                topAppearanceValue INTEGER,
-                topAppearancePlayers TEXT,
-                avgLineoutSuccessRate DOUBLE,
-                avgScrumSuccessRate DOUBLE,
-                avgPointsPer22mEntry DOUBLE,
-                avgTriesPer22mEntry DOUBLE,
-                gamesWithSetPieceData INTEGER,
-                PRIMARY KEY(season, gameTypeMode, squad)
-            )
-            """
-        )
-
 
     def build(self, refresh_pitchero: bool = False, export: bool = True, strict_duplicate_audit: bool = False) -> None:
         self.reset_schema()
@@ -1236,7 +1374,6 @@ class BackendDatabase:
 
         lineouts_raw = self._extract_lineouts(extractor)
         set_piece_raw = extractor.extract_set_piece_stats()
-        league_history_raw = extractor.extract_league_history()
         pitchero_stats_source = self._load_pitchero(extractor, refresh_pitchero)
         scorers_2526_raw = self._extract_2526_scorers(extractor)
         rfu_matches_raw = load_consolidated_matches(self.rfu_matches_file.as_posix())
@@ -1250,7 +1387,7 @@ class BackendDatabase:
         pitchero_appearances_raw = self._build_pitchero_player_appearances_raw(historic_appearances_raw)
         pitchero_appearances_clean = self._build_pitchero_player_appearances_clean(pitchero_appearances_raw)
         pitchero_stats_raw = self._build_pitchero_stats_raw(pitchero_stats_source)
-        pitchero_stats_clean = self._build_pitchero_stats_clean(pitchero_stats_raw)
+        _ = self._build_pitchero_stats_clean(pitchero_stats_raw)
         ref_player_names = self._build_ref_pitchero_player_name_overrides()
         ref_opposition_names = self._build_ref_pitchero_opposition_overrides()
         ref_match_urls = self._build_ref_pitchero_match_url_overrides()
@@ -1263,6 +1400,8 @@ class BackendDatabase:
             "competition",
             "game_type",
             "opposition",
+            "opposition_club",
+            "opposition_squad",
             "home_away",
             "pf",
             "pa",
@@ -1291,6 +1430,14 @@ class BackendDatabase:
                 staged["vc1"] = staged["vice_captain_1"]
             if "vice_captain_2" in staged.columns and "vc2" not in staged.columns:
                 staged["vc2"] = staged["vice_captain_2"]
+            if "opposition" not in staged.columns and "opposition_club" in staged.columns:
+                staged["opposition"] = staged["opposition_club"]
+            if "opposition_club" not in staged.columns and "opposition" in staged.columns:
+                staged["opposition_club"] = staged["opposition"].map(_opposition_club_name)
+            if "opposition_squad" not in staged.columns:
+                staged["opposition_squad"] = staged.get("opposition", pd.Series(index=staged.index, dtype="object")).map(
+                    lambda value: _team_number_to_label(_split_opposition_club_team(value)[1])
+                )
             for col in stage_cols:
                 if col not in staged.columns:
                     staged[col] = None
@@ -1376,23 +1523,53 @@ class BackendDatabase:
         if "pitchero_match_url" not in games_raw.columns:
             games_raw["pitchero_match_url"] = None
 
-        games = self._build_games(games_raw, appearances_raw)
+        scorers_google_stage_from_games = self._build_scorers_stage_from_games(games_google_stage, "google")
+        scorers_google_stage_from_sheet = self._build_scorers_stage_from_sheet(scorers_2526_raw, games_google_stage)
+        scorers_google_stage = pd.concat(
+            [scorers_google_stage_from_games, scorers_google_stage_from_sheet],
+            ignore_index=True,
+        )
+        if not scorers_google_stage.empty:
+            scorers_google_stage = (
+                scorers_google_stage
+                .groupby(["game_id", "squad", "date", "season", "game_type", "player", "source"], as_index=False, dropna=False)
+                .agg(
+                    tries=("tries", "sum"),
+                    conversions=("conversions", "sum"),
+                    penalties=("penalties", "sum"),
+                    drop_goals=("drop_goals", "sum"),
+                    points=("points", "sum"),
+                )
+            )
+            scorers_google_stage = scorers_google_stage.reindex(columns=SCORER_STAGE_COLUMNS)
+
+        scorers_pitchero_stage = self._build_scorers_stage_from_games(games_pitchero_stage, "pitchero")
+        scorers_rfu_stage = self._build_scorers_stage_from_games(games_rfu_stage, "rfu")
+        scorers_staged_all = pd.concat(
+            [scorers_google_stage, scorers_pitchero_stage, scorers_rfu_stage],
+            ignore_index=True,
+        )
+
+        int_game_candidates = self._build_int_game_candidates(
+            games_google_stage=games_google_stage,
+            games_pitchero_stage=games_pitchero_stage,
+            games_rfu_stage=games_rfu_stage,
+        )
+        int_games_resolved = self._build_int_games_resolved(int_game_candidates)
+
+        games = self._build_games(games_raw, appearances_raw, int_games_resolved=int_games_resolved)
         games = self._attach_match_scorers(games, scorers_2526_raw)
         appearances = self._build_player_appearances(appearances_raw, games)
         lineouts = self._build_lineouts(lineouts_raw, games)
         set_piece = self._build_set_piece(set_piece_raw, games)
-        league_history = self._build_league_history(league_history_raw)
-        league_table_standings = self._build_league_table_standings(league_history)
-        season_scorers = self._build_season_scorers(scorers_2526_raw, pitchero_stats_clean, appearances, games)
+        season_scorers = self._build_season_scorers(scorers_staged_all, appearances)
         appearances = self._annotate_appearance_numbers(appearances)
         players = self._build_players(appearances, games, lineouts, season_scorers)
         player_profiles_base = self._build_player_profiles_base(players, appearances, games, season_scorers)
         squad_stats_enriched = self._build_squad_stats(appearances, games)
-        squad_position_profiles_enriched = self._build_squad_position_profiles(appearances, games)
         squad_continuity_enriched = self._build_squad_continuity(appearances, games)
         squad_stats_with_thresholds_enriched = self._build_squad_stats_with_thresholds(appearances, games)
         player_profiles_canonical = self._build_player_profiles_canonical(player_profiles_base)
-        season_summary_enriched = self._build_season_summary(games, appearances, season_scorers, set_piece)
 
         self._insert("ref_pitchero_player_name_overrides", ref_player_names)
         self._insert("ref_pitchero_opposition_overrides", ref_opposition_names)
@@ -1400,25 +1577,26 @@ class BackendDatabase:
         self._insert("games_stage_google", games_google_stage)
         self._insert("games_stage_pitchero", games_pitchero_stage)
         self._insert("games_stage_rfu", games_rfu_stage)
+        self._insert("int_game_candidates", int_game_candidates)
+        self._insert("int_games_resolved", self._build_int_games_resolved(int_game_candidates))
         self._insert("player_appearances_stage_google", appearances_google_stage)
         self._insert("player_appearances_stage_pitchero", appearances_pitchero_stage)
         self._insert("player_appearances_stage_rfu", appearances_rfu_stage)
+        self._insert("scorers_stage_google", scorers_google_stage)
+        self._insert("scorers_stage_pitchero", scorers_pitchero_stage)
+        self._insert("scorers_stage_rfu", scorers_rfu_stage)
         self._insert("games", games)
         self._insert("player_appearances", appearances)
         self._insert("games_rfu", games_rfu)
         self._insert("player_appearances_rfu", appearances_rfu)
         self._insert("lineouts", lineouts)
         self._insert("set_piece", set_piece)
-        self._insert("league_history", league_history)
-        self._insert("league_table_standings", league_table_standings)
         self._insert("season_scorers", season_scorers)
         self._insert("players", players)
         self._insert("squad_stats_enriched", squad_stats_enriched)
-        self._insert("squad_position_profiles_enriched", squad_position_profiles_enriched)
         self._insert("squad_continuity_enriched", squad_continuity_enriched)
         self._insert("squad_stats_with_thresholds_enriched", squad_stats_with_thresholds_enriched)
         self._insert("player_profiles_canonical", player_profiles_canonical)
-        self._insert("season_summary_enriched", season_summary_enriched)
         self.create_views()
 
         if export:
@@ -1431,9 +1609,23 @@ class BackendDatabase:
         """Rebuild scorer-dependent tables after Pitchero supplemental enrichment.
 
         ``_apply_pitchero_supplemental_enrichment`` writes try/conversion/penalty
-        scorer JSON back onto the ``games`` table rows *after* the main build() run
-        has already populated ``season_scorers``.  This method re-reads the enriched
-        games from the database and rebuilds every table that depends on scorer data.
+        scorer JSON back onto the ``games`` table rows *after* the main ``build()``
+        run has already populated ``season_scorers`` and the player tables.  This
+        method re-reads the now-enriched ``games`` table and rebuilds every table
+        whose content depends on scorer data:
+
+        Tables rebuilt
+        --------------
+        - ``scorers_stage_google``  — re-derived from enriched games
+        - ``season_scorers``        — per-player season try/con/pen/dg totals
+        - ``players``               — career aggregates including scoring
+        - ``player_profiles_canonical`` — full profile card payload per player
+
+        Tables NOT rebuilt
+        ------------------
+        ``player_appearances``, ``lineouts``, ``set_piece``, ``squad_stats_*``,
+        and ``squad_continuity_enriched`` are not affected by scorer data, so
+        they are left intact.
         """
         scorers_2526_raw = getattr(self, "_last_build_scorers_2526_raw", pd.DataFrame())
 
@@ -1442,19 +1634,37 @@ class BackendDatabase:
         lineouts = self.con.execute("SELECT * FROM lineouts").df()
         set_piece = self.con.execute("SELECT * FROM set_piece").df()
 
-        season_scorers = self._build_season_scorers(scorers_2526_raw, pd.DataFrame(), appearances, games)
+        games_stage = games.rename(
+            columns={
+                "score_for": "pf",
+                "score_against": "pa",
+                "vice_captain_1": "vc1",
+                "vice_captain_2": "vc2",
+            }
+        ).copy()
+        games_stage["source"] = "google"
+        scorers_google_stage = self._build_scorers_stage_from_games(games_stage, "google")
+        scorers_google_stage = pd.concat(
+            [scorers_google_stage, self._build_scorers_stage_from_sheet(scorers_2526_raw, games_stage)],
+            ignore_index=True,
+        )
+        scorers_staged_all = scorers_google_stage.reindex(columns=SCORER_STAGE_COLUMNS)
+        season_scorers = self._build_season_scorers(scorers_staged_all, appearances)
         players = self._build_players(appearances, games, lineouts, season_scorers)
         player_profiles_base = self._build_player_profiles_base(players, appearances, games, season_scorers)
         player_profiles_canonical = self._build_player_profiles_canonical(player_profiles_base)
-        season_summary_enriched = self._build_season_summary(games, appearances, season_scorers, set_piece)
 
-        for table in ("season_scorers", "players", "player_profiles_canonical", "season_summary_enriched"):
+        for table in ("season_scorers", "players", "player_profiles_canonical"):
             self.con.execute(f"DELETE FROM {table}")
 
+        self.con.execute("DELETE FROM scorers_stage_google")
+        self.con.execute("DELETE FROM scorers_stage_pitchero")
+        self.con.execute("DELETE FROM scorers_stage_rfu")
+
+        self._insert("scorers_stage_google", scorers_google_stage)
         self._insert("season_scorers", season_scorers)
         self._insert("players", players)
         self._insert("player_profiles_canonical", player_profiles_canonical)
-        self._insert("season_summary_enriched", season_summary_enriched)
 
     def create_views(self) -> None:
         self.con.execute(
@@ -1694,9 +1904,6 @@ class BackendDatabase:
             "squad_stats_enriched": {
                 "playerCounts": "object",
             },
-            "squad_position_profiles_enriched": {
-                "playerCounts": "object",
-            },
             "squad_continuity_enriched": {
                 # Add any JSON columns here in future
             },
@@ -1704,11 +1911,6 @@ class BackendDatabase:
                 "scoringCareer": "object",
                 "scoringThisSeason": "object",
                 "otherPositions": "array",
-            },
-            "season_summary_enriched": {
-                "topPointScorerPlayers": "array",
-                "topTryScorerPlayers": "array",
-                "topAppearancePlayers": "array",
             },
         }
         
@@ -1719,22 +1921,23 @@ class BackendDatabase:
             "games_stage_google",
             "games_stage_pitchero",
             "games_stage_rfu",
+            "int_game_candidates",
+            "int_games_resolved",
             "player_appearances_stage_google",
             "player_appearances_stage_pitchero",
             "player_appearances_stage_rfu",
+            "scorers_stage_google",
+            "scorers_stage_pitchero",
+            "scorers_stage_rfu",
             "games",
             "games_rfu",
             "player_appearances",
             "player_appearances_rfu",
             "lineouts",
             "set_piece",
-            "league_history",
-            "league_table_standings",
             "season_scorers",
             "players",
-            "season_summary_enriched",
             "squad_stats_enriched",
-            "squad_position_profiles_enriched",
             "squad_continuity_enriched",
             "squad_stats_with_thresholds_enriched",
             "player_profiles_canonical",
@@ -1811,6 +2014,197 @@ class BackendDatabase:
         if df.empty:
             return
         self.con.execute(f"INSERT INTO {table_name} SELECT * FROM df")
+
+    def _build_int_game_candidates(
+        self,
+        games_google_stage: pd.DataFrame,
+        games_pitchero_stage: pd.DataFrame,
+        games_rfu_stage: pd.DataFrame,
+    ) -> pd.DataFrame:
+        columns = [
+            "candidate_id",
+            "source_system",
+            "source_record_id",
+            "match_date",
+            "season",
+            "squad",
+            "competition",
+            "game_type",
+            "opposition",
+            "opposition_club",
+            "opposition_squad",
+            "home_away",
+            "pf",
+            "pa",
+            "result",
+            "captain",
+            "motm",
+            "vc1",
+            "vc2",
+            "tries_scorers",
+            "conversions_scorers",
+            "penalties_scorers",
+            "drop_goals_scorers",
+            "pitchero_match_url",
+            "match_group_key",
+            "source_rank",
+            "confidence_score",
+            "has_score_conflict",
+            "has_result_conflict",
+            "has_opposition_conflict",
+        ]
+
+        staged = pd.concat(
+            [games_google_stage, games_pitchero_stage, games_rfu_stage],
+            ignore_index=True,
+        )
+        if staged.empty:
+            return pd.DataFrame(columns=columns)
+
+        df = staged.copy()
+        df["source_system"] = df.get("source", "unknown").astype(str)
+        df["source_record_id"] = df.get("game_id", pd.Series(index=df.index, dtype="object"))
+        df["match_date"] = pd.to_datetime(df.get("date", pd.NaT), errors="coerce").dt.date
+
+        for col in [
+            "season",
+            "squad",
+            "competition",
+            "game_type",
+            "opposition",
+            "opposition_club",
+            "opposition_squad",
+            "home_away",
+            "result",
+            "captain",
+            "motm",
+            "vc1",
+            "vc2",
+            "tries_scorers",
+            "conversions_scorers",
+            "penalties_scorers",
+            "drop_goals_scorers",
+            "pitchero_match_url",
+            "pf",
+            "pa",
+        ]:
+            if col not in df.columns:
+                df[col] = None
+
+        df["opposition_club"] = df["opposition_club"].fillna(df["opposition"]).astype(str).str.strip()
+        df.loc[df["opposition_club"].str.lower().eq("nan"), "opposition_club"] = ""
+
+        df["match_group_key"] = df.apply(
+            lambda row: _canonical_game_id(
+                row.get("match_date"),
+                row.get("squad"),
+                row.get("opposition_club") or row.get("opposition"),
+            ),
+            axis=1,
+        )
+        df["source_rank"] = df["source_system"].map(SOURCE_PRECEDENCE).fillna(99).astype(int)
+        df["confidence_score"] = (
+            1.0 - (df["source_rank"].clip(lower=0, upper=10) * 0.1)
+        ).clip(lower=0.1)
+        df["candidate_id"] = pd.RangeIndex(start=1, stop=len(df) + 1, step=1, dtype="int64")
+
+        # Conflict flags: compare each candidate against the highest-priority sibling
+        # within the same match_group_key.
+        best = (
+            df.sort_values("source_rank")
+            .groupby("match_group_key", sort=False)
+            .first()
+            [["pf", "pa", "result", "opposition_club"]]
+            .rename(columns=lambda c: f"_best_{c}")
+        )
+        df = df.join(best, on="match_group_key")
+
+        df["pf"] = pd.to_numeric(df["pf"], errors="coerce")
+        df["pa"] = pd.to_numeric(df["pa"], errors="coerce")
+
+        df["has_score_conflict"] = (
+            (df["pf"] != df["_best_pf"]) | (df["pa"] != df["_best_pa"])
+        ) & (df["pf"].notna() & df["pa"].notna())
+        df["has_result_conflict"] = (
+            df["result"].fillna("") != df["_best_result"].fillna("")
+        )
+        df["has_opposition_conflict"] = (
+            df["opposition_club"].str.lower().fillna("")
+            != df["_best_opposition_club"].str.lower().fillna("")
+        )
+
+        return df[columns]
+
+    def _build_int_games_resolved(self, candidates: pd.DataFrame) -> pd.DataFrame:
+        """Select one best candidate per match_group_key and annotate with conflict summary.
+
+        The winning row is the one with the lowest source_rank (highest source priority).
+        Where multiple candidates share the same lowest rank (shouldn't happen normally),
+        the first one encountered is kept. Conflict flags are aggregated across all
+        candidates in the group so the resolved row knows if any source disagreed.
+        """
+        columns = [
+            "resolved_id",
+            "match_group_key",
+            "winning_candidate_id",
+            "source_system",
+            "match_date",
+            "season",
+            "squad",
+            "competition",
+            "game_type",
+            "opposition",
+            "opposition_club",
+            "opposition_squad",
+            "home_away",
+            "pf",
+            "pa",
+            "result",
+            "captain",
+            "motm",
+            "vc1",
+            "vc2",
+            "tries_scorers",
+            "conversions_scorers",
+            "penalties_scorers",
+            "drop_goals_scorers",
+            "pitchero_match_url",
+            "conflict_count",
+            "has_any_score_conflict",
+            "has_any_result_conflict",
+            "has_any_opposition_conflict",
+            "source_count",
+        ]
+
+        if candidates.empty:
+            return pd.DataFrame(columns=columns)
+
+        # Aggregate conflict summary per group.
+        group_summary = candidates.groupby("match_group_key", sort=False).agg(
+            source_count=("source_system", "count"),
+            has_any_score_conflict=("has_score_conflict", "any"),
+            has_any_result_conflict=("has_result_conflict", "any"),
+            has_any_opposition_conflict=("has_opposition_conflict", "any"),
+        )
+        group_summary["conflict_count"] = (
+            group_summary["has_any_score_conflict"].astype(int)
+            + group_summary["has_any_result_conflict"].astype(int)
+            + group_summary["has_any_opposition_conflict"].astype(int)
+        )
+
+        # Pick best (lowest source_rank) candidate per group.
+        best = (
+            candidates.sort_values(["match_group_key", "source_rank"])
+            .groupby("match_group_key", sort=False)
+            .first()
+            .reset_index()
+        )
+        best = best.rename(columns={"candidate_id": "winning_candidate_id"})
+        best = best.join(group_summary, on="match_group_key")
+
+        best["resolved_id"] = pd.RangeIndex(start=1, stop=len(best) + 1, step=1, dtype="int64")
+
+        return best[columns]
 
     def _build_ref_pitchero_player_name_overrides(self) -> pd.DataFrame:
         rows = [
@@ -1957,6 +2351,8 @@ class BackendDatabase:
             "competition",
             "game_type",
             "opposition",
+            "opposition_club",
+            "opposition_squad",
             "home_away",
             "pf",
             "pa",
@@ -1977,6 +2373,20 @@ class BackendDatabase:
 
         df = historic_games_raw.copy().reindex(columns=columns)
         df["date"] = _safe_date(df["date"])
+        df["opposition"] = df["opposition"].map(_canonical_pitchero_opposition_name)
+        df["opposition_club"] = df["opposition_club"].fillna(df["opposition"])
+        df["opposition_club"] = df["opposition_club"].map(_canonical_pitchero_opposition_name).map(_opposition_club_name)
+        inferred_opp_squad = df["opposition"].map(lambda value: _team_number_to_label(_split_opposition_club_team(value)[1]))
+        df["opposition_squad"] = df["opposition_squad"].fillna(inferred_opp_squad)
+        df["game_id"] = df.apply(
+            lambda row: _canonicalize_game_id(
+                row.get("game_id"),
+                match_date=row.get("date"),
+                squad=row.get("squad"),
+                opposition=row.get("opposition_club") or row.get("opposition"),
+            ),
+            axis=1,
+        )
         # Preserve raw score values to detect non-numeric values (e.g., "W-L") before conversion
         df["_raw_pf"] = df["pf"].astype(str)
         df["_raw_pa"] = df["pa"].astype(str)
@@ -2047,6 +2457,7 @@ class BackendDatabase:
             return pd.DataFrame(columns=columns)
 
         df = historic_appearances_raw.copy().reindex(columns=columns)
+        df["game_id"] = df["game_id"].map(_canonicalize_game_id)
         df["shirt_number"] = pd.to_numeric(df["shirt_number"], errors="coerce").astype("Int64")
         for flag_col in ["is_starter", "is_captain", "is_vc"]:
             df[flag_col] = df[flag_col].fillna(False).astype(bool)
@@ -2277,21 +2688,27 @@ class BackendDatabase:
 
     def _extract_2526_scorers(self, extractor: DataExtractor) -> pd.DataFrame:
         spreadsheet = extractor.client.open_by_url(extractor.sheet_url)
-        worksheet = spreadsheet.worksheet("25/26 Scorers")
+        try:
+            worksheet = spreadsheet.worksheet("Scorers")
+            start_index = 1  # firstRow=2 in metadata
+        except Exception:
+            # Backward compatibility with older workbooks.
+            worksheet = spreadsheet.worksheet("25/26 Scorers")
+            start_index = 1
         values = worksheet.get_all_values()
         if not values:
             return pd.DataFrame(columns=["Squad", "Date", "Opposition", "Score", "Count", "Player", "Points"])
 
         header = [str(cell).strip() for cell in values[0]]
         normalised_to_idx = {
-            _normalise_key(column): idx
+            normalize_lookup_key(column): idx
             for idx, column in enumerate(header)
             if str(column).strip()
         }
 
         def _col_idx(*candidates: str) -> int | None:
             for candidate in candidates:
-                idx = normalised_to_idx.get(_normalise_key(candidate))
+                idx = normalised_to_idx.get(normalize_lookup_key(candidate))
                 if idx is not None:
                     return idx
             return None
@@ -2313,7 +2730,7 @@ class BackendDatabase:
             return ""
 
         rows: list[dict[str, Any]] = []
-        for row in values[1:]:
+        for row in values[start_index:]:
             if not row:
                 continue
 
@@ -2348,6 +2765,10 @@ class BackendDatabase:
 
     def _attach_match_scorers(self, games: pd.DataFrame, scorers_2526_raw: pd.DataFrame) -> pd.DataFrame:
         games_with_scorers = games.copy()
+        # Preserve any audit/intermediate metadata columns
+        preserved_cols = {col: games_with_scorers[col] for col in games_with_scorers.columns 
+                         if col.startswith("_")}
+        
         base_column_order = [
             "game_id",
             "squad",
@@ -2356,6 +2777,8 @@ class BackendDatabase:
             "competition",
             "game_type",
             "opposition",
+            "opposition_club",
+            "opposition_squad",
             "home_away",
             "score_for",
             "score_against",
@@ -2377,7 +2800,11 @@ class BackendDatabase:
             if col not in games_with_scorers.columns:
                 games_with_scorers[col] = None
 
-        final_column_order = base_column_order + scorer_columns + ["pitchero_match_url"]
+        final_column_order = base_column_order + scorer_columns + ["pitchero_match_url"] + [
+            "_resolved_source",
+            "_resolved_winning_candidate_id",
+            "_resolved_conflict_count",
+        ]
 
         def _order_game_columns(df: pd.DataFrame) -> pd.DataFrame:
             for col in final_column_order:
@@ -2405,6 +2832,7 @@ class BackendDatabase:
 
         scorers["date"] = _safe_date(scorers["date"])
         scorers["opposition"] = scorers["opposition"].astype(str).str.strip()
+        scorers["opposition_club"] = scorers["opposition"].map(_opposition_club_name)
         scorers["score_type"] = scorers["score_type"].astype(str).str.strip().str.upper()
         scorers["player"] = scorers["player"].astype(str).str.strip()
         scorers["count"] = pd.to_numeric(scorers.get("count", 1), errors="coerce").fillna(1).astype(int)
@@ -2428,13 +2856,13 @@ class BackendDatabase:
         if scorers.empty:
             return _order_game_columns(games_with_scorers)
 
-        keyed_games = games_with_scorers[["game_id", "squad", "date", "opposition"]].copy()
+        keyed_games = games_with_scorers[["game_id", "squad", "date", "opposition_club"]].copy()
         keyed_games["date"] = _safe_date(keyed_games["date"])
-        keyed_games["opposition"] = keyed_games["opposition"].astype(str).str.strip()
+        keyed_games["opposition_club"] = keyed_games["opposition_club"].astype(str).str.strip()
 
         scored = scorers.merge(
             keyed_games,
-            on=["squad", "date", "opposition"],
+            on=["squad", "date", "opposition_club"],
             how="left",
         )
         scored = scored[scored["game_id"].notna()]
@@ -2473,62 +2901,74 @@ class BackendDatabase:
                 games_with_scorers = games_with_scorers.drop(columns=[sheet_col])
             elif col not in games_with_scorers.columns:
                 games_with_scorers[col] = None
-        return _order_game_columns(games_with_scorers)
+        
+        # Restore any preserved audit/intermediate columns at end
+        result = _order_game_columns(games_with_scorers)
+        for col, values in preserved_cols.items():
+            if col not in result.columns:
+                result[col] = values
+        return result
 
     def _extract_lineouts(self, extractor: DataExtractor) -> pd.DataFrame:
         spreadsheet = extractor.client.open_by_url(extractor.sheet_url)
         rows: list[dict[str, Any]] = []
-        for squad, sheet_name in [("1st", "1st XV Lineouts"), ("2nd", "2nd XV Lineouts")]:
-            worksheet = spreadsheet.worksheet(sheet_name)
-            values = worksheet.get_all_values()
-            if len(values) <= 3:
+        worksheet = spreadsheet.worksheet("Lineouts")
+        values = worksheet.get_all_values()
+        if len(values) <= 3:
+            return pd.DataFrame(rows)
+
+        for idx, row in enumerate(values[3:], start=1):
+            if len(row) < 18:
                 continue
 
-            for idx, row in enumerate(values[3:], start=1):
-                if len(row) < 18:
-                    continue
-                opposition = str(row[4]).strip()
-                if not opposition:
-                    continue
-                call_raw = str(row[6]).strip()
-                date_value = pd.to_datetime(row[3], errors="coerce", format="%Y-%m-%d")
-                if pd.isna(date_value):
-                    date_value = pd.to_datetime(row[3], errors="coerce", dayfirst=True)
-                if pd.isna(date_value):
-                    continue
+            squad_raw = str(row[2]).strip().lower() if len(row) > 2 else ""
+            squad = "1st" if squad_raw.startswith("1") else "2nd" if squad_raw.startswith("2") else ""
+            if not squad:
+                continue
 
-                helper_row = {
-                    "Front": str(row[8]).strip(),
-                    "Middle": str(row[9]).strip(),
-                    "Back": str(row[10]).strip(),
+            opposition = str(row[4]).strip()
+            if not opposition:
+                continue
+
+            call_raw = str(row[6]).strip()
+            date_value = pd.to_datetime(row[3], errors="coerce", format="%Y-%m-%d")
+            if pd.isna(date_value):
+                date_value = pd.to_datetime(row[3], errors="coerce", dayfirst=True)
+            if pd.isna(date_value):
+                continue
+
+            helper_row = {
+                "Front": str(row[8]).strip().lower(),
+                "Middle": str(row[9]).strip().lower(),
+                "Back": str(row[10]).strip().lower(),
+            }
+            rows.append(
+                {
+                    "lineout_id": f"{squad}_{date_value.date()}_{idx}",
+                    "squad": squad,
+                    "date": date_value.date(),
+                    "season": None,
+                    "half": str(row[1]).strip(),
+                    "opposition": opposition,
+                    "numbers": str(row[5]).strip(),
+                    "call": call_raw,
+                    "call_type": extractor._classify_call(call_raw),
+                    "dummy": str(row[7]).strip().lower() == "x",
+                    "area": extractor._get_area(helper_row),
+                    "drive": str(row[11]).strip().lower() == "x",
+                    "crusaders": str(row[12]).strip().lower() == "x",
+                    "transfer": str(row[13]).strip().lower() == "x",
+                    "flyby": str(row[14]).strip().lower() in {"1", "2", "x"},
+                    "hooker": str(row[15]).strip(),
+                    "jumper": str(row[16]).strip(),
+                    "won": str(row[17]).strip().upper() == "Y",
+                    "notes": str(row[18]).strip() if len(row) > 18 else "",
                 }
-                rows.append(
-                    {
-                        "lineout_id": f"{squad}_{date_value.date()}_{idx}",
-                        "squad": squad,
-                        "date": date_value.date(),
-                        "season": str(row[2]).strip(),
-                        "half": str(row[1]).strip(),
-                        "opposition": opposition,
-                        "numbers": str(row[5]).strip(),
-                        "call": call_raw,
-                        "call_type": extractor._classify_call(call_raw),
-                        "dummy": str(row[7]).strip().lower() == "x",
-                        "area": extractor._get_area(helper_row),
-                        "drive": str(row[11]).strip().lower() == "x",
-                        "crusaders": str(row[12]).strip().lower() == "x",
-                        "transfer": str(row[13]).strip().lower() == "x",
-                        "flyby": str(row[14]).strip() in {"1", "2", "x", "X"},
-                        "hooker": str(row[15]).strip(),
-                        "jumper": str(row[16]).strip(),
-                        "won": str(row[17]).strip().upper() == "Y",
-                        "notes": str(row[18]).strip() if len(row) > 18 else "",
-                    }
-                )
+            )
 
         return pd.DataFrame(rows)
 
-    def _build_games(self, games_raw: pd.DataFrame, appearances_raw: pd.DataFrame | None = None) -> pd.DataFrame:
+    def _build_games(self, games_raw: pd.DataFrame, appearances_raw: pd.DataFrame | None = None, int_games_resolved: pd.DataFrame | None = None) -> pd.DataFrame:
         df = games_raw.copy()
         # Reset per-build alias map used to remap appearances from duplicate raw game_ids
         # to the canonical game_id retained after deduplication.
@@ -2548,6 +2988,23 @@ class BackendDatabase:
         # Apply opposition canonicalization to all rows so Google Sheets entries
         # (e.g. "Heathfield II") are normalised the same way as Pitchero entries.
         df["opposition"] = df["opposition"].map(_canonical_pitchero_opposition_name)
+        if "opposition_club" not in df.columns:
+            df["opposition_club"] = df["opposition"].map(_opposition_club_name)
+        else:
+            df["opposition_club"] = df["opposition_club"].fillna(df["opposition"])
+            df["opposition_club"] = df["opposition_club"].map(_canonical_pitchero_opposition_name).map(_opposition_club_name)
+
+        if "opposition_squad" not in df.columns:
+            df["opposition_squad"] = df["opposition"].map(lambda value: _team_number_to_label(_split_opposition_club_team(value)[1]))
+        else:
+            df["opposition_squad"] = df["opposition_squad"].astype("string")
+            inferred_opposition_squad = df["opposition"].map(lambda value: _team_number_to_label(_split_opposition_club_team(value)[1]))
+            df["opposition_squad"] = df["opposition_squad"].fillna(inferred_opposition_squad)
+
+        df["opposition_club"] = df["opposition_club"].astype(str).str.strip()
+        df.loc[df["opposition_club"].str.lower().eq("nan"), "opposition_club"] = ""
+        df["opposition_squad"] = df["opposition_squad"].astype(str).str.strip()
+        df.loc[df["opposition_squad"].isin(["", "nan", "None", "<NA>"]), "opposition_squad"] = pd.NA
         df["pf"] = pd.to_numeric(df["pf"], errors="coerce").astype("Int64")
         df["pa"] = pd.to_numeric(df["pa"], errors="coerce").astype("Int64")
         df["game_id"] = df["game_id"].astype(str)
@@ -2559,7 +3016,7 @@ class BackendDatabase:
         if not df.empty:
             _old_ids = df["game_id"].astype(str)
             _new_ids = df.apply(
-                lambda row: _canonical_game_id(row.get("date"), row.get("squad"), row.get("opposition")),
+                lambda row: _canonical_game_id(row.get("date"), row.get("squad"), row.get("opposition_club") or row.get("opposition")),
                 axis=1,
             )
             _opposition_alias_map = {
@@ -2568,6 +3025,34 @@ class BackendDatabase:
                 if old != new
             }
             df["game_id"] = _new_ids
+
+        # Merge metadata from int_games_resolved (intermediate game candidates resolution layer)
+        # to enrich each row with information about what the intermediate layer chose as the
+        # winning source for this match_group_key.
+        if int_games_resolved is not None and not int_games_resolved.empty:
+            # Compute match_group_key for each row to join against resolved.
+            df["_match_group_key_local"] = df.apply(
+                lambda row: _canonical_game_id(
+                    row.get("date"),
+                    row.get("squad"),
+                    row.get("opposition_club") or row.get("opposition"),
+                ),
+                axis=1,
+            )
+            resolved_meta = int_games_resolved[
+                ["match_group_key", "source_system", "winning_candidate_id", "conflict_count"]
+            ].rename(columns={
+                "match_group_key": "_match_group_key_local",
+                "source_system": "_resolved_source",
+                "winning_candidate_id": "_resolved_winning_candidate_id",
+                "conflict_count": "_resolved_conflict_count",
+            })
+            df = df.merge(resolved_meta, on="_match_group_key_local", how="left")
+            df = df.drop(columns=["_match_group_key_local"])
+        else:
+            df["_resolved_source"] = None
+            df["_resolved_winning_candidate_id"] = None
+            df["_resolved_conflict_count"] = 0
 
         if appearances_raw is not None and not appearances_raw.empty and "game_id" in appearances_raw.columns:
             appearance_counts: dict[str, int] = appearances_raw["game_id"].astype(str).value_counts().to_dict()
@@ -2601,7 +3086,8 @@ class BackendDatabase:
             axis=1,
         ).astype(int)
         df["has_result"] = df["result"].notna().astype(int)
-        df["_source_priority"] = (df["_source"].astype(str) == "google").astype(int)
+        df["_source_rank"] = df["_source"].astype(str).map(SOURCE_PRECEDENCE).fillna(len(SOURCE_PRECEDENCE)).astype(int)
+        df["_source_priority"] = (len(SOURCE_PRECEDENCE) - df["_source_rank"]).astype(int)
 
         # Dedup by (squad, date, normalised opposition). This collapses Google/Pitchero naming
         # variants for the same opponent (e.g., "Croydon" vs "Croydon RFC") but preserves true
@@ -2609,22 +3095,30 @@ class BackendDatabase:
         # 1. Score each row by data quality (has_score, has_url, has_scorers, appearances)
         # 2. For each (squad, date, opposition_key), keep the highest-scoring row
         # 3. If tie, prefer longer opposition name (more likely canonical)
-        df = df.dropna(subset=["squad", "date", "opposition"])
+        df = df.dropna(subset=["squad", "date"])
+        df = df[df["opposition_club"].astype(str).str.strip().ne("")]
 
         # Exclude Pitchero-source rows with null scores (walkovers, postponements, scrape
         # failures). Google-source rows with null scores are future fixtures — preserve them.
         df = df[~((df["_source"] == "pitchero") & df["pf"].isna() & df["pa"].isna())]
 
-        # Create a quality score for each row.
-        # Appearance linkage must dominate here so we don't orphan player appearances by
-        # selecting an alias row that has richer metadata but a different game_id.
-        # Google rows must remain canonical when present; Pitchero should only add supplements.
+        # Quality score weights for game-row deduplication.
+        # Source priority dominates (×10,000) so the highest-priority source always wins
+        # unless the same source appears in multiple rows (rare). Appearance linkage is
+        # the next-strongest signal (×100) so we never orphan player appearances by
+        # selecting a metadata-rich alias row with a different game_id. The remaining
+        # weights (url, scorers, score) are minor tiebreakers within the same source.
+        _W_SOURCE   = 10_000  # source_priority (inverted rank: google=3, pitchero=2, rfu=1)
+        _W_APPS     = 100     # number of linked appearance rows
+        _W_URL      = 4       # has a Pitchero match page URL
+        _W_SCORERS  = 3       # has at least one scorer payload column populated
+        _W_SCORE    = 2       # has both pf and pa recorded
         df["_quality_score"] = (
-            df["_source_priority"].astype(int) * 10000
-            + df["appearance_count"].astype(int) * 100
-            + df["has_pitchero_url"].astype(int) * 4
-            + df["has_pitchero_scorers"].astype(int) * 3
-            + df["has_score"].astype(int) * 2
+            df["_source_priority"].astype(int) * _W_SOURCE
+            + df["appearance_count"].astype(int) * _W_APPS
+            + df["has_pitchero_url"].astype(int) * _W_URL
+            + df["has_pitchero_scorers"].astype(int) * _W_SCORERS
+            + df["has_score"].astype(int) * _W_SCORE
         )
         
         # Sort by (squad, date, match_key, quality_score DESC, opposition_length DESC, game_id)
@@ -2638,14 +3132,12 @@ class BackendDatabase:
             ),
             axis=1,
         )
-        df["_opp_dedupe_key"] = df["opposition"].map(
-            lambda value: _normalise_key(str(_canonical_pitchero_opposition_name(value)))
-        )
+        df["_opp_dedupe_key"] = df["opposition_club"].map(lambda value: normalize_lookup_key(str(value)))
         df["_match_dedupe_key"] = df.apply(
             lambda row: row["_score_match_key"] if row["_score_match_key"] else row["_opp_dedupe_key"],
             axis=1,
         )
-        df["_opposition_length"] = df["opposition"].str.len()
+        df["_opposition_length"] = df["opposition_club"].str.len()
         sorted_df = df.sort_values(
                 [
                     "squad",
@@ -2696,11 +3188,16 @@ class BackendDatabase:
                 ascending=[True, False, False, False],
             )
             .drop_duplicates(subset=["game_id"], keep="first")
-            .drop_duplicates(subset=["squad", "date", "opposition"])
-            .drop(columns=["_quality_score", "_source_priority", "_opposition_length", "_opp_dedupe_key", "_score_match_key", "_match_dedupe_key"])
+            .drop_duplicates(subset=["squad", "date", "opposition_club"])
+            .drop(columns=["_quality_score", "_source_rank", "_source_priority", "_opposition_length", "_opp_dedupe_key", "_score_match_key", "_match_dedupe_key"])
         )
+        
+        # Preserve resolved metadata columns through to final output
+        for col in ["_resolved_source", "_resolved_winning_candidate_id", "_resolved_conflict_count"]:
+            if col not in df.columns:
+                df[col] = None
 
-        # Remove any surviving Pitchero-source rows for (squad, date) pairs already represented
+        # Rule: drop surviving Pitchero rows for any (squad, date) pair already represented
         # by a Google canonical game. This handles score discrepancies between sources
         # (e.g., Hove 7-47 from Google vs 7-57 from Pitchero) that prevent score-based merging.
         _google_squads_dates = set(
@@ -2747,12 +3244,22 @@ class BackendDatabase:
             pitchero_lookup["pf"] = pd.to_numeric(pitchero_lookup["pf"], errors="coerce")
             pitchero_lookup["pa"] = pd.to_numeric(pitchero_lookup["pa"], errors="coerce")
             _pitchero_opp_parts = pitchero_lookup["opposition"].map(_split_opposition_club_team)
-            pitchero_lookup["opp_club_key"] = _pitchero_opp_parts.map(lambda parts: _normalise_key(parts[0]))
+            pitchero_lookup["opp_club_key"] = _pitchero_opp_parts.map(lambda parts: normalize_lookup_key(parts[0]))
             pitchero_lookup["opp_team_number"] = _pitchero_opp_parts.map(lambda parts: parts[1])
 
             def _score_match_quality(row: pd.Series, cand: pd.Series) -> float:
-                row_club, row_team = _split_opposition_club_team(row.get("opposition"))
-                row_key = _normalise_key(row_club)
+                row_club_value = row.get("opposition_club")
+                row_club = "" if pd.isna(row_club_value) else str(row_club_value).strip()
+                row_team_value = row.get("opposition_squad")
+                row_team_label = "" if pd.isna(row_team_value) else str(row_team_value).strip().lower()
+                row_team = None
+                if row_team_label.startswith("1"):
+                    row_team = 1
+                elif row_team_label.startswith("2"):
+                    row_team = 2
+                elif row_team_label.startswith("3"):
+                    row_team = 3
+                row_key = normalize_lookup_key(row_club)
                 cand_key = str(cand.get("opp_club_key") or "")
                 quality = 0.0
                 if row_key and cand_key:
@@ -2867,6 +3374,8 @@ class BackendDatabase:
                 "competition",
                 "game_type",
                 "opposition",
+                "opposition_club",
+                "opposition_squad",
                 "home_away",
                 "pf",
                 "pa",
@@ -2881,6 +3390,7 @@ class BackendDatabase:
                 "drop_goals_scorers",
                 "pitchero_match_url",
             ]
+            + [c for c in ["_resolved_source", "_resolved_winning_candidate_id", "_resolved_conflict_count"] if c in df.columns]
         ].rename(
             columns={
                 "pf": "score_for",
@@ -2969,19 +3479,11 @@ class BackendDatabase:
         if games_rfu.empty:
             return pd.DataFrame(columns=columns)
 
-        def _normalise_team_name(value: Any) -> str:
-            text = str(value or "").lower()
-            text = re.sub(r"[^a-z0-9]+", " ", text)
-            return re.sub(r"\s+", " ", text).strip()
-
         def _is_egrfc_team_name(value: Any) -> bool:
-            normalized = _normalise_team_name(value)
-            if not normalized:
-                return False
-            return any(alias in normalized for alias in ("east grinstead", "e grinstead", "eg men", "egrfc"))
+            return is_egrfc_team_name(value)
 
         def _squad_from_team_name(value: Any) -> str | None:
-            normalized = _normalise_team_name(value)
+            normalized = normalize_team_name(value)
             if not _is_egrfc_team_name(normalized):
                 return None
             if re.search(r"\biii\b|\b3rd\b|\b3\b", normalized):
@@ -3046,6 +3548,7 @@ class BackendDatabase:
             match_date = match_date.date()
 
             canonical_opposition = _canonical_pitchero_opposition_name(opposition)
+            opposition_club, opposition_team_num = _split_opposition_club_team(canonical_opposition)
             game_id = _canonical_game_id(match_date, squad, canonical_opposition)
             competition = str(getattr(row, "league", "") or "").strip() or "League"
 
@@ -3058,6 +3561,8 @@ class BackendDatabase:
                     "competition": competition,
                     "game_type": _infer_game_type(competition),
                     "opposition": canonical_opposition,
+                    "opposition_club": opposition_club,
+                    "opposition_squad": _team_number_to_label(opposition_team_num),
                     "home_away": home_away,
                     "pf": pf,
                     "pa": pa,
@@ -3183,8 +3688,7 @@ class BackendDatabase:
         if "_source" not in df.columns:
             df["_source"] = "unknown"
         df["_row_order"] = range(len(df))
-        source_priority = {"google": 0, "pitchero": 1, "rfu": 2}
-        df["_source_rank"] = df["_source"].astype(str).map(source_priority).fillna(len(source_priority)).astype(int)
+        df["_source_rank"] = df["_source"].astype(str).map(SOURCE_PRECEDENCE).fillna(len(SOURCE_PRECEDENCE)).astype(int)
 
         # Remap appearances from alias game_ids to canonical retained game_ids.
         alias_map = getattr(self, "_game_id_alias_map", {})
@@ -3399,12 +3903,30 @@ class BackendDatabase:
         game_lookup = games[["game_id", "squad", "date", "season", "opposition"]].copy()
         game_lookup["opposition"] = game_lookup["opposition"].astype(str).str.strip()
         df["opposition"] = df["opposition"].astype(str).str.strip()
-        df = df.merge(
+
+        # New consolidated Lineouts sheet no longer stores season, so join on
+        # squad/date/opposition and recover season from the matched game.
+        if "season" not in df.columns:
+            df["season"] = None
+
+        has_season = df["season"].astype(str).str.strip().replace("", pd.NA).notna()
+
+        with_season = df[has_season].merge(
             game_lookup,
             on=["squad", "date", "opposition", "season"],
             how="left",
             suffixes=("", "_game"),
         )
+        without_season = df[~has_season].merge(
+            game_lookup,
+            on=["squad", "date", "opposition"],
+            how="left",
+            suffixes=("", "_game"),
+        )
+        without_season["season"] = without_season["season_game"]
+        without_season = without_season.drop(columns=["season_game"], errors="ignore")
+        df = pd.concat([with_season, without_season], ignore_index=True)
+
         df = df[df["squad"].notna() & df["date"].notna()].copy()
         df["dummy"] = df["dummy"].fillna(False).astype(bool)
         df["won"] = df["won"].fillna(False).astype(bool)
@@ -3513,21 +4035,211 @@ class BackendDatabase:
             ]
         ].drop_duplicates(subset=["squad", "date", "team"])
 
-    def _build_season_scorers(
-        self,
-        scorers_2526_raw: pd.DataFrame,
-        pitchero_raw: pd.DataFrame,
+    def _build_scorers_stage_from_games(self, games_stage: pd.DataFrame, source_label: str) -> pd.DataFrame:
+        if games_stage.empty:
+            return pd.DataFrame(columns=SCORER_STAGE_COLUMNS)
 
-# ---- insertion point (method placed above _build_season_scorers) ----
-        appearances: pd.DataFrame,
-        games: pd.DataFrame,
-    ) -> pd.DataFrame:
-        del pitchero_raw
+        scorer_columns = {
+            "tries_scorers": ("tries", 5),
+            "conversions_scorers": ("conversions", 2),
+            "penalties_scorers": ("penalties", 3),
+            "drop_goals_scorers": ("drop_goals", 3),
+        }
 
+        rows: list[dict[str, Any]] = []
+        for game in games_stage.itertuples(index=False):
+            squad = str(getattr(game, "squad", "") or "").strip()
+            if not squad:
+                continue
+
+            season = str(getattr(game, "season", "") or "").strip()
+            game_type = str(getattr(game, "game_type", "") or "Unknown").strip() or "Unknown"
+            game_id = getattr(game, "game_id", None)
+            game_date = pd.to_datetime(getattr(game, "date", None), errors="coerce")
+            game_date = game_date.date() if pd.notna(game_date) else pd.NaT
+
+            per_player: dict[str, dict[str, int]] = {}
+            for column, (metric, multiplier) in scorer_columns.items():
+                payload = _parse_scorer_payload(getattr(game, column, None))
+                if not payload:
+                    continue
+                for raw_player, count in payload.items():
+                    bucket = per_player.setdefault(
+                        str(raw_player).strip(),
+                        {
+                            "tries": 0,
+                            "conversions": 0,
+                            "penalties": 0,
+                            "drop_goals": 0,
+                            "points": 0,
+                        },
+                    )
+                    bucket[metric] += int(count)
+                    bucket["points"] += int(count) * multiplier
+
+            for player, metrics in per_player.items():
+                if not player:
+                    continue
+                rows.append(
+                    {
+                        "game_id": game_id,
+                        "squad": squad,
+                        "date": game_date,
+                        "season": season,
+                        "game_type": game_type,
+                        "player": player,
+                        "tries": metrics["tries"],
+                        "conversions": metrics["conversions"],
+                        "penalties": metrics["penalties"],
+                        "drop_goals": metrics["drop_goals"],
+                        "points": metrics["points"],
+                        "source": source_label,
+                    }
+                )
+
+        if not rows:
+            return pd.DataFrame(columns=SCORER_STAGE_COLUMNS)
+
+        out = pd.DataFrame(rows)
+        out = out.groupby(
+            ["game_id", "squad", "date", "season", "game_type", "player", "source"],
+            as_index=False,
+            dropna=False,
+        ).agg(
+            tries=("tries", "sum"),
+            conversions=("conversions", "sum"),
+            penalties=("penalties", "sum"),
+            drop_goals=("drop_goals", "sum"),
+            points=("points", "sum"),
+        )
+        return out.reindex(columns=SCORER_STAGE_COLUMNS)
+
+    def _build_scorers_stage_from_sheet(self, scorers_2526_raw: pd.DataFrame, games_stage_google: pd.DataFrame) -> pd.DataFrame:
+        if scorers_2526_raw.empty:
+            return pd.DataFrame(columns=SCORER_STAGE_COLUMNS)
+
+        scorers = scorers_2526_raw.copy().rename(
+            columns={
+                "Squad": "squad",
+                "Date": "date",
+                "Opposition": "opposition",
+                "Score": "score_type",
+                "Scorer": "player",
+                "Player": "player",
+                "Count": "count",
+            }
+        )
+        required = {"squad", "score_type", "player"}
+        if not required.issubset(set(scorers.columns)):
+            return pd.DataFrame(columns=SCORER_STAGE_COLUMNS)
+
+        scorer_type_to_metric = {
+            "TRY": ("tries", 5),
+            "T": ("tries", 5),
+            "CON": ("conversions", 2),
+            "CONVERSION": ("conversions", 2),
+            "PK": ("penalties", 3),
+            "PEN": ("penalties", 3),
+            "PENALTY": ("penalties", 3),
+            "DG": ("drop_goals", 3),
+            "DROP GOAL": ("drop_goals", 3),
+        }
+
+        scorers["squad"] = scorers["squad"].astype(str).str.strip()
+        scorers["player"] = scorers["player"].astype(str).str.strip()
+        scorers["score_type"] = scorers["score_type"].astype(str).str.strip().str.upper()
+        scorers["count"] = pd.to_numeric(scorers.get("count", 1), errors="coerce").fillna(1).astype(int)
+        scorers["date"] = _safe_date(scorers.get("date", pd.Series(index=scorers.index, dtype="object")))
+        if "opposition" not in scorers.columns:
+            scorers["opposition"] = ""
+        scorers["opposition"] = scorers["opposition"].astype(str).str.strip().map(_canonical_pitchero_opposition_name)
+        scorers["opposition_club"] = scorers["opposition"].map(_opposition_club_name)
+        scorers = scorers[(scorers["player"] != "") & (scorers["count"] > 0)]
+        scorers["metric_info"] = scorers["score_type"].map(scorer_type_to_metric)
+        scorers = scorers[scorers["metric_info"].notna()].copy()
+        if scorers.empty:
+            return pd.DataFrame(columns=SCORER_STAGE_COLUMNS)
+
+        games_lookup = games_stage_google.copy()
+        if games_lookup.empty:
+            games_lookup = pd.DataFrame(columns=["game_id", "squad", "date", "season", "game_type", "opposition", "opposition_club"])
+        games_lookup["date"] = _safe_date(games_lookup.get("date", pd.Series(index=games_lookup.index, dtype="object")))
+        games_lookup["squad"] = games_lookup.get("squad", "").astype(str).str.strip()
+        games_lookup["opposition"] = games_lookup.get("opposition", "").astype(str).str.strip().map(_canonical_pitchero_opposition_name)
+        games_lookup["opposition_club"] = games_lookup.get("opposition_club", games_lookup["opposition"]).astype(str).str.strip()
+        games_lookup.loc[games_lookup["opposition_club"].eq(""), "opposition_club"] = games_lookup.loc[
+            games_lookup["opposition_club"].eq(""), "opposition"
+        ].map(_opposition_club_name)
+        games_lookup = games_lookup[["game_id", "squad", "date", "season", "game_type", "opposition_club"]].drop_duplicates(
+            subset=["squad", "date", "opposition_club"],
+            keep="first",
+        )
+
+        scorers = scorers.merge(games_lookup, on=["squad", "date", "opposition_club"], how="left")
+
+        rows: list[dict[str, Any]] = []
+        for scorer in scorers.itertuples(index=False):
+            metric, multiplier = scorer.metric_info
+            season = str(getattr(scorer, "season", "") or "2025/26").strip() or "2025/26"
+            game_type = str(getattr(scorer, "game_type", "") or "Unknown").strip() or "Unknown"
+            count = int(getattr(scorer, "count", 0) or 0)
+
+            rows.append(
+                {
+                    "game_id": getattr(scorer, "game_id", None),
+                    "squad": str(getattr(scorer, "squad", "") or "").strip(),
+                    "date": getattr(scorer, "date", pd.NaT),
+                    "season": season,
+                    "game_type": game_type,
+                    "player": str(getattr(scorer, "player", "") or "").strip(),
+                    "tries": count if metric == "tries" else 0,
+                    "conversions": count if metric == "conversions" else 0,
+                    "penalties": count if metric == "penalties" else 0,
+                    "drop_goals": count if metric == "drop_goals" else 0,
+                    "points": count * multiplier,
+                    "source": "google",
+                }
+            )
+
+        if not rows:
+            return pd.DataFrame(columns=SCORER_STAGE_COLUMNS)
+
+        out = pd.DataFrame(rows)
+        out = out.groupby(
+            ["game_id", "squad", "date", "season", "game_type", "player", "source"],
+            as_index=False,
+            dropna=False,
+        ).agg(
+            tries=("tries", "sum"),
+            conversions=("conversions", "sum"),
+            penalties=("penalties", "sum"),
+            drop_goals=("drop_goals", "sum"),
+            points=("points", "sum"),
+        )
+        return out.reindex(columns=SCORER_STAGE_COLUMNS)
+
+    def _build_season_scorers(self, scorers_stage_raw: pd.DataFrame, appearances: pd.DataFrame) -> pd.DataFrame:
         empty = pd.DataFrame(
             columns=["squad", "season", "player", "game_type", "tries", "conversions", "penalties", "drop_goals", "points", "source"]
         )
-        if games.empty:
+        if scorers_stage_raw.empty:
+            return empty
+
+        df = scorers_stage_raw.copy().reindex(columns=SCORER_STAGE_COLUMNS)
+        df["squad"] = df["squad"].astype(str).str.strip()
+        df["season"] = df["season"].astype(str).str.strip()
+        df.loc[df["season"].str.lower().eq("nan"), "season"] = ""
+        df["game_type"] = df["game_type"].astype(str).str.strip().replace("", "Unknown")
+        df.loc[df["game_type"].str.lower().eq("nan"), "game_type"] = "Unknown"
+        df["player"] = df["player"].astype(str).str.strip()
+        df["source"] = df["source"].astype(str).str.strip().str.lower()
+        df["date"] = _safe_date(df["date"])
+
+        for column in ["tries", "conversions", "penalties", "drop_goals", "points"]:
+            df[column] = pd.to_numeric(df[column], errors="coerce").fillna(0).astype(int)
+
+        df = df[(df["squad"] != "") & (df["player"] != "")]
+        if df.empty:
             return empty
 
         appearance_names = appearances[["player"]].dropna().copy()
@@ -3543,176 +4255,41 @@ class BackendDatabase:
         else:
             player_lookup = {}
 
-        scorer_columns = {
-            "tries_scorers": ("tries", 5),
-            "conversions_scorers": ("conversions", 2),
-            "penalties_scorers": ("penalties", 3),
-            "drop_goals_scorers": ("drop_goals", 3),
-        }
+        df["player"] = df.apply(
+            lambda row: player_lookup.get(
+                clean_name(_canonical_player_name_for_season(row["player"], row["season"])),
+                _canonical_player_name_for_season(row["player"], row["season"]),
+            ),
+            axis=1,
+        )
+        df["player_join"] = df["player"].map(clean_name)
 
-        rows: list[dict[str, Any]] = []
-        for game in games.itertuples(index=False):
-            squad = str(getattr(game, "squad", "") or "").strip()
-            season = str(getattr(game, "season", "") or "").strip()
-            game_type = str(getattr(game, "game_type", "") or "Unknown").strip() or "Unknown"
-
-            for column, (metric, multiplier) in scorer_columns.items():
-                payload = _parse_scorer_payload(getattr(game, column, None))
-                if not payload:
-                    continue
-
-                for raw_player, count in payload.items():
-                    canonical_name = _canonical_player_name_for_season(raw_player, season)
-                    player_join = clean_name(canonical_name)
-                    resolved_player = player_lookup.get(player_join, canonical_name)
-                    rows.append(
-                        {
-                            "squad": squad,
-                            "season": season,
-                            "player": resolved_player,
-                            "game_type": game_type,
-                            "tries": count if metric == "tries" else 0,
-                            "conversions": count if metric == "conversions" else 0,
-                            "penalties": count if metric == "penalties" else 0,
-                            "drop_goals": count if metric == "drop_goals" else 0,
-                            "points": count * multiplier,
-                            "source": "games",
-                        }
-                    )
-
-        if not scorers_2526_raw.empty:
-            scorers = scorers_2526_raw.copy().rename(
-                columns={
-                    "Squad": "squad",
-                    "Score": "score_type",
-                    "Scorer": "player",
-                    "Player": "player",
-                    "Count": "count",
-                }
+        df["source_rank"] = df["source"].map(SOURCE_PRECEDENCE).fillna(len(SOURCE_PRECEDENCE)).astype(int)
+        df["game_identity"] = df["game_id"].astype(str)
+        missing_game_id = df["game_id"].isna() | df["game_identity"].str.strip().eq("")
+        if missing_game_id.any():
+            df.loc[missing_game_id, "game_identity"] = df.loc[missing_game_id].apply(
+                lambda row: f"{row['squad']}|{row['date']}|{row['season']}|{row['game_type']}",
+                axis=1,
             )
-            required = {"squad", "score_type", "player"}
-            if required.issubset(set(scorers.columns)):
-                scorers["squad"] = scorers["squad"].astype(str).str.strip()
-                scorers["score_type"] = scorers["score_type"].astype(str).str.strip().str.upper()
-                scorers["player"] = scorers["player"].astype(str).str.strip()
-                scorers["count"] = pd.to_numeric(scorers.get("count", 1), errors="coerce").fillna(1).astype(int)
 
-                if "Date" in scorers.columns:
-                    scorers["date"] = _safe_date(scorers["Date"])
-                else:
-                    scorers["date"] = pd.NaT
-                if "Opposition" in scorers.columns:
-                    scorers["opposition"] = scorers["Opposition"].astype(str).str.strip()
-                else:
-                    scorers["opposition"] = ""
+        # Resolve scorer conflicts per game+player by explicit source precedence.
+        df = (
+            df.sort_values(["squad", "game_identity", "player_join", "source_rank"], kind="stable")
+            .drop_duplicates(subset=["squad", "game_identity", "player_join"], keep="first")
+        )
 
-                scorers = scorers[(scorers["player"] != "") & (scorers["count"] > 0)]
-
-                scorer_type_to_metric = {
-                    "TRY": ("tries", 5),
-                    "T": ("tries", 5),
-                    "CON": ("conversions", 2),
-                    "CONVERSION": ("conversions", 2),
-                    "PK": ("penalties", 3),
-                    "PEN": ("penalties", 3),
-                    "PENALTY": ("penalties", 3),
-                    "DG": ("drop_goals", 3),
-                    "DROP GOAL": ("drop_goals", 3),
-                }
-
-                # Scores from the 25/26 sheet are already attached to matching
-                # game rows by _attach_match_scorers. Only keep unmatched rows
-                # here as a fallback to avoid double-counting.
-                known_game_keys: set[tuple[str, date, str]] = set()
-                if not games.empty and {"squad", "date", "opposition"}.issubset(set(games.columns)):
-                    keyed_cols = ["squad", "date", "opposition"]
-                    scorer_payload_cols = [
-                        col
-                        for col in ["tries_scorers", "conversions_scorers", "penalties_scorers", "drop_goals_scorers"]
-                        if col in games.columns
-                    ]
-                    if not scorer_payload_cols:
-                        keyed_games = pd.DataFrame(columns=keyed_cols)
-                    else:
-                        keyed_games = games[keyed_cols + scorer_payload_cols].copy()
-                    keyed_games["date"] = _safe_date(keyed_games["date"])
-                    keyed_games["opposition"] = keyed_games["opposition"].map(_canonical_pitchero_opposition_name)
-                    keyed_games["opposition"] = keyed_games["opposition"].astype(str).str.strip()
-                    if scorer_payload_cols:
-                        keyed_games["has_scorer_payload"] = keyed_games[scorer_payload_cols].fillna("").astype(str).apply(
-                            lambda row: any(value.strip() not in {"", "{}", "null", "None"} for value in row),
-                            axis=1,
-                        )
-                        keyed_games = keyed_games[keyed_games["has_scorer_payload"]]
-                    known_game_keys = {
-                        (str(row.squad).strip(), row.date, str(row.opposition).strip())
-                        for row in keyed_games.dropna(subset=["squad", "date", "opposition"]).itertuples(index=False)
-                    }
-
-                game_lookup = games[["squad", "season", "game_type"]].copy() if not games.empty else pd.DataFrame()
-                if not game_lookup.empty:
-                    game_lookup["date"] = _safe_date(games.get("date"))
-                    game_lookup["opposition"] = games.get("opposition", pd.Series(index=games.index, dtype="object")).map(_canonical_pitchero_opposition_name)
-                    game_lookup["opposition"] = game_lookup["opposition"].astype(str).str.strip()
-                    game_lookup = game_lookup.drop_duplicates(subset=["squad", "date", "opposition"], keep="first")
-
-                for scorer in scorers.itertuples(index=False):
-                    metric_info = scorer_type_to_metric.get(str(scorer.score_type))
-                    if metric_info is None:
-                        continue
-                    metric, multiplier = metric_info
-                    season = "2025/26"
-                    game_type = "Unknown"
-                    scorer_date = getattr(scorer, "date", pd.NaT)
-                    scorer_opposition = str(getattr(scorer, "opposition", "") or "").strip()
-                    scorer_opposition = str(_canonical_pitchero_opposition_name(scorer_opposition) or "").strip()
-
-                    if pd.notna(scorer_date) and scorer_opposition:
-                        scorer_key = (str(scorer.squad).strip(), scorer_date, scorer_opposition)
-                        if scorer_key in known_game_keys:
-                            continue
-
-                    if not game_lookup.empty and pd.notna(scorer_date) and scorer_opposition:
-                        match = game_lookup[
-                            (game_lookup["squad"] == str(scorer.squad).strip())
-                            & (game_lookup["date"] == scorer_date)
-                            & (game_lookup["opposition"] == scorer_opposition)
-                        ]
-                        if not match.empty:
-                            season = str(match.iloc[0]["season"] or season).strip() or season
-                            game_type = str(match.iloc[0]["game_type"] or game_type).strip() or game_type
-
-                    canonical_name = _canonical_player_name_for_season(scorer.player, season)
-                    player_join = clean_name(canonical_name)
-                    resolved_player = player_lookup.get(player_join, canonical_name)
-
-                    rows.append(
-                        {
-                            "squad": str(scorer.squad).strip(),
-                            "season": season,
-                            "player": resolved_player,
-                            "game_type": game_type,
-                            "tries": scorer.count if metric == "tries" else 0,
-                            "conversions": scorer.count if metric == "conversions" else 0,
-                            "penalties": scorer.count if metric == "penalties" else 0,
-                            "drop_goals": scorer.count if metric == "drop_goals" else 0,
-                            "points": scorer.count * multiplier,
-                            "source": "games",
-                        }
-                    )
-
-        if not rows:
-            return empty
-
-        out = pd.DataFrame(rows)
-        return out.groupby(["squad", "season", "player", "game_type"], as_index=False).agg(
+        out = df.groupby(["squad", "season", "player", "game_type"], as_index=False, dropna=False).agg(
             tries=("tries", "sum"),
             conversions=("conversions", "sum"),
             penalties=("penalties", "sum"),
             drop_goals=("drop_goals", "sum"),
             points=("points", "sum"),
-            source=("source", lambda s: "+".join(sorted(set(s)))),
+            source=("source", lambda s: "+".join(sorted(set(v for v in s if str(v).strip())))),
         )
+
+        out["source"] = out["source"].replace("", "unknown")
+        return out
 
     def _build_players(
         self,
@@ -4767,9 +5344,9 @@ class BackendDatabase:
         headshots_dir = self.project_root / "img" / "headshots"
         if not headshots_dir.exists():
             return None
-        key = _normalise_key(player_name)
+        key = normalize_lookup_key(player_name)
         for photo_file in headshots_dir.glob("*.*"):
-            if _normalise_key(photo_file.stem) == key:
+            if normalize_lookup_key(photo_file.stem) == key:
                 return f"img/headshots/{photo_file.name}"
         return None
 
@@ -4796,6 +5373,28 @@ def build_backend(
     strict_duplicate_audit: bool = False,
     apply_supplemental_enrichment: bool = True,
 ) -> None:
+    """Build the canonical backend database.
+
+    Phase 1 — ``backend.build()``
+    Pulls data from Google Sheets, the Pitchero cache, and the RFU feed;
+    resolves conflicts; and populates all canonical tables.  The resulting
+    database is self-consistent and fully usable without phase 2.
+
+    Phase 2 — ``_apply_pitchero_supplemental_enrichment()``  (optional)
+    Backfills Pitchero match URLs and scorer payloads from optional artefact
+    files produced by the full-scrape reconciliation workflow.  Skipped when
+    ``apply_supplemental_enrichment=False`` or when the artefact files are
+    absent.  See the function docstring for which files it reads.
+
+    Phase 3 — ``backend.rebuild_post_enrichment()``  (only if phase 2 ran)
+    Re-derives ``season_scorers``, ``players``, and ``player_profiles_canonical``
+    from the now-enriched ``games`` table so that any scorer data written in phase 2
+    is reflected in downstream tables.
+
+    Phase 4 — ``backend.export_tables()``  (only if ``export=True``)
+    Re-exports all tables to ``data/backend/*.json`` so the frontend sees the
+    post-enrichment state.
+    """
     config = BackendConfig(
         db_path=db_path or BackendConfig.db_path,
         export_dir=export_dir or BackendConfig.export_dir,
@@ -4807,7 +5406,7 @@ def build_backend(
             _apply_pitchero_supplemental_enrichment(db_path=backend.db_file, project_root=backend.project_root)
             # Rebuild scorer-dependent tables so that try/conversion/penalty data
             # backfilled by enrichment flows through to season_scorers, players,
-            # player_profiles_canonical and season_summary_enriched.
+            # and player_profiles_canonical.
             backend.rebuild_post_enrichment()
             # Re-export so all post-enrichment updates are in the JSON files.
             if export:

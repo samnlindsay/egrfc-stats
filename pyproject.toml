@@ -17,7 +17,7 @@ dependencies = [
 ]
 
 [tool.setuptools]
-packages = ["python"]
+packages = ["python", "python.utils"]
 
 [project.scripts]
 sync-headshots = "python.sync_headshots:main"

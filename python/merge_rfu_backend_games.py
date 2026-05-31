@@ -5,6 +5,9 @@ import re
 from pathlib import Path
 from typing import Any
 
+from python.utils.normalization import normalize_lookup_key, season_start_year, season_to_short_label
+from python.utils.opposition import canonicalize_opposition_name, opposition_club_name
+
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_BACKEND_GAMES_PATH = REPO_ROOT / "data" / "backend" / "games.json"
@@ -13,41 +16,12 @@ DEFAULT_CONFLICTS_CSV_PATH = REPO_ROOT / "data" / "backend" / "rfu_backend_confl
 DEFAULT_UNMATCHED_CSV_PATH = REPO_ROOT / "data" / "backend" / "rfu_backend_unmatched_2017_plus.csv"
 DEFAULT_DISCARDED_CSV_PATH = REPO_ROOT / "data" / "backend" / "rfu_backend_discarded_expected.csv"
 
-try:
-    # Reuse the same opposition canonicalisation table used elsewhere in the pipeline.
-    from data import PITCHERO_OPPOSITION_CANONICAL_NAMES  # type: ignore
-except Exception:
-    PITCHERO_OPPOSITION_CANONICAL_NAMES = {}
-
-
-EXTRA_RFU_OPPOSITION_CANONICAL_NAMES: dict[str, str] = {
-    "stleonardscinqueports": "St. Leonards CP",
-    "brightonsussexmedics": "Brighton & SM",
-    "brightonandsussexmedics": "Brighton & SM",
-    "horshambarbarians": "Horsham",
-    "horshamlions": "Horsham II",
-    "worthingraidersa": "Worthing II",
-}
-
-
 def _season_dash_to_backend(season_dash: str | None) -> str | None:
-    if not season_dash:
-        return None
-    match = re.match(r"^(\d{4})-(\d{4})$", season_dash.strip())
-    if not match:
-        return season_dash
-    start_year = int(match.group(1))
-    end_year = int(match.group(2))
-    return f"{start_year}/{str(end_year)[-2:]}"
+    return season_to_short_label(season_dash)
 
 
 def _season_start_year(season: str | None) -> int | None:
-    if not season:
-        return None
-    match = re.match(r"^(\d{4})[/-](\d{2}|\d{4})$", season.strip())
-    if not match:
-        return None
-    return int(match.group(1))
+    return season_start_year(season)
 
 
 def _normalize_team_name(name: str | None) -> str:
@@ -58,92 +32,18 @@ def _normalize_team_name(name: str | None) -> str:
 
 
 def _normalise_lookup_key(name: str) -> str:
-    return re.sub(r"[^a-z0-9]", "", name.lower())
-
-
-def _roman_from_team_number(number: int | None) -> str | None:
-    if number is None:
-        return None
-    roman_map = {2: "II", 3: "III", 4: "IV", 5: "V"}
-    return roman_map.get(number)
-
-
-def _extract_team_number(value: str) -> tuple[str, int | None]:
-    text = value.strip()
-    if not text:
-        return "", None
-
-    # Prefer explicit bracket hints such as "(2nd XV)".
-    bracketed = re.search(r"\(([^)]*)\)", text)
-    bracket_team_number: int | None = None
-    if bracketed:
-        inner = bracketed.group(1)
-        digit_match = re.search(r"\b([2-5])(?:st|nd|rd|th)?\b", inner, flags=re.IGNORECASE)
-        if digit_match:
-            bracket_team_number = int(digit_match.group(1))
-        else:
-            roman_match = re.search(r"\b(II|III|IV|V)\b", inner, flags=re.IGNORECASE)
-            if roman_match:
-                roman_to_num = {"II": 2, "III": 3, "IV": 4, "V": 5}
-                bracket_team_number = roman_to_num[roman_match.group(1).upper()]
-
-    text_without_brackets = re.sub(r"\([^)]*\)", " ", text).strip()
-
-    # If no explicit bracketed team number was found, detect shorthand suffixes.
-    suffix_match = re.match(
-        r"^(?P<base>.+?)\s*(?P<num>[2-5])(?:st|nd|rd|th)?(?:xv|s)?\s*$",
-        text_without_brackets,
-        flags=re.IGNORECASE,
-    )
-    if suffix_match and bracket_team_number is None:
-        return suffix_match.group("base").strip(), int(suffix_match.group("num"))
-
-    return text_without_brackets, bracket_team_number
+    return normalize_lookup_key(name)
 
 
 def _canonical_opposition_name(name: str | None) -> str:
-    if not name:
+    canonical = canonicalize_opposition_name(name)
+    if canonical is None:
         return ""
-
-    value = str(name).strip()
-    if not value:
-        return ""
-
-    base_name, team_number = _extract_team_number(value)
-    cleaned = re.sub(r"\bmen\b", "", base_name, flags=re.IGNORECASE)
-    cleaned = re.sub(r"\brfc\b", "", cleaned, flags=re.IGNORECASE)
-    cleaned = re.sub(r"\s+", " ", cleaned).strip(" -")
-
-    lookup_key = _normalise_lookup_key(cleaned)
-    canonical = (
-        PITCHERO_OPPOSITION_CANONICAL_NAMES.get(lookup_key)
-        or EXTRA_RFU_OPPOSITION_CANONICAL_NAMES.get(lookup_key)
-        or cleaned
-    )
-
-    if canonical:
-        canonical_team_suffix = re.search(r"\b(II|III|IV|V)\b", canonical)
-        if team_number is not None and canonical_team_suffix is None:
-            roman = _roman_from_team_number(team_number)
-            if roman:
-                canonical = f"{canonical} {roman}".strip()
-
-    return canonical
+    return str(canonical)
 
 
 def _opposition_club_name(name: str | None) -> str:
-    """Return opposition at club level (strip team suffixes like II/III/1st XV)."""
-    canonical = _canonical_opposition_name(name)
-    if not canonical:
-        return ""
-
-    club = str(canonical).strip()
-    # Remove common trailing team indicators and standalone Roman numeral suffixes.
-    club = re.sub(r"\b[1-5](?:st|nd|rd|th)?\s*xv\b", "", club, flags=re.IGNORECASE)
-    club = re.sub(r"\b(II|III|IV|V)\b$", "", club, flags=re.IGNORECASE)
-    club = re.sub(r"\b(II|III|IV|V)\b", "", club, flags=re.IGNORECASE)
-    club = re.sub(r"\s+", " ", club).strip(" -")
-    return club
+    return opposition_club_name(name)
 
 
 def _discard_reason_from_scores(score_for: int | None, score_against: int | None) -> str | None:

@@ -282,7 +282,10 @@ function onEdit(e) {
     return dataCache[sheetName];
   };
 
-  if (sheetName === POSITIONS_SHEET_NAME && cellA1 === "B1") {
+  if (
+    sheetName === POSITIONS_SHEET_NAME &&
+    (cellA1 === "B1" || cellA1 === "H7")
+  ) {
     updatePositions(
       getData(PLAYERS_SHEET_NAME),
       getSheet(POSITIONS_SHEET_NAME),
@@ -518,8 +521,10 @@ function updatePlayers() {
       continue;
 
     const mobile = row[fIdx["Mobile Number"]] || "";
-    const positions = (row[fIdx["Preferred Playing Position"]] || "").trim();
+    const positions = (row[fIdx["Preferred Playing Position(s)"]] || "").trim();
     const primary = positions.includes(",") ? "" : positions;
+    const games = row[fIdx["How many games would you hope to play this season?"]] || "";
+    const notes = row[fIdx["Notes on expected availability (e.g. Uni, work etc.)"]] || "";
 
     const newRow = Array(numCols).fill("");
     newRow[mIdx["Name"]] = fullName;
@@ -528,31 +533,20 @@ function updatePlayers() {
     if ("Primary Position" in mIdx && mIdx["Primary Position"] < numCols) {
       newRow[mIdx["Primary Position"]] = primary;
     }
+    if ("Expected Games" in mIdx) newRow[mIdx["Expected Games"]] = games;
+    if ("Notes" in mIdx) newRow[mIdx["Notes"]] = notes;
 
     combinedRows.push(newRow);
     newPlayersAdded = true; // Mark that a new player was added
   }
 
   // === Sorting Logic ===
-  const getAvailabilityRank = (r) =>
-    r[mIdx.Injured] ? 2 : r[mIdx.Unavailable] ? 1 : 0;
-  const getTeamRank = (r) =>
-    r[mIdx["1st"]] && !r[mIdx["2nd"]]
-      ? 0
-      : r[mIdx["1st"]] && r[mIdx["2nd"]]
-        ? 1
-        : r[mIdx["2nd"]] && !r[mIdx["1st"]]
-          ? 2
-          : 3;
   const getColtsRank = (r) => (r[mIdx.Colts] ? 1 : 0);
 
   combinedRows.sort((a, b) => {
-    const rankA = [getAvailabilityRank(a), getTeamRank(a), getColtsRank(a)];
-    const rankB = [getAvailabilityRank(b), getTeamRank(b), getColtsRank(b)];
-
-    for (let i = 0; i < rankA.length; i++) {
-      if (rankA[i] !== rankB[i]) return rankA[i] - rankB[i];
-    }
+    const coltsA = getColtsRank(a);
+    const coltsB = getColtsRank(b);
+    if (coltsA !== coltsB) return coltsA - coltsB;
 
     const nameA = (a[mIdx.Name] || "").toLowerCase();
     const nameB = (b[mIdx.Name] || "").toLowerCase();
@@ -565,7 +559,7 @@ function updatePlayers() {
 
   // Format newly added rows
   const newlyAdded = combinedRows.length - playersRows.length;
-  if (newlyAdded > 0) {
+  if (newlyAdded > 0 && playersRows.length > 0) {
     const startRow = playersRows.length + 2;
     const newRange = playersSheet.getRange(startRow, 1, newlyAdded, numCols);
     const formatSource = playersSheet.getRange(startRow - 1, 1, 1, numCols);
@@ -577,7 +571,7 @@ function updatePlayers() {
   if (existingFilter) existingFilter.remove();
   playersSheet.getRange(1, 1, finalData.length, numCols).createFilter();
 
-  updatePositions(playersData, positionsSheet); // Optional
+  updatePositions(finalData, positionsSheet);
 
   // Update availability form dropdowns if new players were added
   if (newPlayersAdded) {
@@ -596,14 +590,16 @@ function updatePositions(playersData, positionsSh) {
   const headers = playersData[0];
   const rows = playersData.slice(1);
   const idx = headers.reduce((m, h, i) => ((m[h] = i), m), {});
-  const filterVal = positionsSh.getRange("B1").getValue();
+  const filterVal = String(positionsSh.getRange("B1").getValue() || "").trim();
+  const primaryOnlyVal = positionsSh.getRange("H7").getValue();
+  const primaryOnly =
+    primaryOnlyVal === true ||
+    String(primaryOnlyVal).toLowerCase() === "true";
 
   // 2) Cache your “key” formatting cells once
   const keyCells = {
     available: positionsSh.getRange("H4"),
     availableBackup: positionsSh.getRange("H5"),
-    unavailable: positionsSh.getRange("H6"),
-    injured: positionsSh.getRange("H7"),
   };
   const keyFmt = Object.fromEntries(
     Object.entries(keyCells).map(([k, cell]) => [
@@ -643,11 +639,102 @@ function updatePositions(playersData, positionsSh) {
     "Second Row": 3,
     Flanker: 3,
     "Number 8": 3,
-    "Scrum Half": 30,
-    "Fly Half": 30,
-    Centre: 30,
-    Winger: 30,
-    Fullback: 30,
+    "Scrum Half": 19,
+    "Fly Half": 19,
+    Centre: 19,
+    Winger: 19,
+    Fullback: 19,
+  };
+
+  const normalizePositionName = (pos) => {
+    const raw = String(pos || "").trim();
+    if (!raw) return "";
+
+    const lookup = {
+      prop: "Prop",
+      hooker: "Hooker",
+      "second row": "Second Row",
+      flanker: "Flanker",
+      "number 8": "Number 8",
+      "scrum half": "Scrum Half",
+      "fly half": "Fly Half",
+      centre: "Centre",
+      center: "Centre",
+      winger: "Winger",
+      wing: "Winger",
+      fullback: "Fullback",
+      "full back": "Fullback",
+    };
+
+    return lookup[raw.toLowerCase()] || raw;
+  };
+
+  const includeBySquadFilter = (isColts) => {
+    const option = filterVal.toLowerCase();
+
+    if (["all players", "all", "squad"].includes(option)) return true;
+    if (["seniors only", "seniors", "senior"].includes(option))
+      return !isColts;
+    if (["colts only", "colts"].includes(option)) return isColts;
+
+    // Safe fallback for unexpected values in the dropdown
+    return true;
+  };
+
+  const gamesIdxCandidates = [
+    idx["Expected Games"],
+    idx["Games"],
+    idx["How many games would you hope to play this season?"],
+    idx["Games target"],
+    idx["Target games"],
+  ].filter((v) => v !== undefined);
+
+  const getGamesValue = (row) => {
+    for (const colIdx of gamesIdxCandidates) {
+      const value = row[colIdx];
+      if (value !== "" && value !== null && value !== undefined) return value;
+    }
+    return "";
+  };
+
+  const getGamesRank = (gamesValue) => {
+    const normalized = String(gamesValue || "")
+      .toLowerCase()
+      .replace(/\u2013|\u2014/g, "-")
+      .replace(/\s+/g, "")
+      .replace(/games?/g, "");
+
+    if (!normalized) return 4;
+    if (normalized.includes("15+")) return 0;
+    if (normalized.includes("10-15")) return 1;
+    if (normalized.includes("5-10")) return 2;
+    if (normalized.includes("1-5")) return 3;
+
+    // Fallback for numeric/free-text entries
+    const nums = normalized.match(/\d+/g);
+    if (nums && nums.length) {
+      const maxNum = Math.max(...nums.map((n) => parseInt(n, 10)));
+      if (maxNum >= 15) return 0;
+      if (maxNum >= 10) return 1;
+      if (maxNum >= 5) return 2;
+      if (maxNum >= 1) return 3;
+    }
+
+    // Unknown/missing values sort last
+    return 4;
+  };
+
+  const getGamesStyleByRank = (gamesRank) => {
+    // 15+ -> 10-15 -> 5-10 -> 1-5 -> unknown
+    if (gamesRank === 0)
+      return { bg: "#d9ead3", fontColor: "#274e13", bold: true };
+    if (gamesRank === 1)
+      return { bg: "#cfe2f3", fontColor: "#1c4587", bold: true };
+    if (gamesRank === 2)
+      return { bg: "#fff2cc", fontColor: "#7f6000", bold: false };
+    if (gamesRank === 3)
+      return { bg: "#f4cccc", fontColor: "#990000", bold: false };
+    return { bg: "#e6e6e6", fontColor: "#444444", bold: false };
   };
 
   // 4) Build in‐memory map of available players
@@ -655,61 +742,70 @@ function updatePositions(playersData, positionsSh) {
   [...positionsTop, ...positionsBottom].forEach((p) => (positionMap[p] = []));
   rows.forEach((r) => {
     const name = `${r[idx["Name"]]} ${r[idx["Surname"]] || ""}`.trim();
-    const primary = r[idx["Primary Position"]];
-    const isInj = r[idx["Injured"]];
-    const isUnav = r[idx["Unavailable"]];
-    const isResp = r[idx["Last Updated"]]; // responded at all
-    const isFirst = r[idx["1st"]],
-      isSecond = r[idx["2nd"]];
-    // filter by squad or team selection
-    if (
-      !(
-        filterVal === "Squad" ||
-        (filterVal === "1st XV" && isFirst) ||
-        (filterVal === "2nd XV" && isSecond) ||
-        (filterVal === "Colts" && r[idx["Colts"]])
-      )
-    )
+    const primary = normalizePositionName(r[idx["Primary Position"]]);
+    const isColts = r[idx["Colts"]] === true || r[idx["Colts"]] === "TRUE";
+
+    if (!name || !includeBySquadFilter(isColts)) return;
+
+    if (primaryOnly) {
+      if (positionMap[primary]) {
+        const gamesValue = getGamesValue(r);
+        positionMap[primary].push({
+          name,
+          fmt: keyFmt.available,
+          statusRank: 0,
+          gamesRank: getGamesRank(gamesValue),
+        });
+      }
       return;
-    // assign to each declared position
-    (r[idx["Positions"]].split(",").map((s) => s.trim()) || [])
-      .filter((p) => positionMap[p])
-      .forEach((pos) => {
-        let statusRank, fmt;
-        if (isInj) {
-          fmt = keyFmt.injured;
-          statusRank = 3;
-        } else if (isUnav) {
-          fmt = keyFmt.unavailable;
-          statusRank = 2;
-        } else if (primary === pos) {
-          fmt = keyFmt.available;
-          statusRank = 0;
-        } else {
-          fmt = keyFmt.availableBackup;
-          statusRank = 1;
-        }
-        positionMap[pos].push({ name, fmt, statusRank });
-      });
+    }
+
+    const positions = String(r[idx["Positions"]] || "")
+      .split(",")
+      .map((s) => normalizePositionName(s))
+      .filter((p) => p && positionMap[p]);
+
+    positions.forEach((pos) => {
+      let statusRank, fmt;
+      if (primary === pos) {
+        fmt = keyFmt.available;
+        statusRank = 0;
+      } else {
+        fmt = keyFmt.availableBackup;
+        statusRank = 1;
+      }
+      positionMap[pos].push({ name, fmt, statusRank });
+    });
   });
 
   // 5) Clear existing blocks in one shot each
-  positionsSh.getRange(3, 2, 26, 5).clearContent().setBackground("#b1b1b1"); // Top half B–F, rows 3–28
-  positionsSh.getRange(30, 2, 26, 5).clearContent().setBackground("#b1b1b1"); // Bottom half
+  positionsSh.getRange(3, 2, 15, 5).clearContent().setBackground("#b1b1b1"); // Forwards data B–F, rows 3–17
+  positionsSh.getRange(19, 2, 15, 5).clearContent().setBackground("#b1b1b1"); // Back data B–F, rows 19–33 (preserves headers at 18)
 
   // 6) Helper to write & format a group of players
   function writeGroup(list, col, startRow) {
     if (list.length === 0) return;
     // sort in-memory
-    list.sort(
-      (a, b) => a.statusRank - b.statusRank || a.name.localeCompare(b.name),
-    );
+    if (primaryOnly) {
+      list.sort(
+        (a, b) =>
+          (a.gamesRank ?? 4) - (b.gamesRank ?? 4) ||
+          a.name.localeCompare(b.name),
+      );
+    } else {
+      list.sort(
+        (a, b) => a.statusRank - b.statusRank || a.name.localeCompare(b.name),
+      );
+    }
     // batch‐write names
     const vals = list.map((p) => [p.name]);
     positionsSh.getRange(startRow, col, vals.length, 1).setValues(vals);
     // batch‐format backgrounds & fonts
     vals.forEach((_, i) => {
-      const { bg, fontColor, bold } = list[i].fmt;
+      const style = primaryOnly
+        ? getGamesStyleByRank(list[i].gamesRank)
+        : list[i].fmt;
+      const { bg, fontColor, bold } = style;
       positionsSh
         .getRange(startRow + i, col)
         .setBackground(bg)
@@ -1275,11 +1371,6 @@ function buildAvailability(
           row[playersSheetIndex["Colts"]] === "TRUE";
         if (isColts) return false;
 
-        const isUnavailable =
-          row[playersSheetIndex["Unavailable"]] === true ||
-          row[playersSheetIndex["Unavailable"]] === "TRUE";
-        if (isUnavailable) return false;
-
         return true;
       })
       .map((row) => row[playersSheetIndex["Name"]].toString().trim())
@@ -1785,18 +1876,6 @@ function updateAvailability(
     .filter((row) => {
       const name = row[playersIndex["Name"]]?.toString().trim();
       if (!name) return false;
-
-      // Exclude Colts players
-      const isColts =
-        row[playersIndex["Colts"]] === true ||
-        row[playersIndex["Colts"]] === "TRUE";
-      if (isColts) return false;
-
-      // Exclude long-term unavailable players
-      const isUnavailable =
-        row[playersIndex["Unavailable"]] === true ||
-        row[playersIndex["Unavailable"]] === "TRUE";
-      if (isUnavailable) return false;
 
       return true;
     })
@@ -2614,8 +2693,6 @@ function buildSelection(playersData, availabilityLatestData, selectionSh) {
         {
           primaryPosition: row[playersIndex["Primary Position"]] || "",
           positions: row[playersIndex.Positions] || "",
-          first: row[playersIndex["1st"]] || false,
-          second: row[playersIndex["2nd"]] || false,
         },
       ]),
   );
@@ -2649,8 +2726,6 @@ function buildSelection(playersData, availabilityLatestData, selectionSh) {
         boolToTick(availability.Sat),
         playerInfo.primaryPosition,
         playerInfo.positions,
-        boolToTick(playerInfo.first),
-        boolToTick(playerInfo.second),
       ];
     })
     .sort((a, b) => {
@@ -2665,8 +2740,8 @@ function buildSelection(playersData, availabilityLatestData, selectionSh) {
     });
 
   const startRow = 5;
-  const cols = 8;
-  selectionSh.getRange("A5:H").clearContent();
+  const cols = 6;
+  selectionSh.getRange("A5:F").clearContent();
 
   if (data.length) {
     const range = selectionSh.getRange(startRow, 1, data.length, cols);
@@ -3079,8 +3154,6 @@ function buildSelectionLayout() {
     "Sat",
     "Primary Position",
     "Positions",
-    "1st",
-    "2nd",
   ];
   selectionSheet
     .getRange(4, 1, 1, headers.length)
@@ -3088,11 +3161,6 @@ function buildSelectionLayout() {
     .setFontSize(14)
     .setBackground("black")
     .setFontColor("white");
-  selectionSheet.getRange(4, headers.length - 1, 1, 1).setBackground("#1c4587");
-  selectionSheet
-    .getRange(4, headers.length, 1, 1)
-    .setBackground("white")
-    .setFontColor("black");
   selectionSheet
     .getRange(1, 1, 4, headers.length)
     .setFontFamily("PT Sans Narrow");

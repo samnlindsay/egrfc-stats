@@ -23,6 +23,17 @@ import os
 from urllib.parse import urljoin
 import json
 
+from python.utils.normalization import (
+    EGRFC_TEAM_ALIASES,
+    is_egrfc_team_name,
+    normalize_lookup_key,
+    normalize_team_name,
+)
+from python.utils.opposition import (
+    OPPOSITION_CANONICAL_NAMES,
+    canonicalize_opposition_name,
+)
+
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -39,121 +50,12 @@ HISTORIC_PITCHERO_SEASON_IDS = {
     "2025/26": 94981,
 }
 
-# ---------------------------------------------------------------------------
-# Pitchero opposition name canonicalisation
-# ---------------------------------------------------------------------------
-# Keys are produced by _normalise_pitchero_key (lowercase, alphanumeric only).
-# Values are the canonical EGRFC opposition names used in the games table.
-PITCHERO_OPPOSITION_CANONICAL_NAMES: dict[str, str] = {
-    # Brighton / Sussex
-    "brighton3": "Brighton III",
-    "brighton2ndxv": "Brighton II",
-    # Bognor
-    "bognor2": "Bognor II",
-    # Bromley (cup match)
-    "papajohnsquarterfinalbromley": "Bromley",
-    # Burgess Hill
-    "burgesshill2": "Burgess Hill II",
-    "burgesshill": "Burgess Hill",
-    "burgesshillrfc": "Burgess Hill",
-    # Cheshunt (cup match suffix)
-    "cheshuntnationalcupquarterfinal": "Cheshunt",
-    # Chipstead
-    "chipsteadrfc": "Chipstead",
-    # Cranleigh
-    "cranleighrfc": "Cranleigh",
-    # Crawley
-    "crawleycupfinal": "Crawley",
-    "crawley2": "Crawley II",
-    "crawley2s3s": "Crawley II",
-    "crawleyii": "Crawley II",
-    # Crowborough
-    "crowboro2": "Crowborough II",
-    "crowborough2ndxv": "Crowborough II",
-    "crowborough2s": "Crowborough II",
-    "crowboroughii": "Crowborough II",
-    # Croydon
-    "croydonrfc": "Croydon",
-    # Ditchling
-    "ditchlingrfc": "Ditchling",
-    "ditchling": "Ditchling",
-    # Eastbourne
-    "eastbourneiirfc": "Eastbourne II",
-    "eastbourne2": "Eastbourne II",
-    "eastbourne2s": "Eastbourne II",
-    "eastbournerfc": "Eastbourne",
-    # Haywards Heath
-    "haywardsheath2xv": "Haywards Heath II",
-    "haywardsheath2xy": "Haywards Heath II",
-    "haywardsheath2s": "Haywards Heath II",
-    "haywardsheath1stxv": "Haywards Heath",
-    # Heathfield
-    "heathfield": "Heathfield & Waldron",
-    "heathfldwal": "Heathfield & Waldron",
-    "heathfield2": "Heathfield & Waldron II",
-    "heathfieldii": "Heathfield & Waldron II",
-    "heathfield3s": "Heathfield & Waldron III",
-    "heathfieldiii": "Heathfield & Waldron III",
-    "heathfieldwaldron3": "Heathfield & Waldron III",
-    "heathfldwal3": "Heathfield & Waldron III",
-    "heathfieldwaldronii": "Heathfield & Waldron II",
-    # Hellingly
-    "hellingly2": "Hellingly II",
-    # Horsham
-    "horsham2s": "Horsham II",
-    "horshamii": "Horsham II",
-    "horshamiiicasuals": "Horsham III",
-    # Hove
-    "hove2": "Hove II",
-    "hove2xv": "Hove II",
-    "hove2xy": "Hove II",
-    "hoveii": "Hove II",
-    "hove3": "Hove III",
-    "hove3rdxv": "Hove III",
-    # Jersey / Royals
-    "jerseyroyals": "Royals",
-    "royalsrfc": "Royals",
-    # Lewes
-    "lewes2": "Lewes II",
-    # Midhurst (cup match suffix)
-    "sussexcupfinalmidhurst": "Midhurst",
-    # Newick
-    "newickrfc": "Newick",
-    # Oakmedians
-    "oakmediansrfc": "Oakmedians",
-    # Old Caterhamians
-    "oldcaterhamians2s": "Old Caterhamians II",
-    # Old Haileyburians (and common misspelling)
-    "oldhaileyburians": "Old Haileyburians",
-    "oldhaileybarians": "Old Haileyburians",
-    # Old Rutlishians
-    "oldrutlishians2s": "Old Rutlishians II",
-    "oldrutlishiansrfc": "Old Rutlishians",
-    # Pulborough
-    "pulborough2": "Pulborough II",
-    "pulborough3": "Pulborough III",
-    "pulborough2ssussexjuniorvase": "Pulborough II",
-    # Rye
-    "ryerfc": "Rye",
-    # Shoreham
-    "shoreham2ndxv": "Shoreham II",
-    # Trinity
-    "trinity2s": "Trinity II",
-    # Uckfield
-    "uckfieldiirfc": "Uckfield II",
-    "uckfield2s": "Uckfield II",
-    "uckfield12s": "Uckfield",
-    "uckfieldrfc": "Uckfield",
-    # Warlingham
-    "warlingham3s": "Warlingham III",
-    # Wensleydale (cup match suffix)
-    "wensleydalepapajohnscupsemifinal": "Wensleydale",
-}
+PITCHERO_OPPOSITION_CANONICAL_NAMES: dict[str, str] = OPPOSITION_CANONICAL_NAMES
 
 
 def _normalise_pitchero_key(name: str) -> str:
     """Lowercase, strip all non-alphanumeric characters – used as dict lookup key."""
-    return re.sub(r"[^a-z0-9]", "", name.lower())
+    return normalize_lookup_key(name)
 
 
 def canonical_pitchero_opposition(name: object) -> object:
@@ -161,40 +63,8 @@ def canonical_pitchero_opposition(name: object) -> object:
 
     Returns the original value unchanged when no mapping is found.
     """
-    if name is None or (isinstance(name, float) and name != name):
-        return name
-    cleaned = str(name).strip()
-    canonical = PITCHERO_OPPOSITION_CANONICAL_NAMES.get(_normalise_pitchero_key(cleaned), cleaned)
+    return canonicalize_opposition_name(name)
 
-    # Fallback for unmapped team-suffix shorthand like "Club 2"/"Club 3s".
-    if canonical == cleaned:
-        suffix_match = re.match(
-            r"^(?P<base>.+?)\s*(?P<num>[2-5])(?:st|nd|rd|th)?(?:xv|s)?\s*$",
-            cleaned,
-            flags=re.IGNORECASE,
-        )
-        if suffix_match:
-            roman = {
-                "2": "II",
-                "3": "III",
-                "4": "IV",
-                "5": "V",
-            }
-            base = suffix_match.group("base").strip()
-            canonical = f"{base} {roman[suffix_match.group('num')]}"
-
-    # Strip trailing " RFC" suffix that sometimes leaks through unmapped entries.
-    if isinstance(canonical, str) and canonical.upper().endswith(" RFC"):
-        canonical = canonical[:-4].strip()
-    return canonical
-
-
-_EGRFC_TEAM_ALIASES = (
-    "east grinstead",
-    "e grinstead",
-    "eg men",
-    "egrfc",
-)
 
 def clean_name(name):
     name_dict = {
@@ -247,10 +117,14 @@ class DataExtractor:
         vc_cols = [idx for idx, header in enumerate(normalized_headers) if header == "vc"]
 
         layout = {
+            "squad": normalized_headers.index("squad") if "squad" in normalized_headers else None,
             "date": normalized_headers.index("date") if "date" in normalized_headers else 0,
             "season": normalized_headers.index("season") if "season" in normalized_headers else 1,
             "competition": normalized_headers.index("competition") if "competition" in normalized_headers else 2,
             "opposition": normalized_headers.index("opposition") if "opposition" in normalized_headers else 3,
+            "home_away": normalized_headers.index("ha") if "ha" in normalized_headers else None,
+            "pf": normalized_headers.index("pf") if "pf" in normalized_headers else None,
+            "pa": normalized_headers.index("pa") if "pa" in normalized_headers else None,
             "score": normalized_headers.index("score") if "score" in normalized_headers else 4,
             "captain": normalized_headers.index("captain") if "captain" in normalized_headers else 5,
             "motm": normalized_headers.index("motm") if "motm" in normalized_headers else None,
@@ -273,18 +147,22 @@ class DataExtractor:
         return row[column_index].strip()
 
     @staticmethod
+    def _split_vc_values(vc_values):
+        expanded = []
+        for value in vc_values:
+            for token in re.split(r"\s*/\s*|\s*&\s*|\s+and\s+", str(value).strip(), flags=re.IGNORECASE):
+                token = token.strip()
+                if token:
+                    expanded.append(token)
+        return expanded
+
+    @staticmethod
     def _normalise_team_name(team_name):
-        if not isinstance(team_name, str):
-            return ""
-        cleaned = re.sub(r"[^a-z0-9]+", " ", team_name.lower())
-        return re.sub(r"\s+", " ", cleaned).strip()
+        return normalize_team_name(team_name)
 
     @staticmethod
     def _is_egrfc_team_name(team_name):
-        normalized = DataExtractor._normalise_team_name(team_name)
-        if not normalized:
-            return False
-        return any(alias in normalized for alias in _EGRFC_TEAM_ALIASES)
+        return is_egrfc_team_name(team_name, EGRFC_TEAM_ALIASES)
         
     def extract_games_data(self):
         """Extract games data from team sheets"""
@@ -297,8 +175,8 @@ class DataExtractor:
             data = sheet.get_all_values()
             layout = self._build_team_sheet_layout(data[3] if len(data) >= 4 else [], squad_name)
             
-            # Skip header rows
-            for row in data[4:]:  # Assuming data starts at row 6
+            # firstRow in metadata is 5, so zero-based index 4.
+            for row in data[4:]:
                 if not self._get_row_value(row, layout["season"]):  # Skip if no season
                     continue
                     
@@ -311,6 +189,11 @@ class DataExtractor:
     def _parse_game_row(self, row, squad, layout):
         """Parse a single game row from team sheet"""
         try:
+            row_squad = self._get_row_value(row, layout["squad"])
+            if row_squad:
+                normalized = row_squad.strip().lower()
+                squad = "1st" if normalized.startswith("1") else "2nd" if normalized.startswith("2") else squad
+
             date = self._parse_date(self._get_row_value(row, layout["date"]))
             season = self._get_row_value(row, layout["season"])
             competition = self._get_row_value(row, layout["competition"])
@@ -318,20 +201,25 @@ class DataExtractor:
             score = self._get_row_value(row, layout["score"])
             captain = self._get_row_value(row, layout["captain"])
             vc_values = [self._get_row_value(row, idx) for idx in layout["vc_cols"]]
-            vc_values = [value for value in vc_values if value]
+            vc_values = self._split_vc_values([value for value in vc_values if value])
             vc1 = vc_values[0] if len(vc_values) >= 1 else None
             vc2 = vc_values[1] if len(vc_values) >= 2 else None
             motm = self._get_row_value(row, layout["motm"]) or None
             
-            # Parse opposition and home/away
-            home_away = 'H' if '(H)' in opposition_raw else 'A'
+            # Parse opposition and home/away.
+            home_away = self._get_row_value(row, layout["home_away"]).upper()[:1]
+            if home_away not in {"H", "A"}:
+                home_away = 'H' if '(H)' in opposition_raw else 'A'
             opposition = opposition_raw.replace('(H)', '').replace('(A)', '').strip()
             
             if not opposition:
                 return None
                 
-            # Parse score
-            pf, pa = self._parse_score(score, home_away)
+            # Parse score from explicit PF/PA first, with score-string fallback for legacy rows.
+            pf = self._safe_int(self._get_row_value(row, layout["pf"]))
+            pa = self._safe_int(self._get_row_value(row, layout["pa"]))
+            if pf is None or pa is None:
+                pf, pa = self._parse_score(score, home_away)
             
             # Determine result
             if pf is None or pa is None:
@@ -379,6 +267,11 @@ class DataExtractor:
             for row in data[4:]:
                 if not self._get_row_value(row, layout["season"]):  # Skip if no season
                     continue
+
+                row_squad = self._get_row_value(row, layout["squad"])
+                if row_squad:
+                    normalized = row_squad.strip().lower()
+                    squad_name = "1st" if normalized.startswith("1") else "2nd" if normalized.startswith("2") else squad_name
                     
                 # Extract game info
                 date = self._parse_date(self._get_row_value(row, layout["date"]))
@@ -386,7 +279,7 @@ class DataExtractor:
                 game_id = f"{date}_{squad_name}_{opposition}".replace(' ', '_').replace('/', '')
                 captain = self._get_row_value(row, layout["captain"])
                 vice_captains = [self._get_row_value(row, idx) for idx in layout["vc_cols"]]
-                vice_captains = [value for value in vice_captains if value]
+                vice_captains = self._split_vc_values([value for value in vice_captains if value])
                 
                 # Extract players (positions 1-29) using header-derived column map
                 for pos in range(1, 30):
@@ -867,51 +760,59 @@ class DataExtractor:
     def extract_lineouts_data(self):
         """Extract lineout data"""
         ss = self.client.open_by_url(self.sheet_url)
-        
-        headers = [
-            '#', 'Half', 'Season', 'Date', 'Opposition', 
-            'Numbers', 'Call', 'Dummy', 'Front', 'Middle', 'Back',
-            'Drive', 'Crusaders', 'Transfer', 'Flyby',
-            'Hooker', 'Jumper', 'Won', 'Notes'
-        ]
-    
+
         lineouts_data = []
-        
-        for squad_name, sheet_name in [("1st", "1st XV Lineouts"), ("2nd", "2nd XV Lineouts")]:
-            try:
-                sheet = ss.worksheet(sheet_name)
-                data = sheet.get_all_records(expected_headers=headers, head=3)
-                
-                for idx, row in enumerate(data):
-                    if not row.get('Opposition'):
-                        continue
-                        
-                    # Create game_id to link with games table
-                    date = self._parse_date(row.get('Date', ''))
-                    opposition = str(row.get('Opposition', '')).strip()
-                    game_id = f"{date}_{squad_name}_{opposition}".replace(' ', '_').replace('/', '')
-                    
-                    lineout_data = {
-                        'lineout_id': f"L_{game_id}_{idx}",
-                        'game_id': game_id,
-                        'numbers': str(row.get('Numbers', '')),
-                        'call': str(row.get('Call', '')),
-                        'call_type': self._classify_call(row.get('Call', '')),
-                        'setup': self._get_setup(row.get('Call', '')),
-                        'movement': self._get_movement(row.get('Call', '')),
-                        'area': self._get_area(row),
-                        'hooker': str(row.get('Hooker', '')),
-                        'jumper': str(row.get('Jumper', '')),
-                        'won': row.get('Won') in ['Y', True],
-                        'notes': str(row.get('Notes', '')).strip(),
-                        'drive': row.get('Drive') in ['x', 'Y', True],
-                        'crusaders': row.get('Crusaders') in ['x', 'Y', True],
-                        'transfer': row.get('Transfer') in ['x', 'Y', True],
-                        'flyby': self._safe_int(row.get('Flyby'))
-                    }
-                    lineouts_data.append(lineout_data)
-            except Exception as e:
-                print(f"Error extracting lineouts for {squad_name}: {e}")
+
+        try:
+            sheet = ss.worksheet("Lineouts")
+            values = sheet.get_all_values()
+        except Exception as e:
+            print(f"Error extracting lineouts: {e}")
+            return pd.DataFrame(lineouts_data)
+
+        for idx, row in enumerate(values[3:], start=1):
+            squad_raw = str(row[2]).strip() if len(row) > 2 else ""
+            date_raw = str(row[3]).strip() if len(row) > 3 else ""
+            opposition = str(row[4]).strip() if len(row) > 4 else ""
+            if not squad_raw or not date_raw or not opposition:
+                continue
+
+            squad_name = "1st" if squad_raw.lower().startswith("1") else "2nd" if squad_raw.lower().startswith("2") else ""
+            if not squad_name:
+                continue
+
+            date = self._parse_date(date_raw)
+            game_id = f"{date}_{squad_name}_{opposition}".replace(' ', '_').replace('/', '')
+            call = str(row[6]).strip() if len(row) > 6 else ""
+            helper_row = {
+                "Front": str(row[8]).strip().lower() if len(row) > 8 else "",
+                "Middle": str(row[9]).strip().lower() if len(row) > 9 else "",
+                "Back": str(row[10]).strip().lower() if len(row) > 10 else "",
+            }
+
+            lineout_data = {
+                'lineout_id': f"L_{game_id}_{idx}",
+                'game_id': game_id,
+                'squad': squad_name,
+                'date': date,
+                'opposition': opposition,
+                'half': self._safe_int(row[1] if len(row) > 1 else None),
+                'numbers': str(row[5]).strip() if len(row) > 5 else "",
+                'call': call,
+                'call_type': self._classify_call(call),
+                'setup': self._get_setup(call),
+                'movement': self._get_movement(call),
+                'area': self._get_area(helper_row),
+                'hooker': str(row[15]).strip() if len(row) > 15 else "",
+                'jumper': str(row[16]).strip() if len(row) > 16 else "",
+                'won': str(row[17]).strip().upper() in ['Y', 'YES', 'TRUE', '1'],
+                'notes': str(row[18]).strip() if len(row) > 18 else '',
+                'drive': str(row[11]).strip().lower() == 'x' if len(row) > 11 else False,
+                'crusaders': str(row[12]).strip().lower() == 'x' if len(row) > 12 else False,
+                'transfer': str(row[13]).strip().lower() == 'x' if len(row) > 13 else False,
+                'flyby': str(row[14]).strip().lower() == 'x' if len(row) > 14 else False,
+            }
+            lineouts_data.append(lineout_data)
         
         return pd.DataFrame(lineouts_data)
 
@@ -919,24 +820,36 @@ class DataExtractor:
         ss = self.client.open_by_url(self.sheet_url)
         set_piece_data = []
 
-        for squad_name, sheet_name in [("1st", "1st XV Set piece"), ("2nd", "2nd XV Set piece")]:
+        for squad_name, sheet_name in [("1st", "1st XV Players"), ("2nd", "2nd XV Players")]:
             try:
                 sheet = ss.worksheet(sheet_name)
-                # Extract one wide range so set piece and red zone are handled together.
-                data = sheet.get("A5:AH")
-                
-                for row in data:
-                    if len(row) <= 2 or not row[1]:
+                data = sheet.get_all_values()
+
+                # firstRow in metadata is 5, so zero-based index 4. Skip first 4 rows.
+                for row in data[4:]:
+                    if len(row) <= 4:
                         continue
 
-                    eg_entries = self._safe_int(row[24] if len(row) > 24 else None)
-                    opp_entries = self._safe_int(row[28] if len(row) > 28 else None)
-                    eg_points_per_entry = self._safe_float(row[25] if len(row) > 25 else None)
-                    opp_points_per_entry = self._safe_float(row[29] if len(row) > 29 else None)
-                    eg_tries = self._safe_int(row[26] if len(row) > 26 else None)
-                    opp_tries = self._safe_int(row[30] if len(row) > 30 else None)
-                    eg_tries_per_entry = self._safe_float(row[27] if len(row) > 27 else None)
-                    opp_tries_per_entry = self._safe_float(row[31] if len(row) > 31 else None)
+                    row_squad = str(row[0]).strip() if len(row) > 0 else squad_name
+                    if row_squad:
+                        normalized = row_squad.lower()
+                        row_squad = "1st" if normalized.startswith("1") else "2nd" if normalized.startswith("2") else squad_name
+                    else:
+                        row_squad = squad_name
+
+                    date_value = self._parse_date(row[1] if len(row) > 1 else "")
+                    opposition = str(row[4]).strip() if len(row) > 4 else ""
+                    if not date_value or not opposition:
+                        continue
+
+                    eg_entries = self._safe_int(row[57] if len(row) > 57 else None)
+                    opp_entries = self._safe_int(row[61] if len(row) > 61 else None)
+                    eg_points_per_entry = self._safe_float(row[58] if len(row) > 58 else None)
+                    opp_points_per_entry = self._safe_float(row[62] if len(row) > 62 else None)
+                    eg_tries = self._safe_int(row[59] if len(row) > 59 else None)
+                    opp_tries = self._safe_int(row[63] if len(row) > 63 else None)
+                    eg_tries_per_entry = self._safe_float(row[60] if len(row) > 60 else None)
+                    opp_tries_per_entry = self._safe_float(row[64] if len(row) > 64 else None)
 
                     if eg_tries_per_entry is None and eg_entries not in (None, 0) and eg_tries is not None:
                         eg_tries_per_entry = eg_tries / eg_entries
@@ -945,12 +858,12 @@ class DataExtractor:
 
                     game_data = {
                         "team": ["EG", "Opp"],
-                        "lineouts_won": [self._safe_int(row[8] if len(row) > 8 else None), self._safe_int(row[11] if len(row) > 11 else None)],
-                        "lineouts_total": [self._safe_int(row[9] if len(row) > 9 else None), self._safe_int(row[12] if len(row) > 12 else None)],
-                        "scrums_won": [self._safe_int(row[16] if len(row) > 16 else None), self._safe_int(row[19] if len(row) > 19 else None)],
-                        "scrums_total": [self._safe_int(row[17] if len(row) > 17 else None), self._safe_int(row[20] if len(row) > 20 else None)],
+                        "lineouts_won": [self._safe_int(row[41] if len(row) > 41 else None), self._safe_int(row[44] if len(row) > 44 else None)],
+                        "lineouts_total": [self._safe_int(row[42] if len(row) > 42 else None), self._safe_int(row[45] if len(row) > 45 else None)],
+                        "scrums_won": [self._safe_int(row[49] if len(row) > 49 else None), self._safe_int(row[52] if len(row) > 52 else None)],
+                        "scrums_total": [self._safe_int(row[50] if len(row) > 50 else None), self._safe_int(row[53] if len(row) > 53 else None)],
                         "entries_22m": [eg_entries, opp_entries],
-                        "points": [self._safe_int(row[5] if len(row) > 5 else None), self._safe_int(row[6] if len(row) > 6 else None)],
+                        "points": [self._safe_int(row[6] if len(row) > 6 else None), self._safe_int(row[7] if len(row) > 7 else None)],
                         "tries": [eg_tries, opp_tries],
                         "points_per_entry": [eg_points_per_entry, opp_points_per_entry],
                         "tries_per_entry": [eg_tries_per_entry, opp_tries_per_entry],
@@ -958,8 +871,8 @@ class DataExtractor:
 
                     for i, team in enumerate(game_data["team"]):
                         set_piece_data.append({
-                            "date": self._parse_date(row[2]),
-                            "squad": squad_name,
+                            "date": date_value,
+                            "squad": row_squad,
                             "team": team,
                             "lineouts_won": game_data["lineouts_won"][i],
                             "lineouts_total": game_data["lineouts_total"][i],
@@ -1021,39 +934,35 @@ class DataExtractor:
 
         try:
             sheet = ss.worksheet("League History")
-            data = sheet.get("A4:J")
+            data = sheet.get("A2:F")
         except Exception as e:
             print(f"Error extracting league history: {e}")
             return pd.DataFrame(columns=["season", "squad", "league", "level", "rank"])
 
-        squad_columns = {
-            "1st": (1, 2, 3),
-            "2nd": (4, 5, 6),
-            "3rd": (7, 8, 9),
-        }
-
         for row in data:
             season = str(row[0]).strip() if len(row) > 0 else ""
+            squad = str(row[1]).strip() if len(row) > 1 else ""
+            league = str(row[2]).strip() if len(row) > 2 and row[2] is not None else ""
+            level = self._safe_int(row[3] if len(row) > 3 else None)
+            rank = self._safe_int(row[4] if len(row) > 4 else None)
+
             if not season:
                 continue
 
-            for squad, (league_idx, level_idx, rank_idx) in squad_columns.items():
-                league = str(row[league_idx]).strip() if len(row) > league_idx and row[league_idx] is not None else ""
-                level = self._safe_int(row[level_idx] if len(row) > level_idx else None)
-                rank = self._safe_int(row[rank_idx] if len(row) > rank_idx else None)
+            if not squad:
+                continue
+            if not league and level is None and rank is None:
+                continue
 
-                if not league and level is None and rank is None:
-                    continue
-
-                rows.append(
-                    {
-                        "season": season,
-                        "squad": squad,
-                        "league": league or None,
-                        "level": level,
-                        "rank": rank,
-                    }
-                )
+            rows.append(
+                {
+                    "season": season,
+                    "squad": squad,
+                    "league": league or None,
+                    "level": level,
+                    "rank": rank,
+                }
+            )
 
         return pd.DataFrame(rows, columns=["season", "squad", "league", "level", "rank"])
     
@@ -1082,8 +991,22 @@ class DataExtractor:
     # Helper methods
     def _parse_date(self, date_str):
         """Parse date string to ISO format"""
-        # Add your date parsing logic here
-        return date_str
+        if date_str is None:
+            return ""
+        text = str(date_str).strip()
+        if not text:
+            return ""
+
+        # Keep canonical ISO date values unchanged.
+        if re.fullmatch(r"\d{4}-\d{2}-\d{2}", text):
+            return text
+
+        parsed = pd.to_datetime(text, errors="coerce", format="%Y-%m-%d")
+        if pd.isna(parsed):
+            parsed = pd.to_datetime(text, errors="coerce", dayfirst=True)
+        if pd.isna(parsed):
+            return text
+        return parsed.strftime("%Y-%m-%d")
     
     def _parse_score(self, score, home_away):
         """Parse score string"""
@@ -1194,7 +1117,11 @@ class DataExtractor:
     def _safe_float(self, value):
         """Safely convert to float"""
         try:
-            return float(value) if value not in (None, "") else None
+            if value in (None, ""):
+                return None
+            if isinstance(value, str):
+                value = value.strip().replace("%", "")
+            return float(value)
         except:
             return None
 

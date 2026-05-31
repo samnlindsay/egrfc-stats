@@ -14,6 +14,8 @@ from datetime import datetime
 from urllib.parse import parse_qs, urlparse
 from pathlib import Path
 
+from python.utils.normalization import season_to_dash_label, season_to_short_label as normalize_season_short_label
+
 # Configure logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
@@ -137,12 +139,7 @@ def normalize_league_name(league):
 
 def season_to_short_label(season):
     """Convert season labels to canonical YYYY/YY format."""
-    season_dash = _normalize_season(season)
-    if not season_dash or "-" not in season_dash:
-        return season_dash
-
-    start_year, end_year = season_dash.split("-", 1)
-    return f"{start_year}/{end_year[-2:]}"
+    return normalize_season_short_label(season)
 
 
 def _parse_lineup_shirt_number(raw_number):
@@ -476,25 +473,7 @@ def _extract_match_id_from_href(href):
 
 def _normalize_season(season):
     """Normalize season labels to YYYY-YYYY format."""
-    if not season:
-        return season
-
-    season = season.strip()
-
-    if re.match(r"^\d{4}-\d{4}$", season):
-        return season
-
-    slash_match = re.match(r"^(\d{4})/(\d{2})$", season)
-    if slash_match:
-        start_year = int(slash_match.group(1))
-        end_suffix = int(slash_match.group(2))
-        century_base = (start_year // 100) * 100
-        end_year = century_base + end_suffix
-        if end_year < start_year:
-            end_year += 100
-        return f"{start_year}-{end_year}"
-
-    return season
+    return season_to_dash_label(season)
 
 
 def _parse_results_card_score(score_box):

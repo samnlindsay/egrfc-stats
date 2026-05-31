@@ -1,6 +1,22 @@
 const DatabaseExplorer = (() => {
     const TABLE_DEFINITIONS = [
         {
+            key: 'int_game_candidates',
+            label: 'int_game_candidates',
+            path: 'data/backend/int_game_candidates.json',
+            grain: 'One row per source candidate per fixture',
+            description: 'All source-system candidates for each real-world fixture, before conflict resolution. Each fixture can have up to three rows (Google, Pitchero, RFU). Includes conflict flags comparing each candidate against the highest-priority source for the same match_group_key.',
+            sourceNote: 'Built in backend.py by _build_int_game_candidates() from the three games_stage_* tables. Audit-only — not consumed by the frontend.'
+        },
+        {
+            key: 'int_games_resolved',
+            label: 'int_games_resolved',
+            path: 'data/backend/int_games_resolved.json',
+            grain: 'One row per fixture (winning candidate)',
+            description: 'The resolved winner for each real-world fixture after conflict resolution. One row per match_group_key. Includes the winning source, aggregated conflict summary (conflict_count, has_any_*_conflict), and source_count across all candidates.',
+            sourceNote: 'Built in backend.py by _build_int_games_resolved() from int_game_candidates. The _resolved_source, _resolved_conflict_count columns on the canonical games table are derived from this. Audit-only — not consumed by the frontend.'
+        },
+        {
             key: 'games',
             label: 'games',
             path: 'data/backend/games.json',
@@ -73,6 +89,30 @@ const DatabaseExplorer = (() => {
             sourceNote: 'Defined in backend.py as a source-staging table produced from RFU lineup extraction and canonicalization.'
         },
         {
+            key: 'scorers_stage_google',
+            label: 'scorers_stage_google',
+            path: 'data/backend/scorers_stage_google.json',
+            grain: 'One row per player per game before canonical merge',
+            description: 'Standardized Google-source scorer rows staged prior to canonical merge, including per-game tries, conversions, penalties, drop goals, and points.',
+            sourceNote: 'Defined in backend.py as a source-staging table produced from scorer payloads in Google game rows plus scorer-sheet backfills.'
+        },
+        {
+            key: 'scorers_stage_pitchero',
+            label: 'scorers_stage_pitchero',
+            path: 'data/backend/scorers_stage_pitchero.json',
+            grain: 'One row per player per game before canonical merge',
+            description: 'Standardized Pitchero-source scorer rows staged prior to canonical merge, derived from per-game scorer payloads where available.',
+            sourceNote: 'Defined in backend.py as a source-staging table produced from cleaned Pitchero game scorer payloads.'
+        },
+        {
+            key: 'scorers_stage_rfu',
+            label: 'scorers_stage_rfu',
+            path: 'data/backend/scorers_stage_rfu.json',
+            grain: 'One row per player per game before canonical merge',
+            description: 'Standardized RFU-source scorer rows staged prior to canonical merge. Coverage may be sparse when scorer-level detail is unavailable from RFU inputs.',
+            sourceNote: 'Defined in backend.py as a source-staging table aligned to the canonical scorer schema.'
+        },
+        {
             key: 'player_appearances_rfu',
             label: 'player_appearances_rfu',
             path: 'data/backend/player_appearances_rfu.json',
@@ -113,28 +153,12 @@ const DatabaseExplorer = (() => {
             sourceNote: 'Defined in backend.py and assembled from canonical appearances, games, lineouts, scorers, and reconciliation-adjusted totals.'
         },
         {
-            key: 'season_summary_enriched',
-            label: 'season_summary_enriched',
-            path: 'data/backend/season_summary_enriched.json',
-            grain: 'One row per season-game type mode-squad',
-            description: 'Frontend-ready season summary table with backend-owned results totals, tied leader arrays, appearance leaders, and season-level set-piece metrics.',
-            sourceNote: 'Defined in backend.py as the backend-owned replacement for JS-side season summary aggregation and tie handling.'
-        },
-        {
             key: 'squad_stats_enriched',
             label: 'squad_stats_enriched',
             path: 'data/backend/squad_stats_enriched.json',
             grain: 'One row per season-game type mode-squad-unit',
             description: 'Frontend-ready squad usage table with backend-derived player appearance count maps for total, forwards, and backs across all game-type modes.',
             sourceNote: 'Defined in backend.py as the backend-owned replacement for JS-side squad size aggregation and threshold filtering.'
-        },
-        {
-            key: 'squad_position_profiles_enriched',
-            label: 'squad_position_profiles_enriched',
-            path: 'data/backend/squad_position_profiles_enriched.json',
-            grain: 'One row per season-game type mode-squad-position',
-            description: 'Frontend-ready squad position table with backend-derived starter appearance count maps by canonical position.',
-            sourceNote: 'Defined in backend.py as the backend-owned replacement for JS-side shirt-number to position mapping and position usage aggregation.'
         },
         {
             key: 'squad_continuity_enriched',
@@ -232,6 +256,14 @@ const DatabaseExplorer = (() => {
             description: 'Derived RFU coverage view summarising how many matches have lineup data for each team and season.',
             sourceNote: 'Defined in backend.py as a derived RFU summary view over v_rfu_team_games.'
         },
+        {
+            key: 'v_red_zone',
+            label: 'v_red_zone',
+            path: 'data/backend/v_red_zone.json',
+            grain: 'One row per game-team set-piece record',
+            description: 'Derived red-zone summary view from set-piece records, exposing entries to the 22 and conversion efficiency by team context.',
+            sourceNote: 'Defined in backend.py as a derived view over canonical set_piece and games tables.'
+        },
     ];
 
     const FILTER_COLUMN_ALIASES = {
@@ -270,6 +302,7 @@ const DatabaseExplorer = (() => {
 
     const TABLE_DROPDOWN_GROUPS = [
         { key: 'core', label: 'Core Canonical Tables' },
+        { key: 'intermediate', label: 'Intermediate Tables' },
         { key: 'staging', label: 'Source Staging Tables' },
         { key: 'rfu', label: 'RFU Tables' },
         { key: 'enriched', label: 'Enriched Tables' },
@@ -470,6 +503,10 @@ const DatabaseExplorer = (() => {
 
         if (key.includes('_stage_')) {
             return 'staging';
+        }
+
+        if (key.startsWith('int_')) {
+            return 'intermediate';
         }
 
         if (key.startsWith('v_')) {
@@ -840,26 +877,14 @@ const DatabaseExplorer = (() => {
         }
     }
 
+    // Wrapper over normalizeSeasonLabel() (shared.js) with passthrough-for-unknowns
+    // semantics: returns empty string for blank input, the original raw value for
+    // formats that don't match the canonical YYYY/YY pattern (rather than null).
+    // Python equivalent: utils/normalization.py::season_to_short_label()
     function normalizeSeasonValue(value) {
         const raw = String(value ?? '').trim();
         if (!raw) return '';
-
-        const dashFormat = raw.match(/^(\d{4})-(\d{4})$/);
-        if (dashFormat) {
-            return `${dashFormat[1]}/${dashFormat[2].slice(-2)}`;
-        }
-
-        const slashLongFormat = raw.match(/^(\d{4})\/(\d{4})$/);
-        if (slashLongFormat) {
-            return `${slashLongFormat[1]}/${slashLongFormat[2].slice(-2)}`;
-        }
-
-        const slashShortFormat = raw.match(/^(\d{4})\/(\d{2})$/);
-        if (slashShortFormat) {
-            return `${slashShortFormat[1]}/${slashShortFormat[2]}`;
-        }
-
-        return raw;
+        return normalizeSeasonLabel(raw) ?? raw;
     }
 
     function isTotalSeasonValue(value) {

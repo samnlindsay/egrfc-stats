@@ -409,6 +409,232 @@ class BackendCacheAndReconciliationTests(unittest.TestCase):
         self.assertEqual(len(games), 1)
         self.assertEqual(games.iloc[0]["opposition"], "Ditchling")
 
+    def test_int_game_candidates_include_source_and_grouping_fields(self):
+        google_stage = pd.DataFrame(
+            [
+                {
+                    "game_id": "2025-09-06_1st_Hove",
+                    "date": "2025-09-06",
+                    "season": "2025/26",
+                    "squad": "1st",
+                    "competition": "League",
+                    "game_type": "League",
+                    "opposition": "Hove",
+                    "opposition_club": "Hove",
+                    "home_away": "H",
+                    "pf": 24,
+                    "pa": 12,
+                    "result": "W",
+                    "source": "google",
+                }
+            ]
+        )
+        pitchero_stage = pd.DataFrame(
+            [
+                {
+                    "game_id": "2025-09-06_1st_Hove",
+                    "date": "2025-09-06",
+                    "season": "2025/26",
+                    "squad": "1st",
+                    "competition": "League",
+                    "game_type": "League",
+                    "opposition": "Hove RFC",
+                    "opposition_club": "Hove",
+                    "home_away": "H",
+                    "pf": 24,
+                    "pa": 12,
+                    "result": "W",
+                    "source": "pitchero",
+                }
+            ]
+        )
+        rfu_stage = pd.DataFrame(
+            [
+                {
+                    "game_id": "rfu_2025-09-06_1st_Hove",
+                    "date": "2025-09-06",
+                    "season": "2025/26",
+                    "squad": "1st",
+                    "competition": "League",
+                    "game_type": "League",
+                    "opposition": "Hove",
+                    "opposition_club": "Hove",
+                    "home_away": "H",
+                    "pf": 24,
+                    "pa": 12,
+                    "result": "W",
+                    "source": "rfu",
+                }
+            ]
+        )
+
+        candidates = self.backend._build_int_game_candidates(
+            games_google_stage=google_stage,
+            games_pitchero_stage=pitchero_stage,
+            games_rfu_stage=rfu_stage,
+        )
+
+        self.assertEqual(len(candidates), 3)
+        self.assertEqual(candidates["candidate_id"].tolist(), [1, 2, 3])
+        self.assertEqual(set(candidates["source_system"].tolist()), {"google", "pitchero", "rfu"})
+        self.assertEqual(len(candidates["match_group_key"].unique()), 1)
+
+        by_source = candidates.set_index("source_system")
+        self.assertLess(by_source.loc["google", "source_rank"], by_source.loc["pitchero", "source_rank"])
+        self.assertLess(by_source.loc["pitchero", "source_rank"], by_source.loc["rfu", "source_rank"])
+
+    def test_int_game_candidates_flags_score_and_opposition_conflicts(self):
+        google_stage = pd.DataFrame(
+            [
+                {
+                    "game_id": "2025-09-06_1st_Hove",
+                    "date": "2025-09-06",
+                    "season": "2025/26",
+                    "squad": "1st",
+                    "competition": "League",
+                    "game_type": "League",
+                    "opposition": "Hove",
+                    "opposition_club": "Hove",
+                    "home_away": "H",
+                    "pf": 24,
+                    "pa": 12,
+                    "result": "W",
+                    "source": "google",
+                }
+            ]
+        )
+        pitchero_stage = pd.DataFrame(
+            [
+                {
+                    "game_id": "2025-09-06_1st_Hove",
+                    "date": "2025-09-06",
+                    "season": "2025/26",
+                    "squad": "1st",
+                    "competition": "League",
+                    "game_type": "League",
+                    "opposition": "Hove Rugby Club",
+                    "opposition_club": "Hove",
+                    "home_away": "H",
+                    "pf": 21,  # score disagrees with google
+                    "pa": 15,
+                    "result": "W",
+                    "source": "pitchero",
+                }
+            ]
+        )
+
+        candidates = self.backend._build_int_game_candidates(
+            games_google_stage=google_stage,
+            games_pitchero_stage=pitchero_stage,
+            games_rfu_stage=pd.DataFrame(),
+        )
+
+        by_source = candidates.set_index("source_system")
+        # Google (rank 0) is best; it should not flag itself as in conflict.
+        self.assertFalse(by_source.loc["google", "has_score_conflict"])
+        self.assertFalse(by_source.loc["google", "has_result_conflict"])
+        # Pitchero disagrees on score; it should be flagged.
+        self.assertTrue(by_source.loc["pitchero", "has_score_conflict"])
+        self.assertFalse(by_source.loc["pitchero", "has_result_conflict"])
+
+    def test_int_games_resolved_selects_best_and_aggregates_conflicts(self):
+        google_stage = pd.DataFrame(
+            [
+                {
+                    "game_id": "2025-09-06_1st_Hove",
+                    "date": "2025-09-06",
+                    "season": "2025/26",
+                    "squad": "1st",
+                    "competition": "League",
+                    "game_type": "League",
+                    "opposition": "Hove",
+                    "opposition_club": "Hove",
+                    "home_away": "H",
+                    "pf": 24,
+                    "pa": 12,
+                    "result": "W",
+                    "source": "google",
+                }
+            ]
+        )
+        pitchero_stage = pd.DataFrame(
+            [
+                {
+                    "game_id": "2025-09-06_1st_Hove",
+                    "date": "2025-09-06",
+                    "season": "2025/26",
+                    "squad": "1st",
+                    "competition": "League",
+                    "game_type": "League",
+                    "opposition": "Hove",
+                    "opposition_club": "Hove",
+                    "home_away": "H",
+                    "pf": 21,  # score conflict
+                    "pa": 15,
+                    "result": "W",
+                    "source": "pitchero",
+                }
+            ]
+        )
+
+        candidates = self.backend._build_int_game_candidates(
+            games_google_stage=google_stage,
+            games_pitchero_stage=pitchero_stage,
+            games_rfu_stage=pd.DataFrame(),
+        )
+        resolved = self.backend._build_int_games_resolved(candidates)
+
+        self.assertEqual(len(resolved), 1)
+        row = resolved.iloc[0]
+        # Best source should win.
+        self.assertEqual(row["source_system"], "google")
+        self.assertEqual(row["pf"], 24)
+        self.assertEqual(row["pa"], 12)
+        # Conflict aggregated.
+        self.assertTrue(row["has_any_score_conflict"])
+        self.assertFalse(row["has_any_result_conflict"])
+        self.assertEqual(row["source_count"], 2)
+        self.assertEqual(row["conflict_count"], 1)
+
+    def test_build_games_enriches_with_resolved_metadata(self):
+        games_raw = pd.DataFrame(
+            [
+                {
+                    "game_id": "2025-09-06_1st_Hove",
+                    "date": "2025-09-06",
+                    "season": "2025/26",
+                    "squad": "1st",
+                    "competition": "League",
+                    "game_type": "League",
+                    "opposition": "Hove",
+                    "opposition_club": "Hove",
+                    "home_away": "H",
+                    "pf": 24,
+                    "pa": 12,
+                    "result": "W",
+                    "captain": "Cap",
+                    "vc1": None,
+                    "vc2": None,
+                    "_source": "google",
+                }
+            ]
+        )
+        google_stage = games_raw.rename(columns={"pf": "pf", "pa": "pa", "_source": "source"}).copy()
+        candidates = self.backend._build_int_game_candidates(
+            games_google_stage=google_stage,
+            games_pitchero_stage=pd.DataFrame(),
+            games_rfu_stage=pd.DataFrame(),
+        )
+        resolved = self.backend._build_int_games_resolved(candidates)
+
+        games = self.backend._build_games(games_raw, int_games_resolved=resolved)
+
+        self.assertIn("_resolved_source", games.columns)
+        self.assertIn("_resolved_conflict_count", games.columns)
+        row = games.iloc[0]
+        self.assertEqual(row["_resolved_source"], "google")
+        self.assertEqual(row["_resolved_conflict_count"], 0)
+
     def test_build_league_history_normalises_types_and_deduplicates(self):
         league_history_raw = pd.DataFrame(
             [
@@ -446,10 +672,12 @@ class BackendCacheAndReconciliationTests(unittest.TestCase):
 
     def test_extract_league_history_parses_wide_sheet(self):
         worksheet = Mock()
+        # Narrow format: [season, squad, league, level, rank]
         worksheet.get.return_value = [
-            ["2023/24", "Counties 1 Surrey/Sussex", "7", "2", "Counties 4 Sussex", "10", "4"],
-            ["2024/25", "Regional 2 South East", "6", "11", "", "", ""],
-            ["", "", "", "", "", "", ""],
+            ["2023/24", "1st", "Counties 1 Surrey/Sussex", "7", "2"],
+            ["2023/24", "2nd", "Counties 4 Sussex", "10", "4"],
+            ["2024/25", "1st", "Regional 2 South East", "6", "11"],
+            ["", "", "", "", ""],
         ]
 
         spreadsheet = Mock()
@@ -462,6 +690,7 @@ class BackendCacheAndReconciliationTests(unittest.TestCase):
 
         result = extractor.extract_league_history()
 
+        # 2023/24 has 2 squads (1st and 2nd) + 2024/25 has 1 squad (1st) = 3 rows
         self.assertEqual(len(result), 3)
         self.assertEqual(list(result.columns), ["season", "squad", "league", "level", "rank"])
         self.assertEqual(
@@ -474,8 +703,9 @@ class BackendCacheAndReconciliationTests(unittest.TestCase):
                 "rank": 2,
             },
         )
+        last_row = result[result["season"] == "2024/25"].iloc[0].to_dict()
         self.assertEqual(
-            result.iloc[2].to_dict(),
+            last_row,
             {
                 "season": "2024/25",
                 "squad": "1st",
@@ -520,37 +750,38 @@ class BackendCacheAndReconciliationTests(unittest.TestCase):
                 {
                     "game_id": "g1",
                     "squad": "1st",
+                    "date": "2019-09-14",
                     "season": "2019/20",
                     "game_type": "League",
-                    "tries_scorers": '{"M Crawley-Moore": 1}',
-                    "conversions_scorers": '{"O Adams": 2}',
+                    "tries_scorers": '{"Max Crawley-Moore": 1}',
+                    "conversions_scorers": '{"Ollie Adams": 2}',
                     "penalties_scorers": '{}',
                     "drop_goals_scorers": '{}',
                 },
                 {
                     "game_id": "g2",
                     "squad": "1st",
+                    "date": "2019-09-21",
                     "season": "2019/20",
                     "game_type": "League",
-                    "tries_scorers": '{"O Adams": 1}',
+                    "tries_scorers": '{"Ollie Adams": 1}',
                     "conversions_scorers": '{}',
-                    "penalties_scorers": '{"O Adams": 1}',
+                    "penalties_scorers": '{"Ollie Adams": 1}',
                     "drop_goals_scorers": '{}',
                 },
             ]
         )
 
+        # Build scorer stage rows from games (mirrors what build() does via _build_scorers_stage_from_games).
+        scorers_stage = self.backend._build_scorers_stage_from_games(games, "games")
         scorers = self.backend._build_season_scorers(
-            scorers_2526_raw=pd.DataFrame(),
-            pitchero_raw=pd.DataFrame(),
+            scorers_stage_raw=scorers_stage,
             appearances=appearances,
-            games=games,
         )
 
         crawley_moore = scorers[scorers["player"] == "Max Crawley-Moore"].iloc[0]
         self.assertEqual(crawley_moore["tries"], 1)
         self.assertEqual(crawley_moore["points"], 5)
-        self.assertEqual(crawley_moore["source"], "games")
 
         adams = scorers[scorers["player"] == "Ollie Adams"].iloc[0]
         self.assertEqual(adams["tries"], 1)
@@ -665,11 +896,13 @@ class BackendCacheAndReconciliationTests(unittest.TestCase):
             ]
         )
 
+        # Scorer stage built from games (Google source has scorer JSON); 2526 sheet is fallback.
+        scorers_stage_from_games = self.backend._build_scorers_stage_from_games(games, "google")
+        scorers_stage_from_sheet = self.backend._build_scorers_stage_from_sheet(scorers_2526_raw, games)
+        scorers_stage = pd.concat([scorers_stage_from_games, scorers_stage_from_sheet], ignore_index=True)
         scorers = self.backend._build_season_scorers(
-            scorers_2526_raw=scorers_2526_raw,
-            pitchero_raw=pd.DataFrame(),
+            scorers_stage_raw=scorers_stage,
             appearances=appearances,
-            games=games,
         )
 
         adams = scorers[scorers["player"] == "Ollie Adams"]
@@ -799,11 +1032,10 @@ class BackendCacheAndReconciliationTests(unittest.TestCase):
                 }
             ]
         )
+        scorers_stage = self.backend._build_scorers_stage_from_sheet(scorers_2526_raw, games)
         out = self.backend._build_season_scorers(
-            scorers_2526_raw=scorers_2526_raw,
-            pitchero_raw=pd.DataFrame(columns=["Season", "Squad", "Player_join", "A", "Event", "Count"]),
+            scorers_stage_raw=scorers_stage,
             appearances=pd.DataFrame(columns=["player"]),
-            games=games,
         )
 
         alice = out[(out["player"] == "Alice Example") & (out["squad"] == "1st")].iloc[0]
@@ -826,6 +1058,7 @@ class BackendCacheAndReconciliationTests(unittest.TestCase):
                     "competition": "League",
                     "game_type": "League",
                     "opposition": "Hove",
+                    "opposition_club": "Hove",
                     "home_away": "H",
                     "score_for": 22,
                     "score_against": 10,

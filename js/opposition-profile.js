@@ -35,6 +35,11 @@
     };
     let currentSetPieceType = 'lineout';
 
+    // Normalise a club name to a compact lowercase alphanumeric key for logo lookups.
+    // Extends the Python normalize_lookup_key() pattern with additional stripping of
+    // common club suffixes (RFC, FC, Rugby Club, ordinal squad labels, XV) so that
+    // "Haywards Heath RFC" and "Haywards Heath" both resolve to the same logo key.
+    // Python equivalent for the base stripping: utils/normalization.py::normalize_lookup_key()
     function normaliseLogoKey(name) {
         return String(name || '')
             .toLowerCase()
