@@ -228,44 +228,39 @@
         <!-- Sources: Google Sheets, Pitchero, RFU (englandrugby.com) -->
         <div class="home-data-notes-wrap">
             <section class="home-data-notes" aria-labelledby="homeDataNotesTitle">
-                <h3 id="homeDataNotesTitle" class="chart-section-title">Data Notes</h3>
-                <p>Data is sourced from multiple systems, each with limitations, and combined to provide the most complete view currently available.</p>
-                <ul>
-                    <li>
-                        <strong>Google Sheets:</strong> Primary source since 2020 (when I joined the club). For every 1st and 2nd XV game in that period it includes:
-                        <ul>
-                            <li>Date, competition, score, captain, and full team sheet</li>
-                            <li>
-                                If Veo footage is available:
-                                <ul>
-                                    <li>Scrums and lineouts won and lost for both teams</li>
-                                    <li>Individually coded attacking lineouts for deeper analysis</li>
-                                    <li>(From 2025/26) 22m entries for both teams and points/tries per 22m entry</li>
-                                </ul>
-                            </li>
-                            <li><em>From 2025/26:</em>
-                                <ul>
-                                    <li>MOTM and individual scorers</li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                    <li><strong>Pitchero:</strong> Individual scorers and MOTM before 2025/26, plus team sheets before 2020/21.</li>
-                    <li><strong>RFU (englandrugby.com):</strong> Team sheets and results across all teams in a league season for fair league-wide comparisons.</li>
-                </ul>
-
-
-                <!-- Warning using bootstrap alert -->
-                <div class="alert alert-danger" role="alert">
-                    This <u>does not</u> include games before 2017.<br>
-                    This <u>does not</u> include games for the Vets or Colts.<br>
-                    If the team sheet, tries or MOTM weren't logged on Pitchero (pre-2021), they're <u>not included</u>.<br>
-                    If Veo footage wasn't available, the set piece stats aren't included.
+                <div class="home-data-notes-author">
+                    <img src="img/SLM_Avatar.png" alt="Sam Lindsay-McCall" class="home-data-notes-avatar">
+                    <p class="mb-0"><strong>Sam Lindsay-McCall</strong><br><em>Second Row &amp; Lineout Coach</em><br><em>(<u>not</u> a web developer)</em></p>
                 </div>
+                <div class="home-data-notes-body">
+                    <h3 id="homeDataNotesTitle" class="chart-section-title">Data Notes</h3>
+                    <p>Data is pulled from three sources and combined to give the most complete picture available.</p>
 
-                <p>If you spot any gaps or errors, please let me know!<br>But remember, I do all this manually in my spare time - it's a labour of love, not an official club record.</p>
+                    <ul>
+                        <li>
+                            <strong>Google Sheets</strong> — primary source from 2020/21 onwards, covering all 1st and 2nd XV games:
+                            <ul>
+                                <li>Date, competition, result, captain, and full team sheet</li>
+                                <li>MOTM and individual try/conversion/penalty/drop-goal scorers (from 2025/26)</li>
+                                <li>When Veo footage is available: set piece (scrums &amp; lineouts) counts for both teams, detailed attacking lineout coding, and 22m entry stats (from 2025/26)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Pitchero</strong> — team sheets from before 2020/21 and scorer/MOTM data from 2017/18–2024/25.</li>
+                        <li><strong>RFU (englandrugby.com)</strong> — full league team sheets and results across all clubs for squad-size and player-retention comparisons.</li>
+                    </ul>
 
-                <p><strong><em>Sam Lindsay-McCall</em></strong><br>(Second Row, Lineout Coach, <u>not</u> a web developer)</p>
+                    <div class="alert alert-warning mb-2" role="alert">
+                        <strong>Gaps to be aware of:</strong>
+                        <ul class="mb-0 mt-1">
+                            <li>Player-level data (appearances, scorers, team sheets) only goes back to 2016/17.</li>
+                            <li>No data for the Vets or Colts.</li>
+                            <li>Pre-2021 team sheets depend on Pitchero logging — anything not recorded there is missing.</li>
+                            <li>Set piece stats only exist when Veo footage was available for that game.</li>
+                        </ul>
+                    </div>
+
+                    <p class="mb-0 home-data-notes-signature">Spotted a gap or an error? <a href="https://wa.me/447961955086?text=Hi%20Sam%2C%20I%20have%20a%20question%20about%20EGRFC%20Stats." target="_blank" rel="noopener">Let me know</a> — but bear in mind this is a labour of love, not an official club record.</p>
+                </div>
             </section>
         </div>
 
