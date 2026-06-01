@@ -5371,20 +5371,18 @@ class BackendDatabase:
 
         Converts the flat sponsors DataFrame (season, player, sponsor_name) into
         the nested ``{season: {player: sponsor_name}}`` structure consumed by the
-        frontend player-profile page.  The file is only written when sponsors_raw
-        is non-empty; a missing Sponsors sheet is silently skipped so the build
-        can run without Google Sheets access.
+        frontend player-profile page. Always writes the file (even if empty) so
+        the frontend fetch doesn't 404.
         """
         sponsors_json_path = self.project_root / "data" / "sponsors.json"
-        if sponsors_raw is None or sponsors_raw.empty:
-            return
         sponsors_by_season: dict[str, dict[str, str]] = {}
-        for _, row in sponsors_raw.iterrows():
-            season = str(row.get("season", "")).strip()
-            player = str(row.get("player", "")).strip()
-            sponsor_name = str(row.get("sponsor_name", "")).strip()
-            if season and player and sponsor_name:
-                sponsors_by_season.setdefault(season, {})[player] = sponsor_name
+        if sponsors_raw is not None and not sponsors_raw.empty:
+            for _, row in sponsors_raw.iterrows():
+                season = str(row.get("season", "")).strip()
+                player = str(row.get("player", "")).strip()
+                sponsor_name = str(row.get("sponsor_name", "")).strip()
+                if season and player and sponsor_name:
+                    sponsors_by_season.setdefault(season, {})[player] = sponsor_name
         with sponsors_json_path.open("w", encoding="utf-8") as fh:
             json.dump(sponsors_by_season, fh, ensure_ascii=False, indent=2)
 

@@ -992,7 +992,7 @@ class DataExtractor:
         ss = self.client.open_by_url(self.sheet_url)
         rows = []
         try:
-            sheet = ss.worksheet("Sponsors")
+            sheet = ss.worksheet("Player Sponsors")
             data = sheet.get("A2:C")
         except Exception as e:
             print(f"Sponsors sheet not found or unreadable: {e}")
