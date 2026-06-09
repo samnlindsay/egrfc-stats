@@ -1007,6 +1007,41 @@ class DataExtractor:
             rows.append({"season": season, "player": player, "sponsor_name": sponsor_name})
 
         return pd.DataFrame(rows, columns=["season", "player", "sponsor_name"])
+
+    def extract_awards(self):
+        """Extract player awards from the Awards sheet.
+
+        Reads columns A-D: Season, Squad, Award, Winner.
+        Returns one row per award entry.
+        """
+        ss = self.client.open_by_url(self.sheet_url)
+        rows = []
+        try:
+            sheet = ss.worksheet("Awards")
+            data = sheet.get("A3:D")
+        except Exception as e:
+            print(f"Awards sheet not found or unreadable: {e}")
+            return pd.DataFrame(columns=["season", "squad", "award", "winner"])
+
+        for row in data:
+            season = str(row[0]).strip() if len(row) > 0 else ""
+            squad = str(row[1]).strip() if len(row) > 1 else ""
+            award = str(row[2]).strip() if len(row) > 2 else ""
+            winner = str(row[3]).strip() if len(row) > 3 else ""
+
+            if not season or not squad or not award or not winner:
+                continue
+
+            rows.append(
+                {
+                    "season": season,
+                    "squad": squad,
+                    "award": award,
+                    "winner": winner,
+                }
+            )
+
+        return pd.DataFrame(rows, columns=["season", "squad", "award", "winner"])
     
     def extract_league_data(self, season="2024/25", squad=1):
         """Extract RFU league table + match payloads using League History IDs.

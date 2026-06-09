@@ -3269,12 +3269,16 @@ def team_stats_results_chart(
     db,
     output_file_game='data/charts/team_stats_results_game.json',
     output_file_aggregated='data/charts/team_stats_results_season_aggregate.json',
+    output_file_game_pd='data/charts/team_stats_results_game_pd.json',
+    output_file_aggregated_pd='data/charts/team_stats_results_season_aggregate_pd.json',
 ):
-    """Generate two pre-built Squad Stats results specs with full theme config.
+    """Generate four pre-built Squad Stats results specs with full theme config.
     
     Generates:
     1. Game-level spec (team_stats_results_game.json) - all games, faceted by squad
     2. Aggregated spec (team_stats_results_season_aggregate.json) - by-season averages, faceted by squad
+    3. Game-level PD spec (team_stats_results_game_pd.json) - PA-shifted x positions
+    4. Aggregated PD spec (team_stats_results_season_aggregate_pd.json) - PA-shifted x positions
     
     Both specs include all data and full theme config. JavaScript selects the appropriate
     spec based on season selection and filters data accordingly.
@@ -3359,85 +3363,107 @@ def team_stats_results_chart(
         axis=1,
     )
 
-    game_base = alt.Chart(game_df).encode(
-        detail='game_id:N',
-        color=alt.Color(
-            'result:N',
-            scale=alt.Scale(domain=['W', 'L', 'D'], range=['#146f14', '#981515', '#6b7280']),
-            legend=alt.Legend(orient='bottom', title='Result'),
-        ),
-        tooltip=[
-            alt.Tooltip('squad:N', title='Squad'),
-            alt.Tooltip('game_label:N', title='Game'),
-            alt.Tooltip('date_label:N', title='Date'),
-            alt.Tooltip('pf:Q', title='Points For'),
-            alt.Tooltip('pa:Q', title='Points Against'),
-            alt.Tooltip('margin:Q', title='Margin'),
-            alt.Tooltip('result:N', title='Result'),
-            alt.Tooltip('competition:N', title='Competition'),
-        ],
-    )
+    def _build_game_chart(use_pd: bool = False):
+        chart_df = game_df.copy()
+        if use_pd:
+            chart_df['x_start'] = chart_df['pf'] - chart_df['pa']
+            chart_df['x_end'] = 0.0
+            chart_df['x_loser'] = chart_df['loser'] - chart_df['pa']
+            chart_df['x_winner'] = chart_df['winner'] - chart_df['pa']
+            x_title = 'PD'
+            chart_title = 'Results (PD)'
+            chart_subtitle = ['All games by season, split by squad', 'PA-shifted view (PD from zero)']
+        else:
+            chart_df['x_start'] = chart_df['pf']
+            chart_df['x_end'] = chart_df['pa']
+            chart_df['x_loser'] = chart_df['loser']
+            chart_df['x_winner'] = chart_df['winner']
+            x_title = 'Points'
+            chart_title = 'Results'
+            chart_subtitle = ['All games by season, split by squad']
 
-    game_bar = game_base.mark_bar().encode(
-        x=alt.X('pf:Q', title='Points', axis=alt.Axis(orient='bottom', offset=5, grid=False)),
-        x2=alt.X2('pa:Q'),
-        y=alt.Y(
-            'game_axis_key:N',
-            title=None,
-            sort=alt.EncodingSortField(field='game_sort_key', op='min', order='ascending'),
-            axis=alt.Axis(
-                orient='left',
-                offset=8,
-                labelExpr="split(datum.label, '||')[1]",
-                labelLimit=260,
-                labelPadding=12,
-                ticks=False,
-                domain=False,
+        game_base = alt.Chart(chart_df).encode(
+            detail='game_id:N',
+            color=alt.Color(
+                'result:N',
+                scale=alt.Scale(domain=['W', 'L', 'D'], range=['#146f14', '#981515', '#6b7280']),
+                legend=alt.Legend(orient='bottom', title='Result'),
             ),
-        ),
-    )
+            tooltip=[
+                alt.Tooltip('squad:N', title='Squad'),
+                alt.Tooltip('game_label:N', title='Game'),
+                alt.Tooltip('date_label:N', title='Date'),
+                alt.Tooltip('pf:Q', title='Points For'),
+                alt.Tooltip('pa:Q', title='Points Against'),
+                alt.Tooltip('margin:Q', title='Margin'),
+                alt.Tooltip('result:N', title='Result'),
+                alt.Tooltip('competition:N', title='Competition'),
+            ],
+        )
 
-    game_loser = game_base.mark_text(align='right', dx=-2, dy=0).encode(
-        x=alt.X('loser:Q', title='Points', axis=alt.Axis(orient='top', offset=5)),
-        y=alt.Y('game_axis_key:N', sort=alt.EncodingSortField(field='game_sort_key', op='min', order='ascending'), axis=None),
-        text=alt.Text('loser:Q', format='.0f'),
-        color=alt.value('black'),
-    )
-
-    game_winner = game_base.mark_text(align='left', dx=2, dy=0).encode(
-        x=alt.X('winner:Q', title=None, axis=alt.Axis(orient='top', offset=5)),
-        y=alt.Y(
-            'game_axis_key:N',
-            sort=alt.EncodingSortField(field='game_sort_key', op='min', order='ascending'),
-            axis=alt.Axis(
-                orient='right',
-                offset=8,
-                labelExpr="split(datum.label, '||')[0]",
-                labelLimit=120,
-                labelPadding=12,
-                ticks=False,
-                domain=False,
+        game_bar = game_base.mark_bar().encode(
+            x=alt.X('x_start:Q', title=x_title, axis=alt.Axis(orient='bottom', offset=5, grid=False)),
+            x2=alt.X2('x_end:Q'),
+            y=alt.Y(
+                'game_axis_key:N',
                 title=None,
+                sort=alt.EncodingSortField(field='game_sort_key', op='min', order='ascending'),
+                axis=alt.Axis(
+                    orient='left',
+                    offset=8,
+                    labelExpr="split(datum.label, '||')[1]",
+                    labelLimit=260,
+                    labelPadding=12,
+                    ticks=False,
+                    domain=False,
+                ),
             ),
-        ),
-        text=alt.Text('winner:Q', format='.0f'),
-        color=alt.value('black'),
-    )
+        )
 
-    game_chart = (game_bar + game_loser + game_winner).facet(
-        row=alt.Facet(
-            'squad:N',
-            sort=['1st', '2nd'],
-            title=None,
-            header=alt.Header(labelExpr="datum.value + ' XV'", labelOrient='left'),
-        ),
-    ).resolve_scale(
-        y='independent'
-    ).properties(
-        title=alt.Title('Results', subtitle=['All games by season, split by squad']),
-    ).configure_view(
-        strokeWidth=0
-    )
+        game_loser = game_base.mark_text(align='right', dx=-2, dy=0).encode(
+            x=alt.X('x_loser:Q', title=x_title, axis=alt.Axis(orient='top', offset=5)),
+            y=alt.Y('game_axis_key:N', sort=alt.EncodingSortField(field='game_sort_key', op='min', order='ascending'), axis=None),
+            text=alt.Text('loser:Q', format='.0f'),
+            color=alt.value('black'),
+        )
+
+        game_winner = game_base.mark_text(align='left', dx=2, dy=0).encode(
+            x=alt.X('x_winner:Q', title=None, axis=alt.Axis(orient='top', offset=5)),
+            y=alt.Y(
+                'game_axis_key:N',
+                sort=alt.EncodingSortField(field='game_sort_key', op='min', order='ascending'),
+                axis=alt.Axis(
+                    orient='right',
+                    offset=8,
+                    labelExpr="split(datum.label, '||')[0]",
+                    labelLimit=120,
+                    labelPadding=12,
+                    ticks=False,
+                    domain=False,
+                    title=None,
+                ),
+            ),
+            text=alt.Text('winner:Q', format='.0f'),
+            color=alt.value('black'),
+        )
+
+        return (game_bar + game_loser + game_winner).facet(
+            row=alt.Facet(
+                'squad:N',
+                sort=['1st', '2nd'],
+                title=None,
+                header=alt.Header(labelExpr="datum.value + ' XV'", labelOrient='left'),
+            ),
+        ).resolve_scale(
+            y='independent'
+        ).properties(
+            title=alt.Title(chart_title, subtitle=chart_subtitle),
+        ).configure_view(
+            strokeWidth=0
+        )
+
+    game_chart = _build_game_chart(use_pd=False)
+    game_chart_pd = _build_game_chart(use_pd=True)
 
     # Aggregated chart: one row per season/squad with average PF/PA.
     agg_df = (
@@ -3639,12 +3665,37 @@ def team_stats_results_chart(
         *,
         show_legend: bool = False,
         axis_orient: str = 'top',
+        use_pd: bool = False,
     ):
         squad_df = agg_df[agg_df['squad'] == squad_label].copy()
-        x_axis_max = int(math.ceil(float(agg_x_max) / 10.0) * 10) if float(agg_x_max) > 0 else 10
-        x_tick_values = list(range(0, x_axis_max + 1, 10))
+        if use_pd:
+            squad_df['x_start'] = squad_df['avg_pf'] - squad_df['avg_pa']
+            squad_df['x_end'] = 0.0
+            squad_df['x_loser'] = squad_df['avg_min'] - squad_df['avg_pa']
+            squad_df['x_winner'] = squad_df['avg_max'] - squad_df['avg_pa']
+            x_axis_min = int(math.floor(min(float(squad_df['margin'].min()), 0.0) / 10.0) * 10)
+            x_axis_max = int(math.ceil(max(float(squad_df['margin'].max()), 0.0) / 10.0) * 10)
+            x_axis_title = 'Average PD'
+        else:
+            squad_df['x_start'] = squad_df['avg_pf']
+            squad_df['x_end'] = squad_df['avg_pa']
+            squad_df['x_loser'] = squad_df['avg_min']
+            squad_df['x_winner'] = squad_df['avg_max']
+            x_axis_min = 0
+            x_axis_max = int(math.ceil(float(agg_x_max) / 10.0) * 10) if float(agg_x_max) > 0 else 10
+            x_axis_title = 'Average Points'
+
+        if x_axis_max <= x_axis_min:
+            x_axis_max = x_axis_min + 10
+
+        x_tick_values = list(range(x_axis_min, x_axis_max + 1, 10))
         season_domain = squad_df.sort_values(['season_start', 'season'], ascending=[False, False])['season'].tolist()
         level_blocks_df = _build_level_blocks(squad_df, squad_label)
+        level_blocks_df = level_blocks_df.copy()
+        if not level_blocks_df.empty:
+            level_blocks_df['x_start'] = float(x_axis_min)
+            level_blocks_df['x_end'] = float(x_axis_max)
+
         squad_base = alt.Chart(squad_df).encode(
             detail='season:N',
             color=alt.Color(
@@ -3673,9 +3724,8 @@ def team_stats_results_chart(
             (level_bg_df['sort_key'] <= level_bg_df['sort_key_end'])
         ].copy()
         level_bg_df = level_bg_df[level_bg_df['level_label'] != 'No league'].copy()
-        level_bg_df['x_start'] = 0.0
-        # Round up to nearest 10 for cleaner axis alignment - use overall max across squads to ensure alignment between them
-        level_bg_df['x_end'] = float(agg_x_max) // 10 * 10 + 10
+        level_bg_df['x_start'] = float(x_axis_min)
+        level_bg_df['x_end'] = float(x_axis_max)
         level_bg_df['bg_color'] = pd.NA 
         level_bg_df.loc[level_bg_df['level_label'] == 'Non-RFU league', 'bg_color'] = '#2d4268'
         level_bg_df.loc[
@@ -3705,7 +3755,7 @@ def team_stats_results_chart(
         level_background = alt.Chart(level_bg_df).mark_rect().encode(
             x=alt.X(
                 'x_start:Q',
-                scale=alt.Scale(domain=[0, x_axis_max]),
+                scale=alt.Scale(domain=[x_axis_min, x_axis_max]),
                 axis=alt.Axis(labels=False, ticks=False, domain=False, title=None, grid=False, values=x_tick_values, tickMinStep=10),
             ),
             x2=alt.X2('x_end:Q'),
@@ -3735,7 +3785,7 @@ def team_stats_results_chart(
         ).encode(
             x=alt.X(
                 'x_start:Q',
-                scale=alt.Scale(domain=[0, x_axis_max]),
+                scale=alt.Scale(domain=[x_axis_min, x_axis_max]),
                 axis=alt.Axis(labels=False, ticks=False, domain=False, title=None, grid=False, values=x_tick_values, tickMinStep=10),
             ),
             y=alt.Y(
@@ -3749,12 +3799,12 @@ def team_stats_results_chart(
 
         squad_bar = squad_base.mark_bar(size=16).encode(
             x=alt.X(
-                'avg_pf:Q',
-                title='Average Points',
-                scale=alt.Scale(domain=[0, x_axis_max]),
+                'x_start:Q',
+                title=x_axis_title,
+                scale=alt.Scale(domain=[x_axis_min, x_axis_max]),
                 axis=alt.Axis(orient=axis_orient, offset=5, grid=True, values=x_tick_values, tickCount=len(x_tick_values), tickMinStep=10),
             ),
-            x2=alt.X2('avg_pa:Q'),
+            x2=alt.X2('x_end:Q'),
             y=alt.Y(
                 'season:N',
                 title=squad_label + ' XV',
@@ -3773,9 +3823,9 @@ def team_stats_results_chart(
 
         squad_loser = squad_base.mark_text(align='right', dx=-2, dy=0).encode(
             x=alt.X(
-                'avg_min:Q',
-                title='Average Points',
-                scale=alt.Scale(domain=[0, x_axis_max]),
+                'x_loser:Q',
+                title=x_axis_title,
+                scale=alt.Scale(domain=[x_axis_min, x_axis_max]),
                 axis=alt.Axis(labels=False, ticks=False, domain=False, title=None, grid=False, values=x_tick_values, tickMinStep=10),
             ),
             y=alt.Y(
@@ -3790,9 +3840,9 @@ def team_stats_results_chart(
 
         squad_winner = squad_base.mark_text(align='left', dx=2, dy=0).encode(
             x=alt.X(
-                'avg_max:Q',
+                'x_winner:Q',
                 title=None,
-                scale=alt.Scale(domain=[0, x_axis_max]),
+                scale=alt.Scale(domain=[x_axis_min, x_axis_max]),
                 axis=alt.Axis(labels=False, ticks=False, domain=False, title=None, grid=False, values=x_tick_values, tickMinStep=10),
             ),
             y=alt.Y(
@@ -3819,29 +3869,39 @@ def team_stats_results_chart(
             width=400,
         )
 
-    agg_chart = alt.vconcat(
-        _build_agg_squad_chart('1st', show_legend=True, axis_orient='top'),
-        _build_agg_squad_chart('2nd', show_legend=False, axis_orient='bottom'),
-        spacing=24,
-    ).resolve_scale(
-        y='independent',
-        x='independent',
-        color='shared',
-        opacity='independent',
-    ).properties(
-        title=alt.Title('Results by Season (Average)', subtitle=['All seasons aggregated']),
-    ).configure_view(
-        strokeWidth=0
-    )
+    def _build_agg_chart(use_pd: bool = False):
+        title_text = 'Results by Season (Average PD)' if use_pd else 'Results by Season (Average)'
+        subtitle = ['All seasons aggregated', 'PA-shifted view (PD from zero)'] if use_pd else ['All seasons aggregated']
+        return alt.vconcat(
+            _build_agg_squad_chart('1st', show_legend=True, axis_orient='top', use_pd=use_pd),
+            _build_agg_squad_chart('2nd', show_legend=False, axis_orient='bottom', use_pd=use_pd),
+            spacing=24,
+        ).resolve_scale(
+            y='independent',
+            x='independent',
+            color='shared',
+            opacity='independent',
+        ).properties(
+            title=alt.Title(title_text, subtitle=subtitle),
+        ).configure_view(
+            strokeWidth=0
+        )
+
+    agg_chart = _build_agg_chart(use_pd=False)
+    agg_chart_pd = _build_agg_chart(use_pd=True)
 
     game_chart.save(output_file_game)
     agg_chart.save(output_file_aggregated)
+    game_chart_pd.save(output_file_game_pd)
+    agg_chart_pd.save(output_file_aggregated_pd)
 
     print("Saved Squad Stats results specs:")
     print(f"  Game-level: {output_file_game}")
     print(f"  Aggregated: {output_file_aggregated}")
+    print(f"  Game-level (PD): {output_file_game_pd}")
+    print(f"  Aggregated (PD): {output_file_aggregated_pd}")
 
-    return game_chart, agg_chart
+    return game_chart, agg_chart, game_chart_pd, agg_chart_pd
 
 
 def set_piece_success_by_season_chart(

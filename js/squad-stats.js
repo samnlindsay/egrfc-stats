@@ -9,6 +9,8 @@ let squadOverlapTemplateSpec = null;
 let squadPositionCompositionTemplateSpec = null;
 let squadResultsGameSpec = null;
 let squadResultsAggregateSpec = null;
+let squadResultsGamePdSpec = null;
+let squadResultsAggregatePdSpec = null;
 let leagueHistoryTemplateSpec = null;
 let squadStatsControlsInitialised = false;
 let syncingSquadStatsControls = false;
@@ -82,14 +84,18 @@ async function loadSquadStatsCanonicalData() {
         } catch (e) { console.warn('Unable to load squad position composition template spec:', e); }
     }
 
-    if (!squadResultsGameSpec || !squadResultsAggregateSpec) {
+    if (!squadResultsGameSpec || !squadResultsAggregateSpec || !squadResultsGamePdSpec || !squadResultsAggregatePdSpec) {
         try {
-            const [gameRes, aggRes] = await Promise.all([
+            const [gameRes, aggRes, gamePdRes, aggPdRes] = await Promise.all([
                 fetchJsonNoCache('data/charts/team_stats_results_game.json'),
                 fetchJsonNoCache('data/charts/team_stats_results_season_aggregate.json'),
+                fetchJsonNoCache('data/charts/team_stats_results_game_pd.json'),
+                fetchJsonNoCache('data/charts/team_stats_results_season_aggregate_pd.json'),
             ]);
             if (gameRes.ok) squadResultsGameSpec = await gameRes.json();
             if (aggRes.ok) squadResultsAggregateSpec = await aggRes.json();
+            if (gamePdRes.ok) squadResultsGamePdSpec = await gamePdRes.json();
+            if (aggPdRes.ok) squadResultsAggregatePdSpec = await aggPdRes.json();
         } catch (e) { console.warn('Unable to load results specs:', e); }
     }
 
@@ -384,11 +390,18 @@ function renderSquadResultsActiveFilterChips(selectedSeasonValue, gameTypeMode) 
     if (!host) return;
     const seasonLabel = getSectionSeasonLabel(selectedSeasonValue, SECTION_START_RESULTS);
     const seasonShort = /^\d{4}\//.test(seasonLabel) ? seasonLabel.replace(/^20/, '') : seasonLabel;
+    const viewLabel = getSquadResultsShowPd() ? 'PD' : 'Points';
 
     host.innerHTML = [
         `<button type="button" class="squad-stats-filter-chip squad-stats-filter-chip-btn" data-bs-toggle="offcanvas" data-bs-target="#squadStatsFiltersOffcanvas" aria-controls="squadStatsFiltersOffcanvas"><strong>Season</strong> <span class="d-none d-md-inline">${seasonLabel}</span><span class="d-inline d-md-none">${seasonShort}</span></button>`,
-        `<button type="button" class="squad-stats-filter-chip squad-stats-filter-chip-btn" data-bs-toggle="offcanvas" data-bs-target="#squadStatsFiltersOffcanvas" aria-controls="squadStatsFiltersOffcanvas"><strong>Game Type</strong> ${gameTypeMode}</button>`
+        `<button type="button" class="squad-stats-filter-chip squad-stats-filter-chip-btn" data-bs-toggle="offcanvas" data-bs-target="#squadStatsFiltersOffcanvas" aria-controls="squadStatsFiltersOffcanvas"><strong>Game Type</strong> ${gameTypeMode}</button>`,
+        `<span class="squad-stats-filter-chip"><strong>View</strong> ${viewLabel}</span>`
     ].join('');
+}
+
+function getSquadResultsShowPd() {
+    const toggle = document.getElementById('squadResultsPdToggle');
+    return Boolean(toggle?.checked);
 }
 
 function syncOffcanvasFiltersFromMain() {
@@ -652,10 +665,13 @@ function _setRowsOnInlineOrDataset(spec, rows) {
 function renderSquadResultsChart(selectedSeasonValue, gameTypeMode) {
     const container = document.getElementById('squadResultsChart');
     if (!container) return;
+    const showPd = getSquadResultsShowPd();
 
     // Check which spec to use
     const isAggregated = selectedSeasonValue === ALL_SQUAD_STATS_SEASON_VALUE;
-    const baseSpec = isAggregated ? squadResultsAggregateSpec : squadResultsGameSpec;
+    const baseSpec = isAggregated
+        ? (showPd ? squadResultsAggregatePdSpec : squadResultsAggregateSpec)
+        : (showPd ? squadResultsGamePdSpec : squadResultsGameSpec);
 
     if (!baseSpec) {
         container.innerHTML = '<div class="text-center text-muted py-4">Results chart specs not available. Run <code>python update.py</code> to generate charts.</div>';
@@ -665,7 +681,7 @@ function renderSquadResultsChart(selectedSeasonValue, gameTypeMode) {
     const spec = JSON.parse(JSON.stringify(baseSpec));
 
     if (isAggregated) {
-        spec.title.text = 'Results by Season (Average)';
+        spec.title.text = showPd ? 'Results by Season (Average PD)' : 'Results by Season (Average)';
         spec.title.subtitle = [gameTypeMode];
         renderStaticSpecChart('squadResultsChart', spec, 'No results data available for the selected filters.', { hideTitle: true });
         return;
@@ -693,7 +709,7 @@ function renderSquadResultsChart(selectedSeasonValue, gameTypeMode) {
     const titleSuffix = isAggregated 
         ? ' by Season (Average)'
         : ` - ${selectedSeasonValue}`;
-    spec.title.text = `Results${titleSuffix}`;
+    spec.title.text = showPd ? `Results (PD)${titleSuffix}` : `Results${titleSuffix}`;
     spec.title.subtitle = [gameTypeMode];
 
     renderStaticSpecChart('squadResultsChart', spec, 'No results data available for the selected filters.', { hideTitle: true });
@@ -886,6 +902,7 @@ function initialiseSquadStatsControlsOnce() {
     const minAppsInput = document.getElementById('squadStatsMinAppsSelect');
     const squadStatsUnitSelect = document.getElementById('squadStatsUnitSelect');
     const squadSizeTrendViewSelect = document.getElementById('squadSizeTrendViewSelect');
+    const squadResultsPdToggle = document.getElementById('squadResultsPdToggle');
     
     if (!seasonSelect || !gameTypeSelect || !positionCountModeSelect || !minAppsInput || !squadStatsUnitSelect) return;
     
@@ -1019,6 +1036,12 @@ function initialiseSquadStatsControlsOnce() {
             if (!value) return;
             squadSizeTrendViewSelect.value = value;
             syncSquadSizeTrendViewSegmentFromSelect();
+            renderSquadStatsPage();
+        });
+    }
+
+    if (squadResultsPdToggle) {
+        squadResultsPdToggle.addEventListener('change', function () {
             renderSquadStatsPage();
         });
     }

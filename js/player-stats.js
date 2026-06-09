@@ -4,6 +4,7 @@ let playerStatsControlsInitialised = false;
 let playerStatsDataSeasons = [];
 let playerStatsBaseSpecs = null;
 let playerStatsAnalysisRailInitialised = false;
+let playerStatsAwardsRows = null;
 
 const PLAYER_STATS_DEFAULT_GAME_TYPE = 'All';
 const PLAYER_STATS_DEFAULT_SCORE_TYPE = 'Total';
@@ -124,6 +125,182 @@ function getPlayerStatsSelectedState() {
 
 function getPlayerStatsCombinationLabel(combinationValue) {
     return PLAYER_STATS_COMBINATION_OPTIONS.find(option => option.value === combinationValue)?.label || 'Front Row';
+}
+
+function escapePlayerStatsHtml(value) {
+    return String(value ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
+function getPlayerStatsNameInitials(name) {
+    const parts = String(name || '').trim().split(/\s+/).filter(Boolean);
+    if (parts.length === 0) return '?';
+    if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+    return `${parts[0][0] || ''}${parts[parts.length - 1][0] || ''}`.toUpperCase();
+}
+
+function sortPlayerStatsAwardsSeasonsDesc(seasons) {
+    return Array.from(new Set((seasons || []).filter(Boolean))).sort((a, b) => {
+        const aYear = Number(String(a).split('/')[0]) || 0;
+        const bYear = Number(String(b).split('/')[0]) || 0;
+        if (aYear !== bYear) return bYear - aYear;
+        return String(b).localeCompare(String(a));
+    });
+}
+
+function splitPlayerStatsNameTwoLines(name) {
+    const parts = String(name || '').trim().split(/\s+/).filter(Boolean);
+    if (parts.length === 0) return { line1: 'Unknown', line2: '' };
+    if (parts.length === 1) return { line1: parts[0], line2: '' };
+    return { line1: parts[0], line2: parts.slice(1).join(' ') };
+}
+
+function renderPlayerStatsAwardsWinnerChip(row, squad) {
+    const winner = String(row?.winner || '').trim() || 'Unknown';
+    const photoUrl = String(row?.winner_photo_url || '').trim();
+    const nameParts = splitPlayerStatsNameTwoLines(winner);
+    const avatarMarkup = photoUrl
+        ? `<img class="player-awards-avatar" src="${escapePlayerStatsHtml(photoUrl)}" alt="${escapePlayerStatsHtml(winner)} headshot" loading="lazy">`
+        : `<span class="player-awards-avatar player-awards-avatar--fallback" aria-hidden="true">${escapePlayerStatsHtml(getPlayerStatsNameInitials(winner))}</span>`;
+    const squadLabel = squad === '1st' ? '1st XV' : '2nd XV';
+
+    return `
+        <div class="player-awards-winner-chip player-awards-winner-chip--${escapePlayerStatsHtml(squad)}">
+            ${avatarMarkup}
+            <span class="player-awards-winner-name">
+                <span class="player-awards-winner-name-line1">${escapePlayerStatsHtml(nameParts.line1)}</span>
+                <span class="player-awards-winner-name-line2">${escapePlayerStatsHtml(nameParts.line2 || '\u00A0')}</span>
+            </span>
+        </div>
+    `;
+}
+
+function getPlayerStatsAwardsColumnOrder(awards) {
+    const priority = ["Most Improved", "Coaches' Player", "Players' Player"];
+    const allAwards = Array.from(new Set((awards || []).filter(Boolean)));
+    const priorityAwards = priority.filter(award => allAwards.includes(award));
+    const others = allAwards.filter(award => !priority.includes(award)).sort((a, b) => a.localeCompare(b));
+    return [...priorityAwards, ...others];
+}
+
+async function loadPlayerStatsAwardsRows() {
+    if (Array.isArray(playerStatsAwardsRows)) return playerStatsAwardsRows;
+    try {
+        const response = await fetch(`data/backend/player_awards.json?v=${encodeURIComponent(String(Date.now()))}`, {
+            cache: 'no-store'
+        });
+        if (!response.ok) {
+            throw new Error(`Failed to fetch player awards (${response.status})`);
+        }
+        const data = await response.json();
+        playerStatsAwardsRows = Array.isArray(data) ? data : [];
+    } catch (error) {
+        console.warn('Unable to load player awards data:', error);
+        playerStatsAwardsRows = [];
+    }
+    return playerStatsAwardsRows;
+}
+
+function renderPlayerStatsAwardsTable(state) {
+    const host = document.getElementById('playerStatsAwardsTableWrap');
+    if (!host) return;
+
+    const allRows = Array.isArray(playerStatsAwardsRows) ? playerStatsAwardsRows : [];
+    const selectedSquad = state?.selectedSquad || 'All';
+
+    const rows = allRows
+        .filter(row => row && typeof row === 'object')
+        .filter(row => {
+            if (selectedSquad !== 'All' && row.squad !== selectedSquad) return false;
+            return true;
+        });
+
+    if (rows.length === 0) {
+        host.innerHTML = '<div class="text-center text-muted py-3">No awards found for the selected squad filter.</div>';
+        return;
+    }
+
+    const seasons = sortPlayerStatsAwardsSeasonsDesc(rows.map(row => row?.season));
+    const awards = getPlayerStatsAwardsColumnOrder(rows.map(row => String(row?.award || '').trim()));
+
+    if (seasons.length === 0 || awards.length === 0) {
+        host.innerHTML = '<div class="text-center text-muted py-3">No awards found for the selected squad filter.</div>';
+        return;
+    }
+
+    const pivot = new Map();
+    rows.forEach(row => {
+        const season = row?.season;
+        const award = String(row?.award || '').trim();
+        const squad = row?.squad;
+        if (!season || !award || !squad) return;
+        if (!pivot.has(season)) pivot.set(season, new Map());
+        const seasonMap = pivot.get(season);
+        if (!seasonMap.has(award)) seasonMap.set(award, new Map());
+        const awardMap = seasonMap.get(award);
+        if (!awardMap.has(squad)) awardMap.set(squad, []);
+        awardMap.get(squad).push(row);
+    });
+
+    const squadOrder = selectedSquad === 'All' ? ['1st', '2nd'] : [selectedSquad];
+    const columns = awards.flatMap(award => squadOrder.map(squad => ({ award, squad })));
+
+    const groupedHeaderMarkup = awards
+        .map(award => `<th scope="col" class="player-awards-col-award-group" colspan="${squadOrder.length}">${escapePlayerStatsHtml(award)}</th>`)
+        .join('');
+
+    const subHeaderMarkup = columns
+        .map(({ squad }) => {
+            const squadLabel = squad === '1st' ? '1st XV' : '2nd XV';
+            return `<th scope="col" class="player-awards-col-squad-sub player-awards-col-squad-sub--${escapePlayerStatsHtml(squad)}">${escapePlayerStatsHtml(squadLabel)}</th>`;
+        })
+        .join('');
+
+    const bodyMarkup = seasons.map(season => {
+        const seasonMap = pivot.get(season) || new Map();
+        const cells = columns.map(({ award, squad }) => {
+            const winners = (seasonMap.get(award)?.get(squad) || [])
+                .slice()
+                .sort((a, b) => String(a?.winner || '').localeCompare(String(b?.winner || '')));
+
+            if (winners.length === 0) {
+                return '<td class="player-awards-cell player-awards-cell--empty">-</td>';
+            }
+
+            const winnersMarkup = winners
+                .map(row => renderPlayerStatsAwardsWinnerChip(row, squad))
+                .join('');
+
+            return `<td class="player-awards-cell"><div class="player-awards-winners-stack">${winnersMarkup}</div></td>`;
+        }).join('');
+
+        return `
+            <tr>
+                <td class="player-awards-col-season">${escapePlayerStatsHtml(season)}</td>
+                ${cells}
+            </tr>
+        `;
+    }).join('');
+
+    const tableMinWidth = Math.max(780, 120 + columns.length * 124);
+    host.innerHTML = `
+        <div class="player-awards-table-wrap">
+            <table class="table table-sm table-hover player-awards-table player-awards-table--pivot mb-0" style="min-width: ${tableMinWidth}px;">
+                <thead>
+                    <tr class="player-awards-head-awards">
+                        <th scope="col" class="player-awards-col-season" rowspan="2">Season</th>
+                        ${groupedHeaderMarkup}
+                    </tr>
+                    <tr class="player-awards-head-squads">${subHeaderMarkup}</tr>
+                </thead>
+                <tbody>${bodyMarkup}</tbody>
+            </table>
+        </div>
+    `;
 }
 
 function getPlayerStatsPointsThresholdLabel(scoreType) {
@@ -412,6 +589,11 @@ function renderPlayerStatsActiveFilterChips(state) {
     const startingCombinationsHost = document.getElementById('playerStatsStartingCombinationsActiveFilters');
     if (startingCombinationsHost) {
         startingCombinationsHost.innerHTML = [seasonChip, gameTypeChip, squadChip].join('');
+    }
+
+    const awardsHost = document.getElementById('playerStatsAwardsActiveFilters');
+    if (awardsHost) {
+        awardsHost.innerHTML = [squadChip].join('');
     }
 
 }
@@ -918,6 +1100,8 @@ async function renderPlayerStatsPage() {
     } = state;
 
     renderPlayerStatsActiveFilterChips(state);
+    await loadPlayerStatsAwardsRows();
+    renderPlayerStatsAwardsTable(state);
 
     try {
         if (!playerStatsBaseSpecs) {

@@ -48,6 +48,10 @@ Main outputs:
 - `data/egrfc_backend.duckdb`
 - `data/backend/*.json`
 
+Notable frontend-facing backend exports:
+- `data/backend/player_profiles_canonical.json` (Player Profiles page)
+- `data/backend/player_awards.json` (Player Stats Awards section and Data Explorer)
+
 Backend schema and usage notes:
 - `python/backend.md`
 

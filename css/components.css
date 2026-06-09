@@ -4452,6 +4452,176 @@ table tbody tr:hover {
     color: #202946;
 }
 
+.player-awards-table-shell {
+    width: 100%;
+}
+
+.player-awards-table-wrap {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid rgba(32, 41, 70, 0.12);
+    border-radius: 12px;
+    background: #fff;
+}
+
+.player-awards-table {
+    margin: 0;
+    min-width: 760px;
+}
+
+.player-awards-table thead th {
+    background: var(--primary-color);
+    color: #fff;
+    border-bottom: none;
+    font-family: 'PT Sans Narrow', sans-serif;
+    font-size: 0.95rem;
+    letter-spacing: 0.01em;
+    padding: 0.42rem 0.5rem;
+}
+
+.player-awards-table thead tr.player-awards-head-awards th {
+    background: var(--primary-color);
+    font-size: 1.03rem;
+    font-weight: 900;
+    letter-spacing: 0.025em;
+    padding-top: 0.46rem;
+    padding-bottom: 0.46rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.24);
+}
+
+.player-awards-table thead tr.player-awards-head-squads th {
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    padding: 0.26rem 0.35rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.18);
+    border-bottom: 1px solid rgba(32, 41, 70, 0.24);
+}
+
+.player-awards-table thead tr.player-awards-head-squads th.player-awards-col-squad-sub--1st {
+    background: linear-gradient(180deg, #2f3c66 0%, #26325a 100%);
+    color: #edf3ff;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.18);
+}
+
+.player-awards-table thead tr.player-awards-head-squads th.player-awards-col-squad-sub--2nd {
+    background: linear-gradient(180deg, #a8b9ef 0%, #8ea5e8 100%);
+    color: #1f2e58;
+    border-left: 1px solid rgba(32, 41, 70, 0.2);
+}
+
+.player-awards-table td {
+    vertical-align: middle;
+    padding: 0.26rem 0.24rem;
+}
+
+.player-awards-winner-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+}
+
+.player-awards-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 999px;
+    object-fit: cover;
+    object-position: center top;
+    border: 2px solid rgba(32, 41, 70, 0.25);
+    background: #f2f1f4;
+    flex: 0 0 48px;
+}
+
+.player-awards-avatar--fallback {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'PT Sans Narrow', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #fff;
+    background: #5e6b90;
+}
+
+.player-awards-cell {
+    min-width: 124px;
+}
+
+.player-awards-cell--empty {
+    color: #6a738f;
+    text-align: center;
+    font-weight: 600;
+}
+
+.player-awards-winners-stack {
+    display: grid;
+    gap: 0.16rem;
+}
+
+.player-awards-winner-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.28rem;
+    border-radius: 8px;
+    padding: 0.14rem 0.22rem 0.14rem 0.14rem;
+    border: 1px solid rgba(32, 41, 70, 0.14);
+    width: 100%;
+    min-width: 0;
+}
+
+.player-awards-winner-chip--1st {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.player-awards-winner-chip--2nd {
+    background: rgba(125, 150, 232, 0.22);
+    border-color: rgba(66, 90, 168, 0.36);
+}
+
+.player-awards-winner-name {
+    font-weight: 700;
+    color: var(--primary-color);
+    min-width: 0;
+    line-height: 1.05;
+    display: grid;
+    gap: 0.04rem;
+}
+
+.player-awards-winner-name-line1,
+.player-awards-winner-name-line2 {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.player-awards-winner-name-line1 {
+    font-size: 0.82rem;
+}
+
+.player-awards-winner-name-line2 {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #3d4d7f;
+}
+
+.player-awards-winner-chip--1st .player-awards-winner-name-line1,
+.player-awards-winner-chip--1st .player-awards-winner-name-line2 {
+    color: #f2f6ff;
+}
+
+.player-awards-col-season,
+.player-awards-col-squad {
+    white-space: nowrap;
+}
+
+.player-awards-col-season {
+    min-width: 70px;
+    font-weight: 700;
+}
+
 :is(.squad-filter-segment--squad, #playerStatsSquadSegment, #leagueTablesSquadSegment, #teamSheetsSquadSegment) .squad-filter-segment-btn[data-value="All"].is-active {
     background: #000;
     border-color: #000;

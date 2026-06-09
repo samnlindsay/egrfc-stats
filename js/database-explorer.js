@@ -169,6 +169,14 @@ const DatabaseExplorer = (() => {
             sourceNote: 'Defined in backend.py and assembled from canonical appearances, games, lineouts, scorers, and reconciliation-adjusted totals.'
         },
         {
+            key: 'player_awards',
+            label: 'player_awards',
+            path: 'data/backend/player_awards.json',
+            grain: 'One row per award winner entry',
+            description: 'End-of-season player awards from Google Sheets with season, squad, award, winner, and resolved winner headshot URL.',
+            sourceNote: 'Defined in backend.py from data.py Awards extraction (A3:D) and enriched by matching winner names to players.photo_url.'
+        },
+        {
             key: 'squad_stats_enriched',
             label: 'squad_stats_enriched',
             path: 'data/backend/squad_stats_enriched.json',
@@ -529,7 +537,7 @@ const DatabaseExplorer = (() => {
             return 'views';
         }
 
-        if (key.endsWith('_enriched') || key === 'player_profiles_canonical') {
+        if (key.endsWith('_enriched') || key === 'player_profiles_canonical' || key === 'player_awards') {
             return 'enriched';
         }
 

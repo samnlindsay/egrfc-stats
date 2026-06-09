@@ -759,6 +759,7 @@ class BackendDatabase:
         self.con.execute("DROP TABLE IF EXISTS ref_pitchero_opposition_overrides")
         self.con.execute("DROP TABLE IF EXISTS ref_pitchero_player_name_overrides")
         self.con.execute("DROP TABLE IF EXISTS player_profiles_enriched")
+        self.con.execute("DROP TABLE IF EXISTS player_awards")
         self.con.execute("DROP TABLE IF EXISTS player_appearances_rfu")
         self.con.execute("DROP TABLE IF EXISTS players")
         self.con.execute("DROP TABLE IF EXISTS scorers_stage_google")
@@ -1287,6 +1288,20 @@ class BackendDatabase:
 
         self.con.execute(
             """
+            CREATE TABLE player_awards (
+                season TEXT NOT NULL,
+                squad TEXT,
+                award TEXT NOT NULL,
+                winner TEXT NOT NULL,
+                winner_photo_url TEXT,
+                season_start_year INTEGER,
+                PRIMARY KEY(season, squad, award, winner)
+            )
+            """
+        )
+
+        self.con.execute(
+            """
             CREATE TABLE squad_stats_enriched (
                 season TEXT NOT NULL,
                 gameTypeMode TEXT NOT NULL,
@@ -1375,6 +1390,7 @@ class BackendDatabase:
         lineouts_raw = self._extract_lineouts(extractor)
         set_piece_raw = extractor.extract_set_piece_stats()
         sponsors_raw = extractor.extract_sponsors()
+        awards_raw = extractor.extract_awards()
         self._write_sponsors_json(sponsors_raw)
         pitchero_stats_source = self._load_pitchero(extractor, refresh_pitchero)
         scorers_2526_raw = self._extract_2526_scorers(extractor)
@@ -1567,6 +1583,7 @@ class BackendDatabase:
         season_scorers = self._build_season_scorers(scorers_staged_all, appearances)
         appearances = self._annotate_appearance_numbers(appearances)
         players = self._build_players(appearances, games, lineouts, season_scorers, sponsors_raw=sponsors_raw)
+        player_awards = self._build_player_awards(awards_raw, players)
         player_profiles_base = self._build_player_profiles_base(players, appearances, games, season_scorers)
         squad_stats_enriched = self._build_squad_stats(appearances, games)
         squad_continuity_enriched = self._build_squad_continuity(appearances, games)
@@ -1595,6 +1612,7 @@ class BackendDatabase:
         self._insert("set_piece", set_piece)
         self._insert("season_scorers", season_scorers)
         self._insert("players", players)
+        self._insert("player_awards", player_awards)
         self._insert("squad_stats_enriched", squad_stats_enriched)
         self._insert("squad_continuity_enriched", squad_continuity_enriched)
         self._insert("squad_stats_with_thresholds_enriched", squad_stats_with_thresholds_enriched)
@@ -1943,6 +1961,7 @@ class BackendDatabase:
             "set_piece",
             "season_scorers",
             "players",
+            "player_awards",
             "squad_stats_enriched",
             "squad_continuity_enriched",
             "squad_stats_with_thresholds_enriched",
@@ -2347,6 +2366,58 @@ class BackendDatabase:
         df = df.sort_values(["season", "squad", "position"], na_position="last")
         df = df.drop_duplicates(subset=["season", "squad", "team"], keep="last")
         return df
+
+    def _build_player_awards(self, awards_raw: pd.DataFrame, players: pd.DataFrame) -> pd.DataFrame:
+        columns = ["season", "squad", "award", "winner", "winner_photo_url", "season_start_year"]
+        if awards_raw.empty:
+            return pd.DataFrame(columns=columns)
+
+        df = awards_raw.copy()
+        for col in ("season", "squad", "award", "winner"):
+            if col not in df.columns:
+                df[col] = ""
+
+        df["season"] = df["season"].fillna("").astype(str).str.strip()
+        df["squad"] = df["squad"].fillna("").astype(str).str.strip()
+        df["award"] = df["award"].fillna("").astype(str).str.strip()
+        df["winner"] = df["winner"].fillna("").astype(str).str.strip()
+
+        df = df[(df["season"] != "") & (df["award"] != "") & (df["winner"] != "")].copy()
+        if df.empty:
+            return pd.DataFrame(columns=columns)
+
+        df["squad"] = df["squad"].map(
+            lambda value: "1st" if str(value).lower().startswith("1") else (
+                "2nd" if str(value).lower().startswith("2") else str(value)
+            )
+        )
+
+        photo_lookup_exact: dict[str, str] = {}
+        photo_lookup_normalized: dict[str, str] = {}
+        if not players.empty and {"name", "photo_url"}.issubset(players.columns):
+            for _, row in players[["name", "photo_url"]].dropna(subset=["name"]).iterrows():
+                name = str(row.get("name") or "").strip()
+                photo_url = row.get("photo_url")
+                if not name or pd.isna(photo_url):
+                    continue
+                photo_text = str(photo_url).strip()
+                if not photo_text:
+                    continue
+                photo_lookup_exact[name] = photo_text
+                photo_lookup_normalized[normalize_lookup_key(name)] = photo_text
+
+        def _resolve_photo(winner_name: str) -> str | None:
+            direct = photo_lookup_exact.get(winner_name)
+            if direct:
+                return direct
+            return photo_lookup_normalized.get(normalize_lookup_key(winner_name))
+
+        df["winner_photo_url"] = df["winner"].map(_resolve_photo)
+        df["season_start_year"] = df["season"].map(_season_start_year).astype("Int64")
+
+        df = df.drop_duplicates(subset=["season", "squad", "award", "winner"], keep="last")
+        df = df.sort_values(["season_start_year", "season", "squad", "award"], ascending=[False, False, True, True])
+        return df[columns]
 
     def _build_pitchero_games_raw(self, historic_games_raw: pd.DataFrame) -> pd.DataFrame:
         columns = [
