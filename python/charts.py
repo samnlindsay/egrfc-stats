@@ -2936,7 +2936,12 @@ def team_sheets_chart(db, output_file='data/charts/team_sheets.json'):
 
 
 def opposition_profile_team_sheets_chart(db, output_file='data/charts/opposition_profile_team_sheets.json'):
-    """Team sheets chart for Opposition Profile page: merged 1st/2nd XV, faceted by season only."""
+    """Team sheets chart for Opposition Profile page: merged 1st/2nd XV, faceted by season only.
+
+    Note: this variant intentionally avoids Altair point selections so the exported Vega-Lite
+    spec does not include selection `params.views`, which has caused runtime embed issues on
+    some clients.
+    """
     if _using_canonical_backend(db):
         df = db.con.execute(
             """
@@ -3002,20 +3007,6 @@ def opposition_profile_team_sheets_chart(db, output_file='data/charts/opposition
     # Merge primary position back into main df
     df = df.merge(player_primary_position, on=['player'], how='left', suffixes=('', '_primary'))
 
-    # Selection for player highlighting
-    player_highlight = alt.selection_point(
-        fields=['player'], 
-        on="mouseover",
-        clear='mouseout',
-        empty='all'
-    )
-    click_player_highlight = alt.selection_point(
-        fields=['player'], 
-        on="click",
-        clear='dblclick',
-        empty='all'
-    )
-
     # Format date as string (e.g., '2024-08-23' -> '23 Aug 2024')
     df['date_str'] = df['date'].dt.strftime('%d %b %Y')
     
@@ -3048,8 +3039,8 @@ def opposition_profile_team_sheets_chart(db, output_file='data/charts/opposition
             title=None
         ),
         color=alt.Color('player:N', scale=alt.Scale(scheme='category20c', domain=player_primary_position.sort_values('position', ascending=True)["player"].unique()), legend=None),
-        opacity=alt.condition(click_player_highlight, alt.value(1.0), alt.value(0)),
-        stroke=alt.condition(click_player_highlight, alt.value('black'), alt.value(None)),
+        opacity=alt.value(1.0),
+        stroke=alt.value(None),
         tooltip=[
             alt.Tooltip('player:N', title='Player'),
             alt.Tooltip('position_label:N', title='Position'),
@@ -3057,8 +3048,6 @@ def opposition_profile_team_sheets_chart(db, output_file='data/charts/opposition
             alt.Tooltip('date_str:N', title='Date'),
             alt.Tooltip('game_label_short:N', title='Opposition'),
         ]
-    ).add_params(
-        player_highlight, click_player_highlight
     )
 
     # Player name text
@@ -3072,7 +3061,7 @@ def opposition_profile_team_sheets_chart(db, output_file='data/charts/opposition
         y=alt.Y('game_id_with_label:N', sort=alt.EncodingSortField(field='date', order='descending')),
         text=alt.Text('player_label:N'),
         color=alt.value('black'),
-        opacity=alt.condition(click_player_highlight, alt.value(1.0), alt.value(0.5)),
+        opacity=alt.value(0.9),
         strokeWidth=alt.value(0.5),
         detail='game_id:N'
     )
@@ -3148,7 +3137,8 @@ def results_chart(db, output_file='data/charts/results.json', facet_by_season=Fa
             """
         ).df()
 
-    squad_highlight = alt.selection_point(fields=['squad'], on='hover', clear='mouseout', empty='all')
+    use_squad_hover = not facet_by_season
+    squad_highlight = alt.selection_point(fields=['squad'], on='hover', clear='mouseout', empty='all') if use_squad_hover else None
         
     df = df.copy()
     # Exclude fixtures without a confirmed result (e.g. future games entered in Google Sheets)
@@ -3171,7 +3161,7 @@ def results_chart(db, output_file='data/charts/results.json', facet_by_season=Fa
             scale=alt.Scale(domain=['W', 'L'], range=['#146f14', '#981515']),
             legend=alt.Legend(orient='bottom', title='Result'),
         ),
-        opacity=alt.condition(squad_highlight, alt.value(1.0), alt.value(0.2)),
+        opacity=alt.condition(squad_highlight, alt.value(1.0), alt.value(0.2)) if use_squad_hover else alt.value(1.0),
         tooltip=[
             alt.Tooltip('game_label:N', title='Game'),
             alt.Tooltip('date_label:N', title='Date'),
@@ -3228,10 +3218,13 @@ def results_chart(db, output_file='data/charts/results.json', facet_by_season=Fa
         color=alt.value('black'),
     )
 
-    layer = (bar + loser + winner).add_params(squad_highlight).properties(
+    layer = (bar + loser + winner).properties(
         width=400,
         height=alt.Step(18),
     )
+
+    if use_squad_hover and squad_highlight is not None:
+        layer = layer.add_params(squad_highlight)
 
     if facet_by_season:
         chart = layer.facet(
@@ -3247,7 +3240,7 @@ def results_chart(db, output_file='data/charts/results.json', facet_by_season=Fa
                 'Results',
                 subtitle=[
                     'Results of all games, highlighting size of winning margin and the result.',
-                    'Hover to highlight games for a specific squad.'],
+                    'Faceted by season.'],
             )
         ).configure_view(strokeWidth=0)
     else:

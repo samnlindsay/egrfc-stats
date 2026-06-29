@@ -1,5 +1,6 @@
 {
   "seasons": [
+    "2026/27",
     "2025/26",
     "2024/25",
     "2023/24",
@@ -22,6 +23,144 @@
     "2004/05",
     "2003/04"
   ],
+  "2026/27": {
+    "1": {
+      "squad": "1st Team",
+      "division": "Counties 2 Sussex",
+      "tables": [
+        {
+          "position": 1,
+          "team": "Brighton II",
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "pointsFor": 0,
+          "pointsAgainst": 0,
+          "pointsDifference": 0,
+          "bonusPoints": 0,
+          "points": 0
+        },
+        {
+          "position": 2,
+          "team": "Burgess Hill",
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "pointsFor": 0,
+          "pointsAgainst": 0,
+          "pointsDifference": 0,
+          "bonusPoints": 0,
+          "points": 0
+        },
+        {
+          "position": 3,
+          "team": "Ditchling",
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "pointsFor": 0,
+          "pointsAgainst": 0,
+          "pointsDifference": 0,
+          "bonusPoints": 0,
+          "points": 0
+        },
+        {
+          "position": 4,
+          "team": "East Grinstead",
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "pointsFor": 0,
+          "pointsAgainst": 0,
+          "pointsDifference": 0,
+          "bonusPoints": 0,
+          "points": 0
+        },
+        {
+          "position": 5,
+          "team": "Eastbourne II",
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "pointsFor": 0,
+          "pointsAgainst": 0,
+          "pointsDifference": 0,
+          "bonusPoints": 0,
+          "points": 0
+        },
+        {
+          "position": 6,
+          "team": "Horsham II",
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "pointsFor": 0,
+          "pointsAgainst": 0,
+          "pointsDifference": 0,
+          "bonusPoints": 0,
+          "points": 0
+        },
+        {
+          "position": 7,
+          "team": "Hove II",
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "pointsFor": 0,
+          "pointsAgainst": 0,
+          "pointsDifference": 0,
+          "bonusPoints": 0,
+          "points": 0
+        },
+        {
+          "position": 8,
+          "team": "Lewes",
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "pointsFor": 0,
+          "pointsAgainst": 0,
+          "pointsDifference": 0,
+          "bonusPoints": 0,
+          "points": 0
+        },
+        {
+          "position": 9,
+          "team": "Seaford",
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "pointsFor": 0,
+          "pointsAgainst": 0,
+          "pointsDifference": 0,
+          "bonusPoints": 0,
+          "points": 0
+        },
+        {
+          "position": 10,
+          "team": "Shoreham",
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "pointsFor": 0,
+          "pointsAgainst": 0,
+          "pointsDifference": 0,
+          "bonusPoints": 0,
+          "points": 0
+        }
+      ]
+    }
+  },
   "2025/26": {
     "1": {
       "squad": "1st Team",

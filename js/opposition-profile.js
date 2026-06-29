@@ -17,6 +17,8 @@
     let oppositionProfileAnalysisRailInitialised = false;
     let oppositionFinderRows = [];
     let oppositionHistoryRows = [];
+    let currentOppositionGames = [];
+    let oppositionHistorySquadFilter = 'All';
     const oppositionFinderPagination = {
         page: 1,
         pageSize: 10,
@@ -320,8 +322,36 @@
         });
     }
 
-    function renderOppositionActiveFilters(_oppositionClub) {
-        // No per-section filter chips on this page — selection is inline via the dropdown.
+    function getOppositionSquadFilterLabel(value) {
+        if (value === '1st') return '1st XV';
+        if (value === '2nd') return '2nd XV';
+        return 'All squads';
+    }
+
+    function cycleOppositionSquadFilter() {
+        const order = ['All', '1st', '2nd'];
+        const currentIndex = order.indexOf(oppositionHistorySquadFilter);
+        const nextIndex = currentIndex < 0 ? 0 : (currentIndex + 1) % order.length;
+        return order[nextIndex];
+    }
+
+    function renderOppositionActiveFilters(oppositionClub) {
+        const hosts = [
+            'oppositionHistoryFilters',
+            'oppositionResultsFilters',
+            'oppositionTeamSheetsFilters',
+            'oppositionSetPieceFilters',
+        ];
+
+        const squadLabel = getOppositionSquadFilterLabel(oppositionHistorySquadFilter);
+        const isDisabled = !oppositionClub;
+        const chipHtml = `<button type="button" class="squad-stats-filter-chip squad-stats-filter-chip-btn" data-opposition-squad-chip="cycle" aria-label="Cycle squad filter" ${isDisabled ? 'disabled' : ''}><strong>Squad</strong> ${escapeHtml(squadLabel)}</button>`;
+
+        hosts.forEach((hostId) => {
+            const host = document.getElementById(hostId);
+            if (!host) return;
+            host.innerHTML = chipHtml;
+        });
     }
 
     function setChartPlaceholder(containerId, message) {
@@ -768,9 +798,25 @@
         setHtml('opposition-summary-last-match', buildLastMatchSummary(filteredGames));
     }
 
+    function applyOppositionSquadFilter(rows) {
+        const list = Array.isArray(rows) ? rows : [];
+        if (oppositionHistorySquadFilter === 'All') return list;
+        return list.filter((row) => String(row?.squad || '').trim() === oppositionHistorySquadFilter);
+    }
+
+    function getActiveOppositionGames() {
+        return applyOppositionSquadFilter(currentOppositionGames);
+    }
+
+    function getFilteredOppositionHistoryGames(rows) {
+        return applyOppositionSquadFilter(rows);
+    }
+
     function renderResultsTable(filteredGames) {
         const body = document.getElementById('oppositionResultsTableBody');
         if (!body) return;
+
+        const historyRows = getFilteredOppositionHistoryGames(filteredGames);
 
         if (!currentOppositionClub) {
             oppositionHistoryRows = [];
@@ -781,16 +827,19 @@
             return;
         }
 
-        if (!filteredGames.length) {
+        if (!historyRows.length) {
             oppositionHistoryRows = [];
             updateOppositionHistorySortHeaderUI();
             renderOppositionHistoryPaginationSummary({ total: 0, start: 0, rows: [] });
             syncOppositionHistoryPaginationButtons({ page: 1, pageCount: 1 });
-            body.innerHTML = '<tr><td colspan="7" class="text-center text-muted">No matches found for this opposition.</td></tr>';
+            const noRowsMessage = oppositionHistorySquadFilter === 'All'
+                ? 'No matches found for this opposition.'
+                : `No ${escapeHtml(oppositionHistorySquadFilter)} XV matches found for this opposition.`;
+            body.innerHTML = `<tr><td colspan="7" class="text-center text-muted">${noRowsMessage}</td></tr>`;
             return;
         }
 
-        oppositionHistoryRows = sortOppositionHistoryRows(filteredGames);
+        oppositionHistoryRows = sortOppositionHistoryRows(historyRows);
         updateOppositionHistorySortHeaderUI();
         const paged = getOppositionHistoryPagedRows();
         renderOppositionHistoryPaginationSummary(paged);
@@ -843,21 +892,79 @@
             .join('');
     }
 
-    function filterTeamSheetsSpecByClub(spec, oppositionClub) {
-        if (!spec || !oppositionClub) return null;
+    function filterSpecDatasetsByPredicate(spec, predicate) {
+        if (!spec) return null;
         const clonedSpec = JSON.parse(JSON.stringify(spec));
-        return filterChartSpecDataset(clonedSpec, (row) => {
+
+        const safePredicate = (row) => {
+            if (!row || typeof row !== 'object') return true;
+            return predicate(row);
+        };
+
+        if (typeof collectChartDatasetNames === 'function' && typeof filterNamedDatasetsInSpec === 'function') {
+            const datasetNames = collectChartDatasetNames(clonedSpec);
+            if (datasetNames && datasetNames.size > 0) {
+                filterNamedDatasetsInSpec(clonedSpec, datasetNames, safePredicate);
+            }
+        } else if (typeof filterChartSpecDataset === 'function') {
+            return filterChartSpecDataset(clonedSpec, safePredicate);
+        }
+
+        if (clonedSpec.data && Array.isArray(clonedSpec.data.values)) {
+            clonedSpec.data.values = clonedSpec.data.values.filter(safePredicate);
+        }
+
+        return clonedSpec;
+    }
+
+    function sanitizeSpecForVegaEmbed(spec) {
+        if (!spec || typeof spec !== 'object') return spec;
+        const clonedSpec = JSON.parse(JSON.stringify(spec));
+
+        function walk(node) {
+            if (!node || typeof node !== 'object') return;
+
+            if (Array.isArray(node.params)) {
+                node.params = node.params.map((param) => {
+                    if (!param || typeof param !== 'object') return param;
+                    const nextParam = { ...param };
+                    if (Object.prototype.hasOwnProperty.call(nextParam, 'views')) {
+                        delete nextParam.views;
+                    }
+                    return nextParam;
+                });
+            }
+
+            if (Array.isArray(node.layer)) node.layer.forEach(walk);
+            if (Array.isArray(node.hconcat)) node.hconcat.forEach(walk);
+            if (Array.isArray(node.vconcat)) node.vconcat.forEach(walk);
+            if (Array.isArray(node.concat)) node.concat.forEach(walk);
+            if (node.spec && typeof node.spec === 'object') walk(node.spec);
+        }
+
+        walk(clonedSpec);
+        return clonedSpec;
+    }
+
+    function filterTeamSheetsSpecByClub(spec, oppositionClub, squadFilter = 'All') {
+        if (!spec || !oppositionClub) return null;
+        return filterSpecDatasetsByPredicate(spec, (row) => {
+            if (!Object.prototype.hasOwnProperty.call(row, 'opposition')) return true;
             const rowClub = toOppositionClubName(row?.opposition);
-            return rowClub === oppositionClub;
+            if (rowClub !== oppositionClub) return false;
+            if (squadFilter === 'All') return true;
+            return String(row?.squad || '').trim() === squadFilter;
         });
     }
 
-    function filterResultsSpecByClub(spec, oppositionClub) {
+    function filterResultsSpecByClub(spec, oppositionClub, squadFilter = 'All') {
         if (!spec || !oppositionClub) return null;
-        const clonedSpec = JSON.parse(JSON.stringify(spec));
-        return filterChartSpecDataset(clonedSpec, (row) => {
+        return filterSpecDatasetsByPredicate(spec, (row) => {
+            if (!Object.prototype.hasOwnProperty.call(row, 'opposition')) return true;
             const rowClub = toOppositionClubName(row?.opposition);
-            return rowClub === oppositionClub;
+            if (rowClub !== oppositionClub) return false;
+            if (squadFilter === 'All') return true;
+            return String(row?.squad || '').trim() === squadFilter;
         });
     }
 
@@ -896,17 +1003,19 @@
         return cloned;
     }
 
-    function filterH2HSpecByClub(spec, oppositionClub) {
+    function filterH2HSpecByClub(spec, oppositionClub, squadFilter = 'All') {
         if (!spec || !oppositionClub || oppositionClub === 'All') {
             return layoutH2HSpec(spec);
         }
 
         return layoutH2HSpec(
-            filterChartSpecDataset(spec, (row) => {
+            filterSpecDatasetsByPredicate(spec, (row) => {
                 if (!row || !Object.prototype.hasOwnProperty.call(row, 'opposition_club')) {
                     return true;
                 }
-                return toOppositionClubName(row.opposition_club) === oppositionClub;
+                if (toOppositionClubName(row.opposition_club) !== oppositionClub) return false;
+                if (squadFilter === 'All') return true;
+                return String(row?.squad || '').trim() === squadFilter;
             })
         );
     }
@@ -931,7 +1040,7 @@
         return false;
     }
 
-    async function renderH2HCharts(oppositionClub = 'All') {
+    async function renderH2HCharts(oppositionClub = 'All', squadFilter = 'All') {
         const chartContainer = document.getElementById('oppositionSetPieceChart');
         const chartsWrap = document.getElementById('oppositionSetPieceCharts');
         const intro = document.getElementById('oppositionSetPieceIntro');
@@ -953,8 +1062,8 @@
             return;
         }
 
-        const filteredLineoutSpec = filterH2HSpecByClub(lineoutH2HSpec, oppositionClub);
-        const filteredScrumSpec = filterH2HSpecByClub(scrumH2HSpec, oppositionClub);
+        const filteredLineoutSpec = filterH2HSpecByClub(lineoutH2HSpec, oppositionClub, squadFilter);
+        const filteredScrumSpec = filterH2HSpecByClub(scrumH2HSpec, oppositionClub, squadFilter);
 
         // Check if filtered specs include real game rows.
         const lineoutHasData = h2hSpecHasGameRows(filteredLineoutSpec);
@@ -976,7 +1085,7 @@
         const selectedSpec = currentSetPieceType === 'lineout' ? filteredLineoutSpec : filteredScrumSpec;
         const chartTitle = currentSetPieceType === 'lineout' ? 'lineout' : 'scrum';
         
-        await embedChartSpec(chartContainer, selectedSpec, {
+        await embedChartSpec(chartContainer, sanitizeSpecForVegaEmbed(selectedSpec), {
             containerId: 'oppositionSetPieceChart',
             emptyMessage: `${chartTitle} chart unavailable.`,
             responsiveScaleMin: 0.5,
@@ -995,18 +1104,19 @@
             });
     }
 
-    async function applyH2HFilters(oppositionClub) {
-        await renderH2HCharts(oppositionClub || 'All');
+    async function applyH2HFilters(oppositionClub, squadFilter = 'All') {
+        await renderH2HCharts(oppositionClub || 'All', squadFilter);
     }
 
     async function renderOppositionProfile(oppositionClub) {
         if (!oppositionClub) {
             currentOppositionClub = null;
+            currentOppositionGames = [];
             oppositionHistoryPagination.page = 1;
             updateOppositionUrl('');
             renderOppositionActiveFilters('');
             toggleOverviewState(false);
-            renderResultsTable([]);
+            renderResultsTable(currentOppositionGames);
             renderStaticSpecChart('oppositionResultsChart', null, 'Select an opposition club to load the results chart.', {
                 responsiveScaleMin: 0.5,
                 responsiveScaleMinXs: 0.42,
@@ -1021,21 +1131,24 @@
         updateOppositionUrl(oppositionClub);
         renderOppositionActiveFilters(oppositionClub);
 
-        const filteredGames = gamesRows.filter((row) => toOppositionClubName(row?.opposition) === oppositionClub);
-        renderSummary(filteredGames);
-        renderResultsTable(filteredGames);
+        const clubGames = gamesRows.filter((row) => toOppositionClubName(row?.opposition) === oppositionClub);
+        currentOppositionGames = clubGames;
+        const scopedGames = getActiveOppositionGames();
+
+        renderSummary(scopedGames);
+        renderResultsTable(scopedGames);
         toggleOverviewState(true);
 
-        const filteredResultsSpec = filterResultsSpecByClub(resultsSpec, oppositionClub);
-        renderStaticSpecChart('oppositionResultsChart', filteredResultsSpec, 'No results chart data for this opposition.', {
+        const filteredResultsSpec = filterResultsSpecByClub(resultsSpec, oppositionClub, oppositionHistorySquadFilter);
+        renderStaticSpecChart('oppositionResultsChart', sanitizeSpecForVegaEmbed(filteredResultsSpec), 'No results chart data for this opposition.', {
             responsiveScaleMin: 0.5,
             responsiveScaleMinXs: 0.42,
         });
 
-        const filteredTeamSheetsSpec = filterTeamSheetsSpecByClub(teamSheetsSpec, oppositionClub);
-        renderStaticSpecChart('oppositionTeamSheetsChart', filteredTeamSheetsSpec, 'No team sheet data for this opposition.');
+        const filteredTeamSheetsSpec = filterTeamSheetsSpecByClub(teamSheetsSpec, oppositionClub, oppositionHistorySquadFilter);
+        renderStaticSpecChart('oppositionTeamSheetsChart', sanitizeSpecForVegaEmbed(filteredTeamSheetsSpec), 'No team sheet data for this opposition.');
 
-        await applyH2HFilters(oppositionClub);
+        await applyH2HFilters(oppositionClub, oppositionHistorySquadFilter);
     }
 
     function bindControls(rowsByClub) {
@@ -1046,6 +1159,7 @@
         const historyNextBtn = document.getElementById('oppositionHistoryNext');
         const finderTable = document.getElementById('oppositionTopTableWrap');
         const historyTable = document.getElementById('oppositionHistoryTableWrap');
+        const profileSection = document.getElementById('opposition-profile');
         if (oppositionSelect) {
             oppositionSelect.addEventListener('change', () => {
                 renderOppositionProfile(oppositionSelect.value).catch((error) => {
@@ -1075,7 +1189,7 @@
             historyPrevBtn.__oppositionHistoryPaginationBound = true;
             historyPrevBtn.addEventListener('click', () => {
                 oppositionHistoryPagination.page = Math.max(1, oppositionHistoryPagination.page - 1);
-                renderResultsTable(oppositionHistoryRows);
+                renderResultsTable(getActiveOppositionGames());
             });
         }
 
@@ -1083,7 +1197,31 @@
             historyNextBtn.__oppositionHistoryPaginationBound = true;
             historyNextBtn.addEventListener('click', () => {
                 oppositionHistoryPagination.page += 1;
-                renderResultsTable(oppositionHistoryRows);
+                renderResultsTable(getActiveOppositionGames());
+            });
+        }
+
+        if (profileSection && !profileSection.__oppositionSquadChipBound) {
+            profileSection.__oppositionSquadChipBound = true;
+            profileSection.addEventListener('click', (event) => {
+                const chipButton = event.target.closest('[data-opposition-squad-chip="cycle"]');
+                if (!chipButton) return;
+
+                const nextValue = cycleOppositionSquadFilter();
+                if (nextValue === oppositionHistorySquadFilter) return;
+
+                oppositionHistorySquadFilter = nextValue;
+                oppositionHistoryPagination.page = 1;
+
+                if (currentOppositionClub) {
+                    renderOppositionProfile(currentOppositionClub).catch((error) => {
+                        console.error('Failed to re-render opposition profile after squad filter change:', error);
+                        showError('Unable to apply squad filter.');
+                    });
+                } else {
+                    renderOppositionActiveFilters('');
+                    renderResultsTable([]);
+                }
             });
         }
 
@@ -1105,7 +1243,7 @@
                 if (!sortButton) return;
                 const key = sortButton.getAttribute('data-opposition-history-sort');
                 setOppositionHistorySort(key);
-                renderResultsTable(oppositionHistoryRows);
+                renderResultsTable(getActiveOppositionGames());
             });
         }
 
@@ -1117,7 +1255,7 @@
                 select: setpieceTypeSelect,
                 onSync: (value) => {
                     currentSetPieceType = String(value || 'lineout');
-                    renderH2HCharts(currentOppositionClub || 'All');
+                    renderH2HCharts(currentOppositionClub || 'All', oppositionHistorySquadFilter);
                 },
             });
         }

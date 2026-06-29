@@ -45,7 +45,7 @@ Recommended pattern:
 3) If a lock appears, rebuild to `data/egrfc_backend_alt.duckdb` and continue reading from that file.
 
 Main outputs:
-- `data/egrfc_backend.duckdb`
+- `data/egrfc_backend.duckdb`$$
 - `data/backend/*.json`
 
 Notable frontend-facing backend exports:
