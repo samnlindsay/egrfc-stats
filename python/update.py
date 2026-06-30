@@ -203,7 +203,12 @@ def main(
     team_sheets_chart(db)
     opposition_profile_team_sheets_chart(db)
     results_chart(db)
-    results_chart(db, output_file='data/charts/opposition_results.json', facet_by_season=True)
+    results_chart(
+        db,
+        output_file='data/charts/opposition_results.json',
+        facet_by_season=True,
+        output_file_pd='data/charts/opposition_results_pd.json',
+    )
     team_stats_results_chart(db)
 
     set_piece_success_by_season_chart(db, layout="separate")

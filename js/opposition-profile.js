@@ -1,12 +1,14 @@
 (function () {
     const TEAM_SHEETS_SPEC_PATH = 'data/charts/opposition_profile_team_sheets.json';
     const RESULTS_SPEC_PATH = 'data/charts/opposition_results.json';
+    const RESULTS_PD_SPEC_PATH = 'data/charts/opposition_results_pd.json';
     const LINEOUT_H2H_SPEC_PATH = 'data/charts/lineout_h2h.json';
     const SCRUM_H2H_SPEC_PATH = 'data/charts/scrum_h2h.json';
 
     let gamesRows = [];
     let teamSheetsSpec = null;
     let resultsSpec = null;
+    let resultsPdSpec = null;
     let lineoutH2HSpec = null;
     let scrumH2HSpec = null;
 
@@ -389,6 +391,11 @@
     function setHtml(id, value) {
         const element = document.getElementById(id);
         if (element) element.innerHTML = String(value ?? '-');
+    }
+
+    function getOppositionResultsShowPd() {
+        const toggle = document.getElementById('oppositionResultsPdToggle');
+        return Boolean(toggle?.checked);
     }
 
     function renderOppositionHero(oppositionClub) {
@@ -1139,8 +1146,18 @@
         renderResultsTable(scopedGames);
         toggleOverviewState(true);
 
-        const filteredResultsSpec = filterResultsSpecByClub(resultsSpec, oppositionClub, oppositionHistorySquadFilter);
-        renderStaticSpecChart('oppositionResultsChart', sanitizeSpecForVegaEmbed(filteredResultsSpec), 'No results chart data for this opposition.', {
+        const baseResultsSpec = getOppositionResultsShowPd() ? (resultsPdSpec || resultsSpec) : resultsSpec;
+        const filteredResultsSpec = filterResultsSpecByClub(baseResultsSpec, oppositionClub, oppositionHistorySquadFilter);
+        const showPd = getOppositionResultsShowPd();
+        const displayResultsSpec = filteredResultsSpec;
+        if (displayResultsSpec?.title && typeof displayResultsSpec.title === 'object') {
+            displayResultsSpec.title = {
+                ...displayResultsSpec.title,
+                text: showPd ? 'Points Difference (PD)' : 'Points For and Against',
+            };
+        }
+
+        renderStaticSpecChart('oppositionResultsChart', sanitizeSpecForVegaEmbed(displayResultsSpec), 'No results chart data for this opposition.', {
             responsiveScaleMin: 0.5,
             responsiveScaleMinXs: 0.42,
         });
@@ -1222,6 +1239,18 @@
                     renderOppositionActiveFilters('');
                     renderResultsTable([]);
                 }
+            });
+        }
+
+        const oppositionResultsPdToggle = document.getElementById('oppositionResultsPdToggle');
+        if (oppositionResultsPdToggle && !oppositionResultsPdToggle.__oppositionResultsPdToggleBound) {
+            oppositionResultsPdToggle.__oppositionResultsPdToggleBound = true;
+            oppositionResultsPdToggle.addEventListener('change', () => {
+                if (!currentOppositionClub) return;
+                renderOppositionProfile(currentOppositionClub).catch((error) => {
+                    console.error('Failed to re-render opposition profile after results view toggle:', error);
+                    showError('Unable to update results view.');
+                });
             });
         }
 
@@ -1335,15 +1364,17 @@
             gamesRows = [];
         }
 
-        const [loadedTeamSheetsSpec, loadedResultsSpec, loadedLineoutH2HSpec, loadedScrumH2HSpec] = await Promise.all([
+        const [loadedTeamSheetsSpec, loadedResultsSpec, loadedResultsPdSpec, loadedLineoutH2HSpec, loadedScrumH2HSpec] = await Promise.all([
             loadChartSpec(TEAM_SHEETS_SPEC_PATH),
             loadChartSpec(RESULTS_SPEC_PATH),
+            loadChartSpec(RESULTS_PD_SPEC_PATH).catch(() => null),
             loadChartSpec(LINEOUT_H2H_SPEC_PATH),
             loadChartSpec(SCRUM_H2H_SPEC_PATH),
         ]);
 
         teamSheetsSpec = loadedTeamSheetsSpec;
         resultsSpec = loadedResultsSpec;
+        resultsPdSpec = loadedResultsPdSpec;
         lineoutH2HSpec = loadedLineoutH2HSpec;
         scrumH2HSpec = loadedScrumH2HSpec;
 
