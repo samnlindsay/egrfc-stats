@@ -56,6 +56,7 @@ Notable frontend-facing backend exports:
 
 Backend schema and usage notes:
 - `python/backend.md`
+- `docs/backend-user-guide.md`
 
 ## Operational workflow
 
