@@ -871,76 +871,328 @@ class DataExtractor:
 
         return default_layout, 4
 
+    def _build_set_piece_layout(self, values):
+        header_row_index = None
+        for row_index, row in enumerate(values[:8]):
+            normalized = [self._normalise_sheet_header(value) for value in row]
+            if "date" in normalized and "opposition" in normalized:
+                header_row_index = row_index
+
+        if header_row_index is None:
+            return None, None
+
+        header_rows = values[: header_row_index + 1]
+        width = max((len(row) for row in header_rows), default=0)
+        normalized_rows = []
+        for row in header_rows:
+            filled = []
+            previous = ""
+            for idx in range(width):
+                value = self._normalise_sheet_header(row[idx] if idx < len(row) else "")
+                if value:
+                    previous = value
+                    filled.append(value)
+                else:
+                    filled.append(previous)
+            normalized_rows.append(filled)
+
+        compound_headers = []
+        for col_index in range(width):
+            parts = []
+            for row in normalized_rows:
+                part = row[col_index]
+                if part and (not parts or parts[-1] != part):
+                    parts.append(part)
+            compound_headers.append("".join(parts))
+
+        def contains_any(header_value, options):
+            return any(option in header_value for option in options)
+
+        def find_index(*predicates):
+            for idx, header in enumerate(compound_headers):
+                if header and all(predicate(header) for predicate in predicates):
+                    return idx
+            return None
+
+        egrfc_terms = ("egrfc", "eg", "eastgrinstead", "own")
+        opposition_terms = ("opposition", "opp", "against", "their")
+        lineout_terms = ("lineout", "lineouts")
+        scrum_terms = ("scrum", "scrums")
+        won_terms = ("won",)
+        total_terms = ("total", "totals", "attempts", "taken")
+        entry_terms = ("22mentries", "entries22m", "redzoneentries")
+        points_per_entry_terms = ("pointsperentry", "ptspervisit", "pointspervisit")
+        tries_per_entry_terms = ("triesperentry", "tryrate", "efficiency")
+
+        layout = {
+            "squad": find_index(lambda header: header == "squad"),
+            "date": find_index(lambda header: header == "date"),
+            "opposition": find_index(lambda header: header == "opposition"),
+            "lineouts_won_eg": find_index(
+                lambda header: contains_any(header, egrfc_terms),
+                lambda header: contains_any(header, lineout_terms),
+                lambda header: contains_any(header, won_terms),
+            ),
+            "lineouts_total_eg": find_index(
+                lambda header: contains_any(header, egrfc_terms),
+                lambda header: contains_any(header, lineout_terms),
+                lambda header: contains_any(header, total_terms),
+            ),
+            "lineouts_won_opp": find_index(
+                lambda header: contains_any(header, opposition_terms),
+                lambda header: contains_any(header, lineout_terms),
+                lambda header: contains_any(header, won_terms),
+            ),
+            "lineouts_total_opp": find_index(
+                lambda header: contains_any(header, opposition_terms),
+                lambda header: contains_any(header, lineout_terms),
+                lambda header: contains_any(header, total_terms),
+            ),
+            "scrums_won_eg": find_index(
+                lambda header: contains_any(header, egrfc_terms),
+                lambda header: contains_any(header, scrum_terms),
+                lambda header: contains_any(header, won_terms),
+            ),
+            "scrums_total_eg": find_index(
+                lambda header: contains_any(header, egrfc_terms),
+                lambda header: contains_any(header, scrum_terms),
+                lambda header: contains_any(header, total_terms),
+            ),
+            "scrums_won_opp": find_index(
+                lambda header: contains_any(header, opposition_terms),
+                lambda header: contains_any(header, scrum_terms),
+                lambda header: contains_any(header, won_terms),
+            ),
+            "scrums_total_opp": find_index(
+                lambda header: contains_any(header, opposition_terms),
+                lambda header: contains_any(header, scrum_terms),
+                lambda header: contains_any(header, total_terms),
+            ),
+            "entries_22m_eg": find_index(
+                lambda header: contains_any(header, egrfc_terms),
+                lambda header: contains_any(header, entry_terms),
+            ),
+            "entries_22m_opp": find_index(
+                lambda header: contains_any(header, opposition_terms),
+                lambda header: contains_any(header, entry_terms),
+            ),
+            "points_eg": find_index(
+                lambda header: header in {"pf", "pointsfor"} or (
+                    contains_any(header, egrfc_terms) and contains_any(header, ("points",))
+                )
+            ),
+            "points_opp": find_index(
+                lambda header: header in {"pa", "pointsagainst"} or (
+                    contains_any(header, opposition_terms) and contains_any(header, ("points",))
+                )
+            ),
+            "tries_eg": find_index(
+                lambda header: contains_any(header, egrfc_terms),
+                lambda header: contains_any(header, ("tries",)),
+                lambda header: not contains_any(header, tries_per_entry_terms),
+            ),
+            "tries_opp": find_index(
+                lambda header: contains_any(header, opposition_terms),
+                lambda header: contains_any(header, ("tries",)),
+                lambda header: not contains_any(header, tries_per_entry_terms),
+            ),
+            "points_per_entry_eg": find_index(
+                lambda header: contains_any(header, egrfc_terms),
+                lambda header: contains_any(header, points_per_entry_terms),
+            ),
+            "points_per_entry_opp": find_index(
+                lambda header: contains_any(header, opposition_terms),
+                lambda header: contains_any(header, points_per_entry_terms),
+            ),
+            "tries_per_entry_eg": find_index(
+                lambda header: contains_any(header, egrfc_terms),
+                lambda header: contains_any(header, tries_per_entry_terms),
+            ),
+            "tries_per_entry_opp": find_index(
+                lambda header: contains_any(header, opposition_terms),
+                lambda header: contains_any(header, tries_per_entry_terms),
+            ),
+        }
+
+        if layout["date"] is None or layout["opposition"] is None:
+            return None, None
+
+        return layout, header_row_index + 1
+
+    def _extract_set_piece_stats_from_dedicated_sheet(self, sheet, squad_name):
+        values = sheet.get_all_values()
+        layout, data_start_row = self._build_set_piece_layout(values)
+        if layout is None or data_start_row is None:
+            return []
+
+        set_piece_data = []
+        for row in values[data_start_row:]:
+            date_value = self._parse_date(self._get_row_value(row, layout["date"]))
+            opposition = self._get_row_value(row, layout["opposition"])
+            if not date_value or not opposition:
+                continue
+
+            row_squad = squad_name
+            if layout["squad"] is not None:
+                squad_raw = self._get_row_value(row, layout["squad"]).lower()
+                if squad_raw.startswith("1"):
+                    row_squad = "1st"
+                elif squad_raw.startswith("2"):
+                    row_squad = "2nd"
+
+            game_rows = {
+                "date": date_value,
+                "squad": row_squad,
+                "opposition": opposition,
+                "team": ["EG", "Opp"],
+                "lineouts_won": [
+                    self._safe_int(self._get_row_value(row, layout["lineouts_won_eg"])),
+                    self._safe_int(self._get_row_value(row, layout["lineouts_won_opp"])),
+                ],
+                "lineouts_total": [
+                    self._safe_int(self._get_row_value(row, layout["lineouts_total_eg"])),
+                    self._safe_int(self._get_row_value(row, layout["lineouts_total_opp"])),
+                ],
+                "scrums_won": [
+                    self._safe_int(self._get_row_value(row, layout["scrums_won_eg"])),
+                    self._safe_int(self._get_row_value(row, layout["scrums_won_opp"])),
+                ],
+                "scrums_total": [
+                    self._safe_int(self._get_row_value(row, layout["scrums_total_eg"])),
+                    self._safe_int(self._get_row_value(row, layout["scrums_total_opp"])),
+                ],
+                "entries_22m": [
+                    self._safe_int(self._get_row_value(row, layout["entries_22m_eg"])),
+                    self._safe_int(self._get_row_value(row, layout["entries_22m_opp"])),
+                ],
+                "points": [
+                    self._safe_int(self._get_row_value(row, layout["points_eg"])),
+                    self._safe_int(self._get_row_value(row, layout["points_opp"])),
+                ],
+                "tries": [
+                    self._safe_int(self._get_row_value(row, layout["tries_eg"])),
+                    self._safe_int(self._get_row_value(row, layout["tries_opp"])),
+                ],
+                "points_per_entry": [
+                    self._safe_float(self._get_row_value(row, layout["points_per_entry_eg"])),
+                    self._safe_float(self._get_row_value(row, layout["points_per_entry_opp"])),
+                ],
+                "tries_per_entry": [
+                    self._safe_float(self._get_row_value(row, layout["tries_per_entry_eg"])),
+                    self._safe_float(self._get_row_value(row, layout["tries_per_entry_opp"])),
+                ],
+            }
+
+            for i, team in enumerate(game_rows["team"]):
+                set_piece_data.append(
+                    {
+                        "date": game_rows["date"],
+                        "squad": game_rows["squad"],
+                        "opposition": game_rows["opposition"],
+                        "team": team,
+                        "lineouts_won": game_rows["lineouts_won"][i],
+                        "lineouts_total": game_rows["lineouts_total"][i],
+                        "scrums_won": game_rows["scrums_won"][i],
+                        "scrums_total": game_rows["scrums_total"][i],
+                        "entries_22m": game_rows["entries_22m"][i],
+                        "points": game_rows["points"][i],
+                        "tries": game_rows["tries"][i],
+                        "points_per_entry": game_rows["points_per_entry"][i],
+                        "tries_per_entry": game_rows["tries_per_entry"][i],
+                    }
+                )
+
+        return set_piece_data
+
+    def _extract_set_piece_stats_from_player_sheet(self, sheet, squad_name):
+        set_piece_data = []
+        data = sheet.get_all_values()
+
+        # firstRow in metadata is 5, so zero-based index 4. Skip first 4 rows.
+        for row in data[4:]:
+            if len(row) <= 4:
+                continue
+
+            row_squad = str(row[0]).strip() if len(row) > 0 else squad_name
+            if row_squad:
+                normalized = row_squad.lower()
+                row_squad = "1st" if normalized.startswith("1") else "2nd" if normalized.startswith("2") else squad_name
+            else:
+                row_squad = squad_name
+
+            date_value = self._parse_date(row[1] if len(row) > 1 else "")
+            opposition = str(row[4]).strip() if len(row) > 4 else ""
+            if not date_value or not opposition:
+                continue
+
+            eg_entries = self._safe_int(row[57] if len(row) > 57 else None)
+            opp_entries = self._safe_int(row[61] if len(row) > 61 else None)
+            eg_points_per_entry = self._safe_float(row[58] if len(row) > 58 else None)
+            opp_points_per_entry = self._safe_float(row[62] if len(row) > 62 else None)
+            eg_tries = self._safe_int(row[59] if len(row) > 59 else None)
+            opp_tries = self._safe_int(row[63] if len(row) > 63 else None)
+            eg_tries_per_entry = self._safe_float(row[60] if len(row) > 60 else None)
+            opp_tries_per_entry = self._safe_float(row[64] if len(row) > 64 else None)
+
+            if eg_tries_per_entry is None and eg_entries not in (None, 0) and eg_tries is not None:
+                eg_tries_per_entry = eg_tries / eg_entries
+            if opp_tries_per_entry is None and opp_entries not in (None, 0) and opp_tries is not None:
+                opp_tries_per_entry = opp_tries / opp_entries
+
+            game_data = {
+                "team": ["EG", "Opp"],
+                "lineouts_won": [self._safe_int(row[41] if len(row) > 41 else None), self._safe_int(row[44] if len(row) > 44 else None)],
+                "lineouts_total": [self._safe_int(row[42] if len(row) > 42 else None), self._safe_int(row[45] if len(row) > 45 else None)],
+                "scrums_won": [self._safe_int(row[49] if len(row) > 49 else None), self._safe_int(row[52] if len(row) > 52 else None)],
+                "scrums_total": [self._safe_int(row[50] if len(row) > 50 else None), self._safe_int(row[53] if len(row) > 53 else None)],
+                "entries_22m": [eg_entries, opp_entries],
+                "points": [self._safe_int(row[6] if len(row) > 6 else None), self._safe_int(row[7] if len(row) > 7 else None)],
+                "tries": [eg_tries, opp_tries],
+                "points_per_entry": [eg_points_per_entry, opp_points_per_entry],
+                "tries_per_entry": [eg_tries_per_entry, opp_tries_per_entry],
+            }
+
+            for i, team in enumerate(game_data["team"]):
+                set_piece_data.append({
+                    "date": date_value,
+                    "squad": row_squad,
+                    "opposition": opposition,
+                    "team": team,
+                    "lineouts_won": game_data["lineouts_won"][i],
+                    "lineouts_total": game_data["lineouts_total"][i],
+                    "scrums_won": game_data["scrums_won"][i],
+                    "scrums_total": game_data["scrums_total"][i],
+                    "entries_22m": game_data["entries_22m"][i],
+                    "points": game_data["points"][i],
+                    "tries": game_data["tries"][i],
+                    "points_per_entry": game_data["points_per_entry"][i],
+                    "tries_per_entry": game_data["tries_per_entry"][i],
+                })
+
+        return set_piece_data
+
     def extract_set_piece_stats(self):
         ss = self.client.open_by_url(self.sheet_url)
         set_piece_data = []
 
-        for squad_name, sheet_name in [("1st", "1st XV Players"), ("2nd", "2nd XV Players")]:
+        for squad_name, dedicated_sheet_name, fallback_sheet_name in [
+            ("1st", "1st XV Set piece", "1st XV Players"),
+            ("2nd", "2nd XV Set piece", "2nd XV Players"),
+        ]:
             try:
-                sheet = ss.worksheet(sheet_name)
-                data = sheet.get_all_values()
-
-                # firstRow in metadata is 5, so zero-based index 4. Skip first 4 rows.
-                for row in data[4:]:
-                    if len(row) <= 4:
-                        continue
-
-                    row_squad = str(row[0]).strip() if len(row) > 0 else squad_name
-                    if row_squad:
-                        normalized = row_squad.lower()
-                        row_squad = "1st" if normalized.startswith("1") else "2nd" if normalized.startswith("2") else squad_name
-                    else:
-                        row_squad = squad_name
-
-                    date_value = self._parse_date(row[1] if len(row) > 1 else "")
-                    opposition = str(row[4]).strip() if len(row) > 4 else ""
-                    if not date_value or not opposition:
-                        continue
-
-                    eg_entries = self._safe_int(row[57] if len(row) > 57 else None)
-                    opp_entries = self._safe_int(row[61] if len(row) > 61 else None)
-                    eg_points_per_entry = self._safe_float(row[58] if len(row) > 58 else None)
-                    opp_points_per_entry = self._safe_float(row[62] if len(row) > 62 else None)
-                    eg_tries = self._safe_int(row[59] if len(row) > 59 else None)
-                    opp_tries = self._safe_int(row[63] if len(row) > 63 else None)
-                    eg_tries_per_entry = self._safe_float(row[60] if len(row) > 60 else None)
-                    opp_tries_per_entry = self._safe_float(row[64] if len(row) > 64 else None)
-
-                    if eg_tries_per_entry is None and eg_entries not in (None, 0) and eg_tries is not None:
-                        eg_tries_per_entry = eg_tries / eg_entries
-                    if opp_tries_per_entry is None and opp_entries not in (None, 0) and opp_tries is not None:
-                        opp_tries_per_entry = opp_tries / opp_entries
-
-                    game_data = {
-                        "team": ["EG", "Opp"],
-                        "lineouts_won": [self._safe_int(row[41] if len(row) > 41 else None), self._safe_int(row[44] if len(row) > 44 else None)],
-                        "lineouts_total": [self._safe_int(row[42] if len(row) > 42 else None), self._safe_int(row[45] if len(row) > 45 else None)],
-                        "scrums_won": [self._safe_int(row[49] if len(row) > 49 else None), self._safe_int(row[52] if len(row) > 52 else None)],
-                        "scrums_total": [self._safe_int(row[50] if len(row) > 50 else None), self._safe_int(row[53] if len(row) > 53 else None)],
-                        "entries_22m": [eg_entries, opp_entries],
-                        "points": [self._safe_int(row[6] if len(row) > 6 else None), self._safe_int(row[7] if len(row) > 7 else None)],
-                        "tries": [eg_tries, opp_tries],
-                        "points_per_entry": [eg_points_per_entry, opp_points_per_entry],
-                        "tries_per_entry": [eg_tries_per_entry, opp_tries_per_entry],
-                    }
-
-                    for i, team in enumerate(game_data["team"]):
-                        set_piece_data.append({
-                            "date": date_value,
-                            "squad": row_squad,
-                            "team": team,
-                            "lineouts_won": game_data["lineouts_won"][i],
-                            "lineouts_total": game_data["lineouts_total"][i],
-                            "scrums_won": game_data["scrums_won"][i],
-                            "scrums_total": game_data["scrums_total"][i],
-                            "entries_22m": game_data["entries_22m"][i],
-                            "points": game_data["points"][i],
-                            "tries": game_data["tries"][i],
-                            "points_per_entry": game_data["points_per_entry"][i],
-                            "tries_per_entry": game_data["tries_per_entry"][i],
-                        })
+                dedicated_sheet = ss.worksheet(dedicated_sheet_name)
+                dedicated_rows = self._extract_set_piece_stats_from_dedicated_sheet(dedicated_sheet, squad_name)
+                if dedicated_rows:
+                    set_piece_data.extend(dedicated_rows)
+                    continue
             except Exception as e:
-                print(f"Error extracting set piece stats for {squad_name}: {e}")
+                print(f"Error extracting dedicated set piece stats for {squad_name}: {e}")
+
+            try:
+                fallback_sheet = ss.worksheet(fallback_sheet_name)
+                set_piece_data.extend(self._extract_set_piece_stats_from_player_sheet(fallback_sheet, squad_name))
+            except Exception as e:
+                print(f"Error extracting fallback set piece stats for {squad_name}: {e}")
 
         if not set_piece_data:
             return pd.DataFrame(columns=[
@@ -959,12 +1211,17 @@ class DataExtractor:
 
         # Join to games to get game_id
         df_set_piece = pd.DataFrame(set_piece_data)
-        df_games = self.extract_games_data()[['game_id', 'date', 'squad']]
+        df_games = self.extract_games_data()[['game_id', 'date', 'squad', 'opposition']]
         df_set_piece['date'] = pd.to_datetime(df_set_piece['date'])
         df_games['date'] = pd.to_datetime(df_games['date'])
-        # Merge on date and squad
-        df_merged = pd.merge(df_set_piece, df_games, on=['date', 'squad'], how='left')
-        df_merged.drop(columns=['date', 'squad'], inplace=True) # drop date and squad columns
+        df_set_piece['opposition_key'] = df_set_piece['opposition'].map(canonical_pitchero_opposition)
+        df_games['opposition_key'] = df_games['opposition'].map(canonical_pitchero_opposition)
+        df_merged = pd.merge(df_set_piece, df_games, on=['date', 'squad', 'opposition_key'], how='left')
+        df_merged.drop(
+            columns=['date', 'squad', 'opposition', 'opposition_x', 'opposition_y', 'opposition_key'],
+            inplace=True,
+            errors='ignore',
+        )
         df_merged = df_merged[[
             'game_id',
             'team',

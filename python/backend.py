@@ -3192,63 +3192,7 @@ class BackendDatabase:
         return result
 
     def _extract_lineouts(self, extractor: DataExtractor) -> pd.DataFrame:
-        spreadsheet = extractor.client.open_by_url(extractor.sheet_url)
-        rows: list[dict[str, Any]] = []
-        worksheet = spreadsheet.worksheet("Lineouts")
-        values = worksheet.get_all_values()
-        if len(values) <= 3:
-            return pd.DataFrame(rows)
-
-        for idx, row in enumerate(values[3:], start=1):
-            if len(row) < 18:
-                continue
-
-            squad_raw = str(row[2]).strip().lower() if len(row) > 2 else ""
-            squad = "1st" if squad_raw.startswith("1") else "2nd" if squad_raw.startswith("2") else ""
-            if not squad:
-                continue
-
-            opposition = str(row[4]).strip()
-            if not opposition:
-                continue
-
-            call_raw = str(row[6]).strip()
-            date_value = pd.to_datetime(row[3], errors="coerce", format="%Y-%m-%d")
-            if pd.isna(date_value):
-                date_value = pd.to_datetime(row[3], errors="coerce", dayfirst=True)
-            if pd.isna(date_value):
-                continue
-
-            helper_row = {
-                "Front": str(row[8]).strip().lower(),
-                "Middle": str(row[9]).strip().lower(),
-                "Back": str(row[10]).strip().lower(),
-            }
-            rows.append(
-                {
-                    "lineout_id": f"{squad}_{date_value.date()}_{idx}",
-                    "squad": squad,
-                    "date": date_value.date(),
-                    "season": None,
-                    "half": str(row[1]).strip(),
-                    "opposition": opposition,
-                    "numbers": str(row[5]).strip(),
-                    "call": call_raw,
-                    "call_type": extractor._classify_call(call_raw),
-                    "dummy": str(row[7]).strip().lower() == "x",
-                    "area": extractor._get_area(helper_row),
-                    "drive": str(row[11]).strip().lower() == "x",
-                    "crusaders": str(row[12]).strip().lower() == "x",
-                    "transfer": str(row[13]).strip().lower() == "x",
-                    "flyby": str(row[14]).strip().lower() in {"1", "2", "x"},
-                    "hooker": str(row[15]).strip(),
-                    "jumper": str(row[16]).strip(),
-                    "won": str(row[17]).strip().upper() == "Y",
-                    "notes": str(row[18]).strip() if len(row) > 18 else "",
-                }
-            )
-
-        return pd.DataFrame(rows)
+        return extractor.extract_lineouts_data()
 
     def _build_games(self, games_raw: pd.DataFrame, appearances_raw: pd.DataFrame | None = None, int_games_resolved: pd.DataFrame | None = None) -> pd.DataFrame:
         df = games_raw.copy()
@@ -4188,6 +4132,8 @@ class BackendDatabase:
         game_lookup = games[["game_id", "squad", "date", "season", "opposition"]].copy()
         game_lookup["opposition"] = game_lookup["opposition"].astype(str).str.strip()
         df["opposition"] = df["opposition"].astype(str).str.strip()
+        game_lookup["opposition_key"] = game_lookup["opposition"].map(_canonical_pitchero_opposition_name)
+        df["opposition_key"] = df["opposition"].map(_canonical_pitchero_opposition_name)
 
         # New consolidated Lineouts sheet no longer stores season, so join on
         # squad/date/opposition and recover season from the matched game.
@@ -4198,18 +4144,19 @@ class BackendDatabase:
 
         with_season = df[has_season].merge(
             game_lookup,
-            on=["squad", "date", "opposition", "season"],
+            on=["squad", "date", "opposition_key", "season"],
             how="left",
             suffixes=("", "_game"),
         )
         without_season = df[~has_season].merge(
             game_lookup,
-            on=["squad", "date", "opposition"],
+            on=["squad", "date", "opposition_key"],
             how="left",
             suffixes=("", "_game"),
         )
         without_season["season"] = without_season["season_game"]
-        without_season = without_season.drop(columns=["season_game"], errors="ignore")
+        with_season = with_season.drop(columns=["opposition_key", "opposition_game"], errors="ignore")
+        without_season = without_season.drop(columns=["season_game", "opposition_key", "opposition_game"], errors="ignore")
         df = pd.concat([with_season, without_season], ignore_index=True)
 
         df = df[df["squad"].notna() & df["date"].notna()].copy()
