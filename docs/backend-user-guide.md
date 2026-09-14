@@ -154,7 +154,7 @@ flowchart LR
     end
 
     subgraph Frontend
-        CHARTS[chats.py via update.py\ndata/charts/*.json]
+        CHARTS[charts.py via update.py\ndata/charts/*.json]
         PAGES[Static pages\nindex.html, player-profile.html,\nsquad-stats.html, season-summary.html,\nmatch-info.html, database.html]
     end
 
