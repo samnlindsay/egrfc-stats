@@ -826,47 +826,60 @@ class DataExtractor:
             "date": 3,
             "opposition": 4,
             "numbers": 5,
-            "setup": None,
-            "call": 6,
-            "front": 8,
-            "middle": 9,
-            "back": 10,
-            "drive": 11,
-            "crusaders": 12,
-            "transfer": 13,
-            "flyby": 14,
-            "hooker": 15,
-            "jumper": 16,
-            "won": 17,
-            "notes": 18,
+            "setup": 6,
+            "call": 7,
+            "dummy": 8,
+            "front": 9,
+            "middle": 10,
+            "back": 11,
+            "drive": 12,
+            "crusaders": 13,
+            "transfer": 14,
+            "flyby": 15,
+            "hooker": 16,
+            "jumper": 17,
+            "won": 18,
+            "notes": 19,
         }
 
-        for row_index, row in enumerate(values[:6]):
+        header_aliases = {
+            "half": ["half"],
+            "squad": ["squad"],
+            "date": ["date"],
+            "opposition": ["opposition", "oppo"],
+            "numbers": ["numbers", "number"],
+            "setup": ["setup"],
+            "call": ["call"],
+            "dummy": ["dummy"],
+            "front": ["front"],
+            "middle": ["middle"],
+            "back": ["back"],
+            "drive": ["drive"],
+            "crusaders": ["crusaders"],
+            "transfer": ["transfer"],
+            "flyby": ["flyby"],
+            "hooker": ["hooker", "thrower"],
+            "jumper": ["jumper"],
+            "won": ["won", "result"],
+            "notes": ["notes", "note"],
+        }
+
+        for row_index, row in enumerate(values[:8]):
             normalized = [self._normalise_sheet_header(value) for value in row]
-            if {"squad", "date", "opposition", "numbers", "call"}.issubset(set(normalized)):
+            normalized_set = set(normalized)
+            required = {"squad", "date", "opposition", "numbers"}
+            has_structure = (
+                ("call" in normalized_set or "setup" in normalized_set)
+                and any(token in normalized_set for token in ("hooker", "thrower"))
+                and "jumper" in normalized_set
+            )
+            if required.issubset(normalized_set) and has_structure:
                 layout = default_layout.copy()
-                for field, header in {
-                    "half": "half",
-                    "squad": "squad",
-                    "date": "date",
-                    "opposition": "opposition",
-                    "numbers": "numbers",
-                    "setup": "setup",
-                    "call": "call",
-                    "front": "front",
-                    "middle": "middle",
-                    "back": "back",
-                    "drive": "drive",
-                    "crusaders": "crusaders",
-                    "transfer": "transfer",
-                    "flyby": "flyby",
-                    "hooker": "hooker",
-                    "jumper": "jumper",
-                    "won": "won",
-                    "notes": "notes",
-                }.items():
-                    if header in normalized:
-                        layout[field] = normalized.index(header)
+                for field, aliases in header_aliases.items():
+                    for alias in aliases:
+                        if alias in normalized:
+                            layout[field] = normalized.index(alias)
+                            break
                 return layout, row_index + 1
 
         return default_layout, 4
@@ -908,14 +921,14 @@ class DataExtractor:
         def contains_any(header_value, options):
             return any(option in header_value for option in options)
 
-        def find_index(*predicates):
+        def find_matching_indices(*predicates):
+            matches = []
             for idx, header in enumerate(compound_headers):
                 if header and all(predicate(header) for predicate in predicates):
-                    return idx
-            return None
+                    matches.append(idx)
+            return matches
 
         egrfc_terms = ("egrfc", "eg", "eastgrinstead", "own")
-        opposition_terms = ("opposition", "opp", "against", "their")
         lineout_terms = ("lineout", "lineouts")
         scrum_terms = ("scrum", "scrums")
         won_terms = ("won",)
@@ -924,94 +937,88 @@ class DataExtractor:
         points_per_entry_terms = ("pointsperentry", "ptspervisit", "pointspervisit")
         tries_per_entry_terms = ("triesperentry", "tryrate", "efficiency")
 
+        def is_egrfc_metric(header_value):
+            return contains_any(header_value, egrfc_terms)
+
+        def choose_metric_pair(metric_columns):
+            if not metric_columns:
+                return None, None
+
+            egrfc_index = next(
+                (idx for idx in metric_columns if is_egrfc_metric(compound_headers[idx])),
+                None,
+            )
+            if egrfc_index is not None:
+                opposition_index = next((idx for idx in metric_columns if idx != egrfc_index), None)
+                return egrfc_index, opposition_index
+
+            if len(metric_columns) >= 2:
+                return metric_columns[0], metric_columns[1]
+
+            return metric_columns[0], None
+
+        lineouts_won_eg, lineouts_won_opp = choose_metric_pair(
+            find_matching_indices(
+                lambda header: contains_any(header, lineout_terms),
+                lambda header: contains_any(header, won_terms),
+            )
+        )
+        lineouts_total_eg, lineouts_total_opp = choose_metric_pair(
+            find_matching_indices(
+                lambda header: contains_any(header, lineout_terms),
+                lambda header: contains_any(header, total_terms),
+            )
+        )
+        scrums_won_eg, scrums_won_opp = choose_metric_pair(
+            find_matching_indices(
+                lambda header: contains_any(header, scrum_terms),
+                lambda header: contains_any(header, won_terms),
+            )
+        )
+        scrums_total_eg, scrums_total_opp = choose_metric_pair(
+            find_matching_indices(
+                lambda header: contains_any(header, scrum_terms),
+                lambda header: contains_any(header, total_terms),
+            )
+        )
+        entries_22m_eg, entries_22m_opp = choose_metric_pair(
+            find_matching_indices(lambda header: contains_any(header, entry_terms))
+        )
+        tries_eg, tries_opp = choose_metric_pair(
+            find_matching_indices(
+                lambda header: contains_any(header, ("tries",)),
+                lambda header: not contains_any(header, tries_per_entry_terms),
+            )
+        )
+        points_per_entry_eg, points_per_entry_opp = choose_metric_pair(
+            find_matching_indices(lambda header: contains_any(header, points_per_entry_terms))
+        )
+        tries_per_entry_eg, tries_per_entry_opp = choose_metric_pair(
+            find_matching_indices(lambda header: contains_any(header, tries_per_entry_terms))
+        )
+
         layout = {
-            "squad": find_index(lambda header: header == "squad"),
-            "date": find_index(lambda header: header == "date"),
-            "opposition": find_index(lambda header: header == "opposition"),
-            "lineouts_won_eg": find_index(
-                lambda header: contains_any(header, egrfc_terms),
-                lambda header: contains_any(header, lineout_terms),
-                lambda header: contains_any(header, won_terms),
-            ),
-            "lineouts_total_eg": find_index(
-                lambda header: contains_any(header, egrfc_terms),
-                lambda header: contains_any(header, lineout_terms),
-                lambda header: contains_any(header, total_terms),
-            ),
-            "lineouts_won_opp": find_index(
-                lambda header: contains_any(header, opposition_terms),
-                lambda header: contains_any(header, lineout_terms),
-                lambda header: contains_any(header, won_terms),
-            ),
-            "lineouts_total_opp": find_index(
-                lambda header: contains_any(header, opposition_terms),
-                lambda header: contains_any(header, lineout_terms),
-                lambda header: contains_any(header, total_terms),
-            ),
-            "scrums_won_eg": find_index(
-                lambda header: contains_any(header, egrfc_terms),
-                lambda header: contains_any(header, scrum_terms),
-                lambda header: contains_any(header, won_terms),
-            ),
-            "scrums_total_eg": find_index(
-                lambda header: contains_any(header, egrfc_terms),
-                lambda header: contains_any(header, scrum_terms),
-                lambda header: contains_any(header, total_terms),
-            ),
-            "scrums_won_opp": find_index(
-                lambda header: contains_any(header, opposition_terms),
-                lambda header: contains_any(header, scrum_terms),
-                lambda header: contains_any(header, won_terms),
-            ),
-            "scrums_total_opp": find_index(
-                lambda header: contains_any(header, opposition_terms),
-                lambda header: contains_any(header, scrum_terms),
-                lambda header: contains_any(header, total_terms),
-            ),
-            "entries_22m_eg": find_index(
-                lambda header: contains_any(header, egrfc_terms),
-                lambda header: contains_any(header, entry_terms),
-            ),
-            "entries_22m_opp": find_index(
-                lambda header: contains_any(header, opposition_terms),
-                lambda header: contains_any(header, entry_terms),
-            ),
-            "points_eg": find_index(
-                lambda header: header in {"pf", "pointsfor"} or (
-                    contains_any(header, egrfc_terms) and contains_any(header, ("points",))
-                )
-            ),
-            "points_opp": find_index(
-                lambda header: header in {"pa", "pointsagainst"} or (
-                    contains_any(header, opposition_terms) and contains_any(header, ("points",))
-                )
-            ),
-            "tries_eg": find_index(
-                lambda header: contains_any(header, egrfc_terms),
-                lambda header: contains_any(header, ("tries",)),
-                lambda header: not contains_any(header, tries_per_entry_terms),
-            ),
-            "tries_opp": find_index(
-                lambda header: contains_any(header, opposition_terms),
-                lambda header: contains_any(header, ("tries",)),
-                lambda header: not contains_any(header, tries_per_entry_terms),
-            ),
-            "points_per_entry_eg": find_index(
-                lambda header: contains_any(header, egrfc_terms),
-                lambda header: contains_any(header, points_per_entry_terms),
-            ),
-            "points_per_entry_opp": find_index(
-                lambda header: contains_any(header, opposition_terms),
-                lambda header: contains_any(header, points_per_entry_terms),
-            ),
-            "tries_per_entry_eg": find_index(
-                lambda header: contains_any(header, egrfc_terms),
-                lambda header: contains_any(header, tries_per_entry_terms),
-            ),
-            "tries_per_entry_opp": find_index(
-                lambda header: contains_any(header, opposition_terms),
-                lambda header: contains_any(header, tries_per_entry_terms),
-            ),
+            "squad": next(iter(find_matching_indices(lambda header: header == "squad")), None),
+            "date": next(iter(find_matching_indices(lambda header: header == "date")), None),
+            "opposition": next(iter(find_matching_indices(lambda header: header == "opposition")), None),
+            "lineouts_won_eg": lineouts_won_eg,
+            "lineouts_total_eg": lineouts_total_eg,
+            "lineouts_won_opp": lineouts_won_opp,
+            "lineouts_total_opp": lineouts_total_opp,
+            "scrums_won_eg": scrums_won_eg,
+            "scrums_total_eg": scrums_total_eg,
+            "scrums_won_opp": scrums_won_opp,
+            "scrums_total_opp": scrums_total_opp,
+            "entries_22m_eg": entries_22m_eg,
+            "entries_22m_opp": entries_22m_opp,
+            "points_eg": next(iter(find_matching_indices(lambda header: header in {"pf", "pointsfor"})), None),
+            "points_opp": next(iter(find_matching_indices(lambda header: header in {"pa", "pointsagainst"})), None),
+            "tries_eg": tries_eg,
+            "tries_opp": tries_opp,
+            "points_per_entry_eg": points_per_entry_eg,
+            "points_per_entry_opp": points_per_entry_opp,
+            "tries_per_entry_eg": tries_per_entry_eg,
+            "tries_per_entry_opp": tries_per_entry_opp,
         }
 
         if layout["date"] is None or layout["opposition"] is None:

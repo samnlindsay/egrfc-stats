@@ -797,6 +797,35 @@ class BackendCacheAndReconciliationTests(unittest.TestCase):
         self.assertTrue(bool(result.iloc[0]["drive"]))
         self.assertTrue(bool(result.iloc[0]["won"]))
 
+    def test_extract_lineouts_data_fallback_layout_uses_shifted_setup_columns(self):
+        worksheet = Mock()
+        worksheet.get_all_values.return_value = [
+            ["meta"],
+            ["meta"],
+            ["meta"],
+            ["meta"],
+            ["", "2", "1st", "2026-09-12", "Heathfield & Waldron", "5", "Split", "", "", "", "x", "", "", "", "", "", "Tom McMahon", "John Peaty", "Y", "Clean take"],
+        ]
+
+        spreadsheet = Mock()
+        spreadsheet.worksheet.return_value = worksheet
+
+        extractor = DataExtractor.__new__(DataExtractor)
+        extractor.client = Mock()
+        extractor.client.open_by_url.return_value = spreadsheet
+        extractor.sheet_url = "https://example.com/sheet"
+
+        result = extractor.extract_lineouts_data()
+
+        self.assertEqual(len(result), 1)
+        self.assertEqual(result.iloc[0]["setup"], "Split")
+        self.assertEqual(result.iloc[0]["call"], "")
+        self.assertEqual(result.iloc[0]["hooker"], "Tom McMahon")
+        self.assertEqual(result.iloc[0]["jumper"], "John Peaty")
+        self.assertTrue(bool(result.iloc[0]["won"]))
+        self.assertEqual(result.iloc[0]["notes"], "Clean take")
+        self.assertEqual(result.iloc[0]["game_id"], "2026-09-12_1st_Heathfield_&_Waldron")
+
     def test_backend_extract_lineouts_delegates_to_shared_extractor(self):
         expected = pd.DataFrame(
             [
@@ -870,6 +899,54 @@ class BackendCacheAndReconciliationTests(unittest.TestCase):
         self.assertEqual(opp_row["scrums_total"], 8)
         self.assertEqual(eg_row["entries_22m"], 6)
         self.assertAlmostEqual(float(eg_row["points_per_entry"]), 2.5)
+        fallback_sheet.get_all_values.assert_not_called()
+
+    def test_extract_set_piece_stats_reads_dedicated_sheet_with_actual_opposition_header(self):
+        dedicated_sheet = Mock()
+        dedicated_sheet.get_all_values.return_value = [
+            ["", "", "EGRFC", "", "Heathfield & Waldron", "", "EGRFC", "", "Heathfield & Waldron", "", "EGRFC", "", "", "", "Heathfield & Waldron", "", "", ""],
+            ["Date", "Opposition", "Lineout Won", "Lineout Total", "Lineout Won", "Lineout Total", "Scrum Won", "Scrum Total", "Scrum Won", "Scrum Total", "22m Entries", "Pts per visit", "Tries", "Try rate", "22m Entries", "Pts per visit", "Tries", "Try rate"],
+            ["2026-09-12", "Heathfield & Waldron", "14", "16", "9", "13", "6", "8", "5", "7", "7", "2.8", "3", "0.43", "4", "1.5", "2", "0.5"],
+        ]
+        fallback_sheet = Mock()
+
+        spreadsheet = Mock()
+
+        def worksheet_side_effect(name):
+            if name == "1st XV Set piece":
+                return dedicated_sheet
+            if name == "1st XV Players":
+                return fallback_sheet
+            raise Exception(f"worksheet {name} not available")
+
+        spreadsheet.worksheet.side_effect = worksheet_side_effect
+
+        extractor = DataExtractor.__new__(DataExtractor)
+        extractor.client = Mock()
+        extractor.client.open_by_url.return_value = spreadsheet
+        extractor.sheet_url = "https://example.com/sheet"
+        extractor.extract_games_data = Mock(
+            return_value=pd.DataFrame(
+                [
+                    {
+                        "game_id": "2026-09-12_1st_Heathfield_&_Waldron",
+                        "date": "2026-09-12",
+                        "squad": "1st",
+                        "opposition": "Heathfield & Waldron",
+                    }
+                ]
+            )
+        )
+
+        result = extractor.extract_set_piece_stats()
+
+        self.assertEqual(len(result), 2)
+        eg_row = result[result["team"] == "EG"].iloc[0]
+        opp_row = result[result["team"] == "Opp"].iloc[0]
+        self.assertEqual(eg_row["lineouts_won"], 14)
+        self.assertEqual(eg_row["scrums_total"], 8)
+        self.assertEqual(opp_row["lineouts_total"], 13)
+        self.assertEqual(opp_row["scrums_won"], 5)
         fallback_sheet.get_all_values.assert_not_called()
 
     def test_season_scorers_aggregate_match_level_scorer_payloads(self):
@@ -1362,6 +1439,8 @@ class BackendCacheAndReconciliationTests(unittest.TestCase):
 
         self.assertEqual(len(out), 1)
         self.assertEqual(out.iloc[0]["setup"], "Split")
+        self.assertEqual(out.iloc[0]["game_id"], "g1")
+        self.assertEqual(out.iloc[0]["season"], "2025/26")
 
 
 if __name__ == "__main__":
