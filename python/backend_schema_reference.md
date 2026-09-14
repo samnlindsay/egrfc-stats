@@ -70,6 +70,7 @@ Total tables: 25
 | `seq_id` | `INTEGER` | `NO` | `` |
 | `half` | `VARCHAR` | `YES` | `` |
 | `numbers` | `VARCHAR` | `YES` | `` |
+| `setup` | `VARCHAR` | `YES` | `` |
 | `call` | `VARCHAR` | `YES` | `` |
 | `call_type` | `VARCHAR` | `YES` | `` |
 | `dummy` | `BOOLEAN` | `YES` | `` |
@@ -523,4 +524,3 @@ Total tables: 25
 | `minimumAppearances` | `INTEGER` | `NO` | `` |
 | `playerCount` | `INTEGER` | `YES` | `` |
 | `totalPlayed` | `INTEGER` | `YES` | `` |
-

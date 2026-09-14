@@ -749,6 +749,54 @@ class BackendCacheAndReconciliationTests(unittest.TestCase):
             },
         )
 
+    def test_extract_lineouts_data_reads_explicit_setup_column(self):
+        worksheet = Mock()
+        worksheet.get_all_values.return_value = [
+            ["meta"],
+            ["meta"],
+            [
+                "Unused",
+                "Half",
+                "Squad",
+                "Date",
+                "Opposition",
+                "Numbers",
+                "Setup",
+                "Call",
+                "Unused2",
+                "Front",
+                "Middle",
+                "Back",
+                "Drive",
+                "Crusaders",
+                "Transfer",
+                "Flyby",
+                "Hooker",
+                "Jumper",
+                "Won",
+                "Notes",
+            ],
+            ["", "1", "1st", "2025-09-20", "Haywards Heath", "7", "Spread", "C1", "", "x", "", "", "x", "", "", "", "Hooker A", "Jumper A", "Y", "Clean take"],
+        ]
+
+        spreadsheet = Mock()
+        spreadsheet.worksheet.return_value = worksheet
+
+        extractor = DataExtractor.__new__(DataExtractor)
+        extractor.client = Mock()
+        extractor.client.open_by_url.return_value = spreadsheet
+        extractor.sheet_url = "https://example.com/sheet"
+
+        result = extractor.extract_lineouts_data()
+
+        self.assertEqual(len(result), 1)
+        self.assertEqual(result.iloc[0]["setup"], "Spread")
+        self.assertEqual(result.iloc[0]["call"], "C1")
+        self.assertEqual(result.iloc[0]["hooker"], "Hooker A")
+        self.assertEqual(result.iloc[0]["jumper"], "Jumper A")
+        self.assertTrue(bool(result.iloc[0]["drive"]))
+        self.assertTrue(bool(result.iloc[0]["won"]))
+
     def test_season_scorers_aggregate_match_level_scorer_payloads(self):
         appearances = pd.DataFrame(
             [
@@ -1195,6 +1243,50 @@ class BackendCacheAndReconciliationTests(unittest.TestCase):
         self.assertEqual(len(out), 3)
         self.assertEqual(set(out["gameTypeMode"]), {"All", "League + Cup", "League only"})
         self.assertEqual(set(out["position"]), {"Prop"})
+
+    def test_build_lineouts_preserves_setup_value(self):
+        lineouts_raw = pd.DataFrame(
+            [
+                {
+                    "lineout_id": "L_g1_1",
+                    "game_id": "g1",
+                    "squad": "1st",
+                    "date": "2025-09-20",
+                    "opposition": "Haywards Heath",
+                    "half": 1,
+                    "numbers": "7",
+                    "setup": "Split",
+                    "call": "C1",
+                    "call_type": "Sandy",
+                    "dummy": False,
+                    "area": "Front",
+                    "hooker": "Hooker A",
+                    "jumper": "Jumper A",
+                    "won": True,
+                    "notes": "",
+                    "drive": False,
+                    "crusaders": False,
+                    "transfer": False,
+                    "flyby": False,
+                }
+            ]
+        )
+        games = pd.DataFrame(
+            [
+                {
+                    "game_id": "g1",
+                    "squad": "1st",
+                    "date": pd.Timestamp("2025-09-20").date(),
+                    "season": "2025/26",
+                    "opposition": "Haywards Heath",
+                }
+            ]
+        )
+
+        out = self.backend._build_lineouts(lineouts_raw, games)
+
+        self.assertEqual(len(out), 1)
+        self.assertEqual(out.iloc[0]["setup"], "Split")
 
 
 if __name__ == "__main__":

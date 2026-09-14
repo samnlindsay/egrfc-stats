@@ -236,7 +236,7 @@ Pitchero raw/clean staging datasets are now in-memory build intermediates only. 
 ### `lineouts`
 - Grain: one row per attacking lineout event.
 - Derived from: lineout coding sheets with normalization/mapping.
-- Key contents: call/call type, area, setup flags, thrower/jumper, outcome.
+- Key contents: numbers, setup, call/call type, area, movement flags, thrower/jumper, outcome.
 - Downstream: lineout charts and lineout-related analysis.
 
 ### `set_piece`

@@ -770,10 +770,12 @@ class DataExtractor:
             print(f"Error extracting lineouts: {e}")
             return pd.DataFrame(lineouts_data)
 
-        for idx, row in enumerate(values[3:], start=1):
-            squad_raw = str(row[2]).strip() if len(row) > 2 else ""
-            date_raw = str(row[3]).strip() if len(row) > 3 else ""
-            opposition = str(row[4]).strip() if len(row) > 4 else ""
+        layout, data_start_row = self._build_lineouts_layout(values)
+
+        for idx, row in enumerate(values[data_start_row:], start=1):
+            squad_raw = self._get_row_value(row, layout["squad"])
+            date_raw = self._get_row_value(row, layout["date"])
+            opposition = self._get_row_value(row, layout["opposition"])
             if not squad_raw or not date_raw or not opposition:
                 continue
 
@@ -783,11 +785,12 @@ class DataExtractor:
 
             date = self._parse_date(date_raw)
             game_id = f"{date}_{squad_name}_{opposition}".replace(' ', '_').replace('/', '')
-            call = str(row[6]).strip() if len(row) > 6 else ""
+            call = self._get_row_value(row, layout["call"])
+            setup = self._get_row_value(row, layout["setup"])
             helper_row = {
-                "Front": str(row[8]).strip().lower() if len(row) > 8 else "",
-                "Middle": str(row[9]).strip().lower() if len(row) > 9 else "",
-                "Back": str(row[10]).strip().lower() if len(row) > 10 else "",
+                "Front": self._get_row_value(row, layout["front"]).lower(),
+                "Middle": self._get_row_value(row, layout["middle"]).lower(),
+                "Back": self._get_row_value(row, layout["back"]).lower(),
             }
 
             lineout_data = {
@@ -796,25 +799,77 @@ class DataExtractor:
                 'squad': squad_name,
                 'date': date,
                 'opposition': opposition,
-                'half': self._safe_int(row[1] if len(row) > 1 else None),
-                'numbers': str(row[5]).strip() if len(row) > 5 else "",
+                'half': self._safe_int(self._get_row_value(row, layout["half"])),
+                'numbers': self._get_row_value(row, layout["numbers"]),
+                'setup': setup or self._get_setup(call),
                 'call': call,
                 'call_type': self._classify_call(call),
-                'setup': self._get_setup(call),
                 'movement': self._get_movement(call),
                 'area': self._get_area(helper_row),
-                'hooker': str(row[15]).strip() if len(row) > 15 else "",
-                'jumper': str(row[16]).strip() if len(row) > 16 else "",
-                'won': str(row[17]).strip().upper() in ['Y', 'YES', 'TRUE', '1'],
-                'notes': str(row[18]).strip() if len(row) > 18 else '',
-                'drive': str(row[11]).strip().lower() == 'x' if len(row) > 11 else False,
-                'crusaders': str(row[12]).strip().lower() == 'x' if len(row) > 12 else False,
-                'transfer': str(row[13]).strip().lower() == 'x' if len(row) > 13 else False,
-                'flyby': str(row[14]).strip().lower() == 'x' if len(row) > 14 else False,
+                'hooker': self._get_row_value(row, layout["hooker"]),
+                'jumper': self._get_row_value(row, layout["jumper"]),
+                'won': self._get_row_value(row, layout["won"]).upper() in ['Y', 'YES', 'TRUE', '1'],
+                'notes': self._get_row_value(row, layout["notes"]),
+                'drive': self._get_row_value(row, layout["drive"]).lower() == 'x',
+                'crusaders': self._get_row_value(row, layout["crusaders"]).lower() == 'x',
+                'transfer': self._get_row_value(row, layout["transfer"]).lower() == 'x',
+                'flyby': self._get_row_value(row, layout["flyby"]).lower() == 'x',
             }
             lineouts_data.append(lineout_data)
         
         return pd.DataFrame(lineouts_data)
+
+    def _build_lineouts_layout(self, values):
+        default_layout = {
+            "half": 1,
+            "squad": 2,
+            "date": 3,
+            "opposition": 4,
+            "numbers": 5,
+            "setup": None,
+            "call": 6,
+            "front": 8,
+            "middle": 9,
+            "back": 10,
+            "drive": 11,
+            "crusaders": 12,
+            "transfer": 13,
+            "flyby": 14,
+            "hooker": 15,
+            "jumper": 16,
+            "won": 17,
+            "notes": 18,
+        }
+
+        for row_index, row in enumerate(values[:6]):
+            normalized = [self._normalise_sheet_header(value) for value in row]
+            if {"squad", "date", "opposition", "numbers", "call"}.issubset(set(normalized)):
+                layout = default_layout.copy()
+                for field, header in {
+                    "half": "half",
+                    "squad": "squad",
+                    "date": "date",
+                    "opposition": "opposition",
+                    "numbers": "numbers",
+                    "setup": "setup",
+                    "call": "call",
+                    "front": "front",
+                    "middle": "middle",
+                    "back": "back",
+                    "drive": "drive",
+                    "crusaders": "crusaders",
+                    "transfer": "transfer",
+                    "flyby": "flyby",
+                    "hooker": "hooker",
+                    "jumper": "jumper",
+                    "won": "won",
+                    "notes": "notes",
+                }.items():
+                    if header in normalized:
+                        layout[field] = normalized.index(header)
+                return layout, row_index + 1
+
+        return default_layout, 4
 
     def extract_set_piece_stats(self):
         ss = self.client.open_by_url(self.sheet_url)

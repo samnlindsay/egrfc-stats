@@ -1416,6 +1416,7 @@ class BackendDatabase:
                 seq_id INTEGER NOT NULL,
                 half TEXT,
                 numbers TEXT,
+                setup TEXT,
                 call TEXT,
                 call_type TEXT,
                 dummy BOOLEAN,
@@ -4161,6 +4162,7 @@ class BackendDatabase:
                     "seq_id",
                     "half",
                     "numbers",
+                    "setup",
                     "call",
                     "call_type",
                     "dummy",
@@ -4181,6 +4183,8 @@ class BackendDatabase:
 
         df = lineouts_raw.copy()
         df["date"] = _safe_date(df["date"])
+        if "setup" not in df.columns:
+            df["setup"] = None
         game_lookup = games[["game_id", "squad", "date", "season", "opposition"]].copy()
         game_lookup["opposition"] = game_lookup["opposition"].astype(str).str.strip()
         df["opposition"] = df["opposition"].astype(str).str.strip()
@@ -4224,6 +4228,7 @@ class BackendDatabase:
                 "seq_id",
                 "half",
                 "numbers",
+                "setup",
                 "call",
                 "call_type",
                 "dummy",
