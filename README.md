@@ -49,11 +49,14 @@ Main outputs:
 - `data/backend/*.json`
 
 Notable frontend-facing backend exports:
+- `data/backend/season_summary_enriched.json` (season-level summary metrics and leaders)
 - `data/backend/player_profiles_canonical.json` (Player Profiles page)
 - `data/backend/player_awards.json` (Player Stats Awards section and Data Explorer)
+- `data/backend/squad_position_profiles_enriched.json` (position-level squad usage analysis)
 
 Backend schema and usage notes:
 - `python/backend.md`
+- `docs/backend-user-guide.md`
 
 ## Operational workflow
 

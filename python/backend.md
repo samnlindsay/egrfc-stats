@@ -71,6 +71,14 @@ For each dataset, it captures:
 - key contents
 - downstream usage
 
+## Build phases
+
+The backend builder now runs in four explicit phases:
+1. **Extract** raw source datasets from Google Sheets, Pitchero cache, and RFU artefacts.
+2. **Clean + stage** each source into aligned `*_stage_*` tables with shared grain/columns.
+3. **Canonicalize + derive** stable contract tables (`games`, `player_appearances`, `players`, etc.) plus frontend aggregates.
+4. **Persist + export** all tables/views to DuckDB and `data/backend/*.json`.
+
 ## Naming contract
 
 Backend table naming is intentionally layered:
@@ -81,29 +89,25 @@ Backend table naming is intentionally layered:
 
 This keeps extraction, cleanup, and canonical modeling clearly separated while preserving stable table names for downstream consumers.
 
-## Issue 3 Architecture Contract
+To make data flow explicit while preserving auditability, the backend adopts a three-layer model:
 
-To make data flow explicit while preserving auditability, the backend now adopts a three-layer model:
-
-1. `stg_*` tables
+1. `*_stage_*` tables
 - Source-native staging per upstream system (`google`, `pitchero`, `rfu`).
-- Keep ingestion metadata and raw payload so records can be audited/replayed.
+- Keep ingestion metadata and shared column contracts so records can be audited before cross-source merge.
 
 2. `int_*` tables
 - Intermediate candidate + resolution layer for source overlap/conflicts.
 - Includes source-to-canonical key mapping for deterministic incremental rebuilds.
 
 3. Canonical tables
-- Stable contract tables used by exports/charts: `games`, `players`, `player_appearances`, `lineouts`.
-- Explicit PK/FK relationships and uniqueness constraints.
-
-Reference SQL contract: `python/schema_contract.sql`
+- Stable contract tables used by exports/charts: `games`, `players`, `player_appearances`, `lineouts`, `season_scorers`, and frontend aggregate tables.
+- Explicit PK/uniqueness constraints where grain is stable and business-facing.
 
 ### Canonical relationship rules
 
 - `games.game_id` is the join anchor for match-grain data.
-- `player_appearances.game_id` must reference `games.game_id`.
-- `player_appearances.player_id` must reference `players.player_id`.
+- `player_appearances.game_id` references `games.game_id`.
+- `player_appearances.player` aligns to `players.name`.
 - `lineouts.game_id` must reference `games.game_id`.
 - Lineouts and appearances should never be loaded directly from staging into exports.
 	They must flow through intermediate resolution + canonical keys.
@@ -201,6 +205,20 @@ Intermediate tables sit between staging and canonical. They make source-overlap 
 
 Pitchero raw/clean staging datasets are now in-memory build intermediates only. They are not persisted as DuckDB tables or exported datasets.
 
+### League metadata tables
+
+### `league_history`
+- Grain: one row per season/squad.
+- Derived from: Google Sheets `League History` tab via `DataExtractor.extract_league_history()`.
+- Key contents: league name, level, rank, team count, and RFU identifiers (`team_id`, `competition_id`, `division_id`).
+- Downstream: RFU refresh routing, league-table enrichment, and database explorer reference context.
+
+### `league_table_standings`
+- Grain: one row per season/squad/team league table entry.
+- Derived from: saved RFU league-table JSON enriched with canonical `league_history`.
+- Key contents: position, team, W/D/L, points for/against/difference, bonus points, total points.
+- Downstream: database explorer and league-level frontend data products.
+
 ### Core canonical tables
 
 ### `games`
@@ -218,7 +236,7 @@ Pitchero raw/clean staging datasets are now in-memory build intermediates only. 
 ### `lineouts`
 - Grain: one row per attacking lineout event.
 - Derived from: lineout coding sheets with normalization/mapping.
-- Key contents: call/call type, area, setup flags, thrower/jumper, outcome.
+- Key contents: numbers, setup, call/call type, area, movement flags, thrower/jumper, outcome.
 - Downstream: lineout charts and lineout-related analysis.
 
 ### `set_piece`
@@ -255,11 +273,23 @@ Pitchero raw/clean staging datasets are now in-memory build intermediates only. 
 
 ### Frontend enriched tables
 
+### `season_summary_enriched`
+- Grain: one row per season/gameTypeMode/squad.
+- Derived from: canonical games, appearances, scorers, and set-piece tables.
+- Key contents: result summary, home/away scoring averages, top scorers, appearance leaders, and set-piece efficiency metrics.
+- Downstream: season summary frontend data products and reusable backend aggregate queries.
+
 ### `squad_stats_enriched`
 - Grain: one row per season/gameTypeMode/squad/unit.
 - Derived from: appearances filtered by game type mode.
 - Key contents: playerCounts map and playersUsed totals for Total/Forwards/Backs.
 - Downstream: squad stats page squad-size cards/table and threshold filtering.
+
+### `squad_position_profiles_enriched`
+- Grain: one row per season/gameTypeMode/squad/position.
+- Derived from: starter appearances grouped into canonical shirt-based positions.
+- Key contents: playerCounts map and playersUsed totals per position.
+- Downstream: frontend squad usage analysis and position-level derived products.
 
 ### `squad_continuity_enriched`
 - Grain: one row per season/gameTypeMode/squad/unit.
@@ -298,6 +328,7 @@ Pitchero raw/clean staging datasets are now in-memory build intermediates only. 
 - player-profiles page: data/backend/player_profiles_canonical.json (active; dedupe + profile payload owned by backend).
 - squad-stats page: data/backend/squad_stats_enriched.json, data/backend/squad_continuity_enriched.json (active).
 - squad-stats page: data/backend/squad_stats_with_thresholds_enriched.json (active for threshold filtering; eliminates client-side recalculation).
+- season-summary page and downstream summaries: data/backend/season_summary_enriched.json.
 - database explorer page: all exported tables and views in data/backend/*.json.
 
 ## Maintenance checklist for this live document
@@ -313,4 +344,4 @@ Pitchero raw/clean staging datasets are now in-memory build intermediates only. 
 - Keep table names stable so frontend queries stay stable.
 - Add new metrics as nullable columns first, then backfill.
 - Preserve existing keys (squad, date, season, player) across related tables.
-- **JSON columns deserialization**: Enriched tables may contain nested JSON objects/arrays stored as TEXT. Add any new JSON columns to `json_columns_map` in `export_tables()` to ensure they're properly deserialized during export. This keeps the exported JSON clean and avoids double-serialization in the frontend.
+- **JSON columns deserialization**: Enriched tables may contain nested JSON objects/arrays stored as TEXT. Add any new JSON columns to `EXPORT_JSON_COLUMNS` in `export_tables()` to ensure they're properly deserialized during export. This keeps the exported JSON clean and avoids double-serialization in the frontend.

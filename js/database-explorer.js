@@ -177,12 +177,28 @@ const DatabaseExplorer = (() => {
             sourceNote: 'Defined in backend.py from data.py Awards extraction (A3:D) and enriched by matching winner names to players.photo_url.'
         },
         {
+            key: 'season_summary_enriched',
+            label: 'season_summary_enriched',
+            path: 'data/backend/season_summary_enriched.json',
+            grain: 'One row per season-game type mode-squad',
+            description: 'Frontend-ready season summary with result totals, scoring averages, leader payloads, and set-piece efficiency metrics.',
+            sourceNote: 'Defined in backend.py from canonical games, appearances, season_scorers, and set_piece tables.'
+        },
+        {
             key: 'squad_stats_enriched',
             label: 'squad_stats_enriched',
             path: 'data/backend/squad_stats_enriched.json',
             grain: 'One row per season-game type mode-squad-unit',
             description: 'Frontend-ready squad usage table with backend-derived player appearance count maps for total, forwards, and backs across all game-type modes.',
             sourceNote: 'Defined in backend.py as the backend-owned replacement for JS-side squad size aggregation and threshold filtering.'
+        },
+        {
+            key: 'squad_position_profiles_enriched',
+            label: 'squad_position_profiles_enriched',
+            path: 'data/backend/squad_position_profiles_enriched.json',
+            grain: 'One row per season-game type mode-squad-position',
+            description: 'Frontend-ready starter usage table grouped by canonical position with backend-derived player count maps.',
+            sourceNote: 'Defined in backend.py from canonical starter appearances and shirt-number position mapping.'
         },
         {
             key: 'squad_continuity_enriched',

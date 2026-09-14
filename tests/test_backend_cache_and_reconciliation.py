@@ -202,6 +202,28 @@ class BackendCacheAndReconciliationTests(unittest.TestCase):
         self.assertEqual(len(games), 1)
         self.assertEqual(games.iloc[0]["opposition"], "Horsham")
 
+    def test_reset_schema_creates_current_backend_contract_tables(self):
+        self.backend.reset_schema()
+
+        tables = set(self.backend.query("SHOW TABLES")["name"].tolist())
+
+        self.assertIn("league_history", tables)
+        self.assertIn("league_table_standings", tables)
+        self.assertIn("season_summary_enriched", tables)
+        self.assertIn("squad_position_profiles_enriched", tables)
+
+    def test_export_tables_writes_backend_contract_files_for_empty_schema(self):
+        self.backend.export_root = self.temp_path / "exports"
+        self.backend.reset_schema()
+        self.backend.create_views()
+
+        self.backend.export_tables()
+
+        self.assertTrue((self.backend.export_root / "league_history.json").exists())
+        self.assertTrue((self.backend.export_root / "league_table_standings.json").exists())
+        self.assertTrue((self.backend.export_root / "season_summary_enriched.json").exists())
+        self.assertTrue((self.backend.export_root / "squad_position_profiles_enriched.json").exists())
+
     def test_historic_loader_raises_when_no_cache_and_no_bootstrap(self):
         self.backend.historic_pitchero_cache_file = self.temp_path / "missing_historic_cache.json"
         self.backend._bootstrap_historic_cache_from_local_backend = lambda: (pd.DataFrame(), pd.DataFrame())
@@ -727,6 +749,206 @@ class BackendCacheAndReconciliationTests(unittest.TestCase):
             },
         )
 
+    def test_extract_lineouts_data_reads_explicit_setup_column(self):
+        worksheet = Mock()
+        worksheet.get_all_values.return_value = [
+            ["meta"],
+            ["meta"],
+            [
+                "Unused",
+                "Half",
+                "Squad",
+                "Date",
+                "Opposition",
+                "Numbers",
+                "Setup",
+                "Call",
+                "Unused2",
+                "Front",
+                "Middle",
+                "Back",
+                "Drive",
+                "Crusaders",
+                "Transfer",
+                "Flyby",
+                "Hooker",
+                "Jumper",
+                "Won",
+                "Notes",
+            ],
+            ["", "1", "1st", "2025-09-20", "Haywards Heath", "7", "Spread", "C1", "", "x", "", "", "x", "", "", "", "Hooker A", "Jumper A", "Y", "Clean take"],
+        ]
+
+        spreadsheet = Mock()
+        spreadsheet.worksheet.return_value = worksheet
+
+        extractor = DataExtractor.__new__(DataExtractor)
+        extractor.client = Mock()
+        extractor.client.open_by_url.return_value = spreadsheet
+        extractor.sheet_url = "https://example.com/sheet"
+
+        result = extractor.extract_lineouts_data()
+
+        self.assertEqual(len(result), 1)
+        self.assertEqual(result.iloc[0]["setup"], "Spread")
+        self.assertEqual(result.iloc[0]["call"], "C1")
+        self.assertEqual(result.iloc[0]["hooker"], "Hooker A")
+        self.assertEqual(result.iloc[0]["jumper"], "Jumper A")
+        self.assertTrue(bool(result.iloc[0]["drive"]))
+        self.assertTrue(bool(result.iloc[0]["won"]))
+
+    def test_extract_lineouts_data_fallback_layout_uses_shifted_setup_columns(self):
+        worksheet = Mock()
+        worksheet.get_all_values.return_value = [
+            ["meta"],
+            ["meta"],
+            ["meta"],
+            ["meta"],
+            ["", "2", "1st", "2026-09-12", "Heathfield & Waldron", "5", "Split", "", "", "", "x", "", "", "", "", "", "Tom McMahon", "John Peaty", "Y", "Clean take"],
+        ]
+
+        spreadsheet = Mock()
+        spreadsheet.worksheet.return_value = worksheet
+
+        extractor = DataExtractor.__new__(DataExtractor)
+        extractor.client = Mock()
+        extractor.client.open_by_url.return_value = spreadsheet
+        extractor.sheet_url = "https://example.com/sheet"
+
+        result = extractor.extract_lineouts_data()
+
+        self.assertEqual(len(result), 1)
+        self.assertEqual(result.iloc[0]["setup"], "Split")
+        self.assertEqual(result.iloc[0]["call"], "")
+        self.assertEqual(result.iloc[0]["hooker"], "Tom McMahon")
+        self.assertEqual(result.iloc[0]["jumper"], "John Peaty")
+        self.assertTrue(bool(result.iloc[0]["won"]))
+        self.assertEqual(result.iloc[0]["notes"], "Clean take")
+        self.assertEqual(result.iloc[0]["game_id"], "2026-09-12_1st_Heathfield_&_Waldron")
+
+    def test_backend_extract_lineouts_delegates_to_shared_extractor(self):
+        expected = pd.DataFrame(
+            [
+                {
+                    "lineout_id": "L_g1_1",
+                    "game_id": "g1",
+                    "squad": "1st",
+                    "date": "2025-09-20",
+                    "opposition": "Haywards Heath",
+                    "setup": "Spread",
+                }
+            ]
+        )
+
+        extractor = Mock()
+        extractor.extract_lineouts_data.return_value = expected
+
+        result = self.backend._extract_lineouts(extractor)
+
+        extractor.extract_lineouts_data.assert_called_once_with()
+        pd.testing.assert_frame_equal(result, expected)
+
+    def test_extract_set_piece_stats_reads_dedicated_sheet(self):
+        dedicated_sheet = Mock()
+        dedicated_sheet.get_all_values.return_value = [
+            ["", "", "EGRFC", "", "Opposition", "", "EGRFC", "", "Opposition", "", "EGRFC", "", "", "", "Opposition", "", "", ""],
+            ["Date", "Opposition", "Lineout Won", "Lineout Total", "Lineout Won", "Lineout Total", "Scrum Won", "Scrum Total", "Scrum Won", "Scrum Total", "22m Entries", "Pts per visit", "Tries", "Try rate", "22m Entries", "Pts per visit", "Tries", "Try rate"],
+            ["2025-09-20", "Haywards Heath", "10", "12", "8", "11", "7", "9", "5", "8", "6", "2.5", "3", "0.5", "4", "1.8", "2", "0.5"],
+        ]
+        fallback_sheet = Mock()
+
+        spreadsheet = Mock()
+
+        def worksheet_side_effect(name):
+            if name == "1st XV Set piece":
+                return dedicated_sheet
+            if name == "1st XV Players":
+                return fallback_sheet
+            raise Exception(f"worksheet {name} not available")
+
+        spreadsheet.worksheet.side_effect = worksheet_side_effect
+
+        extractor = DataExtractor.__new__(DataExtractor)
+        extractor.client = Mock()
+        extractor.client.open_by_url.return_value = spreadsheet
+        extractor.sheet_url = "https://example.com/sheet"
+        extractor.extract_games_data = Mock(
+            return_value=pd.DataFrame(
+                [
+                    {
+                        "game_id": "2025-09-20_1st_Haywards_Heath",
+                        "date": "2025-09-20",
+                        "squad": "1st",
+                        "opposition": "Haywards Heath",
+                    }
+                ]
+            )
+        )
+
+        result = extractor.extract_set_piece_stats()
+
+        self.assertEqual(len(result), 2)
+        self.assertEqual(set(result["game_id"]), {"2025-09-20_1st_Haywards_Heath"})
+        eg_row = result[result["team"] == "EG"].iloc[0]
+        opp_row = result[result["team"] == "Opp"].iloc[0]
+        self.assertEqual(eg_row["lineouts_won"], 10)
+        self.assertEqual(eg_row["lineouts_total"], 12)
+        self.assertEqual(eg_row["scrums_won"], 7)
+        self.assertEqual(eg_row["scrums_total"], 9)
+        self.assertEqual(opp_row["lineouts_won"], 8)
+        self.assertEqual(opp_row["scrums_total"], 8)
+        self.assertEqual(eg_row["entries_22m"], 6)
+        self.assertAlmostEqual(float(eg_row["points_per_entry"]), 2.5)
+        fallback_sheet.get_all_values.assert_not_called()
+
+    def test_extract_set_piece_stats_reads_dedicated_sheet_with_actual_opposition_header(self):
+        dedicated_sheet = Mock()
+        dedicated_sheet.get_all_values.return_value = [
+            ["", "", "EGRFC", "", "Heathfield & Waldron", "", "EGRFC", "", "Heathfield & Waldron", "", "EGRFC", "", "", "", "Heathfield & Waldron", "", "", ""],
+            ["Date", "Opposition", "Lineout Won", "Lineout Total", "Lineout Won", "Lineout Total", "Scrum Won", "Scrum Total", "Scrum Won", "Scrum Total", "22m Entries", "Pts per visit", "Tries", "Try rate", "22m Entries", "Pts per visit", "Tries", "Try rate"],
+            ["2026-09-12", "Heathfield & Waldron", "14", "16", "9", "13", "6", "8", "5", "7", "7", "2.8", "3", "0.43", "4", "1.5", "2", "0.5"],
+        ]
+        fallback_sheet = Mock()
+
+        spreadsheet = Mock()
+
+        def worksheet_side_effect(name):
+            if name == "1st XV Set piece":
+                return dedicated_sheet
+            if name == "1st XV Players":
+                return fallback_sheet
+            raise Exception(f"worksheet {name} not available")
+
+        spreadsheet.worksheet.side_effect = worksheet_side_effect
+
+        extractor = DataExtractor.__new__(DataExtractor)
+        extractor.client = Mock()
+        extractor.client.open_by_url.return_value = spreadsheet
+        extractor.sheet_url = "https://example.com/sheet"
+        extractor.extract_games_data = Mock(
+            return_value=pd.DataFrame(
+                [
+                    {
+                        "game_id": "2026-09-12_1st_Heathfield_&_Waldron",
+                        "date": "2026-09-12",
+                        "squad": "1st",
+                        "opposition": "Heathfield & Waldron",
+                    }
+                ]
+            )
+        )
+
+        result = extractor.extract_set_piece_stats()
+
+        self.assertEqual(len(result), 2)
+        eg_row = result[result["team"] == "EG"].iloc[0]
+        opp_row = result[result["team"] == "Opp"].iloc[0]
+        self.assertEqual(eg_row["lineouts_won"], 14)
+        self.assertEqual(eg_row["scrums_total"], 8)
+        self.assertEqual(opp_row["lineouts_total"], 13)
+        self.assertEqual(opp_row["scrums_won"], 5)
+        fallback_sheet.get_all_values.assert_not_called()
+
     def test_season_scorers_aggregate_match_level_scorer_payloads(self):
         appearances = pd.DataFrame(
             [
@@ -1120,6 +1342,105 @@ class BackendCacheAndReconciliationTests(unittest.TestCase):
         self.assertEqual(json.loads(row["conversions_scorers"]), {"Alice Example": 1})
         self.assertEqual(json.loads(row["penalties_scorers"]), {"Bob Example": 2})
         self.assertTrue(pd.isna(row["drop_goals_scorers"]))
+
+    def test_build_league_history_preserves_rfu_identifiers(self):
+        league_history_raw = pd.DataFrame(
+            [
+                {
+                    "season": "2025/26",
+                    "squad": "1st",
+                    "league": "Counties 1 Sussex",
+                    "level": "7",
+                    "rank": "2",
+                    "teams": "12",
+                    "team_id": "101",
+                    "competition_id": "202",
+                    "division_id": "303",
+                }
+            ]
+        )
+
+        out = self.backend._build_league_history(league_history_raw)
+
+        self.assertEqual(out.iloc[0]["season"], "2025/26")
+        self.assertEqual(int(out.iloc[0]["team_id"]), 101)
+        self.assertEqual(int(out.iloc[0]["competition_id"]), 202)
+        self.assertEqual(int(out.iloc[0]["division_id"]), 303)
+
+    def test_build_squad_position_profiles_accepts_canonical_number_column(self):
+        appearances = pd.DataFrame(
+            [
+                {
+                    "season": "2025/26",
+                    "squad": "1st",
+                    "player": "Alice Example",
+                    "number": 1,
+                    "game_id": "g1",
+                    "game_type": None,
+                    "is_starter": True,
+                }
+            ]
+        )
+        games = pd.DataFrame(
+            [
+                {
+                    "game_id": "g1",
+                    "game_type": "League",
+                }
+            ]
+        )
+
+        out = self.backend._build_squad_position_profiles(appearances, games)
+
+        self.assertEqual(len(out), 3)
+        self.assertEqual(set(out["gameTypeMode"]), {"All", "League + Cup", "League only"})
+        self.assertEqual(set(out["position"]), {"Prop"})
+
+    def test_build_lineouts_preserves_setup_value(self):
+        lineouts_raw = pd.DataFrame(
+            [
+                {
+                    "lineout_id": "L_g1_1",
+                    "game_id": "g1",
+                    "squad": "1st",
+                    "date": "2025-09-20",
+                    "opposition": "Haywards Heath",
+                    "half": 1,
+                    "numbers": "7",
+                    "setup": "Split",
+                    "call": "C1",
+                    "call_type": "Sandy",
+                    "dummy": False,
+                    "area": "Front",
+                    "hooker": "Hooker A",
+                    "jumper": "Jumper A",
+                    "won": True,
+                    "notes": "",
+                    "drive": False,
+                    "crusaders": False,
+                    "transfer": False,
+                    "flyby": False,
+                }
+            ]
+        )
+        games = pd.DataFrame(
+            [
+                {
+                    "game_id": "g1",
+                    "squad": "1st",
+                    "date": pd.Timestamp("2025-09-20").date(),
+                    "season": "2025/26",
+                    "opposition": "Haywards Heath",
+                }
+            ]
+        )
+
+        out = self.backend._build_lineouts(lineouts_raw, games)
+
+        self.assertEqual(len(out), 1)
+        self.assertEqual(out.iloc[0]["setup"], "Split")
+        self.assertEqual(out.iloc[0]["game_id"], "g1")
+        self.assertEqual(out.iloc[0]["season"], "2025/26")
 
 
 if __name__ == "__main__":
