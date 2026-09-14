@@ -202,6 +202,28 @@ class BackendCacheAndReconciliationTests(unittest.TestCase):
         self.assertEqual(len(games), 1)
         self.assertEqual(games.iloc[0]["opposition"], "Horsham")
 
+    def test_reset_schema_creates_current_backend_contract_tables(self):
+        self.backend.reset_schema()
+
+        tables = set(self.backend.query("SHOW TABLES")["name"].tolist())
+
+        self.assertIn("league_history", tables)
+        self.assertIn("league_table_standings", tables)
+        self.assertIn("season_summary_enriched", tables)
+        self.assertIn("squad_position_profiles_enriched", tables)
+
+    def test_export_tables_writes_backend_contract_files_for_empty_schema(self):
+        self.backend.export_root = self.temp_path / "exports"
+        self.backend.reset_schema()
+        self.backend.create_views()
+
+        self.backend.export_tables()
+
+        self.assertTrue((self.backend.export_root / "league_history.json").exists())
+        self.assertTrue((self.backend.export_root / "league_table_standings.json").exists())
+        self.assertTrue((self.backend.export_root / "season_summary_enriched.json").exists())
+        self.assertTrue((self.backend.export_root / "squad_position_profiles_enriched.json").exists())
+
     def test_historic_loader_raises_when_no_cache_and_no_bootstrap(self):
         self.backend.historic_pitchero_cache_file = self.temp_path / "missing_historic_cache.json"
         self.backend._bootstrap_historic_cache_from_local_backend = lambda: (pd.DataFrame(), pd.DataFrame())
@@ -1120,6 +1142,59 @@ class BackendCacheAndReconciliationTests(unittest.TestCase):
         self.assertEqual(json.loads(row["conversions_scorers"]), {"Alice Example": 1})
         self.assertEqual(json.loads(row["penalties_scorers"]), {"Bob Example": 2})
         self.assertTrue(pd.isna(row["drop_goals_scorers"]))
+
+    def test_build_league_history_preserves_rfu_identifiers(self):
+        league_history_raw = pd.DataFrame(
+            [
+                {
+                    "season": "2025/26",
+                    "squad": "1st",
+                    "league": "Counties 1 Sussex",
+                    "level": "7",
+                    "rank": "2",
+                    "teams": "12",
+                    "team_id": "101",
+                    "competition_id": "202",
+                    "division_id": "303",
+                }
+            ]
+        )
+
+        out = self.backend._build_league_history(league_history_raw)
+
+        self.assertEqual(out.iloc[0]["season"], "2025/26")
+        self.assertEqual(int(out.iloc[0]["team_id"]), 101)
+        self.assertEqual(int(out.iloc[0]["competition_id"]), 202)
+        self.assertEqual(int(out.iloc[0]["division_id"]), 303)
+
+    def test_build_squad_position_profiles_accepts_canonical_number_column(self):
+        appearances = pd.DataFrame(
+            [
+                {
+                    "season": "2025/26",
+                    "squad": "1st",
+                    "player": "Alice Example",
+                    "number": 1,
+                    "game_id": "g1",
+                    "game_type": None,
+                    "is_starter": True,
+                }
+            ]
+        )
+        games = pd.DataFrame(
+            [
+                {
+                    "game_id": "g1",
+                    "game_type": "League",
+                }
+            ]
+        )
+
+        out = self.backend._build_squad_position_profiles(appearances, games)
+
+        self.assertEqual(len(out), 3)
+        self.assertEqual(set(out["gameTypeMode"]), {"All games", "League + Cup", "League only"})
+        self.assertEqual(set(out["position"]), {"Prop"})
 
 
 if __name__ == "__main__":
