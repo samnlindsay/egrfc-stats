@@ -1193,7 +1193,7 @@ class BackendCacheAndReconciliationTests(unittest.TestCase):
         out = self.backend._build_squad_position_profiles(appearances, games)
 
         self.assertEqual(len(out), 3)
-        self.assertEqual(set(out["gameTypeMode"]), {"All games", "League + Cup", "League only"})
+        self.assertEqual(set(out["gameTypeMode"]), {"All", "League + Cup", "League only"})
         self.assertEqual(set(out["position"]), {"Prop"})
 
 

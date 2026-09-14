@@ -2189,7 +2189,7 @@ class BackendDatabase:
                             lambda value: json.loads(value) if isinstance(value, str) and value.strip() else default_value
                         )
 
-            export_df.to_json(self.export_root / f"{name}.json", orient="records")
+            export_df.to_json(self.export_root / f"{name}.json", orient="records", date_format="iso")
 
         # Scorer coverage audit: identify game_ids still missing all scorer payloads.
         scorer_audit_df = self.con.execute(
@@ -2225,7 +2225,7 @@ class BackendDatabase:
             """
         ).df()
         scorer_audit_df = _normalise_dates_for_json(scorer_audit_df)
-        scorer_audit_df.to_json(self.export_root / "scorer_coverage_audit.json", orient="records")
+        scorer_audit_df.to_json(self.export_root / "scorer_coverage_audit.json", orient="records", date_format="iso")
         scorer_audit_df.to_csv(self.export_root / "scorer_coverage_audit.csv", index=False)
 
     def _insert(self, table_name: str, df: pd.DataFrame) -> None:
