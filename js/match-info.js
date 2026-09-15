@@ -1102,6 +1102,7 @@ function buildLineoutDetailRows(gameId) {
         const won = row?.won === true || row?.won === 1 || String(row?.won || '').toLowerCase() === 'true';
         const rowClass = won ? 'video-analysis-lineout-row--won' : 'video-analysis-lineout-row--lost';
         const numbersValue = lineoutDetailValue(row?.numbers);
+        const setupValue = lineoutDetailValue(row?.setup);
         const callRaw = lineoutDetailValue(row?.call);
         const isBangCall = callRaw === '*';
         const callValue = isBangCall ? 'Bang' : callRaw;
@@ -1113,6 +1114,7 @@ function buildLineoutDetailRows(gameId) {
             <tr class="${rowClass}">
                 <td>${idx + 1}</td>
                 <td class="video-analysis-lineout-numbers"><span class="video-analysis-lineout-numbers-pill ${numbersClass(numbersValue)}">${escapeHtml(numbersLabel(numbersValue))}</span></td>
+                <td class="video-analysis-lineout-setup">${escapeHtml(setupValue)}</td>
                 <td class="video-analysis-lineout-call ${isBangCall ? 'video-analysis-lineout-call--bang' : ''}">${escapeHtml(callValue)}</td>
                 <td class="video-analysis-lineout-thrower">${playerShortNameLinkHtml(row?.thrower)}</td>
                 <td class="video-analysis-lineout-jumper">${playerShortNameLinkHtml(row?.jumper)}</td>
@@ -1228,11 +1230,12 @@ function renderVideoAnalysisSection(row) {
                         <table class="table video-analysis-lineout-detail-table align-middle">
                             <thead>
                             <tr class="video-analysis-lineout-detail-title-row">
-                                <th scope="col" colspan="6">Lineout Detail</th>
+                                <th scope="col" colspan="7">Lineout Detail</th>
                             </tr>
                             <tr>
                                 <th scope="col"></th>
                                 <th scope="col">Numbers</th>
+                                <th scope="col">Setup</th>
                                 <th scope="col">Call</th>
                                 <th scope="col">Thrower</th>
                                 <th scope="col">Jumper</th>

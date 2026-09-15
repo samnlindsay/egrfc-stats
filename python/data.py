@@ -935,7 +935,7 @@ class DataExtractor:
         total_terms = ("total", "totals", "attempts", "taken")
         entry_terms = ("22mentries", "entries22m", "redzoneentries")
         points_per_entry_terms = ("pointsperentry", "ptspervisit", "pointspervisit")
-        tries_per_entry_terms = ("triesperentry", "tryrate", "efficiency")
+        tries_per_entry_terms = ("triesperentry", "tryrate")
 
         def is_egrfc_metric(header_value):
             return contains_any(header_value, egrfc_terms)
@@ -997,6 +997,39 @@ class DataExtractor:
             find_matching_indices(lambda header: contains_any(header, tries_per_entry_terms))
         )
 
+        def grouped_columns(section, team):
+            prefix = f"{section}{team}"
+            return [idx for idx, header in enumerate(compound_headers) if header == prefix]
+
+        lineout_eg_group = grouped_columns("lineout", "eastgrinstead")
+        lineout_opp_group = grouped_columns("lineout", "opposition")
+        scrum_eg_group = grouped_columns("scrum", "eastgrinstead")
+        scrum_opp_group = grouped_columns("scrum", "opposition")
+        red_zone_eg_group = grouped_columns("redzoneefficiency", "eastgrinstead")
+        red_zone_opp_group = grouped_columns("redzoneefficiency", "opposition")
+
+        def grouped_value(current, columns, position):
+            if current is not None or len(columns) <= position:
+                return current
+            return columns[position]
+
+        lineouts_won_eg = grouped_value(lineouts_won_eg, lineout_eg_group, 0)
+        lineouts_total_eg = grouped_value(lineouts_total_eg, lineout_eg_group, 1)
+        lineouts_won_opp = grouped_value(lineouts_won_opp, lineout_opp_group, 0)
+        lineouts_total_opp = grouped_value(lineouts_total_opp, lineout_opp_group, 1)
+        scrums_won_eg = grouped_value(scrums_won_eg, scrum_eg_group, 0)
+        scrums_total_eg = grouped_value(scrums_total_eg, scrum_eg_group, 1)
+        scrums_won_opp = grouped_value(scrums_won_opp, scrum_opp_group, 0)
+        scrums_total_opp = grouped_value(scrums_total_opp, scrum_opp_group, 1)
+        entries_22m_eg = grouped_value(entries_22m_eg, red_zone_eg_group, 0)
+        entries_22m_opp = grouped_value(entries_22m_opp, red_zone_opp_group, 0)
+        tries_eg = grouped_value(tries_eg, red_zone_eg_group, 2)
+        tries_opp = grouped_value(tries_opp, red_zone_opp_group, 2)
+        points_per_entry_eg = grouped_value(points_per_entry_eg, red_zone_eg_group, 1)
+        points_per_entry_opp = grouped_value(points_per_entry_opp, red_zone_opp_group, 1)
+        tries_per_entry_eg = grouped_value(tries_per_entry_eg, red_zone_eg_group, 3)
+        tries_per_entry_opp = grouped_value(tries_per_entry_opp, red_zone_opp_group, 3)
+
         layout = {
             "squad": next(iter(find_matching_indices(lambda header: header == "squad")), None),
             "date": next(iter(find_matching_indices(lambda header: header == "date")), None),
@@ -1011,8 +1044,8 @@ class DataExtractor:
             "scrums_total_opp": scrums_total_opp,
             "entries_22m_eg": entries_22m_eg,
             "entries_22m_opp": entries_22m_opp,
-            "points_eg": next(iter(find_matching_indices(lambda header: header in {"pf", "pointsfor"})), None),
-            "points_opp": next(iter(find_matching_indices(lambda header: header in {"pa", "pointsagainst"})), None),
+            "points_eg": next(iter(find_matching_indices(lambda header: header in {"f", "pf", "pointsfor"})), None),
+            "points_opp": next(iter(find_matching_indices(lambda header: header in {"a", "pa", "pointsagainst"})), None),
             "tries_eg": tries_eg,
             "tries_opp": tries_opp,
             "points_per_entry_eg": points_per_entry_eg,
@@ -1091,6 +1124,10 @@ class DataExtractor:
             }
 
             for i, team in enumerate(game_rows["team"]):
+                entries = game_rows["entries_22m"][i]
+                tries = game_rows["tries"][i]
+                if entries not in (None, 0) and tries is not None:
+                    game_rows["tries_per_entry"][i] = tries / entries
                 set_piece_data.append(
                     {
                         "date": game_rows["date"],

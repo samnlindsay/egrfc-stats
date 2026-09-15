@@ -949,6 +949,64 @@ class BackendCacheAndReconciliationTests(unittest.TestCase):
         self.assertEqual(opp_row["scrums_won"], 5)
         fallback_sheet.get_all_values.assert_not_called()
 
+    def test_extract_set_piece_stats_reads_grouped_headers_without_metric_subheaders(self):
+        dedicated_sheet = Mock()
+        dedicated_sheet.get_all_values.return_value = [
+            ["" for _ in range(34)],
+            ["", "", "", "", "", "", "", "", "Lineout", "", "", "", "", "", "", "", "Scrum", "", "", "", "", "", "", "", "Red Zone Efficiency"],
+            ["", "Season", "Date", "Opposition", "H/A", "F", "A", "PD", "East Grinstead", "", "", "Opposition", "", "", "Overall", "", "East Grinstead", "", "", "Opposition", "", "", "Overall", "", "East Grinstead", "", "", "", "Opposition", "", "", "", "Difference", ""],
+            ["", "2026/27", "2026-09-12", "Heathfield & Waldron", "A", "26", "34", "-8", "8", "11", "73%", "11", "13", "85%", "24", "-1", "8", "10", "80%", "6", "6", "100%", "16", "-2", "8", "", "4", "", "9", "", "6", "", "", ""],
+        ]
+        fallback_sheet = Mock()
+
+        spreadsheet = Mock()
+
+        def worksheet_side_effect(name):
+            if name == "1st XV Set piece":
+                return dedicated_sheet
+            if name == "1st XV Players":
+                return fallback_sheet
+            raise Exception(f"worksheet {name} not available")
+
+        spreadsheet.worksheet.side_effect = worksheet_side_effect
+
+        extractor = DataExtractor.__new__(DataExtractor)
+        extractor.client = Mock()
+        extractor.client.open_by_url.return_value = spreadsheet
+        extractor.sheet_url = "https://example.com/sheet"
+        extractor.extract_games_data = Mock(
+            return_value=pd.DataFrame(
+                [
+                    {
+                        "game_id": "2026-09-12_1st_Heathfield_&_Waldron",
+                        "date": "2026-09-12",
+                        "squad": "1st",
+                        "opposition": "Heathfield & Waldron",
+                    }
+                ]
+            )
+        )
+
+        result = extractor.extract_set_piece_stats()
+
+        eg_row = result[result["team"] == "EG"].iloc[0]
+        opp_row = result[result["team"] == "Opp"].iloc[0]
+        self.assertEqual(eg_row["lineouts_won"], 8)
+        self.assertEqual(eg_row["lineouts_total"], 11)
+        self.assertEqual(opp_row["lineouts_won"], 11)
+        self.assertEqual(opp_row["lineouts_total"], 13)
+        self.assertEqual(eg_row["scrums_won"], 8)
+        self.assertEqual(opp_row["scrums_total"], 6)
+        self.assertEqual(eg_row["entries_22m"], 8)
+        self.assertEqual(eg_row["points"], 26)
+        self.assertEqual(eg_row["tries"], 4)
+        self.assertEqual(opp_row["entries_22m"], 9)
+        self.assertEqual(opp_row["points"], 34)
+        self.assertEqual(opp_row["tries"], 6)
+        self.assertAlmostEqual(float(eg_row["tries_per_entry"]), 0.5)
+        self.assertAlmostEqual(float(opp_row["tries_per_entry"]), 2 / 3)
+        fallback_sheet.get_all_values.assert_not_called()
+
     def test_season_scorers_aggregate_match_level_scorer_payloads(self):
         appearances = pd.DataFrame(
             [
@@ -1441,6 +1499,46 @@ class BackendCacheAndReconciliationTests(unittest.TestCase):
         self.assertEqual(out.iloc[0]["setup"], "Split")
         self.assertEqual(out.iloc[0]["game_id"], "g1")
         self.assertEqual(out.iloc[0]["season"], "2025/26")
+
+    def test_build_lineouts_derives_missing_dummy_from_movement(self):
+        lineouts_raw = pd.DataFrame(
+            [
+                {
+                    "lineout_id": "L_g1_1",
+                    "game_id": "g1",
+                    "squad": "1st",
+                    "date": "2025-09-20",
+                    "opposition": "Haywards Heath",
+                    "half": 1,
+                    "numbers": "7",
+                    "setup": "Split",
+                    "call": "Dummy call",
+                    "call_type": "Other",
+                    "movement": "Dummy",
+                    "area": "Front",
+                    "hooker": "Hooker A",
+                    "jumper": "Jumper A",
+                    "notes": "",
+                }
+            ]
+        )
+        games = pd.DataFrame(
+            [
+                {
+                    "game_id": "g1",
+                    "squad": "1st",
+                    "date": pd.Timestamp("2025-09-20").date(),
+                    "season": "2025/26",
+                    "opposition": "Haywards Heath",
+                }
+            ]
+        )
+
+        out = self.backend._build_lineouts(lineouts_raw, games)
+
+        self.assertTrue(bool(out.iloc[0]["dummy"]))
+        self.assertFalse(bool(out.iloc[0]["won"]))
+        self.assertFalse(bool(out.iloc[0]["drive"]))
 
 
 if __name__ == "__main__":

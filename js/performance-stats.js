@@ -117,10 +117,11 @@
 
     function readRedZoneFilterState() {
         const select = getElement('redZoneSeason');
-        const selectedSeasons = select ? Array.from(select.selectedOptions).map((opt) => opt.value) : ['2024/25', '2025/26'];
+        const availableSeasons = select ? Array.from(select.options).map((opt) => opt.value) : [];
+        const selectedSeasons = select ? Array.from(select.selectedOptions).map((opt) => opt.value) : availableSeasons;
         return {
             squad: getElement('performanceStatsSquad')?.value || '1st',
-            seasons: selectedSeasons.length > 0 ? selectedSeasons : ['2024/25', '2025/26'],
+            seasons: selectedSeasons.length > 0 ? selectedSeasons : availableSeasons,
             gameType: getElement('performanceStatsGameType')?.value || 'League + Cup',
             efficiencyMetric: getElement('redZoneEfficiencyMetric')?.value || 'Points per 22m entry',
         };
@@ -140,7 +141,7 @@
         }
 
         const seasonSelect = getElement('performanceTrendSeason');
-        let selectedSeason = seasonSelect?.value || '2025/26';
+        let selectedSeason = seasonSelect?.value || '2026/27';
         if (seasonSelect && window.jQuery && window.jQuery.fn && window.jQuery.fn.selectpicker) {
             const pickerSeason = window.jQuery(seasonSelect).selectpicker('val');
             if (typeof pickerSeason === 'string' && pickerSeason) {
@@ -557,6 +558,32 @@
         seasonSelect.innerHTML = seasons.map((season) => `<option value="${escapeHtml(season)}">${escapeHtml(season)}</option>`).join('');
         seasonSelect.value = seasons.includes(currentValue) ? currentValue : seasons[0];
         rebuildSelectPicker(seasonSelect);
+    }
+
+    async function populateRedZoneSeasonOptions() {
+        const seasonSelect = getElement('redZoneSeason');
+        const seasonSegment = getElement('redZoneSeasonSegment');
+        if (!seasonSelect || !seasonSegment) return;
+
+        try {
+            const response = await fetch('data/backend/v_red_zone.json', { cache: 'no-store' });
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            const rows = await response.json();
+            const seasons = Array.from(new Set((Array.isArray(rows) ? rows : [])
+                .map((row) => String(row?.season || '').trim())
+                .filter(Boolean)))
+                .sort((a, b) => parseInt(String(a).slice(0, 4), 10) - parseInt(String(b).slice(0, 4), 10));
+            if (!seasons.length) return;
+
+            seasonSelect.innerHTML = seasons
+                .map((season) => `<option value="${escapeHtml(season)}" selected>${escapeHtml(season)}</option>`)
+                .join('');
+            seasonSegment.innerHTML = seasons
+                .map((season) => `<button type="button" class="squad-filter-segment-btn is-active" data-value="${escapeHtml(season)}">${escapeHtml(season)}</button>`)
+                .join('');
+        } catch (error) {
+            console.warn('Unable to load Red Zone season options:', error);
+        }
     }
 
     async function renderChartSpec(containerId, path, emptyMessage) {
@@ -1039,7 +1066,10 @@
             });
         }
 
-        await populateMatchTrendSeasonOptions();
+        await Promise.all([
+            populateMatchTrendSeasonOptions(),
+            populateRedZoneSeasonOptions(),
+        ]);
         await updateHeroMetrics();
         initialiseOffcanvasFocusLinks();
         await initialiseControls();

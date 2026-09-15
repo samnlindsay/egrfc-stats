@@ -4129,6 +4129,14 @@ class BackendDatabase:
         df["date"] = _safe_date(df["date"])
         if "setup" not in df.columns:
             df["setup"] = None
+        if "dummy" not in df.columns:
+            if "movement" in df.columns:
+                df["dummy"] = df["movement"].astype(str).str.strip().str.casefold().eq("dummy")
+            else:
+                df["dummy"] = False
+        for column in ["won", "drive", "crusaders", "transfer", "flyby"]:
+            if column not in df.columns:
+                df[column] = False
         game_lookup = games[["game_id", "squad", "date", "season", "opposition"]].copy()
         game_lookup["opposition"] = game_lookup["opposition"].astype(str).str.strip()
         df["opposition"] = df["opposition"].astype(str).str.strip()
@@ -4140,7 +4148,7 @@ class BackendDatabase:
         if "season" not in df.columns:
             df["season"] = None
 
-        has_season = df["season"].astype(str).str.strip().replace("", pd.NA).notna()
+        has_season = df["season"].astype("string").str.strip().replace("", pd.NA).notna()
 
         with_season = df[has_season].merge(
             game_lookup,
@@ -4244,7 +4252,7 @@ class BackendDatabase:
         df["points"] = pd.to_numeric(df.get("points"), errors="coerce").astype("Int64")
         df["tries"] = pd.to_numeric(df.get("tries"), errors="coerce").astype("Int64")
         df["points_per_entry"] = pd.to_numeric(df.get("points_per_entry"), errors="coerce")
-        df["tries_per_entry"] = pd.to_numeric(df.get("tries_per_entry"), errors="coerce")
+        df["tries_per_entry"] = df["tries"] / df["entries_22m"].replace(0, pd.NA)
 
         return df[
             [
