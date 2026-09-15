@@ -1,6 +1,5 @@
 game_id,date,season,squad,opposition,game_type,result,captain,motm,pitchero_match_url,tries_scorers,conversions_scorers,penalties_scorers,drop_goals_scorers,has_any_scorers,has_pitchero_url
-2026-08-22_1st_Heathfield_&_Waldron,2026-08-22,2026/27,1st,Heathfield & Waldron,Friendly,,,,,,,,,False,False
-2026-08-15_1st_TBC,2026-08-15,2026/27,1st,TBC,Friendly,,,,,,,,,False,False
+2026-09-12_1st_Heathfield_&_Waldron,2026-09-12,2026/27,1st,Heathfield & Waldron,Friendly,L,Tom Mooney,,,"{""Dan Harding"": 1, ""Dylan Hammocks"": 1, ""Luke Maker"": 1, ""Noah Roberts"": 1}","{""Luke Maker"": 3}",,,True,False
 2026-05-02_1st_Trojans,2026-05-02,2025/26,1st,Trojans,Cup,L,Rory Evans,Noah Roberts,,"{""Connor Leggat"": 1, ""Mark Lewis"": 1}","{""Noah Roberts"": 1}","{""Noah Roberts"": 1}",,True,False
 2026-04-18_1st_Seaford,2026-04-18,2025/26,1st,Seaford,League,W,Rory Evans,Ben Marelli,,"{""Ben Marelli"": 1, ""Jack Andrews"": 1, ""John Peaty"": 1, ""Max Crawley-Moore"": 2, ""Noah Roberts"": 1}","{""Noah Roberts"": 5}",,,True,False
 2026-04-18_2nd_Horsham,2026-04-18,2025/26,2nd,Horsham,League,W,George Beet,Tom Saunders,,"{""Ali Moffatt"": 1, ""Freddie \""Little Fred\"" Mitchell"": 1, ""George A Jones"": 1, ""Henry Weller"": 2, ""Louis Duvall"": 1, ""Tom Byron"": 1}","{""Henry Weller"": 3}",,,True,False
@@ -52,13 +51,13 @@ game_id,date,season,squad,opposition,game_type,result,captain,motm,pitchero_matc
 2025-03-22_1st_Cobham,2025-03-22,2024/25,1st,Cobham,League,L,Ryland Thomas,Oli Billin,https://www.egrfc.com/teams/142068/match-centre/1-15439181/events,"{""Ted Hardisty"": 1, ""Aaronn Boczek"": 1, ""Josh Weaver"": 1}","{""Oliver Billin"": 3}",,,True,True
 2025-03-22_2nd_Horsham,2025-03-22,2024/25,2nd,Horsham,League,W,Rory Evans,Ben Marelli,https://www.egrfc.com/teams/142069/match-centre/0-6115906/events,"{""Or Shay"": 2, ""Nathan Oliver"": 1, ""Ben Marelli"": 1, ""Dillan Bowe"": 1, ""Rory Evans"": 1, ""Ryan Morlen"": 2, ""Reggie Harris"": 1, ""Paddy Shepherd"": 1}","{""Ryan Morlen"": 1, ""Ben Marelli"": 3}",,,True,True
 2025-03-08_1st_Old_Rutlishians,2025-03-08,2024/25,1st,Old Rutlishians,League,L,Chris May-Miller,,https://www.egrfc.com/teams/142068/match-centre/1-15439179/events,"{""William Roberts"": 1, ""Noah Roberts"": 1}","{""Noah Merrion"": 1, ""Oliver Billin"": 1}",,,True,True
-2025-03-08_2nd_Midhurst,2025-03-08,2024/25,2nd,Midhurst,League,,,,,,,,,False,False
+2025-03-08_2nd_Midhurst,2025-03-08,2024/25,2nd,Midhurst,League,,,,https://www.egrfc.com/teams/142069/match-centre/1-15721452/events,,,,,False,True
 2025-03-01_1st_Trinity,2025-03-01,2024/25,1st,Trinity,League,L,Ryland Thomas,,https://www.egrfc.com/teams/142068/match-centre/1-15439172/events,"{""Aaronn Boczek"": 1, ""Christopher May-Miller"": 1}","{""Oliver Billin"": 1}","{""Oliver Billin"": 2}",,True,True
-2025-03-01_2nd_Shoreham,2025-03-01,2024/25,2nd,Shoreham II,League,,,,,,,,,False,False
+2025-03-01_2nd_Shoreham,2025-03-01,2024/25,2nd,Shoreham II,League,,,,https://www.egrfc.com/teams/142069/match-centre/1-15721450/events,,,,,False,True
 2025-03-01_2nd_Trinity,2025-03-01,2024/25,2nd,Trinity,Friendly,L,Rory Evans,Ryan Morlen,https://www.egrfc.com/teams/142069/match-centre/0-6179893/events,"{""Sam Johnston"": 1, ""Ed Arundell"": 2, ""Rhys Skinner"": 1}","{""Ben Green"": 3}",,,True,True
 2025-02-22_2nd_Burgess_Hill,2025-02-22,2024/25,2nd,Burgess Hill,Friendly,W,Rory Evans,,https://www.egrfc.com/teams/142069/match-centre/0-6109266/events,"{""Rhys Skinner"": 1, ""Will Roberts"": 2, ""Colm Geraghty"": 2, ""Ben Green"": 1}","{""Ben Green"": 2}",,,True,True
 2025-02-15_1st_Eastbourne,2025-02-15,2024/25,1st,Eastbourne,League,L,Ryland Thomas,Noah Merrion,https://www.egrfc.com/teams/142068/match-centre/1-15439164/events,"{""Guy Collins"": 1, ""Ted Hardisty"": 1}","{""Oliver Billin"": 2}",,,True,True
-2025-02-15_2nd_Newick,2025-02-15,2024/25,2nd,Newick,League,,,,,,,,,False,False
+2025-02-15_2nd_Newick,2025-02-15,2024/25,2nd,Newick,League,,,,https://www.egrfc.com/teams/142069/match-centre/1-15721442/events,,,,,False,True
 2025-02-15_2nd_Old_Caterhamians,2025-02-15,2024/25,2nd,Old Caterhamians,Friendly,W,Rory Evans,Mark Lewis,https://www.egrfc.com/teams/142069/match-centre/0-6170227/events,"{""Rhys Skinner"": 1, ""Paddy Shepherd"": 2, ""Jon Lear"": 2, ""Tim Morris"": 1}","{""Rhys Skinner"": 2, ""Paddy Shepherd"": 1}",,,True,True
 2025-02-08_1st_Hove,2025-02-08,2024/25,1st,Hove,League,L,Chris May-Miller,,https://www.egrfc.com/teams/142068/match-centre/1-15439146/events,"{""William Roberts"": 1}",,"{""Noah Roberts"": 2}",,True,True
 2025-02-08_2nd_Royals,2025-02-08,2024/25,2nd,Royals,League,W,Rory Evans,Or Shay,https://www.egrfc.com/teams/142069/match-centre/0-6152029/events,"{""George Jones"": 1, ""Or Shay"": 1, ""Paddy Shepherd"": 1, ""James Griffiths"": 1, ""Evan Gosling"": 1}","{""Paddy Shepherd"": 1}",,,True,True

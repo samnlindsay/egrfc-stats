@@ -63,7 +63,7 @@ Backend schema and usage notes:
 ### 1) Regular update (single entry point)
 
 ```bash
-./env/bin/python python/update.py --backend-mode canonical
+./env/bin/python 
 ```
 
 This one command now runs, in order:
