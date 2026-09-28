@@ -32,6 +32,7 @@ from python.utils.normalization import (
 from python.utils.opposition import (
     OPPOSITION_CANONICAL_NAMES,
     canonicalize_opposition_name,
+    opposition_club_name,
 )
 
 logging.basicConfig(level=logging.INFO)
@@ -1195,6 +1196,9 @@ class DataExtractor:
                 "points_per_entry": [eg_points_per_entry, opp_points_per_entry],
                 "tries_per_entry": [eg_tries_per_entry, opp_tries_per_entry],
             }
+            recorded = game_data["lineouts_total"] + game_data["scrums_total"] + game_data["entries_22m"]
+            if all(value is None for value in recorded):
+                continue
 
             for i, team in enumerate(game_data["team"]):
                 set_piece_data.append({
@@ -1219,24 +1223,12 @@ class DataExtractor:
         ss = self.client.open_by_url(self.sheet_url)
         set_piece_data = []
 
-        for squad_name, dedicated_sheet_name, fallback_sheet_name in [
-            ("1st", "1st XV Set piece", "1st XV Players"),
-            ("2nd", "2nd XV Set piece", "2nd XV Players"),
-        ]:
+        for squad_name, sheet_name in [("1st", "1st XV Players"), ("2nd", "2nd XV Players")]:
             try:
-                dedicated_sheet = ss.worksheet(dedicated_sheet_name)
-                dedicated_rows = self._extract_set_piece_stats_from_dedicated_sheet(dedicated_sheet, squad_name)
-                if dedicated_rows:
-                    set_piece_data.extend(dedicated_rows)
-                    continue
+                sheet = ss.worksheet(sheet_name)
+                set_piece_data.extend(self._extract_set_piece_stats_from_player_sheet(sheet, squad_name))
             except Exception as e:
-                print(f"Error extracting dedicated set piece stats for {squad_name}: {e}")
-
-            try:
-                fallback_sheet = ss.worksheet(fallback_sheet_name)
-                set_piece_data.extend(self._extract_set_piece_stats_from_player_sheet(fallback_sheet, squad_name))
-            except Exception as e:
-                print(f"Error extracting fallback set piece stats for {squad_name}: {e}")
+                print(f"Error extracting set piece stats for {squad_name}: {e}")
 
         if not set_piece_data:
             return pd.DataFrame(columns=[
@@ -1258,8 +1250,8 @@ class DataExtractor:
         df_games = self.extract_games_data()[['game_id', 'date', 'squad', 'opposition']]
         df_set_piece['date'] = pd.to_datetime(df_set_piece['date'])
         df_games['date'] = pd.to_datetime(df_games['date'])
-        df_set_piece['opposition_key'] = df_set_piece['opposition'].map(canonical_pitchero_opposition)
-        df_games['opposition_key'] = df_games['opposition'].map(canonical_pitchero_opposition)
+        df_set_piece['opposition_key'] = df_set_piece['opposition'].map(canonical_pitchero_opposition).map(opposition_club_name)
+        df_games['opposition_key'] = df_games['opposition'].map(canonical_pitchero_opposition).map(opposition_club_name)
         df_merged = pd.merge(df_set_piece, df_games, on=['date', 'squad', 'opposition_key'], how='left')
         df_merged.drop(
             columns=['date', 'squad', 'opposition', 'opposition_x', 'opposition_y', 'opposition_key'],

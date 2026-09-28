@@ -138,6 +138,25 @@ function hasRecordedResult(row) {
     return pfRaw != null && pfRaw !== '' && paRaw != null && paRaw !== '';
 }
 
+function limitUpcomingMatchesPerSquad(rows) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const nextBySquad = new Map();
+    rows.forEach(row => {
+        const date = parseMatchDateValue(row?.date);
+        if (!date || date <= today || hasRecordedResult(row)) return;
+        const squad = String(row?.squad || '').trim();
+        const current = nextBySquad.get(squad);
+        if (!current || date < current.date) nextBySquad.set(squad, { row, date });
+    });
+    const keptUpcoming = new Set([...nextBySquad.values()].map(item => item.row));
+    return rows.filter(row => {
+        const date = parseMatchDateValue(row?.date);
+        const isUpcoming = date && date > today && !hasRecordedResult(row);
+        return !isUpcoming || keptUpcoming.has(row);
+    });
+}
+
 function findSquadRecentAndNextMatch(squad) {
     const squadMatches = allMatches
         .filter(row => String(row?.squad || '').trim() === squad)
@@ -1844,7 +1863,7 @@ async function loadPage() {
         const appearances = appearancesResponse.ok ? await appearancesResponse.json() : [];
         const profiles = profilesResponse.ok ? await profilesResponse.json() : [];
 
-        allMatches = Array.isArray(games) ? games.filter(row => row && row.game_id) : [];
+        allMatches = Array.isArray(games) ? limitUpcomingMatchesPerSquad(games.filter(row => row && row.game_id)) : [];
         allMatches.sort((a, b) => String(b?.date || '').localeCompare(String(a?.date || '')));
 
         renderMatchInfoHeroQuickLinks();

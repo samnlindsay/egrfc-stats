@@ -90,6 +90,14 @@ MANUAL_PITCHERO_URL_OVERRIDES = {
     "2025-03-01_2nd_Trinity": "https://www.egrfc.com/teams/142069/match-centre/0-6179893/events",
 }
 
+# Pitchero fixtures listed under their original date after being rescheduled.
+MANUAL_PITCHERO_DATE_OVERRIDES = {
+    "2022-09-24_2nd_Haywards_Heath": "2022-10-01",
+}
+PITCHERO_GAME_ID_DATE_ALIASES = {
+    old_id: f"{new_date}{old_id[10:]}" for old_id, new_date in MANUAL_PITCHERO_DATE_OVERRIDES.items()
+}
+
 
 PITCHERO_PRIMARY_SOURCE_SEASONS = {
     season
@@ -899,6 +907,22 @@ class BackendDatabase:
                 staged[col] = None
         staged["source"] = source_label
         return staged[APPEARANCE_STAGE_COLUMNS]
+
+    def _align_stage_game_ids(self, df: pd.DataFrame) -> pd.DataFrame:
+        """Remap staged rows onto canonical game_ids/player names and backfill missing date/squad from the id."""
+        if df.empty or "game_id" not in df.columns:
+            return df
+        aligned = df.copy()
+        if "player" in aligned.columns:
+            aligned["player"] = aligned["player"].map(_canonical_player_name)
+        alias_map = getattr(self, "_game_id_alias_map", {})
+        aligned["game_id"] = aligned["game_id"].map(lambda gid: alias_map.get(str(gid), gid) if pd.notna(gid) else gid)
+        id_parts = aligned["game_id"].astype(str).str.extract(r"^(\d{4}-\d{2}-\d{2})_([^_]+)_")
+        if "date" in aligned.columns:
+            aligned["date"] = aligned["date"].where(aligned["date"].notna(), pd.to_datetime(id_parts[0], errors="coerce").dt.date)
+        if "squad" in aligned.columns:
+            aligned["squad"] = aligned["squad"].where(aligned["squad"].notna(), id_parts[1])
+        return aligned
 
     def _build_google_scorers_stage(self, games_google_stage: pd.DataFrame, scorers_2526_raw: pd.DataFrame) -> pd.DataFrame:
         scorers_google_stage = pd.concat(
@@ -1852,12 +1876,12 @@ class BackendDatabase:
                 "games_stage_rfu": source_bundles[2].games,
                 "int_game_candidates": int_game_candidates,
                 "int_games_resolved": int_games_resolved,
-                "player_appearances_stage_google": source_bundles[0].appearances,
-                "player_appearances_stage_pitchero": source_bundles[1].appearances,
-                "player_appearances_stage_rfu": source_bundles[2].appearances,
-                "scorers_stage_google": source_bundles[0].scorers,
-                "scorers_stage_pitchero": source_bundles[1].scorers,
-                "scorers_stage_rfu": source_bundles[2].scorers,
+                "player_appearances_stage_google": self._align_stage_game_ids(source_bundles[0].appearances),
+                "player_appearances_stage_pitchero": self._align_stage_game_ids(source_bundles[1].appearances),
+                "player_appearances_stage_rfu": self._align_stage_game_ids(source_bundles[2].appearances),
+                "scorers_stage_google": self._align_stage_game_ids(source_bundles[0].scorers),
+                "scorers_stage_pitchero": self._align_stage_game_ids(source_bundles[1].scorers),
+                "scorers_stage_rfu": self._align_stage_game_ids(source_bundles[2].scorers),
                 "games": games,
                 "games_rfu": games_rfu,
                 "player_appearances": appearances,
@@ -2669,6 +2693,12 @@ class BackendDatabase:
             ),
             axis=1,
         )
+        rescheduled = df["game_id"].isin(MANUAL_PITCHERO_DATE_OVERRIDES)
+        if rescheduled.any():
+            df.loc[rescheduled, "date"] = df.loc[rescheduled, "game_id"].map(
+                lambda game_id: date.fromisoformat(MANUAL_PITCHERO_DATE_OVERRIDES[game_id])
+            )
+            df.loc[rescheduled, "game_id"] = df.loc[rescheduled, "game_id"].map(PITCHERO_GAME_ID_DATE_ALIASES)
         # Preserve raw score values to detect non-numeric values (e.g., "W-L") before conversion
         df["_raw_pf"] = df["pf"].astype(str)
         df["_raw_pa"] = df["pa"].astype(str)
@@ -2740,6 +2770,7 @@ class BackendDatabase:
 
         df = historic_appearances_raw.copy().reindex(columns=columns)
         df["game_id"] = df["game_id"].map(_canonicalize_game_id)
+        df["game_id"] = df["game_id"].map(lambda game_id: PITCHERO_GAME_ID_DATE_ALIASES.get(game_id, game_id))
         df["shirt_number"] = pd.to_numeric(df["shirt_number"], errors="coerce").astype("Int64")
         for flag_col in ["is_starter", "is_captain", "is_vc"]:
             df[flag_col] = df[flag_col].fillna(False).astype(bool)
@@ -4140,8 +4171,8 @@ class BackendDatabase:
         game_lookup = games[["game_id", "squad", "date", "season", "opposition"]].copy()
         game_lookup["opposition"] = game_lookup["opposition"].astype(str).str.strip()
         df["opposition"] = df["opposition"].astype(str).str.strip()
-        game_lookup["opposition_key"] = game_lookup["opposition"].map(_canonical_pitchero_opposition_name)
-        df["opposition_key"] = df["opposition"].map(_canonical_pitchero_opposition_name)
+        game_lookup["opposition_key"] = game_lookup["opposition"].map(_canonical_pitchero_opposition_name).map(_opposition_club_name)
+        df["opposition_key"] = df["opposition"].map(_canonical_pitchero_opposition_name).map(_opposition_club_name)
 
         # New consolidated Lineouts sheet no longer stores season, so join on
         # squad/date/opposition and recover season from the matched game.
@@ -4166,6 +4197,9 @@ class BackendDatabase:
         with_season = with_season.drop(columns=["opposition_key", "opposition_game"], errors="ignore")
         without_season = without_season.drop(columns=["season_game", "opposition_key", "opposition_game"], errors="ignore")
         df = pd.concat([with_season, without_season], ignore_index=True)
+        if "game_id_game" in df.columns:
+            df["game_id"] = df["game_id_game"].fillna(df["game_id"]) if "game_id" in df.columns else df["game_id_game"]
+            df = df.drop(columns=["game_id_game"])
 
         df = df[df["squad"].notna() & df["date"].notna()].copy()
         df["dummy"] = df["dummy"].fillna(False).astype(bool)

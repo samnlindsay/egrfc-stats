@@ -1,8 +1,8 @@
 game_id,date,season,squad,opposition,game_type,result,captain,motm,pitchero_match_url,tries_scorers,conversions_scorers,penalties_scorers,drop_goals_scorers,has_any_scorers,has_pitchero_url
 2026-10-17_1st_Horsham,2026-10-17,2026/27,1st,Horsham II,League,,,,,,,,,False,False
-2026-10-17_2nd_Horsham,2026-10-17,2026/29,2nd,Horsham III,League,,,,,,,,,False,False
+2026-10-17_2nd_Horsham,2026-10-17,2026/27,2nd,Horsham III,League,,,,,,,,,False,False
 2026-10-03_1st_Shoreham,2026-10-03,2026/27,1st,Shoreham,League,,,,,,,,,False,False
-2026-10-03_2nd_Pulborough,2026-10-03,2026/28,2nd,Pulborough II,League,,,,,,,,,False,False
+2026-10-03_2nd_Pulborough,2026-10-03,2026/27,2nd,Pulborough II,League,,,,,,,,,False,False
 2026-09-26_1st_Seaford,2026-09-26,2026/27,1st,Seaford,League,W,Rory Evans,Tom Mooney,,"{""Ali Moffatt"": 1, ""Luke Maker"": 1, ""Max Crawley-Moore"": 1, ""Sam Lindsay-McCall"": 1, ""Tom Mooney"": 1, ""Will Longstaff"": 1, ""Will Roberts"": 3}","{""Noah Roberts"": 5}",,,True,False
 2026-09-26_2nd_Crowborough,2026-09-26,2026/27,2nd,Crowborough,League,W,George Beet,Reggie Harris,,"{""Louis Duvall"": 1, ""Nathan Randall"": 2, ""Reggie Harris"": 2}","{""Chris Taylor"": 4}",,,True,False
 2026-09-12_1st_Heathfield_&_Waldron,2026-09-12,2026/27,1st,Heathfield & Waldron,Friendly,L,Tom Mooney,,,"{""Dan Harding"": 1, ""Dylan Hammocks"": 1, ""Luke Maker"": 1, ""Noah Roberts"": 1}","{""Luke Maker"": 3}",,,True,False
@@ -176,10 +176,9 @@ game_id,date,season,squad,opposition,game_type,result,captain,motm,pitchero_matc
 2022-10-15_1st_Shoreham,2022-10-15,2022/23,1st,Shoreham,League,W,Max Crawley-Moore,,https://www.egrfc.com/teams/142068/match-centre/1-10555217/events,"{""Joe Terry"": 1, ""Ali Moffatt"": 3, ""Ryan Morlen"": 4, ""David Bridges"": 1, ""George Johnson"": 1, ""Max Crawley-Moore"": 1, ""Aaronn Boczek"": 1}","{""Oliver Billin"": 4, ""Dan Poulton"": 2}",,,True,True
 2022-10-15_2nd_Eastbourne,2022-10-15,2022/23,2nd,Eastbourne,League,W,Ben Watkinson,Ollie Adams,https://www.egrfc.com/teams/142069/match-centre/1-10690392/events,"{""Ollie Adams"": 1, ""Richard Dodgson"": 1, ""George Beet"": 1}","{""Ollie Adams"": 3}",,,True,True
 2022-10-01_1st_Crawley,2022-10-01,2022/23,1st,Crawley,League,W,Max Crawley-Moore,Connor Leggat,https://www.egrfc.com/teams/142068/match-centre/1-10555221/events,"{""Jake Radcliffe"": 2, ""Ali Moffatt"": 1, ""Joe Terry"": 1, ""Ryan Morlen"": 1, ""Connor Leggat"": 1}","{""Joe Terry"": 3}","{""Joe Terry"": 1}",,True,True
-2022-10-01_2nd_Haywards_Heath,2022-10-01,2022/23,2nd,Haywards Heath,Friendly,L,Ben Watkinson,,,,,,,False,False
+2022-10-01_2nd_Haywards_Heath,2022-10-01,2022/23,2nd,Haywards Heath,Friendly,L,Ben Watkinson,Jack Billin,https://www.egrfc.com/teams/142069/match-centre/0-5458292/events,"{""Jack Billin"": 1, ""James Jenkins"": 1}","{""Ethan Carrick"": 1}",,,True,True
 2022-09-24_1st_Uckfield,2022-09-24,2022/23,1st,Uckfield,League,W,Max Crawley-Moore,Jake Radcliffe,https://www.egrfc.com/teams/142068/match-centre/1-10555228/events,"{""Ryan Morlen"": 1, ""Jake Radcliffe"": 3, ""John Peaty"": 1, ""S Lindsay"": 1, ""George Johnson"": 1, ""Joe Terry"": 1}","{""Oliver Billin"": 5}","{""Oliver Billin"": 1}",,True,True
 2022-09-24_2nd_Hastings_&_Bexhill,2022-09-24,2022/23,2nd,Hastings & Bexhill II,League,W,,,https://www.egrfc.com/teams/142069/match-centre/1-10690401/events,{},{},{},{},True,True
-2022-09-24_2nd_Haywards_Heath,2022-09-24,2022/23,2nd,Haywards Heath,League,L,Ben Watkinson,Jack Billin,https://www.egrfc.com/teams/142069/match-centre/0-5458292/events,"{""Jack Billin"": 1, ""James Jenkins"": 1}","{""Ethan Carrick"": 1}",,,True,True
 2022-09-17_1st_Lewes,2022-09-17,2022/23,1st,Lewes,League,W,Max Crawley-Moore,John Peaty,https://www.egrfc.com/teams/142068/match-centre/1-10555233/events,"{""John Peaty"": 2, ""George Johnson"": 2, ""Ryan Morlen"": 3, ""S Lindsay"": 1, ""Max Crawley-Moore"": 2, ""Pete Morley"": 1}","{""Dan Poulton"": 5, ""Max Crawley-Moore"": 1, ""Ryan Morlen"": 1}",,,True,True
 2022-05-07_2nd_Hove,2022-05-07,2021/22,2nd,Hove,Cup,W,Toby Rowe,Eoin OâDonoghue,https://www.egrfc.com/teams/142069/match-centre/0-5282348/events,"{""E O\u00e2\u0080\u0099Donoghue"": 3}","{""Toby Rowe"": 1}","{""Toby Rowe"": 4}",,True,True
 2022-04-30_2nd_Rye,2022-04-30,2021/22,2nd,Rye,Cup,W,Ali Moffatt,Scott Devlin,https://www.egrfc.com/teams/142069/match-centre/0-5282347/events,"{""Dan Billin"": 1, ""Scott Devlin"": 1, ""Rory Evans"": 1, ""Ethan Carrick"": 1, ""Ben Hogan"": 2, ""Sam Montagu"": 1, ""Joe Terry"": 1}","{""Toby Rowe"": 6}",,,True,True
