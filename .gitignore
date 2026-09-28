@@ -67,3 +67,6 @@ yarn-debug.log
 env
 
 client_secret.json
+
+# Generated report artifacts
+reports/generated/

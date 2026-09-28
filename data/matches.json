@@ -34307,5 +34307,63 @@
                 "2": "Jonathan McGurk"
             }
         ]
+    },
+    {
+        "match_id": "1292363",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "date": "2026-09-26",
+        "teams": [
+            "Seaford",
+            "East Grinstead"
+        ],
+        "score": [
+            5,
+            55
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/18868.png",
+            "https://images.englandrugby.com/club_images/7134.png"
+        ],
+        "players": [
+            {
+                "15": "Jack Armstrong",
+                "14": "Josh Ellis-Smith",
+                "13": "Darren Flynn",
+                "12": "Paddy Powney",
+                "11": "Name withheld",
+                "10": "Oscar Weisz",
+                "9": "Simon Baker",
+                "8": "Stuart Webb",
+                "7": "James Pisani-Dixon",
+                "6": "Charlie Guest",
+                "5": "Ben Ritchin",
+                "4": "Joseph Drew",
+                "3": "Daniel Blunt",
+                "2": "Nathan Roberts",
+                "1": "Tom Peissel",
+                "S1": "Jake Davey",
+                "S2": "Jason Dubas-Fisher",
+                "S3": "Luke Maker"
+            },
+            {
+                "15": "William Roberts",
+                "14": "Max Crawley-Moore",
+                "13": "Tom Mooney",
+                "12": "Alistair Moffatt",
+                "11": "Noah Roberts",
+                "10": "Owen Peel",
+                "9": "Rory evans",
+                "8": "Daniel Harding",
+                "7": "John Peaty",
+                "6": "Samuel Lindsay-McCall",
+                "5": "Guy Collins",
+                "4": "Mark Oliver",
+                "3": "Joshua Brimecombe",
+                "2": "Dylan Hammocks",
+                "1": "Oscar Staples",
+                "S1": "Max Crawley-Moore"
+            }
+        ]
     }
 ]

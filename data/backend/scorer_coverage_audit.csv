@@ -1,4 +1,10 @@
 game_id,date,season,squad,opposition,game_type,result,captain,motm,pitchero_match_url,tries_scorers,conversions_scorers,penalties_scorers,drop_goals_scorers,has_any_scorers,has_pitchero_url
+2026-10-17_1st_Horsham,2026-10-17,2026/27,1st,Horsham II,League,,,,,,,,,False,False
+2026-10-17_2nd_Horsham,2026-10-17,2026/29,2nd,Horsham III,League,,,,,,,,,False,False
+2026-10-03_1st_Shoreham,2026-10-03,2026/27,1st,Shoreham,League,,,,,,,,,False,False
+2026-10-03_2nd_Pulborough,2026-10-03,2026/28,2nd,Pulborough II,League,,,,,,,,,False,False
+2026-09-26_1st_Seaford,2026-09-26,2026/27,1st,Seaford,League,W,Rory Evans,Tom Mooney,,"{""Ali Moffatt"": 1, ""Luke Maker"": 1, ""Max Crawley-Moore"": 1, ""Sam Lindsay-McCall"": 1, ""Tom Mooney"": 1, ""Will Longstaff"": 1, ""Will Roberts"": 3}","{""Noah Roberts"": 5}",,,True,False
+2026-09-26_2nd_Crowborough,2026-09-26,2026/27,2nd,Crowborough,League,W,George Beet,Reggie Harris,,"{""Louis Duvall"": 1, ""Nathan Randall"": 2, ""Reggie Harris"": 2}","{""Chris Taylor"": 4}",,,True,False
 2026-09-12_1st_Heathfield_&_Waldron,2026-09-12,2026/27,1st,Heathfield & Waldron,Friendly,L,Tom Mooney,,,"{""Dan Harding"": 1, ""Dylan Hammocks"": 1, ""Luke Maker"": 1, ""Noah Roberts"": 1}","{""Luke Maker"": 3}",,,True,False
 2026-05-02_1st_Trojans,2026-05-02,2025/26,1st,Trojans,Cup,L,Rory Evans,Noah Roberts,,"{""Connor Leggat"": 1, ""Mark Lewis"": 1}","{""Noah Roberts"": 1}","{""Noah Roberts"": 1}",,True,False
 2026-04-18_1st_Seaford,2026-04-18,2025/26,1st,Seaford,League,W,Rory Evans,Ben Marelli,,"{""Ben Marelli"": 1, ""Jack Andrews"": 1, ""John Peaty"": 1, ""Max Crawley-Moore"": 2, ""Noah Roberts"": 1}","{""Noah Roberts"": 5}",,,True,False
@@ -192,7 +198,7 @@ game_id,date,season,squad,opposition,game_type,result,captain,motm,pitchero_matc
 2022-01-29_2nd_Crawley,2022-01-29,2021/22,2nd,Crawley,League,W,Ben Watkinson,Chris Pentney,https://www.egrfc.com/teams/142069/match-centre/1-9960252/events,"{""Andy Blackmore"": 1, ""Mark Oliver"": 1, ""Tao Benn"": 1}","{""Ethan Carrick"": 1}","{""Ethan Carrick"": 2}",,True,True
 2022-01-22_1st_Lewes,2022-01-22,2021/22,1st,Lewes,League,W,Max Crawley-Moore,Jacob Davidson,https://www.egrfc.com/teams/142068/match-centre/1-9434824/events,"{""Max Crawley-Moore"": 1, ""Fergus Wood"": 1, ""Connor Leggat"": 1, ""Samuel Spriddell"": 1}","{""Dan Poulton"": 2}","{""Dan Poulton"": 4}",,True,True
 2022-01-22_2nd_Horsham,2022-01-22,2021/22,2nd,Horsham,League,L,Ben Watkinson,Rory Evans,https://www.egrfc.com/teams/142069/match-centre/1-9960254/events,"{""Alex Maynard"": 1, ""Sam Montagu"": 1}","{""Ethan Carrick"": 1}","{""Ethan Carrick"": 1}",,True,True
-2022-01-15_1st_Horsham,2022-01-15,2021/22,1st,Horsham II,Friendly,W,Max Crawley-Moore,,https://www.egrfc.com/teams/142068/match-centre/0-5240330/events,"{""Fergus Wood"": 2, ""Josh Brimecombe"": 1, ""Max Crawley-Moore"": 1, ""Jake Radcliffe"": 1, ""Ben Tottman"": 1, ""Devon Frost"": 1, ""Ryan Morlen"": 1}","{""Dan Poulton"": 1, ""Sam Spriddell"": 1}",,,True,True
+2022-01-15_1st_Friendly,2022-01-15,2021/22,1st,Friendly,Friendly,W,Max Crawley-Moore,,https://www.egrfc.com/teams/142068/match-centre/0-5240330/events,"{""Fergus Wood"": 2, ""Josh Brimecombe"": 1, ""Max Crawley-Moore"": 1, ""Jake Radcliffe"": 1, ""Ben Tottman"": 1, ""Devon Frost"": 1, ""Ryan Morlen"": 1}","{""Dan Poulton"": 1, ""Sam Spriddell"": 1}",,,True,True
 2022-01-15_1st_Hove,2022-01-15,2021/22,1st,Hove II,League,,,,,,,,,False,False
 2022-01-15_2nd_Rye,2022-01-15,2021/22,2nd,Rye,League,W,Ben Watkinson,Ky Oliveira,https://www.egrfc.com/teams/142069/match-centre/1-9960258/events,"{""Scott Devlin"": 1, ""Ali Moffatt"": 1}","{""Toby Rowe"": 2}","{""Toby Rowe"": 2}",,True,True
 2022-01-08_2nd_Midhurst,2022-01-08,2021/22,2nd,Midhurst,League,W,Ali Moffatt,Tom Byron,https://www.egrfc.com/teams/142069/match-centre/0-5228654/events,"{""Archie Neill"": 1, ""Ethan Carrick"": 2, ""Tim Morris"": 1, ""George Beet"": 1}","{""Toby Rowe"": 2}",,,True,True

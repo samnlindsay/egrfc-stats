@@ -12,6 +12,7 @@ dependencies = [
     "pandas",
     "duckdb",
     "altair",
+    "vl-convert-python",
     "beautifulsoup4",
     "requests",
 ]
@@ -21,3 +22,4 @@ packages = ["python", "python.utils"]
 
 [project.scripts]
 sync-headshots = "python.sync_headshots:main"
+egrfc-report = "python.reports:main"
