@@ -34364,6 +34364,3883 @@
                 "1": "Oscar Staples",
                 "S1": "Max Crawley-Moore"
             }
+        ],
+        "tracked_squad": "1st"
+    },
+    {
+        "match_id": "1292359",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2026-09-26",
+        "teams": [
+            "Burgess Hill",
+            "Ditchling"
+        ],
+        "score": [
+            12,
+            24
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/3659.png",
+            "https://images.englandrugby.com/club_images/6541.png"
+        ],
+        "players": [
+            {
+                "15": "James Roddy",
+                "14": "Matheus Gava",
+                "13": "Aidan Baker",
+                "12": "Vincenzo Dessena",
+                "11": "George Yeates",
+                "10": "Oliver Lewis",
+                "9": "Toby Lewis",
+                "8": "Jarod Van blerk",
+                "7": "Morgan Hill",
+                "6": "Daniel Stringer",
+                "5": "Tom Betts",
+                "4": "Timothy Daniel",
+                "3": "Kyle Tucker",
+                "2": "Bailey Upton",
+                "1": "Dylan Cheesmur",
+                "S1": "Ben Tuvey",
+                "S2": "Alastair Orwin",
+                "S3": "George Russell"
+            },
+            {
+                "15": "Joshua Loach",
+                "14": "Luke Dobson",
+                "13": "Adam Crook",
+                "12": "Nick Whitley-Jones",
+                "11": "Takhy Ndiaye Marrero",
+                "10": "Teddy Birkbeck",
+                "9": "Name withheld",
+                "8": "James Cleary",
+                "7": "Bill Sibun",
+                "6": "Murray Jardine",
+                "5": "Alex Hinchliffe",
+                "4": "Ollie Van Hoeken",
+                "3": "Barney Reed",
+                "2": "Samuel Lodge",
+                "1": "Gordon Costick",
+                "S1": "Sean Laroche",
+                "S2": "billy jones",
+                "S3": "Aidas Pikunas"
+            }
+        ]
+    },
+    {
+        "match_id": "1292361",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2026-09-26",
+        "teams": [
+            "Horsham II",
+            "Brighton II"
+        ],
+        "score": [
+            50,
+            19
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/10450.png",
+            "https://images.englandrugby.com/club_images/3218.png"
+        ],
+        "players": [
+            {
+                "15": "Connor Barnes",
+                "14": "Alexander Wadley",
+                "13": "Edward Grogan",
+                "12": "Harvey Brock",
+                "11": "Ryan Pearce",
+                "10": "Joe Wilde",
+                "9": "Chae Sakakini",
+                "8": "Ian Nunana Paku",
+                "7": "Joshua Hedger",
+                "6": "Charlie Laws",
+                "5": "Charlie Lewis",
+                "3": "Name withheld",
+                "2": "Oliver White",
+                "1": "Robert Grant",
+                "S1": "Benjamin Marelli",
+                "S2": "Sammy Shepherd"
+            },
+            {
+                "15": "Harrison Rees",
+                "14": "Ibrahim Bangura",
+                "13": "Max Belson",
+                "12": "Brendan Challis",
+                "11": "Luke Jameson Clark",
+                "10": "Lucas Marsden",
+                "9": "Zak Ellenger",
+                "8": "Frederick Tilley",
+                "7": "Dillon Stingemore",
+                "6": "Travis James",
+                "5": "Andrew Forrester",
+                "4": "Josh Blackburn",
+                "3": "Kameron Forward",
+                "2": "Pete Carter",
+                "1": "Henry Slattery"
+            }
+        ]
+    },
+    {
+        "match_id": "1292360",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2026-09-26",
+        "teams": [
+            "Hove II",
+            "Eastbourne II"
+        ],
+        "score": [
+            57,
+            27
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/10504.png",
+            "https://images.englandrugby.com/club_images/7213.png"
+        ],
+        "players": [
+            {
+                "15": "Joseph Winstanley",
+                "14": "Name withheld",
+                "13": "Thomas Kentell",
+                "12": "Toby Reed",
+                "11": "Thomas Berry",
+                "10": "josh Sloman",
+                "9": "Dominic Woodfine",
+                "8": "George Brown",
+                "7": "Issac Thomas",
+                "6": "Benjamin Stokes",
+                "5": "Thibaut Julienne",
+                "4": "Joseph Coupe",
+                "3": "Adrian Shergold",
+                "2": "Samuel Mainwaring",
+                "1": "Jack Portman",
+                "S1": "Lennon Packwood",
+                "S2": "Matthew Hathaway",
+                "S3": "Alexander Walsh-Arto"
+            },
+            {
+                "15": "Teddy Groves",
+                "14": "Freddie Hayes",
+                "13": "Harrison Bourne",
+                "12": "Martial Chaput",
+                "11": "Owen Parkins",
+                "10": "Louis Nicholls",
+                "9": "Luke Thomas",
+                "8": "Felix Hawthorne",
+                "7": "Michael Morehen",
+                "6": "Joshua King",
+                "5": "Trystan Mocke",
+                "4": "Aitor Salas Blazquez",
+                "3": "Tom Line",
+                "2": "Alun Cranch",
+                "1": "Joseph Bettles",
+                "S1": "Charlie Milner"
+            }
+        ]
+    },
+    {
+        "match_id": "1292362",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2026-09-26",
+        "teams": [
+            "Shoreham",
+            "Lewes"
+        ],
+        "score": [
+            29,
+            43
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/19257.png",
+            "https://images.englandrugby.com/club_images/12206.png"
+        ],
+        "players": [
+            {
+                "15": "Darren Locke",
+                "14": "Nathan Funnell",
+                "13": "Schaeff Potter",
+                "12": "Name withheld",
+                "11": "Sean Shepherd",
+                "10": "Adam Fear",
+                "9": "Jakob Smith",
+                "8": "Gavin Cox",
+                "7": "Harry Cracknell",
+                "6": "Steven Goater",
+                "5": "Ben French",
+                "4": "Alfie Cawkwell",
+                "3": "Mark Lavery",
+                "2": "Daryn Clarke",
+                "1": "Thomas Miller",
+                "S1": "Connor Fairhall",
+                "S2": "Arron Allison",
+                "S3": "Jack Soltermann"
+            },
+            {
+                "15": "Adam Hutchings",
+                "14": "Elliott Mills",
+                "13": "Thomas Roy",
+                "12": "Alexander Bray",
+                "11": "Louis Medhurst",
+                "10": "Curtis Burch",
+                "9": "Toby Duncan",
+                "8": "Harry Taylor",
+                "7": "Jack Bradford",
+                "6": "Benjamin Bishop",
+                "5": "Ian Thomas",
+                "4": "Alfie Green",
+                "3": "Thomas Petty",
+                "2": "Harry Rees"
+            }
+        ]
+    },
+    {
+        "match_id": "1303998",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2026-09-26",
+        "teams": [
+            "East Grinstead II",
+            "Crowborough II"
+        ],
+        "score": [
+            33,
+            17
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/7136.png",
+            "https://images.englandrugby.com/club_images/5919.png"
+        ],
+        "players": [
+            {
+                "15": "James Bull",
+                "14": "Thomas Saunders",
+                "13": "Louis Duvall",
+                "12": "Nathan Randall",
+                "11": "Jude Lavender",
+                "10": "Chris Taylor",
+                "9": "Samuel McCarthy",
+                "8": "Josh Weaver",
+                "7": "Harrison Berry",
+                "6": "Frankie Harris",
+                "5": "GWYN TAYLOR",
+                "4": "Peter Morley",
+                "3": "Reggie Harris",
+                "2": "George Beet",
+                "1": "Thomas McMahon",
+                "S1": "George Naylor",
+                "S2": "Nathan Randall"
+            },
+            {
+                "15": "Oscar Bover",
+                "14": "Thomas Woodgate",
+                "13": "Finley Vos",
+                "12": "Eli Hardwick",
+                "11": "Name withheld",
+                "10": "Adam Churchyard",
+                "9": "Max Manning",
+                "8": "Richard Flisik",
+                "7": "Harvey Thatcher",
+                "6": "Henry Brooker",
+                "5": "Keith Brooker",
+                "4": "Toby Shortland",
+                "3": "Michael Van Someren"
+            }
+        ]
+    },
+    {
+        "match_id": "1303995",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2026-09-26",
+        "teams": [
+            "Hastings & Bexhill II",
+            "Crawley"
+        ],
+        "score": [
+            0,
+            40
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/9654.png",
+            "https://images.englandrugby.com/club_images/5807.png"
+        ],
+        "players": [
+            {},
+            {
+                "15": "No lineup to show.",
+                "14": "Conor Kelly",
+                "13": "Dilip Thayagaraja",
+                "12": "Kristian Dean",
+                "11": "Thomas Flack",
+                "10": "Kai Marshall",
+                "9": "Stephen Wilson",
+                "8": "Callum Hankin",
+                "7": "Henry Nyinguro",
+                "6": "Mason Campbell",
+                "5": "Charles Dennis",
+                "4": "Daniel Davis",
+                "3": "Joe Ball",
+                "2": "Bradley Davies",
+                "1": "Coby Coy",
+                "S1": "Nathan Cox",
+                "S2": "Joel Fisher",
+                "S3": "Robert Higgins"
+            }
+        ]
+    },
+    {
+        "match_id": "1303997",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2026-09-26",
+        "teams": [
+            "Pulborough II",
+            "Uckfield"
+        ],
+        "score": [
+            6,
+            36
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/17257.png",
+            "https://images.englandrugby.com/club_images/23445.png"
+        ],
+        "players": [
+            {
+                "15": "Jonathan Brookstein",
+                "14": "James Hobbs",
+                "13": "Jack Corbett",
+                "12": "Bryan Woodhouse",
+                "11": "Shaye Elgar",
+                "10": "Jake Fisher",
+                "9": "Thomas Bouet",
+                "8": "Ivan Jones",
+                "7": "Oliver O'Shea",
+                "6": "Charles Payne",
+                "5": "Charles Stephenson Coggan",
+                "4": "Alfred Reeves",
+                "3": "Douglas Ludlow-monk",
+                "2": "Joseph Billinghurst",
+                "1": "Samuel Mcsorley",
+                "S1": "Michael Woodhouse",
+                "S2": "Denis Woodhouse",
+                "S3": "Jonathan Scrase",
+                "S4": "Ewan Callaway"
+            },
+            {
+                "15": "Connall Scott",
+                "14": "Ryan Bate",
+                "13": "Piers Oliver",
+                "12": "Ethan Baldwin",
+                "11": "Adam Young",
+                "10": "Oisin Mcwalter",
+                "9": "Jordan Heir",
+                "8": "Harvey Pratt",
+                "7": "Thomas Booth",
+                "6": "Jacob Bilton",
+                "5": "Oliver O'Riordan",
+                "4": "Stephen Hartfield",
+                "3": "Matthew Longhurst",
+                "2": "Matthew Pratt",
+                "1": "Charles Rumary",
+                "S1": "Adam Dean",
+                "S2": "James Edwards",
+                "S3": "Rhys Camis"
+            }
+        ]
+    },
+    {
+        "match_id": "1303994",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2026-09-26",
+        "teams": [
+            "Royals RFC",
+            "Haywards Heath II"
+        ],
+        "score": [
+            50,
+            10
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/94051.png",
+            "https://images.englandrugby.com/club_images/9777.png"
+        ],
+        "players": [
+            {
+                "15": "Jenson Holmes",
+                "14": "Harry Cruickshank",
+                "13": "Jakob Stanton",
+                "12": "Hugo Reid",
+                "11": "Richard Stevens",
+                "10": "Jean-Jacques Le Bihan",
+                "9": "Connor Devenny",
+                "8": "Cameron Queree",
+                "7": "Dan Haywood",
+                "6": "Fraser George",
+                "5": "Will Michel",
+                "4": "Lewis Ham-Howes",
+                "3": "Daniel Baker",
+                "2": "Patrick Crossley",
+                "1": "Tristan Burns",
+                "S1": "Name withheld",
+                "S2": "Jack Lowe",
+                "S3": "Brodie Sutton",
+                "S4": "Finn Macfarlane"
+            },
+            {
+                "15": "Josh Jones",
+                "14": "Roscoe Atkins",
+                "13": "Matthew Linthwaite",
+                "12": "Rory Robinson",
+                "11": "Jamie Diggle",
+                "10": "Edward Newey",
+                "9": "Ben Eustace",
+                "8": "Alexander Chard",
+                "7": "Fraser Russell",
+                "6": "Finlay Furse",
+                "5": "Patrick Stedman",
+                "4": "Jack Bull",
+                "3": "Marcus Pemberton",
+                "2": "Karl Wicking",
+                "1": "Mark Newey",
+                "S1": "David Grimley",
+                "S2": "Kevin Mcdonald"
+            }
+        ]
+    },
+    {
+        "match_id": "1303996",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2026-09-26",
+        "teams": [
+            "Worthing III",
+            "Horsham Barbarians"
+        ],
+        "score": [
+            "",
+            "WO"
+        ],
+        "logos": [
+            "https://images.englandrugby.com/club_images/127674.png",
+            "https://images.englandrugby.com/club_images/10451.png"
+        ],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292365",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2026-10-03",
+        "teams": [
+            "East Grinstead",
+            "Shoreham"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292364",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2026-10-03",
+        "teams": [
+            "Eastbourne II",
+            "Ditchling"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292367",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2026-10-03",
+        "teams": [
+            "Hove II",
+            "Brighton II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292368",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2026-10-03",
+        "teams": [
+            "Seaford",
+            "Burgess Hill"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292366",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2026-10-03",
+        "teams": [
+            "Lewes",
+            "Horsham II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304002",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2026-10-03",
+        "teams": [
+            "Crawley",
+            "Worthing III"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304003",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2026-10-03",
+        "teams": [
+            "Haywards Heath II",
+            "Crowborough II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304001",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2026-10-03",
+        "teams": [
+            "Horsham Barbarians",
+            "Uckfield"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1303999",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2026-10-03",
+        "teams": [
+            "Royals RFC",
+            "Hastings & Bexhill II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304000",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2026-10-03",
+        "teams": [
+            "Pulborough II",
+            "East Grinstead II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292369",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2026-10-17",
+        "teams": [
+            "Burgess Hill",
+            "Eastbourne II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292370",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2026-10-17",
+        "teams": [
+            "Ditchling",
+            "Brighton II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292372",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2026-10-17",
+        "teams": [
+            "Horsham II",
+            "East Grinstead"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292373",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2026-10-17",
+        "teams": [
+            "Shoreham",
+            "Seaford"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292371",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2026-10-17",
+        "teams": [
+            "Hove II",
+            "Lewes"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304006",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2026-10-17",
+        "teams": [
+            "Crawley",
+            "Uckfield"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304007",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2026-10-17",
+        "teams": [
+            "East Grinstead II",
+            "Horsham Barbarians"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304004",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2026-10-17",
+        "teams": [
+            "Hastings & Bexhill II",
+            "Haywards Heath II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304005",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2026-10-17",
+        "teams": [
+            "Worthing III",
+            "Royals RFC"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304008",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2026-10-17",
+        "teams": [
+            "Crowborough II",
+            "Pulborough II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304012",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2026-10-23",
+        "teams": [
+            "Crawley",
+            "East Grinstead II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292375",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2026-10-24",
+        "teams": [
+            "Brighton II",
+            "Eastbourne II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292377",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2026-10-24",
+        "teams": [
+            "East Grinstead",
+            "Hove II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292376",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2026-10-24",
+        "teams": [
+            "Seaford",
+            "Horsham II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292378",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2026-10-24",
+        "teams": [
+            "Shoreham",
+            "Burgess Hill"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292374",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2026-10-24",
+        "teams": [
+            "Lewes",
+            "Ditchling"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304010",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2026-10-24",
+        "teams": [
+            "Hastings & Bexhill II",
+            "Worthing III"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304011",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2026-10-24",
+        "teams": [
+            "Horsham Barbarians",
+            "Crowborough II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304009",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2026-10-24",
+        "teams": [
+            "Royals RFC",
+            "Uckfield"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304013",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2026-10-24",
+        "teams": [
+            "Haywards Heath II",
+            "Pulborough II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292379",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2026-10-31",
+        "teams": [
+            "Burgess Hill",
+            "Brighton II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292381",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2026-10-31",
+        "teams": [
+            "Ditchling",
+            "East Grinstead"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292383",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2026-10-31",
+        "teams": [
+            "Horsham II",
+            "Shoreham"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292382",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2026-10-31",
+        "teams": [
+            "Hove II",
+            "Seaford"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292380",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2026-10-31",
+        "teams": [
+            "Eastbourne II",
+            "Lewes"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304017",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2026-10-31",
+        "teams": [
+            "Crowborough II",
+            "Crawley"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304016",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2026-10-31",
+        "teams": [
+            "East Grinstead II",
+            "Royals RFC"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304015",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2026-10-31",
+        "teams": [
+            "Uckfield",
+            "Hastings & Bexhill II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304014",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2026-10-31",
+        "teams": [
+            "Worthing III",
+            "Haywards Heath II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304018",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2026-10-31",
+        "teams": [
+            "Pulborough II",
+            "Horsham Barbarians"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292385",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2026-11-14",
+        "teams": [
+            "East Grinstead",
+            "Eastbourne II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292388",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2026-11-14",
+        "teams": [
+            "Horsham II",
+            "Burgess Hill"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292384",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2026-11-14",
+        "teams": [
+            "Seaford",
+            "Ditchling"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292387",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2026-11-14",
+        "teams": [
+            "Shoreham",
+            "Hove II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292386",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2026-11-14",
+        "teams": [
+            "Lewes",
+            "Brighton II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304020",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2026-11-14",
+        "teams": [
+            "Hastings & Bexhill II",
+            "East Grinstead II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304023",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2026-11-14",
+        "teams": [
+            "Haywards Heath II",
+            "Horsham Barbarians"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304019",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2026-11-14",
+        "teams": [
+            "Royals RFC",
+            "Crowborough II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304021",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2026-11-14",
+        "teams": [
+            "Worthing III",
+            "Uckfield"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304022",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2026-11-14",
+        "teams": [
+            "Crawley",
+            "Pulborough II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292390",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2026-11-21",
+        "teams": [
+            "Brighton II",
+            "East Grinstead"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292392",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2026-11-21",
+        "teams": [
+            "Ditchling",
+            "Shoreham"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292391",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2026-11-21",
+        "teams": [
+            "Eastbourne II",
+            "Seaford"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292393",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2026-11-21",
+        "teams": [
+            "Hove II",
+            "Horsham II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292389",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2026-11-21",
+        "teams": [
+            "Burgess Hill",
+            "Lewes"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304026",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2026-11-21",
+        "teams": [
+            "Crowborough II",
+            "Hastings & Bexhill II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304025",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2026-11-21",
+        "teams": [
+            "East Grinstead II",
+            "Worthing III"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304028",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2026-11-21",
+        "teams": [
+            "Horsham Barbarians",
+            "Crawley"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304024",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2026-11-21",
+        "teams": [
+            "Uckfield",
+            "Haywards Heath II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304027",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2026-11-21",
+        "teams": [
+            "Pulborough II",
+            "Royals RFC"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292394",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2026-12-05",
+        "teams": [
+            "Horsham II",
+            "Ditchling"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292398",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2026-12-05",
+        "teams": [
+            "Hove II",
+            "Burgess Hill"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292396",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2026-12-05",
+        "teams": [
+            "Seaford",
+            "Brighton II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292395",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2026-12-05",
+        "teams": [
+            "Shoreham",
+            "Eastbourne II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292397",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2026-12-05",
+        "teams": [
+            "East Grinstead",
+            "Lewes"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304033",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2026-12-05",
+        "teams": [
+            "Haywards Heath II",
+            "Crawley"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304029",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2026-12-05",
+        "teams": [
+            "Royals RFC",
+            "Horsham Barbarians"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304032",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2026-12-05",
+        "teams": [
+            "Uckfield",
+            "East Grinstead II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304031",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2026-12-05",
+        "teams": [
+            "Worthing III",
+            "Crowborough II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304030",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2026-12-05",
+        "teams": [
+            "Hastings & Bexhill II",
+            "Pulborough II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292401",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2026-12-12",
+        "teams": [
+            "Brighton II",
+            "Shoreham"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292399",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2026-12-12",
+        "teams": [
+            "Burgess Hill",
+            "East Grinstead"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292403",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2026-12-12",
+        "teams": [
+            "Ditchling",
+            "Hove II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292402",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2026-12-12",
+        "teams": [
+            "Eastbourne II",
+            "Horsham II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292400",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2026-12-12",
+        "teams": [
+            "Lewes",
+            "Seaford"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304038",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2026-12-12",
+        "teams": [
+            "Crawley",
+            "Royals RFC"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304035",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2026-12-12",
+        "teams": [
+            "Crowborough II",
+            "Uckfield"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304034",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2026-12-12",
+        "teams": [
+            "East Grinstead II",
+            "Haywards Heath II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304037",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2026-12-12",
+        "teams": [
+            "Horsham Barbarians",
+            "Hastings & Bexhill II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304036",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2026-12-12",
+        "teams": [
+            "Pulborough II",
+            "Worthing III"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292405",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2027-01-16",
+        "teams": [
+            "Brighton II",
+            "Hove II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292408",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2027-01-16",
+        "teams": [
+            "Burgess Hill",
+            "Seaford"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292404",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2027-01-16",
+        "teams": [
+            "Ditchling",
+            "Eastbourne II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292407",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2027-01-16",
+        "teams": [
+            "Shoreham",
+            "East Grinstead"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292406",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2027-01-16",
+        "teams": [
+            "Horsham II",
+            "Lewes"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304043",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2027-01-16",
+        "teams": [
+            "Crowborough II",
+            "Haywards Heath II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304039",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2027-01-16",
+        "teams": [
+            "Hastings & Bexhill II",
+            "Royals RFC"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304041",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2027-01-16",
+        "teams": [
+            "Uckfield",
+            "Horsham Barbarians"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304040",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2027-01-16",
+        "teams": [
+            "Worthing III",
+            "Crawley"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304042",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2027-01-16",
+        "teams": [
+            "East Grinstead II",
+            "Pulborough II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292409",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2027-01-30",
+        "teams": [
+            "Brighton II",
+            "Ditchling"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292411",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2027-01-30",
+        "teams": [
+            "East Grinstead",
+            "Horsham II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292413",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2027-01-30",
+        "teams": [
+            "Eastbourne II",
+            "Burgess Hill"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292410",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2027-01-30",
+        "teams": [
+            "Seaford",
+            "Shoreham"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292412",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2027-01-30",
+        "teams": [
+            "Lewes",
+            "Hove II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304048",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2027-01-30",
+        "teams": [
+            "Haywards Heath II",
+            "Hastings & Bexhill II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304046",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2027-01-30",
+        "teams": [
+            "Horsham Barbarians",
+            "East Grinstead II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304044",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2027-01-30",
+        "teams": [
+            "Royals RFC",
+            "Worthing III"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304047",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2027-01-30",
+        "teams": [
+            "Uckfield",
+            "Crawley"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304045",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2027-01-30",
+        "teams": [
+            "Pulborough II",
+            "Crowborough II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292418",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2027-02-06",
+        "teams": [
+            "Burgess Hill",
+            "Shoreham"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292414",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2027-02-06",
+        "teams": [
+            "Eastbourne II",
+            "Brighton II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292417",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2027-02-06",
+        "teams": [
+            "Horsham II",
+            "Seaford"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292416",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2027-02-06",
+        "teams": [
+            "Hove II",
+            "East Grinstead"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292415",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2027-02-06",
+        "teams": [
+            "Ditchling",
+            "Lewes"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304052",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2027-02-06",
+        "teams": [
+            "Crowborough II",
+            "Horsham Barbarians"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304051",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2027-02-06",
+        "teams": [
+            "East Grinstead II",
+            "Crawley"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304050",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2027-02-06",
+        "teams": [
+            "Uckfield",
+            "Royals RFC"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304049",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2027-02-06",
+        "teams": [
+            "Worthing III",
+            "Hastings & Bexhill II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304053",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2027-02-06",
+        "teams": [
+            "Pulborough II",
+            "Haywards Heath II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292423",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2027-02-13",
+        "teams": [
+            "Brighton II",
+            "Burgess Hill"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292419",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2027-02-13",
+        "teams": [
+            "East Grinstead",
+            "Ditchling"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292422",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2027-02-13",
+        "teams": [
+            "Seaford",
+            "Hove II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292421",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2027-02-13",
+        "teams": [
+            "Shoreham",
+            "Horsham II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292420",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2027-02-13",
+        "teams": [
+            "Lewes",
+            "Eastbourne II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304057",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2027-02-13",
+        "teams": [
+            "Crawley",
+            "Crowborough II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304055",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2027-02-13",
+        "teams": [
+            "Hastings & Bexhill II",
+            "Uckfield"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304058",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2027-02-13",
+        "teams": [
+            "Haywards Heath II",
+            "Worthing III"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304054",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2027-02-13",
+        "teams": [
+            "Royals RFC",
+            "East Grinstead II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304056",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2027-02-13",
+        "teams": [
+            "Horsham Barbarians",
+            "Pulborough II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304073",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2027-02-20",
+        "teams": [
+            "Crawley",
+            "Haywards Heath II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304070",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2027-02-20",
+        "teams": [
+            "Crowborough II",
+            "Worthing III"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304069",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2027-02-20",
+        "teams": [
+            "East Grinstead II",
+            "Uckfield"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304072",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2027-02-20",
+        "teams": [
+            "Horsham Barbarians",
+            "Royals RFC"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304071",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2027-02-20",
+        "teams": [
+            "Pulborough II",
+            "Hastings & Bexhill II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292427",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2027-02-27",
+        "teams": [
+            "Burgess Hill",
+            "Horsham II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292426",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2027-02-27",
+        "teams": [
+            "Ditchling",
+            "Seaford"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292425",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2027-02-27",
+        "teams": [
+            "Eastbourne II",
+            "East Grinstead"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292428",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2027-02-27",
+        "teams": [
+            "Hove II",
+            "Shoreham"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292424",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2027-02-27",
+        "teams": [
+            "Brighton II",
+            "Lewes"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304061",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2027-02-27",
+        "teams": [
+            "Crowborough II",
+            "Royals RFC"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304060",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2027-02-27",
+        "teams": [
+            "East Grinstead II",
+            "Hastings & Bexhill II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304062",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2027-02-27",
+        "teams": [
+            "Horsham Barbarians",
+            "Haywards Heath II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304059",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2027-02-27",
+        "teams": [
+            "Uckfield",
+            "Worthing III"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304063",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2027-02-27",
+        "teams": [
+            "Pulborough II",
+            "Crawley"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292431",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2027-03-06",
+        "teams": [
+            "East Grinstead",
+            "Brighton II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292432",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2027-03-06",
+        "teams": [
+            "Horsham II",
+            "Hove II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292430",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2027-03-06",
+        "teams": [
+            "Seaford",
+            "Eastbourne II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292429",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2027-03-06",
+        "teams": [
+            "Shoreham",
+            "Ditchling"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292433",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2027-03-06",
+        "teams": [
+            "Lewes",
+            "Burgess Hill"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304067",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2027-03-06",
+        "teams": [
+            "Crawley",
+            "Horsham Barbarians"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304065",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2027-03-06",
+        "teams": [
+            "Hastings & Bexhill II",
+            "Crowborough II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304068",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2027-03-06",
+        "teams": [
+            "Haywards Heath II",
+            "Uckfield"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304066",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2027-03-06",
+        "teams": [
+            "Worthing III",
+            "East Grinstead II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304064",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2027-03-06",
+        "teams": [
+            "Royals RFC",
+            "Pulborough II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292435",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2027-03-20",
+        "teams": [
+            "Brighton II",
+            "Seaford"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292438",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2027-03-20",
+        "teams": [
+            "Burgess Hill",
+            "Hove II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292437",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2027-03-20",
+        "teams": [
+            "Ditchling",
+            "Horsham II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292436",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2027-03-20",
+        "teams": [
+            "Eastbourne II",
+            "Shoreham"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292434",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2027-03-20",
+        "teams": [
+            "Lewes",
+            "East Grinstead"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292443",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2027-04-03",
+        "teams": [
+            "East Grinstead",
+            "Burgess Hill"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292440",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2027-04-03",
+        "teams": [
+            "Horsham II",
+            "Eastbourne II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292439",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2027-04-03",
+        "teams": [
+            "Hove II",
+            "Ditchling"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292441",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2027-04-03",
+        "teams": [
+            "Shoreham",
+            "Brighton II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292442",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2027-04-03",
+        "teams": [
+            "Seaford",
+            "Lewes"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304075",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2027-04-03",
+        "teams": [
+            "Hastings & Bexhill II",
+            "Horsham Barbarians"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304078",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2027-04-03",
+        "teams": [
+            "Haywards Heath II",
+            "East Grinstead II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304074",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2027-04-03",
+        "teams": [
+            "Royals RFC",
+            "Crawley"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304077",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2027-04-03",
+        "teams": [
+            "Uckfield",
+            "Crowborough II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304076",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2027-04-03",
+        "teams": [
+            "Worthing III",
+            "Pulborough II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292446",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2027-04-10",
+        "teams": [
+            "Brighton II",
+            "Horsham II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292448",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2027-04-10",
+        "teams": [
+            "Ditchling",
+            "Burgess Hill"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292444",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2027-04-10",
+        "teams": [
+            "East Grinstead",
+            "Seaford"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292447",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2027-04-10",
+        "teams": [
+            "Eastbourne II",
+            "Hove II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1292445",
+        "season": "2026-2027",
+        "league": "Counties 2 Sussex",
+        "tracked_squad": "1st",
+        "date": "2027-04-10",
+        "teams": [
+            "Lewes",
+            "Shoreham"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304082",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2027-04-10",
+        "teams": [
+            "Crawley",
+            "Hastings & Bexhill II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304079",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2027-04-10",
+        "teams": [
+            "Crowborough II",
+            "East Grinstead II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304083",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2027-04-10",
+        "teams": [
+            "Haywards Heath II",
+            "Royals RFC"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304081",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2027-04-10",
+        "teams": [
+            "Horsham Barbarians",
+            "Worthing III"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304080",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2027-04-10",
+        "teams": [
+            "Uckfield",
+            "Pulborough II"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
         ]
     }
 ]

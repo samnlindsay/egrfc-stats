@@ -1,0 +1,61 @@
+{
+    "match_id": "1292359",
+    "season": "2026-2027",
+    "league": "Counties 2 Sussex",
+    "tracked_squad": "1st",
+    "date": "2026-09-26",
+    "teams": [
+        "Burgess Hill",
+        "Ditchling"
+    ],
+    "score": [
+        12,
+        24
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/3659.png",
+        "https://images.englandrugby.com/club_images/6541.png"
+    ],
+    "players": [
+        {
+            "15": "James Roddy",
+            "14": "Matheus Gava",
+            "13": "Aidan Baker",
+            "12": "Vincenzo Dessena",
+            "11": "George Yeates",
+            "10": "Oliver Lewis",
+            "9": "Toby Lewis",
+            "8": "Jarod Van blerk",
+            "7": "Morgan Hill",
+            "6": "Daniel Stringer",
+            "5": "Tom Betts",
+            "4": "Timothy Daniel",
+            "3": "Kyle Tucker",
+            "2": "Bailey Upton",
+            "1": "Dylan Cheesmur",
+            "S1": "Ben Tuvey",
+            "S2": "Alastair Orwin",
+            "S3": "George Russell"
+        },
+        {
+            "15": "Joshua Loach",
+            "14": "Luke Dobson",
+            "13": "Adam Crook",
+            "12": "Nick Whitley-Jones",
+            "11": "Takhy Ndiaye Marrero",
+            "10": "Teddy Birkbeck",
+            "9": "Name withheld",
+            "8": "James Cleary",
+            "7": "Bill Sibun",
+            "6": "Murray Jardine",
+            "5": "Alex Hinchliffe",
+            "4": "Ollie Van Hoeken",
+            "3": "Barney Reed",
+            "2": "Samuel Lodge",
+            "1": "Gordon Costick",
+            "S1": "Sean Laroche",
+            "S2": "billy jones",
+            "S3": "Aidas Pikunas"
+        }
+    ]
+}

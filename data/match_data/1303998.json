@@ -1,0 +1,55 @@
+{
+    "match_id": "1303998",
+    "season": "2026-2027",
+    "league": "Harvey's Brewery Counties 3 Sussex",
+    "tracked_squad": "2nd",
+    "date": "2026-09-26",
+    "teams": [
+        "East Grinstead II",
+        "Crowborough II"
+    ],
+    "score": [
+        33,
+        17
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7136.png",
+        "https://images.englandrugby.com/club_images/5919.png"
+    ],
+    "players": [
+        {
+            "15": "James Bull",
+            "14": "Thomas Saunders",
+            "13": "Louis Duvall",
+            "12": "Nathan Randall",
+            "11": "Jude Lavender",
+            "10": "Chris Taylor",
+            "9": "Samuel McCarthy",
+            "8": "Josh Weaver",
+            "7": "Harrison Berry",
+            "6": "Frankie Harris",
+            "5": "GWYN TAYLOR",
+            "4": "Peter Morley",
+            "3": "Reggie Harris",
+            "2": "George Beet",
+            "1": "Thomas McMahon",
+            "S1": "George Naylor",
+            "S2": "Nathan Randall"
+        },
+        {
+            "15": "Oscar Bover",
+            "14": "Thomas Woodgate",
+            "13": "Finley Vos",
+            "12": "Eli Hardwick",
+            "11": "Name withheld",
+            "10": "Adam Churchyard",
+            "9": "Max Manning",
+            "8": "Richard Flisik",
+            "7": "Harvey Thatcher",
+            "6": "Henry Brooker",
+            "5": "Keith Brooker",
+            "4": "Toby Shortland",
+            "3": "Michael Van Someren"
+        }
+    ]
+}

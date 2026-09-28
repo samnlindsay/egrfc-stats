@@ -1,0 +1,56 @@
+{
+    "match_id": "1292361",
+    "season": "2026-2027",
+    "league": "Counties 2 Sussex",
+    "tracked_squad": "1st",
+    "date": "2026-09-26",
+    "teams": [
+        "Horsham II",
+        "Brighton II"
+    ],
+    "score": [
+        50,
+        19
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/10450.png",
+        "https://images.englandrugby.com/club_images/3218.png"
+    ],
+    "players": [
+        {
+            "15": "Connor Barnes",
+            "14": "Alexander Wadley",
+            "13": "Edward Grogan",
+            "12": "Harvey Brock",
+            "11": "Ryan Pearce",
+            "10": "Joe Wilde",
+            "9": "Chae Sakakini",
+            "8": "Ian Nunana Paku",
+            "7": "Joshua Hedger",
+            "6": "Charlie Laws",
+            "5": "Charlie Lewis",
+            "3": "Name withheld",
+            "2": "Oliver White",
+            "1": "Robert Grant",
+            "S1": "Benjamin Marelli",
+            "S2": "Sammy Shepherd"
+        },
+        {
+            "15": "Harrison Rees",
+            "14": "Ibrahim Bangura",
+            "13": "Max Belson",
+            "12": "Brendan Challis",
+            "11": "Luke Jameson Clark",
+            "10": "Lucas Marsden",
+            "9": "Zak Ellenger",
+            "8": "Frederick Tilley",
+            "7": "Dillon Stingemore",
+            "6": "Travis James",
+            "5": "Andrew Forrester",
+            "4": "Josh Blackburn",
+            "3": "Kameron Forward",
+            "2": "Pete Carter",
+            "1": "Henry Slattery"
+        }
+    ]
+}

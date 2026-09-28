@@ -31,17 +31,20 @@ LEGACY_COMPETITION_IDS = {
 
 LEGACY_DIVISION_IDS = {
     "Counties 1 Surrey/Sussex": {
+        "2026-2027": 75869,
         "2025-2026": 66548,
         "2024-2025": 56612,
         "2023-2024": 47017,
     },
     "Counties 2 Sussex": {
+        "2026-2027": 75873,
         "2025-2026": 66676,
         "2024-2025": 56914,
         "2023-2024": 47022,
         "2022-2023": 39123,
     },
     "Counties 3 Sussex": {
+        "2026-2027": 76490,
         "2025-2026": 70706,
         "2024-2025": 57767,
     },
@@ -54,8 +57,6 @@ LEGACY_DIVISION_IDS = {
         "2019-2020": 21526,
         "2018-2019": 14030,
         "2017-2018": 11128,
-
-
     },
     "Sussex 3 Premier": {
         "2021-2022": 37770,
@@ -169,7 +170,7 @@ def build_division_lookup(league_history_df):
     return built_divisions, season_lookup
 
 
-def get_url(squad=1, season="2025/26", league_history_df=None):
+def get_url(squad=1, season="2025/26", league_history_df=None, include_team=True):
     """Generate URL for fetching match data.
 
     Looks up RFU IDs for the given squad/season.
@@ -189,7 +190,7 @@ def get_url(squad=1, season="2025/26", league_history_df=None):
         competition_id = int(direct_ids["competition_id"])
         division_id = int(direct_ids["division_id"])
         team_id = direct_ids.get("team_id")
-        team_part = f"&team={int(team_id)}" if team_id else ""
+        team_part = f"&team={int(team_id)}" if team_id and include_team else ""
         return f"{base_url}search-results?competition={competition_id}&season={season_str}&division={division_id}{team_part}"
 
     if division is not None:
@@ -292,6 +293,16 @@ def _rfu_unit_from_shirt_number(shirt_number):
     return "Bench"
 
 
+def _tracked_squad_label(squad):
+    """Normalize squad numbers or labels to the backend's ordinal labels."""
+    match = re.match(r"^\s*([123])", str(squad or ""))
+    if not match:
+        return None
+    number = int(match.group(1))
+    suffix = {1: "st", 2: "nd", 3: "rd"}[number]
+    return f"{number}{suffix}"
+
+
 def _coerce_rfu_score_value(value):
     """Return numeric score and walkover flag from consolidated RFU score values."""
     if value is None:
@@ -336,10 +347,13 @@ def build_rfu_games_dataframe(matches=None, consolidated_file=None):
 
         players = match.get("players", []) or []
         home_players = players[0] if len(players) > 0 and isinstance(players[0], dict) else {}
+        if date_value.normalize() > pd.Timestamp.today().normalize():
+            home_score, away_score = pd.NA, pd.NA
+            home_walkover, away_walkover = False, False
         away_players = players[1] if len(players) > 1 and isinstance(players[1], dict) else {}
 
-        tracked_squad = squad_lookup(season, league) if league else None
-        tracked_squad_label = f"{tracked_squad}st" if tracked_squad == 1 else f"{tracked_squad}nd" if tracked_squad else None
+        tracked_squad = match.get("tracked_squad") or (squad_lookup(season, league) if league else None)
+        tracked_squad_label = _tracked_squad_label(tracked_squad)
 
         rows.append(
             {
@@ -541,13 +555,9 @@ def _parse_score_text(score_text):
     if text == "AWO":
         return ["", "WO"]
 
-    score_match = re.match(r"^(\d+)\s*[-–:]\s*(\d+)$", text)
+    score_match = re.fullmatch(r"(\d+)\s*[-–]\s*(\d+)", text)
     if score_match:
         return [int(score_match.group(1)), int(score_match.group(2))]
-
-    score_numbers = re.findall(r"\d+", text)
-    if len(score_numbers) >= 2:
-        return [int(score_numbers[0]), int(score_numbers[1])]
 
     return [None, None]
 
@@ -677,8 +687,94 @@ def _merge_matchcentre_with_results_fallback(matchcentre_match, results_match):
 
     if not merged.get("teams") and results_match.get("teams"):
         merged["teams"] = results_match.get("teams")
+    for field in ("season", "tracked_squad"):
+        if not merged.get(field) and results_match.get(field):
+            merged[field] = results_match[field]
+
+    matchcentre_players = merged.get("players", []) or []
+    fallback_players = results_match.get("players", []) or []
+    if matchcentre_players or fallback_players:
+        merged["players"] = [
+            (matchcentre_players[index] if index < len(matchcentre_players) else None)
+            or (fallback_players[index] if index < len(fallback_players) else None)
+            or {}
+            for index in range(2)
+        ]
 
     return merged
+
+
+def update_league_wide_data(
+    squad=1,
+    season="2025/26",
+    consolidated_file=None,
+    league_history_df=None,
+):
+    """Fetch every division fixture and available home/away lineup for one EG league."""
+    if consolidated_file is None:
+        consolidated_file = str(_DATA_DIR / "matches.json")
+
+    summaries = fetch_matches_from_results_page(
+        squad=squad,
+        season=season,
+        league_history_df=league_history_df,
+        include_all_teams=True,
+    )
+    if not summaries:
+        logging.warning("No league-wide fixtures found for %s squad %s", season, squad)
+        return load_consolidated_matches(consolidated_file), []
+
+    existing_matches = load_consolidated_matches(consolidated_file)
+    existing_by_id = {
+        str(match.get("match_id")): match
+        for match in existing_matches
+        if isinstance(match, dict) and match.get("match_id") is not None
+    }
+    refreshed_matches = []
+
+    for index, summary in enumerate(summaries, start=1):
+        match_id = str(summary.get("match_id", ""))
+        if not match_id:
+            continue
+
+        existing = existing_by_id.get(match_id)
+        merged = _merge_matchcentre_with_results_fallback(existing, summary)
+        match_date = pd.to_datetime(summary.get("date"), errors="coerce")
+        is_future = pd.notna(match_date) and match_date.normalize() > pd.Timestamp.today().normalize()
+        if is_future:
+            merged.update(
+                {
+                    "season": summary.get("season"),
+                    "league": summary.get("league"),
+                    "tracked_squad": summary.get("tracked_squad"),
+                    "date": summary.get("date"),
+                    "teams": summary.get("teams"),
+                    "score": [None, None],
+                }
+            )
+            merged["players"] = (existing or {}).get("players") or summary.get("players") or [{}, {}]
+            refreshed_matches.append(merged)
+            continue
+
+        if _score_indicates_played(summary.get("score")) and not _has_both_lineups(merged):
+            logging.info("Fetching league-wide lineup %d/%d: %s", index, len(summaries), match_id)
+            matchcentre_match = fetch_match_data(match_id, tracked_squad=squad)
+            merged = _merge_matchcentre_with_results_fallback(matchcentre_match, merged)
+            if index < len(summaries):
+                time.sleep(random.uniform(2, 5))
+
+        merged["match_id"] = match_id
+        refreshed_matches.append(merged)
+
+    all_matches = update_consolidated_file(refreshed_matches, consolidated_file)
+    logging.info(
+        "League-wide refresh complete for %s squad %s: %d fixtures, %d refreshed records",
+        season,
+        squad,
+        len(summaries),
+        len(refreshed_matches),
+    )
+    return all_matches, refreshed_matches
 
 
 def get_active_season_squad_pairs(league_history_df=None, seasons=None, squads=None):
@@ -927,10 +1023,10 @@ def fetch_match_ids(squad=1, season="2025/26", league_history_df=None):
     return list(links)
 
 
-def fetch_matches_from_results_page(squad=2, season="2025/26", league_history_df=None):
-    """Fetch match summaries directly from the results list page (used for squad 2)."""
+def fetch_matches_from_results_page(squad=2, season="2025/26", league_history_df=None, include_all_teams=False):
+    """Fetch match summaries for an EG team or the full division results page."""
 
-    url = f"{get_url(squad=squad, season=season, league_history_df=league_history_df)}#results"
+    url = f"{get_url(squad=squad, season=season, league_history_df=league_history_df, include_team=not include_all_teams)}#results"
 
     try:
         response = requests.get(url, headers=headers, timeout=30)
@@ -980,11 +1076,15 @@ def fetch_matches_from_results_page(squad=2, season="2025/26", league_history_df
         score = _parse_results_card_score(score_box)
 
         match_date = _parse_results_card_date(card)
+        parsed_match_date = pd.to_datetime(match_date, errors="coerce")
+        if pd.notna(parsed_match_date) and parsed_match_date.normalize() > pd.Timestamp.today().normalize():
+            score = [None, None]
 
         match_data_list.append({
             "match_id": match_id,
             "season": season_dash,
             "league": league,
+            "tracked_squad": _tracked_squad_label(squad),
             "date": match_date,
             "teams": teams,
             "score": score,
@@ -1013,7 +1113,7 @@ def get_players(soup):
         logging.warning("Could not determine team split index.")
         return [{}, {}]
 
-def fetch_match_data(match_id):
+def fetch_match_data(match_id, tracked_squad=None):
     """Fetch and process match details."""
     url = f'{base_url}match-centre-community?matchId={match_id}#lineup'
     
@@ -1073,6 +1173,9 @@ def fetch_match_data(match_id):
         logging.warning(f"Match {match_id} has invalid date format.")
         return None
 
+    if pd.Timestamp(date).normalize() > pd.Timestamp.today().normalize():
+        score = [None, None]
+
     # Calculate season (July to June)
     if date[5:] < "07-01":
         season = f"{int(date[:4])-1}-{date[:4]}"
@@ -1094,14 +1197,14 @@ def fetch_match_data(match_id):
         logging.warning(f"Match {match_id} doesn't have exactly 2 teams.")
         return None
 
-    # Extract player lineups only for 1st XV matches
-    squad = squad_lookup(season, league)
-    players = get_players(soup) if squad == 1 else [{}, {}]
+    players = get_players(soup)
+    tracked_squad_label = _tracked_squad_label(tracked_squad or squad_lookup(season, league))
 
     match_data = {
         "match_id": match_id,
         "season": season,
         "league": league,
+        "tracked_squad": tracked_squad_label,
         "date": date,
         "teams": teams,
         "score": score,
@@ -1142,7 +1245,7 @@ def _get_match_sources(squad=1, season="2025/26", league_history_df=None):
 def _fetch_match_for_squad(match_id, squad, results_by_id):
     """Fetch one match with match-centre as primary and results page as fallback."""
     _ = squad  # maintained for signature compatibility with existing callers
-    matchcentre_match = fetch_match_data(match_id)
+    matchcentre_match = fetch_match_data(match_id, tracked_squad=squad)
     results_match = results_by_id.get(match_id)
     return _merge_matchcentre_with_results_fallback(matchcentre_match, results_match)
 
@@ -1256,17 +1359,32 @@ def update_consolidated_file(new_matches, consolidated_file=None):
             # Add new match
             matches_dict[match_id] = match
             added_count += 1
+
+    sanitized_future_scores = 0
+    today = pd.Timestamp.today().normalize()
+    for match in matches_dict.values():
+        match_date = pd.to_datetime(match.get("date"), errors="coerce")
+        if pd.isna(match_date) or match_date.normalize() <= today:
+            continue
+        if match.get("score") != [None, None]:
+            match["score"] = [None, None]
+            sanitized_future_scores += 1
     
     # Convert back to list
     all_matches = list(matches_dict.values())
     
-    if added_count == 0 and updated_count == 0:
+    if added_count == 0 and updated_count == 0 and sanitized_future_scores == 0:
         logging.info("No changes to consolidated file")
         return all_matches
     
     # Save
     if save_consolidated_matches(all_matches, consolidated_file):
-        logging.info(f"Updated consolidated file: {added_count} added, {updated_count} updated")
+        logging.info(
+            "Updated consolidated file: %d added, %d updated, %d future placeholder scores cleared",
+            added_count,
+            updated_count,
+            sanitized_future_scores,
+        )
     else:
         logging.error("Failed to update consolidated file")
     
@@ -1398,8 +1516,14 @@ def update_multiple_seasons_and_squads(
         except Exception as e:
             logging.error(f"Error updating {season} squad {squad}: {e}")
     
-    # Generate frontend-ready league tables JSON after all updates
-    build_league_tables_json(output_file=str(_DATA_DIR / "league_tables.json"))
+    # Refresh only the requested divisions; keep existing table data for failed requests.
+    build_league_tables_json(
+        output_file=str(_DATA_DIR / "league_tables.json"),
+        league_history_df=league_history_df,
+        seasons=normalized_seasons,
+        squads=squads,
+        preserve_existing=True,
+    )
     
     # Final summary
     final_matches = load_consolidated_matches(consolidated_file)
@@ -1718,8 +1842,8 @@ def build_league_tables_json(
             logging.warning("Could not fetch %s %s from RFU: %s", season_slash, squad_label, exc)
             continue
 
-    # Merge into existing JSON when doing a targeted refresh.
-    use_preserve = bool(preserve_existing and (target_seasons is not None or target_squads is not None) and os.path.exists(output_file))
+    # Preserve existing seasons and failed divisions during both targeted and full refreshes.
+    use_preserve = bool(preserve_existing and os.path.exists(output_file))
     if use_preserve:
         try:
             with open(output_file, "r") as f:

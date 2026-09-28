@@ -3883,6 +3883,9 @@ class BackendDatabase:
             player = str(getattr(row, "player", "") or "").strip()
             if not player:
                 continue
+            team = str(getattr(row, "team", "") or "").strip()
+            if not is_egrfc_team_name(team):
+                continue
             squad = _squad_from_tracked(getattr(row, "tracked_squad", None))
             match_date = pd.to_datetime(getattr(row, "date", None), errors="coerce")
             if pd.isna(match_date):

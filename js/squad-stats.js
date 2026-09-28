@@ -1,6 +1,7 @@
 // Squad Stats + Player Stats page logic
 
 let squadStatsWithThresholdsEnrichedData = null;
+let squadStatsEnrichedData = null;
 let squadContinuityEnrichedData = null;
 let squadStatsData = null;
 let squadSizeTrendTemplateSpec = null;
@@ -12,6 +13,7 @@ let squadResultsAggregateSpec = null;
 let squadResultsGamePdSpec = null;
 let squadResultsAggregatePdSpec = null;
 let leagueHistoryTemplateSpec = null;
+let leagueTablesForHistory = null;
 let squadStatsControlsInitialised = false;
 let syncingSquadStatsControls = false;
 let squadStatsAnalysisRailInitialised = false;
@@ -45,15 +47,18 @@ function fetchJsonNoCache(path) {
 async function loadSquadStatsCanonicalData() {
     if (squadStatsWithThresholdsEnrichedData && squadContinuityEnrichedData && squadPositionCompositionTemplateSpec) return;
 
-    const [statsResponse, continuityResponse] = await Promise.all([
+    const [statsResponse, playerStatsResponse, continuityResponse] = await Promise.all([
         fetch('data/backend/squad_stats_with_thresholds_enriched.json'),
+        fetch('data/backend/squad_stats_enriched.json'),
         fetch('data/backend/squad_continuity_enriched.json')
     ]);
 
     if (!statsResponse.ok) throw new Error(`Failed to fetch squad stats export (${statsResponse.status})`);
+    if (!playerStatsResponse.ok) throw new Error(`Failed to fetch player counts export (${playerStatsResponse.status})`);
     if (!continuityResponse.ok) throw new Error(`Failed to fetch squad continuity export (${continuityResponse.status})`);
 
     squadStatsWithThresholdsEnrichedData = await statsResponse.json();
+    squadStatsEnrichedData = await playerStatsResponse.json();
     squadContinuityEnrichedData = await continuityResponse.json();
 
     if (!squadSizeTrendTemplateSpec) {
@@ -104,6 +109,13 @@ async function loadSquadStatsCanonicalData() {
             const res = await fetchJsonNoCache('data/charts/league_history_progression.json');
             if (res.ok) leagueHistoryTemplateSpec = await res.json();
         } catch (e) { console.warn('Unable to load league history spec:', e); }
+    }
+
+    if (!leagueTablesForHistory) {
+        try {
+            const res = await fetchJsonNoCache('data/league_tables.json');
+            if (res.ok) leagueTablesForHistory = await res.json();
+        } catch (e) { console.warn('Unable to load league tables for history chart:', e); }
     }
 }
 
@@ -440,14 +452,24 @@ function renderSquadStatsHeroStats() {
     const mode = getSquadStatsGameTypeMode();
     const selectedUnit = getLeagueContextUnit();
     const minimumAppearances = getSquadStatsMinimumAppearances();
-    const modeData = buildSquadStatsDataFromThresholds(squadStatsWithThresholdsEnrichedData || [], mode);
-    const availableSeasons = getSortedSquadStatsSeasons(modeData);
-    const seasonKey = getSquadStatsFocusedSeason(selectedSeasonValue, availableSeasons);
-    const seasonData = seasonKey ? (modeData[seasonKey] || createSquadSeasonBucket()) : null;
+    let value1st = 0;
+    let value2nd = 0;
+    let valueTotal = 0;
+    let seasonKey = null;
 
-    const value1st = seasonData ? getSquadMetricValue(selectedUnit, seasonData['1st'], minimumAppearances) : 0;
-    const value2nd = seasonData ? getSquadMetricValue(selectedUnit, seasonData['2nd'], minimumAppearances) : 0;
-    const valueTotal = seasonData ? getSquadMetricValue(selectedUnit, seasonData['Total'], minimumAppearances) : 0;
+    if (selectedSeasonValue === ALL_SQUAD_STATS_SEASON_VALUE) {
+        value1st = getAllTimeSquadPlayerCount('1st', selectedUnit, mode, minimumAppearances);
+        value2nd = getAllTimeSquadPlayerCount('2nd', selectedUnit, mode, minimumAppearances);
+        valueTotal = getAllTimeSquadPlayerCount('Total', selectedUnit, mode, minimumAppearances);
+    } else {
+        const modeData = buildSquadStatsDataFromThresholds(squadStatsWithThresholdsEnrichedData || [], mode);
+        const availableSeasons = getSortedSquadStatsSeasons(modeData);
+        seasonKey = getSquadStatsFocusedSeason(selectedSeasonValue, availableSeasons);
+        const seasonData = seasonKey ? (modeData[seasonKey] || createSquadSeasonBucket()) : null;
+        value1st = seasonData ? getSquadMetricValue(selectedUnit, seasonData['1st'], minimumAppearances) : 0;
+        value2nd = seasonData ? getSquadMetricValue(selectedUnit, seasonData['2nd'], minimumAppearances) : 0;
+        valueTotal = seasonData ? getSquadMetricValue(selectedUnit, seasonData['Total'], minimumAppearances) : 0;
+    }
 
     const value1stEl = document.getElementById('squadStatsHeroValue1st');
     const value2ndEl = document.getElementById('squadStatsHeroValue2nd');
@@ -458,11 +480,50 @@ function renderSquadStatsHeroStats() {
     if (value2ndEl) value2ndEl.textContent = String(value2nd);
     if (valueTotalEl) valueTotalEl.textContent = String(valueTotal);
     if (metaEl) {
-        const seasonLabel = getSquadStatsSelectedSeasonLabel(selectedSeasonValue);
-        metaEl.textContent = seasonKey
-            ? `${seasonLabel} • ${mode} • ${selectedUnit} • Min Apps ${minimumAppearances}`
-            : `${seasonLabel} • No squad data for this season`;
+        if (selectedSeasonValue === ALL_SQUAD_STATS_SEASON_VALUE) {
+            metaEl.textContent = `All available player data (${getSquadStatsPlayerDataStartSeason()}-) • ${mode} • ${selectedUnit} • Min Apps ${minimumAppearances}`;
+        } else {
+            metaEl.textContent = seasonKey
+                ? `${selectedSeasonValue} • ${mode} • ${selectedUnit} • Min Apps ${minimumAppearances}`
+                : `${selectedSeasonValue} • No squad data for this season`;
+        }
     }
+}
+
+function getAllTimeSquadPlayerCount(squad, unit, gameTypeMode, minimumAppearances) {
+    const appearancesByPlayer = new Map();
+    const startYear = Number(getSquadStatsPlayerDataStartSeason().slice(0, 4));
+
+    (squadStatsEnrichedData || []).forEach(row => {
+        const season = normalizeSeasonLabel(row?.season);
+        const seasonYear = Number(season.slice(0, 4));
+        if (row?.gameTypeMode !== gameTypeMode || row?.squad !== squad || row?.unit !== unit || seasonYear < startYear) return;
+
+        let playerCounts = row?.playerCounts;
+        if (typeof playerCounts === 'string') {
+            try {
+                playerCounts = JSON.parse(playerCounts);
+            } catch {
+                return;
+            }
+        }
+        if (!playerCounts || typeof playerCounts !== 'object') return;
+
+        Object.entries(playerCounts).forEach(([player, count]) => {
+            appearancesByPlayer.set(player, (appearancesByPlayer.get(player) || 0) + (Number(count) || 0));
+        });
+    });
+
+    const threshold = Math.max(0, Number(minimumAppearances) || 0);
+    return [...appearancesByPlayer.values()].filter(count => count > 0 && count >= threshold).length;
+}
+
+function getSquadStatsPlayerDataStartSeason() {
+    const seasons = (squadStatsEnrichedData || [])
+        .map(row => normalizeSeasonLabel(row?.season))
+        .filter(season => /^\d{4}\//.test(season))
+        .sort((a, b) => Number(a.slice(0, 4)) - Number(b.slice(0, 4)));
+    return seasons[0] || SECTION_START_SQUAD;
 }
 
 function getSquadStatsSeasonOptions() {
@@ -681,22 +742,36 @@ function renderSquadResultsChart(selectedSeasonValue, gameTypeMode) {
     const spec = JSON.parse(JSON.stringify(baseSpec));
 
     if (isAggregated) {
+        let foundModeRows = false;
+        let filteredRowCount = 0;
+        const filterModeRows = rows => {
+            if (!rows.some(row => row && Object.prototype.hasOwnProperty.call(row, 'gameTypeMode'))) return rows;
+            foundModeRows = true;
+            const filteredRows = rows.filter(row => row.gameTypeMode === gameTypeMode);
+            filteredRowCount += filteredRows.length;
+            return filteredRows;
+        };
+
+        if (spec.data && Array.isArray(spec.data.values)) spec.data.values = filterModeRows(spec.data.values);
+        if (spec.datasets) {
+            Object.keys(spec.datasets).forEach(name => {
+                if (Array.isArray(spec.datasets[name])) spec.datasets[name] = filterModeRows(spec.datasets[name]);
+            });
+        }
+        if (!foundModeRows || !filteredRowCount) {
+            container.innerHTML = '<div class="text-center text-muted py-4">No results data available for the selected filters.</div>';
+            return;
+        }
+
         spec.title.text = showPd ? 'Results by Season (Average PD)' : 'Results by Season (Average)';
         spec.title.subtitle = [gameTypeMode];
         renderStaticSpecChart('squadResultsChart', spec, 'No results data available for the selected filters.', { hideTitle: true });
         return;
     }
 
-    // Clone and filter data based on season and game type
     const gameTypeFilter = _squadResultsGameTypeFilter(gameTypeMode);
-
     const sourceRows = _getRowsFromInlineOrDataset(spec);
-
-    // Filter the data
-    const filteredData = sourceRows.filter(row => {
-        if (!gameTypeFilter(row)) return false;
-        return row?.season === selectedSeasonValue;
-    });
+    const filteredData = sourceRows.filter(row => gameTypeFilter(row) && row?.season === selectedSeasonValue);
 
     if (!filteredData.length) {
         container.innerHTML = '<div class="text-center text-muted py-4">No results data available for the selected filters.</div>';
@@ -706,9 +781,7 @@ function renderSquadResultsChart(selectedSeasonValue, gameTypeMode) {
     _setRowsOnInlineOrDataset(spec, filteredData);
 
     // Update title with current filters
-    const titleSuffix = isAggregated 
-        ? ' by Season (Average)'
-        : ` - ${selectedSeasonValue}`;
+    const titleSuffix = ` - ${selectedSeasonValue}`;
     spec.title.text = showPd ? `Results (PD)${titleSuffix}` : `Results${titleSuffix}`;
     spec.title.subtitle = [gameTypeMode];
 
@@ -773,6 +846,46 @@ async function renderLeagueContextCharts(selectedSeason = null) {
     }));
 }
 
+function applyCurrentLeaguePositionsToHistorySpec(spec) {
+    const season = getCurrentSeasonLabel();
+    const seasonTables = leagueTablesForHistory?.[season];
+    if (!seasonTables) return spec;
+
+    const positionsBySquad = {};
+    Object.entries({ '1': '1st', '2': '2nd', '3': '3rd' }).forEach(([squadNumber, squadLabel]) => {
+        const rows = seasonTables[squadNumber]?.tables || [];
+        const currentRow = rows.find(row => {
+            const team = String(row?.team || '').toLowerCase();
+            if (!team.includes('east grinstead')) return false;
+            if (squadNumber === '1') return !/\b(ii|2nd|second|iii|3rd|third)\b/.test(team);
+            if (squadNumber === '2') return /\b(ii|2nd|second)\b/.test(team);
+            return /\b(iii|3rd|third)\b/.test(team);
+        });
+        const position = Number(currentRow?.position);
+        if (Number.isInteger(position) && position > 0) positionsBySquad[squadLabel] = position;
+    });
+
+    const applyRows = rows => rows.map(row => {
+        const position = positionsBySquad[row?.squad];
+        if (normalizeSeasonLabel(row?.season) !== season || !position) return row;
+        return {
+            ...row,
+            rank: position,
+            rank_label: `${position}*`,
+            marker_shape: 'circle',
+            is_current: true,
+        };
+    });
+
+    if (spec.data && Array.isArray(spec.data.values)) spec.data.values = applyRows(spec.data.values);
+    if (spec.datasets) {
+        Object.keys(spec.datasets).forEach(name => {
+            if (Array.isArray(spec.datasets[name])) spec.datasets[name] = applyRows(spec.datasets[name]);
+        });
+    }
+    return spec;
+}
+
 function renderLeagueHistoryChart() {
     const container = document.getElementById('leagueHistoryChart');
     if (!container) return;
@@ -781,13 +894,14 @@ function renderLeagueHistoryChart() {
         return;
     }
 
-    const spec = JSON.parse(JSON.stringify(leagueHistoryTemplateSpec));
+    const spec = applyCurrentLeaguePositionsToHistorySpec(JSON.parse(JSON.stringify(leagueHistoryTemplateSpec)));
     renderStaticSpecChart('leagueHistoryChart', spec, 'No league history data available.', { hideTitle: true });
 }
 
 function renderSquadStatsCharts(selectedSeasonScoped, selectedSeasonValue, minimumAppearances, selectedUnit, trendViewMode, gameTypeMode) {
-    renderSquadSizeTrendChart(selectedSeasonScoped, minimumAppearances, selectedUnit, trendViewMode);
-    renderSquadContinuityTrendChart(selectedSeasonScoped, selectedUnit);
+    const currentSeason = getCurrentSeasonLabel();
+    renderSquadSizeTrendChart(currentSeason, minimumAppearances, selectedUnit, trendViewMode);
+    renderSquadContinuityTrendChart(currentSeason, selectedUnit);
     renderSquadOverlapChart(selectedUnit);
     renderLeagueContextCharts(selectedSeasonScoped);
 
@@ -845,8 +959,8 @@ function renderSquadStatsPage() {
             seasonLabelOverride: getSectionSeasonLabel(selectedSeasonValue, SECTION_START_SQUAD),
         });
         renderSquadStatsActiveFilterChips('squadContinuityActiveFilters', selectedSeasonValue, gameTypeMode, minimumAppearances, {
+            includeSeason: false,
             includeGameType: false,
-            seasonLabelOverride: getSectionSeasonLabel(selectedSeasonValue, SECTION_START_SQUAD, { alwaysAll: true }),
         });
         renderSquadStatsActiveFilterChips('leagueContextActiveFilters', selectedSeasonValue, gameTypeMode, minimumAppearances, {
             includeGameType: false,
@@ -871,8 +985,8 @@ function renderSquadStatsPage() {
         seasonLabelOverride: getSectionSeasonLabel(selectedSeasonValue, SECTION_START_SQUAD),
     });
     renderSquadStatsActiveFilterChips('squadContinuityActiveFilters', selectedSeasonValue, gameTypeMode, minimumAppearances, {
+        includeSeason: false,
         includeGameType: false,
-        seasonLabelOverride: getSectionSeasonLabel(selectedSeasonValue, SECTION_START_SQUAD, { alwaysAll: true }),
     });
     renderSquadStatsActiveFilterChips('leagueContextActiveFilters', selectedSeasonValue, gameTypeMode, minimumAppearances, {
         includeGameType: false,

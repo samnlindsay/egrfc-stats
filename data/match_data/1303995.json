@@ -1,0 +1,42 @@
+{
+    "match_id": "1303995",
+    "season": "2026-2027",
+    "league": "Harvey's Brewery Counties 3 Sussex",
+    "tracked_squad": "2nd",
+    "date": "2026-09-26",
+    "teams": [
+        "Hastings & Bexhill II",
+        "Crawley"
+    ],
+    "score": [
+        0,
+        40
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/9654.png",
+        "https://images.englandrugby.com/club_images/5807.png"
+    ],
+    "players": [
+        {},
+        {
+            "15": "No lineup to show.",
+            "14": "Conor Kelly",
+            "13": "Dilip Thayagaraja",
+            "12": "Kristian Dean",
+            "11": "Thomas Flack",
+            "10": "Kai Marshall",
+            "9": "Stephen Wilson",
+            "8": "Callum Hankin",
+            "7": "Henry Nyinguro",
+            "6": "Mason Campbell",
+            "5": "Charles Dennis",
+            "4": "Daniel Davis",
+            "3": "Joe Ball",
+            "2": "Bradley Davies",
+            "1": "Coby Coy",
+            "S1": "Nathan Cox",
+            "S2": "Joel Fisher",
+            "S3": "Robert Higgins"
+        }
+    ]
+}

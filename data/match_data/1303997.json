@@ -1,0 +1,62 @@
+{
+    "match_id": "1303997",
+    "season": "2026-2027",
+    "league": "Harvey's Brewery Counties 3 Sussex",
+    "tracked_squad": "2nd",
+    "date": "2026-09-26",
+    "teams": [
+        "Pulborough II",
+        "Uckfield"
+    ],
+    "score": [
+        6,
+        36
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/17257.png",
+        "https://images.englandrugby.com/club_images/23445.png"
+    ],
+    "players": [
+        {
+            "15": "Jonathan Brookstein",
+            "14": "James Hobbs",
+            "13": "Jack Corbett",
+            "12": "Bryan Woodhouse",
+            "11": "Shaye Elgar",
+            "10": "Jake Fisher",
+            "9": "Thomas Bouet",
+            "8": "Ivan Jones",
+            "7": "Oliver O'Shea",
+            "6": "Charles Payne",
+            "5": "Charles Stephenson Coggan",
+            "4": "Alfred Reeves",
+            "3": "Douglas Ludlow-monk",
+            "2": "Joseph Billinghurst",
+            "1": "Samuel Mcsorley",
+            "S1": "Michael Woodhouse",
+            "S2": "Denis Woodhouse",
+            "S3": "Jonathan Scrase",
+            "S4": "Ewan Callaway"
+        },
+        {
+            "15": "Connall Scott",
+            "14": "Ryan Bate",
+            "13": "Piers Oliver",
+            "12": "Ethan Baldwin",
+            "11": "Adam Young",
+            "10": "Oisin Mcwalter",
+            "9": "Jordan Heir",
+            "8": "Harvey Pratt",
+            "7": "Thomas Booth",
+            "6": "Jacob Bilton",
+            "5": "Oliver O'Riordan",
+            "4": "Stephen Hartfield",
+            "3": "Matthew Longhurst",
+            "2": "Matthew Pratt",
+            "1": "Charles Rumary",
+            "S1": "Adam Dean",
+            "S2": "James Edwards",
+            "S3": "Rhys Camis"
+        }
+    ]
+}

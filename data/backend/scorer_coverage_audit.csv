@@ -1,4 +1,34 @@
 game_id,date,season,squad,opposition,game_type,result,captain,motm,pitchero_match_url,tries_scorers,conversions_scorers,penalties_scorers,drop_goals_scorers,has_any_scorers,has_pitchero_url
+2027-04-10_1st_Seaford,2027-04-10,2026/27,1st,Seaford,League,,,,,,,,,False,False
+2027-04-10_2nd_Crowborough,2027-04-10,2026/27,2nd,Crowborough II,League,,,,,,,,,False,False
+2027-04-03_1st_Burgess_Hill,2027-04-03,2026/27,1st,Burgess Hill,League,,,,,,,,,False,False
+2027-04-03_2nd_Haywards_Heath,2027-04-03,2026/27,2nd,Haywards Heath II,League,,,,,,,,,False,False
+2027-03-20_1st_Lewes,2027-03-20,2026/27,1st,Lewes,League,,,,,,,,,False,False
+2027-03-06_1st_Brighton,2027-03-06,2026/27,1st,Brighton II,League,,,,,,,,,False,False
+2027-03-06_2nd_Worthing,2027-03-06,2026/27,2nd,Worthing III,League,,,,,,,,,False,False
+2027-02-27_1st_Eastbourne,2027-02-27,2026/27,1st,Eastbourne II,League,,,,,,,,,False,False
+2027-02-27_2nd_Hastings_&_Bexhill,2027-02-27,2026/27,2nd,Hastings & Bexhill II,League,,,,,,,,,False,False
+2027-02-20_2nd_Uckfield,2027-02-20,2026/27,2nd,Uckfield,League,,,,,,,,,False,False
+2027-02-13_1st_Ditchling,2027-02-13,2026/27,1st,Ditchling,League,,,,,,,,,False,False
+2027-02-13_2nd_Royals,2027-02-13,2026/27,2nd,Royals,League,,,,,,,,,False,False
+2027-02-06_1st_Hove,2027-02-06,2026/27,1st,Hove II,League,,,,,,,,,False,False
+2027-02-06_2nd_Crawley,2027-02-06,2026/27,2nd,Crawley,League,,,,,,,,,False,False
+2027-01-30_1st_Horsham,2027-01-30,2026/27,1st,Horsham II,League,,,,,,,,,False,False
+2027-01-30_2nd_Horsham,2027-01-30,2026/27,2nd,Horsham,League,,,,,,,,,False,False
+2027-01-16_1st_Shoreham,2027-01-16,2026/27,1st,Shoreham,League,,,,,,,,,False,False
+2027-01-16_2nd_Pulborough,2027-01-16,2026/27,2nd,Pulborough II,League,,,,,,,,,False,False
+2026-12-12_1st_Burgess_Hill,2026-12-12,2026/27,1st,Burgess Hill,League,,,,,,,,,False,False
+2026-12-12_2nd_Haywards_Heath,2026-12-12,2026/27,2nd,Haywards Heath II,League,,,,,,,,,False,False
+2026-12-05_1st_Lewes,2026-12-05,2026/27,1st,Lewes,League,,,,,,,,,False,False
+2026-12-05_2nd_Uckfield,2026-12-05,2026/27,2nd,Uckfield,League,,,,,,,,,False,False
+2026-11-21_1st_Brighton,2026-11-21,2026/27,1st,Brighton II,League,,,,,,,,,False,False
+2026-11-21_2nd_Worthing,2026-11-21,2026/27,2nd,Worthing III,League,,,,,,,,,False,False
+2026-11-14_1st_Eastbourne,2026-11-14,2026/27,1st,Eastbourne II,League,,,,,,,,,False,False
+2026-11-14_2nd_Hastings_&_Bexhill,2026-11-14,2026/27,2nd,Hastings & Bexhill II,League,,,,,,,,,False,False
+2026-10-31_1st_Ditchling,2026-10-31,2026/27,1st,Ditchling,League,,,,,,,,,False,False
+2026-10-31_2nd_Royals,2026-10-31,2026/27,2nd,Royals,League,,,,,,,,,False,False
+2026-10-24_1st_Hove,2026-10-24,2026/27,1st,Hove II,League,,,,,,,,,False,False
+2026-10-23_2nd_Crawley,2026-10-23,2026/27,2nd,Crawley,League,,,,,,,,,False,False
 2026-10-17_1st_Horsham,2026-10-17,2026/27,1st,Horsham II,League,,,,,,,,,False,False
 2026-10-17_2nd_Horsham,2026-10-17,2026/27,2nd,Horsham III,League,,,,,,,,,False,False
 2026-10-03_1st_Shoreham,2026-10-03,2026/27,1st,Shoreham,League,,,,,,,,,False,False

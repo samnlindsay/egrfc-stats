@@ -911,6 +911,11 @@ function applyResponsiveChartScale(rootElement = document) {
       return;
     }
 
+    if (embed.closest(".chart-host--no-responsive-scale")) {
+      resetResponsiveChartScale(embed);
+      return;
+    }
+
     if (embed.closest("#leagueResultsChart1, #leagueResultsChart2")) {
       // League Results uses dedicated page-level scaling in the squad stats module.
       return;

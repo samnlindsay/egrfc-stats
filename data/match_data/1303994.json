@@ -1,0 +1,61 @@
+{
+    "match_id": "1303994",
+    "season": "2026-2027",
+    "league": "Harvey's Brewery Counties 3 Sussex",
+    "tracked_squad": "2nd",
+    "date": "2026-09-26",
+    "teams": [
+        "Royals RFC",
+        "Haywards Heath II"
+    ],
+    "score": [
+        50,
+        10
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/94051.png",
+        "https://images.englandrugby.com/club_images/9777.png"
+    ],
+    "players": [
+        {
+            "15": "Jenson Holmes",
+            "14": "Harry Cruickshank",
+            "13": "Jakob Stanton",
+            "12": "Hugo Reid",
+            "11": "Richard Stevens",
+            "10": "Jean-Jacques Le Bihan",
+            "9": "Connor Devenny",
+            "8": "Cameron Queree",
+            "7": "Dan Haywood",
+            "6": "Fraser George",
+            "5": "Will Michel",
+            "4": "Lewis Ham-Howes",
+            "3": "Daniel Baker",
+            "2": "Patrick Crossley",
+            "1": "Tristan Burns",
+            "S1": "Name withheld",
+            "S2": "Jack Lowe",
+            "S3": "Brodie Sutton",
+            "S4": "Finn Macfarlane"
+        },
+        {
+            "15": "Josh Jones",
+            "14": "Roscoe Atkins",
+            "13": "Matthew Linthwaite",
+            "12": "Rory Robinson",
+            "11": "Jamie Diggle",
+            "10": "Edward Newey",
+            "9": "Ben Eustace",
+            "8": "Alexander Chard",
+            "7": "Fraser Russell",
+            "6": "Finlay Furse",
+            "5": "Patrick Stedman",
+            "4": "Jack Bull",
+            "3": "Marcus Pemberton",
+            "2": "Karl Wicking",
+            "1": "Mark Newey",
+            "S1": "David Grimley",
+            "S2": "Kevin Mcdonald"
+        }
+    ]
+}

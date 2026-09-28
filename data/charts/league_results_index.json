@@ -155,6 +155,10 @@
     "1": {
       "league": "Counties 2 Sussex",
       "file": "league_results_1s_2026-2027.json"
+    },
+    "2": {
+      "league": "Counties 3 Sussex",
+      "file": "league_results_2s_2026-2027.json"
     }
   }
 }

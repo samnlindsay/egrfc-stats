@@ -2619,7 +2619,7 @@ def squad_overlap_chart(db, output_file='data/charts/squad_overlap.json'):
         x=alt.X(
             'percentage_start:Q',
             title='Percentage',
-            axis=alt.Axis(format='%', grid=False, labelExpr="datum.value > 0 ? datum.value + '%' : -datum.value + '%'"),
+            axis=alt.Axis(format='%', grid=False, labelExpr="format(abs(datum.value), '.0%')"),
             scale=alt.Scale(nice=False)
         ),
         x2=alt.X2('percentage_end:Q'),
@@ -3300,7 +3300,8 @@ def team_stats_results_chart(
                 competition,
                 game_type
             FROM games
-            WHERE result IN ('W', 'L', 'D')
+                        WHERE result IN ('W', 'L', 'D')
+                            AND date <= CURRENT_DATE
             ORDER BY date DESC
             """
         ).df()
@@ -3320,7 +3321,8 @@ def team_stats_results_chart(
                 competition,
                 game_type
             FROM games
-            WHERE result IN ('W', 'L', 'D')
+                        WHERE result IN ('W', 'L', 'D')
+                            AND date <= CURRENT_DATE
             ORDER BY date DESC
             """
         ).df()
@@ -3465,18 +3467,31 @@ def team_stats_results_chart(
     game_chart = _build_game_chart(use_pd=False)
     game_chart_pd = _build_game_chart(use_pd=True)
 
-    # Aggregated chart: one row per season/squad with average PF/PA.
-    agg_df = (
-        df.groupby(['season', 'squad'], as_index=False)
-        .agg(
-            avg_pf=('pf', 'mean'),
-            avg_pa=('pa', 'mean'),
-            wins=('result', lambda s: (s == 'W').sum()),
-            losses=('result', lambda s: (s == 'L').sum()),
-            draws=('result', lambda s: (s == 'D').sum()),
-            total_games=('result', 'size'),
+    # Pre-aggregate each UI game-type scope so League + Cup averages combine both types.
+    aggregate_frames = []
+    for game_type_mode, allowed_game_types in (
+        ('All', None),
+        ('League + Cup', {'League', 'Cup'}),
+        ('League only', {'League'}),
+    ):
+        mode_df = df if allowed_game_types is None else df[df['game_type'].isin(allowed_game_types)]
+        if mode_df.empty:
+            continue
+        mode_agg_df = (
+            mode_df.groupby(['season', 'squad'], as_index=False)
+            .agg(
+                avg_pf=('pf', 'mean'),
+                avg_pa=('pa', 'mean'),
+                wins=('result', lambda s: (s == 'W').sum()),
+                losses=('result', lambda s: (s == 'L').sum()),
+                draws=('result', lambda s: (s == 'D').sum()),
+                total_games=('result', 'size'),
+            )
         )
-    )
+        mode_agg_df['gameTypeMode'] = game_type_mode
+        aggregate_frames.append(mode_agg_df)
+
+    agg_df = pd.concat(aggregate_frames, ignore_index=True)
     agg_df['margin'] = agg_df['avg_pf'] - agg_df['avg_pa']
     agg_df['avg_min'] = agg_df[['avg_pf', 'avg_pa']].min(axis=1)
     agg_df['avg_max'] = agg_df[['avg_pf', 'avg_pa']].max(axis=1)
@@ -3489,8 +3504,8 @@ def team_stats_results_chart(
     agg_df['season_start'] = pd.to_numeric(agg_df['season'].astype(str).str.extract(r'^(\d{4})')[0], errors='coerce').fillna(0)
     squad_order = {'1st': 0, '2nd': 1}
     agg_df['squad_order'] = agg_df['squad'].map(squad_order).fillna(99)
-    agg_df = agg_df.sort_values(['squad_order', 'season_start', 'season'], ascending=[True, False, False]).reset_index(drop=True)
-    agg_df['sort_key'] = agg_df.groupby('squad').cumcount()
+    agg_df = agg_df.sort_values(['gameTypeMode', 'squad_order', 'season_start', 'season'], ascending=[True, True, False, False]).reset_index(drop=True)
+    agg_df['sort_key'] = agg_df.groupby(['squad', 'gameTypeMode']).cumcount()
     agg_x_max = float(agg_df['avg_max'].max())
 
     # Add league level context for subtle background shading in seasonal aggregate view.
@@ -3571,6 +3586,7 @@ def team_stats_results_chart(
 
         level_rows = (
             squad_df[['season', 'sort_key', 'level', 'league_level_label']]
+            .drop_duplicates()
             .dropna(subset=['level'])
             .copy()
             .sort_values('sort_key')
@@ -3578,7 +3594,7 @@ def team_stats_results_chart(
         if level_rows.empty:
             return pd.DataFrame(columns=['squad', 'season_start', 'season_end', 'level'])
 
-        season_lookup = squad_df.set_index('sort_key')['season'].to_dict()
+        season_lookup = squad_df.drop_duplicates('sort_key').set_index('sort_key')['season'].to_dict()
 
         blocks = []
         current_start = None
@@ -3689,7 +3705,7 @@ def team_stats_results_chart(
             x_axis_max = x_axis_min + 10
 
         x_tick_values = list(range(x_axis_min, x_axis_max + 1, 10))
-        season_domain = squad_df.sort_values(['season_start', 'season'], ascending=[False, False])['season'].tolist()
+        season_domain = squad_df.sort_values(['season_start', 'season'], ascending=[False, False])['season'].drop_duplicates().tolist()
         level_blocks_df = _build_level_blocks(squad_df, squad_label)
         level_blocks_df = level_blocks_df.copy()
         if not level_blocks_df.empty:
@@ -8262,11 +8278,19 @@ def league_history_progression_chart(db, output_file="data/charts/league_history
     point_text = base.mark_text(font="PT Sans Narrow", fontSize=18, fontWeight="bold").encode(
         text=alt.Text("rank_label:N"),
         color=alt.Color("rank_text_color:N", scale=None, legend=None),
-    ).transform_filter(f"!({non_rfu_2nd_filter})")
+    ).transform_filter(f"!({non_rfu_2nd_filter})").transform_filter("!isValid(datum.is_current) || !datum.is_current")
+    current_point_text = base.mark_text(font="PT Sans Narrow", fontSize=18, fontWeight="bold", fontStyle="italic").encode(
+        text=alt.Text("rank_label:N"),
+        color=alt.Color("rank_text_color:N", scale=None, legend=None),
+    ).transform_filter(f"!({non_rfu_2nd_filter})").transform_filter("datum.is_current")
     non_rfu_text = base.mark_text(font="PT Sans Narrow", fontSize=18, fontWeight="bold", yOffset=25).encode(
         text=alt.Text("rank_label:N"),
         color=alt.Color("rank_text_color:N", scale=None, legend=None),
-    ).transform_filter(non_rfu_2nd_filter)
+    ).transform_filter(non_rfu_2nd_filter).transform_filter("!isValid(datum.is_current) || !datum.is_current")
+    non_rfu_current_text = base.mark_text(font="PT Sans Narrow", fontSize=18, fontWeight="bold", yOffset=25, fontStyle="italic").encode(
+        text=alt.Text("rank_label:N"),
+        color=alt.Color("rank_text_color:N", scale=None, legend=None),
+    ).transform_filter(non_rfu_2nd_filter).transform_filter("datum.is_current")
 
     left_level_labels = alt.Chart(level_name_df).mark_text(
         align="left", baseline="middle", dx=-12, dy=10, color="#6b7280", fontSize=10, opacity=1.0, fontStyle="italic"
@@ -8284,7 +8308,7 @@ def league_history_progression_chart(db, output_file="data/charts/league_history
         text=alt.Text("current:N"),
     )
 
-    chart = alt.layer(left_level_labels, right_level_labels, lines, non_rfu_lines, special_outline, special_outline_label, points, non_rfu_points, point_text, non_rfu_text).properties(
+    chart = alt.layer(left_level_labels, right_level_labels, lines, non_rfu_lines, special_outline, special_outline_label, points, non_rfu_points, point_text, current_point_text, non_rfu_text, non_rfu_current_text).properties(
         width=alt.Step(35),
         height=alt.Step(50),
         title=alt.Title(
@@ -8331,18 +8355,17 @@ def _is_truthy_walkover(value):
 
 
 def _is_future_unplayed_fixture(row):
-    """Treat future fixtures without scores as unplayed even if walkover flags are noisy."""
-
-    home_score = row.get("home_score")
-    away_score = row.get("away_score")
-    if pd.notna(home_score) and pd.notna(away_score):
-        return False
-
+    """Treat any future fixture as unplayed, even if the source has placeholder scores."""
     match_date = pd.to_datetime(row.get("date"), errors="coerce")
     if pd.isna(match_date):
         return False
 
-    return match_date.normalize() > pd.Timestamp.today().normalize()
+    if match_date.normalize() > pd.Timestamp.today().normalize():
+        return True
+
+    home_score = row.get("home_score")
+    away_score = row.get("away_score")
+    return pd.isna(home_score) or pd.isna(away_score)
 
 
 def _load_league_table_rank_map(squad, season):

@@ -1,0 +1,57 @@
+{
+    "match_id": "1292362",
+    "season": "2026-2027",
+    "league": "Counties 2 Sussex",
+    "tracked_squad": "1st",
+    "date": "2026-09-26",
+    "teams": [
+        "Shoreham",
+        "Lewes"
+    ],
+    "score": [
+        29,
+        43
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/19257.png",
+        "https://images.englandrugby.com/club_images/12206.png"
+    ],
+    "players": [
+        {
+            "15": "Darren Locke",
+            "14": "Nathan Funnell",
+            "13": "Schaeff Potter",
+            "12": "Name withheld",
+            "11": "Sean Shepherd",
+            "10": "Adam Fear",
+            "9": "Jakob Smith",
+            "8": "Gavin Cox",
+            "7": "Harry Cracknell",
+            "6": "Steven Goater",
+            "5": "Ben French",
+            "4": "Alfie Cawkwell",
+            "3": "Mark Lavery",
+            "2": "Daryn Clarke",
+            "1": "Thomas Miller",
+            "S1": "Connor Fairhall",
+            "S2": "Arron Allison",
+            "S3": "Jack Soltermann"
+        },
+        {
+            "15": "Adam Hutchings",
+            "14": "Elliott Mills",
+            "13": "Thomas Roy",
+            "12": "Alexander Bray",
+            "11": "Louis Medhurst",
+            "10": "Curtis Burch",
+            "9": "Toby Duncan",
+            "8": "Harry Taylor",
+            "7": "Jack Bradford",
+            "6": "Benjamin Bishop",
+            "5": "Ian Thomas",
+            "4": "Alfie Green",
+            "3": "Thomas Petty",
+            "2": "Harry Rees"
+        }
+    ]
+}

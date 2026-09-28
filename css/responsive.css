@@ -533,6 +533,12 @@
         border: none;
     }
 
+    #page-squad-stats #leagueHistoryChart.chart-host--no-responsive-scale {
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        -webkit-overflow-scrolling: touch;
+    }
+
     #page-squad-stats #squadOverlapChart,
     #page-squad-stats #leagueSquadSizeContextChart,
     #page-squad-stats #leagueContinuityContextChart {

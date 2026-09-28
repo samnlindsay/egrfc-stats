@@ -56,6 +56,7 @@ from python.league_data import (
     get_current_season_label,
     normalize_season_arg,
     update_league_data,
+    update_league_wide_data,
     update_multiple_seasons_and_squads,
 )
 import altair as alt
@@ -72,6 +73,7 @@ def main(
     backend_mode="canonical",
     backend_db_path="data/egrfc_backend.duckdb",
     run_rfu_refresh=True,
+    run_league_wide_refresh=False,
     rfu_all=False,
     rfu_squad=None,
     rfu_season=None,
@@ -153,6 +155,32 @@ def main(
                 league_history_df=league_history_df,
                 refresh_missing_lineups=rfu_all_teams,
             )
+
+    if run_league_wide_refresh:
+        if rfu_all:
+            league_wide_seasons = None
+        else:
+            league_wide_seasons = [normalized_rfu_season or get_current_season_label()]
+        league_wide_pairs = get_active_season_squad_pairs(
+            league_history_df=league_history_df,
+            seasons=league_wide_seasons,
+            squads=[rfu_squad] if rfu_squad is not None else None,
+        )
+        if not league_wide_pairs:
+            raise ValueError(
+                "No League History division mapping found for the requested league-wide RFU refresh."
+            )
+        for season, squad in league_wide_pairs:
+            try:
+                print(f"Refreshing all teams in {season} squad {squad} league...")
+                update_league_wide_data(
+                    squad=squad,
+                    season=season,
+                    consolidated_file=rfu_matches_file,
+                    league_history_df=league_history_df,
+                )
+            except Exception as exc:
+                print(f"League-wide refresh failed for {season} squad {squad}: {exc}")
 
     if backend_mode != "canonical":
         raise ValueError("Only canonical backend mode is supported.")
@@ -283,7 +311,12 @@ if __name__ == "__main__":
     parser.add_argument(
         "--rfu-all-teams",
         action="store_true",
-        help="Retry played fixtures missing one/both lineups to improve league-wide squad size/returners coverage",
+        help="Retry EG fixtures missing one/both lineups to improve EG squad statistics",
+    )
+    parser.add_argument(
+        "--rfu-league-wide",
+        action="store_true",
+        help="Fetch all teams' results and available lineups in each selected EG league division",
     )
     parser.add_argument(
         "--rfu-matches-file",
@@ -297,6 +330,7 @@ if __name__ == "__main__":
         backend_mode=args.backend_mode,
         backend_db_path=args.db_path,
         run_rfu_refresh=not args.skip_rfu_refresh,
+        run_league_wide_refresh=args.rfu_league_wide,
         rfu_all=args.rfu_all,
         rfu_squad=args.rfu_squad,
         rfu_season=args.rfu_season,

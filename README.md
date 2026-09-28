@@ -109,6 +109,16 @@ Retry played fixtures missing lineups (improves league-wide squad-size/returners
 ./env/bin/python python/update.py --backend-mode canonical --rfu-all-teams
 ```
 
+Fetch every fixture in the selected EG league division, including matches between other clubs, and scrape both available lineups from each played match:
+
+```bash
+./env/bin/python python/update.py --backend-mode canonical --rfu-league-wide --rfu-season 2026/27
+```
+
+Use `--rfu-squad 1` or `--rfu-squad 2` to restrict the refresh to one EG division. To refresh every configured division across all League History seasons, add `--rfu-all` instead of `--rfu-season`; this can make many RFU requests. RFU lineup availability varies by match. All fixtures are stored in the existing `data/matches.json` source and exposed through the league-context backend tables; opponent players do not enter EG's canonical player statistics.
+
+`--rfu-all-teams` only retries missing lineups on EG-tracked fixtures. Use `--rfu-league-wide` when you need all clubs' results and lineups in those divisions.
+
 Skip RFU refresh and build from existing `data/matches.json`:
 
 ```bash
@@ -151,7 +161,8 @@ Key options:
 - `--rfu-all`: refresh all League History seasons/squads
 - `--rfu-season`: constrain RFU refresh to one season (`YYYY/YY` or `YYYY-YYYY`)
 - `--rfu-squad`: constrain RFU refresh to one squad number
-- `--rfu-all-teams`: re-fetch played fixtures missing one/both lineups
+- `--rfu-all-teams`: retry EG-tracked fixtures missing one/both lineups
+- `--rfu-league-wide`: fetch every fixture and available lineup in the selected EG league divisions
 - `--rfu-matches-file`: path to consolidated RFU match JSON used by backend
 
 ## Tests and CI

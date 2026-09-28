@@ -6464,6 +6464,19 @@ button.opposition-hero-action-card:focus-visible {
 
 #page-squad-stats .league-history-legend {
     margin-top: 0.75rem;
+    width: 100%;
+    max-width: none;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.55rem 1.25rem;
+}
+
+#page-squad-stats .league-history-legend > span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
 }
 
 #page-squad-stats .league-history-legend-symbol {
