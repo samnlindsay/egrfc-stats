@@ -19,11 +19,17 @@ from pathlib import Path
 import duckdb
 import vl_convert as vlc
 
+from python.backend import IN_GAME_PLAYER_ALIAS_CANONICAL, _canonical_player_name_for_season
+
+from python.backend import IN_GAME_PLAYER_ALIAS_CANONICAL, _canonical_player_name_for_season
+
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_DB_PATH = "data/egrfc_backend.duckdb"
 DEFAULT_REPORT_DIR = Path("reports/generated")
 SITE_COLORS = {"navy": "#202946", "blue": "#7d96e8", "red": "#981515", "paper": "#f2f1f4"}
+MIN_JUMPER_ATTEMPTS = 10
+TIGHT5_POSITIONS = {"prop", "hooker", "second row"}
 
 
 def _markdown(value):
@@ -93,6 +99,71 @@ def _position_appearance_bar(appearances):
     return "".join(output)
 
 
+def _has_majority_tight5_starts(appearances):
+    starts = [row for row in appearances if row.get("is_starter")]
+    tight5_starts = sum(
+        str(row.get("position") or "").strip().casefold() in TIGHT5_POSITIONS
+        for row in starts
+    )
+    return bool(starts) and tight5_starts * 2 > len(starts)
+
+
+def _meets_jumper_attempt_threshold(attempts):
+    return int(attempts or 0) >= MIN_JUMPER_ATTEMPTS
+
+
+def _started_set_piece_summary_rows(rows, won_field, total_field):
+    by_season_squad = {
+        (row["season"], row["squad"]): row
+        for row in rows
+    }
+    summary_rows = []
+    for season in sorted({row["season"] for row in rows if row.get("season")}):
+        values = [season]
+        overall_won = 0
+        overall_total = 0
+        for squad in ("1st", "2nd"):
+            row = by_season_squad.get((season, squad), {})
+            won = int(row.get(won_field) or 0)
+            total = int(row.get(total_field) or 0)
+            overall_won += won
+            overall_total += total
+            values.extend(
+                [won, total, f"{100 * won / total:.1f}%"] if total > 0 else ["", "", ""]
+            )
+        values.extend(
+            [overall_won, overall_total, f"{100 * overall_won / overall_total:.1f}%"]
+            if overall_total > 0 else ["", "", ""]
+        )
+        summary_rows.append(values)
+    totals_by_squad = {squad: {"won": 0, "total": 0} for squad in ("1st", "2nd")}
+    for row in rows:
+        squad = row.get("squad")
+        if squad not in totals_by_squad:
+            continue
+        totals_by_squad[squad]["won"] += int(row.get(won_field) or 0)
+        totals_by_squad[squad]["total"] += int(row.get(total_field) or 0)
+
+    total_values = ["Total"]
+    overall_won = 0
+    overall_total = 0
+    for squad in ("1st", "2nd"):
+        won = totals_by_squad[squad]["won"]
+        total = totals_by_squad[squad]["total"]
+        overall_won += won
+        overall_total += total
+        total_values.extend(
+            [won, total, f"{100 * won / total:.1f}%"] if total > 0 else ["", "", ""]
+        )
+    total_values.extend(
+        [overall_won, overall_total, f"{100 * overall_won / overall_total:.1f}%"]
+        if overall_total > 0 else ["", "", ""]
+    )
+    if rows:
+        summary_rows.append(total_values)
+    return summary_rows
+
+
 def _matches_motm(motm, player_name):
     candidates = re.split(r"\s*(?:,|/|&|\band\b|\+)\s*", str(motm or ""), flags=re.IGNORECASE)
     return any(_player_name_key(candidate) == _player_name_key(player_name) for candidate in candidates)
@@ -109,6 +180,14 @@ def _player_name_key(value):
         return overrides[name.casefold()]
     parts = name.split(" ", 1)
     return f"{parts[0][0]} {parts[1]}".casefold() if len(parts) == 2 else name.casefold()
+
+
+def _report_scorer_player_key(value, season):
+    return _player_name_key(_canonical_player_name_for_season(value, season))
+
+
+def _report_scorer_player_key(value, season):
+    return _player_name_key(_canonical_player_name_for_season(value, season))
 
 
 def _load_chart_spec(filename):
@@ -751,6 +830,7 @@ class ReportGenerator:
             raise FileNotFoundError(f"Backend database not found: {path}")
         self.con = duckdb.connect(str(path), read_only=True)
         self.con.create_function("report_player_key", _player_name_key, [str], str)
+        self.con.create_function("report_scorer_key", _report_scorer_player_key, [str, str], str)
 
     def close(self):
         self.con.close()
@@ -759,6 +839,127 @@ class ReportGenerator:
         cursor = self.con.execute(query, params or [])
         columns = [item[0] for item in cursor.description]
         return [dict(zip(columns, row)) for row in cursor.fetchall()]
+
+    @staticmethod
+    def _pitchero_alias_names(player_name):
+        return [
+            alias
+            for alias, canonical in IN_GAME_PLAYER_ALIAS_CANONICAL.items()
+            if _player_name_key(canonical) == _player_name_key(player_name)
+        ]
+
+    def _pitchero_alias_game_keys(self, player_name):
+        aliases = self._pitchero_alias_names(player_name)
+        if not aliases:
+            return set()
+        placeholders = ", ".join("?" for _ in aliases)
+        rows = self._rows(
+            f"""SELECT DISTINCT p.game_id, p.date, p.squad
+                FROM player_appearances_stage_pitchero p
+                JOIN player_appearances_stage_google g
+                  ON g.game_id = p.game_id
+                 AND g.date = p.date
+                 AND g.squad = p.squad
+                WHERE p.player IN ({placeholders})
+                  AND report_player_key(g.player) = report_player_key(?)""",
+            [*aliases, player_name],
+        )
+        return {(row["game_id"], row["date"], row["squad"]) for row in rows}
+
+    def _pitchero_scorer_game_keys(self, player_name):
+        rows = self._rows(
+            """SELECT DISTINCT game_id, date, squad
+               FROM scorers_stage_pitchero
+               WHERE report_scorer_key(player, season) = report_player_key(?)""",
+            [player_name],
+        )
+        return {(row["game_id"], row["date"], row["squad"]) for row in rows}
+
+    def _lineout_role_match_sql(self, role, player_name):
+        aliases = self._pitchero_alias_names(player_name) if role == "jumper" else []
+        clause = f"report_player_key(lo.{role}) = report_player_key(?)"
+        params = [player_name]
+        if aliases:
+            placeholders = ", ".join("?" for _ in aliases)
+            clause = (
+                f"({clause} OR EXISTS ("
+                "SELECT 1 FROM player_appearances_stage_pitchero p "
+                "JOIN player_appearances_stage_google g "
+                "ON g.game_id = p.game_id AND g.date = p.date AND g.squad = p.squad "
+                f"WHERE p.player IN ({placeholders}) "
+                "AND report_player_key(g.player) = report_player_key(?) "
+                "AND p.game_id = lo.game_id AND p.date = lo.date AND p.squad = lo.squad))"
+            )
+            params.extend(aliases)
+            params.append(player_name)
+        return clause, params
+
+    @staticmethod
+    def _pitchero_alias_names(player_name):
+        return [
+            alias
+            for alias, canonical in IN_GAME_PLAYER_ALIAS_CANONICAL.items()
+            if _player_name_key(canonical) == _player_name_key(player_name)
+        ]
+
+    def _pitchero_alias_game_keys(self, player_name):
+        aliases = self._pitchero_alias_names(player_name)
+        if not aliases:
+            return set()
+        placeholders = ", ".join("?" for _ in aliases)
+        rows = self._rows(
+            f"""SELECT DISTINCT p.game_id, p.date, p.squad
+                FROM player_appearances_stage_pitchero p
+                JOIN player_appearances_stage_google g
+                  ON g.game_id = p.game_id
+                 AND g.date = p.date
+                 AND g.squad = p.squad
+                WHERE p.player IN ({placeholders})
+                  AND report_player_key(g.player) = report_player_key(?)""",
+            [*aliases, player_name],
+        )
+        return {(row["game_id"], row["date"], row["squad"]) for row in rows}
+
+    def _lineout_role_match_sql(self, role, player_name):
+        aliases = self._pitchero_alias_names(player_name) if role == "jumper" else []
+        clause = f"report_player_key(lo.{role}) = report_player_key(?)"
+        params = [player_name]
+        if aliases:
+            placeholders = ", ".join("?" for _ in aliases)
+            clause = (
+                f"({clause} OR EXISTS ("
+                "SELECT 1 FROM player_appearances_stage_pitchero p "
+                "JOIN player_appearances_stage_google g "
+                "ON g.game_id = p.game_id AND g.date = p.date AND g.squad = p.squad "
+                f"WHERE p.player IN ({placeholders}) "
+                "AND report_player_key(g.player) = report_player_key(?) "
+                "AND p.game_id = lo.game_id AND p.date = lo.date AND p.squad = lo.squad))"
+            )
+            params.extend(aliases)
+            params.append(player_name)
+        return clause, params
+
+    def _started_set_piece_success(self, player_name):
+        return self._rows(
+            """SELECT sp.season, sp.squad,
+                      SUM(COALESCE(sp.scrums_won, 0)) AS scrums_won,
+                      SUM(COALESCE(sp.scrums_total, 0)) AS scrums_total,
+                      SUM(COALESCE(sp.lineouts_won, 0)) AS lineouts_won,
+                      SUM(COALESCE(sp.lineouts_total, 0)) AS lineouts_total
+               FROM set_piece sp
+               WHERE sp.team = 'EGRFC'
+                 AND EXISTS (
+                     SELECT 1
+                     FROM player_appearances a
+                     WHERE a.game_id = sp.game_id
+                       AND a.squad = sp.squad
+                       AND a.is_starter = TRUE
+                       AND report_player_key(a.player) = report_player_key(?)
+                 )
+               GROUP BY sp.season, sp.squad
+               ORDER BY sp.season, sp.squad""",
+            [player_name],
+        )
 
     def _resolve_name(self, table, column, requested):
         rows = self._rows(
@@ -848,8 +1049,9 @@ class ReportGenerator:
                       ) source_scores
                       GROUP BY game_id, date, squad, player
                   ) resolved
-                WHERE report_player_key(resolved.player) = report_player_key(a.player)
-                    AND (resolved.game_id = a.game_id OR (resolved.date = a.date AND resolved.squad = a.squad))
+                     WHERE (report_player_key(resolved.player) = report_player_key(a.player)
+                         OR report_scorer_key(resolved.player, a.season) = report_player_key(a.player))
+                        AND (resolved.game_id = a.game_id OR (resolved.date = a.date AND resolved.squad = a.squad))
                   ORDER BY CASE WHEN resolved.game_id = a.game_id THEN 0 ELSE 1 END
                   LIMIT 1
                  ) sc ON TRUE
@@ -858,6 +1060,14 @@ class ReportGenerator:
             """,
             [name],
         )
+        pitchero_source_game_keys = (
+            self._pitchero_alias_game_keys(name)
+            | self._pitchero_scorer_game_keys(name)
+        )
+        for row in appearances:
+            appearance_key = (row["game_id"], row["date"], row["squad"])
+            if appearance_key in pitchero_source_game_keys:
+                row["pitchero_source"] = True
         positions = {}
         seasons = {}
         for row in appearances:
@@ -883,6 +1093,15 @@ class ReportGenerator:
                         league_item[key] += int(bool(row["is_starter"])) if key == "starts" else (row["tries"] or 0 if key == "tries" else row["points"] or 0 if key == "points" else 1)
                     if result in {"W", "D", "L"}:
                         league_item[{"W": "wins", "D": "draws", "L": "losses"}[result]] += 1
+        include_scrum_success = _has_majority_tight5_starts(appearances)
+        jumper_match_sql, jumper_match_params = self._lineout_role_match_sql("jumper", name)
+        jumper_attempt_rows = self._rows(
+            f"SELECT COUNT(*) AS attempts FROM lineouts lo WHERE lo.jumper IS NOT NULL AND {jumper_match_sql}",
+            jumper_match_params,
+        )
+        total_jump_attempts = int(jumper_attempt_rows[0]["attempts"] or 0) if jumper_attempt_rows else 0
+        include_lineout_success = _meets_jumper_attempt_threshold(total_jump_attempts)
+        started_set_piece = self._started_set_piece_success(name) if include_scrum_success or include_lineout_success else []
         main_position = sorted(positions.items(), key=lambda pair: (-pair[1], pair[0]))
         scoring = {
             "tries": sum(row["tries"] or 0 for row in appearances),
@@ -1045,6 +1264,12 @@ class ReportGenerator:
             _table(season_headers, season_rows),
             "",
         ])
+        success_headers = ["Season::Season"]
+        for squad_label in ("1st XV", "2nd XV", "Overall"):
+            success_headers.extend(
+                f"{squad_label}::{column}"
+                for column in ("Won", "Total", "Success")
+            )
         if score_rows and scoring_metrics:
             score_headers = ["Season::Season"]
             squad_labels = {"1st": "1st XV", "2nd": "2nd XV", "Overall": "Overall"}
@@ -1080,13 +1305,14 @@ class ReportGenerator:
                 [(row["player"], row["games"]) for row in [r for r in position_teammates if r["position"] == position][:top_n]],
             )])
         def lineout_breakdown(role, group_column, limit=None, order="attempts DESC, label"):
+            role_match_sql, role_match_params = self._lineout_role_match_sql(role, name)
             return self._rows(
-                f"""SELECT COALESCE(CAST({group_column} AS VARCHAR), 'Unspecified') AS label,
+                f"""SELECT COALESCE(CAST(lo.{group_column} AS VARCHAR), 'Unspecified') AS label,
                           COUNT(*) AS attempts, SUM(CASE WHEN won THEN 1 ELSE 0 END) AS won
-                   FROM lineouts WHERE {role} = ?
+                   FROM lineouts lo WHERE {role_match_sql}
                    GROUP BY label ORDER BY {order}
                    {'LIMIT ' + str(int(limit)) if limit else ''}""",
-                [name],
+                role_match_params,
             )
 
         def lineout_table(heading, rows):
@@ -1099,14 +1325,40 @@ class ReportGenerator:
             self.last_player_html_sections[key] = f'<div class="lineout-grid">{_markdown_html(chr(10).join(table + chr(10) for table in tables))}</div>'
             return f"@@{key}@@"
 
-        jumping_areas = lineout_breakdown("jumper", "area")
-        jumping_throwers = lineout_breakdown("jumper", "thrower", limit=5)
-        jumping_seasons = lineout_breakdown("jumper", "season", order="label")
+        jumping_areas = lineout_breakdown("jumper", "area") if include_lineout_success else []
+        jumping_throwers = lineout_breakdown("jumper", "thrower", limit=5) if include_lineout_success else []
+        jumping_seasons = lineout_breakdown("jumper", "season", order="label") if include_lineout_success else []
         throwing_areas = lineout_breakdown("thrower", "area")
         throwing_jumpers = lineout_breakdown("thrower", "jumper", limit=5)
         throwing_seasons = lineout_breakdown("thrower", "season", order="label")
-        if jumping_areas or throwing_areas:
-            lines.extend(["", "## Lineout Record", ""])
+        has_scrum_success = include_scrum_success and any(row["scrums_total"] for row in started_set_piece)
+        has_lineout_success = include_lineout_success and any(row["lineouts_total"] for row in started_set_piece)
+        if has_scrum_success or has_lineout_success or jumping_areas or throwing_areas:
+            lines.extend(["", "## Set Piece Record", ""])
+        if has_scrum_success:
+            lines.extend([
+                "### Team Scrum Success",
+                "",
+                "Team scrums in games the player started; shown because more than half of their career starts were in the tight five.",
+                "",
+                _table(
+                    success_headers,
+                    _started_set_piece_summary_rows(started_set_piece, "scrums_won", "scrums_total"),
+                ),
+                "",
+            ])
+        if has_lineout_success:
+            lines.extend([
+                "### Team Lineout Success",
+                "",
+                "Team lineouts in games the player started; shown because they have at least 10 career lineout jump attempts.",
+                "",
+                _table(
+                    success_headers,
+                    _started_set_piece_summary_rows(started_set_piece, "lineouts_won", "lineouts_total"),
+                ),
+                "",
+            ])
         if jumping_areas:
             lines.extend(["### Jumping", "", lineout_grid("LINEOUT_JUMPING", lineout_table("Season", jumping_seasons), lineout_table("Area", jumping_areas), lineout_table("Thrower", jumping_throwers)), ""])
         if throwing_areas:
