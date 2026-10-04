@@ -1872,6 +1872,24 @@
     "won": 1
   },
   {
+    "game_id": "2026-10-03_1st_Shoreham",
+    "date": "2026-10-03",
+    "squad": "1st",
+    "season": "2026/27",
+    "game_type": "League",
+    "opposition": "Shoreham",
+    "numbers": "5",
+    "area": "Middle",
+    "call": "12",
+    "call_type": "SLM",
+    "play": "Hot",
+    "jumper_name": "Sam Lindsay-McCall",
+    "thrower_name": "Ben Tottman",
+    "jumper": "Sam L",
+    "thrower": "Ben T",
+    "won": 1
+  },
+  {
     "game_id": "2021-08-28_1st_London_Irish",
     "date": "2021-08-28",
     "squad": "1st",
@@ -3723,6 +3741,24 @@
     "thrower_name": "George Beet",
     "jumper": "Pete M",
     "thrower": "George B",
+    "won": 1
+  },
+  {
+    "game_id": "2026-10-03_1st_Shoreham",
+    "date": "2026-10-03",
+    "squad": "1st",
+    "season": "2026/27",
+    "game_type": "League",
+    "opposition": "Shoreham",
+    "numbers": "5",
+    "area": "Back",
+    "call": "3",
+    "call_type": "SLM",
+    "play": "Hot",
+    "jumper_name": "Sam Lindsay-McCall",
+    "thrower_name": "Ben Tottman",
+    "jumper": "Sam L",
+    "thrower": "Ben T",
     "won": 1
   },
   {
@@ -5595,6 +5631,24 @@
     "thrower_name": "George Beet",
     "jumper": "Pete M",
     "thrower": "George B",
+    "won": 1
+  },
+  {
+    "game_id": "2026-10-03_1st_Shoreham",
+    "date": "2026-10-03",
+    "squad": "1st",
+    "season": "2026/27",
+    "game_type": "League",
+    "opposition": "Shoreham",
+    "numbers": "4",
+    "area": "Back",
+    "call": "*",
+    "call_type": "Other",
+    "play": "Hot",
+    "jumper_name": "Sam Lindsay-McCall",
+    "thrower_name": "Ben Tottman",
+    "jumper": "Sam L",
+    "thrower": "Ben T",
     "won": 1
   },
   {
@@ -7503,6 +7557,24 @@
     "thrower_name": "George Beet",
     "jumper": "Pete M",
     "thrower": "George B",
+    "won": 1
+  },
+  {
+    "game_id": "2026-10-03_1st_Shoreham",
+    "date": "2026-10-03",
+    "squad": "1st",
+    "season": "2026/27",
+    "game_type": "League",
+    "opposition": "Shoreham",
+    "numbers": "5",
+    "area": "Middle",
+    "call": "2",
+    "call_type": "SLM",
+    "play": "Cold",
+    "jumper_name": "Sam Lindsay-McCall",
+    "thrower_name": "Ben Tottman",
+    "jumper": "Sam L",
+    "thrower": "Ben T",
     "won": 1
   },
   {
@@ -9414,6 +9486,24 @@
     "won": 1
   },
   {
+    "game_id": "2026-10-03_1st_Shoreham",
+    "date": "2026-10-03",
+    "squad": "1st",
+    "season": "2026/27",
+    "game_type": "League",
+    "opposition": "Shoreham",
+    "numbers": "5",
+    "area": "Front",
+    "call": "*",
+    "call_type": "Other",
+    "play": "Lost",
+    "jumper_name": "Rory Evans",
+    "thrower_name": "Ben Tottman",
+    "jumper": "Rory E",
+    "thrower": "Ben T",
+    "won": 0
+  },
+  {
     "game_id": "2021-08-28_1st_London_Irish",
     "date": "2021-08-28",
     "squad": "1st",
@@ -11250,6 +11340,24 @@
     "won": 1
   },
   {
+    "game_id": "2026-10-03_1st_Shoreham",
+    "date": "2026-10-03",
+    "squad": "1st",
+    "season": "2026/27",
+    "game_type": "League",
+    "opposition": "Shoreham",
+    "numbers": "5",
+    "area": "Middle",
+    "call": "*",
+    "call_type": "Other",
+    "play": "Cold",
+    "jumper_name": "Sam Lindsay-McCall",
+    "thrower_name": "Ben Tottman",
+    "jumper": "Sam L",
+    "thrower": "Ben T",
+    "won": 1
+  },
+  {
     "game_id": "2021-08-28_1st_London_Irish",
     "date": "2021-08-28",
     "squad": "1st",
@@ -12852,6 +12960,24 @@
     "won": 0
   },
   {
+    "game_id": "2026-10-03_1st_Shoreham",
+    "date": "2026-10-03",
+    "squad": "1st",
+    "season": "2026/27",
+    "game_type": "League",
+    "opposition": "Shoreham",
+    "numbers": "5",
+    "area": "Front",
+    "call": "1",
+    "call_type": "SLM",
+    "play": "Lost",
+    "jumper_name": "Rory Evans",
+    "thrower_name": "Ben Tottman",
+    "jumper": "Rory E",
+    "thrower": "Ben T",
+    "won": 0
+  },
+  {
     "game_id": "2021-08-28_1st_London_Irish",
     "date": "2021-08-28",
     "squad": "1st",
@@ -14364,6 +14490,24 @@
     "won": 1
   },
   {
+    "game_id": "2026-10-03_1st_Shoreham",
+    "date": "2026-10-03",
+    "squad": "1st",
+    "season": "2026/27",
+    "game_type": "League",
+    "opposition": "Shoreham",
+    "numbers": "5",
+    "area": "Middle",
+    "call": "2",
+    "call_type": "SLM",
+    "play": "Hot",
+    "jumper_name": "Sam Lindsay-McCall",
+    "thrower_name": "Mark Oliver",
+    "jumper": "Sam L",
+    "thrower": "Mark O",
+    "won": 1
+  },
+  {
     "game_id": "2021-08-28_1st_London_Irish",
     "date": "2021-08-28",
     "squad": "1st",
@@ -15822,6 +15966,24 @@
     "won": 1
   },
   {
+    "game_id": "2026-10-03_1st_Shoreham",
+    "date": "2026-10-03",
+    "squad": "1st",
+    "season": "2026/27",
+    "game_type": "League",
+    "opposition": "Shoreham",
+    "numbers": "5",
+    "area": "Middle",
+    "call": "2",
+    "call_type": "SLM",
+    "play": "Hot",
+    "jumper_name": "Sam Lindsay-McCall",
+    "thrower_name": "Mark Oliver",
+    "jumper": "Sam L",
+    "thrower": "Mark O",
+    "won": 1
+  },
+  {
     "game_id": "2021-08-28_1st_London_Irish",
     "date": "2021-08-28",
     "squad": "1st",
@@ -17118,6 +17280,24 @@
     "won": 0
   },
   {
+    "game_id": "2026-10-03_1st_Shoreham",
+    "date": "2026-10-03",
+    "squad": "1st",
+    "season": "2026/27",
+    "game_type": "League",
+    "opposition": "Shoreham",
+    "numbers": "4",
+    "area": "Back",
+    "call": "*",
+    "call_type": "Other",
+    "play": "Hot",
+    "jumper_name": "Sam Lindsay-McCall",
+    "thrower_name": "Mark Oliver",
+    "jumper": "Sam L",
+    "thrower": "Mark O",
+    "won": 1
+  },
+  {
     "game_id": "2021-08-28_1st_London_Irish",
     "date": "2021-08-28",
     "squad": "1st",
@@ -18270,6 +18450,24 @@
     "won": 1
   },
   {
+    "game_id": "2026-10-03_1st_Shoreham",
+    "date": "2026-10-03",
+    "squad": "1st",
+    "season": "2026/27",
+    "game_type": "League",
+    "opposition": "Shoreham",
+    "numbers": "5",
+    "area": "Middle",
+    "call": "2+",
+    "call_type": "Other",
+    "play": "Hot",
+    "jumper_name": "Sam Lindsay-McCall",
+    "thrower_name": "Mark Oliver",
+    "jumper": "Sam L",
+    "thrower": "Mark O",
+    "won": 1
+  },
+  {
     "game_id": "2021-09-04_1st_Horsham",
     "date": "2021-09-04",
     "squad": "1st",
@@ -19206,6 +19404,24 @@
     "won": 1
   },
   {
+    "game_id": "2026-10-03_1st_Shoreham",
+    "date": "2026-10-03",
+    "squad": "1st",
+    "season": "2026/27",
+    "game_type": "League",
+    "opposition": "Shoreham",
+    "numbers": "5",
+    "area": "Middle",
+    "call": "*",
+    "call_type": "Other",
+    "play": "Hot",
+    "jumper_name": "Sam Lindsay-McCall",
+    "thrower_name": "Mark Oliver",
+    "jumper": "Sam L",
+    "thrower": "Mark O",
+    "won": 1
+  },
+  {
     "game_id": "2021-09-04_1st_Horsham",
     "date": "2021-09-04",
     "squad": "1st",
@@ -19977,6 +20193,24 @@
     "thrower_name": "Ben Tottman",
     "jumper": "John P",
     "thrower": "Ben T",
+    "won": 0
+  },
+  {
+    "game_id": "2026-10-03_1st_Shoreham",
+    "date": "2026-10-03",
+    "squad": "1st",
+    "season": "2026/27",
+    "game_type": "League",
+    "opposition": "Shoreham",
+    "numbers": "5",
+    "area": "Middle",
+    "call": "2+",
+    "call_type": "Other",
+    "play": "Lost",
+    "jumper_name": "Sam Lindsay-McCall",
+    "thrower_name": "Mark Oliver",
+    "jumper": "Sam L",
+    "thrower": "Mark O",
     "won": 0
   },
   {

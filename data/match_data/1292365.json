@@ -1,0 +1,55 @@
+{
+    "match_id": "1292365",
+    "season": "2026-2027",
+    "league": "Counties 2 Sussex",
+    "tracked_squad": "1st",
+    "date": "2026-10-03",
+    "teams": [
+        "East Grinstead",
+        "Shoreham"
+    ],
+    "score": [
+        83,
+        0
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7134.png",
+        "https://images.englandrugby.com/club_images/19257.png"
+    ],
+    "players": [
+        {
+            "15": "Luke Maker",
+            "14": "William Roberts",
+            "13": "Max Crawley-Moore",
+            "12": "Ted Hardisty",
+            "11": "Alistair Moffatt",
+            "10": "Noah Roberts",
+            "9": "Name withheld",
+            "8": "Owen Peel",
+            "5": "Rory evans",
+            "4": "Samuel Lindsay-Mccall",
+            "3": "Guy Collins",
+            "2": "Mark Oliver",
+            "1": "Joshua Brimecombe",
+            "S1": "Benjamin Tottman",
+            "S2": "Ryland Thomas"
+        },
+        {
+            "15": "Darren Locke",
+            "14": "Nathan Funnell",
+            "13": "Sean Shepherd",
+            "12": "Finnbar Broxup",
+            "11": "Harry Cracknell",
+            "10": "Adam Fear",
+            "9": "Archie Winter",
+            "8": "Ben French",
+            "5": "Steven Goater",
+            "4": "George Thomas",
+            "3": "Mark Lavery",
+            "2": "Daryn Clarke",
+            "1": "Thomas Miller",
+            "S1": "Vinnie Bethune",
+            "S2": "Louie Bryant"
+        }
+    ]
+}

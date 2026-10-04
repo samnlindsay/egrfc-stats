@@ -1,0 +1,59 @@
+{
+    "match_id": "1304000",
+    "season": "2026-2027",
+    "league": "Harvey's Brewery Counties 3 Sussex",
+    "tracked_squad": "2nd",
+    "date": "2026-10-03",
+    "teams": [
+        "Pulborough II",
+        "East Grinstead II"
+    ],
+    "score": [
+        52,
+        20
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/17257.png",
+        "https://images.englandrugby.com/club_images/7136.png"
+    ],
+    "players": [
+        {
+            "15": "Tom Doherty",
+            "14": "Mikey Goldthorpe",
+            "13": "James Hobbs",
+            "12": "Bryan Woodhouse",
+            "11": "Name withheld",
+            "10": "Jack Corbett",
+            "9": "Jake Fisher",
+            "8": "Ivan Jones",
+            "7": "Oscar Gravell",
+            "6": "Brogan Jeffries",
+            "5": "Hayden West",
+            "4": "Charles Stephenson Coggan",
+            "3": "Michael Woodhouse",
+            "2": "Joseph Billinghurst",
+            "1": "Samuel Mcsorley",
+            "S1": "James Ruff",
+            "S2": "Jonathan Scrase",
+            "S3": "Jonathan Brookstein"
+        },
+        {
+            "15": "Jude Lavender",
+            "14": "Oliver Roberts",
+            "13": "Alistair Moffatt",
+            "12": "Louis Duvall",
+            "11": "Nathan Randall",
+            "10": "Benjamin Gray",
+            "9": "Chris Taylor",
+            "8": "Or Shay",
+            "7": "Josh Weaver",
+            "6": "Daniel Harding",
+            "4": "Oscar Staples",
+            "3": "Reggie Harris",
+            "2": "George Beet",
+            "1": "Dylan Hammocks",
+            "S1": "Frankie Harris",
+            "S2": "Idris Lawal"
+        }
+    ]
+}
