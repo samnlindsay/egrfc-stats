@@ -34909,13 +34909,53 @@
             "Ditchling"
         ],
         "score": [
-            null,
-            null
+            21,
+            43
         ],
-        "logos": [],
+        "logos": [
+            "https://images.englandrugby.com/club_images/7213.png",
+            "https://images.englandrugby.com/club_images/6541.png"
+        ],
         "players": [
-            {},
-            {}
+            {
+                "15": "Cameron Foley",
+                "14": "Owen Parkins",
+                "12": "Harrison Bourne",
+                "11": "Freddie Hayes",
+                "10": "Martial Chaput",
+                "9": "Louis Nicholls",
+                "8": "Charlie Milner",
+                "7": "Felix Hawthorne",
+                "6": "Michael Morehen",
+                "5": "Joshua King",
+                "4": "Trystan Mocke",
+                "3": "Alun Cranch",
+                "2": "Konrad Oneill",
+                "1": "Amro Hammer",
+                "S1": "Paul Smith",
+                "S2": "Freddie Hayes",
+                "S3": "Stuart Sorrell"
+            },
+            {
+                "15": "Nick Whitley-Jones",
+                "14": "Takhy Ndiaye Marrero",
+                "13": "Sonny Smyth",
+                "12": "Adam Crook",
+                "11": "Luke Dobson",
+                "10": "Teddy Birkbeck",
+                "9": "jonathan Hill",
+                "8": "James Cleary",
+                "7": "Bill Sibun",
+                "6": "Murray Jardine",
+                "5": "Ollie Van Hoeken",
+                "4": "Charles Jones",
+                "3": "jenson Taylor",
+                "2": "Samuel Lodge",
+                "1": "Gordon Costick",
+                "S1": "James Turner",
+                "S2": "Ben Poulton",
+                "S3": "billy jones"
+            }
         ]
     },
     {
@@ -34929,13 +34969,51 @@
             "Brighton II"
         ],
         "score": [
-            null,
-            null
+            27,
+            33
         ],
-        "logos": [],
+        "logos": [
+            "https://images.englandrugby.com/club_images/10504.png",
+            "https://images.englandrugby.com/club_images/3218.png"
+        ],
         "players": [
-            {},
-            {}
+            {
+                "15": "Ralph Harris",
+                "14": "Name withheld",
+                "13": "Thomas Kentell",
+                "12": "Rhowan Braybrook",
+                "11": "Thomas Berry",
+                "10": "josh Sloman",
+                "9": "Axl Wood",
+                "8": "Dylan Daniels",
+                "7": "Issac Thomas",
+                "6": "Benjamin Stokes",
+                "5": "Thibaut Julienne",
+                "4": "George Brown",
+                "3": "Adrian Shergold",
+                "2": "Samuel Mainwaring",
+                "1": "Gabriel Rudge-Williams",
+                "S1": "Tom Holborn",
+                "S2": "Toby Reed",
+                "S3": "Ruben Spencer"
+            },
+            {
+                "15": "Max Belson",
+                "14": "Charlie Maskrey",
+                "13": "Jonah Parker",
+                "12": "Harrison Rees",
+                "11": "Luke Jameson Clark",
+                "10": "George Miller",
+                "9": "Lucas Marsden",
+                "8": "Zak Ellenger",
+                "7": "Oliver Gaston",
+                "6": "Theo Hidalgo de Quintana",
+                "5": "Frederick Tilley",
+                "4": "Andrew Forrester",
+                "3": "Tom Foster",
+                "2": "JOHN obrien",
+                "1": "Fraser McCormack"
+            }
         ]
     },
     {
@@ -34949,13 +35027,53 @@
             "Burgess Hill"
         ],
         "score": [
-            null,
-            null
+            54,
+            31
         ],
-        "logos": [],
+        "logos": [
+            "https://images.englandrugby.com/club_images/18868.png",
+            "https://images.englandrugby.com/club_images/3659.png"
+        ],
         "players": [
-            {},
-            {}
+            {
+                "15": "Jack Armstrong",
+                "14": "Name withheld",
+                "13": "william joy",
+                "12": "Corey Digby-Clarke",
+                "11": "Josh Ellis-Smith",
+                "10": "Oscar Weisz",
+                "9": "Jason Dubas-Fisher",
+                "8": "Paddy Powney",
+                "7": "Charlie Guest",
+                "6": "Shaun Brewer",
+                "5": "Dominic Joy",
+                "4": "Joseph Drew",
+                "3": "Daniel Blunt",
+                "2": "Nathan Roberts",
+                "1": "Brendan Strick",
+                "S1": "Rhys Beale",
+                "S2": "Jake Davey",
+                "S3": "Daniel Thewlis"
+            },
+            {
+                "15": "Matheus Gava",
+                "14": "George Russell",
+                "13": "Vincenzo Dessena",
+                "12": "George Yeates",
+                "11": "Oliver Lewis",
+                "10": "Toby Lewis",
+                "9": "Jarod Van blerk",
+                "8": "Morgan Hill",
+                "7": "Daniel Stringer",
+                "6": "Tom Betts",
+                "5": "Timothy Daniel",
+                "4": "Kyle Tucker",
+                "3": "Bailey Upton",
+                "2": "Dylan Cheesmur",
+                "1": "Ben Mclaren",
+                "S1": "Kieran Sell",
+                "S2": "Yasin Chowdhury"
+            }
         ]
     },
     {
@@ -34969,10 +35087,13 @@
             "Horsham II"
         ],
         "score": [
-            null,
-            null
+            "",
+            "WO"
         ],
-        "logos": [],
+        "logos": [
+            "https://images.englandrugby.com/club_images/12206.png",
+            "https://images.englandrugby.com/club_images/10450.png"
+        ],
         "players": [
             {},
             {}
@@ -34989,13 +35110,35 @@
             "Worthing III"
         ],
         "score": [
-            null,
-            null
+            "WO",
+            ""
         ],
-        "logos": [],
+        "logos": [
+            "https://images.englandrugby.com/club_images/5807.png",
+            "https://images.englandrugby.com/club_images/127674.png"
+        ],
         "players": [
             {},
-            {}
+            {
+                "15": "Conor Kelly",
+                "14": "Dilip Thayagaraja",
+                "13": "Kristian Dean",
+                "12": "Thomas Flack",
+                "11": "Kai Marshall",
+                "10": "Stephen Wilson",
+                "9": "Callum Hankin",
+                "8": "Jozef Boczek",
+                "7": "Mason Campbell",
+                "6": "Charles Dennis",
+                "5": "Bradley Davies",
+                "4": "Henry Nyinguro",
+                "3": "Nathan Cox",
+                "2": "Robert Higgins",
+                "1": "Joel Fisher",
+                "S1": "Andrew Jagger",
+                "S2": "Henry Tyson",
+                "S3": "Oscar Davies"
+            }
         ]
     },
     {
@@ -35009,13 +35152,47 @@
             "Crowborough II"
         ],
         "score": [
-            null,
-            null
+            "WO",
+            ""
         ],
-        "logos": [],
+        "logos": [
+            "https://images.englandrugby.com/club_images/9777.png",
+            "https://images.englandrugby.com/club_images/5919.png"
+        ],
         "players": [
-            {},
-            {}
+            {
+                "15": "Adam Churchyard",
+                "14": "Thomas Farmer",
+                "13": "Edward Newey",
+                "12": "Josh Jones",
+                "11": "Herlander Mbunga",
+                "10": "Christopher Neill",
+                "9": "Tom Butler",
+                "8": "Fraser Russell",
+                "7": "Jacob Bates",
+                "6": "Matthew Linthwaite",
+                "5": "Henry Dickson",
+                "4": "Karl Wicking",
+                "3": "Harrison Thomas Edwards",
+                "2": "Elliott Higgin",
+                "1": "Louis Parker",
+                "S1": "Rory Robinson",
+                "S2": "George Wiscombe",
+                "S3": "Finlay Furse",
+                "S4": "Oscar Bover"
+            },
+            {
+                "15": "Finley Vos",
+                "14": "Lee Cagna",
+                "13": "Eli Hardwick",
+                "12": "Arran Faramus",
+                "10": "Thomas Woodgate",
+                "9": "Harvey Thatcher",
+                "8": "James Crouch",
+                "7": "Robert Horsfall-Turner",
+                "6": "Frank Hanson",
+                "4": "Oliver Jude-Trailor"
+            }
         ]
     },
     {
@@ -35029,13 +35206,51 @@
             "Uckfield"
         ],
         "score": [
-            null,
-            null
+            0,
+            40
         ],
-        "logos": [],
+        "logos": [
+            "https://images.englandrugby.com/club_images/10451.png",
+            "https://images.englandrugby.com/club_images/23445.png"
+        ],
         "players": [
-            {},
-            {}
+            {
+                "15": "Kieran Baker",
+                "14": "Lewis Ryan",
+                "13": "Antoni Rykala",
+                "12": "Richard Henderson",
+                "11": "Thomas White",
+                "10": "Max Elliott",
+                "9": "Josh Blake",
+                "8": "Rory Cormack",
+                "7": "Tom Britten",
+                "6": "Ciaran FitzGerald",
+                "5": "Daniel Macklin",
+                "4": "Steve Dunster",
+                "3": "Stephen Etherington",
+                "2": "Antoni Rykala",
+                "1": "Steve Dunster",
+                "S1": "Connall Scott",
+                "S2": "Oisin Mcwalter",
+                "S3": "Ethan Baldwin"
+            },
+            {
+                "15": "Adam Young",
+                "14": "Matt Parish",
+                "13": "Jordan Heir",
+                "12": "Harvey Pratt",
+                "11": "Thomas Booth",
+                "10": "Jacob Bilton",
+                "9": "James Crisp",
+                "8": "Stephen Hartfield",
+                "7": "Alfie Mitchell",
+                "6": "Matthew Pratt",
+                "5": "Matthew Longhurst",
+                "4": "Adam Dean",
+                "3": "Charles Rumary",
+                "2": "Oliver O'Riordan",
+                "1": "James Edwards"
+            }
         ]
     },
     {
@@ -35049,10 +35264,13 @@
             "Hastings & Bexhill II"
         ],
         "score": [
-            null,
-            null
+            "WO",
+            ""
         ],
-        "logos": [],
+        "logos": [
+            "https://images.englandrugby.com/club_images/94051.png",
+            "https://images.englandrugby.com/club_images/9654.png"
+        ],
         "players": [
             {},
             {}
@@ -35638,26 +35856,6 @@
         ]
     },
     {
-        "match_id": "1304016",
-        "season": "2026-2027",
-        "league": "Harvey's Brewery Counties 3 Sussex",
-        "tracked_squad": "2nd",
-        "date": "2026-10-31",
-        "teams": [
-            "East Grinstead II",
-            "Royals RFC"
-        ],
-        "score": [
-            null,
-            null
-        ],
-        "logos": [],
-        "players": [
-            {},
-            {}
-        ]
-    },
-    {
         "match_id": "1304015",
         "season": "2026-2027",
         "league": "Harvey's Brewery Counties 3 Sussex",
@@ -36105,6 +36303,26 @@
         "date": "2026-11-21",
         "teams": [
             "Pulborough II",
+            "Royals RFC"
+        ],
+        "score": [
+            null,
+            null
+        ],
+        "logos": [],
+        "players": [
+            {},
+            {}
+        ]
+    },
+    {
+        "match_id": "1304016",
+        "season": "2026-2027",
+        "league": "Harvey's Brewery Counties 3 Sussex",
+        "tracked_squad": "2nd",
+        "date": "2026-11-28",
+        "teams": [
+            "East Grinstead II",
             "Royals RFC"
         ],
         "score": [

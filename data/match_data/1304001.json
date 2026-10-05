@@ -1,0 +1,58 @@
+{
+    "match_id": "1304001",
+    "season": "2026-2027",
+    "league": "Harvey's Brewery Counties 3 Sussex",
+    "tracked_squad": "2nd",
+    "date": "2026-10-03",
+    "teams": [
+        "Horsham Barbarians",
+        "Uckfield"
+    ],
+    "score": [
+        0,
+        40
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/10451.png",
+        "https://images.englandrugby.com/club_images/23445.png"
+    ],
+    "players": [
+        {
+            "15": "Kieran Baker",
+            "14": "Lewis Ryan",
+            "13": "Antoni Rykala",
+            "12": "Richard Henderson",
+            "11": "Thomas White",
+            "10": "Max Elliott",
+            "9": "Josh Blake",
+            "8": "Rory Cormack",
+            "7": "Tom Britten",
+            "6": "Ciaran FitzGerald",
+            "5": "Daniel Macklin",
+            "4": "Steve Dunster",
+            "3": "Stephen Etherington",
+            "2": "Antoni Rykala",
+            "1": "Steve Dunster",
+            "S1": "Connall Scott",
+            "S2": "Oisin Mcwalter",
+            "S3": "Ethan Baldwin"
+        },
+        {
+            "15": "Adam Young",
+            "14": "Matt Parish",
+            "13": "Jordan Heir",
+            "12": "Harvey Pratt",
+            "11": "Thomas Booth",
+            "10": "Jacob Bilton",
+            "9": "James Crisp",
+            "8": "Stephen Hartfield",
+            "7": "Alfie Mitchell",
+            "6": "Matthew Pratt",
+            "5": "Matthew Longhurst",
+            "4": "Adam Dean",
+            "3": "Charles Rumary",
+            "2": "Oliver O'Riordan",
+            "1": "James Edwards"
+        }
+    ]
+}

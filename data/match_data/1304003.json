@@ -1,0 +1,54 @@
+{
+    "match_id": "1304003",
+    "season": "2026-2027",
+    "league": "Harvey's Brewery Counties 3 Sussex",
+    "tracked_squad": "2nd",
+    "date": "2026-10-03",
+    "teams": [
+        "Haywards Heath II",
+        "Crowborough II"
+    ],
+    "score": [
+        "WO",
+        ""
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/9777.png",
+        "https://images.englandrugby.com/club_images/5919.png"
+    ],
+    "players": [
+        {
+            "15": "Adam Churchyard",
+            "14": "Thomas Farmer",
+            "13": "Edward Newey",
+            "12": "Josh Jones",
+            "11": "Herlander Mbunga",
+            "10": "Christopher Neill",
+            "9": "Tom Butler",
+            "8": "Fraser Russell",
+            "7": "Jacob Bates",
+            "6": "Matthew Linthwaite",
+            "5": "Henry Dickson",
+            "4": "Karl Wicking",
+            "3": "Harrison Thomas Edwards",
+            "2": "Elliott Higgin",
+            "1": "Louis Parker",
+            "S1": "Rory Robinson",
+            "S2": "George Wiscombe",
+            "S3": "Finlay Furse",
+            "S4": "Oscar Bover"
+        },
+        {
+            "15": "Finley Vos",
+            "14": "Lee Cagna",
+            "13": "Eli Hardwick",
+            "12": "Arran Faramus",
+            "10": "Thomas Woodgate",
+            "9": "Harvey Thatcher",
+            "8": "James Crouch",
+            "7": "Robert Horsfall-Turner",
+            "6": "Frank Hanson",
+            "4": "Oliver Jude-Trailor"
+        }
+    ]
+}

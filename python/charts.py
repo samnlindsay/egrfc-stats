@@ -4371,11 +4371,11 @@ LINEOUT_BREAKDOWN_CONFIG = {
     "play": {
         "field": "play",
         "field_label": "Play",
-        "sort": ["Hot", "Cold", "Lost"],
+        "sort": ["Hot", "Cold", "Flyby", "Lost"],
         "step": 90,
         "point_size": 75,
-        "scale": alt.Scale(domain=["Hot", "Cold", "Lost"], range=["white", "blue", "#991515"]),
-        "stroke_scale": alt.Scale(domain=["Hot", "Cold", "Lost"], range=["black", "transparent", "transparent"]),
+        "scale": alt.Scale(domain=["Hot", "Cold", "Flyby", "Lost"], range=["white", "blue", "#b8b8b8", "#991515"]),
+        "stroke_scale": alt.Scale(domain=["Hot", "Cold", "Flyby", "Lost"], range=["black", "transparent", "transparent", "transparent"]),
     },
     "season": {
         "field": "season",
@@ -4403,7 +4403,8 @@ def _lineout_analysis_source_df(db):
             COALESCE(L.call, 'Unknown') AS call,
             COALESCE(L.call_type, 'Unknown') AS call_type,
             CASE
-                WHEN (COALESCE(L.drive, FALSE) OR COALESCE(L.flyby, FALSE) OR COALESCE(L.crusaders, FALSE)) AND COALESCE(L.won, FALSE) THEN 'Cold'
+                WHEN COALESCE(L.flyby, FALSE) AND COALESCE(L.won, FALSE) THEN 'Flyby'
+                WHEN (COALESCE(L.drive, FALSE) OR COALESCE(L.crusaders, FALSE)) AND COALESCE(L.won, FALSE) THEN 'Cold'
                 WHEN COALESCE(L.won, FALSE) THEN 'Hot'
                 ELSE 'Lost'
             END AS play,
@@ -8362,6 +8363,9 @@ def _is_future_unplayed_fixture(row):
 
     if match_date.normalize() > pd.Timestamp.today().normalize():
         return True
+
+    if _is_truthy_walkover(row.get("home_walkover")) or _is_truthy_walkover(row.get("away_walkover")):
+        return False
 
     home_score = row.get("home_score")
     away_score = row.get("away_score")

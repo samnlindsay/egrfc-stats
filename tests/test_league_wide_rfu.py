@@ -216,6 +216,28 @@ class LeagueWideRfuTests(unittest.TestCase):
         self.assertTrue(_is_future_unplayed_fixture(future_match))
         self.assertEqual(_derive_league_result(future_match), "To be played")
 
+    def test_past_walkover_is_classified_as_a_completed_result(self):
+        past_date = pd.Timestamp.today().normalize() - pd.Timedelta(days=1)
+        away_walkover = {
+            "home_team": "Club A",
+            "away_team": "Club B",
+            "date": past_date,
+            "home_score": None,
+            "away_score": None,
+            "home_walkover": False,
+            "away_walkover": True,
+        }
+        home_walkover = {
+            **away_walkover,
+            "home_walkover": True,
+            "away_walkover": False,
+        }
+
+        self.assertFalse(_is_future_unplayed_fixture(away_walkover))
+        self.assertEqual(_derive_league_result(away_walkover), "Away Win")
+        self.assertFalse(_is_future_unplayed_fixture(home_walkover))
+        self.assertEqual(_derive_league_result(home_walkover), "Home Win")
+
     @patch("python.rfu_team_data.fetch_league_table_for_season", return_value=[])
     def test_failed_table_refresh_preserves_existing_seasons(self, _fetch_table):
         with tempfile.TemporaryDirectory() as temp_dir:

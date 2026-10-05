@@ -1,0 +1,42 @@
+{
+    "match_id": "1304002",
+    "season": "2026-2027",
+    "league": "Harvey's Brewery Counties 3 Sussex",
+    "tracked_squad": "2nd",
+    "date": "2026-10-03",
+    "teams": [
+        "Crawley",
+        "Worthing III"
+    ],
+    "score": [
+        "WO",
+        ""
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/5807.png",
+        "https://images.englandrugby.com/club_images/127674.png"
+    ],
+    "players": [
+        {},
+        {
+            "15": "Conor Kelly",
+            "14": "Dilip Thayagaraja",
+            "13": "Kristian Dean",
+            "12": "Thomas Flack",
+            "11": "Kai Marshall",
+            "10": "Stephen Wilson",
+            "9": "Callum Hankin",
+            "8": "Jozef Boczek",
+            "7": "Mason Campbell",
+            "6": "Charles Dennis",
+            "5": "Bradley Davies",
+            "4": "Henry Nyinguro",
+            "3": "Nathan Cox",
+            "2": "Robert Higgins",
+            "1": "Joel Fisher",
+            "S1": "Andrew Jagger",
+            "S2": "Henry Tyson",
+            "S3": "Oscar Davies"
+        }
+    ]
+}

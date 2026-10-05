@@ -1,0 +1,58 @@
+{
+    "match_id": "1292367",
+    "season": "2026-2027",
+    "league": "Counties 2 Sussex",
+    "tracked_squad": "1st",
+    "date": "2026-10-03",
+    "teams": [
+        "Hove II",
+        "Brighton II"
+    ],
+    "score": [
+        27,
+        33
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/10504.png",
+        "https://images.englandrugby.com/club_images/3218.png"
+    ],
+    "players": [
+        {
+            "15": "Ralph Harris",
+            "14": "Name withheld",
+            "13": "Thomas Kentell",
+            "12": "Rhowan Braybrook",
+            "11": "Thomas Berry",
+            "10": "josh Sloman",
+            "9": "Axl Wood",
+            "8": "Dylan Daniels",
+            "7": "Issac Thomas",
+            "6": "Benjamin Stokes",
+            "5": "Thibaut Julienne",
+            "4": "George Brown",
+            "3": "Adrian Shergold",
+            "2": "Samuel Mainwaring",
+            "1": "Gabriel Rudge-Williams",
+            "S1": "Tom Holborn",
+            "S2": "Toby Reed",
+            "S3": "Ruben Spencer"
+        },
+        {
+            "15": "Max Belson",
+            "14": "Charlie Maskrey",
+            "13": "Jonah Parker",
+            "12": "Harrison Rees",
+            "11": "Luke Jameson Clark",
+            "10": "George Miller",
+            "9": "Lucas Marsden",
+            "8": "Zak Ellenger",
+            "7": "Oliver Gaston",
+            "6": "Theo Hidalgo de Quintana",
+            "5": "Frederick Tilley",
+            "4": "Andrew Forrester",
+            "3": "Tom Foster",
+            "2": "JOHN obrien",
+            "1": "Fraser McCormack"
+        }
+    ]
+}

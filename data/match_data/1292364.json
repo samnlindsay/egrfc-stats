@@ -1,0 +1,60 @@
+{
+    "match_id": "1292364",
+    "season": "2026-2027",
+    "league": "Counties 2 Sussex",
+    "tracked_squad": "1st",
+    "date": "2026-10-03",
+    "teams": [
+        "Eastbourne II",
+        "Ditchling"
+    ],
+    "score": [
+        21,
+        43
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7213.png",
+        "https://images.englandrugby.com/club_images/6541.png"
+    ],
+    "players": [
+        {
+            "15": "Cameron Foley",
+            "14": "Owen Parkins",
+            "12": "Harrison Bourne",
+            "11": "Freddie Hayes",
+            "10": "Martial Chaput",
+            "9": "Louis Nicholls",
+            "8": "Charlie Milner",
+            "7": "Felix Hawthorne",
+            "6": "Michael Morehen",
+            "5": "Joshua King",
+            "4": "Trystan Mocke",
+            "3": "Alun Cranch",
+            "2": "Konrad Oneill",
+            "1": "Amro Hammer",
+            "S1": "Paul Smith",
+            "S2": "Freddie Hayes",
+            "S3": "Stuart Sorrell"
+        },
+        {
+            "15": "Nick Whitley-Jones",
+            "14": "Takhy Ndiaye Marrero",
+            "13": "Sonny Smyth",
+            "12": "Adam Crook",
+            "11": "Luke Dobson",
+            "10": "Teddy Birkbeck",
+            "9": "jonathan Hill",
+            "8": "James Cleary",
+            "7": "Bill Sibun",
+            "6": "Murray Jardine",
+            "5": "Ollie Van Hoeken",
+            "4": "Charles Jones",
+            "3": "jenson Taylor",
+            "2": "Samuel Lodge",
+            "1": "Gordon Costick",
+            "S1": "James Turner",
+            "S2": "Ben Poulton",
+            "S3": "billy jones"
+        }
+    ]
+}

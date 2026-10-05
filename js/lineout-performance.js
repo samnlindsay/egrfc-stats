@@ -87,7 +87,7 @@
             trendPath: 'data/charts/lineout_trend_play.json',
             emptyMessage: 'Play breakdown unavailable.',
             emptyTableMessage: 'No play breakdown rows match the current filters.',
-            sort: ['Hot', 'Cold', 'Lost'],
+            sort: ['Hot', 'Cold', 'Flyby', 'Lost'],
             attemptsOnly: true,
         },
         {
