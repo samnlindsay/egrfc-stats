@@ -643,10 +643,10 @@ function comparisonSectionMarkup(title, firstXVRows, clubRows, intro = "", seaso
   `;
 }
 
-function appearancesWithStartsText(summary) {
+function appearancesWithStartsText(summary, estimated = false) {
   const appearances = Number(summary?.appearances || 0);
   const starts = Number(summary?.starts || 0);
-  return `${appearances} (${starts} starts)`;
+  return `${appearances}${estimated ? "*" : ""} (${starts} starts)`;
 }
 
 function pointsWithBreakdownText(summary) {
@@ -1116,6 +1116,10 @@ function renderProfile(player) {
   );
   const clubSummary = summarizeHistory(history);
   const firstXVSummary = summarizeHistory(firstXVHistory);
+  const historicClubAppearances = Number(player?.historicEstimatedAppearances || 0);
+  const historicFirstXVAppearances = Number(player?.historicEstimatedFirstXVAppearances || 0);
+  clubSummary.appearances += historicClubAppearances;
+  firstXVSummary.appearances += historicFirstXVAppearances;
   const seasonSummary = summarizeHistory(seasonHistory);
   const seasonFirstXVSummary = summarizeHistory(seasonFirstXVHistory);
 
@@ -1186,7 +1190,7 @@ function renderProfile(player) {
     [
       {
         label: "Appearances",
-        value: appearancesWithStartsText(firstXVSummary),
+        value: appearancesWithStartsText(firstXVSummary, historicFirstXVAppearances > 0),
       },
       {
         label: "Points",
@@ -1224,7 +1228,7 @@ function renderProfile(player) {
     [
       {
         label: "Appearances",
-        value: appearancesWithStartsText(clubSummary),
+        value: appearancesWithStartsText(clubSummary, historicClubAppearances > 0),
       },
       {
         label: "Points",
@@ -1356,6 +1360,7 @@ function renderProfile(player) {
                   <div class="full-profile-left-column">
                     <div class="chart-section-block chart-section-block--panel">
                       ${careerSummaryHtml}
+                      ${historicClubAppearances || historicFirstXVAppearances ? '<p class="small text-muted mb-0">* estimated total</p>' : ""}
                       <hr class="full-profile-chart-divider">
                       ${thisSeasonHtml}
                     </div>

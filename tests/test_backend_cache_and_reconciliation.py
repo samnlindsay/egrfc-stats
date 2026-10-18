@@ -26,6 +26,62 @@ class BackendCacheAndReconciliationTests(unittest.TestCase):
         self.backend.close()
         self.temp_dir.cleanup()
 
+    def test_historic_estimates_offset_counters_without_fabricating_matches(self):
+        appearances = pd.DataFrame([
+            {
+                "player": "Mark Oliver", "date": pd.Timestamp("2025-01-01") + pd.Timedelta(days=index),
+                "is_backfill": False, "game_id": f"game-{index}",
+                "squad": "1st" if index < 65 else "2nd", "shirt_number": 1,
+                "season": "2024/25", "game_type": "League", "position": "Prop",
+                "is_starter": True, "is_captain": False, "is_vice_captain": False,
+            }
+            for index in range(87)
+        ])
+        annotated = self.backend._annotate_appearance_numbers(appearances)
+        self.assertEqual(len(annotated), 87)
+        self.assertEqual(annotated["club_appearance_number"].max(), 207)
+        self.assertEqual(annotated["first_xv_appearance_number"].max(), 77)
+        self.assertEqual(annotated.iloc[0]["club_appearance_number"], 121)
+        self.assertEqual(annotated.iloc[0]["first_xv_appearance_number"], 13)
+        self.assertTrue(annotated.loc[annotated["squad"] == "2nd", "first_xv_appearance_number"].isna().all())
+        unchanged = appearances.iloc[:1].assign(player="Another Player")
+        self.assertEqual(self.backend._annotate_appearance_numbers(unchanged).iloc[0]["club_appearance_number"], 1)
+        games = appearances[["game_id", "date", "season"]].assign(opposition="Hove", home_away="H")
+        lineouts = pd.DataFrame(columns=["jumper", "won"])
+        scorers = pd.DataFrame(columns=["player", "season", "tries", "conversions", "penalties", "drop_goals", "points"])
+        players = self.backend._build_players(annotated, games, lineouts, scorers)
+        self.assertEqual(players.iloc[0]["total_appearances"], 207)
+        self.assertEqual(players.iloc[0]["total_starts"], 87)
+        profiles = self.backend._build_player_profiles_canonical(
+            self.backend._build_player_profiles_base(players, annotated, games, scorers)
+        )
+        self.assertEqual(profiles.iloc[0]["totalAppearances"], 207)
+        self.assertEqual(profiles.iloc[0]["firstXVAppearances"], 77)
+        self.assertEqual(profiles.iloc[0]["seasonAppearances"], 87)
+        self.assertEqual(profiles.iloc[0]["historicEstimatedAppearances"], 120)
+        self.assertEqual(profiles.iloc[0]["historicEstimatedFirstXVAppearances"], 12)
+        self.backend.con.register("estimated_appearances", annotated)
+        average = self.backend.con.execute(
+            "SELECT AVG(club_appearance_number) FROM estimated_appearances WHERE game_id = ?", ["game-86"]
+        ).fetchone()[0]
+        self.assertEqual(average, 207)
+
+    def test_historic_season_in_all_profile_chart_modes(self):
+        from python.charts import player_full_profile_appearances_per_season_chart
+
+        self.backend.reset_schema()
+        charts = player_full_profile_appearances_per_season_chart(
+            self.backend, output_file=str(self.temp_path / "appearances")
+        )
+        for mode, chart in charts.items():
+            spec = chart.to_dict()
+            rows = [row for dataset in spec["datasets"].values() for row in dataset]
+            historic = [row for row in rows if row["player"] == "Mark Oliver" and row["season"] == "Historic"]
+            self.assertEqual(sum(row["apps"] for row in historic), 120, mode)
+            self.assertTrue(all(row["season_sort"] == 0 for row in historic))
+        squad_rows = [row for dataset in charts["Squad"].to_dict()["datasets"].values() for row in dataset]
+        self.assertEqual({row["color_value"]: row["apps"] for row in squad_rows}, {"1st XV": 12, "2nd XV": 108})
+
     def test_historic_loader_uses_cache_without_scrape(self):
         cache_file = self.temp_path / "historic_cache.json"
         payload = {

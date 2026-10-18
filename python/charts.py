@@ -13,6 +13,7 @@ import altair as alt
 import pandas as pd
 import re
 import duckdb
+from python.appearance_estimates import historic_appearance_seasons
 from python.chart_helpers import alt_theme, get_embed_options
 
 pitchero_caveat = f"Using Pitchero data from 2017 to 2019/20. Manually updated records from 2021 onwards"
@@ -1108,6 +1109,8 @@ def player_full_profile_appearances_per_season_chart(db, output_file='data/chart
         """
     ).df()
 
+    base_df = pd.concat([base_df, historic_appearance_seasons()], ignore_index=True)
+
     if base_df.empty:
         base_df = pd.DataFrame(columns=['player', 'season', 'squad', 'result', 'position', 'apps', 'season_sort'])
 
@@ -1203,9 +1206,9 @@ def player_full_profile_appearances_per_season_chart(db, output_file='data/chart
             'colors': ['#202946', '#7d96e8', '#99151520'],
         },
         'Result': {
-            'sort': ['Win', 'Loss', 'Draw'],
-            'colors': ['#146f14', '#981515', 'goldenrod'],
-            'allowed': ['Win', 'Loss', 'Draw'],
+            'sort': ['Win', 'Loss', 'Draw', 'Estimated'],
+            'colors': ['#146f14', '#981515', 'goldenrod', '#6b7280'],
+            'allowed': ['Win', 'Loss', 'Draw', 'Estimated'],
         },
     }
 

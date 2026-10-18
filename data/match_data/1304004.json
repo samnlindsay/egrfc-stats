@@ -1,0 +1,41 @@
+{
+    "match_id": "1304004",
+    "season": "2026-2027",
+    "league": "Harvey's Brewery Counties 3 Sussex",
+    "tracked_squad": "2nd",
+    "date": "2026-10-17",
+    "teams": [
+        "Hastings & Bexhill II",
+        "Haywards Heath II"
+    ],
+    "score": [
+        "",
+        "WO"
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/9654.png",
+        "https://images.englandrugby.com/club_images/9777.png"
+    ],
+    "players": [
+        {},
+        {
+            "15": "No lineup to show.",
+            "14": "Roscoe Atkins",
+            "13": "Rory Robinson",
+            "12": "Henry Dickson",
+            "11": "Name withheld",
+            "10": "Herlander Mbunga",
+            "9": "Christopher Neill",
+            "8": "Alexander Chard",
+            "7": "Josh Pope",
+            "6": "Jacob Bates",
+            "5": "Archie Francis",
+            "4": "Charles Fenwick",
+            "3": "Finlay Furse",
+            "2": "Karl Wicking",
+            "1": "Marcus Pemberton",
+            "S1": "Taylor Seymour",
+            "S2": "Thomas Farmer"
+        }
+    ]
+}

@@ -1,0 +1,59 @@
+{
+    "match_id": "1292371",
+    "season": "2026-2027",
+    "league": "Counties 2 Sussex",
+    "tracked_squad": "1st",
+    "date": "2026-10-17",
+    "teams": [
+        "Hove II",
+        "Lewes"
+    ],
+    "score": [
+        24,
+        23
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/10504.png",
+        "https://images.englandrugby.com/club_images/12206.png"
+    ],
+    "players": [
+        {
+            "15": "Joseph Winstanley",
+            "14": "Thomas Berry",
+            "13": "Rhowan Braybrook",
+            "12": "Ruaridh Morgan",
+            "11": "Tom Holborn",
+            "10": "Toby Reed",
+            "9": "Alexander Walsh-Arto",
+            "8": "Issac Thomas",
+            "7": "Thomas Mohan",
+            "6": "Benjamin Stokes",
+            "5": "George Brown",
+            "4": "Ben Stephens",
+            "3": "Name withheld",
+            "2": "Samuel Mainwaring",
+            "1": "Ryan Storer",
+            "S1": "Lennon Packwood",
+            "S2": "Thibaut Julienne",
+            "S3": "Alex Parker"
+        },
+        {
+            "15": "Jack Soltermann",
+            "14": "Daryl Benson",
+            "13": "Rafferty Green",
+            "12": "Curtis Burch",
+            "11": "Ben Goode",
+            "10": "Thomas Moore",
+            "9": "Louis Medhurst",
+            "8": "Benjamin Bishop",
+            "7": "Toby Duncan",
+            "6": "Sean Frederick Mangan",
+            "5": "Fearghus Gage",
+            "4": "Benjamin Simmonds",
+            "3": "Ian Thomas",
+            "2": "Alfie Green",
+            "1": "Benjamin Bishop",
+            "S1": "Adam Hutchings"
+        }
+    ]
+}

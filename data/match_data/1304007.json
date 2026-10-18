@@ -1,0 +1,60 @@
+{
+    "match_id": "1304007",
+    "season": "2026-2027",
+    "league": "Harvey's Brewery Counties 3 Sussex",
+    "tracked_squad": "2nd",
+    "date": "2026-10-17",
+    "teams": [
+        "East Grinstead II",
+        "Horsham Barbarians"
+    ],
+    "score": [
+        10,
+        22
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7136.png",
+        "https://images.englandrugby.com/club_images/10451.png"
+    ],
+    "players": [
+        {
+            "15": "Benjamin Green",
+            "14": "Nathan Randall",
+            "13": "Oliver Roberts",
+            "12": "Louis Duvall",
+            "11": "Jude Lavender",
+            "10": "James Bull",
+            "9": "Samuel McCarthy",
+            "8": "Thomas Byron",
+            "7": "GWYN TAYLOR",
+            "6": "Gregory Brack",
+            "5": "Oscar Staples",
+            "4": "Peter Morley",
+            "3": "Alfie Fuller",
+            "2": "George Beet",
+            "1": "Joshua Sketcher",
+            "S1": "Frankie Harris",
+            "S2": "Thomas Saunders",
+            "S3": "George Naylor",
+            "S4": "James Randall",
+            "S5": "Name withheld"
+        },
+        {
+            "15": "Kieran Baker",
+            "14": "Thomas White",
+            "12": "Richard Henderson",
+            "11": "Zac Blackman",
+            "10": "Matthew Heydari",
+            "8": "Max Elliott",
+            "7": "zachariah woollard",
+            "6": "Rory Cormack",
+            "5": "Nicholas Sage",
+            "4": "Cole Slabbert",
+            "3": "Jim Richards",
+            "1": "Benjamin Long",
+            "S1": "Tom Britten",
+            "S2": "Steve Dunster",
+            "S3": "Antoni Rykala"
+        }
+    ]
+}

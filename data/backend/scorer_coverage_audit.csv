@@ -28,9 +28,9 @@ game_id,date,season,squad,opposition,game_type,result,captain,motm,pitchero_matc
 2026-11-14_2nd_Hastings_&_Bexhill,2026-11-14,2026/27,2nd,Hastings & Bexhill II,League,,,,,,,,,False,False
 2026-10-31_1st_Ditchling,2026-10-31,2026/27,1st,Ditchling,League,,,,,,,,,False,False
 2026-10-24_1st_Hove,2026-10-24,2026/27,1st,Hove II,League,,,,,,,,,False,False
-2026-10-23_2nd_Crawley,2026-10-23,2026/27,2nd,Crawley,League,,,,,,,,,False,False
-2026-10-17_1st_Horsham,2026-10-17,2026/27,1st,Horsham II,League,,Rory Evans,,,,,,,False,False
-2026-10-17_2nd_Horsham,2026-10-17,2026/27,2nd,Horsham III,League,,George Beet,,,,,,,False,False
+2026-10-24_2nd_Crawley,2026-10-24,2026/27,2nd,Crawley,League,,,,,,,,,False,False
+2026-10-17_1st_Horsham,2026-10-17,2026/27,1st,Horsham II,League,W,Rory Evans,Owen Peel,,"{""Jake Radcliffe"": 3, ""Luke Maker"": 1, ""Owen Peel"": 2, ""Ted Hardisty"": 1, ""Will Roberts"": 2}","{""Noah Roberts"": 6}","{""Noah Roberts"": 1}",,True,False
+2026-10-17_2nd_Horsham,2026-10-17,2026/27,2nd,Horsham III,League,L,George Beet,Ben Green,,"{""Louis Duvall"": 1}","{""Ben Green"": 1}","{""Ben Green"": 1}",,True,False
 2026-10-03_1st_Shoreham,2026-10-03,2026/27,1st,Shoreham,League,W,Rory Evans,Guy Collins,,"{""Ben Tottman"": 1, ""Jake Radcliffe"": 2, ""Luke Maker"": 2, ""Noah Roberts"": 1, ""Owen Peel"": 2, ""Ted Hardisty"": 1, ""Will Longstaff"": 1, ""Will Roberts"": 3}","{""Luke Maker"": 9}",,,True,False
 2026-10-03_2nd_Pulborough,2026-10-03,2026/27,2nd,Pulborough II,League,L,George Beet,Dan Harding,,"{""Ali Moffatt"": 1, ""Chris Taylor"": 1, ""Oliver Roberts"": 1, ""Reggie Harris"": 1}",,,,True,False
 2026-09-26_1st_Seaford,2026-09-26,2026/27,1st,Seaford,League,W,Rory Evans,Tom Mooney,,"{""Ali Moffatt"": 1, ""Luke Maker"": 1, ""Max Crawley-Moore"": 1, ""Sam Lindsay-McCall"": 1, ""Tom Mooney"": 1, ""Will Longstaff"": 1, ""Will Roberts"": 3}","{""Noah Roberts"": 5}",,,True,False

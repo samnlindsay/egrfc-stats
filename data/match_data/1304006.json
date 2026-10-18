@@ -1,0 +1,63 @@
+{
+    "match_id": "1304006",
+    "season": "2026-2027",
+    "league": "Harvey's Brewery Counties 3 Sussex",
+    "tracked_squad": "2nd",
+    "date": "2026-10-17",
+    "teams": [
+        "Crawley",
+        "Uckfield"
+    ],
+    "score": [
+        31,
+        17
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/5807.png",
+        "https://images.englandrugby.com/club_images/23445.png"
+    ],
+    "players": [
+        {
+            "15": "Conor Kelly",
+            "14": "William Ofosuhene",
+            "13": "Kristian Dean",
+            "12": "Thomas Flack",
+            "11": "Kai Marshall",
+            "10": "Oscar Davies",
+            "9": "Callum Hankin",
+            "8": "Henry Nyinguro",
+            "7": "Charles Dennis",
+            "6": "Mason Campbell",
+            "5": "Daniel Davis",
+            "4": "Joe Ball",
+            "3": "Bradley Davies",
+            "2": "Coby Coy",
+            "1": "Nathan Cox",
+            "S1": "Joel Fisher",
+            "S2": "Robert Higgins",
+            "S3": "Andrew Jagger",
+            "S4": "Name withheld"
+        },
+        {
+            "15": "Adam Young",
+            "14": "Ryan Bate",
+            "13": "Oisin Mcwalter",
+            "12": "Jacob Bilton",
+            "11": "Thomas Booth",
+            "10": "Matt Parish",
+            "9": "Jordan Heir",
+            "8": "Harvey Pratt",
+            "7": "Rhys Camis",
+            "6": "Matthew Pratt",
+            "5": "James Crisp",
+            "4": "Stephen Hartfield",
+            "3": "Alfie Mitchell",
+            "2": "Davy Armstrong",
+            "1": "Charles Rumary",
+            "S1": "Adam Dean",
+            "S2": "Oliver O'Riordan",
+            "S3": "James Dinnage",
+            "S4": "Finnley Harman"
+        }
+    ]
+}

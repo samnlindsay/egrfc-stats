@@ -2429,7 +2429,6 @@ button.match-info-hero-action-card:focus-visible {
     align-items: center;
     justify-content: center;
     font-size: 0.72rem;
-    opacity: 0.5;
     letter-spacing: 0.02em;
     line-height: 0.95;
     white-space: nowrap;

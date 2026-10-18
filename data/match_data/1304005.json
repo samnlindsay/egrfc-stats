@@ -1,0 +1,62 @@
+{
+    "match_id": "1304005",
+    "season": "2026-2027",
+    "league": "Harvey's Brewery Counties 3 Sussex",
+    "tracked_squad": "2nd",
+    "date": "2026-10-17",
+    "teams": [
+        "Worthing III",
+        "Royals RFC"
+    ],
+    "score": [
+        17,
+        57
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/127674.png",
+        "https://images.englandrugby.com/club_images/94051.png"
+    ],
+    "players": [
+        {
+            "15": "Benjamin Champion-West",
+            "14": "Robert Bleker",
+            "13": "Tom Flint",
+            "12": "Max Tullett",
+            "11": "Dominic Clark",
+            "10": "Nicholas Choate",
+            "9": "Jack Noble",
+            "8": "Dominic Phillips",
+            "7": "Simon Miles",
+            "6": "James Sandercock",
+            "5": "Joshua Jayes",
+            "4": "Nathan Burstow",
+            "3": "William Hipkin",
+            "2": "Adam Clarke",
+            "1": "Name withheld",
+            "S1": "Michael Leech",
+            "S2": "Ash Rowland",
+            "S3": "Zachary Hammond",
+            "S4": "Keiron Gray",
+            "S5": "Blair Shirley Blair Shirley"
+        },
+        {
+            "15": "Jenson Holmes",
+            "14": "George Burke",
+            "13": "Jakob Stanton",
+            "12": "Hamish Mackie",
+            "11": "Pearse Moloney",
+            "10": "Jean-Jacques Le Bihan",
+            "9": "Connor Devenny",
+            "8": "Matthew Boyd",
+            "7": "Brodie Sutton",
+            "6": "Fraser George",
+            "5": "Will Michel",
+            "4": "Lewis Ham-Howes",
+            "3": "Jack Lowe",
+            "2": "Daniel Rodrigues",
+            "1": "Patrick Crossley",
+            "S1": "Ross Williamson",
+            "S2": "Hugo Reid"
+        }
+    ]
+}

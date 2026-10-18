@@ -1,0 +1,58 @@
+{
+    "match_id": "1292370",
+    "season": "2026-2027",
+    "league": "Counties 2 Sussex",
+    "tracked_squad": "1st",
+    "date": "2026-10-17",
+    "teams": [
+        "Ditchling",
+        "Brighton II"
+    ],
+    "score": [
+        10,
+        48
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/6541.png",
+        "https://images.englandrugby.com/club_images/3218.png"
+    ],
+    "players": [
+        {
+            "15": "Nick Whitley-Jones",
+            "14": "James Turner",
+            "13": "Sonny Smyth",
+            "12": "Adam Crook",
+            "11": "Takhy Ndiaye Marrero",
+            "10": "Joshua Loach",
+            "9": "Teddy Birkbeck",
+            "8": "Alex Hinchliffe",
+            "7": "James Cleary",
+            "6": "Murray Jardine",
+            "5": "Charles Jones",
+            "4": "Ollie Van Hoeken",
+            "3": "Perry Winstone",
+            "2": "Samuel Lodge",
+            "1": "Gordon Costick",
+            "S1": "Name withheld",
+            "S2": "jonathan Hill",
+            "S3": "Jarrell Bobo"
+        },
+        {
+            "15": "Aidan Russell",
+            "14": "Ralph Harris",
+            "13": "Ben Varley",
+            "12": "William Reeves-Perrin",
+            "11": "Jonah Parker",
+            "10": "Luke Jameson Clark",
+            "9": "Lucas Marsden",
+            "8": "Ibrahim Bangura",
+            "7": "Zak Ellenger",
+            "6": "Jake Blackburn",
+            "5": "Travis James",
+            "4": "Theo Hidalgo de Quintana",
+            "3": "Oliver Gaston",
+            "2": "Frederick Tilley",
+            "1": "Tom Foster"
+        }
+    ]
+}

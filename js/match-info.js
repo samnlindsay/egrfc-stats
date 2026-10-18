@@ -586,12 +586,23 @@ function milestoneBadgeHtml(row) {
     return markers.join('');
 }
 
-function appearanceCountHtml(row) {
+function appearanceCountHtml(row, showFirstXVCount = false) {
     const clubCount = Number(row?.club_appearance_number || 0);
-    if (!clubCount) return '';
+    const firstXVCount = Number(row?.first_xv_appearance_number || 0);
+    if (!clubCount && (!showFirstXVCount || !firstXVCount)) return '';
+    const profile = profilesByName.get(canonicalizeName(row?.player));
+    const estimateNote = Number(profile?.historicEstimatedAppearances || 0) > 0
+        ? ' (includes estimated historic appearances)'
+        : '';
 
-    const title = `Club appearance #${clubCount}`;
-    const clubLine = `<span class="match-team-sheet-appearance-count-line">${escapeHtml(clubCount)}</span>`;
+    if (showFirstXVCount) {
+        const title = `1st XV appearances: ${firstXVCount}; Total club appearances: ${clubCount}${estimateNote}`;
+        const countLine = `<span class="match-team-sheet-appearance-count-line"><span style="margin-right: 2px; font-weight: bold; color:var(--primary-color);">${escapeHtml(firstXVCount)}</span><span style="opacity: 0.5;">${escapeHtml(clubCount)}</span></span>`;
+        return `<span class="match-team-sheet-appearance-count" title="${escapeHtml(title)}" aria-label="${escapeHtml(title)}">${countLine}</span>`;
+    }
+
+    const title = `Club appearance #${clubCount}${estimateNote}`;
+    const clubLine = `<span class="match-team-sheet-appearance-count-line" style="opacity: 0.5;">${escapeHtml(clubCount)}</span>`;
     return `<span class="match-team-sheet-appearance-count" title="${escapeHtml(title)}" aria-label="${escapeHtml(title)}">${clubLine}</span>`;
 }
 
@@ -629,12 +640,12 @@ function milestoneLegendHtml(showLegend) {
     `;
 }
 
-function playerIdentityHtml(playerName, profile, isCaptain, isViceCaptain, row) {
+function playerIdentityHtml(playerName, profile, isCaptain, isViceCaptain, row, showFirstXVCount = false) {
     const safeName = escapeHtml(playerName || 'Unknown');
     const photoUrl = String(profile?.photo_url || '').trim();
     const hasProfile = !!profile;
     const milestoneMarkup = milestoneBadgeHtml(row);
-    const trailingMetaMarkup = milestoneMarkup || appearanceCountHtml(row);
+    const trailingMetaMarkup = milestoneMarkup || appearanceCountHtml(row, showFirstXVCount);
 
     const avatar = photoUrl
         ? `<img class="match-team-sheet-avatar" src="${escapeHtml(photoUrl)}" alt="${safeName}" loading="lazy">`
@@ -688,7 +699,7 @@ function teamSheetModeToggleTitle() {
     return `Switch to ${teamSheetModeTitle(nextTeamSheetMode(teamSheetDisplayMode))} view`;
 }
 
-function buildTeamSheetRows(rows, startNumber, endNumberInclusive) {
+function buildTeamSheetRows(rows, startNumber, endNumberInclusive, showFirstXVCount) {
     const byNumber = new Map(rows.map(row => [Number(row?.number), row]));
     const htmlRows = [];
 
@@ -705,7 +716,7 @@ function buildTeamSheetRows(rows, startNumber, endNumberInclusive) {
                 </span>
                 <span class="match-team-sheet-content">
                     ${row
-                        ? `${playerIdentityHtml(playerName, profile, !!row?.is_captain, !!row?.is_vice_captain, row)}`
+                        ? `${playerIdentityHtml(playerName, profile, !!row?.is_captain, !!row?.is_vice_captain, row, showFirstXVCount)}`
                         : '<span class="match-team-sheet-empty">Not listed</span>'}
                 </span>
             </li>
@@ -715,7 +726,7 @@ function buildTeamSheetRows(rows, startNumber, endNumberInclusive) {
     return htmlRows.join('');
 }
 
-function buildReplacementsRows(rows) {
+function buildReplacementsRows(rows, showFirstXVCount) {
     const replacements = rows
         .filter(row => Number(row?.number) >= 16)
         .sort((a, b) => Number(a?.number || 0) - Number(b?.number || 0));
@@ -735,7 +746,7 @@ function buildReplacementsRows(rows) {
                     ${positionLabelHtml(row?.position)}
                 </span>
                 <span class="match-team-sheet-content">
-                    ${playerIdentityHtml(playerName, profile, !!row?.is_captain, !!row?.is_vice_captain, row)}
+                    ${playerIdentityHtml(playerName, profile, !!row?.is_captain, !!row?.is_vice_captain, row, showFirstXVCount)}
                 </span>
             </li>
         `;
@@ -785,7 +796,7 @@ function captainOverlayHtml(isCaptain, isViceCaptain) {
 }
 
 function pitchStarterTileHtml(row, fallbackNumber, options = {}) {
-    const { isReplacement = false } = options;
+    const { isReplacement = false, showFirstXVCount = false } = options;
     const number = Number(row?.number || fallbackNumber || 0);
     const playerName = String(row?.player || '').trim();
     const profile = profilesByName.get(canonicalizeName(playerName));
@@ -799,7 +810,7 @@ function pitchStarterTileHtml(row, fallbackNumber, options = {}) {
 
     const milestoneBadges = row ? milestoneBadgeHtml(row) : '';
     const captainOverlay = row ? captainOverlayHtml(!!row?.is_captain, !!row?.is_vice_captain) : '';
-    const appearanceOverlay = row ? appearanceCountHtml(row) : '';
+    const appearanceOverlay = row ? appearanceCountHtml(row, showFirstXVCount) : '';
     const trailingOverlay = milestoneBadges
         ? `<span class="match-team-sheet-pitch-milestones">${milestoneBadges}</span>`
         : (appearanceOverlay
@@ -827,21 +838,21 @@ function pitchStarterTileHtml(row, fallbackNumber, options = {}) {
     `;
 }
 
-function pitchFormationHtml(rows) {
+function pitchFormationHtml(rows, showFirstXVCount) {
     const rowsByNumber = new Map(rows.map(row => [Number(row?.number), row]));
     return `
         <div class="match-team-sheet-pitch-wrap">
             <ol class="match-team-sheet-pitch" role="group" aria-label="Starting XV pitch formation">
                 ${Array.from({ length: 15 }, (_value, index) => {
                     const number = index + 1;
-                    return pitchStarterTileHtml(rowsByNumber.get(number), number);
+                    return pitchStarterTileHtml(rowsByNumber.get(number), number, { showFirstXVCount });
                 }).join('')}
             </ol>
         </div>
     `;
 }
 
-function pitchReplacementsHtml(rows) {
+function pitchReplacementsHtml(rows, showFirstXVCount) {
     const replacements = rows
         .filter(row => Number(row?.number) >= 16)
         .sort((a, b) => Number(a?.number || 0) - Number(b?.number || 0));
@@ -852,24 +863,24 @@ function pitchReplacementsHtml(rows) {
 
     return `
         <ol class="match-team-sheet-pitch-replacements">
-            ${replacements.map(row => pitchStarterTileHtml(row, Number(row?.number || 0), { isReplacement: true })).join('')}
+            ${replacements.map(row => pitchStarterTileHtml(row, Number(row?.number || 0), { isReplacement: true, showFirstXVCount })).join('')}
         </ol>
     `;
 }
 
-function teamSheetMainContentHtml(rows) {
+function teamSheetMainContentHtml(rows, showFirstXVCount) {
     if (teamSheetDisplayMode === 'pitch') {
         return `
             <div class="match-team-sheet-starting-header">
                 <h3 class="match-team-sheet-title">Starting XV</h3>
             </div>
             <div class="match-team-sheet-pitch-layout">
-                ${pitchFormationHtml(rows)}
+                ${pitchFormationHtml(rows, showFirstXVCount)}
                 <div class="match-team-sheet-panel match-team-sheet-panel--replacements match-team-sheet-panel--pitch-replacements">
                     <div class="match-team-sheet-replacements-header-wrap">
                         <h3 class="match-team-sheet-title">Replacements</h3>
                     </div>
-                    ${pitchReplacementsHtml(rows)}
+                    ${pitchReplacementsHtml(rows, showFirstXVCount)}
                 </div>
             </div>
         `;
@@ -883,13 +894,13 @@ function teamSheetMainContentHtml(rows) {
             <div class="match-team-sheet-panel match-team-sheet-panel--forwards">
                 <h4 class="match-team-sheet-subtitle">Forwards</h4>
                 <ol class="match-team-sheet-list" start="1">
-                    ${buildTeamSheetRows(rows, 1, 8)}
+                    ${buildTeamSheetRows(rows, 1, 8, showFirstXVCount)}
                 </ol>
             </div>
             <div class="match-team-sheet-panel match-team-sheet-panel--backs">
                 <h4 class="match-team-sheet-subtitle">Backs</h4>
                 <ol class="match-team-sheet-list" start="9">
-                    ${buildTeamSheetRows(rows, 9, 15)}
+                    ${buildTeamSheetRows(rows, 9, 15, showFirstXVCount)}
                 </ol>
             </div>
         </div>
@@ -898,7 +909,7 @@ function teamSheetMainContentHtml(rows) {
                 <h3 class="match-team-sheet-title">Replacements</h3>
             </div>
             <ol class="match-team-sheet-list" start="16">
-                ${buildReplacementsRows(rows)}
+                ${buildReplacementsRows(rows, showFirstXVCount)}
             </ol>
         </div>
     `;
@@ -933,7 +944,7 @@ function teamSheetSectionHtml(gameId) {
                 <div class="match-team-sheet-header">Team Sheet</div>
                 <button type="button" class="match-team-sheet-mode-toggle" data-team-sheet-mode-toggle title="${escapeAttribute(teamSheetModeToggleTitle())}" aria-label="${escapeAttribute(teamSheetModeToggleTitle())}">${teamSheetModeToggleLabel()}</button>
             </div>
-            ${teamSheetMainContentHtml(rows)}
+            ${teamSheetMainContentHtml(rows, squad === '1st')}
             ${milestoneLegendHtml(showMilestoneLegend)}
         </section>
     `;

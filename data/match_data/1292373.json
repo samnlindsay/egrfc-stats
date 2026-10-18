@@ -1,0 +1,60 @@
+{
+    "match_id": "1292373",
+    "season": "2026-2027",
+    "league": "Counties 2 Sussex",
+    "tracked_squad": "1st",
+    "date": "2026-10-17",
+    "teams": [
+        "Shoreham",
+        "Seaford"
+    ],
+    "score": [
+        41,
+        28
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/19257.png",
+        "https://images.englandrugby.com/club_images/18868.png"
+    ],
+    "players": [
+        {
+            "15": "Darren Locke",
+            "14": "Ryan Morlen",
+            "13": "Sean Shepherd",
+            "12": "Connor Fairhall",
+            "11": "Nathan Funnell",
+            "10": "Adam Fear",
+            "9": "Name withheld",
+            "8": "Steven Goater",
+            "7": "Harry Cracknell",
+            "6": "Finnbar Broxup",
+            "5": "Ben French",
+            "4": "Thomas Miller",
+            "3": "Michael Shaw",
+            "2": "Mark Lavery",
+            "1": "Daryn Clarke",
+            "S1": "Arron Allison",
+            "S2": "Jack Bowman",
+            "S3": "George Thomas"
+        },
+        {
+            "15": "John Paul Kwun",
+            "14": "william joy",
+            "13": "Corey Digby-Clarke",
+            "12": "Josh Ellis-Smith",
+            "11": "Oscar Weisz",
+            "10": "Oli Simmons",
+            "9": "Adam Holt",
+            "8": "Paddy Powney",
+            "7": "Charlie Guest",
+            "6": "Ben Ritchin",
+            "5": "Dominic Joy",
+            "4": "Joseph Drew",
+            "3": "Daniel Blunt",
+            "2": "Nathan Roberts",
+            "1": "Brendan Strick",
+            "S1": "Jake Davey",
+            "S2": "Jason Dubas-Fisher"
+        }
+    ]
+}

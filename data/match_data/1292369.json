@@ -1,0 +1,57 @@
+{
+    "match_id": "1292369",
+    "season": "2026-2027",
+    "league": "Counties 2 Sussex",
+    "tracked_squad": "1st",
+    "date": "2026-10-17",
+    "teams": [
+        "Burgess Hill",
+        "Eastbourne II"
+    ],
+    "score": [
+        "WO",
+        ""
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/3659.png",
+        "https://images.englandrugby.com/club_images/7213.png"
+    ],
+    "players": [
+        {
+            "15": "James Roddy",
+            "14": "Tomer Teichmann",
+            "13": "Vincenzo Dessena",
+            "12": "Daniel Stringer",
+            "11": "George Yeates",
+            "10": "Oliver Lewis",
+            "9": "Daniel Thewlis",
+            "8": "Jarod Van blerk",
+            "7": "Charlie Coles",
+            "6": "Ben Mclaren",
+            "5": "Tom Betts",
+            "4": "Timothy Daniel",
+            "3": "Kyle Tucker",
+            "2": "Bailey Upton",
+            "1": "Ben Tuvey",
+            "S1": "Paul Greenhalgh",
+            "S2": "Freddie Collingbourne",
+            "S3": "Joseph Schofield"
+        },
+        {
+            "15": "Stuart Sorrell",
+            "14": "Owen Parkins",
+            "13": "Louis Paal",
+            "12": "Trystan Mocke",
+            "11": "Teddy Groves",
+            "10": "Name withheld",
+            "9": "Louis Nicholls",
+            "8": "Amro Hammer",
+            "7": "Michael Morehen",
+            "5": "James Kirk",
+            "4": "Sean Groombridge",
+            "3": "Toby Slaughter",
+            "2": "Joseph Bettles",
+            "1": "Alun Cranch"
+        }
+    ]
+}

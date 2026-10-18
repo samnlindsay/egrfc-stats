@@ -62,6 +62,34 @@ Outputs:
 - Database: `data/egrfc_backend.duckdb`
 - Exports: `data/backend/*.json`
 
+## Historic appearance estimates
+
+Maintain additional appearances from before the available team sheets in
+`data/historic_appearance_estimates.json`. Use the canonical player name and
+non-negative integer `first_xv` and `second_xv` counts. These are additional
+appearances, not replacement career totals. Each player must appear only once.
+
+For example, Mark Oliver has an estimated additional 12 1st XV and 108 2nd XV
+appearances (120 club appearances). With 65 documented 1st XV and 87 documented
+club appearances, his estimated career totals are 77 and 207 respectively.
+
+The estimates act as opening balances before the earliest available appearance:
+- Team-sheet cumulative counts and average player experience include them.
+- Player career totals include them; profile summaries identify estimated totals.
+- Profile appearances-by-season charts include a `Historic` season split by squad.
+- Historic results and positions are unknown; charts do not infer them.
+- Starts, current-season totals, match history, and win records remain documented-only.
+- `player_profiles_canonical` exports `historicEstimatedAppearances` and
+  `historicEstimatedFirstXVAppearances` for provenance.
+
+No synthetic games or individual appearance rows are created. If older team
+sheets are recovered, reduce the estimates accordingly to prevent double counting.
+Regenerate backend exports and charts after editing the estimates:
+
+```bash
+python python/update.py --skip-rfu-refresh
+```
+
 ## Live backend table contract
 
 This section is the living source of truth for backend datasets.

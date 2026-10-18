@@ -1,0 +1,59 @@
+{
+    "match_id": "1292372",
+    "season": "2026-2027",
+    "league": "Counties 2 Sussex",
+    "tracked_squad": "1st",
+    "date": "2026-10-17",
+    "teams": [
+        "Horsham II",
+        "East Grinstead"
+    ],
+    "score": [
+        33,
+        60
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/10450.png",
+        "https://images.englandrugby.com/club_images/7134.png"
+    ],
+    "players": [
+        {
+            "15": "Connor Barnes",
+            "14": "Benjamin Marelli",
+            "13": "Edward Grogan",
+            "12": "Harvey Brock",
+            "11": "Ryan Pearce",
+            "10": "James Millsom",
+            "9": "Zac Blackman",
+            "8": "Joe Johnson",
+            "7": "Joshua Hedger",
+            "6": "Jack Thompson",
+            "5": "Charlie Lewis",
+            "4": "Kyle Mac Robert Smith",
+            "3": "david marfe",
+            "2": "Robert Grant",
+            "1": "Tom Ahern",
+            "S1": "Name withheld",
+            "S2": "Lewis Ryan",
+            "S3": "Edward Mannhardt"
+        },
+        {
+            "15": "Luke Maker",
+            "14": "William Roberts",
+            "13": "Ted Hardisty",
+            "12": "Jake Radcliffe",
+            "11": "Alistair Moffatt",
+            "10": "Noah Roberts",
+            "9": "Owen Peel",
+            "8": "Rory evans",
+            "7": "Tom Mooney",
+            "6": "Samuel Lindsay-Mccall",
+            "5": "Guy Collins",
+            "4": "Benjamin Tottman",
+            "3": "Joshua Brimecombe",
+            "2": "Dylan Hammocks",
+            "1": "Mark Oliver",
+            "S1": "Josh Weaver"
+        }
+    ]
+}

@@ -15,6 +15,7 @@ from typing import Any
 import duckdb
 import pandas as pd
 
+from python.appearance_estimates import load_appearance_estimates
 from python.data import (
     HISTORIC_PITCHERO_SEASON_IDS,
     PITCHERO_OPPOSITION_CANONICAL_NAMES,
@@ -1700,6 +1701,8 @@ class BackendDatabase:
                 totalStarts INTEGER,
                 firstXVAppearances INTEGER,
                 firstXVStarts INTEGER,
+                historicEstimatedAppearances INTEGER,
+                historicEstimatedFirstXVAppearances INTEGER,
                 seasonAppearances INTEGER,
                 seasonStarts INTEGER,
                 seasonCompetitiveAppearances INTEGER,
@@ -4031,7 +4034,7 @@ class BackendDatabase:
         ].rename(columns={"is_vc": "is_vice_captain"})
 
     def _annotate_appearance_numbers(self, appearances: pd.DataFrame) -> pd.DataFrame:
-        """Add cumulative appearance counters for club total and 1st XV only."""
+        """Add cumulative counters including estimated historic opening balances."""
         if appearances.empty:
             df = appearances.copy()
             df["club_appearance_number"] = pd.Series(dtype="Int64")
@@ -4043,13 +4046,16 @@ class BackendDatabase:
         sort_cols = ["player", "date", "is_backfill", "game_id", "squad", "shirt_number"]
         sorted_df = df.sort_values(sort_cols, kind="stable")
 
+        estimates = load_appearance_estimates().set_index("player")
         club_counts = sorted_df.groupby("player").cumcount() + 1
+        club_counts += sorted_df["player"].map(estimates["total"]).fillna(0).astype(int)
         df["club_appearance_number"] = pd.Series(index=sorted_df.index, data=club_counts).reindex(df.index).astype("Int64")
 
         df["first_xv_appearance_number"] = pd.Series(pd.NA, index=df.index, dtype="Int64")
         first_xv = sorted_df[sorted_df["squad"] == "1st"]
         if not first_xv.empty:
             first_xv_counts = first_xv.groupby("player").cumcount() + 1
+            first_xv_counts += first_xv["player"].map(estimates["first_xv"]).fillna(0).astype(int)
             df.loc[first_xv.index, "first_xv_appearance_number"] = first_xv_counts.astype("Int64")
 
         return df
@@ -4666,6 +4672,9 @@ class BackendDatabase:
             total_vc_appointments=("is_vice_captain", "sum"),
         ).rename(columns={"player": "name"})
 
+        estimates = load_appearance_estimates().set_index("player")
+        agg["total_appearances"] += agg["name"].map(estimates["total"]).fillna(0).astype(int)
+
         if not preferred_squad.empty:
             agg = agg.merge(preferred_squad, on="name", how="left")
         else:
@@ -5199,6 +5208,7 @@ class BackendDatabase:
         rows = []
         today = pd.Timestamp.today().normalize()
         competitive_types = {"League", "Cup"}
+        estimates = load_appearance_estimates().set_index("player")
 
         for _, p in players.iterrows():
             name = str(p.get("name") or "").strip()
@@ -5215,6 +5225,8 @@ class BackendDatabase:
 
             first_xv_apps = player_apps[player_apps["squad"] == "1st"]
             first_xv_appearances = int(len(first_xv_apps))
+            if name in estimates.index:
+                first_xv_appearances += int(estimates.loc[name, "first_xv"])
             first_xv_starts = int(pd.to_numeric(first_xv_apps.get("is_starter"), errors="coerce").fillna(0).astype(int).sum()) if not first_xv_apps.empty else 0
 
             season_apps = player_apps[player_apps["season"].astype(str).str.strip() == current_season]
@@ -5407,6 +5419,8 @@ class BackendDatabase:
             "totalStarts",
             "firstXVAppearances",
             "firstXVStarts",
+            "historicEstimatedAppearances",
+            "historicEstimatedFirstXVAppearances",
             "seasonAppearances",
             "seasonStarts",
             "seasonCompetitiveAppearances",
@@ -5427,8 +5441,10 @@ class BackendDatabase:
         df_sorted = df.sort_values("totalAppearances", ascending=False)
         df_dedup = df_sorted.drop_duplicates(subset=["name"], keep="first")
 
+        estimates = load_appearance_estimates().set_index("player").to_dict("index")
         rows = []
         for _, row in df_dedup.iterrows():
+            estimate = estimates.get(row.get("name"), {})
             rows.append({
                 "name": row.get("name"),
                 "short_name": row.get("short_name"),
@@ -5440,6 +5456,8 @@ class BackendDatabase:
                 "totalStarts": row.get("totalStarts"),
                 "firstXVAppearances": row.get("firstXVAppearances"),
                 "firstXVStarts": row.get("firstXVStarts"),
+                "historicEstimatedAppearances": estimate.get("total", 0),
+                "historicEstimatedFirstXVAppearances": estimate.get("first_xv", 0),
                 "seasonAppearances": row.get("seasonAppearances"),
                 "seasonStarts": row.get("seasonStarts"),
                 "seasonCompetitiveAppearances": row.get("seasonCompetitiveAppearances"),
