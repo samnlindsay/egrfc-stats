@@ -1,10 +1,12 @@
 import unittest
+from pathlib import Path
 
 import duckdb
 
 from python.reports import (
     ReportGenerator,
     _has_majority_tight5_starts,
+    _html_document,
     _meets_jumper_attempt_threshold,
     _player_name_key,
     _report_scorer_player_key,
@@ -13,6 +15,13 @@ from python.reports import (
 
 
 class PlayerReportSetPieceTests(unittest.TestCase):
+    def test_html_report_embeds_shared_styles_and_keeps_hero_background(self):
+        stylesheet = Path(__file__).resolve().parents[1] / "css" / "player-report.css"
+        rendered = _html_document("## Career Summary", "Test Player", "", "", "", background_data="test-image")
+        self.assertIn(stylesheet.read_text(encoding="utf-8"), rendered)
+        self.assertIn('class="hero" style="background-image:linear-gradient', rendered)
+        self.assertIn('url("test-image")', rendered)
+
     def setUp(self):
         self.report = object.__new__(ReportGenerator)
         self.report.con = duckdb.connect(":memory:")

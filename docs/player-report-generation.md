@@ -1,5 +1,42 @@
 # Player Report Generation
 
+## Download From A Player Profile
+
+Each Player Profile has a **Download PDF** button. The browser generates the report
+on demand from the selected player's loaded data and chart specifications, then
+downloads `<player-slug>-report.pdf`. No pre-generated PDFs, Python process, or
+server-side PDF endpoint are required for this feature on GitHub Pages.
+
+The browser first builds report HTML using the Python report's structure and the
+shared `css/player-report.css` stylesheet. It includes the branded photo header,
+career summaries, position bar, print-specific timeline and League History charts,
+grouped playing record, season and scoring summaries, teammate rankings, and
+conditional scrum, jumping and throwing records. Historic estimates retain their
+asterisk and footnote. Match history is not limited by the page's search or pagination.
+
+Position-specific teammate sections require at least five documented career starts
+in that position. Grouped partner sections (such as Front Row) require five starts
+across the unit. Positional rankings count starts only; the Overall ranking continues
+to include all appearances. The same rule applies to Python-generated reports.
+
+`js/player-report-html.js` loads the additional backend JSON sources on demand;
+`js/player-report-charts.js` applies the Python report's print chart transformations.
+Pinned jsPDF and html2canvas modules are lazy-loaded from jsDelivr. An internet
+connection is required for the first download. The button shows generation progress
+and can be retried on failure. HTML pages are split at section and table-row boundaries,
+with repeated table headers, then captured into the PDF. Browser PDF pages are images;
+the Python/Chrome export below retains native PDF text. Pagination can differ between
+the two renderers, but they share report styling rather than separate PDF themes.
+
+Run report regression checks with:
+
+```bash
+node --test tests/test_player_report.mjs
+python -m unittest tests.test_player_report_set_piece
+```
+
+## Python Reports
+
 `python/reports.py` generates branded player reports from the canonical DuckDB backend.
 
 ## Requirements

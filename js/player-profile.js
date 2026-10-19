@@ -643,6 +643,48 @@ function comparisonSectionMarkup(title, firstXVRows, clubRows, intro = "", seaso
   `;
 }
 
+function playerReportDownloadHtml(playerName) {
+  const name = String(playerName || "").trim();
+  return `<button type="button" class="btn btn-sm btn-light mt-2 align-self-start" data-player-report-download="${escapeAttribute(name)}" title="Download PDF report for ${escapeAttribute(name)}" aria-label="Download PDF report for ${escapeAttribute(name)}"><i class="bi bi-file-earmark-arrow-down" aria-hidden="true"></i> Download PDF</button><span class="small mt-1" data-player-report-status role="status"></span>`;
+}
+
+async function handlePlayerReportDownload(event) {
+  const button = event.target.closest?.("[data-player-report-download]");
+  if (!button || button.disabled) return;
+  const name = button.dataset.playerReportDownload;
+  const player = fullProfiles.find(row => row.name === name);
+  if (!player) return;
+  const status = button.parentElement.querySelector("[data-player-report-status]");
+  const originalMarkup = button.innerHTML;
+  button.disabled = true;
+  button.setAttribute("aria-busy", "true");
+  button.innerHTML = '<span class="spinner-border spinner-border-sm" aria-hidden="true"></span> Generating PDF';
+  status.textContent = "";
+
+  try {
+    const appearances = [...fullAppearancesByPlayer.values()].flat();
+    const games = [...fullGamesById.values()];
+    const timelineSpec = JSON.parse(JSON.stringify(fullProfileCareerTimelineSpec));
+    const timelineLegend = fullProfileMilestoneLegendHtml();
+    const { downloadPlayerReport } = await import("./player-report-html.js");
+    await downloadPlayerReport({
+      player: { ...player },
+      appearances,
+      games,
+      timelineSpec,
+      timelineLegend,
+    });
+    status.textContent = "PDF ready.";
+  } catch (error) {
+    console.error("Could not generate player PDF report", error);
+    status.textContent = "Unable to generate PDF. Please try again.";
+  } finally {
+    button.disabled = false;
+    button.removeAttribute("aria-busy");
+    button.innerHTML = originalMarkup;
+  }
+}
+
 function appearancesWithStartsText(summary, estimated = false) {
   const appearances = Number(summary?.appearances || 0);
   const starts = Number(summary?.starts || 0);
@@ -1336,6 +1378,7 @@ function renderProfile(player) {
                     <h2 class="full-profile-banner-name">${escapeHtml(String(player?.name || "Unknown"))}</h2>
                     <p class="full-profile-banner-subtitle">${escapeHtml(String(player?.position || "Unknown"))}</p>
                     <div class="full-profile-active-row">${activeTagMarkup(player?.isActive)}${squadTagMarkup(squadValue)}</div>
+                    ${playerReportDownloadHtml(player?.name)}
                 </div>
                 <div class="full-profile-banner-headshot">
                     ${
@@ -1531,6 +1574,7 @@ async function loadPage() {
   const loadingState = document.getElementById("fullProfileLoadingState");
   const errorState = document.getElementById("fullProfileErrorState");
   const root = document.getElementById("fullProfileRoot");
+  root.addEventListener("click", handlePlayerReportDownload);
 
   try {
     const [profilesRes, gamesRes, appearancesRes, sponsorsRes] =
