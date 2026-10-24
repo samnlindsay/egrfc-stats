@@ -1,0 +1,59 @@
+{
+    "match_id": "1304012",
+    "season": "2026-2027",
+    "league": "Harvey's Brewery Counties 3 Sussex",
+    "tracked_squad": "2nd",
+    "date": "2026-10-24",
+    "teams": [
+        "Crawley",
+        "East Grinstead II"
+    ],
+    "score": [
+        26,
+        10
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/5807.png",
+        "https://images.englandrugby.com/club_images/7136.png"
+    ],
+    "players": [
+        {
+            "15": "Conor Kelly",
+            "14": "Dilip Thayagaraja",
+            "13": "Name withheld",
+            "12": "Thomas Flack",
+            "11": "Kai Marshall",
+            "10": "Oscar Davies",
+            "9": "Callum Hankin",
+            "8": "Joe Ball",
+            "7": "Charles Dennis",
+            "6": "Mason Campbell",
+            "5": "Bradley Davies",
+            "4": "Daniel Davis",
+            "3": "Nathan Cox",
+            "2": "Coby Coy",
+            "1": "Joel Fisher",
+            "S1": "Robert Higgins",
+            "S2": "Jack Dealhoy",
+            "S3": "Andrew Jagger"
+        },
+        {
+            "15": "Benjamin Green",
+            "14": "Oliver Roberts",
+            "13": "Louis Duvall",
+            "12": "Thomas Byron",
+            "11": "James Randall",
+            "10": "Henry Weller",
+            "9": "Jude Lavender",
+            "8": "Gregory Brack",
+            "7": "Frankie Harris",
+            "6": "Peter Morley",
+            "4": "Alfie Fuller",
+            "3": "George Beet",
+            "2": "Joshua Sketcher",
+            "1": "Thomas McMahon",
+            "S1": "Thomas Saunders",
+            "S2": "Thomas Halligey"
+        }
+    ]
+}

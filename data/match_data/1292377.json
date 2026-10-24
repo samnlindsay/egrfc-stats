@@ -1,0 +1,58 @@
+{
+    "match_id": "1292377",
+    "season": "2026-2027",
+    "league": "Counties 2 Sussex",
+    "tracked_squad": "1st",
+    "date": "2026-10-24",
+    "teams": [
+        "East Grinstead",
+        "Hove II"
+    ],
+    "score": [
+        53,
+        10
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7134.png",
+        "https://images.englandrugby.com/club_images/10504.png"
+    ],
+    "players": [
+        {
+            "15": "Daniel Poulton",
+            "14": "William Roberts",
+            "13": "Tom Mooney",
+            "12": "Ryland Thomas",
+            "11": "James Bull",
+            "10": "Noah Roberts",
+            "9": "Name withheld",
+            "8": "Owen Peel",
+            "7": "Rory evans",
+            "6": "Daniel Harding",
+            "5": "Samuel Lindsay-Mccall",
+            "4": "Benjamin Tottman",
+            "3": "Mark Oliver",
+            "2": "Joshua Brimecombe",
+            "1": "Dylan Hammocks",
+            "S1": "Josh Weaver",
+            "S2": "Oscar Staples",
+            "S3": "Dominic Woodfine"
+        },
+        {
+            "15": "Dylan Jones",
+            "14": "Thomas Kentell",
+            "13": "Henry Bedeau",
+            "12": "Tom Holborn",
+            "11": "josh Sloman",
+            "10": "Axl Wood",
+            "9": "Dylan Daniels",
+            "8": "Milad Nasab",
+            "7": "Ben Stephens",
+            "6": "George Brown",
+            "5": "Issac Thomas",
+            "4": "Benjamin Stokes",
+            "3": "Lennon Packwood",
+            "2": "Issac Thomas",
+            "1": "Thomas Berry"
+        }
+    ]
+}
