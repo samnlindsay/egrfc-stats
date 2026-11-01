@@ -1,0 +1,61 @@
+{
+    "match_id": "1304017",
+    "season": "2026-2027",
+    "league": "Harvey's Brewery Counties 3 Sussex",
+    "tracked_squad": "2nd",
+    "date": "2026-10-31",
+    "teams": [
+        "Crowborough II",
+        "Crawley"
+    ],
+    "score": [
+        29,
+        46
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/5919.png",
+        "https://images.englandrugby.com/club_images/5807.png"
+    ],
+    "players": [
+        {
+            "15": "Adam Churchyard",
+            "14": "Harvey Thatcher",
+            "13": "Finley Vos",
+            "12": "Lee Cagna",
+            "11": "Arran Faramus",
+            "10": "Bradley Tucker",
+            "9": "Keith Brooker",
+            "8": "Alfred Russell",
+            "7": "Frank Hanson",
+            "6": "Sean Wright",
+            "5": "Matthew Botterman",
+            "4": "Henry Brooker",
+            "3": "Joshua Rhodes",
+            "2": "Toby Shortland",
+            "1": "James Crouch",
+            "S1": "Freddie Simmons",
+            "S2": "Andrew Martin"
+        },
+        {
+            "15": "Jack Dealhoy",
+            "14": "Mason Campbell",
+            "13": "Name withheld",
+            "12": "Kristian Dean",
+            "11": "Kai Marshall",
+            "10": "Conor Kelly",
+            "9": "Thomas Flack",
+            "8": "Joe Ball",
+            "7": "Henry Nyinguro",
+            "6": "Charles Dennis",
+            "5": "Andrew Jagger",
+            "4": "Daniel Davis",
+            "3": "Gorm Young",
+            "2": "Robert Higgins",
+            "1": "Joel Fisher",
+            "S1": "Ashley Healy",
+            "S2": "Harry Hickmet",
+            "S3": "Jozef Boczek",
+            "S4": "Dilip Thayagaraja"
+        }
+    ]
+}

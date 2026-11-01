@@ -1,0 +1,63 @@
+{
+    "match_id": "1304014",
+    "season": "2026-2027",
+    "league": "Harvey's Brewery Counties 3 Sussex",
+    "tracked_squad": "2nd",
+    "date": "2026-10-31",
+    "teams": [
+        "Worthing III",
+        "Haywards Heath II"
+    ],
+    "score": [
+        22,
+        48
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/127674.png",
+        "https://images.englandrugby.com/club_images/9777.png"
+    ],
+    "players": [
+        {
+            "15": "Jack Noble",
+            "14": "Robert Bleker",
+            "13": "Matthew Bell",
+            "12": "Simon Miles",
+            "11": "Dominic Clark",
+            "10": "Jacob Knowlton",
+            "9": "Nicholas Choate",
+            "8": "Ethan Stone",
+            "7": "Ciaran Glenister",
+            "6": "Dominic Phillips",
+            "5": "Alexander Perry",
+            "4": "Zachary Hammond",
+            "3": "Name withheld",
+            "2": "Adam Clarke",
+            "1": "William Hipkin",
+            "S1": "Michael Leech",
+            "S2": "Joshua Jayes",
+            "S3": "Cameron Mckinder",
+            "S4": "Tim Key",
+            "S5": "Samuel Crockford"
+        },
+        {
+            "15": "Rory Robinson",
+            "14": "Thomas Farmer",
+            "13": "Josh Jones",
+            "12": "Barrow Matthew",
+            "11": "Herlander Mbunga",
+            "10": "Christopher Neill",
+            "9": "Tom Butler",
+            "8": "Gareth Fergusson",
+            "7": "Jacob Bates",
+            "6": "Henry Dickson",
+            "5": "Finlay Furse",
+            "4": "Charles Fenwick",
+            "3": "Martin Mcdonagh",
+            "2": "Karl Wicking",
+            "1": "Taylor Seymour",
+            "S1": "Stefan Duda",
+            "S2": "Roscoe Atkins",
+            "S3": "Alexander Chard"
+        }
+    ]
+}

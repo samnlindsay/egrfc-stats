@@ -79,8 +79,17 @@ def main(
     rfu_season=None,
     rfu_all_teams=False,
     rfu_matches_file="data/matches.json",
+    system_certificates: bool = False,
 ):
     """Main update function using optimized data"""
+
+    if system_certificates:
+        if sys.version_info < (3, 10):
+            raise RuntimeError("--system-certificates requires Python 3.10 or newer.")
+        import truststore
+
+        truststore.inject_into_ssl()
+        print("Using system-trusted certificates for HTTPS verification.")
 
     # Generate logos manifest for frontend
     export_logos_manifest(Path("data") / "logos.json", Path("img") / "logos")
@@ -319,6 +328,11 @@ if __name__ == "__main__":
         help="Fetch all teams' results and available lineups in each selected EG league division",
     )
     parser.add_argument(
+        "--system-certificates",
+        action="store_true",
+        help="Use native system certificate trust for HTTPS verification (Python 3.10+)",
+    )
+    parser.add_argument(
         "--rfu-matches-file",
         default="data/matches.json",
         help="Path to consolidated RFU match store used by backend build",
@@ -336,4 +350,5 @@ if __name__ == "__main__":
         rfu_season=args.rfu_season,
         rfu_all_teams=args.rfu_all_teams,
         rfu_matches_file=args.rfu_matches_file,
+        system_certificates=args.system_certificates,
     )

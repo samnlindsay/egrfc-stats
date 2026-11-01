@@ -1,0 +1,62 @@
+{
+    "match_id": "1304013",
+    "season": "2026-2027",
+    "league": "Harvey's Brewery Counties 3 Sussex",
+    "tracked_squad": "2nd",
+    "date": "2026-10-24",
+    "teams": [
+        "Haywards Heath II",
+        "Pulborough II"
+    ],
+    "score": [
+        22,
+        12
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/9777.png",
+        "https://images.englandrugby.com/club_images/17257.png"
+    ],
+    "players": [
+        {
+            "15": "Alexander Chard",
+            "14": "Thomas Farmer",
+            "13": "Name withheld",
+            "12": "Louis Parker",
+            "11": "Herlander Mbunga",
+            "10": "Roscoe Atkins",
+            "9": "Christopher Hallam",
+            "8": "Josh Pope",
+            "7": "Henry Dickson",
+            "6": "Archie Francis",
+            "5": "Charles Fenwick",
+            "4": "Finlay Furse",
+            "3": "Geoffrey Bridges",
+            "2": "Christopher Neill",
+            "1": "Harrison Thomas Edwards",
+            "S1": "Tiaan Coetzee",
+            "S2": "Rory Robinson",
+            "S3": "Adam Southern",
+            "S4": "Gareth Fergusson",
+            "S5": "Stefan Duda"
+        },
+        {
+            "15": "Tom Doherty",
+            "14": "Mikey Goldthorpe",
+            "13": "Ewan Callaway",
+            "12": "Sam Jenkins",
+            "11": "Jake Fisher",
+            "10": "Thomas Bouet",
+            "9": "Lewis Oakey",
+            "8": "Charles Payne",
+            "7": "Keith Beckley",
+            "6": "Harry Dunk",
+            "5": "Douglas Ludlow-monk",
+            "4": "Joseph Billinghurst",
+            "3": "Thomas Brackley",
+            "2": "Charles Stephenson Coggan",
+            "1": "Ben Roberts",
+            "S1": "Shaye Elgar",
+            "S2": "Matthew Sprigge"
+        }
+    ]
+}

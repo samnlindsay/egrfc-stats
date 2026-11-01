@@ -1,0 +1,57 @@
+{
+    "match_id": "1292383",
+    "season": "2026-2027",
+    "league": "Counties 2 Sussex",
+    "tracked_squad": "1st",
+    "date": "2026-10-31",
+    "teams": [
+        "Horsham II",
+        "Shoreham"
+    ],
+    "score": [
+        96,
+        19
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/10450.png",
+        "https://images.englandrugby.com/club_images/19257.png"
+    ],
+    "players": [
+        {
+            "15": "Connor Barnes",
+            "14": "Thomas Higgs",
+            "13": "Harvey Brock",
+            "12": "Robert Grant",
+            "11": "Ryan Pearce",
+            "10": "Joshua Drauniniu",
+            "9": "Josiah Walker",
+            "8": "Ian Nunana Paku",
+            "7": "Joe Johnson",
+            "6": "Bertie Holwell",
+            "5": "Tom Ahern",
+            "4": "Charlie Lewis",
+            "3": "Name withheld",
+            "2": "Nicholas Bell",
+            "1": "Jack Osgood",
+            "S1": "Kyle Mac Robert Smith"
+        },
+        {
+            "15": "Dale Cannell",
+            "14": "Ryan Morlen",
+            "12": "Ewan Shepherd",
+            "11": "Darren Locke",
+            "10": "Adam Fear",
+            "9": "Steven Goater",
+            "8": "Ben French",
+            "7": "Louie Bryant",
+            "6": "George Thomas",
+            "5": "Thomas Miller",
+            "4": "Andrew Mamoany",
+            "3": "Michael Shaw",
+            "2": "Daryn Clarke",
+            "1": "Arron Allison",
+            "S1": "Louie Bryant",
+            "S2": "David Ayres"
+        }
+    ]
+}

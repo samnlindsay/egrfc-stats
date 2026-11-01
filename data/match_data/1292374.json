@@ -1,0 +1,60 @@
+{
+    "match_id": "1292374",
+    "season": "2026-2027",
+    "league": "Counties 2 Sussex",
+    "tracked_squad": "1st",
+    "date": "2026-10-24",
+    "teams": [
+        "Lewes",
+        "Ditchling"
+    ],
+    "score": [
+        19,
+        7
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/12206.png",
+        "https://images.englandrugby.com/club_images/6541.png"
+    ],
+    "players": [
+        {
+            "15": "Jack Soltermann",
+            "14": "Harry Rees",
+            "13": "Rafferty Green",
+            "12": "Elliott Mills",
+            "11": "Thomas Roy",
+            "10": "Kellen Harvey",
+            "9": "Name withheld",
+            "8": "Louis Medhurst",
+            "7": "Harry Taylor",
+            "6": "Toby Duncan",
+            "5": "Jack Bradford",
+            "4": "Sean Frederick Mangan",
+            "3": "Fearghus Gage",
+            "2": "Benjamin Simmonds",
+            "1": "Ian Thomas",
+            "S1": "James Durrant",
+            "S2": "Thomas Petty",
+            "S3": "Benjamin Bishop"
+        },
+        {
+            "15": "Nick Whitley-Jones",
+            "14": "James Turner",
+            "13": "Adam Crook",
+            "12": "Sonny Smyth",
+            "11": "Takhy Ndiaye Marrero",
+            "10": "Ben Poulton",
+            "9": "Teddy Birkbeck",
+            "8": "James Cleary",
+            "7": "Jarrell Bobo",
+            "6": "Aidas Pikunas",
+            "5": "Charles Jones",
+            "4": "Ollie Van Hoeken",
+            "3": "billy jones",
+            "2": "Samuel Lodge",
+            "1": "Gordon Costick",
+            "S1": "jonathan Hill",
+            "S2": "Oscar Wiseman"
+        }
+    ]
+}

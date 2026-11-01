@@ -1,0 +1,57 @@
+{
+    "match_id": "1292376",
+    "season": "2026-2027",
+    "league": "Counties 2 Sussex",
+    "tracked_squad": "1st",
+    "date": "2026-10-24",
+    "teams": [
+        "Seaford",
+        "Horsham II"
+    ],
+    "score": [
+        5,
+        36
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/18868.png",
+        "https://images.englandrugby.com/club_images/10450.png"
+    ],
+    "players": [
+        {
+            "15": "John Paul Kwun",
+            "14": "Name withheld",
+            "13": "Paddy Powney",
+            "12": "william joy",
+            "11": "Josh Ellis-Smith",
+            "10": "Corey Digby-Clarke",
+            "9": "Oli Simmons",
+            "8": "Adam Holt",
+            "7": "Charlie Guest",
+            "6": "Shaun Brewer",
+            "5": "Jason Dubas-Fisher",
+            "4": "Joseph Drew",
+            "3": "Daniel Blunt",
+            "2": "Nathan Roberts",
+            "1": "Brendan Strick",
+            "S1": "Simon Baker",
+            "S2": "Michael Upton",
+            "S3": "Benjamin Marelli"
+        },
+        {
+            "15": "Sammy Shepherd",
+            "14": "Edward Grogan",
+            "13": "Harvey Brock",
+            "12": "Ryan Pearce",
+            "11": "James Millsom",
+            "10": "Josiah Walker",
+            "9": "Ian Nunana Paku",
+            "8": "Joshua Hedger",
+            "7": "Bertie Holwell",
+            "6": "Charlie Lewis",
+            "5": "Tom Ahern",
+            "4": "Nicholas Bell",
+            "3": "Luke Powell",
+            "2": "Joshua Drauniniu"
+        }
+    ]
+}

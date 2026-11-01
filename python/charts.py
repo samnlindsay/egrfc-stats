@@ -8642,7 +8642,7 @@ def league_results_chart(db, season="2024-2025", league="Counties 1 Surrey/Susse
         completed_df["away_pd"] = completed_df["away_score"] - completed_df["home_score"]
         home_pd = completed_df.groupby("home_team", as_index=True)["home_pd"].sum()
         away_pd = completed_df.groupby("away_team", as_index=True)["away_pd"].sum()
-        pd_map = home_pd.add(away_pd, fill_value=0).to_dict()
+        pd_map = pd.concat([home_pd, away_pd]).groupby(level=0).sum().to_dict()
 
     matrix_df["display_text"] = matrix_df["score_text"]
     matrix_df["is_diagonal"] = matrix_df["home_team"] == matrix_df["away_team"]

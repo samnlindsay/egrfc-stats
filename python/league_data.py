@@ -479,14 +479,14 @@ def build_rfu_player_appearances_dataframe(matches=None, consolidated_file=None,
 
     team_games = pd.concat(
         [
-            games_df[["match_id", "season", "date", "home_team", "away_team", "lineup_available_home"]].rename(
+            games_df[["match_id", "season", "date", "home_team", "away_team", "home_walkover", "away_walkover", "lineup_available_home"]].rename(
                 columns={
                     "home_team": "team",
                     "away_team": "opposition",
                     "lineup_available_home": "lineup_available",
                 }
             ).assign(home_away="H"),
-            games_df[["match_id", "season", "date", "home_team", "away_team", "lineup_available_away"]].rename(
+            games_df[["match_id", "season", "date", "home_team", "away_team", "home_walkover", "away_walkover", "lineup_available_away"]].rename(
                 columns={
                     "away_team": "team",
                     "home_team": "opposition",
@@ -497,7 +497,12 @@ def build_rfu_player_appearances_dataframe(matches=None, consolidated_file=None,
         ignore_index=True,
     ).sort_values(["season", "team", "date", "match_id"])
 
-    team_games["previous_match_id"] = team_games.groupby(["season", "team"])["match_id"].shift(1)
+    team_games["previous_match_id"] = team_games["match_id"].where(
+        ~(team_games["home_walkover"] | team_games["away_walkover"])
+    )
+    team_games["previous_match_id"] = team_games.groupby(["season", "team"])["previous_match_id"].transform(
+        lambda match_ids: match_ids.ffill().shift(1)
+    )
     previous_lineups = team_games[["season", "team", "match_id", "lineup_available"]].rename(
         columns={
             "match_id": "previous_match_id",

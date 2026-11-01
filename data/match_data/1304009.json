@@ -1,0 +1,61 @@
+{
+    "match_id": "1304009",
+    "season": "2026-2027",
+    "league": "Harvey's Brewery Counties 3 Sussex",
+    "tracked_squad": "2nd",
+    "date": "2026-10-24",
+    "teams": [
+        "Royals RFC",
+        "Uckfield"
+    ],
+    "score": [
+        7,
+        17
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/94051.png",
+        "https://images.englandrugby.com/club_images/23445.png"
+    ],
+    "players": [
+        {
+            "15": "Jenson Holmes",
+            "14": "Oscar England",
+            "13": "Jakob Stanton",
+            "12": "Hugo Reid",
+            "11": "Pearse Moloney",
+            "10": "Richard Stevens",
+            "9": "Connor Devenny",
+            "8": "Cameron Queree",
+            "7": "Dan Haywood",
+            "6": "Matthew Boyd",
+            "5": "Will Michel",
+            "4": "Lewis Ham-Howes",
+            "3": "Name withheld",
+            "2": "Rowan Dixon-Smith",
+            "1": "Tristan Burns",
+            "S1": "Jake Dillon",
+            "S2": "Conor Bisson-Mercury",
+            "S3": "Marcus Brandon",
+            "S4": "Aidan Loane"
+        },
+        {
+            "15": "Adam Young",
+            "14": "Ryan Bate",
+            "13": "Oisin Mcwalter",
+            "12": "Ethan Baldwin",
+            "11": "Thomas Booth",
+            "10": "Matt Parish",
+            "9": "Jordan Heir",
+            "8": "Harvey Pratt",
+            "7": "Jacob Bilton",
+            "6": "Rhys Camis",
+            "5": "Oliver O'Riordan",
+            "4": "Stephen Hartfield",
+            "3": "Charles Rumary",
+            "2": "Alfie Mitchell",
+            "1": "Matthew Longhurst",
+            "S1": "Adam Dean",
+            "S2": "Adam Palmer"
+        }
+    ]
+}

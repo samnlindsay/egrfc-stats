@@ -2057,7 +2057,14 @@ class BackendDatabase:
             )
             SELECT
                 *,
-                LAG(match_id) OVER (PARTITION BY season, team ORDER BY date, match_id) AS previous_match_id
+                LAST_VALUE(
+                    CASE WHEN NOT COALESCE(team_walkover, FALSE)
+                              AND NOT COALESCE(opposition_walkover, FALSE)
+                         THEN match_id END IGNORE NULLS
+                ) OVER (
+                    PARTITION BY season, team ORDER BY date, match_id
+                    ROWS BETWEEN UNBOUNDED PRECEDING AND 1 PRECEDING
+                ) AS previous_match_id
             FROM team_games
             """
         )

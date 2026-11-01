@@ -1,0 +1,57 @@
+{
+    "match_id": "1292382",
+    "season": "2026-2027",
+    "league": "Counties 2 Sussex",
+    "tracked_squad": "1st",
+    "date": "2026-10-31",
+    "teams": [
+        "Hove II",
+        "Seaford"
+    ],
+    "score": [
+        44,
+        43
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/10504.png",
+        "https://images.englandrugby.com/club_images/18868.png"
+    ],
+    "players": [
+        {
+            "15": "Joseph Winstanley",
+            "14": "Rhowan Braybrook",
+            "13": "Ruaridh Morgan",
+            "12": "Toby Reed",
+            "11": "Name withheld",
+            "10": "josh Sloman",
+            "9": "Axl Wood",
+            "8": "Dylan Daniels",
+            "7": "Milad Nasab",
+            "6": "Tobias Brown",
+            "5": "Ben Stephens",
+            "4": "Adrian Shergold",
+            "3": "Samuel Mainwaring",
+            "2": "Jack Portman",
+            "1": "Benjamin Stokes",
+            "S1": "Alexander Walsh-Arto",
+            "S2": "John Paul Kwun",
+            "S3": "Josh Ellis-Smith"
+        },
+        {
+            "15": "Darren Flynn",
+            "14": "william joy",
+            "13": "Jake Davey",
+            "12": "Corey Digby-Clarke",
+            "11": "Oli Simmons",
+            "10": "Adam Holt",
+            "9": "Andrew Fry",
+            "8": "Charlie Guest",
+            "7": "Jason Dubas-Fisher",
+            "6": "Joseph Drew",
+            "5": "Daniel Blunt",
+            "4": "Nathan Roberts",
+            "3": "Brendan Strick",
+            "2": "Paddy Powney"
+        }
+    ]
+}

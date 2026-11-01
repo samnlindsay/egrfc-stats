@@ -345,11 +345,13 @@ Pitchero raw/clean staging datasets are now in-memory build intermediates only. 
 - `v_season_results`: season/squad/game type result aggregates.
 
 ### RFU views
-- `v_rfu_team_games`: team-perspective rows from each RFU match.
+- `v_rfu_team_games`: team-perspective rows from each RFU match. The previous-match pointer skips home and away walkovers within the same season/team; walkover fixtures remain available for results and coverage.
 - `v_rfu_squad_size`: player usage totals by unit and team.
 - `v_rfu_match_retention`: per-match retained-starter counts by unit.
 - `v_rfu_average_retention`: averaged retained-starter counts by season/team/unit.
 - `v_rfu_lineup_coverage`: lineup coverage summary by season/team.
+
+RFU appearance continuity markers and returners compare against the previous non-walkover fixture. A missing lineup on that fixture still excludes the comparison; it is not treated as zero retention or skipped in favour of an older available lineup.
 
 ## Downstream consumer map
 

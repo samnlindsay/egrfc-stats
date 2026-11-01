@@ -117,7 +117,17 @@ Fetch every fixture in the selected EG league division, including matches betwee
 
 Use `--rfu-squad 1` or `--rfu-squad 2` to restrict the refresh to one EG division. To refresh every configured division across all League History seasons, add `--rfu-all` instead of `--rfu-season`; this can make many RFU requests. RFU lineup availability varies by match. All fixtures are stored in the existing `data/matches.json` source and exposed through the league-context backend tables; opponent players do not enter EG's canonical player statistics.
 
+The Results Matrix files are regenerated after the backend build, including historical seasons. Allow the command to finish with `All charts and data generated.` before reloading the page; a chart-generation exception can leave older matrix files in place. Matrix diagonal points differences sum all available scored home and away fixtures, including teams with uneven home/away coverage.
+
 `--rfu-all-teams` only retries missing lineups on EG-tracked fixtures. Use `--rfu-league-wide` when you need all clubs' results and lineups in those divisions.
+
+On an approved managed network that uses HTTPS inspection, Python's default CA bundle may reject a certificate chain already trusted by macOS. With Python 3.10 or newer, install the project dependencies in your active environment (`python -m pip install -e .`) and opt into native system trust:
+
+```bash
+python python/update.py --backend-mode canonical --rfu-league-wide --rfu-season 2026/27 --system-certificates
+```
+
+This uses `truststore` for HTTPS verification throughout the update process; it does not disable certificate or hostname checks, and the default certificate behavior is unchanged without the flag. Only use this on an expected network with approved certificates installed in the system trust store. An HTTP 403 after successful certificate verification is a separate website/network access issue, not a TLS error. On older Python versions, configure `REQUESTS_CA_BUNDLE` with an approved CA bundle instead.
 
 Skip RFU refresh and build from existing `data/matches.json`:
 

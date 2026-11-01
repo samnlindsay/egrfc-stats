@@ -1,0 +1,59 @@
+{
+    "match_id": "1292379",
+    "season": "2026-2027",
+    "league": "Counties 2 Sussex",
+    "tracked_squad": "1st",
+    "date": "2026-10-31",
+    "teams": [
+        "Burgess Hill",
+        "Brighton II"
+    ],
+    "score": [
+        18,
+        29
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/3659.png",
+        "https://images.englandrugby.com/club_images/3218.png"
+    ],
+    "players": [
+        {
+            "15": "Oscar John",
+            "14": "Liam Capel",
+            "13": "Aidan Baker",
+            "12": "Ben Mclaren",
+            "11": "Tomer Teichmann",
+            "10": "Oliver Lewis",
+            "9": "Toby Lewis",
+            "8": "Jarod Van blerk",
+            "7": "Paul Greenhalgh",
+            "6": "Charlie Coles",
+            "5": "Tom Betts",
+            "4": "Yasin Chowdhury",
+            "3": "Kyle Tucker",
+            "2": "Lewis Bedford",
+            "1": "Ben Tuvey",
+            "S1": "Adam Lane",
+            "S2": "Charlie Smith",
+            "S3": "Morgan Hill"
+        },
+        {
+            "15": "Ralph Harris",
+            "14": "Tom Foster",
+            "13": "Ben Varley",
+            "12": "William Reeves-Perrin",
+            "11": "Name withheld",
+            "10": "Jonah Parker",
+            "9": "Luke Jameson Clark",
+            "8": "Luke Booth",
+            "7": "Ibrahim Bangura",
+            "6": "Jake Blackburn",
+            "5": "Zak Ellenger",
+            "4": "Andrew Rowlandson",
+            "3": "Theo Hidalgo de Quintana",
+            "2": "Oliver Gaston",
+            "1": "Lucas Marsden",
+            "S1": "Frederick Tilley"
+        }
+    ]
+}

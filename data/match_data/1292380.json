@@ -1,0 +1,56 @@
+{
+    "match_id": "1292380",
+    "season": "2026-2027",
+    "league": "Counties 2 Sussex",
+    "tracked_squad": "1st",
+    "date": "2026-10-31",
+    "teams": [
+        "Eastbourne II",
+        "Lewes"
+    ],
+    "score": [
+        12,
+        60
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/7213.png",
+        "https://images.englandrugby.com/club_images/12206.png"
+    ],
+    "players": [
+        {
+            "15": "Name withheld",
+            "14": "Trystan Mocke",
+            "13": "Charles Parks",
+            "12": "Tom Wood",
+            "11": "Morgan Treacher",
+            "10": "Louis Nicholls",
+            "9": "Felix Hawthorne",
+            "8": "Michael Morehen",
+            "7": "Layton Smith",
+            "6": "James Kirk",
+            "5": "Sean Groombridge",
+            "4": "Alun Cranch",
+            "3": "Taylor Wilks",
+            "2": "Joseph Bettles",
+            "1": "Toby Slaughter",
+            "S1": "Konrad Oneill",
+            "S2": "Morgan Treacher",
+            "S3": "Thomas Roy"
+        },
+        {
+            "15": "Daryl Benson",
+            "14": "Rafferty Green",
+            "13": "Thomas Green",
+            "12": "Jack Soltermann",
+            "11": "Louis Medhurst",
+            "10": "Harry Taylor",
+            "9": "Toby Duncan",
+            "8": "Sean Frederick Mangan",
+            "7": "Thomas Petty",
+            "6": "Benjamin Simmonds",
+            "5": "Harry Rees",
+            "4": "Kane Dadswell",
+            "3": "Harry Carr"
+        }
+    ]
+}

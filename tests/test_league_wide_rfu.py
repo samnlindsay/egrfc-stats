@@ -7,7 +7,7 @@ from unittest.mock import Mock, mock_open, patch
 import pandas as pd
 
 from python.backend import BackendConfig, BackendDatabase
-from python.charts import _derive_league_result, _is_future_unplayed_fixture
+from python.charts import _derive_league_result, _is_future_unplayed_fixture, league_results_chart
 from python.league_data import (
     build_rfu_games_dataframe,
     build_rfu_player_appearances_dataframe,
@@ -38,6 +38,122 @@ LEAGUE_HISTORY = pd.DataFrame(
 
 
 class LeagueWideRfuTests(unittest.TestCase):
+    @patch("python.charts._load_league_table_rank_map", return_value={})
+    def test_results_matrix_handles_uneven_home_and_away_coverage(self, _rank_map):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            backend = BackendDatabase(
+                BackendConfig(
+                    db_path=str(Path(temp_dir) / "test.duckdb"),
+                    export_dir=str(Path(temp_dir) / "exports"),
+                )
+            )
+            try:
+                backend.reset_schema()
+                first = {
+                    "match_id": "first",
+                    "season": "2024-2025",
+                    "league": "Counties 2 Sussex",
+                    "tracked_squad": "1st",
+                    "date": "2024-09-07",
+                    "teams": ["Club A", "Club B"],
+                    "score": [24, 14],
+                    "players": [{}, {}],
+                }
+                games = build_rfu_games_dataframe(matches=[
+                    first,
+                    {**first, "match_id": "second", "date": "2024-09-14", "teams": ["Club A", "Club C"], "score": [17, 7]},
+                    {**first, "match_id": "third", "date": "2024-09-21", "teams": ["Club B", "Club A"], "score": [12, 7]},
+                    {**first, "match_id": "unplayed", "date": "2024-09-21", "teams": ["Club B", "Club C"], "score": [None, None]},
+                ])
+                backend._insert("games_rfu", games)
+                output = Path(temp_dir) / "matrix.json"
+                league_results_chart(
+                    backend, season="2024/25", league="Counties 2 Sussex", output_file=str(output), squad=1
+                )
+                spec = json.loads(output.read_text(encoding="utf-8"))
+                rows = [row for values in spec["datasets"].values() for row in values]
+                diagonals = {row["home_team"]: row["display_text"] for row in rows if row["is_diagonal"]}
+                self.assertEqual(diagonals, {"Club A": "+15", "Club B": "-5", "Club C": "-10"})
+                latest = next(row for row in rows if row.get("match_id") == "second")
+                self.assertEqual(latest["display_text"], "17-7")
+                self.assertEqual(latest["result"], "Home Win")
+                unplayed = next(row for row in rows if row.get("match_id") == "unplayed")
+                self.assertEqual(unplayed["result"], "To be played")
+                self.assertEqual(unplayed["display_text"], "")
+            finally:
+                backend.close()
+
+    def test_returners_skip_walkovers_but_not_missing_lineups(self):
+        for intervening_score, expected_previous, expected_retention in [
+            (["WO", ""], "first", 1),
+            (["", "WO"], "first", 1),
+            ([12, 7], "intervening", None),
+        ]:
+            with self.subTest(score=intervening_score), tempfile.TemporaryDirectory() as temp_dir:
+                first = {
+                    "match_id": "first",
+                    "season": "2024-2025",
+                    "league": "Counties 2 Sussex",
+                    "tracked_squad": "1st",
+                    "date": "2024-09-07",
+                    "teams": ["Lewes", "Horsham II"],
+                    "score": [24, 17],
+                    "players": [{"1": "Home Forward", "9": "Home Back"}, {"1": "Away Forward", "9": "Away Back"}],
+                }
+                matches = [
+                    first,
+                    {**first, "match_id": "intervening", "date": "2024-09-14", "score": intervening_score, "players": [{}, {}]},
+                    {**first, "match_id": "walkover", "date": "2024-09-21", "score": ["", "WO"], "players": [{}, {}]},
+                    {
+                        **first,
+                        "match_id": "after",
+                        "date": "2024-09-28",
+                        "players": [{"1": "Home Forward", "9": "New Home Back"}, {"1": "Away Forward", "9": "New Away Back"}],
+                    },
+                    {**first, "match_id": "next-season", "season": "2025-2026", "date": "2025-09-06"},
+                ]
+                games = build_rfu_games_dataframe(matches=matches)
+                appearances = build_rfu_player_appearances_dataframe(matches=matches, games_df=games)
+                after = appearances[appearances["match_id"] == "after"]
+                self.assertEqual(set(after["previous_match_id"]), {expected_previous})
+                if expected_retention is None:
+                    self.assertTrue(after["played_previous_game"].isna().all())
+                else:
+                    self.assertEqual(int(after["played_previous_game"].sum()), 2)
+                self.assertTrue(
+                    appearances.loc[appearances["match_id"] == "next-season", "previous_match_id"].isna().all()
+                )
+
+                backend = BackendDatabase(
+                    BackendConfig(
+                        db_path=str(Path(temp_dir) / "test.duckdb"),
+                        export_dir=str(Path(temp_dir) / "exports"),
+                    )
+                )
+                try:
+                    backend.reset_schema()
+                    backend._insert("games_rfu", games)
+                    backend._insert("player_appearances_rfu", appearances)
+                    backend.create_views()
+                    pointers = backend.query(
+                        "SELECT previous_match_id FROM v_rfu_team_games WHERE match_id = ?",
+                        ["after"],
+                    )
+                    self.assertEqual(pointers["previous_match_id"].tolist(), [expected_previous] * 2)
+                    retention = backend.query(
+                        "SELECT team, average_retention, game_pairs FROM v_rfu_average_retention WHERE unit = ?",
+                        ["Total"],
+                    )
+                    if expected_retention is None:
+                        self.assertTrue(retention.empty)
+                    else:
+                        self.assertEqual(set(retention["team"]), {"Lewes", "Horsham II"})
+                        self.assertEqual(retention["average_retention"].tolist(), [expected_retention] * 2)
+                        self.assertEqual(retention["game_pairs"].tolist(), [1, 1])
+                    self.assertEqual(backend.query("SELECT COUNT(*) AS n FROM games_rfu").iloc[0]["n"], 5)
+                finally:
+                    backend.close()
+
     def test_score_parser_does_not_treat_kickoff_time_as_score(self):
         self.assertEqual(_parse_score_text("15:00"), [None, None])
         self.assertEqual(_parse_score_text("14:00"), [None, None])

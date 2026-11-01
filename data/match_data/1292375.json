@@ -1,0 +1,52 @@
+{
+    "match_id": "1292375",
+    "season": "2026-2027",
+    "league": "Counties 2 Sussex",
+    "tracked_squad": "1st",
+    "date": "2026-10-24",
+    "teams": [
+        "Brighton II",
+        "Eastbourne II"
+    ],
+    "score": [
+        48,
+        19
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/3218.png",
+        "https://images.englandrugby.com/club_images/7213.png"
+    ],
+    "players": [
+        {
+            "15": "Aidan Russell",
+            "14": "Ralph Harris",
+            "13": "Ben Varley",
+            "12": "Tom Foster",
+            "11": "Name withheld",
+            "10": "Jonah Parker",
+            "9": "Max Belson",
+            "8": "Ibrahim Bangura",
+            "7": "Jake Blackburn",
+            "6": "Zak Ellenger",
+            "5": "Andrew Rowlandson",
+            "4": "Theo Hidalgo de Quintana",
+            "3": "Oliver Gaston",
+            "2": "George Miller",
+            "1": "Layton Smith",
+            "S1": "Owen Parkins",
+            "S2": "Maximus Smith",
+            "S3": "Charles Parks"
+        },
+        {
+            "15": "Teddy Groves",
+            "14": "Louis Nicholls",
+            "13": "Michael Morehen",
+            "12": "Morgan Treacher",
+            "11": "Trystan Mocke",
+            "10": "Sean Groombridge",
+            "9": "Alun Cranch",
+            "8": "Sebastian Wardle",
+            "7": "John Welbourne"
+        }
+    ]
+}

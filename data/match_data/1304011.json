@@ -1,0 +1,59 @@
+{
+    "match_id": "1304011",
+    "season": "2026-2027",
+    "league": "Harvey's Brewery Counties 3 Sussex",
+    "tracked_squad": "2nd",
+    "date": "2026-10-24",
+    "teams": [
+        "Horsham Barbarians",
+        "Crowborough II"
+    ],
+    "score": [
+        49,
+        10
+    ],
+    "logos": [
+        "https://images.englandrugby.com/club_images/10451.png",
+        "https://images.englandrugby.com/club_images/5919.png"
+    ],
+    "players": [
+        {
+            "15": "Sam Lunn",
+            "14": "Name withheld",
+            "13": "Nicholas Sage",
+            "12": "Marcus Trethewey",
+            "11": "Thomas White",
+            "10": "Matthew Heydari",
+            "9": "Josh Blake",
+            "8": "Alex Mellor",
+            "7": "Rory Cormack",
+            "6": "Max Elliott",
+            "5": "Tom Britten",
+            "4": "Cole Slabbert",
+            "3": "Daniel Macklin",
+            "2": "Steve Dunster",
+            "1": "Stephen Etherington",
+            "S1": "Antoni Rykala",
+            "S2": "Josh Beard",
+            "S3": "Mark Bird"
+        },
+        {
+            "15": "Adam Churchyard",
+            "14": "Harvey Thatcher",
+            "13": "Finley Vos",
+            "12": "Harry Jones",
+            "11": "Thomas Woodgate",
+            "10": "Lee Cagna",
+            "9": "Keith Brooker",
+            "8": "Richard Flisik",
+            "7": "James Crouch",
+            "6": "Callum Green",
+            "5": "Lewis Hughes",
+            "4": "Henry Brooker",
+            "3": "Joshua Rhodes",
+            "2": "Frank Hanson",
+            "1": "Harry Gaynor",
+            "S1": "Arran Faramus"
+        }
+    ]
+}
