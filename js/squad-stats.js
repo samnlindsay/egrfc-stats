@@ -1243,7 +1243,6 @@ async function _ltUpdateFormColumns() {
     const status = document.getElementById('leagueTablesFormStatus');
     document.getElementById('leagueTablesFormControl').hidden = !currentSeason;
     const show = currentSeason && toggle.checked;
-    document.getElementById('leagueTablesFormHint').hidden = !show;
     const cells = () => document.querySelectorAll('#leagueTablesStandingsContainer [data-league-form]');
     cells().forEach(cell => { cell.hidden = true; });
     status.hidden = true;
@@ -1622,7 +1621,6 @@ async function renderLeagueTables() {
 
     _ltRenderActiveFilterChips(season);
     document.getElementById('leagueTablesFormControl').hidden = season !== getCurrentSeasonLabel();
-    document.getElementById('leagueTablesFormHint').hidden = true;
     document.getElementById('leagueTablesFormStatus').hidden = true;
 
     if (!_ltData || !_ltData[season]) {
