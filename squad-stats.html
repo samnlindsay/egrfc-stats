@@ -326,7 +326,14 @@
                         <div id="leagueTablesStandingsActiveFilters" class="squad-stats-active-filters" aria-live="polite" class="mb-3"></div>
 
                         <div class="chart-section-block chart-section-block--panel">
-                            <h3 class="chart-section-title">League Tables</h3>
+                            <div class="d-flex justify-content-between align-items-center gap-3 flex-wrap">
+                                <h3 class="chart-section-title">League Tables</h3>
+                                <div id="leagueTablesFormControl" class="form-check form-switch" hidden>
+                                    <input class="form-check-input" type="checkbox" role="switch" id="leagueTablesFormToggle">
+                                    <label class="form-check-label" for="leagueTablesFormToggle">Show form</label>
+                                </div>
+                            </div>
+                            <p id="leagueTablesFormStatus" class="chart-section-hint" role="status" hidden></p>
                             <div class="chart-section-content">
                                 <div class="row" id="leagueTablesStandingsContainer">
                                     <!-- League tables populated by JavaScript -->

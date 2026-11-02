@@ -119,6 +119,8 @@ Use `--rfu-squad 1` or `--rfu-squad 2` to restrict the refresh to one EG divisio
 
 The Results Matrix files are regenerated after the backend build, including historical seasons. Allow the command to finish with `All charts and data generated.` before reloading the page; a chart-generation exception can leave older matrix files in place. Matrix diagonal points differences sum all available scored home and away fixtures, including teams with uneven home/away coverage.
 
+On Squad Stats, the current season's league tables have a **Show form** toggle (off by default). It adds one column showing each team's last five available league results, oldest to newest from left to right: green for wins, red for losses, and amber for draws. Awarded walkovers keep the win/loss colour and show a subtle **WO** label. Blank spaces on the left indicate fewer than five available results. Form uses the RFU league-match export, excludes unscored and future fixtures, and is unavailable for historical seasons; refresh league-wide data to keep all teams' form up to date.
+
 `--rfu-all-teams` only retries missing lineups on EG-tracked fixtures. Use `--rfu-league-wide` when you need all clubs' results and lineups in those divisions.
 
 On an approved managed network that uses HTTPS inspection, Python's default CA bundle may reject a certificate chain already trusted by macOS. With Python 3.10 or newer, install the project dependencies in your active environment (`python -m pip install -e .`) and opt into native system trust:

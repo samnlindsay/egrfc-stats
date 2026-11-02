@@ -1191,8 +1191,95 @@ document.addEventListener('DOMContentLoaded', async function () {
 let _ltData = null;
 let _ltResultsIndexData = null;
 let _ltResultsScaleResizeBound = false;
+let _ltFormGamesPromise = null;
 const LT_RESULTS_COLOUR_UNEXPECTED = 'unexpected';
 const LT_RESULTS_COLOUR_RESULT = 'result';
+
+function _ltBuildFormMap(games, season, today) {
+    const form = new Map();
+    const seen = new Set();
+    const orderedGames = games.filter(game => game.season === season && game.date && game.date.slice(0, 10) <= today)
+        .sort((a, b) => a.date.localeCompare(b.date) || String(a.match_id).localeCompare(String(b.match_id)));
+    for (const game of orderedGames) {
+        const key = `${game.tracked_squad}:${game.match_id}`;
+        if (seen.has(key)) continue;
+        seen.add(key);
+        let homeResult;
+        if (game.home_walkover && game.away_walkover) continue;
+        if (game.home_walkover) homeResult = 'W';
+        else if (game.away_walkover) homeResult = 'L';
+        else if (Number.isFinite(game.home_score) && Number.isFinite(game.away_score)) {
+            homeResult = game.home_score > game.away_score ? 'W' : game.home_score < game.away_score ? 'L' : 'D';
+        } else continue;
+        for (const [team, opposition, result] of [
+            [game.home_team, game.away_team, homeResult],
+            [game.away_team, game.home_team, homeResult === 'W' ? 'L' : homeResult === 'L' ? 'W' : 'D'],
+        ]) {
+            const teamKey = `${game.tracked_squad}:${team}`;
+            const results = form.get(teamKey) || [];
+            results.push({ result, date: game.date.slice(0, 10), opposition, walkover: Boolean(game.home_walkover || game.away_walkover) });
+            form.set(teamKey, results.slice(-5));
+        }
+    }
+    return form;
+}
+
+function _ltRenderFormSquares(results) {
+    const labels = { W: 'Win', L: 'Loss', D: 'Draw' };
+    const squares = results.map(game => {
+        const description = `${labels[game.result]}${game.walkover ? ' by walkover' : ''} vs ${game.opposition} (${game.date})`;
+        return `<span class="league-form-square league-form-square--${game.result}${game.walkover ? ' league-form-square--walkover' : ''}" title="${escapeHtml(description)}" aria-hidden="true">${game.walkover ? 'WO' : ''}</span>`;
+    });
+    const empty = '<span class="league-form-square league-form-square--empty" aria-hidden="true"></span>';
+    const summary = results.length
+        ? results.map(game => `${labels[game.result]}${game.walkover ? ' by walkover' : ''} vs ${game.opposition} (${game.date})`).join('; ')
+        : 'No league results available';
+    return `<span class="league-form" role="img" aria-label="${escapeHtml(summary)}">${empty.repeat(5 - results.length)}${squares.join('')}</span>`;
+}
+
+async function _ltUpdateFormColumns() {
+    const currentSeason = _ltGetCurrentSeason() === getCurrentSeasonLabel();
+    const toggle = document.getElementById('leagueTablesFormToggle');
+    const status = document.getElementById('leagueTablesFormStatus');
+    document.getElementById('leagueTablesFormControl').hidden = !currentSeason;
+    const show = currentSeason && toggle.checked;
+    document.getElementById('leagueTablesFormHint').hidden = !show;
+    const cells = () => document.querySelectorAll('#leagueTablesStandingsContainer [data-league-form]');
+    cells().forEach(cell => { cell.hidden = true; });
+    status.hidden = true;
+    if (!show) return;
+    status.textContent = 'Loading league form...';
+    status.hidden = false;
+    try {
+        if (!_ltFormGamesPromise) {
+            _ltFormGamesPromise = fetchJsonNoCache('data/backend/games_rfu.json').then(async response => {
+                if (!response.ok) throw new Error(`Failed to fetch league form (${response.status})`);
+                const games = await response.json();
+                if (!Array.isArray(games)) throw new Error('Invalid league form export: expected match rows.');
+                return games;
+            });
+        }
+        const games = await _ltFormGamesPromise;
+        if (_ltGetCurrentSeason() !== getCurrentSeasonLabel() || !toggle.checked) return;
+        const now = new Date();
+        const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+        const form = _ltBuildFormMap(games, getCurrentSeasonLabel(), today);
+        cells().forEach(cell => {
+            if (cell.tagName === 'TD') {
+                cell.innerHTML = _ltRenderFormSquares(form.get(`${cell.dataset.squad}:${cell.dataset.team}`) || []);
+            }
+            cell.hidden = false;
+        });
+        status.hidden = true;
+    } catch (error) {
+        _ltFormGamesPromise = null;
+        console.error('Unable to load league form:', error);
+        if (_ltGetCurrentSeason() === getCurrentSeasonLabel() && toggle.checked) {
+            status.textContent = 'Unable to load league form. Switch Show form off and on to retry.';
+            status.hidden = false;
+        }
+    }
+}
 
 function _ltGetCurrentSeason() {
     const selectedSeasonValue = getSquadStatsSelectedSeasonValue();
@@ -1534,6 +1621,9 @@ async function renderLeagueTables() {
     if (!standingsContainer || !resultsContainer) return;
 
     _ltRenderActiveFilterChips(season);
+    document.getElementById('leagueTablesFormControl').hidden = season !== getCurrentSeasonLabel();
+    document.getElementById('leagueTablesFormHint').hidden = true;
+    document.getElementById('leagueTablesFormStatus').hidden = true;
 
     if (!_ltData || !_ltData[season]) {
         standingsContainer.innerHTML = '<p>No league table data available for this season.</p>';
@@ -1596,6 +1686,7 @@ async function renderLeagueTables() {
                                 <th style="text-align: center;">PD</th>
                                 <th style="text-align: center;">BP</th>
                                 <th style="text-align: center;">Pts</th>
+                                ${season === getCurrentSeasonLabel() ? '<th data-league-form hidden scope="col">Form</th>' : ''}
                             </tr>
                         </thead>
                         <tbody>
@@ -1615,6 +1706,7 @@ async function renderLeagueTables() {
                                     <td style="text-align: center;">${row.pointsDifference}</td>
                                     <td style="text-align: center;">${bonusPoints}</td>
                                     <td style="text-align: center;">${row.points}</td>
+                                    ${season === getCurrentSeasonLabel() ? `<td data-league-form data-squad="1st" data-team="${escapeHtml(row.team)}" hidden></td>` : ''}
                                 </tr>`;
                             }).join('')}
                         </tbody>
@@ -1662,6 +1754,7 @@ async function renderLeagueTables() {
                                 <th style="text-align: center;">PD</th>
                                 <th style="text-align: center;">BP</th>
                                 <th style="text-align: center;">Pts</th>
+                                ${season === getCurrentSeasonLabel() ? '<th data-league-form hidden scope="col">Form</th>' : ''}
                             </tr>
                         </thead>
                         <tbody>
@@ -1681,6 +1774,7 @@ async function renderLeagueTables() {
                                     <td style="text-align: center;">${row.pointsDifference}</td>
                                     <td style="text-align: center;">${bonusPoints}</td>
                                     <td style="text-align: center;">${row.points}</td>
+                                    ${season === getCurrentSeasonLabel() ? `<td data-league-form data-squad="2nd" data-team="${escapeHtml(row.team)}" hidden></td>` : ''}
                                 </tr>`;
                             }).join('')}
                         </tbody>
@@ -1713,6 +1807,7 @@ async function renderLeagueTables() {
     standingsContainer.innerHTML = standingsHtml;
     resultsContainer.innerHTML = resultsHtml;
 
+    await _ltUpdateFormColumns();
     await _ltRenderResultsChartsForSeason(season);
     _ltInitResultColourControls();
 }
@@ -1720,6 +1815,7 @@ async function renderLeagueTables() {
 async function initLeagueTablesEmbed() {
     const standingsContainer = document.getElementById('leagueTablesStandingsContainer');
     if (!standingsContainer) return; // Not on squad-stats page
+    document.getElementById('leagueTablesFormToggle').addEventListener('change', _ltUpdateFormColumns);
 
     try {
         const response = await fetch('data/league_tables.json');

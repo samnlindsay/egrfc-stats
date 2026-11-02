@@ -3852,6 +3852,53 @@ table tbody tr:hover {
     border: none;
 }
 
+.league-form {
+    display: inline-flex;
+    gap: 3px;
+    vertical-align: middle;
+}
+
+[data-league-form] {
+    text-align: center;
+    white-space: nowrap;
+}
+
+.league-form-square {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    flex: 0 0 20px;
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.league-form-square--W {
+    background: var(--green-color);
+}
+
+.league-form-square--L {
+    background: var(--red-color);
+}
+
+.league-form-square--D {
+    background: var(--amber-color);
+    color: var(--primary-color);
+}
+
+.league-form-square--empty {
+    visibility: hidden;
+}
+
+.league-form-square--walkover {
+    color: rgb(255 255 255 / 65%);
+    font-size: 8px;
+    font-weight: 400;
+}
+
 .opposition-results-chart-card {
     margin-top: 0.35rem;
 }
